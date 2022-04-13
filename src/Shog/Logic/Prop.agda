@@ -10,7 +10,7 @@ open import Codata.Sized.Thunk
 -- syntax for a proposition in Shog
 data SProp ℓ (i : Size) : Set (suc ℓ) where
   -- universal/existential quantification
-  `forall `exists : {A : Set ℓ} → (A → SProp ℓ i) → SProp ℓ i
+  `∀! `∃! : (A : Set ℓ) → (A → SProp ℓ i) → SProp ℓ i
   -- implication
   _`⇒_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
   -- lifting a pure proposition
@@ -27,17 +27,9 @@ infixr 5 _-∗_
 
 -- syntax for universal/existential quantification
 
-infix 0 `forall `exists
-syntax `forall (λ x → P) = `∀ x `→ P
-syntax `exists (λ x → P) = `∃ x `→ P
-
-`forall-dom `exists-dom :
-  ∀ {ℓ i} → (A : Set ℓ) → (A → SProp ℓ i) → SProp ℓ i
-`forall-dom _ = `forall
-`exists-dom _ = `exists
-infix 0 `forall-dom `exists-dom
-syntax `forall-dom A (λ x → P) = `∀ x ∈ A `→ P
-syntax `exists-dom A (λ x → P) = `∃ x ∈ A `→ P
+infix 0 `∀! `∃!
+syntax `∀! A (λ x → P) = `∀ x ∈ A `→ P
+syntax `∃! A (λ x → P) = `∃ x ∈ A `→ P
 
 -- universe-polymorphic Bool and Empty
 
@@ -46,19 +38,21 @@ data BoolU ℓ : Set ℓ where
 
 data EmptyU ℓ : Set ℓ where
 
--- conjunction and disjunction as
--- binary universal/existential quantification
+private variable
+  ℓ : Level
+  i : Size
+
+-- conjunction `∧ and disjunction `∨
 
 infixr 7 _`∧_
 infixr 6 _`∨_
 
-_`∧_ _`∨_ : ∀{ℓ i} → SProp ℓ i → SProp ℓ i → SProp ℓ i
-P `∧ Q = `forall-dom (BoolU _) (λ { trueU → P; falseU → Q })
-P `∨ Q = `exists-dom (BoolU _) (λ { trueU → P; falseU → Q })
+_`∧_ _`∨_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
+P `∧ Q = `∀! (BoolU _) (λ { trueU → P; falseU → Q })
+P `∨ Q = `∃! (BoolU _) (λ { trueU → P; falseU → Q })
 
--- truth and falsehood as
--- nullary universal/existential quantification
+-- truth `⊤ and falsehood `⊥
 
-`⊤ `⊥ : ∀{ℓ i} → SProp ℓ i
-`⊤ = `forall-dom (EmptyU _) (λ ())
-`⊥ = `exists-dom (EmptyU _) (λ ())
+`⊤ `⊥ : SProp ℓ i
+`⊤ = `∀! (EmptyU _) (λ ())
+`⊥ = `∃! (EmptyU _) (λ ())

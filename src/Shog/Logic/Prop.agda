@@ -1,6 +1,6 @@
 {-# OPTIONS --sized-types #-}
 
-module Logic.Prop where
+module Shog.Logic.Prop where
 
 open import Size
 open import Level

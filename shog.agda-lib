@@ -1,0 +1,3 @@
+name: shog
+depend: standard-library
+include: src

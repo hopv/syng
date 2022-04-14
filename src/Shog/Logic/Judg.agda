@@ -28,16 +28,16 @@ private variable
 -- rules on ∧/∨/⊤/⊥, derived from rules on ∀/∃
 
 ∧ₛ-intro : P ⊢[ i ] Q → P ⊢[ i ] R → P ⊢[ i ] Q ∧ₛ R
-∧ₛ-intro H₀ H₁ = ∀ₛ-intro (binary-dep H₀ H₁)
+∧ₛ-intro H₀ H₁ = ∀ₛ-intro (binary H₀ H₁)
 
 ∨ₛ-elim : P ⊢[ i ] R → Q ⊢[ i ] R → P ∨ₛ Q ⊢[ i ] R
-∨ₛ-elim H₀ H₁ = ∃ₛ-elim (binary-dep H₀ H₁)
+∨ₛ-elim H₀ H₁ = ∃ₛ-elim (binary H₀ H₁)
 
 ⊤ₛ-intro : P ⊢[ i ] ⊤ₛ
-⊤ₛ-intro = ∀ₛ-intro nullary-dep
+⊤ₛ-intro = ∀ₛ-intro nullary
 
 ⊥ₛ-elim : ⊥ₛ ⊢[ i ] P
-⊥ₛ-elim = ∃ₛ-elim nullary-dep
+⊥ₛ-elim = ∃ₛ-elim nullary
 
 ∧ₛ-elim₀ : P ∧ₛ Q ⊢[ i ] P
 ∧ₛ-elim₀ = ∀ₛ-elim

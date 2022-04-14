@@ -10,20 +10,11 @@ data Two ℓ : Set ℓ where
 data Zero ℓ : Set ℓ where
 
 private variable
-  ℓ : Level
-  A : Set ℓ
+  ℓ ℓ' : Level
 
-binary : A → A → Two ℓ → A
+binary : ∀{F : Two ℓ → Set ℓ'} → F zero₂ → F one₂ → ∀ x → F x
 binary a _ zero₂ = a
 binary _ b one₂ = b
 
-binary-dep : ∀{F : Two ℓ → Set (suc ℓ)} →
-                 F zero₂ → F one₂ → ∀ x → F x
-binary-dep a _ zero₂ = a
-binary-dep _ b one₂ = b
-
-nullary : Zero ℓ → A
+nullary : ∀{F : Zero ℓ → Set ℓ'} → ∀ x → F x
 nullary ()
-
-nullary-dep : ∀{F : Zero ℓ → Set (suc ℓ)} → ∀ x → F x
-nullary-dep ()

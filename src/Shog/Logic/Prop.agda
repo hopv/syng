@@ -4,24 +4,25 @@ module Shog.Logic.Prop where
 
 open import Size
 open import Level
-open import Data.Bool
+open import Data.Bool.Base
 open import Codata.Sized.Thunk
+
 open import Shog.Util
 
 -- syntax for a proposition in Shog
-data SProp ℓ (i : Size) : Set (suc ℓ) where
+data Propₛ ℓ (i : Size) : Set (suc ℓ) where
   -- universal/existential quantification
-  ∀! ∃! : (A : Set ℓ) → (A → SProp ℓ i) → SProp ℓ i
+  ∀! ∃! : (A : Set ℓ) → (A → Propₛ ℓ i) → Propₛ ℓ i
   -- implication
-  _→ₛ_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
+  _→ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
   -- lifting a pure proposition
-  ⌈_⌉ : Set ℓ → SProp ℓ i
+  ⌈_⌉ : Set ℓ → Propₛ ℓ i
   -- separating conjunction
-  _∗_ _-∗_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
-  -- update and persistence modalities
-  |=> □ : SProp ℓ i → SProp ℓ i
+  _∗_ _-∗_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
+  -- persistence and update modalities
+  □ |=> : Propₛ ℓ i → Propₛ ℓ i
   -- save token
-  save : Bool → Thunk (SProp ℓ) i → SProp ℓ i
+  save : Bool → Thunk (Propₛ ℓ) i → Propₛ ℓ i
 
 infix 0 ∀! ∃!
 syntax ∀! A (λ x → P) = ∀ₛ x ∈ A , P
@@ -40,10 +41,10 @@ private variable
 infixr 7 _∧ₛ_
 infixr 6 _∨ₛ_
 
-_∧ₛ_ _∨ₛ_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
+_∧ₛ_ _∨ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
 P ∧ₛ Q = ∀! _ (binary P Q)
 P ∨ₛ Q = ∃! _ (binary P Q)
 
-⊤ₛ ⊥ₛ : SProp ℓ i
+⊤ₛ ⊥ₛ : Propₛ ℓ i
 ⊤ₛ = ∀! _ nullary
 ⊥ₛ = ∃! _ nullary

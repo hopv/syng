@@ -13,7 +13,7 @@ data SProp ℓ (i : Size) : Set (suc ℓ) where
   -- universal/existential quantification
   ∀! ∃! : (A : Set ℓ) → (A → SProp ℓ i) → SProp ℓ i
   -- implication
-  _→'_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
+  _→ₛ_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
   -- lifting a pure proposition
   ⌈_⌉ : Set ℓ → SProp ℓ i
   -- separating conjunction
@@ -24,10 +24,10 @@ data SProp ℓ (i : Size) : Set (suc ℓ) where
   save : Bool → Thunk (SProp ℓ) i → SProp ℓ i
 
 infix 0 ∀! ∃!
-syntax ∀! A (λ x → P) = ∀' x ∈ A , P
-syntax ∃! A (λ x → P) = ∃' x ∈ A , P
+syntax ∀! A (λ x → P) = ∀ₛ x ∈ A , P
+syntax ∃! A (λ x → P) = ∃ₛ x ∈ A , P
 
-infixr 5 _→'_ _-∗_
+infixr 5 _→ₛ_ _-∗_
 infixr 7 _∗_
 
 -- deriving conjunction ∧ / disjunction ∨ and top ⊤ / bottom ⊥
@@ -37,13 +37,13 @@ private variable
   ℓ : Level
   i : Size
 
-infixr 7 _∧'_
-infixr 6 _∨'_
+infixr 7 _∧ₛ_
+infixr 6 _∨ₛ_
 
-_∧'_ _∨'_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
-P ∧' Q = ∀! _ (binary P Q)
-P ∨' Q = ∃! _ (binary P Q)
+_∧ₛ_ _∨ₛ_ : SProp ℓ i → SProp ℓ i → SProp ℓ i
+P ∧ₛ Q = ∀! _ (binary P Q)
+P ∨ₛ Q = ∃! _ (binary P Q)
 
-⊤' ⊥' : SProp ℓ i
-⊤' = ∀! _ nullary
-⊥' = ∃! _ nullary
+⊤ₛ ⊥ₛ : SProp ℓ i
+⊤ₛ = ∀! _ nullary
+⊥ₛ = ∃! _ nullary

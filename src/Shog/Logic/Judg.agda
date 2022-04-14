@@ -4,8 +4,6 @@ module Shog.Logic.Judg where
 
 open import Size
 open import Level
-open import Data.Empty
-open import Data.Bool
 open import Codata.Sized.Thunk
 
 open import Shog.Util
@@ -15,12 +13,12 @@ infix 2 Sequent
 syntax Sequent i P Q = P ⊢[ i ] Q
 
 data Sequent {ℓ} (i : Size) : SProp ℓ ∞ → SProp ℓ ∞ → Set (suc ℓ) where
-  refl : ∀ {P} → P ⊢[ i ] P
-  trans : ∀ {P Q R} → P ⊢[ i ] Q → Q ⊢[ i ] R → P ⊢[ i ] R
-  ∀-intro : ∀ {A P Qf} → (∀ x → P ⊢[ i ] Qf x) → P ⊢[ i ] ∀! A Qf
-  ∃-elim : ∀ {A Pf Q} → (∀ x → Pf x ⊢[ i ] Q) → ∃! A Pf ⊢[ i ] Q
-  ∀-elim : ∀{A Pf x} → ∀! A Pf ⊢[ i ] Pf x
-  ∃-intro : ∀{A Pf x} → Pf x ⊢[ i ] ∃! A Pf
+  reflₛ : ∀ {P} → P ⊢[ i ] P
+  transₛ : ∀ {P Q R} → P ⊢[ i ] Q → Q ⊢[ i ] R → P ⊢[ i ] R
+  ∀ₛ-intro : ∀ {A P Qf} → (∀ x → P ⊢[ i ] Qf x) → P ⊢[ i ] ∀! A Qf
+  ∃ₛ-elim : ∀ {A Pf Q} → (∀ x → Pf x ⊢[ i ] Q) → ∃! A Pf ⊢[ i ] Q
+  ∀ₛ-elim : ∀{A Pf x} → ∀! A Pf ⊢[ i ] Pf x
+  ∃ₛ-intro : ∀{A Pf x} → Pf x ⊢[ i ] ∃! A Pf
 
 private variable
   ℓ : Level
@@ -29,26 +27,26 @@ private variable
 
 -- rules on ∧/∨/⊤/⊥, derived from rules on ∀/∃
 
-∧-intro : P ⊢[ i ] Q → P ⊢[ i ] R → P ⊢[ i ] Q ∧' R
-∧-intro H₀ H₁ = ∀-intro (binary-dep H₀ H₁)
+∧ₛ-intro : P ⊢[ i ] Q → P ⊢[ i ] R → P ⊢[ i ] Q ∧ₛ R
+∧ₛ-intro H₀ H₁ = ∀ₛ-intro (binary-dep H₀ H₁)
 
-∨-elim : P ⊢[ i ] R → Q ⊢[ i ] R → P ∨' Q ⊢[ i ] R
-∨-elim H₀ H₁ = ∃-elim (binary-dep H₀ H₁)
+∨ₛ-elim : P ⊢[ i ] R → Q ⊢[ i ] R → P ∨ₛ Q ⊢[ i ] R
+∨ₛ-elim H₀ H₁ = ∃ₛ-elim (binary-dep H₀ H₁)
 
-⊤-intro : P ⊢[ i ] ⊤'
-⊤-intro = ∀-intro nullary-dep
+⊤ₛ-intro : P ⊢[ i ] ⊤ₛ
+⊤ₛ-intro = ∀ₛ-intro nullary-dep
 
-⊥'-elim : ⊥' ⊢[ i ] P
-⊥'-elim = ∃-elim nullary-dep
+⊥ₛ-elim : ⊥ₛ ⊢[ i ] P
+⊥ₛ-elim = ∃ₛ-elim nullary-dep
 
-∧-elim₀ : P ∧' Q ⊢[ i ] P
-∧-elim₀ = ∀-elim
+∧ₛ-elim₀ : P ∧ₛ Q ⊢[ i ] P
+∧ₛ-elim₀ = ∀ₛ-elim
 
-∧-elim₁ : P ∧' Q ⊢[ i ] Q
-∧-elim₁ = ∀-elim
+∧ₛ-elim₁ : P ∧ₛ Q ⊢[ i ] Q
+∧ₛ-elim₁ = ∀ₛ-elim
 
-∨-intro₀ : P ⊢[ i ] P ∨' Q
-∨-intro₀ = ∃-intro
+∨ₛ-intro₀ : P ⊢[ i ] P ∨ₛ Q
+∨ₛ-intro₀ = ∃ₛ-intro
 
-∨-intro₁ : Q ⊢[ i ] P ∨' Q
-∨-intro₁ = ∃-intro
+∨ₛ-intro₁ : Q ⊢[ i ] P ∨ₛ Q
+∨ₛ-intro₁ = ∃ₛ-intro

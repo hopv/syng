@@ -58,9 +58,10 @@ data Sequent {ℓ} i where
   |=>-join : ∀ {P} → |=> (|=> P) ⊢[ i ] |=> P
   |=>-∗-in : ∀ {P Q} → P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
   |=>-⌜⌝-out : ∀ {φ P} → |=> (⌜ φ ⌝ ∧ₛ P) ⊢[ i ] |=> ⌜ φ ⌝ ∧ₛ |=> P
-  save-mod-p : ∀ {Pt Qt b} →
-                 Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
-  save-mod-b : ∀ {Pt} → save true Pt ⊢[ i ] save false Pt
+  save-mod-prop : ∀ {Pt Qt b} →
+    Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
+  save-mod-bool : ∀ {Pt} → save true Pt ⊢[ i ] save false Pt
+  □-intro-save : ∀ {Pt} → save true Pt ⊢[ i ] □ (save true Pt)
 
 infixr 0 transₛ
 syntax transₛ H₀ H₁ = H₀ »ₛ H₁
@@ -74,6 +75,7 @@ private variable
   P Q R P' Q' : Propₛ ℓ ∞
   A φ : Set ℓ
   Pf Qf : A → Propₛ ℓ ∞
+  Pt : Thunk (Propₛ ℓ) ∞
 
 -- On ∀ₛ/∃ₛ/∧ₛ/∨ₛ/⊤ₛ/⊥ₛ
 
@@ -300,6 +302,12 @@ instance
 
   ⌜⌝-Pers : Pers ⌜ φ ⌝
   ⌜⌝-Pers .pers = □-intro-⌜⌝
+
+  □-Pers : Pers (□ P)
+  □-Pers .pers = □-dup
+
+  save-Pers : Pers (save true Pt)
+  save-Pers .pers = □-intro-save
 
 -- Using Pers
 

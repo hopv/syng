@@ -18,7 +18,7 @@ open import Shog.Util
 
 data Propₛ ℓ (i : Size) : Set (suc ℓ) where
   -- universal/existential quantification
-  ∀! ∃! : (A : Set ℓ) → (A → Propₛ ℓ i) → Propₛ ℓ i
+  ∀^ ∃^ : (A : Set ℓ) → (A → Propₛ ℓ i) → Propₛ ℓ i
   -- implication
   _→ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
   -- lifting a pure proposition
@@ -30,16 +30,16 @@ data Propₛ ℓ (i : Size) : Set (suc ℓ) where
   -- save token
   save : Bool → Thunk (Propₛ ℓ) i → Propₛ ℓ i
 
-infix 3 ∀! ∃!
-syntax ∀! A (λ x → P) = ∀ₛ x ∈ A , P
-syntax ∃! A (λ x → P) = ∃ₛ x ∈ A , P
+infix 3 ∀^ ∃^
+syntax ∀^ A (λ x → P) = ∀ₛ x ∈ A , P
+syntax ∃^ A (λ x → P) = ∃ₛ x ∈ A , P
 
-∀!' ∃!' : ∀ {ℓ i} {A : Set ℓ} → (A → Propₛ ℓ i) → Propₛ ℓ i
-∀!' = ∀! _
-∃!' = ∃! _
-infix 3 ∀!' ∃!'
-syntax ∀!' (λ x → P) = ∀ₛ x , P
-syntax ∃!' (λ x → P) = ∃ₛ x , P
+∀^' ∃^' : ∀ {ℓ i} {A : Set ℓ} → (A → Propₛ ℓ i) → Propₛ ℓ i
+∀^' = ∀^ _
+∃^' = ∃^ _
+infix 3 ∀^' ∃^'
+syntax ∀^' (λ x → P) = ∀ₛ x , P
+syntax ∃^' (λ x → P) = ∃ₛ x , P
 
 infixr 5 _→ₛ_ _-∗_
 infixr 7 _∗_
@@ -59,11 +59,11 @@ infixr 7 _∧ₛ_
 infixr 6 _∨ₛ_
 
 _∧ₛ_ _∨ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
-P ∧ₛ Q = ∀!' (binary P Q)
-P ∨ₛ Q = ∃!' (binary P Q)
+P ∧ₛ Q = ∀^' (binary P Q)
+P ∨ₛ Q = ∃^' (binary P Q)
 
 -- -- Truth ⊤ₛ / Falsehood ⊥ₛ
 
 ⊤ₛ ⊥ₛ : Propₛ ℓ i
-⊤ₛ = ∀! _ nullary
-⊥ₛ = ∃! _ nullary
+⊤ₛ = ∀^ _ nullary
+⊥ₛ = ∃^ _ nullary

@@ -113,6 +113,18 @@ private variable
 ∨-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∨ₛ P' ⊢[ i ] Q ∨ₛ Q'
 ∨-mono P⊢Q P'⊢Q' = ∨-elim (P⊢Q »ₛ ∨-intro₀) (P'⊢Q' »ₛ ∨-intro₁)
 
+∧-mono₀ : P ⊢[ i ] Q → P ∧ₛ R ⊢[ i ] Q ∧ₛ R
+∧-mono₀ P⊢Q = ∧-mono P⊢Q reflₛ
+
+∧-mono₁ : P ⊢[ i ] Q → R ∧ₛ P ⊢[ i ] R ∧ₛ Q
+∧-mono₁ P⊢Q = ∧-mono reflₛ P⊢Q
+
+∨-mono₀ : P ⊢[ i ] Q → P ∨ₛ R ⊢[ i ] Q ∨ₛ R
+∨-mono₀ P⊢Q = ∨-mono P⊢Q reflₛ
+
+∨-mono₁ : P ⊢[ i ] Q → R ∨ₛ P ⊢[ i ] R ∨ₛ Q
+∨-mono₁ P⊢Q = ∨-mono reflₛ P⊢Q
+
 ∧-comm : P ∧ₛ Q ⊢[ i ] Q ∧ₛ P
 ∧-comm = ∧-intro ∧-elim₁ ∧-elim₀
 
@@ -134,6 +146,20 @@ private variable
 ∨-assoc₁ : P ∨ₛ (Q ∨ₛ R) ⊢[ i ] (P ∨ₛ Q) ∨ₛ R
 ∨-assoc₁ = ∨-elim (∨-intro₀ »ₛ ∨-intro₀) $
             ∨-elim (∨-intro₁ »ₛ ∨-intro₀) $ ∨-intro₁
+
+-- On →ₛ
+
+→-apply : P ∧ₛ (P →ₛ Q) ⊢[ i ] Q
+→-apply = →-elim reflₛ
+
+→-mono : Q ⊢[ i ] P → P' ⊢[ i ] Q' → P →ₛ P' ⊢[ i ] Q →ₛ Q'
+→-mono Q⊢P P'⊢Q' = →-intro $ ∧-mono₀ Q⊢P »ₛ →-apply »ₛ P'⊢Q'
+
+→-mono₀ : Q ⊢[ i ] P → P →ₛ R ⊢[ i ] Q →ₛ R
+→-mono₀ Q⊢P = →-mono Q⊢P reflₛ
+
+→-mono₁ : P ⊢[ i ] Q → R →ₛ P ⊢[ i ] R →ₛ Q
+→-mono₁ P⊢Q = →-mono reflₛ P⊢Q
 
 -- On ∗
 
@@ -158,10 +184,24 @@ private variable
 ∗⇒∧ : P ∗ Q ⊢[ i ] P ∧ₛ Q
 ∗⇒∧ = ∧-intro ∗-elim₀ ∗-elim₁
 
-→ₛ⇒-∗ : P →ₛ Q ⊢[ i ] P -∗ Q
-→ₛ⇒-∗ = -∗-intro $ ∗⇒∧ »ₛ →-elim reflₛ
+→⇒-∗ : P →ₛ Q ⊢[ i ] P -∗ Q
+→⇒-∗ = -∗-intro $ ∗⇒∧ »ₛ →-elim reflₛ
 
--- □
+-- On -∗
+
+-∗-apply : P ∗ (P -∗ Q) ⊢[ i ] Q
+-∗-apply = -∗-elim reflₛ
+
+-∗-mono : Q ⊢[ i ] P → P' ⊢[ i ] Q' → P -∗ P' ⊢[ i ] Q -∗ Q'
+-∗-mono Q⊢P P'⊢Q' = -∗-intro $ ∗-mono₀ Q⊢P »ₛ -∗-apply »ₛ P'⊢Q'
+
+-∗-mono₀ : Q ⊢[ i ] P → P -∗ R ⊢[ i ] Q -∗ R
+-∗-mono₀ Q⊢P = -∗-mono Q⊢P reflₛ
+
+-∗-mono₁ : P ⊢[ i ] Q → R -∗ P ⊢[ i ] R -∗ Q
+-∗-mono₁ P⊢Q = -∗-mono reflₛ P⊢Q
+
+-- On □
 
 □-intro : □ P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
 □-intro □P⊢Q = □-dup »ₛ □-mono □P⊢Q
@@ -192,14 +232,17 @@ retain-□ P⊢Q = ∧-intro P⊢Q reflₛ »ₛ □₀-∧⇒∗
 dup-□ : □ P ⊢[ i ] □ P ∗ □ P
 dup-□ = retain-□ reflₛ
 
-□--∗⇒→ : □ P -∗ Q ⊢[ i ] □ P →ₛ Q
-□--∗⇒→ = →-intro $ □₀-∧⇒∗ »ₛ -∗-elim reflₛ
+□-∗-out : □ (P ∗ Q) ⊢[ i ] □ P ∗ □ Q
+□-∗-out = □-mono ∗⇒∧ »ₛ □-∧-out »ₛ □₀-∧⇒∗
+
+in□-∧⇒∗ : □ (P ∧ₛ Q) ⊢[ i ] □ (P ∗ Q)
+in□-∧⇒∗ = □-intro $ dup-□ »ₛ ∗-mono (□-elim »ₛ ∧-elim₀) (□-elim »ₛ ∧-elim₁)
+
+-∗⇒□→ : P -∗ Q ⊢[ i ] □ P →ₛ Q
+-∗⇒□→ = →-intro $ □₀-∧⇒∗ »ₛ ∗-mono₀ □-elim »ₛ -∗-apply
 
 in□--∗⇒→ : □ (P -∗ Q) ⊢[ i ] □ (P →ₛ Q)
 in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ »ₛ -∗-elim □-elim
-
-□-∗-out : □ (P ∗ Q) ⊢[ i ] □ P ∗ □ Q
-□-∗-out = □-mono ∗⇒∧ »ₛ □-∧-out »ₛ □₀-∧⇒∗
 
 -- -- with □-∀-in/□-∃-out
 
@@ -211,9 +254,6 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ »ₛ -∗-elim □-
 
 □-⊤-intro : P ⊢[ i ] □ ⊤ₛ
 □-⊤-intro = ∀-intro nullary »ₛ □-∀-in
-
-in□-∧⇒∗ : □ (P ∧ₛ Q) ⊢[ i ] □ (P ∗ Q)
-in□-∧⇒∗ = □-intro $ dup-□ »ₛ ∗-mono (□-elim »ₛ ∧-elim₀) (□-elim »ₛ ∧-elim₁)
 
 □-∗-in : □ P ∗ □ Q ⊢[ i ] □ (P ∗ Q)
 □-∗-in = ∗⇒∧ »ₛ □-∧-in »ₛ in□-∧⇒∗
@@ -263,8 +303,17 @@ instance
 
 -- Using Pers
 
+Pers₀-∧⇒∗ : {{Pers P}} → P ∧ₛ Q ⊢[ i ] P ∗ Q
+Pers₀-∧⇒∗ = ∧-mono₀ pers »ₛ □₀-∧⇒∗ »ₛ ∗-mono₀ □-elim
+
+Pers₁-∧⇒∗ : {{Pers Q}} → P ∧ₛ Q ⊢[ i ] P ∗ Q
+Pers₁-∧⇒∗ = ∧-comm »ₛ Pers₀-∧⇒∗ »ₛ ∗-comm
+
 retain-Pers : {{Pers Q}} → P ⊢[ i ] Q → P ⊢[ i ] Q ∗ P
 retain-Pers P⊢Q = retain-□ (P⊢Q »ₛ pers) »ₛ ∗-mono₀ □-elim
 
 dup-Pers : {{Pers P}} → P ⊢[ i ] P ∗ P
 dup-Pers = retain-Pers reflₛ
+
+Pers--∗⇒→ : {{Pers P}} → P -∗ Q ⊢[ i ] P →ₛ Q
+Pers--∗⇒→ = -∗⇒□→ »ₛ →-mono₀ pers

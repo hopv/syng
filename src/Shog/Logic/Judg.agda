@@ -93,6 +93,24 @@ private variable
 ∨-intro₁ : Q ⊢[ i ] P ∨ₛ Q
 ∨-intro₁ = ∃-intro
 
+∀-mono : (∀ x → Pf x ⊢[ i ] Qf x) → ∀!' Pf ⊢[ i ] ∀!' Qf
+∀-mono H = ∀-intro $ λ x → ∀-elim »ₛ H x
+
+∃-mono : (∀ x → Pf x ⊢[ i ] Qf x) → ∃!' Pf ⊢[ i ] ∃!' Qf
+∃-mono H = ∃-elim $ λ x → H x »ₛ ∃-intro
+
+∧-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∧ₛ P' ⊢[ i ] Q ∧ₛ Q'
+∧-mono H₀ H₁ = ∧-intro (∧-elim₀ »ₛ H₀) (∧-elim₁ »ₛ H₁)
+
+∨-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∨ₛ P' ⊢[ i ] Q ∨ₛ Q'
+∨-mono H₀ H₁ = ∨-elim (H₀ »ₛ ∨-intro₀) (H₁ »ₛ ∨-intro₁)
+
+∧-comm : P ∧ₛ Q ⊢[ i ] Q ∧ₛ P
+∧-comm = ∧-intro ∧-elim₁ ∧-elim₀
+
+∨-comm : P ∨ₛ Q ⊢[ i ] Q ∨ₛ P
+∨-comm = ∨-elim ∨-intro₁ ∨-intro₀
+
 ---- ∗
 
 ∗-mono₁ : P ⊢[ i ] Q → R ∗ P ⊢[ i ] R ∗ Q
@@ -142,7 +160,7 @@ private variable
 ------ with □₀-∧⇒∗
 
 □₁-∧⇒∗ : P ∧ₛ □ Q ⊢[ i ] P ∗ □ Q
-□₁-∧⇒∗ = ∧-intro ∧-elim₁ ∧-elim₀ »ₛ □₀-∧⇒∗ »ₛ ∗-comm
+□₁-∧⇒∗ = ∧-comm »ₛ □₀-∧⇒∗ »ₛ ∗-comm
 
 retain-□ : P ⊢[ i ] □ Q → P ⊢[ i ] □ Q ∗ P
 retain-□ H = ∧-intro H reflₛ »ₛ □₀-∧⇒∗

@@ -16,7 +16,7 @@ data Propₛ ℓ (i : Size) : Set (suc ℓ) where
   -- implication
   _→ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
   -- lifting a pure proposition
-  ⌈_⌉ : Set ℓ → Propₛ ℓ i
+  ⌜_⌝ : Set ℓ → Propₛ ℓ i
   -- separating conjunction
   _∗_ _-∗_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
   -- persistence and update modalities
@@ -24,9 +24,16 @@ data Propₛ ℓ (i : Size) : Set (suc ℓ) where
   -- save token
   save : Bool → Thunk (Propₛ ℓ) i → Propₛ ℓ i
 
-infix 0 ∀! ∃!
+infix 3 ∀! ∃!
 syntax ∀! A (λ x → P) = ∀ₛ x ∈ A , P
 syntax ∃! A (λ x → P) = ∃ₛ x ∈ A , P
+
+∀!' ∃!' : ∀ {ℓ i} {A : Set ℓ} → (A → Propₛ ℓ i) → Propₛ ℓ i
+∀!' = ∀! _
+∃!' = ∃! _
+infix 3 ∀!' ∃!'
+syntax ∀!' (λ x → P) = ∀ₛ x , P
+syntax ∃!' (λ x → P) = ∃ₛ x , P
 
 infixr 5 _→ₛ_ _-∗_
 infixr 7 _∗_
@@ -42,8 +49,8 @@ infixr 7 _∧ₛ_
 infixr 6 _∨ₛ_
 
 _∧ₛ_ _∨ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
-P ∧ₛ Q = ∀! _ (binary P Q)
-P ∨ₛ Q = ∃! _ (binary P Q)
+P ∧ₛ Q = ∀!' (binary P Q)
+P ∨ₛ Q = ∃!' (binary P Q)
 
 ⊤ₛ ⊥ₛ : Propₛ ℓ i
 ⊤ₛ = ∀! _ nullary

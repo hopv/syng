@@ -119,6 +119,22 @@ private variable
 ∨-comm : P ∨ₛ Q ⊢[ i ] Q ∨ₛ P
 ∨-comm = ∨-elim ∨-intro₁ ∨-intro₀
 
+∧-assoc₀ : (P ∧ₛ Q) ∧ₛ R ⊢[ i ] P ∧ₛ (Q ∧ₛ R)
+∧-assoc₀ = ∧-intro (∧-elim₀ »ₛ ∧-elim₀) $
+            ∧-intro (∧-elim₀ »ₛ ∧-elim₁) ∧-elim₁
+
+∧-assoc₁ : P ∧ₛ (Q ∧ₛ R) ⊢[ i ] (P ∧ₛ Q) ∧ₛ R
+∧-assoc₁ = ∧-intro (∧-intro ∧-elim₀ $ ∧-elim₁ »ₛ ∧-elim₀) $
+            ∧-elim₁ »ₛ ∧-elim₁
+
+∨-assoc₀ : (P ∨ₛ Q) ∨ₛ R ⊢[ i ] P ∨ₛ (Q ∨ₛ R)
+∨-assoc₀ = ∨-elim (∨-elim ∨-intro₀ $ ∨-intro₀ »ₛ ∨-intro₁) $
+            ∨-intro₁ »ₛ ∨-intro₁
+
+∨-assoc₁ : P ∨ₛ (Q ∨ₛ R) ⊢[ i ] (P ∨ₛ Q) ∨ₛ R
+∨-assoc₁ = ∨-elim (∨-intro₀ »ₛ ∨-intro₀) $
+            ∨-elim (∨-intro₁ »ₛ ∨-intro₀) $ ∨-intro₁
+
 -- On ∗
 
 ∗-mono₁ : P ⊢[ i ] Q → R ∗ P ⊢[ i ] R ∗ Q
@@ -212,8 +228,10 @@ record Pers {ℓ} (P : Propₛ ℓ ∞) : Set (suc ℓ) where
   field pers : ∀ {i} → P ⊢[ i ] □ P
 open Pers {{...}} public
 
--- Unfortunately, a universally quantified instance (∀ x → ...)
--- can't be searched by Agda
+-- Finding Pers
+
+-- -- Unfortunately, a universally quantified instance (∀ x → ...)
+-- -- can't be searched by Agda
 
 ∀-Pers : (∀ x → Pers (Pf x)) → Pers (∀! _ Pf)
 ∀-Pers H .pers = ∀-mono (λ x → H x .pers) »ₛ □-∀-in
@@ -221,7 +239,8 @@ open Pers {{...}} public
 ∃-Pers : (∀ x → Pers (Pf x)) → Pers (∃! _ Pf)
 ∃-Pers H .pers = ∃-mono (λ x → H x .pers) »ₛ □-∃-in
 
--- Pers instances
+-- -- Instances
+
 instance
 
   ∧-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∧ₛ Q)
@@ -237,7 +256,15 @@ instance
   ⊥-Pers .pers = ⊥-elim
 
   ∗-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∗ Q)
-  ∗-Pers .pers = ∗⇒∧ »ₛ ∧-Pers .pers »ₛ in□-∧⇒∗
+  ∗-Pers .pers = ∗⇒∧ »ₛ pers »ₛ in□-∧⇒∗
 
   ⌜⌝-Pers : Pers ⌜ φ ⌝
   ⌜⌝-Pers .pers = □-intro-⌜⌝
+
+-- Using Pers
+
+retain-Pers : {{Pers Q}} → P ⊢[ i ] Q → P ⊢[ i ] Q ∗ P
+retain-Pers P⊢Q = retain-□ (P⊢Q »ₛ pers) »ₛ ∗-mono₀ □-elim
+
+dup-Pers : {{Pers P}} → P ⊢[ i ] P ∗ P
+dup-Pers = retain-Pers reflₛ

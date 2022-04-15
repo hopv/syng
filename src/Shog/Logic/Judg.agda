@@ -78,10 +78,10 @@ private variable
 -- On ∀ₛ/∃ₛ/∧ₛ/∨ₛ/⊤ₛ/⊥ₛ
 
 ∧-intro : P ⊢[ i ] Q → P ⊢[ i ] R → P ⊢[ i ] Q ∧ₛ R
-∧-intro H₀ H₁ = ∀-intro $ binary H₀ H₁
+∧-intro P⊢Q P⊢R = ∀-intro $ binary P⊢Q P⊢R
 
 ∨-elim : P ⊢[ i ] R → Q ⊢[ i ] R → P ∨ₛ Q ⊢[ i ] R
-∨-elim H₀ H₁ = ∃-elim $ binary H₀ H₁
+∨-elim P⊢Q Q⊢R = ∃-elim $ binary P⊢Q Q⊢R
 
 ⊤-intro : P ⊢[ i ] ⊤ₛ
 ⊤-intro = ∀-intro nullary
@@ -102,16 +102,16 @@ private variable
 ∨-intro₁ = ∃-intro
 
 ∀-mono : (∀ x → Pf x ⊢[ i ] Qf x) → ∀!' Pf ⊢[ i ] ∀!' Qf
-∀-mono H = ∀-intro $ λ x → ∀-elim »ₛ H x
+∀-mono Pf⊢Qf = ∀-intro $ λ x → ∀-elim »ₛ Pf⊢Qf x
 
 ∃-mono : (∀ x → Pf x ⊢[ i ] Qf x) → ∃!' Pf ⊢[ i ] ∃!' Qf
-∃-mono H = ∃-elim $ λ x → H x »ₛ ∃-intro
+∃-mono Pf⊢Qf = ∃-elim $ λ x → Pf⊢Qf x »ₛ ∃-intro
 
 ∧-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∧ₛ P' ⊢[ i ] Q ∧ₛ Q'
-∧-mono H₀ H₁ = ∧-intro (∧-elim₀ »ₛ H₀) (∧-elim₁ »ₛ H₁)
+∧-mono P⊢Q P'⊢Q' = ∧-intro (∧-elim₀ »ₛ P⊢Q) (∧-elim₁ »ₛ P'⊢Q')
 
 ∨-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∨ₛ P' ⊢[ i ] Q ∨ₛ Q'
-∨-mono H₀ H₁ = ∨-elim (H₀ »ₛ ∨-intro₀) (H₁ »ₛ ∨-intro₁)
+∨-mono P⊢Q P'⊢Q' = ∨-elim (P⊢Q »ₛ ∨-intro₀) (P'⊢Q' »ₛ ∨-intro₁)
 
 ∧-comm : P ∧ₛ Q ⊢[ i ] Q ∧ₛ P
 ∧-comm = ∧-intro ∧-elim₁ ∧-elim₀
@@ -138,10 +138,10 @@ private variable
 -- On ∗
 
 ∗-mono₁ : P ⊢[ i ] Q → R ∗ P ⊢[ i ] R ∗ Q
-∗-mono₁ H = ∗-comm »ₛ ∗-mono₀ H »ₛ ∗-comm
+∗-mono₁ P⊢Q = ∗-comm »ₛ ∗-mono₀ P⊢Q »ₛ ∗-comm
 
 ∗-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∗ P' ⊢[ i ] Q ∗ Q'
-∗-mono H₀ H₁ = ∗-mono₀ H₀ »ₛ ∗-mono₁ H₁
+∗-mono P⊢Q P'⊢Q' = ∗-mono₀ P⊢Q »ₛ ∗-mono₁ P'⊢Q'
 
 ∗-elim₀ : P ∗ Q ⊢[ i ] P
 ∗-elim₀ = ∗-mono₁ ⊤-intro »ₛ ∗-unit₀
@@ -164,7 +164,7 @@ private variable
 -- □
 
 □-intro : □ P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
-□-intro H = □-dup »ₛ □-mono H
+□-intro □P⊢Q = □-dup »ₛ □-mono □P⊢Q
 
 □-∀-out : □ (∀! _ Pf) ⊢[ i ] ∀! _ (□ ∘ Pf)
 □-∀-out = ∀-intro $ λ _ → □-mono ∀-elim
@@ -187,7 +187,7 @@ private variable
 □₁-∧⇒∗ = ∧-comm »ₛ □₀-∧⇒∗ »ₛ ∗-comm
 
 retain-□ : P ⊢[ i ] □ Q → P ⊢[ i ] □ Q ∗ P
-retain-□ H = ∧-intro H reflₛ »ₛ □₀-∧⇒∗
+retain-□ P⊢Q = ∧-intro P⊢Q reflₛ »ₛ □₀-∧⇒∗
 
 dup-□ : □ P ⊢[ i ] □ P ∗ □ P
 dup-□ = retain-□ reflₛ
@@ -219,7 +219,7 @@ in□-∧⇒∗ = □-intro $ dup-□ »ₛ ∗-mono (□-elim »ₛ ∧-elim₀
 □-∗-in = ∗⇒∧ »ₛ □-∧-in »ₛ in□-∧⇒∗
 
 |=>-elim : P ⊢[ i ] |=> Q → |=> P ⊢[ i ] |=> Q
-|=>-elim H = |=>-mono H »ₛ |=>-join
+|=>-elim P⊢|=>Q = |=>-mono P⊢|=>Q »ₛ |=>-join
 
 ------------------------------------------------------------------------
 -- Persistence: Pers P
@@ -234,10 +234,10 @@ open Pers {{...}} public
 -- -- can't be searched by Agda
 
 ∀-Pers : (∀ x → Pers (Pf x)) → Pers (∀! _ Pf)
-∀-Pers H .pers = ∀-mono (λ x → H x .pers) »ₛ □-∀-in
+∀-Pers ∀Pers .pers = ∀-mono (λ x → ∀Pers x .pers) »ₛ □-∀-in
 
 ∃-Pers : (∀ x → Pers (Pf x)) → Pers (∃! _ Pf)
-∃-Pers H .pers = ∃-mono (λ x → H x .pers) »ₛ □-∃-in
+∃-Pers ∀Pers .pers = ∃-mono (λ x → ∀Pers x .pers) »ₛ □-∃-in
 
 -- -- Instances
 

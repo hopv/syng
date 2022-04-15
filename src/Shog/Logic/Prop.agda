@@ -1,3 +1,7 @@
+----------------------------------------------------------------------
+-- Syntax for the Shog proposition
+----------------------------------------------------------------------
+
 {-# OPTIONS --sized-types #-}
 
 module Shog.Logic.Prop where
@@ -9,7 +13,9 @@ open import Codata.Sized.Thunk
 
 open import Shog.Util
 
--- syntax for a proposition in Shog
+----------------------------------------------------------------------
+-- Syntax for the Shog proposition: Propₛ ℓ i
+
 data Propₛ ℓ (i : Size) : Set (suc ℓ) where
   -- universal/existential quantification
   ∀! ∃! : (A : Set ℓ) → (A → Propₛ ℓ i) → Propₛ ℓ i
@@ -38,12 +44,16 @@ syntax ∃!' (λ x → P) = ∃ₛ x , P
 infixr 5 _→ₛ_ _-∗_
 infixr 7 _∗_
 
--- deriving conjunction ∧ / disjunction ∨ and top ⊤ / bottom ⊥
--- from universal/existential quantification ∀ / ∃
+----------------------------------------------------------------------
+-- Derived propositions
 
 private variable
   ℓ : Level
   i : Size
+
+-- Deriving from universal/existential quantification ∀ₛ / ∃ₛ
+
+-- -- Conjunction ∧ₛ / Disjunction ∨ₛ
 
 infixr 7 _∧ₛ_
 infixr 6 _∨ₛ_
@@ -51,6 +61,8 @@ infixr 6 _∨ₛ_
 _∧ₛ_ _∨ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
 P ∧ₛ Q = ∀!' (binary P Q)
 P ∨ₛ Q = ∃!' (binary P Q)
+
+-- -- Truth ⊤ₛ / Falsehood ⊥ₛ
 
 ⊤ₛ ⊥ₛ : Propₛ ℓ i
 ⊤ₛ = ∀! _ nullary

@@ -1,3 +1,7 @@
+------------------------------------------------------------------------
+-- Judgments in Shog
+------------------------------------------------------------------------
+
 {-# OPTIONS --sized-types #-}
 
 module Shog.Logic.Judg where
@@ -12,6 +16,9 @@ open import Shog.Util
 open import Shog.Logic.Prop
 
 data Sequent {ℓ} (i : Size) : Propₛ ℓ ∞ → Propₛ ℓ ∞ → Set (suc ℓ)
+
+------------------------------------------------------------------------
+-- Sequent: P ⊢[ i ] Q
 
 infix 2 Sequent
 syntax Sequent i P Q = P ⊢[ i ] Q
@@ -58,16 +65,17 @@ data Sequent {ℓ} i where
 infixr 0 transₛ
 syntax transₛ H₀ H₁ = H₀ »ₛ H₁
 
--- derived rules
+----------------------------------------------------------------------
+-- Derived rules
 
 private variable
   ℓ : Level
   i : Size
   P Q R P' Q' : Propₛ ℓ ∞
-  A : Set ℓ
+  A φ : Set ℓ
   Pf Qf : A → Propₛ ℓ ∞
 
----- ∀/∃
+-- On ∀ₛ/∃ₛ/∧ₛ/∨ₛ/⊤ₛ/⊥ₛ
 
 ∧-intro : P ⊢[ i ] Q → P ⊢[ i ] R → P ⊢[ i ] Q ∧ₛ R
 ∧-intro H₀ H₁ = ∀-intro $ binary H₀ H₁
@@ -111,7 +119,7 @@ private variable
 ∨-comm : P ∨ₛ Q ⊢[ i ] Q ∨ₛ P
 ∨-comm = ∨-elim ∨-intro₁ ∨-intro₀
 
----- ∗
+-- On ∗
 
 ∗-mono₁ : P ⊢[ i ] Q → R ∗ P ⊢[ i ] R ∗ Q
 ∗-mono₁ H = ∗-comm »ₛ ∗-mono₀ H »ₛ ∗-comm
@@ -137,7 +145,7 @@ private variable
 →ₛ⇒-∗ : P →ₛ Q ⊢[ i ] P -∗ Q
 →ₛ⇒-∗ = -∗-intro $ ∗⇒∧ »ₛ →-elim reflₛ
 
----- □
+-- □
 
 □-intro : □ P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
 □-intro H = □-dup »ₛ □-mono H
@@ -157,7 +165,7 @@ private variable
 □-⊥-elim : □ ⊥ₛ ⊢[ i ] P
 □-⊥-elim = □-elim »ₛ ⊥-elim
 
------- with □₀-∧⇒∗
+-- -- with □₀-∧⇒∗
 
 □₁-∧⇒∗ : P ∧ₛ □ Q ⊢[ i ] P ∗ □ Q
 □₁-∧⇒∗ = ∧-comm »ₛ □₀-∧⇒∗ »ₛ ∗-comm
@@ -177,7 +185,7 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ »ₛ -∗-elim □-
 □-∗-out : □ (P ∗ Q) ⊢[ i ] □ P ∗ □ Q
 □-∗-out = □-mono ∗⇒∧ »ₛ □-∧-out »ₛ □₀-∧⇒∗
 
------- with □-∀-in/□-∃-out
+-- -- with □-∀-in/□-∃-out
 
 □-∧-in : □ P ∧ₛ □ Q ⊢[ i ] □ (P ∧ₛ Q)
 □-∧-in = ∀-intro (binary ∧-elim₀ ∧-elim₁) »ₛ □-∀-in
@@ -196,3 +204,40 @@ in□-∧⇒∗ = □-intro $ dup-□ »ₛ ∗-mono (□-elim »ₛ ∧-elim₀
 
 |=>-elim : P ⊢[ i ] |=> Q → |=> P ⊢[ i ] |=> Q
 |=>-elim H = |=>-mono H »ₛ |=>-join
+
+------------------------------------------------------------------------
+-- Persistence: Pers P
+
+record Pers {ℓ} (P : Propₛ ℓ ∞) : Set (suc ℓ) where
+  field pers : ∀ {i} → P ⊢[ i ] □ P
+open Pers {{...}} public
+
+-- Unfortunately, a universally quantified instance (∀ x → ...)
+-- can't be searched by Agda
+
+∀-Pers : (∀ x → Pers (Pf x)) → Pers (∀! _ Pf)
+∀-Pers H .pers = ∀-mono (λ x → H x .pers) »ₛ □-∀-in
+
+∃-Pers : (∀ x → Pers (Pf x)) → Pers (∃! _ Pf)
+∃-Pers H .pers = ∃-mono (λ x → H x .pers) »ₛ □-∃-in
+
+-- Pers instances
+instance
+
+  ∧-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∧ₛ Q)
+  ∧-Pers = ∀-Pers (binary it it)
+
+  ∨-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∨ₛ Q)
+  ∨-Pers = ∃-Pers (binary it it)
+
+  ⊤-Pers : Pers {ℓ} ⊤ₛ
+  ⊤-Pers .pers = □-⊤-intro
+
+  ⊥-Pers : Pers {ℓ} ⊥ₛ
+  ⊥-Pers .pers = ⊥-elim
+
+  ∗-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∗ Q)
+  ∗-Pers .pers = ∗⇒∧ »ₛ ∧-Pers .pers »ₛ in□-∧⇒∗
+
+  ⌜⌝-Pers : Pers ⌜ φ ⌝
+  ⌜⌝-Pers .pers = □-intro-⌜⌝

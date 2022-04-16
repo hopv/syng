@@ -20,7 +20,7 @@ open import Data.Empty using (⊥) renaming (⊥-elim to ⊥-elim')
 open import Shog.Util
 open import Shog.Logic.Prop
 
-open import Shog.Logic.Judg public using (Sequent; ThunkSequent)
+open import Shog.Logic.Judg public using (Sequent; _⊢[_]_; _⊢[<_]_)
 open Sequent public
 
 private variable

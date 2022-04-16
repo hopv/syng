@@ -15,18 +15,24 @@ open import Function.Base using (_∘_)
 open import Shog.Util
 open import Shog.Logic.Prop
 
+private variable
+  ℓ : Level
+
+------------------------------------------------------------------------
+-- Judgments
+
 data Sequent {ℓ} (i : Size) : Propₛ ℓ ∞ → Propₛ ℓ ∞ → Set (suc ℓ)
 
 ------------------------------------------------------------------------
 -- Sequent: P ⊢[ i ] Q
 
-infix 2 Sequent
-syntax Sequent i P Q = P ⊢[ i ] Q
+infix 2 _⊢[_]_ _⊢[<_]_
 
-ThunkSequent : ∀ {ℓ} → Size → Propₛ ℓ ∞ → Propₛ ℓ ∞ → Set (suc ℓ)
-ThunkSequent i P Q = Thunk[ j < i ] (Sequent j P Q)
-infix 2 ThunkSequent
-syntax ThunkSequent i P Q = P ⊢[< i ] Q
+_⊢[_]_ : Propₛ ℓ ∞ → Size → Propₛ ℓ ∞ → Set (suc ℓ)
+P ⊢[ i ] Q = Sequent i P Q
+
+_⊢[<_]_ : Propₛ ℓ ∞ → Size → Propₛ ℓ ∞ → Set (suc ℓ)
+P ⊢[< i ] Q = Thunk[ j < i ] (P ⊢[ i ] Q)
 
 infixr 0 _»_
 

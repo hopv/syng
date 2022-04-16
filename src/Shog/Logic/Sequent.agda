@@ -1,16 +1,16 @@
 ------------------------------------------------------------------------
--- Derived rules in Shog
+-- Sequent rules in Shog
 ------------------------------------------------------------------------
 
 {-# OPTIONS --sized-types #-}
 
-module Shog.Logic.Derived where
+module Shog.Logic.Sequent where
 
 open import Size
 open import Level
 open import Codata.Sized.Thunk
-open import Function.Base using (_$_; _∘_; it)
 open import Data.Bool.Base
+open import Function.Base using (_$_; _∘_; it)
 
 open import Data.Product using (_×_; _,_; ∃-syntax)
 open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])
@@ -19,7 +19,9 @@ open import Data.Empty using (⊥) renaming (⊥-elim to ⊥-elim')
 
 open import Shog.Util
 open import Shog.Logic.Prop
-open import Shog.Logic.Judg
+
+open import Shog.Logic.Judg public using (Sequent; ThunkSequent)
+open Sequent public
 
 private variable
   ℓ : Level

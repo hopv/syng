@@ -21,9 +21,9 @@ data Propₛ ℓ (i : Size) : Set (suc ℓ) where
   ∀^ ∃^ : (A : Set ℓ) → (A → Propₛ ℓ i) → Propₛ ℓ i
   -- implication
   _→ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
-  -- separating conjunction
+  -- separating conjunction / magic wand
   _∗_ _-∗_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
-  -- persistence and update modalities
+  -- persistence modality / update modality
   □ |=> : Propₛ ℓ i → Propₛ ℓ i
   -- save token
   save : Bool → Thunk (Propₛ ℓ) i → Propₛ ℓ i

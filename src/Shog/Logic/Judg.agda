@@ -37,10 +37,10 @@ infixr 0 _»_
 data Sequent {ℓ} i where
   reflₛ : ∀ {P} → P ⊢[ i ] P
   _»_ : ∀ {P Q R} → P ⊢[ i ] Q → Q ⊢[ i ] R → P ⊢[ i ] R
-  ∀-intro : ∀ {A P Qf} → (∀ x → P ⊢[ i ] Qf x) → P ⊢[ i ] ∀^ A Qf
-  ∃-elim : ∀ {A Pf Q} → (∀ x → Pf x ⊢[ i ] Q) → ∃^ A Pf ⊢[ i ] Q
-  ∀-elim : ∀ {A Pf x} → ∀^ A Pf ⊢[ i ] Pf x
-  ∃-intro : ∀ {A Pf x} → Pf x ⊢[ i ] ∃^ A Pf
+  ∀-intro : ∀ {A P Qf} → (∀ a → P ⊢[ i ] Qf a) → P ⊢[ i ] ∀^ A Qf
+  ∃-elim : ∀ {A Pf Q} → (∀ a → Pf a ⊢[ i ] Q) → ∃^ A Pf ⊢[ i ] Q
+  ∀-elim : ∀ {A Pf a} → ∀^ A Pf ⊢[ i ] Pf a
+  ∃-intro : ∀ {A Pf a} → Pf a ⊢[ i ] ∃^ A Pf
   →-intro : ∀ {P Q R} → P ∧ₛ Q ⊢[ i ] R → Q ⊢[ i ] P →ₛ R
   →-elim : ∀ {P Q R} → Q ⊢[ i ] P →ₛ R → P ∧ₛ Q ⊢[ i ] R
   ⌜⌝-intro : ∀ {A P} → A → P ⊢[ i ] ⌜ A ⌝
@@ -98,22 +98,22 @@ private variable
 ⊥-elim = ∃-elim nullary
 
 ∧-elim₀ : P ∧ₛ Q ⊢[ i ] P
-∧-elim₀ = ∀-elim
+∧-elim₀ = ∀-elim {a = zero₂}
 
 ∧-elim₁ : P ∧ₛ Q ⊢[ i ] Q
-∧-elim₁ = ∀-elim
+∧-elim₁ = ∀-elim {a = one₂}
 
 ∨-intro₀ : P ⊢[ i ] P ∨ₛ Q
-∨-intro₀ = ∃-intro
+∨-intro₀ = ∃-intro {a = zero₂}
 
 ∨-intro₁ : Q ⊢[ i ] P ∨ₛ Q
-∨-intro₁ = ∃-intro
+∨-intro₁ = ∃-intro {a = one₂}
 
-∀-mono : (∀ x → Pf x ⊢[ i ] Qf x) → ∀^' Pf ⊢[ i ] ∀^' Qf
-∀-mono Pf⊢Qf = ∀-intro $ λ x → ∀-elim » Pf⊢Qf x
+∀-mono : (∀ a → Pf a ⊢[ i ] Qf a) → ∀^' Pf ⊢[ i ] ∀^' Qf
+∀-mono Pf⊢Qf = ∀-intro $ λ a → ∀-elim » Pf⊢Qf a
 
-∃-mono : (∀ x → Pf x ⊢[ i ] Qf x) → ∃^' Pf ⊢[ i ] ∃^' Qf
-∃-mono Pf⊢Qf = ∃-elim $ λ x → Pf⊢Qf x » ∃-intro
+∃-mono : (∀ a → Pf a ⊢[ i ] Qf a) → ∃^' Pf ⊢[ i ] ∃^' Qf
+∃-mono Pf⊢Qf = ∃-elim $ λ a → Pf⊢Qf a » ∃-intro
 
 ∧-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∧ₛ P' ⊢[ i ] Q ∧ₛ Q'
 ∧-mono P⊢Q P'⊢Q' = ∧-intro (∧-elim₀ » P⊢Q) (∧-elim₁ » P'⊢Q')
@@ -246,7 +246,7 @@ private variable
 ∗-assoc₁ : P ∗ (Q ∗ R) ⊢[ i ] (P ∗ Q) ∗ R
 ∗-assoc₁ = ∗-comm » ∗-mono₀ ∗-comm » ∗-assoc₀ » ∗-comm » ∗-mono₀ ∗-comm
 
-∗-∃-out : P ∗ ∃^' Qf ⊢[ i ] ∃ₛ x , P ∗ Qf x
+∗-∃-out : P ∗ ∃^' Qf ⊢[ i ] ∃ₛ a , P ∗ Qf a
 ∗-∃-out = -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
 
 ∗⇒∧ : P ∗ Q ⊢[ i ] P ∧ₛ Q
@@ -338,14 +338,14 @@ open Pers {{...}} public
 
 -- Finding Pers
 
--- -- Unfortunately, a universally quantified instance (∀ x → ...)
+-- -- Unfortunately, a universally quantified instance (∀ a → ...)
 -- -- can't be searched by Agda
 
-∀-Pers : (∀ x → Pers (Pf x)) → Pers (∀^ _ Pf)
-∀-Pers ∀Pers .pers = ∀-mono (λ x → ∀Pers x .pers) » □-∀-in
+∀-Pers : (∀ a → Pers (Pf a)) → Pers (∀^ _ Pf)
+∀-Pers ∀Pers .pers = ∀-mono (λ a → ∀Pers a .pers) » □-∀-in
 
-∃-Pers : (∀ x → Pers (Pf x)) → Pers (∃^ _ Pf)
-∃-Pers ∀Pers .pers = ∃-mono (λ x → ∀Pers x .pers) » □-∃-in
+∃-Pers : (∀ a → Pers (Pf a)) → Pers (∃^ _ Pf)
+∃-Pers ∀Pers .pers = ∃-mono (λ a → ∀Pers a .pers) » □-∃-in
 
 -- -- Instances
 

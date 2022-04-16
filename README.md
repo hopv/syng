@@ -8,4 +8,4 @@ Unlike Iris, Shog is *not step-indexed*.
 Thanks to this, Shog has an intuitive model and can much better support
 *termination-sensitive* program reasoning.
 
-Shog is mechanized in *Agda*, a modern dependently-typed programming language.
+Shog is mechanized in *Agda*, a modern dependently typed programming language.

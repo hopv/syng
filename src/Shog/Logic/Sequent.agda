@@ -212,17 +212,14 @@ private variable
 ∗-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∗ P' ⊢[ i ] Q ∗ Q'
 ∗-mono P⊢Q P'⊢Q' = ∗-mono₀ P⊢Q » ∗-mono₁ P'⊢Q'
 
-⊤∗-elim : ⊤ₛ ∗ P ⊢[ i ] P
-⊤∗-elim = ∗-comm » ∗⊤-elim
-
-⊤∗-intro : P ⊢[ i ] ⊤ₛ ∗ P
-⊤∗-intro = ∗⊤-intro » ∗-comm
-
 ∗-elim₀ : P ∗ Q ⊢[ i ] P
 ∗-elim₀ = ∗-mono₁ ⊤-intro » ∗⊤-elim
 
 ∗-elim₁ : P ∗ Q ⊢[ i ] Q
 ∗-elim₁ = ∗-comm » ∗-elim₀
+
+⊤∗-intro : P ⊢[ i ] ⊤ₛ ∗ P
+⊤∗-intro = ∗⊤-intro » ∗-comm
 
 ∗-assoc₁ : P ∗ (Q ∗ R) ⊢[ i ] (P ∗ Q) ∗ R
 ∗-assoc₁ = ∗-comm » ∗-mono₀ ∗-comm » ∗-assoc₀ » ∗-comm » ∗-mono₀ ∗-comm

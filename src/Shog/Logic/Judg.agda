@@ -37,12 +37,10 @@ data Sequent {ℓ} i where
   ∃-elim : ∀ {A Pf Q} → (∀ a → Pf a ⊢[ i ] Q) → ∃^ A Pf ⊢[ i ] Q
   ∀-elim : ∀ {A Pf a} → ∀^ A Pf ⊢[ i ] Pf a
   ∃-intro : ∀ {A Pf a} → Pf a ⊢[ i ] ∃^ A Pf
+  ∀∃⇒∃∀-⊤ : ∀ {A : Set ℓ} {F : A → Set ℓ} →
+    ∀ₛ a ∈ A , ∃ₛ _ ∈ F a , ⊤ₛ ⊢[ i ] ∃ₛ _ ∈ (∀ a → F a) , ⊤ₛ
   →-intro : ∀ {P Q R} → P ∧ₛ Q ⊢[ i ] R → Q ⊢[ i ] P →ₛ R
   →-elim : ∀ {P Q R} → Q ⊢[ i ] P →ₛ R → P ∧ₛ Q ⊢[ i ] R
-  ⌜⌝-intro : ∀ {A P} → A → P ⊢[ i ] ⌜ A ⌝
-  ⌜⌝-elim : ∀ {A P} → (A → ⊤ₛ ⊢[ i ] P) → ⌜ A ⌝ ⊢[ i ] P
-  ⌜⌝-∀-in : ∀ {A : Set ℓ} {F : A → Set ℓ} →
-    ∀ₛ a ∈ A , ⌜ F a ⌝ ⊢[ i ] ⌜ (∀ a → F a) ⌝
   ∗⊤-elim : ∀ {P} → P ∗ ⊤ₛ ⊢[ i ] P
   ∗⊤-intro : ∀ {P} → P ⊢[ i ] P ∗ ⊤ₛ
   ∗-comm : ∀ {P Q} → P ∗ Q ⊢[ i ] Q ∗ P
@@ -56,12 +54,11 @@ data Sequent {ℓ} i where
   □₀-∧⇒∗ : ∀ {P Q} → □ P ∧ₛ Q ⊢[ i ] □ P ∗ Q
   □-∀-in : ∀ {A Pf} → ∀^ A (□ ∘ Pf) ⊢[ i ] □ (∀^ A Pf)
   □-∃-out : ∀ {A Pf} → □ (∃^ A Pf) ⊢[ i ] ∃^ A (□ ∘ Pf)
-  □-intro-⌜⌝ : ∀ {A} → ⌜ A ⌝ ⊢[ i ] □ ⌜ A ⌝
   |=>-mono : ∀ {P Q} → P ⊢[ i ] Q → |=> P ⊢[ i ] |=> Q
   |=>-intro : ∀ {P} → P ⊢[ i ] |=> P
   |=>-join : ∀ {P} → |=> (|=> P) ⊢[ i ] |=> P
   |=>-∗-in : ∀ {P Q} → P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
-  |=>-⌜⌝∧-out : ∀ {A P} → |=> (⌜ A ⌝ ∧ₛ P) ⊢[ i ] ⌜ A ⌝ ∧ₛ |=> P
+  |=>-∃-out : ∀ {A P} → |=> (∃ₛ _ ∈ A , P) ⊢[ i ] ∃ₛ _ ∈ A , |=> P
   save-mod-prop : ∀ {Pt Qt b} →
     Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
   save-mod-bool : ∀ {Pt} → save true Pt ⊢[ i ] save false Pt

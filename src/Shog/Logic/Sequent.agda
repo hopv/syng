@@ -118,7 +118,32 @@ private variable
 ⊥∨-elim = ∨-elim ⊥-elim reflₛ
 
 ------------------------------------------------------------------------
+-- On →ₛ
+
+→-apply : P ∧ₛ (P →ₛ Q) ⊢[ i ] Q
+→-apply = →-elim reflₛ
+
+→-mono : Q ⊢[ i ] P → P' ⊢[ i ] Q' → P →ₛ P' ⊢[ i ] Q →ₛ Q'
+→-mono Q⊢P P'⊢Q' = →-intro $ ∧-mono₀ Q⊢P » →-apply » P'⊢Q'
+
+→-mono₀ : Q ⊢[ i ] P → P →ₛ R ⊢[ i ] Q →ₛ R
+→-mono₀ Q⊢P = →-mono Q⊢P reflₛ
+
+→-mono₁ : P ⊢[ i ] Q → R →ₛ P ⊢[ i ] R →ₛ Q
+→-mono₁ P⊢Q = →-mono reflₛ P⊢Q
+
+------------------------------------------------------------------------
 -- On ⌜⌝
+
+⌜⌝-intro : A → P ⊢[ i ] ⌜ A ⌝
+⌜⌝-intro a = ⊤-intro » ∃-intro {a = a}
+
+⌜⌝-elim : (A → ⊤ₛ ⊢[ i ] P) → ⌜ A ⌝ ⊢[ i ] P
+⌜⌝-elim A→⊤⊢P = ∃-elim $ λ a → A→⊤⊢P a
+
+⌜⌝-∀-in : ∀ {A : Set ℓ} {F : A → Set ℓ} →
+  ∀ₛ a ∈ A , ⌜ F a ⌝ ⊢[ i ] ⌜ (∀ a → F a) ⌝
+⌜⌝-∀-in = ∀∃⇒∃∀-⊤
 
 ⌜⌝-mono : (A → B) → ⌜ A ⌝ ⊢[ i ] ⌜ B ⌝
 ⌜⌝-mono f = ⌜⌝-elim $ λ a → ⌜⌝-intro $ f a
@@ -130,7 +155,19 @@ private variable
 ⌜⌝∧-elim A→P⊢Q = _»_ ∧-comm $ →-elim $ ⌜⌝-elim $
   λ a → →-intro $ ∧-elim₀ » A→P⊢Q a
 
--- -- Commutativity between ∀/∃/∧/∨/⊤/⊥
+⌜⌝→⇒∀ : ⌜ A ⌝ →ₛ P ⊢[ i ] ∀ₛ _ ∈ A , P
+⌜⌝→⇒∀ = ∀-intro $ λ a → ⌜⌝∧-intro a » →-apply
+
+∀⇒⌜⌝→ : ∀ₛ _ ∈ A , P ⊢[ i ] ⌜ A ⌝ →ₛ P
+∀⇒⌜⌝→ = →-intro $ ⌜⌝∧-elim $ λ a → ∀-elim {a = a}
+
+⌜⌝∧⇒∃ : ⌜ A ⌝ ∧ₛ P ⊢[ i ] ∃ₛ _ ∈ A , P
+⌜⌝∧⇒∃ = ⌜⌝∧-elim $ λ a → reflₛ » ∃-intro {a = a}
+
+∃⇒⌜⌝∧ : ∃ₛ _ ∈ A , P ⊢[ i ] ⌜ A ⌝ ∧ₛ P
+∃⇒⌜⌝∧ = ∃-elim $ λ a → ⌜⌝∧-intro a
+
+-- -- Commutativity between ∀/∃/∧/∨/⊤/⊥/→
 
 ⌜⌝-∀-out : ⌜ (∀ a → F a) ⌝ ⊢[ i ] ∀ₛ a , ⌜ F a ⌝
 ⌜⌝-∀-out = ∀-intro $ λ a → ⌜⌝-elim $ λ f → ⌜⌝-intro $ f a
@@ -160,20 +197,11 @@ private variable
 ⌜⊥⌝-elim : ⌜ ⊥ ⌝ ⊢[ i ] P
 ⌜⊥⌝-elim = ⌜⌝-elim ⊥-elim'
 
-------------------------------------------------------------------------
--- On →ₛ
+⌜⌝-→-in : ⌜ A ⌝ →ₛ ⌜ B ⌝ ⊢[ i ] ⌜ (A → B) ⌝
+⌜⌝-→-in = ⌜⌝→⇒∀ » ⌜⌝-∀-in
 
-→-apply : P ∧ₛ (P →ₛ Q) ⊢[ i ] Q
-→-apply = →-elim reflₛ
-
-→-mono : Q ⊢[ i ] P → P' ⊢[ i ] Q' → P →ₛ P' ⊢[ i ] Q →ₛ Q'
-→-mono Q⊢P P'⊢Q' = →-intro $ ∧-mono₀ Q⊢P » →-apply » P'⊢Q'
-
-→-mono₀ : Q ⊢[ i ] P → P →ₛ R ⊢[ i ] Q →ₛ R
-→-mono₀ Q⊢P = →-mono Q⊢P reflₛ
-
-→-mono₁ : P ⊢[ i ] Q → R →ₛ P ⊢[ i ] R →ₛ Q
-→-mono₁ P⊢Q = →-mono reflₛ P⊢Q
+⌜⌝-→-out : ⌜ (A → B) ⌝ ⊢[ i ] ⌜ A ⌝ →ₛ ⌜ B ⌝
+⌜⌝-→-out = →-intro $ ⌜⌝∧-elim $ λ a → ⌜⌝-mono $ λ f → f a
 
 ------------------------------------------------------------------------
 -- On ∗
@@ -281,8 +309,14 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-eli
 □-∗-in : □ P ∗ □ Q ⊢[ i ] □ (P ∗ Q)
 □-∗-in = ∗⇒∧ » □-∧-in » in□-∧⇒∗
 
+------------------------------------------------------------------------
+-- On |=>
+
 |=>-elim : P ⊢[ i ] |=> Q → |=> P ⊢[ i ] |=> Q
 |=>-elim P⊢|=>Q = |=>-mono P⊢|=>Q » |=>-join
+
+|=>-⌜⌝∧-out : |=> (⌜ A ⌝ ∧ₛ P) ⊢[ i ] ⌜ A ⌝ ∧ₛ |=> P
+|=>-⌜⌝∧-out = |=>-mono ⌜⌝∧⇒∃ » |=>-∃-out » ∃⇒⌜⌝∧
 
 ------------------------------------------------------------------------
 -- Persistence: Pers P
@@ -307,10 +341,10 @@ open Pers {{...}} public
 instance
 
   ∧-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∧ₛ Q)
-  ∧-Pers = ∀-Pers (binary it it)
+  ∧-Pers = ∀-Pers $ binary it it
 
   ∨-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∨ₛ Q)
-  ∨-Pers = ∃-Pers (binary it it)
+  ∨-Pers = ∃-Pers $ binary it it
 
   ⊤-Pers : Pers {ℓ} ⊤ₛ
   ⊤-Pers .pers = □-⊤-intro
@@ -322,7 +356,7 @@ instance
   ∗-Pers .pers = ∗⇒∧ » pers » in□-∧⇒∗
 
   ⌜⌝-Pers : Pers ⌜ A ⌝
-  ⌜⌝-Pers .pers = □-intro-⌜⌝
+  ⌜⌝-Pers = ∃-Pers $ λ _ → ⊤-Pers
 
   □-Pers : Pers (□ P)
   □-Pers .pers = □-dup

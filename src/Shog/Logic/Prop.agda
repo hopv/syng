@@ -21,8 +21,6 @@ data Propₛ ℓ (i : Size) : Set (suc ℓ) where
   ∀^ ∃^ : (A : Set ℓ) → (A → Propₛ ℓ i) → Propₛ ℓ i
   -- implication
   _→ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
-  -- lifting a pure proposition
-  ⌜_⌝ : Set ℓ → Propₛ ℓ i
   -- separating conjunction
   _∗_ _-∗_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
   -- persistence and update modalities
@@ -67,3 +65,8 @@ P ∨ₛ Q = ∃^' (binary P Q)
 ⊤ₛ ⊥ₛ : Propₛ ℓ i
 ⊤ₛ = ∀^ _ nullary
 ⊥ₛ = ∃^ _ nullary
+
+-- Set embedding
+
+⌜_⌝ : Set ℓ → Propₛ ℓ i
+⌜ A ⌝ = ∃^ A (λ _ → ⊤ₛ)

@@ -41,8 +41,8 @@ data Sequent {ℓ} i where
   →-elim : ∀ {P Q R} → Q ⊢[ i ] P →ₛ R → P ∧ₛ Q ⊢[ i ] R
   ⌜⌝∧-intro : ∀ {A P} → A → P ⊢[ i ] ⌜ A ⌝ ∧ₛ P
   ⌜⌝∧-elim : ∀ {A P Q} → (A → P ⊢[ i ] Q) → ⌜ A ⌝ ∧ₛ P ⊢[ i ] Q
-  ∗⊤-out : ∀ {P} → P ∗ ⊤ₛ ⊢[ i ] P
-  ∗⊤-in : ∀ {P} → P ⊢[ i ] P ∗ ⊤ₛ
+  ∗⊤-elim : ∀ {P} → P ∗ ⊤ₛ ⊢[ i ] P
+  ∗⊤-intro : ∀ {P} → P ⊢[ i ] P ∗ ⊤ₛ
   ∗-comm : ∀ {P Q} → P ∗ Q ⊢[ i ] Q ∗ P
   ∗-assoc₀ : ∀ {P Q R} → (P ∗ Q) ∗ R ⊢[ i ] P ∗ (Q ∗ R)
   ∗-mono₀ : ∀ {P Q R} → P ⊢[ i ] Q → P ∗ R ⊢[ i ] Q ∗ R
@@ -59,7 +59,7 @@ data Sequent {ℓ} i where
   |=>-intro : ∀ {P} → P ⊢[ i ] |=> P
   |=>-join : ∀ {P} → |=> (|=> P) ⊢[ i ] |=> P
   |=>-∗-in : ∀ {P Q} → P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
-  |=>-⌜⌝-out : ∀ {A P} → |=> (⌜ A ⌝ ∧ₛ P) ⊢[ i ] |=> ⌜ A ⌝ ∧ₛ |=> P
+  |=>-⌜⌝∧-out : ∀ {A P} → |=> (⌜ A ⌝ ∧ₛ P) ⊢[ i ] |=> ⌜ A ⌝ ∧ₛ |=> P
   save-mod-prop : ∀ {Pt Qt b} →
     Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
   save-mod-bool : ∀ {Pt} → save true Pt ⊢[ i ] save false Pt
@@ -151,17 +151,17 @@ private variable
 ∨-assoc₁ = ∨-elim (∨-intro₀ » ∨-intro₀) $
             ∨-elim (∨-intro₁ » ∨-intro₀) $ ∨-intro₁
 
-∧⊤-in : P ⊢[ i ] P ∧ₛ ⊤ₛ
-∧⊤-in = ∧-intro reflₛ ⊤-intro
+∧⊤-intro : P ⊢[ i ] P ∧ₛ ⊤ₛ
+∧⊤-intro = ∧-intro reflₛ ⊤-intro
 
-⊤∧-in : P ⊢[ i ] ⊤ₛ ∧ₛ P
-⊤∧-in = ∧-intro ⊤-intro reflₛ
+⊤∧-intro : P ⊢[ i ] ⊤ₛ ∧ₛ P
+⊤∧-intro = ∧-intro ⊤-intro reflₛ
 
-∨⊥-out : P ∨ₛ ⊥ₛ ⊢[ i ] P
-∨⊥-out = ∨-elim reflₛ ⊥-elim
+∨⊥-elim : P ∨ₛ ⊥ₛ ⊢[ i ] P
+∨⊥-elim = ∨-elim reflₛ ⊥-elim
 
-⊥∨-out : ⊥ₛ ∨ₛ P ⊢[ i ] P
-⊥∨-out = ∨-elim ⊥-elim reflₛ
+⊥∨-elim : ⊥ₛ ∨ₛ P ⊢[ i ] P
+⊥∨-elim = ∨-elim ⊥-elim reflₛ
 
 -- On ⌜⌝
 
@@ -175,7 +175,7 @@ private variable
 ∧⌜⌝-elim A→P⊢Q = ∧-comm » ⌜⌝∧-elim A→P⊢Q
 
 ⌜⌝-elim : (A → ⊤ₛ ⊢[ i ] Q) → ⌜ A ⌝ ⊢[ i ] Q
-⌜⌝-elim A→⊤⊢Q = ∧⊤-in » ⌜⌝∧-elim A→⊤⊢Q
+⌜⌝-elim A→⊤⊢Q = ∧⊤-intro » ⌜⌝∧-elim A→⊤⊢Q
 
 ⌜⌝-∧-in : ⌜ A × B ⌝ ⊢[ i ] ⌜ A ⌝ ∧ₛ ⌜ B ⌝
 ⌜⌝-∧-in = ⌜⌝-elim $ λ (a , b) → ∧-intro (⌜⌝-intro a) (⌜⌝-intro b)
@@ -205,14 +205,14 @@ private variable
 ∗-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∗ P' ⊢[ i ] Q ∗ Q'
 ∗-mono P⊢Q P'⊢Q' = ∗-mono₀ P⊢Q » ∗-mono₁ P'⊢Q'
 
-⊤∗-out : ⊤ₛ ∗ P ⊢[ i ] P
-⊤∗-out = ∗-comm » ∗⊤-out
+⊤∗-elim : ⊤ₛ ∗ P ⊢[ i ] P
+⊤∗-elim = ∗-comm » ∗⊤-elim
 
-⊤∗-in : P ⊢[ i ] ⊤ₛ ∗ P
-⊤∗-in = ∗⊤-in » ∗-comm
+⊤∗-intro : P ⊢[ i ] ⊤ₛ ∗ P
+⊤∗-intro = ∗⊤-intro » ∗-comm
 
 ∗-elim₀ : P ∗ Q ⊢[ i ] P
-∗-elim₀ = ∗-mono₁ ⊤-intro » ∗⊤-out
+∗-elim₀ = ∗-mono₁ ⊤-intro » ∗⊤-elim
 
 ∗-elim₁ : P ∗ Q ⊢[ i ] Q
 ∗-elim₁ = ∗-comm » ∗-elim₀

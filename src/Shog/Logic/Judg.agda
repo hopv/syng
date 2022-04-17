@@ -12,7 +12,6 @@ open import Codata.Sized.Thunk using (Thunk; force)
 open import Data.Bool.Base using (Bool; true; false)
 open import Function.Base using (_∘_)
 
-open import Shog.Util
 open import Shog.Logic.Prop
 
 private variable

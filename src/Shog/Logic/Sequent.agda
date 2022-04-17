@@ -17,7 +17,7 @@ open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])
 open import Data.Unit.Base using (⊤; tt)
 open import Data.Empty using (⊥) renaming (⊥-elim to ⊥-elim')
 
-open import Shog.Util
+open import Shog.Util using (zero₂; one₂; binary; nullary)
 open import Shog.Logic.Prop
 
 open import Shog.Logic.Judg public using (Sequent; _⊢[_]_; _⊢[<_]_)

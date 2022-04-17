@@ -11,7 +11,7 @@ open import Size using (Size)
 open import Codata.Sized.Thunk using (Thunk)
 open import Data.Bool.Base using (Bool)
 
-open import Shog.Util
+open import Shog.Util using (binary; nullary)
 
 ----------------------------------------------------------------------
 -- Syntax for the Shog proposition: Propₛ ℓ i

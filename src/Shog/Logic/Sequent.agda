@@ -8,9 +8,9 @@ module Shog.Logic.Sequent where
 
 open import Level using (Level; suc)
 open import Size using (Size; ∞)
-open import Codata.Sized.Thunk using (Thunk)
+open import Codata.Sized.Thunk using (Thunk; force)
 open import Function.Base using (_$_; _∘_; it)
-open import Data.Bool.Base using (Bool; true)
+open import Data.Bool.Base using (Bool; true; _≤_; f≤t; b≤b)
 
 open import Data.Product using (_×_; _,_; ∃-syntax)
 open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])
@@ -30,7 +30,8 @@ private variable
   A B : Set ℓ
   F : A → Set ℓ
   Pf Qf : A → Propₛ ℓ ∞
-  Pt : Thunk (Propₛ ℓ) ∞
+  Pt Qt : Thunk (Propₛ ℓ) ∞
+  b b' : Bool
 
 ------------------------------------------------------------------------
 -- On ∀ₛ/∃ₛ/∧ₛ/∨ₛ/⊤ₛ/⊥ₛ
@@ -314,6 +315,16 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-eli
 
 |=>-⌜⌝∧-out : |=> (⌜ A ⌝ ∧ₛ P) ⊢[ i ] ⌜ A ⌝ ∧ₛ |=> P
 |=>-⌜⌝∧-out = |=>-mono ⌜⌝∧⇒∃ » |=>-∃-out » ∃⇒⌜⌝∧
+
+------------------------------------------------------------------------
+-- On save
+
+save-mono₀ : b' ≤ b → save b Pt ⊢[ i ] save b' Pt
+save-mono₀ f≤t = save-true⇒false
+save-mono₀ b≤b = reflₛ
+
+save-mono : b' ≤ b → Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b' Qt
+save-mono H₀ H₁ = save-mono₀ H₀ » save-mono₁ H₁
 
 ------------------------------------------------------------------------
 -- Persistence: Pers P

@@ -66,7 +66,7 @@ data Sequent {ℓ} i where
   |=>-join : ∀ {P} → |=> (|=> P) ⊢[ i ] |=> P
   |=>-∗-in : ∀ {P Q} → P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
   |=>-∃-out : ∀ {A P} → |=> (∃ₛ _ ∈ A , P) ⊢[ i ] ∃ₛ _ ∈ A , |=> P
-  save-mod-prop : ∀ {Pt Qt b} →
+  save-mono₁ : ∀ {Pt Qt b} →
     Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
-  save-mod-bool : ∀ {Pt} → save true Pt ⊢[ i ] save false Pt
+  save-true⇒false : ∀ {Pt} → save true Pt ⊢[ i ] save false Pt
   □-intro-save : ∀ {Pt} → save true Pt ⊢[ i ] □ (save true Pt)

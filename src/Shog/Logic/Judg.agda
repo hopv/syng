@@ -34,7 +34,8 @@ P ⊢[ i ] Q = Sequent i P Q
 _⊢[<_]_ : Propₛ ℓ ∞ → Size → Propₛ ℓ ∞ → Set (suc ℓ)
 P ⊢[< i ] Q = Thunk[ j < i ] (P ⊢[ i ] Q)
 
-infixr 0 _»_
+-- To make it compatible with $
+infixr -1 _»_
 
 data Sequent {ℓ} i where
   reflₛ : ∀ {P} → P ⊢[ i ] P

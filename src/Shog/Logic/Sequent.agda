@@ -152,7 +152,7 @@ private variable
 ⌜⌝∧-intro a = ∧-intro (⌜⌝-intro a) reflₛ
 
 ⌜⌝∧-elim : (A → P ⊢[ i ] Q) → ⌜ A ⌝ ∧ₛ P ⊢[ i ] Q
-⌜⌝∧-elim A→P⊢Q = _»_ ∧-comm $ →-elim $ ⌜⌝-elim $
+⌜⌝∧-elim A→P⊢Q = ∧-comm » →-elim $ ⌜⌝-elim $
   λ a → →-intro $ ∧-elim₀ » A→P⊢Q a
 
 ⌜⌝→⇒∀ : ⌜ A ⌝ →ₛ P ⊢[ i ] ∀ₛ _ ∈ A , P

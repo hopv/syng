@@ -2,6 +2,8 @@
 -- Utility
 ------------------------------------------------------------------------
 
+{-# OPTIONS --without-K --safe #-}
+
 module Shog.Util where
 
 open import Level

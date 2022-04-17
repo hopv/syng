@@ -2,7 +2,7 @@
 -- Syntax for the Shog proposition
 ----------------------------------------------------------------------
 
-{-# OPTIONS --sized-types #-}
+{-# OPTIONS --without-K --sized-types #-}
 
 module Shog.Logic.Prop where
 

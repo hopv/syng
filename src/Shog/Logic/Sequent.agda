@@ -2,7 +2,7 @@
 -- Sequent rules in Shog
 ------------------------------------------------------------------------
 
-{-# OPTIONS --sized-types #-}
+{-# OPTIONS --without-K --sized-types #-}
 
 module Shog.Logic.Sequent where
 

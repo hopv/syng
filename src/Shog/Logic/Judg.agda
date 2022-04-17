@@ -2,7 +2,7 @@
 -- Judgments in Shog
 ------------------------------------------------------------------------
 
-{-# OPTIONS --sized-types #-}
+{-# OPTIONS --without-K --sized-types #-}
 
 module Shog.Logic.Judg where
 

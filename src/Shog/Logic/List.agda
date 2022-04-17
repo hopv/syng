@@ -2,7 +2,7 @@
 -- Shog definitions and lemams for lists
 ----------------------------------------------------------------------
 
-{-# OPTIONS --sized-types #-}
+{-# OPTIONS --without-K --sized-types #-}
 
 module Shog.Logic.List where
 

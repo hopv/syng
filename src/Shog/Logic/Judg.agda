@@ -6,10 +6,10 @@
 
 module Shog.Logic.Judg where
 
-open import Size
-open import Level
-open import Codata.Sized.Thunk
-open import Data.Bool.Base
+open import Level using (Level; suc)
+open import Size using (Size; ∞)
+open import Codata.Sized.Thunk using (Thunk; force)
+open import Data.Bool.Base using (Bool; true; false)
 open import Function.Base using (_∘_)
 
 open import Shog.Util
@@ -32,7 +32,7 @@ _⊢[_]_ : Propₛ ℓ ∞ → Size → Propₛ ℓ ∞ → Set (suc ℓ)
 P ⊢[ i ] Q = Sequent i P Q
 
 _⊢[<_]_ : Propₛ ℓ ∞ → Size → Propₛ ℓ ∞ → Set (suc ℓ)
-P ⊢[< i ] Q = Thunk[ j < i ] (P ⊢[ i ] Q)
+P ⊢[< i ] Q = Thunk (P ⊢[_] Q) i
 
 -- To make it compatible with $
 infixr -1 _»_

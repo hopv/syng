@@ -6,10 +6,10 @@
 
 module Shog.Logic.Prop where
 
-open import Size
-open import Level
-open import Data.Bool.Base
-open import Codata.Sized.Thunk
+open import Level using (Level; suc)
+open import Size using (Size)
+open import Codata.Sized.Thunk using (Thunk)
+open import Data.Bool.Base using (Bool)
 
 open import Shog.Util
 

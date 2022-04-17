@@ -6,13 +6,12 @@
 
 module Shog.Logic.List where
 
-open import Size
-open import Level
-
+open import Level using (Level)
+open import Size using (Size; ∞)
 open import Function.Base using (_$_; _∘_; it)
-open import Data.List.Base
-open import Data.List.Relation.Binary.Pointwise.Base using (Pointwise)
-open Pointwise
+
+open import Data.List.Base using (List; []; _∷_; foldr; map; _++_)
+open import Data.List.Relation.Binary.Pointwise.Base using (Pointwise; []; _∷_)
 
 open import Shog.Logic.Prop
 open import Shog.Logic.Sequent

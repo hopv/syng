@@ -6,11 +6,11 @@
 
 module Shog.Logic.Sequent where
 
-open import Size
-open import Level
-open import Codata.Sized.Thunk
-open import Data.Bool.Base
+open import Level using (Level; suc)
+open import Size using (Size; ∞)
+open import Codata.Sized.Thunk using (Thunk)
 open import Function.Base using (_$_; _∘_; it)
+open import Data.Bool.Base using (Bool; true)
 
 open import Data.Product using (_×_; _,_; ∃-syntax)
 open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])

@@ -6,7 +6,7 @@
 
 module Shog.Util where
 
-open import Level
+open import Level using (Level)
 
 ------------------------------------------------------------------------
 -- For binary and nullary things

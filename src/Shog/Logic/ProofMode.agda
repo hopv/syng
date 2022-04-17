@@ -21,7 +21,7 @@ open import Shog.Logic.Sequent
 private variable
   ℓ : Level
   i : Size
-  P P' Q Q' R R' S S' T T' U U' V V' Z : Propₛ ℓ ∞
+  P P' Q Q' R R' S S' T T' U U' V V' : Propₛ ℓ ∞
   A B : Set ℓ
   F : A → Set ℓ
   Pf Qf : A → Propₛ ℓ ∞
@@ -145,6 +145,9 @@ private variable
 0⇒ : P ∗ Q ⊢[ i ] Q
 0⇒ = ∗-elim₁
 
+by0 : P ∗ Q ⊢[ i ] P
+by0 = ∗-elim₀
+
 0-split : (P ∗ Q) ∗ R ⊢[ i ] P ∗ Q ∗ R
 0-split = ∗-assoc₀
 
@@ -157,19 +160,19 @@ private variable
 ⊤⇒0 : P ⊢[ i ] ⊤ₛ ∗ P
 ⊤⇒0 = ⊤∗-intro
 
-0-∃-elim : (∀ a → Pf a ∗ Q ⊢[ i ] Z) → (∃^ _ Pf) ∗ Q ⊢[ i ] Z
+0-∃-elim : (∀ a → Pf a ∗ Q ⊢[ i ] R) → (∃^ _ Pf) ∗ Q ⊢[ i ] R
 0-∃-elim →Pf∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →Pf∗⊢ a
 
-0-∨-elim : P ∗ Q ⊢[ i ] Z → P' ∗ Q ⊢[ i ] Z → (P ∨ₛ P') ∗ Q ⊢[ i ] Z
+0-∨-elim : P ∗ Q ⊢[ i ] R → P' ∗ Q ⊢[ i ] R → (P ∨ₛ P') ∗ Q ⊢[ i ] R
 0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (binary P∗⊢ P'∗⊢)
 
-0-⊥-elim : ⊥ₛ ∗ Q ⊢[ i ] Z
+0-⊥-elim : ⊥ₛ ∗ Q ⊢[ i ] R
 0-⊥-elim = ∗-elim₀ » ⊥-elim
 
 ⌜⌝⇒0 : A → P ⊢[ i ] ⌜ A ⌝ ∗ P
 ⌜⌝⇒0 = ⌜⌝∗-intro
 
-0-⌜⌝-elim : (A → Q ⊢[ i ] Z) → ⌜ A ⌝ ∗ Q ⊢[ i ] Z
+0-⌜⌝-elim : (A → Q ⊢[ i ] R) → ⌜ A ⌝ ∗ Q ⊢[ i ] R
 0-⌜⌝-elim = ⌜⌝∗-elim
 
 0--∗-apply : Q ⊢[ i ] P → (P -∗ P') ∗ Q ⊢[ i ] P'

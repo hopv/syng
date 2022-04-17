@@ -26,7 +26,7 @@ open Sequent public
 private variable
   ℓ : Level
   i : Size
-  P Q R P' Q' : Propₛ ℓ ∞
+  P Q R S : Propₛ ℓ ∞
   A B : Set ℓ
   F : A → Set ℓ
   Pf Qf : A → Propₛ ℓ ∞
@@ -65,11 +65,11 @@ private variable
 ∃-mono : (∀ a → Pf a ⊢[ i ] Qf a) → ∃^' Pf ⊢[ i ] ∃^' Qf
 ∃-mono Pf⊢Qf = ∃-elim $ λ a → Pf⊢Qf a » ∃-intro
 
-∧-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∧ₛ P' ⊢[ i ] Q ∧ₛ Q'
-∧-mono P⊢Q P'⊢Q' = ∧-intro (∧-elim₀ » P⊢Q) (∧-elim₁ » P'⊢Q')
+∧-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∧ₛ R ⊢[ i ] Q ∧ₛ S
+∧-mono P⊢Q R⊢S = ∧-intro (∧-elim₀ » P⊢Q) (∧-elim₁ » R⊢S)
 
-∨-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∨ₛ P' ⊢[ i ] Q ∨ₛ Q'
-∨-mono P⊢Q P'⊢Q' = ∨-elim (P⊢Q » ∨-intro₀) (P'⊢Q' » ∨-intro₁)
+∨-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∨ₛ R ⊢[ i ] Q ∨ₛ S
+∨-mono P⊢Q R⊢S = ∨-elim (P⊢Q » ∨-intro₀) (R⊢S » ∨-intro₁)
 
 ∧-mono₀ : P ⊢[ i ] Q → P ∧ₛ R ⊢[ i ] Q ∧ₛ R
 ∧-mono₀ P⊢Q = ∧-mono P⊢Q reflₛ
@@ -123,8 +123,8 @@ private variable
 →-apply : P ∧ₛ (P →ₛ Q) ⊢[ i ] Q
 →-apply = →-elim reflₛ
 
-→-mono : Q ⊢[ i ] P → P' ⊢[ i ] Q' → P →ₛ P' ⊢[ i ] Q →ₛ Q'
-→-mono Q⊢P P'⊢Q' = →-intro $ ∧-mono₀ Q⊢P » →-apply » P'⊢Q'
+→-mono : Q ⊢[ i ] P → R ⊢[ i ] S → P →ₛ R ⊢[ i ] Q →ₛ S
+→-mono Q⊢P R⊢S = →-intro $ ∧-mono₀ Q⊢P » →-apply » R⊢S
 
 →-mono₀ : Q ⊢[ i ] P → P →ₛ R ⊢[ i ] Q →ₛ R
 →-mono₀ Q⊢P = →-mono Q⊢P reflₛ
@@ -209,8 +209,8 @@ private variable
 ∗-mono₁ : P ⊢[ i ] Q → R ∗ P ⊢[ i ] R ∗ Q
 ∗-mono₁ P⊢Q = ∗-comm » ∗-mono₀ P⊢Q » ∗-comm
 
-∗-mono : P ⊢[ i ] Q → P' ⊢[ i ] Q' → P ∗ P' ⊢[ i ] Q ∗ Q'
-∗-mono P⊢Q P'⊢Q' = ∗-mono₀ P⊢Q » ∗-mono₁ P'⊢Q'
+∗-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∗ R ⊢[ i ] Q ∗ S
+∗-mono P⊢Q R⊢S = ∗-mono₀ P⊢Q » ∗-mono₁ R⊢S
 
 ∗-elim₀ : P ∗ Q ⊢[ i ] P
 ∗-elim₀ = ∗-mono₁ ⊤-intro » ∗⊤-elim
@@ -239,8 +239,8 @@ private variable
 -∗-apply : P ∗ (P -∗ Q) ⊢[ i ] Q
 -∗-apply = -∗-elim reflₛ
 
--∗-mono : Q ⊢[ i ] P → P' ⊢[ i ] Q' → P -∗ P' ⊢[ i ] Q -∗ Q'
--∗-mono Q⊢P P'⊢Q' = -∗-intro $ ∗-mono₀ Q⊢P » -∗-apply » P'⊢Q'
+-∗-mono : Q ⊢[ i ] P → R ⊢[ i ] S → P -∗ R ⊢[ i ] Q -∗ S
+-∗-mono Q⊢P R⊢S = -∗-intro $ ∗-mono₀ Q⊢P » -∗-apply » R⊢S
 
 -∗-mono₀ : Q ⊢[ i ] P → P -∗ R ⊢[ i ] Q -∗ R
 -∗-mono₀ Q⊢P = -∗-mono Q⊢P reflₛ

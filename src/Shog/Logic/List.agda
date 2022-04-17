@@ -45,6 +45,6 @@ syntax [∗]-map (λ a → P) as = [∗] a ∈ as , P
 [∗]-++-out [] = ⊤∗-intro
 [∗]-++-out (_ ∷ Ps) = ∗-mono₁ ([∗]-++-out Ps) » ∗-assoc₁
 
-[∗]-mono : Pointwise (λ P Q → P ⊢[ i ] Q) Ps Qs → [∗] Ps ⊢[ i ] [∗] Qs
+[∗]-mono : Pointwise _⊢[ i ]_ Ps Qs → [∗] Ps ⊢[ i ] [∗] Qs
 [∗]-mono [] = reflₛ
 [∗]-mono (P⊢Q ∷ Ps⊢Qs) = ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)

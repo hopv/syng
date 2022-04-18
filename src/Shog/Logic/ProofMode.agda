@@ -15,8 +15,7 @@ open import Function.Base using (_$_; _∘_)
 
 open import Shog.Util using (binary)
 open import Shog.Logic.Prop
-
-open import Shog.Logic.Sequent
+open import Shog.Logic.Basic
 
 private variable
   ℓ : Level
@@ -25,6 +24,7 @@ private variable
   A B : Set ℓ
   F : A → Set ℓ
   Pf Qf : A → Propₛ ℓ ∞
+  Jr : JudgRes ℓ
 
 ------------------------------------------------------------------------
 -- Modifying an element by a sequent
@@ -160,13 +160,13 @@ by0 = ∗-elim₀
 ⊤⇒0 : P ⊢[ i ] ⊤ₛ ∗ P
 ⊤⇒0 = ⊤∗-intro
 
-0-∃-elim : (∀ a → Pf a ∗ Q ⊢[ i ] R) → (∃^ _ Pf) ∗ Q ⊢[ i ] R
+0-∃-elim : (∀ a → Pf a ∗ Q ⊢[ i ]* Jr) → (∃^ _ Pf) ∗ Q ⊢[ i ]* Jr
 0-∃-elim →Pf∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →Pf∗⊢ a
 
-0-∨-elim : P ∗ Q ⊢[ i ] R → P' ∗ Q ⊢[ i ] R → (P ∨ₛ P') ∗ Q ⊢[ i ] R
+0-∨-elim : P ∗ Q ⊢[ i ]* Jr → P' ∗ Q ⊢[ i ]* Jr → (P ∨ₛ P') ∗ Q ⊢[ i ]* Jr
 0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (binary P∗⊢ P'∗⊢)
 
-0-⊥-elim : ⊥ₛ ∗ Q ⊢[ i ] R
+0-⊥-elim : ⊥ₛ ∗ Q ⊢[ i ]* Jr
 0-⊥-elim = ∗-elim₀ » ⊥-elim
 
 ⌜⌝⇒0 : A → P ⊢[ i ] ⌜ A ⌝ ∗ P

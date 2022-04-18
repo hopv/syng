@@ -350,10 +350,10 @@ instance
   ∨-Pers = ∃-Pers $ binary it it
 
   ⊤-Pers : Pers {ℓ} ⊤ˢ
-  ⊤-Pers .pers = □-⊤-intro
+  ⊤-Pers = ∀-Pers nullary
 
   ⊥-Pers : Pers {ℓ} ⊥ˢ
-  ⊥-Pers .pers = ⊥-elim
+  ⊥-Pers = ∃-Pers nullary
 
   ∗-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∗ Q)
   ∗-Pers .pers = ∗⇒∧ » pers » in□-∧⇒∗

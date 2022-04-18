@@ -10,12 +10,10 @@ open import Level using (Level; suc)
 open import Size using (Size; ∞)
 open import Codata.Sized.Thunk using (Thunk; force)
 open import Function.Base using (_∘_)
+open import Data.Bool using (Bool)
 open import Data.List.Base using (List)
 
 open import Shog.Logic.Prop
-
-private variable
-  ℓ : Level
 
 ------------------------------------------------------------------------
 -- Judgment: P ⊢[ i ]* Jr
@@ -26,6 +24,18 @@ data JudgRes ℓ : Set (suc ℓ) where
   pure : Propˢ ℓ ∞ → JudgRes ℓ
   -- Under the super update
   |=>> : Propˢ ℓ ∞ → JudgRes ℓ
+
+private variable
+  ℓ : Level
+  P Q R : Propˢ ℓ ∞
+  Jr : JudgRes ℓ
+  A : Set ℓ
+  Pf Qf : A → Propˢ ℓ ∞
+  Pt Qt : PropTh ℓ ∞
+  a : A
+  F : A → Set ℓ
+  b : Bool
+  Pts : List (PropTh ℓ ∞)
 
 -- Declaring Judg
 data Judg {ℓ} (i : Size) : Propˢ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
@@ -52,60 +62,58 @@ infixr -1 _»_ _[=>>]»[=>>]_ -- the same fixity with _$_
 data Judg {ℓ} i where
   ----------------------------------------------------------------------
   -- Basic rules
-  idˢ : ∀ {P} → P ⊢[ i ] P
-  _»_ : ∀ {P Q Jr} → P ⊢[ i ] Q → Q ⊢[ i ]* Jr → P ⊢[ i ]* Jr
+  idˢ : P ⊢[ i ] P
+  _»_ : P ⊢[ i ] Q → Q ⊢[ i ]* Jr → P ⊢[ i ]* Jr
   ----------------------------------------------------------------------
   -- On ∀/∃
-  ∀-intro : ∀ {A P Qf} → (∀ a → P ⊢[ i ] Qf a) → P ⊢[ i ] ∀^ A Qf
-  ∃-elim : ∀ {A Pf Jr} → (∀ a → Pf a ⊢[ i ]* Jr) → ∃^ A Pf ⊢[ i ]* Jr
-  ∀-elim : ∀ {A Pf a} → ∀^ A Pf ⊢[ i ] Pf a
-  ∃-intro : ∀ {A Pf a} → Pf a ⊢[ i ] ∃^ A Pf
+  ∀-intro : (∀ a → P ⊢[ i ] Qf a) → P ⊢[ i ] ∀^ A Qf
+  ∃-elim : (∀ a → Pf a ⊢[ i ]* Jr) → ∃^ A Pf ⊢[ i ]* Jr
+  ∀-elim : ∀^ A Pf ⊢[ i ] Pf a
+  ∃-intro : Pf a ⊢[ i ] ∃^ A Pf
   ∀∃⇒∃∀-⊤ : ∀ {A : Set ℓ} {F : A → Set ℓ} →
     ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ˢ ⊢[ i ] ∃ˢ _ ∈ (∀ a → F a) , ⊤ˢ
   ----------------------------------------------------------------------
   -- On →
-  →-intro : ∀ {P Q R} → P ∧ˢ Q ⊢[ i ] R → Q ⊢[ i ] P →ˢ R
-  →-elim : ∀ {P Q R} → Q ⊢[ i ] P →ˢ R → P ∧ˢ Q ⊢[ i ] R
+  →-intro : P ∧ˢ Q ⊢[ i ] R → Q ⊢[ i ] P →ˢ R
+  →-elim : Q ⊢[ i ] P →ˢ R → P ∧ˢ Q ⊢[ i ] R
   ----------------------------------------------------------------------
   -- On ∗
-  ∗⊤-elim : ∀ {P} → P ∗ ⊤ˢ ⊢[ i ] P
-  ∗⊤-intro : ∀ {P} → P ⊢[ i ] P ∗ ⊤ˢ
-  ∗-comm : ∀ {P Q} → P ∗ Q ⊢[ i ] Q ∗ P
-  ∗-assoc₀ : ∀ {P Q R} → (P ∗ Q) ∗ R ⊢[ i ] P ∗ (Q ∗ R)
-  ∗-mono₀ : ∀ {P Q R} → P ⊢[ i ] Q → P ∗ R ⊢[ i ] Q ∗ R
+  ∗⊤-elim : P ∗ ⊤ˢ ⊢[ i ] P
+  ∗⊤-intro : P ⊢[ i ] P ∗ ⊤ˢ
+  ∗-comm : P ∗ Q ⊢[ i ] Q ∗ P
+  ∗-assoc₀ : (P ∗ Q) ∗ R ⊢[ i ] P ∗ (Q ∗ R)
+  ∗-mono₀ : P ⊢[ i ] Q → P ∗ R ⊢[ i ] Q ∗ R
   ----------------------------------------------------------------------
   -- On -∗
-  -∗-intro : ∀ {P Q R} → P ∗ Q ⊢[ i ] R → Q ⊢[ i ] P -∗ R
-  -∗-elim : ∀ {P Q R} → Q ⊢[ i ] P -∗ R → P ∗ Q ⊢[ i ] R
+  -∗-intro : P ∗ Q ⊢[ i ] R → Q ⊢[ i ] P -∗ R
+  -∗-elim : Q ⊢[ i ] P -∗ R → P ∗ Q ⊢[ i ] R
   ----------------------------------------------------------------------
   -- On |=>
-  |=>-mono : ∀ {P Q} → P ⊢[ i ] Q → |=> P ⊢[ i ] |=> Q
-  |=>-intro : ∀ {P} → P ⊢[ i ] |=> P
-  |=>-join : ∀ {P} → |=> (|=> P) ⊢[ i ] |=> P
-  |=>-frame₀ : ∀ {P Q} → P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
-  |=>-∃-out : ∀ {A P} → |=> (∃ˢ _ ∈ A , P) ⊢[ i ] ∃ˢ _ ∈ A , |=> P
+  |=>-mono : P ⊢[ i ] Q → |=> P ⊢[ i ] |=> Q
+  |=>-intro : P ⊢[ i ] |=> P
+  |=>-join : |=> (|=> P) ⊢[ i ] |=> P
+  |=>-frame₀ : P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
+  |=>-∃-out : |=> (∃ˢ _ ∈ A , P) ⊢[ i ] ∃ˢ _ ∈ A , |=> P
   ----------------------------------------------------------------------
   -- On □
-  □-mono : ∀ {P Q} → P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
-  □-elim : ∀ {P} → □ P ⊢[ i ] P
-  □-dup : ∀ {P} → □ P ⊢[ i ] □ (□ P)
-  □₀-∧⇒∗ : ∀ {P Q} → □ P ∧ˢ Q ⊢[ i ] □ P ∗ Q
-  □-∀-in : ∀ {A Pf} → ∀^ A (□ ∘ Pf) ⊢[ i ] □ (∀^ A Pf)
-  □-∃-out : ∀ {A Pf} → □ (∃^ A Pf) ⊢[ i ] ∃^ A (□ ∘ Pf)
+  □-mono : P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
+  □-elim : □ P ⊢[ i ] P
+  □-dup : □ P ⊢[ i ] □ (□ P)
+  □₀-∧⇒∗ : □ P ∧ˢ Q ⊢[ i ] □ P ∗ Q
+  □-∀-in : ∀^ A (□ ∘ Pf) ⊢[ i ] □ (∀^ A Pf)
+  □-∃-out : □ (∃^ A Pf) ⊢[ i ] ∃^ A (□ ∘ Pf)
   ----------------------------------------------------------------------
   -- On the super update
-  <'|=>⇒=>> : ∀ {P Q} → P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
-  _[=>>]»[=>>]_ : ∀ {P Q R} → P ⊢[ i ]=>> Q → Q ⊢[ i ]=>> R → P ⊢[ i ]=>> R
-  =>>-frame₀ : ∀ {P Q R} → Q ⊢[ i ]=>> R → P ∗ Q ⊢[ i ]=>> P ∗ R
+  <'|=>⇒=>> : P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
+  _[=>>]»[=>>]_ : P ⊢[ i ]=>> Q → Q ⊢[ i ]=>> R → P ⊢[ i ]=>> R
+  =>>-frame₀ : Q ⊢[ i ]=>> R → P ∗ Q ⊢[ i ]=>> P ∗ R
   ----------------------------------------------------------------------
   -- On the save token
-  save-mono₁ : ∀ {Pt Qt b} →
-    Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
-  save-□⇒x : ∀ {Pt} → save□ Pt ⊢[ i ] savex Pt
-  save□-□ : ∀ {Pt} → save□ Pt ⊢[ i ] □ (save□ Pt)
-  savex-alloc : ∀ {Pt} → Pt .force ⊢[ i ]=>> savex Pt
-  save□-alloc-rec : ∀ {Pts} →
-    [∗]-map save□ Pts -∗ [∗]-map (λ Pt → □ (Pt .force)) Pts
+  save-mono₁ : Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
+  save-□⇒x : save□ Pt ⊢[ i ] savex Pt
+  save□-□ : save□ Pt ⊢[ i ] □ (save□ Pt)
+  savex-alloc : Pt .force ⊢[ i ]=>> savex Pt
+  save□-alloc-rec : [∗]-map save□ Pts -∗ [∗]-map (λ Pt → □ (Pt .force)) Pts
       ⊢[ i ]=>> [∗]-map save□ Pts
 
 ------------------------------------------------------------------------

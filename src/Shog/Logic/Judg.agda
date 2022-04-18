@@ -109,7 +109,8 @@ data Judg {ℓ} i where
   =>>-frame₀ : Q ⊢[ i ]=>> R → P ∗ Q ⊢[ i ]=>> P ∗ R
   ----------------------------------------------------------------------
   -- On the save token
-  save-mono₁ : Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
+  save-mono₁ : {{Basic R}} →
+    R ∗ Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
   save-□⇒x : save□ Pt ⊢[ i ] savex Pt
   save□-□ : save□ Pt ⊢[ i ] □ (save□ Pt)
   savex-alloc : Pt .force ⊢[ i ]=>> savex Pt

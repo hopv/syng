@@ -7,10 +7,13 @@
 module Shog.Logic.Prop where
 
 open import Level using (Level; suc)
-open import Size using (Size)
+open import Size using (Size; ∞)
 open import Codata.Sized.Thunk using (Thunk)
 open import Data.Bool.Base using (Bool; true; false)
 open import Data.List.Base using (List; foldr; map)
+open import Function.Base using (_$_; _∘_; it)
+open import Data.Product using (_,_; ∃-syntax)
+open import Agda.Builtin.Equality using (_≡_; refl)
 
 open import Shog.Util using (binary; nullary)
 
@@ -51,25 +54,24 @@ infixr 7 _∗_
 private variable
   ℓ ℓ' : Level
   i : Size
-  A : Set ℓ'
+  A : Set ℓ
+  D : Set ℓ'
+  P Q R S : Propˢ ℓ ∞
+  Pf : A → Propˢ ℓ ∞
 
 ----------------------------------------------------------------------
 -- Deriving from universal/existential quantification ∀ˢ / ∃ˢ
-
--- -- Conjunction ∧ˢ / Disjunction ∨ˢ
 
 infixr 7 _∧ˢ_
 infixr 6 _∨ˢ_
 
 _∧ˢ_ _∨ˢ_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
-P ∧ˢ Q = ∀^' (binary P Q)
-P ∨ˢ Q = ∃^' (binary P Q)
-
--- -- Truth ⊤ˢ / Falsehood ⊥ˢ
+P ∧ˢ Q = ∀^' (binary P Q) -- Conjunction
+P ∨ˢ Q = ∃^' (binary P Q) -- Disjunction
 
 ⊤ˢ ⊥ˢ : Propˢ ℓ i
-⊤ˢ = ∀^ _ nullary
-⊥ˢ = ∃^ _ nullary
+⊤ˢ = ∀^ _ nullary -- Truth
+⊥ˢ = ∃^ _ nullary -- Falsehood
 
 ----------------------------------------------------------------------
 -- Set embedding
@@ -85,12 +87,14 @@ savex Pt = save false Pt
 save□ Pt = save true Pt
 
 ----------------------------------------------------------------------
--- Iterated separating conjunction
+-- Iterated separating conjunction: [∗]
 
 [∗] : List (Propˢ ℓ i) → Propˢ ℓ i
 [∗] = foldr _∗_ ⊤ˢ
 
-[∗]-map : (A → Propˢ ℓ i) → List A → Propˢ ℓ i
-[∗]-map Pf as = [∗] (map Pf as)
+-- [∗] with map
 
-syntax [∗]-map (λ a → P) as = [∗] a ∈ as , P
+[∗]-map : (D → Propˢ ℓ i) → List D → Propˢ ℓ i
+[∗]-map Pf ds = [∗] $ map Pf ds
+
+syntax [∗]-map (λ d → P) ds = [∗] d ∈ ds , P

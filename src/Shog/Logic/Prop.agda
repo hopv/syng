@@ -12,8 +12,6 @@ open import Codata.Sized.Thunk using (Thunk)
 open import Data.Bool.Base using (Bool; true; false)
 open import Data.List.Base using (List; foldr; map)
 open import Function.Base using (_$_; _∘_; it)
-open import Data.Product using (_,_; ∃-syntax)
-open import Agda.Builtin.Equality using (_≡_; refl)
 
 open import Shog.Util using (binary; nullary)
 
@@ -32,7 +30,7 @@ data Propˢ ℓ i where
   _→ˢ_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
   -- separating conjunction / magic wand
   _∗_ _-∗_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
-  -- update modality / persistence modality
+  -- update modality / basicistence modality
   |=> □ : Propˢ ℓ i → Propˢ ℓ i
   -- save token
   save : Bool → PropTh ℓ i → Propˢ ℓ i
@@ -98,3 +96,44 @@ save□ Pt = save true Pt
 [∗]-map Pf ds = [∗] $ map Pf ds
 
 syntax [∗]-map (λ d → P) ds = [∗] d ∈ ds , P
+
+----------------------------------------------------------------------
+-- Basic Shog proposition
+
+data IsBasic {ℓ} : Propˢ ℓ ∞ → Set (suc ℓ) where
+  ∀-IsBasic : (∀ a → IsBasic (Pf a)) → IsBasic (∀^ A Pf)
+  ∃-IsBasic : (∀ a → IsBasic (Pf a)) → IsBasic (∃^ A Pf)
+  ∗-IsBasic : IsBasic P → IsBasic Q → IsBasic (P ∗ Q)
+
+record Basic {ℓ} (P : Propˢ ℓ ∞) : Set (suc ℓ) where
+  field basic : IsBasic P
+open Basic {{...}}
+
+-- ∀-Basic and ∃-Basic are not instances, because unfortunately
+-- Agda can't search a universally quantified instance (∀ a → ...)
+
+∀-Basic : (∀ a → Basic (Pf a)) → Basic (∀^ A Pf)
+∀-Basic ∀Basic .basic = ∀-IsBasic $ λ a → ∀Basic a .basic
+
+∃-Basic : (∀ a → Basic (Pf a)) → Basic (∃^ A Pf)
+∃-Basic ∀Basic .basic = ∃-IsBasic $ λ a → ∀Basic a .basic
+
+instance
+
+  ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ˢ Q)
+  ∧-Basic = ∀-Basic $ binary it it
+
+  ∨-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∨ˢ Q)
+  ∨-Basic = ∃-Basic $ binary it it
+
+  ⊤-Basic : Basic {ℓ} ⊤ˢ
+  ⊤-Basic = ∀-Basic nullary
+
+  ⊥-Basic : Basic {ℓ} ⊥ˢ
+  ⊥-Basic = ∃-Basic nullary
+
+  ∗-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∗ Q)
+  ∗-Basic .basic = ∗-IsBasic basic basic
+
+  ⌜⌝-Basic : Basic ⌜ A ⌝
+  ⌜⌝-Basic = ∃-Basic $ λ _ → ⊤-Basic

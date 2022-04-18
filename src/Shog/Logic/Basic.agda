@@ -18,10 +18,10 @@ open import Data.Empty using (⊥) renaming (⊥-elim to ⊥-elim')
 
 open import Shog.Util using (zero₂; one₂; binary; nullary)
 open import Shog.Logic.Prop public using (
-  Propₛ; ∀^; ∃^; ∀^'; ∃^'; _∧ₛ_; _∨ₛ_; ⊤ₛ; ⊥ₛ; ⌜_⌝; _→ₛ_; _∗_; _-∗_; |=>; □)
+  Propˢ; ∀^; ∃^; ∀^'; ∃^'; _∧ˢ_; _∨ˢ_; ⊤ˢ; ⊥ˢ; ⌜_⌝; _→ˢ_; _∗_; _-∗_; |=>; □)
 open import Shog.Logic.Judg public using (
   JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers;
-  idₛ; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ∀∃⇒∃∀-⊤; →-intro; →-elim;
+  idˢ; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ∀∃⇒∃∀-⊤; →-intro; →-elim;
   ∗⊤-elim; ∗⊤-intro; ∗-comm; ∗-assoc₀; ∗-mono₀; -∗-intro; -∗-elim;
   □-mono; □-elim; □-dup; □₀-∧⇒∗; □-∀-in; □-∃-out;
   |=>-mono; |=>-intro; |=>-join; |=>-frame₀; |=>-∃-out)
@@ -29,37 +29,37 @@ open import Shog.Logic.Judg public using (
 private variable
   ℓ : Level
   i : Size
-  P Q R S : Propₛ ℓ ∞
+  P Q R S : Propˢ ℓ ∞
   Jr : JudgRes ℓ
   A B : Set ℓ
   F : A → Set ℓ
-  Pf Qf : A → Propₛ ℓ ∞
+  Pf Qf : A → Propˢ ℓ ∞
 
 ------------------------------------------------------------------------
--- On ∀ₛ/∃ₛ/∧ₛ/∨ₛ/⊤ₛ/⊥ₛ
+-- On ∀ˢ/∃ˢ/∧ˢ/∨ˢ/⊤ˢ/⊥ˢ
 
-∧-intro : P ⊢[ i ] Q → P ⊢[ i ] R → P ⊢[ i ] Q ∧ₛ R
+∧-intro : P ⊢[ i ] Q → P ⊢[ i ] R → P ⊢[ i ] Q ∧ˢ R
 ∧-intro P⊢Q P⊢R = ∀-intro $ binary P⊢Q P⊢R
 
-∨-elim : P ⊢[ i ]* Jr → Q ⊢[ i ]* Jr → P ∨ₛ Q ⊢[ i ]* Jr
+∨-elim : P ⊢[ i ]* Jr → Q ⊢[ i ]* Jr → P ∨ˢ Q ⊢[ i ]* Jr
 ∨-elim P⊢*Jr Q⊢*Jr = ∃-elim $ binary P⊢*Jr Q⊢*Jr
 
-⊤-intro : P ⊢[ i ] ⊤ₛ
+⊤-intro : P ⊢[ i ] ⊤ˢ
 ⊤-intro = ∀-intro nullary
 
-⊥-elim : ⊥ₛ ⊢[ i ]* Jr
+⊥-elim : ⊥ˢ ⊢[ i ]* Jr
 ⊥-elim = ∃-elim nullary
 
-∧-elim₀ : P ∧ₛ Q ⊢[ i ] P
+∧-elim₀ : P ∧ˢ Q ⊢[ i ] P
 ∧-elim₀ = ∀-elim {a = zero₂}
 
-∧-elim₁ : P ∧ₛ Q ⊢[ i ] Q
+∧-elim₁ : P ∧ˢ Q ⊢[ i ] Q
 ∧-elim₁ = ∀-elim {a = one₂}
 
-∨-intro₀ : P ⊢[ i ] P ∨ₛ Q
+∨-intro₀ : P ⊢[ i ] P ∨ˢ Q
 ∨-intro₀ = ∃-intro {a = zero₂}
 
-∨-intro₁ : Q ⊢[ i ] P ∨ₛ Q
+∨-intro₁ : Q ⊢[ i ] P ∨ˢ Q
 ∨-intro₁ = ∃-intro {a = one₂}
 
 ∀-mono : (∀ a → Pf a ⊢[ i ] Qf a) → ∀^' Pf ⊢[ i ] ∀^' Qf
@@ -68,72 +68,72 @@ private variable
 ∃-mono : (∀ a → Pf a ⊢[ i ] Qf a) → ∃^' Pf ⊢[ i ] ∃^' Qf
 ∃-mono Pf⊢Qf = ∃-elim $ λ a → Pf⊢Qf a » ∃-intro
 
-∧-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∧ₛ R ⊢[ i ] Q ∧ₛ S
+∧-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∧ˢ R ⊢[ i ] Q ∧ˢ S
 ∧-mono P⊢Q R⊢S = ∧-intro (∧-elim₀ » P⊢Q) (∧-elim₁ » R⊢S)
 
-∨-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∨ₛ R ⊢[ i ] Q ∨ₛ S
+∨-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∨ˢ R ⊢[ i ] Q ∨ˢ S
 ∨-mono P⊢Q R⊢S = ∨-elim (P⊢Q » ∨-intro₀) (R⊢S » ∨-intro₁)
 
-∧-mono₀ : P ⊢[ i ] Q → P ∧ₛ R ⊢[ i ] Q ∧ₛ R
-∧-mono₀ P⊢Q = ∧-mono P⊢Q idₛ
+∧-mono₀ : P ⊢[ i ] Q → P ∧ˢ R ⊢[ i ] Q ∧ˢ R
+∧-mono₀ P⊢Q = ∧-mono P⊢Q idˢ
 
-∧-mono₁ : P ⊢[ i ] Q → R ∧ₛ P ⊢[ i ] R ∧ₛ Q
-∧-mono₁ P⊢Q = ∧-mono idₛ P⊢Q
+∧-mono₁ : P ⊢[ i ] Q → R ∧ˢ P ⊢[ i ] R ∧ˢ Q
+∧-mono₁ P⊢Q = ∧-mono idˢ P⊢Q
 
-∨-mono₀ : P ⊢[ i ] Q → P ∨ₛ R ⊢[ i ] Q ∨ₛ R
-∨-mono₀ P⊢Q = ∨-mono P⊢Q idₛ
+∨-mono₀ : P ⊢[ i ] Q → P ∨ˢ R ⊢[ i ] Q ∨ˢ R
+∨-mono₀ P⊢Q = ∨-mono P⊢Q idˢ
 
-∨-mono₁ : P ⊢[ i ] Q → R ∨ₛ P ⊢[ i ] R ∨ₛ Q
-∨-mono₁ P⊢Q = ∨-mono idₛ P⊢Q
+∨-mono₁ : P ⊢[ i ] Q → R ∨ˢ P ⊢[ i ] R ∨ˢ Q
+∨-mono₁ P⊢Q = ∨-mono idˢ P⊢Q
 
-∧-comm : P ∧ₛ Q ⊢[ i ] Q ∧ₛ P
+∧-comm : P ∧ˢ Q ⊢[ i ] Q ∧ˢ P
 ∧-comm = ∧-intro ∧-elim₁ ∧-elim₀
 
-∨-comm : P ∨ₛ Q ⊢[ i ] Q ∨ₛ P
+∨-comm : P ∨ˢ Q ⊢[ i ] Q ∨ˢ P
 ∨-comm = ∨-elim ∨-intro₁ ∨-intro₀
 
-∧-assoc₀ : (P ∧ₛ Q) ∧ₛ R ⊢[ i ] P ∧ₛ (Q ∧ₛ R)
+∧-assoc₀ : (P ∧ˢ Q) ∧ˢ R ⊢[ i ] P ∧ˢ (Q ∧ˢ R)
 ∧-assoc₀ = ∧-intro (∧-elim₀ » ∧-elim₀) $
             ∧-intro (∧-elim₀ » ∧-elim₁) ∧-elim₁
 
-∧-assoc₁ : P ∧ₛ (Q ∧ₛ R) ⊢[ i ] (P ∧ₛ Q) ∧ₛ R
+∧-assoc₁ : P ∧ˢ (Q ∧ˢ R) ⊢[ i ] (P ∧ˢ Q) ∧ˢ R
 ∧-assoc₁ = ∧-intro (∧-intro ∧-elim₀ $ ∧-elim₁ » ∧-elim₀) $
             ∧-elim₁ » ∧-elim₁
 
-∨-assoc₀ : (P ∨ₛ Q) ∨ₛ R ⊢[ i ] P ∨ₛ (Q ∨ₛ R)
+∨-assoc₀ : (P ∨ˢ Q) ∨ˢ R ⊢[ i ] P ∨ˢ (Q ∨ˢ R)
 ∨-assoc₀ = ∨-elim (∨-elim ∨-intro₀ $ ∨-intro₀ » ∨-intro₁) $
             ∨-intro₁ » ∨-intro₁
 
-∨-assoc₁ : P ∨ₛ (Q ∨ₛ R) ⊢[ i ] (P ∨ₛ Q) ∨ₛ R
+∨-assoc₁ : P ∨ˢ (Q ∨ˢ R) ⊢[ i ] (P ∨ˢ Q) ∨ˢ R
 ∨-assoc₁ = ∨-elim (∨-intro₀ » ∨-intro₀) $
             ∨-elim (∨-intro₁ » ∨-intro₀) $ ∨-intro₁
 
-∧⊤-intro : P ⊢[ i ] P ∧ₛ ⊤ₛ
-∧⊤-intro = ∧-intro idₛ ⊤-intro
+∧⊤-intro : P ⊢[ i ] P ∧ˢ ⊤ˢ
+∧⊤-intro = ∧-intro idˢ ⊤-intro
 
-⊤∧-intro : P ⊢[ i ] ⊤ₛ ∧ₛ P
-⊤∧-intro = ∧-intro ⊤-intro idₛ
+⊤∧-intro : P ⊢[ i ] ⊤ˢ ∧ˢ P
+⊤∧-intro = ∧-intro ⊤-intro idˢ
 
-∨⊥-elim : P ∨ₛ ⊥ₛ ⊢[ i ] P
-∨⊥-elim = ∨-elim idₛ ⊥-elim
+∨⊥-elim : P ∨ˢ ⊥ˢ ⊢[ i ] P
+∨⊥-elim = ∨-elim idˢ ⊥-elim
 
-⊥∨-elim : ⊥ₛ ∨ₛ P ⊢[ i ] P
-⊥∨-elim = ∨-elim ⊥-elim idₛ
+⊥∨-elim : ⊥ˢ ∨ˢ P ⊢[ i ] P
+⊥∨-elim = ∨-elim ⊥-elim idˢ
 
 ------------------------------------------------------------------------
--- On →ₛ
+-- On →ˢ
 
-→-apply : P ∧ₛ (P →ₛ Q) ⊢[ i ] Q
-→-apply = →-elim idₛ
+→-apply : P ∧ˢ (P →ˢ Q) ⊢[ i ] Q
+→-apply = →-elim idˢ
 
-→-mono : Q ⊢[ i ] P → R ⊢[ i ] S → P →ₛ R ⊢[ i ] Q →ₛ S
+→-mono : Q ⊢[ i ] P → R ⊢[ i ] S → P →ˢ R ⊢[ i ] Q →ˢ S
 →-mono Q⊢P R⊢S = →-intro $ ∧-mono₀ Q⊢P » →-apply » R⊢S
 
-→-mono₀ : Q ⊢[ i ] P → P →ₛ R ⊢[ i ] Q →ₛ R
-→-mono₀ Q⊢P = →-mono Q⊢P idₛ
+→-mono₀ : Q ⊢[ i ] P → P →ˢ R ⊢[ i ] Q →ˢ R
+→-mono₀ Q⊢P = →-mono Q⊢P idˢ
 
-→-mono₁ : P ⊢[ i ] Q → R →ₛ P ⊢[ i ] R →ₛ Q
-→-mono₁ P⊢Q = →-mono idₛ P⊢Q
+→-mono₁ : P ⊢[ i ] Q → R →ˢ P ⊢[ i ] R →ˢ Q
+→-mono₁ P⊢Q = →-mono idˢ P⊢Q
 
 ------------------------------------------------------------------------
 -- On ⌜⌝
@@ -141,56 +141,56 @@ private variable
 ⌜⌝-intro : A → P ⊢[ i ] ⌜ A ⌝
 ⌜⌝-intro a = ⊤-intro » ∃-intro {a = a}
 
-⌜⌝-elim : (A → ⊤ₛ ⊢[ i ]* Jr) → ⌜ A ⌝ ⊢[ i ]* Jr
+⌜⌝-elim : (A → ⊤ˢ ⊢[ i ]* Jr) → ⌜ A ⌝ ⊢[ i ]* Jr
 ⌜⌝-elim A→⊤⊢P = ∃-elim $ λ a → A→⊤⊢P a
 
 ⌜⌝-∀-in : ∀ {A : Set ℓ} {F : A → Set ℓ} →
-  ∀ₛ a ∈ A , ⌜ F a ⌝ ⊢[ i ] ⌜ (∀ a → F a) ⌝
+  ∀ˢ a ∈ A , ⌜ F a ⌝ ⊢[ i ] ⌜ (∀ a → F a) ⌝
 ⌜⌝-∀-in = ∀∃⇒∃∀-⊤
 
 ⌜⌝-mono : (A → B) → ⌜ A ⌝ ⊢[ i ] ⌜ B ⌝
 ⌜⌝-mono f = ⌜⌝-elim $ λ a → ⌜⌝-intro $ f a
 
-⌜⌝∧-intro : A → P ⊢[ i ] ⌜ A ⌝ ∧ₛ P
-⌜⌝∧-intro a = ∧-intro (⌜⌝-intro a) idₛ
+⌜⌝∧-intro : A → P ⊢[ i ] ⌜ A ⌝ ∧ˢ P
+⌜⌝∧-intro a = ∧-intro (⌜⌝-intro a) idˢ
 
-⌜⌝∧-elim : (A → P ⊢[ i ] Q) → ⌜ A ⌝ ∧ₛ P ⊢[ i ] Q
+⌜⌝∧-elim : (A → P ⊢[ i ] Q) → ⌜ A ⌝ ∧ˢ P ⊢[ i ] Q
 ⌜⌝∧-elim A→P⊢Q = ∧-comm » →-elim $ ⌜⌝-elim $
   λ a → →-intro $ ∧-elim₀ » A→P⊢Q a
 
-⌜⌝→⇒∀ : ⌜ A ⌝ →ₛ P ⊢[ i ] ∀ₛ _ ∈ A , P
+⌜⌝→⇒∀ : ⌜ A ⌝ →ˢ P ⊢[ i ] ∀ˢ _ ∈ A , P
 ⌜⌝→⇒∀ = ∀-intro $ λ a → ⌜⌝∧-intro a » →-apply
 
-∀⇒⌜⌝→ : ∀ₛ _ ∈ A , P ⊢[ i ] ⌜ A ⌝ →ₛ P
+∀⇒⌜⌝→ : ∀ˢ _ ∈ A , P ⊢[ i ] ⌜ A ⌝ →ˢ P
 ∀⇒⌜⌝→ = →-intro $ ⌜⌝∧-elim $ λ a → ∀-elim {a = a}
 
-⌜⌝∧⇒∃ : ⌜ A ⌝ ∧ₛ P ⊢[ i ] ∃ₛ _ ∈ A , P
-⌜⌝∧⇒∃ = ⌜⌝∧-elim $ λ a → idₛ » ∃-intro {a = a}
+⌜⌝∧⇒∃ : ⌜ A ⌝ ∧ˢ P ⊢[ i ] ∃ˢ _ ∈ A , P
+⌜⌝∧⇒∃ = ⌜⌝∧-elim $ λ a → idˢ » ∃-intro {a = a}
 
-∃⇒⌜⌝∧ : ∃ₛ _ ∈ A , P ⊢[ i ] ⌜ A ⌝ ∧ₛ P
+∃⇒⌜⌝∧ : ∃ˢ _ ∈ A , P ⊢[ i ] ⌜ A ⌝ ∧ˢ P
 ∃⇒⌜⌝∧ = ∃-elim $ λ a → ⌜⌝∧-intro a
 
 -- -- Commutativity between ∀/∃/∧/∨/⊤/⊥/→
 
-⌜⌝-∀-out : ⌜ (∀ a → F a) ⌝ ⊢[ i ] ∀ₛ a , ⌜ F a ⌝
+⌜⌝-∀-out : ⌜ (∀ a → F a) ⌝ ⊢[ i ] ∀ˢ a , ⌜ F a ⌝
 ⌜⌝-∀-out = ∀-intro $ λ a → ⌜⌝-elim $ λ f → ⌜⌝-intro $ f a
 
-⌜⌝-∃-in : ∃ₛ a , ⌜ F a ⌝ ⊢[ i ] ⌜ ∃[ a ] F a ⌝
+⌜⌝-∃-in : ∃ˢ a , ⌜ F a ⌝ ⊢[ i ] ⌜ ∃[ a ] F a ⌝
 ⌜⌝-∃-in = ∃-elim $ λ a → ⌜⌝-mono $ λ fa → a , fa
 
-⌜⌝-∃-out : ⌜ ∃[ a ] F a ⌝ ⊢[ i ] ∃ₛ a , ⌜ F a ⌝
+⌜⌝-∃-out : ⌜ ∃[ a ] F a ⌝ ⊢[ i ] ∃ˢ a , ⌜ F a ⌝
 ⌜⌝-∃-out = ⌜⌝-elim $ λ (_ , fa) → ⌜⌝-intro fa » ∃-intro
 
-⌜⌝-∧-in : ⌜ A ⌝ ∧ₛ ⌜ B ⌝ ⊢[ i ] ⌜ A × B ⌝
+⌜⌝-∧-in : ⌜ A ⌝ ∧ˢ ⌜ B ⌝ ⊢[ i ] ⌜ A × B ⌝
 ⌜⌝-∧-in = ⌜⌝∧-elim $ λ a → ⌜⌝-mono $ λ b → (a , b)
 
-⌜⌝-∧-out : ⌜ A × B ⌝ ⊢[ i ] ⌜ A ⌝ ∧ₛ ⌜ B ⌝
+⌜⌝-∧-out : ⌜ A × B ⌝ ⊢[ i ] ⌜ A ⌝ ∧ˢ ⌜ B ⌝
 ⌜⌝-∧-out = ⌜⌝-elim $ λ (a , b) → ∧-intro (⌜⌝-intro a) (⌜⌝-intro b)
 
-⌜⌝-∨-in : ⌜ A ⌝ ∨ₛ ⌜ B ⌝ ⊢[ i ] ⌜ A ⊎ B ⌝
+⌜⌝-∨-in : ⌜ A ⌝ ∨ˢ ⌜ B ⌝ ⊢[ i ] ⌜ A ⊎ B ⌝
 ⌜⌝-∨-in = ∨-elim (⌜⌝-mono inj₁) (⌜⌝-mono inj₂)
 
-⌜⌝-∨-out : ⌜ A ⊎ B ⌝ ⊢[ i ] ⌜ A ⌝ ∨ₛ ⌜ B ⌝
+⌜⌝-∨-out : ⌜ A ⊎ B ⌝ ⊢[ i ] ⌜ A ⌝ ∨ˢ ⌜ B ⌝
 ⌜⌝-∨-out = ⌜⌝-elim
   [ (λ a → ⌜⌝-intro a » ∨-intro₀) , (λ b → ⌜⌝-intro b » ∨-intro₁) ]
 
@@ -200,10 +200,10 @@ private variable
 ⌜⊥⌝-elim : ⌜ ⊥ ⌝ ⊢[ i ] P
 ⌜⊥⌝-elim = ⌜⌝-elim ⊥-elim'
 
-⌜⌝-→-in : ⌜ A ⌝ →ₛ ⌜ B ⌝ ⊢[ i ] ⌜ (A → B) ⌝
+⌜⌝-→-in : ⌜ A ⌝ →ˢ ⌜ B ⌝ ⊢[ i ] ⌜ (A → B) ⌝
 ⌜⌝-→-in = ⌜⌝→⇒∀ » ⌜⌝-∀-in
 
-⌜⌝-→-out : ⌜ (A → B) ⌝ ⊢[ i ] ⌜ A ⌝ →ₛ ⌜ B ⌝
+⌜⌝-→-out : ⌜ (A → B) ⌝ ⊢[ i ] ⌜ A ⌝ →ˢ ⌜ B ⌝
 ⌜⌝-→-out = →-intro $ ⌜⌝∧-elim $ λ a → ⌜⌝-mono $ λ f → f a
 
 ------------------------------------------------------------------------
@@ -221,20 +221,20 @@ private variable
 ∗-elim₁ : P ∗ Q ⊢[ i ] Q
 ∗-elim₁ = ∗-comm » ∗-elim₀
 
-⊤∗-intro : P ⊢[ i ] ⊤ₛ ∗ P
+⊤∗-intro : P ⊢[ i ] ⊤ˢ ∗ P
 ⊤∗-intro = ∗⊤-intro » ∗-comm
 
 ∗-assoc₁ : P ∗ (Q ∗ R) ⊢[ i ] (P ∗ Q) ∗ R
 ∗-assoc₁ = ∗-comm » ∗-mono₀ ∗-comm » ∗-assoc₀ » ∗-comm » ∗-mono₀ ∗-comm
 
-∗-∃-out : P ∗ ∃^' Qf ⊢[ i ] ∃ₛ a , P ∗ Qf a
+∗-∃-out : P ∗ ∃^' Qf ⊢[ i ] ∃ˢ a , P ∗ Qf a
 ∗-∃-out = -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
 
-∗⇒∧ : P ∗ Q ⊢[ i ] P ∧ₛ Q
+∗⇒∧ : P ∗ Q ⊢[ i ] P ∧ˢ Q
 ∗⇒∧ = ∧-intro ∗-elim₀ ∗-elim₁
 
-→⇒-∗ : P →ₛ Q ⊢[ i ] P -∗ Q
-→⇒-∗ = -∗-intro $ ∗⇒∧ » →-elim idₛ
+→⇒-∗ : P →ˢ Q ⊢[ i ] P -∗ Q
+→⇒-∗ = -∗-intro $ ∗⇒∧ » →-elim idˢ
 
 ------------------------------------------------------------------------
 -- On -∗
@@ -243,16 +243,16 @@ private variable
 -∗-const = -∗-intro ∗-elim₁
 
 -∗-apply : P ∗ (P -∗ Q) ⊢[ i ] Q
--∗-apply = -∗-elim idₛ
+-∗-apply = -∗-elim idˢ
 
 -∗-mono : Q ⊢[ i ] P → R ⊢[ i ] S → P -∗ R ⊢[ i ] Q -∗ S
 -∗-mono Q⊢P R⊢S = -∗-intro $ ∗-mono₀ Q⊢P » -∗-apply » R⊢S
 
 -∗-mono₀ : Q ⊢[ i ] P → P -∗ R ⊢[ i ] Q -∗ R
--∗-mono₀ Q⊢P = -∗-mono Q⊢P idₛ
+-∗-mono₀ Q⊢P = -∗-mono Q⊢P idˢ
 
 -∗-mono₁ : P ⊢[ i ] Q → R -∗ P ⊢[ i ] R -∗ Q
--∗-mono₁ P⊢Q = -∗-mono idₛ P⊢Q
+-∗-mono₁ P⊢Q = -∗-mono idˢ P⊢Q
 
 ------------------------------------------------------------------------
 -- On |=>
@@ -260,7 +260,7 @@ private variable
 |=>-elim : P ⊢[ i ] |=> Q → |=> P ⊢[ i ] |=> Q
 |=>-elim P⊢|=>Q = |=>-mono P⊢|=>Q » |=>-join
 
-|=>-⌜⌝∧-out : |=> (⌜ A ⌝ ∧ₛ P) ⊢[ i ] ⌜ A ⌝ ∧ₛ |=> P
+|=>-⌜⌝∧-out : |=> (⌜ A ⌝ ∧ˢ P) ⊢[ i ] ⌜ A ⌝ ∧ˢ |=> P
 |=>-⌜⌝∧-out = |=>-mono ⌜⌝∧⇒∃ » |=>-∃-out » ∃⇒⌜⌝∧
 
 |=>-frame₁ : |=> P ∗ Q ⊢[ i ] |=> (P ∗ Q)
@@ -281,47 +281,47 @@ private variable
 □-∃-in : ∃^ A (□ ∘ Pf) ⊢[ i ] □ (∃^ A Pf)
 □-∃-in = ∃-elim $ λ _ → □-mono ∃-intro
 
-□-∧-out : □ (P ∧ₛ Q) ⊢[ i ] □ P ∧ₛ □ Q
+□-∧-out : □ (P ∧ˢ Q) ⊢[ i ] □ P ∧ˢ □ Q
 □-∧-out = ∧-intro (□-mono ∧-elim₀) (□-mono ∧-elim₁)
 
-□-∨-in : □ P ∨ₛ □ Q ⊢[ i ] □ (P ∨ₛ Q)
+□-∨-in : □ P ∨ˢ □ Q ⊢[ i ] □ (P ∨ˢ Q)
 □-∨-in = ∨-elim (□-mono ∨-intro₀) (□-mono ∨-intro₁)
 
-□-⊥-elim : □ ⊥ₛ ⊢[ i ] P
+□-⊥-elim : □ ⊥ˢ ⊢[ i ] P
 □-⊥-elim = □-elim » ⊥-elim
 
 -- -- with □₀-∧⇒∗
 
-□₁-∧⇒∗ : P ∧ₛ □ Q ⊢[ i ] P ∗ □ Q
+□₁-∧⇒∗ : P ∧ˢ □ Q ⊢[ i ] P ∗ □ Q
 □₁-∧⇒∗ = ∧-comm » □₀-∧⇒∗ » ∗-comm
 
 retain-□ : P ⊢[ i ] □ Q → P ⊢[ i ] □ Q ∗ P
-retain-□ P⊢Q = ∧-intro P⊢Q idₛ » □₀-∧⇒∗
+retain-□ P⊢Q = ∧-intro P⊢Q idˢ » □₀-∧⇒∗
 
 dup-□ : □ P ⊢[ i ] □ P ∗ □ P
-dup-□ = retain-□ idₛ
+dup-□ = retain-□ idˢ
 
 □-∗-out : □ (P ∗ Q) ⊢[ i ] □ P ∗ □ Q
 □-∗-out = □-mono ∗⇒∧ » □-∧-out » □₀-∧⇒∗
 
-in□-∧⇒∗ : □ (P ∧ₛ Q) ⊢[ i ] □ (P ∗ Q)
+in□-∧⇒∗ : □ (P ∧ˢ Q) ⊢[ i ] □ (P ∗ Q)
 in□-∧⇒∗ = □-intro $ dup-□ » ∗-mono (□-elim » ∧-elim₀) (□-elim » ∧-elim₁)
 
--∗⇒□→ : P -∗ Q ⊢[ i ] □ P →ₛ Q
+-∗⇒□→ : P -∗ Q ⊢[ i ] □ P →ˢ Q
 -∗⇒□→ = →-intro $ □₀-∧⇒∗ » ∗-mono₀ □-elim » -∗-apply
 
-in□--∗⇒→ : □ (P -∗ Q) ⊢[ i ] □ (P →ₛ Q)
+in□--∗⇒→ : □ (P -∗ Q) ⊢[ i ] □ (P →ˢ Q)
 in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-elim
 
 -- -- with □-∀-in/□-∃-out
 
-□-∧-in : □ P ∧ₛ □ Q ⊢[ i ] □ (P ∧ₛ Q)
+□-∧-in : □ P ∧ˢ □ Q ⊢[ i ] □ (P ∧ˢ Q)
 □-∧-in = ∀-intro (binary ∧-elim₀ ∧-elim₁) » □-∀-in
 
-□-∨-out : □ (P ∨ₛ Q) ⊢[ i ] □ P ∨ₛ □ Q
+□-∨-out : □ (P ∨ˢ Q) ⊢[ i ] □ P ∨ˢ □ Q
 □-∨-out = □-∃-out » ∃-elim (binary ∨-intro₀ ∨-intro₁)
 
-□-⊤-intro : P ⊢[ i ] □ ⊤ₛ
+□-⊤-intro : P ⊢[ i ] □ ⊤ˢ
 □-⊤-intro = ∀-intro nullary » □-∀-in
 
 □-∗-in : □ P ∗ □ Q ⊢[ i ] □ (P ∗ Q)
@@ -343,16 +343,16 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-eli
 
 instance
 
-  ∧-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∧ₛ Q)
+  ∧-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∧ˢ Q)
   ∧-Pers = ∀-Pers $ binary it it
 
-  ∨-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∨ₛ Q)
+  ∨-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∨ˢ Q)
   ∨-Pers = ∃-Pers $ binary it it
 
-  ⊤-Pers : Pers {ℓ} ⊤ₛ
+  ⊤-Pers : Pers {ℓ} ⊤ˢ
   ⊤-Pers .pers = □-⊤-intro
 
-  ⊥-Pers : Pers {ℓ} ⊥ₛ
+  ⊥-Pers : Pers {ℓ} ⊥ˢ
   ⊥-Pers .pers = ⊥-elim
 
   ∗-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∗ Q)
@@ -366,19 +366,19 @@ instance
 
 -- Using Pers
 
-Pers₀-∧⇒∗ : {{Pers P}} → P ∧ₛ Q ⊢[ i ] P ∗ Q
+Pers₀-∧⇒∗ : {{Pers P}} → P ∧ˢ Q ⊢[ i ] P ∗ Q
 Pers₀-∧⇒∗ = ∧-mono₀ pers » □₀-∧⇒∗ » ∗-mono₀ □-elim
 
-Pers₁-∧⇒∗ : {{Pers Q}} → P ∧ₛ Q ⊢[ i ] P ∗ Q
+Pers₁-∧⇒∗ : {{Pers Q}} → P ∧ˢ Q ⊢[ i ] P ∗ Q
 Pers₁-∧⇒∗ = ∧-comm » Pers₀-∧⇒∗ » ∗-comm
 
 retain-Pers : {{Pers Q}} → P ⊢[ i ] Q → P ⊢[ i ] Q ∗ P
 retain-Pers P⊢Q = retain-□ (P⊢Q » pers) » ∗-mono₀ □-elim
 
 dup-Pers : {{Pers P}} → P ⊢[ i ] P ∗ P
-dup-Pers = retain-Pers idₛ
+dup-Pers = retain-Pers idˢ
 
-Pers--∗⇒→ : {{Pers P}} → P -∗ Q ⊢[ i ] P →ₛ Q
+Pers--∗⇒→ : {{Pers P}} → P -∗ Q ⊢[ i ] P →ˢ Q
 Pers--∗⇒→ = -∗⇒□→ » →-mono₀ pers
 
 -- -- More on ⌜⌝

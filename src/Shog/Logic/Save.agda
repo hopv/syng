@@ -30,7 +30,7 @@ instance
 
 save-mono₀ : b' ≤ b → save b Pt ⊢[ i ] save b' Pt
 save-mono₀ f≤t = save-□⇒x
-save-mono₀ b≤b = idₛ
+save-mono₀ b≤b = idˢ
 
 save-mono : b' ≤ b → Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b' Qt
 save-mono H₀ H₁ = save-mono₀ H₀ » save-mono₁ H₁

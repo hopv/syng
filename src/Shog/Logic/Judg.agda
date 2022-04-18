@@ -23,27 +23,27 @@ private variable
 -- Result of a judgment
 data JudgRes ℓ : Set (suc ℓ) where
   -- Just a proposition
-  pure : Propₛ ℓ ∞ → JudgRes ℓ
+  pure : Propˢ ℓ ∞ → JudgRes ℓ
   -- Under the super update
-  |=>> : Propₛ ℓ ∞ → JudgRes ℓ
+  |=>> : Propˢ ℓ ∞ → JudgRes ℓ
 
 -- Declaring Judg
-data Judg {ℓ} (i : Size) : Propₛ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
+data Judg {ℓ} (i : Size) : Propˢ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
 
 -- Notation
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
 
-_⊢[_]*_ : Propₛ ℓ ∞ → Size → JudgRes ℓ → Set (suc ℓ)
+_⊢[_]*_ : Propˢ ℓ ∞ → Size → JudgRes ℓ → Set (suc ℓ)
 P ⊢[ i ]* Jr = Judg i P Jr
 
-_⊢[_]_ : Propₛ ℓ ∞ → Size → Propₛ ℓ ∞ → Set (suc ℓ)
+_⊢[_]_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
 P ⊢[ i ] Q = P ⊢[ i ]* pure Q
 
-_⊢[<_]_ : Propₛ ℓ ∞ → Size → Propₛ ℓ ∞ → Set (suc ℓ)
+_⊢[<_]_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
 P ⊢[< i ] Q = Thunk (P ⊢[_] Q) i
 
-_⊢[_]=>>_ : Propₛ ℓ ∞ → Size → Propₛ ℓ ∞ → Set (suc ℓ)
+_⊢[_]=>>_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
 P ⊢[ i ]=>> Q = P ⊢[ i ]* |=>> Q
 
 infixr -1 _»_ _[=>>]»[=>>]_ -- the same fixity with _$_
@@ -52,7 +52,7 @@ infixr -1 _»_ _[=>>]»[=>>]_ -- the same fixity with _$_
 data Judg {ℓ} i where
   ----------------------------------------------------------------------
   -- Basic rules
-  idₛ : ∀ {P} → P ⊢[ i ] P
+  idˢ : ∀ {P} → P ⊢[ i ] P
   _»_ : ∀ {P Q Jr} → P ⊢[ i ] Q → Q ⊢[ i ]* Jr → P ⊢[ i ]* Jr
   ----------------------------------------------------------------------
   -- On ∀/∃
@@ -61,15 +61,15 @@ data Judg {ℓ} i where
   ∀-elim : ∀ {A Pf a} → ∀^ A Pf ⊢[ i ] Pf a
   ∃-intro : ∀ {A Pf a} → Pf a ⊢[ i ] ∃^ A Pf
   ∀∃⇒∃∀-⊤ : ∀ {A : Set ℓ} {F : A → Set ℓ} →
-    ∀ₛ a ∈ A , ∃ₛ _ ∈ F a , ⊤ₛ ⊢[ i ] ∃ₛ _ ∈ (∀ a → F a) , ⊤ₛ
+    ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ˢ ⊢[ i ] ∃ˢ _ ∈ (∀ a → F a) , ⊤ˢ
   ----------------------------------------------------------------------
   -- On →
-  →-intro : ∀ {P Q R} → P ∧ₛ Q ⊢[ i ] R → Q ⊢[ i ] P →ₛ R
-  →-elim : ∀ {P Q R} → Q ⊢[ i ] P →ₛ R → P ∧ₛ Q ⊢[ i ] R
+  →-intro : ∀ {P Q R} → P ∧ˢ Q ⊢[ i ] R → Q ⊢[ i ] P →ˢ R
+  →-elim : ∀ {P Q R} → Q ⊢[ i ] P →ˢ R → P ∧ˢ Q ⊢[ i ] R
   ----------------------------------------------------------------------
   -- On ∗
-  ∗⊤-elim : ∀ {P} → P ∗ ⊤ₛ ⊢[ i ] P
-  ∗⊤-intro : ∀ {P} → P ⊢[ i ] P ∗ ⊤ₛ
+  ∗⊤-elim : ∀ {P} → P ∗ ⊤ˢ ⊢[ i ] P
+  ∗⊤-intro : ∀ {P} → P ⊢[ i ] P ∗ ⊤ˢ
   ∗-comm : ∀ {P Q} → P ∗ Q ⊢[ i ] Q ∗ P
   ∗-assoc₀ : ∀ {P Q R} → (P ∗ Q) ∗ R ⊢[ i ] P ∗ (Q ∗ R)
   ∗-mono₀ : ∀ {P Q R} → P ⊢[ i ] Q → P ∗ R ⊢[ i ] Q ∗ R
@@ -83,13 +83,13 @@ data Judg {ℓ} i where
   |=>-intro : ∀ {P} → P ⊢[ i ] |=> P
   |=>-join : ∀ {P} → |=> (|=> P) ⊢[ i ] |=> P
   |=>-frame₀ : ∀ {P Q} → P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
-  |=>-∃-out : ∀ {A P} → |=> (∃ₛ _ ∈ A , P) ⊢[ i ] ∃ₛ _ ∈ A , |=> P
+  |=>-∃-out : ∀ {A P} → |=> (∃ˢ _ ∈ A , P) ⊢[ i ] ∃ˢ _ ∈ A , |=> P
   ----------------------------------------------------------------------
   -- On □
   □-mono : ∀ {P Q} → P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
   □-elim : ∀ {P} → □ P ⊢[ i ] P
   □-dup : ∀ {P} → □ P ⊢[ i ] □ (□ P)
-  □₀-∧⇒∗ : ∀ {P Q} → □ P ∧ₛ Q ⊢[ i ] □ P ∗ Q
+  □₀-∧⇒∗ : ∀ {P Q} → □ P ∧ˢ Q ⊢[ i ] □ P ∗ Q
   □-∀-in : ∀ {A Pf} → ∀^ A (□ ∘ Pf) ⊢[ i ] □ (∀^ A Pf)
   □-∃-out : ∀ {A Pf} → □ (∃^ A Pf) ⊢[ i ] ∃^ A (□ ∘ Pf)
   ----------------------------------------------------------------------
@@ -111,6 +111,6 @@ data Judg {ℓ} i where
 ------------------------------------------------------------------------
 -- Persistence: Pers P
 
-record Pers {ℓ} (P : Propₛ ℓ ∞) : Set (suc ℓ) where
+record Pers {ℓ} (P : Propˢ ℓ ∞) : Set (suc ℓ) where
   field pers : ∀ {i} → P ⊢[ i ] □ P
 open Pers {{...}} public

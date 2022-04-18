@@ -20,7 +20,7 @@ private variable
   ℓ ℓ' : Level
   i : Size
   A : Set ℓ'
-  Ps Qs : List (Propₛ ℓ ∞)
+  Ps Qs : List (Propˢ ℓ ∞)
 
 ----------------------------------------------------------------------
 -- On [∗]
@@ -34,5 +34,5 @@ private variable
 [∗]-++-out (_ ∷ Ps) = ∗-mono₁ ([∗]-++-out Ps) » ∗-assoc₁
 
 [∗]-mono : Pointwise _⊢[ i ]_ Ps Qs → [∗] Ps ⊢[ i ] [∗] Qs
-[∗]-mono [] = idₛ
+[∗]-mono [] = idˢ
 [∗]-mono (P⊢Q ∷ Ps⊢Qs) = ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)

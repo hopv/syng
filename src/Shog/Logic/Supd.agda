@@ -11,7 +11,7 @@ open import Size using (Size; ∞)
 open import Codata.Sized.Thunk using (force)
 open import Function.Base using (_$_)
 
-open import Shog.Logic.Prop using (Propₛ; _∗_; |=>)
+open import Shog.Logic.Prop using (Propˢ; _∗_; |=>)
 open import Shog.Logic.Judg using (∗-comm; |=>-intro)
 open import Shog.Logic.Judg public using (
   _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; <'|=>⇒=>>; _[=>>]»[=>>]_; =>>-frame₀)
@@ -19,7 +19,7 @@ open import Shog.Logic.Judg public using (
 private variable
   ℓ : Level
   i : Size
-  P Q R : Propₛ ℓ ∞
+  P Q R : Propˢ ℓ ∞
 
 <⇒=>> : P ⊢[< i ] Q → P ⊢[ i ]=>> Q
 <⇒=>> P⊢<Q = <'|=>⇒=>> $ λ where .force → P⊢<Q .force » |=>-intro

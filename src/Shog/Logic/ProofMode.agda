@@ -20,10 +20,10 @@ open import Shog.Logic.Basic
 private variable
   ℓ : Level
   i : Size
-  P P' Q Q' R R' S S' T T' U U' V V' : Propₛ ℓ ∞
+  P P' Q Q' R R' S S' T T' U U' V V' : Propˢ ℓ ∞
   A B : Set ℓ
   F : A → Set ℓ
-  Pf Qf : A → Propₛ ℓ ∞
+  Pf Qf : A → Propˢ ℓ ∞
   Jr : JudgRes ℓ
 
 ------------------------------------------------------------------------
@@ -157,16 +157,16 @@ by0 = ∗-elim₀
 0-dup-Pers : {{Pers P}} → P ∗ Q ⊢[ i ] P ∗ P ∗ Q
 0-dup-Pers = 0-mono dup-Pers » ∗-assoc₀
 
-⊤⇒0 : P ⊢[ i ] ⊤ₛ ∗ P
+⊤⇒0 : P ⊢[ i ] ⊤ˢ ∗ P
 ⊤⇒0 = ⊤∗-intro
 
 0-∃-elim : (∀ a → Pf a ∗ Q ⊢[ i ]* Jr) → (∃^ _ Pf) ∗ Q ⊢[ i ]* Jr
 0-∃-elim →Pf∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →Pf∗⊢ a
 
-0-∨-elim : P ∗ Q ⊢[ i ]* Jr → P' ∗ Q ⊢[ i ]* Jr → (P ∨ₛ P') ∗ Q ⊢[ i ]* Jr
+0-∨-elim : P ∗ Q ⊢[ i ]* Jr → P' ∗ Q ⊢[ i ]* Jr → (P ∨ˢ P') ∗ Q ⊢[ i ]* Jr
 0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (binary P∗⊢ P'∗⊢)
 
-0-⊥-elim : ⊥ₛ ∗ Q ⊢[ i ]* Jr
+0-⊥-elim : ⊥ˢ ∗ Q ⊢[ i ]* Jr
 0-⊥-elim = ∗-elim₀ » ⊥-elim
 
 ⌜⌝⇒0 : A → P ⊢[ i ] ⌜ A ⌝ ∗ P

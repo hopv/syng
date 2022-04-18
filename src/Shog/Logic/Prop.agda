@@ -15,37 +15,37 @@ open import Data.List.Base using (List; foldr; map)
 open import Shog.Util using (binary; nullary)
 
 ----------------------------------------------------------------------
--- Syntax for the Shog proposition: Propₛ ℓ i
+-- Syntax for the Shog proposition: Propˢ ℓ i
 
-data Propₛ ℓ (i : Size) : Set (suc ℓ)
+data Propˢ ℓ (i : Size) : Set (suc ℓ)
 
 PropTh : ∀ ℓ → Size → Set (suc ℓ)
-PropTh ℓ i = Thunk (Propₛ ℓ) i
+PropTh ℓ i = Thunk (Propˢ ℓ) i
 
-data Propₛ ℓ i where
+data Propˢ ℓ i where
   -- universal/existential quantification
-  ∀^ ∃^ : (A : Set ℓ) → (A → Propₛ ℓ i) → Propₛ ℓ i
+  ∀^ ∃^ : (A : Set ℓ) → (A → Propˢ ℓ i) → Propˢ ℓ i
   -- implication
-  _→ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
+  _→ˢ_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
   -- separating conjunction / magic wand
-  _∗_ _-∗_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
+  _∗_ _-∗_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
   -- update modality / persistence modality
-  |=> □ : Propₛ ℓ i → Propₛ ℓ i
+  |=> □ : Propˢ ℓ i → Propˢ ℓ i
   -- save token
-  save : Bool → PropTh ℓ i → Propₛ ℓ i
+  save : Bool → PropTh ℓ i → Propˢ ℓ i
 
 infix 3 ∀^ ∃^
-syntax ∀^ A (λ x → P) = ∀ₛ x ∈ A , P
-syntax ∃^ A (λ x → P) = ∃ₛ x ∈ A , P
+syntax ∀^ A (λ x → P) = ∀ˢ x ∈ A , P
+syntax ∃^ A (λ x → P) = ∃ˢ x ∈ A , P
 
-∀^' ∃^' : ∀ {ℓ i} {A : Set ℓ} → (A → Propₛ ℓ i) → Propₛ ℓ i
+∀^' ∃^' : ∀ {ℓ i} {A : Set ℓ} → (A → Propˢ ℓ i) → Propˢ ℓ i
 ∀^' = ∀^ _
 ∃^' = ∃^ _
 infix 3 ∀^' ∃^'
-syntax ∀^' (λ x → P) = ∀ₛ x , P
-syntax ∃^' (λ x → P) = ∃ₛ x , P
+syntax ∀^' (λ x → P) = ∀ˢ x , P
+syntax ∃^' (λ x → P) = ∃ˢ x , P
 
-infixr 5 _→ₛ_ _-∗_
+infixr 5 _→ˢ_ _-∗_
 infixr 7 _∗_
 
 private variable
@@ -54,43 +54,43 @@ private variable
   A : Set ℓ'
 
 ----------------------------------------------------------------------
--- Deriving from universal/existential quantification ∀ₛ / ∃ₛ
+-- Deriving from universal/existential quantification ∀ˢ / ∃ˢ
 
--- -- Conjunction ∧ₛ / Disjunction ∨ₛ
+-- -- Conjunction ∧ˢ / Disjunction ∨ˢ
 
-infixr 7 _∧ₛ_
-infixr 6 _∨ₛ_
+infixr 7 _∧ˢ_
+infixr 6 _∨ˢ_
 
-_∧ₛ_ _∨ₛ_ : Propₛ ℓ i → Propₛ ℓ i → Propₛ ℓ i
-P ∧ₛ Q = ∀^' (binary P Q)
-P ∨ₛ Q = ∃^' (binary P Q)
+_∧ˢ_ _∨ˢ_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
+P ∧ˢ Q = ∀^' (binary P Q)
+P ∨ˢ Q = ∃^' (binary P Q)
 
--- -- Truth ⊤ₛ / Falsehood ⊥ₛ
+-- -- Truth ⊤ˢ / Falsehood ⊥ˢ
 
-⊤ₛ ⊥ₛ : Propₛ ℓ i
-⊤ₛ = ∀^ _ nullary
-⊥ₛ = ∃^ _ nullary
+⊤ˢ ⊥ˢ : Propˢ ℓ i
+⊤ˢ = ∀^ _ nullary
+⊥ˢ = ∃^ _ nullary
 
 ----------------------------------------------------------------------
 -- Set embedding
 
-⌜_⌝ : Set ℓ → Propₛ ℓ i
-⌜ A ⌝ = ∃^ A (λ _ → ⊤ₛ)
+⌜_⌝ : Set ℓ → Propˢ ℓ i
+⌜ A ⌝ = ∃^ A (λ _ → ⊤ˢ)
 
 ----------------------------------------------------------------------
 -- On the save token
 
-savex save□ : PropTh ℓ i → Propₛ ℓ i
+savex save□ : PropTh ℓ i → Propˢ ℓ i
 savex Pt = save false Pt
 save□ Pt = save true Pt
 
 ----------------------------------------------------------------------
 -- Iterated separating conjunction
 
-[∗] : List (Propₛ ℓ i) → Propₛ ℓ i
-[∗] = foldr _∗_ ⊤ₛ
+[∗] : List (Propˢ ℓ i) → Propˢ ℓ i
+[∗] = foldr _∗_ ⊤ˢ
 
-[∗]-map : (A → Propₛ ℓ i) → List A → Propₛ ℓ i
+[∗]-map : (A → Propˢ ℓ i) → List A → Propˢ ℓ i
 [∗]-map Pf as = [∗] (map Pf as)
 
 syntax [∗]-map (λ a → P) as = [∗] a ∈ as , P

@@ -20,19 +20,35 @@ record RPA ℓ ℓ≤ ℓ✓ : Set (suc (ℓ ⊔ ℓ≤ ⊔ ℓ✓)) where
   infixl 7 _∙_
   infixr -1 _»ʳ_ -- the same fixity with _$_
   field
-    ⌞_⌟ : Set ℓ -- carrier
-    _≤_ : ⌞_⌟ → ⌞_⌟ → Set ℓ≤ -- pre-order
-    ✓ : ⌞_⌟ → Set ℓ✓ -- validity
-    _∙_ : ⌞_⌟ → ⌞_⌟ → ⌞_⌟ -- product
-    ‖_‖ : ⌞_⌟ → Maybe ⌞_⌟ -- core
+    -- carrier
+    ⌞_⌟ : Set ℓ
+    ----------------------------------------------------------------------
+    -- pre-order
+    _≤_ : ⌞_⌟ → ⌞_⌟ → Set ℓ≤
+    -- validity
+    ✓ : ⌞_⌟ → Set ℓ✓
+    -- product
+    _∙_ : ⌞_⌟ → ⌞_⌟ → ⌞_⌟
+    -- core, partial
+    ‖_‖ : ⌞_⌟ → Maybe ⌞_⌟
+    ----------------------------------------------------------------------
+    -- ≤ is reflexive and transitive
     idʳ : ∀ {a} → a ≤ a
     _»ʳ_ : ∀ {a b c} → a ≤ b → b ≤ c → a ≤ c
+    ----------------------------------------------------------------------
+    -- ✓, ∙ and ‖‖ are monotone
     ✓-mono : ∀ {a b} → b ≤ a → ✓ a → ✓ b
     ∙-mono₀ : ∀ {a b c} → a ≤ b → a ∙ c ≤ b ∙ c
     ‖‖-mono : ∀ {a b b'} → a ≤ b →
       ‖ b ‖ ≡ just b' → ∃[ a' ] ‖ a ‖ ≡ just a' × a' ≤ b'
+    ----------------------------------------------------------------------
+    -- ∙ is commutative and associative
     ∙-comm : ∀ {a b} → a ∙ b ≤ b ∙ a
     ∙-assoc₀ : ∀ {a b c} → (a ∙ b) ∙ c ≤ a ∙ (b ∙ c)
+    -- ∙ is increasing
     ∙-incr : ∀ {a b} → a ≤ b ∙ a
+    ----------------------------------------------------------------------
+    -- ‖ a ‖ is unital with respect to a
     ‖‖-unit : ∀ {a a'} → ‖ a ‖ ≡ just a' → a' ∙ a ≤ a
+    -- ‖ ‖ is idempotent
     ‖‖-idem : ∀ {a a'} → ‖ a ‖ ≡ just a' → ‖ a' ‖ ≡ just a'

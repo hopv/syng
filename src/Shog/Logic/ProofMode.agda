@@ -15,7 +15,7 @@ open import Function.Base using (_$_; _∘_)
 
 open import Shog.Util using (binary)
 open import Shog.Logic.Prop
-open import Shog.Logic.Basic
+open import Shog.Logic.Core
 
 private variable
   ℓ : Level

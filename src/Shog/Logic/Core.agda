@@ -1,10 +1,10 @@
 ------------------------------------------------------------------------
--- Shog proof rules on basic connectives
+-- Shog proof rules on core connectives
 ------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Shog.Logic.Basic where
+module Shog.Logic.Core where
 
 open import Level using (Level; suc)
 open import Size using (Size; ∞)

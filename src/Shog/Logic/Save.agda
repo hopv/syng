@@ -13,7 +13,7 @@ open import Data.Bool.Base using (Bool; _≤_; f≤t; b≤b)
 open import Data.List.Base using ([_])
 
 open import Shog.Logic.Prop
-open import Shog.Logic.Basic
+open import Shog.Logic.Core
 open import Shog.Logic.Supd
 open import Shog.Logic.Judg public using (
   save-mono₁; save-□⇒x; save□-□; savex-alloc; save□-alloc-rec)

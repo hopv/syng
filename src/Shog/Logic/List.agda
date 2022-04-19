@@ -14,7 +14,7 @@ open import Data.List.Base using (List; []; _∷_; _++_)
 open import Data.List.Relation.Binary.Pointwise.Base using (Pointwise; []; _∷_)
 
 open import Shog.Logic.Prop using ([∗]; _∗_)
-open import Shog.Logic.Basic
+open import Shog.Logic.Core
 
 private variable
   ℓ ℓ' : Level

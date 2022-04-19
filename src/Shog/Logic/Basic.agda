@@ -22,7 +22,7 @@ open import Shog.Logic.Prop public using (
 open import Shog.Logic.Judg public using (
   JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers;
   idˢ; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ∀∃⇒∃∀-⊤; →-intro; →-elim;
-  ∗⊤-elim; ∗⊤-intro; ∗-comm; ∗-assoc₀; ∗-mono₀; -∗-intro; -∗-elim;
+  ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assoc₀; ∗-mono₀; -∗-intro; -∗-elim;
   □-mono; □-elim; □-dup; □₀-∧⇒∗; □-∀-in; □-∃-out;
   |=>-mono; |=>-intro; |=>-join; |=>-frame₀; |=>-∃-out)
 
@@ -215,14 +215,14 @@ private variable
 ∗-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∗ R ⊢[ i ] Q ∗ S
 ∗-mono P⊢Q R⊢S = ∗-mono₀ P⊢Q » ∗-mono₁ R⊢S
 
-∗-elim₀ : P ∗ Q ⊢[ i ] P
-∗-elim₀ = ∗-mono₁ ⊤-intro » ∗⊤-elim
-
 ∗-elim₁ : P ∗ Q ⊢[ i ] Q
-∗-elim₁ = ∗-comm » ∗-elim₀
+∗-elim₁ = ∗-mono₀ ⊤-intro » ⊤∗-elim
 
-⊤∗-intro : P ⊢[ i ] ⊤ˢ ∗ P
-⊤∗-intro = ∗⊤-intro » ∗-comm
+∗-elim₀ : P ∗ Q ⊢[ i ] P
+∗-elim₀ = ∗-comm » ∗-elim₁
+
+∗⊤-intro : P ⊢[ i ] P ∗ ⊤ˢ
+∗⊤-intro = ⊤∗-intro » ∗-comm
 
 ∗-assoc₁ : P ∗ (Q ∗ R) ⊢[ i ] (P ∗ Q) ∗ R
 ∗-assoc₁ = ∗-comm » ∗-mono₀ ∗-comm » ∗-assoc₀ » ∗-comm » ∗-mono₀ ∗-comm

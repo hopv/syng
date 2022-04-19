@@ -78,8 +78,8 @@ data Judg {ℓ} i where
   →-elim : Q ⊢[ i ] P →ˢ R → P ∧ˢ Q ⊢[ i ] R
   ----------------------------------------------------------------------
   -- On ∗
-  ∗⊤-elim : P ∗ ⊤ˢ ⊢[ i ] P
-  ∗⊤-intro : P ⊢[ i ] P ∗ ⊤ˢ
+  ⊤∗-elim : ⊤ˢ ∗ P ⊢[ i ] P
+  ⊤∗-intro : P ⊢[ i ] ⊤ˢ ∗ P
   ∗-comm : P ∗ Q ⊢[ i ] Q ∗ P
   ∗-assoc₀ : (P ∗ Q) ∗ R ⊢[ i ] P ∗ (Q ∗ R)
   ∗-mono₀ : P ⊢[ i ] Q → P ∗ R ⊢[ i ] Q ∗ R

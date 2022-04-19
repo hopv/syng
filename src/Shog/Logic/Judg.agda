@@ -56,7 +56,7 @@ P ⊢[< i ] Q = Thunk (P ⊢[_] Q) i
 _⊢[_]=>>_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
 P ⊢[ i ]=>> Q = P ⊢[ i ]* |=>> Q
 
-infixr -1 _»_ _[=>>]»[=>>]_ -- the same fixity with _$_
+infixr -1 _»_ _ᵘ»ᵘ_ -- the same fixity with _$_
 
 -- Defining Judg
 data Judg {ℓ} i where
@@ -104,8 +104,8 @@ data Judg {ℓ} i where
   □-∃-out : □ (∃^ A Pf) ⊢[ i ] ∃^ A (□ ∘ Pf)
   ----------------------------------------------------------------------
   -- On the super update
-  <'|=>⇒=>> : P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
-  _[=>>]»[=>>]_ : P ⊢[ i ]=>> Q → Q ⊢[ i ]=>> R → P ⊢[ i ]=>> R
+  ᵗ|=>⇒=>> : P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
+  _ᵘ»ᵘ_ : P ⊢[ i ]=>> Q → Q ⊢[ i ]=>> R → P ⊢[ i ]=>> R
   =>>-frame₀ : Q ⊢[ i ]=>> R → P ∗ Q ⊢[ i ]=>> P ∗ R
   ----------------------------------------------------------------------
   -- On the save token

@@ -14,7 +14,7 @@ open import Function.Base using (_$_)
 open import Shog.Logic.Prop using (Propˢ; _∗_; |=>)
 open import Shog.Logic.Judg using (∗-comm; |=>-intro)
 open import Shog.Logic.Judg public using (
-  _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; <'|=>⇒=>>; _[=>>]»[=>>]_; =>>-frame₀)
+  _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ᵗ|=>⇒=>>; _ᵘ»ᵘ_; =>>-frame₀)
 
 private variable
   ℓ : Level
@@ -22,18 +22,18 @@ private variable
   P Q R : Propˢ ℓ ∞
 
 <⇒=>> : P ⊢[< i ] Q → P ⊢[ i ]=>> Q
-<⇒=>> P⊢<Q = <'|=>⇒=>> $ λ where .force → P⊢<Q .force » |=>-intro
+<⇒=>> P⊢<Q = ᵗ|=>⇒=>> $ λ where .force → P⊢<Q .force » |=>-intro
 
 |=>⇒=>> : P ⊢[ i ] |=> Q → P ⊢[ i ]=>> Q
-|=>⇒=>> P⊢Q = <'|=>⇒=>> $ λ where .force → P⊢Q
+|=>⇒=>> P⊢Q = ᵗ|=>⇒=>> $ λ where .force → P⊢Q
 
 ⇒=>> : P ⊢[ i ] Q → P ⊢[ i ]=>> Q
 ⇒=>> P⊢Q = <⇒=>> λ where .force → P⊢Q
 
-infixr -1 _[=>>]»_ -- the same fixity with _$_
+infixr -1 _ᵘ»_ -- the same fixity with _$_
 
-_[=>>]»_ : P ⊢[ i ]=>> Q → Q ⊢[ i ] R → P ⊢[ i ]=>> R
-P⊢=>>Q [=>>]» Q⊢R = P⊢=>>Q [=>>]»[=>>] ⇒=>> Q⊢R
+_ᵘ»_ : P ⊢[ i ]=>> Q → Q ⊢[ i ] R → P ⊢[ i ]=>> R
+P⊢=>>Q ᵘ» Q⊢R = P⊢=>>Q ᵘ»ᵘ ⇒=>> Q⊢R
 
 =>>-frame₁ : P ⊢[ i ]=>> Q → P ∗ R ⊢[ i ]=>> Q ∗ R
-=>>-frame₁ P⊢=>>Q = ∗-comm » =>>-frame₀ P⊢=>>Q [=>>]» ∗-comm
+=>>-frame₁ P⊢=>>Q = ∗-comm » =>>-frame₀ P⊢=>>Q ᵘ» ∗-comm

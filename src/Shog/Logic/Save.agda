@@ -39,4 +39,4 @@ save-mono H₀ H₁ = save-mono₀ H₀ » save-mono₁ H₁
 
 save□-alloc : □ (Pt .force) ⊢[ i ]=>> save□ Pt
 save□-alloc {Pt = Pt} = ∗⊤-intro » -∗-const »
-  save□-alloc-rec {Pts = [ Pt ]} [=>>]» ∗-elim₀
+  save□-alloc-rec {Pts = [ Pt ]} ᵘ» ∗-elim₀

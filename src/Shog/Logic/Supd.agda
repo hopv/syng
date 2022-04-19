@@ -21,14 +21,14 @@ private variable
   i : Size
   P Q R : Propˢ ℓ ∞
 
-<⇒=>> : P ⊢[< i ] Q → P ⊢[ i ]=>> Q
-<⇒=>> P⊢<Q = ᵗ|=>⇒=>> $ λ where .force → P⊢<Q .force » |=>-intro
+ᵗ⇒=>> : P ⊢[< i ] Q → P ⊢[ i ]=>> Q
+ᵗ⇒=>> P⊢ᵗQ = ᵗ|=>⇒=>> $ λ where .force → P⊢ᵗQ .force » |=>-intro
 
 |=>⇒=>> : P ⊢[ i ] |=> Q → P ⊢[ i ]=>> Q
 |=>⇒=>> P⊢Q = ᵗ|=>⇒=>> $ λ where .force → P⊢Q
 
 ⇒=>> : P ⊢[ i ] Q → P ⊢[ i ]=>> Q
-⇒=>> P⊢Q = <⇒=>> λ where .force → P⊢Q
+⇒=>> P⊢Q = ᵗ⇒=>> λ where .force → P⊢Q
 
 infixr -1 _ᵘ»_ -- the same fixity with _$_
 

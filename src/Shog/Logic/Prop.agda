@@ -20,8 +20,8 @@ open import Shog.Util using (binary; nullary)
 
 data Propˢ ℓ (i : Size) : Set (suc ℓ)
 
-PropTh : ∀ ℓ → Size → Set (suc ℓ)
-PropTh ℓ i = Thunk (Propˢ ℓ) i
+Propᵗ : ∀ ℓ → Size → Set (suc ℓ)
+Propᵗ ℓ i = Thunk (Propˢ ℓ) i
 
 data Propˢ ℓ i where
   -- universal/existential quantification
@@ -33,7 +33,7 @@ data Propˢ ℓ i where
   -- update modality / basicistence modality
   |=> □ : Propˢ ℓ i → Propˢ ℓ i
   -- save token
-  save : Bool → PropTh ℓ i → Propˢ ℓ i
+  save : Bool → Propᵗ ℓ i → Propˢ ℓ i
 
 infix 3 ∀^ ∃^
 syntax ∀^ A (λ x → P) = ∀ˢ x ∈ A , P
@@ -55,7 +55,7 @@ private variable
   A : Set ℓ
   D : Set ℓ'
   P Q R S : Propˢ ℓ ∞
-  Pf : A → Propˢ ℓ ∞
+  Pᶠ : A → Propˢ ℓ ∞
 
 ----------------------------------------------------------------------
 -- Deriving from universal/existential quantification ∀ˢ / ∃ˢ
@@ -80,9 +80,9 @@ P ∨ˢ Q = ∃^' (binary P Q) -- Disjunction
 ----------------------------------------------------------------------
 -- On the save token
 
-savex save□ : PropTh ℓ i → Propˢ ℓ i
-savex Pt = save false Pt
-save□ Pt = save true Pt
+savex save□ : Propᵗ ℓ i → Propˢ ℓ i
+savex Pᵗ = save false Pᵗ
+save□ Pᵗ = save true Pᵗ
 
 ----------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]
@@ -93,7 +93,7 @@ save□ Pt = save true Pt
 -- [∗] with map
 
 [∗]-map : (D → Propˢ ℓ i) → List D → Propˢ ℓ i
-[∗]-map Pf ds = [∗] $ map Pf ds
+[∗]-map Pᶠ ds = [∗] $ map Pᶠ ds
 
 syntax [∗]-map (λ d → P) ds = [∗] d ∈ ds , P
 
@@ -101,8 +101,8 @@ syntax [∗]-map (λ d → P) ds = [∗] d ∈ ds , P
 -- Basic Shog proposition
 
 data IsBasic {ℓ} : Propˢ ℓ ∞ → Set (suc ℓ) where
-  ∀-IsBasic : (∀ a → IsBasic (Pf a)) → IsBasic (∀^ A Pf)
-  ∃-IsBasic : (∀ a → IsBasic (Pf a)) → IsBasic (∃^ A Pf)
+  ∀-IsBasic : (∀ a → IsBasic (Pᶠ a)) → IsBasic (∀^ A Pᶠ)
+  ∃-IsBasic : (∀ a → IsBasic (Pᶠ a)) → IsBasic (∃^ A Pᶠ)
   ∗-IsBasic : IsBasic P → IsBasic Q → IsBasic (P ∗ Q)
 
 record Basic {ℓ} (P : Propˢ ℓ ∞) : Set (suc ℓ) where
@@ -112,10 +112,10 @@ open Basic {{...}}
 -- ∀-Basic and ∃-Basic are not instances, because unfortunately
 -- Agda can't search a universally quantified instance (∀ a → ...)
 
-∀-Basic : (∀ a → Basic (Pf a)) → Basic (∀^ A Pf)
+∀-Basic : (∀ a → Basic (Pᶠ a)) → Basic (∀^ A Pᶠ)
 ∀-Basic ∀Basic .basic = ∀-IsBasic $ λ a → ∀Basic a .basic
 
-∃-Basic : (∀ a → Basic (Pf a)) → Basic (∃^ A Pf)
+∃-Basic : (∀ a → Basic (Pᶠ a)) → Basic (∃^ A Pᶠ)
 ∃-Basic ∀Basic .basic = ∃-IsBasic $ λ a → ∀Basic a .basic
 
 instance

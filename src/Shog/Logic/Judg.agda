@@ -30,12 +30,12 @@ private variable
   P Q R : Propˢ ℓ ∞
   Jr : JudgRes ℓ
   A : Set ℓ
-  Pf Qf : A → Propˢ ℓ ∞
-  Pt Qt : PropTh ℓ ∞
+  Pᶠ Qᶠ : A → Propˢ ℓ ∞
+  Pᵗ Qᵗ : Propᵗ ℓ ∞
   a : A
   F : A → Set ℓ
   b : Bool
-  Pts : List (PropTh ℓ ∞)
+  Pᵗs : List (Propᵗ ℓ ∞)
 
 -- Declaring Judg
 data Judg {ℓ} (i : Size) : Propˢ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
@@ -66,10 +66,10 @@ data Judg {ℓ} i where
   _»_ : P ⊢[ i ] Q → Q ⊢[ i ]* Jr → P ⊢[ i ]* Jr
   ----------------------------------------------------------------------
   -- On ∀/∃
-  ∀-intro : (∀ a → P ⊢[ i ] Qf a) → P ⊢[ i ] ∀^ A Qf
-  ∃-elim : (∀ a → Pf a ⊢[ i ]* Jr) → ∃^ A Pf ⊢[ i ]* Jr
-  ∀-elim : ∀^ A Pf ⊢[ i ] Pf a
-  ∃-intro : Pf a ⊢[ i ] ∃^ A Pf
+  ∀-intro : (∀ a → P ⊢[ i ] Qᶠ a) → P ⊢[ i ] ∀^ A Qᶠ
+  ∃-elim : (∀ a → Pᶠ a ⊢[ i ]* Jr) → ∃^ A Pᶠ ⊢[ i ]* Jr
+  ∀-elim : ∀^ A Pᶠ ⊢[ i ] Pᶠ a
+  ∃-intro : Pᶠ a ⊢[ i ] ∃^ A Pᶠ
   ∀∃⇒∃∀-⊤ : ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ˢ ⊢[ i ] ∃ˢ _ ∈ (∀ a → F a) , ⊤ˢ
   ----------------------------------------------------------------------
   -- On →
@@ -99,8 +99,8 @@ data Judg {ℓ} i where
   □-elim : □ P ⊢[ i ] P
   □-dup : □ P ⊢[ i ] □ (□ P)
   □₀-∧⇒∗ : □ P ∧ˢ Q ⊢[ i ] □ P ∗ Q
-  □-∀-in : ∀^ A (□ ∘ Pf) ⊢[ i ] □ (∀^ A Pf)
-  □-∃-out : □ (∃^ A Pf) ⊢[ i ] ∃^ A (□ ∘ Pf)
+  □-∀-in : ∀^ A (□ ∘ Pᶠ) ⊢[ i ] □ (∀^ A Pᶠ)
+  □-∃-out : □ (∃^ A Pᶠ) ⊢[ i ] ∃^ A (□ ∘ Pᶠ)
   ----------------------------------------------------------------------
   -- On the super update
   ᵗ|=>⇒=>> : P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
@@ -109,12 +109,12 @@ data Judg {ℓ} i where
   ----------------------------------------------------------------------
   -- On the save token
   save-mono₁ : {{Basic R}} →
-    R ∗ Pt .force ⊢[< i ] Qt .force → save b Pt ⊢[ i ] save b Qt
-  save-□⇒x : save□ Pt ⊢[ i ] savex Pt
-  save□-□ : save□ Pt ⊢[ i ] □ (save□ Pt)
-  savex-alloc : Pt .force ⊢[ i ]=>> savex Pt
-  save□-alloc-rec : [∗]-map save□ Pts -∗ [∗]-map (λ Pt → □ (Pt .force)) Pts
-                      ⊢[ i ]=>> [∗]-map save□ Pts
+    R ∗ Pᵗ .force ⊢[< i ] Qᵗ .force → save b Pᵗ ⊢[ i ] save b Qᵗ
+  save-□⇒x : save□ Pᵗ ⊢[ i ] savex Pᵗ
+  save□-□ : save□ Pᵗ ⊢[ i ] □ (save□ Pᵗ)
+  savex-alloc : Pᵗ .force ⊢[ i ]=>> savex Pᵗ
+  save□-alloc-rec : [∗]-map save□ Pᵗs -∗ [∗]-map (λ Pᵗ → □ (Pᵗ .force)) Pᵗs
+                      ⊢[ i ]=>> [∗]-map save□ Pᵗs
 
 ------------------------------------------------------------------------
 -- Persistence: Pers P

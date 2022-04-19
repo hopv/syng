@@ -33,7 +33,7 @@ private variable
   Jr : JudgRes ℓ
   A B : Set ℓ
   F : A → Set ℓ
-  Pf Qf : A → Propˢ ℓ ∞
+  Pᶠ Qᶠ : A → Propˢ ℓ ∞
 
 ------------------------------------------------------------------------
 -- On ∀ˢ/∃ˢ/∧ˢ/∨ˢ/⊤ˢ/⊥ˢ
@@ -62,11 +62,11 @@ private variable
 ∨-intro₁ : Q ⊢[ i ] P ∨ˢ Q
 ∨-intro₁ = ∃-intro {a = one₂}
 
-∀-mono : (∀ a → Pf a ⊢[ i ] Qf a) → ∀^' Pf ⊢[ i ] ∀^' Qf
-∀-mono Pf⊢Qf = ∀-intro $ λ a → ∀-elim » Pf⊢Qf a
+∀-mono : (∀ a → Pᶠ a ⊢[ i ] Qᶠ a) → ∀^' Pᶠ ⊢[ i ] ∀^' Qᶠ
+∀-mono Pᶠ⊢Qᶠ = ∀-intro $ λ a → ∀-elim » Pᶠ⊢Qᶠ a
 
-∃-mono : (∀ a → Pf a ⊢[ i ] Qf a) → ∃^' Pf ⊢[ i ] ∃^' Qf
-∃-mono Pf⊢Qf = ∃-elim $ λ a → Pf⊢Qf a » ∃-intro
+∃-mono : (∀ a → Pᶠ a ⊢[ i ] Qᶠ a) → ∃^' Pᶠ ⊢[ i ] ∃^' Qᶠ
+∃-mono Pᶠ⊢Qᶠ = ∃-elim $ λ a → Pᶠ⊢Qᶠ a » ∃-intro
 
 ∧-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∧ˢ R ⊢[ i ] Q ∧ˢ S
 ∧-mono P⊢Q R⊢S = ∧-intro (∧-elim₀ » P⊢Q) (∧-elim₁ » R⊢S)
@@ -227,7 +227,7 @@ private variable
 ∗-assoc₁ : P ∗ (Q ∗ R) ⊢[ i ] (P ∗ Q) ∗ R
 ∗-assoc₁ = ∗-comm » ∗-mono₀ ∗-comm » ∗-assoc₀ » ∗-comm » ∗-mono₀ ∗-comm
 
-∗-∃-out : P ∗ ∃^' Qf ⊢[ i ] ∃ˢ a , P ∗ Qf a
+∗-∃-out : P ∗ ∃^' Qᶠ ⊢[ i ] ∃ˢ a , P ∗ Qᶠ a
 ∗-∃-out = -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
 
 ∗⇒∧ : P ∗ Q ⊢[ i ] P ∧ˢ Q
@@ -275,10 +275,10 @@ private variable
 □-intro : □ P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
 □-intro □P⊢Q = □-dup » □-mono □P⊢Q
 
-□-∀-out : □ (∀^ _ Pf) ⊢[ i ] ∀^ _ (□ ∘ Pf)
+□-∀-out : □ (∀^ _ Pᶠ) ⊢[ i ] ∀^ _ (□ ∘ Pᶠ)
 □-∀-out = ∀-intro $ λ _ → □-mono ∀-elim
 
-□-∃-in : ∃^ A (□ ∘ Pf) ⊢[ i ] □ (∃^ A Pf)
+□-∃-in : ∃^ A (□ ∘ Pᶠ) ⊢[ i ] □ (∃^ A Pᶠ)
 □-∃-in = ∃-elim $ λ _ → □-mono ∃-intro
 
 □-∧-out : □ (P ∧ˢ Q) ⊢[ i ] □ P ∧ˢ □ Q
@@ -335,10 +335,10 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-eli
 -- ∀-Pers and ∃-Pers are not instances, because unfortunately
 -- Agda can't search a universally quantified instance (∀ a → ...)
 
-∀-Pers : (∀ a → Pers (Pf a)) → Pers (∀^ _ Pf)
+∀-Pers : (∀ a → Pers (Pᶠ a)) → Pers (∀^ _ Pᶠ)
 ∀-Pers ∀Pers .pers = ∀-mono (λ a → ∀Pers a .pers) » □-∀-in
 
-∃-Pers : (∀ a → Pers (Pf a)) → Pers (∃^ _ Pf)
+∃-Pers : (∀ a → Pers (Pᶠ a)) → Pers (∃^ _ Pᶠ)
 ∃-Pers ∀Pers .pers = ∃-mono (λ a → ∀Pers a .pers) » □-∃-in
 
 instance

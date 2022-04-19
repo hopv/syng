@@ -70,8 +70,7 @@ data Judg {ℓ} i where
   ∃-elim : (∀ a → Pf a ⊢[ i ]* Jr) → ∃^ A Pf ⊢[ i ]* Jr
   ∀-elim : ∀^ A Pf ⊢[ i ] Pf a
   ∃-intro : Pf a ⊢[ i ] ∃^ A Pf
-  ∀∃⇒∃∀-⊤ : ∀ {A : Set ℓ} {F : A → Set ℓ} →
-    ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ˢ ⊢[ i ] ∃ˢ _ ∈ (∀ a → F a) , ⊤ˢ
+  ∀∃⇒∃∀-⊤ : ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ˢ ⊢[ i ] ∃ˢ _ ∈ (∀ a → F a) , ⊤ˢ
   ----------------------------------------------------------------------
   -- On →
   →-intro : P ∧ˢ Q ⊢[ i ] R → Q ⊢[ i ] P →ˢ R
@@ -115,7 +114,7 @@ data Judg {ℓ} i where
   save□-□ : save□ Pt ⊢[ i ] □ (save□ Pt)
   savex-alloc : Pt .force ⊢[ i ]=>> savex Pt
   save□-alloc-rec : [∗]-map save□ Pts -∗ [∗]-map (λ Pt → □ (Pt .force)) Pts
-      ⊢[ i ]=>> [∗]-map save□ Pts
+                      ⊢[ i ]=>> [∗]-map save□ Pts
 
 ------------------------------------------------------------------------
 -- Persistence: Pers P

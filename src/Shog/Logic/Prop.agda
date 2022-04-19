@@ -8,7 +8,7 @@ module Shog.Logic.Prop where
 
 open import Level using (Level; suc)
 open import Size using (Size; ∞)
-open import Codata.Sized.Thunk using (Thunk)
+open import Codata.Thunk using (Thunk)
 open import Data.Bool.Base using (Bool; true; false)
 open import Data.List.Base using (List; foldr; map)
 open import Function.Base using (_$_; _∘_; it)

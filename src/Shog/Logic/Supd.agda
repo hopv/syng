@@ -8,7 +8,7 @@ module Shog.Logic.Supd where
 
 open import Level using (Level; suc)
 open import Size using (Size; ∞)
-open import Codata.Sized.Thunk using (force)
+open import Codata.Thunk using (force)
 open import Function.Base using (_$_)
 
 open import Shog.Logic.Prop using (Propˢ; _∗_; |=>)

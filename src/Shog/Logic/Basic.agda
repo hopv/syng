@@ -8,7 +8,7 @@ module Shog.Logic.Basic where
 
 open import Level using (Level; suc)
 open import Size using (Size; ∞)
-open import Codata.Sized.Thunk using (Thunk; force)
+open import Codata.Thunk using (Thunk; force)
 open import Function.Base using (_$_; _∘_; it)
 
 open import Data.Product using (_×_; _,_; ∃-syntax)

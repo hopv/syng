@@ -8,7 +8,7 @@ module Shog.Logic.Save where
 
 open import Level using (Level; suc)
 open import Size using (Size; ∞)
-open import Codata.Sized.Thunk using (force)
+open import Codata.Thunk using (force)
 open import Data.Bool.Base using (Bool; _≤_; f≤t; b≤b)
 open import Data.List.Base using ([_])
 

@@ -157,16 +157,16 @@ by0 = ∗-elim₀
 0-dup-Pers : {{Pers P}} → P ∗ Q ⊢[ i ] P ∗ P ∗ Q
 0-dup-Pers = 0-mono dup-Pers » ∗-assoc₀
 
-⊤⇒0 : P ⊢[ i ] ⊤ˢ ∗ P
+⊤⇒0 : P ⊢[ i ] ⊤ ∗ P
 ⊤⇒0 = ⊤∗-intro
 
 0-∃-elim : (∀ a → Pᶠ a ∗ Q ⊢[ i ]* Jr) → (∃^ _ Pᶠ) ∗ Q ⊢[ i ]* Jr
 0-∃-elim →Pᶠ∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →Pᶠ∗⊢ a
 
-0-∨-elim : P ∗ Q ⊢[ i ]* Jr → P' ∗ Q ⊢[ i ]* Jr → (P ∨ˢ P') ∗ Q ⊢[ i ]* Jr
+0-∨-elim : P ∗ Q ⊢[ i ]* Jr → P' ∗ Q ⊢[ i ]* Jr → (P ∨ P') ∗ Q ⊢[ i ]* Jr
 0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (binary P∗⊢ P'∗⊢)
 
-0-⊥-elim : ⊥ˢ ∗ Q ⊢[ i ]* Jr
+0-⊥-elim : ⊥ ∗ Q ⊢[ i ]* Jr
 0-⊥-elim = ∗-elim₀ » ⊥-elim
 
 ⌜⌝⇒0 : A → P ⊢[ i ] ⌜ A ⌝ ∗ P

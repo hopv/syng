@@ -60,22 +60,22 @@ private variable
 ----------------------------------------------------------------------
 -- Deriving from universal/existential quantification ∀ˢ / ∃ˢ
 
-infixr 7 _∧ˢ_
-infixr 6 _∨ˢ_
+infixr 7 _∧_
+infixr 6 _∨_
 
-_∧ˢ_ _∨ˢ_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
-P ∧ˢ Q = ∀^' (binary P Q) -- Conjunction
-P ∨ˢ Q = ∃^' (binary P Q) -- Disjunction
+_∧_ _∨_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
+P ∧ Q = ∀^' (binary P Q) -- Conjunction
+P ∨ Q = ∃^' (binary P Q) -- Disjunction
 
-⊤ˢ ⊥ˢ : Propˢ ℓ i
-⊤ˢ = ∀^ _ nullary -- Truth
-⊥ˢ = ∃^ _ nullary -- Falsehood
+⊤ ⊥ : Propˢ ℓ i
+⊤ = ∀^ _ nullary -- Truth
+⊥ = ∃^ _ nullary -- Falsehood
 
 ----------------------------------------------------------------------
 -- Set embedding
 
 ⌜_⌝ : Set ℓ → Propˢ ℓ i
-⌜ A ⌝ = ∃^ A (λ _ → ⊤ˢ)
+⌜ A ⌝ = ∃^ A (λ _ → ⊤)
 
 ----------------------------------------------------------------------
 -- On the save token
@@ -88,7 +88,7 @@ save□ Pᵗ = save true Pᵗ
 -- Iterated separating conjunction: [∗]
 
 [∗] : List (Propˢ ℓ i) → Propˢ ℓ i
-[∗] = foldr _∗_ ⊤ˢ
+[∗] = foldr _∗_ ⊤
 
 -- [∗] with map
 
@@ -120,16 +120,16 @@ open Basic {{...}}
 
 instance
 
-  ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ˢ Q)
+  ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ Q)
   ∧-Basic = ∀-Basic $ binary it it
 
-  ∨-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∨ˢ Q)
+  ∨-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∨ Q)
   ∨-Basic = ∃-Basic $ binary it it
 
-  ⊤-Basic : Basic {ℓ} ⊤ˢ
+  ⊤-Basic : Basic {ℓ} ⊤
   ⊤-Basic = ∀-Basic nullary
 
-  ⊥-Basic : Basic {ℓ} ⊥ˢ
+  ⊥-Basic : Basic {ℓ} ⊥
   ⊥-Basic = ∃-Basic nullary
 
   ∗-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∗ Q)

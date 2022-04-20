@@ -21,19 +21,25 @@ private variable
   i : Size
   P Q R : Propˢ ℓ ∞
 
+-- Lifting a thunk sequent into a super update =>>
 ᵗ⇒=>> : P ⊢[< i ] Q → P ⊢[ i ]=>> Q
 ᵗ⇒=>> P⊢ᵗQ = ᵗ|=>⇒=>> $ λ where .force → P⊢ᵗQ .force » |=>-intro
 
+-- Lifting a sequent under |=> into a super update =>>
 |=>⇒=>> : P ⊢[ i ] |=> Q → P ⊢[ i ]=>> Q
 |=>⇒=>> P⊢Q = ᵗ|=>⇒=>> $ λ where .force → P⊢Q
 
+-- Lifting a sequent into a super update =>>
 ⇒=>> : P ⊢[ i ] Q → P ⊢[ i ]=>> Q
 ⇒=>> P⊢Q = ᵗ⇒=>> λ where .force → P⊢Q
+
+-- Modifying the succedent of a super update with a sequent
 
 infixr -1 _ᵘ»_ -- the same fixity with _$_
 
 _ᵘ»_ : P ⊢[ i ]=>> Q → Q ⊢[ i ] R → P ⊢[ i ]=>> R
 P⊢=>>Q ᵘ» Q⊢R = P⊢=>>Q ᵘ»ᵘ ⇒=>> Q⊢R
 
+-- The super update =>> can frame
 =>>-frame₁ : P ⊢[ i ]=>> Q → P ∗ R ⊢[ i ]=>> Q ∗ R
 =>>-frame₁ P⊢=>>Q = ∗-comm » =>>-frame₀ P⊢=>>Q ᵘ» ∗-comm

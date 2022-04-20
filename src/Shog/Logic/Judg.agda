@@ -40,19 +40,21 @@ private variable
 -- Declaring Judg
 data Judg {ℓ} (i : Size) : Propˢ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
 
--- Notation
-
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
 
+-- General judgment
 _⊢[_]*_ : Propˢ ℓ ∞ → Size → JudgRes ℓ → Set (suc ℓ)
 P ⊢[ i ]* Jr = Judg i P Jr
 
+-- Sequent
 _⊢[_]_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
 P ⊢[ i ] Q = P ⊢[ i ]* pure Q
 
+-- Sequent under thunk
 _⊢[<_]_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
 P ⊢[< i ] Q = Thunk (P ⊢[_] Q) i
 
+-- Super update
 _⊢[_]=>>_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
 P ⊢[ i ]=>> Q = P ⊢[ i ]* |=>> Q
 
@@ -61,58 +63,73 @@ infixr -1 _»_ _ᵘ»ᵘ_ -- the same fixity with _$_
 -- Defining Judg
 data Judg {ℓ} i where
   ----------------------------------------------------------------------
-  -- Basic rules
+  -- The sequent is reflexive
   idˢ : P ⊢[ i ] P
+  -- The left-hand side of a judgment can be modified with a sequent
   _»_ : P ⊢[ i ] Q → Q ⊢[ i ]* Jr → P ⊢[ i ]* Jr
   ----------------------------------------------------------------------
-  -- On ∀/∃
+  -- Introducing ∀ / Eliminating ∃
   ∀-intro : (∀ a → P ⊢[ i ] Qᶠ a) → P ⊢[ i ] ∀^ A Qᶠ
   ∃-elim : (∀ a → Pᶠ a ⊢[ i ]* Jr) → ∃^ A Pᶠ ⊢[ i ]* Jr
+  -- Eliminating ∀ / Introducing ∃
   ∀-elim : ∀^ A Pᶠ ⊢[ i ] Pᶠ a
   ∃-intro : Pᶠ a ⊢[ i ] ∃^ A Pᶠ
+  -- Unnesting ∀ˢ ... , ∃ˢ ... , ⊤ into ∃ˢ _ ∈ (∀ ...) , ⊤
   ∀∃⇒∃∀-⊤ : ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ ⊢[ i ] ∃ˢ _ ∈ (∀ a → F a) , ⊤
   ----------------------------------------------------------------------
-  -- On →
+  -- → is the right adjoint of ∧
   →-intro : P ∧ Q ⊢[ i ] R → Q ⊢[ i ] P →ˢ R
   →-elim : Q ⊢[ i ] P →ˢ R → P ∧ Q ⊢[ i ] R
   ----------------------------------------------------------------------
-  -- On ∗
+  -- ∗ is unital w.r.t. ⊤, commutative, associative, and monotone
   ⊤∗-elim : ⊤ ∗ P ⊢[ i ] P
   ⊤∗-intro : P ⊢[ i ] ⊤ ∗ P
   ∗-comm : P ∗ Q ⊢[ i ] Q ∗ P
   ∗-assoc₀ : (P ∗ Q) ∗ R ⊢[ i ] P ∗ (Q ∗ R)
   ∗-mono₀ : P ⊢[ i ] Q → P ∗ R ⊢[ i ] Q ∗ R
   ----------------------------------------------------------------------
-  -- On -∗
+  -- -∗ is the right adjoint of ∗
   -∗-intro : P ∗ Q ⊢[ i ] R → Q ⊢[ i ] P -∗ R
   -∗-elim : Q ⊢[ i ] P -∗ R → P ∗ Q ⊢[ i ] R
   ----------------------------------------------------------------------
-  -- On |=>
+  -- |=> is monadic: monotone, increasing, and idempotent
   |=>-mono : P ⊢[ i ] Q → |=> P ⊢[ i ] |=> Q
   |=>-intro : P ⊢[ i ] |=> P
   |=>-join : |=> (|=> P) ⊢[ i ] |=> P
+  -- ∗ can get inside |=>
   |=>-frame₀ : P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
+  -- ∃ˢ _ , can get outside |=>
   |=>-∃-out : |=> (∃ˢ _ ∈ A , P) ⊢[ i ] ∃ˢ _ ∈ A , |=> P
   ----------------------------------------------------------------------
-  -- On □
+  -- □ is comonadic: monotone, decreasing, and idempotent
   □-mono : P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
   □-elim : □ P ⊢[ i ] P
   □-dup : □ P ⊢[ i ] □ (□ P)
+  -- ∧ can turn into ∗ when one argument is under □
   □₀-∧⇒∗ : □ P ∧ Q ⊢[ i ] □ P ∗ Q
+  -- ∀ can get inside □
   □-∀-in : ∀^ A (□ ∘ Pᶠ) ⊢[ i ] □ (∀^ A Pᶠ)
+  -- ∃ can get outside □
   □-∃-out : □ (∃^ A Pᶠ) ⊢[ i ] ∃^ A (□ ∘ Pᶠ)
   ----------------------------------------------------------------------
-  -- On the super update
+  -- A thunk sequent under |=> can be lifted to a super update =>>
   ᵗ|=>⇒=>> : P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
+  -- The super update =>> is transitive
   _ᵘ»ᵘ_ : P ⊢[ i ]=>> Q → Q ⊢[ i ]=>> R → P ⊢[ i ]=>> R
+  -- The super update =>> can frame
   =>>-frame₀ : Q ⊢[ i ]=>> R → P ∗ Q ⊢[ i ]=>> P ∗ R
   ----------------------------------------------------------------------
-  -- On the save token
+  -- The save token can be modified with a thunk sequent
   save-mono₁ : {{Basic R}} →
-    R ∗ Pᵗ .force ⊢[< i ] Qᵗ .force → save b Pᵗ ⊢[ i ] save b Qᵗ
+    R ∗ Pᵗ .force ⊢[< i ] Qᵗ .force → R ∗ save b Pᵗ ⊢[ i ] save b Qᵗ
+  -- save□ weakens into savex
   save-□⇒x : save□ Pᵗ ⊢[ i ] savex Pᵗ
+  -- save□ is persistent
   save□-□ : save□ Pᵗ ⊢[ i ] □ (save□ Pᵗ)
+  -- An exclusive save token savex Pᵗ is obtained by allocating Pᵗ
   savex-alloc : Pᵗ .force ⊢[ i ]=>> savex Pᵗ
+  -- Persistent save tokens save□ Pᵗ, ... can be obtained
+  -- by allocating □ Pᵗ, ... minus the tokens save□ Pᵗ, ... themselves
   save□-alloc-rec : [∗]-map save□ Pᵗs -∗ [∗]-map (λ Pᵗ → □ (Pᵗ .force)) Pᵗs
                       ⊢[ i ]=>> [∗]-map save□ Pᵗs
 
@@ -120,5 +137,6 @@ data Judg {ℓ} i where
 -- Persistence: Pers P
 
 record Pers {ℓ} (P : Propˢ ℓ ∞) : Set (suc ℓ) where
+  -- P can turn into □ P
   field pers : ∀ {i} → P ⊢[ i ] □ P
 open Pers {{...}} public

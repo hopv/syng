@@ -63,10 +63,12 @@ private variable
 infixr 7 _∧_
 infixr 6 _∨_
 
+-- Conjunction ∧ and disjunction ∨
 _∧_ _∨_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
 P ∧ Q = ∀^' (binary P Q) -- Conjunction
 P ∨ Q = ∃^' (binary P Q) -- Disjunction
 
+-- Truth ⊤ and falsehood ⊥
 ⊤ ⊥ : Propˢ ℓ i
 ⊤ = ∀^ _ nullary -- Truth
 ⊥ = ∃^ _ nullary -- Falsehood
@@ -100,17 +102,22 @@ syntax [∗]-map (λ d → P) ds = [∗] d ∈ ds , P
 ----------------------------------------------------------------------
 -- Basic Shog proposition
 
+-- IsBasic P : Predicate
+-- IsBasic P holds when P consists only of ∀, ∃ and ∗
 data IsBasic {ℓ} : Propˢ ℓ ∞ → Set (suc ℓ) where
   ∀-IsBasic : (∀ a → IsBasic (Pᶠ a)) → IsBasic (∀^ A Pᶠ)
   ∃-IsBasic : (∀ a → IsBasic (Pᶠ a)) → IsBasic (∃^ A Pᶠ)
   ∗-IsBasic : IsBasic P → IsBasic Q → IsBasic (P ∗ Q)
 
+-- Basic P : Type class wrapping IsBasic P
 record Basic {ℓ} (P : Propˢ ℓ ∞) : Set (suc ℓ) where
   field basic : IsBasic P
 open Basic {{...}}
 
--- ∀-Basic and ∃-Basic are not instances, because unfortunately
--- Agda can't search a universally quantified instance (∀ a → ...)
+-- For ∀/∃
+
+-- -- They are not instances, because unfortunately
+-- -- Agda can't search a universally quantified instance (∀ a → ...)
 
 ∀-Basic : (∀ a → Basic (Pᶠ a)) → Basic (∀^ A Pᶠ)
 ∀-Basic ∀Basic .basic = ∀-IsBasic $ λ a → ∀Basic a .basic
@@ -119,6 +126,8 @@ open Basic {{...}}
 ∃-Basic ∀Basic .basic = ∃-IsBasic $ λ a → ∀Basic a .basic
 
 instance
+
+  -- For ∧/∨/⊤/⊥
 
   ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ Q)
   ∧-Basic = ∀-Basic $ binary it it
@@ -132,8 +141,12 @@ instance
   ⊥-Basic : Basic {ℓ} ⊥
   ⊥-Basic = ∃-Basic nullary
 
+  -- For ∗
+
   ∗-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∗ Q)
   ∗-Basic .basic = ∗-IsBasic basic basic
+
+  -- For ⌜ ⌝
 
   ⌜⌝-Basic : Basic ⌜ A ⌝
   ⌜⌝-Basic = ∃-Basic $ λ _ → ⊤-Basic

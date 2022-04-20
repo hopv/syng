@@ -38,6 +38,8 @@ private variable
 ------------------------------------------------------------------------
 -- On ∀/∃/∧/∨/⊤/⊥
 
+-- Introducing ∧/⊤ / Eliminating ∨/⊥
+
 ∧-intro : P ⊢[ i ] Q → P ⊢[ i ] R → P ⊢[ i ] Q ∧ R
 ∧-intro P⊢Q P⊢R = ∀-intro $ binary P⊢Q P⊢R
 
@@ -50,6 +52,8 @@ private variable
 ⊥-elim : ⊥ ⊢[ i ]* Jr
 ⊥-elim = ∃-elim nullary
 
+-- Eliminating ∧/⊤ / Introducing ∨/⊥
+
 ∧-elim₀ : P ∧ Q ⊢[ i ] P
 ∧-elim₀ = ∀-elim {a = zero₂}
 
@@ -61,6 +65,8 @@ private variable
 
 ∨-intro₁ : Q ⊢[ i ] P ∨ Q
 ∨-intro₁ = ∃-intro {a = one₂}
+
+-- ∀/∃/∧/∨/⊤/⊥ is monotone
 
 ∀-mono : (∀ a → Pᶠ a ⊢[ i ] Qᶠ a) → ∀^' Pᶠ ⊢[ i ] ∀^' Qᶠ
 ∀-mono Pᶠ⊢Qᶠ = ∀-intro $ λ a → ∀-elim » Pᶠ⊢Qᶠ a
@@ -86,11 +92,15 @@ private variable
 ∨-mono₁ : P ⊢[ i ] Q → R ∨ P ⊢[ i ] R ∨ Q
 ∨-mono₁ P⊢Q = ∨-mono idˢ P⊢Q
 
+-- ∧/∨ is commutative
+
 ∧-comm : P ∧ Q ⊢[ i ] Q ∧ P
 ∧-comm = ∧-intro ∧-elim₁ ∧-elim₀
 
 ∨-comm : P ∨ Q ⊢[ i ] Q ∨ P
 ∨-comm = ∨-elim ∨-intro₁ ∨-intro₀
+
+-- ∧/∨ is associative
 
 ∧-assoc₀ : (P ∧ Q) ∧ R ⊢[ i ] P ∧ (Q ∧ R)
 ∧-assoc₀ = ∧-intro (∧-elim₀ » ∧-elim₀) $
@@ -108,6 +118,8 @@ private variable
 ∨-assoc₁ = ∨-elim (∨-intro₀ » ∨-intro₀) $
             ∨-elim (∨-intro₁ » ∨-intro₀) $ ∨-intro₁
 
+-- ∧/∨ is unital w.r.t. ⊤/⊥
+
 ∧⊤-intro : P ⊢[ i ] P ∧ ⊤
 ∧⊤-intro = ∧-intro idˢ ⊤-intro
 
@@ -123,8 +135,12 @@ private variable
 ------------------------------------------------------------------------
 -- On →ˢ
 
+-- Application on →ˢ
+
 →-apply : P ∧ (P →ˢ Q) ⊢[ i ] Q
 →-apply = →-elim idˢ
+
+-- →ˢ is monotone
 
 →-mono : Q ⊢[ i ] P → R ⊢[ i ] S → P →ˢ R ⊢[ i ] Q →ˢ S
 →-mono Q⊢P R⊢S = →-intro $ ∧-mono₀ Q⊢P » →-apply » R⊢S
@@ -138,18 +154,20 @@ private variable
 ------------------------------------------------------------------------
 -- On ⌜⌝
 
+-- Introducing and eliminating ⌜⌝
+
 ⌜⌝-intro : A → P ⊢[ i ] ⌜ A ⌝
 ⌜⌝-intro a = ⊤-intro » ∃-intro {a = a}
 
 ⌜⌝-elim : (A → ⊤ ⊢[ i ]* Jr) → ⌜ A ⌝ ⊢[ i ]* Jr
 ⌜⌝-elim A→⊤⊢P = ∃-elim $ λ a → A→⊤⊢P a
 
-⌜⌝-∀-in : ∀ {A : Set ℓ} {F : A → Set ℓ} →
-  ∀ˢ a ∈ A , ⌜ F a ⌝ ⊢[ i ] ⌜ (∀ a → F a) ⌝
-⌜⌝-∀-in = ∀∃⇒∃∀-⊤
+-- ⌜⌝ is monotone
 
 ⌜⌝-mono : (A → B) → ⌜ A ⌝ ⊢[ i ] ⌜ B ⌝
 ⌜⌝-mono f = ⌜⌝-elim $ λ a → ⌜⌝-intro $ f a
+
+-- Introducing and eliminating ⌜ ⌝ ∧
 
 ⌜⌝∧-intro : A → P ⊢[ i ] ⌜ A ⌝ ∧ P
 ⌜⌝∧-intro a = ∧-intro (⌜⌝-intro a) idˢ
@@ -158,11 +176,15 @@ private variable
 ⌜⌝∧-elim A→P⊢Q = ∧-comm » →-elim $ ⌜⌝-elim $
   λ a → →-intro $ ∧-elim₀ » A→P⊢Q a
 
+-- ⌜ A ⌝ → is the same with ∀ˢ _ ∈ A ,
+
 ⌜⌝→⇒∀ : ⌜ A ⌝ →ˢ P ⊢[ i ] ∀ˢ _ ∈ A , P
 ⌜⌝→⇒∀ = ∀-intro $ λ a → ⌜⌝∧-intro a » →-apply
 
 ∀⇒⌜⌝→ : ∀ˢ _ ∈ A , P ⊢[ i ] ⌜ A ⌝ →ˢ P
 ∀⇒⌜⌝→ = →-intro $ ⌜⌝∧-elim $ λ a → ∀-elim {a = a}
+
+-- ⌜ A ⌝ ∧ is the same with ∃ˢ _ ∈ A ,
 
 ⌜⌝∧⇒∃ : ⌜ A ⌝ ∧ P ⊢[ i ] ∃ˢ _ ∈ A , P
 ⌜⌝∧⇒∃ = ⌜⌝∧-elim $ λ a → idˢ » ∃-intro {a = a}
@@ -170,7 +192,11 @@ private variable
 ∃⇒⌜⌝∧ : ∃ˢ _ ∈ A , P ⊢[ i ] ⌜ A ⌝ ∧ P
 ∃⇒⌜⌝∧ = ∃-elim $ λ a → ⌜⌝∧-intro a
 
--- -- Commutativity between ∀/∃/∧/∨/⊤/⊥/→
+-- ⌜⌝ commutes with ∀/∃/∧/∨/⊤/⊥/→
+
+⌜⌝-∀-in : ∀ {A : Set ℓ} {F : A → Set ℓ} →
+  ∀ˢ a ∈ A , ⌜ F a ⌝ ⊢[ i ] ⌜ (∀ a → F a) ⌝
+⌜⌝-∀-in = ∀∃⇒∃∀-⊤
 
 ⌜⌝-∀-out : ⌜ (∀ a → F a) ⌝ ⊢[ i ] ∀ˢ a , ⌜ F a ⌝
 ⌜⌝-∀-out = ∀-intro $ λ a → ⌜⌝-elim $ λ f → ⌜⌝-intro $ f a
@@ -209,11 +235,15 @@ private variable
 ------------------------------------------------------------------------
 -- On ∗
 
+-- ∗ is monotone
+
 ∗-mono₁ : P ⊢[ i ] Q → R ∗ P ⊢[ i ] R ∗ Q
 ∗-mono₁ P⊢Q = ∗-comm » ∗-mono₀ P⊢Q » ∗-comm
 
 ∗-mono : P ⊢[ i ] Q → R ⊢[ i ] S → P ∗ R ⊢[ i ] Q ∗ S
 ∗-mono P⊢Q R⊢S = ∗-mono₀ P⊢Q » ∗-mono₁ R⊢S
+
+-- Eliminating ∗
 
 ∗-elim₁ : P ∗ Q ⊢[ i ] Q
 ∗-elim₁ = ∗-mono₀ ⊤-intro » ⊤∗-elim
@@ -221,29 +251,40 @@ private variable
 ∗-elim₀ : P ∗ Q ⊢[ i ] P
 ∗-elim₀ = ∗-comm » ∗-elim₁
 
+-- Introducing ∗ ⊤
+
 ∗⊤-intro : P ⊢[ i ] P ∗ ⊤
 ∗⊤-intro = ⊤∗-intro » ∗-comm
+
+-- ∗ is associative
 
 ∗-assoc₁ : P ∗ (Q ∗ R) ⊢[ i ] (P ∗ Q) ∗ R
 ∗-assoc₁ = ∗-comm » ∗-mono₀ ∗-comm » ∗-assoc₀ » ∗-comm » ∗-mono₀ ∗-comm
 
+-- ∃ can get outside ∗
+
 ∗-∃-out : P ∗ ∃^' Qᶠ ⊢[ i ] ∃ˢ a , P ∗ Qᶠ a
 ∗-∃-out = -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
+
+-- ∗ can turn into ∧
 
 ∗⇒∧ : P ∗ Q ⊢[ i ] P ∧ Q
 ∗⇒∧ = ∧-intro ∗-elim₀ ∗-elim₁
 
-→⇒-∗ : P →ˢ Q ⊢[ i ] P -∗ Q
-→⇒-∗ = -∗-intro $ ∗⇒∧ » →-elim idˢ
-
 ------------------------------------------------------------------------
 -- On -∗
+
+-- Introducing P -∗
 
 -∗-const : Q ⊢[ i ] P -∗ Q
 -∗-const = -∗-intro ∗-elim₁
 
+-- Application on -∗
+
 -∗-apply : P ∗ (P -∗ Q) ⊢[ i ] Q
 -∗-apply = -∗-elim idˢ
+
+-- -∗ is monotone
 
 -∗-mono : Q ⊢[ i ] P → R ⊢[ i ] S → P -∗ R ⊢[ i ] Q -∗ S
 -∗-mono Q⊢P R⊢S = -∗-intro $ ∗-mono₀ Q⊢P » -∗-apply » R⊢S
@@ -254,17 +295,30 @@ private variable
 -∗-mono₁ : P ⊢[ i ] Q → R -∗ P ⊢[ i ] R -∗ Q
 -∗-mono₁ P⊢Q = -∗-mono idˢ P⊢Q
 
+-- →ˢ can turn into -∗
+
+→⇒-∗ : P →ˢ Q ⊢[ i ] P -∗ Q
+→⇒-∗ = -∗-intro $ ∗⇒∧ » →-elim idˢ
+
 ------------------------------------------------------------------------
 -- On |=>
+
+-- Eliminating |=> from the antecedent
 
 |=>-elim : P ⊢[ i ] |=> Q → |=> P ⊢[ i ] |=> Q
 |=>-elim P⊢|=>Q = |=>-mono P⊢|=>Q » |=>-join
 
+-- ⌜ ⌝ ∧ can get outside |=>
+
 |=>-⌜⌝∧-out : |=> (⌜ A ⌝ ∧ P) ⊢[ i ] ⌜ A ⌝ ∧ |=> P
 |=>-⌜⌝∧-out = |=>-mono ⌜⌝∧⇒∃ » |=>-∃-out » ∃⇒⌜⌝∧
 
+-- ∗ can get inside |=>
+
 |=>-frame₁ : |=> P ∗ Q ⊢[ i ] |=> (P ∗ Q)
 |=>-frame₁ = ∗-comm » |=>-frame₀ » |=>-mono ∗-comm
+
+-- Updates |=> can be merged
 
 |=>-merge : |=> P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
 |=>-merge = |=>-frame₀ » |=>-mono |=>-frame₁ » |=>-join
@@ -272,8 +326,12 @@ private variable
 ------------------------------------------------------------------------
 -- On □
 
+-- Introducing |=> to the succedent
+
 □-intro : □ P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
 □-intro □P⊢Q = □-dup » □-mono □P⊢Q
+
+-- ∀/∧ can get outside □ / ∃/∨ can get inside □
 
 □-∀-out : □ (∀^ _ Pᶠ) ⊢[ i ] ∀^ _ (□ ∘ Pᶠ)
 □-∀-out = ∀-intro $ λ _ → □-mono ∀-elim
@@ -287,33 +345,46 @@ private variable
 □-∨-in : □ P ∨ □ Q ⊢[ i ] □ (P ∨ Q)
 □-∨-in = ∨-elim (□-mono ∨-intro₀) (□-mono ∨-intro₁)
 
+-- □ ⊥ can be eliminated
+
 □-⊥-elim : □ ⊥ ⊢[ i ] P
 □-⊥-elim = □-elim » ⊥-elim
 
--- -- with □₀-∧⇒∗
+------------------------------------------------------------------------
+-- On □, with □₀-∧⇒∗
 
+-- ∧ can turn into ∗ when one argument is under □
 □₁-∧⇒∗ : P ∧ □ Q ⊢[ i ] P ∗ □ Q
 □₁-∧⇒∗ = ∧-comm » □₀-∧⇒∗ » ∗-comm
 
+-- The antecedent can be retained when the succedent is under □
 retain-□ : P ⊢[ i ] □ Q → P ⊢[ i ] □ Q ∗ P
 retain-□ P⊢Q = ∧-intro P⊢Q idˢ » □₀-∧⇒∗
 
+-- A proposition under □ can be duplicated
 dup-□ : □ P ⊢[ i ] □ P ∗ □ P
 dup-□ = retain-□ idˢ
 
+-- ∗ can go outside □
 □-∗-out : □ (P ∗ Q) ⊢[ i ] □ P ∗ □ Q
 □-∗-out = □-mono ∗⇒∧ » □-∧-out » □₀-∧⇒∗
 
+-- Under □, ∧ can turn into ∗
 in□-∧⇒∗ : □ (P ∧ Q) ⊢[ i ] □ (P ∗ Q)
 in□-∧⇒∗ = □-intro $ dup-□ » ∗-mono (□-elim » ∧-elim₀) (□-elim » ∧-elim₁)
 
+-- P -∗ can turn into □ P →ˢ
 -∗⇒□→ : P -∗ Q ⊢[ i ] □ P →ˢ Q
 -∗⇒□→ = →-intro $ □₀-∧⇒∗ » ∗-mono₀ □-elim » -∗-apply
 
+-- Under □, -∗ can turn into →ˢ
 in□--∗⇒→ : □ (P -∗ Q) ⊢[ i ] □ (P →ˢ Q)
 in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-elim
 
--- -- with □-∀-in/□-∃-out
+------------------------------------------------------------------------
+-- On □, with □-∀-in/□-∃-out
+
+-- ∧ / ∨ can get inside / outside □
 
 □-∧-in : □ P ∧ □ Q ⊢[ i ] □ (P ∧ Q)
 □-∧-in = ∀-intro (binary ∧-elim₀ ∧-elim₁) » □-∀-in
@@ -321,19 +392,23 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-eli
 □-∨-out : □ (P ∨ Q) ⊢[ i ] □ P ∨ □ Q
 □-∨-out = □-∃-out » ∃-elim (binary ∨-intro₀ ∨-intro₁)
 
+-- □ ⊤ can be introduced
+
 □-⊤-intro : P ⊢[ i ] □ ⊤
 □-⊤-intro = ∀-intro nullary » □-∀-in
+
+-- ∗ can get inside □
 
 □-∗-in : □ P ∗ □ Q ⊢[ i ] □ (P ∗ Q)
 □-∗-in = ∗⇒∧ » □-∧-in » in□-∧⇒∗
 
 ------------------------------------------------------------------------
--- On persistence Pers P
+-- Deriving Pers P
 
--- Finding Pers
+-- -- For ∀/∃
 
--- ∀-Pers and ∃-Pers are not instances, because unfortunately
--- Agda can't search a universally quantified instance (∀ a → ...)
+-- -- They are not instances, because unfortunately
+-- -- Agda can't search a universally quantified instance (∀ a → ...)
 
 ∀-Pers : (∀ a → Pers (Pᶠ a)) → Pers (∀^ _ Pᶠ)
 ∀-Pers ∀Pers .pers = ∀-mono (λ a → ∀Pers a .pers) » □-∀-in
@@ -342,6 +417,8 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-eli
 ∃-Pers ∀Pers .pers = ∃-mono (λ a → ∀Pers a .pers) » □-∃-in
 
 instance
+
+  -- For ∧/∨/⊤/⊥
 
   ∧-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∧ Q)
   ∧-Pers = ∀-Pers $ binary it it
@@ -355,16 +432,25 @@ instance
   ⊥-Pers : Pers {ℓ} ⊥
   ⊥-Pers = ∃-Pers nullary
 
+  -- For ∗
+
   ∗-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∗ Q)
   ∗-Pers .pers = ∗⇒∧ » pers » in□-∧⇒∗
+
+  -- For ⌜ ⌝
 
   ⌜⌝-Pers : Pers ⌜ A ⌝
   ⌜⌝-Pers = ∃-Pers $ λ _ → ⊤-Pers
 
+  -- For □
+
   □-Pers : Pers (□ P)
   □-Pers .pers = □-dup
 
--- Using Pers
+------------------------------------------------------------------------
+-- Using Pers P
+
+-- ∧ can turn into ∗ when one argument is persistent
 
 Pers₀-∧⇒∗ : {{Pers P}} → P ∧ Q ⊢[ i ] P ∗ Q
 Pers₀-∧⇒∗ = ∧-mono₀ pers » □₀-∧⇒∗ » ∗-mono₀ □-elim
@@ -372,22 +458,27 @@ Pers₀-∧⇒∗ = ∧-mono₀ pers » □₀-∧⇒∗ » ∗-mono₀ □-elim
 Pers₁-∧⇒∗ : {{Pers Q}} → P ∧ Q ⊢[ i ] P ∗ Q
 Pers₁-∧⇒∗ = ∧-comm » Pers₀-∧⇒∗ » ∗-comm
 
+-- The antecedent can be retained when the succedent is persistent
 retain-Pers : {{Pers Q}} → P ⊢[ i ] Q → P ⊢[ i ] Q ∗ P
 retain-Pers P⊢Q = retain-□ (P⊢Q » pers) » ∗-mono₀ □-elim
 
+-- A persistent proposition can be duplicated
 dup-Pers : {{Pers P}} → P ⊢[ i ] P ∗ P
 dup-Pers = retain-Pers idˢ
 
+-- -∗ can turn into → when the left-hand side is persistent
 Pers--∗⇒→ : {{Pers P}} → P -∗ Q ⊢[ i ] P →ˢ Q
 Pers--∗⇒→ = -∗⇒□→ » →-mono₀ pers
 
--- -- More on ⌜⌝
+-- Introducing and eliminating ⌜ ⌝ ∗
 
 ⌜⌝∗-intro : A → P ⊢[ i ] ⌜ A ⌝ ∗ P
 ⌜⌝∗-intro a = ⌜⌝∧-intro a » Pers₀-∧⇒∗
 
 ⌜⌝∗-elim : (A → P ⊢[ i ] Q) → ⌜ A ⌝ ∗ P ⊢[ i ] Q
 ⌜⌝∗-elim A→P⊢Q = ∗⇒∧ » ⌜⌝∧-elim A→P⊢Q
+
+-- ⌜ ⌝ ∗ can get outside |=>
 
 |=>-⌜⌝∗-out : |=> (⌜ A ⌝ ∗ P) ⊢[ i ] ⌜ A ⌝ ∗ |=> P
 |=>-⌜⌝∗-out = |=>-mono ∗⇒∧ » |=>-⌜⌝∧-out » Pers₀-∧⇒∗

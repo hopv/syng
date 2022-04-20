@@ -25,6 +25,14 @@ private variable
 ----------------------------------------------------------------------
 -- On [∗]
 
+-- [∗] is monotone
+
+[∗]-mono : Pointwise _⊢[ i ]_ Ps Qs → [∗] Ps ⊢[ i ] [∗] Qs
+[∗]-mono [] = idˢ
+[∗]-mono (P⊢Q ∷ Ps⊢Qs) = ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)
+
+-- ++ can get inside and outside [∗]
+
 [∗]-++-in : ∀ Ps → [∗] Ps ∗ [∗] Qs ⊢[ i ] [∗] (Ps ++ Qs)
 [∗]-++-in [] = ∗-elim₁
 [∗]-++-in (_ ∷ Ps) = ∗-assoc₀ » ∗-mono₁ ([∗]-++-in Ps)
@@ -32,7 +40,3 @@ private variable
 [∗]-++-out : ∀ Ps → [∗] (Ps ++ Qs) ⊢[ i ] [∗] Ps ∗ [∗] Qs
 [∗]-++-out [] = ⊤∗-intro
 [∗]-++-out (_ ∷ Ps) = ∗-mono₁ ([∗]-++-out Ps) » ∗-assoc₁
-
-[∗]-mono : Pointwise _⊢[ i ]_ Ps Qs → [∗] Ps ⊢[ i ] [∗] Qs
-[∗]-mono [] = idˢ
-[∗]-mono (P⊢Q ∷ Ps⊢Qs) = ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)

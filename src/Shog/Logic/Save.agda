@@ -26,16 +26,21 @@ private variable
   b b' : Bool
 
 instance
+  -- save□ Pᵗ is persistent
   save□-Pers : Pers (save□ Pᵗ)
   save□-Pers .pers = save□-□
+
+-- save is monotone
 
 save-mono₀ : b' ≤ b → save b Pᵗ ⊢[ i ] save b' Pᵗ
 save-mono₀ f≤t = save-□⇒x
 save-mono₀ b≤b = idˢ
 
 save-mono : {{Basic R}} → b' ≤ b →
-  R ∗ Pᵗ .force ⊢[< i ] Qᵗ .force → save b Pᵗ ⊢[ i ] save b' Qᵗ
-save-mono H₀ H₁ = save-mono₀ H₀ » save-mono₁ H₁
+  R ∗ Pᵗ .force ⊢[< i ] Qᵗ .force → R ∗ save b Pᵗ ⊢[ i ] save b' Qᵗ
+save-mono H₀ H₁ = ∗-mono₁ (save-mono₀ H₀) » save-mono₁ H₁
+
+-- Allocating save□, without recursion
 
 save□-alloc : □ (Pᵗ .force) ⊢[ i ]=>> save□ Pᵗ
 save□-alloc {Pᵗ = Pᵗ} = ∗⊤-intro » -∗-const »

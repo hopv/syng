@@ -142,23 +142,31 @@ private variable
 ------------------------------------------------------------------------
 -- Operations on the head
 
+-- Eliminated the head
 0⇒ : P ∗ Q ⊢[ i ] Q
 0⇒ = ∗-elim₁
 
+-- Use only the head
 by0 : P ∗ Q ⊢[ i ] P
 by0 = ∗-elim₀
 
+-- Split the head
 0-split : (P ∗ Q) ∗ R ⊢[ i ] P ∗ Q ∗ R
 0-split = ∗-assoc₀
 
+-- Merge the two at the head
 01-merge : P ∗ Q ∗ R ⊢[ i ] (P ∗ Q) ∗ R
 01-merge = ∗-assoc₁
 
+-- Duplicate the head when it is persistent
 0-dup-Pers : {{Pers P}} → P ∗ Q ⊢[ i ] P ∗ P ∗ Q
 0-dup-Pers = 0-mono dup-Pers » ∗-assoc₀
 
+-- Introduce ⊤ to the head
 ⊤⇒0 : P ⊢[ i ] ⊤ ∗ P
 ⊤⇒0 = ⊤∗-intro
+
+-- Eliminate ∃/∨/⊥ from the head
 
 0-∃-elim : (∀ a → Pᶠ a ∗ Q ⊢[ i ]* Jr) → (∃^ _ Pᶠ) ∗ Q ⊢[ i ]* Jr
 0-∃-elim →Pᶠ∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →Pᶠ∗⊢ a
@@ -169,11 +177,17 @@ by0 = ∗-elim₀
 0-⊥-elim : ⊥ ∗ Q ⊢[ i ]* Jr
 0-⊥-elim = ∗-elim₀ » ⊥-elim
 
+-- Introduce ⌜ ⌝ to the head
+
 ⌜⌝⇒0 : A → P ⊢[ i ] ⌜ A ⌝ ∗ P
 ⌜⌝⇒0 = ⌜⌝∗-intro
 
+-- Eliminate ⌜ ⌝ from the head
+
 0-⌜⌝-elim : (A → Q ⊢[ i ] R) → ⌜ A ⌝ ∗ Q ⊢[ i ] R
 0-⌜⌝-elim = ⌜⌝∗-elim
+
+-- Apply the head to the succedent
 
 0--∗-apply : Q ⊢[ i ] P → (P -∗ P') ∗ Q ⊢[ i ] P'
 0--∗-apply Q⊢P = 0-mono (-∗-mono₀ Q⊢P) » 0⇒1' » -∗-apply

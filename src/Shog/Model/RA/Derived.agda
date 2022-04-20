@@ -49,13 +49,13 @@ private variable
 ⌞⌟-unit₁ ⌞a⌟a' = ∙-comm »ᵉ ⌞⌟-unit₀ ⌞a⌟a'
 
 ----------------------------------------------------------------------
--- ᵐ∙: ∙ with Maybe
+-- ᵖ∙: ∙ with Maybe
 
-infixl 7 _ᵐ∙_
+infixl 7 _ᵖ∙_
 
-_ᵐ∙_ : Maybe Car → Car → Car
-just a ᵐ∙ b = a ∙ b
-nothing ᵐ∙ b = b
+_ᵖ∙_ : Maybe Car → Car → Car
+just a ᵖ∙ b = a ∙ b
+nothing ᵖ∙ b = b
 
 ----------------------------------------------------------------------
 -- ≤: Derived pre-order
@@ -63,7 +63,7 @@ nothing ᵐ∙ b = b
 infix 4 _≤_
 
 _≤_ : Car → Car → Set (ℓ ⊔ ℓ≈)
-a ≤ b = ∃[ cᵐ ] cᵐ ᵐ∙ a ≈ b
+a ≤ b = ∃[ cᵖ ] cᵖ ᵖ∙ a ≈ b
 
 ----------------------------------------------------------------------
 -- On ≤
@@ -129,13 +129,13 @@ _ᵒ»ᵉ_ : a ≤ b → b ≈ c → a ≤ c
 
 infix 2 _~>_ _~>:_
 
--- a ~> b : a can be updated into b, regardless of the frame cᵐ
+-- a ~> b : a can be updated into b, regardless of the frame cᵖ
 _~>_ : Car → Car → Set (ℓ ⊔ ℓ✓)
-a ~> b = ∀ cᵐ → ✓ (cᵐ ᵐ∙ a) → ✓ (cᵐ ᵐ∙ b)
+a ~> b = ∀ cᵖ → ✓ (cᵖ ᵖ∙ a) → ✓ (cᵖ ᵖ∙ b)
 
--- a ~>: B : a can be updated into b, regardless of the frame cᵐ
+-- a ~>: B : a can be updated into b, regardless of the frame cᵖ
 _~>:_ : Car → (Car → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
-a ~>: B = ∀ cᵐ → ✓ (cᵐ ᵐ∙ a) → ∃[ b ] B b × ✓ (cᵐ ᵐ∙ b)
+a ~>: B = ∀ cᵖ → ✓ (cᵖ ᵖ∙ a) → ∃[ b ] B b × ✓ (cᵖ ᵖ∙ b)
 
 ----------------------------------------------------------------------
 -- ⊆≈ : Set inclusion relaxed with ≈
@@ -167,7 +167,7 @@ _[⊆≈]»_ : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
 
 -- ~> into ~>:
 ~>⇒~>: : ∀ b → a ~> b → a ~>: (b ≡_)
-~>⇒~>: b a~>b cᵐ ✓cᵐ∙a = b , refl , a~>b cᵐ ✓cᵐ∙a
+~>⇒~>: b a~>b cᵖ ✓cᵖ∙a = b , refl , a~>b cᵖ ✓cᵖ∙a
 
 -- ~> respects ≈
 
@@ -204,19 +204,19 @@ _[⊆≈]»_ : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
 -- ~> is reflexive
 
 ~>-id : a ~> a
-~>-id _ ✓cᵐ∙a = ✓cᵐ∙a
+~>-id _ ✓cᵖ∙a = ✓cᵖ∙a
 
 infixr -1 _[~>]»_ _[~>]»[~>:]_
 
 -- ~> is transitive
 
 _[~>]»_ : a ~> b → b ~> c → a ~> c
-(a~>b [~>]» b~>c) dᵐ ✓dᵐ∙a = b~>c dᵐ $ a~>b dᵐ ✓dᵐ∙a
+(a~>b [~>]» b~>c) dᵖ ✓dᵖ∙a = b~>c dᵖ $ a~>b dᵖ ✓dᵖ∙a
 
 -- ~>: respects ~>
 
 _[~>]»[~>:]_ : a ~> b → b ~>: C → a ~>: C
-(a~>b [~>]»[~>:] b~>C) dᵐ ✓dᵐ∙a = b~>C dᵐ $ a~>b dᵐ ✓dᵐ∙a
+(a~>b [~>]»[~>:] b~>C) dᵖ ✓dᵖ∙a = b~>C dᵖ $ a~>b dᵖ ✓dᵖ∙a
 
 -- ~>/~>: can be merged with respect to ∙
 

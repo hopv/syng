@@ -153,6 +153,15 @@ A ⊆≈ B = ∀ a → A a → ∃[ b ] a ≈ b × B b
 ⊆≈-id : A ⊆≈ A
 ⊆≈-id a Aa = a , idᵉ , Aa
 
+-- ⊆≈ is transitive
+
+infixr -1 _[⊆≈]»_
+
+_[⊆≈]»_ : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
+(A⊆≈B [⊆≈]» B⊆≈C) a Aa with A⊆≈B a Aa
+... | b , a≈b , Bb with B⊆≈C b Bb
+...   | c , b≈c , Cc = c , (a≈b »ᵉ b≈c) , Cc
+
 ----------------------------------------------------------------------
 -- On ~>/~>:
 

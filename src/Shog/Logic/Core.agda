@@ -18,7 +18,8 @@ open import Data.Empty renaming (⊥ to ⊥'; ⊥-elim to ⊥'-elim)
 
 open import Shog.Util using (zero₂; one₂; binary; nullary)
 open import Shog.Logic.Prop public using (
-  Propˢ; ∀^; ∃^; ∀^'; ∃^'; _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→ˢ_; _∗_; _-∗_; |=>; □)
+  Propˢ; ∀^; ∃^; ∀^'; ∃^'; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
+  _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→ˢ_; _∗_; _-∗_; |=>; □)
 open import Shog.Logic.Judg public using (
   JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers;
   idˢ; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ∀∃⇒∃∀-⊤; →-intro; →-elim;

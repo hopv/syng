@@ -15,6 +15,10 @@ open import Function.Base using (_$_; _∘_; it)
 
 open import Shog.Util using (binary; nullary)
 
+private variable
+  ℓ ℓ' : Level
+  i : Size
+
 ----------------------------------------------------------------------
 -- Syntax for the Shog proposition: Propˢ ℓ i
 
@@ -35,23 +39,31 @@ data Propˢ ℓ i where
   -- save token
   save : Bool → Propᵗ ℓ i → Propˢ ℓ i
 
-infix 3 ∀^ ∃^
-syntax ∀^ A (λ x → P) = ∀ˢ x ∈ A , P
-syntax ∃^ A (λ x → P) = ∃ˢ x ∈ A , P
-
-∀^' ∃^' : ∀ {ℓ i} {A : Set ℓ} → (A → Propˢ ℓ i) → Propˢ ℓ i
-∀^' = ∀^ _
-∃^' = ∃^ _
-infix 3 ∀^' ∃^'
-syntax ∀^' (λ x → P) = ∀ˢ x , P
-syntax ∃^' (λ x → P) = ∃ˢ x , P
-
 infixr 5 _→ˢ_ _-∗_
 infixr 7 _∗_
 
+-- ∀^/∃^ with the set argument implicit
+∀^' ∃^' : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ i) → Propˢ ℓ i
+∀^' = ∀^ _
+∃^' = ∃^ _
+
+-- Syntax for ∀/∃
+
+∀∈-syntax ∃∈-syntax : (A : Set ℓ) → (A → Propˢ ℓ i) → Propˢ ℓ i
+∀∈-syntax = ∀^
+∃∈-syntax = ∃^
+
+∀-syntax ∃-syntax : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ i) → Propˢ ℓ i
+∀-syntax = ∀^'
+∃-syntax = ∃^'
+
+infix 3 ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
+syntax ∀∈-syntax A (λ x → P) = ∀ˢ x ∈ A , P
+syntax ∃∈-syntax A (λ x → P) = ∃ˢ x ∈ A , P
+syntax ∀-syntax (λ x → P) = ∀ˢ x , P
+syntax ∃-syntax (λ x → P) = ∃ˢ x , P
+
 private variable
-  ℓ ℓ' : Level
-  i : Size
   A : Set ℓ
   D : Set ℓ'
   P Q R S : Propˢ ℓ ∞
@@ -97,7 +109,11 @@ save□ Pᵗ = save true Pᵗ
 [∗]-map : (D → Propˢ ℓ i) → List D → Propˢ ℓ i
 [∗]-map Pᶠ ds = [∗] $ map Pᶠ ds
 
-syntax [∗]-map (λ d → P) ds = [∗] d ∈ ds , P
+[∗]-map-syntax : (D → Propˢ ℓ i) → List D → Propˢ ℓ i
+[∗]-map-syntax = [∗]-map
+
+infix 3 [∗]-map-syntax
+syntax [∗]-map-syntax (λ d → P) ds = [∗] d ∈ ds , P
 
 ----------------------------------------------------------------------
 -- Basic Shog proposition

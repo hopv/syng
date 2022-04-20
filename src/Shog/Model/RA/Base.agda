@@ -37,7 +37,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     symm : ∀ {a b} → a ≈ b → b ≈ a
     _»ᵉ_ : ∀ {a b c} → a ≈ b → b ≈ c → a ≈ c
     ----------------------------------------------------------------------
-    -- ✓ preserves ≈
+    -- ✓ respects ≈
     ✓-cong : ∀ {a b} → a ≈ b → ✓ a → ✓ b
     -- ✓ is kept after a resource is removed
     ✓-rem : ∀ {a b} → ✓ (b ∙ a) → ✓ a

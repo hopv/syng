@@ -19,7 +19,7 @@ open import Data.Maybe.Base using (Maybe; just; nothing)
 open import Data.Product using (_×_; _,_; ∃-syntax)
 open import Data.Unit using (⊤; tt)
 open import Data.Empty using (⊥)
-open import Function.Base using (_$_)
+open import Function.Base using (_$_; case_of_)
 
 private variable
   a a' b b' c d : Car
@@ -113,7 +113,7 @@ _ᵒ»ᵉ_ : a ≤ b → b ≈ c → a ≤ c
 
 ⌞⌟-mono : a ≤ b → ⌞ a ⌟ ≡ just a' → ∃[ b' ] ⌞ b ⌟ ≡ just b' × a' ≤ b'
 ⌞⌟-mono (just c , c∙a≈b) ⌞a⌟a' with ⌞⌟-add {b = c} ⌞a⌟a'
-... | (d' , ⌞c∙a⌟d' , e' , e'∙a'≈d') with ⌞⌟-cong c∙a≈b ⌞c∙a⌟d'
-...   | (b' , ⌞b⌟b' , d'≈b') = b' , ⌞b⌟b' , (∙-incr e' ᵒ»ᵉ e'∙a'≈d' »ᵉ d'≈b')
+... | d' , ⌞c∙a⌟d' , e' , e'∙a'≈d' with ⌞⌟-cong c∙a≈b ⌞c∙a⌟d'
+...   | b' , ⌞b⌟b' , d'≈b' = b' , ⌞b⌟b' , (∙-incr e' ᵒ»ᵉ e'∙a'≈d' »ᵉ d'≈b')
 ⌞⌟-mono (nothing , a≈b) ⌞a⌟a' with ⌞⌟-cong a≈b ⌞a⌟a'
-... | (b' , ⌞b⌟b' , a'≈b') = b' , ⌞b⌟b' , ≈⇒≤ a'≈b'
+... | b' , ⌞b⌟b' , a'≈b' = b' , ⌞b⌟b' , ≈⇒≤ a'≈b'

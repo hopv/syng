@@ -23,11 +23,12 @@ open import Function.Base using (_$_; case_of_)
 
 private variable
   a a' b b' c d : Car
-  ℓA ℓB ℓB' ℓC : Level
+  ℓA ℓB ℓB' ℓC ℓD : Level
   A : Car → Set ℓA
   B : Car → Set ℓB
   B' : Car → Set ℓB'
   C : Car → Set ℓC
+  D : Car → Set ℓD
 
 ----------------------------------------------------------------------
 -- On ∙
@@ -207,3 +208,24 @@ _[~>]»_ : a ~> b → b ~> c → a ~> c
 
 _[~>]»[~>:]_ : a ~> b → b ~>: C → a ~>: C
 (a~>b [~>]»[~>:] b~>C) dᵐ ✓dᵐ∙a = b~>C dᵐ $ a~>b dᵐ ✓dᵐ∙a
+
+-- ~>/~>: can be merged with respect to ∙
+
+~>-∙ : ∀ a d → a ~> b → c ~> d → a ∙ c ~> b ∙ d
+~>-∙ a d a~>b c~>d (just e) ✓e∙a∙c = ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm) $
+  a~>b (just $ e ∙ d) $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) $
+  c~>d (just $ e ∙ a) $ ✓-cong ∙-assoc₁ ✓e∙a∙c
+~>-∙ a d a~>b c~>d nothing ✓a∙c = ✓-cong ∙-comm $
+  a~>b (just d) $ ✓-cong ∙-comm $ c~>d (just a) ✓a∙c
+
+~>:-∙ : ∀ a → a ~>: B → c ~>: D →
+  a ∙ c ~>: λ bd → ∃[ b ] B b × ∃[ d ] D d × bd ≡ b ∙ d
+~>:-∙ a a~>:B c~>:D (just e) ✓e∙a∙c with
+  c~>:D (just $ e ∙ a) $ ✓-cong ∙-assoc₁ ✓e∙a∙c
+... | d , Dd , ✓e∙a∙d with
+  a~>:B (just $ e ∙ d) $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) ✓e∙a∙d
+...   | b , Bb , ✓e∙d∙b = b ∙ d , (b , Bb , d , Dd , refl) ,
+  ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm) ✓e∙d∙b
+~>:-∙ a a~>:B c~>:D nothing ✓a∙c with c~>:D (just a) ✓a∙c
+... | d , Dd , ✓a∙d with a~>:B (just d) $ ✓-cong ∙-comm ✓a∙d
+...   | b , Bb , ✓d∙b = b ∙ d , (b , Bb , d , Dd , refl) , ✓-cong ∙-comm ✓d∙b

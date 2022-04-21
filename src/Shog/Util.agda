@@ -8,16 +8,18 @@ module Shog.Util where
 
 open import Level using (Level)
 
+private variable
+  ℓ ℓ' : Level
+
 ------------------------------------------------------------------------
--- For binary and nullary things
+-- Two and Zero -- Level-polymorphic 2/0-element set
 
 data Two ℓ : Set ℓ where
   zero₂ one₂ : Two ℓ
 
 data Zero ℓ : Set ℓ where
 
-private variable
-  ℓ ℓ' : Level
+-- Function from Two/Zero
 
 binary : ∀{F : Two ℓ → Set ℓ'} → F zero₂ → F one₂ → ∀ two → F two
 binary a _ zero₂ = a

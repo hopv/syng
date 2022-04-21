@@ -24,9 +24,9 @@ data Excl {ℓ} (A : Set ℓ) : Set ℓ where
   !ˣ : A → Excl A -- exclusively register
   ↯ˣ : Excl A -- invalid
 
-data ✓ˣ (A : Set ℓ) : Excl A → Set ℓ where
-  ?ˣ-✓ : ✓ˣ A ?ˣ
-  !ˣ-✓ : ∀ {a} → ✓ˣ A (!ˣ a)
+data ✓ˣ {A : Set ℓ} : Excl A → Set ℓ where
+  ?ˣ-✓ : ✓ˣ ?ˣ
+  !ˣ-✓ : ∀ {a} → ✓ˣ (!ˣ a)
 
 infixl 7 _∙ˣ_
 _∙ˣ_ : Excl A → Excl A → Excl A
@@ -36,7 +36,7 @@ aˣ ∙ˣ ?ˣ = aˣ
 _ ∙ˣ _ = ↯ˣ
 
 private
-  ✓ˣ-rem : ∀ aˣ bˣ → ✓ˣ A (bˣ ∙ˣ aˣ) → ✓ˣ A aˣ
+  ✓ˣ-rem : ∀ (aˣ bˣ : Excl A) → ✓ˣ (bˣ ∙ˣ aˣ) → ✓ˣ aˣ
   ✓ˣ-rem _ ?ˣ ✓aˣ = ✓aˣ
   ✓ˣ-rem ?ˣ (!ˣ _) _ = ?ˣ-✓
 
@@ -64,7 +64,7 @@ ExclRA : Set ℓ → RA ℓ ℓ ℓ
 
 ExclRA A .Car = Excl A
 ExclRA A ._≈_ = _≡_
-ExclRA A .✓ = ✓ˣ A
+ExclRA A .✓ = ✓ˣ
 ExclRA A ._∙_ = _∙ˣ_
 ExclRA A .ε = ?ˣ
 ExclRA A .⌞_⌟ _ = ?ˣ

@@ -4,38 +4,43 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Shog.Model.RA.Excl {ℓ} (A : Set ℓ) where
+module Shog.Model.RA.Excl where
 
-open import Shog.Model.RA.Base using (RA)
-open RA
+open import Level using (Level)
 
 open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; trans)
 open import Function.Base using (id)
 open import Data.Product using (_,_)
 
-data Excl : Set ℓ where
-  ?ˣ : Excl -- pending
-  !ˣ : A → Excl -- exclusively register
-  ↯ˣ : Excl -- invalid
+open import Shog.Model.RA using (RA)
+open RA
 
-data ✓ˣ : Excl → Set ℓ where
-  ?ˣ-✓ : ✓ˣ ?ˣ
-  !ˣ-✓ : ∀ {a} → ✓ˣ (!ˣ a)
+private variable
+  ℓ : Level
+  A : Set ℓ
+
+data Excl {ℓ} (A : Set ℓ) : Set ℓ where
+  ?ˣ : Excl A -- pending
+  !ˣ : A → Excl A -- exclusively register
+  ↯ˣ : Excl A -- invalid
+
+data ✓ˣ (A : Set ℓ) : Excl A → Set ℓ where
+  ?ˣ-✓ : ✓ˣ A ?ˣ
+  !ˣ-✓ : ∀ {a} → ✓ˣ A (!ˣ a)
+
+infixl 7 _∙ˣ_
+_∙ˣ_ : Excl A → Excl A → Excl A
+?ˣ ∙ˣ aˣ = aˣ
+↯ˣ ∙ˣ aˣ = ↯ˣ
+aˣ ∙ˣ ?ˣ = aˣ
+_ ∙ˣ _ = ↯ˣ
 
 private
-
-  infixl 7 _∙ˣ_
-  _∙ˣ_ : Excl → Excl → Excl
-  ?ˣ ∙ˣ a = a
-  ↯ˣ ∙ˣ a = ↯ˣ
-  a ∙ˣ ?ˣ = a
-  _ ∙ˣ _ = ↯ˣ
-
-  ✓ˣ-rem : ∀ a b → ✓ˣ (b ∙ˣ a) → ✓ˣ a
-  ✓ˣ-rem _ ?ˣ ✓a = ✓a
+  ✓ˣ-rem : ∀ aˣ bˣ → ✓ˣ A (bˣ ∙ˣ aˣ) → ✓ˣ A aˣ
+  ✓ˣ-rem _ ?ˣ ✓aˣ = ✓aˣ
   ✓ˣ-rem ?ˣ (!ˣ _) _ = ?ˣ-✓
 
-  ∙ˣ-comm : ∀ a b → a ∙ˣ b ≡ b ∙ˣ a
+  ∙ˣ-comm : ∀ (aˣ bˣ : Excl A) → aˣ ∙ˣ bˣ ≡ bˣ ∙ˣ aˣ
   ∙ˣ-comm ?ˣ ?ˣ = refl
   ∙ˣ-comm ?ˣ (!ˣ _) = refl
   ∙ˣ-comm ?ˣ ↯ˣ = refl
@@ -46,7 +51,7 @@ private
   ∙ˣ-comm ↯ˣ (!ˣ _) = refl
   ∙ˣ-comm ↯ˣ ↯ˣ = refl
 
-  ∙ˣ-assoc₀ : ∀ a b c → (a ∙ˣ b) ∙ˣ c ≡ a ∙ˣ (b ∙ˣ c)
+  ∙ˣ-assoc₀ : ∀ (aˣ bˣ cˣ : Excl A) → (aˣ ∙ˣ bˣ) ∙ˣ cˣ ≡ aˣ ∙ˣ (bˣ ∙ˣ cˣ)
   ∙ˣ-assoc₀ ?ˣ _ _ = refl
   ∙ˣ-assoc₀ (!ˣ _) ?ˣ _ = refl
   ∙ˣ-assoc₀ (!ˣ _) (!ˣ _) ?ˣ = refl
@@ -55,29 +60,27 @@ private
   ∙ˣ-assoc₀ (!ˣ _) ↯ˣ _ = refl
   ∙ˣ-assoc₀ ↯ˣ _ _ = refl
 
-ExclRA : RA ℓ ℓ ℓ
+ExclRA : Set ℓ → RA ℓ ℓ ℓ
 
-ExclRA .Car = Excl
-ExclRA ._≈_ = _≡_
-ExclRA .✓ = ✓ˣ
-ExclRA ._∙_ = _∙ˣ_
-ExclRA .ε = ?ˣ
-ExclRA .⌞_⌟ _ = ?ˣ
-ExclRA .idᵉ = refl
-ExclRA .symᵉ = sym
-ExclRA ._»ᵉ_ = trans
-ExclRA .✓-cong refl = id
-ExclRA .✓-rem {a = a} {b = b} = ✓ˣ-rem a b
-ExclRA .∙-cong₀ refl = refl
-ExclRA .∙-ε₀ = refl
-ExclRA .∙-comm {a = a} {b = b} = ∙ˣ-comm a b
-ExclRA .∙-assoc₀ {a = a} {b = b} {c = c} = ∙ˣ-assoc₀ a b c
-ExclRA .⌞⌟-cong _ = refl
-ExclRA .⌞⌟-add = ?ˣ , refl
-ExclRA .⌞⌟-unit₀ = refl
-ExclRA .⌞⌟-idem = refl
+ExclRA A .Car = Excl A
+ExclRA A ._≈_ = _≡_
+ExclRA A .✓ = ✓ˣ A
+ExclRA A ._∙_ = _∙ˣ_
+ExclRA A .ε = ?ˣ
+ExclRA A .⌞_⌟ _ = ?ˣ
+ExclRA A .idᵉ = refl
+ExclRA A .symᵉ = sym
+ExclRA A ._»ᵉ_ = trans
+ExclRA A .✓-cong refl = id
+ExclRA A .✓-rem {a = aˣ} {b = bˣ} = ✓ˣ-rem aˣ bˣ
+ExclRA A .∙-cong₀ refl = refl
+ExclRA A .∙-ε₀ = refl
+ExclRA A .∙-comm {a = aˣ} {b = bˣ} = ∙ˣ-comm aˣ bˣ
+ExclRA A .∙-assoc₀ {a = aˣ} {b = bˣ} {c = cˣ} = ∙ˣ-assoc₀ aˣ bˣ cˣ
+ExclRA A .⌞⌟-cong _ = refl
+ExclRA A .⌞⌟-add = ?ˣ , refl
+ExclRA A .⌞⌟-unit₀ = refl
+ExclRA A .⌞⌟-idem = refl
 
-open import Shog.Model.RA.Derived ExclRA public
-
-!ˣ-~> : ∀{a b} → !ˣ a ~> !ˣ b
+!ˣ-~> : ∀{a b : A} → _~>_ (ExclRA A) (!ˣ a) (!ˣ b)
 !ˣ-~> {c = ?ˣ} _ = !ˣ-✓

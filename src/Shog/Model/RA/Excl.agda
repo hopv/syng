@@ -19,14 +19,27 @@ private variable
   ℓ : Level
   A : Set ℓ
 
+
+----------------------------------------------------------------------
+-- Excl A : ExclRA's carrier
+
 data Excl {ℓ} (A : Set ℓ) : Set ℓ where
-  ?ˣ : Excl A -- pending
-  !ˣ : A → Excl A -- exclusively register
-  ↯ˣ : Excl A -- invalid
+  -- pending
+  ?ˣ : Excl A
+  -- the value is exclusively set
+  !ˣ : A → Excl A
+  -- invalid
+  ↯ˣ : Excl A
+
+----------------------------------------------------------------------
+-- ✓ˣ : ExclRA's validity
 
 data ✓ˣ {A : Set ℓ} : Excl A → Set ℓ where
   ?ˣ-✓ : ✓ˣ ?ˣ
   !ˣ-✓ : ∀ {a} → ✓ˣ (!ˣ a)
+
+----------------------------------------------------------------------
+-- _∙ˣ_ : ExclRA's product
 
 infixl 7 _∙ˣ_
 _∙ˣ_ : Excl A → Excl A → Excl A
@@ -34,6 +47,9 @@ _∙ˣ_ : Excl A → Excl A → Excl A
 ↯ˣ ∙ˣ aˣ = ↯ˣ
 aˣ ∙ˣ ?ˣ = aˣ
 _ ∙ˣ _ = ↯ˣ
+
+----------------------------------------------------------------------
+-- Non-trivial lemmas for ExclRA
 
 private
   ✓ˣ-rem : ∀ (aˣ bˣ : Excl A) → ✓ˣ (bˣ ∙ˣ aˣ) → ✓ˣ aˣ
@@ -60,6 +76,9 @@ private
   ∙ˣ-assoc₀ (!ˣ _) ↯ˣ _ = refl
   ∙ˣ-assoc₀ ↯ˣ _ _ = refl
 
+----------------------------------------------------------------------
+-- ExclRA : Exclusive resource algebra
+
 ExclRA : Set ℓ → RA ℓ ℓ ℓ
 
 ExclRA A .Car = Excl A
@@ -81,6 +100,9 @@ ExclRA A .⌞⌟-cong _ = refl
 ExclRA A .⌞⌟-add = ?ˣ , refl
 ExclRA A .⌞⌟-unit₀ = refl
 ExclRA A .⌞⌟-idem = refl
+
+----------------------------------------------------------------------
+-- Update on ExclRA
 
 !ˣ-~> : ∀{a b : A} → _~>_ (ExclRA A) (!ˣ a) (!ˣ b)
 !ˣ-~> {c = ?ˣ} _ = !ˣ-✓

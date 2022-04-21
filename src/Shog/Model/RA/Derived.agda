@@ -8,7 +8,7 @@ open import Shog.Model.RA.Base using (RA)
 
 module Shog.Model.RA.Derived {ℓ ℓ≈ ℓ✓} (Ra : RA ℓ ℓ≈ ℓ✓) where
 open RA Ra public using (
-  Car; _≈_; ✓; _∙_; ε; ⌞_⌟; idᵉ; symm; _»ᵉ_; ✓-cong; ✓-rem;
+  Car; _≈_; ✓; _∙_; ε; ⌞_⌟; idᵉ; symᵉ; _»ᵉ_; ✓-cong; ✓-rem;
   ∙-cong₀; ∙-ε₀; ∙-comm; ∙-assoc₀; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unit₀; ⌞⌟-idem)
 
 open import Level using (Level; _⊔_)
@@ -91,7 +91,7 @@ _ᵒ»ᵉ_ : a ≤ b → b ≈ c → a ≤ c
 -- Monotonicity of ✓, ∙ and ⌞⌟
 
 ✓-mono : a ≤ b → ✓ b → ✓ a
-✓-mono (c , c∙a≈b) ✓b = ✓-rem $ ✓-cong (symm c∙a≈b) ✓b
+✓-mono (c , c∙a≈b) ✓b = ✓-rem $ ✓-cong (symᵉ c∙a≈b) ✓b
 
 ∙-mono₀ : a ≤ b → a ∙ c ≤ b ∙ c
 ∙-mono₀ (d , d∙a≈b) = d , (∙-assoc₁ »ᵉ ∙-cong₀ d∙a≈b)
@@ -155,7 +155,7 @@ _[⊆≈]»_ : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
 
 ~>-cong : a ≈ a' → b ≈ b' → a ~> b → a' ~> b'
 ~>-cong a≈a' b≈b' a~>b ✓c∙a' =
-  ✓-cong (∙-cong₁ b≈b') $ a~>b $ ✓-cong (∙-cong₁ $ symm a≈a') ✓c∙a'
+  ✓-cong (∙-cong₁ b≈b') $ a~>b $ ✓-cong (∙-cong₁ $ symᵉ a≈a') ✓c∙a'
 
 ~>-cong₀ : a ≈ a' → a ~> b → a' ~> b
 ~>-cong₀ a≈a' = ~>-cong a≈a' idᵉ
@@ -167,7 +167,7 @@ _[⊆≈]»_ : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
 
 ~>:-cong : a ≈ a' → B ⊆≈ B' → a ~>: B → a' ~>: B'
 ~>:-cong a≈a' B⊆≈B' a~>:B ✓c∙a'
-  with a~>:B $ ✓-cong (∙-cong₁ $ symm a≈a') ✓c∙a'
+  with a~>:B $ ✓-cong (∙-cong₁ $ symᵉ a≈a') ✓c∙a'
 ... | b , Bb , ✓c∙b with B⊆≈B' Bb
 ...   | b' , b≈b' , B'b' = b' , B'b' , ✓-cong (∙-cong₁ b≈b') ✓c∙b
 
@@ -209,4 +209,4 @@ _[~>]»[~>:]_ : a ~> b → b ~>: C → a ~>: C
   a~>:B $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) ✓f∙a∙d
 ...   | b , Bb , ✓f∙d∙b with BDE Bb Dd
 ...     | e , Ee , e≈b∙d = e , Ee ,
-  ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ $ ∙-comm »ᵉ symm e≈b∙d) ✓f∙d∙b
+  ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ $ ∙-comm »ᵉ symᵉ e≈b∙d) ✓f∙d∙b

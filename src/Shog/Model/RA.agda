@@ -84,7 +84,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ∙-ε₁ = ∙-comm »ᵉ ∙-ε₀
 
   ∙-assoc₁ : a ∙ (b ∙ c) ≈ (a ∙ b) ∙ c
-  ∙-assoc₁ = ∙-comm »ᵉ ∙-cong₀ ∙-comm »ᵉ ∙-assoc₀ »ᵉ ∙-comm »ᵉ ∙-cong₀ ∙-comm
+  ∙-assoc₁ = symᵉ ∙-assoc₀
 
   ----------------------------------------------------------------------
   -- ⌞⌟ is unital

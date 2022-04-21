@@ -33,10 +33,10 @@ private variable
 
 -- ++ can get inside and outside [∗]
 
-[∗]-++-in : ∀ Ps → [∗] Ps ∗ [∗] Qs ⊢[ i ] [∗] (Ps ++ Qs)
-[∗]-++-in [] = ∗-elim₁
-[∗]-++-in (_ ∷ Ps) = ∗-assoc₀ » ∗-mono₁ ([∗]-++-in Ps)
+[∗]-++-in : [∗] Ps ∗ [∗] Qs ⊢[ i ] [∗] (Ps ++ Qs)
+[∗]-++-in {Ps = []} = ∗-elim₁
+[∗]-++-in {Ps = _ ∷ Ps} = ∗-assoc₀ » ∗-mono₁ ([∗]-++-in {Ps = Ps})
 
-[∗]-++-out : ∀ Ps → [∗] (Ps ++ Qs) ⊢[ i ] [∗] Ps ∗ [∗] Qs
-[∗]-++-out [] = ⊤∗-intro
-[∗]-++-out (_ ∷ Ps) = ∗-mono₁ ([∗]-++-out Ps) » ∗-assoc₁
+[∗]-++-out : [∗] (Ps ++ Qs) ⊢[ i ] [∗] Ps ∗ [∗] Qs
+[∗]-++-out {Ps = []} = ⊤∗-intro
+[∗]-++-out {Ps = _ ∷ Ps} = ∗-mono₁ ([∗]-++-out {Ps = Ps}) » ∗-assoc₁

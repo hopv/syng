@@ -10,11 +10,10 @@ open import Level using (Level; _⊔_; suc)
 open import Size using (Size; ∞)
 
 open import Relation.Binary.PropositionalEquality using (_≡_)
-open import Data.Maybe.Base using (Maybe; just; nothing)
 open import Data.Product using (∃-syntax; _×_)
 
 ----------------------------------------------------------------------
--- Resource algebra
+-- Resource algebra (Unital)
 record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   infix 4 _≈_
   infixl 7 _∙_
@@ -29,8 +28,10 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     ✓ : Car → Set ℓ✓
     -- Product
     _∙_ : Car → Car → Car
-    -- Core, partial
-    ⌞_⌟ : Car → Maybe Car
+    -- Unit
+    ε : Car
+    -- Core
+    ⌞_⌟ : Car → Car
     ----------------------------------------------------------------------
     -- ≈ is reflexive, symmetric and transitive
     idᵉ : ∀ {a} → a ≈ a
@@ -42,18 +43,18 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     -- ✓ is kept after a resource is removed
     ✓-rem : ∀ {a b} → ✓ (b ∙ a) → ✓ a
     ----------------------------------------------------------------------
-    -- ∙ preserves ≈ and is commutative and associative
+    -- ∙ preserves ≈
     ∙-cong₀ : ∀ {a b c} → a ≈ b → a ∙ c ≈ b ∙ c
+    -- ∙ is unital w.r.t. ε, commutative and associative
+    ∙-ε₀ : ∀ {a} → ε ∙ a ≈ a
     ∙-comm : ∀ {a b} → a ∙ b ≈ b ∙ a
     ∙-assoc₀ : ∀ {a b c} → (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
     ----------------------------------------------------------------------
     -- ⌞⌟ preserves ≈
-    ⌞⌟-cong : ∀ {a b a'} → a ≈ b →
-      ⌞ a ⌟ ≡ just a' → ∃[ b' ] ⌞ b ⌟ ≡ just b' × a' ≈ b'
+    ⌞⌟-cong : ∀ {a b} → a ≈ b → ⌞ a ⌟ ≈ ⌞ b ⌟
     -- When ⌞⌟'s argument gets added, ⌞⌟'s result gets added
-    ⌞⌟-add : ∀ {a a' b} → ⌞ a ⌟ ≡ just a' →
-      ∃[ c' ] ⌞ b ∙ a ⌟ ≡ just c' × ∃[ b' ] b' ∙ a' ≈ c'
+    ⌞⌟-add : ∀ {a b} → ∃[ b' ] b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
     -- ⌞ a ⌟ is absorbed by a
-    ⌞⌟-unit₀ : ∀ {a a'} → ⌞ a ⌟ ≡ just a' → a' ∙ a ≈ a
+    ⌞⌟-unit₀ : ∀ {a} → ⌞ a ⌟ ∙ a ≈ a
     -- ⌞⌟ is idempotent
-    ⌞⌟-idem : ∀ {a a'} → ⌞ a ⌟ ≡ just a' → ⌞ a' ⌟ ≡ just a'
+    ⌞⌟-idem : ∀ {a} → ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟

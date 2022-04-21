@@ -60,10 +60,10 @@ _+₊_ : ℚ₊ → ℚ₊ → ℚ₊
 -- +₊ is unital w.r.t. 0ℚ₊, commutative, and associative
 
 +₊-unit₀ : 0ℚ₊ +₊ p₊ ≃₊ p₊
-+₊-unit₀ {p₊ = (p , _)} = +-identityˡ p
++₊-unit₀ {p₊ = p , _} = +-identityˡ p
 
 +₊-comm : p₊ +₊ q₊ ≃₊ q₊ +₊ p₊
-+₊-comm {p₊ = (p , _)} {q₊ = (q , _)} = +-comm p q
++₊-comm {p₊ = p , _} {q₊ = q , _} = +-comm p q
 
 +₊-assoc₀ : (p₊ +₊ q₊) +₊ r₊ ≃₊ p₊ +₊ (q₊ +₊ r₊)
-+₊-assoc₀ {p₊ = (p , _)} {q₊ = (q , _)} {r₊ = (r , _)} = +-assoc p q r
++₊-assoc₀ {p₊ = p , _} {q₊ = q , _} {r₊ = r , _} = +-assoc p q r

@@ -22,12 +22,13 @@ open import Function.Base using (_$_; case_of_)
 
 private variable
   a a' b b' c d : Car
-  ℓA ℓB ℓB' ℓC ℓD : Level
+  ℓA ℓB ℓB' ℓC ℓD ℓE : Level
   A : Car → Set ℓA
   B : Car → Set ℓB
   B' : Car → Set ℓB'
   C : Car → Set ℓC
   D : Car → Set ℓD
+  E : Car → Set ℓE
 
 ----------------------------------------------------------------------
 -- On ∙
@@ -202,10 +203,11 @@ _[~>]»[~>:]_ : a ~> b → b ~>: C → a ~>: C
   c~>d $ ✓-cong ∙-assoc₁ ✓e∙a∙c
 
 ~>:-∙ : a ~>: B → c ~>: D →
-  a ∙ c ~>: λ bd → ∃[ b ] B b × ∃[ d ] D d × bd ≡ b ∙ d
-~>:-∙ a~>:B c~>:D ✓e∙a∙c with
-  c~>:D $ ✓-cong ∙-assoc₁ ✓e∙a∙c
-... | d , Dd , ✓e∙a∙d with
-  a~>:B $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) ✓e∙a∙d
-...   | b , Bb , ✓e∙d∙b = b ∙ d , (b , Bb , d , Dd , refl) ,
-  ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm) ✓e∙d∙b
+  (∀ {b d} → B b → D d → ∃[ e ] E e × e ≈ b ∙ d) → a ∙ c ~>: E
+~>:-∙ a~>:B c~>:D BDE ✓f∙a∙c with
+  c~>:D $ ✓-cong ∙-assoc₁ ✓f∙a∙c
+... | d , Dd , ✓f∙a∙d with
+  a~>:B $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) ✓f∙a∙d
+...   | b , Bb , ✓f∙d∙b with BDE Bb Dd
+...     | e , Ee , e≈b∙d = e , Ee ,
+  ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ $ ∙-comm »ᵉ symm e≈b∙d) ✓f∙d∙b

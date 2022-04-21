@@ -85,8 +85,8 @@ _ᵒ»ᵉ_ : a ≤ b → b ≈ c → a ≤ c
 
 -- ∙ is increasing
 
-∙-incr : ∀ b → a ≤ b ∙ a
-∙-incr b = b , idᵉ
+∙-incr : a ≤ b ∙ a
+∙-incr {b = b} = b , idᵉ
 
 -- Monotonicity of ✓, ∙ and ⌞⌟
 
@@ -113,11 +113,11 @@ infix 2 _~>_ _~>:_
 
 -- a ~> b : a can be updated into b, regardless of the frame c
 _~>_ : Car → Car → Set (ℓ ⊔ ℓ✓)
-a ~> b = ∀ c → ✓ (c ∙ a) → ✓ (c ∙ b)
+a ~> b = ∀ {c} → ✓ (c ∙ a) → ✓ (c ∙ b)
 
 -- a ~>: B : a can be updated into b, regardless of the frame c
 _~>:_ : Car → (Car → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
-a ~>: B = ∀ c → ✓ (c ∙ a) → ∃[ b ] B b × ✓ (c ∙ b)
+a ~>: B = ∀ {c} → ✓ (c ∙ a) → ∃[ b ] B b × ✓ (c ∙ b)
 
 ----------------------------------------------------------------------
 -- ⊆≈ : Set inclusion relaxed with ≈
@@ -125,7 +125,7 @@ a ~>: B = ∀ c → ✓ (c ∙ a) → ∃[ b ] B b × ✓ (c ∙ b)
 infix 4 _⊆≈_
 
 _⊆≈_ : (Car → Set ℓA) → (Car → Set ℓB) → Set (ℓ ⊔ ℓ≈ ⊔ ℓA ⊔ ℓB)
-A ⊆≈ B = ∀ a → A a → ∃[ b ] a ≈ b × B b
+A ⊆≈ B = ∀ {a} → A a → ∃[ b ] a ≈ b × B b
 
 ----------------------------------------------------------------------
 -- On ⊆≈
@@ -133,29 +133,29 @@ A ⊆≈ B = ∀ a → A a → ∃[ b ] a ≈ b × B b
 -- ⊆≈ is reflexive
 
 ⊆≈-id : A ⊆≈ A
-⊆≈-id a Aa = a , idᵉ , Aa
+⊆≈-id {a = a} Aa = a , idᵉ , Aa
 
 -- ⊆≈ is transitive
 
 infixr -1 _[⊆≈]»_
 
 _[⊆≈]»_ : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
-(A⊆≈B [⊆≈]» B⊆≈C) a Aa with A⊆≈B a Aa
-... | b , a≈b , Bb with B⊆≈C b Bb
+(A⊆≈B [⊆≈]» B⊆≈C) Aa with A⊆≈B Aa
+... | b , a≈b , Bb with B⊆≈C Bb
 ...   | c , b≈c , Cc = c , (a≈b »ᵉ b≈c) , Cc
 
 ----------------------------------------------------------------------
 -- On ~>/~>:
 
 -- ~> into ~>:
-~>⇒~>: : ∀ b → a ~> b → a ~>: (b ≡_)
-~>⇒~>: b a~>b c ✓c∙a = b , refl , a~>b c ✓c∙a
+~>⇒~>: : a ~> b → a ~>: (b ≡_)
+~>⇒~>: {b = b} a~>b ✓c∙a = b , refl , a~>b ✓c∙a
 
 -- ~> respects ≈
 
 ~>-cong : a ≈ a' → b ≈ b' → a ~> b → a' ~> b'
-~>-cong a≈a' b≈b' a~>b c ✓c∙a' =
-  ✓-cong (∙-cong₁ b≈b') $ a~>b c $ ✓-cong (∙-cong₁ $ symm a≈a') ✓c∙a'
+~>-cong a≈a' b≈b' a~>b ✓c∙a' =
+  ✓-cong (∙-cong₁ b≈b') $ a~>b $ ✓-cong (∙-cong₁ $ symm a≈a') ✓c∙a'
 
 ~>-cong₀ : a ≈ a' → a ~> b → a' ~> b
 ~>-cong₀ a≈a' = ~>-cong a≈a' idᵉ
@@ -166,9 +166,9 @@ _[⊆≈]»_ : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
 -- ~>: respects ≈
 
 ~>:-cong : a ≈ a' → B ⊆≈ B' → a ~>: B → a' ~>: B'
-~>:-cong a≈a' B⊆≈B' a~>:B c ✓c∙a'
-  with a~>:B c $ ✓-cong (∙-cong₁ $ symm a≈a') ✓c∙a'
-... | b , Bb , ✓c∙b with B⊆≈B' b Bb
+~>:-cong a≈a' B⊆≈B' a~>:B ✓c∙a'
+  with a~>:B $ ✓-cong (∙-cong₁ $ symm a≈a') ✓c∙a'
+... | b , Bb , ✓c∙b with B⊆≈B' Bb
 ...   | b' , b≈b' , B'b' = b' , B'b' , ✓-cong (∙-cong₁ b≈b') ✓c∙b
 
 ~>:-cong₀ : a ≈ a' → a ~>: B → a' ~>: B
@@ -180,32 +180,32 @@ _[⊆≈]»_ : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
 -- ~> is reflexive
 
 ~>-id : a ~> a
-~>-id _ ✓c∙a = ✓c∙a
+~>-id ✓c∙a = ✓c∙a
 
 infixr -1 _[~>]»_ _[~>]»[~>:]_
 
 -- ~> is transitive
 
 _[~>]»_ : a ~> b → b ~> c → a ~> c
-(a~>b [~>]» b~>c) d ✓d∙a = b~>c d $ a~>b d ✓d∙a
+(a~>b [~>]» b~>c) ✓d∙a = b~>c $ a~>b ✓d∙a
 
 -- ~>: respects ~>
 
 _[~>]»[~>:]_ : a ~> b → b ~>: C → a ~>: C
-(a~>b [~>]»[~>:] b~>C) d ✓d∙a = b~>C d $ a~>b d ✓d∙a
+(a~>b [~>]»[~>:] b~>C) ✓d∙a = b~>C $ a~>b ✓d∙a
 
 -- ~>/~>: can be merged with respect to ∙
 
-~>-∙ : ∀ a d → a ~> b → c ~> d → a ∙ c ~> b ∙ d
-~>-∙ a d a~>b c~>d e ✓e∙a∙c = ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm) $
-  a~>b (e ∙ d) $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) $
-  c~>d (e ∙ a) $ ✓-cong ∙-assoc₁ ✓e∙a∙c
+~>-∙ : a ~> b → c ~> d → a ∙ c ~> b ∙ d
+~>-∙ {a = a} {d = d} a~>b c~>d ✓e∙a∙c = ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm) $
+  a~>b $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) $
+  c~>d $ ✓-cong ∙-assoc₁ ✓e∙a∙c
 
-~>:-∙ : ∀ a → a ~>: B → c ~>: D →
+~>:-∙ : a ~>: B → c ~>: D →
   a ∙ c ~>: λ bd → ∃[ b ] B b × ∃[ d ] D d × bd ≡ b ∙ d
-~>:-∙ a a~>:B c~>:D e ✓e∙a∙c with
-  c~>:D (e ∙ a) $ ✓-cong ∙-assoc₁ ✓e∙a∙c
+~>:-∙ {a = a} a~>:B c~>:D ✓e∙a∙c with
+  c~>:D $ ✓-cong ∙-assoc₁ ✓e∙a∙c
 ... | d , Dd , ✓e∙a∙d with
-  a~>:B (e ∙ d) $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) ✓e∙a∙d
+  a~>:B $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) ✓e∙a∙d
 ...   | b , Bb , ✓e∙d∙b = b ∙ d , (b , Bb , d , Dd , refl) ,
   ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm) ✓e∙d∙b

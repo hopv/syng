@@ -30,6 +30,9 @@ open RA
 0ℚ₊ : ℚ₊
 0ℚ₊ = (0ℚᵘ , _)
 
+1ℚ₊ : ℚ₊
+1ℚ₊ = (1ℚᵘ , _)
+
 private variable
  p q r : ℚᵘ
  p₊ q₊ r₊ : ℚ₊
@@ -47,9 +50,11 @@ _≃₊_ : ℚ₊ → ℚ₊ → Set
 
 infixl 6 _+₊_
 
++-nonNeg : NonNegative p → NonNegative q → NonNegative (p + q)
++-nonNeg 0≤p 0≤q = nonNegative $ ≤-steps 0≤p $ nonNegative⁻¹ 0≤q
+
 _+₊_ : ℚ₊ → ℚ₊ → ℚ₊
-(p , 0≤p) +₊ (q , 0≤q) = p + q ,
-  nonNegative (≤-steps 0≤p $ nonNegative⁻¹ 0≤q)
+(p , 0≤p) +₊ (q , 0≤q) = p + q , +-nonNeg 0≤p 0≤q
 
 ------------------------------------------------------------------------
 -- +₊ is unital w.r.t. 0ℚ₊, commutative, and associative

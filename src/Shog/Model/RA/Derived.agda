@@ -197,13 +197,13 @@ _[~>]»[~>:]_ : a ~> b → b ~>: C → a ~>: C
 -- ~>/~>: can be merged with respect to ∙
 
 ~>-∙ : a ~> b → c ~> d → a ∙ c ~> b ∙ d
-~>-∙ {a = a} {d = d} a~>b c~>d ✓e∙a∙c = ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm) $
+~>-∙ a~>b c~>d ✓e∙a∙c = ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm) $
   a~>b $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) $
   c~>d $ ✓-cong ∙-assoc₁ ✓e∙a∙c
 
 ~>:-∙ : a ~>: B → c ~>: D →
   a ∙ c ~>: λ bd → ∃[ b ] B b × ∃[ d ] D d × bd ≡ b ∙ d
-~>:-∙ {a = a} a~>:B c~>:D ✓e∙a∙c with
+~>:-∙ a~>:B c~>:D ✓e∙a∙c with
   c~>:D $ ✓-cong ∙-assoc₁ ✓e∙a∙c
 ... | d , Dd , ✓e∙a∙d with
   a~>:B $ ✓-cong (∙-assoc₀ »ᵉ ∙-cong₁ ∙-comm »ᵉ ∙-assoc₁) ✓e∙a∙d

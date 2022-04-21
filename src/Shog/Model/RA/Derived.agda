@@ -2,7 +2,7 @@
 -- Derived notions and lemmas on a resource algebra
 ----------------------------------------------------------------------
 
-{-# OPTIONS --without-K --sized-types #-}
+{-# OPTIONS --without-K --safe #-}
 
 open import Shog.Model.RA.Base using (RA)
 
@@ -12,7 +12,6 @@ open RA Ra public using (
   ∙-cong₀; ∙-ε₀; ∙-comm; ∙-assoc₀; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unit₀; ⌞⌟-idem)
 
 open import Level using (Level; _⊔_)
-open import Size using (Size; ∞)
 
 open import Relation.Binary.PropositionalEquality using (_≡_; refl)
 open import Data.Product using (_×_; _,_; ∃-syntax)

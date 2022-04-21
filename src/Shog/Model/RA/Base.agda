@@ -2,12 +2,11 @@
 -- Resource Algebra
 ----------------------------------------------------------------------
 
-{-# OPTIONS --without-K --sized-types #-}
+{-# OPTIONS --without-K --safe #-}
 
 module Shog.Model.RA.Base where
 
 open import Level using (Level; _⊔_; suc)
-open import Size using (Size; ∞)
 
 open import Relation.Binary.PropositionalEquality using (_≡_)
 open import Data.Product using (∃-syntax; _×_)

@@ -21,7 +21,7 @@ open import Shog.Logic.Prop public using (
   Propˢ; ∀^; ∃^; ∀^'; ∃^'; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→ˢ_; _∗_; _-∗_; |=>; □)
 open import Shog.Logic.Judg public using (
-  JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers;
+  JudgRes; _⊢[_]*_; _⊢[_]_;
   idˢ; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ∀∃⇒∃∀-⊤; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assoc₀; ∗-mono₀; -∗-intro; -∗-elim;
   □-mono; □-elim; □-dup; □₀-∧⇒∗; □-∀-in; □-∃-out;
@@ -402,6 +402,14 @@ in□--∗⇒→ = □-intro $ →-intro $ □₁-∧⇒∗ » -∗-elim □-eli
 
 □-∗-in : □ P ∗ □ Q ⊢[ ι ] □ (P ∗ Q)
 □-∗-in = ∗⇒∧ » □-∧-in » in□-∧⇒∗
+
+------------------------------------------------------------------------
+-- Pers P : Persistence of a proposition
+
+record Pers {ℓ} (P : Propˢ ℓ ∞) : Set (suc ℓ) where
+  -- P can turn into □ P
+  field pers : ∀ {ι} → P ⊢[ ι ] □ P
+open Pers {{...}} public
 
 ------------------------------------------------------------------------
 -- Deriving Pers P

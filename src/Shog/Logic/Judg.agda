@@ -132,11 +132,3 @@ data Judg {ℓ} ι where
   -- by allocating □ Pᶺ, ... minus the tokens save□ Pᶺ, ... themselves
   save□-alloc-rec : [∗]-map save□ Pᶺs -∗ [∗]-map (λ Pᶺ → □ (Pᶺ .force)) Pᶺs
                       ⊢[ ι ]=>> [∗]-map save□ Pᶺs
-
-------------------------------------------------------------------------
--- Persistence: Pers P
-
-record Pers {ℓ} (P : Propˢ ℓ ∞) : Set (suc ℓ) where
-  -- P can turn into □ P
-  field pers : ∀ {ι} → P ⊢[ ι ] □ P
-open Pers {{...}} public

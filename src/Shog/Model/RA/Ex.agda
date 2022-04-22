@@ -4,39 +4,76 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Shog.Model.RA.Ex where
+open import Relation.Binary using (Setoid)
+module Shog.Model.RA.Ex {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
+open Setoid S renaming (Carrier to Car)
 
-open import Level using (Level; 0ℓ)
+open import Level using (Level; 0ℓ; Lift)
 
-open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; trans)
+open import Algebra using (Op₂; RightCongruent; Commutative; Associative)
+open import Relation.Unary using (Pred)
+open import Relation.Binary using (Rel; _Respects_;
+  IsEquivalence; Reflexive; Symmetric; Transitive)
 open import Function.Base using (id)
 open import Data.Product using (_,_)
 open import Data.Unit using (⊤)
 open import Data.Empty using (⊥)
 
-open import Shog.Model.RA using (RA)
-open RA
-
-private variable
-  ℓ : Level
-  A : Set ℓ
-  a b : A
+open import Shog.Base.Algebra using (make-IsCommutativeMonoid)
 
 ----------------------------------------------------------------------
--- Ex A : ExRA's carrier
+-- Ex : ExRA's carrier
 
-data Ex {ℓ} (A : Set ℓ) : Set ℓ where
+data Ex : Set ℓ where
   -- pending
-  ?ˣ : Ex A
+  ?ˣ : Ex
   -- the value is exclusively set
-  !ˣ : A → Ex A
+  !ˣ : Car → Ex
   -- invalid
-  ↯ˣ : Ex A
+  ↯ˣ : Ex
+
+private variable
+  a b : Car
+  aˣ bˣ : Ex
+
+----------------------------------------------------------------------
+-- ≈ˣ : Equivalence over Ex
+
+infix 4 _≈ˣ_
+_≈ˣ_ : Rel Ex ℓ≈
+?ˣ ≈ˣ ?ˣ = Lift _ ⊤
+↯ˣ ≈ˣ ↯ˣ = Lift _ ⊤
+!ˣ a ≈ˣ !ˣ b = a ≈ b
+_ ≈ˣ _ = Lift _ ⊥
+
+-- ≈ˣ is reflexive, symmetric and transitive
+
+≈ˣ-refl : Reflexive _≈ˣ_
+≈ˣ-refl {?ˣ} = _
+≈ˣ-refl {↯ˣ} = _
+≈ˣ-refl { !ˣ _} = refl
+
+≈ˣ-sym : Symmetric _≈ˣ_
+≈ˣ-sym {?ˣ} {?ˣ} = _
+≈ˣ-sym {↯ˣ} {↯ˣ} = _
+≈ˣ-sym { !ˣ _} { !ˣ _} = sym
+
+≈ˣ-trans : Transitive _≈ˣ_
+≈ˣ-trans {?ˣ} {?ˣ} {?ˣ} = _
+≈ˣ-trans {↯ˣ} {↯ˣ} {↯ˣ} = _
+≈ˣ-trans { !ˣ _} { !ˣ _} { !ˣ _} = trans
+
+module _ where
+  open IsEquivalence
+  ≈ˣ-equiv : IsEquivalence _≈ˣ_
+  ≈ˣ-equiv .refl {aˣ} = ≈ˣ-refl {aˣ}
+  ≈ˣ-equiv .sym {aˣ} {bˣ} = ≈ˣ-sym {aˣ} {bˣ}
+  ≈ˣ-equiv .trans {aˣ} {bˣ} {cˣ} = ≈ˣ-trans {aˣ} {bˣ} {cˣ}
 
 ----------------------------------------------------------------------
 -- ✓ˣ : ExRA's validity
 
-✓ˣ : Ex A → Set
+✓ˣ : Pred Ex 0ℓ
 ✓ˣ ↯ˣ = ⊥
 ✓ˣ _ = ⊤
 
@@ -44,67 +81,78 @@ data Ex {ℓ} (A : Set ℓ) : Set ℓ where
 -- _∙ˣ_ : ExRA's product
 
 infixl 7 _∙ˣ_
-_∙ˣ_ : Ex A → Ex A → Ex A
+_∙ˣ_ : Op₂ Ex
 ?ˣ ∙ˣ aˣ = aˣ
 ↯ˣ ∙ˣ aˣ = ↯ˣ
 aˣ ∙ˣ ?ˣ = aˣ
 _ ∙ˣ _ = ↯ˣ
 
 ----------------------------------------------------------------------
--- Non-trivial lemmas for ExRA
+-- Non-trivial lemmas on ExRA's operations
 
-private
-  ✓ˣ-rem : ∀ (aˣ bˣ : Ex A) → ✓ˣ (bˣ ∙ˣ aˣ) → ✓ˣ aˣ
-  ✓ˣ-rem _ ?ˣ = id
-  ✓ˣ-rem ?ˣ (!ˣ _) = _
+∙ˣ-congʳ : RightCongruent _≈ˣ_ _∙ˣ_
+∙ˣ-congʳ {aˣ} {?ˣ} {?ˣ} _ = ≈ˣ-refl {aˣ}
+∙ˣ-congʳ {_} {↯ˣ} {↯ˣ} _ = _
+∙ˣ-congʳ {?ˣ} { !ˣ _} { !ˣ _} b≈c = b≈c
+∙ˣ-congʳ {↯ˣ} { !ˣ _} { !ˣ _} _ = _
+∙ˣ-congʳ { !ˣ _} { !ˣ _} { !ˣ _} _ = _
 
-  ∙ˣ-comm : ∀ (aˣ bˣ : Ex A) → aˣ ∙ˣ bˣ ≡ bˣ ∙ˣ aˣ
-  ∙ˣ-comm ?ˣ ?ˣ = refl
-  ∙ˣ-comm ?ˣ (!ˣ _) = refl
-  ∙ˣ-comm ?ˣ ↯ˣ = refl
-  ∙ˣ-comm (!ˣ _) ?ˣ = refl
-  ∙ˣ-comm (!ˣ _) (!ˣ _) = refl
-  ∙ˣ-comm (!ˣ _) ↯ˣ = refl
-  ∙ˣ-comm ↯ˣ ?ˣ = refl
-  ∙ˣ-comm ↯ˣ (!ˣ _) = refl
-  ∙ˣ-comm ↯ˣ ↯ˣ = refl
+∙ˣ-comm : Commutative _≈ˣ_ _∙ˣ_
+∙ˣ-comm ?ˣ ?ˣ = _
+∙ˣ-comm ?ˣ ↯ˣ = _
+∙ˣ-comm ?ˣ (!ˣ _) = refl
+∙ˣ-comm ↯ˣ ?ˣ = _
+∙ˣ-comm ↯ˣ ↯ˣ = _
+∙ˣ-comm ↯ˣ (!ˣ _) = _
+∙ˣ-comm (!ˣ _) ?ˣ = refl
+∙ˣ-comm (!ˣ _) ↯ˣ = _
+∙ˣ-comm (!ˣ _) (!ˣ _) = _
 
-  ∙ˣ-assoc₀ : ∀ (aˣ bˣ cˣ : Ex A) → (aˣ ∙ˣ bˣ) ∙ˣ cˣ ≡ aˣ ∙ˣ (bˣ ∙ˣ cˣ)
-  ∙ˣ-assoc₀ ?ˣ _ _ = refl
-  ∙ˣ-assoc₀ (!ˣ _) ?ˣ _ = refl
-  ∙ˣ-assoc₀ (!ˣ _) (!ˣ _) ?ˣ = refl
-  ∙ˣ-assoc₀ (!ˣ _) (!ˣ _) (!ˣ _) = refl
-  ∙ˣ-assoc₀ (!ˣ _) (!ˣ _) ↯ˣ = refl
-  ∙ˣ-assoc₀ (!ˣ _) ↯ˣ _ = refl
-  ∙ˣ-assoc₀ ↯ˣ _ _ = refl
+∙ˣ-assoc : Associative _≈ˣ_ _∙ˣ_
+∙ˣ-assoc ?ˣ aˣ bˣ = ≈ˣ-refl {aˣ ∙ˣ bˣ}
+∙ˣ-assoc ↯ˣ _ _ = _
+∙ˣ-assoc (!ˣ a) ?ˣ bˣ = ≈ˣ-refl { !ˣ a ∙ˣ bˣ}
+∙ˣ-assoc (!ˣ _) ↯ˣ bˣ = _
+∙ˣ-assoc (!ˣ _) (!ˣ _) ?ˣ = _
+∙ˣ-assoc (!ˣ _) (!ˣ _) ↯ˣ = _
+∙ˣ-assoc (!ˣ _) (!ˣ _) (!ˣ _) = _
+
+✓ˣ-resp : ✓ˣ Respects _≈ˣ_
+✓ˣ-resp {?ˣ} {?ˣ} _ _ = _
+✓ˣ-resp { !ˣ _} { !ˣ _} _ _ = _
+
+✓ˣ-rem : ∀ (aˣ bˣ : Ex) → ✓ˣ (bˣ ∙ˣ aˣ) → ✓ˣ aˣ
+✓ˣ-rem _ ?ˣ = id
+✓ˣ-rem ?ˣ (!ˣ _) = _
 
 ----------------------------------------------------------------------
 -- ExRA : Exclusive resource algebra
 
-ExRA : Set ℓ → RA ℓ ℓ 0ℓ
+open import Shog.Model.RA using (RA)
+open RA
 
-ExRA A .Car = Ex A
-ExRA A ._≈_ = _≡_
-ExRA A .✓ = ✓ˣ
-ExRA A ._∙_ = _∙ˣ_
-ExRA A .ε = ?ˣ
-ExRA A .⌞_⌟ _ = ?ˣ
-ExRA A .idᵉ = refl
-ExRA A .symᵉ = sym
-ExRA A ._»ᵉ_ = trans
-ExRA A .✓-cong refl = id
-ExRA A .✓-rem {aˣ} {bˣ} = ✓ˣ-rem aˣ bˣ
-ExRA A .∙-cong₀ refl = refl
-ExRA A .∙-ε₀ = refl
-ExRA A .∙-comm {aˣ} {bˣ} = ∙ˣ-comm aˣ bˣ
-ExRA A .∙-assoc₀ {aˣ} {bˣ} {cˣ} = ∙ˣ-assoc₀ aˣ bˣ cˣ
-ExRA A .⌞⌟-cong _ = refl
-ExRA A .⌞⌟-add = ?ˣ , refl
-ExRA A .⌞⌟-unit₀ = refl
-ExRA A .⌞⌟-idem = refl
+ExRA : RA ℓ ℓ≈ 0ℓ
+
+ExRA .Carrier = Ex
+ExRA ._≈_ = _≈ˣ_
+ExRA .✓ = ✓ˣ
+ExRA ._∙_ = _∙ˣ_
+ExRA .ε = ?ˣ
+ExRA .⌞_⌟ _ = ?ˣ
+ExRA .isCommutativeMonoid = make-IsCommutativeMonoid
+  ≈ˣ-equiv (λ {aˣ} {bˣ} {cˣ} → ∙ˣ-congʳ {aˣ} {bˣ} {cˣ})
+  (λ aˣ → ≈ˣ-refl {aˣ}) ∙ˣ-comm ∙ˣ-assoc
+ExRA .✓-resp = ✓ˣ-resp
+ExRA .✓-rem = ✓ˣ-rem
+ExRA .⌞⌟-cong _ = _
+ExRA .⌞⌟-add _ _ = ?ˣ , _
+ExRA .⌞⌟-unitˡ aˣ = ≈ˣ-refl {aˣ}
+ExRA .⌞⌟-idem = _
+
+open RA ExRA renaming (_~>_ to _~>ˣ_)
 
 ----------------------------------------------------------------------
 -- Update on ExRA
 
-!ˣ-~> : _~>_ (ExRA A) (!ˣ a) (!ˣ b)
-!ˣ-~> {c = ?ˣ} = _
+!ˣ-~> : !ˣ a ~>ˣ !ˣ b
+!ˣ-~> ?ˣ = _

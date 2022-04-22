@@ -147,22 +147,22 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ = c' , (c'∙⌞a⌟≈⌞c∙a⌟ » ⌞⌟-cong c∙a≈b)
 
   ----------------------------------------------------------------------
-  -- ~>/~>: : Resource update
+  -- ~>/~>ˢ : Resource update
 
-  infix 2 _~>_ _~>:_
+  infix 2 _~>_ _~>ˢ_
 
   -- a ~> b : a can be updated into b, regardless of the frame c
   _~>_ : Carrier → Carrier → Set (ℓ ⊔ ℓ✓)
   a ~> b = ∀ c → ✓ (c ∙ a) → ✓ (c ∙ b)
 
-  -- a ~>: B : a can be updated into b, regardless of the frame c
-  _~>:_ : Carrier → (Carrier → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
-  a ~>: B = ∀ c → ✓ (c ∙ a) → ∃[ b ] B b × ✓ (c ∙ b)
+  -- a ~>ˢ B : a can be updated into b, regardless of the frame c
+  _~>ˢ_ : Carrier → (Carrier → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
+  a ~>ˢ B = ∀ c → ✓ (c ∙ a) → ∃[ b ] B b × ✓ (c ∙ b)
 
   ----------------------------------------------------------------------
-  -- ~> into ~>:
-  ~>⇒~>: : a ~> b → a ~>: (b ≡_)
-  ~>⇒~>: {b = b} a~>b c ✓c∙a = b , refl' , a~>b c ✓c∙a
+  -- ~> into ~>ˢ
+  ~>⇒~>ˢ : a ~> b → a ~>ˢ (b ≡_)
+  ~>⇒~>ˢ {b = b} a~>b c ✓c∙a = b , refl' , a~>b c ✓c∙a
 
   ----------------------------------------------------------------------
   -- ~> respects ≈
@@ -176,22 +176,22 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ~>-resp : _~>_ Respects₂ _≈_
   ~>-resp = ~>-respʳ , ~>-respˡ
 
-  -- ~>: respects ≈ and ⊆≈
+  -- ~>ˢ respects ≈ and ⊆≈
   -- We don't use Respects₂ to achieve better level polymorphism
 
   open import Shog.Base.Setoid setoid using (_⊆≈_; ⊆≈-refl)
 
-  ~>:-resp : a ≈ a' → B ⊆≈ B' → a ~>: B → a' ~>: B'
-  ~>:-resp a≈a' B⊆≈B' a~>:B c ✓c∙a'
-    with ✓c∙a' |> ✓-resp (∙-congˡ $ sym a≈a') |> a~>:B c
+  ~>ˢ-resp : a ≈ a' → B ⊆≈ B' → a ~>ˢ B → a' ~>ˢ B'
+  ~>ˢ-resp a≈a' B⊆≈B' a~>ˢB c ✓c∙a'
+    with ✓c∙a' |> ✓-resp (∙-congˡ $ sym a≈a') |> a~>ˢB c
   ... | b , b∈B , ✓c∙b with B⊆≈B' b∈B
   ...   | b' , b≈b' , b'∈B' = b' , b'∈B' , ✓-resp (∙-congˡ b≈b') ✓c∙b
 
-  ~>:-respˡ : (_~>: B) Respects _≈_
-  ~>:-respˡ a≈a' = ~>:-resp a≈a' ⊆≈-refl
+  ~>ˢ-respˡ : (_~>ˢ B) Respects _≈_
+  ~>ˢ-respˡ a≈a' = ~>ˢ-resp a≈a' ⊆≈-refl
 
-  ~>:-respʳ : B ⊆≈ B' → a ~>: B → a ~>: B'
-  ~>:-respʳ = ~>:-resp refl
+  ~>ˢ-respʳ : B ⊆≈ B' → a ~>ˢ B → a ~>ˢ B'
+  ~>ˢ-respʳ = ~>ˢ-resp refl
 
   ----------------------------------------------------------------------
   -- ~> is reflexive
@@ -204,25 +204,25 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ~>-trans : Transitive _~>_
   ~>-trans a~>b b~>c d ✓d∙a = ✓d∙a |> a~>b d |> b~>c d
 
-  -- ~> and ~>: can be composed
+  -- ~> and ~>ˢ can be composed
 
-  ~>-~>: : a ~> b → b ~>: C → a ~>: C
-  ~>-~>: a~>b b~>C d ✓d∙a = ✓d∙a |> a~>b d |> b~>C d
+  ~>-~>ˢ : a ~> b → b ~>ˢ C → a ~>ˢ C
+  ~>-~>ˢ a~>b b~>ˢC d ✓d∙a = ✓d∙a |> a~>b d |> b~>ˢC d
 
   ----------------------------------------------------------------------
-  -- ~>/~>: can be merged with respect to ∙
+  -- ~>/~>ˢ can be merged with respect to ∙
 
   ∙-mono-~> : _∙_ Preserves₂ _~>_ ⟶ _~>_ ⟶ _~>_
   ∙-mono-~> a~>b c~>d e ✓e∙a∙c = ✓e∙a∙c |> ✓-resp (sym (assoc _ _ _)) |>
     c~>d _ |> ✓-resp (assoc _ _ _ » ∙-congˡ (comm _ _) » sym (assoc _ _ _)) |>
     a~>b _ |> ✓-resp (assoc e _ _ » ∙-congˡ (comm _ _))
 
-  ∙-mono-~>: : a ~>: B → c ~>: D →
-    (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E) → a ∙ c ~>: E
-  ∙-mono-~>: a~>:B c~>:D BDE f ✓f∙a∙c with
-    ✓f∙a∙c |> ✓-resp (sym (assoc _ _ _)) |> c~>:D _
+  ∙-mono-~>ˢ : a ~>ˢ B → c ~>ˢ D →
+    (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E) → a ∙ c ~>ˢ E
+  ∙-mono-~>ˢ a~>ˢB c~>ˢD BDE f ✓f∙a∙c with
+    ✓f∙a∙c |> ✓-resp (sym (assoc _ _ _)) |> c~>ˢD _
   ... | d , d∈D , ✓f∙a∙d with ✓f∙a∙d |>
-    ✓-resp (assoc _ _ _ » ∙-congˡ (comm _ _) » sym (assoc _ _ _)) |> a~>:B _
+    ✓-resp (assoc _ _ _ » ∙-congˡ (comm _ _) » sym (assoc _ _ _)) |> a~>ˢB _
   ...   | b , b∈B , ✓f∙d∙b with BDE b∈B d∈D
   ...     | e , e≈b∙d , e∈E  =  e , e∈E ,
     ✓-resp (assoc _ _ _ » ∙-congˡ $ comm _ _ » sym e≈b∙d) ✓f∙d∙b

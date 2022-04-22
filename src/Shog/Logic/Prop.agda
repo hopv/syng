@@ -17,43 +17,43 @@ open import Shog.Util using (binary; nullary)
 
 private variable
   ℓ ℓ' : Level
-  i : Size
+  ι : Size
 
 ----------------------------------------------------------------------
--- Syntax for the Shog proposition: Propˢ ℓ i
+-- Syntax for the Shog proposition: Propˢ ℓ ι
 
-data Propˢ ℓ (i : Size) : Set (suc ℓ)
+data Propˢ ℓ (ι : Size) : Set (suc ℓ)
 
 Propˢ< : ∀ ℓ → Size → Set (suc ℓ)
-Propˢ< ℓ i = Thunk (Propˢ ℓ) i
+Propˢ< ℓ ι = Thunk (Propˢ ℓ) ι
 
-data Propˢ ℓ i where
+data Propˢ ℓ ι where
   -- universal/existential quantification
-  ∀^ ∃^ : (A : Set ℓ) → (A → Propˢ ℓ i) → Propˢ ℓ i
+  ∀^ ∃^ : (A : Set ℓ) → (A → Propˢ ℓ ι) → Propˢ ℓ ι
   -- implication
-  _→ˢ_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
+  _→ˢ_ : Propˢ ℓ ι → Propˢ ℓ ι → Propˢ ℓ ι
   -- separating conjunction / magic wand
-  _∗_ _-∗_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
+  _∗_ _-∗_ : Propˢ ℓ ι → Propˢ ℓ ι → Propˢ ℓ ι
   -- update modality / basicistence modality
-  |=> □ : Propˢ ℓ i → Propˢ ℓ i
+  |=> □ : Propˢ ℓ ι → Propˢ ℓ ι
   -- save token
-  save : Bool → Propˢ< ℓ i → Propˢ ℓ i
+  save : Bool → Propˢ< ℓ ι → Propˢ ℓ ι
 
 infixr 5 _→ˢ_ _-∗_
 infixr 7 _∗_
 
 -- ∀^/∃^ with the set argument implicit
-∀^' ∃^' : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ i) → Propˢ ℓ i
+∀^' ∃^' : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ ι) → Propˢ ℓ ι
 ∀^' = ∀^ _
 ∃^' = ∃^ _
 
 -- Syntax for ∀/∃
 
-∀∈-syntax ∃∈-syntax : (A : Set ℓ) → (A → Propˢ ℓ i) → Propˢ ℓ i
+∀∈-syntax ∃∈-syntax : (A : Set ℓ) → (A → Propˢ ℓ ι) → Propˢ ℓ ι
 ∀∈-syntax = ∀^
 ∃∈-syntax = ∃^
 
-∀-syntax ∃-syntax : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ i) → Propˢ ℓ i
+∀-syntax ∃-syntax : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ ι) → Propˢ ℓ ι
 ∀-syntax = ∀^'
 ∃-syntax = ∃^'
 
@@ -76,40 +76,40 @@ infixr 7 _∧_
 infixr 6 _∨_
 
 -- Conjunction ∧ and disjunction ∨
-_∧_ _∨_ : Propˢ ℓ i → Propˢ ℓ i → Propˢ ℓ i
+_∧_ _∨_ : Propˢ ℓ ι → Propˢ ℓ ι → Propˢ ℓ ι
 P ∧ Q = ∀^' (binary P Q) -- Conjunction
 P ∨ Q = ∃^' (binary P Q) -- Disjunction
 
 -- Truth ⊤ and falsehood ⊥
-⊤ ⊥ : Propˢ ℓ i
+⊤ ⊥ : Propˢ ℓ ι
 ⊤ = ∀^ _ nullary -- Truth
 ⊥ = ∃^ _ nullary -- Falsehood
 
 ----------------------------------------------------------------------
 -- Set embedding
 
-⌜_⌝ : Set ℓ → Propˢ ℓ i
+⌜_⌝ : Set ℓ → Propˢ ℓ ι
 ⌜ A ⌝ = ∃^ A (λ _ → ⊤)
 
 ----------------------------------------------------------------------
 -- On the save token
 
-savex save□ : Propˢ< ℓ i → Propˢ ℓ i
+savex save□ : Propˢ< ℓ ι → Propˢ ℓ ι
 savex Pᶺ = save false Pᶺ
 save□ Pᶺ = save true Pᶺ
 
 ----------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]
 
-[∗] : List (Propˢ ℓ i) → Propˢ ℓ i
+[∗] : List (Propˢ ℓ ι) → Propˢ ℓ ι
 [∗] = foldr _∗_ ⊤
 
 -- [∗] with map
 
-[∗]-map : (D → Propˢ ℓ i) → List D → Propˢ ℓ i
+[∗]-map : (D → Propˢ ℓ ι) → List D → Propˢ ℓ ι
 [∗]-map Pᶠ ds = [∗] $ map Pᶠ ds
 
-[∗]-map-syntax : (D → Propˢ ℓ i) → List D → Propˢ ℓ i
+[∗]-map-syntax : (D → Propˢ ℓ ι) → List D → Propˢ ℓ ι
 [∗]-map-syntax = [∗]-map
 
 infix 3 [∗]-map-syntax

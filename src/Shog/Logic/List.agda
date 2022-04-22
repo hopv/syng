@@ -18,7 +18,7 @@ open import Shog.Logic.Core
 
 private variable
   ℓ ℓ' : Level
-  i : Size
+  ι : Size
   A : Set ℓ'
   Ps Qs : List (Propˢ ℓ ∞)
 
@@ -27,16 +27,16 @@ private variable
 
 -- [∗] is monotone
 
-[∗]-mono : Pointwise _⊢[ i ]_ Ps Qs → [∗] Ps ⊢[ i ] [∗] Qs
+[∗]-mono : Pointwise _⊢[ ι ]_ Ps Qs → [∗] Ps ⊢[ ι ] [∗] Qs
 [∗]-mono [] = idˢ
 [∗]-mono (P⊢Q ∷ Ps⊢Qs) = ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)
 
 -- ++ can get inside and outside [∗]
 
-[∗]-++-in : [∗] Ps ∗ [∗] Qs ⊢[ i ] [∗] (Ps ++ Qs)
+[∗]-++-in : [∗] Ps ∗ [∗] Qs ⊢[ ι ] [∗] (Ps ++ Qs)
 [∗]-++-in {Ps = []} = ∗-elim₁
 [∗]-++-in {Ps = _ ∷ Ps} = ∗-assoc₀ » ∗-mono₁ ([∗]-++-in {Ps = Ps})
 
-[∗]-++-out : [∗] (Ps ++ Qs) ⊢[ i ] [∗] Ps ∗ [∗] Qs
+[∗]-++-out : [∗] (Ps ++ Qs) ⊢[ ι ] [∗] Ps ∗ [∗] Qs
 [∗]-++-out {Ps = []} = ⊤∗-intro
 [∗]-++-out {Ps = _ ∷ Ps} = ∗-mono₁ ([∗]-++-out {Ps = Ps}) » ∗-assoc₁

@@ -18,28 +18,28 @@ open import Shog.Logic.Judg public using (
 
 private variable
   ℓ : Level
-  i : Size
+  ι : Size
   P Q R : Propˢ ℓ ∞
 
 -- Lifting a thunk sequent into a super update =>>
-ᶺ⇒=>> : P ⊢[< i ] Q → P ⊢[ i ]=>> Q
+ᶺ⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q
 ᶺ⇒=>> P⊢ᶺQ = ᶺ|=>⇒=>> $ λ where .force → P⊢ᶺQ .force » |=>-intro
 
 -- Lifting a sequent under |=> into a super update =>>
-|=>⇒=>> : P ⊢[ i ] |=> Q → P ⊢[ i ]=>> Q
+|=>⇒=>> : P ⊢[ ι ] |=> Q → P ⊢[ ι ]=>> Q
 |=>⇒=>> P⊢Q = ᶺ|=>⇒=>> $ λ where .force → P⊢Q
 
 -- Lifting a sequent into a super update =>>
-⇒=>> : P ⊢[ i ] Q → P ⊢[ i ]=>> Q
+⇒=>> : P ⊢[ ι ] Q → P ⊢[ ι ]=>> Q
 ⇒=>> P⊢Q = ᶺ⇒=>> λ where .force → P⊢Q
 
 -- Modifying the succedent of a super update with a sequent
 
 infixr -1 _ᵘ»_ -- the same fixity with _$_
 
-_ᵘ»_ : P ⊢[ i ]=>> Q → Q ⊢[ i ] R → P ⊢[ i ]=>> R
+_ᵘ»_ : P ⊢[ ι ]=>> Q → Q ⊢[ ι ] R → P ⊢[ ι ]=>> R
 P⊢=>>Q ᵘ» Q⊢R = P⊢=>>Q ᵘ»ᵘ ⇒=>> Q⊢R
 
 -- The super update =>> can frame
-=>>-frame₁ : P ⊢[ i ]=>> Q → P ∗ R ⊢[ i ]=>> Q ∗ R
+=>>-frame₁ : P ⊢[ ι ]=>> Q → P ∗ R ⊢[ ι ]=>> Q ∗ R
 =>>-frame₁ P⊢=>>Q = ∗-comm » =>>-frame₀ P⊢=>>Q ᵘ» ∗-comm

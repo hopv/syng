@@ -16,7 +16,7 @@ open import Data.List.Base using (List)
 open import Shog.Logic.Prop
 
 ------------------------------------------------------------------------
--- Judgment: P ⊢[ i ]* Jr
+-- Judgment: P ⊢[ ι ]* Jr
 
 -- Result of a judgment
 data JudgRes ℓ : Set (suc ℓ) where
@@ -38,105 +38,105 @@ private variable
   Pᶺs : List (Propˢ< ℓ ∞)
 
 -- Declaring Judg
-data Judg {ℓ} (i : Size) : Propˢ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
+data Judg {ℓ} (ι : Size) : Propˢ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
 
 -- General judgment
 _⊢[_]*_ : Propˢ ℓ ∞ → Size → JudgRes ℓ → Set (suc ℓ)
-P ⊢[ i ]* Jr = Judg i P Jr
+P ⊢[ ι ]* Jr = Judg ι P Jr
 
 -- Sequent
 _⊢[_]_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
-P ⊢[ i ] Q = P ⊢[ i ]* pure Q
+P ⊢[ ι ] Q = P ⊢[ ι ]* pure Q
 
 -- Sequent under thunk
 _⊢[<_]_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
-P ⊢[< i ] Q = Thunk (P ⊢[_] Q) i
+P ⊢[< ι ] Q = Thunk (P ⊢[_] Q) ι
 
 -- Super update
 _⊢[_]=>>_ : Propˢ ℓ ∞ → Size → Propˢ ℓ ∞ → Set (suc ℓ)
-P ⊢[ i ]=>> Q = P ⊢[ i ]* |=>> Q
+P ⊢[ ι ]=>> Q = P ⊢[ ι ]* |=>> Q
 
 infixr -1 _»_ _ᵘ»ᵘ_ -- the same fixity with _$_
 
 -- Defining Judg
-data Judg {ℓ} i where
+data Judg {ℓ} ι where
   ----------------------------------------------------------------------
   -- The sequent is reflexive
-  idˢ : P ⊢[ i ] P
+  idˢ : P ⊢[ ι ] P
   -- The left-hand side of a judgment can be modified with a sequent
-  _»_ : P ⊢[ i ] Q → Q ⊢[ i ]* Jr → P ⊢[ i ]* Jr
+  _»_ : P ⊢[ ι ] Q → Q ⊢[ ι ]* Jr → P ⊢[ ι ]* Jr
   ----------------------------------------------------------------------
   -- Introducing ∀ / Eliminating ∃
-  ∀-intro : (∀ a → P ⊢[ i ] Qᶠ a) → P ⊢[ i ] ∀^ A Qᶠ
-  ∃-elim : (∀ a → Pᶠ a ⊢[ i ]* Jr) → ∃^ A Pᶠ ⊢[ i ]* Jr
+  ∀-intro : (∀ a → P ⊢[ ι ] Qᶠ a) → P ⊢[ ι ] ∀^ A Qᶠ
+  ∃-elim : (∀ a → Pᶠ a ⊢[ ι ]* Jr) → ∃^ A Pᶠ ⊢[ ι ]* Jr
   -- Eliminating ∀ / Introducing ∃
-  ∀-elim : ∀^ A Pᶠ ⊢[ i ] Pᶠ a
-  ∃-intro : Pᶠ a ⊢[ i ] ∃^ A Pᶠ
+  ∀-elim : ∀^ A Pᶠ ⊢[ ι ] Pᶠ a
+  ∃-intro : Pᶠ a ⊢[ ι ] ∃^ A Pᶠ
   -- Unnesting ∀ˢ ... , ∃ˢ ... , ⊤ into ∃ˢ _ ∈ (∀ ...) , ⊤
-  ∀∃⇒∃∀-⊤ : ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ ⊢[ i ] ∃ˢ _ ∈ (∀ a → F a) , ⊤
+  ∀∃⇒∃∀-⊤ : ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ ⊢[ ι ] ∃ˢ _ ∈ (∀ a → F a) , ⊤
   ----------------------------------------------------------------------
   -- → is the right adjoint of ∧
-  →-intro : P ∧ Q ⊢[ i ] R → Q ⊢[ i ] P →ˢ R
-  →-elim : Q ⊢[ i ] P →ˢ R → P ∧ Q ⊢[ i ] R
+  →-intro : P ∧ Q ⊢[ ι ] R → Q ⊢[ ι ] P →ˢ R
+  →-elim : Q ⊢[ ι ] P →ˢ R → P ∧ Q ⊢[ ι ] R
   ----------------------------------------------------------------------
   -- ∗ is unital w.r.t. ⊤, commutative, associative, and monotone
-  ⊤∗-elim : ⊤ ∗ P ⊢[ i ] P
-  ⊤∗-intro : P ⊢[ i ] ⊤ ∗ P
-  ∗-comm : P ∗ Q ⊢[ i ] Q ∗ P
-  ∗-assoc₀ : (P ∗ Q) ∗ R ⊢[ i ] P ∗ (Q ∗ R)
-  ∗-mono₀ : P ⊢[ i ] Q → P ∗ R ⊢[ i ] Q ∗ R
+  ⊤∗-elim : ⊤ ∗ P ⊢[ ι ] P
+  ⊤∗-intro : P ⊢[ ι ] ⊤ ∗ P
+  ∗-comm : P ∗ Q ⊢[ ι ] Q ∗ P
+  ∗-assoc₀ : (P ∗ Q) ∗ R ⊢[ ι ] P ∗ (Q ∗ R)
+  ∗-mono₀ : P ⊢[ ι ] Q → P ∗ R ⊢[ ι ] Q ∗ R
   ----------------------------------------------------------------------
   -- -∗ is the right adjoint of ∗
-  -∗-intro : P ∗ Q ⊢[ i ] R → Q ⊢[ i ] P -∗ R
-  -∗-elim : Q ⊢[ i ] P -∗ R → P ∗ Q ⊢[ i ] R
+  -∗-intro : P ∗ Q ⊢[ ι ] R → Q ⊢[ ι ] P -∗ R
+  -∗-elim : Q ⊢[ ι ] P -∗ R → P ∗ Q ⊢[ ι ] R
   ----------------------------------------------------------------------
   -- |=> is monadic: monotone, increasing, and idempotent
-  |=>-mono : P ⊢[ i ] Q → |=> P ⊢[ i ] |=> Q
-  |=>-intro : P ⊢[ i ] |=> P
-  |=>-join : |=> (|=> P) ⊢[ i ] |=> P
+  |=>-mono : P ⊢[ ι ] Q → |=> P ⊢[ ι ] |=> Q
+  |=>-intro : P ⊢[ ι ] |=> P
+  |=>-join : |=> (|=> P) ⊢[ ι ] |=> P
   -- ∗ can get inside |=>
-  |=>-frame₀ : P ∗ |=> Q ⊢[ i ] |=> (P ∗ Q)
+  |=>-frame₀ : P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
   -- ∃ˢ _ , can get outside |=>
-  |=>-∃-out : |=> (∃ˢ _ ∈ A , P) ⊢[ i ] ∃ˢ _ ∈ A , |=> P
+  |=>-∃-out : |=> (∃ˢ _ ∈ A , P) ⊢[ ι ] ∃ˢ _ ∈ A , |=> P
   ----------------------------------------------------------------------
   -- □ is comonadic: monotone, decreasing, and idempotent
-  □-mono : P ⊢[ i ] Q → □ P ⊢[ i ] □ Q
-  □-elim : □ P ⊢[ i ] P
-  □-dup : □ P ⊢[ i ] □ (□ P)
+  □-mono : P ⊢[ ι ] Q → □ P ⊢[ ι ] □ Q
+  □-elim : □ P ⊢[ ι ] P
+  □-dup : □ P ⊢[ ι ] □ (□ P)
   -- ∧ can turn into ∗ when one argument is under □
-  □₀-∧⇒∗ : □ P ∧ Q ⊢[ i ] □ P ∗ Q
+  □₀-∧⇒∗ : □ P ∧ Q ⊢[ ι ] □ P ∗ Q
   -- ∀ can get inside □
-  □-∀-in : ∀^ A (□ ∘ Pᶠ) ⊢[ i ] □ (∀^ A Pᶠ)
+  □-∀-in : ∀^ A (□ ∘ Pᶠ) ⊢[ ι ] □ (∀^ A Pᶠ)
   -- ∃ can get outside □
-  □-∃-out : □ (∃^ A Pᶠ) ⊢[ i ] ∃^ A (□ ∘ Pᶠ)
+  □-∃-out : □ (∃^ A Pᶠ) ⊢[ ι ] ∃^ A (□ ∘ Pᶠ)
   ----------------------------------------------------------------------
   -- A thunk sequent under |=> can be lifted to a super update =>>
-  ᶺ|=>⇒=>> : P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
+  ᶺ|=>⇒=>> : P ⊢[< ι ] |=> Q → P ⊢[ ι ]=>> Q
   -- The super update =>> is transitive
-  _ᵘ»ᵘ_ : P ⊢[ i ]=>> Q → Q ⊢[ i ]=>> R → P ⊢[ i ]=>> R
+  _ᵘ»ᵘ_ : P ⊢[ ι ]=>> Q → Q ⊢[ ι ]=>> R → P ⊢[ ι ]=>> R
   -- The super update =>> can frame
-  =>>-frame₀ : Q ⊢[ i ]=>> R → P ∗ Q ⊢[ i ]=>> P ∗ R
+  =>>-frame₀ : Q ⊢[ ι ]=>> R → P ∗ Q ⊢[ ι ]=>> P ∗ R
   ----------------------------------------------------------------------
   -- The save token can be modified with a thunk sequent
   save-mono₁ : {{Basic R}} →
-    R ∗ Pᶺ .force ⊢[< i ] Qᶺ .force → R ∗ save b Pᶺ ⊢[ i ] save b Qᶺ
+    R ∗ Pᶺ .force ⊢[< ι ] Qᶺ .force → R ∗ save b Pᶺ ⊢[ ι ] save b Qᶺ
   -- save□ weakens into savex
-  save-□⇒x : save□ Pᶺ ⊢[ i ] savex Pᶺ
+  save-□⇒x : save□ Pᶺ ⊢[ ι ] savex Pᶺ
   -- save□ is persistent
-  save□-□ : save□ Pᶺ ⊢[ i ] □ (save□ Pᶺ)
+  save□-□ : save□ Pᶺ ⊢[ ι ] □ (save□ Pᶺ)
   -- An exclusive save token savex Pᶺ is obtained by allocating Pᶺ
-  savex-alloc : Pᶺ .force ⊢[ i ]=>> savex Pᶺ
+  savex-alloc : Pᶺ .force ⊢[ ι ]=>> savex Pᶺ
   -- Persistent save tokens save□ Pᶺ, ... can be obtained
   -- by allocating □ Pᶺ, ... minus the tokens save□ Pᶺ, ... themselves
   save□-alloc-rec : [∗]-map save□ Pᶺs -∗ [∗]-map (λ Pᶺ → □ (Pᶺ .force)) Pᶺs
-                      ⊢[ i ]=>> [∗]-map save□ Pᶺs
+                      ⊢[ ι ]=>> [∗]-map save□ Pᶺs
 
 ------------------------------------------------------------------------
 -- Persistence: Pers P
 
 record Pers {ℓ} (P : Propˢ ℓ ∞) : Set (suc ℓ) where
   -- P can turn into □ P
-  field pers : ∀ {i} → P ⊢[ i ] □ P
+  field pers : ∀ {ι} → P ⊢[ ι ] □ P
 open Pers {{...}} public

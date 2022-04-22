@@ -63,7 +63,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   commutativeMonoid : CommutativeMonoid _ _
   commutativeMonoid = record { isCommutativeMonoid = isCommutativeMonoid }
   open CommutativeMonoid commutativeMonoid public
-    hiding (Carrier; _≈_; _∙_; ε)
+    hiding (Carrier; _≈_; _∙_; ε; isCommutativeMonoid)
 
   -- Infix notation for trans
   infixr -1 _»_ -- the same as _$_

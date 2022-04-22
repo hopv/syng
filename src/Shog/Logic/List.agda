@@ -20,7 +20,7 @@ private variable
   ℓ ℓ' : Level
   ι : Size
   A : Set ℓ'
-  Ps Qs : List (Propˢ ℓ ∞)
+  Ps Qs : List (Prop' ℓ ∞)
 
 ----------------------------------------------------------------------
 -- On [∗]
@@ -28,15 +28,15 @@ private variable
 -- [∗] is monotone
 
 [∗]-mono : Pointwise _⊢[ ι ]_ Ps Qs → [∗] Ps ⊢[ ι ] [∗] Qs
-[∗]-mono [] = idˢ
+[∗]-mono [] = refl
 [∗]-mono (P⊢Q ∷ Ps⊢Qs) = ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)
 
 -- ++ can get inside and outside [∗]
 
 [∗]-++-in : [∗] Ps ∗ [∗] Qs ⊢[ ι ] [∗] (Ps ++ Qs)
-[∗]-++-in {Ps = []} = ∗-elim₁
-[∗]-++-in {Ps = _ ∷ Ps} = ∗-assoc₀ » ∗-mono₁ ([∗]-++-in {Ps = Ps})
+[∗]-++-in {Ps = []} = ∗-elimʳ
+[∗]-++-in {Ps = _ ∷ Ps} = ∗-assocˡ » ∗-monoʳ ([∗]-++-in {Ps = Ps})
 
 [∗]-++-out : [∗] (Ps ++ Qs) ⊢[ ι ] [∗] Ps ∗ [∗] Qs
 [∗]-++-out {Ps = []} = ⊤∗-intro
-[∗]-++-out {Ps = _ ∷ Ps} = ∗-mono₁ ([∗]-++-out {Ps = Ps}) » ∗-assoc₁
+[∗]-++-out {Ps = _ ∷ Ps} = ∗-monoʳ ([∗]-++-out {Ps = Ps}) » ∗-assocʳ

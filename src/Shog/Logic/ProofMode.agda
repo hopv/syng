@@ -20,20 +20,20 @@ open import Shog.Logic.Core
 private variable
   ℓ : Level
   ι : Size
-  P P' Q Q' R R' S S' T T' U U' V V' : Propˢ ℓ ∞
+  P P' Q Q' R R' S S' T T' U U' V V' : Prop' ℓ ∞
   A B : Set ℓ
   F : A → Set ℓ
-  P˙ Q˙ : A → Propˢ ℓ ∞
+  P˙ Q˙ : A → Prop' ℓ ∞
   Jr : JudgRes ℓ
 
 ------------------------------------------------------------------------
 -- Modifying an element by a sequent
 
 0-mono : P ⊢[ ι ] P' → P ∗ Q ⊢[ ι ] P' ∗ Q
-0-mono = ∗-mono₀
+0-mono = ∗-monoˡ
 
 1'-mono : Q ⊢[ ι ] Q' → P ∗ Q ⊢[ ι ] P ∗ Q'
-1'-mono = ∗-mono₁
+1'-mono = ∗-monoʳ
 
 1-mono : Q ⊢[ ι ] Q' → P ∗ Q ∗ R ⊢[ ι ] P ∗ Q' ∗ R
 1-mono = 1'-mono ∘ 0-mono
@@ -74,7 +74,7 @@ private variable
 1'⇒0 = ∗-comm
 
 1⇒0 : P ∗ Q ∗ R ⊢[ ι ] Q ∗ P ∗ R
-1⇒0 = ∗-assoc₁ » ∗-mono₀ ∗-comm » ∗-assoc₀
+1⇒0 = ∗-assocʳ » ∗-monoˡ ∗-comm » ∗-assocˡ
 
 2'⇒0 : P ∗ Q ∗ R ⊢[ ι ] R ∗ P ∗ Q
 2'⇒0 = 1'-mono 1'⇒0 » 1⇒0
@@ -144,23 +144,23 @@ private variable
 
 -- Eliminated the head
 0⇒ : P ∗ Q ⊢[ ι ] Q
-0⇒ = ∗-elim₁
+0⇒ = ∗-elimʳ
 
 -- Use only the head
 by0 : P ∗ Q ⊢[ ι ] P
-by0 = ∗-elim₀
+by0 = ∗-elimˡ
 
 -- Split the head
 0-split : (P ∗ Q) ∗ R ⊢[ ι ] P ∗ Q ∗ R
-0-split = ∗-assoc₀
+0-split = ∗-assocˡ
 
 -- Merge the two at the head
 01-merge : P ∗ Q ∗ R ⊢[ ι ] (P ∗ Q) ∗ R
-01-merge = ∗-assoc₁
+01-merge = ∗-assocʳ
 
 -- Duplicate the head when it is persistent
 0-dup-Pers : {{Pers P}} → P ∗ Q ⊢[ ι ] P ∗ P ∗ Q
-0-dup-Pers = 0-mono dup-Pers » ∗-assoc₀
+0-dup-Pers = 0-mono dup-Pers » ∗-assocˡ
 
 -- Introduce ⊤ to the head
 ⊤⇒0 : P ⊢[ ι ] ⊤ ∗ P
@@ -175,7 +175,7 @@ by0 = ∗-elim₀
 0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (binary P∗⊢ P'∗⊢)
 
 0-⊥-elim : ⊥ ∗ Q ⊢[ ι ]* Jr
-0-⊥-elim = ∗-elim₀ » ⊥-elim
+0-⊥-elim = ∗-elimˡ » ⊥-elim
 
 -- Introduce ⌜ ⌝ to the head
 
@@ -190,4 +190,4 @@ by0 = ∗-elim₀
 -- Apply the head to the succedent
 
 0--∗-apply : Q ⊢[ ι ] P → (P -∗ P') ∗ Q ⊢[ ι ] P'
-0--∗-apply Q⊢P = 0-mono (-∗-mono₀ Q⊢P) » 0⇒1' » -∗-apply
+0--∗-apply Q⊢P = 0-mono (-∗-monoˡ Q⊢P) » 0⇒1' » -∗-apply

@@ -11,15 +11,15 @@ open import Size using (Size; ∞)
 open import Codata.Thunk using (force)
 open import Function.Base using (_$_)
 
-open import Shog.Logic.Prop using (Propˢ; _∗_; |=>)
+open import Shog.Logic.Prop using (Prop'; _∗_; |=>)
 open import Shog.Logic.Judg using (∗-comm; |=>-intro)
 open import Shog.Logic.Judg public using (
-  _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ^|=>⇒=>>; _ᵘ»ᵘ_; =>>-frame₀)
+  _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ^|=>⇒=>>; _ᵘ»ᵘ_; =>>-frameˡ)
 
 private variable
   ℓ : Level
   ι : Size
-  P Q R : Propˢ ℓ ∞
+  P Q R : Prop' ℓ ∞
 
 -- Lifting a thunk sequent into a super update =>>
 ^⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q
@@ -41,5 +41,5 @@ _ᵘ»_ : P ⊢[ ι ]=>> Q → Q ⊢[ ι ] R → P ⊢[ ι ]=>> R
 P⊢=>>Q ᵘ» Q⊢R = P⊢=>>Q ᵘ»ᵘ ⇒=>> Q⊢R
 
 -- The super update =>> can frame
-=>>-frame₁ : P ⊢[ ι ]=>> Q → P ∗ R ⊢[ ι ]=>> Q ∗ R
-=>>-frame₁ P⊢=>>Q = ∗-comm » =>>-frame₀ P⊢=>>Q ᵘ» ∗-comm
+=>>-frameʳ : P ⊢[ ι ]=>> Q → P ∗ R ⊢[ ι ]=>> Q ∗ R
+=>>-frameʳ P⊢=>>Q = ∗-comm » =>>-frameˡ P⊢=>>Q ᵘ» ∗-comm

@@ -16,13 +16,13 @@ open import Shog.Logic.Prop
 open import Shog.Logic.Core
 open import Shog.Logic.Supd
 open import Shog.Logic.Judg public using (
-  save-mono₁; save-□⇒x; save□-□; savex-alloc; save□-alloc-rec)
+  save-monoʳ; save-□⇒x; save□-□; savex-alloc; save□-alloc-rec)
 
 private variable
   ℓ : Level
   ι : Size
-  P^ Q^ : Propˢ< ℓ ∞
-  R : Propˢ ℓ ∞
+  P^ Q^ : Prop< ℓ ∞
+  R : Prop' ℓ ∞
   b b' : Bool
 
 instance
@@ -32,16 +32,16 @@ instance
 
 -- save is monotone
 
-save-mono₀ : b' ≤ b → save b P^ ⊢[ ι ] save b' P^
-save-mono₀ f≤t = save-□⇒x
-save-mono₀ b≤b = idˢ
+save-monoˡ : b' ≤ b → save b P^ ⊢[ ι ] save b' P^
+save-monoˡ f≤t = save-□⇒x
+save-monoˡ b≤b = refl
 
 save-mono : {{Basic R}} → b' ≤ b →
   R ∗ P^ .force ⊢[< ι ] Q^ .force → R ∗ save b P^ ⊢[ ι ] save b' Q^
-save-mono H₀ H₁ = ∗-mono₁ (save-mono₀ H₀) » save-mono₁ H₁
+save-mono b'≤b R∗P⊢Q = ∗-monoʳ (save-monoˡ b'≤b) » save-monoʳ R∗P⊢Q
 
 -- Allocating save□, without recursion
 
 save□-alloc : □ (P^ .force) ⊢[ ι ]=>> save□ P^
 save□-alloc {P^ = P^} = ∗⊤-intro » -∗-const »
-  save□-alloc-rec {P^s = [ P^ ]} ᵘ» ∗-elim₀
+  save□-alloc-rec {P^s = [ P^ ]} ᵘ» ∗-elimˡ

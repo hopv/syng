@@ -75,5 +75,5 @@ _+⁺_ : ℚ⁺ → ℚ⁺ → ℚ⁺
 +⁺-comm : p⁺ +⁺ q⁺ ≃⁺ q⁺ +⁺ p⁺
 +⁺-comm {p , _} {q , _} = +-comm p q
 
-+⁺-assoc₀ : (p⁺ +⁺ q⁺) +⁺ r⁺ ≃⁺ p⁺ +⁺ (q⁺ +⁺ r⁺)
-+⁺-assoc₀ {p , _} {q , _} {r , _} = +-assoc p q r
++⁺-assocˡ : (p⁺ +⁺ q⁺) +⁺ r⁺ ≃⁺ p⁺ +⁺ (q⁺ +⁺ r⁺)
++⁺-assocˡ {p , _} {q , _} {r , _} = +-assoc p q r

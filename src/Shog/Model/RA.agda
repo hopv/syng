@@ -224,5 +224,5 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ... | d , d∈D , ✓f∙a∙d with ✓f∙a∙d |>
     ✓-resp (assoc _ _ _ » ∙-congˡ (comm _ _) » sym (assoc _ _ _)) |> a~>:B _
   ...   | b , b∈B , ✓f∙d∙b with BDE b∈B d∈D
-  ...     | e , e≈b∙d , e∈E  = e , e∈E ,
+  ...     | e , e≈b∙d , e∈E  =  e , e∈E ,
     ✓-resp (assoc _ _ _ » ∙-congˡ $ comm _ _ » sym e≈b∙d) ✓f∙d∙b

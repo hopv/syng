@@ -183,9 +183,9 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   ~>ˢ-resp : a ≈ a' → B ⊆≈ B' → a ~>ˢ B → a' ~>ˢ B'
   ~>ˢ-resp a≈a' B⊆≈B' a~>ˢB c ✓c∙a'
-    with ✓c∙a' |> ✓-resp (∙-congˡ $ sym a≈a') |> a~>ˢB c
-  ... | b , b∈B , ✓c∙b with B⊆≈B' b∈B
-  ...   | b' , b≈b' , b'∈B' = b' , b'∈B' , ✓-resp (∙-congˡ b≈b') ✓c∙b
+    with  ✓c∙a' |> ✓-resp (∙-congˡ $ sym a≈a') |> a~>ˢB c
+  ... | b , b∈B , ✓c∙b  with  B⊆≈B' b∈B
+  ...   | b' , b≈b' , b'∈B'  =  b' , b'∈B' , ✓-resp (∙-congˡ b≈b') ✓c∙b
 
   ~>ˢ-respˡ : (_~>ˢ B) Respects _≈_
   ~>ˢ-respˡ a≈a' = ~>ˢ-resp a≈a' ⊆≈-refl
@@ -219,10 +219,10 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   ∙-mono-~>ˢ : a ~>ˢ B → c ~>ˢ D →
     (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E) → a ∙ c ~>ˢ E
-  ∙-mono-~>ˢ a~>ˢB c~>ˢD BDE f ✓f∙a∙c with
+  ∙-mono-~>ˢ a~>ˢB c~>ˢD BDE f ✓f∙a∙c  with
     ✓f∙a∙c |> ✓-resp (sym (assoc _ _ _)) |> c~>ˢD _
-  ... | d , d∈D , ✓f∙a∙d with ✓f∙a∙d |>
+  ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d |>
     ✓-resp (assoc _ _ _ » ∙-congˡ (comm _ _) » sym (assoc _ _ _)) |> a~>ˢB _
-  ...   | b , b∈B , ✓f∙d∙b with BDE b∈B d∈D
+  ...   | b , b∈B , ✓f∙d∙b  with  BDE b∈B d∈D
   ...     | e , e≈b∙d , e∈E  =  e , e∈E ,
     ✓-resp (assoc _ _ _ » ∙-congˡ $ comm _ _ » sym e≈b∙d) ✓f∙d∙b

@@ -16,7 +16,7 @@ open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])
 open import Data.Unit.Base using (tt) renaming (⊤ to ⊤')
 open import Data.Empty renaming (⊥ to ⊥'; ⊥-elim to ⊥'-elim)
 
-open import Shog.Util using (zero₂; one₂; binary; nullary)
+open import Shog.Base.TwoZero using (zero₂; one₂; binary; nullary)
 open import Shog.Logic.Prop public using (
   Propˢ; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→ˢ_; _∗_; _-∗_; |=>; □)

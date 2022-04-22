@@ -13,7 +13,7 @@ open import Level using (Level)
 open import Size using (Size; ∞)
 open import Function.Base using (_$_; _∘_)
 
-open import Shog.Util using (binary)
+open import Shog.Base.TwoZero using (binary)
 open import Shog.Logic.Prop
 open import Shog.Logic.Core
 

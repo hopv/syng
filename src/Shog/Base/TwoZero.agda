@@ -1,18 +1,15 @@
 ------------------------------------------------------------------------
--- Utility
+-- Two and Zero -- Level-polymorphic 2/0-element set
 ------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
 
-module Shog.Util where
+module Shog.Base.TwoZero where
 
 open import Level using (Level)
 
 private variable
   ℓ ℓ' : Level
-
-------------------------------------------------------------------------
--- Two and Zero -- Level-polymorphic 2/0-element set
 
 data Two ℓ : Set ℓ where
   zero₂ one₂ : Two ℓ

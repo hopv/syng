@@ -13,7 +13,7 @@ open import Data.Bool.Base using (Bool; true; false)
 open import Data.List.Base using (List; foldr; map)
 open import Function.Base using (_$_; _∘_; it)
 
-open import Shog.Util using (binary; nullary)
+open import Shog.Base.TwoZero using (binary; nullary)
 
 private variable
   ℓ ℓ' : Level

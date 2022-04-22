@@ -59,9 +59,9 @@ infixr 7 _∗_
 
 infix 3 ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
 syntax ∀∈-syntax A (λ x → P) = ∀ˢ x ∈ A , P
-syntax ∃∈-syntax A (λ x → P) = ∃ˢ x ∈ A , P
+syntax ∃∈-syntax A (λ x → P) = ∃ x ∈ A , P
 syntax ∀-syntax (λ x → P) = ∀ˢ x , P
-syntax ∃-syntax (λ x → P) = ∃ˢ x , P
+syntax ∃-syntax (λ x → P) = ∃ x , P
 
 private variable
   A : Set ℓ
@@ -70,7 +70,7 @@ private variable
   P˙ : A → Propˢ ℓ ∞
 
 ----------------------------------------------------------------------
--- Deriving from universal/existential quantification ∀ˢ / ∃ˢ
+-- Deriving from universal/existential quantification ∀ˢ / ∃
 
 infixr 7 _∧_
 infixr 6 _∨_

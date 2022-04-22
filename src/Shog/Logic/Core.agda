@@ -185,12 +185,12 @@ private variable
 ∀⇒⌜⌝→ : ∀ˢ _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ →ˢ P
 ∀⇒⌜⌝→ = →-intro $ ⌜⌝∧-elim $ λ a → ∀-elim {a = a}
 
--- ⌜ A ⌝ ∧ is the same with ∃ˢ _ ∈ A ,
+-- ⌜ A ⌝ ∧ is the same with ∃ _ ∈ A ,
 
-⌜⌝∧⇒∃ : ⌜ A ⌝ ∧ P ⊢[ ι ] ∃ˢ _ ∈ A , P
+⌜⌝∧⇒∃ : ⌜ A ⌝ ∧ P ⊢[ ι ] ∃ _ ∈ A , P
 ⌜⌝∧⇒∃ = ⌜⌝∧-elim $ λ a → idˢ » ∃-intro {a = a}
 
-∃⇒⌜⌝∧ : ∃ˢ _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ ∧ P
+∃⇒⌜⌝∧ : ∃ _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ ∧ P
 ∃⇒⌜⌝∧ = ∃-elim $ λ a → ⌜⌝∧-intro a
 
 -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤/⊥/→
@@ -202,10 +202,10 @@ private variable
 ⌜⌝-∀-out : ⌜ (∀ a → F a) ⌝ ⊢[ ι ] ∀ˢ a , ⌜ F a ⌝
 ⌜⌝-∀-out = ∀-intro $ λ a → ⌜⌝-elim $ λ f → ⌜⌝-intro $ f a
 
-⌜⌝-∃-in : ∃ˢ a , ⌜ F a ⌝ ⊢[ ι ] ⌜ ∃[ a ] F a ⌝
+⌜⌝-∃-in : ∃ a , ⌜ F a ⌝ ⊢[ ι ] ⌜ ∃[ a ] F a ⌝
 ⌜⌝-∃-in = ∃-elim $ λ a → ⌜⌝-mono $ λ fa → a , fa
 
-⌜⌝-∃-out : ⌜ ∃[ a ] F a ⌝ ⊢[ ι ] ∃ˢ a , ⌜ F a ⌝
+⌜⌝-∃-out : ⌜ ∃[ a ] F a ⌝ ⊢[ ι ] ∃ a , ⌜ F a ⌝
 ⌜⌝-∃-out = ⌜⌝-elim $ λ (_ , fa) → ⌜⌝-intro fa » ∃-intro
 
 ⌜⌝-∧-in : ⌜ A ⌝ ∧ ⌜ B ⌝ ⊢[ ι ] ⌜ A × B ⌝
@@ -264,7 +264,7 @@ private variable
 
 -- ∃ can get outside ∗
 
-∗-∃-out : P ∗ ∃˙- Q˙ ⊢[ ι ] ∃ˢ a , P ∗ Q˙ a
+∗-∃-out : P ∗ ∃˙- Q˙ ⊢[ ι ] ∃ a , P ∗ Q˙ a
 ∗-∃-out = -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
 
 -- ∗ can turn into ∧

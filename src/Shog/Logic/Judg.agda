@@ -74,8 +74,8 @@ data Judg {ℓ} ι where
   -- Eliminating ∀ / Introducing ∃
   ∀-elim : ∀˙ A P˙ ⊢[ ι ] P˙ a
   ∃-intro : P˙ a ⊢[ ι ] ∃˙ A P˙
-  -- Unnesting ∀ˢ ... , ∃ˢ ... , ⊤ into ∃ˢ _ ∈ (∀ ...) , ⊤
-  ∀∃⇒∃∀-⊤ : ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ ⊢[ ι ] ∃ˢ _ ∈ (∀ a → F a) , ⊤
+  -- Unnesting ∀ˢ ... , ∃ ... , ⊤ into ∃ _ ∈ (∀ ...) , ⊤
+  ∀∃⇒∃∀-⊤ : ∀ˢ a ∈ A , ∃ _ ∈ F a , ⊤ ⊢[ ι ] ∃ _ ∈ (∀ a → F a) , ⊤
   ----------------------------------------------------------------------
   -- → is the right adjoint of ∧
   →-intro : P ∧ Q ⊢[ ι ] R → Q ⊢[ ι ] P →ˢ R
@@ -98,8 +98,8 @@ data Judg {ℓ} ι where
   |=>-join : |=> (|=> P) ⊢[ ι ] |=> P
   -- ∗ can get inside |=>
   |=>-frame₀ : P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
-  -- ∃ˢ _ , can get outside |=>
-  |=>-∃-out : |=> (∃ˢ _ ∈ A , P) ⊢[ ι ] ∃ˢ _ ∈ A , |=> P
+  -- ∃ _ , can get outside |=>
+  |=>-∃-out : |=> (∃ _ ∈ A , P) ⊢[ ι ] ∃ _ ∈ A , |=> P
   ----------------------------------------------------------------------
   -- □ is comonadic: monotone, decreasing, and idempotent
   □-mono : P ⊢[ ι ] Q → □ P ⊢[ ι ] □ Q

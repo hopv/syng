@@ -18,7 +18,7 @@ open import Data.Empty renaming (⊥ to ⊥'; ⊥-elim to ⊥'-elim)
 
 open import Shog.Util using (zero₂; one₂; binary; nullary)
 open import Shog.Logic.Prop public using (
-  Propˢ; ∀^; ∃^; ∀^'; ∃^'; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
+  Propˢ; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→ˢ_; _∗_; _-∗_; |=>; □)
 open import Shog.Logic.Judg public using (
   JudgRes; _⊢[_]*_; _⊢[_]_;
@@ -34,7 +34,7 @@ private variable
   Jr : JudgRes ℓ
   A B : Set ℓ
   F : A → Set ℓ
-  Pᶠ Qᶠ : A → Propˢ ℓ ∞
+  P˙ Q˙ : A → Propˢ ℓ ∞
 
 ------------------------------------------------------------------------
 -- On ∀/∃/∧/∨/⊤/⊥
@@ -69,11 +69,11 @@ private variable
 
 -- ∀/∃/∧/∨/⊤/⊥ is monotone
 
-∀-mono : (∀ a → Pᶠ a ⊢[ ι ] Qᶠ a) → ∀^' Pᶠ ⊢[ ι ] ∀^' Qᶠ
-∀-mono Pᶠ⊢Qᶠ = ∀-intro $ λ a → ∀-elim » Pᶠ⊢Qᶠ a
+∀-mono : (∀ a → P˙ a ⊢[ ι ] Q˙ a) → ∀˙- P˙ ⊢[ ι ] ∀˙- Q˙
+∀-mono P˙⊢Q˙ = ∀-intro $ λ a → ∀-elim » P˙⊢Q˙ a
 
-∃-mono : (∀ a → Pᶠ a ⊢[ ι ] Qᶠ a) → ∃^' Pᶠ ⊢[ ι ] ∃^' Qᶠ
-∃-mono Pᶠ⊢Qᶠ = ∃-elim $ λ a → Pᶠ⊢Qᶠ a » ∃-intro
+∃-mono : (∀ a → P˙ a ⊢[ ι ] Q˙ a) → ∃˙- P˙ ⊢[ ι ] ∃˙- Q˙
+∃-mono P˙⊢Q˙ = ∃-elim $ λ a → P˙⊢Q˙ a » ∃-intro
 
 ∧-mono : P ⊢[ ι ] Q → R ⊢[ ι ] S → P ∧ R ⊢[ ι ] Q ∧ S
 ∧-mono P⊢Q R⊢S = ∧-intro (∧-elim₀ » P⊢Q) (∧-elim₁ » R⊢S)
@@ -264,7 +264,7 @@ private variable
 
 -- ∃ can get outside ∗
 
-∗-∃-out : P ∗ ∃^' Qᶠ ⊢[ ι ] ∃ˢ a , P ∗ Qᶠ a
+∗-∃-out : P ∗ ∃˙- Q˙ ⊢[ ι ] ∃ˢ a , P ∗ Q˙ a
 ∗-∃-out = -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
 
 -- ∗ can turn into ∧
@@ -334,10 +334,10 @@ private variable
 
 -- ∀/∧ can get outside □ / ∃/∨ can get inside □
 
-□-∀-out : □ (∀^ _ Pᶠ) ⊢[ ι ] ∀^ _ (□ ∘ Pᶠ)
+□-∀-out : □ (∀˙ _ P˙) ⊢[ ι ] ∀˙ _ (□ ∘ P˙)
 □-∀-out = ∀-intro $ λ _ → □-mono ∀-elim
 
-□-∃-in : ∃^ A (□ ∘ Pᶠ) ⊢[ ι ] □ (∃^ A Pᶠ)
+□-∃-in : ∃˙ A (□ ∘ P˙) ⊢[ ι ] □ (∃˙ A P˙)
 □-∃-in = ∃-elim $ λ _ → □-mono ∃-intro
 
 □-∧-out : □ (P ∧ Q) ⊢[ ι ] □ P ∧ □ Q
@@ -419,10 +419,10 @@ open Pers {{...}} public
 -- -- They are not instances, because unfortunately
 -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
-∀-Pers : (∀ a → Pers (Pᶠ a)) → Pers (∀^ _ Pᶠ)
+∀-Pers : (∀ a → Pers (P˙ a)) → Pers (∀˙ _ P˙)
 ∀-Pers ∀Pers .pers = ∀-mono (λ a → ∀Pers a .pers) » □-∀-in
 
-∃-Pers : (∀ a → Pers (Pᶠ a)) → Pers (∃^ _ Pᶠ)
+∃-Pers : (∀ a → Pers (P˙ a)) → Pers (∃˙ _ P˙)
 ∃-Pers ∀Pers .pers = ∃-mono (λ a → ∀Pers a .pers) » □-∃-in
 
 instance

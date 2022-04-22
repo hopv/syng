@@ -23,7 +23,7 @@ private variable
   P P' Q Q' R R' S S' T T' U U' V V' : Propˢ ℓ ∞
   A B : Set ℓ
   F : A → Set ℓ
-  Pᶠ Qᶠ : A → Propˢ ℓ ∞
+  P˙ Q˙ : A → Propˢ ℓ ∞
   Jr : JudgRes ℓ
 
 ------------------------------------------------------------------------
@@ -168,8 +168,8 @@ by0 = ∗-elim₀
 
 -- Eliminate ∃/∨/⊥ from the head
 
-0-∃-elim : (∀ a → Pᶠ a ∗ Q ⊢[ ι ]* Jr) → (∃^ _ Pᶠ) ∗ Q ⊢[ ι ]* Jr
-0-∃-elim →Pᶠ∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →Pᶠ∗⊢ a
+0-∃-elim : (∀ a → P˙ a ∗ Q ⊢[ ι ]* Jr) → (∃˙ _ P˙) ∗ Q ⊢[ ι ]* Jr
+0-∃-elim →P˙∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →P˙∗⊢ a
 
 0-∨-elim : P ∗ Q ⊢[ ι ]* Jr → P' ∗ Q ⊢[ ι ]* Jr → (P ∨ P') ∗ Q ⊢[ ι ]* Jr
 0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (binary P∗⊢ P'∗⊢)

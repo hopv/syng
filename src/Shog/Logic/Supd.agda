@@ -14,7 +14,7 @@ open import Function.Base using (_$_)
 open import Shog.Logic.Prop using (Propˢ; _∗_; |=>)
 open import Shog.Logic.Judg using (∗-comm; |=>-intro)
 open import Shog.Logic.Judg public using (
-  _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ᶺ|=>⇒=>>; _ᵘ»ᵘ_; =>>-frame₀)
+  _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ^|=>⇒=>>; _ᵘ»ᵘ_; =>>-frame₀)
 
 private variable
   ℓ : Level
@@ -22,16 +22,16 @@ private variable
   P Q R : Propˢ ℓ ∞
 
 -- Lifting a thunk sequent into a super update =>>
-ᶺ⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q
-ᶺ⇒=>> P⊢ᶺQ = ᶺ|=>⇒=>> $ λ where .force → P⊢ᶺQ .force » |=>-intro
+^⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q
+^⇒=>> P⊢^Q = ^|=>⇒=>> $ λ where .force → P⊢^Q .force » |=>-intro
 
 -- Lifting a sequent under |=> into a super update =>>
 |=>⇒=>> : P ⊢[ ι ] |=> Q → P ⊢[ ι ]=>> Q
-|=>⇒=>> P⊢Q = ᶺ|=>⇒=>> $ λ where .force → P⊢Q
+|=>⇒=>> P⊢Q = ^|=>⇒=>> $ λ where .force → P⊢Q
 
 -- Lifting a sequent into a super update =>>
 ⇒=>> : P ⊢[ ι ] Q → P ⊢[ ι ]=>> Q
-⇒=>> P⊢Q = ᶺ⇒=>> λ where .force → P⊢Q
+⇒=>> P⊢Q = ^⇒=>> λ where .force → P⊢Q
 
 -- Modifying the succedent of a super update with a sequent
 

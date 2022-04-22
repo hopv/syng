@@ -21,27 +21,27 @@ open import Shog.Logic.Judg public using (
 private variable
   ℓ : Level
   ι : Size
-  Pᶺ Qᶺ : Propˢ< ℓ ∞
+  P^ Q^ : Propˢ< ℓ ∞
   R : Propˢ ℓ ∞
   b b' : Bool
 
 instance
-  -- save□ Pᶺ is persistent
-  save□-Pers : Pers (save□ Pᶺ)
+  -- save□ P^ is persistent
+  save□-Pers : Pers (save□ P^)
   save□-Pers .pers = save□-□
 
 -- save is monotone
 
-save-mono₀ : b' ≤ b → save b Pᶺ ⊢[ ι ] save b' Pᶺ
+save-mono₀ : b' ≤ b → save b P^ ⊢[ ι ] save b' P^
 save-mono₀ f≤t = save-□⇒x
 save-mono₀ b≤b = idˢ
 
 save-mono : {{Basic R}} → b' ≤ b →
-  R ∗ Pᶺ .force ⊢[< ι ] Qᶺ .force → R ∗ save b Pᶺ ⊢[ ι ] save b' Qᶺ
+  R ∗ P^ .force ⊢[< ι ] Q^ .force → R ∗ save b P^ ⊢[ ι ] save b' Q^
 save-mono H₀ H₁ = ∗-mono₁ (save-mono₀ H₀) » save-mono₁ H₁
 
 -- Allocating save□, without recursion
 
-save□-alloc : □ (Pᶺ .force) ⊢[ ι ]=>> save□ Pᶺ
-save□-alloc {Pᶺ = Pᶺ} = ∗⊤-intro » -∗-const »
-  save□-alloc-rec {Pᶺs = [ Pᶺ ]} ᵘ» ∗-elim₀
+save□-alloc : □ (P^ .force) ⊢[ ι ]=>> save□ P^
+save□-alloc {P^ = P^} = ∗⊤-intro » -∗-const »
+  save□-alloc-rec {P^s = [ P^ ]} ᵘ» ∗-elim₀

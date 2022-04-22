@@ -29,7 +29,7 @@ Propˢ< ℓ ι = Thunk (Propˢ ℓ) ι
 
 data Propˢ ℓ ι where
   -- universal/existential quantification
-  ∀^ ∃^ : (A : Set ℓ) → (A → Propˢ ℓ ι) → Propˢ ℓ ι
+  ∀˙ ∃˙ : (A : Set ℓ) → (A → Propˢ ℓ ι) → Propˢ ℓ ι
   -- implication
   _→ˢ_ : Propˢ ℓ ι → Propˢ ℓ ι → Propˢ ℓ ι
   -- separating conjunction / magic wand
@@ -42,20 +42,20 @@ data Propˢ ℓ ι where
 infixr 5 _→ˢ_ _-∗_
 infixr 7 _∗_
 
--- ∀^/∃^ with the set argument implicit
-∀^' ∃^' : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ ι) → Propˢ ℓ ι
-∀^' = ∀^ _
-∃^' = ∃^ _
+-- ∀˙/∃˙ with the set argument implicit
+∀˙- ∃˙- : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ ι) → Propˢ ℓ ι
+∀˙- = ∀˙ _
+∃˙- = ∃˙ _
 
 -- Syntax for ∀/∃
 
 ∀∈-syntax ∃∈-syntax : (A : Set ℓ) → (A → Propˢ ℓ ι) → Propˢ ℓ ι
-∀∈-syntax = ∀^
-∃∈-syntax = ∃^
+∀∈-syntax = ∀˙
+∃∈-syntax = ∃˙
 
 ∀-syntax ∃-syntax : ∀ {ℓ} {A : Set ℓ} → (A → Propˢ ℓ ι) → Propˢ ℓ ι
-∀-syntax = ∀^'
-∃-syntax = ∃^'
+∀-syntax = ∀˙-
+∃-syntax = ∃˙-
 
 infix 3 ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
 syntax ∀∈-syntax A (λ x → P) = ∀ˢ x ∈ A , P
@@ -67,7 +67,7 @@ private variable
   A : Set ℓ
   D : Set ℓ'
   P Q R S : Propˢ ℓ ∞
-  Pᶠ : A → Propˢ ℓ ∞
+  P˙ : A → Propˢ ℓ ∞
 
 ----------------------------------------------------------------------
 -- Deriving from universal/existential quantification ∀ˢ / ∃ˢ
@@ -77,26 +77,26 @@ infixr 6 _∨_
 
 -- Conjunction ∧ and disjunction ∨
 _∧_ _∨_ : Propˢ ℓ ι → Propˢ ℓ ι → Propˢ ℓ ι
-P ∧ Q = ∀^' (binary P Q) -- Conjunction
-P ∨ Q = ∃^' (binary P Q) -- Disjunction
+P ∧ Q = ∀˙- (binary P Q) -- Conjunction
+P ∨ Q = ∃˙- (binary P Q) -- Disjunction
 
 -- Truth ⊤ and falsehood ⊥
 ⊤ ⊥ : Propˢ ℓ ι
-⊤ = ∀^ _ nullary -- Truth
-⊥ = ∃^ _ nullary -- Falsehood
+⊤ = ∀˙ _ nullary -- Truth
+⊥ = ∃˙ _ nullary -- Falsehood
 
 ----------------------------------------------------------------------
 -- Set embedding
 
 ⌜_⌝ : Set ℓ → Propˢ ℓ ι
-⌜ A ⌝ = ∃^ A (λ _ → ⊤)
+⌜ A ⌝ = ∃˙ A (λ _ → ⊤)
 
 ----------------------------------------------------------------------
 -- On the save token
 
 savex save□ : Propˢ< ℓ ι → Propˢ ℓ ι
-savex Pᶺ = save false Pᶺ
-save□ Pᶺ = save true Pᶺ
+savex P^ = save false P^
+save□ P^ = save true P^
 
 ----------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]
@@ -107,7 +107,7 @@ save□ Pᶺ = save true Pᶺ
 -- [∗] with map
 
 [∗]-map : (D → Propˢ ℓ ι) → List D → Propˢ ℓ ι
-[∗]-map Pᶠ ds = [∗] $ map Pᶠ ds
+[∗]-map P˙ ds = [∗] $ map P˙ ds
 
 [∗]-map-syntax : (D → Propˢ ℓ ι) → List D → Propˢ ℓ ι
 [∗]-map-syntax = [∗]-map
@@ -121,8 +121,8 @@ syntax [∗]-map-syntax (λ d → P) ds = [∗] d ∈ ds , P
 -- IsBasic P : Predicate
 -- IsBasic P holds when P consists only of ∀, ∃ and ∗
 data IsBasic {ℓ} : Propˢ ℓ ∞ → Set (suc ℓ) where
-  ∀-IsBasic : (∀ a → IsBasic (Pᶠ a)) → IsBasic (∀^ A Pᶠ)
-  ∃-IsBasic : (∀ a → IsBasic (Pᶠ a)) → IsBasic (∃^ A Pᶠ)
+  ∀-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∀˙ A P˙)
+  ∃-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∃˙ A P˙)
   ∗-IsBasic : IsBasic P → IsBasic Q → IsBasic (P ∗ Q)
 
 -- Basic P : Type class wrapping IsBasic P
@@ -135,10 +135,10 @@ open Basic {{...}}
 -- -- They are not instances, because unfortunately
 -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
-∀-Basic : (∀ a → Basic (Pᶠ a)) → Basic (∀^ A Pᶠ)
+∀-Basic : (∀ a → Basic (P˙ a)) → Basic (∀˙ A P˙)
 ∀-Basic ∀Basic .basic = ∀-IsBasic $ λ a → ∀Basic a .basic
 
-∃-Basic : (∀ a → Basic (Pᶠ a)) → Basic (∃^ A Pᶠ)
+∃-Basic : (∀ a → Basic (P˙ a)) → Basic (∃˙ A P˙)
 ∃-Basic ∀Basic .basic = ∃-IsBasic $ λ a → ∀Basic a .basic
 
 instance

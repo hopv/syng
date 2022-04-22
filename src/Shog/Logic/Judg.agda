@@ -30,12 +30,12 @@ private variable
   P Q R : Propˢ ℓ ∞
   Jr : JudgRes ℓ
   A : Set ℓ
-  Pᶠ Qᶠ : A → Propˢ ℓ ∞
-  Pᶺ Qᶺ : Propˢ< ℓ ∞
+  P˙ Q˙ : A → Propˢ ℓ ∞
+  P^ Q^ : Propˢ< ℓ ∞
   a : A
   F : A → Set ℓ
   b : Bool
-  Pᶺs : List (Propˢ< ℓ ∞)
+  P^s : List (Propˢ< ℓ ∞)
 
 -- Declaring Judg
 data Judg {ℓ} (ι : Size) : Propˢ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
@@ -69,11 +69,11 @@ data Judg {ℓ} ι where
   _»_ : P ⊢[ ι ] Q → Q ⊢[ ι ]* Jr → P ⊢[ ι ]* Jr
   ----------------------------------------------------------------------
   -- Introducing ∀ / Eliminating ∃
-  ∀-intro : (∀ a → P ⊢[ ι ] Qᶠ a) → P ⊢[ ι ] ∀^ A Qᶠ
-  ∃-elim : (∀ a → Pᶠ a ⊢[ ι ]* Jr) → ∃^ A Pᶠ ⊢[ ι ]* Jr
+  ∀-intro : (∀ a → P ⊢[ ι ] Q˙ a) → P ⊢[ ι ] ∀˙ A Q˙
+  ∃-elim : (∀ a → P˙ a ⊢[ ι ]* Jr) → ∃˙ A P˙ ⊢[ ι ]* Jr
   -- Eliminating ∀ / Introducing ∃
-  ∀-elim : ∀^ A Pᶠ ⊢[ ι ] Pᶠ a
-  ∃-intro : Pᶠ a ⊢[ ι ] ∃^ A Pᶠ
+  ∀-elim : ∀˙ A P˙ ⊢[ ι ] P˙ a
+  ∃-intro : P˙ a ⊢[ ι ] ∃˙ A P˙
   -- Unnesting ∀ˢ ... , ∃ˢ ... , ⊤ into ∃ˢ _ ∈ (∀ ...) , ⊤
   ∀∃⇒∃∀-⊤ : ∀ˢ a ∈ A , ∃ˢ _ ∈ F a , ⊤ ⊢[ ι ] ∃ˢ _ ∈ (∀ a → F a) , ⊤
   ----------------------------------------------------------------------
@@ -108,12 +108,12 @@ data Judg {ℓ} ι where
   -- ∧ can turn into ∗ when one argument is under □
   □₀-∧⇒∗ : □ P ∧ Q ⊢[ ι ] □ P ∗ Q
   -- ∀ can get inside □
-  □-∀-in : ∀^ A (□ ∘ Pᶠ) ⊢[ ι ] □ (∀^ A Pᶠ)
+  □-∀-in : ∀˙ A (□ ∘ P˙) ⊢[ ι ] □ (∀˙ A P˙)
   -- ∃ can get outside □
-  □-∃-out : □ (∃^ A Pᶠ) ⊢[ ι ] ∃^ A (□ ∘ Pᶠ)
+  □-∃-out : □ (∃˙ A P˙) ⊢[ ι ] ∃˙ A (□ ∘ P˙)
   ----------------------------------------------------------------------
   -- A thunk sequent under |=> can be lifted to a super update =>>
-  ᶺ|=>⇒=>> : P ⊢[< ι ] |=> Q → P ⊢[ ι ]=>> Q
+  ^|=>⇒=>> : P ⊢[< ι ] |=> Q → P ⊢[ ι ]=>> Q
   -- The super update =>> is transitive
   _ᵘ»ᵘ_ : P ⊢[ ι ]=>> Q → Q ⊢[ ι ]=>> R → P ⊢[ ι ]=>> R
   -- The super update =>> can frame
@@ -121,14 +121,14 @@ data Judg {ℓ} ι where
   ----------------------------------------------------------------------
   -- The save token can be modified with a thunk sequent
   save-mono₁ : {{Basic R}} →
-    R ∗ Pᶺ .force ⊢[< ι ] Qᶺ .force → R ∗ save b Pᶺ ⊢[ ι ] save b Qᶺ
+    R ∗ P^ .force ⊢[< ι ] Q^ .force → R ∗ save b P^ ⊢[ ι ] save b Q^
   -- save□ weakens into savex
-  save-□⇒x : save□ Pᶺ ⊢[ ι ] savex Pᶺ
+  save-□⇒x : save□ P^ ⊢[ ι ] savex P^
   -- save□ is persistent
-  save□-□ : save□ Pᶺ ⊢[ ι ] □ (save□ Pᶺ)
-  -- An exclusive save token savex Pᶺ is obtained by allocating Pᶺ
-  savex-alloc : Pᶺ .force ⊢[ ι ]=>> savex Pᶺ
-  -- Persistent save tokens save□ Pᶺ, ... can be obtained
-  -- by allocating □ Pᶺ, ... minus the tokens save□ Pᶺ, ... themselves
-  save□-alloc-rec : [∗]-map save□ Pᶺs -∗ [∗]-map (λ Pᶺ → □ (Pᶺ .force)) Pᶺs
-                      ⊢[ ι ]=>> [∗]-map save□ Pᶺs
+  save□-□ : save□ P^ ⊢[ ι ] □ (save□ P^)
+  -- An exclusive save token savex P^ is obtained by allocating P^
+  savex-alloc : P^ .force ⊢[ ι ]=>> savex P^
+  -- Persistent save tokens save□ P^, ... can be obtained
+  -- by allocating □ P^, ... minus the tokens save□ P^, ... themselves
+  save□-alloc-rec : [∗]-map save□ P^s -∗ [∗]-map (λ P^ → □ (P^ .force)) P^s
+                      ⊢[ ι ]=>> [∗]-map save□ P^s

@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Shog.Model.RA.Excl where
+module Shog.Model.RA.Ex where
 
 open import Level using (Level; 0ℓ)
 
@@ -23,42 +23,42 @@ private variable
   a b : A
 
 ----------------------------------------------------------------------
--- Excl A : ExclRA's carrier
+-- Ex A : ExRA's carrier
 
-data Excl {ℓ} (A : Set ℓ) : Set ℓ where
+data Ex {ℓ} (A : Set ℓ) : Set ℓ where
   -- pending
-  ?ˣ : Excl A
+  ?ˣ : Ex A
   -- the value is exclusively set
-  !ˣ : A → Excl A
+  !ˣ : A → Ex A
   -- invalid
-  ↯ˣ : Excl A
+  ↯ˣ : Ex A
 
 ----------------------------------------------------------------------
--- ✓ˣ : ExclRA's validity
+-- ✓ˣ : ExRA's validity
 
-✓ˣ : Excl A → Set
+✓ˣ : Ex A → Set
 ✓ˣ ↯ˣ = ⊥
 ✓ˣ _ = ⊤
 
 ----------------------------------------------------------------------
--- _∙ˣ_ : ExclRA's product
+-- _∙ˣ_ : ExRA's product
 
 infixl 7 _∙ˣ_
-_∙ˣ_ : Excl A → Excl A → Excl A
+_∙ˣ_ : Ex A → Ex A → Ex A
 ?ˣ ∙ˣ aˣ = aˣ
 ↯ˣ ∙ˣ aˣ = ↯ˣ
 aˣ ∙ˣ ?ˣ = aˣ
 _ ∙ˣ _ = ↯ˣ
 
 ----------------------------------------------------------------------
--- Non-trivial lemmas for ExclRA
+-- Non-trivial lemmas for ExRA
 
 private
-  ✓ˣ-rem : ∀ (aˣ bˣ : Excl A) → ✓ˣ (bˣ ∙ˣ aˣ) → ✓ˣ aˣ
+  ✓ˣ-rem : ∀ (aˣ bˣ : Ex A) → ✓ˣ (bˣ ∙ˣ aˣ) → ✓ˣ aˣ
   ✓ˣ-rem _ ?ˣ = id
   ✓ˣ-rem ?ˣ (!ˣ _) = _
 
-  ∙ˣ-comm : ∀ (aˣ bˣ : Excl A) → aˣ ∙ˣ bˣ ≡ bˣ ∙ˣ aˣ
+  ∙ˣ-comm : ∀ (aˣ bˣ : Ex A) → aˣ ∙ˣ bˣ ≡ bˣ ∙ˣ aˣ
   ∙ˣ-comm ?ˣ ?ˣ = refl
   ∙ˣ-comm ?ˣ (!ˣ _) = refl
   ∙ˣ-comm ?ˣ ↯ˣ = refl
@@ -69,7 +69,7 @@ private
   ∙ˣ-comm ↯ˣ (!ˣ _) = refl
   ∙ˣ-comm ↯ˣ ↯ˣ = refl
 
-  ∙ˣ-assoc₀ : ∀ (aˣ bˣ cˣ : Excl A) → (aˣ ∙ˣ bˣ) ∙ˣ cˣ ≡ aˣ ∙ˣ (bˣ ∙ˣ cˣ)
+  ∙ˣ-assoc₀ : ∀ (aˣ bˣ cˣ : Ex A) → (aˣ ∙ˣ bˣ) ∙ˣ cˣ ≡ aˣ ∙ˣ (bˣ ∙ˣ cˣ)
   ∙ˣ-assoc₀ ?ˣ _ _ = refl
   ∙ˣ-assoc₀ (!ˣ _) ?ˣ _ = refl
   ∙ˣ-assoc₀ (!ˣ _) (!ˣ _) ?ˣ = refl
@@ -79,32 +79,32 @@ private
   ∙ˣ-assoc₀ ↯ˣ _ _ = refl
 
 ----------------------------------------------------------------------
--- ExclRA : Exclusive resource algebra
+-- ExRA : Exclusive resource algebra
 
-ExclRA : Set ℓ → RA ℓ ℓ 0ℓ
+ExRA : Set ℓ → RA ℓ ℓ 0ℓ
 
-ExclRA A .Car = Excl A
-ExclRA A ._≈_ = _≡_
-ExclRA A .✓ = ✓ˣ
-ExclRA A ._∙_ = _∙ˣ_
-ExclRA A .ε = ?ˣ
-ExclRA A .⌞_⌟ _ = ?ˣ
-ExclRA A .idᵉ = refl
-ExclRA A .symᵉ = sym
-ExclRA A ._»ᵉ_ = trans
-ExclRA A .✓-cong refl = id
-ExclRA A .✓-rem {aˣ} {bˣ} = ✓ˣ-rem aˣ bˣ
-ExclRA A .∙-cong₀ refl = refl
-ExclRA A .∙-ε₀ = refl
-ExclRA A .∙-comm {aˣ} {bˣ} = ∙ˣ-comm aˣ bˣ
-ExclRA A .∙-assoc₀ {aˣ} {bˣ} {cˣ} = ∙ˣ-assoc₀ aˣ bˣ cˣ
-ExclRA A .⌞⌟-cong _ = refl
-ExclRA A .⌞⌟-add = ?ˣ , refl
-ExclRA A .⌞⌟-unit₀ = refl
-ExclRA A .⌞⌟-idem = refl
+ExRA A .Car = Ex A
+ExRA A ._≈_ = _≡_
+ExRA A .✓ = ✓ˣ
+ExRA A ._∙_ = _∙ˣ_
+ExRA A .ε = ?ˣ
+ExRA A .⌞_⌟ _ = ?ˣ
+ExRA A .idᵉ = refl
+ExRA A .symᵉ = sym
+ExRA A ._»ᵉ_ = trans
+ExRA A .✓-cong refl = id
+ExRA A .✓-rem {aˣ} {bˣ} = ✓ˣ-rem aˣ bˣ
+ExRA A .∙-cong₀ refl = refl
+ExRA A .∙-ε₀ = refl
+ExRA A .∙-comm {aˣ} {bˣ} = ∙ˣ-comm aˣ bˣ
+ExRA A .∙-assoc₀ {aˣ} {bˣ} {cˣ} = ∙ˣ-assoc₀ aˣ bˣ cˣ
+ExRA A .⌞⌟-cong _ = refl
+ExRA A .⌞⌟-add = ?ˣ , refl
+ExRA A .⌞⌟-unit₀ = refl
+ExRA A .⌞⌟-idem = refl
 
 ----------------------------------------------------------------------
--- Update on ExclRA
+-- Update on ExRA
 
-!ˣ-~> : _~>_ (ExclRA A) (!ˣ a) (!ˣ b)
+!ˣ-~> : _~>_ (ExRA A) (!ˣ a) (!ˣ b)
 !ˣ-~> {c = ?ˣ} = _

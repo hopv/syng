@@ -31,11 +31,11 @@ private variable
   Jr : JudgRes ℓ
   A : Set ℓ
   Pᶠ Qᶠ : A → Propˢ ℓ ∞
-  Pᵗ Qᵗ : Propᵗ ℓ ∞
+  Pᶺ Qᶺ : Propˢ< ℓ ∞
   a : A
   F : A → Set ℓ
   b : Bool
-  Pᵗs : List (Propᵗ ℓ ∞)
+  Pᶺs : List (Propˢ< ℓ ∞)
 
 -- Declaring Judg
 data Judg {ℓ} (i : Size) : Propˢ ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
@@ -113,7 +113,7 @@ data Judg {ℓ} i where
   □-∃-out : □ (∃^ A Pᶠ) ⊢[ i ] ∃^ A (□ ∘ Pᶠ)
   ----------------------------------------------------------------------
   -- A thunk sequent under |=> can be lifted to a super update =>>
-  ᵗ|=>⇒=>> : P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
+  ᶺ|=>⇒=>> : P ⊢[< i ] |=> Q → P ⊢[ i ]=>> Q
   -- The super update =>> is transitive
   _ᵘ»ᵘ_ : P ⊢[ i ]=>> Q → Q ⊢[ i ]=>> R → P ⊢[ i ]=>> R
   -- The super update =>> can frame
@@ -121,17 +121,17 @@ data Judg {ℓ} i where
   ----------------------------------------------------------------------
   -- The save token can be modified with a thunk sequent
   save-mono₁ : {{Basic R}} →
-    R ∗ Pᵗ .force ⊢[< i ] Qᵗ .force → R ∗ save b Pᵗ ⊢[ i ] save b Qᵗ
+    R ∗ Pᶺ .force ⊢[< i ] Qᶺ .force → R ∗ save b Pᶺ ⊢[ i ] save b Qᶺ
   -- save□ weakens into savex
-  save-□⇒x : save□ Pᵗ ⊢[ i ] savex Pᵗ
+  save-□⇒x : save□ Pᶺ ⊢[ i ] savex Pᶺ
   -- save□ is persistent
-  save□-□ : save□ Pᵗ ⊢[ i ] □ (save□ Pᵗ)
-  -- An exclusive save token savex Pᵗ is obtained by allocating Pᵗ
-  savex-alloc : Pᵗ .force ⊢[ i ]=>> savex Pᵗ
-  -- Persistent save tokens save□ Pᵗ, ... can be obtained
-  -- by allocating □ Pᵗ, ... minus the tokens save□ Pᵗ, ... themselves
-  save□-alloc-rec : [∗]-map save□ Pᵗs -∗ [∗]-map (λ Pᵗ → □ (Pᵗ .force)) Pᵗs
-                      ⊢[ i ]=>> [∗]-map save□ Pᵗs
+  save□-□ : save□ Pᶺ ⊢[ i ] □ (save□ Pᶺ)
+  -- An exclusive save token savex Pᶺ is obtained by allocating Pᶺ
+  savex-alloc : Pᶺ .force ⊢[ i ]=>> savex Pᶺ
+  -- Persistent save tokens save□ Pᶺ, ... can be obtained
+  -- by allocating □ Pᶺ, ... minus the tokens save□ Pᶺ, ... themselves
+  save□-alloc-rec : [∗]-map save□ Pᶺs -∗ [∗]-map (λ Pᶺ → □ (Pᶺ .force)) Pᶺs
+                      ⊢[ i ]=>> [∗]-map save□ Pᶺs
 
 ------------------------------------------------------------------------
 -- Persistence: Pers P

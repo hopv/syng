@@ -24,8 +24,8 @@ private variable
 
 data Propˢ ℓ (i : Size) : Set (suc ℓ)
 
-Propᵗ : ∀ ℓ → Size → Set (suc ℓ)
-Propᵗ ℓ i = Thunk (Propˢ ℓ) i
+Propˢ< : ∀ ℓ → Size → Set (suc ℓ)
+Propˢ< ℓ i = Thunk (Propˢ ℓ) i
 
 data Propˢ ℓ i where
   -- universal/existential quantification
@@ -37,7 +37,7 @@ data Propˢ ℓ i where
   -- update modality / basicistence modality
   |=> □ : Propˢ ℓ i → Propˢ ℓ i
   -- save token
-  save : Bool → Propᵗ ℓ i → Propˢ ℓ i
+  save : Bool → Propˢ< ℓ i → Propˢ ℓ i
 
 infixr 5 _→ˢ_ _-∗_
 infixr 7 _∗_
@@ -94,9 +94,9 @@ P ∨ Q = ∃^' (binary P Q) -- Disjunction
 ----------------------------------------------------------------------
 -- On the save token
 
-savex save□ : Propᵗ ℓ i → Propˢ ℓ i
-savex Pᵗ = save false Pᵗ
-save□ Pᵗ = save true Pᵗ
+savex save□ : Propˢ< ℓ i → Propˢ ℓ i
+savex Pᶺ = save false Pᶺ
+save□ Pᶺ = save true Pᶺ
 
 ----------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]

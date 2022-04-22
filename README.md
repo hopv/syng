@@ -31,17 +31,20 @@ The source code uses a lot of Unicode characters, so we recommend you to use
 a font that covers these characters.
 To render them, you can use any of the following:
 - [**Source Code Pro**](https://github.com/adobe-fonts/source-code-pro)
-- [**Menlo**](https://en.wikipedia.org/wiki/Menlo_(typeface))
-  (preinstalled in Mac)
+  (Good readability)
 - [**DejaVu Sans Mono**](https://dejavu-fonts.github.io/)
+  (Very large Unicode cover)
+- [**Menlo**](https://en.wikipedia.org/wiki/Menlo_(typeface))
+  (Preinstalled in Mac; Very large Unicode cover)
 
 Also, some operators like `|=>` renders nicely with ligatures.
 To use ligatures, we recommend [**Fira Code**](https://github.com/tonsky/FiraCode).
 Make sure that ligatures are supported.
 
 For example, in VS Code, you can use the following setting (in `settings.json`)
-to use ligatures from Fira Code and render unicode letters by Source Code Pro.
+to use ligatures from Fira Code and render unicode letters by Source Code Pro
+and DejaVu Sans Mono.
 ```json
-"editor.fontFamily": "Fira Code, Source Code Pro",
+"editor.fontFamily": "Fira Code, Source Code Pro, DejaVu Sans Mono",
 "editor.fontLigatures": true,
 ```

@@ -23,15 +23,15 @@ private variable
 
 -- Lifting a thunk sequent into a super update =>>
 ^⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q
-^⇒=>> P⊢^Q = ^|=>⇒=>> $ λ where .force → P⊢^Q .force » |=>-intro
+^⇒=>> P⊢^Q = ^|=>⇒=>> λ{ .force → P⊢^Q .force » |=>-intro }
 
 -- Lifting a sequent under |=> into a super update =>>
 |=>⇒=>> : P ⊢[ ι ] |=> Q → P ⊢[ ι ]=>> Q
-|=>⇒=>> P⊢Q = ^|=>⇒=>> $ λ where .force → P⊢Q
+|=>⇒=>> P⊢Q = ^|=>⇒=>> λ{ .force → P⊢Q }
 
 -- Lifting a sequent into a super update =>>
 ⇒=>> : P ⊢[ ι ] Q → P ⊢[ ι ]=>> Q
-⇒=>> P⊢Q = ^⇒=>> λ where .force → P⊢Q
+⇒=>> P⊢Q = ^⇒=>> λ{ .force → P⊢Q }
 
 -- Modifying the succedent of a super update with a sequent
 

@@ -144,6 +144,11 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   a≤b ᵒ» b≈c = a≤b ᵒ»ᵒ ≈⇒≤ b≈c
 
   ----------------------------------------------------------------------
+  -- ε is the minimum
+
+  ε-min : ε ≤ a
+  ε-min = _ , unitʳ
+
   -- ∙ is increasing
 
   ∙-incr : a ≤ b ∙ a

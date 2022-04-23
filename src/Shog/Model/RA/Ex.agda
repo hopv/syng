@@ -10,7 +10,7 @@ open Setoid S renaming (Carrier to Car)
 
 open import Level using (Level; 0ℓ; Lift)
 
-open import Algebra using (Op₂; RightCongruent; Commutative; Associative)
+open import Algebra using (Op₂; Commutative; Associative)
 open import Relation.Unary using (Pred)
 open import Relation.Binary using (Rel; _Respects_;
   IsEquivalence; Reflexive; Symmetric; Transitive)
@@ -18,7 +18,7 @@ open import Function.Base using (id)
 open import Data.Product using (_,_)
 
 open import Shog.Base.NElem using (⟨1⟩; ⟨0⟩)
-open import Shog.Base.Algebra using (make-IsCommutativeMonoid)
+open import Shog.Base.Algebra using (Congruentˡ; make-IsCommutativeMonoid)
 
 ----------------------------------------------------------------------
 -- Ex : ExRA's carrier
@@ -89,12 +89,12 @@ _ ∙ˣ _ = ↯ˣ
 ----------------------------------------------------------------------
 -- Non-trivial lemmas on ExRA's operations
 
-∙ˣ-congʳ : RightCongruent _≈ˣ_ _∙ˣ_
-∙ˣ-congʳ {aˣ} {?ˣ} {?ˣ} _ = ≈ˣ-refl {aˣ}
-∙ˣ-congʳ {_} {↯ˣ} {↯ˣ} _ = _
-∙ˣ-congʳ {?ˣ} {#ˣ _} {#ˣ _} b≈c = b≈c
-∙ˣ-congʳ {↯ˣ} {#ˣ _} {#ˣ _} _ = _
-∙ˣ-congʳ {#ˣ _} {#ˣ _} {#ˣ _} _ = _
+∙ˣ-congˡ : Congruentˡ _≈ˣ_ _∙ˣ_
+∙ˣ-congˡ {aˣ} {?ˣ} {?ˣ} _ = ≈ˣ-refl {aˣ}
+∙ˣ-congˡ {_} {↯ˣ} {↯ˣ} _ = _
+∙ˣ-congˡ {?ˣ} {#ˣ _} {#ˣ _} b≈c = b≈c
+∙ˣ-congˡ {↯ˣ} {#ˣ _} {#ˣ _} _ = _
+∙ˣ-congˡ {#ˣ _} {#ˣ _} {#ˣ _} _ = _
 
 ∙ˣ-comm : Commutative _≈ˣ_ _∙ˣ_
 ∙ˣ-comm ?ˣ ?ˣ = _
@@ -139,13 +139,13 @@ ExRA ._∙_ = _∙ˣ_
 ExRA .ε = ?ˣ
 ExRA .⌞_⌟ _ = ?ˣ
 ExRA .isCommutativeMonoid = make-IsCommutativeMonoid
-  ≈ˣ-equiv (λ {aˣ} {bˣ} {cˣ} → ∙ˣ-congʳ {aˣ} {bˣ} {cˣ})
+  ≈ˣ-equiv (λ {aˣ} {bˣ} {cˣ} → ∙ˣ-congˡ {aˣ} {bˣ} {cˣ})
   (λ aˣ → ≈ˣ-refl {aˣ}) ∙ˣ-comm ∙ˣ-assoc
 ExRA .✓-resp = ✓ˣ-resp
-ExRA .✓-rem = ✓ˣ-rem
-ExRA .⌞⌟-cong _ = _
-ExRA .⌞⌟-add _ _ = ?ˣ , _
-ExRA .⌞⌟-unitˡ aˣ = ≈ˣ-refl {aˣ}
+ExRA .✓-rem {aˣ} {bˣ} = ✓ˣ-rem aˣ bˣ
+ExRA .⌞⌟-cong = _
+ExRA .⌞⌟-add = ?ˣ , _
+ExRA .⌞⌟-unitˡ {aˣ} = ≈ˣ-refl {aˣ}
 ExRA .⌞⌟-idem = _
 
 open RA ExRA renaming (_~>_ to _~>ˣ_)

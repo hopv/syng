@@ -47,16 +47,16 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     -- ✓ respects ≈
     ✓-resp : ✓ Respects _≈_
     -- ✓ is kept after a resource is removed
-    ✓-rem : ∀ a b → ✓ (b ∙ a) → ✓ a
+    ✓-rem : ∀ {a b} → ✓ (b ∙ a) → ✓ a
     ------------------------------------------------------------------
     -- ⌞⌟ preserves ≈
     ⌞⌟-cong : Congruent₁ _≈_ ⌞_⌟
     -- When ⌞⌟'s argument gets added, ⌞⌟'s result gets added
-    ⌞⌟-add : ∀ a b → ∃[ b' ] b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
+    ⌞⌟-add : ∀ {a b} → ∃[ b' ] b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
     -- ⌞ a ⌟ is absorbed by a
-    ⌞⌟-unitˡ : ∀ a → ⌞ a ⌟ ∙ a ≈ a
+    ⌞⌟-unitˡ : ∀ {a} → ⌞ a ⌟ ∙ a ≈ a
     -- ⌞⌟ is idempotent
-    ⌞⌟-idem : ∀ a → ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
+    ⌞⌟-idem : ∀ {a} → ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
 
   --------------------------------------------------------------------
   -- Commutative monoid structure
@@ -66,7 +66,8 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     hiding (Carrier; _≈_; _∙_; ε; isCommutativeMonoid)
     renaming (
       ∙-congʳ to ∙-congˡ; ∙-congˡ to ∙-congʳ; -- Swap ∙-congʳ & ∙-congˡ
-      comm to comm'; assoc to assoc')
+      identity to unit'; identityˡ to unit'ˡ; identityʳ to unit'ʳ;
+      comm to comm')
 
   private variable
     a a' b b' c d : Carrier
@@ -85,6 +86,14 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   infixr -1 _»_ -- the same as _$_
   _»_ = trans
 
+  -- Unitality
+
+  unitˡ : ε ∙ a ≈ a
+  unitˡ = unit'ˡ _
+
+  unitʳ : a ∙ ε ≈ a
+  unitʳ = unit'ʳ _
+
   -- Commutativity
   comm : a ∙ b ≈ b ∙ a
   comm = comm' _ _
@@ -92,16 +101,15 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- Associativity
 
   assocˡ : (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
-  assocˡ = assoc' _ _ _
+  assocˡ = assoc _ _ _
 
   assocʳ : a ∙ (b ∙ c) ≈ (a ∙ b) ∙ c
   assocʳ = sym assocˡ
 
-  ----------------------------------------------------------------------
   -- Variant of ⌞⌟-unitˡ
 
-  ⌞⌟-unitʳ : ∀ a → a ∙ ⌞ a ⌟ ≈ a
-  ⌞⌟-unitʳ _ = comm » ⌞⌟-unitˡ _
+  ⌞⌟-unitʳ : a ∙ ⌞ a ⌟ ≈ a
+  ⌞⌟-unitʳ = comm » ⌞⌟-unitˡ
 
   ----------------------------------------------------------------------
   -- ≤: Derived pre-order
@@ -114,7 +122,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- ≤ is reflexive
 
   ≈⇒≤ : _≈_ ⇒ _≤_
-  ≈⇒≤ a≈b = ε , (identityˡ _ » a≈b)
+  ≈⇒≤ a≈b = ε , (unitˡ » a≈b)
 
   ≤-refl : a ≤ a
   ≤-refl = ≈⇒≤ refl
@@ -139,14 +147,14 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ----------------------------------------------------------------------
   -- ∙ is increasing
 
-  ∙-incr : ∀ a b → a ≤ b ∙ a
-  ∙-incr _ b = b , refl
+  ∙-incr : a ≤ b ∙ a
+  ∙-incr = _ , refl
 
   ----------------------------------------------------------------------
   -- Monotonicity of ✓, ∙ and ⌞⌟
 
   ✓-mono : a ≤ b → ✓ b → ✓ a
-  ✓-mono (c , c∙a≈b) ✓b = ✓-rem _ _ $ ✓-resp (sym c∙a≈b) ✓b
+  ✓-mono (c , c∙a≈b) ✓b = ✓b |> ✓-resp (sym c∙a≈b) |> ✓-rem
 
   ∙-monoˡ : a ≤ b → a ∙ c ≤ b ∙ c
   ∙-monoˡ (d , d∙a≈b) = d , (assocʳ » ∙-congˡ d∙a≈b)
@@ -158,7 +166,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ∙-mono a≤b c≤d = ∙-monoˡ a≤b ᵒ»ᵒ ∙-monoʳ c≤d
 
   ⌞⌟-mono : a ≤ b → ⌞ a ⌟ ≤ ⌞ b ⌟
-  ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add _ c
+  ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add {_} {c}
   ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ = c' , (c'∙⌞a⌟≈⌞c∙a⌟ » ⌞⌟-cong c∙a≈b)
 
   ----------------------------------------------------------------------
@@ -234,8 +242,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   ∙-mono-~>ˢ : a ~>ˢ B  →  c ~>ˢ D  →
     (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E)  →  a ∙ c ~>ˢ E
-  ∙-mono-~>ˢ a~>ˢB c~>ˢD BDE f ✓f∙a∙c  with
-    ✓f∙a∙c |> ✓-resp assocʳ |> c~>ˢD _
+  ∙-mono-~>ˢ a~>ˢB c~>ˢD BDE f ✓f∙a∙c  with ✓f∙a∙c |> ✓-resp assocʳ |> c~>ˢD _
   ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d |>
     ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |> a~>ˢB _
   ...   | b , b∈B , ✓f∙d∙b  with  BDE b∈B d∈D

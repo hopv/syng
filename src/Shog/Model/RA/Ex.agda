@@ -129,7 +129,6 @@ module _ where
   open RA
 
   ExRA : RA ℓ ℓ≈ 0ℓ
-
   ExRA .Carrier = Ex
   ExRA ._≈_ = _≈ˣ_
   ExRA .✓ = ✓ˣ

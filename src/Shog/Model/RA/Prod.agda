@@ -7,6 +7,7 @@
 open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Prod {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
   (Raˡ : RA ℓˡ ℓ≈ˡ ℓ✓ˡ) (Raʳ : RA ℓʳ ℓ≈ʳ ℓ✓ʳ) where
+
 open RA Raˡ using () renaming (Carrier to Carrierˡ;
   _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
   refl to reflˡ; sym to symˡ; trans to transˡ; ∙-congˡ to ∙ˡ-congˡ;
@@ -23,10 +24,10 @@ open RA Raʳ using () renaming (Carrier to Carrierʳ;
   _~>_ to _~>ʳ_; ~>-refl to ~>ʳ-refl)
 
 open import Level using (_⊔_)
-open import Data.Product using (_×_; _,_)
 open import Relation.Unary using (Pred)
 open import Relation.Binary using (Rel; IsEquivalence)
 open import Algebra using (Op₂; Op₁)
+open import Data.Product using (_×_; _,_)
 open import Shog.Base.Algebra using (make-IsCommutativeMonoid)
 
 ----------------------------------------------------------------------
@@ -62,6 +63,24 @@ private variable
   x y : Carrierʳ
 
 open RA _×ᴿᴬ_
+
+----------------------------------------------------------------------
+-- Injection from a component RA's element
+
+×-injˡ : Carrierˡ → Carrier
+×-injˡ a = a , εʳ
+
+×-injʳ : Carrierʳ → Carrier
+×-injʳ x = εˡ , x
+
+----------------------------------------------------------------------
+-- Congruence on a pair
+
+×-congˡ : a ≈ˡ b → (a , x) ≈ (b , x)
+×-congˡ a≈b = a≈b , reflʳ
+
+×-congʳ : x ≈ʳ y → (a , x) ≈ (a , y)
+×-congʳ x≈y = reflˡ , x≈y
 
 ----------------------------------------------------------------------
 -- Update on _×ᴿᴬ_

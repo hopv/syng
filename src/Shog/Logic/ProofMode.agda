@@ -13,18 +13,18 @@ open import Level using (Level)
 open import Size using (Size; ∞)
 open import Function.Base using (_$_; _∘_)
 
-open import Shog.Base.TwoZero using (binary)
+open import Shog.Base.NElem using (2-ary)
 open import Shog.Logic.Prop
 open import Shog.Logic.Core
 
 private variable
   ℓ : Level
   ι : Size
-  P P' Q Q' R R' S S' T T' U U' V V' : Prop' ℓ ∞
+  P P' Q Q' R R' S S' T T' U U' V V' : Prop' ∞
   A B : Set ℓ
   F : A → Set ℓ
-  P˙ Q˙ : A → Prop' ℓ ∞
-  Jr : JudgRes ℓ
+  P˙ Q˙ : A → Prop' ∞
+  Jr : JudgRes
 
 ------------------------------------------------------------------------
 -- Modifying an element by a sequent
@@ -172,7 +172,7 @@ by0 = ∗-elimˡ
 0-∃-elim →P˙∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →P˙∗⊢ a
 
 0-∨-elim : P ∗ Q ⊢[ ι ]* Jr → P' ∗ Q ⊢[ ι ]* Jr → (P ∨ P') ∗ Q ⊢[ ι ]* Jr
-0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (binary P∗⊢ P'∗⊢)
+0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (2-ary P∗⊢ P'∗⊢)
 
 0-⊥-elim : ⊥ ∗ Q ⊢[ ι ]* Jr
 0-⊥-elim = ∗-elimˡ » ⊥-elim

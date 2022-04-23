@@ -4,22 +4,21 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Shog.Logic.Supd where
+open import Level using (Level)
+module Shog.Logic.Supd (ℓ : Level) where
 
-open import Level using (Level; suc)
 open import Size using (Size; ∞)
 open import Codata.Thunk using (force)
 open import Function.Base using (_$_)
 
-open import Shog.Logic.Prop using (Prop'; _∗_; |=>)
-open import Shog.Logic.Judg using (∗-comm; |=>-intro)
-open import Shog.Logic.Judg public using (
+open import Shog.Logic.Prop ℓ using (Prop'; _∗_; |=>)
+open import Shog.Logic.Judg ℓ public using (
   _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ^|=>⇒=>>; _ᵘ»ᵘ_; =>>-frameˡ)
+open import Shog.Logic.Judg ℓ using (∗-comm; |=>-intro)
 
 private variable
-  ℓ : Level
   ι : Size
-  P Q R : Prop' ℓ ∞
+  P Q R : Prop' ∞
 
 -- Lifting a thunk sequent into a super update =>>
 ^⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q

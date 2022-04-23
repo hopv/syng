@@ -4,56 +4,61 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Shog.Logic.Prop where
+open import Level using (Level)
+module Shog.Logic.Prop (ℓ : Level) where
 
-open import Level using (Level; suc)
+open import Level using (suc)
 open import Size using (Size; ∞)
 open import Codata.Thunk using (Thunk)
 open import Data.Bool.Base using (Bool; true; false)
 open import Data.List.Base using (List; foldr; map)
 open import Function.Base using (_$_; _∘_; it)
 
-open import Shog.Base.TwoZero using (binary; nullary)
-
-private variable
-  ℓ ℓ' : Level
-  ι : Size
+open import Shog.Base.NElem ℓ using (2-ary; 0-ary)
 
 ----------------------------------------------------------------------
--- Syntax for the Shog proposition: Prop' ℓ ι
+-- Syntax for the Shog proposition: Prop' ι
 
-data Prop' ℓ (ι : Size) : Set (suc ℓ)
+data Prop' (ι : Size) : Set (suc ℓ)
 
-Prop< : ∀ ℓ → Size → Set (suc ℓ)
-Prop< ℓ ι = Thunk (Prop' ℓ) ι
+Prop< : Size → Set (suc ℓ)
+Prop< ι = Thunk Prop' ι
 
-data Prop' ℓ ι where
+data Prop' ι where
   -- universal/existential quantification
-  ∀˙ ∃˙ : (A : Set ℓ) → (A → Prop' ℓ ι) → Prop' ℓ ι
+  ∀˙ ∃˙ : (A : Set ℓ) → (A → Prop' ι) → Prop' ι
   -- implication
-  _→'_ : Prop' ℓ ι → Prop' ℓ ι → Prop' ℓ ι
+  _→'_ : Prop' ι → Prop' ι → Prop' ι
   -- separating conjunction / magic wand
-  _∗_ _-∗_ : Prop' ℓ ι → Prop' ℓ ι → Prop' ℓ ι
+  _∗_ _-∗_ : Prop' ι → Prop' ι → Prop' ι
   -- update modality / basicistence modality
-  |=> □ : Prop' ℓ ι → Prop' ℓ ι
+  |=> □ : Prop' ι → Prop' ι
   -- save token
-  save : Bool → Prop< ℓ ι → Prop' ℓ ι
+  save : Bool → Prop< ι → Prop' ι
 
 infixr 5 _→'_ _-∗_
 infixr 7 _∗_
 
+private variable
+  ι : Size
+  A : Set ℓ
+  P˙ : A → Prop' ∞
+  P Q R S : Prop' ∞
+  ℓ' : Level
+  D : Set ℓ'
+
 -- ∀˙/∃˙ with the set argument implicit
-∀˙- ∃˙- : ∀ {ℓ} {A : Set ℓ} → (A → Prop' ℓ ι) → Prop' ℓ ι
+∀˙- ∃˙- : (A → Prop' ι) → Prop' ι
 ∀˙- = ∀˙ _
 ∃˙- = ∃˙ _
 
 -- Syntax for ∀/∃
 
-∀∈-syntax ∃∈-syntax : (A : Set ℓ) → (A → Prop' ℓ ι) → Prop' ℓ ι
+∀∈-syntax ∃∈-syntax : (A : Set ℓ) → (A → Prop' ι) → Prop' ι
 ∀∈-syntax = ∀˙
 ∃∈-syntax = ∃˙
 
-∀-syntax ∃-syntax : ∀ {ℓ} {A : Set ℓ} → (A → Prop' ℓ ι) → Prop' ℓ ι
+∀-syntax ∃-syntax : (A → Prop' ι) → Prop' ι
 ∀-syntax = ∀˙-
 ∃-syntax = ∃˙-
 
@@ -63,12 +68,6 @@ syntax ∃∈-syntax A (λ x → P) = ∃ x ∈ A , P
 syntax ∀-syntax (λ x → P) = ∀' x , P
 syntax ∃-syntax (λ x → P) = ∃ x , P
 
-private variable
-  A : Set ℓ
-  D : Set ℓ'
-  P Q R S : Prop' ℓ ∞
-  P˙ : A → Prop' ℓ ∞
-
 ----------------------------------------------------------------------
 -- Deriving from universal/existential quantification ∀' / ∃
 
@@ -76,40 +75,40 @@ infixr 7 _∧_
 infixr 6 _∨_
 
 -- Conjunction ∧ and disjunction ∨
-_∧_ _∨_ : Prop' ℓ ι → Prop' ℓ ι → Prop' ℓ ι
-P ∧ Q = ∀˙- (binary P Q) -- Conjunction
-P ∨ Q = ∃˙- (binary P Q) -- Disjunction
+_∧_ _∨_ : Prop' ι → Prop' ι → Prop' ι
+P ∧ Q = ∀˙- (2-ary P Q) -- Conjunction
+P ∨ Q = ∃˙- (2-ary P Q) -- Disjunction
 
 -- Truth ⊤ and falsehood ⊥
-⊤ ⊥ : Prop' ℓ ι
-⊤ = ∀˙ _ nullary -- Truth
-⊥ = ∃˙ _ nullary -- Falsehood
+⊤ ⊥ : Prop' ι
+⊤ = ∀˙- 0-ary -- Truth
+⊥ = ∃˙- 0-ary -- Falsehood
 
 ----------------------------------------------------------------------
 -- Set embedding
 
-⌜_⌝ : Set ℓ → Prop' ℓ ι
+⌜_⌝ : Set ℓ → Prop' ι
 ⌜ A ⌝ = ∃˙ A (λ _ → ⊤)
 
 ----------------------------------------------------------------------
 -- On the save token
 
-savex save□ : Prop< ℓ ι → Prop' ℓ ι
+savex save□ : Prop< ι → Prop' ι
 savex P^ = save false P^
 save□ P^ = save true P^
 
 ----------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]
 
-[∗] : List (Prop' ℓ ι) → Prop' ℓ ι
+[∗] : List (Prop' ι) → Prop' ι
 [∗] = foldr _∗_ ⊤
 
 -- [∗] with map
 
-[∗]-map : (D → Prop' ℓ ι) → List D → Prop' ℓ ι
+[∗]-map : (D → Prop' ι) → List D → Prop' ι
 [∗]-map P˙ ds = [∗] $ map P˙ ds
 
-[∗]-map-syntax : (D → Prop' ℓ ι) → List D → Prop' ℓ ι
+[∗]-map-syntax : (D → Prop' ι) → List D → Prop' ι
 [∗]-map-syntax = [∗]-map
 
 infix 3 [∗]-map-syntax
@@ -120,13 +119,13 @@ syntax [∗]-map-syntax (λ d → P) ds = [∗] d ∈ ds , P
 
 -- IsBasic P : Predicate
 -- IsBasic P holds when P consists only of ∀, ∃ and ∗
-data IsBasic {ℓ} : Prop' ℓ ∞ → Set (suc ℓ) where
+data IsBasic : Prop' ∞ → Set (suc ℓ) where
   ∀-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∀˙ A P˙)
   ∃-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∃˙ A P˙)
   ∗-IsBasic : IsBasic P → IsBasic Q → IsBasic (P ∗ Q)
 
 -- Basic P : Type class wrapping IsBasic P
-record Basic {ℓ} (P : Prop' ℓ ∞) : Set (suc ℓ) where
+record Basic (P : Prop' ∞) : Set (suc ℓ) where
   field basic : IsBasic P
 open Basic {{...}}
 
@@ -146,16 +145,16 @@ instance
   -- For ∧/∨/⊤/⊥
 
   ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ Q)
-  ∧-Basic = ∀-Basic $ binary it it
+  ∧-Basic = ∀-Basic $ 2-ary it it
 
   ∨-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∨ Q)
-  ∨-Basic = ∃-Basic $ binary it it
+  ∨-Basic = ∃-Basic $ 2-ary it it
 
-  ⊤-Basic : Basic {ℓ} ⊤
-  ⊤-Basic = ∀-Basic nullary
+  ⊤-Basic : Basic ⊤
+  ⊤-Basic = ∀-Basic 0-ary
 
-  ⊥-Basic : Basic {ℓ} ⊥
-  ⊥-Basic = ∃-Basic nullary
+  ⊥-Basic : Basic ⊥
+  ⊥-Basic = ∃-Basic 0-ary
 
   -- For ∗
 

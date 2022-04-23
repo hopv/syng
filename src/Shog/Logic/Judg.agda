@@ -4,64 +4,64 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Shog.Logic.Judg where
+open import Level using (Level)
+module Shog.Logic.Judg (ℓ : Level) where
 
-open import Level using (Level; suc)
+open import Level using (suc)
 open import Size using (Size; ∞)
 open import Codata.Thunk using (Thunk; force)
 open import Function.Base using (_∘_)
 open import Data.Bool using (Bool)
 open import Data.List.Base using (List)
 
-open import Shog.Logic.Prop
+open import Shog.Logic.Prop ℓ
 
 ------------------------------------------------------------------------
 -- Judgment: P ⊢[ ι ]* Jr
 
 -- Result of a judgment
-data JudgRes ℓ : Set (suc ℓ) where
+data JudgRes : Set (suc ℓ) where
   -- Just a proposition
-  pure : Prop' ℓ ∞ → JudgRes ℓ
+  pure : Prop' ∞ → JudgRes
   -- Under the super update
-  |=>> : Prop' ℓ ∞ → JudgRes ℓ
+  |=>> : Prop' ∞ → JudgRes
 
 private variable
-  ℓ : Level
-  P Q R : Prop' ℓ ∞
-  Jr : JudgRes ℓ
+  P Q R : Prop' ∞
+  Jr : JudgRes
   A : Set ℓ
-  P˙ Q˙ : A → Prop' ℓ ∞
-  P^ Q^ : Prop< ℓ ∞
+  P˙ Q˙ : A → Prop' ∞
+  P^ Q^ : Prop< ∞
   a : A
   F : A → Set ℓ
   b : Bool
-  P^s : List (Prop< ℓ ∞)
+  P^s : List (Prop< ∞)
 
 -- Declaring Judg
-data Judg {ℓ} (ι : Size) : Prop' ℓ ∞ → JudgRes ℓ → Set (suc ℓ)
+data Judg (ι : Size) : Prop' ∞ → JudgRes → Set (suc ℓ)
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
 
 -- General judgment
-_⊢[_]*_ : Prop' ℓ ∞ → Size → JudgRes ℓ → Set (suc ℓ)
+_⊢[_]*_ : Prop' ∞ → Size → JudgRes → Set (suc ℓ)
 P ⊢[ ι ]* Jr = Judg ι P Jr
 
 -- Sequent
-_⊢[_]_ : Prop' ℓ ∞ → Size → Prop' ℓ ∞ → Set (suc ℓ)
+_⊢[_]_ : Prop' ∞ → Size → Prop' ∞ → Set (suc ℓ)
 P ⊢[ ι ] Q = P ⊢[ ι ]* pure Q
 
 -- Sequent under thunk
-_⊢[<_]_ : Prop' ℓ ∞ → Size → Prop' ℓ ∞ → Set (suc ℓ)
+_⊢[<_]_ : Prop' ∞ → Size → Prop' ∞ → Set (suc ℓ)
 P ⊢[< ι ] Q = Thunk (P ⊢[_] Q) ι
 
 -- Super update
-_⊢[_]=>>_ : Prop' ℓ ∞ → Size → Prop' ℓ ∞ → Set (suc ℓ)
+_⊢[_]=>>_ : Prop' ∞ → Size → Prop' ∞ → Set (suc ℓ)
 P ⊢[ ι ]=>> Q = P ⊢[ ι ]* |=>> Q
 
 infixr -1 _»_ _ᵘ»ᵘ_ -- the same fixity with _$_
 
 -- Defining Judg
-data Judg {ℓ} ι where
+data Judg ι where
   ----------------------------------------------------------------------
   -- The sequent is reflexive
   refl : P ⊢[ ι ] P

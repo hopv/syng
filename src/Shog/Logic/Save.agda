@@ -4,25 +4,27 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Shog.Logic.Save where
+open import Level using (Level)
+module Shog.Logic.Save (ℓ : Level) where
 
-open import Level using (Level; suc)
 open import Size using (Size; ∞)
 open import Codata.Thunk using (force)
 open import Data.Bool.Base using (Bool; _≤_; f≤t; b≤b)
 open import Data.List.Base using ([_])
 
-open import Shog.Logic.Prop
-open import Shog.Logic.Core
-open import Shog.Logic.Supd
-open import Shog.Logic.Judg public using (
+open import Shog.Logic.Prop ℓ using (save; savex; save□) public
+open import Shog.Logic.Prop ℓ using (Prop'; Prop<; □; _∗_; Basic)
+open import Shog.Logic.Judg ℓ public using (
   save-monoʳ; save-□⇒x; save□-□; savex-alloc; save□-alloc-rec)
+open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_)
+open import Shog.Logic.Core ℓ using (Pers; pers;
+  refl; _»_; ∗-monoʳ; ∗-elimˡ; ∗⊤-intro; -∗-const)
+open import Shog.Logic.Supd ℓ using (_ᵘ»_)
 
 private variable
-  ℓ : Level
   ι : Size
-  P^ Q^ : Prop< ℓ ∞
-  R : Prop' ℓ ∞
+  P^ Q^ : Prop< ∞
+  R : Prop' ∞
   b b' : Bool
 
 instance

@@ -4,23 +4,22 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Shog.Logic.Core where
+open import Level using (Level)
+module Shog.Logic.Core (ℓ : Level) where
 
-open import Level using (Level; suc)
+open import Level using (suc)
 open import Size using (Size; ∞)
 open import Codata.Thunk using (Thunk; force)
 open import Function.Base using (_$_; _∘_; it)
 
 open import Data.Product using (_×_; _,_; ∃-syntax)
 open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])
-open import Data.Unit.Base using (tt) renaming (⊤ to ⊤')
-open import Data.Empty renaming (⊥ to ⊥'; ⊥-elim to ⊥'-elim)
 
-open import Shog.Base.TwoZero using (zero₂; one₂; binary; nullary)
-open import Shog.Logic.Prop public using (
+open import Shog.Base.NElem ℓ using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
+open import Shog.Logic.Prop ℓ public using (
   Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
-open import Shog.Logic.Judg public using (
+open import Shog.Logic.Judg ℓ public using (
   JudgRes; _⊢[_]*_; _⊢[_]_;
   refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ∀∃⇒∃∀-⊤; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
@@ -28,13 +27,12 @@ open import Shog.Logic.Judg public using (
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out)
 
 private variable
-  ℓ : Level
   ι : Size
-  P Q R S : Prop' ℓ ∞
-  Jr : JudgRes ℓ
+  P Q R S : Prop' ∞
+  Jr : JudgRes
   A B : Set ℓ
   F : A → Set ℓ
-  P˙ Q˙ : A → Prop' ℓ ∞
+  P˙ Q˙ : A → Prop' ∞
 
 ------------------------------------------------------------------------
 -- On ∀/∃/∧/∨/⊤/⊥
@@ -42,30 +40,30 @@ private variable
 -- Introducing ∧/⊤ / Eliminating ∨/⊥
 
 ∧-intro : P ⊢[ ι ] Q → P ⊢[ ι ] R → P ⊢[ ι ] Q ∧ R
-∧-intro P⊢Q P⊢R = ∀-intro $ binary P⊢Q P⊢R
+∧-intro P⊢Q P⊢R = ∀-intro $ 2-ary P⊢Q P⊢R
 
 ∨-elim : P ⊢[ ι ]* Jr → Q ⊢[ ι ]* Jr → P ∨ Q ⊢[ ι ]* Jr
-∨-elim P⊢*Jr Q⊢*Jr = ∃-elim $ binary P⊢*Jr Q⊢*Jr
+∨-elim P⊢*Jr Q⊢*Jr = ∃-elim $ 2-ary P⊢*Jr Q⊢*Jr
 
 ⊤-intro : P ⊢[ ι ] ⊤
-⊤-intro = ∀-intro nullary
+⊤-intro = ∀-intro 0-ary
 
 ⊥-elim : ⊥ ⊢[ ι ]* Jr
-⊥-elim = ∃-elim nullary
+⊥-elim = ∃-elim 0-ary
 
 -- Eliminating ∧/⊤ / Introducing ∨/⊥
 
 ∧-elimˡ : P ∧ Q ⊢[ ι ] P
-∧-elimˡ = ∀-elim {a = zero₂}
+∧-elimˡ = ∀-elim {a = 0₂}
 
 ∧-elimʳ : P ∧ Q ⊢[ ι ] Q
-∧-elimʳ = ∀-elim {a = one₂}
+∧-elimʳ = ∀-elim {a = 1₂}
 
 ∨-introˡ : P ⊢[ ι ] P ∨ Q
-∨-introˡ = ∃-intro {a = zero₂}
+∨-introˡ = ∃-intro {a = 0₂}
 
 ∨-introʳ : Q ⊢[ ι ] P ∨ Q
-∨-introʳ = ∃-intro {a = one₂}
+∨-introʳ = ∃-intro {a = 1₂}
 
 -- ∀/∃/∧/∨/⊤/⊥ is monotone
 
@@ -221,11 +219,11 @@ private variable
 ⌜⌝-∨-out = ⌜⌝-elim
   [ (λ a → ⌜⌝-intro a » ∨-introˡ) , (λ b → ⌜⌝-intro b » ∨-introʳ) ]
 
-⌜⊤⌝-intro : P ⊢[ ι ] ⌜ ⊤' ⌝
-⌜⊤⌝-intro = ⌜⌝-intro tt
+⌜⊤⌝-intro : P ⊢[ ι ] ⌜ ⟨1⟩ ⌝
+⌜⊤⌝-intro = ⌜⌝-intro _
 
-⌜⊥⌝-elim : ⌜ ⊥' ⌝ ⊢[ ι ] P
-⌜⊥⌝-elim = ⌜⌝-elim ⊥'-elim
+⌜⊥⌝-elim : ⌜ ⟨0⟩ ⌝ ⊢[ ι ] P
+⌜⊥⌝-elim = ⌜⌝-elim 0-ary
 
 ⌜⌝-→-in : ⌜ A ⌝ →' ⌜ B ⌝ ⊢[ ι ] ⌜ (A → B) ⌝
 ⌜⌝-→-in = ⌜⌝→⇒∀ » ⌜⌝-∀-in
@@ -388,15 +386,15 @@ in□--∗⇒→ = □-intro $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
 -- ∧ / ∨ can get inside / outside □
 
 □-∧-in : □ P ∧ □ Q ⊢[ ι ] □ (P ∧ Q)
-□-∧-in = ∀-intro (binary ∧-elimˡ ∧-elimʳ) » □-∀-in
+□-∧-in = ∀-intro (2-ary ∧-elimˡ ∧-elimʳ) » □-∀-in
 
 □-∨-out : □ (P ∨ Q) ⊢[ ι ] □ P ∨ □ Q
-□-∨-out = □-∃-out » ∃-elim (binary ∨-introˡ ∨-introʳ)
+□-∨-out = □-∃-out » ∃-elim (2-ary ∨-introˡ ∨-introʳ)
 
 -- □ ⊤ can be introduced
 
 □-⊤-intro : P ⊢[ ι ] □ ⊤
-□-⊤-intro = ∀-intro nullary » □-∀-in
+□-⊤-intro = ∀-intro 0-ary » □-∀-in
 
 -- ∗ can get inside □
 
@@ -406,7 +404,7 @@ in□--∗⇒→ = □-intro $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
 ------------------------------------------------------------------------
 -- Pers P : Persistence of a proposition
 
-record Pers {ℓ} (P : Prop' ℓ ∞) : Set (suc ℓ) where
+record Pers (P : Prop' ∞) : Set (suc ℓ) where
   -- P can turn into □ P
   field pers : ∀ {ι} → P ⊢[ ι ] □ P
 open Pers {{...}} public
@@ -430,16 +428,16 @@ instance
   -- For ∧/∨/⊤/⊥
 
   ∧-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∧ Q)
-  ∧-Pers = ∀-Pers $ binary it it
+  ∧-Pers = ∀-Pers $ 2-ary it it
 
   ∨-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∨ Q)
-  ∨-Pers = ∃-Pers $ binary it it
+  ∨-Pers = ∃-Pers $ 2-ary it it
 
-  ⊤-Pers : Pers {ℓ} ⊤
-  ⊤-Pers = ∀-Pers nullary
+  ⊤-Pers : Pers ⊤
+  ⊤-Pers = ∀-Pers 0-ary
 
-  ⊥-Pers : Pers {ℓ} ⊥
-  ⊥-Pers = ∃-Pers nullary
+  ⊥-Pers : Pers ⊥
+  ⊥-Pers = ∃-Pers 0-ary
 
   -- For ∗
 

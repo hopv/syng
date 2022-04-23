@@ -20,7 +20,7 @@ private variable
   ℓ ℓ' : Level
   ι : Size
   A : Set ℓ'
-  Ps Qs : List (Prop' ℓ ∞)
+  Ps Qs : List (Prop' ∞)
 
 ----------------------------------------------------------------------
 -- On [∗]

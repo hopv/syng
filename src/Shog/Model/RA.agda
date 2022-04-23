@@ -10,7 +10,7 @@ open import Level using (Level; _⊔_; suc)
 
 open import Relation.Unary using (Pred; _∈_)
 open import Relation.Binary using (Rel; _⇒_; Reflexive; Transitive;
-  _Respects_; _Respectsʳ_; _Respectsˡ_; _Respects₂_; _Preserves₂_⟶_⟶_)
+  _Respects_; _Respectsʳ_; _Respectsˡ_; _Respects₂_)
 open import Relation.Binary.PropositionalEquality using (_≡_)
   renaming (refl to refl')
 open import Algebra using (Op₁; Op₂; Congruent₁;
@@ -64,13 +64,9 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   commutativeMonoid = record { isCommutativeMonoid = isCommutativeMonoid }
   open CommutativeMonoid commutativeMonoid public
     hiding (Carrier; _≈_; _∙_; ε; isCommutativeMonoid)
-
-  -- Infix notation for trans
-  infixr -1 _»_ -- the same as _$_
-  _»_ = trans
-
-  --------------------------------------------------------------------
-  -- Derived notions
+    renaming (
+      ∙-congʳ to ∙-congˡ; ∙-congˡ to ∙-congʳ; -- Swap ∙-congʳ & ∙-congˡ
+      comm to comm'; assoc to assoc')
 
   private variable
     a a' b b' c d : Carrier
@@ -83,10 +79,29 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     E : Carrier → Set ℓE
 
   ----------------------------------------------------------------------
+  -- Utility
+
+  -- Infix notation for trans
+  infixr -1 _»_ -- the same as _$_
+  _»_ = trans
+
+  -- Commutativity
+  comm : a ∙ b ≈ b ∙ a
+  comm = comm' _ _
+
+  -- Associativity
+
+  assocˡ : (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
+  assocˡ = assoc' _ _ _
+
+  assocʳ : a ∙ (b ∙ c) ≈ (a ∙ b) ∙ c
+  assocʳ = sym assocˡ
+
+  ----------------------------------------------------------------------
   -- Variant of ⌞⌟-unitˡ
 
   ⌞⌟-unitʳ : ∀ a → a ∙ ⌞ a ⌟ ≈ a
-  ⌞⌟-unitʳ _ = comm _ _ » ⌞⌟-unitˡ _
+  ⌞⌟-unitʳ _ = comm » ⌞⌟-unitˡ _
 
   ----------------------------------------------------------------------
   -- ≤: Derived pre-order
@@ -108,7 +123,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   ≤-trans : Transitive _≤_
   ≤-trans (d , d∙a≈b) (e , e∙b≈c) = (d ∙ e) ,
-    (∙-congʳ (comm _ _) » assoc _ _ _ » ∙-congˡ d∙a≈b » e∙b≈c)
+    (∙-congˡ comm » assocˡ » ∙-congʳ d∙a≈b » e∙b≈c)
 
   infixr -1 _ᵒ»ᵒ_ _»ᵒ_ _ᵒ»_ -- the same fixity with _$_
 
@@ -133,14 +148,14 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ✓-mono : a ≤ b → ✓ b → ✓ a
   ✓-mono (c , c∙a≈b) ✓b = ✓-rem _ _ $ ✓-resp (sym c∙a≈b) ✓b
 
-  ∙-monoˡ : ∀ c → a ≤ b → a ∙ c ≤ b ∙ c
-  ∙-monoˡ _ (d , d∙a≈b) = d , (sym (assoc _ _ _) » ∙-congʳ d∙a≈b)
+  ∙-monoˡ : a ≤ b → a ∙ c ≤ b ∙ c
+  ∙-monoˡ (d , d∙a≈b) = d , (assocʳ » ∙-congˡ d∙a≈b)
 
-  ∙-monoʳ : ∀ c → a ≤ b → c ∙ a ≤ c ∙ b
-  ∙-monoʳ _ a≤b = comm _ _ »ᵒ ∙-monoˡ _ a≤b ᵒ» comm _ _
+  ∙-monoʳ : a ≤ b → c ∙ a ≤ c ∙ b
+  ∙-monoʳ a≤b = comm »ᵒ ∙-monoˡ a≤b ᵒ» comm
 
   ∙-mono : a ≤ b → c ≤ d → a ∙ c ≤ b ∙ d
-  ∙-mono a≤b c≤d = ∙-monoˡ _ a≤b ᵒ»ᵒ ∙-monoʳ _ c≤d
+  ∙-mono a≤b c≤d = ∙-monoˡ a≤b ᵒ»ᵒ ∙-monoʳ c≤d
 
   ⌞⌟-mono : a ≤ b → ⌞ a ⌟ ≤ ⌞ b ⌟
   ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add _ c
@@ -168,10 +183,10 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- ~> respects ≈
 
   ~>-respʳ : _~>_ Respectsʳ _≈_
-  ~>-respʳ b≈b' a~>b c ✓c∙a = ✓c∙a |> a~>b c |> ✓-resp (∙-congˡ b≈b')
+  ~>-respʳ b≈b' a~>b c ✓c∙a = ✓c∙a |> a~>b c |> ✓-resp (∙-congʳ b≈b')
 
   ~>-respˡ : _~>_ Respectsˡ _≈_
-  ~>-respˡ a≈a' a~>b c ✓c∙a' = ✓c∙a' |> ✓-resp (∙-congˡ $ sym a≈a') |> a~>b c
+  ~>-respˡ a≈a' a~>b c ✓c∙a' = ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a~>b c
 
   ~>-resp : _~>_ Respects₂ _≈_
   ~>-resp = ~>-respʳ , ~>-respˡ
@@ -183,9 +198,9 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   ~>ˢ-resp : a ≈ a' → B ⊆≈ B' → a ~>ˢ B → a' ~>ˢ B'
   ~>ˢ-resp a≈a' B⊆≈B' a~>ˢB c ✓c∙a'
-    with  ✓c∙a' |> ✓-resp (∙-congˡ $ sym a≈a') |> a~>ˢB c
+    with  ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a~>ˢB c
   ... | b , b∈B , ✓c∙b  with  B⊆≈B' b∈B
-  ...   | b' , b≈b' , b'∈B'  =  b' , b'∈B' , ✓-resp (∙-congˡ b≈b') ✓c∙b
+  ...   | b' , b≈b' , b'∈B'  =  b' , b'∈B' , ✓-resp (∙-congʳ b≈b') ✓c∙b
 
   ~>ˢ-respˡ : (_~>ˢ B) Respects _≈_
   ~>ˢ-respˡ a≈a' = ~>ˢ-resp a≈a' ⊆≈-refl
@@ -206,23 +221,23 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   -- ~> and ~>ˢ can be composed
 
-  ~>-~>ˢ : a ~> b → b ~>ˢ C → a ~>ˢ C
+  ~>-~>ˢ : a ~> b  →  b ~>ˢ C  → a  ~>ˢ C
   ~>-~>ˢ a~>b b~>ˢC d ✓d∙a = ✓d∙a |> a~>b d |> b~>ˢC d
 
   ----------------------------------------------------------------------
   -- ~>/~>ˢ can be merged with respect to ∙
 
-  ∙-mono-~> : _∙_ Preserves₂ _~>_ ⟶ _~>_ ⟶ _~>_
-  ∙-mono-~> a~>b c~>d e ✓e∙a∙c = ✓e∙a∙c |> ✓-resp (sym (assoc _ _ _)) |>
-    c~>d _ |> ✓-resp (assoc _ _ _ » ∙-congˡ (comm _ _) » sym (assoc _ _ _)) |>
-    a~>b _ |> ✓-resp (assoc e _ _ » ∙-congˡ (comm _ _))
+  ∙-mono-~> :  a ~> b  →  c ~> d  →  a ∙ c ~> b ∙ d
+  ∙-mono-~> a~>b c~>d e ✓e∙a∙c = ✓e∙a∙c |> ✓-resp assocʳ |>
+    c~>d _ |> ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |>
+    a~>b _ |> ✓-resp (assocˡ » ∙-congʳ comm)
 
-  ∙-mono-~>ˢ : a ~>ˢ B → c ~>ˢ D →
-    (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E) → a ∙ c ~>ˢ E
+  ∙-mono-~>ˢ : a ~>ˢ B  →  c ~>ˢ D  →
+    (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E)  →  a ∙ c ~>ˢ E
   ∙-mono-~>ˢ a~>ˢB c~>ˢD BDE f ✓f∙a∙c  with
-    ✓f∙a∙c |> ✓-resp (sym (assoc _ _ _)) |> c~>ˢD _
+    ✓f∙a∙c |> ✓-resp assocʳ |> c~>ˢD _
   ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d |>
-    ✓-resp (assoc _ _ _ » ∙-congˡ (comm _ _) » sym (assoc _ _ _)) |> a~>ˢB _
+    ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |> a~>ˢB _
   ...   | b , b∈B , ✓f∙d∙b  with  BDE b∈B d∈D
   ...     | e , e≈b∙d , e∈E  =  e , e∈E ,
-    ✓-resp (assoc _ _ _ » ∙-congˡ $ comm _ _ » sym e≈b∙d) ✓f∙d∙b
+    ✓-resp (assocˡ » ∙-congʳ $ comm » sym e≈b∙d) ✓f∙d∙b

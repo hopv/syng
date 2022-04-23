@@ -66,8 +66,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     hiding (Carrier; _≈_; _∙_; ε; isCommutativeMonoid)
     renaming (
       ∙-congʳ to ∙-congˡ; ∙-congˡ to ∙-congʳ; -- Swap ∙-congʳ & ∙-congˡ
-      identity to unit'; identityˡ to unit'ˡ; identityʳ to unit'ʳ;
-      comm to comm')
+      comm to comm'; assoc to assoc')
 
   private variable
     a a' b b' c d : Carrier
@@ -89,10 +88,10 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- Unitality
 
   unitˡ : ε ∙ a ≈ a
-  unitˡ = unit'ˡ _
+  unitˡ = identityˡ _
 
   unitʳ : a ∙ ε ≈ a
-  unitʳ = unit'ʳ _
+  unitʳ = identityʳ _
 
   -- Commutativity
   comm : a ∙ b ≈ b ∙ a
@@ -101,7 +100,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- Associativity
 
   assocˡ : (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
-  assocˡ = assoc _ _ _
+  assocˡ = assoc' _ _ _
 
   assocʳ : a ∙ (b ∙ c) ≈ (a ∙ b) ∙ c
   assocʳ = sym assocˡ

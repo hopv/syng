@@ -66,11 +66,11 @@ open RA _×ᴿᴬ_
 ----------------------------------------------------------------------
 -- Update on _×ᴿᴬ_
 
-~>-lift :  a ~>ˡ b  →  x ~>ʳ y  →  (a , x) ~> (b , y)
-~>-lift a~>b x~>y _ (✓c∙a , ✓z∙x) = a~>b _ ✓c∙a , x~>y _ ✓z∙x
+×-~>-lift :  a ~>ˡ b  →  x ~>ʳ y  →  (a , x) ~> (b , y)
+×-~>-lift a~>b x~>y _ (✓c∙a , ✓z∙x) = a~>b _ ✓c∙a , x~>y _ ✓z∙x
 
-~>-liftˡ :  a ~>ˡ b  →  (a , x) ~> (b , x)
-~>-liftˡ a~>b = ~>-lift a~>b ~>ʳ-refl
+×-~>-liftˡ :  a ~>ˡ b  →  (a , x) ~> (b , x)
+×-~>-liftˡ a~>b = ×-~>-lift a~>b ~>ʳ-refl
 
-~>-liftʳ :  x ~>ʳ y  →  (a , x) ~> (a , y)
-~>-liftʳ x~>y = ~>-lift ~>ˡ-refl x~>y
+×-~>-liftʳ :  x ~>ʳ y  →  (a , x) ~> (a , y)
+×-~>-liftʳ x~>y = ×-~>-lift ~>ˡ-refl x~>y

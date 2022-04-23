@@ -10,15 +10,13 @@ module Shog.Model.RA.Prod {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
 
 open RA Raˡ using () renaming (Carrier to Carrierˡ;
   _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
-  refl to reflˡ; sym to symˡ; trans to transˡ; ∙-congˡ to ∙ˡ-congˡ;
-  unitˡ to ˡunitˡ; comm to ˡcomm; assocˡ to ˡassocˡ;
+  commutativeMonoid to commutativeMonoidˡ; refl to reflˡ;
   ✓-resp to ✓ˡ-resp; ✓-rem to ✓ˡ-rem; ⌞⌟-cong to ⌞⌟ˡ-cong;
   ⌞⌟-add to ⌞⌟ˡ-add; ⌞⌟-unitˡ to ⌞⌟ˡ-unitˡ; ⌞⌟-idem to ⌞⌟ˡ-idem;
   _~>_ to _~>ˡ_; ~>-refl to ~>ˡ-refl)
 open RA Raʳ using () renaming (Carrier to Carrierʳ;
   _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_; ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ;
-  refl to reflʳ; sym to symʳ; trans to transʳ; ∙-congˡ to ∙ʳ-congˡ;
-  unitˡ to ʳunitˡ; comm to ʳcomm; assocˡ to ʳassocˡ;
+  commutativeMonoid to commutativeMonoidʳ; refl to reflʳ;
   ✓-resp to ✓ʳ-resp; ✓-rem to ✓ʳ-rem; ⌞⌟-cong to ⌞⌟ʳ-cong;
   ⌞⌟-add to ⌞⌟ʳ-add; ⌞⌟-unitˡ to ⌞⌟ʳ-unitˡ; ⌞⌟-idem to ⌞⌟ʳ-idem;
   _~>_ to _~>ʳ_; ~>-refl to ~>ʳ-refl)
@@ -26,9 +24,12 @@ open RA Raʳ using () renaming (Carrier to Carrierʳ;
 open import Level using (_⊔_)
 open import Relation.Unary using (Pred)
 open import Relation.Binary using (Rel; IsEquivalence)
-open import Algebra using (Op₂; Op₁)
+open import Algebra using (Op₂; Op₁; CommutativeMonoid)
+open CommutativeMonoid using ()
+  renaming (isCommutativeMonoid to isCommutativeMonoid')
+open import Algebra.Construct.DirectProduct using ()
+  renaming (commutativeMonoid to ×-CommutativeMonoid)
 open import Data.Product using (_×_; _,_)
-open import Shog.Base.Algebra using (make-IsCommutativeMonoid)
 
 ----------------------------------------------------------------------
 -- _×ᴿᴬ_: Product resource algebra
@@ -44,11 +45,9 @@ module _ where
   _×ᴿᴬ_ ._∙_ (a , x) (b , y) = a ∙ˡ b , x ∙ʳ y
   _×ᴿᴬ_ .ε = εˡ , εʳ
   _×ᴿᴬ_ .⌞_⌟ (a , x) = ⌞ a ⌟ˡ , ⌞ x ⌟ʳ
-  _×ᴿᴬ_ .isCommutativeMonoid = make-IsCommutativeMonoid
-    (λ{ .refl' → reflˡ , reflʳ; .sym' (a≈b , x≈y) → symˡ a≈b , symʳ x≈y;
-      .trans' (a≈b , x≈y) (b≈c , y≈z) → transˡ a≈b b≈c , transʳ x≈y y≈z })
-    (λ (a≈b , x≈y) → ∙ˡ-congˡ a≈b , ∙ʳ-congˡ x≈y) (λ _ → ˡunitˡ , ʳunitˡ)
-    (λ _ _ → ˡcomm , ʳcomm) (λ _ _ _ → ˡassocˡ , ʳassocˡ)
+  _×ᴿᴬ_ .isCommutativeMonoid =
+    ×-CommutativeMonoid commutativeMonoidˡ commutativeMonoidʳ
+    .isCommutativeMonoid'
   _×ᴿᴬ_ .✓-resp (a≈b , x≈y) (✓a , ✓x) = ✓ˡ-resp a≈b ✓a , ✓ʳ-resp x≈y ✓x
   _×ᴿᴬ_ .✓-rem (✓b∙a , ✓y∙x) = ✓ˡ-rem ✓b∙a , ✓ʳ-rem ✓y∙x
   _×ᴿᴬ_ .⌞⌟-cong (a≈b , x≈y) = ⌞⌟ˡ-cong a≈b , ⌞⌟ʳ-cong x≈y

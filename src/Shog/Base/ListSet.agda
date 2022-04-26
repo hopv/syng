@@ -9,9 +9,9 @@ module Shog.Base.ListSet {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to Car)
 
 open import Level using (_⊔_; 0ℓ)
-open import Data.List.Base using (List; _++_; []) public
+open import Data.List.Base using (List; _++_; [])
 open import Data.List.Properties using (++-assoc)
-open import Data.List.Membership.Setoid S using (_∈_) public
+open import Data.List.Membership.Setoid S using (_∈_)
 open import Data.List.Membership.Setoid.Properties using ()
   renaming (∈-++⁺ˡ to ∈-++⁺ˡ'; ∈-++⁺ʳ to ∈-++⁺ʳ'; ∈-++⁻ to ∈-++⁻')
 open import Data.Product using (_×_; _,_)

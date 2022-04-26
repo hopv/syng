@@ -11,7 +11,7 @@ open Setoid S renaming (Carrier to Car)
 open import Level using (_⊔_)
 open import Data.Product using (_,_)
 open import Function.Base using (id; _$_)
-open import Data.List.Base using (List; _∷_; []; _++_)
+open import Data.List.Base using (List; []; [_]; _++_)
 open import Data.List.Membership.Setoid S using (_∈_)
 open import Shog.Base.ListSet S using (_≈ˢ_; homo;
   ≈ˢ-refl; ++-⊆-introʳ; ++-≈ˢ-isCommutativeMonoid; ++-≈ˢ-idem;
@@ -39,14 +39,17 @@ module _ where
   AgRA .⌞⌟-unitˡ = ++-≈ˢ-idem _
   AgRA .⌞⌟-idem = ≈ˢ-refl
 
-open RA AgRA hiding (_≈_; refl)
+open RA AgRA using (_∙_; ✓) renaming (Carrier to AgCar)
 
 private variable
   a b : Car
-  cs : List Car
+  cs : AgCar
 
 ----------------------------------------------------------------------
 -- On AgRA
 
-agree : ✓ (a ∷ b ∷ cs) → a ≈ b
+ag : Car → AgCar
+ag a = [ a ]
+
+agree : ✓ (ag a ∙ ag b) → a ≈ b
 agree = homo-heads2-≈

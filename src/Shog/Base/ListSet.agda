@@ -9,11 +9,12 @@ module Shog.Base.ListSet {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to Car)
 
 open import Level using (_⊔_; 0ℓ)
-open import Data.List.Base using (List; _++_; [])
+open import Data.List.Base using (List; _∷_; _++_; [])
 open import Data.List.Properties using (++-assoc)
 open import Data.List.Membership.Setoid S using (_∈_)
 open import Data.List.Membership.Setoid.Properties using ()
   renaming (∈-++⁺ˡ to ∈-++⁺ˡ'; ∈-++⁺ʳ to ∈-++⁺ʳ'; ∈-++⁻ to ∈-++⁻')
+open import Data.List.Relation.Unary.Any using (here; there)
 open import Data.Product using (_×_; _,_)
 open import Data.Sum.Base using (_⊎_; inj₁; inj₂)
 open import Function.Base using (id; _∘_; _$_)
@@ -26,7 +27,7 @@ open import Shog.Base.Algebra using (Congruentˡ; Unitˡ;
 
 private variable
   as bs cs : List Car
-  a : Car
+  a b : Car
 
 ----------------------------------------------------------------------
 -- On ∈ and ++
@@ -141,3 +142,6 @@ homo-⊆-resp as⊆bs homobs a∈as b∈as = homobs (as⊆bs a∈as) (as⊆bs b�
 
 homo-≈ˢ-resp : as ≈ˢ bs → homo as → homo bs
 homo-≈ˢ-resp (_ , bs⊆as) = homo-⊆-resp bs⊆as
+
+homo-heads2-≈ : homo (a ∷ b ∷ cs) → a ≈ b
+homo-heads2-≈ homoabcs = homoabcs (here refl) (there $ here refl)

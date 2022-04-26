@@ -15,8 +15,7 @@ open import Data.List.Base using (List; _∷_; []; _++_)
 open import Data.List.Membership.Setoid S using (_∈_)
 open import Shog.Base.ListSet S using (_≈ˢ_; homo;
   ≈ˢ-refl; ++-⊆-introʳ; ++-≈ˢ-isCommutativeMonoid; ++-≈ˢ-idem;
-  homo-⊆-resp; homo-≈ˢ-resp)
-open import Data.List.Relation.Unary.Any using (here; there)
+  homo-⊆-resp; homo-≈ˢ-resp; homo-heads2-≈)
 open import Shog.Model.RA using (RA)
 
 ----------------------------------------------------------------------
@@ -50,4 +49,4 @@ private variable
 -- On AgRA
 
 agree : ✓ (a ∷ b ∷ cs) → a ≈ b
-agree ✓abcs = ✓abcs (here refl) (there $ here refl)
+agree = homo-heads2-≈

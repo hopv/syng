@@ -33,7 +33,7 @@ data Prop' ι where
   _∗_ _-∗_ : Prop' ι → Prop' ι → Prop' ι
   -- update modality / basicistence modality
   |=> □ : Prop' ι → Prop' ι
-  -- save token
+  -- save token (with the flag for persistency)
   save : Bool → Prop< ι → Prop' ι
 
 infixr 5 _→'_ _-∗_
@@ -93,6 +93,7 @@ P ∨ Q = ∃˙- (2-ary P Q) -- Disjunction
 ----------------------------------------------------------------------
 -- On the save token
 
+-- exclusive / persistent save token
 savex save□ : Prop< ι → Prop' ι
 savex P^ = save false P^
 save□ P^ = save true P^

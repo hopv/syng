@@ -15,7 +15,7 @@ open import Function.Base using (_$_; _∘_; it)
 open import Data.Product using (_×_; _,_; ∃-syntax)
 open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])
 
-open import Shog.Base.NElem ℓ using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
+open import Shog.Base.NElem using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
 open import Shog.Logic.Prop ℓ public using (
   Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)

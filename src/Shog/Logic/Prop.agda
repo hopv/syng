@@ -14,7 +14,7 @@ open import Data.Bool.Base using (Bool; true; false)
 open import Data.List.Base using (List; foldr; map)
 open import Function.Base using (_$_; _∘_; it)
 
-open import Shog.Base.NElem ℓ using (2-ary; 0-ary)
+open import Shog.Base.NElem using (2-ary; 0-ary)
 
 ----------------------------------------------------------------------
 -- Syntax for the Shog proposition: Prop' ι

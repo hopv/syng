@@ -61,7 +61,7 @@ private variable
   a b : Carrierˡ
   x y : Carrierʳ
 
-open RA _×ᴿᴬ_
+open RA _×ᴿᴬ_ using (Carrier; _≈_; _~>_)
 
 ----------------------------------------------------------------------
 -- Injection from a component RA's element

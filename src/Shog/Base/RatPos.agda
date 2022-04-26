@@ -28,8 +28,8 @@ open import Function.Base using (id; _$_)
 1ℚ⁺ = (1ℚᵘ , _)
 
 private variable
- p q r s : ℚᵘ
- p⁺ q⁺ r⁺ s⁺ : ℚ⁺
+  p q r s : ℚᵘ
+  p⁺ q⁺ r⁺ s⁺ : ℚ⁺
 
 ------------------------------------------------------------------------
 -- ≃⁺ : Equivalence over ℚ⁺

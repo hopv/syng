@@ -8,12 +8,12 @@ open import Relation.Binary using (Setoid)
 module Shog.Model.RA.Ex {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to Car)
 
-open import Level using (Level; 0ℓ; Lift)
+open import Level using (Level; 0ℓ)
 
 open import Algebra using (Op₂; Commutative; Associative)
 open import Relation.Unary using (Pred)
 open import Relation.Binary using (Rel; _Respects_;
-  IsEquivalence; Reflexive; Symmetric; Transitive)
+  Reflexive; Symmetric; Transitive; IsEquivalence)
 open import Function.Base using (id)
 open import Data.Product using (_,_)
 

@@ -43,7 +43,6 @@ open RA AgRA using (_∙_; ✓) renaming (Carrier to AgCar)
 
 private variable
   a b : Car
-  cs : AgCar
 
 ----------------------------------------------------------------------
 -- On AgRA

@@ -63,10 +63,11 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   commutativeMonoid : CommutativeMonoid _ _
   commutativeMonoid = record { isCommutativeMonoid = isCommutativeMonoid }
   open CommutativeMonoid commutativeMonoid public
-    hiding (Carrier; _≈_; _∙_; ε; isCommutativeMonoid)
-    renaming (
-      ∙-congʳ to ∙-congˡ; ∙-congˡ to ∙-congʳ; -- Swap ∙-congʳ & ∙-congˡ
-      comm to comm'; assoc to assoc')
+    using (isCommutativeSemigroup; isCommutativeMagma; isMonoid; isSemigroup;
+      isMagma; ∙-cong; setoid; isEquivalence; refl; sym; trans)
+    renaming (∙-congʳ to ∙-congˡ; ∙-congˡ to ∙-congʳ) -- Swap ∙-congʳ & ∙-congˡ
+  open CommutativeMonoid commutativeMonoid
+    using (identityˡ; identityʳ; assoc) renaming (comm to comm')
 
   private variable
     a a' b b' c d : Carrier
@@ -100,7 +101,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- Associativity
 
   assocˡ : (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
-  assocˡ = assoc' _ _ _
+  assocˡ = assoc _ _ _
 
   assocʳ : a ∙ (b ∙ c) ≈ (a ∙ b) ∙ c
   assocʳ = sym assocˡ

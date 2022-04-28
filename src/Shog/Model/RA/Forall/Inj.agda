@@ -11,7 +11,6 @@ module Shog.Model.RA.Forall.Inj {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
   {Ra˙ : I → RA ℓ ℓ≈ ℓ✓} (_≟_ : Decidable {A = I} _≡_) where
 
 open import Relation.Nullary using (yes; no)
-open import Relation.Binary using (_Preserves_⟶_)
 open import Relation.Binary.PropositionalEquality renaming (refl to refl≡)
 open import Shog.Model.RA.Forall.Base Ra˙ using (∀ᴿᴬ)
 
@@ -38,7 +37,9 @@ module _ {i : I} where
   private variable
     a b : Aⁱ
 
-  ∀-inj-cong : (∀-inj i) Preserves _≈ⁱ_ ⟶ _≈∀_
+  -- ∀-inj preserves ≈/∙/ε/⌞⌟/~>
+
+  ∀-inj-cong : a ≈ⁱ b → ∀-inj i a ≈∀ ∀-inj i b
   ∀-inj-cong a≈b j with i ≟ j
   ... | yes refl≡ = a≈b
   ... | no _ = Ra˙ j .refl

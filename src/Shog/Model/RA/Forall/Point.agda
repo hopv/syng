@@ -17,7 +17,7 @@ open import Shog.Model.RA.Forall.Base Ra˙ using (∀ᴿᴬ)
 
 open RA
 open RA ∀ᴿᴬ using () renaming (Carrier to A∀; _≈_ to _≈∀_; ✓ to ✓∀; _∙_ to _∙∀_;
-  ε to ε∀; ⌞_⌟ to ⌞_⌟∀; _~>_ to _~>∀_; refl to refl∀; _»_ to _»∀_;
+  ε to ε∀; ⌞_⌟ to ⌞_⌟∀; _↝_ to _↝∀_; refl to refl∀; _»_ to _»∀_;
   unitˡ to unitˡ∀; ✓-ε to ✓∀-ε; ⌞⌟-ε to ⌞⌟∀-ε)
 
 ----------------------------------------------------------------------
@@ -39,14 +39,14 @@ open RA ∀ᴿᴬ using () renaming (Carrier to A∀; _≈_ to _≈∀_; ✓ to 
 module _ {i : I} where
 
   open RA (Ra˙ i) using () renaming (Carrier to Aⁱ; _≈_ to _≈ⁱ_; ✓ to ✓ⁱ;
-    _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; refl to reflⁱ; _~>_ to _~>ⁱ_)
+    _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; refl to reflⁱ; _↝_ to _↝ⁱ_)
 
   private variable
     a b : Aⁱ
     b˙ c˙ d˙ : A∀
 
   --------------------------------------------------------------------
-  -- ∀-upd preserves ≈/✓/∙/⌞⌟/~>
+  -- ∀-upd preserves ≈/✓/∙/⌞⌟/↝
 
   ∀-upd-cong : a ≈ⁱ b → c˙ ≈∀ d˙ → ∀-upd i a c˙ ≈∀ ∀-upd i b d˙
   ∀-upd-cong a≈b c˙≈d˙ j with i ≟ j
@@ -68,9 +68,9 @@ module _ {i : I} where
   ... | yes refl≡ = reflⁱ
   ... | no _ = refl (Ra˙ j)
 
-  ∀-upd-~> :  a ~>ⁱ b  →  ∀-upd i a c˙ ~>∀ ∀-upd i b c˙
-  ∀-upd-~> a~>ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
-  ... | yes refl≡ | ✓d˙i∙a = a~>ⁱb (d˙ i) ✓d˙i∙a
+  ∀-upd-↝ :  a ↝ⁱ b  →  ∀-upd i a c˙ ↝∀ ∀-upd i b c˙
+  ∀-upd-↝ a↝ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
+  ... | yes refl≡ | ✓d˙i∙a = a↝ⁱb (d˙ i) ✓d˙i∙a
   ... | no _ | ✓d˙j∙ε = ✓d˙j∙ε
 
   -- Double updates
@@ -83,7 +83,7 @@ module _ {i : I} where
   ...   | no _ = refl (Ra˙ j)
 
   --------------------------------------------------------------------
-  -- ∀-inj preserves ≈/✓/∙/ε/⌞⌟/~>
+  -- ∀-inj preserves ≈/✓/∙/ε/⌞⌟/↝
 
   ∀-inj-cong : a ≈ⁱ b → ∀-inj i a ≈∀ ∀-inj i b
   ∀-inj-cong a≈b = ∀-upd-cong a≈b refl∀
@@ -102,5 +102,5 @@ module _ {i : I} where
   ∀-inj-⌞⌟ : ⌞ ∀-inj i a ⌟∀ ≈∀ ∀-inj i ⌞ a ⌟ⁱ
   ∀-inj-⌞⌟ = ∀-upd-⌞⌟ »∀ ∀-upd-cong reflⁱ ⌞⌟∀-ε
 
-  ∀-inj-~> :  a ~>ⁱ b  →  ∀-inj i a ~>∀ ∀-inj i b
-  ∀-inj-~> = ∀-upd-~>
+  ∀-inj-↝ :  a ↝ⁱ b  →  ∀-inj i a ↝∀ ∀-inj i b
+  ∀-inj-↝ = ∀-upd-↝

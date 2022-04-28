@@ -183,81 +183,81 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ = c' , (c'∙⌞a⌟≈⌞c∙a⌟ » ⌞⌟-cong c∙a≈b)
 
   ----------------------------------------------------------------------
-  -- ~>/~>ˢ : Resource update
+  -- ↝/↝ˢ : Resource update
 
-  infix 2 _~>_ _~>ˢ_
+  infix 2 _↝_ _↝ˢ_
 
-  -- a ~> b : a can be updated into b, regardless of the frame c
-  _~>_ : Carrier → Carrier → Set (ℓ ⊔ ℓ✓)
-  a ~> b = ∀ c → ✓ (c ∙ a) → ✓ (c ∙ b)
+  -- a ↝ b : a can be updated into b, regardless of the frame c
+  _↝_ : Carrier → Carrier → Set (ℓ ⊔ ℓ✓)
+  a ↝ b = ∀ c → ✓ (c ∙ a) → ✓ (c ∙ b)
 
-  -- a ~>ˢ B : a can be updated into b, regardless of the frame c
-  _~>ˢ_ : Carrier → (Carrier → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
-  a ~>ˢ B = ∀ c → ✓ (c ∙ a) → ∃[ b ] B b × ✓ (c ∙ b)
-
-  ----------------------------------------------------------------------
-  -- ~> into ~>ˢ
-  ~>⇒~>ˢ : a ~> b → a ~>ˢ (b ≡_)
-  ~>⇒~>ˢ {b = b} a~>b c ✓c∙a = b , refl' , a~>b c ✓c∙a
+  -- a ↝ˢ B : a can be updated into b, regardless of the frame c
+  _↝ˢ_ : Carrier → (Carrier → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
+  a ↝ˢ B = ∀ c → ✓ (c ∙ a) → ∃[ b ] B b × ✓ (c ∙ b)
 
   ----------------------------------------------------------------------
-  -- ~> respects ≈
+  -- ↝ into ↝ˢ
+  ↝⇒↝ˢ : a ↝ b → a ↝ˢ (b ≡_)
+  ↝⇒↝ˢ {b = b} a↝b c ✓c∙a = b , refl' , a↝b c ✓c∙a
 
-  ~>-respʳ : _~>_ Respectsʳ _≈_
-  ~>-respʳ b≈b' a~>b c ✓c∙a = ✓c∙a |> a~>b c |> ✓-resp (∙-congʳ b≈b')
+  ----------------------------------------------------------------------
+  -- ↝ respects ≈
 
-  ~>-respˡ : _~>_ Respectsˡ _≈_
-  ~>-respˡ a≈a' a~>b c ✓c∙a' = ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a~>b c
+  ↝-respʳ : _↝_ Respectsʳ _≈_
+  ↝-respʳ b≈b' a↝b c ✓c∙a = ✓c∙a |> a↝b c |> ✓-resp (∙-congʳ b≈b')
 
-  ~>-resp : _~>_ Respects₂ _≈_
-  ~>-resp = ~>-respʳ , ~>-respˡ
+  ↝-respˡ : _↝_ Respectsˡ _≈_
+  ↝-respˡ a≈a' a↝b c ✓c∙a' = ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a↝b c
 
-  -- ~>ˢ respects ≈ and ⊆≈
+  ↝-resp : _↝_ Respects₂ _≈_
+  ↝-resp = ↝-respʳ , ↝-respˡ
+
+  -- ↝ˢ respects ≈ and ⊆≈
   -- We don't use Respects₂ to achieve better level polymorphism
 
   open import Shog.Base.Setoid setoid using (_⊆≈_; ⊆≈-refl)
 
-  ~>ˢ-resp : a ≈ a' → B ⊆≈ B' → a ~>ˢ B → a' ~>ˢ B'
-  ~>ˢ-resp a≈a' B⊆≈B' a~>ˢB c ✓c∙a'
-    with  ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a~>ˢB c
+  ↝ˢ-resp : a ≈ a' → B ⊆≈ B' → a ↝ˢ B → a' ↝ˢ B'
+  ↝ˢ-resp a≈a' B⊆≈B' a↝ˢB c ✓c∙a'
+    with  ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a↝ˢB c
   ... | b , b∈B , ✓c∙b  with  B⊆≈B' b∈B
   ...   | b' , b≈b' , b'∈B'  =  b' , b'∈B' , ✓-resp (∙-congʳ b≈b') ✓c∙b
 
-  ~>ˢ-respˡ : (_~>ˢ B) Respects _≈_
-  ~>ˢ-respˡ a≈a' = ~>ˢ-resp a≈a' ⊆≈-refl
+  ↝ˢ-respˡ : (_↝ˢ B) Respects _≈_
+  ↝ˢ-respˡ a≈a' = ↝ˢ-resp a≈a' ⊆≈-refl
 
-  ~>ˢ-respʳ : B ⊆≈ B' → a ~>ˢ B → a ~>ˢ B'
-  ~>ˢ-respʳ = ~>ˢ-resp refl
-
-  ----------------------------------------------------------------------
-  -- ~> is reflexive
-
-  ~>-refl : Reflexive _~>_
-  ~>-refl _ = id
-
-  -- ~> is transitive
-
-  ~>-trans : Transitive _~>_
-  ~>-trans a~>b b~>c d ✓d∙a = ✓d∙a |> a~>b d |> b~>c d
-
-  -- ~> and ~>ˢ can be composed
-
-  ~>-~>ˢ : a ~> b  →  b ~>ˢ C  → a  ~>ˢ C
-  ~>-~>ˢ a~>b b~>ˢC d ✓d∙a = ✓d∙a |> a~>b d |> b~>ˢC d
+  ↝ˢ-respʳ : B ⊆≈ B' → a ↝ˢ B → a ↝ˢ B'
+  ↝ˢ-respʳ = ↝ˢ-resp refl
 
   ----------------------------------------------------------------------
-  -- ~>/~>ˢ can be merged with respect to ∙
+  -- ↝ is reflexive
 
-  ∙-mono-~> :  a ~> b  →  c ~> d  →  a ∙ c ~> b ∙ d
-  ∙-mono-~> a~>b c~>d e ✓e∙a∙c = ✓e∙a∙c |> ✓-resp assocʳ |>
-    c~>d _ |> ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |>
-    a~>b _ |> ✓-resp (assocˡ » ∙-congʳ comm)
+  ↝-refl : Reflexive _↝_
+  ↝-refl _ = id
 
-  ∙-mono-~>ˢ : a ~>ˢ B  →  c ~>ˢ D  →
-    (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E)  →  a ∙ c ~>ˢ E
-  ∙-mono-~>ˢ a~>ˢB c~>ˢD BDE f ✓f∙a∙c  with ✓f∙a∙c |> ✓-resp assocʳ |> c~>ˢD _
+  -- ↝ is transitive
+
+  ↝-trans : Transitive _↝_
+  ↝-trans a↝b b↝c d ✓d∙a = ✓d∙a |> a↝b d |> b↝c d
+
+  -- ↝ and ↝ˢ can be composed
+
+  ↝-↝ˢ : a ↝ b  →  b ↝ˢ C  → a  ↝ˢ C
+  ↝-↝ˢ a↝b b↝ˢC d ✓d∙a = ✓d∙a |> a↝b d |> b↝ˢC d
+
+  ----------------------------------------------------------------------
+  -- ↝/↝ˢ can be merged with respect to ∙
+
+  ∙-mono-↝ :  a ↝ b  →  c ↝ d  →  a ∙ c ↝ b ∙ d
+  ∙-mono-↝ a↝b c↝d e ✓e∙a∙c = ✓e∙a∙c |> ✓-resp assocʳ |>
+    c↝d _ |> ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |>
+    a↝b _ |> ✓-resp (assocˡ » ∙-congʳ comm)
+
+  ∙-mono-↝ˢ : a ↝ˢ B  →  c ↝ˢ D  →
+    (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E)  →  a ∙ c ↝ˢ E
+  ∙-mono-↝ˢ a↝ˢB c↝ˢD BDE f ✓f∙a∙c  with ✓f∙a∙c |> ✓-resp assocʳ |> c↝ˢD _
   ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d |>
-    ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |> a~>ˢB _
+    ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |> a↝ˢB _
   ...   | b , b∈B , ✓f∙d∙b  with  BDE b∈B d∈D
   ...     | e , e≈b∙d , e∈E  =  e , e∈E ,
     ✓-resp (assocˡ » ∙-congʳ $ comm » sym e≈b∙d) ✓f∙d∙b

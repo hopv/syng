@@ -10,16 +10,16 @@ module Shog.Model.RA.Prod.Derived {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓
 
 open RA Raˡ using () renaming (Carrier to Aˡ;
   _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
-  refl to reflˡ; _~>_ to _~>ˡ_; ~>-refl to ~>ˡ-refl)
+  refl to reflˡ; _↝_ to _↝ˡ_; ↝-refl to ↝ˡ-refl)
 open RA Raʳ using () renaming (Carrier to Aʳ;
   _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_; ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ;
-  refl to reflʳ; _~>_ to _~>ʳ_; ~>-refl to ~>ʳ-refl)
+  refl to reflʳ; _↝_ to _↝ʳ_; ↝-refl to ↝ʳ-refl)
 
 open import Algebra.Construct.DirectProduct using ()
   renaming (commutativeMonoid to ×-CommutativeMonoid)
 open import Data.Product using (_×_; _,_)
 open import Shog.Model.RA.Prod.Base Raˡ Raʳ using (_×ᴿᴬ_)
-open RA _×ᴿᴬ_ using (_≈_; _~>_) renaming (Carrier to A)
+open RA _×ᴿᴬ_ using (_≈_; _↝_) renaming (Carrier to A)
 
 private variable
   a b : Aˡ
@@ -46,11 +46,11 @@ private variable
 ----------------------------------------------------------------------
 -- Update on _×ᴿᴬ_
 
-×-~>-lift :  a ~>ˡ b  →  x ~>ʳ y  →  (a , x) ~> (b , y)
-×-~>-lift a~>b x~>y _ (✓c∙a , ✓z∙x) = a~>b _ ✓c∙a , x~>y _ ✓z∙x
+×-↝-lift :  a ↝ˡ b  →  x ↝ʳ y  →  (a , x) ↝ (b , y)
+×-↝-lift a↝b x↝y _ (✓c∙a , ✓z∙x) = a↝b _ ✓c∙a , x↝y _ ✓z∙x
 
-×-~>-liftˡ :  a ~>ˡ b  →  (a , x) ~> (b , x)
-×-~>-liftˡ a~>b = ×-~>-lift a~>b ~>ʳ-refl
+×-↝-liftˡ :  a ↝ˡ b  →  (a , x) ↝ (b , x)
+×-↝-liftˡ a↝b = ×-↝-lift a↝b ↝ʳ-refl
 
-×-~>-liftʳ :  x ~>ʳ y  →  (a , x) ~> (a , y)
-×-~>-liftʳ x~>y = ×-~>-lift ~>ˡ-refl x~>y
+×-↝-liftʳ :  x ↝ʳ y  →  (a , x) ↝ (a , y)
+×-↝-liftʳ x↝y = ×-↝-lift ↝ˡ-refl x↝y

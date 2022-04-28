@@ -21,7 +21,7 @@ open import Shog.Logic.Prop ℓ public using (
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
 open import Shog.Logic.Judg ℓ public using (
   JudgRes; _⊢[_]*_; _⊢[_]_;
-  refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ∀∃⇒∃∀-⊤; →-intro; →-elim;
+  refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ⌜⌝-∀-in; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out)
@@ -193,9 +193,7 @@ private variable
 
 -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤/⊥/→
 
-⌜⌝-∀-in : ∀ {A : Set ℓ} {F : A → Set ℓ} →
-  ∀' a ∈ A , ⌜ F a ⌝ ⊢[ ι ] ⌜ (∀ a → F a) ⌝
-⌜⌝-∀-in = ∀∃⇒∃∀-⊤
+-- We already have ⌜⌝-∀-in
 
 ⌜⌝-∀-out : ⌜ (∀ a → F a) ⌝ ⊢[ ι ] ∀' a , ⌜ F a ⌝
 ⌜⌝-∀-out = ∀-intro $ λ a → ⌜⌝-elim $ λ f → ⌜⌝-intro $ f a

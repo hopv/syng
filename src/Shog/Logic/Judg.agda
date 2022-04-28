@@ -74,8 +74,8 @@ data Judg ι where
   -- Eliminating ∀ / Introducing ∃
   ∀-elim : ∀˙ A P˙ ⊢[ ι ] P˙ a
   ∃-intro : P˙ a ⊢[ ι ] ∃˙ A P˙
-  -- Unnesting ∀' ... , ∃ ... , ⊤ into ∃ _ ∈ (∀ ...) , ⊤
-  ∀∃⇒∃∀-⊤ : ∀' a ∈ A , ∃ _ ∈ F a , ⊤ ⊢[ ι ] ∃ _ ∈ (∀ a → F a) , ⊤
+  -- ∀ can get inside ⌜ ⌝
+  ⌜⌝-∀-in : ∀' a ∈ A , ⌜ F a ⌝ ⊢[ ι ] ⌜ (∀ a → F a) ⌝
   ----------------------------------------------------------------------
   -- → is the right adjoint of ∧
   →-intro : P ∧ Q ⊢[ ι ] R → Q ⊢[ ι ] P →' R

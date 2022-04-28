@@ -7,4 +7,4 @@
 module Shog.Model.RA.Forall where
 
 open import Shog.Model.RA.Forall.Base public
-open import Shog.Model.RA.Forall.Inj public
+open import Shog.Model.RA.Forall.Point public

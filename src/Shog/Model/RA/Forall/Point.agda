@@ -7,7 +7,7 @@
 open import Shog.Model.RA using (RA)
 open import Relation.Binary using (Decidable)
 open import Relation.Binary.PropositionalEquality using (_≡_)
-module Shog.Model.RA.Forall.Inj {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
+module Shog.Model.RA.Forall.Point {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
   {Ra˙ : I → RA ℓ ℓ≈ ℓ✓} (_≟_ : Decidable {A = I} _≡_) where
 
 open import Relation.Nullary using (yes; no)

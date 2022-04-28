@@ -22,9 +22,8 @@ open RA Raʳ using () renaming (Carrier to Carrierʳ;
   _~>_ to _~>ʳ_; ~>-refl to ~>ʳ-refl)
 
 open import Level using (_⊔_)
-open import Relation.Unary using (Pred)
-open import Relation.Binary using (Rel; IsEquivalence)
-open import Algebra using (Op₂; Op₁; CommutativeMonoid)
+open import Relation.Binary using (IsEquivalence)
+open import Algebra using (CommutativeMonoid)
 open CommutativeMonoid using ()
   renaming (isCommutativeMonoid to isCommutativeMonoid')
 open import Algebra.Construct.DirectProduct using ()

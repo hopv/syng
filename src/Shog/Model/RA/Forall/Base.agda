@@ -38,4 +38,3 @@ open RA
 ∀ᴿᴬ .⌞⌟-add = (λ i → Ra˙ i .⌞⌟-add .proj₁) , λ i → Ra˙ i .⌞⌟-add .proj₂
 ∀ᴿᴬ .⌞⌟-unitˡ i = Ra˙ i .⌞⌟-unitˡ
 ∀ᴿᴬ .⌞⌟-idem i = Ra˙ i .⌞⌟-idem
-∀ᴿᴬ .⌞⌟-ε i = Ra˙ i .⌞⌟-ε

@@ -137,4 +137,3 @@ ExRA .⌞⌟-cong = _
 ExRA .⌞⌟-add = ?ˣ , _
 ExRA .⌞⌟-unitˡ {aˣ} = ≈ˣ-refl {aˣ}
 ExRA .⌞⌟-idem = _
-ExRA .⌞⌟-ε = _

@@ -12,12 +12,12 @@ open RA Raˡ using () renaming (Carrier to Aˡ;
   _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
   commutativeMonoid to commutativeMonoidˡ; ✓-resp to ✓ˡ-resp; ✓-rem to ✓ˡ-rem;
   ✓-ε to ✓ˡ-ε; ⌞⌟-cong to ⌞⌟ˡ-cong; ⌞⌟-add to ⌞⌟ˡ-add; ⌞⌟-unitˡ to ⌞⌟ˡ-unitˡ;
-  ⌞⌟-idem to ⌞⌟ˡ-idem; ⌞⌟-ε to ⌞⌟ˡ-ε)
+  ⌞⌟-idem to ⌞⌟ˡ-idem)
 open RA Raʳ using () renaming (Carrier to Aʳ;
   _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_; ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ;
   commutativeMonoid to commutativeMonoidʳ; ✓-resp to ✓ʳ-resp; ✓-rem to ✓ʳ-rem;
   ✓-ε to ✓ʳ-ε; ⌞⌟-cong to ⌞⌟ʳ-cong; ⌞⌟-add to ⌞⌟ʳ-add; ⌞⌟-unitˡ to ⌞⌟ʳ-unitˡ;
-  ⌞⌟-idem to ⌞⌟ʳ-idem; ⌞⌟-ε to ⌞⌟ʳ-ε)
+  ⌞⌟-idem to ⌞⌟ʳ-idem)
 
 open import Level using (_⊔_)
 open import Relation.Binary using (IsEquivalence)
@@ -53,4 +53,3 @@ _×ᴿᴬ_ .⌞⌟-add with ⌞⌟ˡ-add | ⌞⌟ʳ-add
   (b' , y') , (b'∙⌞a⌟≈⌞b∙a⌟ , y'∙⌞x⌟≈⌞y∙x⌟)
 _×ᴿᴬ_ .⌞⌟-unitˡ = ⌞⌟ˡ-unitˡ , ⌞⌟ʳ-unitˡ
 _×ᴿᴬ_ .⌞⌟-idem = ⌞⌟ˡ-idem , ⌞⌟ʳ-idem
-_×ᴿᴬ_ .⌞⌟-ε = ⌞⌟ˡ-ε , ⌞⌟ʳ-ε

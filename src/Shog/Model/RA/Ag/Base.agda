@@ -38,4 +38,3 @@ AgRA .⌞⌟-cong = id
 AgRA .⌞⌟-add = _ , ≈ˢ-refl
 AgRA .⌞⌟-unitˡ = ++-≈ˢ-idem _
 AgRA .⌞⌟-idem = ≈ˢ-refl
-AgRA .⌞⌟-ε = ≈ˢ-refl

@@ -85,6 +85,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   -- Infix notation for trans
   infixr -1 _»_ -- the same as _$_
+  _»_ : a ≈ b → b ≈ c → a ≈ c
   _»_ = trans
 
   -- Unitality
@@ -123,7 +124,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   infix 4 _≤_
   _≤_ : Carrier → Carrier → Set (ℓ ⊔ ℓ≈)
-  a ≤ b = ∃[ c ] c ∙ a ≈ b
+  a ≤ b  =  ∃[ c ]  c ∙ a  ≈  b
 
   ----------------------------------------------------------------------
   -- ≤ is reflexive
@@ -137,7 +138,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- ≤ is transitive
 
   ≤-trans :  a ≤ b  →  b ≤ c  →  a ≤ c
-  ≤-trans (d , d∙a≈b) (e , e∙b≈c) = (d ∙ e) ,
+  ≤-trans (d , d∙a≈b) (e , e∙b≈c)  =  (d ∙ e) ,
     (∙-congˡ comm » assocˡ » ∙-congʳ d∙a≈b » e∙b≈c)
 
   infixr -1 _ᵒ»ᵒ_ _»ᵒ_ _ᵒ»_ -- the same fixity with _$_
@@ -166,7 +167,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- Monotonicity of ✓, ∙ and ⌞⌟
 
   ✓-mono :  a ≤ b  →  ✓ b  →  ✓ a
-  ✓-mono (c , c∙a≈b) ✓b = ✓b |> ✓-resp (sym c∙a≈b) |> ✓-rem
+  ✓-mono (c , c∙a≈b) ✓b   = ✓b |> ✓-resp (sym c∙a≈b) |> ✓-rem
 
   ∙-monoˡ :  a ≤ b  →  a ∙ c  ≤  b ∙ c
   ∙-monoˡ (d , d∙a≈b) = d , (assocʳ » ∙-congˡ d∙a≈b)
@@ -179,7 +180,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   ⌞⌟-mono :  a ≤ b  →  ⌞ a ⌟ ≤ ⌞ b ⌟
   ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add {_} {c}
-  ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ = c' , (c'∙⌞a⌟≈⌞c∙a⌟ » ⌞⌟-cong c∙a≈b)
+  ... | c' , c'∙⌞a⌟≈⌞c∙a⌟  =  c' , (c'∙⌞a⌟≈⌞c∙a⌟ » ⌞⌟-cong c∙a≈b)
 
   ----------------------------------------------------------------------
   -- ↝/↝ˢ : Resource update
@@ -188,11 +189,11 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   -- a ↝ b : a can be updated into b, regardless of the frame c
   _↝_ : Carrier → Carrier → Set (ℓ ⊔ ℓ✓)
-  a ↝ b = ∀ c → ✓ (c ∙ a) → ✓ (c ∙ b)
+  a ↝ b  =  ∀ c →  ✓ (c ∙ a)  →  ✓ (c ∙ b)
 
   -- a ↝ˢ B : a can be updated into b, regardless of the frame c
   _↝ˢ_ : Carrier → (Carrier → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
-  a ↝ˢ B  =  ∀ c →  ✓ (c ∙ a)  →  ∃[ b ]  B b  ×  ✓ (c ∙ b)
+  a ↝ˢ B  =  ∀ c →  ✓ (c ∙ a)  →  ∃[ b ]  b ∈ B  ×  ✓ (c ∙ b)
 
   ----------------------------------------------------------------------
   -- ↝ into ↝ˢ
@@ -221,32 +222,32 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ...   | b' , b≈b' , b'∈B'  =  b' , b'∈B' , ✓-resp (∙-congʳ b≈b') ✓c∙b
 
   ↝ˢ-respˡ :  a ≈ a'  →  a ↝ˢ B  →  a' ↝ˢ B
-  ↝ˢ-respˡ a≈a' = ↝ˢ-resp a≈a' ⊆≈-refl
+  ↝ˢ-respˡ a≈a'  =  ↝ˢ-resp a≈a' ⊆≈-refl
 
   ↝ˢ-respʳ : B ⊆≈ B'  →  a ↝ˢ B  →  a ↝ˢ B'
-  ↝ˢ-respʳ = ↝ˢ-resp refl
+  ↝ˢ-respʳ  =  ↝ˢ-resp refl
 
   ----------------------------------------------------------------------
   -- ↝ is reflexive
 
   ↝-refl : a ↝ a
-  ↝-refl _ = id
+  ↝-refl _  =  id
 
   -- ↝ is transitive
 
   ↝-trans :  a ↝ b  →  b ↝ c  →  a ↝ c
-  ↝-trans a↝b b↝c d ✓d∙a = ✓d∙a |> a↝b d |> b↝c d
+  ↝-trans a↝b b↝c d ✓d∙a  =  ✓d∙a |> a↝b d |> b↝c d
 
   -- ↝ and ↝ˢ can be composed
 
   ↝-↝ˢ :  a ↝ b  →  b ↝ˢ C  →  a ↝ˢ C
-  ↝-↝ˢ a↝b b↝ˢC d ✓d∙a = ✓d∙a |> a↝b d |> b↝ˢC d
+  ↝-↝ˢ a↝b b↝ˢC d ✓d∙a  =  ✓d∙a |> a↝b d |> b↝ˢC d
 
   ----------------------------------------------------------------------
   -- ↝/↝ˢ can be merged with respect to ∙
 
   ∙-mono-↝ :  a ↝ b  →  c ↝ d  →  a ∙ c  ↝  b ∙ d
-  ∙-mono-↝ a↝b c↝d e ✓e∙a∙c = ✓e∙a∙c |> ✓-resp assocʳ |>
+  ∙-mono-↝ a↝b c↝d e ✓e∙a∙c  =  ✓e∙a∙c |> ✓-resp assocʳ |>
     c↝d _ |> ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |>
     a↝b _ |> ✓-resp (assocˡ » ∙-congʳ comm)
 

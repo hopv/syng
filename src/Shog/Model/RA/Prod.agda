@@ -38,6 +38,7 @@ module _ where
   open IsEquivalence renaming (refl to refl'; sym to sym'; trans to trans')
   open RA
 
+  infixr 2 _×ᴿᴬ_
   _×ᴿᴬ_ : RA (ℓˡ ⊔ ℓʳ) (ℓ≈ˡ ⊔ ℓ≈ʳ) (ℓ✓ˡ ⊔ ℓ✓ʳ)
   _×ᴿᴬ_ .Carrier = Carrierˡ × Carrierʳ
   _×ᴿᴬ_ ._≈_ (a , x) (b , y) = (a ≈ˡ b) × (x ≈ʳ y)

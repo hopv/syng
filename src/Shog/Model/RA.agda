@@ -48,6 +48,8 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     ✓-resp : ✓ Respects _≈_
     -- ✓ is kept after a resource is removed
     ✓-rem : ∀ {a b} → ✓ (b ∙ a) → ✓ a
+    -- ε satisfies ✓
+    ✓-ε : ✓ ε
     ------------------------------------------------------------------
     -- ⌞⌟ preserves ≈
     ⌞⌟-cong : Congruent₁ _≈_ ⌞_⌟

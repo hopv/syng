@@ -11,12 +11,12 @@ module Shog.Model.RA.Prod.Base {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
 open RA Raˡ using () renaming (Carrier to Aˡ;
   _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
   commutativeMonoid to commutativeMonoidˡ; ✓-resp to ✓ˡ-resp; ✓-rem to ✓ˡ-rem;
-  ⌞⌟-cong to ⌞⌟ˡ-cong; ⌞⌟-add to ⌞⌟ˡ-add; ⌞⌟-unitˡ to ⌞⌟ˡ-unitˡ;
+  ✓-ε to ✓ˡ-ε; ⌞⌟-cong to ⌞⌟ˡ-cong; ⌞⌟-add to ⌞⌟ˡ-add; ⌞⌟-unitˡ to ⌞⌟ˡ-unitˡ;
   ⌞⌟-idem to ⌞⌟ˡ-idem; ⌞⌟-ε to ⌞⌟ˡ-ε)
 open RA Raʳ using () renaming (Carrier to Aʳ;
   _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_; ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ;
   commutativeMonoid to commutativeMonoidʳ; ✓-resp to ✓ʳ-resp; ✓-rem to ✓ʳ-rem;
-  ⌞⌟-cong to ⌞⌟ʳ-cong; ⌞⌟-add to ⌞⌟ʳ-add; ⌞⌟-unitˡ to ⌞⌟ʳ-unitˡ;
+  ✓-ε to ✓ʳ-ε; ⌞⌟-cong to ⌞⌟ʳ-cong; ⌞⌟-add to ⌞⌟ʳ-add; ⌞⌟-unitˡ to ⌞⌟ʳ-unitˡ;
   ⌞⌟-idem to ⌞⌟ʳ-idem; ⌞⌟-ε to ⌞⌟ʳ-ε)
 
 open import Level using (_⊔_)
@@ -46,6 +46,7 @@ _×ᴿᴬ_ .isCommutativeMonoid = ×-CommutativeMonoid
   commutativeMonoidˡ commutativeMonoidʳ .isCommutativeMonoid'
 _×ᴿᴬ_ .✓-resp (a≈b , x≈y) (✓a , ✓x) = ✓ˡ-resp a≈b ✓a , ✓ʳ-resp x≈y ✓x
 _×ᴿᴬ_ .✓-rem (✓b∙a , ✓y∙x) = ✓ˡ-rem ✓b∙a , ✓ʳ-rem ✓y∙x
+_×ᴿᴬ_ .✓-ε = ✓ˡ-ε , ✓ʳ-ε
 _×ᴿᴬ_ .⌞⌟-cong (a≈b , x≈y) = ⌞⌟ˡ-cong a≈b , ⌞⌟ʳ-cong x≈y
 _×ᴿᴬ_ .⌞⌟-add with ⌞⌟ˡ-add | ⌞⌟ʳ-add
 ... | b' , b'∙⌞a⌟≈⌞b∙a⌟ | y' , y'∙⌞x⌟≈⌞y∙x⌟  =

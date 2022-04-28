@@ -132,6 +132,7 @@ ExRA .isCommutativeMonoid = make-IsCommutativeMonoid
   (λ aˣ → ≈ˣ-refl {aˣ}) ∙ˣ-comm ∙ˣ-assoc
 ExRA .✓-resp = ✓ˣ-resp
 ExRA .✓-rem {aˣ} {bˣ} = ✓ˣ-rem aˣ bˣ
+ExRA .✓-ε = _
 ExRA .⌞⌟-cong = _
 ExRA .⌞⌟-add = ?ˣ , _
 ExRA .⌞⌟-unitˡ {aˣ} = ≈ˣ-refl {aˣ}

@@ -15,7 +15,7 @@ open import Data.List.Base using (List; []; _++_)
 open import Data.List.Membership.Setoid S using (_∈_)
 open import Shog.Base.ListSet S using (_≈ˢ_; homo;
   ≈ˢ-refl; ++-⊆-introʳ; ++-≈ˢ-isCommutativeMonoid; ++-≈ˢ-idem;
-  homo-⊆-resp; homo-≈ˢ-resp)
+  homo-[]; homo-⊆-resp; homo-≈ˢ-resp)
 open import Shog.Model.RA using (RA)
 
 open RA
@@ -33,6 +33,7 @@ AgRA .⌞_⌟ = id
 AgRA .isCommutativeMonoid = ++-≈ˢ-isCommutativeMonoid
 AgRA .✓-resp = homo-≈ˢ-resp
 AgRA .✓-rem = homo-⊆-resp ++-⊆-introʳ
+AgRA .✓-ε = homo-[]
 AgRA .⌞⌟-cong = id
 AgRA .⌞⌟-add = _ , ≈ˢ-refl
 AgRA .⌞⌟-unitˡ = ++-≈ˢ-idem _

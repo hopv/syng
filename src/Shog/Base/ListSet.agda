@@ -137,6 +137,9 @@ homo as = ∀ {a b} → a ∈ as → b ∈ as → a ≈ b
 ----------------------------------------------------------------------
 -- On homo
 
+homo-[] : homo []
+homo-[] ()
+
 homo-⊆-resp : as ⊆ bs → homo bs → homo as
 homo-⊆-resp as⊆bs homobs a∈as b∈as = homobs (as⊆bs a∈as) (as⊆bs b∈as)
 

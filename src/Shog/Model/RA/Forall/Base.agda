@@ -33,6 +33,7 @@ open RA
   (λ _ _ i → comm (Ra˙ i)) (λ _ _ _ i → assocˡ (Ra˙ i))
 ∀ᴿᴬ .✓-resp a˙≈b˙ ✓a˙ i = Ra˙ i .✓-resp (a˙≈b˙ i) (✓a˙ i)
 ∀ᴿᴬ .✓-rem ✓b˙∙a˙ i = Ra˙ i .✓-rem (✓b˙∙a˙ i)
+∀ᴿᴬ .✓-ε i = Ra˙ i .✓-ε
 ∀ᴿᴬ .⌞⌟-cong a˙≈b˙ i = Ra˙ i .⌞⌟-cong (a˙≈b˙ i)
 ∀ᴿᴬ .⌞⌟-add = (λ i → Ra˙ i .⌞⌟-add .proj₁) , λ i → Ra˙ i .⌞⌟-add .proj₂
 ∀ᴿᴬ .⌞⌟-unitˡ i = Ra˙ i .⌞⌟-unitˡ

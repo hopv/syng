@@ -8,10 +8,9 @@ module Shog.Base.Algebra where
 
 open import Level using (Level)
 
-open import Relation.Binary using (Rel;
-  IsEquivalence; Reflexive; Symmetric; Transitive)
+open import Relation.Binary using (IsEquivalence)
 open IsEquivalence
-open import Algebra using (Op₂; Congruent₂;
+open import Algebra using (Congruent₂;
   LeftIdentity; Identity; Commutative; Associative;
   IsCommutativeMonoid; CommutativeMonoid)
 open import Data.Product using (_,_)
@@ -25,8 +24,8 @@ open import Algebra renaming (
 private variable
   ℓ ℓ≈ : Level
   A : Set ℓ
-  _≈_ : Rel A ℓ≈
-  _∙_ : Op₂ A
+  _≈_ : A → A → Set ℓ≈
+  _∙_ : A → A → A
   ε : A
 
 equiv-comm-unitˡ⇒unit :

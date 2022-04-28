@@ -24,17 +24,17 @@ open RA
 -- AgRA : Agreement resource algebra
 
 AgRA : RA ℓ (ℓ ⊔ ℓ≈) (ℓ ⊔ ℓ≈)
-AgRA .Carrier = List A
-AgRA ._≈_ = _≈ˢ_
-AgRA .✓ = homo
-AgRA ._∙_ = _++_
-AgRA .ε = []
-AgRA .⌞_⌟ = id
-AgRA .isCommutativeMonoid = ++-≈ˢ-isCommutativeMonoid
-AgRA .✓-resp = homo-≈ˢ-resp
-AgRA .✓-rem = homo-⊆-resp ++-⊆-introʳ
-AgRA .✓-ε = homo-[]
-AgRA .⌞⌟-cong = id
-AgRA .⌞⌟-add = _ , ≈ˢ-refl
-AgRA .⌞⌟-unitˡ = ++-≈ˢ-idem _
-AgRA .⌞⌟-idem = ≈ˢ-refl
+AgRA .Carrier  =  List A
+AgRA ._≈_  =  _≈ˢ_
+AgRA .✓  =  homo
+AgRA ._∙_  =  _++_
+AgRA .ε  =  []
+AgRA .⌞_⌟  =  id
+AgRA .isCommutativeMonoid  =  ++-≈ˢ-isCommutativeMonoid
+AgRA .✓-resp  =  homo-≈ˢ-resp
+AgRA .✓-rem  =  homo-⊆-resp ++-⊆-introʳ
+AgRA .✓-ε  =  homo-[]
+AgRA .⌞⌟-cong  =  id
+AgRA .⌞⌟-add  =  _ , ≈ˢ-refl
+AgRA .⌞⌟-unitˡ  =  ++-≈ˢ-idem
+AgRA .⌞⌟-idem  =  ≈ˢ-refl

@@ -20,5 +20,5 @@ private variable
 ag : A → List A
 ag a = [ a ]
 
-agree : ✓ (ag a ∙ ag b) → a ≈ b
+agree :  ✓ (ag a ∙ ag b)  →  a ≈ b
 agree = homo-heads2-≈

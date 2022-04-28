@@ -16,22 +16,22 @@ open import Data.Empty using (⊥-elim)
 open import Shog.Model.RA.Forall.Base Ra˙ using (∀ᴿᴬ)
 
 open RA
-open RA ∀ᴿᴬ using () renaming (Carrier to A∀; _≈_ to _≈∀_; ✓ to ✓∀; _∙_ to _∙∀_;
-  ε to ε∀; ⌞_⌟ to ⌞_⌟∀; _↝_ to _↝∀_; refl to refl∀; _»_ to _»∀_;
-  unitˡ to unitˡ∀; ✓-ε to ✓∀-ε; ⌞⌟-ε to ⌞⌟∀-ε)
+open RA ∀ᴿᴬ using () renaming (Carrier to Aᴬ; _≈_ to _≈ᴬ_; ✓ to ✓ᴬ; _∙_ to _∙ᴬ_;
+  ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl to reflᴬ; _»_ to _»ᴬ_;
+  unitˡ to unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
 
 ----------------------------------------------------------------------
 -- Updating an element at some index
 
-∀-upd : ∀ i → Ra˙ i .Carrier → A∀ → A∀
+∀-upd : ∀ i → Ra˙ i .Carrier → Aᴬ → Aᴬ
 ∀-upd i a b˙ j with i ≟ j
 ... | yes refl≡ = a
 ... | no _ = b˙ j
 
 -- Injecting an element of a component RA
 
-∀-inj : ∀ i → Ra˙ i .Carrier → A∀
-∀-inj i a = ∀-upd i a ε∀
+∀-inj : ∀ i → Ra˙ i .Carrier → Aᴬ
+∀-inj i a = ∀-upd i a εᴬ
 
 ----------------------------------------------------------------------
 -- Various properties
@@ -43,39 +43,39 @@ module _ {i : I} where
 
   private variable
     a b : Aⁱ
-    b˙ c˙ d˙ : A∀
+    b˙ c˙ d˙ : Aᴬ
 
   --------------------------------------------------------------------
   -- ∀-upd preserves ≈/✓/∙/⌞⌟/↝
 
-  ∀-upd-cong : a ≈ⁱ b → c˙ ≈∀ d˙ → ∀-upd i a c˙ ≈∀ ∀-upd i b d˙
+  ∀-upd-cong :  a ≈ⁱ b  →  c˙ ≈ᴬ d˙  →  ∀-upd i a c˙ ≈ᴬ ∀-upd i b d˙
   ∀-upd-cong a≈b c˙≈d˙ j with i ≟ j
   ... | yes refl≡ = a≈b
   ... | no _ = c˙≈d˙ j
 
-  ∀-upd-✓ : ✓ⁱ a → ✓∀ b˙ → ✓∀ (∀-upd i a b˙)
+  ∀-upd-✓ :  ✓ⁱ a  →  ✓ᴬ b˙  →  ✓ᴬ (∀-upd i a b˙)
   ∀-upd-✓ ✓a ✓b˙ j with i ≟ j
   ... | yes refl≡ = ✓a
   ... | no _ = ✓b˙ j
 
-  ∀-upd-∙ : ∀-upd i a c˙ ∙∀ ∀-upd i b d˙ ≈∀ ∀-upd i (a ∙ⁱ b) (c˙ ∙∀ d˙)
+  ∀-upd-∙ :  ∀-upd i a c˙ ∙ᴬ ∀-upd i b d˙  ≈ᴬ  ∀-upd i (a ∙ⁱ b) (c˙ ∙ᴬ d˙)
   ∀-upd-∙ j with i ≟ j
   ... | yes refl≡ = reflⁱ
   ... | no _ = refl (Ra˙ j)
 
-  ∀-upd-⌞⌟ : ⌞ ∀-upd i a b˙ ⌟∀ ≈∀ ∀-upd i ⌞ a ⌟ⁱ ⌞ b˙ ⌟∀
+  ∀-upd-⌞⌟ :  ⌞ ∀-upd i a b˙ ⌟ᴬ  ≈ᴬ  ∀-upd i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴬ
   ∀-upd-⌞⌟ j with i ≟ j
   ... | yes refl≡ = reflⁱ
   ... | no _ = refl (Ra˙ j)
 
-  ∀-upd-↝ :  a ↝ⁱ b  →  ∀-upd i a c˙ ↝∀ ∀-upd i b c˙
+  ∀-upd-↝ :  a ↝ⁱ b  →  ∀-upd i a c˙ ↝ᴬ ∀-upd i b c˙
   ∀-upd-↝ a↝ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
   ... | yes refl≡ | ✓d˙i∙a = a↝ⁱb (d˙ i) ✓d˙i∙a
   ... | no _ | ✓d˙j∙ε = ✓d˙j∙ε
 
   -- Double updates
 
-  ∀-upd-upd : ∀-upd i a (∀-upd i b c˙) ≈∀ ∀-upd i a c˙
+  ∀-upd-upd : ∀-upd i a (∀-upd i b c˙) ≈ᴬ ∀-upd i a c˙
   ∀-upd-upd j with i ≟ j
   ... | yes refl≡ = reflⁱ
   ... | no i≢j with i ≟ j -- We need it to simplify ∀-upd i b c˙ j
@@ -85,22 +85,22 @@ module _ {i : I} where
   --------------------------------------------------------------------
   -- ∀-inj preserves ≈/✓/∙/ε/⌞⌟/↝
 
-  ∀-inj-cong : a ≈ⁱ b → ∀-inj i a ≈∀ ∀-inj i b
-  ∀-inj-cong a≈b = ∀-upd-cong a≈b refl∀
+  ∀-inj-cong :  a ≈ⁱ b  →  ∀-inj i a  ≈ᴬ  ∀-inj i b
+  ∀-inj-cong a≈b = ∀-upd-cong a≈b reflᴬ
 
-  ∀-inj-✓ : ✓ⁱ a → ✓∀ (∀-inj i a)
-  ∀-inj-✓ ✓a = ∀-upd-✓ ✓a ✓∀-ε
+  ∀-inj-✓ :  ✓ⁱ a  →  ✓ᴬ (∀-inj i a)
+  ∀-inj-✓ ✓a = ∀-upd-✓ ✓a ✓ᴬ-ε
 
-  ∀-inj-∙ : ∀-inj i a ∙∀ ∀-inj i b ≈∀ ∀-inj i (a ∙ⁱ b)
-  ∀-inj-∙ = ∀-upd-∙ »∀ ∀-upd-cong reflⁱ unitˡ∀
+  ∀-inj-∙ :  ∀-inj i a ∙ᴬ ∀-inj i b  ≈ᴬ  ∀-inj i (a ∙ⁱ b)
+  ∀-inj-∙ = ∀-upd-∙ »ᴬ ∀-upd-cong reflⁱ unitˡᴬ
 
-  ∀-inj-ε : ∀-inj i εⁱ ≈∀ ε∀
+  ∀-inj-ε : ∀-inj i εⁱ ≈ᴬ εᴬ
   ∀-inj-ε j with i ≟ j
   ... | yes refl≡ = reflⁱ
   ... | no _ = refl (Ra˙ j)
 
-  ∀-inj-⌞⌟ : ⌞ ∀-inj i a ⌟∀ ≈∀ ∀-inj i ⌞ a ⌟ⁱ
-  ∀-inj-⌞⌟ = ∀-upd-⌞⌟ »∀ ∀-upd-cong reflⁱ ⌞⌟∀-ε
+  ∀-inj-⌞⌟ :  ⌞ ∀-inj i a ⌟ᴬ  ≈ᴬ  ∀-inj i ⌞ a ⌟ⁱ
+  ∀-inj-⌞⌟ = ∀-upd-⌞⌟ »ᴬ ∀-upd-cong reflⁱ ⌞⌟ᴬ-ε
 
-  ∀-inj-↝ :  a ↝ⁱ b  →  ∀-inj i a ↝∀ ∀-inj i b
+  ∀-inj-↝ :  a ↝ⁱ b  →  ∀-inj i a ↝ᴬ ∀-inj i b
   ∀-inj-↝ = ∀-upd-↝

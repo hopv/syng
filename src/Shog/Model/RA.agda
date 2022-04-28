@@ -8,13 +8,10 @@ module Shog.Model.RA where
 
 open import Level using (Level; _⊔_; suc)
 
-open import Relation.Unary using (Pred; _∈_)
-open import Relation.Binary using (Rel; _⇒_; Reflexive; Transitive;
-  _Respects_; _Respectsʳ_; _Respectsˡ_; _Respects₂_)
+open import Relation.Unary using (_∈_)
 open import Relation.Binary.PropositionalEquality using (_≡_)
   renaming (refl to refl')
-open import Algebra using (Op₁; Op₂; Congruent₁;
-  IsCommutativeMonoid; CommutativeMonoid)
+open import Algebra using (IsCommutativeMonoid; CommutativeMonoid)
 
 open import Function.Base using (_$_; id; _|>_)
 open import Data.Product using (_×_; _,_; ∃-syntax)
@@ -31,34 +28,34 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     Carrier : Set ℓ
     ------------------------------------------------------------------
     -- Equivalence
-    _≈_ : Rel Carrier ℓ≈
+    _≈_ : Carrier → Carrier → Set ℓ≈
     -- Validity
-    ✓ : Pred Carrier ℓ✓
+    ✓ : Carrier → Set ℓ✓
     -- Product
-    _∙_ : Op₂ Carrier
+    _∙_ : Carrier → Carrier → Carrier
     -- Unit
     ε : Carrier
     -- Core
-    ⌞_⌟ : Op₁ Carrier
+    ⌞_⌟ : Carrier → Carrier
     ------------------------------------------------------------------
     -- ≈, ∙, ε forms a commutative monoid
     isCommutativeMonoid : IsCommutativeMonoid _≈_ _∙_ ε
     ------------------------------------------------------------------
     -- ✓ respects ≈
-    ✓-resp : ✓ Respects _≈_
+    ✓-resp :  ∀ {a b} →  a ≈ b  →  ✓ a  →  ✓ b
     -- ✓ is kept after a resource is removed
-    ✓-rem : ∀ {a b} → ✓ (b ∙ a) → ✓ a
+    ✓-rem :  ∀ {a b} →  ✓ (b ∙ a)  →  ✓ a
     -- ε satisfies ✓
     ✓-ε : ✓ ε
     ------------------------------------------------------------------
     -- ⌞⌟ preserves ≈
-    ⌞⌟-cong : Congruent₁ _≈_ ⌞_⌟
+    ⌞⌟-cong :  ∀ {a b} →  a ≈ b  →  ⌞ a ⌟ ≈ ⌞ b ⌟
     -- When ⌞⌟'s argument gets added, ⌞⌟'s result gets added
-    ⌞⌟-add : ∀ {a b} → ∃[ b' ] b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
+    ⌞⌟-add :  ∀ {a b} →  ∃[ b' ]  b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
     -- ⌞ a ⌟ is absorbed by a
-    ⌞⌟-unitˡ : ∀ {a} → ⌞ a ⌟ ∙ a ≈ a
+    ⌞⌟-unitˡ :  ∀ {a} →  ⌞ a ⌟ ∙ a  ≈  a
     -- ⌞⌟ is idempotent
-    ⌞⌟-idem : ∀ {a} → ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
+    ⌞⌟-idem :  ∀ {a} →  ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
 
   --------------------------------------------------------------------
   -- Commutative monoid structure
@@ -70,6 +67,8 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     renaming (∙-congʳ to ∙-congˡ; ∙-congˡ to ∙-congʳ) -- Swap ∙-congʳ & ∙-congˡ
   open CommutativeMonoid commutativeMonoid
     using (identityˡ; identityʳ; assoc) renaming (comm to comm')
+
+  open import Shog.Base.Setoid setoid using (_⊆≈_; ⊆≈-refl)
 
   private variable
     a a' b b' c d : Carrier
@@ -129,7 +128,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   ----------------------------------------------------------------------
   -- ≤ is reflexive
 
-  ≈⇒≤ : _≈_ ⇒ _≤_
+  ≈⇒≤ : a ≈ b → a ≤ b
   ≈⇒≤ a≈b = ε , (unitˡ » a≈b)
 
   ≤-refl : a ≤ a
@@ -137,19 +136,19 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   -- ≤ is transitive
 
-  ≤-trans : Transitive _≤_
+  ≤-trans :  a ≤ b  →  b ≤ c  →  a ≤ c
   ≤-trans (d , d∙a≈b) (e , e∙b≈c) = (d ∙ e) ,
     (∙-congˡ comm » assocˡ » ∙-congʳ d∙a≈b » e∙b≈c)
 
   infixr -1 _ᵒ»ᵒ_ _»ᵒ_ _ᵒ»_ -- the same fixity with _$_
 
-  _ᵒ»ᵒ_ : Transitive _≤_
+  _ᵒ»ᵒ_ :  a ≤ b  →  b ≤ c  →  a ≤ c
   _ᵒ»ᵒ_ = ≤-trans
 
-  _»ᵒ_ : a ≈ b → b ≤ c → a ≤ c
+  _»ᵒ_ :  a ≈ b  →  b ≤ c  →  a ≤ c
   a≈b »ᵒ b≤c = ≈⇒≤ a≈b ᵒ»ᵒ b≤c
 
-  _ᵒ»_ : a ≤ b → b ≈ c → a ≤ c
+  _ᵒ»_ :  a ≤ b  →  b ≈ c  →  a ≤ c
   a≤b ᵒ» b≈c = a≤b ᵒ»ᵒ ≈⇒≤ b≈c
 
   ----------------------------------------------------------------------
@@ -160,25 +159,25 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   -- ∙ is increasing
 
-  ∙-incr : a ≤ b ∙ a
+  ∙-incr :  a  ≤  b ∙ a
   ∙-incr = _ , refl
 
   ----------------------------------------------------------------------
   -- Monotonicity of ✓, ∙ and ⌞⌟
 
-  ✓-mono : a ≤ b → ✓ b → ✓ a
+  ✓-mono :  a ≤ b  →  ✓ b  →  ✓ a
   ✓-mono (c , c∙a≈b) ✓b = ✓b |> ✓-resp (sym c∙a≈b) |> ✓-rem
 
-  ∙-monoˡ : a ≤ b → a ∙ c ≤ b ∙ c
+  ∙-monoˡ :  a ≤ b  →  a ∙ c  ≤  b ∙ c
   ∙-monoˡ (d , d∙a≈b) = d , (assocʳ » ∙-congˡ d∙a≈b)
 
-  ∙-monoʳ : a ≤ b → c ∙ a ≤ c ∙ b
+  ∙-monoʳ :  a ≤ b  →  c ∙ a  ≤  c ∙ b
   ∙-monoʳ a≤b = comm »ᵒ ∙-monoˡ a≤b ᵒ» comm
 
-  ∙-mono : a ≤ b → c ≤ d → a ∙ c ≤ b ∙ d
+  ∙-mono :  a ≤ b  →  c ≤ d  →  a ∙ c  ≤  b ∙ d
   ∙-mono a≤b c≤d = ∙-monoˡ a≤b ᵒ»ᵒ ∙-monoʳ c≤d
 
-  ⌞⌟-mono : a ≤ b → ⌞ a ⌟ ≤ ⌞ b ⌟
+  ⌞⌟-mono :  a ≤ b  →  ⌞ a ⌟ ≤ ⌞ b ⌟
   ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add {_} {c}
   ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ = c' , (c'∙⌞a⌟≈⌞c∙a⌟ » ⌞⌟-cong c∙a≈b)
 
@@ -193,68 +192,66 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   -- a ↝ˢ B : a can be updated into b, regardless of the frame c
   _↝ˢ_ : Carrier → (Carrier → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
-  a ↝ˢ B = ∀ c → ✓ (c ∙ a) → ∃[ b ] B b × ✓ (c ∙ b)
+  a ↝ˢ B  =  ∀ c →  ✓ (c ∙ a)  →  ∃[ b ]  B b  ×  ✓ (c ∙ b)
 
   ----------------------------------------------------------------------
   -- ↝ into ↝ˢ
-  ↝⇒↝ˢ : a ↝ b → a ↝ˢ (b ≡_)
+  ↝⇒↝ˢ : a ↝ b  →  a ↝ˢ (b ≡_)
   ↝⇒↝ˢ {b = b} a↝b c ✓c∙a = b , refl' , a↝b c ✓c∙a
 
   ----------------------------------------------------------------------
   -- ↝ respects ≈
 
-  ↝-respʳ : _↝_ Respectsʳ _≈_
-  ↝-respʳ b≈b' a↝b c ✓c∙a = ✓c∙a |> a↝b c |> ✓-resp (∙-congʳ b≈b')
+  ↝-resp :  a ≈ a'  →  b ≈ b'  →  a ↝ b  →  a' ↝ b'
+  ↝-resp a≈a' b≈b' a↝b c ✓c∙a' = ✓c∙a' |>
+    ✓-resp (∙-congʳ $ sym a≈a') |> a↝b c |> ✓-resp (∙-congʳ b≈b')
 
-  ↝-respˡ : _↝_ Respectsˡ _≈_
-  ↝-respˡ a≈a' a↝b c ✓c∙a' = ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a↝b c
+  ↝-respˡ :  a ≈ a'  →  a ↝ b  →  a' ↝ b
+  ↝-respˡ a≈a' = ↝-resp a≈a' refl
 
-  ↝-resp : _↝_ Respects₂ _≈_
-  ↝-resp = ↝-respʳ , ↝-respˡ
+  ↝-respʳ :  b ≈ b'  →  a ↝ b  →  a ↝ b'
+  ↝-respʳ b≈b' = ↝-resp refl b≈b'
 
   -- ↝ˢ respects ≈ and ⊆≈
-  -- We don't use Respects₂ to achieve better level polymorphism
 
-  open import Shog.Base.Setoid setoid using (_⊆≈_; ⊆≈-refl)
-
-  ↝ˢ-resp : a ≈ a' → B ⊆≈ B' → a ↝ˢ B → a' ↝ˢ B'
+  ↝ˢ-resp :  a ≈ a'  →  B ⊆≈ B'  →  a ↝ˢ B  →  a' ↝ˢ B'
   ↝ˢ-resp a≈a' B⊆≈B' a↝ˢB c ✓c∙a'
     with  ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a↝ˢB c
   ... | b , b∈B , ✓c∙b  with  B⊆≈B' b∈B
   ...   | b' , b≈b' , b'∈B'  =  b' , b'∈B' , ✓-resp (∙-congʳ b≈b') ✓c∙b
 
-  ↝ˢ-respˡ : (_↝ˢ B) Respects _≈_
+  ↝ˢ-respˡ :  a ≈ a'  →  a ↝ˢ B  →  a' ↝ˢ B
   ↝ˢ-respˡ a≈a' = ↝ˢ-resp a≈a' ⊆≈-refl
 
-  ↝ˢ-respʳ : B ⊆≈ B' → a ↝ˢ B → a ↝ˢ B'
+  ↝ˢ-respʳ : B ⊆≈ B'  →  a ↝ˢ B  →  a ↝ˢ B'
   ↝ˢ-respʳ = ↝ˢ-resp refl
 
   ----------------------------------------------------------------------
   -- ↝ is reflexive
 
-  ↝-refl : Reflexive _↝_
+  ↝-refl : a ↝ a
   ↝-refl _ = id
 
   -- ↝ is transitive
 
-  ↝-trans : Transitive _↝_
+  ↝-trans :  a ↝ b  →  b ↝ c  →  a ↝ c
   ↝-trans a↝b b↝c d ✓d∙a = ✓d∙a |> a↝b d |> b↝c d
 
   -- ↝ and ↝ˢ can be composed
 
-  ↝-↝ˢ : a ↝ b  →  b ↝ˢ C  → a  ↝ˢ C
+  ↝-↝ˢ :  a ↝ b  →  b ↝ˢ C  →  a ↝ˢ C
   ↝-↝ˢ a↝b b↝ˢC d ✓d∙a = ✓d∙a |> a↝b d |> b↝ˢC d
 
   ----------------------------------------------------------------------
   -- ↝/↝ˢ can be merged with respect to ∙
 
-  ∙-mono-↝ :  a ↝ b  →  c ↝ d  →  a ∙ c ↝ b ∙ d
+  ∙-mono-↝ :  a ↝ b  →  c ↝ d  →  a ∙ c  ↝  b ∙ d
   ∙-mono-↝ a↝b c↝d e ✓e∙a∙c = ✓e∙a∙c |> ✓-resp assocʳ |>
     c↝d _ |> ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |>
     a↝b _ |> ✓-resp (assocˡ » ∙-congʳ comm)
 
-  ∙-mono-↝ˢ : a ↝ˢ B  →  c ↝ˢ D  →
-    (∀ {b d} → b ∈ B → d ∈ D → ∃[ e ] e ≈ b ∙ d × e ∈ E)  →  a ∙ c ↝ˢ E
+  ∙-mono-↝ˢ :  a ↝ˢ B  →  c ↝ˢ D  →
+    (∀ {b d} →  b ∈ B  →  d ∈ D  →  ∃[ e ]  e ≈ b ∙ d  ×  e ∈ E)  →  a ∙ c ↝ˢ E
   ∙-mono-↝ˢ a↝ˢB c↝ˢD BDE f ✓f∙a∙c  with ✓f∙a∙c |> ✓-resp assocʳ |> c↝ˢD _
   ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d |>
     ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |> a↝ˢB _

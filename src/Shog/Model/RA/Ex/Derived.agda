@@ -18,6 +18,6 @@ private variable
 ----------------------------------------------------------------------
 -- Update on #ˣ
 
-#ˣ-↝ : #ˣ a ↝ #ˣ b
+#ˣ-↝ :  #ˣ a  ↝  #ˣ b
 #ˣ-↝ ?ˣ = _
 -- the frame cˣ can only be ?ˣ; otherwise ✓ (cˣ ∙ #ˣ a) does not hold

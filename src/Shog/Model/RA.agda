@@ -57,6 +57,8 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
     ⌞⌟-unitˡ : ∀ {a} → ⌞ a ⌟ ∙ a ≈ a
     -- ⌞⌟ is idempotent
     ⌞⌟-idem : ∀ {a} → ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
+    -- ⌞ ε ⌟ is ε
+    ⌞⌟-ε : ⌞ ε ⌟ ≈ ε
 
   --------------------------------------------------------------------
   -- Commutative monoid structure

@@ -45,3 +45,4 @@ module _ where
   ∀ᴿᴬ .⌞⌟-add = (λ a → Ra˙ a .⌞⌟-add .proj₁) , λ a → Ra˙ a .⌞⌟-add .proj₂
   ∀ᴿᴬ .⌞⌟-unitˡ a = Ra˙ a .⌞⌟-unitˡ
   ∀ᴿᴬ .⌞⌟-idem a = Ra˙ a .⌞⌟-idem
+  ∀ᴿᴬ .⌞⌟-ε a = Ra˙ a .⌞⌟-ε

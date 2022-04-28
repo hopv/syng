@@ -13,13 +13,13 @@ open RA Raˡ using () renaming (Carrier to Carrierˡ;
   commutativeMonoid to commutativeMonoidˡ; refl to reflˡ;
   ✓-resp to ✓ˡ-resp; ✓-rem to ✓ˡ-rem; ⌞⌟-cong to ⌞⌟ˡ-cong;
   ⌞⌟-add to ⌞⌟ˡ-add; ⌞⌟-unitˡ to ⌞⌟ˡ-unitˡ; ⌞⌟-idem to ⌞⌟ˡ-idem;
-  _~>_ to _~>ˡ_; ~>-refl to ~>ˡ-refl)
+  ⌞⌟-ε to ⌞⌟ˡ-ε; _~>_ to _~>ˡ_; ~>-refl to ~>ˡ-refl)
 open RA Raʳ using () renaming (Carrier to Carrierʳ;
   _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_; ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ;
   commutativeMonoid to commutativeMonoidʳ; refl to reflʳ;
   ✓-resp to ✓ʳ-resp; ✓-rem to ✓ʳ-rem; ⌞⌟-cong to ⌞⌟ʳ-cong;
   ⌞⌟-add to ⌞⌟ʳ-add; ⌞⌟-unitˡ to ⌞⌟ʳ-unitˡ; ⌞⌟-idem to ⌞⌟ʳ-idem;
-  _~>_ to _~>ʳ_; ~>-refl to ~>ʳ-refl)
+  ⌞⌟-ε to ⌞⌟ʳ-ε; _~>_ to _~>ʳ_; ~>-refl to ~>ʳ-refl)
 
 open import Level using (_⊔_)
 open import Relation.Binary using (IsEquivalence)
@@ -56,6 +56,7 @@ module _ where
     (b' , y') , (b'∙⌞a⌟≈⌞b∙a⌟ , y'∙⌞x⌟≈⌞y∙x⌟)
   _×ᴿᴬ_ .⌞⌟-unitˡ = ⌞⌟ˡ-unitˡ , ⌞⌟ʳ-unitˡ
   _×ᴿᴬ_ .⌞⌟-idem = ⌞⌟ˡ-idem , ⌞⌟ʳ-idem
+  _×ᴿᴬ_ .⌞⌟-ε = ⌞⌟ˡ-ε , ⌞⌟ʳ-ε
 
 private variable
   a b : Carrierˡ

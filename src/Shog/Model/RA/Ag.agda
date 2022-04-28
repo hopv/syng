@@ -38,6 +38,7 @@ module _ where
   AgRA .⌞⌟-add = _ , ≈ˢ-refl
   AgRA .⌞⌟-unitˡ = ++-≈ˢ-idem _
   AgRA .⌞⌟-idem = ≈ˢ-refl
+  AgRA .⌞⌟-ε = ≈ˢ-refl
 
 open RA AgRA using (_∙_; ✓) renaming (Carrier to AgCar)
 

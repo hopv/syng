@@ -144,6 +144,7 @@ module _ where
   ExRA .⌞⌟-add = ?ˣ , _
   ExRA .⌞⌟-unitˡ {aˣ} = ≈ˣ-refl {aˣ}
   ExRA .⌞⌟-idem = _
+  ExRA .⌞⌟-ε = _
 
 open RA ExRA using (_~>_)
 

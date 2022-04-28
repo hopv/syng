@@ -27,8 +27,8 @@ open RA
 ∀ᴿᴬ .ε i  =  Ra˙ i .ε
 ∀ᴿᴬ .⌞_⌟ a˙ i  =  Ra˙ i .⌞_⌟ (a˙ i)
 ∀ᴿᴬ .isCommutativeMonoid  =  make-IsCommutativeMonoid
-  (λ{ .refl' i → Ra˙ i .refl; .sym' a˙≈b˙ i → Ra˙ i .sym (a˙≈b˙ i);
-    .trans' a˙≈b˙ b˙≈c˙ i → Ra˙ i .trans (a˙≈b˙ i) (b˙≈c˙ i) })
+  (λ{ .refl' i → refl (Ra˙ i) ; .sym' a˙≈b˙ i → sym (Ra˙ i) (a˙≈b˙ i);
+    .trans' a˙≈b˙ b˙≈c˙ i → trans (Ra˙ i) (a˙≈b˙ i) (b˙≈c˙ i) })
   (λ a˙≈b˙ i → ∙-congˡ (Ra˙ i) (a˙≈b˙ i)) (λ _ i → unitˡ (Ra˙ i))
   (λ _ _ i → comm (Ra˙ i)) (λ _ _ _ i → assocˡ (Ra˙ i))
 ∀ᴿᴬ .✓-resp a˙≈b˙ ✓a˙ i  =  Ra˙ i .✓-resp (a˙≈b˙ i) (✓a˙ i)

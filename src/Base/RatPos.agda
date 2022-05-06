@@ -16,7 +16,7 @@ open import Data.Rational.Unnormalised.Base using (
 open import Data.Rational.Unnormalised.Properties using (
   ≃-refl; ≃-sym; ≃-trans; positive⁻¹; +-mono-<; +-cong; +-comm; +-assoc)
 open import Base.Prod using (Σ-syntax; _,_)
-open import Base.Function using (id; _$_)
+open import Base.Func using (id; _$_)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ : Non-negative rationals

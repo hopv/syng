@@ -14,7 +14,7 @@ open import Algebra using (Congruent₂;
   LeftIdentity; Identity; Commutative; Associative;
   IsCommutativeMonoid; CommutativeMonoid)
 open import Base.Prod using (_,_)
-open import Base.Function using (_$_)
+open import Base.Func using (_$_)
 
 -- Convenient names
 open import Algebra renaming (

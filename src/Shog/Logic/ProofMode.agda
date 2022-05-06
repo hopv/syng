@@ -11,7 +11,7 @@ module Shog.Logic.ProofMode where
 
 open import Base.Level using (Level)
 open import Base.Size using (Size; ∞)
-open import Base.Function using (_$_; _∘_)
+open import Base.Func using (_$_; _∘_)
 
 open import Base.NElem using (2-ary)
 open import Shog.Logic.Prop

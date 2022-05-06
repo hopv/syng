@@ -10,7 +10,7 @@ module Shog.Logic.Core (ℓ : Level) where
 open import Base.Level using (sucˡ)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
-open import Base.Function using (_$_; _∘_; it)
+open import Base.Func using (_$_; _∘_; it)
 open import Base.Prod using (_×_; _,_; ∃-syntax)
 open import Base.Sum using (_⊎_; inj₀; inj₁; [_,_])
 open import Base.NElem using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)

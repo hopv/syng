@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Base.Function where
+module Base.Func where
 
 open import Base.Level using (Level)
 

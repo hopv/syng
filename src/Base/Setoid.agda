@@ -9,7 +9,7 @@ module Base.Setoid {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to X)
 
 open import Base.Level using (Level; _⊔ˡ_)
-open import Base.Function using (_∈_)
+open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; ∃-syntax; _,_)
 
 private variable

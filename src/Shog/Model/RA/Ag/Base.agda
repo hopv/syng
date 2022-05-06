@@ -10,7 +10,7 @@ open Setoid S renaming (Carrier to A)
 
 open import Base.Level using (_⊔ˡ_)
 open import Base.Prod using (_,_)
-open import Base.Function using (id; _$_)
+open import Base.Func using (id; _$_)
 open import Data.List.Base using (List; []; _++_)
 open import Data.List.Membership.Setoid S using (_∈_)
 open import Base.ListSet S using (_≈ˢ_; homo;

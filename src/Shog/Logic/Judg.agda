@@ -10,7 +10,7 @@ module Shog.Logic.Judg (ℓ : Level) where
 open import Base.Level using (sucˡ)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
-open import Base.Function using (_∘_)
+open import Base.Func using (_∘_)
 open import Base.Bool using (Bool)
 open import Data.List.Base using (List)
 

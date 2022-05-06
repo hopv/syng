@@ -9,7 +9,7 @@ module Shog.Logic.Supd (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
-open import Base.Function using (_$_)
+open import Base.Func using (_$_)
 
 open import Shog.Logic.Prop ℓ using (Prop'; _∗_; |=>)
 open import Shog.Logic.Judg ℓ public using (

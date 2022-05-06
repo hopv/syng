@@ -45,5 +45,4 @@ save-mono b'≤b R∗P⊢Q = ∗-monoʳ (save-monoˡ b'≤b) » save-monoʳ R∗
 -- Allocating save□, without recursion
 
 save□-alloc : □ (P^ .!) ⊢[ ι ]=>> save□ P^
-save□-alloc {P^ = P^} = ∗⊤-intro » -∗-const »
-  save□-alloc-rec {P^s = [ P^ ]} ᵘ» ∗-elimˡ
+save□-alloc = ∗⊤-intro » -∗-const » save□-alloc-rec {P^s = [ _ ]} ᵘ» ∗-elimˡ

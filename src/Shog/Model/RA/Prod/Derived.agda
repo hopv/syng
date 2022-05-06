@@ -25,32 +25,31 @@ private variable
   a b : Aˡ
   x y : Aʳ
 
---------------------------------------------------------------------------------
--- Congruence on a pair
+abstract
 
-×-congˡ :  a ≈ˡ b  →  (a , x) ≈ (b , x)
-×-congˡ a≈b = a≈b , reflʳ
+  -- Congruence on a pair
 
-×-congʳ :  x ≈ʳ y  →  (a , x) ≈ (a , y)
-×-congʳ x≈y = reflˡ , x≈y
+  ×-congˡ :  a ≈ˡ b  →  (a , x) ≈ (b , x)
+  ×-congˡ a≈b = a≈b , reflʳ
 
---------------------------------------------------------------------------------
--- Injecting an element of a component RA
+  ×-congʳ :  x ≈ʳ y  →  (a , x) ≈ (a , y)
+  ×-congʳ x≈y = reflˡ , x≈y
 
-×-injˡ : Aˡ → A
-×-injˡ a = a , εʳ
+  -- Injecting an element of a component RA
 
-×-injʳ : Aʳ → A
-×-injʳ x = εˡ , x
+  ×-injˡ : Aˡ → A
+  ×-injˡ a = a , εʳ
 
---------------------------------------------------------------------------------
--- Update on _×ᴿᴬ_
+  ×-injʳ : Aʳ → A
+  ×-injʳ x = εˡ , x
 
-×-↝-lift :  a ↝ˡ b  →  x ↝ʳ y  →  (a , x) ↝ (b , y)
-×-↝-lift a↝b x↝y _ (✓c∙a , ✓z∙x) = a↝b _ ✓c∙a , x↝y _ ✓z∙x
+  -- Update on _×ᴿᴬ_
 
-×-↝-liftˡ :  a ↝ˡ b  →  (a , x) ↝ (b , x)
-×-↝-liftˡ a↝b = ×-↝-lift a↝b ↝ʳ-refl
+  ×-↝-lift :  a ↝ˡ b  →  x ↝ʳ y  →  (a , x) ↝ (b , y)
+  ×-↝-lift a↝b x↝y _ (✓c∙a , ✓z∙x) = a↝b _ ✓c∙a , x↝y _ ✓z∙x
 
-×-↝-liftʳ :  x ↝ʳ y  →  (a , x) ↝ (a , y)
-×-↝-liftʳ x↝y = ×-↝-lift ↝ˡ-refl x↝y
+  ×-↝-liftˡ :  a ↝ˡ b  →  (a , x) ↝ (b , x)
+  ×-↝-liftˡ a↝b = ×-↝-lift a↝b ↝ʳ-refl
+
+  ×-↝-liftʳ :  x ↝ʳ y  →  (a , x) ↝ (a , y)
+  ×-↝-liftʳ x↝y = ×-↝-lift ↝ˡ-refl x↝y

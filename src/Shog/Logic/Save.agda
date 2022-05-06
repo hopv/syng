@@ -27,22 +27,24 @@ private variable
   R : Prop' ∞
   b b' : Bool
 
-instance
-  -- save□ P^ is persistent
-  save□-Pers : Pers (save□ P^)
-  save□-Pers .pers = save□-□
+abstract
 
--- save is monotone
+  instance
+    -- save□ P^ is persistent
+    save□-Pers : Pers (save□ P^)
+    save□-Pers .pers = save□-□
 
-save-monoˡ : b' ≤ᵇ b → save b P^ ⊢[ ι ] save b' P^
-save-monoˡ ff≤tt = save-□⇒x
-save-monoˡ ≤ᵇ-refl = refl
+  -- save is monotone
 
-save-mono : {{Basic R}} → b' ≤ᵇ b →
-  R ∗ P^ .! ⊢[< ι ] Q^ .! → R ∗ save b P^ ⊢[ ι ] save b' Q^
-save-mono b'≤b R∗P⊢Q = ∗-monoʳ (save-monoˡ b'≤b) » save-monoʳ R∗P⊢Q
+  save-monoˡ : b' ≤ᵇ b → save b P^ ⊢[ ι ] save b' P^
+  save-monoˡ ff≤tt = save-□⇒x
+  save-monoˡ ≤ᵇ-refl = refl
 
--- Allocating save□, without recursion
+  save-mono : {{Basic R}} → b' ≤ᵇ b →
+    R ∗ P^ .! ⊢[< ι ] Q^ .! → R ∗ save b P^ ⊢[ ι ] save b' Q^
+  save-mono b'≤b R∗P⊢Q = ∗-monoʳ (save-monoˡ b'≤b) » save-monoʳ R∗P⊢Q
 
-save□-alloc : □ (P^ .!) ⊢[ ι ]=>> save□ P^
-save□-alloc = ∗⊤-intro » -∗-const » save□-alloc-rec {P^s = [ _ ]} ᵘ» ∗-elimˡ
+  -- Allocating save□, without recursion
+
+  save□-alloc : □ (P^ .!) ⊢[ ι ]=>> save□ P^
+  save□-alloc = ∗⊤-intro » -∗-const » save□-alloc-rec {P^s = [ _ ]} ᵘ» ∗-elimˡ

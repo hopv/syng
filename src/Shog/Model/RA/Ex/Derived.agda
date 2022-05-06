@@ -15,9 +15,10 @@ open RA ExRA using (_↝_)
 private variable
   a b : A
 
---------------------------------------------------------------------------------
--- Update on #ˣ
+abstract
 
-#ˣ-↝ :  #ˣ a  ↝  #ˣ b
-#ˣ-↝ ?ˣ = _
--- the frame cˣ can only be ?ˣ; otherwise ✓ (cˣ ∙ #ˣ a) does not hold
+  -- Update on #ˣ
+
+  #ˣ-↝ :  #ˣ a  ↝  #ˣ b
+  #ˣ-↝ ?ˣ = _
+  -- the frame cˣ can only be ?ˣ; otherwise ✓ (cˣ ∙ #ˣ a) does not hold

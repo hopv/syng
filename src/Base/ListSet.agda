@@ -27,17 +27,19 @@ private variable
   as bs cs : List Car
   a b : Car
 
---------------------------------------------------------------------------------
--- On ∈ and ++
+abstract
 
-∈-++⁺ˡ : a ∈ as → a ∈ as ++ bs
-∈-++⁺ˡ = ∈-++⁺ˡ' S
+  ------------------------------------------------------------------------------
+  -- On ∈ and ++
 
-∈-++⁺ʳ : ∀ {a as bs} → a ∈ bs → a ∈ as ++ bs
-∈-++⁺ʳ {as = as} = ∈-++⁺ʳ' S as
+  ∈-++⁺ˡ : a ∈ as → a ∈ as ++ bs
+  ∈-++⁺ˡ = ∈-++⁺ˡ' S
 
-∈-++⁻ : a ∈ as ++ bs → a ∈ as ⊎ a ∈ bs
-∈-++⁻ {as = as} a∈as++bs = [ inj₀ , inj₁ ] $ ∈-++⁻' S as a∈as++bs
+  ∈-++⁺ʳ : ∀ {a as bs} → a ∈ bs → a ∈ as ++ bs
+  ∈-++⁺ʳ {as = as} = ∈-++⁺ʳ' S as
+
+  ∈-++⁻ : a ∈ as ++ bs → a ∈ as ⊎ a ∈ bs
+  ∈-++⁻ {as = as} a∈as++bs = [ inj₀ , inj₁ ] $ ∈-++⁻' S as a∈as++bs
 
 --------------------------------------------------------------------------------
 -- ⊆: Inclusion between lists as sets
@@ -46,36 +48,36 @@ infix 4 _⊆_
 _⊆_ : List Car → List Car → Set (ℓ ⊔ˡ ℓ≈)
 as ⊆ bs  =  ∀{a} →  a ∈ as  →  a ∈ bs
 
---------------------------------------------------------------------------------
--- ⊆ is a preorder
+abstract
 
-⊆-refl : as ⊆ as
-⊆-refl = id
+  -- ⊆ is a preorder
 
-⊆-trans :  as ⊆ bs  →  bs ⊆ cs  →  as ⊆ cs
-⊆-trans as⊆bs bs⊆cs = bs⊆cs ∘ as⊆bs
+  ⊆-refl : as ⊆ as
+  ⊆-refl = id
 
---------------------------------------------------------------------------------
--- ++ is the lub w.r.t. ⊆
+  ⊆-trans :  as ⊆ bs  →  bs ⊆ cs  →  as ⊆ cs
+  ⊆-trans as⊆bs bs⊆cs = bs⊆cs ∘ as⊆bs
 
-++-⊆-elim :  ∀ {as bs cs} →  as ⊆ cs  →  bs ⊆ cs  →  as ++ bs  ⊆  cs
-++-⊆-elim as⊆cs bs⊆cs a∈as++bs with ∈-++⁻ a∈as++bs
-... | inj₀ a∈as = as⊆cs a∈as
-... | inj₁ a∈bs = bs⊆cs a∈bs
+  -- ++ is the lub w.r.t. ⊆
 
-++-⊆-introˡ :  as  ⊆  as ++ bs
-++-⊆-introˡ = ∈-++⁺ˡ
+  ++-⊆-elim :  ∀ {as bs cs} →  as ⊆ cs  →  bs ⊆ cs  →  as ++ bs  ⊆  cs
+  ++-⊆-elim as⊆cs bs⊆cs a∈as++bs with ∈-++⁻ a∈as++bs
+  ... | inj₀ a∈as = as⊆cs a∈as
+  ... | inj₁ a∈bs = bs⊆cs a∈bs
 
-++-⊆-introʳ :  as  ⊆  bs ++ as
-++-⊆-introʳ = ∈-++⁺ʳ
+  ++-⊆-introˡ :  as  ⊆  as ++ bs
+  ++-⊆-introˡ = ∈-++⁺ˡ
 
--- More on ++ and  ⊆
+  ++-⊆-introʳ :  as  ⊆  bs ++ as
+  ++-⊆-introʳ = ∈-++⁺ʳ
 
-++-⊆-monoˡ :  as ⊆ bs  →  as ++ cs  ⊆  bs ++ cs
-++-⊆-monoˡ as⊆bs = ++-⊆-elim (⊆-trans as⊆bs ++-⊆-introˡ) ++-⊆-introʳ
+  -- More on ++ and  ⊆
 
-++-⊆-comm :  ∀ as bs →  as ++ bs  ⊆  bs ++ as
-++-⊆-comm as bs = ++-⊆-elim {as} {bs} {bs ++ as} ++-⊆-introʳ ++-⊆-introˡ
+  ++-⊆-monoˡ :  as ⊆ bs  →  as ++ cs  ⊆  bs ++ cs
+  ++-⊆-monoˡ as⊆bs = ++-⊆-elim (⊆-trans as⊆bs ++-⊆-introˡ) ++-⊆-introʳ
+
+  ++-⊆-comm :  ∀ as bs →  as ++ bs  ⊆  bs ++ as
+  ++-⊆-comm as bs = ++-⊆-elim {as} {bs} {bs ++ as} ++-⊆-introʳ ++-⊆-introˡ
 
 --------------------------------------------------------------------------------
 -- ≈ˢ: Equivalece of lists as sets
@@ -84,44 +86,46 @@ infix 4 _≈ˢ_
 _≈ˢ_ : List Car → List Car → Set (ℓ ⊔ˡ ℓ≈)
 as ≈ˢ bs  =  as ⊆ bs  ×  bs ⊆ as
 
---------------------------------------------------------------------------------
--- ≈ˢ is an equivalence relation
+abstract
 
-≈ˢ-refl : as ≈ˢ as
-≈ˢ-refl = ⊆-refl , ⊆-refl
+  -- ≈ˢ is an equivalence relation
 
-≈ˢ-sym :  as ≈ˢ bs  →  bs ≈ˢ as
-≈ˢ-sym (as⊆bs , bs⊆as) = bs⊆as , as⊆bs
+  ≈ˢ-refl : as ≈ˢ as
+  ≈ˢ-refl = ⊆-refl , ⊆-refl
 
-≈ˢ-trans :  as ≈ˢ bs  →  bs ≈ˢ cs  →  as ≈ˢ cs
-≈ˢ-trans (as⊆bs , bs⊆as) (bs⊆cs , cs⊆bs) =
-  ⊆-trans as⊆bs bs⊆cs , ⊆-trans cs⊆bs bs⊆as
+  ≈ˢ-sym :  as ≈ˢ bs  →  bs ≈ˢ as
+  ≈ˢ-sym (as⊆bs , bs⊆as) = bs⊆as , as⊆bs
 
-module _ where
-  open IsEquivalence
-  ≈ˢ-equiv : IsEquivalence _≈ˢ_
-  ≈ˢ-equiv .refl = ≈ˢ-refl
-  ≈ˢ-equiv .sym = ≈ˢ-sym
-  ≈ˢ-equiv .trans = ≈ˢ-trans
+  ≈ˢ-trans :  as ≈ˢ bs  →  bs ≈ˢ cs  →  as ≈ˢ cs
+  ≈ˢ-trans (as⊆bs , bs⊆as) (bs⊆cs , cs⊆bs) =
+    ⊆-trans as⊆bs bs⊆cs , ⊆-trans cs⊆bs bs⊆as
 
---------------------------------------------------------------------------------
--- On ++ and ≈ˢ
+  module _ where
+    open IsEquivalence
+    ≈ˢ-equiv : IsEquivalence _≈ˢ_
+    ≈ˢ-equiv .refl = ≈ˢ-refl
+    ≈ˢ-equiv .sym = ≈ˢ-sym
+    ≈ˢ-equiv .trans = ≈ˢ-trans
 
-++-≈ˢ-congˡ :  as ≈ˢ bs  →  as ++ cs  ≈ˢ  bs ++ cs
-++-≈ˢ-congˡ (as⊆bs , bs⊆as)  =  ++-⊆-monoˡ as⊆bs , ++-⊆-monoˡ bs⊆as
+abstract
 
-++-≈ˢ-comm :  ∀ as bs →  as ++ bs  ≈ˢ  bs ++ as
-++-≈ˢ-comm as bs  =  ++-⊆-comm as bs , ++-⊆-comm bs as
+  -- On ++ and ≈ˢ
 
-++-≈ˢ-assoc :  ∀ as bs cs →  (as ++ bs) ++ cs  ≈ˢ  as ++ (bs ++ cs)
-++-≈ˢ-assoc as bs cs rewrite (++-assoc as bs cs)  =  ≈ˢ-refl
+  ++-≈ˢ-congˡ :  as ≈ˢ bs  →  as ++ cs  ≈ˢ  bs ++ cs
+  ++-≈ˢ-congˡ (as⊆bs , bs⊆as)  =  ++-⊆-monoˡ as⊆bs , ++-⊆-monoˡ bs⊆as
 
-++-≈ˢ-isCommutativeMonoid : IsCommutativeMonoid _≈ˢ_ _++_ []
-++-≈ˢ-isCommutativeMonoid  =  make-IsCommutativeMonoid ≈ˢ-equiv
-  ++-≈ˢ-congˡ (λ _ → ≈ˢ-refl) ++-≈ˢ-comm ++-≈ˢ-assoc
+  ++-≈ˢ-comm :  ∀ as bs →  as ++ bs  ≈ˢ  bs ++ as
+  ++-≈ˢ-comm as bs  =  ++-⊆-comm as bs , ++-⊆-comm bs as
 
-++-≈ˢ-idem :  as ++ as  ≈ˢ  as
-++-≈ˢ-idem  =  ++-⊆-elim ⊆-refl ⊆-refl , ++-⊆-introˡ
+  ++-≈ˢ-assoc :  ∀ as bs cs →  (as ++ bs) ++ cs  ≈ˢ  as ++ (bs ++ cs)
+  ++-≈ˢ-assoc as bs cs rewrite (++-assoc as bs cs)  =  ≈ˢ-refl
+
+  ++-≈ˢ-isCommutativeMonoid : IsCommutativeMonoid _≈ˢ_ _++_ []
+  ++-≈ˢ-isCommutativeMonoid  =  make-IsCommutativeMonoid ≈ˢ-equiv
+    ++-≈ˢ-congˡ (λ _ → ≈ˢ-refl) ++-≈ˢ-comm ++-≈ˢ-assoc
+
+  ++-≈ˢ-idem :  as ++ as  ≈ˢ  as
+  ++-≈ˢ-idem  =  ++-⊆-elim ⊆-refl ⊆-refl , ++-⊆-introˡ
 
 --------------------------------------------------------------------------------
 -- homo: the list is homogeneous as a set
@@ -129,17 +133,16 @@ module _ where
 homo : List Car → Set (ℓ ⊔ˡ ℓ≈)
 homo as  =  ∀ {a b} →  a ∈ as  →  b ∈ as  →  a ≈ b
 
---------------------------------------------------------------------------------
--- On homo
+abstract
 
-homo-[] : homo []
-homo-[] ()
+  homo-[] : homo []
+  homo-[] ()
 
-homo-⊆-resp :  as ⊆ bs  →  homo bs  →  homo as
-homo-⊆-resp as⊆bs homo'bs a∈as b∈as  =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)
+  homo-⊆-resp :  as ⊆ bs  →  homo bs  →  homo as
+  homo-⊆-resp as⊆bs homo'bs a∈as b∈as  =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)
 
-homo-≈ˢ-resp :  as ≈ˢ bs  →  homo as  →  homo bs
-homo-≈ˢ-resp (_ , bs⊆as)  =  homo-⊆-resp bs⊆as
+  homo-≈ˢ-resp :  as ≈ˢ bs  →  homo as  →  homo bs
+  homo-≈ˢ-resp (_ , bs⊆as)  =  homo-⊆-resp bs⊆as
 
-homo-heads2-≈ :  homo (a ∷ b ∷ cs)  →  a ≈ b
-homo-heads2-≈ homo'abcs =  homo'abcs (here refl) (there $ here refl)
+  homo-heads2-≈ :  homo (a ∷ b ∷ cs)  →  a ≈ b
+  homo-heads2-≈ homo'abcs =  homo'abcs (here refl) (there $ here refl)

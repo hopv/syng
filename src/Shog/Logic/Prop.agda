@@ -129,39 +129,40 @@ record Basic (P : Prop' ∞) : Set (sucˡ ℓ) where
   field basic : IsBasic P
 open Basic {{...}}
 
--- For ∀/∃
+abstract
+  -- For ∀/∃
 
--- -- They are not instances, because unfortunately
--- -- Agda can't search a universally quantified instance (∀ a → ...)
+  -- -- They are not instances, because unfortunately
+  -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
-∀-Basic : (∀ a → Basic (P˙ a)) → Basic (∀˙ A P˙)
-∀-Basic ∀Basic .basic = ∀-IsBasic $ λ a → ∀Basic a .basic
+  ∀-Basic : (∀ a → Basic (P˙ a)) → Basic (∀˙ A P˙)
+  ∀-Basic ∀Basic .basic = ∀-IsBasic $ λ a → ∀Basic a .basic
 
-∃-Basic : (∀ a → Basic (P˙ a)) → Basic (∃˙ A P˙)
-∃-Basic ∀Basic .basic = ∃-IsBasic $ λ a → ∀Basic a .basic
+  ∃-Basic : (∀ a → Basic (P˙ a)) → Basic (∃˙ A P˙)
+  ∃-Basic ∀Basic .basic = ∃-IsBasic $ λ a → ∀Basic a .basic
 
-instance
+  instance
 
-  -- For ∧/∨/⊤/⊥
+    -- For ∧/∨/⊤/⊥
 
-  ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ Q)
-  ∧-Basic = ∀-Basic $ 2-ary it it
+    ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ Q)
+    ∧-Basic = ∀-Basic $ 2-ary it it
 
-  ∨-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∨ Q)
-  ∨-Basic = ∃-Basic $ 2-ary it it
+    ∨-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∨ Q)
+    ∨-Basic = ∃-Basic $ 2-ary it it
 
-  ⊤-Basic : Basic ⊤
-  ⊤-Basic = ∀-Basic 0-ary
+    ⊤-Basic : Basic ⊤
+    ⊤-Basic = ∀-Basic 0-ary
 
-  ⊥-Basic : Basic ⊥
-  ⊥-Basic = ∃-Basic 0-ary
+    ⊥-Basic : Basic ⊥
+    ⊥-Basic = ∃-Basic 0-ary
 
-  -- For ∗
+    -- For ∗
 
-  ∗-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∗ Q)
-  ∗-Basic .basic = ∗-IsBasic basic basic
+    ∗-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∗ Q)
+    ∗-Basic .basic = ∗-IsBasic basic basic
 
-  -- For ⌜ ⌝
+    -- For ⌜ ⌝
 
-  ⌜⌝-Basic : Basic ⌜ A ⌝
-  ⌜⌝-Basic = ∃-Basic $ λ _ → ⊤-Basic
+    ⌜⌝-Basic : Basic ⌜ A ⌝
+    ⌜⌝-Basic = ∃-Basic $ λ _ → ⊤-Basic

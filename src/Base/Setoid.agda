@@ -26,14 +26,16 @@ infix 4 _⊆≈_
 _⊆≈_ : (X → Set ℓA) → (X → Set ℓB) → Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓA ⊔ˡ ℓB)
 A ⊆≈ B  = ∀ {a} →  a ∈ A  →  Σ b ,  a ≈ b  ×  b ∈ B
 
--- ⊆≈ is reflexive
+abstract
 
-⊆≈-refl : A ⊆≈ A
-⊆≈-refl {a = a} a∈A = a , refl , a∈A
+  -- ⊆≈ is reflexive
 
--- ⊆≈ is transitive
+  ⊆≈-refl : A ⊆≈ A
+  ⊆≈-refl {a = a} a∈A = a , refl , a∈A
 
-⊆≈-trans : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
-⊆≈-trans A⊆≈B B⊆≈C a∈A with A⊆≈B a∈A
-... | b , a≈b , b∈B with B⊆≈C b∈B
-...   | c , b≈c , c∈C = c , trans a≈b b≈c , c∈C
+  -- ⊆≈ is transitive
+
+  ⊆≈-trans : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
+  ⊆≈-trans A⊆≈B B⊆≈C a∈A with A⊆≈B a∈A
+  ... | b , a≈b , b∈B with B⊆≈C b∈B
+  ...   | c , b≈c , c∈C = c , trans a≈b b≈c , c∈C

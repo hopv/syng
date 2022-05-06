@@ -20,25 +20,27 @@ private variable
   ι : Size
   P Q R : Prop' ∞
 
--- Lifting a thunk sequent into a super update =>>
-^⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q
-^⇒=>> P⊢^Q = ^|=>⇒=>> λ{ .! → P⊢^Q .! » |=>-intro }
+abstract
 
--- Lifting a sequent under |=> into a super update =>>
-|=>⇒=>> : P ⊢[ ι ] |=> Q → P ⊢[ ι ]=>> Q
-|=>⇒=>> P⊢Q = ^|=>⇒=>> λ{ .! → P⊢Q }
+  -- Lifting a thunk sequent into a super update =>>
+  ^⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q
+  ^⇒=>> P⊢^Q = ^|=>⇒=>> λ{ .! → P⊢^Q .! » |=>-intro }
 
--- Lifting a sequent into a super update =>>
-⇒=>> : P ⊢[ ι ] Q → P ⊢[ ι ]=>> Q
-⇒=>> P⊢Q = ^⇒=>> λ{ .! → P⊢Q }
+  -- Lifting a sequent under |=> into a super update =>>
+  |=>⇒=>> : P ⊢[ ι ] |=> Q → P ⊢[ ι ]=>> Q
+  |=>⇒=>> P⊢Q = ^|=>⇒=>> λ{ .! → P⊢Q }
 
--- Modifying the succedent of a super update with a sequent
+  -- Lifting a sequent into a super update =>>
+  ⇒=>> : P ⊢[ ι ] Q → P ⊢[ ι ]=>> Q
+  ⇒=>> P⊢Q = ^⇒=>> λ{ .! → P⊢Q }
 
-infixr -1 _ᵘ»_ -- the same fixity with _$_
+  -- Modifying the succedent of a super update with a sequent
 
-_ᵘ»_ : P ⊢[ ι ]=>> Q → Q ⊢[ ι ] R → P ⊢[ ι ]=>> R
-P⊢=>>Q ᵘ» Q⊢R = P⊢=>>Q ᵘ»ᵘ ⇒=>> Q⊢R
+  infixr -1 _ᵘ»_ -- the same fixity with _$_
 
--- The super update =>> can frame
-=>>-frameʳ : P ⊢[ ι ]=>> Q → P ∗ R ⊢[ ι ]=>> Q ∗ R
-=>>-frameʳ P⊢=>>Q = ∗-comm » =>>-frameˡ P⊢=>>Q ᵘ» ∗-comm
+  _ᵘ»_ : P ⊢[ ι ]=>> Q → Q ⊢[ ι ] R → P ⊢[ ι ]=>> R
+  P⊢=>>Q ᵘ» Q⊢R = P⊢=>>Q ᵘ»ᵘ ⇒=>> Q⊢R
+
+  -- The super update =>> can frame
+  =>>-frameʳ : P ⊢[ ι ]=>> Q → P ∗ R ⊢[ ι ]=>> Q ∗ R
+  =>>-frameʳ P⊢=>>Q = ∗-comm » =>>-frameˡ P⊢=>>Q ᵘ» ∗-comm

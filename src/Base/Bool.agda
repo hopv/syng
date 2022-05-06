@@ -53,6 +53,8 @@ data _≤ᵇ_ : Bool → Bool → Set where
   ≤ᵇ-refl : ∀ {b} → b ≤ᵇ b
 open _≤ᵇ_ public
 
-≤ᵇ-trans : b ≤ᵇ c → c ≤ᵇ d → b ≤ᵇ d
-≤ᵇ-trans ≤ᵇ-refl c≤d = c≤d
-≤ᵇ-trans ff≤tt ≤ᵇ-refl = ff≤tt
+abstract
+
+  ≤ᵇ-trans : b ≤ᵇ c → c ≤ᵇ d → b ≤ᵇ d
+  ≤ᵇ-trans ≤ᵇ-refl c≤d = c≤d
+  ≤ᵇ-trans ff≤tt ≤ᵇ-refl = ff≤tt

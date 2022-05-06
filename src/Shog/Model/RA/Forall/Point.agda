@@ -45,62 +45,62 @@ module _ {i : I} where
     a b : Aⁱ
     b˙ c˙ d˙ : Aᴬ
 
-  ------------------------------------------------------------------------------
-  -- ∀-upd preserves ≈/✓/∙/⌞⌟/↝
+  abstract
 
-  ∀-upd-cong :  a ≈ⁱ b  →  c˙ ≈ᴬ d˙  →  ∀-upd i a c˙ ≈ᴬ ∀-upd i b d˙
-  ∀-upd-cong a≈b c˙≈d˙ j with i ≟ j
-  ... | yes refl⁼ = a≈b
-  ... | no _ = c˙≈d˙ j
+    -- ∀-upd preserves ≈/✓/∙/⌞⌟/↝
 
-  ∀-upd-✓ :  ✓ⁱ a  →  ✓ᴬ b˙  →  ✓ᴬ (∀-upd i a b˙)
-  ∀-upd-✓ ✓a ✓b˙ j with i ≟ j
-  ... | yes refl⁼ = ✓a
-  ... | no _ = ✓b˙ j
+    ∀-upd-cong :  a ≈ⁱ b  →  c˙ ≈ᴬ d˙  →  ∀-upd i a c˙ ≈ᴬ ∀-upd i b d˙
+    ∀-upd-cong a≈b c˙≈d˙ j with i ≟ j
+    ... | yes refl⁼ = a≈b
+    ... | no _ = c˙≈d˙ j
 
-  ∀-upd-∙ :  ∀-upd i a c˙ ∙ᴬ ∀-upd i b d˙  ≈ᴬ  ∀-upd i (a ∙ⁱ b) (c˙ ∙ᴬ d˙)
-  ∀-upd-∙ j with i ≟ j
-  ... | yes refl⁼ = reflⁱ
-  ... | no _ = refl (Ra˙ j)
+    ∀-upd-✓ :  ✓ⁱ a  →  ✓ᴬ b˙  →  ✓ᴬ (∀-upd i a b˙)
+    ∀-upd-✓ ✓a ✓b˙ j with i ≟ j
+    ... | yes refl⁼ = ✓a
+    ... | no _ = ✓b˙ j
 
-  ∀-upd-⌞⌟ :  ⌞ ∀-upd i a b˙ ⌟ᴬ  ≈ᴬ  ∀-upd i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴬ
-  ∀-upd-⌞⌟ j with i ≟ j
-  ... | yes refl⁼ = reflⁱ
-  ... | no _ = refl (Ra˙ j)
+    ∀-upd-∙ :  ∀-upd i a c˙ ∙ᴬ ∀-upd i b d˙  ≈ᴬ  ∀-upd i (a ∙ⁱ b) (c˙ ∙ᴬ d˙)
+    ∀-upd-∙ j with i ≟ j
+    ... | yes refl⁼ = reflⁱ
+    ... | no _ = refl (Ra˙ j)
 
-  ∀-upd-↝ :  a ↝ⁱ b  →  ∀-upd i a c˙ ↝ᴬ ∀-upd i b c˙
-  ∀-upd-↝ a↝ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
-  ... | yes refl⁼ | ✓d˙i∙a = a↝ⁱb (d˙ i) ✓d˙i∙a
-  ... | no _ | ✓d˙j∙ε = ✓d˙j∙ε
+    ∀-upd-⌞⌟ :  ⌞ ∀-upd i a b˙ ⌟ᴬ  ≈ᴬ  ∀-upd i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴬ
+    ∀-upd-⌞⌟ j with i ≟ j
+    ... | yes refl⁼ = reflⁱ
+    ... | no _ = refl (Ra˙ j)
 
-  -- Double updates
+    ∀-upd-↝ :  a ↝ⁱ b  →  ∀-upd i a c˙ ↝ᴬ ∀-upd i b c˙
+    ∀-upd-↝ a↝ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
+    ... | yes refl⁼ | ✓d˙i∙a = a↝ⁱb (d˙ i) ✓d˙i∙a
+    ... | no _ | ✓d˙j∙ε = ✓d˙j∙ε
 
-  ∀-upd-upd : ∀-upd i a (∀-upd i b c˙) ≈ᴬ ∀-upd i a c˙
-  ∀-upd-upd j with i ≟ j
-  ... | yes refl⁼ = reflⁱ
-  ... | no i≢j with i ≟ j -- We need it to simplify ∀-upd i b c˙ j
-  ...   | yes i≡j = 0-ary (i≢j i≡j)
-  ...   | no _ = refl (Ra˙ j)
+    -- Double updates
 
-  ------------------------------------------------------------------------------
-  -- ∀-inj preserves ≈/✓/∙/ε/⌞⌟/↝
+    ∀-upd-upd : ∀-upd i a (∀-upd i b c˙) ≈ᴬ ∀-upd i a c˙
+    ∀-upd-upd j with i ≟ j
+    ... | yes refl⁼ = reflⁱ
+    ... | no i≢j with i ≟ j -- We need it to simplify ∀-upd i b c˙ j
+    ...   | yes i≡j = 0-ary (i≢j i≡j)
+    ...   | no _ = refl (Ra˙ j)
 
-  ∀-inj-cong :  a ≈ⁱ b  →  ∀-inj i a  ≈ᴬ  ∀-inj i b
-  ∀-inj-cong a≈b = ∀-upd-cong a≈b reflᴬ
+    -- ∀-inj preserves ≈/✓/∙/ε/⌞⌟/↝
 
-  ∀-inj-✓ :  ✓ⁱ a  →  ✓ᴬ (∀-inj i a)
-  ∀-inj-✓ ✓a = ∀-upd-✓ ✓a ✓ᴬ-ε
+    ∀-inj-cong :  a ≈ⁱ b  →  ∀-inj i a  ≈ᴬ  ∀-inj i b
+    ∀-inj-cong a≈b = ∀-upd-cong a≈b reflᴬ
 
-  ∀-inj-∙ :  ∀-inj i a ∙ᴬ ∀-inj i b  ≈ᴬ  ∀-inj i (a ∙ⁱ b)
-  ∀-inj-∙ = ∀-upd-∙ »ᴬ ∀-upd-cong reflⁱ unitˡᴬ
+    ∀-inj-✓ :  ✓ⁱ a  →  ✓ᴬ (∀-inj i a)
+    ∀-inj-✓ ✓a = ∀-upd-✓ ✓a ✓ᴬ-ε
 
-  ∀-inj-ε : ∀-inj i εⁱ ≈ᴬ εᴬ
-  ∀-inj-ε j with i ≟ j
-  ... | yes refl⁼ = reflⁱ
-  ... | no _ = refl (Ra˙ j)
+    ∀-inj-∙ :  ∀-inj i a ∙ᴬ ∀-inj i b  ≈ᴬ  ∀-inj i (a ∙ⁱ b)
+    ∀-inj-∙ = ∀-upd-∙ »ᴬ ∀-upd-cong reflⁱ unitˡᴬ
 
-  ∀-inj-⌞⌟ :  ⌞ ∀-inj i a ⌟ᴬ  ≈ᴬ  ∀-inj i ⌞ a ⌟ⁱ
-  ∀-inj-⌞⌟ = ∀-upd-⌞⌟ »ᴬ ∀-upd-cong reflⁱ ⌞⌟ᴬ-ε
+    ∀-inj-ε : ∀-inj i εⁱ ≈ᴬ εᴬ
+    ∀-inj-ε j with i ≟ j
+    ... | yes refl⁼ = reflⁱ
+    ... | no _ = refl (Ra˙ j)
 
-  ∀-inj-↝ :  a ↝ⁱ b  →  ∀-inj i a ↝ᴬ ∀-inj i b
-  ∀-inj-↝ = ∀-upd-↝
+    ∀-inj-⌞⌟ :  ⌞ ∀-inj i a ⌟ᴬ  ≈ᴬ  ∀-inj i ⌞ a ⌟ⁱ
+    ∀-inj-⌞⌟ = ∀-upd-⌞⌟ »ᴬ ∀-upd-cong reflⁱ ⌞⌟ᴬ-ε
+
+    ∀-inj-↝ :  a ↝ⁱ b  →  ∀-inj i a ↝ᴬ ∀-inj i b
+    ∀-inj-↝ = ∀-upd-↝

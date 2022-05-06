@@ -10,7 +10,7 @@ open Setoid S renaming (Carrier to X)
 
 open import Base.Level using (Level; _⊔ˡ_)
 open import Base.Func using (_∈_)
-open import Base.Prod using (_×_; ∃-syntax; _,_)
+open import Base.Prod using (_×_; Σ-syntax; _,_)
 
 private variable
   ℓA ℓB ℓC : Level
@@ -24,7 +24,7 @@ private variable
 infix 4 _⊆≈_
 
 _⊆≈_ : (X → Set ℓA) → (X → Set ℓB) → Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓA ⊔ˡ ℓB)
-A ⊆≈ B  = ∀ {a} →  a ∈ A  →  ∃[ b ]  a ≈ b  ×  b ∈ B
+A ⊆≈ B  = ∀ {a} →  a ∈ A  →  Σ b ,  a ≈ b  ×  b ∈ B
 
 -- ⊆≈ is reflexive
 

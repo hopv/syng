@@ -1,6 +1,6 @@
-----------------------------------------------------------------------
+--------------------------------------------------------------------------------
 -- Defining ∀ᴿᴬ
-----------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
 
@@ -13,7 +13,7 @@ open import Relation.Binary using (IsEquivalence)
 open import Data.Product using (_,_; proj₁; proj₂)
 open import Base.Algebra using (make-IsCommutativeMonoid)
 
-----------------------------------------------------------------------
+--------------------------------------------------------------------------------
 -- ∀ᴿᴬ: Dependent-function resource algebra
 
 open IsEquivalence renaming (refl to refl'; sym to sym'; trans to trans')

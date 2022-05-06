@@ -4,18 +4,18 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Level using (Level)
+open import Base.Level using (Level)
 module Shog.Logic.Core (ℓ : Level) where
 
-open import Level using (suc)
-open import Size using (Size; ∞)
-open import Codata.Thunk using (Thunk; force)
-open import Function.Base using (_$_; _∘_; it)
+open import Base.Level using (sucˡ)
+open import Base.Size using (Size; ∞)
+open import Base.Thunk using (Thunk; !)
+open import Base.Function using (_$_; _∘_; it)
 
 open import Data.Product using (_×_; _,_; ∃-syntax)
 open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])
 
-open import Shog.Base.NElem using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
+open import Base.NElem using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
 open import Shog.Logic.Prop ℓ public using (
   Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
@@ -402,7 +402,7 @@ in□--∗⇒→ = □-intro $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
 ------------------------------------------------------------------------
 -- Pers P : Persistence of a proposition
 
-record Pers (P : Prop' ∞) : Set (suc ℓ) where
+record Pers (P : Prop' ∞) : Set (sucˡ ℓ) where
   -- P can turn into □ P
   field pers : ∀ {ι} → P ⊢[ ι ] □ P
 open Pers {{...}} public

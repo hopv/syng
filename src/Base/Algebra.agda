@@ -4,9 +4,9 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Shog.Base.Algebra where
+module Base.Algebra where
 
-open import Level using (Level)
+open import Base.Level using (Level)
 
 open import Relation.Binary using (IsEquivalence)
 open IsEquivalence
@@ -14,7 +14,7 @@ open import Algebra using (Congruent₂;
   LeftIdentity; Identity; Commutative; Associative;
   IsCommutativeMonoid; CommutativeMonoid)
 open import Data.Product using (_,_)
-open import Function.Base using (_$_)
+open import Base.Function using (_$_)
 
 -- Convenient names
 open import Algebra renaming (

@@ -6,9 +6,9 @@
 
 module Shog.Logic.List where
 
-open import Level using (Level)
-open import Size using (Size; ∞)
-open import Function.Base using (_$_; _∘_; it)
+open import Base.Level using (Level)
+open import Base.Size using (Size; ∞)
+open import Base.Function using (_$_; _∘_; it)
 
 open import Data.List.Base using (List; []; _∷_; _++_)
 open import Data.List.Relation.Binary.Pointwise.Base using (Pointwise; []; _∷_)

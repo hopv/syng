@@ -4,24 +4,23 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Level using (Level)
+open import Base.Level using (Level)
 module Shog.Logic.Prop (ℓ : Level) where
 
-open import Level using (suc)
-open import Size using (Size; ∞)
-open import Codata.Thunk using (Thunk)
-open import Data.Bool.Base using (Bool; true; false)
+open import Base.Level using (sucˡ)
+open import Base.Size using (Size; ∞)
+open import Base.Thunk using (Thunk)
+open import Base.Bool using (Bool; tt; ff)
 open import Data.List.Base using (List; foldr; map)
-open import Function.Base using (_$_; _∘_; it)
-
-open import Shog.Base.NElem using (2-ary; 0-ary)
+open import Base.Function using (_$_; _∘_; it)
+open import Base.NElem using (2-ary; 0-ary)
 
 ----------------------------------------------------------------------
 -- Syntax for the Shog proposition: Prop' ι
 
-data Prop' (ι : Size) : Set (suc ℓ)
+data Prop' (ι : Size) : Set (sucˡ ℓ)
 
-Prop< : Size → Set (suc ℓ)
+Prop< : Size → Set (sucˡ ℓ)
 Prop< ι = Thunk Prop' ι
 
 data Prop' ι where
@@ -95,8 +94,8 @@ P ∨ Q = ∃˙- (2-ary P Q) -- Disjunction
 
 -- exclusive / persistent save token
 savex save□ : Prop< ι → Prop' ι
-savex P^ = save false P^
-save□ P^ = save true P^
+savex P^ = save ff P^
+save□ P^ = save tt P^
 
 ----------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]
@@ -120,13 +119,13 @@ syntax [∗]-map-syntax (λ d → P) ds = [∗] d ∈ ds , P
 
 -- IsBasic P : Predicate
 -- IsBasic P holds when P consists only of ∀, ∃ and ∗
-data IsBasic : Prop' ∞ → Set (suc ℓ) where
+data IsBasic : Prop' ∞ → Set (sucˡ ℓ) where
   ∀-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∀˙ A P˙)
   ∃-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∃˙ A P˙)
   ∗-IsBasic : IsBasic P → IsBasic Q → IsBasic (P ∗ Q)
 
 -- Basic P : Type class wrapping IsBasic P
-record Basic (P : Prop' ∞) : Set (suc ℓ) where
+record Basic (P : Prop' ∞) : Set (sucˡ ℓ) where
   field basic : IsBasic P
 open Basic {{...}}
 

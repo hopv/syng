@@ -8,12 +8,12 @@ open import Relation.Binary using (Setoid)
 module Shog.Model.RA.Ag.Base {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to A)
 
-open import Level using (_⊔_)
+open import Base.Level using (_⊔ˡ_)
 open import Data.Product using (_,_)
-open import Function.Base using (id; _$_)
+open import Base.Function using (id; _$_)
 open import Data.List.Base using (List; []; _++_)
 open import Data.List.Membership.Setoid S using (_∈_)
-open import Shog.Base.ListSet S using (_≈ˢ_; homo;
+open import Base.ListSet S using (_≈ˢ_; homo;
   ≈ˢ-refl; ++-⊆-introʳ; ++-≈ˢ-isCommutativeMonoid; ++-≈ˢ-idem;
   homo-[]; homo-⊆-resp; homo-≈ˢ-resp)
 open import Shog.Model.RA using (RA)
@@ -23,7 +23,7 @@ open RA
 ----------------------------------------------------------------------
 -- AgRA : Agreement resource algebra
 
-AgRA : RA ℓ (ℓ ⊔ ℓ≈) (ℓ ⊔ ℓ≈)
+AgRA : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
 AgRA .Carrier  =  List A
 AgRA ._≈_  =  _≈ˢ_
 AgRA .✓  =  homo

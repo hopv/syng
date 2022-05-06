@@ -6,9 +6,9 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Shog.Base.RatPos where
+module Base.RatPos where
 
-open import Level using (Level)
+open import Base.Level using (Level)
 
 open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; trans)
 open import Data.Rational.Unnormalised.Base using (
@@ -16,7 +16,7 @@ open import Data.Rational.Unnormalised.Base using (
 open import Data.Rational.Unnormalised.Properties using (
   ≃-refl; ≃-sym; ≃-trans; positive⁻¹; +-mono-<; +-cong; +-comm; +-assoc)
 open import Data.Product using (Σ-syntax; _,_)
-open import Function.Base using (id; _$_)
+open import Base.Function using (id; _$_)
 
 ------------------------------------------------------------------------
 -- ℚ⁺ : Non-negative rationals

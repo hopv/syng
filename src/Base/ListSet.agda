@@ -5,10 +5,10 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Relation.Binary using (Setoid)
-module Shog.Base.ListSet {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
+module Base.ListSet {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to Car)
 
-open import Level using (_⊔_; 0ℓ)
+open import Base.Level using (_⊔ˡ_; 0ˡ)
 open import Data.List.Base using (List; _∷_; _++_; [])
 open import Data.List.Properties using (++-assoc)
 open import Data.List.Membership.Setoid S using (_∈_)
@@ -17,10 +17,10 @@ open import Data.List.Membership.Setoid.Properties using ()
 open import Data.List.Relation.Unary.Any using (here; there)
 open import Data.Product using (_×_; _,_)
 open import Data.Sum.Base using (_⊎_; inj₁; inj₂)
-open import Function.Base using (id; _∘_; _$_)
+open import Base.Function using (id; _∘_; _$_)
 open import Relation.Binary using (IsEquivalence)
 open import Algebra using (IsCommutativeMonoid)
-open import Shog.Base.Algebra using (make-IsCommutativeMonoid)
+open import Base.Algebra using (make-IsCommutativeMonoid)
 
 private variable
   as bs cs : List Car
@@ -42,7 +42,7 @@ private variable
 -- ⊆: Inclusion between lists as sets
 
 infix 4 _⊆_
-_⊆_ : List Car → List Car → Set (ℓ ⊔ ℓ≈)
+_⊆_ : List Car → List Car → Set (ℓ ⊔ˡ ℓ≈)
 as ⊆ bs  =  ∀{a} →  a ∈ as  →  a ∈ bs
 
 ----------------------------------------------------------------------
@@ -80,7 +80,7 @@ as ⊆ bs  =  ∀{a} →  a ∈ as  →  a ∈ bs
 -- ≈ˢ: Equivalece of lists as sets
 
 infix 4 _≈ˢ_
-_≈ˢ_ : List Car → List Car → Set (ℓ ⊔ ℓ≈)
+_≈ˢ_ : List Car → List Car → Set (ℓ ⊔ˡ ℓ≈)
 as ≈ˢ bs  =  as ⊆ bs  ×  bs ⊆ as
 
 ----------------------------------------------------------------------
@@ -125,7 +125,7 @@ module _ where
 ----------------------------------------------------------------------
 -- homo: the list is homogeneous as a set
 
-homo : List Car → Set (ℓ ⊔ ℓ≈)
+homo : List Car → Set (ℓ ⊔ˡ ℓ≈)
 homo as  =  ∀ {a b} →  a ∈ as  →  b ∈ as  →  a ≈ b
 
 ----------------------------------------------------------------------

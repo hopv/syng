@@ -5,11 +5,11 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Relation.Binary using (Setoid)
-module Shog.Base.Setoid {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
+module Base.Setoid {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to X)
 
-open import Level using (Level; _⊔_)
-open import Relation.Unary using (_∈_)
+open import Base.Level using (Level; _⊔ˡ_)
+open import Base.Function using (_∈_)
 open import Data.Product using (_×_; ∃-syntax; _,_)
 
 private variable
@@ -23,7 +23,7 @@ private variable
 
 infix 4 _⊆≈_
 
-_⊆≈_ : (X → Set ℓA) → (X → Set ℓB) → Set (ℓ ⊔ ℓ≈ ⊔ ℓA ⊔ ℓB)
+_⊆≈_ : (X → Set ℓA) → (X → Set ℓB) → Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓA ⊔ˡ ℓB)
 A ⊆≈ B  = ∀ {a} →  a ∈ A  →  ∃[ b ]  a ≈ b  ×  b ∈ B
 
 -- ⊆≈ is reflexive

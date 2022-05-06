@@ -9,11 +9,11 @@
 
 module Shog.Logic.ProofMode where
 
-open import Level using (Level)
-open import Size using (Size; ∞)
-open import Function.Base using (_$_; _∘_)
+open import Base.Level using (Level)
+open import Base.Size using (Size; ∞)
+open import Base.Function using (_$_; _∘_)
 
-open import Shog.Base.NElem using (2-ary)
+open import Base.NElem using (2-ary)
 open import Shog.Logic.Prop
 open import Shog.Logic.Core
 

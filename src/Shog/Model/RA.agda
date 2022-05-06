@@ -6,19 +6,18 @@
 
 module Shog.Model.RA where
 
-open import Level using (Level; _⊔_; suc)
+open import Base.Level using (Level; _⊔ˡ_; sucˡ)
 
-open import Relation.Unary using (_∈_)
 open import Relation.Binary.PropositionalEquality using (_≡_)
   renaming (refl to refl')
 open import Algebra using (IsCommutativeMonoid; CommutativeMonoid)
 
-open import Function.Base using (_$_; id; _|>_)
+open import Base.Function using (_$_; id; _▷_; _∈_)
 open import Data.Product using (_×_; _,_; ∃-syntax)
 
 ----------------------------------------------------------------------
 -- Resource algebra (Unital)
-record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
+record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
   --------------------------------------------------------------------
   -- Fields
   infix 4 _≈_
@@ -68,7 +67,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   open CommutativeMonoid commutativeMonoid
     using (identityˡ; identityʳ; assoc) renaming (comm to comm')
 
-  open import Shog.Base.Setoid setoid using (_⊆≈_; ⊆≈-refl)
+  open import Base.Setoid setoid using (_⊆≈_; ⊆≈-refl)
 
   private variable
     a a' b b' c d : Carrier
@@ -123,7 +122,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- ≤: Derived pre-order
 
   infix 4 _≤_
-  _≤_ : Carrier → Carrier → Set (ℓ ⊔ ℓ≈)
+  _≤_ : Carrier → Carrier → Set (ℓ ⊔ˡ ℓ≈)
   a ≤ b  =  ∃[ c ]  c ∙ a  ≈  b
 
   ----------------------------------------------------------------------
@@ -167,7 +166,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- Monotonicity of ✓, ∙ and ⌞⌟
 
   ✓-mono :  a ≤ b  →  ✓ b  →  ✓ a
-  ✓-mono (c , c∙a≈b) ✓b   = ✓b |> ✓-resp (sym c∙a≈b) |> ✓-rem
+  ✓-mono (c , c∙a≈b) ✓b   = ✓b ▷ ✓-resp (sym c∙a≈b) ▷ ✓-rem
 
   ∙-monoˡ :  a ≤ b  →  a ∙ c  ≤  b ∙ c
   ∙-monoˡ (d , d∙a≈b) = d , (assocʳ » ∙-congˡ d∙a≈b)
@@ -188,11 +187,11 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   infix 2 _↝_ _↝ˢ_
 
   -- a ↝ b : a can be updated into b, regardless of the frame c
-  _↝_ : Carrier → Carrier → Set (ℓ ⊔ ℓ✓)
+  _↝_ : Carrier → Carrier → Set (ℓ ⊔ˡ ℓ✓)
   a ↝ b  =  ∀ c →  ✓ (c ∙ a)  →  ✓ (c ∙ b)
 
   -- a ↝ˢ B : a can be updated into b, regardless of the frame c
-  _↝ˢ_ : Carrier → (Carrier → Set ℓB) → Set (ℓ ⊔ ℓ✓ ⊔ ℓB)
+  _↝ˢ_ : Carrier → (Carrier → Set ℓB) → Set (ℓ ⊔ˡ ℓ✓ ⊔ˡ ℓB)
   a ↝ˢ B  =  ∀ c →  ✓ (c ∙ a)  →  ∃[ b ]  b ∈ B  ×  ✓ (c ∙ b)
 
   ----------------------------------------------------------------------
@@ -204,8 +203,8 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- ↝ respects ≈
 
   ↝-resp :  a ≈ a'  →  b ≈ b'  →  a ↝ b  →  a' ↝ b'
-  ↝-resp a≈a' b≈b' a↝b c ✓c∙a' = ✓c∙a' |>
-    ✓-resp (∙-congʳ $ sym a≈a') |> a↝b c |> ✓-resp (∙-congʳ b≈b')
+  ↝-resp a≈a' b≈b' a↝b c ✓c∙a' = ✓c∙a' ▷
+    ✓-resp (∙-congʳ $ sym a≈a') ▷ a↝b c ▷ ✓-resp (∙-congʳ b≈b')
 
   ↝-respˡ :  a ≈ a'  →  a ↝ b  →  a' ↝ b
   ↝-respˡ a≈a' = ↝-resp a≈a' refl
@@ -217,7 +216,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
 
   ↝ˢ-resp :  a ≈ a'  →  B ⊆≈ B'  →  a ↝ˢ B  →  a' ↝ˢ B'
   ↝ˢ-resp a≈a' B⊆≈B' a↝ˢB c ✓c∙a'
-    with  ✓c∙a' |> ✓-resp (∙-congʳ $ sym a≈a') |> a↝ˢB c
+    with  ✓c∙a' ▷ ✓-resp (∙-congʳ $ sym a≈a') ▷ a↝ˢB c
   ... | b , b∈B , ✓c∙b  with  B⊆≈B' b∈B
   ...   | b' , b≈b' , b'∈B'  =  b' , b'∈B' , ✓-resp (∙-congʳ b≈b') ✓c∙b
 
@@ -236,26 +235,26 @@ record RA ℓ ℓ≈ ℓ✓ : Set (suc (ℓ ⊔ ℓ≈ ⊔ ℓ✓)) where
   -- ↝ is transitive
 
   ↝-trans :  a ↝ b  →  b ↝ c  →  a ↝ c
-  ↝-trans a↝b b↝c d ✓d∙a  =  ✓d∙a |> a↝b d |> b↝c d
+  ↝-trans a↝b b↝c d ✓d∙a  =  ✓d∙a ▷ a↝b d ▷ b↝c d
 
   -- ↝ and ↝ˢ can be composed
 
   ↝-↝ˢ :  a ↝ b  →  b ↝ˢ C  →  a ↝ˢ C
-  ↝-↝ˢ a↝b b↝ˢC d ✓d∙a  =  ✓d∙a |> a↝b d |> b↝ˢC d
+  ↝-↝ˢ a↝b b↝ˢC d ✓d∙a  =  ✓d∙a ▷ a↝b d ▷ b↝ˢC d
 
   ----------------------------------------------------------------------
   -- ↝/↝ˢ can be merged with respect to ∙
 
   ∙-mono-↝ :  a ↝ b  →  c ↝ d  →  a ∙ c  ↝  b ∙ d
-  ∙-mono-↝ a↝b c↝d e ✓e∙a∙c  =  ✓e∙a∙c |> ✓-resp assocʳ |>
-    c↝d _ |> ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |>
-    a↝b _ |> ✓-resp (assocˡ » ∙-congʳ comm)
+  ∙-mono-↝ a↝b c↝d e ✓e∙a∙c  =  ✓e∙a∙c ▷ ✓-resp assocʳ ▷
+    c↝d _ ▷ ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) ▷
+    a↝b _ ▷ ✓-resp (assocˡ » ∙-congʳ comm)
 
   ∙-mono-↝ˢ :  a ↝ˢ B  →  c ↝ˢ D  →
     (∀ {b d} →  b ∈ B  →  d ∈ D  →  ∃[ e ]  e ≈ b ∙ d  ×  e ∈ E)  →  a ∙ c ↝ˢ E
-  ∙-mono-↝ˢ a↝ˢB c↝ˢD BDE f ✓f∙a∙c  with ✓f∙a∙c |> ✓-resp assocʳ |> c↝ˢD _
-  ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d |>
-    ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) |> a↝ˢB _
+  ∙-mono-↝ˢ a↝ˢB c↝ˢD BDE f ✓f∙a∙c  with ✓f∙a∙c ▷ ✓-resp assocʳ ▷ c↝ˢD _
+  ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d ▷
+    ✓-resp (assocˡ » ∙-congʳ comm » assocʳ) ▷ a↝ˢB _
   ...   | b , b∈B , ✓f∙d∙b  with  BDE b∈B d∈D
   ...     | e , e≈b∙d , e∈E  =  e , e∈E ,
     ✓-resp (assocˡ » ∙-congʳ $ comm » sym e≈b∙d) ✓f∙d∙b

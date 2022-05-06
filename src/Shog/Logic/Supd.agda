@@ -4,12 +4,12 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Level using (Level)
+open import Base.Level using (Level)
 module Shog.Logic.Supd (ℓ : Level) where
 
-open import Size using (Size; ∞)
-open import Codata.Thunk using (force)
-open import Function.Base using (_$_)
+open import Base.Size using (Size; ∞)
+open import Base.Thunk using (!)
+open import Base.Function using (_$_)
 
 open import Shog.Logic.Prop ℓ using (Prop'; _∗_; |=>)
 open import Shog.Logic.Judg ℓ public using (
@@ -22,15 +22,15 @@ private variable
 
 -- Lifting a thunk sequent into a super update =>>
 ^⇒=>> : P ⊢[< ι ] Q → P ⊢[ ι ]=>> Q
-^⇒=>> P⊢^Q = ^|=>⇒=>> λ{ .force → P⊢^Q .force » |=>-intro }
+^⇒=>> P⊢^Q = ^|=>⇒=>> λ{ .! → P⊢^Q .! » |=>-intro }
 
 -- Lifting a sequent under |=> into a super update =>>
 |=>⇒=>> : P ⊢[ ι ] |=> Q → P ⊢[ ι ]=>> Q
-|=>⇒=>> P⊢Q = ^|=>⇒=>> λ{ .force → P⊢Q }
+|=>⇒=>> P⊢Q = ^|=>⇒=>> λ{ .! → P⊢Q }
 
 -- Lifting a sequent into a super update =>>
 ⇒=>> : P ⊢[ ι ] Q → P ⊢[ ι ]=>> Q
-⇒=>> P⊢Q = ^⇒=>> λ{ .force → P⊢Q }
+⇒=>> P⊢Q = ^⇒=>> λ{ .! → P⊢Q }
 
 -- Modifying the succedent of a super update with a sequent
 

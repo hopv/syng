@@ -4,14 +4,14 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Level using (Level)
+open import Base.Level using (Level)
 module Shog.Logic.Judg (ℓ : Level) where
 
-open import Level using (suc)
-open import Size using (Size; ∞)
-open import Codata.Thunk using (Thunk; force)
-open import Function.Base using (_∘_)
-open import Data.Bool using (Bool)
+open import Base.Level using (sucˡ)
+open import Base.Size using (Size; ∞)
+open import Base.Thunk using (Thunk; !)
+open import Base.Function using (_∘_)
+open import Base.Bool using (Bool)
 open import Data.List.Base using (List)
 
 open import Shog.Logic.Prop ℓ
@@ -20,7 +20,7 @@ open import Shog.Logic.Prop ℓ
 -- Judgment: P ⊢[ ι ]* Jr
 
 -- Result of a judgment
-data JudgRes : Set (suc ℓ) where
+data JudgRes : Set (sucˡ ℓ) where
   -- Just a proposition
   pure : Prop' ∞ → JudgRes
   -- Under the super update
@@ -38,24 +38,24 @@ private variable
   P^s : List (Prop< ∞)
 
 -- Declaring Judg
-data Judg (ι : Size) : Prop' ∞ → JudgRes → Set (suc ℓ)
+data Judg (ι : Size) : Prop' ∞ → JudgRes → Set (sucˡ ℓ)
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
 
 -- General judgment
-_⊢[_]*_ : Prop' ∞ → Size → JudgRes → Set (suc ℓ)
+_⊢[_]*_ : Prop' ∞ → Size → JudgRes → Set (sucˡ ℓ)
 P ⊢[ ι ]* Jr = Judg ι P Jr
 
 -- Sequent
-_⊢[_]_ : Prop' ∞ → Size → Prop' ∞ → Set (suc ℓ)
+_⊢[_]_ : Prop' ∞ → Size → Prop' ∞ → Set (sucˡ ℓ)
 P ⊢[ ι ] Q = P ⊢[ ι ]* pure Q
 
 -- Sequent under thunk
-_⊢[<_]_ : Prop' ∞ → Size → Prop' ∞ → Set (suc ℓ)
+_⊢[<_]_ : Prop' ∞ → Size → Prop' ∞ → Set (sucˡ ℓ)
 P ⊢[< ι ] Q = Thunk (P ⊢[_] Q) ι
 
 -- Super update
-_⊢[_]=>>_ : Prop' ∞ → Size → Prop' ∞ → Set (suc ℓ)
+_⊢[_]=>>_ : Prop' ∞ → Size → Prop' ∞ → Set (sucˡ ℓ)
 P ⊢[ ι ]=>> Q = P ⊢[ ι ]* |=>> Q
 
 infixr -1 _»_ _ᵘ»ᵘ_ -- the same fixity with _$_
@@ -121,14 +121,14 @@ data Judg ι where
   ----------------------------------------------------------------------
   -- The save token can be modified with a thunk sequent
   save-monoʳ : {{Basic R}} →
-    R ∗ P^ .force ⊢[< ι ] Q^ .force → R ∗ save b P^ ⊢[ ι ] save b Q^
+    R ∗ P^ .! ⊢[< ι ] Q^ .! → R ∗ save b P^ ⊢[ ι ] save b Q^
   -- save□ weakens into savex
   save-□⇒x : save□ P^ ⊢[ ι ] savex P^
   -- save□ is persistent
   save□-□ : save□ P^ ⊢[ ι ] □ (save□ P^)
   -- An exclusive save token savex P^ is obtained by allocating P^
-  savex-alloc : P^ .force ⊢[ ι ]=>> savex P^
+  savex-alloc : P^ .! ⊢[ ι ]=>> savex P^
   -- Persistent save tokens save□ P^, ... can be obtained
   -- by allocating □ P^, ... minus the tokens save□ P^, ... themselves
-  save□-alloc-rec : [∗]-map save□ P^s -∗ [∗]-map (λ P^ → □ (P^ .force)) P^s
+  save□-alloc-rec : [∗]-map save□ P^s -∗ [∗]-map (λ P^ → □ (P^ .!)) P^s
                       ⊢[ ι ]=>> [∗]-map save□ P^s

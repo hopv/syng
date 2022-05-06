@@ -8,13 +8,13 @@ open import Relation.Binary using (Setoid)
 module Shog.Model.RA.Ex.Base {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to A)
 
-open import Level using (Level; 0ℓ)
+open import Base.Level using (Level; 0ˡ)
 open import Algebra using (Commutative; Associative)
 open import Relation.Binary using (_Respects_; IsEquivalence)
-open import Function.Base using (id)
+open import Base.Function using (id)
 open import Data.Product using (_,_)
-open import Shog.Base.NElem using (⟨1⟩; ⟨0⟩)
-open import Shog.Base.Algebra using (make-IsCommutativeMonoid)
+open import Base.NElem using (⟨1⟩; ⟨0⟩)
+open import Base.Algebra using (make-IsCommutativeMonoid)
 open import Shog.Model.RA using (RA)
 
 ----------------------------------------------------------------------
@@ -42,7 +42,7 @@ private
   _ ≈ˣ _  =  ⟨0⟩
 
   -- Validity
-  ✓ˣ : Ex → Set 0ℓ
+  ✓ˣ : Ex → Set 0ˡ
   ✓ˣ ↯ˣ  =  ⟨0⟩
   ✓ˣ _  =  ⟨1⟩
 
@@ -119,7 +119,7 @@ private
 
 open RA
 
-ExRA : RA ℓ ℓ≈ 0ℓ
+ExRA : RA ℓ ℓ≈ 0ˡ
 ExRA .Carrier  =  Ex
 ExRA ._≈_  =  _≈ˣ_
 ExRA .✓  =  ✓ˣ

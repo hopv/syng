@@ -1,0 +1,58 @@
+--------------------------------------------------------------------------------
+-- Booleans
+------------------------------------------------------------------------
+
+{-# OPTIONS --without-K --safe #-}
+
+module Base.Bool where
+
+open import Base.Level using (Level)
+
+open import Agda.Builtin.Bool public renaming (true to tt; false to ff)
+
+private variable
+  ℓ : Level
+  A : Set ℓ
+  b c d : Bool
+
+------------------------------------------------------------------------
+-- Boolean operations
+
+not : Bool → Bool
+not tt = ff
+not ff = tt
+
+infixr 6 _&&_
+_&&_ : Bool → Bool → Bool
+tt && b = b
+ff && b = ff
+
+infixr 5 _||_
+_||_ : Bool → Bool → Bool
+tt || b = tt
+ff || b = b
+
+infixr 5 _xor_
+_xor_ : Bool → Bool → Bool
+tt xor b = not b
+ff xor b = b
+
+-- If then else
+infix 0 if_then_else_
+if_then_else_ : Bool → A → A → A
+if tt then aᵗ else aᶠ = aᵗ
+if ff then aᵗ else aᶠ = aᶠ
+
+--------------------------------------------------------------------------------
+-- Comparison
+
+infix 4 _≤ᵇ_
+
+data _≤ᵇ_ : Bool → Bool → Set where
+  ff≤tt : ff ≤ᵇ tt
+  ≤ᵇ-refl : ∀ {b} → b ≤ᵇ b
+open _≤ᵇ_ public
+
+≤ᵇ-trans : b ≤ᵇ c → c ≤ᵇ d → b ≤ᵇ d
+≤ᵇ-trans ≤ᵇ-refl c≤d = c≤d
+≤ᵇ-trans ff≤tt ≤ᵇ-refl = ff≤tt

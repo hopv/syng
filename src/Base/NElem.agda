@@ -4,8 +4,8 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Level using (Level)
-module Shog.Base.NElem where
+open import Base.Level using (Level)
+module Base.NElem where
 
 private variable
   ℓ ℓ' : Level

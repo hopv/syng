@@ -8,10 +8,10 @@ open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Forall.Base {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
   (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) where
 
-open import Level using (_⊔_)
+open import Base.Level using (_⊔ˡ_)
 open import Relation.Binary using (IsEquivalence)
 open import Data.Product using (_,_; proj₁; proj₂)
-open import Shog.Base.Algebra using (make-IsCommutativeMonoid)
+open import Base.Algebra using (make-IsCommutativeMonoid)
 
 ----------------------------------------------------------------------
 -- ∀ᴿᴬ: Dependent-function resource algebra
@@ -19,7 +19,7 @@ open import Shog.Base.Algebra using (make-IsCommutativeMonoid)
 open IsEquivalence renaming (refl to refl'; sym to sym'; trans to trans')
 open RA
 
-∀ᴿᴬ : RA (ℓ' ⊔ ℓ) (ℓ' ⊔ ℓ≈) (ℓ' ⊔ ℓ✓)
+∀ᴿᴬ : RA (ℓ' ⊔ˡ ℓ) (ℓ' ⊔ˡ ℓ≈) (ℓ' ⊔ˡ ℓ✓)
 ∀ᴿᴬ .Carrier  =  ∀ i → Ra˙ i .Carrier
 ∀ᴿᴬ ._≈_ a˙ b˙  =  ∀ i → Ra˙ i ._≈_ (a˙ i) (b˙ i)
 ∀ᴿᴬ .✓ a˙  =  ∀ i → Ra˙ i .✓ (a˙ i)

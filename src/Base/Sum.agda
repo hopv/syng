@@ -21,7 +21,7 @@ data _⊎_ (A : Set ℓA) (B : Set ℓB) : Set (ℓA ⊔ˡ ℓB) where
   inj₁ : B → A ⊎ B
 
 -- Pattern matching on ⊎
-[_,_] : ∀ {F : A ⊎ B → Set ℓF} →
+⊎-case : ∀ {F : A ⊎ B → Set ℓF} →
   (∀ a → F (inj₀ a)) → (∀ b → F (inj₁ b)) → ∀ a/b → F a/b
-[ f , g ] (inj₀ a) = f a
-[ f , g ] (inj₁ b) = g b
+⊎-case f _ (inj₀ a) = f a
+⊎-case _ g (inj₁ b) = g b

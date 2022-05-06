@@ -12,7 +12,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Prod using (_×_; _,_; Σ-syntax)
-open import Base.Sum using (_⊎_; inj₀; inj₁; [_,_])
+open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.NElem using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
 open import Shog.Logic.Prop ℓ public using (
   Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
@@ -213,8 +213,8 @@ private variable
 ⌜⌝-∨-in = ∨-elim (⌜⌝-mono inj₀) (⌜⌝-mono inj₁)
 
 ⌜⌝-∨-out : ⌜ A ⊎ B ⌝ ⊢[ ι ] ⌜ A ⌝ ∨ ⌜ B ⌝
-⌜⌝-∨-out = ⌜⌝-elim
-  [ (λ a → ⌜⌝-intro a » ∨-introˡ) , (λ b → ⌜⌝-intro b » ∨-introʳ) ]
+⌜⌝-∨-out = ⌜⌝-elim $ ⊎-case
+  (λ a → ⌜⌝-intro a » ∨-introˡ) (λ b → ⌜⌝-intro b » ∨-introʳ)
 
 ⌜⊤⌝-intro : P ⊢[ ι ] ⌜ ⟨1⟩ ⌝
 ⌜⊤⌝-intro = ⌜⌝-intro _

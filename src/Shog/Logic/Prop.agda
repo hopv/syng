@@ -13,7 +13,7 @@ open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.NElem using (2-ary; 0-ary)
 open import Base.Bool using (Bool; tt; ff)
-open import Data.List.Base using (List; foldr; map)
+open import Base.List using (List; []; _∷_; map)
 
 --------------------------------------------------------------------------------
 -- Syntax for the Shog proposition: Prop' ι
@@ -101,7 +101,8 @@ save□ P^ = save tt P^
 -- Iterated separating conjunction: [∗]
 
 [∗] : List (Prop' ι) → Prop' ι
-[∗] = foldr _∗_ ⊤
+[∗] [] = ⊤
+[∗] (P ∷ Ps) = P ∗ [∗] Ps
 
 -- [∗] with map
 

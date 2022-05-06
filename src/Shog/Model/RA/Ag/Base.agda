@@ -11,11 +11,10 @@ open Setoid S renaming (Carrier to A)
 open import Base.Level using (_⊔ˡ_)
 open import Base.Prod using (_,_)
 open import Base.Func using (id; _$_)
-open import Data.List.Base using (List; []; _++_)
-open import Data.List.Membership.Setoid S using (_∈_)
-open import Base.ListSet S using (_≈ˢ_; homo;
-  ≈ˢ-refl; ++-⊆-introʳ; ++-≈ˢ-isCommutativeMonoid; ++-≈ˢ-idem;
-  homo-[]; homo-⊆-resp; homo-≈ˢ-resp)
+open import Base.List using (List; []; _++_)
+open import Base.List.Set S using (_≈ˡ_; homo;
+  ≈ˡ-refl; ++-⊆ˡ-introʳ; ++-≈ˡ-isCommutativeMonoid; ++-≈ˡ-idem;
+  homo-[]; homo-⊆ˡ-resp; homo-≈ˡ-resp)
 open import Shog.Model.RA using (RA)
 
 open RA
@@ -25,16 +24,16 @@ open RA
 
 AgRA : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
 AgRA .Carrier  =  List A
-AgRA ._≈_  =  _≈ˢ_
+AgRA ._≈_  =  _≈ˡ_
 AgRA .✓  =  homo
 AgRA ._∙_  =  _++_
 AgRA .ε  =  []
 AgRA .⌞_⌟  =  id
-AgRA .isCommutativeMonoid  =  ++-≈ˢ-isCommutativeMonoid
-AgRA .✓-resp  =  homo-≈ˢ-resp
-AgRA .✓-rem  =  homo-⊆-resp ++-⊆-introʳ
+AgRA .isCommutativeMonoid  =  ++-≈ˡ-isCommutativeMonoid
+AgRA .✓-resp  =  homo-≈ˡ-resp
+AgRA .✓-rem  =  homo-⊆ˡ-resp ++-⊆ˡ-introʳ
 AgRA .✓-ε  =  homo-[]
 AgRA .⌞⌟-cong  =  id
-AgRA .⌞⌟-add  =  _ , ≈ˢ-refl
-AgRA .⌞⌟-unitˡ  =  ++-≈ˢ-idem
-AgRA .⌞⌟-idem  =  ≈ˢ-refl
+AgRA .⌞⌟-add  =  _ , ≈ˡ-refl
+AgRA .⌞⌟-unitˡ  =  ++-≈ˡ-idem
+AgRA .⌞⌟-idem  =  ≈ˡ-refl

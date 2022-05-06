@@ -10,7 +10,7 @@ module Shog.Logic.Save (ℓ : Level) where
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Bool using (Bool; _≤ᵇ_; ff≤tt; ≤ᵇ-refl)
-open import Data.List.Base using ([_])
+open import Base.List using ([_])
 
 open import Shog.Logic.Prop ℓ using (save; savex; save□) public
 open import Shog.Logic.Prop ℓ using (Prop'; Prop<; □; _∗_; Basic)

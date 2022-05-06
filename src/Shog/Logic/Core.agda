@@ -18,7 +18,6 @@ open import Shog.Logic.Prop ℓ public using (
   Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
 
-{-
 open import Shog.Logic.Judg ℓ public using (
   JudgRes; _⊢[_]*_; _⊢[_]_;
   refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ⌜⌝-∀-in; →-intro; →-elim;
@@ -487,4 +486,3 @@ Pers--∗⇒→ = -∗⇒□→ » →-monoˡ pers
 
 |=>-⌜⌝∗-out : |=> (⌜ A ⌝ ∗ P) ⊢[ ι ] ⌜ A ⌝ ∗ |=> P
 |=>-⌜⌝∗-out = |=>-mono ∗⇒∧ » |=>-⌜⌝∧-out » Persˡ-∧⇒∗
--}

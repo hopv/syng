@@ -7,18 +7,16 @@
 
 {-# OPTIONS --sized-types #-}
 
-module Shog.Logic.ProofMode where
-
 open import Base.Level using (Level)
+module Shog.Logic.ProofMode (ℓ : Level) where
+
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _∘_)
 
 open import Base.NElem using (2-ary)
-open import Shog.Logic.Prop
-open import Shog.Logic.Core
+open import Shog.Logic.Core ℓ
 
 private variable
-  ℓ : Level
   ι : Size
   P P' Q Q' R R' S S' T T' U U' V V' : Prop' ∞
   A B : Set ℓ
@@ -26,7 +24,7 @@ private variable
   P˙ Q˙ : A → Prop' ∞
   Jr : JudgRes
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 -- Modifying an element by a sequent
 
 0-mono : P ⊢[ ι ] P' → P ∗ Q ⊢[ ι ] P' ∗ Q
@@ -67,7 +65,7 @@ private variable
   P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V'
 6'-mono = 5'-mono ∘ 1'-mono
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 -- Moving an element to the head
 
 1'⇒0 : P ∗ Q ⊢[ ι ] Q ∗ P
@@ -103,7 +101,7 @@ private variable
 6'⇒0 : P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] V ∗ P ∗ Q ∗ R ∗ S ∗ T ∗ U
 6'⇒0 = 1'-mono 5'⇒0 » 1⇒0
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 -- Moving the head to somewhere
 
 0⇒1' : P ∗ Q ⊢[ ι ] Q ∗ P
@@ -139,7 +137,7 @@ private variable
 0⇒6' : P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ U ∗ V ∗ P
 0⇒6' = 0⇒1 » 1'-mono 0⇒5'
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 -- Operations on the head
 
 -- Eliminated the head

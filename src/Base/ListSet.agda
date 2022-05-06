@@ -17,6 +17,7 @@ open import Data.List.Membership.Setoid.Properties using ()
 open import Data.List.Relation.Unary.Any using (here; there)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Data.Sum using ([_,_])
 open import Base.Func using (id; _∘_; _$_)
 open import Relation.Binary using (IsEquivalence)
 open import Algebra using (IsCommutativeMonoid)
@@ -36,7 +37,7 @@ private variable
 ∈-++⁺ʳ {as = as} = ∈-++⁺ʳ' S as
 
 ∈-++⁻ : a ∈ as ++ bs → a ∈ as ⊎ a ∈ bs
-∈-++⁻ {as = as} = ∈-++⁻' S as
+∈-++⁻ {as = as} a∈as++bs = [ inj₀ , inj₁ ] $ ∈-++⁻' S as a∈as++bs
 
 --------------------------------------------------------------------------------
 -- ⊆: Inclusion between lists as sets

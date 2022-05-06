@@ -10,7 +10,7 @@ module Shog.Model.RA.Forall.Base {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
 
 open import Base.Level using (_⊔ˡ_)
 open import Relation.Binary using (IsEquivalence)
-open import Data.Product using (_,_; proj₁; proj₂)
+open import Base.Prod using (_,_; proj₀; proj₁)
 open import Base.Algebra using (make-IsCommutativeMonoid)
 
 --------------------------------------------------------------------------------
@@ -35,6 +35,6 @@ open RA
 ∀ᴿᴬ .✓-rem ✓b˙∙a˙ i  =  Ra˙ i .✓-rem (✓b˙∙a˙ i)
 ∀ᴿᴬ .✓-ε i  =  Ra˙ i .✓-ε
 ∀ᴿᴬ .⌞⌟-cong a˙≈b˙ i  =  Ra˙ i .⌞⌟-cong (a˙≈b˙ i)
-∀ᴿᴬ .⌞⌟-add  =  (λ i → Ra˙ i .⌞⌟-add .proj₁) , λ i → Ra˙ i .⌞⌟-add .proj₂
+∀ᴿᴬ .⌞⌟-add  =  (λ i → Ra˙ i .⌞⌟-add .proj₀) , λ i → Ra˙ i .⌞⌟-add .proj₁
 ∀ᴿᴬ .⌞⌟-unitˡ i  =  Ra˙ i .⌞⌟-unitˡ
 ∀ᴿᴬ .⌞⌟-idem i  =  Ra˙ i .⌞⌟-idem

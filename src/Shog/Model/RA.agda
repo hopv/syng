@@ -13,7 +13,7 @@ open import Relation.Binary.PropositionalEquality using (_≡_)
 open import Algebra using (IsCommutativeMonoid; CommutativeMonoid)
 
 open import Base.Function using (_$_; id; _▷_; _∈_)
-open import Data.Product using (_×_; _,_; ∃-syntax)
+open import Base.Prod using (_×_; _,_; ∃-syntax)
 
 --------------------------------------------------------------------------------
 -- Resource algebra (Unital)

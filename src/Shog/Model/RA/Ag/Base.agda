@@ -9,7 +9,7 @@ module Shog.Model.RA.Ag.Base {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Carrier to A)
 
 open import Base.Level using (_⊔ˡ_)
-open import Data.Product using (_,_)
+open import Base.Prod using (_,_)
 open import Base.Function using (id; _$_)
 open import Data.List.Base using (List; []; _++_)
 open import Data.List.Membership.Setoid S using (_∈_)

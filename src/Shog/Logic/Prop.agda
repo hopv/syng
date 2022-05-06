@@ -10,10 +10,10 @@ module Shog.Logic.Prop (ℓ : Level) where
 open import Base.Level using (sucˡ)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk)
-open import Base.Bool using (Bool; tt; ff)
-open import Data.List.Base using (List; foldr; map)
 open import Base.Function using (_$_; _∘_; it)
 open import Base.NElem using (2-ary; 0-ary)
+open import Base.Bool using (Bool; tt; ff)
+open import Data.List.Base using (List; foldr; map)
 
 --------------------------------------------------------------------------------
 -- Syntax for the Shog proposition: Prop' ι

@@ -15,7 +15,7 @@ open import Data.Rational.Unnormalised.Base using (
   ℚᵘ; 1ℚᵘ; _≃_; _+_; Positive; positive)
 open import Data.Rational.Unnormalised.Properties using (
   ≃-refl; ≃-sym; ≃-trans; positive⁻¹; +-mono-<; +-cong; +-comm; +-assoc)
-open import Data.Product using (Σ-syntax; _,_)
+open import Base.Prod using (Σ-syntax; _,_)
 open import Base.Function using (id; _$_)
 
 --------------------------------------------------------------------------------

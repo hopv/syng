@@ -17,7 +17,7 @@ open RA Raʳ using () renaming (Carrier to Aʳ;
 
 open import Algebra.Construct.DirectProduct using ()
   renaming (commutativeMonoid to ×-CommutativeMonoid)
-open import Data.Product using (_×_; _,_)
+open import Base.Prod using (_×_; _,_)
 open import Shog.Model.RA.Prod.Base Raˡ Raʳ using (_×ᴿᴬ_)
 open RA _×ᴿᴬ_ using (_≈_; _↝_) renaming (Carrier to A)
 

@@ -10,7 +10,7 @@ open Setoid S renaming (Carrier to X)
 
 open import Base.Level using (Level; _⊔ˡ_)
 open import Base.Function using (_∈_)
-open import Data.Product using (_×_; ∃-syntax; _,_)
+open import Base.Prod using (_×_; ∃-syntax; _,_)
 
 private variable
   ℓA ℓB ℓC : Level

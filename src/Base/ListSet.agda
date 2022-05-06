@@ -15,8 +15,8 @@ open import Data.List.Membership.Setoid S using (_∈_)
 open import Data.List.Membership.Setoid.Properties using ()
   renaming (∈-++⁺ˡ to ∈-++⁺ˡ'; ∈-++⁺ʳ to ∈-++⁺ʳ'; ∈-++⁻ to ∈-++⁻')
 open import Data.List.Relation.Unary.Any using (here; there)
-open import Data.Product using (_×_; _,_)
-open import Data.Sum.Base using (_⊎_; inj₁; inj₂)
+open import Base.Prod using (_×_; _,_)
+open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Function using (id; _∘_; _$_)
 open import Relation.Binary using (IsEquivalence)
 open import Algebra using (IsCommutativeMonoid)
@@ -59,8 +59,8 @@ as ⊆ bs  =  ∀{a} →  a ∈ as  →  a ∈ bs
 
 ++-⊆-elim :  ∀ {as bs cs} →  as ⊆ cs  →  bs ⊆ cs  →  as ++ bs  ⊆  cs
 ++-⊆-elim as⊆cs bs⊆cs a∈as++bs with ∈-++⁻ a∈as++bs
-... | inj₁ a∈as = as⊆cs a∈as
-... | inj₂ a∈bs = bs⊆cs a∈bs
+... | inj₀ a∈as = as⊆cs a∈as
+... | inj₁ a∈bs = bs⊆cs a∈bs
 
 ++-⊆-introˡ :  as  ⊆  as ++ bs
 ++-⊆-introˡ = ∈-++⁺ˡ

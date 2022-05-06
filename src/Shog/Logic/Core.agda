@@ -11,14 +11,14 @@ open import Base.Level using (sucˡ)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Function using (_$_; _∘_; it)
-
-open import Data.Product using (_×_; _,_; ∃-syntax)
-open import Data.Sum.Base using (_⊎_; inj₁; inj₂; [_,_])
-
+open import Base.Prod using (_×_; _,_; ∃-syntax)
+open import Base.Sum using (_⊎_; inj₀; inj₁; [_,_])
 open import Base.NElem using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
 open import Shog.Logic.Prop ℓ public using (
   Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
+
+{-
 open import Shog.Logic.Judg ℓ public using (
   JudgRes; _⊢[_]*_; _⊢[_]_;
   refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ⌜⌝-∀-in; →-intro; →-elim;
@@ -211,7 +211,7 @@ private variable
 ⌜⌝-∧-out = ⌜⌝-elim $ λ (a , b) → ∧-intro (⌜⌝-intro a) (⌜⌝-intro b)
 
 ⌜⌝-∨-in : ⌜ A ⌝ ∨ ⌜ B ⌝ ⊢[ ι ] ⌜ A ⊎ B ⌝
-⌜⌝-∨-in = ∨-elim (⌜⌝-mono inj₁) (⌜⌝-mono inj₂)
+⌜⌝-∨-in = ∨-elim (⌜⌝-mono inj₀) (⌜⌝-mono inj₁)
 
 ⌜⌝-∨-out : ⌜ A ⊎ B ⌝ ⊢[ ι ] ⌜ A ⌝ ∨ ⌜ B ⌝
 ⌜⌝-∨-out = ⌜⌝-elim
@@ -487,3 +487,4 @@ Pers--∗⇒→ = -∗⇒□→ » →-monoˡ pers
 
 |=>-⌜⌝∗-out : |=> (⌜ A ⌝ ∗ P) ⊢[ ι ] ⌜ A ⌝ ∗ |=> P
 |=>-⌜⌝∗-out = |=>-mono ∗⇒∧ » |=>-⌜⌝∧-out » Persˡ-∧⇒∗
+-}

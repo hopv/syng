@@ -26,7 +26,7 @@ open CommutativeMonoid using ()
   renaming (isCommutativeMonoid to isCommutativeMonoid')
 open import Algebra.Construct.DirectProduct using ()
   renaming (commutativeMonoid to ×-CommutativeMonoid)
-open import Data.Product using (_×_; _,_)
+open import Base.Prod using (_×_; _,_)
 
 --------------------------------------------------------------------------------
 -- _×ᴿᴬ_: Product resource algebra

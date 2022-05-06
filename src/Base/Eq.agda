@@ -9,7 +9,8 @@ module Base.Eq where
 open import Base.Level using (Level)
 
 ------------------------------------------------------------------------
--- Equality
+-- ≡: Equality
+
 open import Agda.Builtin.Equality public using (_≡_) renaming (refl to refl⁼)
 
 private variable

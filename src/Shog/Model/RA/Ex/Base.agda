@@ -5,7 +5,7 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Relation.Binary using (Setoid)
-module Shog.Model.RA.Ex.Base {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
+module Shog.Model.RA.Ex.Base {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) {ℓ✓} where
 open Setoid S renaming (Carrier to A)
 
 open import Base.Level using (Level; 0ˡ)
@@ -28,10 +28,9 @@ data Ex : Set ℓ where
   -- invalid
   ↯ˣ : Ex
 
+--------------------------------------------------------------------------------
+-- Internal definitions
 private
-
-  ------------------------------------------------------------------------------
-  -- Internal definitions
 
   -- Equivalence
   infix 4 _≈ˣ_
@@ -42,7 +41,7 @@ private
   _ ≈ˣ _  =  ⟨0⟩
 
   -- Validity
-  ✓ˣ : Ex → Set 0ˡ
+  ✓ˣ : Ex → Set ℓ✓
   ✓ˣ ↯ˣ  =  ⟨0⟩
   ✓ˣ _  =  ⟨1⟩
 
@@ -54,8 +53,9 @@ private
   aˣ ∙ˣ ?ˣ  =  aˣ
   _ ∙ˣ _  =  ↯ˣ
 
-  ------------------------------------------------------------------------------
-  -- Non-trivial lemmas
+--------------------------------------------------------------------------------
+-- Non-trivial lemmas
+private abstract
 
   ≈ˣ-refl :  ∀ aˣ →  aˣ ≈ˣ aˣ
   ≈ˣ-refl ?ˣ  =  _
@@ -119,7 +119,7 @@ private
 
 open RA
 
-ExRA : RA ℓ ℓ≈ 0ˡ
+ExRA : RA ℓ ℓ≈ ℓ✓
 ExRA .Carrier  =  Ex
 ExRA ._≈_  =  _≈ˣ_
 ExRA .✓  =  ✓ˣ

@@ -7,7 +7,6 @@
 module Shog.Model.RA where
 
 open import Base.Level using (Level; _⊔ˡ_; sucˡ)
-
 open import Base.Eq using (_≡_; refl⁼)
 open import Algebra using (IsCommutativeMonoid; CommutativeMonoid)
 open import Base.Func using (_$_; id; _▷_; _∈_)

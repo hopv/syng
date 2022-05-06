@@ -22,7 +22,6 @@ private variable
 -- ⊆≈ : Set inclusion relaxed with ≈
 
 infix 4 _⊆≈_
-
 _⊆≈_ : (X → Set ℓA) → (X → Set ℓB) → Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓA ⊔ˡ ℓB)
 A ⊆≈ B  = ∀ {a} →  a ∈ A  →  Σ b ,  a ≈ b  ×  b ∈ B
 

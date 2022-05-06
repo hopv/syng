@@ -11,6 +11,7 @@ open import Base.Size using (Size; Size<)
 
 --------------------------------------------------------------------------------
 -- Thunk
+
 record Thunk {ℓ : Level} (F : Size → Set ℓ) (ι : Size) : Set ℓ where
   coinductive
   field ! : {ι' : Size< ι} → F ι'

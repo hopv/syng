@@ -18,7 +18,6 @@ open import Base.NElem using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ar
 open import Shog.Logic.Prop ℓ public using (
   Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
-
 open import Shog.Logic.Judg ℓ public using (
   JudgRes; _⊢[_]*_; _⊢[_]_;
   refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ⌜⌝-∀-in; →-intro; →-elim;

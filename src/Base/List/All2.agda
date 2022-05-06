@@ -15,6 +15,7 @@ private variable
 
 --------------------------------------------------------------------------------
 -- Conjunction over pairs of two lists
+
 infixr 5 _∷ᴬ²_
 data All² {A : Set ℓA} {B : Set ℓB} (F : A → B → Set ℓF) :
   List A → List B → Set (ℓA ⊔ˡ ℓB ⊔ˡ ℓF) where

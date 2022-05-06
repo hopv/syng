@@ -8,12 +8,12 @@ open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Prod.Base {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
   (Raˡ : RA ℓˡ ℓ≈ˡ ℓ✓ˡ) (Raʳ : RA ℓʳ ℓ≈ʳ ℓ✓ʳ) where
 
-open RA Raˡ using () renaming (Carrier to Aˡ;
+open RA Raˡ using () renaming (Carrier to A;
   _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
   commutativeMonoid to commutativeMonoidˡ; ✓-resp to ✓ˡ-resp; ✓-rem to ✓ˡ-rem;
   ✓-ε to ✓ˡ-ε; ⌞⌟-cong to ⌞⌟ˡ-cong; ⌞⌟-add to ⌞⌟ˡ-add; ⌞⌟-unitˡ to ⌞⌟ˡ-unitˡ;
   ⌞⌟-idem to ⌞⌟ˡ-idem)
-open RA Raʳ using () renaming (Carrier to Aʳ;
+open RA Raʳ using () renaming (Carrier to X;
   _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_; ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ;
   commutativeMonoid to commutativeMonoidʳ; ✓-resp to ✓ʳ-resp; ✓-rem to ✓ʳ-rem;
   ✓-ε to ✓ʳ-ε; ⌞⌟-cong to ⌞⌟ʳ-cong; ⌞⌟-add to ⌞⌟ʳ-add; ⌞⌟-unitˡ to ⌞⌟ʳ-unitˡ;
@@ -36,7 +36,7 @@ open RA
 
 infixr 2 _×ᴿᴬ_
 _×ᴿᴬ_ : RA (ℓˡ ⊔ˡ ℓʳ) (ℓ≈ˡ ⊔ˡ ℓ≈ʳ) (ℓ✓ˡ ⊔ˡ ℓ✓ʳ)
-_×ᴿᴬ_ .Carrier  =  Aˡ × Aʳ
+_×ᴿᴬ_ .Carrier  =  A × X
 _×ᴿᴬ_ ._≈_ (a , x) (b , y)  =  (a ≈ˡ b) × (x ≈ʳ y)
 _×ᴿᴬ_ .✓ (a , x)  =  ✓ˡ a × ✓ʳ x
 _×ᴿᴬ_ ._∙_ (a , x) (b , y)  =  a ∙ˡ b , x ∙ʳ y

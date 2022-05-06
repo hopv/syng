@@ -8,10 +8,10 @@ open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Prod.Derived {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
   {Raˡ : RA ℓˡ ℓ≈ˡ ℓ✓ˡ} {Raʳ : RA ℓʳ ℓ≈ʳ ℓ✓ʳ} where
 
-open RA Raˡ using () renaming (Carrier to Aˡ;
+open RA Raˡ using () renaming (Carrier to A;
   _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
   refl to reflˡ; _↝_ to _↝ˡ_; ↝-refl to ↝ˡ-refl)
-open RA Raʳ using () renaming (Carrier to Aʳ;
+open RA Raʳ using () renaming (Carrier to X;
   _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_; ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ;
   refl to reflʳ; _↝_ to _↝ʳ_; ↝-refl to ↝ʳ-refl)
 
@@ -19,11 +19,11 @@ open import Algebra.Construct.DirectProduct using ()
   renaming (commutativeMonoid to ×-CommutativeMonoid)
 open import Base.Prod using (_×_; _,_)
 open import Shog.Model.RA.Prod.Base Raˡ Raʳ using (_×ᴿᴬ_)
-open RA _×ᴿᴬ_ using (_≈_; _↝_) renaming (Carrier to A)
+open RA _×ᴿᴬ_ using (_≈_; _↝_) renaming (Carrier to AX)
 
 private variable
-  a b : Aˡ
-  x y : Aʳ
+  a b : A
+  x y : X
 
 abstract
 
@@ -37,10 +37,10 @@ abstract
 
   -- Injecting an element of a component RA
 
-  ×-injˡ : Aˡ → A
+  ×-injˡ : A → AX
   ×-injˡ a = a , εʳ
 
-  ×-injʳ : Aʳ → A
+  ×-injʳ : X → AX
   ×-injʳ x = εˡ , x
 
   -- Update on _×ᴿᴬ_

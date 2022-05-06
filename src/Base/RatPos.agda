@@ -10,7 +10,6 @@ module Base.RatPos where
 
 open import Base.Level using (Level)
 
-open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; trans)
 open import Data.Rational.Unnormalised.Base using (
   ℚᵘ; 1ℚᵘ; _≃_; _+_; Positive; positive)
 open import Data.Rational.Unnormalised.Properties using (

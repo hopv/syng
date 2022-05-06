@@ -8,10 +8,8 @@ module Shog.Model.RA where
 
 open import Base.Level using (Level; _⊔ˡ_; sucˡ)
 
-open import Relation.Binary.PropositionalEquality using (_≡_)
-  renaming (refl to refl')
+open import Base.Eq using (_≡_; refl⁼)
 open import Algebra using (IsCommutativeMonoid; CommutativeMonoid)
-
 open import Base.Func using (_$_; id; _▷_; _∈_)
 open import Base.Prod using (_×_; _,_; ∃-syntax)
 
@@ -197,7 +195,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
   ------------------------------------------------------------------------------
   -- ↝ into ↝ˢ
   ↝⇒↝ˢ : a ↝ b  →  a ↝ˢ (b ≡_)
-  ↝⇒↝ˢ {b = b} a↝b c ✓c∙a = b , refl' , a↝b c ✓c∙a
+  ↝⇒↝ˢ {b = b} a↝b c ✓c∙a = b , refl⁼ , a↝b c ✓c∙a
 
   ------------------------------------------------------------------------------
   -- ↝ respects ≈

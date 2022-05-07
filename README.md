@@ -9,15 +9,15 @@ Thanks to this, Shog has an intuitive model and can much better support
 *termination-sensitive* program reasoning.
 
 Shog is mechanized in [**Agda**](https://agda.readthedocs.io/en/latest/),
-a modern dependently typed programming language,
-using [its standard library](https://github.com/agda/agda-stdlib).
+a modern dependently typed programming language.
 
 ## Installation
 
 1. [Install Agda](https://agda.readthedocs.io/en/latest/getting-started/installation.html).
-2. [Install the standard library](https://github.com/agda/agda-stdlib/blob/master/notes/installation-guide.md).
 
-We have checked that Shog works with Agda 2.6.2.2 and the standard library 1.7.1.
+That's all!
+
+We have checked that Shog works with Agda 2.6.2.2.
 
 ## Learning Agda
 

@@ -2,6 +2,8 @@
 -- Natural number
 --------------------------------------------------------------------------------
 
+{-# OPTIONS --without-K --safe #-}
+
 module Base.Nat where
 
 open import Base.Level using (0ˡ)

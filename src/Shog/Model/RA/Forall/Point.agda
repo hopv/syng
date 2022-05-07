@@ -17,8 +17,8 @@ open import Shog.Model.RA.Forall.Base Ra˙ using (∀ᴿᴬ)
 
 open RA
 open RA ∀ᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓ to ✓ᴬ; _∙_ to _∙ᴬ_;
-  ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl to reflᴬ; _»_ to _»ᴬ_;
-  unitˡ to unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
+  ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _»˜_ to _»ᴬ_;
+  ∙-unitˡ to ∙-unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
 
 --------------------------------------------------------------------------------
 -- Updating an element at some index
@@ -39,7 +39,7 @@ open RA ∀ᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓ to ✓�
 module _ {i : I} where
 
   open RA (Ra˙ i) using () renaming (Car to Aⁱ; _≈_ to _≈ⁱ_; ✓ to ✓ⁱ;
-    _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; refl to reflⁱ; _↝_ to _↝ⁱ_)
+    _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; refl˜ to reflⁱ; _↝_ to _↝ⁱ_)
 
   private variable
     a b : Aⁱ
@@ -62,12 +62,12 @@ module _ {i : I} where
     ∀-upd-∙ :  ∀-upd i a c˙ ∙ᴬ ∀-upd i b d˙  ≈ᴬ  ∀-upd i (a ∙ⁱ b) (c˙ ∙ᴬ d˙)
     ∀-upd-∙ j with i ≟ j
     ... | yes refl⁼ = reflⁱ
-    ... | no _ = refl (Ra˙ j)
+    ... | no _ = Ra˙ j .refl˜
 
     ∀-upd-⌞⌟ :  ⌞ ∀-upd i a b˙ ⌟ᴬ  ≈ᴬ  ∀-upd i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴬ
     ∀-upd-⌞⌟ j with i ≟ j
     ... | yes refl⁼ = reflⁱ
-    ... | no _ = refl (Ra˙ j)
+    ... | no _ = Ra˙ j .refl˜
 
     ∀-upd-↝ :  a ↝ⁱ b  →  ∀-upd i a c˙ ↝ᴬ ∀-upd i b c˙
     ∀-upd-↝ a↝ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
@@ -81,7 +81,7 @@ module _ {i : I} where
     ... | yes refl⁼ = reflⁱ
     ... | no i≢j with i ≟ j -- We need it to simplify ∀-upd i b c˙ j
     ...   | yes i≡j = 0-ary (i≢j i≡j)
-    ...   | no _ = refl (Ra˙ j)
+    ...   | no _ = Ra˙ j .refl˜
 
     -- ∀-inj preserves ≈/✓/∙/ε/⌞⌟/↝
 
@@ -92,12 +92,12 @@ module _ {i : I} where
     ∀-inj-✓ ✓a = ∀-upd-✓ ✓a ✓ᴬ-ε
 
     ∀-inj-∙ :  ∀-inj i a ∙ᴬ ∀-inj i b  ≈ᴬ  ∀-inj i (a ∙ⁱ b)
-    ∀-inj-∙ = ∀-upd-∙ »ᴬ ∀-upd-cong reflⁱ unitˡᴬ
+    ∀-inj-∙ = ∀-upd-∙ »ᴬ ∀-upd-cong reflⁱ ∙-unitˡᴬ
 
     ∀-inj-ε : ∀-inj i εⁱ ≈ᴬ εᴬ
     ∀-inj-ε j with i ≟ j
     ... | yes refl⁼ = reflⁱ
-    ... | no _ = refl (Ra˙ j)
+    ... | no _ = Ra˙ j .refl˜
 
     ∀-inj-⌞⌟ :  ⌞ ∀-inj i a ⌟ᴬ  ≈ᴬ  ∀-inj i ⌞ a ⌟ⁱ
     ∀-inj-⌞⌟ = ∀-upd-⌞⌟ »ᴬ ∀-upd-cong reflⁱ ⌞⌟ᴬ-ε

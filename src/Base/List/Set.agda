@@ -10,11 +10,14 @@ open Setoid S renaming (Car to A)
 
 open import Base.Level using (_⊔ˡ_; 0ˡ)
 open import Base.List using (List; _∷_; []; _++_)
-open import Base.List.Any using (Any; by-hd; by-tl; Any-++-inj₀; Any-++-inj₁;
-  Any-++-case)
+open import Base.List.Any using (Any; by-hd; by-tl;
+  Any-++-inj₀; Any-++-inj₁; Any-++-case;
+  ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁;
+  ¬Any-++-intro; ¬Any-++-elim₀; ¬Any-++-elim₁)
 open import Base.Eq using (_≡_; refl⁼)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Base.Few using (¬)
 open import Base.Func using (id; _∘_; _$_)
 
 private variable
@@ -30,8 +33,7 @@ a ∈ᴸ as = Any (a ≈_) as
 
 abstract
 
-  ------------------------------------------------------------------------------
-  -- On ∈ᴸ and ++
+  -- ∈ᴸ and ++
 
   ∈ᴸ-++-inj₀ : a ∈ᴸ as → a ∈ᴸ as ++ bs
   ∈ᴸ-++-inj₀ = Any-++-inj₀
@@ -41,6 +43,37 @@ abstract
 
   ∈ᴸ-++-case : a ∈ᴸ as ++ bs → a ∈ᴸ as ⊎ a ∈ᴸ bs
   ∈ᴸ-++-case = Any-++-case
+
+--------------------------------------------------------------------------------
+-- ∉ᴸ: Non-containment in a list
+
+infix 4 _∉ᴸ_
+_∉ᴸ_ : A → List A → Set (ℓ ⊔ˡ ℓ≈)
+a ∉ᴸ as = ¬ (a ∈ᴸ as)
+
+abstract
+
+  -- ∉ᴸ and ∷
+
+  ∉ᴸ-∷-intro : a ≉ b → a ∉ᴸ bs → a ∉ᴸ b ∷ bs
+  ∉ᴸ-∷-intro = ¬Any-∷-intro
+
+  ∉ᴸ-∷-elim₀ : a ∉ᴸ b ∷ bs → a ≉ b
+  ∉ᴸ-∷-elim₀ = ¬Any-∷-elim₀
+
+  ∉ᴸ-∷-elim₁ : a ∉ᴸ b ∷ bs → a ∉ᴸ bs
+  ∉ᴸ-∷-elim₁ = ¬Any-∷-elim₁
+
+  -- ∉ᴸ and ++
+
+  ∉ᴸ-++-intro : a ∉ᴸ bs → a ∉ᴸ cs → a ∉ᴸ bs ++ cs
+  ∉ᴸ-++-intro = ¬Any-++-intro
+
+  ∉ᴸ-++-elim₀ : a ∉ᴸ bs ++ cs → a ∉ᴸ bs
+  ∉ᴸ-++-elim₀ = ¬Any-++-elim₀
+
+  ∉ᴸ-++-elim₁ : a ∉ᴸ bs ++ cs → a ∉ᴸ cs
+  ∉ᴸ-++-elim₁ = ¬Any-++-elim₁
 
 --------------------------------------------------------------------------------
 -- ⊆ᴸ: Inclusion between lists as sets

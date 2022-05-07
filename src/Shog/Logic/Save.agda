@@ -11,12 +11,10 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Bool using (Bool; _≤ᵇ_; ff≤tt; ≤ᵇ-refl)
 open import Base.List using ([_])
-
 open import Shog.Logic.Prop ℓ using (Prop'; Prop<; □; _∗_; Basic;
   save; savex; save□)
-open import Shog.Logic.Judg ℓ using (
+open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; refl; _»_;
   save-monoʳ; save-□⇒x; save□-□; savex-alloc; save□-alloc-rec)
-open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; refl; _»_)
 open import Shog.Logic.Core ℓ using (Pers; pers; ∗-monoʳ; ∗-elimˡ; ∗⊤-intro;
   -∗-const)
 open import Shog.Logic.Supd ℓ using (_ᵘ»_)

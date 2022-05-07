@@ -11,7 +11,6 @@ open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.List using (List; []; _∷_; _++_)
 open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
-
 open import Shog.Logic.Prop using ([∗]; _∗_)
 open import Shog.Logic.Core
 

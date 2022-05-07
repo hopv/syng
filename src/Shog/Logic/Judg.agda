@@ -13,7 +13,6 @@ open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_)
 open import Base.Bool using (Bool)
 open import Base.List using (List)
-
 open import Shog.Logic.Prop ℓ
 
 --------------------------------------------------------------------------------

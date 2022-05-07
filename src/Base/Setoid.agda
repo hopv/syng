@@ -8,6 +8,7 @@ module Base.Setoid where
 
 open import Base.Level using (Level; _⊔ˡ_; sucˡ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_)
+open import Base.NElem using (¬)
 open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; Σ-syntax; _,_)
 
@@ -34,7 +35,14 @@ record Setoid ℓ ℓ≈ : Set (sucˡ (ℓ ⊔ˡ ℓ≈)) where
   ≡⇒≈ : a ≡ b → a ≈ b
   ≡⇒≈ refl⁼ = refl˜
 
-  --------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
+  -- ≉: Negation of ≈
+
+  infix 4 _≉_
+  _≉_ : Car → Car → Set ℓ≈
+  a ≉ b = ¬ (a ≈ b)
+
+  ------------------------------------------------------------------------------
   -- ⊆≈ : Set inclusion relaxed with ≈
 
   infix 4 _⊆≈_

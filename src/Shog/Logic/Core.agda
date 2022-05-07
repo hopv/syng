@@ -15,10 +15,10 @@ open import Base.Func using (_$_; _∘_; it)
 open import Base.Prod using (_×_; _,_; Σ-syntax)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.NElem using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
-open import Shog.Logic.Prop ℓ public using (
+open import Shog.Logic.Prop ℓ using (
   Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
-open import Shog.Logic.Judg ℓ public using (
+open import Shog.Logic.Judg ℓ using (
   JudgRes; _⊢[_]*_; _⊢[_]_;
   refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ⌜⌝-∀-in; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;

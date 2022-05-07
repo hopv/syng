@@ -5,11 +5,11 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Base.Setoid using (Setoid)
-module Shog.Model.RA.Ex.Derived {ℓ ℓ≈} {S : Setoid ℓ ℓ≈} {ℓ✓} where
+module Shog.Model.RA.Ex.More {ℓ ℓ≈} {S : Setoid ℓ ℓ≈} {ℓ✓} where
 open Setoid S renaming (Car to A)
 
 open import Shog.Model.RA using (RA)
-open import Shog.Model.RA.Ex.Base S {ℓ✓} using (ExRA; #ˣ; ?ˣ)
+open import Shog.Model.RA.Ex S {ℓ✓} using (ExRA; #ˣ; ?ˣ)
 open RA ExRA using (_↝_)
 
 private variable

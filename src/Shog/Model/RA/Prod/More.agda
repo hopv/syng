@@ -5,11 +5,11 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Shog.Model.RA using (RA)
-module Shog.Model.RA.Prod.Derived {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
+module Shog.Model.RA.Prod.More {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
   {Raˡ : RA ℓˡ ℓ≈ˡ ℓ✓ˡ} {Raʳ : RA ℓʳ ℓ≈ʳ ℓ✓ʳ} where
 
 open import Base.Prod using (_×_; _,_)
-open import Shog.Model.RA.Prod.Base Raˡ Raʳ using (_×ᴿᴬ_)
+open import Shog.Model.RA.Prod Raˡ Raʳ using (_×ᴿᴬ_)
 
 open RA Raˡ using () renaming (Car to A; _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_;
   ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ; _↝_ to _↝ˡ_; refl˜ to reflˡ; ↝-refl to ↝ˡ-refl)

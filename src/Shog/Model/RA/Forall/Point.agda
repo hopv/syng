@@ -13,7 +13,7 @@ module Shog.Model.RA.Forall.Point {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
 open import Base.Eq using (refl⁼)
 open import Base.Dec using (yes; no)
 open import Base.NElem using (0-ary)
-open import Shog.Model.RA.Forall.Base Ra˙ using (∀ᴿᴬ)
+open import Shog.Model.RA.Forall Ra˙ using (∀ᴿᴬ)
 
 open RA
 open RA ∀ᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓ to ✓ᴬ; _∙_ to _∙ᴬ_;

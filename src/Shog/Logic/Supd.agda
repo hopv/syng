@@ -12,9 +12,8 @@ open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 
 open import Shog.Logic.Prop ℓ using (Prop'; _∗_; |=>)
-open import Shog.Logic.Judg ℓ public using (
-  _⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ^|=>⇒=>>; _ᵘ»ᵘ_; =>>-frameˡ)
-open import Shog.Logic.Judg ℓ using (∗-comm; |=>-intro)
+open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ^|=>⇒=>>;
+  _ᵘ»ᵘ_; =>>-frameˡ; ∗-comm; |=>-intro)
 
 private variable
   ι : Size

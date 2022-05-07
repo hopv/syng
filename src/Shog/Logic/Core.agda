@@ -16,7 +16,7 @@ open import Base.Prod using (_×_; _,_; Σ-syntax)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
 open import Shog.Logic.Prop ℓ using (
-  Prop'; ∀˙; ∃˙; ∀˙-; ∃˙-; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
+  Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
 open import Shog.Logic.Judg ℓ using (
   JudgRes; _⊢[_]*_; _⊢[_]_;
@@ -67,10 +67,10 @@ abstract
 
   -- ∀/∃/∧/∨/⊤/⊥ is monotone
 
-  ∀-mono : (∀ a → P˙ a ⊢[ ι ] Q˙ a) → ∀˙- P˙ ⊢[ ι ] ∀˙- Q˙
+  ∀-mono : (∀ a → P˙ a ⊢[ ι ] Q˙ a) → ∀˙ _ P˙ ⊢[ ι ] ∀˙ _ Q˙
   ∀-mono P˙⊢Q˙ = ∀-intro $ λ a → ∀-elim » P˙⊢Q˙ a
 
-  ∃-mono : (∀ a → P˙ a ⊢[ ι ] Q˙ a) → ∃˙- P˙ ⊢[ ι ] ∃˙- Q˙
+  ∃-mono : (∀ a → P˙ a ⊢[ ι ] Q˙ a) → ∃˙ _ P˙ ⊢[ ι ] ∃˙ _ Q˙
   ∃-mono P˙⊢Q˙ = ∃-elim $ λ a → P˙⊢Q˙ a » ∃-intro
 
   ∧-mono : P ⊢[ ι ] Q → R ⊢[ ι ] S → P ∧ R ⊢[ ι ] Q ∧ S
@@ -260,7 +260,7 @@ abstract
 
   -- ∃ can get outside ∗
 
-  ∗-∃-out : P ∗ ∃˙- Q˙ ⊢[ ι ] ∃ a , P ∗ Q˙ a
+  ∗-∃-out : P ∗ ∃˙ _ Q˙ ⊢[ ι ] ∃ a , P ∗ Q˙ a
   ∗-∃-out = -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
 
   -- ∗ can turn into ∧

@@ -46,11 +46,6 @@ private variable
   ℓ' : Level
   D : Set ℓ'
 
--- ∀˙/∃˙ with the set argument implicit
-∀˙- ∃˙- : (A → Prop' ι) → Prop' ι
-∀˙- = ∀˙ _
-∃˙- = ∃˙ _
-
 -- Syntax for ∀/∃
 
 ∀∈-syntax ∃∈-syntax : (A : Set ℓ) → (A → Prop' ι) → Prop' ι
@@ -58,8 +53,8 @@ private variable
 ∃∈-syntax = ∃˙
 
 ∀-syntax ∃-syntax : (A → Prop' ι) → Prop' ι
-∀-syntax = ∀˙-
-∃-syntax = ∃˙-
+∀-syntax = ∀˙ _
+∃-syntax = ∃˙ _
 
 infix 3 ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
 syntax ∀∈-syntax A (λ x → P) = ∀' x ∈ A , P
@@ -75,13 +70,13 @@ infixr 6 _∨_
 
 -- Conjunction ∧ and disjunction ∨
 _∧_ _∨_ : Prop' ι → Prop' ι → Prop' ι
-P ∧ Q = ∀˙- (2-ary P Q) -- Conjunction
-P ∨ Q = ∃˙- (2-ary P Q) -- Disjunction
+P ∧ Q = ∀˙ _ (2-ary P Q) -- Conjunction
+P ∨ Q = ∃˙ _ (2-ary P Q) -- Disjunction
 
 -- Truth ⊤ and falsehood ⊥
 ⊤ ⊥ : Prop' ι
-⊤ = ∀˙- 0-ary -- Truth
-⊥ = ∃˙- 0-ary -- Falsehood
+⊤ = ∀˙ _ 0-ary -- Truth
+⊥ = ∃˙ _ 0-ary -- Falsehood
 
 --------------------------------------------------------------------------------
 -- Set embedding

@@ -5,11 +5,11 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Shog.Model.RA using (RA)
-module Shog.Model.RA.Prod.Derived {ℓˡ ℓ≈ᴸ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
-  {Raˡ : RA ℓˡ ℓ≈ᴸ ℓ✓ˡ} {Raʳ : RA ℓʳ ℓ≈ʳ ℓ✓ʳ} where
+module Shog.Model.RA.Prod.Derived {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
+  {Raˡ : RA ℓˡ ℓ≈ˡ ℓ✓ˡ} {Raʳ : RA ℓʳ ℓ≈ʳ ℓ✓ʳ} where
 
 open RA Raˡ using () renaming (Carrier to A;
-  _≈_ to _≈ᴸ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
+  _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_; ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ;
   refl to reflˡ; _↝_ to _↝ˡ_; ↝-refl to ↝ˡ-refl)
 open RA Raʳ using () renaming (Carrier to X;
   _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_; ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ;
@@ -29,7 +29,7 @@ abstract
 
   -- Congruence on a pair
 
-  ×-congˡ :  a ≈ᴸ b  →  (a , x) ≈ (b , x)
+  ×-congˡ :  a ≈ˡ b  →  (a , x) ≈ (b , x)
   ×-congˡ a≈b = a≈b , reflʳ
 
   ×-congʳ :  x ≈ʳ y  →  (a , x) ≈ (a , y)

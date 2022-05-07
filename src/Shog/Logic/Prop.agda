@@ -127,7 +127,7 @@ data IsBasic : Prop' ∞ → Set (sucˡ ℓ) where
 -- Basic : Type class wrapping IsBasic
 record Basic (P : Prop' ∞) : Set (sucˡ ℓ) where
   field basic : IsBasic P
-open Basic {{...}}
+open Basic {{...}} public
 
 abstract
   -- For ∀/∃

@@ -4,17 +4,14 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Relation.Binary using (Setoid)
+open import Base.Setoid using (Setoid)
 module Shog.Model.RA.Ex.Base {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) {ℓ✓} where
-open Setoid S renaming (Carrier to A)
+open Setoid S renaming (Car to A)
 
 open import Base.Level using (Level; 0ˡ)
-open import Algebra using (Commutative; Associative)
-open import Relation.Binary using (_Respects_; IsEquivalence)
 open import Base.Func using (id)
 open import Base.Prod using (_,_)
 open import Base.NElem using (⟨1⟩; ⟨0⟩)
-open import Base.Algebra using (make-IsCommutativeMonoid)
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------
@@ -60,24 +57,17 @@ private abstract
   ≈ˣ-refl :  ∀ aˣ →  aˣ ≈ˣ aˣ
   ≈ˣ-refl ?ˣ  =  _
   ≈ˣ-refl ↯ˣ  =  _
-  ≈ˣ-refl (#ˣ _)  =  refl
+  ≈ˣ-refl (#ˣ _)  =  refl˜
 
   ≈ˣ-sym :  ∀ aˣ bˣ →  aˣ ≈ˣ bˣ  →  bˣ ≈ˣ aˣ
   ≈ˣ-sym ?ˣ ?ˣ  =  _
   ≈ˣ-sym ↯ˣ ↯ˣ  =  _
-  ≈ˣ-sym (#ˣ _) (#ˣ _)  =  sym
+  ≈ˣ-sym (#ˣ _) (#ˣ _)  =  sym˜
 
   ≈ˣ-trans :  ∀ aˣ bˣ cˣ →  aˣ ≈ˣ bˣ  →  bˣ ≈ˣ cˣ  →  aˣ ≈ˣ cˣ
   ≈ˣ-trans ?ˣ ?ˣ ?ˣ  =  _
   ≈ˣ-trans ↯ˣ ↯ˣ ↯ˣ  =  _
-  ≈ˣ-trans (#ˣ _) (#ˣ _) (#ˣ _)  =  trans
-
-  module _ where
-    open IsEquivalence
-    ≈ˣ-equiv : IsEquivalence _≈ˣ_
-    ≈ˣ-equiv .refl {aˣ}  =  ≈ˣ-refl aˣ
-    ≈ˣ-equiv .sym {aˣ} {bˣ}  =  ≈ˣ-sym aˣ bˣ
-    ≈ˣ-equiv .trans {aˣ} {bˣ} {cˣ}  =  ≈ˣ-trans aˣ bˣ cˣ
+  ≈ˣ-trans (#ˣ _) (#ˣ _) (#ˣ _)  =  _»˜_
 
   ∙ˣ-congˡ :  ∀ aˣ bˣ cˣ →  aˣ ≈ˣ bˣ  →  aˣ ∙ˣ cˣ  ≈ˣ  bˣ ∙ˣ cˣ
   ∙ˣ-congˡ ?ˣ ?ˣ cˣ _  =  ≈ˣ-refl cˣ
@@ -89,22 +79,22 @@ private abstract
   ∙ˣ-comm :  ∀ aˣ bˣ →  aˣ ∙ˣ bˣ  ≈ˣ  bˣ ∙ˣ aˣ
   ∙ˣ-comm ?ˣ ?ˣ  =  _
   ∙ˣ-comm ?ˣ ↯ˣ  =  _
-  ∙ˣ-comm ?ˣ (#ˣ _)  =  refl
+  ∙ˣ-comm ?ˣ (#ˣ _)  =  refl˜
   ∙ˣ-comm ↯ˣ ?ˣ  =  _
   ∙ˣ-comm ↯ˣ ↯ˣ  =  _
   ∙ˣ-comm ↯ˣ (#ˣ _)  =  _
-  ∙ˣ-comm (#ˣ _) ?ˣ  =  refl
+  ∙ˣ-comm (#ˣ _) ?ˣ  =  refl˜
   ∙ˣ-comm (#ˣ _) ↯ˣ  =  _
   ∙ˣ-comm (#ˣ _) (#ˣ _)  =  _
 
-  ∙ˣ-assoc :  ∀ aˣ bˣ cˣ →  (aˣ ∙ˣ bˣ) ∙ˣ cˣ  ≈ˣ  aˣ ∙ˣ (bˣ ∙ˣ cˣ)
-  ∙ˣ-assoc ?ˣ aˣ bˣ  =  ≈ˣ-refl (aˣ ∙ˣ bˣ)
-  ∙ˣ-assoc ↯ˣ _ _  =  _
-  ∙ˣ-assoc (#ˣ a) ?ˣ bˣ  =  ≈ˣ-refl (#ˣ a ∙ˣ bˣ)
-  ∙ˣ-assoc (#ˣ _) ↯ˣ bˣ  =  _
-  ∙ˣ-assoc (#ˣ _) (#ˣ _) ?ˣ  =  _
-  ∙ˣ-assoc (#ˣ _) (#ˣ _) ↯ˣ  =  _
-  ∙ˣ-assoc (#ˣ _) (#ˣ _) (#ˣ _)  =  _
+  ∙ˣ-assocˡ :  ∀ aˣ bˣ cˣ →  (aˣ ∙ˣ bˣ) ∙ˣ cˣ  ≈ˣ  aˣ ∙ˣ (bˣ ∙ˣ cˣ)
+  ∙ˣ-assocˡ ?ˣ aˣ bˣ  =  ≈ˣ-refl (aˣ ∙ˣ bˣ)
+  ∙ˣ-assocˡ ↯ˣ _ _  =  _
+  ∙ˣ-assocˡ (#ˣ a) ?ˣ bˣ  =  ≈ˣ-refl (#ˣ a ∙ˣ bˣ)
+  ∙ˣ-assocˡ (#ˣ _) ↯ˣ bˣ  =  _
+  ∙ˣ-assocˡ (#ˣ _) (#ˣ _) ?ˣ  =  _
+  ∙ˣ-assocˡ (#ˣ _) (#ˣ _) ↯ˣ  =  _
+  ∙ˣ-assocˡ (#ˣ _) (#ˣ _) (#ˣ _)  =  _
 
   ✓ˣ-resp :  ∀ aˣ bˣ →  aˣ ≈ˣ bˣ  →  ✓ˣ aˣ  →  ✓ˣ bˣ
   ✓ˣ-resp ?ˣ ?ˣ _ _  =  _
@@ -120,14 +110,19 @@ private abstract
 open RA
 
 ExRA : RA ℓ ℓ≈ ℓ✓
-ExRA .Carrier  =  Ex
+ExRA .Car  =  Ex
 ExRA ._≈_  =  _≈ˣ_
 ExRA .✓  =  ✓ˣ
 ExRA ._∙_  =  _∙ˣ_
 ExRA .ε  =  ?ˣ
 ExRA .⌞_⌟ _  =  ?ˣ
-ExRA .isCommutativeMonoid  =  make-IsCommutativeMonoid ≈ˣ-equiv
-  (λ {cˣ} {aˣ} {bˣ} → ∙ˣ-congˡ aˣ bˣ cˣ) ≈ˣ-refl ∙ˣ-comm ∙ˣ-assoc
+ExRA .refl˜ {aˣ}  =  ≈ˣ-refl aˣ
+ExRA .sym˜ {aˣ}  =  ≈ˣ-sym aˣ _
+ExRA ._»˜_ {aˣ}  =  ≈ˣ-trans aˣ _ _
+ExRA .∙-congˡ {aˣ}  =  ∙ˣ-congˡ aˣ _ _
+ExRA .∙-unitˡ {aˣ}  =  ≈ˣ-refl aˣ
+ExRA .∙-comm {aˣ}  =  ∙ˣ-comm aˣ _
+ExRA .∙-assocˡ {aˣ}  =  ∙ˣ-assocˡ aˣ _ _
 ExRA .✓-resp  =  ✓ˣ-resp _ _
 ExRA .✓-rem {aˣ} {bˣ}  =  ✓ˣ-rem aˣ bˣ
 ExRA .✓-ε  =  _

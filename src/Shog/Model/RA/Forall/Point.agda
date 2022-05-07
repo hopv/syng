@@ -16,21 +16,21 @@ open import Base.NElem using (0-ary)
 open import Shog.Model.RA.Forall.Base Ra˙ using (∀ᴿᴬ)
 
 open RA
-open RA ∀ᴿᴬ using () renaming (Carrier to Aᴬ; _≈_ to _≈ᴬ_; ✓ to ✓ᴬ; _∙_ to _∙ᴬ_;
+open RA ∀ᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓ to ✓ᴬ; _∙_ to _∙ᴬ_;
   ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl to reflᴬ; _»_ to _»ᴬ_;
   unitˡ to unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
 
 --------------------------------------------------------------------------------
 -- Updating an element at some index
 
-∀-upd : ∀ i → Ra˙ i .Carrier → Aᴬ → Aᴬ
+∀-upd : ∀ i → Ra˙ i .Car → Aᴬ → Aᴬ
 ∀-upd i a b˙ j with i ≟ j
 ... | yes refl⁼ = a
 ... | no _ = b˙ j
 
 -- Injecting an element of a component RA
 
-∀-inj : ∀ i → Ra˙ i .Carrier → Aᴬ
+∀-inj : ∀ i → Ra˙ i .Car → Aᴬ
 ∀-inj i a = ∀-upd i a εᴬ
 
 --------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ open RA ∀ᴿᴬ using () renaming (Carrier to Aᴬ; _≈_ to _≈ᴬ_; ✓ to 
 
 module _ {i : I} where
 
-  open RA (Ra˙ i) using () renaming (Carrier to Aⁱ; _≈_ to _≈ⁱ_; ✓ to ✓ⁱ;
+  open RA (Ra˙ i) using () renaming (Car to Aⁱ; _≈_ to _≈ⁱ_; ✓ to ✓ⁱ;
     _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; refl to reflⁱ; _↝_ to _↝ⁱ_)
 
   private variable

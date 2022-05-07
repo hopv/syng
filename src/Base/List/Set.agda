@@ -4,21 +4,18 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Relation.Binary using (Setoid)
+open import Base.Setoid using (Setoid)
 module Base.List.Set {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
-open Setoid S renaming (Carrier to A)
+open Setoid S renaming (Car to A)
 
 open import Base.Level using (_⊔ˡ_; 0ˡ)
-open import Base.List using (List; _∷_; []; _++_; ++-assoc)
+open import Base.List using (List; _∷_; []; _++_)
 open import Base.List.Any using (Any; by-hd; by-tl; Any-++-inj₀; Any-++-inj₁;
   Any-++-case)
 open import Base.Eq using (_≡_; refl⁼)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Func using (id; _∘_; _$_)
-open import Relation.Binary using (IsEquivalence)
-open import Algebra using (IsCommutativeMonoid)
-open import Base.Algebra using (make-IsCommutativeMonoid)
 
 private variable
   as bs cs : List A
@@ -78,10 +75,11 @@ abstract
   -- More on ++ and  ⊆ᴸ
 
   ++-monoˡ :  as ⊆ᴸ bs  →  as ++ cs  ⊆ᴸ  bs ++ cs
-  ++-monoˡ as⊆bs = ++-⊆ᴸ-elim (⊆ᴸ-trans as⊆bs ++-⊆ᴸ-introˡ) ++-⊆ᴸ-introʳ
+  ++-monoˡ as⊆bs  =  ++-⊆ᴸ-elim (⊆ᴸ-trans as⊆bs ++-⊆ᴸ-introˡ) ++-⊆ᴸ-introʳ
 
-  ++-⊆ᴸ-comm :  ∀ as bs →  as ++ bs  ⊆ᴸ  bs ++ as
-  ++-⊆ᴸ-comm as bs = ++-⊆ᴸ-elim {as} {bs} {bs ++ as} ++-⊆ᴸ-introʳ ++-⊆ᴸ-introˡ
+  ++-⊆ᴸ-comm :  as ++ bs  ⊆ᴸ  bs ++ as
+  ++-⊆ᴸ-comm {as} {bs}  =
+    ++-⊆ᴸ-elim {as} {bs} {bs ++ as} ++-⊆ᴸ-introʳ ++-⊆ᴸ-introˡ
 
 --------------------------------------------------------------------------------
 -- ≈ᴸ: Equivalece of lists as sets
@@ -92,7 +90,7 @@ as ≈ᴸ bs  =  as ⊆ᴸ bs  ×  bs ⊆ᴸ as
 
 abstract
 
-  -- ≈ᴸ is an equivalence relation
+  -- ≈ᴸ is reflexive, symmetric and transitive
 
   ≈ᴸ-refl : as ≈ᴸ as
   ≈ᴸ-refl = ⊆ᴸ-refl , ⊆ᴸ-refl
@@ -107,26 +105,13 @@ abstract
   ≈ᴸ-trans (as⊆bs , bs⊆as) (bs⊆cs , cs⊆bs) =
     ⊆ᴸ-trans as⊆bs bs⊆cs , ⊆ᴸ-trans cs⊆bs bs⊆as
 
-  module _ where
-    open IsEquivalence
-    ≈ᴸ-equiv : IsEquivalence _≈ᴸ_
-    ≈ᴸ-equiv .refl = ≈ᴸ-refl
-    ≈ᴸ-equiv .sym = ≈ᴸ-sym
-    ≈ᴸ-equiv .trans = ≈ᴸ-trans
-
-abstract
-
-  -- On ++ and ≈ᴸ
+  -- ++ is congruent, commutative and idempotent w.r.t. ≈ᴸ
 
   ++-congˡ :  as ≈ᴸ bs  →  as ++ cs  ≈ᴸ  bs ++ cs
   ++-congˡ (as⊆bs , bs⊆as)  =  ++-monoˡ as⊆bs , ++-monoˡ bs⊆as
 
-  ++-comm :  ∀ as bs →  as ++ bs  ≈ᴸ  bs ++ as
-  ++-comm as bs  =  ++-⊆ᴸ-comm as bs , ++-⊆ᴸ-comm bs as
-
-  ++-isCommutativeMonoid : IsCommutativeMonoid _≈ᴸ_ _++_ []
-  ++-isCommutativeMonoid  =  make-IsCommutativeMonoid ≈ᴸ-equiv
-    ++-congˡ (λ _ → ≈ᴸ-refl) ++-comm (λ as bs cs → ≡⇒≈ᴸ $ ++-assoc as bs cs)
+  ++-comm :  as ++ bs  ≈ᴸ  bs ++ as
+  ++-comm {as} {bs}  =  ++-⊆ᴸ-comm {as} {bs} , ++-⊆ᴸ-comm {bs} {as}
 
   ++-idem :  as ++ as  ≈ᴸ  as
   ++-idem  =  ++-⊆ᴸ-elim ⊆ᴸ-refl ⊆ᴸ-refl , ++-⊆ᴸ-introˡ
@@ -149,4 +134,4 @@ abstract
   homo-resp (_ , bs⊆as)  =  homo-mono bs⊆as
 
   homo-agree :  homo (a ∷ b ∷ [])  →  a ≈ b
-  homo-agree homo'abcs =  homo'abcs (by-hd refl) (by-tl $ by-hd refl)
+  homo-agree homo'abcs =  homo'abcs (by-hd refl˜) (by-tl $ by-hd refl˜)

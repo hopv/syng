@@ -1,40 +1,65 @@
 --------------------------------------------------------------------------------
--- Setoid utility
+-- Setoid
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Relation.Binary using (Setoid)
-module Base.Setoid {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
-open Setoid S renaming (Carrier to X)
+module Base.Setoid where
 
-open import Base.Level using (Level; _⊔ˡ_)
+open import Base.Level using (Level; _⊔ˡ_; sucˡ)
+open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_)
 open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; Σ-syntax; _,_)
 
+record Setoid ℓ ℓ≈ : Set (sucˡ (ℓ ⊔ˡ ℓ≈)) where
+  infix 4 _≈_
+  infixr -1 _»˜_ -- the same fixity with _$_
+  field
+    -- Car: Carrier set
+    Car : Set ℓ
+    -- ≈: Binary relation over Car
+    _≈_ : Car → Car → Set ℓ≈
+    -- ≈ is reflexive, symmetric and transitive
+    refl˜ : ∀ {a} → a ≈ a
+    sym˜ : ∀ {a b} → a ≈ b → b ≈ a
+    _»˜_ : ∀ {a b c} → a ≈ b → b ≈ c → a ≈ c
+
+  private variable
+    a b c : Car
+    ℓX ℓY ℓZ : Level
+    X : Car → Set ℓX
+    Y : Car → Set ℓY
+    Z : Car → Set ℓZ
+
+  ≡⇒≈ : a ≡ b → a ≈ b
+  ≡⇒≈ refl⁼ = refl˜
+
+  --------------------------------------------------------------------------------
+  -- ⊆≈ : Set inclusion relaxed with ≈
+
+  infix 4 _⊆≈_
+  _⊆≈_ : (Car → Set ℓX) → (Car → Set ℓY) → Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓX ⊔ˡ ℓY)
+  X ⊆≈ Y  = ∀ {a} →  a ∈ X  →  Σ b ,  a ≈ b  ×  b ∈ Y
+
+  abstract
+    -- ⊆≈ is reflexive and transitive
+
+    ⊆≈-refl : X ⊆≈ X
+    ⊆≈-refl {a = a} a∈X = a , refl˜ , a∈X
+
+    ⊆≈-trans : X ⊆≈ Y → Y ⊆≈ Z → X ⊆≈ Z
+    ⊆≈-trans X⊆≈Y Y⊆≈Z a∈X with X⊆≈Y a∈X
+    ... | b , a≈b , b∈Y with Y⊆≈Z b∈Y
+    ...   | c , b≈c , c∈Z  =  c , (a≈b »˜ b≈c) , c∈Z
+
+open Setoid
+
 private variable
-  ℓA ℓB ℓC : Level
-  A : X → Set ℓA
-  B : X → Set ℓB
-  C : X → Set ℓC
+  ℓA : Level
 
---------------------------------------------------------------------------------
--- ⊆≈ : Set inclusion relaxed with ≈
-
-infix 4 _⊆≈_
-_⊆≈_ : (X → Set ℓA) → (X → Set ℓB) → Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓA ⊔ˡ ℓB)
-A ⊆≈ B  = ∀ {a} →  a ∈ A  →  Σ b ,  a ≈ b  ×  b ∈ B
-
-abstract
-
-  -- ⊆≈ is reflexive
-
-  ⊆≈-refl : A ⊆≈ A
-  ⊆≈-refl {a = a} a∈A = a , refl , a∈A
-
-  -- ⊆≈ is transitive
-
-  ⊆≈-trans : A ⊆≈ B → B ⊆≈ C → A ⊆≈ C
-  ⊆≈-trans A⊆≈B B⊆≈C a∈A with A⊆≈B a∈A
-  ... | b , a≈b , b∈B with B⊆≈C b∈B
-  ...   | c , b≈c , c∈C = c , trans a≈b b≈c , c∈C
+≡-setoid : Set ℓA → Setoid ℓA ℓA
+≡-setoid A .Car = A
+≡-setoid _ ._≈_ = _≡_
+≡-setoid _ .refl˜ = refl⁼
+≡-setoid _ .sym˜ = sym⁼
+≡-setoid _ ._»˜_ = _»⁼_

@@ -4,9 +4,9 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Relation.Binary using (Setoid)
+open import Base.Setoid using (Setoid)
 module Shog.Model.RA.Ex.Derived {ℓ ℓ≈} {S : Setoid ℓ ℓ≈} {ℓ✓} where
-open Setoid S renaming (Carrier to A)
+open Setoid S renaming (Car to A)
 
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Ex.Base S {ℓ✓} using (ExRA; #ˣ; ?ˣ)

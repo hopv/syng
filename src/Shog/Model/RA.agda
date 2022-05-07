@@ -87,6 +87,9 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ∙-congʳ :  a ≈ b  →  c ∙ a ≈ c ∙ b
     ∙-congʳ a≈b = ∙-comm »˜ ∙-congˡ a≈b »˜ ∙-comm
 
+    ∙-cong :  a ≈ b  →  c ≈ d  →  a ∙ c ≈ b ∙ d
+    ∙-cong a≈b c≈d = ∙-congˡ a≈b »˜ ∙-congʳ c≈d
+
     ∙-unitʳ : a ∙ ε ≈ a
     ∙-unitʳ = ∙-comm »˜ ∙-unitˡ
 

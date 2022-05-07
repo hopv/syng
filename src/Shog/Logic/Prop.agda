@@ -30,9 +30,9 @@ data Prop' ι where
   _→'_ : Prop' ι → Prop' ι → Prop' ι
   -- separating conjunction / magic wand
   _∗_ _-∗_ : Prop' ι → Prop' ι → Prop' ι
-  -- update modality / basicistence modality
+  -- update modality / persistence modality
   |=> □ : Prop' ι → Prop' ι
-  -- save token (with the flag for persistency)
+  -- save token, with the persistence flag
   save : Bool → Prop< ι → Prop' ι
 
 infixr 5 _→'_ _-∗_
@@ -118,14 +118,13 @@ syntax [∗]-map-syntax (λ d → P) ds = [∗] d ∈ ds , P
 --------------------------------------------------------------------------------
 -- Basic Shog proposition
 
--- IsBasic P : Predicate
 -- IsBasic P holds when P consists only of ∀, ∃ and ∗
 data IsBasic : Prop' ∞ → Set (sucˡ ℓ) where
   ∀-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∀˙ A P˙)
   ∃-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∃˙ A P˙)
   ∗-IsBasic : IsBasic P → IsBasic Q → IsBasic (P ∗ Q)
 
--- Basic P : Type class wrapping IsBasic P
+-- Basic : Type class wrapping IsBasic
 record Basic (P : Prop' ∞) : Set (sucˡ ℓ) where
   field basic : IsBasic P
 open Basic {{...}}

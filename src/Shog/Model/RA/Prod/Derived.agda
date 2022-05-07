@@ -12,9 +12,9 @@ open import Base.Prod using (_×_; _,_)
 open import Shog.Model.RA.Prod.Base Raˡ Raʳ using (_×ᴿᴬ_)
 
 open RA Raˡ using () renaming (Car to A; _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_;
-  ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ; _↝_ to _↝ˡ_; refl˜ to refl˜ˡ; ↝-refl to ↝ˡ-refl)
+  ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ; _↝_ to _↝ˡ_; refl˜ to reflˡ; ↝-refl to ↝ˡ-refl)
 open RA Raʳ using () renaming (Car to X; _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_;
-  ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ; _↝_ to _↝ʳ_; refl˜ to refl˜ʳ; ↝-refl to ↝ʳ-refl)
+  ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ; _↝_ to _↝ʳ_; refl˜ to reflʳ; ↝-refl to ↝ʳ-refl)
 open RA _×ᴿᴬ_ using (_≈_; _↝_) renaming (Car to AX)
 
 private variable
@@ -26,10 +26,10 @@ abstract
   -- Congruence on a pair
 
   ×-congˡ :  a ≈ˡ b  →  (a , x) ≈ (b , x)
-  ×-congˡ a≈b = a≈b , refl˜ʳ
+  ×-congˡ a≈b = a≈b , reflʳ
 
   ×-congʳ :  x ≈ʳ y  →  (a , x) ≈ (a , y)
-  ×-congʳ x≈y = refl˜ˡ , x≈y
+  ×-congʳ x≈y = reflˡ , x≈y
 
   -- Injecting an element of a component RA
 

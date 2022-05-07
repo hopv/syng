@@ -12,7 +12,7 @@ open import Base.Level using (_⊔ˡ_; 0ˡ)
 open import Base.List using (List; _∷_; []; _++_)
 open import Base.List.Any using (Any; by-hd; by-tl;
   Any-++-inj₀; Any-++-inj₁; Any-++-case;
-  ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁;
+  ¬Any-[]; ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁;
   ¬Any-++-intro; ¬Any-++-elim₀; ¬Any-++-elim₁)
 open import Base.Eq using (_≡_; refl⁼)
 open import Base.Prod using (_×_; _,_)
@@ -52,6 +52,9 @@ _∉ᴸ_ : A → List A → Set (ℓ ⊔ˡ ℓ≈)
 a ∉ᴸ as = ¬ (a ∈ᴸ as)
 
 abstract
+
+  ∉ᴸ-[] : a ∉ᴸ []
+  ∉ᴸ-[] = ¬Any-[]
 
   -- ∉ᴸ and ∷
 

@@ -45,7 +45,12 @@ abstract
   ... | inj₀ Fas'  =  inj₀ $ by-tl Fas'
   ... | inj₁ Fbs  =  inj₁ Fbs
 
-  -- ¬ Any and ∷
+  -- ¬Any
+
+  ¬Any-[] : ¬ (Any F [])
+  ¬Any-[] ()
+
+  -- ¬Any and ∷
 
   ¬Any-∷-intro : ¬ (F a) → ¬ (Any F as) → ¬ (Any F (a ∷ as))
   ¬Any-∷-intro ¬Fa _ (by-hd Fa) = ¬Fa Fa

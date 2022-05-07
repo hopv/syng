@@ -12,7 +12,7 @@ module Shog.Model.RA.Forall.Point {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
 
 open import Base.Eq using (refl⁼)
 open import Base.Dec using (yes; no)
-open import Base.NElem using (0-ary)
+open import Base.Few using (0-ary)
 open import Shog.Model.RA.Forall Ra˙ using (∀ᴿᴬ)
 
 open RA

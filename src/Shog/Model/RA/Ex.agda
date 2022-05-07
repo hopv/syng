@@ -11,7 +11,7 @@ open Setoid S renaming (Car to A)
 open import Base.Level using (Level; 0ˡ)
 open import Base.Func using (id)
 open import Base.Prod using (_,_)
-open import Base.NElem using (⟨1⟩; ⟨0⟩)
+open import Base.Few using (⟨1⟩; ⟨0⟩)
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------

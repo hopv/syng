@@ -7,7 +7,7 @@ module Base.Nat where
 open import Base.Level using (0ˡ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
 open import Base.Func using (_$_)
-open import Base.NElem using (¬)
+open import Base.Few using (¬)
 
 --------------------------------------------------------------------------------
 -- ℕ: Natural number

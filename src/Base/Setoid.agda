@@ -8,7 +8,7 @@ module Base.Setoid where
 
 open import Base.Level using (Level; _⊔ˡ_; sucˡ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_)
-open import Base.NElem using (¬)
+open import Base.Few using (¬)
 open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; Σ-syntax; _,_)
 

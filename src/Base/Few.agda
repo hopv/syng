@@ -1,11 +1,11 @@
 --------------------------------------------------------------------------------
--- Level-polymorphic n-element set
+-- Level-polymorphic 2/1/0-element set
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
 
 open import Base.Level using (Level; 0ˡ)
-module Base.NElem where
+module Base.Few where
 
 private variable
   ℓ ℓA ℓF : Level

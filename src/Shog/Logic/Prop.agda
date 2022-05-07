@@ -11,7 +11,7 @@ open import Base.Level using (sucˡ)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
-open import Base.NElem using (2-ary; 0-ary)
+open import Base.Few using (2-ary; 0-ary)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.List using (List; []; _∷_; map)
 

@@ -104,64 +104,58 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ⌞⌟-ε = sym˜ ∙-unitʳ »˜ ⌞⌟-unitˡ
 
   ------------------------------------------------------------------------------
-  -- ≤: Derived pre-order
+  -- ⊑: Derived pre-order
 
-  infix 4 _≤_
-  _≤_ : Car → Car → Set (ℓ ⊔ˡ ℓ≈)
-  a ≤ b  =  Σ c ,  c ∙ a  ≈  b
+  infix 4 _⊑_
+  _⊑_ : Car → Car → Set (ℓ ⊔ˡ ℓ≈)
+  a ⊑ b  =  Σ c ,  c ∙ a  ≈  b
 
   abstract
 
-    -- ≤ is reflexive
+    -- ⊑ is reflexive
 
-    ≈⇒≤ : a ≈ b → a ≤ b
-    ≈⇒≤ a≈b = ε , (∙-unitˡ »˜ a≈b)
+    ≈⇒⊑ : a ≈ b → a ⊑ b
+    ≈⇒⊑ a≈b = ε , (∙-unitˡ »˜ a≈b)
 
-    ≤-refl˜ : a ≤ a
-    ≤-refl˜ = ≈⇒≤ refl˜
+    ⊑-refl˜ : a ⊑ a
+    ⊑-refl˜ = ≈⇒⊑ refl˜
 
-    -- ≤ is transitive
+    -- ⊑ is transitive
 
-    ≤-trans :  a ≤ b  →  b ≤ c  →  a ≤ c
-    ≤-trans (d , d∙a≈b) (e , e∙b≈c)  =  (d ∙ e) ,
+    ⊑-trans :  a ⊑ b  →  b ⊑ c  →  a ⊑ c
+    ⊑-trans (d , d∙a≈b) (e , e∙b≈c)  =  (d ∙ e) ,
       (∙-congˡ ∙-comm »˜ ∙-assocˡ »˜ ∙-congʳ d∙a≈b »˜ e∙b≈c)
 
-    infixr -1 _ᵒ»ᵒ_ _˜»ᵒ_ _ᵒ»˜_ -- the same fixity with _$_
+    -- ⊑ respects ≈
 
-    _ᵒ»ᵒ_ :  a ≤ b  →  b ≤ c  →  a ≤ c
-    _ᵒ»ᵒ_ = ≤-trans
-
-    _˜»ᵒ_ :  a ≈ b  →  b ≤ c  →  a ≤ c
-    a≈b ˜»ᵒ b≤c = ≈⇒≤ a≈b ᵒ»ᵒ b≤c
-
-    _ᵒ»˜_ :  a ≤ b  →  b ≈ c  →  a ≤ c
-    a≤b ᵒ»˜ b≈c = a≤b ᵒ»ᵒ ≈⇒≤ b≈c
+    ⊑-resp :  a ≈ b  →  c ≈ d  →  a ⊑ c  →  b ⊑ d
+    ⊑-resp a≈b c≈d (e , e∙a≈c) = e , (∙-congʳ (sym˜ a≈b) »˜ e∙a≈c »˜ c≈d)
 
     -- ε is the minimum
 
-    ε-min : ε ≤ a
+    ε-min : ε ⊑ a
     ε-min = _ , ∙-unitʳ
 
     -- ∙ is increasing
 
-    ∙-incr :  a  ≤  b ∙ a
+    ∙-incr :  a  ⊑  b ∙ a
     ∙-incr = _ , refl˜
 
     -- Monotonicity of ✓, ∙ and ⌞⌟
 
-    ✓-mono :  a ≤ b  →  ✓ b  →  ✓ a
+    ✓-mono :  a ⊑ b  →  ✓ b  →  ✓ a
     ✓-mono (c , c∙a≈b) ✓b   = ✓b ▷ ✓-resp (sym˜ c∙a≈b) ▷ ✓-rem
 
-    ∙-monoˡ :  a ≤ b  →  a ∙ c  ≤  b ∙ c
+    ∙-monoˡ :  a ⊑ b  →  a ∙ c  ⊑  b ∙ c
     ∙-monoˡ (d , d∙a≈b) = d , (∙-assocʳ »˜ ∙-congˡ d∙a≈b)
 
-    ∙-monoʳ :  a ≤ b  →  c ∙ a  ≤  c ∙ b
-    ∙-monoʳ a≤b = ∙-comm ˜»ᵒ ∙-monoˡ a≤b ᵒ»˜ ∙-comm
+    ∙-monoʳ :  a ⊑ b  →  c ∙ a  ⊑  c ∙ b
+    ∙-monoʳ a⊑b = ⊑-resp ∙-comm ∙-comm (∙-monoˡ a⊑b)
 
-    ∙-mono :  a ≤ b  →  c ≤ d  →  a ∙ c  ≤  b ∙ d
-    ∙-mono a≤b c≤d = ∙-monoˡ a≤b ᵒ»ᵒ ∙-monoʳ c≤d
+    ∙-mono :  a ⊑ b  →  c ⊑ d  →  a ∙ c  ⊑  b ∙ d
+    ∙-mono a⊑b c⊑d = ⊑-trans (∙-monoˡ a⊑b) (∙-monoʳ c⊑d)
 
-    ⌞⌟-mono :  a ≤ b  →  ⌞ a ⌟ ≤ ⌞ b ⌟
+    ⌞⌟-mono :  a ⊑ b  →  ⌞ a ⌟ ⊑ ⌞ b ⌟
     ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add {_} {c}
     ... | c' , c'∙⌞a⌟≈⌞c∙a⌟  =  c' , (c'∙⌞a⌟≈⌞c∙a⌟ »˜ ⌞⌟-cong c∙a≈b)
 

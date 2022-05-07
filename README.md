@@ -37,7 +37,7 @@ which is also [ported to VS Code](https://marketplace.visualstudio.com/items?ite
 
 ## Font
 
-The source code uses a lot of Unicode characters, so we recommend you to use
+The source code uses a lot of Unicode characters, so we recommend you use
 a font that covers these characters.
 To render them, you can use any of the following:
 - [**Source Code Pro**](https://github.com/adobe-fonts/source-code-pro)
@@ -47,7 +47,7 @@ To render them, you can use any of the following:
 - [**Menlo**](https://en.wikipedia.org/wiki/Menlo_(typeface))
   (Preinstalled in Mac; Very large Unicode cover)
 
-Also, some operators like `|=>` renders nicely with ligatures.
+Also, some operators like `|=>` render nicely with ligatures.
 To use ligatures, we recommend [**Fira Code**](https://github.com/tonsky/FiraCode).
 Make sure that ligatures are supported in your editor.
 

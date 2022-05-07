@@ -399,13 +399,14 @@ abstract
   □-∗-in : □ P ∗ □ Q ⊢[ ι ] □ (P ∗ Q)
   □-∗-in = ∗⇒∧ » □-∧-in » in□-∧⇒∗
 
-  ------------------------------------------------------------------------------
-  -- Pers P : Persistence of a proposition
 
-  record Pers (P : Prop' ∞) : Set (sucˡ ℓ) where
-    -- P can turn into □ P
-    field pers : ∀ {ι} → P ⊢[ ι ] □ P
-  open Pers {{...}} public
+--------------------------------------------------------------------------------
+-- Pers P : Persistence of a proposition
+
+record Pers (P : Prop' ∞) : Set (sucˡ ℓ) where
+  -- P can turn into □ P
+  field pers : ∀ {ι} → P ⊢[ ι ] □ P
+open Pers {{...}} public
 
 abstract
 

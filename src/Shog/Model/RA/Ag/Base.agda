@@ -12,9 +12,9 @@ open import Base.Level using (_⊔ˡ_)
 open import Base.Prod using (_,_)
 open import Base.Func using (id; _$_)
 open import Base.List using (List; []; _++_)
-open import Base.List.Set S using (_≈ˡ_; homo;
-  ≈ˡ-refl; ++-⊆ˡ-introʳ; ++-≈ˡ-isCommutativeMonoid; ++-≈ˡ-idem;
-  homo-[]; homo-⊆ˡ-resp; homo-≈ˡ-resp)
+open import Base.List.Set S using (_≈ᴸ_; homo;
+  ≈ᴸ-refl; ++-⊆ᴸ-introʳ; ++-isCommutativeMonoid; ++-idem;
+  homo-[]; homo-mono; homo-resp)
 open import Shog.Model.RA using (RA)
 
 open RA
@@ -24,16 +24,16 @@ open RA
 
 AgRA : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
 AgRA .Carrier  =  List A
-AgRA ._≈_  =  _≈ˡ_
+AgRA ._≈_  =  _≈ᴸ_
 AgRA .✓  =  homo
 AgRA ._∙_  =  _++_
 AgRA .ε  =  []
 AgRA .⌞_⌟  =  id
-AgRA .isCommutativeMonoid  =  ++-≈ˡ-isCommutativeMonoid
-AgRA .✓-resp  =  homo-≈ˡ-resp
-AgRA .✓-rem  =  homo-⊆ˡ-resp ++-⊆ˡ-introʳ
+AgRA .isCommutativeMonoid  =  ++-isCommutativeMonoid
+AgRA .✓-resp  =  homo-resp
+AgRA .✓-rem  =  homo-mono ++-⊆ᴸ-introʳ
 AgRA .✓-ε  =  homo-[]
 AgRA .⌞⌟-cong  =  id
-AgRA .⌞⌟-add  =  _ , ≈ˡ-refl
-AgRA .⌞⌟-unitˡ  =  ++-≈ˡ-idem
-AgRA .⌞⌟-idem  =  ≈ˡ-refl
+AgRA .⌞⌟-add  =  _ , ≈ᴸ-refl
+AgRA .⌞⌟-unitˡ  =  ++-idem
+AgRA .⌞⌟-idem  =  ≈ᴸ-refl

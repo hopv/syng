@@ -1,7 +1,7 @@
-.vscode/**
+.vscode/*
 .DS_Store
 
 # Agda
 
 *.agdai
-**/MAlonzo/**
+MAlonzo

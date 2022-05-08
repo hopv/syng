@@ -21,4 +21,4 @@ abstract
 
   #ˣ-↝ :  #ˣ a  ↝  #ˣ b
   #ˣ-↝ ?ˣ = _
-  -- the frame cˣ can only be ?ˣ; otherwise ✓ (cˣ ∙ #ˣ a) does not hold
+  -- The frame cˣ can only be ?ˣ; otherwise ✓ (cˣ ∙ #ˣ a) does not hold

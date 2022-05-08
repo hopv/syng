@@ -18,11 +18,11 @@ open import Shog.Model.RA using (RA)
 -- Ex : ExRA's carrier
 
 data Ex : Set ℓ where
-  -- pending
+  -- Pending
   ?ˣ : Ex
-  -- the value is exclusively set
+  -- Exclusively set
   #ˣ : A → Ex
-  -- invalid
+  -- Invalid
   ↯ˣ : Ex
 
 --------------------------------------------------------------------------------

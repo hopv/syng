@@ -37,7 +37,7 @@ abstract
 
   -- Modifying the succedent of a super update with a sequent
 
-  infixr -1 _ᵘ»_ -- the same fixity with _$_
+  infixr -1 _ᵘ»_
 
   _ᵘ»_ : P ⊢[ ι ]=>> Q → Q ⊢[ ι ] R → P ⊢[ ι ]=>> R
   P⊢=>>Q ᵘ» Q⊢R = P⊢=>>Q ᵘ»ᵘ ⇒=>> Q⊢R

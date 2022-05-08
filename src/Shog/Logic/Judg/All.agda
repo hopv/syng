@@ -57,7 +57,7 @@ P ⊢[< ι ] Q = Thunk (P ⊢[_] Q) ι
 _⊢[_]=>>_ : Prop' ∞ → Size → Prop' ∞ → Set (sucˡ ℓ)
 P ⊢[ ι ]=>> Q = P ⊢[ ι ]* |=>> Q
 
-infixr -1 _»_ _ᵘ»ᵘ_ -- the same fixity with _$_
+infixr -1 _»_ _ᵘ»ᵘ_
 
 -- Defining Judg
 data Judg ι where

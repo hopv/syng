@@ -45,7 +45,7 @@ data ⟨0⟩ {ℓ} : Set ℓ where
 ¬ : Set ℓA → Set ℓA
 ¬ A = A → ⟨0⟩ {0ˡ}
 
--- introducing ¬¬
+-- Introducing ¬¬
 
 ¬¬-intro : A → ¬ (¬ A)
 ¬¬-intro a ¬a = ¬a a

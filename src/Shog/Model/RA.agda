@@ -19,7 +19,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
   -- Fields
   infix 4 _≈_
   infixl 7 _∙_
-  infixr -1 _»˜_ -- the same fixity with _$_
+  infixr -1 _»˜_
   field
     -- Carrier set
     Car : Set ℓ

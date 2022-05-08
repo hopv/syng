@@ -41,7 +41,7 @@ abstract
   sym⁼ : a ≡ a' → a' ≡ a
   sym⁼ refl⁼ = refl⁼
 
-  infixr -1 _»⁼_ -- the same fixity with _$_
+  infixr -1 _»⁼_
   _»⁼_ : a ≡ a' → a' ≡ a'' → a ≡ a''
   refl⁼ »⁼ eq = eq
 

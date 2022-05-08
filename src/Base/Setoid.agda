@@ -14,7 +14,7 @@ open import Base.Prod using (_×_; Σ-syntax; _,_)
 
 record Setoid ℓ ℓ≈ : Set (sucˡ (ℓ ⊔ˡ ℓ≈)) where
   infix 4 _≈_
-  infixr -1 _»˜_ -- the same fixity with _$_
+  infixr -1 _»˜_
   field
     -- Car: Carrier set
     Car : Set ℓ

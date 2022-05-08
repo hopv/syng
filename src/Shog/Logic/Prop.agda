@@ -25,15 +25,15 @@ Prop< : Size → Set (sucˡ ℓ)
 Prop< ι = Thunk Prop' ι
 
 data Prop' ι where
-  -- universal/existential quantification
+  -- Universal/existential quantification
   ∀˙ ∃˙ : (A : Set ℓ) → (A → Prop' ι) → Prop' ι
-  -- implication
+  -- Implication
   _→'_ : Prop' ι → Prop' ι → Prop' ι
-  -- separating conjunction / magic wand
+  -- Separating conjunction / magic wand
   _∗_ _-∗_ : Prop' ι → Prop' ι → Prop' ι
-  -- update modality / persistence modality
+  -- Update / persistence modality
   |=> □ : Prop' ι → Prop' ι
-  -- save token, with the persistence flag
+  -- Save token, with the persistence flag
   save : Bool → Prop< ι → Prop' ι
 
 infixr 5 _→'_ _-∗_
@@ -87,9 +87,8 @@ P ∨ Q = ∃˙ _ (2-ary P Q) -- Disjunction
 ⌜ A ⌝ = ∃˙ A (λ _ → ⊤)
 
 --------------------------------------------------------------------------------
--- On the save token
+-- Exclusive / persistent save token
 
--- exclusive / persistent save token
 savex save□ : Prop< ι → Prop' ι
 savex P^ = save ff P^
 save□ P^ = save tt P^

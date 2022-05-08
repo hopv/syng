@@ -49,6 +49,11 @@ infix 4 _∈_
 _∈_ : A → (A → Set ℓB) → Set ℓB
 a ∈ B = B a
 
+-- Flip the order of arguments
+
+flip : ∀ {F : A → B → Set ℓF} → (∀ a b → F a b) → ∀ b a → F a b
+flip f b a = f a b
+
 -- Instance search
 
 it : {{A}} → A

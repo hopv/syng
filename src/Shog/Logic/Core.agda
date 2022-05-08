@@ -1,6 +1,5 @@
-
 --------------------------------------------------------------------------------
--- Shog proof rules on core connectives
+-- Proof rules on core connectives
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -15,15 +14,21 @@ open import Base.Func using (_$_; _∘_; it)
 open import Base.Prod using (_×_; _,_; Σ-syntax)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
+open import Base.List using (List; []; _∷_; _++_)
+open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
+
 open import Shog.Logic.Prop ℓ using (
   Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
-  _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □)
-open import Shog.Logic.Judg ℓ using (
-  JudgRes; _⊢[_]*_; _⊢[_]_;
-  refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; ⌜⌝-∀-in; →-intro; →-elim;
+  _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □;
+  [∗])
+open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers)
+
+-- Import and re-export the axiomatic rules
+open import Shog.Logic.Judg.All ℓ public using (refl; _»_;
+  ∀-intro; ∃-elim; ∀-elim; ∃-intro; ⌜⌝-∀-in; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
-  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out;
-  |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out)
+  |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
+  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 
 private variable
   ι : Size
@@ -32,8 +37,10 @@ private variable
   A B : Set ℓ
   F : A → Set ℓ
   P˙ Q˙ : A → Prop' ∞
+  Ps Qs : List (Prop' ∞)
 
 abstract
+
   ------------------------------------------------------------------------------
   -- On ∀/∃/∧/∨/⊤/⊥
 
@@ -399,17 +406,6 @@ abstract
   □-∗-in : □ P ∗ □ Q ⊢[ ι ] □ (P ∗ Q)
   □-∗-in = ∗⇒∧ » □-∧-in » in□-∧⇒∗
 
-
---------------------------------------------------------------------------------
--- Pers P : Persistence of a proposition
-
-record Pers (P : Prop' ∞) : Set (sucˡ ℓ) where
-  -- P can turn into □ P
-  field pers : ∀ {ι} → P ⊢[ ι ] □ P
-open Pers {{...}} public
-
-abstract
-
   ------------------------------------------------------------------------------
   -- Deriving Pers P
 
@@ -490,3 +486,22 @@ abstract
 
   |=>-⌜⌝∗-out : |=> (⌜ A ⌝ ∗ P) ⊢[ ι ] ⌜ A ⌝ ∗ |=> P
   |=>-⌜⌝∗-out = |=>-mono ∗⇒∧ » |=>-⌜⌝∧-out » Persˡ-∧⇒∗
+
+  ------------------------------------------------------------------------------
+  -- On [∗]
+
+  -- [∗] is monotone
+
+  [∗]-mono : All² _⊢[ ι ]_ Ps Qs → [∗] Ps ⊢[ ι ] [∗] Qs
+  [∗]-mono []ᴬ² = refl
+  [∗]-mono (P⊢Q ∷ᴬ² Ps⊢Qs) = ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)
+
+  -- ++ can get inside and outside [∗]
+
+  [∗]-++-in : [∗] Ps ∗ [∗] Qs ⊢[ ι ] [∗] (Ps ++ Qs)
+  [∗]-++-in {[]} = ∗-elimʳ
+  [∗]-++-in {_ ∷ Ps'} = ∗-assocˡ » ∗-monoʳ ([∗]-++-in {Ps'})
+
+  [∗]-++-out : [∗] (Ps ++ Qs) ⊢[ ι ] [∗] Ps ∗ [∗] Qs
+  [∗]-++-out {[]} = ⊤∗-intro
+  [∗]-++-out {_ ∷ Ps'} = ∗-monoʳ ([∗]-++-out {Ps'}) » ∗-assocʳ

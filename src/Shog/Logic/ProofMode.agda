@@ -13,6 +13,7 @@ module Shog.Logic.ProofMode (ℓ : Level) where
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _∘_)
 open import Base.Few using (2-ary)
+
 open import Shog.Logic.Prop ℓ
 open import Shog.Logic.Judg ℓ
 open import Shog.Logic.Core ℓ

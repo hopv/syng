@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Syntax for the Shog proposition
+-- Proposition
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -16,10 +16,11 @@ open import Base.Bool using (Bool; tt; ff)
 open import Base.List using (List; []; _∷_; map)
 
 --------------------------------------------------------------------------------
--- Syntax for the Shog proposition: Prop' ι
+-- Proposition: Prop' ι
 
 data Prop' (ι : Size) : Set (sucˡ ℓ)
 
+-- Prop' under Thunk
 Prop< : Size → Set (sucˡ ℓ)
 Prop< ι = Thunk Prop' ι
 
@@ -46,6 +47,7 @@ private variable
   ℓ' : Level
   D : Set ℓ'
 
+--------------------------------------------------------------------------------
 -- Syntax for ∀/∃
 
 ∀∈-syntax ∃∈-syntax : (A : Set ℓ) → (A → Prop' ι) → Prop' ι
@@ -125,6 +127,7 @@ record Basic (P : Prop' ∞) : Set (sucˡ ℓ) where
 open Basic {{...}} public
 
 abstract
+
   -- For ∀/∃
 
   -- -- They are not instances, because unfortunately

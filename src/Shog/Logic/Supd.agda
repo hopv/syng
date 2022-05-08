@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Shog proof rules on the super update
+-- Proof rules on the super update
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -11,8 +11,11 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Shog.Logic.Prop ℓ using (Prop'; _∗_; |=>)
-open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; _»_; ^|=>⇒=>>;
-  _ᵘ»ᵘ_; =>>-frameˡ; ∗-comm; |=>-intro)
+open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_)
+open import Shog.Logic.Core ℓ using (_»_; ∗-comm; |=>-intro)
+
+-- Import and re-export the axiomatic rules
+open import Shog.Logic.Judg.All ℓ using (^|=>⇒=>>; _ᵘ»ᵘ_; =>>-frameˡ)
 
 private variable
   ι : Size

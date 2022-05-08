@@ -27,3 +27,10 @@ data _⊎_ (A : Set ℓA) (B : Set ℓB) : Set (ℓA ⊔ˡ ℓB) where
   (∀ a → F (inj₀ a)) → (∀ b → F (inj₁ b)) → ∀ a/b → F a/b
 ⊎-case f _ (inj₀ a) = f a
 ⊎-case _ g (inj₁ b) = g b
+
+-- Utility patterns
+
+pattern inj₁₀ a = inj₁ (inj₀ a)
+pattern inj₁₁ a = inj₁ (inj₁ a)
+pattern inj₁₁₀ a = inj₁₁ (inj₀ a)
+pattern inj₁₁₁ a = inj₁₁ (inj₁ a)

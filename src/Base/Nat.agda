@@ -9,7 +9,7 @@ module Base.Nat where
 open import Base.Level using (0ˡ)
 open import Base.Eq using (_≡_; _≢_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
 open import Base.Func using (_$_)
-open import Base.Few using (¬)
+open import Base.Few using (¬; 0-ary)
 open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
 
 --------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ open import Agda.Builtin.Nat public
   using (zero; suc) renaming (Nat to ℕ)
 
 private variable
-  l m n : ℕ
+  k l m n : ℕ
 
 --------------------------------------------------------------------------------
 -- +, ∸, * : Addition, truncated subtraction, multiplication
@@ -168,6 +168,78 @@ abstract
   ... | inj₀ m'<n'  =  inj₀ $ suc≤suc m'<n'
   ... | inj₁₀ m'≡n'  =  inj₁₀ $ cong⁼ suc m'≡n'
   ... | inj₁₁ m'>n'  =  inj₁₁ (suc≤suc m'>n')
+
+  -- + is increasing
+
+  +-incr : ∀ {m n} → n ≤ m + n
+  +-incr {0} = ≤-refl
+  +-incr {suc m'} = ≤-trans (+-incr {m'}) suc-incr
+
+  -- + is monotone
+
+  +-monoˡ : l ≤ m → l + n ≤ m + n
+  +-monoˡ 0≤ = +-incr
+  +-monoˡ (suc≤suc l'≤m') = suc≤suc $ +-monoˡ l'≤m'
+
+  +-monoʳ : ∀{l m n} → m ≤ n → l + m ≤ l + n
+  +-monoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} = +-monoˡ
+
+  +-mono : k ≤ l → m ≤ n → k + m ≤ l + n
+  +-mono k≤l m≤n = ≤-trans (+-monoˡ k≤l) (+-monoʳ m≤n)
+
+  -- + is strictly monotone
+
+  +-smonoˡ : l < m → l + n < m + n
+  +-smonoˡ = +-monoˡ
+
+  +-smonoʳ : ∀{l m n} → m < n → l + m < l + n
+  +-smonoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} = +-smonoˡ
+
+  +-smono : k < l → m < n → k + m < l + n
+  +-smono k<l m<n = <-trans (+-smonoˡ k<l) (+-smonoʳ m<n)
+
+  -- + is injective
+
+  +-injˡ : ∀ {l m n} → m + l ≡ n + l → m ≡ n
+  +-injˡ {_} {m} {n} m+l≡n+l with cmp m n
+  ... | inj₀ m<n  =  0-ary $ <-irrefl' m+l≡n+l (+-smonoˡ m<n)
+  ... | inj₁₀ m≡n  =  m≡n
+  ... | inj₁₁ m>n  =  0-ary $ <-irrefl' (sym⁼ m+l≡n+l) (+-smonoˡ m>n)
+
+  +-injʳ : l + m ≡ l + n → m ≡ n
+  +-injʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} = +-injˡ
+
+  -- * is monotone
+
+  *-monoˡ : l ≤ m → l * n ≤ m * n
+  *-monoˡ 0≤ = 0≤
+  *-monoˡ (suc≤suc l'≤m') = +-monoʳ $ *-monoˡ l'≤m'
+
+  *-monoʳ : ∀{l m n} → m ≤ n → l * m ≤ l * n
+  *-monoʳ {l} {m} {n} rewrite *-comm {l} {m} | *-comm {l} {n} = *-monoˡ
+
+  *-mono : k ≤ l → m ≤ n → k * m ≤ l * n
+  *-mono {l = l} k≤l m≤n = ≤-trans (*-monoˡ k≤l) (*-monoʳ {l} m≤n)
+
+  -- * is strictly monotone when one argument is positive
+
+  *-smonoˡ : l < m → l * suc n < m * suc n
+  *-smonoˡ sl≤m = ≤-trans (suc≤suc +-incr) (*-monoˡ sl≤m)
+
+  *-smonoʳ : ∀{l m n} → m < n → suc l * m < suc l * n
+  *-smonoʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n}
+    = *-smonoˡ
+
+  -- * with a positive argument is injective
+
+  *-injˡ : ∀ {l m n} → m * suc l ≡ n * suc l → m ≡ n
+  *-injˡ {_} {m} {n} m*sl≡n*sl with cmp m n
+  ... | inj₀ m<n  =  0-ary $ <-irrefl' m*sl≡n*sl (*-smonoˡ m<n)
+  ... | inj₁₀ m≡n  =  m≡n
+  ... | inj₁₁ m>n  =  0-ary $ <-irrefl' (sym⁼ m*sl≡n*sl) (*-smonoˡ m>n)
+
+  *-injʳ : suc l * m ≡ suc l * n → m ≡ n
+  *-injʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n} = *-injˡ
 
 --------------------------------------------------------------------------------
 -- ⊔: Maximum

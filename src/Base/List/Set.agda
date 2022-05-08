@@ -8,7 +8,7 @@ open import Base.Setoid using (Setoid)
 module Base.List.Set {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S renaming (Car to A)
 
-open import Base.Level using (_⊔ˡ_; 0ˡ)
+open import Base.Level using (_⊔ˡ_)
 open import Base.List using (List; _∷_; []; _++_)
 open import Base.List.Any using (Any; by-hd; by-tl;
   Any-++-inj₀; Any-++-inj₁; Any-++-case;

@@ -146,8 +146,8 @@ abstract
 
   -- < is asymmetric
 
-  <-antisym : m < n → ¬ (n < m)
-  <-antisym (suc≤suc m'<n') (suc≤suc n'<m') = <-antisym m'<n' n'<m'
+  <-asym : m < n → ¬ (n < m)
+  <-asym (suc≤suc m'<n') (suc≤suc n'<m') = <-asym m'<n' n'<m'
 
 --------------------------------------------------------------------------------
 -- ⊔: Maximum

@@ -7,6 +7,7 @@
 module Base.Eq where
 
 open import Base.Level using (Level)
+open import Base.Few using (¬)
 
 ------------------------------------------------------------------------
 -- ≡: Equality
@@ -19,6 +20,11 @@ private variable
   B : Set ℓB
   C : Set ℓC
   a a' a'' : A
+
+-- Negation of _≡_
+infix 4 _≢_
+_≢_ : ∀ {A : Set ℓA} → A → A → Set ℓA
+x ≢ y = ¬ (x ≡ y)
 
 abstract
 

@@ -6,7 +6,7 @@
 
 module Base.Bool where
 
-open import Base.Level using (Level; 0ˡ)
+open import Base.Level using (Level)
 open import Base.Few using (⟨1⟩; ⟨0⟩)
 
 --------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ if ff then aᵗ else aᶠ = aᶠ
 
 -- Bool to Set
 
-Tt : Bool → Set 0ˡ
+Tt : Bool → Set
 Tt tt = ⟨1⟩
 Tt ff = ⟨0⟩
 

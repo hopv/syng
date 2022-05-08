@@ -6,7 +6,6 @@
 
 module Base.NatPos where
 
-open import Base.Level using (0ˡ)
 open import Base.Nat using (ℕ; suc; _+_; _*_; +-comm; +-assocˡ; +-injˡ; *-comm;
   *-assocˡ; *-injˡ; *-+-distrˡ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
@@ -15,7 +14,7 @@ open import Base.Func using (_$_)
 --------------------------------------------------------------------------------
 -- ℕ⁺: Positive natural number
 
-record ℕ⁺ : Set 0ˡ where
+record ℕ⁺ : Set where
   constructor 1+
   field un1+ : ℕ
 

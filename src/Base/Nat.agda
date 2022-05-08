@@ -6,7 +6,6 @@
 
 module Base.Nat where
 
-open import Base.Level using (0ˡ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
 open import Base.Func using (_$_)
 open import Base.Few using (¬; 0-ary)
@@ -95,11 +94,11 @@ abstract
 
 infix 4 _≤_ _<_
 
-data _≤_ : ℕ → ℕ → Set 0ˡ where
+data _≤_ : ℕ → ℕ → Set where
   0≤ : ∀ {n} → 0 ≤ n
   suc≤suc : ∀ {m n} → m ≤ n → suc m ≤ suc n
 
-_<_ : ℕ → ℕ → Set 0ˡ
+_<_ : ℕ → ℕ → Set
 m < n = suc m ≤ n
 
 abstract

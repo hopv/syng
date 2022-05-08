@@ -7,10 +7,10 @@
 module Base.Nat where
 
 open import Base.Level using (0ˡ)
-open import Base.Eq using (_≡_; _≢_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
+open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
 open import Base.Func using (_$_)
 open import Base.Few using (¬; 0-ary)
-open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
+open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
 
 --------------------------------------------------------------------------------
 -- ℕ: Natural number

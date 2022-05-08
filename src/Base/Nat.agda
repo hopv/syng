@@ -14,6 +14,7 @@ open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
 
 --------------------------------------------------------------------------------
 -- ℕ: Natural number
+
 open import Agda.Builtin.Nat public
   using (zero; suc) renaming (Nat to ℕ)
 

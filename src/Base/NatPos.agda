@@ -12,6 +12,9 @@ open import Base.Nat using (ℕ; suc; _+_; _*_; +-comm; +-assocˡ; +-injˡ; *-co
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
 open import Base.Func using (_$_)
 
+--------------------------------------------------------------------------------
+-- ℕ⁺: Positive natural number
+
 record ℕ⁺ : Set 0ˡ where
   constructor 1+
   field un1+ : ℕ
@@ -19,19 +22,27 @@ record ℕ⁺ : Set 0ˡ where
 private variable
   l⁺ m⁺ n⁺ : ℕ⁺
 
+--------------------------------------------------------------------------------
+-- Operations on ℕ⁺
+
 -- Back to ℕ
+
 ℕ⁺⇒ℕ : ℕ⁺ → ℕ
 ℕ⁺⇒ℕ (1+ n) = suc n
 
 -- Addition
+
 infixl 6 _+⁺_
 _+⁺_ : ℕ⁺ → ℕ⁺ → ℕ⁺
 1+ m +⁺ 1+ n = 1+ $ m + (suc n)
+-- Defined so because "suc m + suc n" reduces to "suc (m + (suc n))"
 
 -- Multiplication
+
 infixl 7 _*⁺_
 _*⁺_ : ℕ⁺ → ℕ⁺ → ℕ⁺
 1+ m *⁺ 1+ n = 1+ $ n + m * (suc n)
+-- Defined so because "suc m * suc n" reduces to "suc (n + m * (suc n))"
 
 abstract
 

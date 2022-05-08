@@ -6,7 +6,8 @@
 
 module Base.Bool where
 
-open import Base.Level using (Level)
+open import Base.Level using (Level; 0ˡ)
+open import Base.Few using (⟨1⟩; ⟨0⟩)
 
 --------------------------------------------------------------------------------
 -- Bool: Boolean
@@ -52,6 +53,12 @@ infix 0 if_then_else_
 if_then_else_ : Bool → A → A → A
 if tt then aᵗ else aᶠ = aᵗ
 if ff then aᵗ else aᶠ = aᶠ
+
+-- Bool to Set
+
+Tt : Bool → Set 0ˡ
+Tt tt = ⟨1⟩
+Tt ff = ⟨0⟩
 
 --------------------------------------------------------------------------------
 -- ≤ᵇ: Comparison of Booleans

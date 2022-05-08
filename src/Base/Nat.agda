@@ -7,9 +7,10 @@
 module Base.Nat where
 
 open import Base.Level using (0ˡ)
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
-open import Base.Func using (_$_)
+open import Base.Eq using (_≡_; _≢_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
+open import Base.Func using (_$_; _∘_; flip)
 open import Base.Few using (¬)
+open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
 
 --------------------------------------------------------------------------------
 -- ℕ: Natural number
@@ -108,6 +109,14 @@ abstract
   ≤-refl {0} = 0≤
   ≤-refl {suc _} = suc≤suc ≤-refl
 
+  -- < is irreflexive
+
+  <-irrefl : ¬ (n < n)
+  <-irrefl (suc≤suc n'<n') = <-irrefl n'<n'
+
+  <-irrefl' : m ≡ n → ¬ (m < n)
+  <-irrefl' refl⁼ = <-irrefl
+
   -- ≤ is transitive
 
   ≤-trans : l ≤ m → m ≤ n → l ≤ n
@@ -148,6 +157,35 @@ abstract
 
   <-asym : m < n → ¬ (n < m)
   <-asym (suc≤suc m'<n') (suc≤suc n'<m') = <-asym m'<n' n'<m'
+
+  -- Get <, ≡ or >
+
+  cmp : ∀ m n → m < n ⊎ m ≡ n ⊎ n < m
+  cmp 0 (suc _) = inj₀ $ suc≤suc 0≤
+  cmp 0 0 = inj₁₀ refl⁼
+  cmp (suc _) 0 = inj₁₁ (suc≤suc 0≤)
+  cmp (suc m') (suc n') with cmp m' n'
+  ... | inj₀ m'<n'  =  inj₀ $ suc≤suc m'<n'
+  ... | inj₁₀ m'≡n'  =  inj₁₀ $ cong⁼ suc m'≡n'
+  ... | inj₁₁ m'>n'  =  inj₁₁ (suc≤suc m'>n')
+
+--------------------------------------------------------------------------------
+-- Tri: Trichotomy
+
+data Tri (m n : ℕ) : Set 0ˡ where
+  tri< : m < n → m ≢ n → ¬ (n < m) → Tri m n
+  tri≡ : ¬ (m < n) → m ≡ n → ¬ (n < m) → Tri m n
+  tri> : ¬ (m < n) → m ≢ n → n < m → Tri m n
+
+abstract
+
+  -- Trichotomy
+
+  tri : ∀ m n → Tri m n
+  tri m n with cmp m n
+  ... | inj₀ m<n  =  tri< m<n (flip <-irrefl' m<n) (<-asym m<n)
+  ... | inj₁₀ m≡n  =  tri≡ (<-irrefl' m≡n) m≡n (<-irrefl' $ sym⁼ m≡n)
+  ... | inj₁₁ m>n  =  tri> (<-asym m>n) (flip <-irrefl' m>n ∘ sym⁼) m>n
 
 --------------------------------------------------------------------------------
 -- ⊔: Maximum

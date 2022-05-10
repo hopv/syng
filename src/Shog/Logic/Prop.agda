@@ -117,9 +117,9 @@ syntax [∗]-map-syntax (λ d → P) ds = [∗ d ∈ ds ] P
 
 -- IsBasic P holds when P consists only of ∀, ∃ and ∗
 data IsBasic : Prop' ∞ → Set (sucˡ ℓ) where
-  ∀-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∀˙ A P˙)
-  ∃-IsBasic : (∀ a → IsBasic (P˙ a)) → IsBasic (∃˙ A P˙)
-  ∗-IsBasic : IsBasic P → IsBasic Q → IsBasic (P ∗ Q)
+  ∀-IsBasic :  (∀ a → IsBasic (P˙ a))  →  IsBasic (∀˙ _ P˙)
+  ∃-IsBasic :  (∀ a → IsBasic (P˙ a))  →  IsBasic (∃˙ _ P˙)
+  ∗-IsBasic :  IsBasic P  →  IsBasic Q  →  IsBasic (P ∗ Q)
 
 -- Basic : Type class wrapping IsBasic
 record Basic (P : Prop' ∞) : Set (sucˡ ℓ) where
@@ -133,34 +133,34 @@ abstract
   -- -- They are not instances, because unfortunately
   -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
-  ∀-Basic : (∀ a → Basic (P˙ a)) → Basic (∀˙ A P˙)
-  ∀-Basic ∀Basic .basic = ∀-IsBasic $ λ a → ∀Basic a .basic
+  ∀-Basic :  (∀ a → Basic (P˙ a))  →  Basic (∀˙ _ P˙)
+  ∀-Basic ∀Basic .basic =  ∀-IsBasic $ λ a → ∀Basic a .basic
 
-  ∃-Basic : (∀ a → Basic (P˙ a)) → Basic (∃˙ A P˙)
-  ∃-Basic ∀Basic .basic = ∃-IsBasic $ λ a → ∀Basic a .basic
+  ∃-Basic :  (∀ a → Basic (P˙ a))  →  Basic (∃˙ _ P˙)
+  ∃-Basic ∀Basic .basic =  ∃-IsBasic $ λ a → ∀Basic a .basic
 
   instance
 
     -- For ∧/∨/⊤'/⊥'
 
-    ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ Q)
+    ∧-Basic :  {{Basic P}}  →  {{Basic Q}}  →  Basic (P ∧ Q)
     ∧-Basic = ∀-Basic $ binary it it
 
-    ∨-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∨ Q)
-    ∨-Basic = ∃-Basic $ binary it it
+    ∨-Basic :  {{Basic P}}  →  {{Basic Q}}  →  Basic (P ∨ Q)
+    ∨-Basic =  ∃-Basic $ binary it it
 
-    ⊤'-Basic : Basic ⊤'
-    ⊤'-Basic = ∀-Basic absurd
+    ⊤'-Basic :  Basic ⊤'
+    ⊤'-Basic =  ∀-Basic absurd
 
-    ⊥'-Basic : Basic ⊥'
-    ⊥'-Basic = ∃-Basic absurd
+    ⊥'-Basic :  Basic ⊥'
+    ⊥'-Basic =  ∃-Basic absurd
 
     -- For ∗
 
-    ∗-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∗ Q)
-    ∗-Basic .basic = ∗-IsBasic basic basic
+    ∗-Basic :  {{Basic P}}  →  {{Basic Q}}  →  Basic (P ∗ Q)
+    ∗-Basic .basic =  ∗-IsBasic basic basic
 
     -- For ⌜ ⌝
 
-    ⌜⌝-Basic : Basic ⌜ A ⌝
-    ⌜⌝-Basic = ∃-Basic $ λ _ → ⊤'-Basic
+    ⌜⌝-Basic :  Basic ⌜ A ⌝
+    ⌜⌝-Basic =  ∃-Basic $ λ _ → ⊤'-Basic

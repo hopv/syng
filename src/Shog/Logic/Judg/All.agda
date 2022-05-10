@@ -71,13 +71,13 @@ data Judg ι where
   _»_ :  P ⊢[ ι ] Q  →  Q ⊢[ ι ]* Jr  →  P ⊢[ ι ]* Jr
   ------------------------------------------------------------------------------
   -- Introducing ∀ / Eliminating ∃
-  ∀-intro :  (∀ a → P ⊢[ ι ] Q˙ a)  →  P ⊢[ ι ] ∀˙ A Q˙
-  ∃-elim :  (∀ a → P˙ a ⊢[ ι ]* Jr)  →  ∃˙ A P˙ ⊢[ ι ]* Jr
+  ∀-intro :  (∀ a → P ⊢[ ι ] Q˙ a)  →  P ⊢[ ι ] ∀˙ _ Q˙
+  ∃-elim :  (∀ a → P˙ a ⊢[ ι ]* Jr)  →  ∃˙ _ P˙ ⊢[ ι ]* Jr
   -- Eliminating ∀ / Introducing ∃
-  ∀-elim :  ∀˙ A P˙ ⊢[ ι ] P˙ a
-  ∃-intro :  P˙ a ⊢[ ι ] ∃˙ A P˙
+  ∀-elim :  ∀˙ _ P˙ ⊢[ ι ] P˙ a
+  ∃-intro :  P˙ a ⊢[ ι ] ∃˙ _ P˙
   -- ∀ can get inside ⌜ ⌝
-  ⌜⌝-∀-in :  ∀' a ∈ A , ⌜ F a ⌝ ⊢[ ι ] ⌜ (∀ a → F a) ⌝
+  ⌜⌝-∀-in :  ∀' a , ⌜ F a ⌝ ⊢[ ι ] ⌜ (∀ a → F a) ⌝
   ------------------------------------------------------------------------------
   -- → is the right adjoint of ∧
   →-intro :  P ∧ Q ⊢[ ι ] R  →  Q ⊢[ ι ] P →' R
@@ -110,9 +110,9 @@ data Judg ι where
   -- ∧ can turn into ∗ when one argument is under □
   □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ι ] □ P ∗ Q
   -- ∀ can get inside □
-  □-∀-in :  ∀˙ A (□_ ∘ P˙) ⊢[ ι ] □ ∀˙ A P˙
+  □-∀-in :  ∀˙ _ (□_ ∘ P˙) ⊢[ ι ] □ ∀˙ _ P˙
   -- ∃ can get outside □
-  □-∃-out :  □ ∃˙ A P˙ ⊢[ ι ] ∃˙ A (□_ ∘ P˙)
+  □-∃-out :  □ ∃˙ _ P˙ ⊢[ ι ] ∃˙ _ (□_ ∘ P˙)
   ------------------------------------------------------------------------------
   -- A thunk sequent under |=> can be lifted to a super update =>>
   ^|=>⇒=>> :  P ⊢[< ι ] |=> Q  →  P ⊢[ ι ]=>> Q

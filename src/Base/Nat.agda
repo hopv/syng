@@ -10,6 +10,8 @@ open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
 open import Base.Func using (_$_)
 open import Base.Few using (¬_; absurd)
 open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
+open import Base.Bool using (Bool; tt; Tt)
+open import Base.Dec using (Dec²)
 
 --------------------------------------------------------------------------------
 -- ℕ: Natural number
@@ -243,6 +245,49 @@ abstract
 
   *-injʳ : suc l * m ≡ suc l * n → m ≡ n
   *-injʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n} = *-injˡ
+
+--------------------------------------------------------------------------------
+-- ≡ᵇ, ≤ᵇ, <ᵇ : Boolean order
+
+open import Agda.Builtin.Nat public using () renaming (_==_ to _≡ᵇ_;
+  _<_ to _<ᵇ_)
+
+infix 4 _≤ᵇ_
+_≤ᵇ_ : ℕ → ℕ → Bool
+0 ≤ᵇ n = tt
+suc m ≤ᵇ n = m <ᵇ n
+
+abstract
+
+  -- Convertion between ≡ᵇ and ≡
+
+  ≡ᵇ⇒≡ : Tt (m ≡ᵇ n) → m ≡ n
+  ≡ᵇ⇒≡ {0} {0} _ = refl⁼
+  ≡ᵇ⇒≡ {suc m'} {suc n'} m'≡ᵇn' = cong⁼ suc $ ≡ᵇ⇒≡ m'≡ᵇn'
+
+  ≡⇒≡ᵇ : m ≡ n → Tt (m ≡ᵇ n)
+  ≡⇒≡ᵇ {0} {0} _ = _
+  ≡⇒≡ᵇ {suc m'} {suc n'} refl⁼ = ≡⇒≡ᵇ {m'} {n'} refl⁼
+
+  -- Convertion between <ᵇ and <
+
+  <ᵇ⇒< : Tt (m <ᵇ n) → m < n
+  <ᵇ⇒< {0} {suc _} _ = 0<
+  <ᵇ⇒< {suc m'} {suc n'} m'<ᵇn' = suc<suc $ <ᵇ⇒< m'<ᵇn'
+
+  <⇒<ᵇ : m < n → Tt (m <ᵇ n)
+  <⇒<ᵇ 0< = _
+  <⇒<ᵇ (suc<suc m'<n'@(suc<suc _)) = <⇒<ᵇ m'<n'
+
+  -- Convertion between ≤ᵇ and ≤
+
+  ≤ᵇ⇒≤ : Tt (m ≤ᵇ n) → m ≤ n
+  ≤ᵇ⇒≤ {0} _ = 0≤
+  ≤ᵇ⇒≤ {suc m} m≤n = <ᵇ⇒< m≤n
+
+  ≤⇒≤ᵇ : m ≤ n → Tt (m ≤ᵇ n)
+  ≤⇒≤ᵇ 0≤ = _
+  ≤⇒≤ᵇ m≤n@(suc≤suc _) = <⇒<ᵇ m≤n
 
 --------------------------------------------------------------------------------
 -- ⊔: Maximum

@@ -18,12 +18,14 @@ open import Shog.Logic.Prop ℓ
 --------------------------------------------------------------------------------
 -- Judgment: P ⊢[ ι ]* Jr
 
+infix 3 |=>>_
+
 -- Result of a judgment
 data JudgRes : Set (sucˡ ℓ) where
   -- Just a proposition
   pure : Prop' ∞ → JudgRes
   -- Under the super update
-  |=>> : Prop' ∞ → JudgRes
+  |=>>_ : Prop' ∞ → JudgRes
 
 private variable
   P Q R : Prop' ∞

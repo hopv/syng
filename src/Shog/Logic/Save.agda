@@ -9,7 +9,7 @@ module Shog.Logic.Save (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
-open import Base.Bool using (Bool; _≤ᵇ_; ff≤tt; ≤ᵇ-refl)
+open import Base.Bool using (Bool; _≤ᴮ_; ff≤tt; ≤ᴮ-refl)
 open import Base.List using ([_])
 open import Shog.Logic.Prop ℓ using (Prop'; Prop<; □; _∗_; Basic;
   save; savex; save□)
@@ -37,11 +37,11 @@ abstract
 
   -- save is monotone
 
-  save-monoˡ : b' ≤ᵇ b → save b P^ ⊢[ ι ] save b' P^
+  save-monoˡ : b' ≤ᴮ b → save b P^ ⊢[ ι ] save b' P^
   save-monoˡ ff≤tt = save-□⇒x
-  save-monoˡ ≤ᵇ-refl = refl
+  save-monoˡ ≤ᴮ-refl = refl
 
-  save-mono : {{Basic R}} → b' ≤ᵇ b →
+  save-mono : {{Basic R}} → b' ≤ᴮ b →
     R ∗ P^ .! ⊢[< ι ] Q^ .! → R ∗ save b P^ ⊢[ ι ] save b' Q^
   save-mono b'≤b R∗P⊢Q = ∗-monoʳ (save-monoˡ b'≤b) » save-monoʳ R∗P⊢Q
 

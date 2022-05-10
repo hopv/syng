@@ -61,18 +61,18 @@ Tt tt = ⟨1⟩
 Tt ff = ⟨0⟩
 
 --------------------------------------------------------------------------------
--- ≤ᵇ: Comparison of Booleans
+-- ≤ᴮ: Comparison of Booleans
 
-infix 4 _≤ᵇ_
-data _≤ᵇ_ : Bool → Bool → Set where
-  ff≤tt : ff ≤ᵇ tt
-  ≤ᵇ-refl : ∀ {b} → b ≤ᵇ b
-open _≤ᵇ_ public
+infix 4 _≤ᴮ_
+data _≤ᴮ_ : Bool → Bool → Set where
+  ff≤tt : ff ≤ᴮ tt
+  ≤ᴮ-refl : ∀ {b} → b ≤ᴮ b
+open _≤ᴮ_ public
 
 abstract
 
-  -- ≤ᵇ is transitive
+  -- ≤ᴮ is transitive
 
-  ≤ᵇ-trans : b ≤ᵇ c → c ≤ᵇ d → b ≤ᵇ d
-  ≤ᵇ-trans ≤ᵇ-refl c≤d = c≤d
-  ≤ᵇ-trans ff≤tt ≤ᵇ-refl = ff≤tt
+  ≤ᴮ-trans : b ≤ᴮ c → c ≤ᴮ d → b ≤ᴮ d
+  ≤ᴮ-trans ≤ᴮ-refl c≤d = c≤d
+  ≤ᴮ-trans ff≤tt ≤ᴮ-refl = ff≤tt

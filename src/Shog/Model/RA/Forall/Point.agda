@@ -12,7 +12,7 @@ module Shog.Model.RA.Forall.Point {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
 
 open import Base.Eq using (refl⁼)
 open import Base.Dec using (yes; no)
-open import Base.Few using (0-ary)
+open import Base.Few using (absurd)
 open import Shog.Model.RA.Forall Ra˙ using (∀ᴿᴬ)
 
 open RA
@@ -80,7 +80,7 @@ module _ {i : I} where
     ∀-upd-upd j with i ≟ j
     ... | yes refl⁼ = reflⁱ
     ... | no i≢j with i ≟ j -- We need it to simplify ∀-upd i b c˙ j
-    ...   | yes i≡j = 0-ary (i≢j i≡j)
+    ...   | yes i≡j = absurd (i≢j i≡j)
     ...   | no _ = Ra˙ j .refl˜
 
     -- ∀-inj preserves ≈/✓/∙/ε/⌞⌟/↝

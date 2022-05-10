@@ -11,7 +11,7 @@ open Setoid S renaming (Car to A)
 open import Base.Level using (Level)
 open import Base.Func using (id)
 open import Base.Prod using (_,_)
-open import Base.Few using (⟨1⟩; ⟨0⟩)
+open import Base.Few using (⊤; ⊥)
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------
@@ -32,15 +32,15 @@ private
   -- Equivalence
   infix 4 _≈ˣ_
   _≈ˣ_ : Ex → Ex → Set ℓ≈
-  ?ˣ ≈ˣ ?ˣ =  ⟨1⟩
-  ↯ˣ ≈ˣ ↯ˣ =  ⟨1⟩
+  ?ˣ ≈ˣ ?ˣ =  ⊤
+  ↯ˣ ≈ˣ ↯ˣ =  ⊤
   #ˣ a ≈ˣ #ˣ b =  a ≈ b
-  _ ≈ˣ _ =  ⟨0⟩
+  _ ≈ˣ _ =  ⊥
 
   -- Validity
   ✓ˣ : Ex → Set ℓ✓
-  ✓ˣ ↯ˣ =  ⟨0⟩
-  ✓ˣ _ =  ⟨1⟩
+  ✓ˣ ↯ˣ =  ⊥
+  ✓ˣ _ =  ⊤
 
   -- Product
   infixl 7 _∙ˣ_

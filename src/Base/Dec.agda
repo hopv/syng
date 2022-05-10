@@ -7,7 +7,7 @@
 module Base.Dec where
 
 open import Base.Level using (Level; _⊔ˡ_)
-open import Base.Few using (¬)
+open import Base.Few using (¬_)
 
 private variable
   ℓA ℓB ℓF : Level

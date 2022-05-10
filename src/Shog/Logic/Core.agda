@@ -19,8 +19,8 @@ open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 
 open import Shog.Logic.Prop ℓ using (
   Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
-  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □;
-  [∗])
+  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_;
+  [∗]_)
 open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers)
 
 -- Import and re-export the axiomatic rules
@@ -337,10 +337,10 @@ abstract
 
   -- ∀/∧ can get outside □ / ∃/∨ can get inside □
 
-  □-∀-out : □ (∀˙ _ P˙) ⊢[ ι ] ∀˙ _ (□ ∘ P˙)
+  □-∀-out : □ ∀˙ _ P˙ ⊢[ ι ] ∀˙ _ (□_ ∘ P˙)
   □-∀-out = ∀-intro $ λ _ → □-mono ∀-elim
 
-  □-∃-in : ∃˙ A (□ ∘ P˙) ⊢[ ι ] □ (∃˙ A P˙)
+  □-∃-in : ∃˙ A (□_ ∘ P˙) ⊢[ ι ] □ ∃˙ A P˙
   □-∃-in = ∃-elim $ λ _ → □-mono ∃-intro
 
   □-∧-out : □ (P ∧ Q) ⊢[ ι ] □ P ∧ □ Q
@@ -378,6 +378,7 @@ abstract
   in□-∧⇒∗ = □-intro $ dup-□ » ∗-mono (□-elim » ∧-elimˡ) (□-elim » ∧-elimʳ)
 
   -- P -∗ can turn into □ P →'
+
   -∗⇒□→ : P -∗ Q ⊢[ ι ] □ P →' Q
   -∗⇒□→ = →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-apply
 

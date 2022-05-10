@@ -11,7 +11,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Bool using (Bool; _≤ᴮ_; ff≤tt; ≤ᴮ-refl)
 open import Base.List using ([_])
-open import Shog.Logic.Prop ℓ using (Prop'; Prop<; □; _∗_; Basic;
+open import Shog.Logic.Prop ℓ using (Prop'; Prop<; □_; _∗_; Basic;
   save; savex; save□)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; Pers; pers)
 open import Shog.Logic.Core ℓ using (refl; _»_; ∗-monoʳ; ∗-elimˡ; ∗⊤-intro;
@@ -47,5 +47,5 @@ abstract
 
   -- Allocating save□, without recursion
 
-  save□-alloc : □ (P^ .!) ⊢[ ι ]=>> save□ P^
+  save□-alloc : □ P^ .! ⊢[ ι ]=>> save□ P^
   save□-alloc = ∗⊤-intro » -∗-const » save□-alloc-rec {P^s = [ _ ]} ᵘ» ∗-elimˡ

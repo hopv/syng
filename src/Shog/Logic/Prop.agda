@@ -24,6 +24,10 @@ data Prop' (ι : Size) : Set (sucˡ ℓ)
 Prop< : Size → Set (sucˡ ℓ)
 Prop< ι = Thunk Prop' ι
 
+infixr 5 _→'_ _-∗_
+infixr 7 _∗_
+infix 8 |=>_ □_
+
 data Prop' ι where
   -- Universal/existential quantification
   ∀˙ ∃˙ : (A : Set ℓ) → (A → Prop' ι) → Prop' ι
@@ -32,12 +36,9 @@ data Prop' ι where
   -- Separating conjunction / magic wand
   _∗_ _-∗_ : Prop' ι → Prop' ι → Prop' ι
   -- Update / persistence modality
-  |=> □ : Prop' ι → Prop' ι
+  |=>_ □_ : Prop' ι → Prop' ι
   -- Save token, with the persistence flag
   save : Bool → Prop< ι → Prop' ι
-
-infixr 5 _→'_ _-∗_
-infixr 7 _∗_
 
 private variable
   ι : Size
@@ -96,20 +97,21 @@ save□ P^ = save tt P^
 --------------------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]
 
-[∗] : List (Prop' ι) → Prop' ι
+infix 8 [∗]_
+[∗]_ : List (Prop' ι) → Prop' ι
 [∗] [] = ⊤'
 [∗] (P ∷ Ps) = P ∗ [∗] Ps
 
 -- [∗] with map
 
 [∗]-map : (D → Prop' ι) → List D → Prop' ι
-[∗]-map P˙ ds = [∗] $ map P˙ ds
+[∗]-map P˙ ds = [∗] map P˙ ds
 
 [∗]-map-syntax : (D → Prop' ι) → List D → Prop' ι
 [∗]-map-syntax = [∗]-map
 
-infix 3 [∗]-map-syntax
-syntax [∗]-map-syntax (λ d → P) ds = [∗] d ∈ ds , P
+infix 8 [∗]-map-syntax
+syntax [∗]-map-syntax (λ d → P) ds = [∗ d ∈ ds ] P
 
 --------------------------------------------------------------------------------
 -- Basic Shog proposition

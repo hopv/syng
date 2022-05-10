@@ -94,7 +94,7 @@ data Judg ι where
   -- |=> is monadic: monotone, increasing, and idempotent
   |=>-mono : P ⊢[ ι ] Q → |=> P ⊢[ ι ] |=> Q
   |=>-intro : P ⊢[ ι ] |=> P
-  |=>-join : |=> (|=> P) ⊢[ ι ] |=> P
+  |=>-join : |=> |=> P ⊢[ ι ] |=> P
   -- ∗ can get inside |=>
   |=>-frameˡ : P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
   -- ∃ _ , can get outside |=>
@@ -103,13 +103,13 @@ data Judg ι where
   -- □ is comonadic: monotone, decreasing, and idempotent
   □-mono : P ⊢[ ι ] Q → □ P ⊢[ ι ] □ Q
   □-elim : □ P ⊢[ ι ] P
-  □-dup : □ P ⊢[ ι ] □ (□ P)
+  □-dup : □ P ⊢[ ι ] □ □ P
   -- ∧ can turn into ∗ when one argument is under □
   □ˡ-∧⇒∗ : □ P ∧ Q ⊢[ ι ] □ P ∗ Q
   -- ∀ can get inside □
-  □-∀-in : ∀˙ A (□ ∘ P˙) ⊢[ ι ] □ (∀˙ A P˙)
+  □-∀-in : ∀˙ A (□_ ∘ P˙) ⊢[ ι ] □ ∀˙ A P˙
   -- ∃ can get outside □
-  □-∃-out : □ (∃˙ A P˙) ⊢[ ι ] ∃˙ A (□ ∘ P˙)
+  □-∃-out : □ ∃˙ A P˙ ⊢[ ι ] ∃˙ A (□_ ∘ P˙)
   ------------------------------------------------------------------------------
   -- A thunk sequent under |=> can be lifted to a super update =>>
   ^|=>⇒=>> : P ⊢[< ι ] |=> Q → P ⊢[ ι ]=>> Q
@@ -124,13 +124,13 @@ data Judg ι where
   -- save□ weakens into savex
   save-□⇒x : save□ P^ ⊢[ ι ] savex P^
   -- save□ is persistent
-  save□-□ : save□ P^ ⊢[ ι ] □ (save□ P^)
+  save□-□ : save□ P^ ⊢[ ι ] □ save□ P^
   -- An exclusive save token savex P^ is obtained by allocating P^
   savex-alloc : P^ .! ⊢[ ι ]=>> savex P^
   -- Persistent save tokens save□ P^, ... can be obtained
   -- by allocating □ P^, ... minus the tokens save□ P^, ... themselves
-  save□-alloc-rec : [∗]-map save□ P^s -∗ [∗]-map (λ P^ → □ (P^ .!)) P^s
-                      ⊢[ ι ]=>> [∗]-map save□ P^s
+  save□-alloc-rec :
+    [∗]-map save□ P^s -∗ [∗ P^ ∈ P^s ] □ P^ .! ⊢[ ι ]=>> [∗]-map save□ P^s
 
 --------------------------------------------------------------------------------
 -- Pers P : Persistence of a proposition

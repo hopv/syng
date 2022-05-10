@@ -61,7 +61,7 @@ Tt tt = ⟨1⟩
 Tt ff = ⟨0⟩
 
 --------------------------------------------------------------------------------
--- ≤ᴮ: Comparison of Booleans
+-- ≤ᴮ: Order over Bool
 
 infix 4 _≤ᴮ_
 data _≤ᴮ_ : Bool → Bool → Set where

@@ -101,10 +101,10 @@ data _≤_ : ℕ → ℕ → Set where
 _<_ : ℕ → ℕ → Set
 m < n = suc m ≤ n
 
-abstract
+pattern 0< = suc≤suc 0≤
+pattern suc<suc m<n = suc≤suc m<n
 
-  0< : 0 < suc n
-  0< = suc≤suc 0≤
+abstract
 
   -- ≤ is reflexive
 
@@ -159,7 +159,7 @@ abstract
   -- < is asymmetric
 
   <-asym : m < n → ¬ n < m
-  <-asym (suc≤suc m'<n') (suc≤suc n'<m') = <-asym m'<n' n'<m'
+  <-asym (suc<suc m'<n') (suc<suc n'<m') = <-asym m'<n' n'<m'
 
   -- Get <, ≡ or >
 
@@ -168,9 +168,9 @@ abstract
   cmp 0 0 = inj₁₀ refl⁼
   cmp (suc _) 0 = inj₁₁ 0<
   cmp (suc m') (suc n') with cmp m' n'
-  ... | inj₀ m'<n' =  inj₀ $ suc≤suc m'<n'
+  ... | inj₀ m'<n' =  inj₀ $ suc<suc m'<n'
   ... | inj₁₀ m'≡n' =  inj₁₀ $ cong⁼ suc m'≡n'
-  ... | inj₁₁ m'>n' =  inj₁₁ (suc≤suc m'>n')
+  ... | inj₁₁ m'>n' =  inj₁₁ (suc<suc m'>n')
 
   -- + is increasing
 

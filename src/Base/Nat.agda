@@ -103,6 +103,9 @@ m < n = suc m ≤ n
 
 abstract
 
+  0< : 0 < suc n
+  0< = suc≤suc 0≤
+
   -- ≤ is reflexive
 
   ≤-refl : n ≤ n
@@ -161,9 +164,9 @@ abstract
   -- Get <, ≡ or >
 
   cmp : ∀ m n → m < n ⊎ m ≡ n ⊎ n < m
-  cmp 0 (suc _) = inj₀ $ suc≤suc 0≤
+  cmp 0 (suc _) = inj₀ 0<
   cmp 0 0 = inj₁₀ refl⁼
-  cmp (suc _) 0 = inj₁₁ (suc≤suc 0≤)
+  cmp (suc _) 0 = inj₁₁ 0<
   cmp (suc m') (suc n') with cmp m' n'
   ... | inj₀ m'<n' =  inj₀ $ suc≤suc m'<n'
   ... | inj₁₀ m'≡n' =  inj₁₀ $ cong⁼ suc m'≡n'

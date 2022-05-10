@@ -83,7 +83,7 @@ abstract
 
 infix 4 _⊆ᴸ_
 _⊆ᴸ_ : List A → List A → Set (ℓ ⊔ˡ ℓ≈)
-as ⊆ᴸ bs  =  ∀{a} →  a ∈ᴸ as  →  a ∈ᴸ bs
+as ⊆ᴸ bs =  ∀{a} →  a ∈ᴸ as  →  a ∈ᴸ bs
 
 abstract
 
@@ -111,7 +111,7 @@ abstract
   -- More on ++ and  ⊆ᴸ
 
   ++-monoˡ :  as ⊆ᴸ bs  →  as ++ cs  ⊆ᴸ  bs ++ cs
-  ++-monoˡ as⊆bs  =  ++-⊆ᴸ-elim (⊆ᴸ-trans as⊆bs ++-⊆ᴸ-introˡ) ++-⊆ᴸ-introʳ
+  ++-monoˡ as⊆bs =  ++-⊆ᴸ-elim (⊆ᴸ-trans as⊆bs ++-⊆ᴸ-introˡ) ++-⊆ᴸ-introʳ
 
   ++-⊆ᴸ-comm :  as ++ bs  ⊆ᴸ  bs ++ as
   ++-⊆ᴸ-comm {as} {bs}  =
@@ -122,7 +122,7 @@ abstract
 
 infix 4 _≈ᴸ_
 _≈ᴸ_ : List A → List A → Set (ℓ ⊔ˡ ℓ≈)
-as ≈ᴸ bs  =  as ⊆ᴸ bs  ×  bs ⊆ᴸ as
+as ≈ᴸ bs =  as ⊆ᴸ bs  ×  bs ⊆ᴸ as
 
 abstract
 
@@ -144,19 +144,19 @@ abstract
   -- ++ is congruent, commutative and idempotent w.r.t. ≈ᴸ
 
   ++-congˡ :  as ≈ᴸ bs  →  as ++ cs  ≈ᴸ  bs ++ cs
-  ++-congˡ (as⊆bs , bs⊆as)  =  ++-monoˡ as⊆bs , ++-monoˡ bs⊆as
+  ++-congˡ (as⊆bs , bs⊆as) =  ++-monoˡ as⊆bs , ++-monoˡ bs⊆as
 
   ++-comm :  as ++ bs  ≈ᴸ  bs ++ as
-  ++-comm {as} {bs}  =  ++-⊆ᴸ-comm {as} {bs} , ++-⊆ᴸ-comm {bs} {as}
+  ++-comm {as} {bs} =  ++-⊆ᴸ-comm {as} {bs} , ++-⊆ᴸ-comm {bs} {as}
 
   ++-idem :  as ++ as  ≈ᴸ  as
-  ++-idem  =  ++-⊆ᴸ-elim ⊆ᴸ-refl ⊆ᴸ-refl , ++-⊆ᴸ-introˡ
+  ++-idem =  ++-⊆ᴸ-elim ⊆ᴸ-refl ⊆ᴸ-refl , ++-⊆ᴸ-introˡ
 
 --------------------------------------------------------------------------------
 -- homo: the list is homogeneous as a set
 
 homo : List A → Set (ℓ ⊔ˡ ℓ≈)
-homo as  =  ∀ {a b} →  a ∈ᴸ as  →  b ∈ᴸ as  →  a ≈ b
+homo as =  ∀ {a b} →  a ∈ᴸ as  →  b ∈ᴸ as  →  a ≈ b
 
 abstract
 
@@ -164,10 +164,10 @@ abstract
   homo-[] ()
 
   homo-mono :  as ⊆ᴸ bs  →  homo bs  →  homo as
-  homo-mono as⊆bs homo'bs a∈as b∈as  =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)
+  homo-mono as⊆bs homo'bs a∈as b∈as =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)
 
   homo-resp :  as ≈ᴸ bs  →  homo as  →  homo bs
-  homo-resp (_ , bs⊆as)  =  homo-mono bs⊆as
+  homo-resp (_ , bs⊆as) =  homo-mono bs⊆as
 
   homo-agree :  homo (a ∷ b ∷ [])  →  a ≈ b
   homo-agree homo'abcs =  homo'abcs (by-hd refl˜) (by-tl $ by-hd refl˜)

@@ -42,8 +42,8 @@ abstract
   Any-++-case {as = []} Fbs = inj₁ Fbs
   Any-++-case {as = _ ∷ _} (by-hd Fa) = inj₀ (by-hd Fa)
   Any-++-case {as = _ ∷ _} (by-tl Fas'++bs) with Any-++-case Fas'++bs
-  ... | inj₀ Fas'  =  inj₀ $ by-tl Fas'
-  ... | inj₁ Fbs  =  inj₁ Fbs
+  ... | inj₀ Fas' =  inj₀ $ by-tl Fas'
+  ... | inj₁ Fbs =  inj₁ Fbs
 
   -- ¬Any
 
@@ -66,8 +66,8 @@ abstract
 
   ¬Any-++-intro : ¬ Any F as → ¬ Any F bs → ¬ Any F (as ++ bs)
   ¬Any-++-intro ¬Fas ¬Fbs Fas++bs with Any-++-case Fas++bs
-  ... | inj₀ Fas  =  ¬Fas Fas
-  ... | inj₁ Fbs  =  ¬Fbs Fbs
+  ... | inj₀ Fas =  ¬Fas Fas
+  ... | inj₁ Fbs =  ¬Fbs Fbs
 
   ¬Any-++-elim₀ : ¬ Any F (as ++ bs) → ¬ Any F as
   ¬Any-++-elim₀ ¬Fas++bs Fas = ¬Fas++bs $ Any-++-inj₀ Fas

@@ -22,23 +22,23 @@ open RA
 -- AgRA : Agreement resource algebra
 
 AgRA : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
-AgRA .Car  =  List A
-AgRA ._≈_  =  _≈ᴸ_
-AgRA .✓  =  homo
-AgRA ._∙_  =  _++_
-AgRA .ε  =  []
-AgRA .⌞_⌟  =  id
-AgRA .refl˜  =  ≈ᴸ-refl
-AgRA .sym˜  =  ≈ᴸ-sym
-AgRA ._»˜_  =  ≈ᴸ-trans
-AgRA .∙-congˡ  =  ++-congˡ
-AgRA .∙-unitˡ  =  ≈ᴸ-refl
-AgRA .∙-comm {as}  =  ++-comm {as}
-AgRA .∙-assocˡ {as}  =  ≡⇒≈ᴸ (++-assocˡ {as = as})
-AgRA .✓-resp  =  homo-resp
-AgRA .✓-rem  =  homo-mono ++-⊆ᴸ-introʳ
-AgRA .✓-ε  =  homo-[]
-AgRA .⌞⌟-cong  =  id
-AgRA .⌞⌟-add  =  _ , ≈ᴸ-refl
-AgRA .⌞⌟-unitˡ  =  ++-idem
-AgRA .⌞⌟-idem  =  ≈ᴸ-refl
+AgRA .Car =  List A
+AgRA ._≈_ =  _≈ᴸ_
+AgRA .✓ =  homo
+AgRA ._∙_ =  _++_
+AgRA .ε =  []
+AgRA .⌞_⌟ =  id
+AgRA .refl˜ =  ≈ᴸ-refl
+AgRA .sym˜ =  ≈ᴸ-sym
+AgRA ._»˜_ =  ≈ᴸ-trans
+AgRA .∙-congˡ =  ++-congˡ
+AgRA .∙-unitˡ =  ≈ᴸ-refl
+AgRA .∙-comm {as} =  ++-comm {as}
+AgRA .∙-assocˡ {as} =  ≡⇒≈ᴸ (++-assocˡ {as = as})
+AgRA .✓-resp =  homo-resp
+AgRA .✓-rem =  homo-mono ++-⊆ᴸ-introʳ
+AgRA .✓-ε =  homo-[]
+AgRA .⌞⌟-cong =  id
+AgRA .⌞⌟-add =  _ , ≈ᴸ-refl
+AgRA .⌞⌟-unitˡ =  ++-idem
+AgRA .⌞⌟-idem =  ≈ᴸ-refl

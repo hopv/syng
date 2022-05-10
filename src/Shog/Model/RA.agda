@@ -111,7 +111,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
 
   infix 4 _⊑_
   _⊑_ : Car → Car → Set (ℓ ⊔ˡ ℓ≈)
-  a ⊑ b  =  Σ c ,  c ∙ a  ≈  b
+  a ⊑ b =  Σ c ,  c ∙ a  ≈  b
 
   abstract
 
@@ -126,7 +126,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     -- ⊑ is transitive
 
     ⊑-trans :  a ⊑ b  →  b ⊑ c  →  a ⊑ c
-    ⊑-trans (d , d∙a≈b) (e , e∙b≈c)  =  (d ∙ e) ,
+    ⊑-trans (d , d∙a≈b) (e , e∙b≈c) =  (d ∙ e) ,
       (∙-congˡ ∙-comm »˜ ∙-assocˡ »˜ ∙-congʳ d∙a≈b »˜ e∙b≈c)
 
     -- ⊑ respects ≈
@@ -160,7 +160,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
 
     ⌞⌟-mono :  a ⊑ b  →  ⌞ a ⌟ ⊑ ⌞ b ⌟
     ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add {_} {c}
-    ... | c' , c'∙⌞a⌟≈⌞c∙a⌟  =  c' , (c'∙⌞a⌟≈⌞c∙a⌟ »˜ ⌞⌟-cong c∙a≈b)
+    ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ =  c' , (c'∙⌞a⌟≈⌞c∙a⌟ »˜ ⌞⌟-cong c∙a≈b)
 
   ------------------------------------------------------------------------------
   -- ↝/↝ˢ : Resource update
@@ -169,11 +169,11 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
 
   -- a ↝ b : a can be updated into b, regardless of the frame c
   _↝_ : Car → Car → Set (ℓ ⊔ˡ ℓ✓)
-  a ↝ b  =  ∀ c →  ✓ (c ∙ a)  →  ✓ (c ∙ b)
+  a ↝ b =  ∀ c →  ✓ (c ∙ a)  →  ✓ (c ∙ b)
 
   -- a ↝ˢ B : a can be updated into b, regardless of the frame c
   _↝ˢ_ : Car → (Car → Set ℓB) → Set (ℓ ⊔ˡ ℓ✓ ⊔ˡ ℓB)
-  a ↝ˢ B  =  ∀ c →  ✓ (c ∙ a)  →  Σ b ,  b ∈ B  ×  ✓ (c ∙ b)
+  a ↝ˢ B =  ∀ c →  ✓ (c ∙ a)  →  Σ b ,  b ∈ B  ×  ✓ (c ∙ b)
 
   abstract
 
@@ -199,31 +199,31 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ↝ˢ-resp a≈a' B⊆≈B' a↝ˢB c ✓c∙a'
       with  ✓c∙a' ▷ ✓-resp (∙-congʳ $ sym˜ a≈a') ▷ a↝ˢB c
     ... | b , b∈B , ✓c∙b  with  B⊆≈B' b∈B
-    ...   | b' , b≈b' , b'∈B'  =  b' , b'∈B' , ✓-resp (∙-congʳ b≈b') ✓c∙b
+    ...   | b' , b≈b' , b'∈B' =  b' , b'∈B' , ✓-resp (∙-congʳ b≈b') ✓c∙b
 
     ↝ˢ-respˡ :  a ≈ a'  →  a ↝ˢ B  →  a' ↝ˢ B
-    ↝ˢ-respˡ a≈a'  =  ↝ˢ-resp a≈a' ⊆≈-refl
+    ↝ˢ-respˡ a≈a' =  ↝ˢ-resp a≈a' ⊆≈-refl
 
     ↝ˢ-respʳ : B ⊆≈ B'  →  a ↝ˢ B  →  a ↝ˢ B'
-    ↝ˢ-respʳ  =  ↝ˢ-resp refl˜
+    ↝ˢ-respʳ =  ↝ˢ-resp refl˜
 
     -- ↝ is reflexive and transitive
 
     ↝-refl : a ↝ a
-    ↝-refl _  =  id
+    ↝-refl _ =  id
 
     ↝-trans :  a ↝ b  →  b ↝ c  →  a ↝ c
-    ↝-trans a↝b b↝c d ✓d∙a  =  ✓d∙a ▷ a↝b d ▷ b↝c d
+    ↝-trans a↝b b↝c d ✓d∙a =  ✓d∙a ▷ a↝b d ▷ b↝c d
 
     -- ↝ and ↝ˢ can be composed
 
     ↝-↝ˢ :  a ↝ b  →  b ↝ˢ C  →  a ↝ˢ C
-    ↝-↝ˢ a↝b b↝ˢC d ✓d∙a  =  ✓d∙a ▷ a↝b d ▷ b↝ˢC d
+    ↝-↝ˢ a↝b b↝ˢC d ✓d∙a =  ✓d∙a ▷ a↝b d ▷ b↝ˢC d
 
     -- ↝/↝ˢ can be merged with respect to ∙
 
     ∙-mono-↝ :  a ↝ b  →  c ↝ d  →  a ∙ c  ↝  b ∙ d
-    ∙-mono-↝ a↝b c↝d e ✓e∙a∙c  =  ✓e∙a∙c ▷ ✓-resp ∙-assocʳ ▷
+    ∙-mono-↝ a↝b c↝d e ✓e∙a∙c =  ✓e∙a∙c ▷ ✓-resp ∙-assocʳ ▷
       c↝d _ ▷ ✓-resp (∙-assocˡ »˜ ∙-congʳ ∙-comm »˜ ∙-assocʳ) ▷
       a↝b _ ▷ ✓-resp (∙-assocˡ »˜ ∙-congʳ ∙-comm)
 
@@ -233,5 +233,5 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d ▷
       ✓-resp (∙-assocˡ »˜ ∙-congʳ ∙-comm »˜ ∙-assocʳ) ▷ a↝ˢB _
     ...   | b , b∈B , ✓f∙d∙b  with  BDE b∈B d∈D
-    ...     | e , e≈b∙d , e∈E  =  e , e∈E ,
+    ...     | e , e≈b∙d , e∈E =  e , e∈E ,
       ✓-resp (∙-assocˡ »˜ ∙-congʳ $ ∙-comm »˜ sym˜ e≈b∙d) ✓f∙d∙b

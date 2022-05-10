@@ -58,7 +58,7 @@ record Setoid ℓ ℓ≈ : Set (sucˡ (ℓ ⊔ˡ ℓ≈)) where
     ⊆≈-trans : X ⊆≈ Y → Y ⊆≈ Z → X ⊆≈ Z
     ⊆≈-trans X⊆≈Y Y⊆≈Z a∈X with X⊆≈Y a∈X
     ... | b , a≈b , b∈Y with Y⊆≈Z b∈Y
-    ...   | c , b≈c , c∈Z  =  c , (a≈b »˜ b≈c) , c∈Z
+    ...   | c , b≈c , c∈Z =  c , (a≈b »˜ b≈c) , c∈Z
 
 open Setoid
 

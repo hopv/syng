@@ -19,8 +19,7 @@ open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 
 open import Shog.Logic.Prop ℓ using (
   Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
-  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_;
-  [∗]_)
+  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_; [∗])
 open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers)
 
 -- Import and re-export the axiomatic rules

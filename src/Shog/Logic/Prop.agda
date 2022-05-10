@@ -97,15 +97,14 @@ save□ P^ = save tt P^
 --------------------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]
 
-infix 8 [∗]_
-[∗]_ : List (Prop' ι) → Prop' ι
+[∗] : List (Prop' ι) → Prop' ι
 [∗] [] = ⊤'
 [∗] (P ∷ Ps) = P ∗ [∗] Ps
 
 -- [∗] with map
 
 [∗]-map : (D → Prop' ι) → List D → Prop' ι
-[∗]-map P˙ ds = [∗] map P˙ ds
+[∗]-map P˙ ds = [∗] (map P˙ ds)
 
 [∗]-map-syntax : (D → Prop' ι) → List D → Prop' ι
 [∗]-map-syntax = [∗]-map

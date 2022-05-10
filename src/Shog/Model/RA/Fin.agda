@@ -82,7 +82,7 @@ private abstract
 FinRA : RA (ℓ ⊔ˡ ℓ≈) ℓ≈ ℓ✓
 FinRA .Car =  Fin
 FinRA ._≈_ =  _≈ᶠ_
-FinRA .✓ =  ✓ᶠ
+FinRA .✓_ =  ✓ᶠ
 FinRA ._∙_ =  _∙ᶠ_
 FinRA .ε =  εᶠ
 FinRA .⌞_⌟ =  ⌞_⌟ᶠ

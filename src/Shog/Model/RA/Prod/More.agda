@@ -11,9 +11,9 @@ module Shog.Model.RA.Prod.More {ℓˡ ℓ≈ˡ ℓ✓ˡ ℓʳ ℓ≈ʳ ℓ✓ʳ}
 open import Base.Prod using (_×_; _,_)
 open import Shog.Model.RA.Prod Raˡ Raʳ using (_×ᴿᴬ_)
 
-open RA Raˡ using () renaming (Car to A; _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_;
+open RA Raˡ using () renaming (Car to A; _≈_ to _≈ˡ_; ✓_ to ✓ˡ_; _∙_ to _∙ˡ_;
   ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ; _↝_ to _↝ˡ_; refl˜ to reflˡ; ↝-refl to ↝ˡ-refl)
-open RA Raʳ using () renaming (Car to X; _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_;
+open RA Raʳ using () renaming (Car to X; _≈_ to _≈ʳ_; ✓_ to ✓ʳ_; _∙_ to _∙ʳ_;
   ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ; _↝_ to _↝ʳ_; refl˜ to reflʳ; ↝-refl to ↝ʳ-refl)
 open RA _×ᴿᴬ_ using (_≈_; _↝_) renaming (Car to AX)
 

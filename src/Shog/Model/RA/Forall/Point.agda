@@ -16,7 +16,7 @@ open import Base.Few using (absurd)
 open import Shog.Model.RA.Forall Ra˙ using (∀ᴿᴬ)
 
 open RA
-open RA ∀ᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓ to ✓ᴬ; _∙_ to _∙ᴬ_;
+open RA ∀ᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_; _∙_ to _∙ᴬ_;
   ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _»˜_ to _»ᴬ_;
   ∙-unitˡ to ∙-unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
 
@@ -38,7 +38,7 @@ open RA ∀ᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓ to ✓�
 
 module _ {i : I} where
 
-  open RA (Ra˙ i) using () renaming (Car to Aⁱ; _≈_ to _≈ⁱ_; ✓ to ✓ⁱ;
+  open RA (Ra˙ i) using () renaming (Car to Aⁱ; _≈_ to _≈ⁱ_; ✓_ to ✓ⁱ_;
     _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; refl˜ to reflⁱ; _↝_ to _↝ⁱ_)
 
   private variable
@@ -54,7 +54,7 @@ module _ {i : I} where
     ... | yes refl⁼ = a≈b
     ... | no _ = c˙≈d˙ j
 
-    ∀-upd-✓ :  ✓ⁱ a  →  ✓ᴬ b˙  →  ✓ᴬ (∀-upd i a b˙)
+    ∀-upd-✓ :  ✓ⁱ a  →  ✓ᴬ b˙  →  ✓ᴬ ∀-upd i a b˙
     ∀-upd-✓ ✓a ✓b˙ j with i ≟ j
     ... | yes refl⁼ = ✓a
     ... | no _ = ✓b˙ j
@@ -88,7 +88,7 @@ module _ {i : I} where
     ∀-inj-cong :  a ≈ⁱ b  →  ∀-inj i a  ≈ᴬ  ∀-inj i b
     ∀-inj-cong a≈b = ∀-upd-cong a≈b reflᴬ
 
-    ∀-inj-✓ :  ✓ⁱ a  →  ✓ᴬ (∀-inj i a)
+    ∀-inj-✓ :  ✓ⁱ a  →  ✓ᴬ ∀-inj i a
     ∀-inj-✓ ✓a = ∀-upd-✓ ✓a ✓ᴬ-ε
 
     ∀-inj-∙ :  ∀-inj i a ∙ᴬ ∀-inj i b  ≈ᴬ  ∀-inj i (a ∙ⁱ b)

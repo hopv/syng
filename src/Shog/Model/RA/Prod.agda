@@ -12,9 +12,9 @@ open import Base.Level using (_⊔ˡ_)
 open import Base.Prod using (_×_; _,_)
 
 open RA
-open RA Raˡ using () renaming (Car to A; _≈_ to _≈ˡ_; ✓ to ✓ˡ; _∙_ to _∙ˡ_;
+open RA Raˡ using () renaming (Car to A; _≈_ to _≈ˡ_; ✓_ to ✓ˡ_; _∙_ to _∙ˡ_;
   ε to εˡ; ⌞_⌟ to ⌞_⌟ˡ)
-open RA Raʳ using () renaming (Car to X; _≈_ to _≈ʳ_; ✓ to ✓ʳ; _∙_ to _∙ʳ_;
+open RA Raʳ using () renaming (Car to X; _≈_ to _≈ʳ_; ✓_ to ✓ʳ_; _∙_ to _∙ʳ_;
   ε to εʳ; ⌞_⌟ to ⌞_⌟ʳ)
 
 --------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ infixr 2 _×ᴿᴬ_
 _×ᴿᴬ_ : RA (ℓˡ ⊔ˡ ℓʳ) (ℓ≈ˡ ⊔ˡ ℓ≈ʳ) (ℓ✓ˡ ⊔ˡ ℓ✓ʳ)
 _×ᴿᴬ_ .Car =  A × X
 _×ᴿᴬ_ ._≈_ (a , x) (b , y) =  (a ≈ˡ b) × (x ≈ʳ y)
-_×ᴿᴬ_ .✓ (a , x) =  ✓ˡ a × ✓ʳ x
+_×ᴿᴬ_ .✓_ (a , x) =  ✓ˡ a × ✓ʳ x
 _×ᴿᴬ_ ._∙_ (a , x) (b , y) =  a ∙ˡ b , x ∙ʳ y
 _×ᴿᴬ_ .ε =  εˡ , εʳ
 _×ᴿᴬ_ .⌞_⌟ (a , x) =  ⌞ a ⌟ˡ , ⌞ x ⌟ʳ

@@ -12,7 +12,7 @@ open import Base.List using (List; [_])
 open import Base.List.Set S using (homo-agree)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Ag S using (AgRA)
-open RA AgRA using (_∙_; ✓)
+open RA AgRA using (_∙_; ✓_)
 
 private variable
   a b : A
@@ -22,5 +22,5 @@ ag a = [ a ]
 
 abstract
 
-  agree :  ✓ (ag a ∙ ag b)  →  a ≈ b
+  agree :  ✓ ag a ∙ ag b  →  a ≈ b
   agree = homo-agree

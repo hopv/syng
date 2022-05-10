@@ -18,6 +18,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
   ------------------------------------------------------------------------------
   -- Fields
   infix 4 _≈_
+  infix 3 ✓_
   infixl 7 _∙_
   infixr -1 _»˜_
   field
@@ -27,7 +28,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     -- Equivalence
     _≈_ : Car → Car → Set ℓ≈
     -- Validity
-    ✓ : Car → Set ℓ✓
+    ✓_ : Car → Set ℓ✓
     -- Product
     _∙_ : Car → Car → Car
     -- Unit
@@ -49,7 +50,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     -- ✓ respects ≈
     ✓-resp :  ∀ {a b} →  a ≈ b  →  ✓ a  →  ✓ b
     -- ✓ is kept after a resource is removed
-    ✓-rem :  ∀ {a b} →  ✓ (b ∙ a)  →  ✓ a
+    ✓-rem :  ∀ {a b} →  ✓ b ∙ a  →  ✓ a
     -- ε satisfies ✓
     ✓-ε : ✓ ε
     ----------------------------------------------------------------------------
@@ -169,11 +170,11 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
 
   -- a ↝ b : a can be updated into b, regardless of the frame c
   _↝_ : Car → Car → Set (ℓ ⊔ˡ ℓ✓)
-  a ↝ b =  ∀ c →  ✓ (c ∙ a)  →  ✓ (c ∙ b)
+  a ↝ b =  ∀ c →  ✓ c ∙ a  →  ✓ c ∙ b
 
   -- a ↝ˢ B : a can be updated into b, regardless of the frame c
   _↝ˢ_ : Car → (Car → Set ℓB) → Set (ℓ ⊔ˡ ℓ✓ ⊔ˡ ℓB)
-  a ↝ˢ B =  ∀ c →  ✓ (c ∙ a)  →  Σ b ,  b ∈ B  ×  ✓ (c ∙ b)
+  a ↝ˢ B =  ∀ c →  ✓ c ∙ a  →  Σ b ,  b ∈ B  ×  ✓ c ∙ b
 
   abstract
 

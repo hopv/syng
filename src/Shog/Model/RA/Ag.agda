@@ -24,7 +24,7 @@ open RA
 AgRA : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
 AgRA .Car =  List A
 AgRA ._≈_ =  _≈ᴸ_
-AgRA .✓ =  homo
+AgRA .✓_ =  homo
 AgRA ._∙_ =  _++_
 AgRA .ε =  []
 AgRA .⌞_⌟ =  id

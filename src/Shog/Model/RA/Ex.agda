@@ -38,9 +38,10 @@ private
   _ ≈ˣ _ =  ⊥
 
   -- Validity
-  ✓ˣ : Ex → Set ℓ✓
-  ✓ˣ ↯ˣ =  ⊥
-  ✓ˣ _ =  ⊤
+  infix 3 ✓ˣ_
+  ✓ˣ_ : Ex → Set ℓ✓
+  ✓ˣ_ ↯ˣ =  ⊥
+  ✓ˣ_ _ =  ⊤
 
   -- Product
   infixl 7 _∙ˣ_
@@ -99,7 +100,7 @@ private abstract
   ✓ˣ-resp ?ˣ ?ˣ _ _ =  _
   ✓ˣ-resp (#ˣ _) (#ˣ _) _ _ =  _
 
-  ✓ˣ-rem :  ∀ aˣ bˣ →  ✓ˣ (bˣ ∙ˣ aˣ) → ✓ˣ aˣ
+  ✓ˣ-rem :  ∀ aˣ bˣ →  ✓ˣ bˣ ∙ˣ aˣ → ✓ˣ aˣ
   ✓ˣ-rem _ ?ˣ =  id
   ✓ˣ-rem ?ˣ (#ˣ _) =  _
 
@@ -111,7 +112,7 @@ open RA
 ExRA : RA ℓ ℓ≈ ℓ✓
 ExRA .Car =  Ex
 ExRA ._≈_ =  _≈ˣ_
-ExRA .✓ =  ✓ˣ
+ExRA .✓_ =  ✓ˣ_
 ExRA ._∙_ =  _∙ˣ_
 ExRA .ε =  ?ˣ
 ExRA .⌞_⌟ _ =  ?ˣ

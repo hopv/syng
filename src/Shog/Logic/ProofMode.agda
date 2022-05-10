@@ -12,7 +12,7 @@ module Shog.Logic.ProofMode (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _∘_)
-open import Base.Few using (2-ary)
+open import Base.Few using (binary)
 
 open import Shog.Logic.Prop ℓ
 open import Shog.Logic.Judg ℓ
@@ -163,19 +163,19 @@ abstract
   0-dup-Pers : {{Pers P}} → P ∗ Q ⊢[ ι ] P ∗ P ∗ Q
   0-dup-Pers = 0-mono dup-Pers » ∗-assocˡ
 
-  -- Introduce ⊤ to the head
-  ⊤⇒0 : P ⊢[ ι ] ⊤ ∗ P
+  -- Introduce ⊤' to the head
+  ⊤⇒0 : P ⊢[ ι ] ⊤' ∗ P
   ⊤⇒0 = ⊤∗-intro
 
-  -- Eliminate ∃/∨/⊥ from the head
+  -- Eliminate ∃/∨/⊥' from the head
 
   0-∃-elim : (∀ a → P˙ a ∗ Q ⊢[ ι ]* Jr) → (∃˙ _ P˙) ∗ Q ⊢[ ι ]* Jr
   0-∃-elim →P˙∗⊢ = ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →P˙∗⊢ a
 
   0-∨-elim : P ∗ Q ⊢[ ι ]* Jr → P' ∗ Q ⊢[ ι ]* Jr → (P ∨ P') ∗ Q ⊢[ ι ]* Jr
-  0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (2-ary P∗⊢ P'∗⊢)
+  0-∨-elim P∗⊢ P'∗⊢ = 0-∃-elim (binary P∗⊢ P'∗⊢)
 
-  0-⊥-elim : ⊥ ∗ Q ⊢[ ι ]* Jr
+  0-⊥-elim : ⊥' ∗ Q ⊢[ ι ]* Jr
   0-⊥-elim = ∗-elimˡ » ⊥-elim
 
   -- Introduce ⌜ ⌝ to the head

@@ -7,7 +7,7 @@
 module Base.Bool where
 
 open import Base.Level using (Level)
-open import Base.Few using (⟨1⟩; ⟨0⟩)
+open import Base.Few using (⊤; ⊥)
 
 --------------------------------------------------------------------------------
 -- Bool: Boolean
@@ -57,8 +57,8 @@ if ff then aᵗ else aᶠ = aᶠ
 -- Bool to Set
 
 Tt : Bool → Set
-Tt tt = ⟨1⟩
-Tt ff = ⟨0⟩
+Tt tt = ⊤
+Tt ff = ⊥
 
 --------------------------------------------------------------------------------
 -- ≤ᴮ: Order over Bool

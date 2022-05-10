@@ -6,7 +6,7 @@ module Base.Dec.Construct where
 
 open import Base.Level using (Level)
 open import Base.Dec using (Dec; yes; no)
-open import Base.Few using (¬; ¬¬-intro)
+open import Base.Few using (¬; ⇒¬¬)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Func using (_$_)
@@ -20,7 +20,7 @@ abstract
 
   -- ¬
   ¬? : Dec A → Dec (¬ A)
-  ¬? (yes a) = no (¬¬-intro a)
+  ¬? (yes a) = no (⇒¬¬ a)
   ¬? (no ¬a) = yes ¬a
 
   -- ×

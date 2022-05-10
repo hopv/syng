@@ -7,7 +7,7 @@
 module Base.Eq where
 
 open import Base.Level using (Level)
-open import Base.Few using (¬)
+open import Base.Few using (¬_)
 
 ------------------------------------------------------------------------
 -- ≡: Equality
@@ -24,7 +24,7 @@ private variable
 -- Negation of _≡_
 infix 4 _≢_
 _≢_ : ∀ {A : Set ℓA} → A → A → Set ℓA
-x ≢ y = ¬ (x ≡ y)
+x ≢ y = ¬ x ≡ y
 
 abstract
 

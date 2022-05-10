@@ -12,40 +12,46 @@ private variable
   A : Set ℓA
 
 --------------------------------------------------------------------------------
--- ⟨2⟩: 2-element set / Doubleton
+-- ⟨2⟩: 2-element set / doubleton set
 
 data ⟨2⟩ {ℓ} : Set ℓ where
   0₂ 1₂ : ⟨2⟩
 
 -- Function from ⟨2⟩
 
-2-ary : ∀{F : ⟨2⟩ {ℓ} → Set ℓF} → F 0₂ → F 1₂ → ∀ <2 → F <2
-2-ary a _ 0₂ = a
-2-ary _ b 1₂ = b
+binary : ∀{F : ⟨2⟩ {ℓ} → Set ℓF} → F 0₂ → F 1₂ → ∀ <2 → F <2
+binary a _ 0₂ = a
+binary _ b 1₂ = b
 
 --------------------------------------------------------------------------------
--- ⟨1⟩: 1-element set / Singleton
+-- ⊤: 1-element set / singleton set / truth
 
-record ⟨1⟩ {ℓ} : Set ℓ where
-  instance constructor 0₁
+record ⊤ {ℓ} : Set ℓ where
+  instance constructor 0⊤
 
 --------------------------------------------------------------------------------
--- ⟨0⟩: 0-element set / Empty
+-- ⊥: 0-element set / empty set / falsehood
 
-data ⟨0⟩ {ℓ} : Set ℓ where
+data ⊥ {ℓ} : Set ℓ where
 
--- Function from ⟨0⟩
+-- Function from ⊥
 
-0-ary : ∀{F : ⟨0⟩ {ℓ} → Set ℓF} → ∀ <0 → F <0
-0-ary ()
+absurd : ∀{F : ⊥ {ℓ} → Set ℓF} → ∀ <0 → F <0
+absurd ()
 
 --------------------------------------------------------------------------------
 -- ¬: Negation
 
-¬ : Set ℓA → Set ℓA
-¬ A = A → ⟨0⟩ {0ˡ}
+infix 3 ¬_
+¬_ : Set ℓA → Set ℓA
+¬ A = A → ⊥ {0ˡ}
 
 -- Introducing ¬¬
 
-¬¬-intro : A → ¬ (¬ A)
-¬¬-intro a ¬a = ¬a a
+⇒¬¬ : A → ¬ ¬ A
+⇒¬¬ a ¬a = ¬a a
+
+-- Squashing ¬¬¬ into ¬
+
+¬¬¬⇒¬ : ¬ ¬ ¬ A → ¬ A
+¬¬¬⇒¬ ¬¬¬a a = ¬¬¬a (⇒¬¬ a)

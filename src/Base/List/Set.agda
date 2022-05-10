@@ -17,7 +17,7 @@ open import Base.List.Any using (Any; by-hd; by-tl;
 open import Base.Eq using (_≡_; refl⁼)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
-open import Base.Few using (¬)
+open import Base.Few using (¬_)
 open import Base.Func using (id; _∘_; _$_)
 
 private variable
@@ -49,7 +49,7 @@ abstract
 
 infix 4 _∉ᴸ_
 _∉ᴸ_ : A → List A → Set (ℓ ⊔ˡ ℓ≈)
-a ∉ᴸ as = ¬ (a ∈ᴸ as)
+a ∉ᴸ as = ¬ a ∈ᴸ as
 
 abstract
 

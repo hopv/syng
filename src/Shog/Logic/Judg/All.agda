@@ -80,9 +80,9 @@ data Judg ι where
   →-intro : P ∧ Q ⊢[ ι ] R → Q ⊢[ ι ] P →' R
   →-elim : Q ⊢[ ι ] P →' R → P ∧ Q ⊢[ ι ] R
   ------------------------------------------------------------------------------
-  -- ∗ is unital w.r.t. ⊤, commutative, associative, and monotone
-  ⊤∗-elim : ⊤ ∗ P ⊢[ ι ] P
-  ⊤∗-intro : P ⊢[ ι ] ⊤ ∗ P
+  -- ∗ is unital w.r.t. ⊤', commutative, associative, and monotone
+  ⊤∗-elim : ⊤' ∗ P ⊢[ ι ] P
+  ⊤∗-intro : P ⊢[ ι ] ⊤' ∗ P
   ∗-comm : P ∗ Q ⊢[ ι ] Q ∗ P
   ∗-assocˡ : (P ∗ Q) ∗ R ⊢[ ι ] P ∗ (Q ∗ R)
   ∗-monoˡ : P ⊢[ ι ] Q → P ∗ R ⊢[ ι ] Q ∗ R

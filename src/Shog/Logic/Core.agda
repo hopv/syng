@@ -13,13 +13,13 @@ open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Prod using (_×_; _,_; Σ-syntax)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
-open import Base.Few using (⟨2⟩; 0₂; 1₂; ⟨1⟩; ⟨0⟩; 2-ary; 0-ary)
+open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.List using (List; []; _∷_; _++_)
 open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 
 open import Shog.Logic.Prop ℓ using (
   Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
-  _∧_; _∨_; ⊤; ⊥; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □;
+  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>; □;
   [∗])
 open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers)
 
@@ -42,23 +42,23 @@ private variable
 abstract
 
   ------------------------------------------------------------------------------
-  -- On ∀/∃/∧/∨/⊤/⊥
+  -- On ∀/∃/∧/∨/⊤'/⊥'
 
-  -- Introducing ∧/⊤ / Eliminating ∨/⊥
+  -- Introducing ∧/⊤' / Eliminating ∨/⊥'
 
   ∧-intro : P ⊢[ ι ] Q → P ⊢[ ι ] R → P ⊢[ ι ] Q ∧ R
-  ∧-intro P⊢Q P⊢R = ∀-intro $ 2-ary P⊢Q P⊢R
+  ∧-intro P⊢Q P⊢R = ∀-intro $ binary P⊢Q P⊢R
 
   ∨-elim : P ⊢[ ι ]* Jr → Q ⊢[ ι ]* Jr → P ∨ Q ⊢[ ι ]* Jr
-  ∨-elim P⊢*Jr Q⊢*Jr = ∃-elim $ 2-ary P⊢*Jr Q⊢*Jr
+  ∨-elim P⊢*Jr Q⊢*Jr = ∃-elim $ binary P⊢*Jr Q⊢*Jr
 
-  ⊤-intro : P ⊢[ ι ] ⊤
-  ⊤-intro = ∀-intro 0-ary
+  ⊤-intro : P ⊢[ ι ] ⊤'
+  ⊤-intro = ∀-intro absurd
 
-  ⊥-elim : ⊥ ⊢[ ι ]* Jr
-  ⊥-elim = ∃-elim 0-ary
+  ⊥-elim : ⊥' ⊢[ ι ]* Jr
+  ⊥-elim = ∃-elim absurd
 
-  -- Eliminating ∧/⊤ / Introducing ∨/⊥
+  -- Eliminating ∧/⊤' / Introducing ∨/⊥'
 
   ∧-elimˡ : P ∧ Q ⊢[ ι ] P
   ∧-elimˡ = ∀-elim {a = 0₂}
@@ -72,7 +72,7 @@ abstract
   ∨-introʳ : Q ⊢[ ι ] P ∨ Q
   ∨-introʳ = ∃-intro {a = 1₂}
 
-  -- ∀/∃/∧/∨/⊤/⊥ is monotone
+  -- ∀/∃/∧/∨ is monotone
 
   ∀-mono : (∀ a → P˙ a ⊢[ ι ] Q˙ a) → ∀˙ _ P˙ ⊢[ ι ] ∀˙ _ Q˙
   ∀-mono P˙⊢Q˙ = ∀-intro $ λ a → ∀-elim » P˙⊢Q˙ a
@@ -124,18 +124,18 @@ abstract
   ∨-assocʳ = ∨-elim (∨-introˡ » ∨-introˡ) $
               ∨-elim (∨-introʳ » ∨-introˡ) $ ∨-introʳ
 
-  -- ∧/∨ is unital w.r.t. ⊤/⊥
+  -- ∧/∨ is unital w.r.t. ⊤'/⊥'
 
-  ∧⊤-intro : P ⊢[ ι ] P ∧ ⊤
+  ∧⊤-intro : P ⊢[ ι ] P ∧ ⊤'
   ∧⊤-intro = ∧-intro refl ⊤-intro
 
-  ⊤∧-intro : P ⊢[ ι ] ⊤ ∧ P
+  ⊤∧-intro : P ⊢[ ι ] ⊤' ∧ P
   ⊤∧-intro = ∧-intro ⊤-intro refl
 
-  ∨⊥-elim : P ∨ ⊥ ⊢[ ι ] P
+  ∨⊥-elim : P ∨ ⊥' ⊢[ ι ] P
   ∨⊥-elim = ∨-elim refl ⊥-elim
 
-  ⊥∨-elim : ⊥ ∨ P ⊢[ ι ] P
+  ⊥∨-elim : ⊥' ∨ P ⊢[ ι ] P
   ⊥∨-elim = ∨-elim ⊥-elim refl
 
   ------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ abstract
   ⌜⌝-intro : A → P ⊢[ ι ] ⌜ A ⌝
   ⌜⌝-intro a = ⊤-intro » ∃-intro {a = a}
 
-  ⌜⌝-elim : (A → ⊤ ⊢[ ι ]* Jr) → ⌜ A ⌝ ⊢[ ι ]* Jr
+  ⌜⌝-elim : (A → ⊤' ⊢[ ι ]* Jr) → ⌜ A ⌝ ⊢[ ι ]* Jr
   ⌜⌝-elim A→⊤⊢P = ∃-elim $ λ a → A→⊤⊢P a
 
   -- ⌜⌝ is monotone
@@ -198,7 +198,7 @@ abstract
   ∃⇒⌜⌝∧ : ∃ _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ ∧ P
   ∃⇒⌜⌝∧ = ∃-elim $ λ a → ⌜⌝∧-intro a
 
-  -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤/⊥/→
+  -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤'/⊥'/→
 
   -- We already have ⌜⌝-∀-in
 
@@ -224,11 +224,11 @@ abstract
   ⌜⌝-∨-out = ⌜⌝-elim $ ⊎-case
     (λ a → ⌜⌝-intro a » ∨-introˡ) (λ b → ⌜⌝-intro b » ∨-introʳ)
 
-  ⌜⊤⌝-intro : P ⊢[ ι ] ⌜ ⟨1⟩ ⌝
+  ⌜⊤⌝-intro : P ⊢[ ι ] ⌜ ⊤ ⌝
   ⌜⊤⌝-intro = ⌜⌝-intro _
 
-  ⌜⊥⌝-elim : ⌜ ⟨0⟩ ⌝ ⊢[ ι ] P
-  ⌜⊥⌝-elim = ⌜⌝-elim 0-ary
+  ⌜⊥⌝-elim : ⌜ ⊥ ⌝ ⊢[ ι ] P
+  ⌜⊥⌝-elim = ⌜⌝-elim absurd
 
   ⌜⌝-→-in : ⌜ A ⌝ →' ⌜ B ⌝ ⊢[ ι ] ⌜ (A → B) ⌝
   ⌜⌝-→-in = ⌜⌝→⇒∀ » ⌜⌝-∀-in
@@ -255,9 +255,9 @@ abstract
   ∗-elimˡ : P ∗ Q ⊢[ ι ] P
   ∗-elimˡ = ∗-comm » ∗-elimʳ
 
-  -- Introducing ∗ ⊤
+  -- Introducing ∗ ⊤'
 
-  ∗⊤-intro : P ⊢[ ι ] P ∗ ⊤
+  ∗⊤-intro : P ⊢[ ι ] P ∗ ⊤'
   ∗⊤-intro = ⊤∗-intro » ∗-comm
 
   -- ∗ is associative
@@ -349,9 +349,9 @@ abstract
   □-∨-in : □ P ∨ □ Q ⊢[ ι ] □ (P ∨ Q)
   □-∨-in = ∨-elim (□-mono ∨-introˡ) (□-mono ∨-introʳ)
 
-  -- □ ⊥ can be eliminated
+  -- □ ⊥' can be eliminated
 
-  □-⊥-elim : □ ⊥ ⊢[ ι ] P
+  □-⊥-elim : □ ⊥' ⊢[ ι ] P
   □-⊥-elim = □-elim » ⊥-elim
 
   ------------------------------------------------------------------------------
@@ -391,15 +391,15 @@ abstract
   -- ∧ / ∨ can get inside / outside □
 
   □-∧-in : □ P ∧ □ Q ⊢[ ι ] □ (P ∧ Q)
-  □-∧-in = ∀-intro (2-ary ∧-elimˡ ∧-elimʳ) » □-∀-in
+  □-∧-in = ∀-intro (binary ∧-elimˡ ∧-elimʳ) » □-∀-in
 
   □-∨-out : □ (P ∨ Q) ⊢[ ι ] □ P ∨ □ Q
-  □-∨-out = □-∃-out » ∃-elim (2-ary ∨-introˡ ∨-introʳ)
+  □-∨-out = □-∃-out » ∃-elim (binary ∨-introˡ ∨-introʳ)
 
-  -- □ ⊤ can be introduced
+  -- □ ⊤' can be introduced
 
-  □-⊤-intro : P ⊢[ ι ] □ ⊤
-  □-⊤-intro = ∀-intro 0-ary » □-∀-in
+  □-⊤-intro : P ⊢[ ι ] □ ⊤'
+  □-⊤-intro = ∀-intro absurd » □-∀-in
 
   -- ∗ can get inside □
 
@@ -422,19 +422,19 @@ abstract
 
   instance
 
-    -- For ∧/∨/⊤/⊥
+    -- For ∧/∨/⊤'/⊥'
 
     ∧-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∧ Q)
-    ∧-Pers = ∀-Pers $ 2-ary it it
+    ∧-Pers = ∀-Pers $ binary it it
 
     ∨-Pers : {{Pers P}} → {{Pers Q}} → Pers (P ∨ Q)
-    ∨-Pers = ∃-Pers $ 2-ary it it
+    ∨-Pers = ∃-Pers $ binary it it
 
-    ⊤-Pers : Pers ⊤
-    ⊤-Pers = ∀-Pers 0-ary
+    ⊤-Pers : Pers ⊤'
+    ⊤-Pers = ∀-Pers absurd
 
-    ⊥-Pers : Pers ⊥
-    ⊥-Pers = ∃-Pers 0-ary
+    ⊥-Pers : Pers ⊥'
+    ⊥-Pers = ∃-Pers absurd
 
     -- For ∗
 

@@ -11,7 +11,7 @@ open import Base.Level using (sucˡ)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
-open import Base.Few using (2-ary; 0-ary)
+open import Base.Few using (binary; absurd)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.List using (List; []; _∷_; map)
 
@@ -72,19 +72,19 @@ infixr 6 _∨_
 
 -- Conjunction ∧ and disjunction ∨
 _∧_ _∨_ : Prop' ι → Prop' ι → Prop' ι
-P ∧ Q = ∀˙ _ (2-ary P Q) -- Conjunction
-P ∨ Q = ∃˙ _ (2-ary P Q) -- Disjunction
+P ∧ Q = ∀˙ _ (binary P Q) -- Conjunction
+P ∨ Q = ∃˙ _ (binary P Q) -- Disjunction
 
--- Truth ⊤ and falsehood ⊥
-⊤ ⊥ : Prop' ι
-⊤ = ∀˙ _ 0-ary -- Truth
-⊥ = ∃˙ _ 0-ary -- Falsehood
+-- Truth ⊤' and falsehood ⊥'
+⊤' ⊥' : Prop' ι
+⊤' = ∀˙ _ absurd -- Truth
+⊥' = ∃˙ _ absurd -- Falsehood
 
 --------------------------------------------------------------------------------
 -- Set embedding
 
 ⌜_⌝ : Set ℓ → Prop' ι
-⌜ A ⌝ = ∃˙ A (λ _ → ⊤)
+⌜ A ⌝ = ∃˙ A (λ _ → ⊤')
 
 --------------------------------------------------------------------------------
 -- Exclusive / persistent save token
@@ -97,7 +97,7 @@ save□ P^ = save tt P^
 -- Iterated separating conjunction: [∗]
 
 [∗] : List (Prop' ι) → Prop' ι
-[∗] [] = ⊤
+[∗] [] = ⊤'
 [∗] (P ∷ Ps) = P ∗ [∗] Ps
 
 -- [∗] with map
@@ -140,19 +140,19 @@ abstract
 
   instance
 
-    -- For ∧/∨/⊤/⊥
+    -- For ∧/∨/⊤'/⊥'
 
     ∧-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∧ Q)
-    ∧-Basic = ∀-Basic $ 2-ary it it
+    ∧-Basic = ∀-Basic $ binary it it
 
     ∨-Basic : {{Basic P}} → {{Basic Q}} → Basic (P ∨ Q)
-    ∨-Basic = ∃-Basic $ 2-ary it it
+    ∨-Basic = ∃-Basic $ binary it it
 
-    ⊤-Basic : Basic ⊤
-    ⊤-Basic = ∀-Basic 0-ary
+    ⊤'-Basic : Basic ⊤'
+    ⊤'-Basic = ∀-Basic absurd
 
-    ⊥-Basic : Basic ⊥
-    ⊥-Basic = ∃-Basic 0-ary
+    ⊥'-Basic : Basic ⊥'
+    ⊥'-Basic = ∃-Basic absurd
 
     -- For ∗
 
@@ -162,4 +162,4 @@ abstract
     -- For ⌜ ⌝
 
     ⌜⌝-Basic : Basic ⌜ A ⌝
-    ⌜⌝-Basic = ∃-Basic $ λ _ → ⊤-Basic
+    ⌜⌝-Basic = ∃-Basic $ λ _ → ⊤'-Basic

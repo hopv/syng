@@ -8,7 +8,7 @@ module Base.Nat where
 
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
 open import Base.Func using (_$_)
-open import Base.Few using (¬; 0-ary)
+open import Base.Few using (¬_; absurd)
 open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
 
 --------------------------------------------------------------------------------
@@ -111,10 +111,10 @@ abstract
 
   -- < is irreflexive
 
-  <-irrefl : ¬ (n < n)
+  <-irrefl : ¬ n < n
   <-irrefl (suc≤suc n'<n') = <-irrefl n'<n'
 
-  <-irrefl' : m ≡ n → ¬ (m < n)
+  <-irrefl' : m ≡ n → ¬ m < n
   <-irrefl' refl⁼ = <-irrefl
 
   -- ≤ is transitive
@@ -155,7 +155,7 @@ abstract
 
   -- < is asymmetric
 
-  <-asym : m < n → ¬ (n < m)
+  <-asym : m < n → ¬ n < m
   <-asym (suc≤suc m'<n') (suc≤suc n'<m') = <-asym m'<n' n'<m'
 
   -- Get <, ≡ or >
@@ -202,9 +202,9 @@ abstract
 
   +-injˡ : ∀ {l m n} → m + l ≡ n + l → m ≡ n
   +-injˡ {_} {m} {n} m+l≡n+l with cmp m n
-  ... | inj₀ m<n  =  0-ary $ <-irrefl' m+l≡n+l (+-smonoˡ m<n)
+  ... | inj₀ m<n  =  absurd $ <-irrefl' m+l≡n+l (+-smonoˡ m<n)
   ... | inj₁₀ m≡n  =  m≡n
-  ... | inj₁₁ m>n  =  0-ary $ <-irrefl' (sym⁼ m+l≡n+l) (+-smonoˡ m>n)
+  ... | inj₁₁ m>n  =  absurd $ <-irrefl' (sym⁼ m+l≡n+l) (+-smonoˡ m>n)
 
   +-injʳ : l + m ≡ l + n → m ≡ n
   +-injʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} = +-injˡ
@@ -234,9 +234,9 @@ abstract
 
   *-injˡ : ∀ {l m n} → m * suc l ≡ n * suc l → m ≡ n
   *-injˡ {_} {m} {n} m*sl≡n*sl with cmp m n
-  ... | inj₀ m<n  =  0-ary $ <-irrefl' m*sl≡n*sl (*-smonoˡ m<n)
+  ... | inj₀ m<n  =  absurd $ <-irrefl' m*sl≡n*sl (*-smonoˡ m<n)
   ... | inj₁₀ m≡n  =  m≡n
-  ... | inj₁₁ m>n  =  0-ary $ <-irrefl' (sym⁼ m*sl≡n*sl) (*-smonoˡ m>n)
+  ... | inj₁₁ m>n  =  absurd $ <-irrefl' (sym⁼ m*sl≡n*sl) (*-smonoˡ m>n)
 
   *-injʳ : suc l * m ≡ suc l * n → m ≡ n
   *-injʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n} = *-injˡ

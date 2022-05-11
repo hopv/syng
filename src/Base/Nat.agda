@@ -103,8 +103,9 @@ data _≤_ : ℕ → ℕ → Set where
 _<_ : ℕ → ℕ → Set
 m < n = suc m ≤ n
 
-pattern 0< = suc≤suc 0≤
+pattern 0<suc = suc≤suc 0≤
 pattern suc<suc m<n = suc≤suc m<n
+pattern ?<? = suc≤suc _
 
 abstract
 
@@ -166,9 +167,9 @@ abstract
   -- Get <, ≡ or >
 
   cmp : ∀ m n → m < n ⊎ m ≡ n ⊎ n < m
-  cmp 0 (suc _) = inj₀ 0<
+  cmp 0 (suc _) = inj₀ 0<suc
   cmp 0 0 = inj₁₀ refl⁼
-  cmp (suc _) 0 = inj₁₁ 0<
+  cmp (suc _) 0 = inj₁₁ 0<suc
   cmp (suc m') (suc n') with cmp m' n'
   ... | inj₀ m'<n' =  inj₀ $ suc<suc m'<n'
   ... | inj₁₀ m'≡n' =  inj₁₀ $ cong⁼ suc m'≡n'
@@ -272,12 +273,12 @@ abstract
   -- Convertion between <ᵇ and <
 
   <ᵇ⇒< : Tt (m <ᵇ n) → m < n
-  <ᵇ⇒< {0} {suc _} _ = 0<
+  <ᵇ⇒< {0} {suc _} _ = 0<suc
   <ᵇ⇒< {suc m'} {suc n'} m'<ᵇn' = suc<suc $ <ᵇ⇒< m'<ᵇn'
 
   <⇒<ᵇ : m < n → Tt (m <ᵇ n)
-  <⇒<ᵇ 0< = _
-  <⇒<ᵇ (suc<suc m'<n'@(suc<suc _)) = <⇒<ᵇ m'<n'
+  <⇒<ᵇ 0<suc = _
+  <⇒<ᵇ (suc<suc m'<n'@?<?) = <⇒<ᵇ m'<n'
 
   -- Convertion between ≤ᵇ and ≤
 
@@ -287,7 +288,7 @@ abstract
 
   ≤⇒≤ᵇ : m ≤ n → Tt (m ≤ᵇ n)
   ≤⇒≤ᵇ 0≤ = _
-  ≤⇒≤ᵇ m≤n@(suc≤suc _) = <⇒<ᵇ m≤n
+  ≤⇒≤ᵇ m'<n@?<? = <⇒<ᵇ m'<n
 
 --------------------------------------------------------------------------------
 -- ⊔: Maximum

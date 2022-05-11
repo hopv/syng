@@ -2,6 +2,8 @@
 -- Constructing Dec
 --------------------------------------------------------------------------------
 
+{-# OPTIONS --without-K --safe #-}
+
 module Base.Dec.Construct where
 
 open import Base.Level using (Level)

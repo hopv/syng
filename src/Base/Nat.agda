@@ -12,6 +12,7 @@ open import Base.Few using (¬_; absurd)
 open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
 open import Base.Bool using (Bool; tt; Tt)
 open import Base.Dec using (Dec²)
+open import Base.Dec.Construct using (dec-Tt)
 
 --------------------------------------------------------------------------------
 -- ℕ: Natural number
@@ -289,6 +290,20 @@ abstract
   ≤⇒≤ᵇ : m ≤ n → Tt (m ≤ᵇ n)
   ≤⇒≤ᵇ 0≤ = _
   ≤⇒≤ᵇ m'<n@?<? = <⇒<ᵇ m'<n
+
+--------------------------------------------------------------------------------
+-- ≡?, ≤?, <? : Order decision
+
+infix 4 _≡?_ _≤?_ _<?_
+
+_≡?_ : Dec² {A = ℕ} _≡_
+_≡?_ _ _ = dec-Tt ≡ᵇ⇒≡ ≡⇒≡ᵇ
+
+_≤?_ : Dec² _≤_
+_≤?_ _ _ = dec-Tt ≤ᵇ⇒≤ ≤⇒≤ᵇ
+
+_<?_ : Dec² _<_
+_<?_ _ _ = dec-Tt <ᵇ⇒< <⇒<ᵇ
 
 --------------------------------------------------------------------------------
 -- ⊔: Maximum

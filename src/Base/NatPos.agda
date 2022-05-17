@@ -6,10 +6,11 @@
 
 module Base.NatPos where
 
-open import Base.Nat using (ℕ; suc; _+_; _*_; +-comm; +-assocˡ; +-injˡ; *-comm;
-  *-assocˡ; *-injˡ; *-+-distrˡ)
+open import Base.Nat using (ℕ; suc; _+_; _*_; _≡ᵇ_; +-comm; +-assocˡ; +-injˡ;
+  *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; ≡ᵇ⇒≡; ≡⇒≡ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
 open import Base.Func using (_$_)
+open import Base.Bool using (Bool; Tt)
 
 --------------------------------------------------------------------------------
 -- ℕ⁺: Positive natural number
@@ -22,26 +23,10 @@ private variable
   l m n :  ℕ⁺
 
 --------------------------------------------------------------------------------
--- Operations on ℕ⁺
-
--- Back to ℕ
+-- ℕ⁺⇒ℕ: Back to ℕ
 
 ℕ⁺⇒ℕ :  ℕ⁺ →  ℕ
 ℕ⁺⇒ℕ (1+ n⁰) =  suc n⁰
-
--- Addition
-
-infixl 6 _+⁺_
-_+⁺_ :  ℕ⁺ → ℕ⁺ → ℕ⁺
-1+ m⁰ +⁺ 1+ n⁰ =  1+ $ m⁰ + (suc n⁰)
--- Defined so because "suc m⁰ + suc n⁰" reduces to "suc (m⁰ + (suc n⁰))"
-
--- Multiplication
-
-infixl 7 _*⁺_
-_*⁺_ :  ℕ⁺ → ℕ⁺ → ℕ⁺
-1+ m⁰ *⁺ 1+ n⁰ =  1+ $ n⁰ + m⁰ * (suc n⁰)
--- Defined so because "suc m⁰ * suc n⁰" reduces to "suc (n⁰ + m⁰ * (suc n⁰))"
 
 abstract
 
@@ -49,6 +34,16 @@ abstract
 
   ℕ⁺⇒ℕ-inj :  ℕ⁺⇒ℕ m ≡ ℕ⁺⇒ℕ n →  m ≡ n
   ℕ⁺⇒ℕ-inj refl⁼ =  refl⁼
+
+--------------------------------------------------------------------------------
+-- +⁺: Addition
+
+infixl 6 _+⁺_
+_+⁺_ :  ℕ⁺ → ℕ⁺ → ℕ⁺
+1+ m⁰ +⁺ 1+ n⁰ =  1+ $ m⁰ + (suc n⁰)
+-- Defined so because "suc m⁰ + suc n⁰" reduces to "suc (m⁰ + (suc n⁰))"
+
+abstract
 
   -- +⁺ is commutative
 
@@ -70,6 +65,16 @@ abstract
 
   +⁺-injʳ :  l +⁺ m ≡ l +⁺ n →  m ≡ n
   +⁺-injʳ {l} {m} {n} rewrite +⁺-comm {l} {m} | +⁺-comm {l} {n} =  +⁺-injˡ
+
+--------------------------------------------------------------------------------
+-- *⁺: Multiplication
+
+infixl 7 _*⁺_
+_*⁺_ :  ℕ⁺ → ℕ⁺ → ℕ⁺
+1+ m⁰ *⁺ 1+ n⁰ =  1+ $ n⁰ + m⁰ * (suc n⁰)
+-- Defined so because "suc m⁰ * suc n⁰" reduces to "suc (n⁰ + m⁰ * (suc n⁰))"
+
+abstract
 
   -- *⁺ is commutative
 
@@ -110,3 +115,20 @@ abstract
   *⁺-+⁺-distrʳ :  l *⁺ (m +⁺ n) ≡ l *⁺ m +⁺ l *⁺ n
   *⁺-+⁺-distrʳ {l} {m} {n} =  *⁺-comm {l} »⁼ *⁺-+⁺-distrˡ {m} »⁼
     cong⁼₂ _+⁺_ (*⁺-comm {m}) (*⁺-comm {n})
+
+--------------------------------------------------------------------------------
+-- Boolean equality
+
+infix 4 _≡⁺ᵇ_
+_≡⁺ᵇ_ :  ℕ⁺ → ℕ⁺ → Bool
+1+ m⁰ ≡⁺ᵇ 1+ n⁰ =  m⁰ ≡ᵇ n⁰
+
+abstract
+
+  -- Convertion between ≡ᵇ and ≡
+
+  ≡⁺ᵇ⇒≡ :  Tt (m ≡⁺ᵇ n) →  m ≡ n
+  ≡⁺ᵇ⇒≡ {1+ m⁰} {1+ n⁰} m⁰≡ᵇn⁰ =  cong⁼ 1+ (≡ᵇ⇒≡ m⁰≡ᵇn⁰)
+
+  ≡⇒≡⁺ᵇ :  m ≡ n →  Tt (m ≡⁺ᵇ n)
+  ≡⇒≡⁺ᵇ {1+ m⁰} {1+ n⁰} refl⁼ =  ≡⇒≡ᵇ {m⁰} {n⁰} refl⁼

@@ -172,7 +172,7 @@ abstract
 
   -- Get <, ≡ or >
 
-  cmp :  ∀ m n →  m < n ⊎ m ≡ n ⊎ n < m
+  cmp :  ∀ m n →  m < n  ⊎  m ≡ n  ⊎  n < m
   cmp 0 (suc _) =  inj₀ 0<suc
   cmp 0 0 =  inj₁₀ refl⁼
   cmp (suc _) 0 =  inj₁₁ 0<suc

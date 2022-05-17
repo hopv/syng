@@ -214,7 +214,7 @@ abstract
   +-monoˡ 0≤ =  +-incrˡ
   +-monoˡ (suc≤suc l'≤m') =  suc≤suc $ +-monoˡ l'≤m'
 
-  +-monoʳ :  ∀{l m n} →  m ≤ n →  l + m ≤ l + n
+  +-monoʳ :  ∀ {l m n} →  m ≤ n →  l + m ≤ l + n
   +-monoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-monoˡ
 
   +-mono :  k ≤ l →  m ≤ n →  k + m ≤ l + n
@@ -225,7 +225,7 @@ abstract
   +-smonoˡ :  l < m →  l + n < m + n
   +-smonoˡ =  +-monoˡ
 
-  +-smonoʳ :  ∀{l m n} →  m < n →  l + m < l + n
+  +-smonoʳ :  ∀ {l m n} →  m < n →  l + m < l + n
   +-smonoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-smonoˡ
 
   +-smono :  k < l →  m < n →  k + m < l + n
@@ -248,7 +248,7 @@ abstract
   *-monoˡ 0≤ =  0≤
   *-monoˡ (suc≤suc l'≤m') =  +-monoʳ $ *-monoˡ l'≤m'
 
-  *-monoʳ :  ∀{l m n} →  m ≤ n →  l * m ≤ l * n
+  *-monoʳ :  ∀ {l m n} →  m ≤ n →  l * m ≤ l * n
   *-monoʳ {l} {m} {n} rewrite *-comm {l} {m} | *-comm {l} {n} =  *-monoˡ
 
   *-mono :  k ≤ l →  m ≤ n →  k * m ≤ l * n
@@ -259,7 +259,7 @@ abstract
   *-smonoˡ :  l < m →  l * suc n < m * suc n
   *-smonoˡ sl≤m =  ≤-trans (suc≤suc +-incrˡ) (*-monoˡ sl≤m)
 
-  *-smonoʳ :  ∀{l m n} →  m < n →  suc l * m < suc l * n
+  *-smonoʳ :  ∀ {l m n} →  m < n →  suc l * m < suc l * n
   *-smonoʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n}
     =  *-smonoˡ
 
@@ -359,7 +359,7 @@ abstract
   ⊔-introʳ {0} {suc _} =  0≤
   ⊔-introʳ {suc m'} {suc n'} =  suc≤suc $ ⊔-introʳ {m'} {n'}
 
-  ⊔-elim :  ∀{l m n} →  l ≤ n →  m ≤ n →  l ⊔ m ≤ n
+  ⊔-elim :  ∀ {l m n} →  l ≤ n →  m ≤ n →  l ⊔ m ≤ n
   ⊔-elim {0} _ m≤n =  m≤n
   ⊔-elim {suc _} {0} l≤n _ =  l≤n
   ⊔-elim (suc≤suc l'≤n') (suc≤suc m'≤n') =  suc≤suc $ ⊔-elim l'≤n' m'≤n'

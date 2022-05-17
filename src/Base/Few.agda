@@ -19,7 +19,7 @@ data  ⟨2⟩ {ℓ} :  Set ℓ  where
 
 -- Function from ⟨2⟩
 
-binary :  ∀{F : ⟨2⟩ {ℓ} → Set ℓF} →  F 0₂ →  F 1₂ →  (x : ⟨2⟩) →  F x
+binary :  ∀ {F : ⟨2⟩ {ℓ} → Set ℓF} →  F 0₂ →  F 1₂ →  (x : ⟨2⟩) →  F x
 binary a _ 0₂ =  a
 binary _ b 1₂ =  b
 
@@ -36,7 +36,7 @@ data  ⊥ {ℓ} :  Set ℓ  where
 
 -- Function from ⊥
 
-absurd :  ∀{F : ⊥ {ℓ} → Set ℓF} →  (x : ⊥) →  F x
+absurd :  ∀ {F : ⊥ {ℓ} → Set ℓF} →  (x : ⊥) →  F x
 absurd ()
 
 --------------------------------------------------------------------------------

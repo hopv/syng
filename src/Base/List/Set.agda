@@ -83,7 +83,7 @@ abstract
 
 infix 4 _⊆ᴸ_
 _⊆ᴸ_ : List A → List A → Set (ℓ ⊔ˡ ℓ≈)
-as ⊆ᴸ bs =  ∀{a} →  a ∈ᴸ as →  a ∈ᴸ bs
+as ⊆ᴸ bs =  ∀ {a} →  a ∈ᴸ as →  a ∈ᴸ bs
 
 abstract
 

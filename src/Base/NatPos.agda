@@ -7,7 +7,7 @@
 module Base.NatPos where
 
 open import Base.Nat using (ℕ; suc; _+_; _*_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_;
-  +-comm; +-assocˡ; +-injˡ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; ≤-refl;
+  +-comm; +-assocˡ; +-injˡ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; +-0; ≤-refl;
   ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; ≤-<-trans; <-≤-trans; ≤->-no;
   suc-sincr; +-incrˡ; +-smonoʳ; ≡ᵇ⇒≡; ≡⇒≡ᵇ; ≤ᵇ⇒≤; ≤⇒≤ᵇ; <ᵇ⇒<; <⇒<ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst)
@@ -128,6 +128,14 @@ abstract
   *⁺-+⁺-distrʳ :  l *⁺ (m +⁺ n) ≡ l *⁺ m +⁺ l *⁺ n
   *⁺-+⁺-distrʳ {l} {m} {n} =  *⁺-comm {l} »⁼ *⁺-+⁺-distrˡ {m} »⁼
     cong⁼₂ _+⁺_ (*⁺-comm {m}) (*⁺-comm {n})
+
+  -- *⁺ is unital with 1⁺
+
+  *⁺-1ˡ :  1⁺ *⁺ n ≡ n
+  *⁺-1ˡ =  cong⁼ 1+ +-0
+
+  *⁺-1ʳ :  n *⁺ 1⁺ ≡ n
+  *⁺-1ʳ {n} rewrite *⁺-comm {n} {1⁺} =  *⁺-1ˡ {n}
 
 --------------------------------------------------------------------------------
 -- ≤⁺, <⁺: Order

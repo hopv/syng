@@ -15,12 +15,12 @@ open import Shog.Model.RA.Ag S using (AgRA)
 open RA AgRA using (_∙_; ✓_)
 
 private variable
-  a b : A
+  a b :  A
 
-ag : A → List A
-ag a = [ a ]
+ag :  A →  List A
+ag a =  [ a ]
 
 abstract
 
-  agree :  ✓ ag a ∙ ag b  →  a ≈ b
-  agree = homo-agree
+  agree :  ✓ ag a ∙ ag b →  a ≈ b
+  agree =  homo-agree

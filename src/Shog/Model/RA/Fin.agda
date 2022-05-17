@@ -23,11 +23,11 @@ open import Base.List.Set (≡-setoid ℕ) using (_∉ᴸ_; ∉ᴸ-[];
 --------------------------------------------------------------------------------
 -- Fin : FinRA's carrier
 
-record Fin : Set (ℓ ⊔ˡ ℓ≈) where
+record  Fin :  Set (ℓ ⊔ˡ ℓ≈)  where
   field
-    fin : ℕ → A
-    supp : List ℕ
-    out-ε : ∀ {i} → i ∉ᴸ supp → fin i ≈' ε'
+    fin :  ℕ → A
+    supp :  List ℕ
+    out-ε :  ∀ {i} →  i ∉ᴸ supp →  fin i ≈' ε'
 open Fin
 
 --------------------------------------------------------------------------------
@@ -36,33 +36,33 @@ private
 
   -- Equivalence
   infix 4 _≈ᶠ_
-  _≈ᶠ_ : Fin → Fin → Set ℓ≈
-  F ≈ᶠ G = ∀ i → F .fin i ≈' G .fin i
+  _≈ᶠ_ :  Fin →  Fin →  Set ℓ≈
+  F ≈ᶠ G =  ∀ i →  F .fin i ≈' G .fin i
 
   -- Validity
-  ✓ᶠ : Fin → Set ℓ✓
-  ✓ᶠ F = ∀ i → ✓' (F .fin i)
+  ✓ᶠ :  Fin →  Set ℓ✓
+  ✓ᶠ F =  ∀ i →  ✓' (F .fin i)
 
   -- Product
   infixl 7 _∙ᶠ_
-  _∙ᶠ_ : Fin → Fin → Fin
-  (F ∙ᶠ G) .fin i = F .fin i ∙' G .fin i
-  (F ∙ᶠ G) .supp = F .supp ++ G .supp
+  _∙ᶠ_ :  Fin →  Fin →  Fin
+  (F ∙ᶠ G) .fin i =  F .fin i ∙' G .fin i
+  (F ∙ᶠ G) .supp =  F .supp ++ G .supp
   (F ∙ᶠ G) .out-ε i∉++ =
     ∙-cong Ra (F .out-ε (∉ᴸ-++-elim₀ i∉++)) (G .out-ε (∉ᴸ-++-elim₁ i∉++))
     »' ∙-unitˡ Ra
 
   -- Unit
-  εᶠ : Fin
-  εᶠ .fin i = ε'
-  εᶠ .supp = []
-  εᶠ .out-ε _ = refl'
+  εᶠ :  Fin
+  εᶠ .fin i =  ε'
+  εᶠ .supp =  []
+  εᶠ .out-ε _ =  refl'
 
   -- Core
-  ⌞_⌟ᶠ : Fin → Fin
-  ⌞ F ⌟ᶠ .fin i = ⌞ F .fin i ⌟'
-  ⌞ F ⌟ᶠ .supp = F .supp
-  ⌞ F ⌟ᶠ .out-ε i∉ = ⌞⌟-cong Ra (F .out-ε i∉) »' ⌞⌟-ε Ra
+  ⌞_⌟ᶠ :  Fin →  Fin
+  ⌞ F ⌟ᶠ .fin i =  ⌞ F .fin i ⌟'
+  ⌞ F ⌟ᶠ .supp =  F .supp
+  ⌞ F ⌟ᶠ .out-ε i∉ =  ⌞⌟-cong Ra (F .out-ε i∉) »' ⌞⌟-ε Ra
 
 -- Lemma
 private abstract

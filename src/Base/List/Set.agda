@@ -83,7 +83,7 @@ abstract
 
 infix 4 _⊆ᴸ_
 _⊆ᴸ_ : List A → List A → Set (ℓ ⊔ˡ ℓ≈)
-as ⊆ᴸ bs =  ∀{a} →  a ∈ᴸ as  →  a ∈ᴸ bs
+as ⊆ᴸ bs =  ∀{a} →  a ∈ᴸ as →  a ∈ᴸ bs
 
 abstract
 
@@ -92,12 +92,12 @@ abstract
   ⊆ᴸ-refl : as ⊆ᴸ as
   ⊆ᴸ-refl = id
 
-  ⊆ᴸ-trans :  as ⊆ᴸ bs  →  bs ⊆ᴸ cs  →  as ⊆ᴸ cs
+  ⊆ᴸ-trans :  as ⊆ᴸ bs →  bs ⊆ᴸ cs →  as ⊆ᴸ cs
   ⊆ᴸ-trans as⊆bs bs⊆cs = bs⊆cs ∘ as⊆bs
 
   -- ++ is the lub w.r.t. ⊆ᴸ
 
-  ++-⊆ᴸ-elim :  ∀ {as bs cs} →  as ⊆ᴸ cs  →  bs ⊆ᴸ cs  →  as ++ bs  ⊆ᴸ  cs
+  ++-⊆ᴸ-elim :  ∀ {as bs cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ++ bs  ⊆ᴸ  cs
   ++-⊆ᴸ-elim as⊆cs bs⊆cs a∈as++bs with ∈ᴸ-++-case a∈as++bs
   ... | inj₀ a∈as = as⊆cs a∈as
   ... | inj₁ a∈bs = bs⊆cs a∈bs
@@ -110,7 +110,7 @@ abstract
 
   -- More on ++ and  ⊆ᴸ
 
-  ++-monoˡ :  as ⊆ᴸ bs  →  as ++ cs  ⊆ᴸ  bs ++ cs
+  ++-monoˡ :  as ⊆ᴸ bs →  as ++ cs  ⊆ᴸ  bs ++ cs
   ++-monoˡ as⊆bs =  ++-⊆ᴸ-elim (⊆ᴸ-trans as⊆bs ++-⊆ᴸ-introˡ) ++-⊆ᴸ-introʳ
 
   ++-⊆ᴸ-comm :  as ++ bs  ⊆ᴸ  bs ++ as
@@ -134,16 +134,16 @@ abstract
   ≡⇒≈ᴸ : as ≡ bs → as ≈ᴸ bs
   ≡⇒≈ᴸ refl⁼ = ≈ᴸ-refl
 
-  ≈ᴸ-sym :  as ≈ᴸ bs  →  bs ≈ᴸ as
+  ≈ᴸ-sym :  as ≈ᴸ bs →  bs ≈ᴸ as
   ≈ᴸ-sym (as⊆bs , bs⊆as) = bs⊆as , as⊆bs
 
-  ≈ᴸ-trans :  as ≈ᴸ bs  →  bs ≈ᴸ cs  →  as ≈ᴸ cs
+  ≈ᴸ-trans :  as ≈ᴸ bs →  bs ≈ᴸ cs →  as ≈ᴸ cs
   ≈ᴸ-trans (as⊆bs , bs⊆as) (bs⊆cs , cs⊆bs) =
     ⊆ᴸ-trans as⊆bs bs⊆cs , ⊆ᴸ-trans cs⊆bs bs⊆as
 
   -- ++ is congruent, commutative and idempotent w.r.t. ≈ᴸ
 
-  ++-congˡ :  as ≈ᴸ bs  →  as ++ cs  ≈ᴸ  bs ++ cs
+  ++-congˡ :  as ≈ᴸ bs →  as ++ cs  ≈ᴸ  bs ++ cs
   ++-congˡ (as⊆bs , bs⊆as) =  ++-monoˡ as⊆bs , ++-monoˡ bs⊆as
 
   ++-comm :  as ++ bs  ≈ᴸ  bs ++ as
@@ -156,18 +156,18 @@ abstract
 -- homo: the list is homogeneous as a set
 
 homo : List A → Set (ℓ ⊔ˡ ℓ≈)
-homo as =  ∀ {a b} →  a ∈ᴸ as  →  b ∈ᴸ as  →  a ≈ b
+homo as =  ∀ {a b} →  a ∈ᴸ as →  b ∈ᴸ as →  a ≈ b
 
 abstract
 
   homo-[] : homo []
   homo-[] ()
 
-  homo-mono :  as ⊆ᴸ bs  →  homo bs  →  homo as
+  homo-mono :  as ⊆ᴸ bs →  homo bs →  homo as
   homo-mono as⊆bs homo'bs a∈as b∈as =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)
 
-  homo-resp :  as ≈ᴸ bs  →  homo as  →  homo bs
+  homo-resp :  as ≈ᴸ bs →  homo as →  homo bs
   homo-resp (_ , bs⊆as) =  homo-mono bs⊆as
 
-  homo-agree :  homo (a ∷ b ∷ [])  →  a ≈ b
+  homo-agree :  homo (a ∷ b ∷ []) →  a ≈ b
   homo-agree homo'abcs =  homo'abcs (by-hd refl˜) (by-tl $ by-hd refl˜)

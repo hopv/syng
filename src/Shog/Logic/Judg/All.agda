@@ -21,44 +21,44 @@ open import Shog.Logic.Prop ℓ
 infix 3 |=>>_
 
 -- Result of a judgment
-data JudgRes : Set (sucˡ ℓ) where
+data  JudgRes :  Set (sucˡ ℓ)  where
   -- Just a proposition
-  pure : Prop' ∞ → JudgRes
+  pure :  Prop' ∞ →  JudgRes
   -- Under the super update
-  |=>>_ : Prop' ∞ → JudgRes
+  |=>>_ :  Prop' ∞ →  JudgRes
 
 private variable
-  P Q R : Prop' ∞
-  Jr : JudgRes
-  A : Set ℓ
-  P˙ Q˙ : A → Prop' ∞
-  P^ Q^ : Prop< ∞
-  a : A
-  F : A → Set ℓ
-  b : Bool
-  P^s : List (Prop< ∞)
-  ι : Size
+  P Q R :  Prop' ∞
+  Jr :  JudgRes
+  A :  Set ℓ
+  P˙ Q˙ :  A → Prop' ∞
+  P^ Q^ :  Prop< ∞
+  a :  A
+  F :  A → Set ℓ
+  b :  Bool
+  P^s :  List (Prop< ∞)
+  ι :  Size
 
 -- Declaring Judg
-data Judg (ι : Size) : Prop' ∞ → JudgRes → Set (sucˡ ℓ)
+data  Judg (ι : Size) :  Prop' ∞ →  JudgRes →  Set (sucˡ ℓ)
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
 
 -- General judgment
-_⊢[_]*_ : Prop' ∞ → Size → JudgRes → Set (sucˡ ℓ)
-P ⊢[ ι ]* Jr = Judg ι P Jr
+_⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (sucˡ ℓ)
+P ⊢[ ι ]* Jr =  Judg ι P Jr
 
 -- Sequent
-_⊢[_]_ : Prop' ∞ → Size → Prop' ∞ → Set (sucˡ ℓ)
-P ⊢[ ι ] Q = P ⊢[ ι ]* pure Q
+_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (sucˡ ℓ)
+P ⊢[ ι ] Q =  P ⊢[ ι ]* pure Q
 
 -- Sequent under thunk
-_⊢[<_]_ : Prop' ∞ → Size → Prop' ∞ → Set (sucˡ ℓ)
-P ⊢[< ι ] Q = Thunk (P ⊢[_] Q) ι
+_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (sucˡ ℓ)
+P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- Super update
-_⊢[_]=>>_ : Prop' ∞ → Size → Prop' ∞ → Set (sucˡ ℓ)
-P ⊢[ ι ]=>> Q = P ⊢[ ι ]* |=>> Q
+_⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (sucˡ ℓ)
+P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
 infixr -1 _»_ _ᵘ»ᵘ_
 
@@ -68,11 +68,11 @@ data Judg ι where
   -- The sequent is reflexive
   refl :  P ⊢[ ι ] P
   -- The left-hand side of a judgment can be modified with a sequent
-  _»_ :  P ⊢[ ι ] Q  →  Q ⊢[ ι ]* Jr  →  P ⊢[ ι ]* Jr
+  _»_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ]* Jr →  P ⊢[ ι ]* Jr
   ------------------------------------------------------------------------------
   -- Introducing ∀ / Eliminating ∃
-  ∀-intro :  (∀ a → P ⊢[ ι ] Q˙ a)  →  P ⊢[ ι ] ∀˙ _ Q˙
-  ∃-elim :  (∀ a → P˙ a ⊢[ ι ]* Jr)  →  ∃˙ _ P˙ ⊢[ ι ]* Jr
+  ∀-intro :  (∀ a → P ⊢[ ι ] Q˙ a) →  P ⊢[ ι ] ∀˙ _ Q˙
+  ∃-elim :  (∀ a → P˙ a ⊢[ ι ]* Jr) →  ∃˙ _ P˙ ⊢[ ι ]* Jr
   -- Eliminating ∀ / Introducing ∃
   ∀-elim :  ∀˙ _ P˙ ⊢[ ι ] P˙ a
   ∃-intro :  P˙ a ⊢[ ι ] ∃˙ _ P˙
@@ -80,22 +80,22 @@ data Judg ι where
   ⌜⌝-∀-in :  ∀' a , ⌜ F a ⌝ ⊢[ ι ] ⌜ (∀ a → F a) ⌝
   ------------------------------------------------------------------------------
   -- → is the right adjoint of ∧
-  →-intro :  P ∧ Q ⊢[ ι ] R  →  Q ⊢[ ι ] P →' R
-  →-elim :  Q ⊢[ ι ] P →' R  →  P ∧ Q ⊢[ ι ] R
+  →-intro :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
+  →-elim :  Q ⊢[ ι ] P →' R →  P ∧ Q ⊢[ ι ] R
   ------------------------------------------------------------------------------
   -- ∗ is unital w.r.t. ⊤', commutative, associative, and monotone
   ⊤∗-elim :  ⊤' ∗ P ⊢[ ι ] P
   ⊤∗-intro :  P ⊢[ ι ] ⊤' ∗ P
   ∗-comm :  P ∗ Q ⊢[ ι ] Q ∗ P
   ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ι ] P ∗ (Q ∗ R)
-  ∗-monoˡ :  P ⊢[ ι ] Q  →  P ∗ R ⊢[ ι ] Q ∗ R
+  ∗-monoˡ :  P ⊢[ ι ] Q →  P ∗ R ⊢[ ι ] Q ∗ R
   ------------------------------------------------------------------------------
   -- -∗ is the right adjoint of ∗
-  -∗-intro :  P ∗ Q ⊢[ ι ] R  →  Q ⊢[ ι ] P -∗ R
-  -∗-elim :  Q ⊢[ ι ] P -∗ R  →  P ∗ Q ⊢[ ι ] R
+  -∗-intro :  P ∗ Q ⊢[ ι ] R →  Q ⊢[ ι ] P -∗ R
+  -∗-elim :  Q ⊢[ ι ] P -∗ R →  P ∗ Q ⊢[ ι ] R
   ------------------------------------------------------------------------------
   -- |=> is monadic: monotone, increasing, and idempotent
-  |=>-mono :  P ⊢[ ι ] Q  →  |=> P ⊢[ ι ] |=> Q
+  |=>-mono :  P ⊢[ ι ] Q →  |=> P ⊢[ ι ] |=> Q
   |=>-intro :  P ⊢[ ι ] |=> P
   |=>-join :  |=> |=> P ⊢[ ι ] |=> P
   -- ∗ can get inside |=>
@@ -104,7 +104,7 @@ data Judg ι where
   |=>-∃-out :  |=> (∃ _ ∈ A , P) ⊢[ ι ] ∃ _ ∈ A , |=> P
   ------------------------------------------------------------------------------
   -- □ is comonadic: monotone, decreasing, and idempotent
-  □-mono :  P ⊢[ ι ] Q  →  □ P ⊢[ ι ] □ Q
+  □-mono :  P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
   □-elim :  □ P ⊢[ ι ] P
   □-dup :  □ P ⊢[ ι ] □ □ P
   -- ∧ can turn into ∗ when one argument is under □
@@ -115,15 +115,15 @@ data Judg ι where
   □-∃-out :  □ ∃˙ _ P˙ ⊢[ ι ] ∃˙ _ (□_ ∘ P˙)
   ------------------------------------------------------------------------------
   -- A thunk sequent under |=> can be lifted to a super update =>>
-  ^|=>⇒=>> :  P ⊢[< ι ] |=> Q  →  P ⊢[ ι ]=>> Q
+  ^|=>⇒=>> :  P ⊢[< ι ] |=> Q →  P ⊢[ ι ]=>> Q
   -- The super update =>> is transitive
-  _ᵘ»ᵘ_ :  P ⊢[ ι ]=>> Q  →  Q ⊢[ ι ]=>> R  →  P ⊢[ ι ]=>> R
+  _ᵘ»ᵘ_ :  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]=>> R →  P ⊢[ ι ]=>> R
   -- The super update =>> can frame
-  =>>-frameˡ :  Q ⊢[ ι ]=>> R  →  P ∗ Q ⊢[ ι ]=>> P ∗ R
+  =>>-frameˡ :  Q ⊢[ ι ]=>> R →  P ∗ Q ⊢[ ι ]=>> P ∗ R
   ------------------------------------------------------------------------------
   -- The save token can be modified with a thunk sequent
   save-monoʳ :  {{Basic R}} →
-    R ∗ P^ .! ⊢[< ι ] Q^ .!  →  R ∗ save b P^ ⊢[ ι ] save b Q^
+    R ∗ P^ .! ⊢[< ι ] Q^ .! →  R ∗ save b P^ ⊢[ ι ] save b Q^
   -- save□ weakens into savex
   save-□⇒x :  save□ P^ ⊢[ ι ] savex P^
   -- save□ is persistent

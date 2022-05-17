@@ -12,50 +12,50 @@ open import Base.Few using (¬_)
 open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; Σ-syntax; _,_)
 
-record Setoid ℓ ℓ≈ : Set (sucˡ (ℓ ⊔ˡ ℓ≈)) where
+record  Setoid ℓ ℓ≈ :  Set (sucˡ (ℓ ⊔ˡ ℓ≈))  where
   infix 4 _≈_
   infixr -1 _»˜_
   field
     -- Car: Carrier set
-    Car : Set ℓ
+    Car :  Set ℓ
     -- ≈: Binary relation over Car
-    _≈_ : Car → Car → Set ℓ≈
+    _≈_ :  Car → Car → Set ℓ≈
     -- ≈ is reflexive, symmetric and transitive
-    refl˜ : ∀ {a} → a ≈ a
-    sym˜ : ∀ {a b} → a ≈ b → b ≈ a
-    _»˜_ : ∀ {a b c} → a ≈ b → b ≈ c → a ≈ c
+    refl˜ :  ∀ {a} →  a ≈ a
+    sym˜ :  ∀ {a b} →  a ≈ b →  b ≈ a
+    _»˜_ :  ∀ {a b c} →  a ≈ b →  b ≈ c →  a ≈ c
 
   private variable
-    a b c : Car
-    ℓX ℓY ℓZ : Level
-    X : Car → Set ℓX
-    Y : Car → Set ℓY
-    Z : Car → Set ℓZ
+    a b c :  Car
+    ℓX ℓY ℓZ :  Level
+    X :  Car → Set ℓX
+    Y :  Car → Set ℓY
+    Z :  Car → Set ℓZ
 
-  ≡⇒≈ : a ≡ b → a ≈ b
-  ≡⇒≈ refl⁼ = refl˜
+  ≡⇒≈ :  a ≡ b →  a ≈ b
+  ≡⇒≈ refl⁼ =  refl˜
 
   ------------------------------------------------------------------------------
   -- ≉: Negation of ≈
 
   infix 4 _≉_
-  _≉_ : Car → Car → Set ℓ≈
-  a ≉ b = ¬ a ≈ b
+  _≉_ :  Car → Car → Set ℓ≈
+  a ≉ b =  ¬  a ≈ b
 
   ------------------------------------------------------------------------------
   -- ⊆≈ : Set inclusion relaxed with ≈
 
   infix 4 _⊆≈_
-  _⊆≈_ : (Car → Set ℓX) → (Car → Set ℓY) → Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓX ⊔ˡ ℓY)
-  X ⊆≈ Y  = ∀ {a} →  a ∈ X  →  Σ b ,  a ≈ b  ×  b ∈ Y
+  _⊆≈_ :  (Car → Set ℓX) →  (Car → Set ℓY) →  Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓX ⊔ˡ ℓY)
+  X ⊆≈ Y  =  ∀ {a} →  a ∈ X →  Σ b ,  a ≈ b  ×  b ∈ Y
 
   abstract
     -- ⊆≈ is reflexive and transitive
 
-    ⊆≈-refl : X ⊆≈ X
-    ⊆≈-refl {a = a} a∈X = a , refl˜ , a∈X
+    ⊆≈-refl :  X ⊆≈ X
+    ⊆≈-refl {a = a} a∈X =  a , refl˜ , a∈X
 
-    ⊆≈-trans : X ⊆≈ Y → Y ⊆≈ Z → X ⊆≈ Z
+    ⊆≈-trans :  X ⊆≈ Y →  Y ⊆≈ Z →  X ⊆≈ Z
     ⊆≈-trans X⊆≈Y Y⊆≈Z a∈X with X⊆≈Y a∈X
     ... | b , a≈b , b∈Y with Y⊆≈Z b∈Y
     ...   | c , b≈c , c∈Z =  c , (a≈b »˜ b≈c) , c∈Z
@@ -63,11 +63,11 @@ record Setoid ℓ ℓ≈ : Set (sucˡ (ℓ ⊔ˡ ℓ≈)) where
 open Setoid
 
 private variable
-  ℓA : Level
+  ℓA :  Level
 
-≡-setoid : Set ℓA → Setoid ℓA ℓA
-≡-setoid A .Car = A
-≡-setoid _ ._≈_ = _≡_
-≡-setoid _ .refl˜ = refl⁼
-≡-setoid _ .sym˜ = sym⁼
-≡-setoid _ ._»˜_ = _»⁼_
+≡-setoid :  Set ℓA →  Setoid ℓA ℓA
+≡-setoid A .Car =  A
+≡-setoid _ ._≈_ =  _≡_
+≡-setoid _ .refl˜ =  refl⁼
+≡-setoid _ .sym˜ =  sym⁼
+≡-setoid _ ._»˜_ =  _»⁼_

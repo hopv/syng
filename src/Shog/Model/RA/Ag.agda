@@ -21,7 +21,7 @@ open RA
 --------------------------------------------------------------------------------
 -- AgRA : Agreement resource algebra
 
-AgRA : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
+AgRA :  RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
 AgRA .Car =  List A
 AgRA ._≈_ =  _≈ᴸ_
 AgRA .✓_ =  homo

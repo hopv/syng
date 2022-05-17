@@ -17,13 +17,13 @@ open import Shog.Model.RA using (RA)
 --------------------------------------------------------------------------------
 -- Ex : ExRA's carrier
 
-data Ex : Set ℓ where
+data  Ex :  Set ℓ  where
   -- Pending
-  ?ˣ : Ex
+  ?ˣ :  Ex
   -- Exclusively set
-  #ˣ : A → Ex
+  #ˣ :  A →  Ex
   -- Invalid
-  ↯ˣ : Ex
+  ↯ˣ :  Ex
 
 --------------------------------------------------------------------------------
 -- Internal definitions
@@ -31,7 +31,7 @@ private
 
   -- Equivalence
   infix 4 _≈ˣ_
-  _≈ˣ_ : Ex → Ex → Set ℓ≈
+  _≈ˣ_ :  Ex → Ex → Set ℓ≈
   ?ˣ ≈ˣ ?ˣ =  ⊤
   ↯ˣ ≈ˣ ↯ˣ =  ⊤
   #ˣ a ≈ˣ #ˣ b =  a ≈ b
@@ -39,13 +39,13 @@ private
 
   -- Validity
   infix 3 ✓ˣ_
-  ✓ˣ_ : Ex → Set ℓ✓
+  ✓ˣ_ :  Ex → Set ℓ✓
   ✓ˣ_ ↯ˣ =  ⊥
   ✓ˣ_ _ =  ⊤
 
   -- Product
   infixl 7 _∙ˣ_
-  _∙ˣ_ : Ex → Ex → Ex
+  _∙ˣ_ :  Ex → Ex → Ex
   ?ˣ ∙ˣ aˣ =  aˣ
   ↯ˣ ∙ˣ aˣ =  ↯ˣ
   aˣ ∙ˣ ?ˣ =  aˣ
@@ -59,17 +59,17 @@ private abstract
   ≈ˣ-refl ↯ˣ =  _
   ≈ˣ-refl (#ˣ _) =  refl˜
 
-  ≈ˣ-sym :  ∀ aˣ bˣ →  aˣ ≈ˣ bˣ  →  bˣ ≈ˣ aˣ
+  ≈ˣ-sym :  ∀ aˣ bˣ →  aˣ ≈ˣ bˣ →  bˣ ≈ˣ aˣ
   ≈ˣ-sym ?ˣ ?ˣ =  _
   ≈ˣ-sym ↯ˣ ↯ˣ =  _
   ≈ˣ-sym (#ˣ _) (#ˣ _) =  sym˜
 
-  ≈ˣ-trans :  ∀ aˣ bˣ cˣ →  aˣ ≈ˣ bˣ  →  bˣ ≈ˣ cˣ  →  aˣ ≈ˣ cˣ
+  ≈ˣ-trans :  ∀ aˣ bˣ cˣ →  aˣ ≈ˣ bˣ →  bˣ ≈ˣ cˣ →  aˣ ≈ˣ cˣ
   ≈ˣ-trans ?ˣ ?ˣ ?ˣ =  _
   ≈ˣ-trans ↯ˣ ↯ˣ ↯ˣ =  _
   ≈ˣ-trans (#ˣ _) (#ˣ _) (#ˣ _) =  _»˜_
 
-  ∙ˣ-congˡ :  ∀ aˣ bˣ cˣ →  aˣ ≈ˣ bˣ  →  aˣ ∙ˣ cˣ  ≈ˣ  bˣ ∙ˣ cˣ
+  ∙ˣ-congˡ :  ∀ aˣ bˣ cˣ →  aˣ ≈ˣ bˣ →  aˣ ∙ˣ cˣ  ≈ˣ  bˣ ∙ˣ cˣ
   ∙ˣ-congˡ ?ˣ ?ˣ cˣ _ =  ≈ˣ-refl cˣ
   ∙ˣ-congˡ ↯ˣ ↯ˣ _ _ =  _
   ∙ˣ-congˡ (#ˣ a) (#ˣ b) ?ˣ a≈b =  a≈b
@@ -96,11 +96,11 @@ private abstract
   ∙ˣ-assocˡ (#ˣ _) (#ˣ _) ↯ˣ =  _
   ∙ˣ-assocˡ (#ˣ _) (#ˣ _) (#ˣ _) =  _
 
-  ✓ˣ-resp :  ∀ aˣ bˣ →  aˣ ≈ˣ bˣ  →  ✓ˣ aˣ  →  ✓ˣ bˣ
+  ✓ˣ-resp :  ∀ aˣ bˣ →  aˣ ≈ˣ bˣ →  ✓ˣ aˣ →  ✓ˣ bˣ
   ✓ˣ-resp ?ˣ ?ˣ _ _ =  _
   ✓ˣ-resp (#ˣ _) (#ˣ _) _ _ =  _
 
-  ✓ˣ-rem :  ∀ aˣ bˣ →  ✓ˣ bˣ ∙ˣ aˣ → ✓ˣ aˣ
+  ✓ˣ-rem :  ∀ aˣ bˣ →  ✓ˣ bˣ ∙ˣ aˣ →  ✓ˣ aˣ
   ✓ˣ-rem _ ?ˣ =  id
   ✓ˣ-rem ?ˣ (#ˣ _) =  _
 

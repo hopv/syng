@@ -30,13 +30,13 @@ open import Shog.Logic.Judg.All ℓ public using (refl; _»_;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 
 private variable
-  ι : Size
-  P Q R S : Prop' ∞
-  Jr : JudgRes
-  A B : Set ℓ
-  F : A → Set ℓ
-  P˙ Q˙ : A → Prop' ∞
-  Ps Qs : List (Prop' ∞)
+  ι :  Size
+  P Q R S :  Prop' ∞
+  Jr :  JudgRes
+  A B :  Set ℓ
+  F :  A → Set ℓ
+  P˙ Q˙ :  A → Prop' ∞
+  Ps Qs :  List (Prop' ∞)
 
 abstract
 
@@ -45,10 +45,10 @@ abstract
 
   -- Introducing ∧/⊤' / Eliminating ∨/⊥'
 
-  ∧-intro :  P ⊢[ ι ] Q  →  P ⊢[ ι ] R  →  P ⊢[ ι ] Q ∧ R
+  ∧-intro :  P ⊢[ ι ] Q →  P ⊢[ ι ] R →  P ⊢[ ι ] Q ∧ R
   ∧-intro P⊢Q P⊢R =  ∀-intro $ binary P⊢Q P⊢R
 
-  ∨-elim :  P ⊢[ ι ]* Jr  →  Q ⊢[ ι ]* Jr  →  P ∨ Q ⊢[ ι ]* Jr
+  ∨-elim :  P ⊢[ ι ]* Jr →  Q ⊢[ ι ]* Jr →  P ∨ Q ⊢[ ι ]* Jr
   ∨-elim P⊢*Jr Q⊢*Jr =  ∃-elim $ binary P⊢*Jr Q⊢*Jr
 
   ⊤-intro :  P ⊢[ ι ] ⊤'
@@ -73,28 +73,28 @@ abstract
 
   -- ∀/∃/∧/∨ is monotone
 
-  ∀-mono :  (∀ a  →  P˙ a ⊢[ ι ] Q˙ a)  →  ∀˙ _ P˙ ⊢[ ι ] ∀˙ _ Q˙
-  ∀-mono P˙⊢Q˙ =  ∀-intro $ λ a  →  ∀-elim » P˙⊢Q˙ a
+  ∀-mono :  (∀ a →  P˙ a ⊢[ ι ] Q˙ a) →  ∀˙ _ P˙ ⊢[ ι ] ∀˙ _ Q˙
+  ∀-mono P˙⊢Q˙ =  ∀-intro $ λ a →  ∀-elim » P˙⊢Q˙ a
 
-  ∃-mono :  (∀ a  →  P˙ a ⊢[ ι ] Q˙ a)  →  ∃˙ _ P˙ ⊢[ ι ] ∃˙ _ Q˙
-  ∃-mono P˙⊢Q˙ =  ∃-elim $ λ a  →  P˙⊢Q˙ a » ∃-intro
+  ∃-mono :  (∀ a →  P˙ a ⊢[ ι ] Q˙ a) →  ∃˙ _ P˙ ⊢[ ι ] ∃˙ _ Q˙
+  ∃-mono P˙⊢Q˙ =  ∃-elim $ λ a →  P˙⊢Q˙ a » ∃-intro
 
-  ∧-mono :  P ⊢[ ι ] Q  →  R ⊢[ ι ] S  →  P ∧ R ⊢[ ι ] Q ∧ S
+  ∧-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  P ∧ R ⊢[ ι ] Q ∧ S
   ∧-mono P⊢Q R⊢S =  ∧-intro (∧-elimˡ » P⊢Q) (∧-elimʳ » R⊢S)
 
-  ∨-mono :  P ⊢[ ι ] Q  →  R ⊢[ ι ] S  →  P ∨ R ⊢[ ι ] Q ∨ S
+  ∨-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  P ∨ R ⊢[ ι ] Q ∨ S
   ∨-mono P⊢Q R⊢S =  ∨-elim (P⊢Q » ∨-introˡ) (R⊢S » ∨-introʳ)
 
-  ∧-monoˡ :  P ⊢[ ι ] Q  →  P ∧ R ⊢[ ι ] Q ∧ R
+  ∧-monoˡ :  P ⊢[ ι ] Q →  P ∧ R ⊢[ ι ] Q ∧ R
   ∧-monoˡ P⊢Q =  ∧-mono P⊢Q refl
 
-  ∧-monoʳ :  P ⊢[ ι ] Q  →  R ∧ P ⊢[ ι ] R ∧ Q
+  ∧-monoʳ :  P ⊢[ ι ] Q →  R ∧ P ⊢[ ι ] R ∧ Q
   ∧-monoʳ P⊢Q =  ∧-mono refl P⊢Q
 
-  ∨-monoˡ :  P ⊢[ ι ] Q  →  P ∨ R ⊢[ ι ] Q ∨ R
+  ∨-monoˡ :  P ⊢[ ι ] Q →  P ∨ R ⊢[ ι ] Q ∨ R
   ∨-monoˡ P⊢Q =  ∨-mono P⊢Q refl
 
-  ∨-monoʳ :  P ⊢[ ι ] Q  →  R ∨ P ⊢[ ι ] R ∨ Q
+  ∨-monoʳ :  P ⊢[ ι ] Q →  R ∨ P ⊢[ ι ] R ∨ Q
   ∨-monoʳ P⊢Q =  ∨-mono refl P⊢Q
 
   -- ∧/∨ is commutative
@@ -147,13 +147,13 @@ abstract
 
   -- →' is monotone
 
-  →-mono :  Q ⊢[ ι ] P  →  R ⊢[ ι ] S  →  P →' R ⊢[ ι ] Q →' S
+  →-mono :  Q ⊢[ ι ] P →  R ⊢[ ι ] S →  P →' R ⊢[ ι ] Q →' S
   →-mono Q⊢P R⊢S =  →-intro $ ∧-monoˡ Q⊢P » →-apply » R⊢S
 
-  →-monoˡ :  Q ⊢[ ι ] P  →  P →' R ⊢[ ι ] Q →' R
+  →-monoˡ :  Q ⊢[ ι ] P →  P →' R ⊢[ ι ] Q →' R
   →-monoˡ Q⊢P =  →-mono Q⊢P refl
 
-  →-monoʳ :  P ⊢[ ι ] Q  →  R →' P ⊢[ ι ] R →' Q
+  →-monoʳ :  P ⊢[ ι ] Q →  R →' P ⊢[ ι ] R →' Q
   →-monoʳ P⊢Q =  →-mono refl P⊢Q
 
   ------------------------------------------------------------------------------
@@ -161,60 +161,60 @@ abstract
 
   -- Introducing and eliminating ⌜⌝
 
-  ⌜⌝-intro :  A  →  P ⊢[ ι ] ⌜ A ⌝
+  ⌜⌝-intro :  A →  P ⊢[ ι ] ⌜ A ⌝
   ⌜⌝-intro a =  ⊤-intro » ∃-intro {a =  a}
 
-  ⌜⌝-elim :  (A  →  ⊤' ⊢[ ι ]* Jr)  →  ⌜ A ⌝ ⊢[ ι ]* Jr
-  ⌜⌝-elim A→⊤⊢P =  ∃-elim $ λ a  →  A→⊤⊢P a
+  ⌜⌝-elim :  (A →  ⊤' ⊢[ ι ]* Jr) →  ⌜ A ⌝ ⊢[ ι ]* Jr
+  ⌜⌝-elim A→⊤⊢P =  ∃-elim $ λ a →  A→⊤⊢P a
 
   -- ⌜⌝ is monotone
 
-  ⌜⌝-mono :  (A  →  B)  →  ⌜ A ⌝ ⊢[ ι ] ⌜ B ⌝
-  ⌜⌝-mono f =  ⌜⌝-elim $ λ a  →  ⌜⌝-intro $ f a
+  ⌜⌝-mono :  (A →  B) →  ⌜ A ⌝ ⊢[ ι ] ⌜ B ⌝
+  ⌜⌝-mono f =  ⌜⌝-elim $ λ a →  ⌜⌝-intro $ f a
 
   -- Introducing and eliminating ⌜ ⌝ ∧
 
-  ⌜⌝∧-intro :  A  →  P ⊢[ ι ] ⌜ A ⌝ ∧ P
+  ⌜⌝∧-intro :  A →  P ⊢[ ι ] ⌜ A ⌝ ∧ P
   ⌜⌝∧-intro a =  ∧-intro (⌜⌝-intro a) refl
 
-  ⌜⌝∧-elim :  (A  →  P ⊢[ ι ] Q)  →  ⌜ A ⌝ ∧ P ⊢[ ι ] Q
+  ⌜⌝∧-elim :  (A →  P ⊢[ ι ] Q) →  ⌜ A ⌝ ∧ P ⊢[ ι ] Q
   ⌜⌝∧-elim A→P⊢Q =  ∧-comm » →-elim $ ⌜⌝-elim $
-    λ a  →  →-intro $ ∧-elimˡ » A→P⊢Q a
+    λ a →  →-intro $ ∧-elimˡ » A→P⊢Q a
 
   -- ⌜ A ⌝ →' is the same with ∀' _ ∈ A ,
 
   ⌜⌝→⇒∀ :  ⌜ A ⌝ →' P ⊢[ ι ] ∀' _ ∈ A , P
-  ⌜⌝→⇒∀ =  ∀-intro $ λ a  →  ⌜⌝∧-intro a » →-apply
+  ⌜⌝→⇒∀ =  ∀-intro $ λ a →  ⌜⌝∧-intro a » →-apply
 
   ∀⇒⌜⌝→ :  ∀' _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ →' P
-  ∀⇒⌜⌝→ =  →-intro $ ⌜⌝∧-elim $ λ a  →  ∀-elim {a =  a}
+  ∀⇒⌜⌝→ =  →-intro $ ⌜⌝∧-elim $ λ a →  ∀-elim {a =  a}
 
   -- ⌜ A ⌝ ∧ is the same with ∃ _ ∈ A ,
 
   ⌜⌝∧⇒∃ :  ⌜ A ⌝ ∧ P ⊢[ ι ] ∃ _ ∈ A , P
-  ⌜⌝∧⇒∃ =  ⌜⌝∧-elim $ λ a  →  refl » ∃-intro {a =  a}
+  ⌜⌝∧⇒∃ =  ⌜⌝∧-elim $ λ a →  refl » ∃-intro {a =  a}
 
   ∃⇒⌜⌝∧ :  ∃ _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ ∧ P
-  ∃⇒⌜⌝∧ =  ∃-elim $ λ a  →  ⌜⌝∧-intro a
+  ∃⇒⌜⌝∧ =  ∃-elim $ λ a →  ⌜⌝∧-intro a
 
   -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤'/⊥'/→
 
   -- We already have ⌜⌝-∀-in
 
-  ⌜⌝-∀-out :  ⌜ (∀ a  →  F a) ⌝ ⊢[ ι ] ∀' a , ⌜ F a ⌝
-  ⌜⌝-∀-out =  ∀-intro $ λ a  →  ⌜⌝-elim $ λ f  →  ⌜⌝-intro $ f a
+  ⌜⌝-∀-out :  ⌜ (∀ a →  F a) ⌝ ⊢[ ι ] ∀' a , ⌜ F a ⌝
+  ⌜⌝-∀-out =  ∀-intro $ λ a →  ⌜⌝-elim $ λ f →  ⌜⌝-intro $ f a
 
   ⌜⌝-∃-in :  ∃ a , ⌜ F a ⌝ ⊢[ ι ] ⌜ Σ a , F a ⌝
-  ⌜⌝-∃-in =  ∃-elim $ λ a  →  ⌜⌝-mono $ λ fa  →  a , fa
+  ⌜⌝-∃-in =  ∃-elim $ λ a →  ⌜⌝-mono $ λ fa →  a , fa
 
   ⌜⌝-∃-out :  ⌜ Σ a , F a ⌝ ⊢[ ι ] ∃ a , ⌜ F a ⌝
-  ⌜⌝-∃-out =  ⌜⌝-elim $ λ (_ , fa)  →  ⌜⌝-intro fa » ∃-intro
+  ⌜⌝-∃-out =  ⌜⌝-elim $ λ (_ , fa) →  ⌜⌝-intro fa » ∃-intro
 
   ⌜⌝-∧-in :  ⌜ A ⌝ ∧ ⌜ B ⌝ ⊢[ ι ] ⌜ A × B ⌝
-  ⌜⌝-∧-in =  ⌜⌝∧-elim $ λ a  →  ⌜⌝-mono $ λ b  →  (a , b)
+  ⌜⌝-∧-in =  ⌜⌝∧-elim $ λ a →  ⌜⌝-mono $ λ b →  (a , b)
 
   ⌜⌝-∧-out :  ⌜ A × B ⌝ ⊢[ ι ] ⌜ A ⌝ ∧ ⌜ B ⌝
-  ⌜⌝-∧-out =  ⌜⌝-elim $ λ (a , b)  →  ∧-intro (⌜⌝-intro a) (⌜⌝-intro b)
+  ⌜⌝-∧-out =  ⌜⌝-elim $ λ (a , b) →  ∧-intro (⌜⌝-intro a) (⌜⌝-intro b)
 
   ⌜⌝-∨-in :  ⌜ A ⌝ ∨ ⌜ B ⌝ ⊢[ ι ] ⌜ A ⊎ B ⌝
   ⌜⌝-∨-in =  ∨-elim (⌜⌝-mono inj₀) (⌜⌝-mono inj₁)
@@ -240,10 +240,10 @@ abstract
 
   -- ∗ is monotone
 
-  ∗-monoʳ :  P ⊢[ ι ] Q  →  R ∗ P ⊢[ ι ] R ∗ Q
+  ∗-monoʳ :  P ⊢[ ι ] Q →  R ∗ P ⊢[ ι ] R ∗ Q
   ∗-monoʳ P⊢Q =  ∗-comm » ∗-monoˡ P⊢Q » ∗-comm
 
-  ∗-mono :  P ⊢[ ι ] Q  →  R ⊢[ ι ] S  →  P ∗ R ⊢[ ι ] Q ∗ S
+  ∗-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  P ∗ R ⊢[ ι ] Q ∗ S
   ∗-mono P⊢Q R⊢S =  ∗-monoˡ P⊢Q » ∗-monoʳ R⊢S
 
   -- Eliminating ∗
@@ -289,13 +289,13 @@ abstract
 
   -- -∗ is monotone
 
-  -∗-mono :  Q ⊢[ ι ] P  →  R ⊢[ ι ] S  →  P -∗ R ⊢[ ι ] Q -∗ S
+  -∗-mono :  Q ⊢[ ι ] P →  R ⊢[ ι ] S →  P -∗ R ⊢[ ι ] Q -∗ S
   -∗-mono Q⊢P R⊢S =  -∗-intro $ ∗-monoˡ Q⊢P » -∗-apply » R⊢S
 
-  -∗-monoˡ :  Q ⊢[ ι ] P  →  P -∗ R ⊢[ ι ] Q -∗ R
+  -∗-monoˡ :  Q ⊢[ ι ] P →  P -∗ R ⊢[ ι ] Q -∗ R
   -∗-monoˡ Q⊢P =  -∗-mono Q⊢P refl
 
-  -∗-monoʳ :  P ⊢[ ι ] Q  →  R -∗ P ⊢[ ι ] R -∗ Q
+  -∗-monoʳ :  P ⊢[ ι ] Q →  R -∗ P ⊢[ ι ] R -∗ Q
   -∗-monoʳ P⊢Q =  -∗-mono refl P⊢Q
 
   -- →' can turn into -∗
@@ -308,7 +308,7 @@ abstract
 
   -- Eliminating |=> from the antecedent
 
-  |=>-elim :  P ⊢[ ι ] |=> Q  →  |=> P ⊢[ ι ] |=> Q
+  |=>-elim :  P ⊢[ ι ] |=> Q →  |=> P ⊢[ ι ] |=> Q
   |=>-elim P⊢|=>Q =  |=>-mono P⊢|=>Q » |=>-join
 
   -- ⌜ ⌝ ∧ can get outside |=>
@@ -331,7 +331,7 @@ abstract
 
   -- Introducing |=> to the succedent
 
-  □-intro :  □ P ⊢[ ι ] Q  →  □ P ⊢[ ι ] □ Q
+  □-intro :  □ P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
   □-intro □P⊢Q =  □-dup » □-mono □P⊢Q
 
   -- ∀/∧ can get outside □ / ∃/∨ can get inside □
@@ -361,7 +361,7 @@ abstract
   □ʳ-∧⇒∗ =  ∧-comm » □ˡ-∧⇒∗ » ∗-comm
 
   -- The antecedent can be retained when the succedent is under □
-  retain-□ :  P ⊢[ ι ] □ Q  →  P ⊢[ ι ] □ Q ∗ P
+  retain-□ :  P ⊢[ ι ] □ Q →  P ⊢[ ι ] □ Q ∗ P
   retain-□ P⊢Q =  ∧-intro P⊢Q refl » □ˡ-∧⇒∗
 
   -- A proposition under □ can be duplicated
@@ -414,20 +414,20 @@ abstract
   -- -- They are not instances, because unfortunately
   -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
-  ∀-Pers :  (∀ a → Pers (P˙ a))  →  Pers (∀˙ _ P˙)
+  ∀-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∀˙ _ P˙)
   ∀-Pers ∀Pers .pers =  ∀-mono (λ a → ∀Pers a .pers) » □-∀-in
 
-  ∃-Pers :  (∀ a → Pers (P˙ a))  →  Pers (∃˙ _ P˙)
+  ∃-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∃˙ _ P˙)
   ∃-Pers ∀Pers .pers =  ∃-mono (λ a → ∀Pers a .pers) » □-∃-in
 
   instance
 
     -- For ∧/∨/⊤'/⊥'
 
-    ∧-Pers :  {{Pers P}}  →  {{Pers Q}}  →  Pers (P ∧ Q)
+    ∧-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∧ Q)
     ∧-Pers =  ∀-Pers $ binary it it
 
-    ∨-Pers :  {{Pers P}}  →  {{Pers Q}}  →  Pers (P ∨ Q)
+    ∨-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∨ Q)
     ∨-Pers =  ∃-Pers $ binary it it
 
     ⊤-Pers :  Pers ⊤'
@@ -438,7 +438,7 @@ abstract
 
     -- For ∗
 
-    ∗-Pers :  {{Pers P}}  →  {{Pers Q}}  →  Pers (P ∗ Q)
+    ∗-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∗ Q)
     ∗-Pers .pers =  ∗⇒∧ » pers » in□-∧⇒∗
 
     -- For ⌜ ⌝
@@ -456,30 +456,30 @@ abstract
 
   -- ∧ can turn into ∗ when one argument is persistent
 
-  Persˡ-∧⇒∗ :  {{Pers P}}  →  P ∧ Q ⊢[ ι ] P ∗ Q
+  Persˡ-∧⇒∗ :  {{Pers P}} →  P ∧ Q ⊢[ ι ] P ∗ Q
   Persˡ-∧⇒∗ =  ∧-monoˡ pers » □ˡ-∧⇒∗ » ∗-monoˡ □-elim
 
-  Persʳ-∧⇒∗ :  {{Pers Q}}  →  P ∧ Q ⊢[ ι ] P ∗ Q
+  Persʳ-∧⇒∗ :  {{Pers Q}} →  P ∧ Q ⊢[ ι ] P ∗ Q
   Persʳ-∧⇒∗ =  ∧-comm » Persˡ-∧⇒∗ » ∗-comm
 
   -- The antecedent can be retained when the succedent is persistent
-  retain-Pers :  {{Pers Q}}  →  P ⊢[ ι ] Q  →  P ⊢[ ι ] Q ∗ P
+  retain-Pers :  {{Pers Q}} →  P ⊢[ ι ] Q →  P ⊢[ ι ] Q ∗ P
   retain-Pers P⊢Q =  retain-□ (P⊢Q » pers) » ∗-monoˡ □-elim
 
   -- A persistent proposition can be duplicated
-  dup-Pers :  {{Pers P}}  →  P ⊢[ ι ] P ∗ P
+  dup-Pers :  {{Pers P}} →  P ⊢[ ι ] P ∗ P
   dup-Pers =  retain-Pers refl
 
   -- -∗ can turn into →' when the left-hand side is persistent
-  Pers--∗⇒→ :  {{Pers P}}  →  P -∗ Q ⊢[ ι ] P →' Q
+  Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
   Pers--∗⇒→ =  -∗⇒□→ » →-monoˡ pers
 
   -- Introducing and eliminating ⌜ ⌝ ∗
 
-  ⌜⌝∗-intro :  A  →  P ⊢[ ι ] ⌜ A ⌝ ∗ P
+  ⌜⌝∗-intro :  A →  P ⊢[ ι ] ⌜ A ⌝ ∗ P
   ⌜⌝∗-intro a =  ⌜⌝∧-intro a » Persˡ-∧⇒∗
 
-  ⌜⌝∗-elim :  (A  →  P ⊢[ ι ] Q)  →  ⌜ A ⌝ ∗ P ⊢[ ι ] Q
+  ⌜⌝∗-elim :  (A →  P ⊢[ ι ] Q) →  ⌜ A ⌝ ∗ P ⊢[ ι ] Q
   ⌜⌝∗-elim A→P⊢Q =  ∗⇒∧ » ⌜⌝∧-elim A→P⊢Q
 
   -- ⌜ ⌝ ∗ can get outside |=>
@@ -492,7 +492,7 @@ abstract
 
   -- [∗] is monotone
 
-  [∗]-mono :  All² _⊢[ ι ]_ Ps Qs  →  [∗] Ps ⊢[ ι ] [∗] Qs
+  [∗]-mono :  All² _⊢[ ι ]_ Ps Qs →  [∗] Ps ⊢[ ι ] [∗] Qs
   [∗]-mono []ᴬ² =  refl
   [∗]-mono (P⊢Q ∷ᴬ² Ps⊢Qs) =  ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)
 

@@ -18,34 +18,34 @@ open RA Raʳ using () renaming (Car to X; _≈_ to _≈ʳ_; ✓_ to ✓ʳ_; _∙
 open RA _×ᴿᴬ_ using (_≈_; _↝_) renaming (Car to AX)
 
 private variable
-  a b : A
-  x y : X
+  a b :  A
+  x y :  X
 
 abstract
 
   -- Congruence on a pair
 
-  ×-congˡ :  a ≈ˡ b  →  (a , x) ≈ (b , x)
-  ×-congˡ a≈b = a≈b , reflʳ
+  ×-congˡ :  a ≈ˡ b →  (a , x) ≈ (b , x)
+  ×-congˡ a≈b =  a≈b , reflʳ
 
-  ×-congʳ :  x ≈ʳ y  →  (a , x) ≈ (a , y)
-  ×-congʳ x≈y = reflˡ , x≈y
+  ×-congʳ :  x ≈ʳ y →  (a , x) ≈ (a , y)
+  ×-congʳ x≈y =  reflˡ , x≈y
 
   -- Injecting an element of a component RA
 
-  ×-injˡ : A → AX
-  ×-injˡ a = a , εʳ
+  ×-injˡ :  A →  AX
+  ×-injˡ a =  a , εʳ
 
-  ×-injʳ : X → AX
-  ×-injʳ x = εˡ , x
+  ×-injʳ :  X →  AX
+  ×-injʳ x =  εˡ , x
 
   -- Update on _×ᴿᴬ_
 
-  ×-↝-lift :  a ↝ˡ b  →  x ↝ʳ y  →  (a , x) ↝ (b , y)
-  ×-↝-lift a↝b x↝y _ (✓c∙a , ✓z∙x) = a↝b _ ✓c∙a , x↝y _ ✓z∙x
+  ×-↝-lift :  a ↝ˡ b →  x ↝ʳ y →  (a , x) ↝ (b , y)
+  ×-↝-lift a↝b x↝y _ (✓c∙a , ✓z∙x) =  a↝b _ ✓c∙a , x↝y _ ✓z∙x
 
-  ×-↝-liftˡ :  a ↝ˡ b  →  (a , x) ↝ (b , x)
-  ×-↝-liftˡ a↝b = ×-↝-lift a↝b ↝ʳ-refl
+  ×-↝-liftˡ :  a ↝ˡ b →  (a , x) ↝ (b , x)
+  ×-↝-liftˡ a↝b =  ×-↝-lift a↝b ↝ʳ-refl
 
-  ×-↝-liftʳ :  x ↝ʳ y  →  (a , x) ↝ (a , y)
-  ×-↝-liftʳ x↝y = ×-↝-lift ↝ˡ-refl x↝y
+  ×-↝-liftʳ :  x ↝ʳ y →  (a , x) ↝ (a , y)
+  ×-↝-liftʳ x↝y =  ×-↝-lift ↝ˡ-refl x↝y

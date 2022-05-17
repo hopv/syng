@@ -6,12 +6,13 @@
 
 module Base.RatPos where
 
-open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; +⁺-comm;
-  +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; *⁺-injʳ;
-  *⁺-actˡ-comm; *⁺-actʳ-comm; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ)
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _<⁺_;
+  +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
+  *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; +⁺-sincrˡ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ; ≤⁺->⁺-no)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
+open import Base.Few using (¬_)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺: Positive rational number
@@ -137,3 +138,10 @@ abstract
   +ᴿ⁺-cong :  p ≈ᴿ⁺ q →  r ≈ᴿ⁺ s →  p +ᴿ⁺ r ≈ᴿ⁺ q +ᴿ⁺ s
   +ᴿ⁺-cong {p} {q} {r} {s} p≈q r≈s =  ≈ᴿ⁺-trans {p +ᴿ⁺ r} {q +ᴿ⁺ r} {q +ᴿ⁺ s}
     (+ᴿ⁺-congˡ {p} {q} {r} p≈q) (+ᴿ⁺-congʳ {q} {r} {s} r≈s)
+
+--------------------------------------------------------------------------------
+-- /⁺: Dividing ℚ⁺ with ℕ⁺
+
+infixl 7 _/⁺_
+_/⁺_ :  ℚ⁺ → ℕ⁺ → ℚ⁺
+(a //⁺ b) /⁺ c =  a //⁺ (b *⁺ c)

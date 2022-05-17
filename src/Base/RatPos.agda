@@ -6,13 +6,15 @@
 
 module Base.RatPos where
 
-open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _<⁺_;
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _<⁺_; cmp⁺;
   +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
-  *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; +⁺-sincrˡ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ; ≤⁺->⁺-no)
+  *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; ≤⁺-refl; <⁺-irrefl'; <⁺-≤⁺-trans; <⁺⇒≤⁺;
+  ≤⁺->⁺-no; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
-open import Base.Few using (¬_)
+open import Base.Few using (¬_; absurd)
+open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺: Positive rational number
@@ -158,3 +160,18 @@ abstract
 
   ?+1ᴿ⁺-not-≤1ᴿ⁺ :  ¬  ≤1ᴿ⁺ (p +ᴿ⁺ 1ᴿ⁺)
   ?+1ᴿ⁺-not-≤1ᴿ⁺ {a //⁺ b} 1a+b1≤b1 =  ≤⁺->⁺-no 1a+b1≤b1 +⁺-sincrˡ
+
+  -- ≤1ᴿ⁺ respects ≈ᴿ⁺
+
+  ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  ≤1ᴿ⁺ p →  ≤1ᴿ⁺ q
+  ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b with cmp⁺ c d
+  ... | inj₀ c<d =  <⁺⇒≤⁺ c<d
+  ... | inj₁₀ refl⁼ = ≤⁺-refl
+  ... | inj₁₁ c>d =  absurd $ <⁺-irrefl' (da≡bc »⁼ *⁺-comm {b} {c}) $
+    <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
+
+  -- p +ᴿ⁺ q does not satisfy ≤1ᴿ⁺ when q ≈ᴿ⁺ 1ᴿ⁺
+
+  ?+≈1ᴿ⁺-not-≤1ᴿ⁺ :  ∀ {p q} →  q ≈ᴿ⁺ 1ᴿ⁺ →  ¬  ≤1ᴿ⁺ (p +ᴿ⁺ q)
+  ?+≈1ᴿ⁺-not-≤1ᴿ⁺ {p} {q} q≈1 ≤1p+q =  ?+1ᴿ⁺-not-≤1ᴿ⁺ {p} $
+    ≤1ᴿ⁺-resp (+ᴿ⁺-congʳ {p} {q} {1ᴿ⁺} q≈1) ≤1p+q

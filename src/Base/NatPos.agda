@@ -7,10 +7,10 @@
 module Base.NatPos where
 
 open import Base.Nat using (ℕ; suc; _+_; _*_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; cmp;
-  +-comm; +-assocˡ; +-injˡ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; +-0; ≤-refl;
-  ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; ≤-<-trans; <-≤-trans; ≤->-no;
-  suc-sincr; +-incrˡ; +-smonoʳ; ≡ᵇ⇒≡; ≡⇒≡ᵇ; ≤ᵇ⇒≤; ≤⇒≤ᵇ; <ᵇ⇒<; <⇒<ᵇ)
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst)
+  +-comm; +-assocˡ; +-injˡ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; +-0; suc≤suc; suc<suc; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; ≤-<-trans;
+  <-≤-trans; ≤->-no; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; +-incrˡ; +-smonoʳ;
+  *-monoˡ; *-smonoˡ; ≡ᵇ⇒≡; ≡⇒≡ᵇ; ≤ᵇ⇒≤; ≤⇒≤ᵇ; <ᵇ⇒<; <⇒<ᵇ)
+open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_)
 open import Base.Bool using (Bool; Tt)
 open import Base.Few using (¬_)
@@ -24,7 +24,7 @@ record  ℕ⁺ :  Set  where
   field  un1+ :  ℕ
 
 private variable
-  l m n :  ℕ⁺
+  k l m n :  ℕ⁺
 
 --------------------------------------------------------------------------------
 -- 1⁺, 2⁺, 3⁺, 4⁺, 5⁺: Numbers in ℕ⁺
@@ -200,6 +200,32 @@ abstract
 
   +⁺-sincrʳ :  m <⁺ m +⁺ n
   +⁺-sincrʳ {m} =  subst (m <⁺_) +⁺-comm +⁺-sincrˡ
+
+  -- *⁺ is monotone
+
+  *⁺-monoˡ :  l ≤⁺ m →  l *⁺ n ≤⁺ m *⁺ n
+  *⁺-monoˡ {1+ l⁰} {1+ m⁰} {1+ n⁰} l⁰≤m⁰ =
+    suc≤suc⁻¹ $ *-monoˡ {suc l⁰} {suc m⁰} {suc n⁰} $ suc≤suc l⁰≤m⁰
+
+  *⁺-monoʳ :  ∀ {l m n} →  m ≤⁺ n →  l *⁺ m ≤⁺ l *⁺ n
+  *⁺-monoʳ {l} {m} {n} m≤n =  subst₂ _≤⁺_ (*⁺-comm {m} {l}) (*⁺-comm {n} {l})
+    (*⁺-monoˡ m≤n)
+
+  *⁺-mono :  k ≤⁺ l →  m ≤⁺ n →  k *⁺ m ≤⁺ l *⁺ n
+  *⁺-mono {l = l} k≤l m≤n =  ≤⁺-trans (*⁺-monoˡ k≤l) (*⁺-monoʳ {l} m≤n)
+
+  -- *⁺ is strictly monotone
+
+  *⁺-smonoˡ :  l <⁺ m →  l *⁺ n <⁺ m *⁺ n
+  *⁺-smonoˡ {1+ l⁰} {1+ m⁰} {1+ n⁰} l⁰<m⁰ =
+    suc<suc⁻¹ $ *-smonoˡ {suc l⁰} {suc m⁰} {n⁰} $ suc<suc l⁰<m⁰
+
+  *⁺-smonoʳ :  ∀ {l m n} →  m <⁺ n →  l *⁺ m <⁺ l *⁺ n
+  *⁺-smonoʳ {l} {m} {n} m<n =  subst₂ _<⁺_ (*⁺-comm {m} {l}) (*⁺-comm {n} {l})
+    (*⁺-smonoˡ m<n)
+
+  *⁺-smono :  k <⁺ l →  m <⁺ n →  k *⁺ m <⁺ l *⁺ n
+  *⁺-smono {l = l} k<l m<n =  <⁺-trans (*⁺-smonoˡ k<l) (*⁺-smonoʳ {l} m<n)
 
 --------------------------------------------------------------------------------
 -- ≡⁺ᵇ, ≤⁺ᵇ, <⁺ᵇ, ≥⁺ᵇ, >⁺ᵇ: Boolean order

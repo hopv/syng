@@ -6,10 +6,10 @@
 
 module Base.RatPos where
 
-open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _<⁺_; cmp⁺;
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _≤⁺ᵇ_; cmp⁺;
   +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
   *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; ≤⁺-refl; <⁺-irrefl'; <⁺-≤⁺-trans; <⁺⇒≤⁺;
-  ≤⁺->⁺-no; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ)
+  ≤⁺->⁺-no; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ; ≤⁺ᵇ⇒≤⁺; ≤⁺⇒≤⁺ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
@@ -175,3 +175,17 @@ abstract
   ?+≈1ᴿ⁺-not-≤1ᴿ⁺ :  ∀ {p q} →  q ≈ᴿ⁺ 1ᴿ⁺ →  ¬  ≤1ᴿ⁺ (p +ᴿ⁺ q)
   ?+≈1ᴿ⁺-not-≤1ᴿ⁺ {p} {q} q≈1 ≤1p+q =  ?+1ᴿ⁺-not-≤1ᴿ⁺ {p} $
     ≤1ᴿ⁺-resp (+ᴿ⁺-congʳ {p} {q} {1ᴿ⁺} q≈1) ≤1p+q
+
+--------------------------------------------------------------------------------
+-- ≤1ᴿ⁺ᵇ: Boolean version of ≤1ᴿ⁺
+
+≤1ᴿ⁺ᵇ :  ℚ⁺ → Bool
+≤1ᴿ⁺ᵇ (a //⁺ b) =  a ≤⁺ᵇ b
+
+abstract
+
+  ≤1ᴿ⁺ᵇ⇒≤1ᴿ⁺ :  Tt (≤1ᴿ⁺ᵇ p) →  ≤1ᴿ⁺ p
+  ≤1ᴿ⁺ᵇ⇒≤1ᴿ⁺ =  ≤⁺ᵇ⇒≤⁺
+
+  ≤1ᴿ⁺⇒≤1ᴿ⁺ᵇ :  ≤1ᴿ⁺ p →  Tt (≤1ᴿ⁺ᵇ p)
+  ≤1ᴿ⁺⇒≤1ᴿ⁺ᵇ =  ≤⁺⇒≤⁺ᵇ

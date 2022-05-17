@@ -160,10 +160,15 @@ abstract
   ≤-antisym 0≤ 0≤ =  refl⁼
   ≤-antisym (suc≤suc m'≤n') (suc≤suc n'≤m') =  cong⁼ suc $ ≤-antisym m'≤n' n'≤m'
 
+  -- ≤ and > do not hold at the same time
+
+  ≤->-no :  m ≤ n →  ¬ n < m
+  ≤->-no (suc≤suc m'≤n') (suc<suc n'<m') =  ≤->-no m'≤n' n'<m'
+
   -- < is asymmetric
 
   <-asym :  m < n →  ¬ n < m
-  <-asym (suc<suc m'<n') (suc<suc n'<m') =  <-asym m'<n' n'<m'
+  <-asym m<n =  ≤->-no $ <⇒≤ m<n
 
   -- Get <, ≡ or >
 

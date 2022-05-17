@@ -6,7 +6,7 @@
 
 module Base.NatPos where
 
-open import Base.Nat using (ℕ; suc; _+_; _*_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_;
+open import Base.Nat using (ℕ; suc; _+_; _*_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; cmp;
   +-comm; +-assocˡ; +-injˡ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; +-0; ≤-refl;
   ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; ≤-<-trans; <-≤-trans; ≤->-no;
   suc-sincr; +-incrˡ; +-smonoʳ; ≡ᵇ⇒≡; ≡⇒≡ᵇ; ≤ᵇ⇒≤; ≤⇒≤ᵇ; <ᵇ⇒<; <⇒<ᵇ)
@@ -14,6 +14,7 @@ open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂;
 open import Base.Func using (_$_)
 open import Base.Bool using (Bool; Tt)
 open import Base.Few using (¬_)
+open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
 
 --------------------------------------------------------------------------------
 -- ℕ⁺: Positive natural number
@@ -181,6 +182,14 @@ abstract
 
   ≤⁺->⁺-no :  m ≤⁺ n →  ¬ n <⁺ m
   ≤⁺->⁺-no =  ≤->-no
+
+  -- Get <⁺, ≡ or >⁺
+
+  cmp⁺ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  n <⁺ m
+  cmp⁺ (1+ m⁰) (1+ n⁰) with cmp m⁰ n⁰
+  ... | inj₀ m⁰<n⁰ =  inj₀ m⁰<n⁰
+  ... | inj₁₀ refl⁼ =  inj₁₀ refl⁼
+  ... | inj₁₁ m⁰>n⁰ =  inj₁₁ m⁰>n⁰
 
   -- +⁺ strictly increases
 

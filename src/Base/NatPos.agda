@@ -139,12 +139,14 @@ abstract
   *⁺-1ʳ {n} rewrite *⁺-comm {n} {1⁺} =  *⁺-1ˡ {n}
 
 --------------------------------------------------------------------------------
--- ≤⁺, <⁺: Order
+-- ≤⁺, <⁺, ≥⁺, >⁺: Order
 
-infix 4 _≤⁺_ _<⁺_
-_≤⁺_ _<⁺_ :  ℕ⁺ → ℕ⁺ → Set
+infix 4 _≤⁺_ _<⁺_ _≥⁺_ _>⁺_
+_≤⁺_ _<⁺_ _≥⁺_ _>⁺_ :  ℕ⁺ → ℕ⁺ → Set
 1+ m⁰ ≤⁺ 1+ n⁰ =  m⁰ ≤ n⁰
 1+ m⁰ <⁺ 1+ n⁰ =  m⁰ < n⁰
+p ≥⁺ q =  q ≤⁺ p
+p >⁺ q =  q <⁺ p
 
 abstract
 
@@ -167,7 +169,7 @@ abstract
   <⁺-trans :  l <⁺ m →  m <⁺ n →  l <⁺ n
   <⁺-trans =  <-trans
 
-  <⁺-asym :  m <⁺ n →  ¬ n <⁺ m
+  <⁺-asym :  m <⁺ n →  ¬ m >⁺ n
   <⁺-asym =  <-asym
 
   -- Composing ≤⁺ and <⁺
@@ -180,12 +182,12 @@ abstract
 
   -- ≤⁺ and >⁺ do not hold at the same time
 
-  ≤⁺->⁺-no :  m ≤⁺ n →  ¬ n <⁺ m
+  ≤⁺->⁺-no :  m ≤⁺ n →  ¬ m >⁺ n
   ≤⁺->⁺-no =  ≤->-no
 
   -- Get <⁺, ≡ or >⁺
 
-  cmp⁺ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  n <⁺ m
+  cmp⁺ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  m >⁺ n
   cmp⁺ (1+ m⁰) (1+ n⁰) with cmp m⁰ n⁰
   ... | inj₀ m⁰<n⁰ =  inj₀ m⁰<n⁰
   ... | inj₁₀ refl⁼ =  inj₁₀ refl⁼
@@ -200,13 +202,15 @@ abstract
   +⁺-sincrʳ {m} =  subst (m <⁺_) +⁺-comm +⁺-sincrˡ
 
 --------------------------------------------------------------------------------
--- ≡⁺ᵇ, ≤⁺ᵇ, <⁺ᵇ: Boolean order
+-- ≡⁺ᵇ, ≤⁺ᵇ, <⁺ᵇ, ≥⁺ᵇ, >⁺ᵇ: Boolean order
 
-infix 4 _≡⁺ᵇ_ _≤⁺ᵇ_ _<⁺ᵇ_
-_≡⁺ᵇ_ _≤⁺ᵇ_ _<⁺ᵇ_ :  ℕ⁺ → ℕ⁺ → Bool
+infix 4 _≡⁺ᵇ_ _≤⁺ᵇ_ _<⁺ᵇ_ _≥⁺ᵇ_ _>⁺ᵇ_
+_≡⁺ᵇ_ _≤⁺ᵇ_ _<⁺ᵇ_ _≥⁺ᵇ_ _>⁺ᵇ_ :  ℕ⁺ → ℕ⁺ → Bool
 1+ m⁰ ≡⁺ᵇ 1+ n⁰ =  m⁰ ≡ᵇ n⁰
 1+ m⁰ ≤⁺ᵇ 1+ n⁰ =  m⁰ ≤ᵇ n⁰
 1+ m⁰ <⁺ᵇ 1+ n⁰ =  m⁰ <ᵇ n⁰
+p ≥⁺ᵇ q =  q ≤⁺ᵇ p
+p >⁺ᵇ q =  q <⁺ᵇ p
 
 abstract
 

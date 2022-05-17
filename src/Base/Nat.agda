@@ -101,16 +101,18 @@ abstract
   *-1ʳ {n} =  *-comm {n} »⁼ *-1ˡ
 
 --------------------------------------------------------------------------------
--- ≤, <: Order
+-- ≤, <, ≥, >: Order
 
-infix 4 _≤_ _<_
+infix 4 _≤_ _<_ _≥_ _>_
 
 data  _≤_ :  ℕ → ℕ → Set  where
   0≤ :  ∀ {n} →  0 ≤ n
   suc≤suc :  ∀ {m n} →  m ≤ n →  suc m ≤ suc n
 
-_<_ :  ℕ → ℕ → Set
+_<_ _≥_ _>_ :  ℕ → ℕ → Set
 m < n =  suc m ≤ n
+m ≥ n =  n ≤ m
+m > n =  n < m
 
 pattern 0<suc =  suc≤suc 0≤
 pattern suc<suc m<n =  suc≤suc m<n
@@ -173,17 +175,17 @@ abstract
 
   -- ≤ and > do not hold at the same time
 
-  ≤->-no :  m ≤ n →  ¬ n < m
-  ≤->-no (suc≤suc m'≤n') (suc<suc n'<m') =  ≤->-no m'≤n' n'<m'
+  ≤->-no :  m ≤ n →  ¬ m > n
+  ≤->-no (suc≤suc m'≤n') (suc<suc m'>n') =  ≤->-no m'≤n' m'>n'
 
   -- < is asymmetric
 
-  <-asym :  m < n →  ¬ n < m
+  <-asym :  m < n →  ¬ m > n
   <-asym m<n =  ≤->-no $ <⇒≤ m<n
 
   -- Get <, ≡ or >
 
-  cmp :  ∀ m n →  m < n  ⊎  m ≡ n  ⊎  n < m
+  cmp :  ∀ m n →  m < n  ⊎  m ≡ n  ⊎  m > n
   cmp 0 (suc _) =  inj₀ 0<suc
   cmp 0 0 =  inj₁₀ refl⁼
   cmp (suc _) 0 =  inj₁₁ 0<suc

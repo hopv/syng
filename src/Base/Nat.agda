@@ -244,7 +244,7 @@ abstract
   *-monoʳ {l} {m} {n} rewrite *-comm {l} {m} | *-comm {l} {n} =  *-monoˡ
 
   *-mono :  k ≤ l →  m ≤ n →  k * m ≤ l * n
-  *-mono {l =  l} k≤l m≤n =  ≤-trans (*-monoˡ k≤l) (*-monoʳ {l} m≤n)
+  *-mono {l = l} k≤l m≤n =  ≤-trans (*-monoˡ k≤l) (*-monoʳ {l} m≤n)
 
   -- * is strictly monotone when one argument is positive
 

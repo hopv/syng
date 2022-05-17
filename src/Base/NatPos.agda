@@ -6,11 +6,14 @@
 
 module Base.NatPos where
 
-open import Base.Nat using (ℕ; suc; _+_; _*_; _≡ᵇ_; +-comm; +-assocˡ; +-injˡ;
-  *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; ≡ᵇ⇒≡; ≡⇒≡ᵇ)
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
+open import Base.Nat using (ℕ; suc; _+_; _*_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_;
+  +-comm; +-assocˡ; +-injˡ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; ≤-refl;
+  ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; ≤-<-trans; <-≤-trans; ≤->-no;
+  suc-sincr; +-incrˡ; +-smonoʳ; ≡ᵇ⇒≡; ≡⇒≡ᵇ; ≤ᵇ⇒≤; ≤⇒≤ᵇ; <ᵇ⇒<; <⇒<ᵇ)
+open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst)
 open import Base.Func using (_$_)
 open import Base.Bool using (Bool; Tt)
+open import Base.Few using (¬_)
 
 --------------------------------------------------------------------------------
 -- ℕ⁺: Positive natural number
@@ -117,18 +120,89 @@ abstract
     cong⁼₂ _+⁺_ (*⁺-comm {m}) (*⁺-comm {n})
 
 --------------------------------------------------------------------------------
--- ≡⁺ᵇ: Boolean order
+-- ≤⁺, <⁺: Order
 
-infix 4 _≡⁺ᵇ_
-_≡⁺ᵇ_ :  ℕ⁺ → ℕ⁺ → Bool
+infix 4 _≤⁺_ _<⁺_
+_≤⁺_ _<⁺_ :  ℕ⁺ → ℕ⁺ → Set
+1+ m⁰ ≤⁺ 1+ n⁰ =  m⁰ ≤ n⁰
+1+ m⁰ <⁺ 1+ n⁰ =  m⁰ < n⁰
+
+abstract
+
+  -- ≤⁺ is reflexive, transitive and antisymmetric
+
+  ≤⁺-refl :  n ≤⁺ n
+  ≤⁺-refl =  ≤-refl
+
+  ≤⁺-trans :  l ≤⁺ m →  m ≤⁺ n →  l ≤⁺ n
+  ≤⁺-trans =  ≤-trans
+
+  ≤⁺-antisym :  m ≤⁺ n →  n ≤⁺ m →  m ≡ n
+  ≤⁺-antisym mᵒ≤nᵒ nᵒ≤mᵒ =  cong⁼ 1+ $ ≤-antisym mᵒ≤nᵒ nᵒ≤mᵒ
+
+  -- <⁺ is irreflexive, transitive and asymmetric
+
+  <⁺-irrefl :  ¬ n <⁺ n
+  <⁺-irrefl =  <-irrefl
+
+  <⁺-trans :  l <⁺ m →  m <⁺ n →  l <⁺ n
+  <⁺-trans =  <-trans
+
+  <⁺-asym :  m <⁺ n →  ¬ n <⁺ m
+  <⁺-asym =  <-asym
+
+  -- Composing ≤⁺ and <⁺
+
+  ≤⁺-<⁺-trans :  l ≤⁺ m →  m <⁺ n →  l <⁺ n
+  ≤⁺-<⁺-trans =   ≤-<-trans
+
+  <⁺-≤⁺-trans :  l <⁺ m →  m ≤⁺ n →  l <⁺ n
+  <⁺-≤⁺-trans =  <-≤-trans
+
+  -- ≤⁺ and >⁺ do not hold at the same time
+
+  ≤⁺->⁺-no :  m ≤⁺ n →  ¬ n <⁺ m
+  ≤⁺->⁺-no =  ≤->-no
+
+  -- +⁺ strictly increases
+
+  +⁺-sincrˡ :  ∀ {m n} →  n <⁺ m +⁺ n
+  +⁺-sincrˡ =  ≤-<-trans +-incrˡ (+-smonoʳ suc-sincr)
+
+  +⁺-sincrʳ :  m <⁺ m +⁺ n
+  +⁺-sincrʳ {m} =  subst (m <⁺_) +⁺-comm +⁺-sincrˡ
+
+--------------------------------------------------------------------------------
+-- ≡⁺ᵇ, ≤⁺ᵇ, <⁺ᵇ: Boolean order
+
+infix 4 _≡⁺ᵇ_ _≤⁺ᵇ_ _<⁺ᵇ_
+_≡⁺ᵇ_ _≤⁺ᵇ_ _<⁺ᵇ_ :  ℕ⁺ → ℕ⁺ → Bool
 1+ m⁰ ≡⁺ᵇ 1+ n⁰ =  m⁰ ≡ᵇ n⁰
+1+ m⁰ ≤⁺ᵇ 1+ n⁰ =  m⁰ ≤ᵇ n⁰
+1+ m⁰ <⁺ᵇ 1+ n⁰ =  m⁰ <ᵇ n⁰
 
 abstract
 
   -- Conversion between ≡ᵇ and ≡
 
   ≡⁺ᵇ⇒≡ :  Tt (m ≡⁺ᵇ n) →  m ≡ n
-  ≡⁺ᵇ⇒≡ {1+ m⁰} {1+ n⁰} m⁰≡ᵇn⁰ =  cong⁼ 1+ (≡ᵇ⇒≡ m⁰≡ᵇn⁰)
+  ≡⁺ᵇ⇒≡ m⁰≡ᵇn⁰ =  cong⁼ 1+ (≡ᵇ⇒≡ m⁰≡ᵇn⁰)
 
   ≡⇒≡⁺ᵇ :  m ≡ n →  Tt (m ≡⁺ᵇ n)
   ≡⇒≡⁺ᵇ {1+ m⁰} {1+ n⁰} refl⁼ =  ≡⇒≡ᵇ {m⁰} {n⁰} refl⁼
+
+  -- Conversion between ≤ᵇ and ≤
+
+  ≤⁺ᵇ⇒≤ :  Tt (m ≤⁺ᵇ n) →  m ≤⁺ n
+  ≤⁺ᵇ⇒≤ m⁰≤ᵇn⁰ =  ≤ᵇ⇒≤ m⁰≤ᵇn⁰
+
+  ≤⇒≤⁺ᵇ :  m ≤⁺ n →  Tt (m ≤⁺ᵇ n)
+  ≤⇒≤⁺ᵇ {1+ m⁰} {1+ n⁰} m⁰≤n⁰ =  ≤⇒≤ᵇ m⁰≤n⁰
+
+  -- Conversion between <ᵇ and <
+
+  <⁺ᵇ⇒< :  Tt (m <⁺ᵇ n) →  m <⁺ n
+  <⁺ᵇ⇒< {1+ m⁰} {1+ n⁰} m⁰<ᵇn⁰ =  <ᵇ⇒< m⁰<ᵇn⁰
+
+  <⇒<⁺ᵇ :  m <⁺ n →  Tt (m <⁺ᵇ n)
+  <⇒<⁺ᵇ {1+ m⁰} {1+ n⁰} m⁰<n⁰ =  <⇒<ᵇ m⁰<n⁰

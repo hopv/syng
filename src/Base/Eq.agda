@@ -50,5 +50,6 @@ abstract
   subst : ∀ (F : A → Set ℓF) {a a'} → a ≡ a' → F a → F a'
   subst _ refl⁼ Fa = Fa
 
-  subst₂ : ∀ (F : A → B → Set ℓF) {a a' b b'} → a ≡ a' → b ≡ b' → F a b → F a b'
+  subst₂ : ∀ (F : A → B → Set ℓF) {a a' b b'} →
+    a ≡ a' → b ≡ b' → F a b → F a' b'
   subst₂ _ refl⁼ refl⁼ Fab = Fab

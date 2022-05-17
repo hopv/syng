@@ -140,6 +140,9 @@ abstract
 
   -- suc is increasing
 
+  suc-sincr :  n < suc n
+  suc-sincr =  ≤-refl
+
   suc-incr :  n ≤ suc n
   suc-incr {0} =  0≤
   suc-incr {suc _} =  suc≤suc suc-incr

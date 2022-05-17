@@ -6,8 +6,8 @@
 
 module Base.RatPos where
 
-open import Base.NatPos using (ℕ⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; +⁺-comm; +⁺-assocˡ;
-  +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; *⁺-injʳ;
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; +⁺-comm;
+  +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; *⁺-injʳ;
   *⁺-actˡ-comm; *⁺-actʳ-comm; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst₂)
 open import Base.Func using (_$_; flip)
@@ -27,6 +27,13 @@ record  ℚ⁺ : Set where
 
 private variable
   p q r s :  ℚ⁺
+
+--------------------------------------------------------------------------------
+-- 1ᴿ⁺, ½ᴿ⁺: Numbers in ℚ⁺
+
+1ᴿ⁺ ½⁺ :  ℚ⁺
+1ᴿ⁺ =  1⁺ //⁺ 1⁺
+½⁺ =  1⁺ //⁺ 2⁺
 
 --------------------------------------------------------------------------------
 -- ≈ᴿ⁺: Equivalence over ℚ⁺

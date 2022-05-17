@@ -112,9 +112,9 @@ abstract
           (d *⁺ f) *⁺ a +⁺ b *⁺ (f *⁺ c +⁺ d *⁺ e)
     eq =
       flip (cong⁼₂ _+⁺_) (*⁺-assocˡ {b} {d} {e})
-        (*⁺-+⁺-distrʳ {f} {d *⁺ a} {b *⁺ c} »⁼
-          cong⁼₂ _+⁺_ (*⁺-actˡ-comm {f} {d} {a} »⁼ *⁺-assocʳ {d} {f} {a})
-            (*⁺-actˡ-comm {f} {b} {c})) »⁼
+        (*⁺-+⁺-distrʳ {f} {d *⁺ a} {b *⁺ c} »⁼ cong⁼₂ _+⁺_
+          (*⁺-actˡ-comm {f} {d} {a} »⁼ *⁺-assocʳ {d} {f} {a})
+          (*⁺-actˡ-comm {f} {b} {c})) »⁼
       +⁺-assocˡ »⁼ cong⁼ (d *⁺ f *⁺ a +⁺_) $ sym⁼ $ *⁺-+⁺-distrʳ {b}
 
   +ᴿ⁺-assocʳ :  p +ᴿ⁺ (q +ᴿ⁺ r) ≡ (p +ᴿ⁺ q) +ᴿ⁺ r

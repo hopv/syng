@@ -183,14 +183,14 @@ abstract
 
   -- + is increasing
 
-  +-incr :  ∀ {m n} →  n ≤ m + n
-  +-incr {0} =  ≤-refl
-  +-incr {suc m'} =  ≤-trans (+-incr {m'}) suc-incr
+  +-incrˡ :  ∀ {m n} →  n ≤ m + n
+  +-incrˡ {0} =  ≤-refl
+  +-incrˡ {suc m'} =  ≤-trans (+-incrˡ {m'}) suc-incr
 
   -- + is monotone
 
   +-monoˡ :  l ≤ m →  l + n ≤ m + n
-  +-monoˡ 0≤ =  +-incr
+  +-monoˡ 0≤ =  +-incrˡ
   +-monoˡ (suc≤suc l'≤m') =  suc≤suc $ +-monoˡ l'≤m'
 
   +-monoʳ :  ∀{l m n} →  m ≤ n →  l + m ≤ l + n
@@ -236,7 +236,7 @@ abstract
   -- * is strictly monotone when one argument is positive
 
   *-smonoˡ :  l < m →  l * suc n < m * suc n
-  *-smonoˡ sl≤m =  ≤-trans (suc≤suc +-incr) (*-monoˡ sl≤m)
+  *-smonoˡ sl≤m =  ≤-trans (suc≤suc +-incrˡ) (*-monoˡ sl≤m)
 
   *-smonoʳ :  ∀{l m n} →  m < n →  suc l * m < suc l * n
   *-smonoʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n}

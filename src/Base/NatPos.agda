@@ -125,7 +125,7 @@ _≡⁺ᵇ_ :  ℕ⁺ → ℕ⁺ → Bool
 
 abstract
 
-  -- Convertion between ≡ᵇ and ≡
+  -- Conversion between ≡ᵇ and ≡
 
   ≡⁺ᵇ⇒≡ :  Tt (m ≡⁺ᵇ n) →  m ≡ n
   ≡⁺ᵇ⇒≡ {1+ m⁰} {1+ n⁰} m⁰≡ᵇn⁰ =  cong⁼ 1+ (≡ᵇ⇒≡ m⁰≡ᵇn⁰)

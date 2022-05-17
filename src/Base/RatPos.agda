@@ -69,7 +69,7 @@ _≈ᴿ⁺ᵇ_ : ℚ⁺ → ℚ⁺ → Bool
 
 abstract
 
-  -- Convertion between ≈ᴿ⁺ᵇ and ≈ᴿ⁺
+  -- Conversion between ≈ᴿ⁺ᵇ and ≈ᴿ⁺
 
   ≈ᴿ⁺ᵇ⇒≈ᴿ⁺ :  Tt (p ≈ᴿ⁺ᵇ q) →  p ≈ᴿ⁺ q
   ≈ᴿ⁺ᵇ⇒≈ᴿ⁺ *≡⁺ᵇ* =  ≡⁺ᵇ⇒≡ *≡⁺ᵇ*

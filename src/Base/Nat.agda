@@ -266,7 +266,7 @@ suc m ≤ᵇ n =  m <ᵇ n
 
 abstract
 
-  -- Convertion between ≡ᵇ and ≡
+  -- Conversion between ≡ᵇ and ≡
 
   ≡ᵇ⇒≡ :  Tt (m ≡ᵇ n) →  m ≡ n
   ≡ᵇ⇒≡ {0} {0} _ =  refl⁼
@@ -276,7 +276,7 @@ abstract
   ≡⇒≡ᵇ {0} {0} _ =  _
   ≡⇒≡ᵇ {suc m'} {suc n'} refl⁼ =  ≡⇒≡ᵇ {m'} {n'} refl⁼
 
-  -- Convertion between <ᵇ and <
+  -- Conversion between <ᵇ and <
 
   <ᵇ⇒< :  Tt (m <ᵇ n) →  m < n
   <ᵇ⇒< {0} {suc _} _ =  0<suc
@@ -286,7 +286,7 @@ abstract
   <⇒<ᵇ 0<suc =  _
   <⇒<ᵇ (suc<suc m'<n'@?<?) =  <⇒<ᵇ m'<n'
 
-  -- Convertion between ≤ᵇ and ≤
+  -- Conversion between ≤ᵇ and ≤
 
   ≤ᵇ⇒≤ :  Tt (m ≤ᵇ n) →  m ≤ n
   ≤ᵇ⇒≤ {0} _ =  0≤

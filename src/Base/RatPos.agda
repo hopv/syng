@@ -9,7 +9,7 @@ module Base.RatPos where
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _<⁺_;
   +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
   *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; +⁺-sincrˡ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ; ≤⁺->⁺-no)
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst₂)
+open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
 open import Base.Few using (¬_)
@@ -145,3 +145,18 @@ abstract
 infixl 7 _/⁺_
 _/⁺_ :  ℚ⁺ → ℕ⁺ → ℚ⁺
 (a //⁺ b) /⁺ c =  a //⁺ (b *⁺ c)
+
+--------------------------------------------------------------------------------
+-- ≤1ᴿ⁺: No more than 1ᴿ⁺
+
+≤1ᴿ⁺ :  ℚ⁺ → Set
+≤1ᴿ⁺ (a //⁺ b) =  a ≤⁺ b
+
+abstract
+
+  ?+1ᴿ⁺-not-≤1ᴿ⁺ :  ¬  ≤1ᴿ⁺ (p +ᴿ⁺ 1ᴿ⁺)
+  ?+1ᴿ⁺-not-≤1ᴿ⁺ {a //⁺ b} 1a+b1≤b1 =  ≤⁺->⁺-no 1a+b1≤b1 +⁺-sincrˡ
+
+  1ᴿ⁺+?-not-≤1ᴿ⁺ :  ¬  ≤1ᴿ⁺ (1ᴿ⁺ +ᴿ⁺ p)
+  1ᴿ⁺+?-not-≤1ᴿ⁺ {p} =  subst (λ q → ¬ ≤1ᴿ⁺ q) (+ᴿ⁺-comm {p} {1ᴿ⁺}) $
+    ?+1ᴿ⁺-not-≤1ᴿ⁺ {p}

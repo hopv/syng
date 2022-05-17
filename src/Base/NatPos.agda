@@ -84,6 +84,16 @@ abstract
   *⁺-assocʳ :  l *⁺ (m *⁺ n) ≡ (l *⁺ m) *⁺ n
   *⁺-assocʳ {l} {m} =  sym⁼ $ *⁺-assocˡ {l} {m}
 
+  -- Commutativity over left/right actions
+
+  *⁺-actˡ-comm :  l *⁺ (m *⁺ n) ≡ m *⁺ (l *⁺ n)
+  *⁺-actˡ-comm {l} {m} {n} =  *⁺-assocʳ {l} {m} {n} »⁼
+      cong⁼ (_*⁺ n) (*⁺-comm {l} {m}) »⁼ *⁺-assocˡ {m} {l} {n}
+
+  *⁺-actʳ-comm :  (l *⁺ m) *⁺ n ≡ (l *⁺ n) *⁺ m
+  *⁺-actʳ-comm {l} {m} {n} =  *⁺-assocˡ {l} {m} {n} »⁼
+      cong⁼ (l *⁺_) (*⁺-comm {m} {n}) »⁼ *⁺-assocʳ {l} {n} {m}
+
   -- *⁺ is injective
 
   *⁺-injˡ :  ∀ {l m n} →  m *⁺ l ≡ n *⁺ l →  m ≡ n

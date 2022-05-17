@@ -166,6 +166,9 @@ abstract
   <⁺-irrefl :  ¬ n <⁺ n
   <⁺-irrefl =  <-irrefl
 
+  <⁺-irrefl' :  m ≡ n →  ¬ m <⁺ n
+  <⁺-irrefl' refl⁼ =  <⁺-irrefl
+
   <⁺-trans :  l <⁺ m →  m <⁺ n →  l <⁺ n
   <⁺-trans =  <-trans
 

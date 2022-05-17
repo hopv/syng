@@ -183,6 +183,14 @@ abstract
   <-asym :  m < n →  ¬ m > n
   <-asym m<n =  ≤->-no $ <⇒≤ m<n
 
+  -- Invert suc≤/<suc
+
+  suc≤suc⁻¹ :  suc m ≤ suc n →  m ≤ n
+  suc≤suc⁻¹ (suc≤suc m≤n) =   m≤n
+
+  suc<suc⁻¹ :  suc m < suc n →  m < n
+  suc<suc⁻¹ (suc<suc m<n) =   m<n
+
   -- Get <, ≡ or >
 
   cmp :  ∀ m n →  m < n  ⊎  m ≡ n  ⊎  m > n

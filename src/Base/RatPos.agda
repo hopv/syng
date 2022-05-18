@@ -9,8 +9,8 @@ module Base.RatPos where
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _≤⁺ᵇ_; cmp⁺;
   +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
   *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; ≤⁺-refl; <⁺-irrefl'; <⁺-trans;
-  <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; *⁺-smonoʳ; ≡⁺ᵇ⇒≡;
-  ≡⇒≡⁺ᵇ; ≤⁺ᵇ⇒≤⁺; ≤⁺⇒≤⁺ᵇ)
+  <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; *⁺-smonoʳ; ⁺ᵇ⇒≡;
+  ≡⇒⁺ᵇ; ᵇ⇒≤⁺; ≤⁺⇒ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
@@ -82,11 +82,11 @@ abstract
 
   -- Conversion between ≈ᴿ⁺ᵇ and ≈ᴿ⁺
 
-  ≈ᴿ⁺ᵇ⇒≈ᴿ⁺ :  Tt (p ≈ᴿ⁺ᵇ q) →  p ≈ᴿ⁺ q
-  ≈ᴿ⁺ᵇ⇒≈ᴿ⁺ *≡⁺ᵇ* =  ≡⁺ᵇ⇒≡ *≡⁺ᵇ*
+  ᵇ⇒≈ᴿ⁺ :  Tt (p ≈ᴿ⁺ᵇ q) →  p ≈ᴿ⁺ q
+  ᵇ⇒≈ᴿ⁺ *≡⁺ᵇ* =  ⁺ᵇ⇒≡ *≡⁺ᵇ*
 
-  ≈ᴿ⁺⇒≈ᴿ⁺ᵇ :  p ≈ᴿ⁺ q →  Tt (p ≈ᴿ⁺ᵇ q)
-  ≈ᴿ⁺⇒≈ᴿ⁺ᵇ *≡⁺* =  ≡⇒≡⁺ᵇ *≡⁺*
+  ≈ᴿ⁺⇒ᵇ :  p ≈ᴿ⁺ q →  Tt (p ≈ᴿ⁺ᵇ q)
+  ≈ᴿ⁺⇒ᵇ *≡⁺* =  ≡⇒⁺ᵇ *≡⁺*
 
 --------------------------------------------------------------------------------
 -- +ᴿ⁺: Addition over ℚ⁺
@@ -194,8 +194,8 @@ a //⁺ b ≤1ᴿ⁺ᵇ =  a ≤⁺ᵇ b
 
 abstract
 
-  ≤1ᴿ⁺ᵇ⇒≤1ᴿ⁺ :  Tt (p ≤1ᴿ⁺ᵇ) →  p ≤1ᴿ⁺
-  ≤1ᴿ⁺ᵇ⇒≤1ᴿ⁺ =  ≤⁺ᵇ⇒≤⁺
+  ᵇ⇒≤1ᴿ⁺ :  Tt (p ≤1ᴿ⁺ᵇ) →  p ≤1ᴿ⁺
+  ᵇ⇒≤1ᴿ⁺ =  ᵇ⇒≤⁺
 
-  ≤1ᴿ⁺⇒≤1ᴿ⁺ᵇ :  p ≤1ᴿ⁺ →  Tt (p ≤1ᴿ⁺ᵇ)
-  ≤1ᴿ⁺⇒≤1ᴿ⁺ᵇ =  ≤⁺⇒≤⁺ᵇ
+  ≤1ᴿ⁺⇒ᵇ :  p ≤1ᴿ⁺ →  Tt (p ≤1ᴿ⁺ᵇ)
+  ≤1ᴿ⁺⇒ᵇ =  ≤⁺⇒ᵇ

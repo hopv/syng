@@ -289,33 +289,33 @@ abstract
 
   -- Conversion between ≡ᵇ and ≡
 
-  ≡ᵇ⇒≡ :  Tt (m ≡ᵇ n) →  m ≡ n
-  ≡ᵇ⇒≡ {0} {0} _ =  refl⁼
-  ≡ᵇ⇒≡ {suc m'} {suc n'} m'≡ᵇn' =  cong⁼ suc $ ≡ᵇ⇒≡ m'≡ᵇn'
+  ᵇ⇒≡ :  Tt (m ≡ᵇ n) →  m ≡ n
+  ᵇ⇒≡ {0} {0} _ =  refl⁼
+  ᵇ⇒≡ {suc m'} {suc n'} m'≡ᵇn' =  cong⁼ suc $ ᵇ⇒≡ m'≡ᵇn'
 
-  ≡⇒≡ᵇ :  m ≡ n →  Tt (m ≡ᵇ n)
-  ≡⇒≡ᵇ {0} {0} _ =  _
-  ≡⇒≡ᵇ {suc m'} {suc n'} refl⁼ =  ≡⇒≡ᵇ {m'} {n'} refl⁼
+  ≡⇒ᵇ :  m ≡ n →  Tt (m ≡ᵇ n)
+  ≡⇒ᵇ {0} {0} _ =  _
+  ≡⇒ᵇ {suc m'} {suc n'} refl⁼ =  ≡⇒ᵇ {m'} {n'} refl⁼
 
   -- Conversion between <ᵇ and <
 
-  <ᵇ⇒< :  Tt (m <ᵇ n) →  m < n
-  <ᵇ⇒< {0} {suc _} _ =  0<suc
-  <ᵇ⇒< {suc m'} {suc n'} m'<ᵇn' =  suc<suc $ <ᵇ⇒< m'<ᵇn'
+  ᵇ⇒< :  Tt (m <ᵇ n) →  m < n
+  ᵇ⇒< {0} {suc _} _ =  0<suc
+  ᵇ⇒< {suc m'} {suc n'} m'<ᵇn' =  suc<suc $ ᵇ⇒< m'<ᵇn'
 
-  <⇒<ᵇ :  m < n →  Tt (m <ᵇ n)
-  <⇒<ᵇ 0<suc =  _
-  <⇒<ᵇ (suc<suc m'<n'@?<?) =  <⇒<ᵇ m'<n'
+  <⇒ᵇ :  m < n →  Tt (m <ᵇ n)
+  <⇒ᵇ 0<suc =  _
+  <⇒ᵇ (suc<suc m'<n'@?<?) =  <⇒ᵇ m'<n'
 
   -- Conversion between ≤ᵇ and ≤
 
-  ≤ᵇ⇒≤ :  Tt (m ≤ᵇ n) →  m ≤ n
-  ≤ᵇ⇒≤ {0} _ =  0≤
-  ≤ᵇ⇒≤ {suc m} m≤n =  <ᵇ⇒< m≤n
+  ᵇ⇒≤ :  Tt (m ≤ᵇ n) →  m ≤ n
+  ᵇ⇒≤ {0} _ =  0≤
+  ᵇ⇒≤ {suc m} m≤n =  ᵇ⇒< m≤n
 
-  ≤⇒≤ᵇ :  m ≤ n →  Tt (m ≤ᵇ n)
-  ≤⇒≤ᵇ 0≤ =  _
-  ≤⇒≤ᵇ m'<n@?<? =  <⇒<ᵇ m'<n
+  ≤⇒ᵇ :  m ≤ n →  Tt (m ≤ᵇ n)
+  ≤⇒ᵇ 0≤ =  _
+  ≤⇒ᵇ m'<n@?<? =  <⇒ᵇ m'<n
 
 --------------------------------------------------------------------------------
 -- ≡?, ≤?, <? : Order decision
@@ -323,13 +323,13 @@ abstract
 infix 4 _≡?_ _≤?_ _<?_
 
 _≡?_ :  Dec² {A = ℕ} _≡_
-_≡?_ _ _ =  dec-Tt ≡ᵇ⇒≡ ≡⇒≡ᵇ
+_≡?_ _ _ =  dec-Tt ᵇ⇒≡ ≡⇒ᵇ
 
 _≤?_ :  Dec² _≤_
-_≤?_ _ _ =  dec-Tt ≤ᵇ⇒≤ ≤⇒≤ᵇ
+_≤?_ _ _ =  dec-Tt ᵇ⇒≤ ≤⇒ᵇ
 
 _<?_ :  Dec² _<_
-_<?_ _ _ =  dec-Tt <ᵇ⇒< <⇒<ᵇ
+_<?_ _ _ =  dec-Tt ᵇ⇒< <⇒ᵇ
 
 --------------------------------------------------------------------------------
 -- ⊔: Maximum

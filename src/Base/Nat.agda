@@ -175,13 +175,13 @@ abstract
 
   -- ≤ and > do not hold at the same time
 
-  ≤->-no :  m ≤ n →  ¬ m > n
-  ≤->-no (suc≤suc m'≤n') (suc<suc m'>n') =  ≤->-no m'≤n' m'>n'
+  ≤⇒¬> :  m ≤ n →  ¬ m > n
+  ≤⇒¬> (suc≤suc m'≤n') (suc<suc m'>n') =  ≤⇒¬> m'≤n' m'>n'
 
   -- < is asymmetric
 
   <-asym :  m < n →  ¬ m > n
-  <-asym m<n =  ≤->-no $ <⇒≤ m<n
+  <-asym m<n =  ≤⇒¬> $ <⇒≤ m<n
 
   -- Invert suc≤/<suc
 

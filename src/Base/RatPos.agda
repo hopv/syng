@@ -9,7 +9,7 @@ module Base.RatPos where
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _≤⁺ᵇ_; cmp⁺;
   +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
   *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; ≤⁺-refl; <⁺-irrefl'; <⁺-≤⁺-trans; <⁺⇒≤⁺;
-  ≤⁺->⁺-no; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ; ≤⁺ᵇ⇒≤⁺; ≤⁺⇒≤⁺ᵇ)
+  ≤⁺⇒¬>⁺; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ; ≤⁺ᵇ⇒≤⁺; ≤⁺⇒≤⁺ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
@@ -160,7 +160,7 @@ abstract
   -- p +ᴿ⁺ 1ᴿ⁺ does not satisfy ≤1ᴿ⁺
 
   ?+1ᴿ⁺-not-≤1ᴿ⁺ :  ¬ p +ᴿ⁺ 1ᴿ⁺ ≤1ᴿ⁺
-  ?+1ᴿ⁺-not-≤1ᴿ⁺ {a //⁺ b} 1a+b1≤b1 =  ≤⁺->⁺-no 1a+b1≤b1 +⁺-sincrˡ
+  ?+1ᴿ⁺-not-≤1ᴿ⁺ {a //⁺ b} 1a+b1≤b1 =  ≤⁺⇒¬>⁺ 1a+b1≤b1 +⁺-sincrˡ
 
   -- ≤1ᴿ⁺ respects ≈ᴿ⁺
 

@@ -8,7 +8,7 @@ module Base.NatPos where
 
 open import Base.Nat using (ℕ; suc; _+_; _*_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; cmp;
   +-comm; +-assocˡ; +-injˡ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; +-0; suc≤suc; suc<suc; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; ≤-<-trans;
-  <-≤-trans; ≤->-no; suc≤suc⁻¹; suc<suc⁻¹; <⇒≤; suc-sincr; +-incrˡ; +-smonoʳ;
+  <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; <⇒≤; suc-sincr; +-incrˡ; +-smonoʳ;
   *-monoˡ; *-smonoˡ; ≡ᵇ⇒≡; ≡⇒≡ᵇ; ≤ᵇ⇒≤; ≤⇒≤ᵇ; <ᵇ⇒<; <⇒<ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_)
@@ -185,8 +185,8 @@ abstract
 
   -- ≤⁺ and >⁺ do not hold at the same time
 
-  ≤⁺->⁺-no :  m ≤⁺ n →  ¬ m >⁺ n
-  ≤⁺->⁺-no =  ≤->-no
+  ≤⁺⇒¬>⁺ :  m ≤⁺ n →  ¬ m >⁺ n
+  ≤⁺⇒¬>⁺ =  ≤⇒¬>
 
   -- <⁺ into ≤⁺
 

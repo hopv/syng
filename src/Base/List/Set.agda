@@ -113,7 +113,7 @@ abstract
   ++-⊆ᴸ-introʳ :  as  ⊆ᴸ  bs ++ as
   ++-⊆ᴸ-introʳ =  ∈ᴸ-++-inj₁
 
-  -- More on ++ and  ⊆ᴸ
+  -- More on ++ and ⊆ᴸ
 
   ++-monoˡ :  as ⊆ᴸ bs →  as ++ cs  ⊆ᴸ  bs ++ cs
   ++-monoˡ as⊆bs =  ++-⊆ᴸ-elim (⊆ᴸ-trans as⊆bs ++-⊆ᴸ-introˡ) ++-⊆ᴸ-introʳ

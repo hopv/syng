@@ -160,12 +160,12 @@ abstract
 
   -- ≤1ᴿ⁺ holds after removing an addend
 
-  ≤1ᴿ⁺-rem :  ∀ {p q} →  q +ᴿ⁺ p ≤1ᴿ⁺ →  p ≤1ᴿ⁺
-  ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} bc+da≤db with cmp⁺ a b
-  ... | inj₀ a<b =  <⁺⇒≤⁺ a<b
+  ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
+  ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd with cmp⁺ c d
+  ... | inj₀ c<d =  <⁺⇒≤⁺ c<d
   ... | inj₁₀ refl⁼ =  ≤⁺-refl
-  ... | inj₁₁ a>b =  absurd $ ≤⁺⇒¬>⁺ bc+da≤db $
-    <⁺-trans (*⁺-smonoʳ {d} a>b) +⁺-sincrˡ
+  ... | inj₁₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
+    <⁺-trans (*⁺-smonoʳ {b} c>d) +⁺-sincrˡ
 
   -- p +ᴿ⁺ 1ᴿ⁺ does not satisfy ≤1ᴿ⁺
 

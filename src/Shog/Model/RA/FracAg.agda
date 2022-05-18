@@ -96,11 +96,11 @@ private abstract
     ≤1ᴿ⁺-resp p≈q p≤1 , homo-resp as≈bs homo'as
   ✓ᶠ-resp εᶠ εᶠ _ _ =  _
 
-  ✓ᶠ-rem :  ∀ x y →  ✓ᶠ y ∙ᶠ x →  ✓ᶠ x
-  ✓ᶠ-rem (⟨ p ⟩ᶠ _) (⟨ q ⟩ᶠ _) (q+p≤1 , homo'as++bs) =
-    ≤1ᴿ⁺-rem {_} {q} q+p≤1 , homo-mono ++-⊆ᴸ-introʳ homo'as++bs
-  ✓ᶠ-rem εᶠ _ _ =  _
-  ✓ᶠ-rem (⟨ _ ⟩ᶠ _) εᶠ ✓x =  ✓x
+  ✓ᶠ-rem :  ∀ x y →  ✓ᶠ x ∙ᶠ y →  ✓ᶠ y
+  ✓ᶠ-rem (⟨ p ⟩ᶠ _) (⟨ q ⟩ᶠ _) (p+q≤1 , homo'as++bs) =
+    ≤1ᴿ⁺-rem {p} p+q≤1 , homo-mono ++-⊆ᴸ-introʳ homo'as++bs
+  ✓ᶠ-rem _ εᶠ _ =  _
+  ✓ᶠ-rem εᶠ (⟨ _ ⟩ᶠ _) ✓x =  ✓x
 
 --------------------------------------------------------------------------------
 -- FracAgRA : Fractional resource algebra
@@ -122,7 +122,7 @@ FracAgRA .∙-unitˡ =  ≈ᶠ-refl
 FracAgRA .∙-comm {x} =  ∙ᶠ-comm x _
 FracAgRA .∙-assocˡ {x} =  ∙ᶠ-assocˡ x _ _
 FracAgRA .✓-resp =  ✓ᶠ-resp _ _
-FracAgRA .✓-rem {_} {y} =  ✓ᶠ-rem _ y
+FracAgRA .✓-rem {x} =  ✓ᶠ-rem x _
 FracAgRA .✓-ε =  _
 FracAgRA .⌞⌟-cong _ =  ≈ᶠ-refl
 FracAgRA .⌞⌟-add =  εᶠ , ≈ᶠ-refl

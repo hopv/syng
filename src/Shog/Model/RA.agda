@@ -50,7 +50,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     -- ✓ respects ≈
     ✓-resp :  ∀ {a b} →  a ≈ b →  ✓ a →  ✓ b
     -- ✓ is kept after a resource is removed
-    ✓-rem :  ∀ {a b} →  ✓ b ∙ a →  ✓ a
+    ✓-rem :  ∀ {a b} →  ✓ a ∙ b →  ✓ b
     -- ε satisfies ✓
     ✓-ε :  ✓ ε
     ----------------------------------------------------------------------------

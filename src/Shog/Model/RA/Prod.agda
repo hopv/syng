@@ -36,7 +36,7 @@ _×ᴿᴬ_ .∙-unitˡ =  Raˡ .∙-unitˡ , Raʳ .∙-unitˡ
 _×ᴿᴬ_ .∙-comm =  Raˡ .∙-comm , Raʳ .∙-comm
 _×ᴿᴬ_ .∙-assocˡ =  Raˡ .∙-assocˡ , Raʳ .∙-assocˡ
 _×ᴿᴬ_ .✓-resp (a≈b , x≈y) (✓a , ✓x) =  Raˡ .✓-resp a≈b ✓a , Raʳ .✓-resp x≈y ✓x
-_×ᴿᴬ_ .✓-rem (✓b∙a , ✓y∙x) =  Raˡ .✓-rem ✓b∙a , Raʳ .✓-rem ✓y∙x
+_×ᴿᴬ_ .✓-rem (✓a∙b , ✓x∙y) =  Raˡ .✓-rem ✓a∙b , Raʳ .✓-rem ✓x∙y
 _×ᴿᴬ_ .✓-ε =  Raˡ .✓-ε , Raʳ .✓-ε
 _×ᴿᴬ_ .⌞⌟-cong (a≈b , x≈y) =  Raˡ .⌞⌟-cong a≈b , Raʳ .⌞⌟-cong x≈y
 _×ᴿᴬ_ .⌞⌟-add with Raˡ .⌞⌟-add | Raʳ .⌞⌟-add

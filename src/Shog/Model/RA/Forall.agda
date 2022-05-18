@@ -31,7 +31,7 @@ open RA
 ∀ᴿᴬ .∙-comm i =  Ra˙ i .∙-comm
 ∀ᴿᴬ .∙-assocˡ i =  Ra˙ i .∙-assocˡ
 ∀ᴿᴬ .✓-resp a˙≈b˙ ✓a˙ i =  Ra˙ i .✓-resp (a˙≈b˙ i) (✓a˙ i)
-∀ᴿᴬ .✓-rem ✓b˙∙a˙ i =  Ra˙ i .✓-rem (✓b˙∙a˙ i)
+∀ᴿᴬ .✓-rem ✓a˙∙b˙ i =  Ra˙ i .✓-rem (✓a˙∙b˙ i)
 ∀ᴿᴬ .✓-ε i =  Ra˙ i .✓-ε
 ∀ᴿᴬ .⌞⌟-cong a˙≈b˙ i =  Ra˙ i .⌞⌟-cong (a˙≈b˙ i)
 ∀ᴿᴬ .⌞⌟-add =  (λ i → Ra˙ i .⌞⌟-add .proj₀) , λ i → Ra˙ i .⌞⌟-add .proj₁

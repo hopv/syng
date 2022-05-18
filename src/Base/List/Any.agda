@@ -13,64 +13,64 @@ open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 
 private variable
-  ℓA ℓF : Level
-  A : Set ℓA
-  F : A → Set ℓF
-  a : A
-  as bs cs : List A
+  ℓA ℓF :  Level
+  A :  Set ℓA
+  F :  A → Set ℓF
+  a :  A
+  as bs cs :  List A
 
 --------------------------------------------------------------------------------
 -- Disjunction over list elements
-data Any {A : Set ℓA} (F : A → Set ℓF) : List A → Set (ℓA ⊔ˡ ℓF) where
-  by-hd : ∀ {a as} → F a → Any F (a ∷ as)
-  by-tl : ∀ {a as} → Any F as → Any F (a ∷ as)
+data  Any {A : Set ℓA} (F : A → Set ℓF) :  List A → Set (ℓA ⊔ˡ ℓF)  where
+  by-hd :  ∀ {a as} →  F a →  Any F (a ∷ as)
+  by-tl :  ∀ {a as} →  Any F as →  Any F (a ∷ as)
 open Any public
 
 abstract
 
   -- Any and ++
 
-  Any-++-inj₀ : Any F as → Any F (as ++ bs)
-  Any-++-inj₀ (by-hd Fa) = by-hd Fa
-  Any-++-inj₀ (by-tl Fas) = by-tl $ Any-++-inj₀ Fas
+  Any-++-inj₀ :  Any F as →  Any F (as ++ bs)
+  Any-++-inj₀ (by-hd Fa) =  by-hd Fa
+  Any-++-inj₀ (by-tl Fas) =  by-tl $ Any-++-inj₀ Fas
 
-  Any-++-inj₁ : Any F bs → Any F (as ++ bs)
-  Any-++-inj₁ {as = []} Fbs = Fbs
-  Any-++-inj₁ {as = _ ∷ _} Fbs = by-tl $ Any-++-inj₁ Fbs
+  Any-++-inj₁ :  Any F bs →  Any F (as ++ bs)
+  Any-++-inj₁ {as = []} Fbs =  Fbs
+  Any-++-inj₁ {as = _ ∷ _} Fbs =  by-tl $ Any-++-inj₁ Fbs
 
-  Any-++-case : Any F (as ++ bs) → Any F as ⊎ Any F bs
-  Any-++-case {as = []} Fbs = inj₁ Fbs
-  Any-++-case {as = _ ∷ _} (by-hd Fa) = inj₀ (by-hd Fa)
+  Any-++-case :  Any F (as ++ bs) →  Any F as ⊎ Any F bs
+  Any-++-case {as = []} Fbs =  inj₁ Fbs
+  Any-++-case {as = _ ∷ _} (by-hd Fa) =  inj₀ (by-hd Fa)
   Any-++-case {as = _ ∷ _} (by-tl Fas'++bs) with Any-++-case Fas'++bs
   ... | inj₀ Fas' =  inj₀ $ by-tl Fas'
   ... | inj₁ Fbs =  inj₁ Fbs
 
   -- ¬Any
 
-  ¬Any-[] : ¬ Any F []
+  ¬Any-[] :  ¬ Any F []
   ¬Any-[] ()
 
   -- ¬Any and ∷
 
-  ¬Any-∷-intro : ¬ F a → ¬ Any F as → ¬ Any F (a ∷ as)
-  ¬Any-∷-intro ¬Fa _ (by-hd Fa) = ¬Fa Fa
-  ¬Any-∷-intro _ ¬Fas (by-tl Fas) = ¬Fas Fas
+  ¬Any-∷-intro :  ¬ F a →  ¬ Any F as →  ¬ Any F (a ∷ as)
+  ¬Any-∷-intro ¬Fa _ (by-hd Fa) =  ¬Fa Fa
+  ¬Any-∷-intro _ ¬Fas (by-tl Fas) =  ¬Fas Fas
 
-  ¬Any-∷-elim₀ : ¬ Any F (a ∷ as) → ¬ F a
-  ¬Any-∷-elim₀ ¬Fa∷as Fa = ¬Fa∷as (by-hd Fa)
+  ¬Any-∷-elim₀ :  ¬ Any F (a ∷ as) →  ¬ F a
+  ¬Any-∷-elim₀ ¬Fa∷as Fa =  ¬Fa∷as (by-hd Fa)
 
-  ¬Any-∷-elim₁ : ¬ Any F (a ∷ as) → ¬ Any F as
-  ¬Any-∷-elim₁ ¬Fa∷as Fas = ¬Fa∷as (by-tl Fas)
+  ¬Any-∷-elim₁ :  ¬ Any F (a ∷ as) →  ¬ Any F as
+  ¬Any-∷-elim₁ ¬Fa∷as Fas =  ¬Fa∷as (by-tl Fas)
 
   -- ¬Any and ++
 
-  ¬Any-++-intro : ¬ Any F as → ¬ Any F bs → ¬ Any F (as ++ bs)
+  ¬Any-++-intro :  ¬ Any F as →  ¬ Any F bs →  ¬ Any F (as ++ bs)
   ¬Any-++-intro ¬Fas ¬Fbs Fas++bs with Any-++-case Fas++bs
   ... | inj₀ Fas =  ¬Fas Fas
   ... | inj₁ Fbs =  ¬Fbs Fbs
 
-  ¬Any-++-elim₀ : ¬ Any F (as ++ bs) → ¬ Any F as
-  ¬Any-++-elim₀ ¬Fas++bs Fas = ¬Fas++bs $ Any-++-inj₀ Fas
+  ¬Any-++-elim₀ :  ¬ Any F (as ++ bs) →  ¬ Any F as
+  ¬Any-++-elim₀ ¬Fas++bs Fas =  ¬Fas++bs $ Any-++-inj₀ Fas
 
-  ¬Any-++-elim₁ : ¬ Any F (as ++ bs) → ¬ Any F bs
-  ¬Any-++-elim₁ ¬Fas++bs Fbs = ¬Fas++bs $ Any-++-inj₁ Fbs
+  ¬Any-++-elim₁ :  ¬ Any F (as ++ bs) →  ¬ Any F bs
+  ¬Any-++-elim₁ ¬Fas++bs Fbs =  ¬Fas++bs $ Any-++-inj₁ Fbs

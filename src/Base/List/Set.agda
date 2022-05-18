@@ -21,92 +21,92 @@ open import Base.Few using (¬_)
 open import Base.Func using (id; _∘_; _$_)
 
 private variable
-  as bs cs : List A
-  a b : A
+  as bs cs :  List A
+  a b :  A
 
 --------------------------------------------------------------------------------
 -- ∈ᴸ: Containment in a list
 
 infix 4 _∈ᴸ_
-_∈ᴸ_ : A → List A → Set (ℓ ⊔ˡ ℓ≈)
-a ∈ᴸ as = Any (a ≈_) as
+_∈ᴸ_ :  A → List A → Set (ℓ ⊔ˡ ℓ≈)
+a ∈ᴸ as =  Any (a ≈_) as
 
 abstract
 
   -- ∈ᴸ and ++
 
-  ∈ᴸ-++-inj₀ : a ∈ᴸ as → a ∈ᴸ as ++ bs
-  ∈ᴸ-++-inj₀ = Any-++-inj₀
+  ∈ᴸ-++-inj₀ :  a ∈ᴸ as →  a ∈ᴸ as ++ bs
+  ∈ᴸ-++-inj₀ =  Any-++-inj₀
 
-  ∈ᴸ-++-inj₁ : a ∈ᴸ bs → a ∈ᴸ as ++ bs
-  ∈ᴸ-++-inj₁ = Any-++-inj₁
+  ∈ᴸ-++-inj₁ :  a ∈ᴸ bs →  a ∈ᴸ as ++ bs
+  ∈ᴸ-++-inj₁ =  Any-++-inj₁
 
-  ∈ᴸ-++-case : a ∈ᴸ as ++ bs → a ∈ᴸ as ⊎ a ∈ᴸ bs
-  ∈ᴸ-++-case = Any-++-case
+  ∈ᴸ-++-case :  a ∈ᴸ as ++ bs →  a ∈ᴸ as ⊎ a ∈ᴸ bs
+  ∈ᴸ-++-case =  Any-++-case
 
 --------------------------------------------------------------------------------
 -- ∉ᴸ: Non-containment in a list
 
 infix 4 _∉ᴸ_
-_∉ᴸ_ : A → List A → Set (ℓ ⊔ˡ ℓ≈)
-a ∉ᴸ as = ¬ a ∈ᴸ as
+_∉ᴸ_ :  A → List A → Set (ℓ ⊔ˡ ℓ≈)
+a ∉ᴸ as =  ¬ a ∈ᴸ as
 
 abstract
 
-  ∉ᴸ-[] : a ∉ᴸ []
-  ∉ᴸ-[] = ¬Any-[]
+  ∉ᴸ-[] :  a ∉ᴸ []
+  ∉ᴸ-[] =  ¬Any-[]
 
   -- ∉ᴸ and ∷
 
-  ∉ᴸ-∷-intro : a ≉ b → a ∉ᴸ bs → a ∉ᴸ b ∷ bs
-  ∉ᴸ-∷-intro = ¬Any-∷-intro
+  ∉ᴸ-∷-intro :  a ≉ b →  a ∉ᴸ bs →  a ∉ᴸ b ∷ bs
+  ∉ᴸ-∷-intro =  ¬Any-∷-intro
 
-  ∉ᴸ-∷-elim₀ : a ∉ᴸ b ∷ bs → a ≉ b
-  ∉ᴸ-∷-elim₀ = ¬Any-∷-elim₀
+  ∉ᴸ-∷-elim₀ :  a ∉ᴸ b ∷ bs →  a ≉ b
+  ∉ᴸ-∷-elim₀ =  ¬Any-∷-elim₀
 
-  ∉ᴸ-∷-elim₁ : a ∉ᴸ b ∷ bs → a ∉ᴸ bs
-  ∉ᴸ-∷-elim₁ = ¬Any-∷-elim₁
+  ∉ᴸ-∷-elim₁ :  a ∉ᴸ b ∷ bs →  a ∉ᴸ bs
+  ∉ᴸ-∷-elim₁ =  ¬Any-∷-elim₁
 
   -- ∉ᴸ and ++
 
-  ∉ᴸ-++-intro : a ∉ᴸ bs → a ∉ᴸ cs → a ∉ᴸ bs ++ cs
-  ∉ᴸ-++-intro = ¬Any-++-intro
+  ∉ᴸ-++-intro :  a ∉ᴸ bs →  a ∉ᴸ cs →  a ∉ᴸ bs ++ cs
+  ∉ᴸ-++-intro =  ¬Any-++-intro
 
-  ∉ᴸ-++-elim₀ : a ∉ᴸ bs ++ cs → a ∉ᴸ bs
-  ∉ᴸ-++-elim₀ = ¬Any-++-elim₀
+  ∉ᴸ-++-elim₀ :  a ∉ᴸ bs ++ cs →  a ∉ᴸ bs
+  ∉ᴸ-++-elim₀ =  ¬Any-++-elim₀
 
-  ∉ᴸ-++-elim₁ : a ∉ᴸ bs ++ cs → a ∉ᴸ cs
-  ∉ᴸ-++-elim₁ = ¬Any-++-elim₁
+  ∉ᴸ-++-elim₁ :  a ∉ᴸ bs ++ cs →  a ∉ᴸ cs
+  ∉ᴸ-++-elim₁ =  ¬Any-++-elim₁
 
 --------------------------------------------------------------------------------
 -- ⊆ᴸ: Inclusion between lists as sets
 
 infix 4 _⊆ᴸ_
-_⊆ᴸ_ : List A → List A → Set (ℓ ⊔ˡ ℓ≈)
+_⊆ᴸ_ :  List A → List A → Set (ℓ ⊔ˡ ℓ≈)
 as ⊆ᴸ bs =  ∀ {a} →  a ∈ᴸ as →  a ∈ᴸ bs
 
 abstract
 
   -- ⊆ᴸ is reflexive and transitive
 
-  ⊆ᴸ-refl : as ⊆ᴸ as
-  ⊆ᴸ-refl = id
+  ⊆ᴸ-refl :  as ⊆ᴸ as
+  ⊆ᴸ-refl =  id
 
   ⊆ᴸ-trans :  as ⊆ᴸ bs →  bs ⊆ᴸ cs →  as ⊆ᴸ cs
-  ⊆ᴸ-trans as⊆bs bs⊆cs = bs⊆cs ∘ as⊆bs
+  ⊆ᴸ-trans as⊆bs bs⊆cs =  bs⊆cs ∘ as⊆bs
 
   -- ++ is the lub w.r.t. ⊆ᴸ
 
   ++-⊆ᴸ-elim :  ∀ {as bs cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ++ bs  ⊆ᴸ  cs
   ++-⊆ᴸ-elim as⊆cs bs⊆cs a∈as++bs with ∈ᴸ-++-case a∈as++bs
-  ... | inj₀ a∈as = as⊆cs a∈as
-  ... | inj₁ a∈bs = bs⊆cs a∈bs
+  ... | inj₀ a∈as =  as⊆cs a∈as
+  ... | inj₁ a∈bs =  bs⊆cs a∈bs
 
   ++-⊆ᴸ-introˡ :  as  ⊆ᴸ  as ++ bs
-  ++-⊆ᴸ-introˡ = ∈ᴸ-++-inj₀
+  ++-⊆ᴸ-introˡ =  ∈ᴸ-++-inj₀
 
   ++-⊆ᴸ-introʳ :  as  ⊆ᴸ  bs ++ as
-  ++-⊆ᴸ-introʳ = ∈ᴸ-++-inj₁
+  ++-⊆ᴸ-introʳ =  ∈ᴸ-++-inj₁
 
   -- More on ++ and  ⊆ᴸ
 
@@ -121,21 +121,21 @@ abstract
 -- ≈ᴸ: Equivalece of lists as sets
 
 infix 4 _≈ᴸ_
-_≈ᴸ_ : List A → List A → Set (ℓ ⊔ˡ ℓ≈)
+_≈ᴸ_ :  List A → List A → Set (ℓ ⊔ˡ ℓ≈)
 as ≈ᴸ bs =  as ⊆ᴸ bs  ×  bs ⊆ᴸ as
 
 abstract
 
   -- ≈ᴸ is reflexive, symmetric and transitive
 
-  ≈ᴸ-refl : as ≈ᴸ as
-  ≈ᴸ-refl = ⊆ᴸ-refl , ⊆ᴸ-refl
+  ≈ᴸ-refl :  as ≈ᴸ as
+  ≈ᴸ-refl =  ⊆ᴸ-refl , ⊆ᴸ-refl
 
-  ≡⇒≈ᴸ : as ≡ bs → as ≈ᴸ bs
-  ≡⇒≈ᴸ refl⁼ = ≈ᴸ-refl
+  ≡⇒≈ᴸ :  as ≡ bs →  as ≈ᴸ bs
+  ≡⇒≈ᴸ refl⁼ =  ≈ᴸ-refl
 
   ≈ᴸ-sym :  as ≈ᴸ bs →  bs ≈ᴸ as
-  ≈ᴸ-sym (as⊆bs , bs⊆as) = bs⊆as , as⊆bs
+  ≈ᴸ-sym (as⊆bs , bs⊆as) =  bs⊆as , as⊆bs
 
   ≈ᴸ-trans :  as ≈ᴸ bs →  bs ≈ᴸ cs →  as ≈ᴸ cs
   ≈ᴸ-trans (as⊆bs , bs⊆as) (bs⊆cs , cs⊆bs) =
@@ -155,12 +155,12 @@ abstract
 --------------------------------------------------------------------------------
 -- homo: the list is homogeneous as a set
 
-homo : List A → Set (ℓ ⊔ˡ ℓ≈)
+homo :  List A → Set (ℓ ⊔ˡ ℓ≈)
 homo as =  ∀ {a b} →  a ∈ᴸ as →  b ∈ᴸ as →  a ≈ b
 
 abstract
 
-  homo-[] : homo []
+  homo-[] :  homo []
   homo-[] ()
 
   homo-mono :  as ⊆ᴸ bs →  homo bs →  homo as

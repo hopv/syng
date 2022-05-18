@@ -37,8 +37,8 @@ data Prop' ι where
   _∗_ _-∗_ :  Prop' ι →  Prop' ι →  Prop' ι
   -- Update / persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
-  -- Save token, with the persistence flag
-  save :  Bool →  Prop< ι →  Prop' ι
+  -- Save token, exclusive and persistent
+  saveˣ save□ :  Prop< ι →  Prop' ι
 
 private variable
   ι :  Size
@@ -87,13 +87,6 @@ P ∨ Q =  ∃˙ _ (binary P Q)
 
 ⌜_⌝ :  Set ℓ →  Prop' ι
 ⌜ A ⌝ =  ∃˙ A (λ _ → ⊤')
-
---------------------------------------------------------------------------------
--- Exclusive / persistent save token
-
-savex save□ :  Prop< ι →  Prop' ι
-savex P^ =  save ff P^
-save□ P^ =  save tt P^
 
 --------------------------------------------------------------------------------
 -- Iterated separating conjunction: [∗]

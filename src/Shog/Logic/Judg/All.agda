@@ -121,15 +121,15 @@ data Judg ι where
   -- The super update =>> can frame
   =>>-frameˡ :  Q ⊢[ ι ]=>> R →  P ∗ Q ⊢[ ι ]=>> P ∗ R
   ------------------------------------------------------------------------------
-  -- The save token can be modified with a thunk sequent
-  save-monoʳ :  {{Basic R}} →
-    R ∗ P^ .! ⊢[< ι ] Q^ .! →  R ∗ save b P^ ⊢[ ι ] save b Q^
-  -- save□ weakens into savex
-  save-□⇒x :  save□ P^ ⊢[ ι ] savex P^
+  -- An exclusive/persistent save token can be modified using a thunk sequent
+  saveˣ-mono :  {{Basic R}} →
+    R ∗ P^ .! ⊢[< ι ] Q^ .! →  R ∗ saveˣ P^ ⊢[ ι ] saveˣ Q^
+  save□-mono :  {{Basic R}} →
+    R ∗ P^ .! ⊢[< ι ] Q^ .! →  R ∗ save□ P^ ⊢[ ι ] save□ Q^
   -- save□ is persistent
   save□-□ :  save□ P^ ⊢[ ι ] □ save□ P^
-  -- An exclusive save token savex P^ is obtained by allocating P^
-  savex-alloc :  P^ .! ⊢[ ι ]=>> savex P^
+  -- An exclusive save token saveˣ P^ is obtained by allocating P^
+  saveˣ-alloc :  P^ .! ⊢[ ι ]=>> saveˣ P^
   -- Persistent save tokens save□ P^, ... can be obtained
   -- by allocating □ P^, ... minus the tokens save□ P^, ... themselves
   save□-alloc-rec :

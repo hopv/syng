@@ -158,6 +158,10 @@ a //⁺ b ≤1ᴿ⁺ =  a ≤⁺ b
 
 abstract
 
+  -- 1ᴿ⁺ satisfies ≤1ᴿ⁺
+  1≤1ᴿ⁺ :  1ᴿ⁺ ≤1ᴿ⁺
+  1≤1ᴿ⁺ =  ≤⁺-refl
+
   -- ≤1ᴿ⁺ holds after removing an addend
 
   ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺

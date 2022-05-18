@@ -8,7 +8,7 @@ open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Fin {ℓ ℓ≈ ℓ✓} (Ra : RA ℓ ℓ≈ ℓ✓) where
 
 open RA
-open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓ to ✓'; _∙_ to _∙'_;
+open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
   ε to ε'; ⌞_⌟ to ⌞_⌟'; refl˜ to refl'; sym˜ to sym'; _»˜_ to _»'_)
 
 open import Base.Level using (_⊔ˡ_)

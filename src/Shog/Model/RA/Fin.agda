@@ -7,7 +7,6 @@
 open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Fin {ℓ ℓ≈ ℓ✓} (Ra : RA ℓ ℓ≈ ℓ✓) where
 
-open RA
 open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
   ε to ε'; ⌞_⌟ to ⌞_⌟'; refl˜ to refl'; sym˜ to sym'; _»˜_ to _»'_)
 
@@ -21,7 +20,7 @@ open import Base.List.Set (≡-setoid ℕ) using (_∉ᴸ_; ∉ᴸ-[];
   ∉ᴸ-++-elim₀; ∉ᴸ-++-elim₁)
 
 --------------------------------------------------------------------------------
--- Fin : FinRA's carrier
+-- Fin : Finᴿᴬ's carrier
 
 record  Fin :  Set (ℓ ⊔ˡ ℓ≈)  where
   field
@@ -33,6 +32,7 @@ open Fin
 --------------------------------------------------------------------------------
 -- Internal definitions
 private
+  open RA
 
   -- Equivalence
   infix 4 _≈ᶠ_
@@ -67,6 +67,7 @@ private
 
 -- Lemma
 private abstract
+  open RA
 
   ⌞⌟ᶠ-add :  ∀ F G →  Σ G' ,  G' ∙ᶠ ⌞ F ⌟ᶠ ≈ᶠ ⌞ G ∙ᶠ F ⌟ᶠ
   ⌞⌟ᶠ-add F G .proj₀ .fin i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₀
@@ -78,26 +79,29 @@ private abstract
   ⌞⌟ᶠ-add F G .proj₁ i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁
 
 --------------------------------------------------------------------------------
--- FinRA : Finite-map resource algebra
+-- Finᴿᴬ : Finite-map resource algebra
 
-FinRA : RA (ℓ ⊔ˡ ℓ≈) ℓ≈ ℓ✓
-FinRA .Car =  Fin
-FinRA ._≈_ =  _≈ᶠ_
-FinRA .✓_ =  ✓ᶠ_
-FinRA ._∙_ =  _∙ᶠ_
-FinRA .ε =  εᶠ
-FinRA .⌞_⌟ =  ⌞_⌟ᶠ
-FinRA .refl˜ _ =  refl'
-FinRA .sym˜ F≈G i =  sym' (F≈G i)
-FinRA ._»˜_ F≈G G≈H i =  F≈G i »' G≈H i
-FinRA .∙-congˡ F≈G i =  Ra .∙-congˡ (F≈G i)
-FinRA .∙-unitˡ i =  Ra .∙-unitˡ
-FinRA .∙-comm i =  Ra .∙-comm
-FinRA .∙-assocˡ i =  Ra .∙-assocˡ
-FinRA .✓-resp F≈G ✓F i =  Ra .✓-resp (F≈G i) (✓F i)
-FinRA .✓-rem ✓F∙G i =  Ra .✓-rem (✓F∙G i)
-FinRA .✓-ε i =  Ra .✓-ε
-FinRA .⌞⌟-cong F≈G i =  Ra .⌞⌟-cong (F≈G i)
-FinRA .⌞⌟-add {F} {G} =  ⌞⌟ᶠ-add F G
-FinRA .⌞⌟-unitˡ i =  Ra .⌞⌟-unitˡ
-FinRA .⌞⌟-idem i =  Ra .⌞⌟-idem
+module _ where
+  open RA
+
+  Finᴿᴬ : RA (ℓ ⊔ˡ ℓ≈) ℓ≈ ℓ✓
+  Finᴿᴬ .Car =  Fin
+  Finᴿᴬ ._≈_ =  _≈ᶠ_
+  Finᴿᴬ .✓_ =  ✓ᶠ_
+  Finᴿᴬ ._∙_ =  _∙ᶠ_
+  Finᴿᴬ .ε =  εᶠ
+  Finᴿᴬ .⌞_⌟ =  ⌞_⌟ᶠ
+  Finᴿᴬ .refl˜ _ =  refl'
+  Finᴿᴬ .sym˜ F≈G i =  sym' (F≈G i)
+  Finᴿᴬ ._»˜_ F≈G G≈H i =  F≈G i »' G≈H i
+  Finᴿᴬ .∙-congˡ F≈G i =  Ra .∙-congˡ (F≈G i)
+  Finᴿᴬ .∙-unitˡ i =  Ra .∙-unitˡ
+  Finᴿᴬ .∙-comm i =  Ra .∙-comm
+  Finᴿᴬ .∙-assocˡ i =  Ra .∙-assocˡ
+  Finᴿᴬ .✓-resp F≈G ✓F i =  Ra .✓-resp (F≈G i) (✓F i)
+  Finᴿᴬ .✓-rem ✓F∙G i =  Ra .✓-rem (✓F∙G i)
+  Finᴿᴬ .✓-ε i =  Ra .✓-ε
+  Finᴿᴬ .⌞⌟-cong F≈G i =  Ra .⌞⌟-cong (F≈G i)
+  Finᴿᴬ .⌞⌟-add {F} {G} =  ⌞⌟ᶠ-add F G
+  Finᴿᴬ .⌞⌟-unitˡ i =  Ra .⌞⌟-unitˡ
+  Finᴿᴬ .⌞⌟-idem i =  Ra .⌞⌟-idem

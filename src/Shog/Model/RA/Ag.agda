@@ -6,45 +6,65 @@
 
 open import Base.Setoid using (Setoid)
 module Shog.Model.RA.Ag {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
-open Setoid S using () renaming (Car to A)
+open Setoid S using (_≈_) renaming (Car to A)
 
 open import Base.Level using (_⊔ˡ_)
 open import Base.Prod using (_,_)
 open import Base.Func using (id; _$_)
 open import Base.List using (List; []; _++_; [_]; ++-assocˡ)
 open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈ᴸ-trans; ≡⇒≈ᴸ;
-  ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp)
+  ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp;
+  homo-[?]; homo-agree)
 open import Shog.Model.RA using (RA)
 
-open RA
-
 --------------------------------------------------------------------------------
--- ag: Lifting A to AgRA's carrier
+-- ag: Lifting A to Agᴿᴬ's carrier
 
 ag :  A →  List A
 ag a =  [ a ]
 
 --------------------------------------------------------------------------------
--- AgRA : Agreement resource algebra
+-- Agᴿᴬ : Agreement resource algebra
 
-AgRA :  RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
-AgRA .Car =  List A
-AgRA ._≈_ =  _≈ᴸ_
-AgRA .✓_ =  homo
-AgRA ._∙_ =  _++_
-AgRA .ε =  []
-AgRA .⌞_⌟ =  id
-AgRA .refl˜ =  ≈ᴸ-refl
-AgRA .sym˜ =  ≈ᴸ-sym
-AgRA ._»˜_ =  ≈ᴸ-trans
-AgRA .∙-congˡ =  ++-congˡ
-AgRA .∙-unitˡ =  ≈ᴸ-refl
-AgRA .∙-comm {as} =  ++-comm {as}
-AgRA .∙-assocˡ {as} =  ≡⇒≈ᴸ (++-assocˡ {as = as})
-AgRA .✓-resp =  homo-resp
-AgRA .✓-rem =  homo-mono ++-⊆ᴸ-introʳ
-AgRA .✓-ε =  homo-[]
-AgRA .⌞⌟-cong =  id
-AgRA .⌞⌟-add =  _ , ≈ᴸ-refl
-AgRA .⌞⌟-unitˡ =  ++-idem
-AgRA .⌞⌟-idem =  ≈ᴸ-refl
+module _ where
+  open RA
+
+  Agᴿᴬ :  RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
+  Agᴿᴬ .Car =  List A
+  Agᴿᴬ ._≈_ =  _≈ᴸ_
+  Agᴿᴬ .✓_ =  homo
+  Agᴿᴬ ._∙_ =  _++_
+  Agᴿᴬ .ε =  []
+  Agᴿᴬ .⌞_⌟ =  id
+  Agᴿᴬ .refl˜ =  ≈ᴸ-refl
+  Agᴿᴬ .sym˜ =  ≈ᴸ-sym
+  Agᴿᴬ ._»˜_ =  ≈ᴸ-trans
+  Agᴿᴬ .∙-congˡ =  ++-congˡ
+  Agᴿᴬ .∙-unitˡ =  ≈ᴸ-refl
+  Agᴿᴬ .∙-comm {as} =  ++-comm {as}
+  Agᴿᴬ .∙-assocˡ {as} =  ≡⇒≈ᴸ (++-assocˡ {as = as})
+  Agᴿᴬ .✓-resp =  homo-resp
+  Agᴿᴬ .✓-rem =  homo-mono ++-⊆ᴸ-introʳ
+  Agᴿᴬ .✓-ε =  homo-[]
+  Agᴿᴬ .⌞⌟-cong =  id
+  Agᴿᴬ .⌞⌟-add =  _ , ≈ᴸ-refl
+  Agᴿᴬ .⌞⌟-unitˡ =  ++-idem
+  Agᴿᴬ .⌞⌟-idem =  ≈ᴸ-refl
+
+open RA Agᴿᴬ using (✓_; _∙_)
+
+private variable
+  a b :  A
+
+--------------------------------------------------------------------------------
+-- Lemmas
+
+abstract
+
+  -- ag a is valid
+  ✓-ag :  ✓ ag a
+  ✓-ag =  homo-[?]
+
+  -- Agreement
+  agree :  ✓ ag a ∙ ag b →  a ≈ b
+  agree =  homo-agree

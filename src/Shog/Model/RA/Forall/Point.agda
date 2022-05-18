@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Injection on ∀ᴿᴬ
+-- Injection on Allᴿᴬ
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
@@ -8,16 +8,16 @@ open import Shog.Model.RA using (RA)
 open import Base.Eq using (_≡_)
 open import Base.Dec using (Dec²)
 module Shog.Model.RA.Forall.Point {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
-  {Ra˙ : I → RA ℓ ℓ≈ ℓ✓} (_≟_ : Dec² _≡_) where
+  (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) (_≟_ : Dec² _≡_) where
 
 open import Base.Eq using (refl⁼)
 open import Base.Dec using (yes; no)
 open import Base.Few using (absurd)
-open import Shog.Model.RA.Forall Ra˙ using (∀ᴿᴬ)
+open import Shog.Model.RA.Forall Ra˙ using (Allᴿᴬ)
 
 open RA
-open RA ∀ᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_; _∙_ to _∙ᴬ_;
-  ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _»˜_ to _»ᴬ_;
+open RA Allᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_;
+  _∙_ to _∙ᴬ_; ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _»˜_ to _»ᴬ_;
   ∙-unitˡ to ∙-unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
 
 --------------------------------------------------------------------------------

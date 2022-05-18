@@ -5,7 +5,7 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Base.Setoid using (Setoid)
-module Shog.Model.RA.Ex {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
+module Shog.Model.RA.Exc {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S using (_≈_; refl˜; sym˜; _»˜_) renaming (Car to A)
 
 open import Base.Level using (Level; 0ˡ)
@@ -15,15 +15,18 @@ open import Base.Few using (⊤; ⊥)
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------
--- Ex : ExRA's carrier
+-- Exc : Excᴿᴬ's carrier
 
-data  Ex :  Set ℓ  where
+data  Exc :  Set ℓ  where
   -- Pending
-  ?ˣ :  Ex
+  ?ˣ :  Exc
   -- Exclusively set
-  #ˣ :  A →  Ex
+  #ˣ :  A →  Exc
   -- Invalid
-  ↯ˣ :  Ex
+  ↯ˣ :  Exc
+
+private variable
+  a b : A
 
 --------------------------------------------------------------------------------
 -- Internal definitions
@@ -31,7 +34,7 @@ private
 
   -- Equivalence
   infix 4 _≈ˣ_
-  _≈ˣ_ :  Ex → Ex → Set ℓ≈
+  _≈ˣ_ :  Exc → Exc → Set ℓ≈
   ?ˣ ≈ˣ ?ˣ =  ⊤
   ↯ˣ ≈ˣ ↯ˣ =  ⊤
   #ˣ a ≈ˣ #ˣ b =  a ≈ b
@@ -39,13 +42,13 @@ private
 
   -- Validity
   infix 3 ✓ˣ_
-  ✓ˣ_ :  Ex → Set
+  ✓ˣ_ :  Exc → Set
   ✓ˣ_ ↯ˣ =  ⊥
   ✓ˣ_ _ =  ⊤
 
   -- Product
   infixl 7 _∙ˣ_
-  _∙ˣ_ :  Ex → Ex → Ex
+  _∙ˣ_ :  Exc → Exc → Exc
   ?ˣ ∙ˣ x =  x
   ↯ˣ ∙ˣ x =  ↯ˣ
   x ∙ˣ ?ˣ =  x
@@ -105,28 +108,42 @@ private abstract
   ✓ˣ-rem (#ˣ _) ?ˣ =  _
 
 --------------------------------------------------------------------------------
--- ExRA : Exclusive resource algebra
+-- Excᴿᴬ : Exclusive resource algebra
 
-open RA
+module _ where
+  open RA
 
-ExRA : RA ℓ ℓ≈ 0ˡ
-ExRA .Car =  Ex
-ExRA ._≈_ =  _≈ˣ_
-ExRA .✓_ =  ✓ˣ_
-ExRA ._∙_ =  _∙ˣ_
-ExRA .ε =  ?ˣ
-ExRA .⌞_⌟ _ =  ?ˣ
-ExRA .refl˜ {x} =  ≈ˣ-refl x
-ExRA .sym˜ {x} =  ≈ˣ-sym x _
-ExRA ._»˜_ {x} =  ≈ˣ-trans x _ _
-ExRA .∙-congˡ {x} =  ∙ˣ-congˡ x _ _
-ExRA .∙-unitˡ {x} =  ≈ˣ-refl x
-ExRA .∙-comm {x} =  ∙ˣ-comm x _
-ExRA .∙-assocˡ {x} =  ∙ˣ-assocˡ x _ _
-ExRA .✓-resp =  ✓ˣ-resp _ _
-ExRA .✓-rem {x} {y} =  ✓ˣ-rem x y
-ExRA .✓-ε =  _
-ExRA .⌞⌟-cong =  _
-ExRA .⌞⌟-add =  ?ˣ , _
-ExRA .⌞⌟-unitˡ {x} =  ≈ˣ-refl x
-ExRA .⌞⌟-idem =  _
+  Excᴿᴬ : RA ℓ ℓ≈ 0ˡ
+  Excᴿᴬ .Car =  Exc
+  Excᴿᴬ ._≈_ =  _≈ˣ_
+  Excᴿᴬ .✓_ =  ✓ˣ_
+  Excᴿᴬ ._∙_ =  _∙ˣ_
+  Excᴿᴬ .ε =  ?ˣ
+  Excᴿᴬ .⌞_⌟ _ =  ?ˣ
+  Excᴿᴬ .refl˜ {x} =  ≈ˣ-refl x
+  Excᴿᴬ .sym˜ {x} =  ≈ˣ-sym x _
+  Excᴿᴬ ._»˜_ {x} =  ≈ˣ-trans x _ _
+  Excᴿᴬ .∙-congˡ {x} =  ∙ˣ-congˡ x _ _
+  Excᴿᴬ .∙-unitˡ {x} =  ≈ˣ-refl x
+  Excᴿᴬ .∙-comm {x} =  ∙ˣ-comm x _
+  Excᴿᴬ .∙-assocˡ {x} =  ∙ˣ-assocˡ x _ _
+  Excᴿᴬ .✓-resp =  ✓ˣ-resp _ _
+  Excᴿᴬ .✓-rem {x} {y} =  ✓ˣ-rem x y
+  Excᴿᴬ .✓-ε =  _
+  Excᴿᴬ .⌞⌟-cong =  _
+  Excᴿᴬ .⌞⌟-add =  ?ˣ , _
+  Excᴿᴬ .⌞⌟-unitˡ {x} =  ≈ˣ-refl x
+  Excᴿᴬ .⌞⌟-idem =  _
+
+open RA Excᴿᴬ using (_↝_)
+
+--------------------------------------------------------------------------------
+-- Lemmas
+
+abstract
+
+  -- Update on #ˣ
+
+  #ˣ-↝ :  #ˣ a  ↝  #ˣ b
+  #ˣ-↝ ?ˣ =  _
+  -- The frame z can only be ?ˣ; otherwise ✓ z ∙ #ˣ a does not hold

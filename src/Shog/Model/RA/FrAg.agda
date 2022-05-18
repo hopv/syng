@@ -5,63 +5,70 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Base.Setoid using (Setoid)
-module Shog.Model.RA.FracAg {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
-open Setoid S using () renaming (Car to A)
+module Shog.Model.RA.FrAg {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
+open Setoid S using (_≈_; refl˜) renaming (Car to A)
 
 open import Base.Level using (_⊔ˡ_)
-open import Base.Few using (⊤; ⊥)
+open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Prod using (_×_; _,_)
-open import Base.RatPos using (ℚ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
-  ≈ᴿ⁺-trans; ≡⇒≈ᴿ⁺; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem)
+open import Base.Func using (_$_)
+open import Base.RatPos using (ℚ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺; 1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
+  ≈ᴿ⁺-trans; ≡⇒≈ᴿ⁺; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem;
+  1≤1ᴿ⁺; ?+1-not-≤1ᴿ⁺)
 open import Base.List using (List; []; _++_; [_]; ++-assocˡ)
 open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈ᴸ-trans; ≡⇒≈ᴸ;
-  ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp)
+  ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp;
+  [?]-cong; homo-[?]; homo-agree)
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------
--- FracAg : FracAgRA's carrier
+-- FrAg : FrAgᴿᴬ's carrier
 
 infix 8 ⟨_⟩ᶠᴸ_
-data  FracAg : Set ℓ  where
-  ⟨_⟩ᶠᴸ_ :  ℚ⁺ → List A → FracAg  -- Fractional agreement, internal
-  εᶠ :  FracAg  -- Unit
+data  FrAg : Set ℓ  where
+  ⟨_⟩ᶠᴸ_ :  ℚ⁺ → List A → FrAg  -- Fractional agreement, internal
+  εᶠ :  FrAg  -- Unit
 
 --------------------------------------------------------------------------------
 -- ⟨ p ⟩ᶠ a : Specifying the value a with the fraction p
 
 infix 8 ⟨_⟩ᶠ_
-⟨_⟩ᶠ_ :  ℚ⁺ → A → FracAg
+⟨_⟩ᶠ_ :  ℚ⁺ → A → FrAg
 ⟨ p ⟩ᶠ a =  ⟨ p ⟩ᶠᴸ [ a ]
 
 private variable
-  x y z : FracAg
+  x y z : FrAg
+  p q :  ℚ⁺
+  a b :  A
 
 --------------------------------------------------------------------------------
 -- Internal definitions
+
 private
 
   -- Equivalence
   infix 4 _≈ᶠ_
-  _≈ᶠ_ :  FracAg →  FracAg →  Set (ℓ ⊔ˡ ℓ≈)
+  _≈ᶠ_ :  FrAg →  FrAg →  Set (ℓ ⊔ˡ ℓ≈)
   ⟨ p ⟩ᶠᴸ as ≈ᶠ ⟨ q ⟩ᶠᴸ bs =  p ≈ᴿ⁺ q  ×  as ≈ᴸ bs
   εᶠ ≈ᶠ εᶠ =  ⊤
   _ ≈ᶠ _ =  ⊥
 
   -- Validity
   infix 3 ✓ᶠ_
-  ✓ᶠ_ :  FracAg →  Set (ℓ ⊔ˡ ℓ≈)
+  ✓ᶠ_ :  FrAg →  Set (ℓ ⊔ˡ ℓ≈)
   ✓ᶠ ⟨ p ⟩ᶠᴸ a =  p ≤1ᴿ⁺  ×  homo a
   ✓ᶠ εᶠ =  ⊤
 
   -- Product
   infixl 7 _∙ᶠ_
-  _∙ᶠ_ :  FracAg →  FracAg →  FracAg
+  _∙ᶠ_ :  FrAg →  FrAg →  FrAg
   εᶠ ∙ᶠ y =  y
   x ∙ᶠ εᶠ =  x
   ⟨ p ⟩ᶠᴸ as ∙ᶠ ⟨ q ⟩ᶠᴸ bs =  ⟨ p +ᴿ⁺ q ⟩ᶠᴸ (as ++ bs)
 
 --------------------------------------------------------------------------------
--- Lemmas
+-- Internal lemmas
+
 private abstract
 
   ≈ᶠ-refl :  x ≈ᶠ x
@@ -110,28 +117,73 @@ private abstract
   ✓ᶠ-rem εᶠ (⟨ _ ⟩ᶠᴸ _) ✓x =  ✓x
 
 --------------------------------------------------------------------------------
--- FracAgRA : Fractional resource algebra
+-- FrAgᴿᴬ : Fractional resource algebra
 
-open RA
+module _ where
+  open RA
 
-FracAgRA : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
-FracAgRA .Car =  FracAg
-FracAgRA ._≈_ =  _≈ᶠ_
-FracAgRA .✓_ =  ✓ᶠ_
-FracAgRA ._∙_ =  _∙ᶠ_
-FracAgRA .ε =  εᶠ
-FracAgRA .⌞_⌟ _ =  εᶠ
-FracAgRA .refl˜ =  ≈ᶠ-refl
-FracAgRA .sym˜ =  ≈ᶠ-sym
-FracAgRA ._»˜_ =  ≈ᶠ-trans
-FracAgRA .∙-congˡ =  ∙ᶠ-congˡ _ _ _
-FracAgRA .∙-unitˡ =  ≈ᶠ-refl
-FracAgRA .∙-comm {x} =  ∙ᶠ-comm x _
-FracAgRA .∙-assocˡ {x} =  ∙ᶠ-assocˡ x _ _
-FracAgRA .✓-resp =  ✓ᶠ-resp _ _
-FracAgRA .✓-rem {x} =  ✓ᶠ-rem x _
-FracAgRA .✓-ε =  _
-FracAgRA .⌞⌟-cong _ =  ≈ᶠ-refl
-FracAgRA .⌞⌟-add =  εᶠ , ≈ᶠ-refl
-FracAgRA .⌞⌟-unitˡ =  ≈ᶠ-refl
-FracAgRA .⌞⌟-idem =  ≈ᶠ-refl
+  FrAgᴿᴬ : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
+  FrAgᴿᴬ .Car =  FrAg
+  FrAgᴿᴬ ._≈_ =  _≈ᶠ_
+  FrAgᴿᴬ .✓_ =  ✓ᶠ_
+  FrAgᴿᴬ ._∙_ =  _∙ᶠ_
+  FrAgᴿᴬ .ε =  εᶠ
+  FrAgᴿᴬ .⌞_⌟ _ =  εᶠ
+  FrAgᴿᴬ .refl˜ =  ≈ᶠ-refl
+  FrAgᴿᴬ .sym˜ =  ≈ᶠ-sym
+  FrAgᴿᴬ ._»˜_ =  ≈ᶠ-trans
+  FrAgᴿᴬ .∙-congˡ =  ∙ᶠ-congˡ _ _ _
+  FrAgᴿᴬ .∙-unitˡ =  ≈ᶠ-refl
+  FrAgᴿᴬ .∙-comm {x} =  ∙ᶠ-comm x _
+  FrAgᴿᴬ .∙-assocˡ {x} =  ∙ᶠ-assocˡ x _ _
+  FrAgᴿᴬ .✓-resp =  ✓ᶠ-resp _ _
+  FrAgᴿᴬ .✓-rem {x} =  ✓ᶠ-rem x _
+  FrAgᴿᴬ .✓-ε =  _
+  FrAgᴿᴬ .⌞⌟-cong _ =  ≈ᶠ-refl
+  FrAgᴿᴬ .⌞⌟-add =  εᶠ , ≈ᶠ-refl
+  FrAgᴿᴬ .⌞⌟-unitˡ =  ≈ᶠ-refl
+  FrAgᴿᴬ .⌞⌟-idem =  ≈ᶠ-refl
+
+open RA FrAgᴿᴬ using (_∙_; ✓_; _↝_)
+
+--------------------------------------------------------------------------------
+-- Lemmas
+
+abstract
+
+  -- Congruence on ⟨ ⟩ᶠ
+
+  ⟨⟩ᶠ-cong :  p ≈ᴿ⁺ q →  a ≈ b →  ⟨ p ⟩ᶠ a ≈ᶠ ⟨ q ⟩ᶠ b
+  ⟨⟩ᶠ-cong p≈q a≈b =  p≈q , [?]-cong a≈b
+
+  ⟨⟩ᶠ-congˡ :  p ≈ᴿ⁺ q →  ⟨ p ⟩ᶠ a ≈ᶠ ⟨ q ⟩ᶠ a
+  ⟨⟩ᶠ-congˡ {p} {q} p≈q =  ⟨⟩ᶠ-cong {p} {q} p≈q refl˜
+
+  ⟨⟩ᶠ-congʳ :  ∀ {p a b} →  a ≈ b →  ⟨ p ⟩ᶠ a ≈ᶠ ⟨ p ⟩ᶠ b
+  ⟨⟩ᶠ-congʳ {p} a≈b =  ⟨⟩ᶠ-cong {p} {p} (≈ᴿ⁺-refl {p}) a≈b
+
+  -- ⟨ p ⟩ᶠ a is valid for p ≤1ᴿ⁺
+
+  ✓-⟨⟩ᶠ :  p ≤1ᴿ⁺ →  ✓ ⟨ p ⟩ᶠ a
+  ✓-⟨⟩ᶠ p≤1 =  p≤1 , homo-[?]
+
+  -- ⟨ 1ᴿ⁺ ⟩ᶠ a is valid
+
+  ✓-⟨1⟩ᶠ :  ✓ ⟨ 1ᴿ⁺ ⟩ᶠ a
+  ✓-⟨1⟩ᶠ =  ✓-⟨⟩ᶠ 1≤1ᴿ⁺
+
+  -- Joining ⟨ ⟩ᶠ
+
+  join-⟨⟩ᶠ : ∀ {p q a} →  ⟨ p ⟩ᶠ a ∙ ⟨ q ⟩ᶠ a ≈ᶠ ⟨ p +ᴿ⁺ q ⟩ᶠ a
+  join-⟨⟩ᶠ {p} {q} =  ≈ᴿ⁺-refl {p +ᴿ⁺ q} , ++-idem
+
+  -- Agreement
+
+  agreeᶠ :  ✓ ⟨ p ⟩ᶠ a ∙ ⟨ q ⟩ᶠ b →  a ≈ b
+  agreeᶠ (_ , homo'ab) =  homo-agree homo'ab
+
+  -- Update
+
+  updateᶠ :  ⟨ 1ᴿ⁺ ⟩ᶠ a ↝ ⟨ 1ᴿ⁺ ⟩ᶠ b
+  updateᶠ εᶠ _ =  ✓-⟨1⟩ᶠ
+  updateᶠ (⟨ p ⟩ᶠᴸ _) (p+1≤1 , _) =  absurd $ ?+1-not-≤1ᴿ⁺ {p} p+1≤1

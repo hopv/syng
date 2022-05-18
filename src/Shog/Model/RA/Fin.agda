@@ -31,6 +31,7 @@ open Fin
 
 --------------------------------------------------------------------------------
 -- Internal definitions
+
 private
   open RA
 
@@ -65,7 +66,9 @@ private
   ⌞ F ⌟ᶠ .supp =  F .supp
   ⌞ F ⌟ᶠ .out-ε i∉ =  ⌞⌟-cong Ra (F .out-ε i∉) »' ⌞⌟-ε Ra
 
+--------------------------------------------------------------------------------
 -- Internal lemma
+
 private abstract
   open RA
 

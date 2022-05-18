@@ -40,7 +40,8 @@ private
   F ≈ᶠ G =  ∀ i →  F .fin i ≈' G .fin i
 
   -- Validity
-  ✓ᶠ :  Fin →  Set ℓ✓
+  infix 3 ✓ᶠ_
+  ✓ᶠ_ :  Fin →  Set ℓ✓
   ✓ᶠ F =  ∀ i →  ✓' (F .fin i)
 
   -- Product
@@ -82,7 +83,7 @@ private abstract
 FinRA : RA (ℓ ⊔ˡ ℓ≈) ℓ≈ ℓ✓
 FinRA .Car =  Fin
 FinRA ._≈_ =  _≈ᶠ_
-FinRA .✓_ =  ✓ᶠ
+FinRA .✓_ =  ✓ᶠ_
 FinRA ._∙_ =  _∙ᶠ_
 FinRA .ε =  εᶠ
 FinRA .⌞_⌟ =  ⌞_⌟ᶠ

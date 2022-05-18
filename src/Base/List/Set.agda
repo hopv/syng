@@ -6,10 +6,10 @@
 
 open import Base.Setoid using (Setoid)
 module Base.List.Set {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
-open Setoid S using (_≈_; _≉_; refl˜) renaming (Car to A)
+open Setoid S using (_≈_; _≉_; refl˜; sym˜; _»˜_) renaming (Car to A)
 
 open import Base.Level using (_⊔ˡ_)
-open import Base.List using (List; _∷_; []; _++_)
+open import Base.List using (List; _∷_; []; [_]; _++_)
 open import Base.List.Any using (Any; by-hd; by-tl;
   Any-++-inj₀; Any-++-inj₁; Any-++-case;
   ¬Any-[]; ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁;
@@ -32,6 +32,11 @@ _∈ᴸ_ :  A → List A → Set (ℓ ⊔ˡ ℓ≈)
 a ∈ᴸ as =  Any (a ≈_) as
 
 abstract
+
+  -- ∈ᴸ and [ ]
+
+  ∈ᴸ-[?] :  a ∈ᴸ  [ b ] →  a ≈ b
+  ∈ᴸ-[?] (by-hd a≈b) =  a≈b
 
   -- ∈ᴸ and ++
 
@@ -162,6 +167,9 @@ abstract
 
   homo-[] :  homo []
   homo-[] ()
+
+  homo-[?] :  homo [ a ]
+  homo-[?] a'∈[a] b'∈[a] =  ∈ᴸ-[?] a'∈[a] »˜ sym˜ $ ∈ᴸ-[?] b'∈[a]
 
   homo-mono :  as ⊆ᴸ bs →  homo bs →  homo as
   homo-mono as⊆bs homo'bs a∈as b∈as =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)

@@ -6,7 +6,7 @@
 
 open import Base.Setoid using (Setoid)
 module Shog.Model.RA.Ex.More {ℓ ℓ≈} {S : Setoid ℓ ℓ≈} where
-open Setoid S renaming (Car to A)
+open Setoid S using () renaming (Car to A)
 
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Ex S using (ExRA; #ˣ; ?ˣ)

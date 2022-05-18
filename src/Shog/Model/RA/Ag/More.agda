@@ -6,7 +6,7 @@
 
 open import Base.Setoid using (Setoid)
 module Shog.Model.RA.Ag.More {ℓ ℓ≈} {S : Setoid ℓ ℓ≈} where
-open Setoid S using () renaming (Car to A)
+open Setoid S using (_≈_) renaming (Car to A)
 
 open import Base.List.Set S using (homo-agree)
 open import Shog.Model.RA using (RA)

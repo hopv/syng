@@ -79,7 +79,7 @@ module _ {i : I} where
     ∀-upd-upd :  ∀-upd i a (∀-upd i b c˙) ≈ᴬ ∀-upd i a c˙
     ∀-upd-upd j with i ≟ j
     ... | yes refl⁼ =  reflⁱ
-    ... | no i≢j with i ≟ j -- We need it to simplify ∀-upd i b c˙ j
+    ... | no i≢j with i ≟ j  -- We need this to simplify ∀-upd i b c˙ j
     ...   | yes i≡j =  absurd (i≢j i≡j)
     ...   | no _ =  Ra˙ j .refl˜
 

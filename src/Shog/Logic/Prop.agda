@@ -66,20 +66,21 @@ syntax ∀-syntax (λ x → P) =  ∀' x , P
 syntax ∃-syntax (λ x → P) =  ∃ x , P
 
 --------------------------------------------------------------------------------
--- Deriving from universal/existential quantification ∀' / ∃
+-- Conjunction ∧ & Disjunction ∨
 
 infixr 7 _∧_
 infixr 6 _∨_
 
--- Conjunction ∧ and disjunction ∨
 _∧_ _∨_ :  Prop' ι →  Prop' ι →  Prop' ι
-P ∧ Q =  ∀˙ _ (binary P Q) -- Conjunction
-P ∨ Q =  ∃˙ _ (binary P Q) -- Disjunction
+P ∧ Q =  ∀˙ _ (binary P Q)
+P ∨ Q =  ∃˙ _ (binary P Q)
 
--- Truth ⊤' and falsehood ⊥'
+--------------------------------------------------------------------------------
+-- Truth ⊤' & Falsehood ⊥'
+
 ⊤' ⊥' :  Prop' ι
-⊤' =  ∀˙ _ absurd -- Truth
-⊥' =  ∃˙ _ absurd -- Falsehood
+⊤' =  ∀˙ _ absurd
+⊥' =  ∃˙ _ absurd
 
 --------------------------------------------------------------------------------
 -- Set embedding

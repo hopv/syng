@@ -8,8 +8,9 @@ module Base.RatPos where
 
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _≤⁺ᵇ_; cmp⁺;
   +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
-  *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; ≤⁺-refl; <⁺-irrefl'; <⁺-≤⁺-trans; <⁺⇒≤⁺;
-  ≤⁺⇒¬>⁺; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; ≡⁺ᵇ⇒≡; ≡⇒≡⁺ᵇ; ≤⁺ᵇ⇒≤⁺; ≤⁺⇒≤⁺ᵇ)
+  *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; ≤⁺-refl; <⁺-irrefl'; <⁺-trans;
+  <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; *⁺-smonoʳ; ≡⁺ᵇ⇒≡;
+  ≡⇒≡⁺ᵇ; ≤⁺ᵇ⇒≤⁺; ≤⁺⇒≤⁺ᵇ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
@@ -156,6 +157,15 @@ _≤1ᴿ⁺ :  ℚ⁺ → Set
 a //⁺ b ≤1ᴿ⁺ =  a ≤⁺ b
 
 abstract
+
+  -- ≤1ᴿ⁺ holds after removing an addend
+
+  ≤1ᴿ⁺-rem :  ∀ {p q} →  q +ᴿ⁺ p ≤1ᴿ⁺ →  p ≤1ᴿ⁺
+  ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} bc+da≤db with cmp⁺ a b
+  ... | inj₀ a<b =  <⁺⇒≤⁺ a<b
+  ... | inj₁₀ refl⁼ =  ≤⁺-refl
+  ... | inj₁₁ a>b =  absurd $ ≤⁺⇒¬>⁺ bc+da≤db $
+    <⁺-trans (*⁺-smonoʳ {d} a>b) +⁺-sincrˡ
 
   -- p +ᴿ⁺ 1ᴿ⁺ does not satisfy ≤1ᴿ⁺
 

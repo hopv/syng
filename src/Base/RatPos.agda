@@ -173,8 +173,8 @@ abstract
 
   -- p +ᴿ⁺ 1ᴿ⁺ does not satisfy ≤1ᴿ⁺
 
-  ?+1ᴿ⁺-not-≤1ᴿ⁺ :  ¬ p +ᴿ⁺ 1ᴿ⁺ ≤1ᴿ⁺
-  ?+1ᴿ⁺-not-≤1ᴿ⁺ {a //⁺ b} 1a+b1≤b1 =  ≤⁺⇒¬>⁺ 1a+b1≤b1 +⁺-sincrˡ
+  ?+1-not-≤1ᴿ⁺ :  ¬ p +ᴿ⁺ 1ᴿ⁺ ≤1ᴿ⁺
+  ?+1-not-≤1ᴿ⁺ {a //⁺ b} 1a+b1≤b1 =  ≤⁺⇒¬>⁺ 1a+b1≤b1 +⁺-sincrˡ
 
   -- ≤1ᴿ⁺ respects ≈ᴿ⁺
 

@@ -50,8 +50,8 @@ private
   (F ∙ᶠ G) .fin i =  F .fin i ∙' G .fin i
   (F ∙ᶠ G) .supp =  F .supp ++ G .supp
   (F ∙ᶠ G) .out-ε i∉++ =
-    ∙-cong Ra (F .out-ε (∉ᴸ-++-elim₀ i∉++)) (G .out-ε (∉ᴸ-++-elim₁ i∉++))
-    »' ∙-unitˡ Ra
+    ∙-cong Ra (F .out-ε (∉ᴸ-++-elim₀ i∉++)) (G .out-ε (∉ᴸ-++-elim₁ i∉++)) »'
+    ∙-unitˡ Ra
 
   -- Unit
   εᶠ :  Fin
@@ -65,17 +65,17 @@ private
   ⌞ F ⌟ᶠ .supp =  F .supp
   ⌞ F ⌟ᶠ .out-ε i∉ =  ⌞⌟-cong Ra (F .out-ε i∉) »' ⌞⌟-ε Ra
 
--- Lemma
+-- Internal lemma
 private abstract
   open RA
 
   ⌞⌟ᶠ-add :  ∀ F G →  Σ G' ,  G' ∙ᶠ ⌞ F ⌟ᶠ ≈ᶠ ⌞ G ∙ᶠ F ⌟ᶠ
   ⌞⌟ᶠ-add F G .proj₀ .fin i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₀
   ⌞⌟ᶠ-add F G .proj₀ .supp =  (G ∙ᶠ F) .supp
-  ⌞⌟ᶠ-add F G .proj₀ .out-ε {i} i∉ =  sym' (∙-unitʳ Ra)
-    »' ∙-congʳ Ra (sym' $ (Ra .⌞⌟-cong $ F .out-ε $ ∉ᴸ-++-elim₁ i∉) »' ⌞⌟-ε Ra)
-    »' Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁
-    »' Ra .⌞⌟-cong ((G ∙ᶠ F) .out-ε i∉) »' ⌞⌟-ε Ra
+  ⌞⌟ᶠ-add F G .proj₀ .out-ε {i} i∉ =  sym' (∙-unitʳ Ra) »'
+    ∙-congʳ Ra (sym' $ (Ra .⌞⌟-cong $ F .out-ε $ ∉ᴸ-++-elim₁ i∉) »' ⌞⌟-ε Ra) »'
+    Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁ »'
+    Ra .⌞⌟-cong ((G ∙ᶠ F) .out-ε i∉) »' ⌞⌟-ε Ra
   ⌞⌟ᶠ-add F G .proj₁ i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁
 
 --------------------------------------------------------------------------------

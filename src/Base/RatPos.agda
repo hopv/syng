@@ -185,12 +185,6 @@ abstract
   ... | inj₁₁ c>d =  absurd $ <⁺-irrefl' (da≡bc »⁼ *⁺-comm {b} {c}) $
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
 
-  -- p +ᴿ⁺ q does not satisfy ≤1ᴿ⁺ when q ≈ᴿ⁺ 1ᴿ⁺
-
-  ?+≈1ᴿ⁺-not-≤1ᴿ⁺ :  ∀ {p q} →  q ≈ᴿ⁺ 1ᴿ⁺ →  ¬  p +ᴿ⁺ q ≤1ᴿ⁺
-  ?+≈1ᴿ⁺-not-≤1ᴿ⁺ {p} {q} q≈1 ≤1p+q =  ?+1ᴿ⁺-not-≤1ᴿ⁺ {p} $
-    ≤1ᴿ⁺-resp (+ᴿ⁺-congʳ {p} {q} {1ᴿ⁺} q≈1) ≤1p+q
-
 --------------------------------------------------------------------------------
 -- ≤1ᴿ⁺ᵇ: Boolean version of ≤1ᴿ⁺
 

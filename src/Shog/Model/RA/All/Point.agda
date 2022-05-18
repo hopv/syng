@@ -7,13 +7,13 @@
 open import Shog.Model.RA using (RA)
 open import Base.Eq using (_≡_)
 open import Base.Dec using (Dec²)
-module Shog.Model.RA.Forall.Point {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
+module Shog.Model.RA.All.Point {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
   (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) (_≟_ : Dec² _≡_) where
 
 open import Base.Eq using (refl⁼)
 open import Base.Dec using (yes; no)
 open import Base.Few using (absurd)
-open import Shog.Model.RA.Forall Ra˙ using (Allᴿᴬ)
+open import Shog.Model.RA.All Ra˙ using (Allᴿᴬ)
 
 open RA
 open RA Allᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_;

@@ -100,6 +100,11 @@ abstract
   ⊆ᴸ-trans :  as ⊆ᴸ bs →  bs ⊆ᴸ cs →  as ⊆ᴸ cs
   ⊆ᴸ-trans as⊆bs bs⊆cs =  bs⊆cs ∘ as⊆bs
 
+  -- On [_] and ⊆ᴸ
+
+  [?]-cong-⊆ᴸ :  a ≈ b →  [ a ] ⊆ᴸ [ b ]
+  [?]-cong-⊆ᴸ a≈b c∈[a] =  by-hd $ ∈ᴸ-[?] c∈[a] »˜ a≈b
+
   -- ++ is the lub w.r.t. ⊆ᴸ
 
   ++-⊆ᴸ-elim :  ∀ {as bs cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ++ bs  ⊆ᴸ  cs
@@ -145,6 +150,11 @@ abstract
   ≈ᴸ-trans :  as ≈ᴸ bs →  bs ≈ᴸ cs →  as ≈ᴸ cs
   ≈ᴸ-trans (as⊆bs , bs⊆as) (bs⊆cs , cs⊆bs) =
     ⊆ᴸ-trans as⊆bs bs⊆cs , ⊆ᴸ-trans cs⊆bs bs⊆as
+
+  -- [_] is congruent
+
+  [?]-cong :  a ≈ b →  [ a ] ≈ᴸ [ b ]
+  [?]-cong a≈b =  [?]-cong-⊆ᴸ a≈b , [?]-cong-⊆ᴸ (sym˜ a≈b)
 
   -- ++ is congruent, commutative and idempotent w.r.t. ≈ᴸ
 

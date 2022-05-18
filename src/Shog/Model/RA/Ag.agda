@@ -6,7 +6,7 @@
 
 open import Base.Setoid using (Setoid)
 module Shog.Model.RA.Ag {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
-open Setoid S renaming (Car to A)
+open Setoid S using () renaming (Car to A)
 
 open import Base.Level using (_⊔ˡ_)
 open import Base.Prod using (_,_)

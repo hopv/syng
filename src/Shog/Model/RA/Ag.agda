@@ -11,12 +11,18 @@ open Setoid S using () renaming (Car to A)
 open import Base.Level using (_⊔ˡ_)
 open import Base.Prod using (_,_)
 open import Base.Func using (id; _$_)
-open import Base.List using (List; []; _++_; ++-assocˡ)
+open import Base.List using (List; []; _++_; [_]; ++-assocˡ)
 open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈ᴸ-trans; ≡⇒≈ᴸ;
   ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp)
 open import Shog.Model.RA using (RA)
 
 open RA
+
+--------------------------------------------------------------------------------
+-- ag: Lifting A to AgRA's carrier
+
+ag :  A →  List A
+ag a =  [ a ]
 
 --------------------------------------------------------------------------------
 -- AgRA : Agreement resource algebra

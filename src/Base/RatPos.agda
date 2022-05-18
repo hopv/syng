@@ -181,7 +181,7 @@ abstract
   ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  p ≤1ᴿ⁺ →  q ≤1ᴿ⁺
   ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b with cmp⁺ c d
   ... | inj₀ c<d =  <⁺⇒≤⁺ c<d
-  ... | inj₁₀ refl⁼ = ≤⁺-refl
+  ... | inj₁₀ refl⁼ =  ≤⁺-refl
   ... | inj₁₁ c>d =  absurd $ <⁺-irrefl' (da≡bc »⁼ *⁺-comm {b} {c}) $
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
 

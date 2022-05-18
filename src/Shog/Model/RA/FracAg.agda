@@ -21,9 +21,9 @@ open import Shog.Model.RA using (RA)
 --------------------------------------------------------------------------------
 -- FracAg : FracAgRA's carrier
 
-infix 8 ⟨_⟩ᶠ_
+infix 8 ⟨_⟩ᶠᴸ_
 data  FracAg : Set ℓ  where
-  ⟨_⟩ᶠ_ :  ℚ⁺ → List A → FracAg
+  ⟨_⟩ᶠᴸ_ :  ℚ⁺ → List A → FracAg
   εᶠ :  FracAg
 
 private variable
@@ -36,14 +36,14 @@ private
   -- Equivalence
   infix 4 _≈ᶠ_
   _≈ᶠ_ :  FracAg →  FracAg →  Set (ℓ ⊔ˡ ℓ≈)
-  ⟨ p ⟩ᶠ as ≈ᶠ ⟨ q ⟩ᶠ bs =  p ≈ᴿ⁺ q  ×  as ≈ᴸ bs
+  ⟨ p ⟩ᶠᴸ as ≈ᶠ ⟨ q ⟩ᶠᴸ bs =  p ≈ᴿ⁺ q  ×  as ≈ᴸ bs
   εᶠ ≈ᶠ εᶠ =  ⊤
   _ ≈ᶠ _ =  ⊥
 
   -- Validity
   infix 3 ✓ᶠ_
   ✓ᶠ_ :  FracAg →  Set (ℓ ⊔ˡ ℓ≈)
-  ✓ᶠ ⟨ p ⟩ᶠ a =  p ≤1ᴿ⁺  ×  homo a
+  ✓ᶠ ⟨ p ⟩ᶠᴸ a =  p ≤1ᴿ⁺  ×  homo a
   ✓ᶠ εᶠ =  ⊤
 
   -- Product
@@ -51,56 +51,56 @@ private
   _∙ᶠ_ :  FracAg →  FracAg →  FracAg
   εᶠ ∙ᶠ y =  y
   x ∙ᶠ εᶠ =  x
-  ⟨ p ⟩ᶠ as ∙ᶠ ⟨ q ⟩ᶠ bs =  ⟨ p +ᴿ⁺ q ⟩ᶠ (as ++ bs)
+  ⟨ p ⟩ᶠᴸ as ∙ᶠ ⟨ q ⟩ᶠᴸ bs =  ⟨ p +ᴿ⁺ q ⟩ᶠᴸ (as ++ bs)
 
 --------------------------------------------------------------------------------
 -- Lemmas
 private abstract
 
   ≈ᶠ-refl :  x ≈ᶠ x
-  ≈ᶠ-refl {⟨ p ⟩ᶠ _} =  ≈ᴿ⁺-refl {p} , ≈ᴸ-refl
+  ≈ᶠ-refl {⟨ p ⟩ᶠᴸ _} =  ≈ᴿ⁺-refl {p} , ≈ᴸ-refl
   ≈ᶠ-refl {εᶠ} =  _
 
   ≈ᶠ-sym :  x ≈ᶠ y →  y ≈ᶠ x
-  ≈ᶠ-sym {⟨ p ⟩ᶠ _} {⟨ q ⟩ᶠ _} (p≈q , as≈bs) =
+  ≈ᶠ-sym {⟨ p ⟩ᶠᴸ _} {⟨ q ⟩ᶠᴸ _} (p≈q , as≈bs) =
     ≈ᴿ⁺-sym {p} {q} p≈q , ≈ᴸ-sym as≈bs
   ≈ᶠ-sym {εᶠ} {εᶠ} _ =  _
 
   ≈ᶠ-trans :  x ≈ᶠ y →  y ≈ᶠ z →  x ≈ᶠ z
-  ≈ᶠ-trans {⟨ p ⟩ᶠ _} {⟨ q ⟩ᶠ _} {⟨ r ⟩ᶠ _} (p≈q , as≈bs) (q≈r , bs≈cs) =
+  ≈ᶠ-trans {⟨ p ⟩ᶠᴸ _} {⟨ q ⟩ᶠᴸ _} {⟨ r ⟩ᶠᴸ _} (p≈q , as≈bs) (q≈r , bs≈cs) =
     ≈ᴿ⁺-trans {p} {q} {r} p≈q q≈r , ≈ᴸ-trans as≈bs bs≈cs
   ≈ᶠ-trans {εᶠ} {εᶠ} {εᶠ} _ _ =  _
 
   ∙ᶠ-congˡ :  ∀ x y z →  x ≈ᶠ y →  x ∙ᶠ z  ≈ᶠ  y ∙ᶠ z
-  ∙ᶠ-congˡ (⟨ p ⟩ᶠ _) (⟨ q ⟩ᶠ _) (⟨ r ⟩ᶠ _) (p≈q , as≈bs) =
+  ∙ᶠ-congˡ (⟨ p ⟩ᶠᴸ _) (⟨ q ⟩ᶠᴸ _) (⟨ r ⟩ᶠᴸ _) (p≈q , as≈bs) =
     +ᴿ⁺-congˡ {p} {q} {r} p≈q , ++-congˡ as≈bs
-  ∙ᶠ-congˡ (⟨ _ ⟩ᶠ _) (⟨ _ ⟩ᶠ _) εᶠ x≈y =  x≈y
+  ∙ᶠ-congˡ (⟨ _ ⟩ᶠᴸ _) (⟨ _ ⟩ᶠᴸ _) εᶠ x≈y =  x≈y
   ∙ᶠ-congˡ εᶠ εᶠ _ _ =  ≈ᶠ-refl
 
   ∙ᶠ-comm :  ∀ x y →  x ∙ᶠ y  ≈ᶠ  y ∙ᶠ x
-  ∙ᶠ-comm εᶠ y@(⟨ _ ⟩ᶠ _) =  ≈ᶠ-refl {y}
-  ∙ᶠ-comm x@(⟨ _ ⟩ᶠ _) εᶠ =  ≈ᶠ-refl {x}
+  ∙ᶠ-comm εᶠ y@(⟨ _ ⟩ᶠᴸ _) =  ≈ᶠ-refl {y}
+  ∙ᶠ-comm x@(⟨ _ ⟩ᶠᴸ _) εᶠ =  ≈ᶠ-refl {x}
   ∙ᶠ-comm εᶠ εᶠ =  ≈ᶠ-refl
-  ∙ᶠ-comm (⟨ p ⟩ᶠ as) (⟨ q ⟩ᶠ bs) =
+  ∙ᶠ-comm (⟨ p ⟩ᶠᴸ as) (⟨ q ⟩ᶠᴸ bs) =
     ≡⇒≈ᴿ⁺ (+ᴿ⁺-comm {p} {q}) , ++-comm {as} {bs}
 
   ∙ᶠ-assocˡ :  ∀ x y z →  (x ∙ᶠ y) ∙ᶠ z  ≈ᶠ  x ∙ᶠ (y ∙ᶠ z)
-  ∙ᶠ-assocˡ (⟨ p ⟩ᶠ as) (⟨ q ⟩ᶠ _) (⟨ r ⟩ᶠ _) =
+  ∙ᶠ-assocˡ (⟨ p ⟩ᶠᴸ as) (⟨ q ⟩ᶠᴸ _) (⟨ r ⟩ᶠᴸ _) =
     ≡⇒≈ᴿ⁺ (+ᴿ⁺-assocˡ {p} {q} {r}) , ≡⇒≈ᴸ (++-assocˡ {as = as})
   ∙ᶠ-assocˡ εᶠ _ _ =  ≈ᶠ-refl
-  ∙ᶠ-assocˡ (⟨ _ ⟩ᶠ _) εᶠ _ =  ≈ᶠ-refl
-  ∙ᶠ-assocˡ x@(⟨ _ ⟩ᶠ _) y@(⟨ _ ⟩ᶠ _) εᶠ =  ≈ᶠ-refl {x ∙ᶠ y}
+  ∙ᶠ-assocˡ (⟨ _ ⟩ᶠᴸ _) εᶠ _ =  ≈ᶠ-refl
+  ∙ᶠ-assocˡ x@(⟨ _ ⟩ᶠᴸ _) y@(⟨ _ ⟩ᶠᴸ _) εᶠ =  ≈ᶠ-refl {x ∙ᶠ y}
 
   ✓ᶠ-resp :  ∀ x y →  x ≈ᶠ y →  ✓ᶠ x →  ✓ᶠ y
-  ✓ᶠ-resp (⟨ _ ⟩ᶠ _) (⟨ _ ⟩ᶠ _) (p≈q , as≈bs) (p≤1 , homo'as) =
+  ✓ᶠ-resp (⟨ _ ⟩ᶠᴸ _) (⟨ _ ⟩ᶠᴸ _) (p≈q , as≈bs) (p≤1 , homo'as) =
     ≤1ᴿ⁺-resp p≈q p≤1 , homo-resp as≈bs homo'as
   ✓ᶠ-resp εᶠ εᶠ _ _ =  _
 
   ✓ᶠ-rem :  ∀ x y →  ✓ᶠ x ∙ᶠ y →  ✓ᶠ y
-  ✓ᶠ-rem (⟨ p ⟩ᶠ _) (⟨ q ⟩ᶠ _) (p+q≤1 , homo'as++bs) =
+  ✓ᶠ-rem (⟨ p ⟩ᶠᴸ _) (⟨ q ⟩ᶠᴸ _) (p+q≤1 , homo'as++bs) =
     ≤1ᴿ⁺-rem {p} p+q≤1 , homo-mono ++-⊆ᴸ-introʳ homo'as++bs
   ✓ᶠ-rem _ εᶠ _ =  _
-  ✓ᶠ-rem εᶠ (⟨ _ ⟩ᶠ _) ✓x =  ✓x
+  ✓ᶠ-rem εᶠ (⟨ _ ⟩ᶠᴸ _) ✓x =  ✓x
 
 --------------------------------------------------------------------------------
 -- FracAgRA : Fractional resource algebra

@@ -46,37 +46,37 @@ private
   -- Product
   infixl 7 _∙ˣ_
   _∙ˣ_ :  Ex → Ex → Ex
-  ?ˣ ∙ˣ aˣ =  aˣ
-  ↯ˣ ∙ˣ aˣ =  ↯ˣ
-  aˣ ∙ˣ ?ˣ =  aˣ
+  ?ˣ ∙ˣ x =  x
+  ↯ˣ ∙ˣ x =  ↯ˣ
+  x ∙ˣ ?ˣ =  x
   _ ∙ˣ _ =  ↯ˣ
 
 -- Lemmas
 private abstract
 
-  ≈ˣ-refl :  ∀ aˣ →  aˣ ≈ˣ aˣ
+  ≈ˣ-refl :  ∀ x →  x ≈ˣ x
   ≈ˣ-refl ?ˣ =  _
   ≈ˣ-refl ↯ˣ =  _
   ≈ˣ-refl (#ˣ _) =  refl˜
 
-  ≈ˣ-sym :  ∀ aˣ bˣ →  aˣ ≈ˣ bˣ →  bˣ ≈ˣ aˣ
+  ≈ˣ-sym :  ∀ x y →  x ≈ˣ y →  y ≈ˣ x
   ≈ˣ-sym ?ˣ ?ˣ =  _
   ≈ˣ-sym ↯ˣ ↯ˣ =  _
   ≈ˣ-sym (#ˣ _) (#ˣ _) =  sym˜
 
-  ≈ˣ-trans :  ∀ aˣ bˣ cˣ →  aˣ ≈ˣ bˣ →  bˣ ≈ˣ cˣ →  aˣ ≈ˣ cˣ
+  ≈ˣ-trans :  ∀ x y z →  x ≈ˣ y →  y ≈ˣ z →  x ≈ˣ z
   ≈ˣ-trans ?ˣ ?ˣ ?ˣ =  _
   ≈ˣ-trans ↯ˣ ↯ˣ ↯ˣ =  _
   ≈ˣ-trans (#ˣ _) (#ˣ _) (#ˣ _) =  _»˜_
 
-  ∙ˣ-congˡ :  ∀ aˣ bˣ cˣ →  aˣ ≈ˣ bˣ →  aˣ ∙ˣ cˣ  ≈ˣ  bˣ ∙ˣ cˣ
-  ∙ˣ-congˡ ?ˣ ?ˣ cˣ _ =  ≈ˣ-refl cˣ
+  ∙ˣ-congˡ :  ∀ x y z →  x ≈ˣ y →  x ∙ˣ z  ≈ˣ  y ∙ˣ z
+  ∙ˣ-congˡ ?ˣ ?ˣ z _ =  ≈ˣ-refl z
   ∙ˣ-congˡ ↯ˣ ↯ˣ _ _ =  _
   ∙ˣ-congˡ (#ˣ a) (#ˣ b) ?ˣ a≈b =  a≈b
   ∙ˣ-congˡ (#ˣ _) (#ˣ _) ↯ˣ _ =  _
   ∙ˣ-congˡ (#ˣ _) (#ˣ _) (#ˣ _) _ =  _
 
-  ∙ˣ-comm :  ∀ aˣ bˣ →  aˣ ∙ˣ bˣ  ≈ˣ  bˣ ∙ˣ aˣ
+  ∙ˣ-comm :  ∀ x y →  x ∙ˣ y  ≈ˣ  y ∙ˣ x
   ∙ˣ-comm ?ˣ ?ˣ =  _
   ∙ˣ-comm ?ˣ ↯ˣ =  _
   ∙ˣ-comm ?ˣ (#ˣ _) =  refl˜
@@ -87,20 +87,20 @@ private abstract
   ∙ˣ-comm (#ˣ _) ↯ˣ =  _
   ∙ˣ-comm (#ˣ _) (#ˣ _) =  _
 
-  ∙ˣ-assocˡ :  ∀ aˣ bˣ cˣ →  (aˣ ∙ˣ bˣ) ∙ˣ cˣ  ≈ˣ  aˣ ∙ˣ (bˣ ∙ˣ cˣ)
-  ∙ˣ-assocˡ ?ˣ aˣ bˣ =  ≈ˣ-refl (aˣ ∙ˣ bˣ)
+  ∙ˣ-assocˡ :  ∀ x y z →  (x ∙ˣ y) ∙ˣ z  ≈ˣ  x ∙ˣ (y ∙ˣ z)
+  ∙ˣ-assocˡ ?ˣ x y =  ≈ˣ-refl (x ∙ˣ y)
   ∙ˣ-assocˡ ↯ˣ _ _ =  _
-  ∙ˣ-assocˡ (#ˣ a) ?ˣ bˣ =  ≈ˣ-refl (#ˣ a ∙ˣ bˣ)
-  ∙ˣ-assocˡ (#ˣ _) ↯ˣ bˣ =  _
+  ∙ˣ-assocˡ (#ˣ a) ?ˣ y =  ≈ˣ-refl (#ˣ a ∙ˣ y)
+  ∙ˣ-assocˡ (#ˣ _) ↯ˣ y =  _
   ∙ˣ-assocˡ (#ˣ _) (#ˣ _) ?ˣ =  _
   ∙ˣ-assocˡ (#ˣ _) (#ˣ _) ↯ˣ =  _
   ∙ˣ-assocˡ (#ˣ _) (#ˣ _) (#ˣ _) =  _
 
-  ✓ˣ-resp :  ∀ aˣ bˣ →  aˣ ≈ˣ bˣ →  ✓ˣ aˣ →  ✓ˣ bˣ
+  ✓ˣ-resp :  ∀ x y →  x ≈ˣ y →  ✓ˣ x →  ✓ˣ y
   ✓ˣ-resp ?ˣ ?ˣ _ _ =  _
   ✓ˣ-resp (#ˣ _) (#ˣ _) _ _ =  _
 
-  ✓ˣ-rem :  ∀ aˣ bˣ →  ✓ˣ bˣ ∙ˣ aˣ →  ✓ˣ aˣ
+  ✓ˣ-rem :  ∀ x y →  ✓ˣ y ∙ˣ x →  ✓ˣ x
   ✓ˣ-rem _ ?ˣ =  id
   ✓ˣ-rem ?ˣ (#ˣ _) =  _
 
@@ -116,17 +116,17 @@ ExRA .✓_ =  ✓ˣ_
 ExRA ._∙_ =  _∙ˣ_
 ExRA .ε =  ?ˣ
 ExRA .⌞_⌟ _ =  ?ˣ
-ExRA .refl˜ {aˣ} =  ≈ˣ-refl aˣ
-ExRA .sym˜ {aˣ} =  ≈ˣ-sym aˣ _
-ExRA ._»˜_ {aˣ} =  ≈ˣ-trans aˣ _ _
-ExRA .∙-congˡ {aˣ} =  ∙ˣ-congˡ aˣ _ _
-ExRA .∙-unitˡ {aˣ} =  ≈ˣ-refl aˣ
-ExRA .∙-comm {aˣ} =  ∙ˣ-comm aˣ _
-ExRA .∙-assocˡ {aˣ} =  ∙ˣ-assocˡ aˣ _ _
+ExRA .refl˜ {x} =  ≈ˣ-refl x
+ExRA .sym˜ {x} =  ≈ˣ-sym x _
+ExRA ._»˜_ {x} =  ≈ˣ-trans x _ _
+ExRA .∙-congˡ {x} =  ∙ˣ-congˡ x _ _
+ExRA .∙-unitˡ {x} =  ≈ˣ-refl x
+ExRA .∙-comm {x} =  ∙ˣ-comm x _
+ExRA .∙-assocˡ {x} =  ∙ˣ-assocˡ x _ _
 ExRA .✓-resp =  ✓ˣ-resp _ _
-ExRA .✓-rem {aˣ} {bˣ} =  ✓ˣ-rem aˣ bˣ
+ExRA .✓-rem {x} {y} =  ✓ˣ-rem x y
 ExRA .✓-ε =  _
 ExRA .⌞⌟-cong =  _
 ExRA .⌞⌟-add =  ?ˣ , _
-ExRA .⌞⌟-unitˡ {aˣ} =  ≈ˣ-refl aˣ
+ExRA .⌞⌟-unitˡ {x} =  ≈ˣ-refl x
 ExRA .⌞⌟-idem =  _

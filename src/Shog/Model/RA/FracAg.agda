@@ -13,7 +13,7 @@ open import Base.Few using (⊤; ⊥)
 open import Base.Prod using (_×_; _,_)
 open import Base.RatPos using (ℚ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
   ≈ᴿ⁺-trans; ≡⇒≈ᴿ⁺; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem)
-open import Base.List using (List; []; _++_; ++-assocˡ)
+open import Base.List using (List; []; _++_; [_]; ++-assocˡ)
 open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈ᴸ-trans; ≡⇒≈ᴸ;
   ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp)
 open import Shog.Model.RA using (RA)
@@ -23,8 +23,15 @@ open import Shog.Model.RA using (RA)
 
 infix 8 ⟨_⟩ᶠᴸ_
 data  FracAg : Set ℓ  where
-  ⟨_⟩ᶠᴸ_ :  ℚ⁺ → List A → FracAg
-  εᶠ :  FracAg
+  ⟨_⟩ᶠᴸ_ :  ℚ⁺ → List A → FracAg  -- Fractional agreement, internal
+  εᶠ :  FracAg  -- Unit
+
+--------------------------------------------------------------------------------
+-- ⟨ p ⟩ᶠ a : Specifying the value a with the fraction p
+
+infix 8 ⟨_⟩ᶠ_
+⟨_⟩ᶠ_ :  ℚ⁺ → A → FracAg
+⟨ p ⟩ᶠ a =  ⟨ p ⟩ᶠᴸ [ a ]
 
 private variable
   x y z : FracAg

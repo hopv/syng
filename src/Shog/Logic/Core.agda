@@ -24,7 +24,7 @@ open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers)
 
 -- Import and re-export the axiomatic rules
 open import Shog.Logic.Judg.All ℓ public using (refl; _»_;
-  ∀-intro; ∃-elim; ∀-elim; ∃-intro; ⌜⌝-∀-in; →-intro; →-elim;
+  ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
@@ -199,7 +199,8 @@ abstract
 
   -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤'/⊥'/→
 
-  -- We already have ⌜⌝-∀-in
+  ⌜⌝-∀-in :  ∀' a , ⌜ F a ⌝ ⊢[ ι ] ⌜ (∀ a → F a) ⌝
+  ⌜⌝-∀-in =  choice » ∃-mono $ λ _ → ⊤-intro
 
   ⌜⌝-∀-out :  ⌜ (∀ a →  F a) ⌝ ⊢[ ι ] ∀' a , ⌜ F a ⌝
   ⌜⌝-∀-out =  ∀-intro $ λ a →  ⌜⌝-elim $ λ f →  ⌜⌝-intro $ f a

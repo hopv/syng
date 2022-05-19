@@ -22,17 +22,21 @@ open import Base.List.Set (≡-setoid ℕ) using (_∉ᴸ_; ∉ᴸ-[];
 --------------------------------------------------------------------------------
 -- Fin : Finᴿᴬ's carrier
 
+-- Type of out-ε
+Out-ε :  (ℕ → A) → List ℕ → Set ℓ≈
+Out-ε fin supp =  ∀ {i} →  i ∉ᴸ supp →  fin i ≈' ε'
+
 record  Fin :  Set (ℓ ⊔ˡ ℓ≈)  where
   field
     fin :  ℕ → A
     supp :  List ℕ
-    out-ε :  ∀ {i} →  i ∉ᴸ supp →  fin i ≈' ε'
+    out-ε :  Out-ε fin supp
 open Fin
 
 --------------------------------------------------------------------------------
 -- Internal definitions
 
-private
+module _ where
   open RA
 
   -- Equivalence
@@ -50,9 +54,12 @@ private
   _∙ᶠ_ :  Fin →  Fin →  Fin
   (F ∙ᶠ G) .fin i =  F .fin i ∙' G .fin i
   (F ∙ᶠ G) .supp =  F .supp ++ G .supp
-  (F ∙ᶠ G) .out-ε i∉++ =
-    ∙-cong Ra (F .out-ε (∉ᴸ-++-elim₀ i∉++)) (G .out-ε (∉ᴸ-++-elim₁ i∉++)) »'
-    ∙-unitˡ Ra
+  (F ∙ᶠ G) .out-ε =  proof
+   where abstract
+    proof :  Out-ε ((F ∙ᶠ G) .fin) ((F ∙ᶠ G) .supp)
+    proof i∉++ =
+      ∙-cong Ra (F .out-ε (∉ᴸ-++-elim₀ i∉++)) (G .out-ε (∉ᴸ-++-elim₁ i∉++)) »'
+      ∙-unitˡ Ra
 
   -- Unit
   εᶠ :  Fin
@@ -64,7 +71,10 @@ private
   ⌞_⌟ᶠ :  Fin →  Fin
   ⌞ F ⌟ᶠ .fin i =  ⌞ F .fin i ⌟'
   ⌞ F ⌟ᶠ .supp =  F .supp
-  ⌞ F ⌟ᶠ .out-ε i∉ =  ⌞⌟-cong Ra (F .out-ε i∉) »' ⌞⌟-ε Ra
+  ⌞ F ⌟ᶠ .out-ε =  proof
+   where abstract
+    proof :  Out-ε (⌞ F ⌟ᶠ .fin) (⌞ F ⌟ᶠ .supp)
+    proof i∉ =  ⌞⌟-cong Ra (F .out-ε i∉) »' ⌞⌟-ε Ra
 
 --------------------------------------------------------------------------------
 -- Internal lemma

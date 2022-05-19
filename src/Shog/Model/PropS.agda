@@ -294,9 +294,9 @@ abstract
   -- ∀ˢ can get inside □ˢ
 
   □ˢ-∀ˢ-in :  ∀ˢ˙ _ (□ˢ_ ∘ P˙) ⊨ □ˢ ∀ˢ˙ _ P˙
-  □ˢ-∀ˢ-in ∀□Pa =  ∀□Pa
+  □ˢ-∀ˢ-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
 
   -- ∃ˢ can get outside □ˢ
 
   □ˢ-∃ˢ-out :  □ˢ ∃ˢ˙ _ P˙ ⊨ ∃ˢ˙ _ (□ˢ_ ∘ P˙)
-  □ˢ-∃ˢ-out □∃Pa =  □∃Pa
+  □ˢ-∃ˢ-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟

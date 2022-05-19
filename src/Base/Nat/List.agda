@@ -2,6 +2,8 @@
 -- ℕ and lists
 --------------------------------------------------------------------------------
 
+{-# OPTIONS --without-K --safe #-}
+
 module Base.Nat.List where
 
 open import Base.Nat using (ℕ; suc; _≤_; _⊔_; ≤-trans; ≤⇒¬>; suc-sincr;

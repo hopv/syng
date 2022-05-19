@@ -135,6 +135,12 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ⊑-resp :  a ≈ b →  c ≈ d →  a ⊑ c →  b ⊑ d
     ⊑-resp a≈b c≈d (e , e∙a≈c) =  e , (∙-congʳ (sym˜ a≈b) »˜ e∙a≈c »˜ c≈d)
 
+    ⊑-respˡ :  a ≈ b →  a ⊑ c →  b ⊑ c
+    ⊑-respˡ a≈b a⊑c =  ⊑-resp a≈b refl˜ a⊑c
+
+    ⊑-respʳ :  ∀ {a b c} →  b ≈ c →  a ⊑ b →  a ⊑ c
+    ⊑-respʳ b≈c a⊑b =  ⊑-resp refl˜ b≈c a⊑b
+
     -- ε is the minimum
 
     ε-min :  ε ⊑ a
@@ -142,8 +148,11 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
 
     -- ∙ is increasing
 
-    ∙-incr :  a  ⊑  b ∙ a
-    ∙-incr =  _ , refl˜
+    ∙-incrˡ :  a  ⊑  b ∙ a
+    ∙-incrˡ =  _ , refl˜
+
+    ∙-incrʳ :  a  ⊑  a ∙ b
+    ∙-incrʳ =  ⊑-respʳ ∙-comm ∙-incrˡ
 
     -- Monotonicity of ✓, ∙ and ⌞⌟
 

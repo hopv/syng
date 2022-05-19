@@ -53,7 +53,7 @@ To use ligatures, we recommend [**Fira Code**](https://github.com/tonsky/FiraCod
 Make sure that ligatures are supported in your editor.
 
 For example, in VS Code, you can use the following setting (in `settings.json`)
-to use ligatures from Fira Code and render unicode letters by Source Code Pro
+to use ligatures from Fira Code and render Unicode letters by Source Code Pro
 and DejaVu Sans Mono.
 ```json
 "editor.fontFamily": "Fira Code, Source Code Pro, DejaVu Sans Mono",

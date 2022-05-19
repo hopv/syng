@@ -7,7 +7,7 @@
 module Base.List where
 
 open import Base.Level using (Level)
-open import Base.Eq using (_≡_; refl⁼; cong⁼)
+open import Base.Eq using (_≡_; refl⁼; cong)
 
 private variable
   ℓA ℓB :  Level
@@ -43,4 +43,4 @@ abstract
 
   ++-assocˡ :  ∀ {as bs cs : List A} →  (as ++ bs) ++ cs ≡ as ++ (bs ++ cs)
   ++-assocˡ {as = []} =  refl⁼
-  ++-assocˡ {as = _ ∷ as} =  cong⁼ (_ ∷_) (++-assocˡ {as = as})
+  ++-assocˡ {as = _ ∷ as} =  cong (_ ∷_) (++-assocˡ {as = as})

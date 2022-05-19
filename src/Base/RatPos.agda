@@ -11,7 +11,7 @@ open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; cmp⁺; _≡⁺ᵇ_
   ≤⁺⇒ᵇ; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
   *⁺-+⁺-distrʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ;
   *⁺-monoʳ)
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
+open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong; cong₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
 open import Base.Few using (¬_; absurd)
@@ -67,9 +67,9 @@ abstract
   ≈ᴿ⁺-trans {a //⁺ b} {c //⁺ d} {e //⁺ f} da≡bc fc≡de =  *⁺-injʳ {d} eq
    where
     eq :  d *⁺ (f *⁺ a) ≡ d *⁺ (b *⁺ e)
-    eq =  cong⁼ (d *⁺_) (*⁺-comm {f} {a}) »⁼ *⁺-assocʳ {d} {a} {f} »⁼
-      cong⁼ (_*⁺ f) da≡bc »⁼ *⁺-assocˡ {b} {c} {f} »⁼
-      cong⁼ (b *⁺_) (*⁺-comm {c} {f} »⁼ fc≡de) »⁼ *⁺-actˡ-comm {b} {d} {e}
+    eq =  cong (d *⁺_) (*⁺-comm {f} {a}) »⁼ *⁺-assocʳ {d} {a} {f} »⁼
+      cong (_*⁺ f) da≡bc »⁼ *⁺-assocˡ {b} {c} {f} »⁼
+      cong (b *⁺_) (*⁺-comm {c} {f} »⁼ fc≡de) »⁼ *⁺-actˡ-comm {b} {d} {e}
 
 --------------------------------------------------------------------------------
 -- ≈ᴿ⁺ᵇ: Boolean equivalence over ℚ⁺
@@ -101,22 +101,22 @@ abstract
   -- +ᴿ⁺ is commutative
 
   +ᴿ⁺-comm :  p +ᴿ⁺ q ≡ q +ᴿ⁺ p
-  +ᴿ⁺-comm {a //⁺ b} {c //⁺ d} =  cong⁼₂ _//⁺_ +⁺-comm (*⁺-comm {b} {d})
+  +ᴿ⁺-comm {a //⁺ b} {c //⁺ d} =  cong₂ _//⁺_ +⁺-comm (*⁺-comm {b} {d})
 
   -- +ᴿ⁺ is associative
 
   +ᴿ⁺-assocˡ :  (p +ᴿ⁺ q) +ᴿ⁺ r ≡ p +ᴿ⁺ (q +ᴿ⁺ r)
   +ᴿ⁺-assocˡ {a //⁺ b} {c //⁺ d} {e //⁺ f} =
-    cong⁼₂ _//⁺_ eq (*⁺-assocˡ {b} {d} {f})
+    cong₂ _//⁺_ eq (*⁺-assocˡ {b} {d} {f})
    where
     eq :  f *⁺ (d *⁺ a +⁺ b *⁺ c) +⁺ (b *⁺ d) *⁺ e ≡
           (d *⁺ f) *⁺ a +⁺ b *⁺ (f *⁺ c +⁺ d *⁺ e)
     eq =
-      flip (cong⁼₂ _+⁺_) (*⁺-assocˡ {b} {d} {e})
-        (*⁺-+⁺-distrʳ {f} {d *⁺ a} {b *⁺ c} »⁼ cong⁼₂ _+⁺_
+      flip (cong₂ _+⁺_) (*⁺-assocˡ {b} {d} {e})
+        (*⁺-+⁺-distrʳ {f} {d *⁺ a} {b *⁺ c} »⁼ cong₂ _+⁺_
           (*⁺-actˡ-comm {f} {d} {a} »⁼ *⁺-assocʳ {d} {f} {a})
           (*⁺-actˡ-comm {f} {b} {c})) »⁼
-      +⁺-assocˡ »⁼ cong⁼ (d *⁺ f *⁺ a +⁺_) $ sym⁼ $ *⁺-+⁺-distrʳ {b}
+      +⁺-assocˡ »⁼ cong (d *⁺ f *⁺ a +⁺_) $ sym⁼ $ *⁺-+⁺-distrʳ {b}
 
   +ᴿ⁺-assocʳ :  p +ᴿ⁺ (q +ᴿ⁺ r) ≡ (p +ᴿ⁺ q) +ᴿ⁺ r
   +ᴿ⁺-assocʳ {p} {q} {r} =  sym⁼ (+ᴿ⁺-assocˡ {p} {q} {r})
@@ -125,13 +125,13 @@ abstract
 
   +ᴿ⁺-congˡ :  p ≈ᴿ⁺ q →  p +ᴿ⁺ r ≈ᴿ⁺ q +ᴿ⁺ r
   +ᴿ⁺-congˡ {a //⁺ b} {c //⁺ d} {e //⁺ f} da≡bc =
-    *⁺-actʳ-comm {d} {f} »⁼ cong⁼ (_*⁺ f) eq »⁼ *⁺-actʳ-comm {b} {_} {f}
+    *⁺-actʳ-comm {d} {f} »⁼ cong (_*⁺ f) eq »⁼ *⁺-actʳ-comm {b} {_} {f}
     -- (d *⁺ f) *⁺ (f *⁺ a +⁺ b *⁺ e) ≡ (b *⁺ f) *⁺ (f *⁺ c +⁺ d *⁺ e)
    where
     eq :  d *⁺ (f *⁺ a +⁺ b *⁺ e) ≡ b *⁺ (f *⁺ c +⁺ d *⁺ e)
     eq =  *⁺-+⁺-distrʳ {d} »⁼
-      flip (cong⁼₂ _+⁺_) (*⁺-actˡ-comm {d} {b})
-        (*⁺-actˡ-comm {d} {f} »⁼ cong⁼ (f *⁺_) da≡bc »⁼ *⁺-actˡ-comm {f} {b}) »⁼
+      flip (cong₂ _+⁺_) (*⁺-actˡ-comm {d} {b})
+        (*⁺-actˡ-comm {d} {f} »⁼ cong (f *⁺_) da≡bc »⁼ *⁺-actˡ-comm {f} {b}) »⁼
       sym⁼ $ *⁺-+⁺-distrʳ {b}
 
   +ᴿ⁺-congʳ :  ∀ {p q r} →  q ≈ᴿ⁺ r →  p +ᴿ⁺ q ≈ᴿ⁺ p +ᴿ⁺ r

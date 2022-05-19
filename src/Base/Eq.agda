@@ -30,11 +30,11 @@ abstract
 
   -- Congruence
 
-  cong⁼ :  ∀ (f : A → B) {a a'} →  a ≡ a' →  f a ≡ f a'
-  cong⁼ f refl⁼ =  refl⁼
+  cong :  ∀ (f : A → B) {a a'} →  a ≡ a' →  f a ≡ f a'
+  cong f refl⁼ =  refl⁼
 
-  cong⁼₂ :  ∀ (f : A → B → C) {a a' b b'} →  a ≡ a' →  b ≡ b' →  f a b ≡ f a' b'
-  cong⁼₂ f refl⁼ refl⁼ =  refl⁼
+  cong₂ :  ∀ (f : A → B → C) {a a' b b'} →  a ≡ a' →  b ≡ b' →  f a b ≡ f a' b'
+  cong₂ f refl⁼ refl⁼ =  refl⁼
 
   -- ≡ is symmetric and transitive
 

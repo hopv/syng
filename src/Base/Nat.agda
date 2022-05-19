@@ -6,7 +6,7 @@
 
 module Base.Nat where
 
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂)
+open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong; cong₂)
 open import Base.Func using (_$_)
 open import Base.Few using (¬_; absurd)
 open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
@@ -94,7 +94,7 @@ abstract
 
   ≤-antisym :  m ≤ n →  n ≤ m →  m ≡ n
   ≤-antisym 0≤ 0≤ =  refl⁼
-  ≤-antisym (suc≤suc m'≤n') (suc≤suc n'≤m') =  cong⁼ suc $ ≤-antisym m'≤n' n'≤m'
+  ≤-antisym (suc≤suc m'≤n') (suc≤suc n'≤m') =  cong suc $ ≤-antisym m'≤n' n'≤m'
 
   -- ≤ and > do not hold at the same time
 
@@ -122,7 +122,7 @@ abstract
   cmp (suc _) 0 =  inj₁₁ 0<suc
   cmp (suc m') (suc n') with cmp m' n'
   ... | inj₀ m'<n' =  inj₀ $ suc<suc m'<n'
-  ... | inj₁₀ m'≡n' =  inj₁₀ $ cong⁼ suc m'≡n'
+  ... | inj₁₀ m'≡n' =  inj₁₀ $ cong suc m'≡n'
   ... | inj₁₁ m'>n' =  inj₁₁ (suc<suc m'>n')
 
 --------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ abstract
 
   ᵇ⇒≡ :  Tt (m ≡ᵇ n) →  m ≡ n
   ᵇ⇒≡ {0} {0} _ =  refl⁼
-  ᵇ⇒≡ {suc m'} {suc n'} m'≡ᵇn' =  cong⁼ suc $ ᵇ⇒≡ m'≡ᵇn'
+  ᵇ⇒≡ {suc m'} {suc n'} m'≡ᵇn' =  cong suc $ ᵇ⇒≡ m'≡ᵇn'
 
   ≡⇒ᵇ :  m ≡ n →  Tt (m ≡ᵇ n)
   ≡⇒ᵇ {0} {0} _ =  _
@@ -193,23 +193,23 @@ abstract
 
   +-0 :  n + 0 ≡ n
   +-0 {0} =  refl⁼
-  +-0 {suc n'} =  cong⁼ suc $ +-0 {n'}
+  +-0 {suc n'} =  cong suc $ +-0 {n'}
 
   +-suc :  m + suc n ≡ suc (m + n)
   +-suc {0} =  refl⁼
-  +-suc {suc m'} =  cong⁼ suc $ +-suc {m'}
+  +-suc {suc m'} =  cong suc $ +-suc {m'}
 
   -- + is commutative
 
   +-comm :  m + n ≡ n + m
   +-comm {_} {0} =  +-0
-  +-comm {_} {suc n'} =  +-suc »⁼ cong⁼ suc (+-comm {_} {n'})
+  +-comm {_} {suc n'} =  +-suc »⁼ cong suc (+-comm {_} {n'})
 
   -- + is associative
 
   +-assocˡ :  (l + m) + n ≡ l + (m + n)
   +-assocˡ {0} =  refl⁼
-  +-assocˡ {suc l'} =  cong⁼ suc $ +-assocˡ {l'}
+  +-assocˡ {suc l'} =  cong suc $ +-assocˡ {l'}
 
   +-assocʳ :  l + (m + n) ≡ (l + m) + n
   +-assocʳ {l} =  sym⁼ $ +-assocˡ {l}
@@ -269,31 +269,31 @@ abstract
 
   *-suc :  m * suc n ≡ m + m * n
   *-suc {0} =  refl⁼
-  *-suc {suc m'} {n} =  cong⁼ (suc n +_) (*-suc {m'}) »⁼ cong⁼ suc $
-    +-assocʳ {n} »⁼ cong⁼ (_+ m' * n) (+-comm {n}) »⁼ +-assocˡ {m'}
+  *-suc {suc m'} {n} =  cong (suc n +_) (*-suc {m'}) »⁼ cong suc $
+    +-assocʳ {n} »⁼ cong (_+ m' * n) (+-comm {n}) »⁼ +-assocˡ {m'}
 
   -- * is commutative
 
   *-comm :  m * n ≡ n * m
   *-comm {m} {0} =  *-0 {m}
-  *-comm {m} {suc n'} =  *-suc {m} »⁼ cong⁼ (m +_) (*-comm {_} {n'})
+  *-comm {m} {suc n'} =  *-suc {m} »⁼ cong (m +_) (*-comm {_} {n'})
 
   -- * is distributive over +
 
   *-+-distrˡ :  (l + m) * n ≡ l * n + m * n
   *-+-distrˡ {0} =  refl⁼
-  *-+-distrˡ {suc l'} {_} {n} =  cong⁼ (n +_) (*-+-distrˡ {l'}) »⁼ +-assocʳ {n}
+  *-+-distrˡ {suc l'} {_} {n} =  cong (n +_) (*-+-distrˡ {l'}) »⁼ +-assocʳ {n}
 
   *-+-distrʳ :  l * (m + n) ≡ l * m + l * n
   *-+-distrʳ {l} {m} {n} =  *-comm {l} »⁼ *-+-distrˡ {m} »⁼
-    cong⁼₂ _+_ (*-comm {m}) (*-comm {n})
+    cong₂ _+_ (*-comm {m}) (*-comm {n})
 
   -- * is associative
 
   *-assocˡ :  (l * m) * n ≡ l * (m * n)
   *-assocˡ {0} =  refl⁼
   *-assocˡ {suc l'} {m} {n} =
-    *-+-distrˡ {m} »⁼ cong⁼ (m * n +_) $ *-assocˡ {l'}
+    *-+-distrˡ {m} »⁼ cong (m * n +_) $ *-assocˡ {l'}
 
   *-assocʳ :  l * (m * n) ≡ (l * m) * n
   *-assocʳ {l} =  sym⁼ $ *-assocˡ {l}
@@ -381,13 +381,13 @@ abstract
   ⊔-comm :  m ⊔ n ≡ n ⊔ m
   ⊔-comm {0} {_} =  sym⁼ ⊔-0
   ⊔-comm {_} {0} =  ⊔-0
-  ⊔-comm {suc m'} {suc _} =  cong⁼ suc (⊔-comm {m'})
+  ⊔-comm {suc m'} {suc _} =  cong suc (⊔-comm {m'})
 
   ⊔-assocˡ :  (l ⊔ m) ⊔ n ≡ l ⊔ (m ⊔ n)
   ⊔-assocˡ {0} =  refl⁼
   ⊔-assocˡ {suc _} {0} =  refl⁼
   ⊔-assocˡ {suc _} {suc _} {0} =  refl⁼
-  ⊔-assocˡ {suc l'} {suc _} {suc _} =  cong⁼ suc (⊔-assocˡ {l'})
+  ⊔-assocˡ {suc l'} {suc _} {suc _} =  cong suc (⊔-assocˡ {l'})
 
   ⊔-assocʳ :  l ⊔ (m ⊔ n) ≡ (l ⊔ m) ⊔ n
   ⊔-assocʳ {l} =  sym⁼ $ ⊔-assocˡ {l}

@@ -11,7 +11,7 @@ open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; cm
   ≤-<-trans; <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; ᵇ⇒≡; ≡⇒ᵇ; ᵇ⇒≤;
   ≤⇒ᵇ; ᵇ⇒<; <⇒ᵇ; +-comm; +-assocˡ; +-injˡ; +-0; +-incrˡ; +-smonoʳ; *-comm;
   *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ; *-smonoˡ)
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
+open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong; cong₂; subst; subst₂)
 open import Base.Func using (_$_)
 open import Base.Bool using (Bool; Tt)
 open import Base.Few using (¬_)
@@ -71,7 +71,7 @@ abstract
   ≤⁺-trans =  ≤-trans
 
   ≤⁺-antisym :  m ≤⁺ n →  n ≤⁺ m →  m ≡ n
-  ≤⁺-antisym mᵒ≤nᵒ nᵒ≤mᵒ =  cong⁼ 1+ $ ≤-antisym mᵒ≤nᵒ nᵒ≤mᵒ
+  ≤⁺-antisym mᵒ≤nᵒ nᵒ≤mᵒ =  cong 1+ $ ≤-antisym mᵒ≤nᵒ nᵒ≤mᵒ
 
   -- <⁺ is irreflexive, transitive and asymmetric
 
@@ -129,7 +129,7 @@ abstract
   -- Conversion between ≡ᵇ and ≡
 
   ⁺ᵇ⇒≡ :  Tt (m ≡⁺ᵇ n) →  m ≡ n
-  ⁺ᵇ⇒≡ m⁰≡ᵇn⁰ =  cong⁼ 1+ (ᵇ⇒≡ m⁰≡ᵇn⁰)
+  ⁺ᵇ⇒≡ m⁰≡ᵇn⁰ =  cong 1+ (ᵇ⇒≡ m⁰≡ᵇn⁰)
 
   ≡⇒⁺ᵇ :  m ≡ n →  Tt (m ≡⁺ᵇ n)
   ≡⇒⁺ᵇ {1+ m⁰} {1+ n⁰} refl⁼ =  ≡⇒ᵇ {m⁰} {n⁰} refl⁼
@@ -176,7 +176,7 @@ abstract
   -- +⁺ is injective
 
   +⁺-injˡ :  ∀ {l m n} →  m +⁺ l ≡ n +⁺ l →  m ≡ n
-  +⁺-injˡ {1+ l⁰} m+l≡n+l =  ℕ⁺⇒ℕ-inj $ +-injˡ $ cong⁼ ℕ⁺⇒ℕ m+l≡n+l
+  +⁺-injˡ {1+ l⁰} m+l≡n+l =  ℕ⁺⇒ℕ-inj $ +-injˡ $ cong ℕ⁺⇒ℕ m+l≡n+l
 
   +⁺-injʳ :  l +⁺ m ≡ l +⁺ n →  m ≡ n
   +⁺-injʳ {l} {m} {n} rewrite +⁺-comm {l} {m} | +⁺-comm {l} {n} =  +⁺-injˡ
@@ -216,16 +216,16 @@ abstract
 
   *⁺-actˡ-comm :  l *⁺ (m *⁺ n) ≡ m *⁺ (l *⁺ n)
   *⁺-actˡ-comm {l} {m} {n} =  *⁺-assocʳ {l} {m} {n} »⁼
-      cong⁼ (_*⁺ n) (*⁺-comm {l} {m}) »⁼ *⁺-assocˡ {m} {l} {n}
+      cong (_*⁺ n) (*⁺-comm {l} {m}) »⁼ *⁺-assocˡ {m} {l} {n}
 
   *⁺-actʳ-comm :  (l *⁺ m) *⁺ n ≡ (l *⁺ n) *⁺ m
   *⁺-actʳ-comm {l} {m} {n} =  *⁺-assocˡ {l} {m} {n} »⁼
-      cong⁼ (l *⁺_) (*⁺-comm {m} {n}) »⁼ *⁺-assocʳ {l} {n} {m}
+      cong (l *⁺_) (*⁺-comm {m} {n}) »⁼ *⁺-assocʳ {l} {n} {m}
 
   -- *⁺ is injective
 
   *⁺-injˡ :  ∀ {l m n} →  m *⁺ l ≡ n *⁺ l →  m ≡ n
-  *⁺-injˡ {1+ l⁰} m*l≡n*l =  ℕ⁺⇒ℕ-inj $ *-injˡ $ cong⁼ ℕ⁺⇒ℕ m*l≡n*l
+  *⁺-injˡ {1+ l⁰} m*l≡n*l =  ℕ⁺⇒ℕ-inj $ *-injˡ $ cong ℕ⁺⇒ℕ m*l≡n*l
 
   *⁺-injʳ :  l *⁺ m ≡ l *⁺ n →  m ≡ n
   *⁺-injʳ {l} {m} {n} rewrite *⁺-comm {l} {m} | *⁺-comm {l} {n} =  *⁺-injˡ
@@ -237,12 +237,12 @@ abstract
 
   *⁺-+⁺-distrʳ :  l *⁺ (m +⁺ n) ≡ l *⁺ m +⁺ l *⁺ n
   *⁺-+⁺-distrʳ {l} {m} {n} =  *⁺-comm {l} »⁼ *⁺-+⁺-distrˡ {m} »⁼
-    cong⁼₂ _+⁺_ (*⁺-comm {m}) (*⁺-comm {n})
+    cong₂ _+⁺_ (*⁺-comm {m}) (*⁺-comm {n})
 
   -- *⁺ is unital with 1⁺
 
   *⁺-1ˡ :  1⁺ *⁺ n ≡ n
-  *⁺-1ˡ =  cong⁼ 1+ +-0
+  *⁺-1ˡ =  cong 1+ +-0
 
   *⁺-1ʳ :  n *⁺ 1⁺ ≡ n
   *⁺-1ʳ {n} rewrite *⁺-comm {n} {1⁺} =  *⁺-1ˡ {n}

@@ -292,8 +292,7 @@ abstract
 
   *-assocˡ :  (l * m) * n ≡ l * (m * n)
   *-assocˡ {0} =  refl⁼
-  *-assocˡ {suc l'} {m} {n} =
-    *-+-distrˡ {m} »⁼ cong (m * n +_) $ *-assocˡ {l'}
+  *-assocˡ {suc l'} {m} {n} =  *-+-distrˡ {m} »⁼ cong (m * n +_) $ *-assocˡ {l'}
 
   *-assocʳ :  l * (m * n) ≡ (l * m) * n
   *-assocʳ {l} =  sym⁼ $ *-assocˡ {l}

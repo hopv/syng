@@ -24,83 +24,6 @@ private variable
   k l m n :  ℕ
 
 --------------------------------------------------------------------------------
--- +, ∸, * : Addition, truncated subtraction, multiplication
-
-open import Agda.Builtin.Nat public
-  using (_+_; _*_) renaming (_-_ to _∸_)
-
-abstract
-
-  -- Clearing the right-hand side of +
-
-  +-0 :  n + 0 ≡ n
-  +-0 {0} =  refl⁼
-  +-0 {suc n'} =  cong⁼ suc $ +-0 {n'}
-
-  +-suc :  m + suc n ≡ suc (m + n)
-  +-suc {0} =  refl⁼
-  +-suc {suc m'} =  cong⁼ suc $ +-suc {m'}
-
-  -- + is commutative
-
-  +-comm :  m + n ≡ n + m
-  +-comm {_} {0} =  +-0
-  +-comm {_} {suc n'} =  +-suc »⁼ cong⁼ suc (+-comm {_} {n'})
-
-  -- + is associative
-
-  +-assocˡ :  (l + m) + n ≡ l + (m + n)
-  +-assocˡ {0} =  refl⁼
-  +-assocˡ {suc l'} =  cong⁼ suc $ +-assocˡ {l'}
-
-  +-assocʳ :  l + (m + n) ≡ (l + m) + n
-  +-assocʳ {l} =  sym⁼ $ +-assocˡ {l}
-
-  -- Clearing the right-hand side of *
-
-  *-0 :  n * 0 ≡ 0
-  *-0 {0} =  refl⁼
-  *-0 {suc n'} =  *-0 {n'}
-
-  *-suc :  m * suc n ≡ m + m * n
-  *-suc {0} =  refl⁼
-  *-suc {suc m'} {n} =  cong⁼ (suc n +_) (*-suc {m'}) »⁼ cong⁼ suc $
-    +-assocʳ {n} »⁼ cong⁼ (_+ m' * n) (+-comm {n}) »⁼ +-assocˡ {m'}
-
-  -- * is commutative
-
-  *-comm :  m * n ≡ n * m
-  *-comm {m} {0} =  *-0 {m}
-  *-comm {m} {suc n'} =  *-suc {m} »⁼ cong⁼ (m +_) (*-comm {_} {n'})
-
-  -- * is distributive over +
-
-  *-+-distrˡ :  (l + m) * n ≡ l * n + m * n
-  *-+-distrˡ {0} =  refl⁼
-  *-+-distrˡ {suc l'} {_} {n} =  cong⁼ (n +_) (*-+-distrˡ {l'}) »⁼ +-assocʳ {n}
-
-  *-+-distrʳ :  l * (m + n) ≡ l * m + l * n
-  *-+-distrʳ {l} {m} {n} =  *-comm {l} »⁼ *-+-distrˡ {m} »⁼
-    cong⁼₂ _+_ (*-comm {m}) (*-comm {n})
-
-  -- * is associative
-
-  *-assocˡ :  (l * m) * n ≡ l * (m * n)
-  *-assocˡ {0} =  refl⁼
-  *-assocˡ {suc l'} {m} {n} =  *-+-distrˡ {m} »⁼ cong⁼ (m * n +_) $ *-assocˡ {l'}
-
-  *-assocʳ :  l * (m * n) ≡ (l * m) * n
-  *-assocʳ {l} =  sym⁼ $ *-assocˡ {l}
-
-  -- * is unital with 1
-
-  *-1ˡ :  1 * n ≡ n
-  *-1ˡ =  +-0
-
-  *-1ʳ :  n * 1 ≡ n
-  *-1ʳ {n} =  *-comm {n} »⁼ *-1ˡ
-
---------------------------------------------------------------------------------
 -- ≤, <, ≥, >: Order
 
 infix 4 _≤_ _<_ _≥_ _>_
@@ -202,78 +125,6 @@ abstract
   ... | inj₁₀ m'≡n' =  inj₁₀ $ cong⁼ suc m'≡n'
   ... | inj₁₁ m'>n' =  inj₁₁ (suc<suc m'>n')
 
-  -- + is increasing
-
-  +-incrˡ :  ∀ {m n} →  n ≤ m + n
-  +-incrˡ {0} =  ≤-refl
-  +-incrˡ {suc m'} =  ≤-trans (+-incrˡ {m'}) suc-incr
-
-  -- + is monotone
-
-  +-monoˡ :  l ≤ m →  l + n ≤ m + n
-  +-monoˡ 0≤ =  +-incrˡ
-  +-monoˡ (suc≤suc l'≤m') =  suc≤suc $ +-monoˡ l'≤m'
-
-  +-monoʳ :  ∀ {l m n} →  m ≤ n →  l + m ≤ l + n
-  +-monoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-monoˡ
-
-  +-mono :  k ≤ l →  m ≤ n →  k + m ≤ l + n
-  +-mono k≤l m≤n =  ≤-trans (+-monoˡ k≤l) (+-monoʳ m≤n)
-
-  -- + is strictly monotone
-
-  +-smonoˡ :  l < m →  l + n < m + n
-  +-smonoˡ =  +-monoˡ
-
-  +-smonoʳ :  ∀ {l m n} →  m < n →  l + m < l + n
-  +-smonoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-smonoˡ
-
-  +-smono :  k < l →  m < n →  k + m < l + n
-  +-smono k<l m<n =  <-trans (+-smonoˡ k<l) (+-smonoʳ m<n)
-
-  -- + is injective
-
-  +-injˡ :  ∀ {l m n} →  m + l ≡ n + l →  m ≡ n
-  +-injˡ {_} {m} {n} m+l≡n+l with cmp m n
-  ... | inj₀ m<n =  absurd $ <-irrefl' m+l≡n+l (+-smonoˡ m<n)
-  ... | inj₁₀ m≡n =  m≡n
-  ... | inj₁₁ m>n =  absurd $ <-irrefl' (sym⁼ m+l≡n+l) (+-smonoˡ m>n)
-
-  +-injʳ :  l + m ≡ l + n →  m ≡ n
-  +-injʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-injˡ
-
-  -- * is monotone
-
-  *-monoˡ :  l ≤ m →  l * n ≤ m * n
-  *-monoˡ 0≤ =  0≤
-  *-monoˡ (suc≤suc l'≤m') =  +-monoʳ $ *-monoˡ l'≤m'
-
-  *-monoʳ :  ∀ {l m n} →  m ≤ n →  l * m ≤ l * n
-  *-monoʳ {l} {m} {n} rewrite *-comm {l} {m} | *-comm {l} {n} =  *-monoˡ
-
-  *-mono :  k ≤ l →  m ≤ n →  k * m ≤ l * n
-  *-mono {l = l} k≤l m≤n =  ≤-trans (*-monoˡ k≤l) (*-monoʳ {l} m≤n)
-
-  -- * is strictly monotone when one argument is positive
-
-  *-smonoˡ :  l < m →  l * suc n < m * suc n
-  *-smonoˡ sl≤m =  ≤-trans (suc≤suc +-incrˡ) (*-monoˡ sl≤m)
-
-  *-smonoʳ :  ∀ {l m n} →  m < n →  suc l * m < suc l * n
-  *-smonoʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n}
-    =  *-smonoˡ
-
-  -- * with a positive argument is injective
-
-  *-injˡ :  ∀ {l m n} →  m * suc l ≡ n * suc l →  m ≡ n
-  *-injˡ {_} {m} {n} m*sl≡n*sl with cmp m n
-  ... | inj₀ m<n =  absurd $ <-irrefl' m*sl≡n*sl (*-smonoˡ m<n)
-  ... | inj₁₀ m≡n =  m≡n
-  ... | inj₁₁ m>n =  absurd $ <-irrefl' (sym⁼ m*sl≡n*sl) (*-smonoˡ m>n)
-
-  *-injʳ :  suc l * m ≡ suc l * n →  m ≡ n
-  *-injʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n} =  *-injˡ
-
 --------------------------------------------------------------------------------
 -- ≡ᵇ, ≤ᵇ, <ᵇ : Boolean order
 
@@ -330,6 +181,167 @@ _≤?_ _ _ =  dec-Tt ᵇ⇒≤ ≤⇒ᵇ
 
 _<?_ :  Dec² _<_
 _<?_ _ _ =  dec-Tt ᵇ⇒< <⇒ᵇ
+
+--------------------------------------------------------------------------------
+-- +: Addition
+
+open import Agda.Builtin.Nat public using (_+_)
+
+abstract
+
+  -- Clearing the right-hand side of +
+
+  +-0 :  n + 0 ≡ n
+  +-0 {0} =  refl⁼
+  +-0 {suc n'} =  cong⁼ suc $ +-0 {n'}
+
+  +-suc :  m + suc n ≡ suc (m + n)
+  +-suc {0} =  refl⁼
+  +-suc {suc m'} =  cong⁼ suc $ +-suc {m'}
+
+  -- + is commutative
+
+  +-comm :  m + n ≡ n + m
+  +-comm {_} {0} =  +-0
+  +-comm {_} {suc n'} =  +-suc »⁼ cong⁼ suc (+-comm {_} {n'})
+
+  -- + is associative
+
+  +-assocˡ :  (l + m) + n ≡ l + (m + n)
+  +-assocˡ {0} =  refl⁼
+  +-assocˡ {suc l'} =  cong⁼ suc $ +-assocˡ {l'}
+
+  +-assocʳ :  l + (m + n) ≡ (l + m) + n
+  +-assocʳ {l} =  sym⁼ $ +-assocˡ {l}
+
+  -- + is increasing
+
+  +-incrˡ :  ∀ {m n} →  n ≤ m + n
+  +-incrˡ {0} =  ≤-refl
+  +-incrˡ {suc m'} =  ≤-trans (+-incrˡ {m'}) suc-incr
+
+  -- + is monotone
+
+  +-monoˡ :  l ≤ m →  l + n ≤ m + n
+  +-monoˡ 0≤ =  +-incrˡ
+  +-monoˡ (suc≤suc l'≤m') =  suc≤suc $ +-monoˡ l'≤m'
+
+  +-monoʳ :  ∀ {l m n} →  m ≤ n →  l + m ≤ l + n
+  +-monoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-monoˡ
+
+  +-mono :  k ≤ l →  m ≤ n →  k + m ≤ l + n
+  +-mono k≤l m≤n =  ≤-trans (+-monoˡ k≤l) (+-monoʳ m≤n)
+
+  -- + is strictly monotone
+
+  +-smonoˡ :  l < m →  l + n < m + n
+  +-smonoˡ =  +-monoˡ
+
+  +-smonoʳ :  ∀ {l m n} →  m < n →  l + m < l + n
+  +-smonoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-smonoˡ
+
+  +-smono :  k < l →  m < n →  k + m < l + n
+  +-smono k<l m<n =  <-trans (+-smonoˡ k<l) (+-smonoʳ m<n)
+
+  -- + is injective
+
+  +-injˡ :  ∀ {l m n} →  m + l ≡ n + l →  m ≡ n
+  +-injˡ {_} {m} {n} m+l≡n+l with cmp m n
+  ... | inj₀ m<n =  absurd $ <-irrefl' m+l≡n+l (+-smonoˡ m<n)
+  ... | inj₁₀ m≡n =  m≡n
+  ... | inj₁₁ m>n =  absurd $ <-irrefl' (sym⁼ m+l≡n+l) (+-smonoˡ m>n)
+
+  +-injʳ :  l + m ≡ l + n →  m ≡ n
+  +-injʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-injˡ
+
+--------------------------------------------------------------------------------
+-- *: Multiplication
+
+open import Agda.Builtin.Nat public using (_*_)
+
+abstract
+
+  -- Clearing the right-hand side of *
+
+  *-0 :  n * 0 ≡ 0
+  *-0 {0} =  refl⁼
+  *-0 {suc n'} =  *-0 {n'}
+
+  *-suc :  m * suc n ≡ m + m * n
+  *-suc {0} =  refl⁼
+  *-suc {suc m'} {n} =  cong⁼ (suc n +_) (*-suc {m'}) »⁼ cong⁼ suc $
+    +-assocʳ {n} »⁼ cong⁼ (_+ m' * n) (+-comm {n}) »⁼ +-assocˡ {m'}
+
+  -- * is commutative
+
+  *-comm :  m * n ≡ n * m
+  *-comm {m} {0} =  *-0 {m}
+  *-comm {m} {suc n'} =  *-suc {m} »⁼ cong⁼ (m +_) (*-comm {_} {n'})
+
+  -- * is distributive over +
+
+  *-+-distrˡ :  (l + m) * n ≡ l * n + m * n
+  *-+-distrˡ {0} =  refl⁼
+  *-+-distrˡ {suc l'} {_} {n} =  cong⁼ (n +_) (*-+-distrˡ {l'}) »⁼ +-assocʳ {n}
+
+  *-+-distrʳ :  l * (m + n) ≡ l * m + l * n
+  *-+-distrʳ {l} {m} {n} =  *-comm {l} »⁼ *-+-distrˡ {m} »⁼
+    cong⁼₂ _+_ (*-comm {m}) (*-comm {n})
+
+  -- * is associative
+
+  *-assocˡ :  (l * m) * n ≡ l * (m * n)
+  *-assocˡ {0} =  refl⁼
+  *-assocˡ {suc l'} {m} {n} =
+    *-+-distrˡ {m} »⁼ cong⁼ (m * n +_) $ *-assocˡ {l'}
+
+  *-assocʳ :  l * (m * n) ≡ (l * m) * n
+  *-assocʳ {l} =  sym⁼ $ *-assocˡ {l}
+
+  -- * is unital with 1
+
+  *-1ˡ :  1 * n ≡ n
+  *-1ˡ =  +-0
+
+  *-1ʳ :  n * 1 ≡ n
+  *-1ʳ {n} =  *-comm {n} »⁼ *-1ˡ
+
+  -- * is monotone
+
+  *-monoˡ :  l ≤ m →  l * n ≤ m * n
+  *-monoˡ 0≤ =  0≤
+  *-monoˡ (suc≤suc l'≤m') =  +-monoʳ $ *-monoˡ l'≤m'
+
+  *-monoʳ :  ∀ {l m n} →  m ≤ n →  l * m ≤ l * n
+  *-monoʳ {l} {m} {n} rewrite *-comm {l} {m} | *-comm {l} {n} =  *-monoˡ
+
+  *-mono :  k ≤ l →  m ≤ n →  k * m ≤ l * n
+  *-mono {l = l} k≤l m≤n =  ≤-trans (*-monoˡ k≤l) (*-monoʳ {l} m≤n)
+
+  -- * is strictly monotone when one argument is positive
+
+  *-smonoˡ :  l < m →  l * suc n < m * suc n
+  *-smonoˡ sl≤m =  ≤-trans (suc≤suc +-incrˡ) (*-monoˡ sl≤m)
+
+  *-smonoʳ :  ∀ {l m n} →  m < n →  suc l * m < suc l * n
+  *-smonoʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n}
+    =  *-smonoˡ
+
+  -- * with a positive argument is injective
+
+  *-injˡ :  ∀ {l m n} →  m * suc l ≡ n * suc l →  m ≡ n
+  *-injˡ {_} {m} {n} m*sl≡n*sl with cmp m n
+  ... | inj₀ m<n =  absurd $ <-irrefl' m*sl≡n*sl (*-smonoˡ m<n)
+  ... | inj₁₀ m≡n =  m≡n
+  ... | inj₁₁ m>n =  absurd $ <-irrefl' (sym⁼ m*sl≡n*sl) (*-smonoˡ m>n)
+
+  *-injʳ :  suc l * m ≡ suc l * n →  m ≡ n
+  *-injʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n} =  *-injˡ
+
+--------------------------------------------------------------------------------
+-- ∸: Truncated subtraction
+
+open import Agda.Builtin.Nat public using () renaming (_-_ to _∸_)
 
 --------------------------------------------------------------------------------
 -- ⊔: Maximum

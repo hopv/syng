@@ -6,11 +6,11 @@
 
 module Base.RatPos where
 
-open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _+⁺_; _*⁺_; _≡⁺ᵇ_; _≤⁺_; _≤⁺ᵇ_; cmp⁺;
-  +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
-  *⁺-injʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; ≤⁺-refl; <⁺-irrefl'; <⁺-trans;
-  <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-sincrˡ; *⁺-smonoˡ; *⁺-monoʳ; *⁺-smonoʳ; ⁺ᵇ⇒≡;
-  ≡⇒⁺ᵇ; ᵇ⇒≤⁺; ≤⁺⇒ᵇ)
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; cmp⁺; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_; _*⁺_;
+  ≤⁺-refl; <⁺-irrefl'; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ; ᵇ⇒≤⁺;
+  ≤⁺⇒ᵇ; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
+  *⁺-+⁺-distrʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ;
+  *⁺-monoʳ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong⁼; cong⁼₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)

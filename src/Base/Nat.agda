@@ -54,8 +54,8 @@ abstract
   <-irrefl :  ¬ n < n
   <-irrefl (suc≤suc n'<n') =  <-irrefl n'<n'
 
-  <-irrefl' :  m ≡ n →  ¬ m < n
-  <-irrefl' refl⁼ =  <-irrefl
+  ≡⇒¬< :  m ≡ n →  ¬ m < n
+  ≡⇒¬< refl⁼ =  <-irrefl
 
   -- ≤ is transitive
 
@@ -247,9 +247,9 @@ abstract
 
   +-injˡ :  ∀ {l m n} →  m + l ≡ n + l →  m ≡ n
   +-injˡ {_} {m} {n} m+l≡n+l with cmp m n
-  ... | inj₀ m<n =  absurd $ <-irrefl' m+l≡n+l (+-smonoˡ m<n)
+  ... | inj₀ m<n =  absurd $ ≡⇒¬< m+l≡n+l (+-smonoˡ m<n)
   ... | inj₁₀ m≡n =  m≡n
-  ... | inj₁₁ m>n =  absurd $ <-irrefl' (sym⁼ m+l≡n+l) (+-smonoˡ m>n)
+  ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (sym⁼ m+l≡n+l) (+-smonoˡ m>n)
 
   +-injʳ :  l + m ≡ l + n →  m ≡ n
   +-injʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-injˡ
@@ -330,9 +330,9 @@ abstract
 
   *-injˡ :  ∀ {l m n} →  m * suc l ≡ n * suc l →  m ≡ n
   *-injˡ {_} {m} {n} m*sl≡n*sl with cmp m n
-  ... | inj₀ m<n =  absurd $ <-irrefl' m*sl≡n*sl (*-smonoˡ m<n)
+  ... | inj₀ m<n =  absurd $ ≡⇒¬< m*sl≡n*sl (*-smonoˡ m<n)
   ... | inj₁₀ m≡n =  m≡n
-  ... | inj₁₁ m>n =  absurd $ <-irrefl' (sym⁼ m*sl≡n*sl) (*-smonoˡ m>n)
+  ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (sym⁼ m*sl≡n*sl) (*-smonoˡ m>n)
 
   *-injʳ :  suc l * m ≡ suc l * n →  m ≡ n
   *-injʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n} =  *-injˡ

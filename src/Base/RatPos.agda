@@ -7,8 +7,8 @@
 module Base.RatPos where
 
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; cmp⁺; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_; _*⁺_;
-  ≤⁺-refl; <⁺-irrefl'; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ; ᵇ⇒≤⁺;
-  ≤⁺⇒ᵇ; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
+  ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ; ᵇ⇒≤⁺; ≤⁺⇒ᵇ;
+  +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
   *⁺-+⁺-distrʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ;
   *⁺-monoʳ)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong; cong₂; subst; subst₂)
@@ -182,7 +182,7 @@ abstract
   ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b with cmp⁺ c d
   ... | inj₀ c<d =  <⁺⇒≤⁺ c<d
   ... | inj₁₀ refl⁼ =  ≤⁺-refl
-  ... | inj₁₁ c>d =  absurd $ <⁺-irrefl' (da≡bc »⁼ *⁺-comm {b} {c}) $
+  ... | inj₁₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc »⁼ *⁺-comm {b} {c}) $
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
 
 --------------------------------------------------------------------------------

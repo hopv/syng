@@ -78,8 +78,8 @@ abstract
   <⁺-irrefl :  ¬ n <⁺ n
   <⁺-irrefl =  <-irrefl
 
-  <⁺-irrefl' :  m ≡ n →  ¬ m <⁺ n
-  <⁺-irrefl' refl⁼ =  <⁺-irrefl
+  ≡⇒¬<⁺ :  m ≡ n →  ¬ m <⁺ n
+  ≡⇒¬<⁺ refl⁼ =  <⁺-irrefl
 
   <⁺-trans :  l <⁺ m →  m <⁺ n →  l <⁺ n
   <⁺-trans =  <-trans

@@ -23,10 +23,12 @@ open RA Allᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓
 --------------------------------------------------------------------------------
 -- updᴬ: Updating an element at an index
 
-updᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ →  Aᴬ
-updᴬ i a b˙ j with i ≟ j
-... | yes refl⁼ =  a
-... | no _ =  b˙ j
+abstract -- Definition is made abstract for better type inference
+
+  updᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ →  Aᴬ
+  updᴬ i a b˙ j with i ≟ j
+  ... | yes refl⁼ =  a
+  ... | no _ =  b˙ j
 
 --------------------------------------------------------------------------------
 -- injᴬ: Injecting an element at an index

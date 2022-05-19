@@ -127,15 +127,14 @@ open RA Finᴿᴬ using (✓_; ε)
 --------------------------------------------------------------------------------
 -- updᶠ: Updating an element at an index
 
-updᶠ :  ℕ → A → Fin → Fin
-updᶠ i a F .fin j with i ≡ᵇ j
-... | tt =  a
-... | ff =  F .fin j
-updᶠ i _ F .supp =  i ∷ F .supp
-updᶠ i a F .out-ε =  proof
- where abstract
-  proof :  Out-ε (updᶠ i a F .fin) (updᶠ i a F .supp)
-  proof {j} j∉i∷is with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
+abstract -- Definition is made abstract for better type inference
+
+  updᶠ :  ℕ → A → Fin → Fin
+  updᶠ i a F .fin j with i ≡ᵇ j
+  ... | tt =  a
+  ... | ff =  F .fin j
+  updᶠ i _ F .supp =  i ∷ F .supp
+  updᶠ i a F .out-ε {j} j∉i∷is with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
   ... | tt | ⇒i≡j =  absurd $ ∉ᴸ-∷-elim₀ j∉i∷is $ sym⁼ $ ⇒i≡j _
   ... | ff | _ =  F .out-ε (∉ᴸ-∷-elim₁ j∉i∷is)
 

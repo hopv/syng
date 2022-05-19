@@ -16,7 +16,7 @@ open import Base.Prod using (Σ-syntax; _×_; _,_; proj₀; proj₁)
 
 open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; refl˜; sym˜;
   _»˜_; ⊑-refl; ⊑-trans; ⊑-respʳ; ≈⇒⊑; ✓-resp; ✓-mono; ✓-ε; ∙-congˡ; ∙-congʳ;
-  ∙-monoʳ; ∙-incrˡ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-unitˡ)
+  ∙-monoˡ; ∙-monoʳ; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-unitˡ)
 
 --------------------------------------------------------------------------------
 -- Propˢ: Semantic proposition
@@ -213,3 +213,49 @@ abstract
   -∗ˢ-elim :  Q ⊨ P -∗ˢ R →  P ∗ˢ Q ⊨ R
   -∗ˢ-elim {R = R} Q⊨P-∗R {✓a = ✓a} (b , c , _ , _ , b∙c≈a , Pb , Qc) =
     R .monoˢ {✓a = ✓-resp (sym˜ b∙c≈a) ✓a} (≈⇒⊑ b∙c≈a) $ Q⊨P-∗R Qc ⊑-refl Pb
+
+--------------------------------------------------------------------------------
+-- |=>ˢ: Update modality
+
+infix 8 |=>ˢ_
+|=>ˢ_ :  Propˢ → Propˢ
+(|=>ˢ P) .predˢ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓b ,  ✓ c ∙ b  ×  P .predˢ b ✓b
+(|=>ˢ P) .monoˢ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+ where abstract
+  proof :  Monoˢ $ (|=>ˢ P) .predˢ
+  proof (d , d∙a≈b) |=>Pa e ✓e∙b with
+    |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (sym˜ d∙a≈b) »˜ ∙-assocʳ
+  ... | (c , _ , ✓ed∙c , Pc) =  c , _ ,
+    (flip ✓-mono ✓ed∙c $ ∙-monoˡ ∙-incrʳ) , Pc
+
+abstract
+
+  -- |=>ˢ is monadic: monotone, increasing, and idempotent
+
+  |=>ˢ-mono :  P ⊨ Q →  |=>ˢ P ⊨ |=>ˢ Q
+  |=>ˢ-mono P⊨Q |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
+  ... | b , _ , ✓c∙b , Pb =  b , _ , ✓c∙b , P⊨Q Pb
+
+  |=>ˢ-intro :  P ⊨ |=>ˢ P
+  |=>ˢ-intro Pa c ✓c∙a =  _ , _ , ✓c∙a , Pa
+
+  |=>ˢ-join :  |=>ˢ |=>ˢ P ⊨ |=>ˢ P
+  |=>ˢ-join |=>|=>Pa d ✓d∙a with |=>|=>Pa d ✓d∙a
+  ... | b , _ , ✓d∙b , |=>Pb with  |=>Pb d ✓d∙b
+  ...   | c , _ , ✓d∙c , Pc = c , _ , ✓d∙c , Pc
+
+  -- ∗ˢ can get inside |=>ˢ
+
+  |=>ˢ-frameˡ :  P ∗ˢ |=>ˢ Q ⊨ |=>ˢ (P ∗ˢ Q)
+  |=>ˢ-frameˡ (b , c , _ , _ , b∙c≈a , Pb , |=>Qc) e ✓e∙a with
+    |=>Qc (e ∙ b) $ flip ✓-resp ✓e∙a $ ∙-congʳ (sym˜ b∙c≈a) »˜ ∙-assocʳ
+  ... | d , _ , ✓eb∙d , Qd =  b ∙ d , (flip ✓-mono ✓eb∙d $ ∙-monoˡ ∙-incrˡ) ,
+    (✓-resp ∙-assocˡ ✓eb∙d) , b , d , _ , _ , refl˜ , Pb , Qd
+
+  -- ∃ˢ _ , can get outside |=>ˢ
+
+  |=>ˢ-∃-out :  |=>ˢ (∃ˢ _ ∈ A , P) ⊨ ∃ˢ _ ∈ A , |=>ˢ P
+  |=>ˢ-∃-out {✓a = ✓a} |=>∃AP .proj₀ with |=>∃AP ε (✓-resp (sym˜ ∙-unitˡ) ✓a)
+  ... | _ , _ , _ , x , _ =  x
+  |=>ˢ-∃-out {✓a = ✓a} |=>∃AP .proj₁ c ✓c∙a with |=>∃AP c ✓c∙a
+  ... | b , _ , ✓c∙b , _ , Pb =  b , _ , ✓c∙b , Pb

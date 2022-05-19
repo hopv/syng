@@ -11,13 +11,16 @@ open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to
   ε to ε'; ⌞_⌟ to ⌞_⌟'; refl˜ to refl'; sym˜ to sym'; _»˜_ to _»'_)
 
 open import Base.Level using (_⊔ˡ_)
-open import Base.Nat using (ℕ)
+open import Base.Bool using (tt; ff)
+open import Base.Eq using (sym⁼)
 open import Base.Setoid using (≡-setoid)
-open import Base.Prod using (Σ-syntax; _,_; proj₀; proj₁)
 open import Base.Func using (_$_)
-open import Base.List using (List; []; _++_)
+open import Base.Few using (absurd)
+open import Base.Prod using (Σ-syntax; _,_; proj₀; proj₁)
+open import Base.Nat using (ℕ; _≡ᵇ_; ᵇ⇒≡)
+open import Base.List using (List; _∷_; []; _++_)
 open import Base.List.Set (≡-setoid ℕ) using (_∉ᴸ_; ∉ᴸ-[];
-  ∉ᴸ-++-elim₀; ∉ᴸ-++-elim₁)
+  ∉ᴸ-∷-elim₀; ∉ᴸ-∷-elim₁; ∉ᴸ-++-elim₀; ∉ᴸ-++-elim₁)
 
 --------------------------------------------------------------------------------
 -- Fin : Finᴿᴬ's carrier
@@ -118,3 +121,26 @@ module _ where
   Finᴿᴬ .⌞⌟-add {F} {G} =  ⌞⌟ᶠ-add F G
   Finᴿᴬ .⌞⌟-unitˡ i =  Ra .⌞⌟-unitˡ
   Finᴿᴬ .⌞⌟-idem i =  Ra .⌞⌟-idem
+
+open RA Finᴿᴬ using (✓_; ε)
+
+--------------------------------------------------------------------------------
+-- updᶠ: Updating an element at an index
+
+updᶠ :  ℕ → A → Fin → Fin
+updᶠ i a F .fin j with i ≡ᵇ j
+... | tt =  a
+... | ff =  F .fin j
+updᶠ i _ F .supp =  i ∷ F .supp
+updᶠ i a F .out-ε =  proof
+ where abstract
+  proof :  Out-ε (updᶠ i a F .fin) (updᶠ i a F .supp)
+  proof {j} j∉i∷is with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
+  ... | tt | ⇒≡ =  absurd $ ∉ᴸ-∷-elim₀ j∉i∷is $ sym⁼ $ ⇒≡ _
+  ... | ff | _ =  F .out-ε (∉ᴸ-∷-elim₁ j∉i∷is)
+
+--------------------------------------------------------------------------------
+-- injᶠ: Injecting an element at an index
+
+injᶠ :  ℕ → A → Fin
+injᶠ i a =  updᶠ i a ε

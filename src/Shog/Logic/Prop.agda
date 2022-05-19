@@ -16,11 +16,11 @@ open import Base.Bool using (Bool; tt; ff)
 open import Base.List using (List; []; _∷_; map)
 
 --------------------------------------------------------------------------------
--- Proposition: Prop' ι
+-- Prop' ι: Proposition
 
 data  Prop' (ι : Size) :  Set (sucˡ ℓ)
 
--- Prop' under Thunk
+-- Prop: Prop' under Thunk
 Prop< :  Size →  Set (sucˡ ℓ)
 Prop< ι =  Thunk Prop' ι
 
@@ -29,15 +29,17 @@ infixr 7 _∗_
 infix 8 |=>_ □_
 
 data Prop' ι where
-  -- Universal/existential quantification
+  -- ∀˙, ∃˙: Universal/existential quantification
   ∀˙ ∃˙ :  (A : Set ℓ) →  (A → Prop' ι) →  Prop' ι
-  -- Implication
+  -- →': Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
-  -- Separating conjunction / magic wand
+  -- ∗: Separating conjunction
+  -- -∗: Magic wand
   _∗_ _-∗_ :  Prop' ι →  Prop' ι →  Prop' ι
-  -- Update / persistence modality
+  -- |=>: Update modality
+  -- □: Persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
-  -- Save token, exclusive and persistent
+  -- saveˣ, save□: Save token, exclusive and persistent
   saveˣ save□ :  Prop< ι →  Prop' ι
 
 private variable
@@ -49,7 +51,7 @@ private variable
   D :  Set ℓ'
 
 --------------------------------------------------------------------------------
--- Syntax for ∀/∃
+-- ∀∈-syntax, ∃∈-syntax, ∀-syntax, ∃-syntax: Syntax for ∀/∃
 
 ∀∈-syntax ∃∈-syntax :  (A : Set ℓ) →  (A → Prop' ι) →  Prop' ι
 ∀∈-syntax =  ∀˙
@@ -66,7 +68,8 @@ syntax ∀-syntax (λ x → P) =  ∀' x , P
 syntax ∃-syntax (λ x → P) =  ∃ x , P
 
 --------------------------------------------------------------------------------
--- Conjunction ∧ & Disjunction ∨
+-- ∧: Conjunction
+-- ∨: Disjunction
 
 infixr 7 _∧_
 infixr 6 _∨_
@@ -76,7 +79,8 @@ P ∧ Q =  ∀˙ _ (binary P Q)
 P ∨ Q =  ∃˙ _ (binary P Q)
 
 --------------------------------------------------------------------------------
--- Truth ⊤' & Falsehood ⊥'
+-- ⊤': Truth
+-- ⊥': Falsehood
 
 ⊤' ⊥' :  Prop' ι
 ⊤' =  ∀˙ _ absurd
@@ -89,7 +93,7 @@ P ∨ Q =  ∃˙ _ (binary P Q)
 ⌜ A ⌝ =  ∃˙ A (λ _ → ⊤')
 
 --------------------------------------------------------------------------------
--- Iterated separating conjunction: [∗]
+-- [∗]: Iterated separating conjunction
 
 [∗] :  List (Prop' ι) →  Prop' ι
 [∗] [] =  ⊤'
@@ -109,13 +113,13 @@ syntax [∗]-map-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
 --------------------------------------------------------------------------------
 -- Basic Shog proposition
 
--- IsBasic P holds when P consists only of ∀, ∃ and ∗
+-- IsBasic P: P consists only of ∀, ∃ and ∗
 data IsBasic :  Prop' ∞ →  Set (sucˡ ℓ) where
   ∀-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∀˙ _ P˙)
   ∃-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∃˙ _ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
 
--- Basic : Type class wrapping IsBasic
+-- Basic: Type class wrapping IsBasic
 record  Basic (P : Prop' ∞) :  Set (sucˡ ℓ)  where
   field  basic :  IsBasic P
 open Basic {{...}} public

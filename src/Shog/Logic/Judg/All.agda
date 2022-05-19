@@ -44,19 +44,19 @@ data  Judg (ι : Size) :  Prop' ∞ →  JudgRes →  Set (sucˡ ℓ)
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
 
--- General judgment
+-- ⊢[ ]* : General judgment
 _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (sucˡ ℓ)
 P ⊢[ ι ]* Jr =  Judg ι P Jr
 
--- Sequent
+-- ⊢[ ] : Sequent
 _⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (sucˡ ℓ)
 P ⊢[ ι ] Q =  P ⊢[ ι ]* pure Q
 
--- Sequent under thunk
+-- ⊢[< ] : Sequent under thunk
 _⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (sucˡ ℓ)
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
--- Super update
+-- ⊢[ ]=>> : Super update
 _⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (sucˡ ℓ)
 P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
@@ -136,9 +136,9 @@ data Judg ι where
     [∗]-map save□ P^s -∗ [∗ P^ ∈ P^s ] □ P^ .! ⊢[ ι ]=>> [∗]-map save□ P^s
 
 --------------------------------------------------------------------------------
--- Pers P :  Persistence of a proposition
+-- Pers: Persistence of a proposition
 
 record Pers (P : Prop' ∞) :  Set (sucˡ ℓ) where
-  -- P can turn into □ P
+  -- pers: P can turn into □ P
   field pers :  P ⊢[ ι ] □ P
 open Pers {{...}} public

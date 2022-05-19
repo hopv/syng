@@ -8,16 +8,18 @@ open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Fin {ℓ ℓ≈ ℓ✓} (Ra : RA ℓ ℓ≈ ℓ✓) where
 
 open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
-  ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; sym˜ to sym'; _»˜_ to _»'_)
+  ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; sym˜ to sym'; _»˜_ to _»'_;
+  ✓-resp to ✓'-resp; ∙-congˡ to ∙'-congˡ; ∙-unitˡ to ∙'-unitˡ)
 
 open import Base.Level using (_⊔ˡ_)
 open import Base.Bool using (tt; ff)
-open import Base.Eq using (sym⁼)
+open import Base.Eq using (_≡_; refl⁼; sym⁼)
 open import Base.Setoid using (≡-setoid)
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; flip)
 open import Base.Few using (absurd)
 open import Base.Prod using (Σ-syntax; _,_; proj₀; proj₁)
-open import Base.Nat using (ℕ; _≡ᵇ_; ᵇ⇒≡; ≡⇒ᵇ)
+open import Base.Nat using (ℕ; suc; _≡ᵇ_; ᵇ⇒≡; ≡⇒ᵇ)
+open import Base.Nat.List using ([⊔]; suc[⊔]∉ᴸ)
 open import Base.List using (List; _∷_; []; _++_)
 open import Base.List.Set (≡-setoid ℕ) using (_∉ᴸ_; ∉ᴸ-[];
   ∉ᴸ-∷-elim₀; ∉ᴸ-∷-elim₁; ∉ᴸ-++-elim₀; ∉ᴸ-++-elim₁)
@@ -126,7 +128,8 @@ module _ where
   Finᴿᴬ .⌞⌟-unitˡ i =  Ra .⌞⌟-unitˡ
   Finᴿᴬ .⌞⌟-idem i =  Ra .⌞⌟-idem
 
-open RA Finᴿᴬ using (_≈_; ✓_; _∙_; ⌞_⌟; ε; _↝_; refl˜; _»˜_; ✓-ε; ∙-unitˡ; ⌞⌟-ε)
+open RA Finᴿᴬ using (_≈_; ✓_; _∙_; ⌞_⌟; ε; _↝_; _↝ˢ_; refl˜; _»˜_; ✓-ε; ∙-unitˡ;
+  ⌞⌟-ε)
 
 --------------------------------------------------------------------------------
 -- updᶠ: Updating an element at an index
@@ -216,3 +219,17 @@ module _ {i : ℕ} where abstract
 
   injᶠ-↝ :  a ↝' b →  injᶠ i a ↝ injᶠ i b
   injᶠ-↝ =  updᶠ-↝
+
+  -- Allocate at a fresh index
+
+  allocᶠ :  ✓' a →  ε ↝ˢ λ F → Σ i , F ≡ injᶠ i a
+  allocᶠ {a} ✓a G ✓G∙ε =  injᶠ i₀ a , (_ , refl⁼) , proof
+   where
+    i₀ :  ℕ
+    i₀ =  suc $ [⊔] $ G .supp
+    proof :  ✓ G ∙ injᶠ i₀ a
+    proof j with i₀ ≡ᵇ j | ᵇ⇒≡ {i₀} {j}
+    ... | ff | _ =  ✓G∙ε j
+    ... | tt | ⇒i₀≡j with ⇒i₀≡j _
+    ...   | refl⁼ =  flip ✓'-resp ✓a $ sym' $
+      ∙'-congˡ (G .out-ε suc[⊔]∉ᴸ) »' ∙'-unitˡ

@@ -121,8 +121,8 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ≈⇒⊑ :  a ≈ b →  a ⊑ b
     ≈⇒⊑ a≈b =  ε , (∙-unitˡ »˜ a≈b)
 
-    ⊑-refl˜ :  a ⊑ a
-    ⊑-refl˜ =  ≈⇒⊑ refl˜
+    ⊑-refl :  a ⊑ a
+    ⊑-refl =  ≈⇒⊑ refl˜
 
     -- ⊑ is transitive
 

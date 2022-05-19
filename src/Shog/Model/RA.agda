@@ -172,6 +172,16 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add {_} {c}
     ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ =  c' , (c'∙⌞a⌟≈⌞c∙a⌟ »˜ ⌞⌟-cong c∙a≈b)
 
+    -- ⌞ ⌟ is decreasing
+
+    ⌞⌟-decr :  ⌞ a ⌟ ⊑ a
+    ⌞⌟-decr =  ⊑-respʳ ⌞⌟-unitˡ ∙-incrʳ
+
+    -- ✓ a implies ✓ ⌞ a ⌟
+
+    ✓-⌞⌟ :  ✓ a →  ✓ ⌞ a ⌟
+    ✓-⌞⌟ ✓a =  ✓-mono ⌞⌟-decr ✓a
+
   ------------------------------------------------------------------------------
   -- ↝/↝ˢ : Resource update
 

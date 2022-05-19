@@ -11,12 +11,13 @@ module Shog.Model.PropS {ℓ : Level} (Globᴿᴬ : RA (sucˡ ℓ) (sucˡ ℓ) (
   where
 
 open import Base.Few using (binary; 0₂; 1₂; absurd)
-open import Base.Func using (_$_; _▷_; flip)
+open import Base.Func using (_$_; _▷_; flip; _∘_)
 open import Base.Prod using (Σ-syntax; _×_; _,_; proj₀; proj₁)
 
-open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; refl˜; sym˜;
-  _»˜_; ⊑-refl; ⊑-trans; ⊑-respʳ; ≈⇒⊑; ✓-resp; ✓-mono; ✓-ε; ∙-congˡ; ∙-congʳ;
-  ∙-monoˡ; ∙-monoʳ; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-unitˡ)
+open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; refl˜;
+  sym˜; _»˜_; ⊑-refl; ⊑-trans; ⊑-respʳ; ≈⇒⊑; ✓-resp; ✓-mono; ✓-ε; ∙-congˡ;
+  ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ;
+  ∙-unitˡ; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ⌞⌟-mono; ✓-⌞⌟)
 
 --------------------------------------------------------------------------------
 -- Propˢ: Semantic proposition
@@ -259,3 +260,43 @@ abstract
   ... | _ , _ , _ , x , _ =  x
   |=>ˢ-∃-out {✓a = ✓a} |=>∃AP .proj₁ c ✓c∙a with |=>∃AP c ✓c∙a
   ... | b , _ , ✓c∙b , _ , Pb =  b , _ , ✓c∙b , Pb
+
+--------------------------------------------------------------------------------
+-- □ˢ: Persistence modality
+
+infix 8 □ˢ_
+□ˢ_ :  Propˢ → Propˢ
+(□ˢ P) .predˢ a ✓a =  P .predˢ ⌞ a ⌟ (✓-⌞⌟ ✓a)
+(□ˢ P) .monoˢ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+ where
+  proof :  Monoˢ $ (□ˢ P) .predˢ
+  proof a⊑b P⌞a⌟ =  P .monoˢ (⌞⌟-mono a⊑b) P⌞a⌟
+
+abstract
+
+  -- □ˢ is comonadic: monotone, decreasing, and idempotent
+
+  □ˢ-mono :  P ⊨ Q →  □ˢ P ⊨ □ˢ Q
+  □ˢ-mono P⊨Q P⌞a⌟ =  P⊨Q P⌞a⌟
+
+  □ˢ-elim :  □ˢ P ⊨ P
+  □ˢ-elim {P = P} P⌞a⌟ =  P .monoˢ ⌞⌟-decr P⌞a⌟
+
+  □ˢ-dup :  □ˢ P ⊨ □ˢ □ˢ P
+  □ˢ-dup {P = P} P⌞a⌟ =  P .monoˢ (≈⇒⊑ $ sym˜ ⌞⌟-idem) P⌞a⌟
+
+  -- ∧ˢ can turn into ∗ˢ when one argument is under □ˢ
+
+  □ˢˡ-∧ˢ⇒∗ˢ :  □ˢ P ∧ˢ Q ⊨ □ˢ P ∗ˢ Q
+  □ˢˡ-∧ˢ⇒∗ˢ {P = P} {a = a} {✓a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ✓-⌞⌟ ✓a , _ , ⌞⌟-unitˡ ,
+    P .monoˢ (≈⇒⊑ $ sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) , P⌞a⌟∧Qa 1₂
+
+  -- ∀ˢ can get inside □ˢ
+
+  □ˢ-∀ˢ-in :  ∀ˢ˙ _ (□ˢ_ ∘ P˙) ⊨ □ˢ ∀ˢ˙ _ P˙
+  □ˢ-∀ˢ-in ∀□Pa =  ∀□Pa
+
+  -- ∃ˢ can get outside □ˢ
+
+  □ˢ-∃ˢ-out :  □ˢ ∃ˢ˙ _ P˙ ⊨ ∃ˢ˙ _ (□ˢ_ ∘ P˙)
+  □ˢ-∃ˢ-out □∃Pa =  □∃Pa

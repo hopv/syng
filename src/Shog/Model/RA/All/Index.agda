@@ -7,7 +7,7 @@
 open import Shog.Model.RA using (RA)
 open import Base.Eq using (_≡_)
 open import Base.Dec using (Dec²)
-module Shog.Model.RA.All.Point {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
+module Shog.Model.RA.All.Index {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
   (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) (_≟_ : Dec² _≡_) where
 
 open import Base.Eq using (refl⁼)
@@ -71,9 +71,9 @@ module _ {i : I} where
     ... | no _ =  Ra˙ j .refl˜
 
     updᴬ-↝ :  a ↝ⁱ b →  updᴬ i a c˙ ↝ᴬ updᴬ i b c˙
-    updᴬ-↝ a↝ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
-    ... | yes refl⁼ | ✓d˙i∙a =  a↝ⁱb (d˙ i) ✓d˙i∙a
-    ... | no _ | ✓d˙j∙ε =  ✓d˙j∙ε
+    updᴬ-↝ a↝b d˙ ✓d˙∙iac˙ j with i ≟ j | ✓d˙∙iac˙ j
+    ... | yes refl⁼ | ✓d˙i∙a =  a↝b (d˙ i) ✓d˙i∙a
+    ... | no _ | ✓d˙j∙c˙j =  ✓d˙j∙c˙j
 
     -- Double update
 

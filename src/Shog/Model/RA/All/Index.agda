@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Injection on Allᴿᴬ
+-- Index-specific operations on Allᴿᴬ
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
@@ -21,20 +21,18 @@ open RA Allᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓
   ∙-unitˡ to ∙-unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
 
 --------------------------------------------------------------------------------
--- Updating an element at some index
+-- updᴬ: Updating an element at an index
 
-∀-upd :  ∀ i →  Ra˙ i .Car →  Aᴬ →  Aᴬ
-∀-upd i a b˙ j with i ≟ j
+updᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ →  Aᴬ
+updᴬ i a b˙ j with i ≟ j
 ... | yes refl⁼ =  a
 ... | no _ =  b˙ j
 
--- Injecting an element of a component RA
-
-∀-inj :  ∀ i →  Ra˙ i .Car →  Aᴬ
-∀-inj i a =  ∀-upd i a εᴬ
-
 --------------------------------------------------------------------------------
--- Various properties
+-- injᴬ: Injecting an element at an index
+
+injᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ
+injᴬ i a =  updᴬ i a εᴬ
 
 module _ {i : I} where
 
@@ -45,62 +43,70 @@ module _ {i : I} where
     a b :  Aⁱ
     b˙ c˙ d˙ :  Aᴬ
 
+  ------------------------------------------------------------------------------
+  -- On updᴬ
+
   abstract
 
-    -- ∀-upd preserves ≈/✓/∙/⌞⌟/↝
+    -- updᴬ preserves ≈/✓/∙/⌞⌟/↝
 
-    ∀-upd-cong :  a ≈ⁱ b →  c˙ ≈ᴬ d˙ →  ∀-upd i a c˙ ≈ᴬ ∀-upd i b d˙
-    ∀-upd-cong a≈b c˙≈d˙ j with i ≟ j
+    updᴬ-cong :  a ≈ⁱ b →  c˙ ≈ᴬ d˙ →  updᴬ i a c˙ ≈ᴬ updᴬ i b d˙
+    updᴬ-cong a≈b c˙≈d˙ j with i ≟ j
     ... | yes refl⁼ =  a≈b
     ... | no _ =  c˙≈d˙ j
 
-    ∀-upd-✓ :  ✓ⁱ a →  ✓ᴬ b˙ →  ✓ᴬ ∀-upd i a b˙
-    ∀-upd-✓ ✓a ✓b˙ j with i ≟ j
+    updᴬ-✓ :  ✓ⁱ a →  ✓ᴬ b˙ →  ✓ᴬ updᴬ i a b˙
+    updᴬ-✓ ✓a ✓b˙ j with i ≟ j
     ... | yes refl⁼ =  ✓a
     ... | no _ =  ✓b˙ j
 
-    ∀-upd-∙ :  ∀-upd i a c˙ ∙ᴬ ∀-upd i b d˙  ≈ᴬ  ∀-upd i (a ∙ⁱ b) (c˙ ∙ᴬ d˙)
-    ∀-upd-∙ j with i ≟ j
+    updᴬ-∙ :  updᴬ i a c˙ ∙ᴬ updᴬ i b d˙  ≈ᴬ  updᴬ i (a ∙ⁱ b) (c˙ ∙ᴬ d˙)
+    updᴬ-∙ j with i ≟ j
     ... | yes refl⁼ =  reflⁱ
     ... | no _ =  Ra˙ j .refl˜
 
-    ∀-upd-⌞⌟ :  ⌞ ∀-upd i a b˙ ⌟ᴬ  ≈ᴬ  ∀-upd i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴬ
-    ∀-upd-⌞⌟ j with i ≟ j
+    updᴬ-⌞⌟ :  ⌞ updᴬ i a b˙ ⌟ᴬ  ≈ᴬ  updᴬ i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴬ
+    updᴬ-⌞⌟ j with i ≟ j
     ... | yes refl⁼ =  reflⁱ
     ... | no _ =  Ra˙ j .refl˜
 
-    ∀-upd-↝ :  a ↝ⁱ b →  ∀-upd i a c˙ ↝ᴬ ∀-upd i b c˙
-    ∀-upd-↝ a↝ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
+    updᴬ-↝ :  a ↝ⁱ b →  updᴬ i a c˙ ↝ᴬ updᴬ i b c˙
+    updᴬ-↝ a↝ⁱb d˙ ✓d˙∙ia j with i ≟ j | ✓d˙∙ia j
     ... | yes refl⁼ | ✓d˙i∙a =  a↝ⁱb (d˙ i) ✓d˙i∙a
     ... | no _ | ✓d˙j∙ε =  ✓d˙j∙ε
 
-    -- Double updates
+    -- Double update
 
-    ∀-upd-upd :  ∀-upd i a (∀-upd i b c˙) ≈ᴬ ∀-upd i a c˙
-    ∀-upd-upd j with i ≟ j
+    updᴬ-2 :  updᴬ i a (updᴬ i b c˙) ≈ᴬ updᴬ i a c˙
+    updᴬ-2 j with i ≟ j
     ... | yes refl⁼ =  reflⁱ
-    ... | no i≢j with i ≟ j  -- We need this to simplify ∀-upd i b c˙ j
+    ... | no i≢j with i ≟ j  -- We need this to simplify updᴬ i b c˙ j
     ...   | yes i≡j =  absurd (i≢j i≡j)
     ...   | no _ =  Ra˙ j .refl˜
 
-    -- ∀-inj preserves ≈/✓/∙/ε/⌞⌟/↝
+  ------------------------------------------------------------------------------
+  -- On injᴬ
 
-    ∀-inj-cong :  a ≈ⁱ b →  ∀-inj i a  ≈ᴬ  ∀-inj i b
-    ∀-inj-cong a≈b =  ∀-upd-cong a≈b reflᴬ
+  abstract
 
-    ∀-inj-✓ :  ✓ⁱ a →  ✓ᴬ ∀-inj i a
-    ∀-inj-✓ ✓a =  ∀-upd-✓ ✓a ✓ᴬ-ε
+    -- injᴬ preserves ≈/✓/∙/ε/⌞⌟/↝
 
-    ∀-inj-∙ :  ∀-inj i a ∙ᴬ ∀-inj i b  ≈ᴬ  ∀-inj i (a ∙ⁱ b)
-    ∀-inj-∙ =  ∀-upd-∙ »ᴬ ∀-upd-cong reflⁱ ∙-unitˡᴬ
+    injᴬ-cong :  a ≈ⁱ b →  injᴬ i a  ≈ᴬ  injᴬ i b
+    injᴬ-cong a≈b =  updᴬ-cong a≈b reflᴬ
 
-    ∀-inj-ε :  ∀-inj i εⁱ ≈ᴬ εᴬ
-    ∀-inj-ε j with i ≟ j
+    injᴬ-✓ :  ✓ⁱ a →  ✓ᴬ injᴬ i a
+    injᴬ-✓ ✓a =  updᴬ-✓ ✓a ✓ᴬ-ε
+
+    injᴬ-∙ :  injᴬ i a ∙ᴬ injᴬ i b  ≈ᴬ  injᴬ i (a ∙ⁱ b)
+    injᴬ-∙ =  updᴬ-∙ »ᴬ updᴬ-cong reflⁱ ∙-unitˡᴬ
+
+    injᴬ-ε :  injᴬ i εⁱ ≈ᴬ εᴬ
+    injᴬ-ε j with i ≟ j
     ... | yes refl⁼ =  reflⁱ
     ... | no _ =  Ra˙ j .refl˜
 
-    ∀-inj-⌞⌟ :  ⌞ ∀-inj i a ⌟ᴬ  ≈ᴬ  ∀-inj i ⌞ a ⌟ⁱ
-    ∀-inj-⌞⌟ =  ∀-upd-⌞⌟ »ᴬ ∀-upd-cong reflⁱ ⌞⌟ᴬ-ε
+    injᴬ-⌞⌟ :  ⌞ injᴬ i a ⌟ᴬ  ≈ᴬ  injᴬ i ⌞ a ⌟ⁱ
+    injᴬ-⌞⌟ =  updᴬ-⌞⌟ »ᴬ updᴬ-cong reflⁱ ⌞⌟ᴬ-ε
 
-    ∀-inj-↝ :  a ↝ⁱ b →  ∀-inj i a ↝ᴬ ∀-inj i b
-    ∀-inj-↝ =  ∀-upd-↝
+    injᴬ-↝ :  a ↝ⁱ b →  injᴬ i a ↝ᴬ injᴬ i b
+    injᴬ-↝ =  updᴬ-↝

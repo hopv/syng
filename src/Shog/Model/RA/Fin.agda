@@ -136,7 +136,7 @@ updᶠ i a F .out-ε =  proof
  where abstract
   proof :  Out-ε (updᶠ i a F .fin) (updᶠ i a F .supp)
   proof {j} j∉i∷is with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
-  ... | tt | ⇒≡ =  absurd $ ∉ᴸ-∷-elim₀ j∉i∷is $ sym⁼ $ ⇒≡ _
+  ... | tt | ⇒i≡j =  absurd $ ∉ᴸ-∷-elim₀ j∉i∷is $ sym⁼ $ ⇒i≡j _
   ... | ff | _ =  F .out-ε (∉ᴸ-∷-elim₁ j∉i∷is)
 
 --------------------------------------------------------------------------------

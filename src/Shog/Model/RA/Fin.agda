@@ -36,7 +36,7 @@ open Fin
 --------------------------------------------------------------------------------
 -- Internal definitions
 
-module _ where
+private module _ where
   open RA
 
   -- Equivalence
@@ -79,7 +79,7 @@ module _ where
 --------------------------------------------------------------------------------
 -- Internal lemma
 
-private abstract
+private module _ where abstract
   open RA
 
   ⌞⌟ᶠ-add :  ∀ F G →  Σ G' ,  G' ∙ᶠ ⌞ F ⌟ᶠ ≈ᶠ ⌞ G ∙ᶠ F ⌟ᶠ

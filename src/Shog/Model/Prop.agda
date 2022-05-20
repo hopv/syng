@@ -7,7 +7,7 @@
 open import Base.Level using (Level; sucˡ)
 open import Shog.Model.RA using (RA)
 -- Parametric over the global RA
-module Shog.Model.PropS {ℓ : Level} (Globᴿᴬ : RA (sucˡ ℓ) (sucˡ ℓ) (sucˡ ℓ))
+module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (sucˡ ℓ) (sucˡ ℓ) (sucˡ ℓ))
   where
 
 open import Base.Few using (binary; 0₂; 1₂; absurd)

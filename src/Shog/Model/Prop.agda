@@ -11,14 +11,14 @@ module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (sucˡ ℓ) (sucˡ ℓ) (s
   where
 
 open import Base.Few using (binary; 0₂; 1₂; absurd)
-open import Base.Func using (_$_; _▷_; flip; _∘_)
+open import Base.Func using (_$_; _▷_; flip; _∘_; _∈_)
 open import Base.Prod using (Σ-syntax; _×_; _,_; proj₀; proj₁)
 open import Base.List using (List; _∷_; []; map)
 
-open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; refl˜;
-  sym˜; _»˜_; ⊑-refl; ⊑-trans; ⊑-respʳ; ≈⇒⊑; ✓-resp; ✓-mono; ✓-ε; ∙-congˡ;
-  ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ;
-  ∙-unitˡ; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ⌞⌟-mono; ✓-⌞⌟)
+open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
+  _↝ˢ_; refl˜; sym˜; _»˜_; ⊑-refl; ⊑-trans; ⊑-respʳ; ≈⇒⊑; ✓-resp; ✓-mono; ✓-ε;
+  ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm;
+  ∙-assocˡ; ∙-assocʳ; ∙-unitˡ; ε-min; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ⌞⌟-mono; ✓-⌞⌟)
 
 --------------------------------------------------------------------------------
 -- Propᵒ: Semantic proposition
@@ -41,6 +41,8 @@ private variable
   F :  X →  Set (sucˡ ℓ)
   ℓ' :  Level
   D :  Set ℓ'
+  a b :  Glob
+  B :  Glob → Set ℓ'
 
 --------------------------------------------------------------------------------
 -- ⊨: Entailment
@@ -327,3 +329,45 @@ abstract
 
   □ᵒ-∃-out :  □ᵒ ∃ᵒ˙ _ P˙ ⊨ ∃ᵒ˙ _ (□ᵒ_ ∘ P˙)
   □ᵒ-∃-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟
+
+--------------------------------------------------------------------------------
+-- Own: Owning a resource
+
+Own :  Glob →  Propᵒ
+Own a .predᵒ b _ =  a ⊑ b
+Own a .monoᵒ b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
+
+abstract
+
+  Own-∙⇒∗ :  Own (a ∙ b) ⊨ Own a ∗ᵒ Own b
+  Own-∙⇒∗ {a = a} {b} {c} {✓c} ab⊑c@(d , d∙ab≈c) =  d ∙ a , b ,
+    (flip ✓-mono ✓c $ ⊑-respʳ d∙ab≈c $ ∙-monoʳ ∙-incrʳ) ,
+    (flip ✓-mono ✓c $ ⊑-trans ∙-incrˡ ab⊑c) , (∙-assocˡ »˜ d∙ab≈c) ,
+    ∙-incrˡ , ⊑-refl
+
+  Own-∗⇒∙ :  Own a ∗ᵒ Own b ⊨ Own (a ∙ b)
+  Own-∗⇒∙ {a = a} {b} (a' , b' , _ , _ , a'∙b'≈c , a⊑a' , b⊑b') =
+    ⊑-respʳ a'∙b'≈c (∙-mono a⊑a' b⊑b')
+
+  Ownε-intro :  P ⊨ Own ε
+  Ownε-intro _ =  ε-min
+
+  Own⇒✓ :  Own a ⊨ ⌜ ✓ a ⌝ᵒ
+  Own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b , absurd
+
+  Own-↝ :  a ↝ b →  Own a ⊨ |=>ᵒ Own b
+  Own-↝ {b = b} a↝b {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' =  b , ✓-mono ∙-incrˡ ✓d∙b ,
+    ✓d∙b , ⊑-refl
+   where
+    ✓d∙b :  ✓ d ∙ b
+    ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) $ a↝b (d ∙ c) $ flip ✓-resp ✓d∙a' $
+      ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
+
+  Own-↝ˢ :  a ↝ˢ B →  Own a ⊨ |=>ᵒ (∃ᵒ b , ⌜ b ∈ B ⌝ᵒ ∧ᵒ Own b)
+  Own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' with a↝B (d ∙ c) $
+    flip ✓-resp ✓d∙a' $ ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
+  ... | b , b∈B , ✓d∙cb =  b , ✓-mono ∙-incrˡ ✓d∙b , ✓d∙b , b ,
+    binary (b∈B , absurd) ⊑-refl
+   where
+    ✓d∙b :  ✓ d ∙ b
+    ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb

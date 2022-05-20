@@ -17,11 +17,12 @@ open import Shog.Model.RA using (RA)
 --------------------------------------------------------------------------------
 -- Exc : Excᴿᴬ's carrier
 
+infix 8 #ˣ_
 data  Exc :  Set ℓ  where
   -- Pending
   ?ˣ :  Exc
   -- Exclusively set
-  #ˣ :  A →  Exc
+  #ˣ_ :  A →  Exc
   -- Invalid
   ↯ˣ :  Exc
 

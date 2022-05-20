@@ -103,6 +103,11 @@ record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ⌞⌟-unitʳ :  a ∙ ⌞ a ⌟ ≈ a
     ⌞⌟-unitʳ =  ∙-comm »˜ ⌞⌟-unitˡ
 
+    -- ⌞ ⌟ can be duplicated
+
+    ⌞⌟-dup :  ⌞ a ⌟ ∙ ⌞ a ⌟ ≈ ⌞ a ⌟
+    ⌞⌟-dup =  ∙-congˡ (sym˜ ⌞⌟-idem) »˜ ⌞⌟-unitˡ
+
     -- ⌞ ε ⌟ is ε
 
     ⌞⌟-ε :  ⌞ ε ⌟ ≈ ε

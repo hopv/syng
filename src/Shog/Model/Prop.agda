@@ -316,7 +316,7 @@ infix 8 □ᵒ_
 □ᵒ_ :  Propᵒ → Propᵒ
 (□ᵒ P) .predᵒ a ✓a =  P .predᵒ ⌞ a ⌟ (✓-⌞⌟ ✓a)
 (□ᵒ P) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
- where
+ where abstract
   proof :  Monoᵒ $ (□ᵒ P) .predᵒ
   proof a⊑b P⌞a⌟ =  P .monoᵒ (⌞⌟-mono a⊑b) P⌞a⌟
 

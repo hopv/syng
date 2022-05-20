@@ -354,7 +354,10 @@ abstract
 
 own :  Glob →  Propᵒ
 own a .predᵒ b _ =  a ⊑ b
-own a .monoᵒ b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
+own a .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+ where abstract
+  proof :  Monoᵒ $ own a .predᵒ
+  proof b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
 abstract
 

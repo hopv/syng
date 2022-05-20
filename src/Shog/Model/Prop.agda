@@ -383,6 +383,9 @@ abstract
   own-⌞⌟-□ :  own ⌞ a ⌟ ⊨ □ᵒ own ⌞ a ⌟
   own-⌞⌟-□ ⌞a⌟⊑b =  ⊑-respˡ ⌞⌟-idem $ ⌞⌟-mono ⌞a⌟⊑b
 
+  own-⌞⌟-□' :  ⌞ a ⌟ ≈ a →  own a ⊨ □ᵒ own a
+  own-⌞⌟-□' ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
+
   own⇒✓ :  own a ⊨ ⌜ ✓ a ⌝ᵒ
   own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b , absurd
 

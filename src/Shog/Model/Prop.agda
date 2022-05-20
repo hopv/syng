@@ -331,40 +331,40 @@ abstract
   □ᵒ-∃-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟
 
 --------------------------------------------------------------------------------
--- Own: Owning a resource
+-- own: Owning a resource
 
-Own :  Glob →  Propᵒ
-Own a .predᵒ b _ =  a ⊑ b
-Own a .monoᵒ b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
+own :  Glob →  Propᵒ
+own a .predᵒ b _ =  a ⊑ b
+own a .monoᵒ b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
 abstract
 
-  Own-∙⇒∗ :  Own (a ∙ b) ⊨ Own a ∗ᵒ Own b
-  Own-∙⇒∗ {a = a} {b} {c} {✓c} ab⊑c@(d , d∙ab≈c) =  d ∙ a , b ,
+  own-∙⇒∗ :  own (a ∙ b) ⊨ own a ∗ᵒ own b
+  own-∙⇒∗ {a = a} {b} {c} {✓c} ab⊑c@(d , d∙ab≈c) =  d ∙ a , b ,
     (flip ✓-mono ✓c $ ⊑-respʳ d∙ab≈c $ ∙-monoʳ ∙-incrʳ) ,
     (flip ✓-mono ✓c $ ⊑-trans ∙-incrˡ ab⊑c) , (∙-assocˡ »˜ d∙ab≈c) ,
     ∙-incrˡ , ⊑-refl
 
-  Own-∗⇒∙ :  Own a ∗ᵒ Own b ⊨ Own (a ∙ b)
-  Own-∗⇒∙ {a = a} {b} (a' , b' , _ , _ , a'∙b'≈c , a⊑a' , b⊑b') =
+  own-∗⇒∙ :  own a ∗ᵒ own b ⊨ own (a ∙ b)
+  own-∗⇒∙ {a = a} {b} (a' , b' , _ , _ , a'∙b'≈c , a⊑a' , b⊑b') =
     ⊑-respʳ a'∙b'≈c (∙-mono a⊑a' b⊑b')
 
-  Ownε-intro :  P ⊨ Own ε
-  Ownε-intro _ =  ε-min
+  own-ε-intro :  P ⊨ own ε
+  own-ε-intro _ =  ε-min
 
-  Own⇒✓ :  Own a ⊨ ⌜ ✓ a ⌝ᵒ
-  Own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b , absurd
+  own⇒✓ :  own a ⊨ ⌜ ✓ a ⌝ᵒ
+  own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b , absurd
 
-  Own-↝ :  a ↝ b →  Own a ⊨ |=>ᵒ Own b
-  Own-↝ {b = b} a↝b {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' =  b , ✓-mono ∙-incrˡ ✓d∙b ,
+  own-↝ :  a ↝ b →  own a ⊨ |=>ᵒ own b
+  own-↝ {b = b} a↝b {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' =  b , ✓-mono ∙-incrˡ ✓d∙b ,
     ✓d∙b , ⊑-refl
    where
     ✓d∙b :  ✓ d ∙ b
     ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) $ a↝b (d ∙ c) $ flip ✓-resp ✓d∙a' $
       ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
 
-  Own-↝ˢ :  a ↝ˢ B →  Own a ⊨ |=>ᵒ (∃ᵒ b , ⌜ b ∈ B ⌝ᵒ ∧ᵒ Own b)
-  Own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' with a↝B (d ∙ c) $
+  own-↝ˢ :  a ↝ˢ B →  own a ⊨ |=>ᵒ (∃ᵒ b , ⌜ b ∈ B ⌝ᵒ ∧ᵒ own b)
+  own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' with a↝B (d ∙ c) $
     flip ✓-resp ✓d∙a' $ ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
   ... | b , b∈B , ✓d∙cb =  b , ✓-mono ∙-incrˡ ✓d∙b , ✓d∙b , b ,
     binary (b∈B , absurd) ⊑-refl

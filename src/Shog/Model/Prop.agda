@@ -20,22 +20,22 @@ open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; 
   ∙-unitˡ; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ⌞⌟-mono; ✓-⌞⌟)
 
 --------------------------------------------------------------------------------
--- Propˢ: Semantic proposition
+-- Propᵒ: Semantic proposition
 
-Monoˢ :  ∀ (predˢ : ∀ (a : Glob) →  ✓ a →  Set (sucˡ ℓ)) →  Set (sucˡ ℓ)
-Monoˢ predˢ =  ∀ {a b ✓a ✓b} →  a ⊑ b →  predˢ a ✓a →  predˢ b ✓b
+Monoᵒ :  ∀ (predᵒ : ∀ (a : Glob) →  ✓ a →  Set (sucˡ ℓ)) →  Set (sucˡ ℓ)
+Monoᵒ predᵒ =  ∀ {a b ✓a ✓b} →  a ⊑ b →  predᵒ a ✓a →  predᵒ b ✓b
 
-record  Propˢ :  Set (sucˡ (sucˡ ℓ))  where
-  constructor propˢ
+record  Propᵒ :  Set (sucˡ (sucˡ ℓ))  where
+  constructor propᵒ
   field
-    predˢ :  ∀ (a : Glob) →  ✓ a →  Set (sucˡ ℓ)
-    monoˢ :  Monoˢ predˢ
-open Propˢ
+    predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (sucˡ ℓ)
+    monoᵒ :  Monoᵒ predᵒ
+open Propᵒ
 
 private variable
   A :  Set (sucˡ ℓ)
-  P Q R :  Propˢ
-  P˙ Q˙ :  A → Propˢ
+  P Q R :  Propᵒ
+  P˙ Q˙ :  A → Propᵒ
   x :  A
   F :  A →  Set (sucˡ ℓ)
 
@@ -43,143 +43,143 @@ private variable
 -- ⊨: Entailment
 
 infix 1 _⊨_
-_⊨_ :  Propˢ →  Propˢ →  Set (sucˡ ℓ)
-P ⊨ Q =  ∀ {a ✓a} →  P .predˢ a ✓a →  Q .predˢ a ✓a
+_⊨_ :  Propᵒ →  Propᵒ →  Set (sucˡ ℓ)
+P ⊨ Q =  ∀ {a ✓a} →  P .predᵒ a ✓a →  Q .predᵒ a ✓a
 
 abstract
 
   -- ⊨ is reflexive and transitive
 
-  reflˢ :  P ⊨ P
-  reflˢ Pa =  Pa
+  reflᵒ :  P ⊨ P
+  reflᵒ Pa =  Pa
 
-  infixr -1 _»ˢ_
-  _»ˢ_ :  P ⊨ Q →  Q ⊨ R →  P ⊨ R
-  (P⊨Q »ˢ Q⊨R) Pa =  Pa ▷ P⊨Q ▷ Q⊨R
+  infixr -1 _»ᵒ_
+  _»ᵒ_ :  P ⊨ Q →  Q ⊨ R →  P ⊨ R
+  (P⊨Q »ᵒ Q⊨R) Pa =  Pa ▷ P⊨Q ▷ Q⊨R
 
 --------------------------------------------------------------------------------
--- ∀ˢ˙, ∃ˢ˙: Universal/existential quantification
+-- ∀ᵒ˙, ∃ᵒ˙: Universal/existential quantification
 
-∀ˢ˙ ∃ˢ˙ :  (A : Set (sucˡ ℓ)) →  (A → Propˢ) →  Propˢ
-∀ˢ˙ _ P˙ .predˢ a ✓a =  ∀ x →  P˙ x .predˢ a ✓a
-∀ˢ˙ _ P˙ .monoˢ =  proof
+∀ᵒ˙ ∃ᵒ˙ :  (A : Set (sucˡ ℓ)) →  (A → Propᵒ) →  Propᵒ
+∀ᵒ˙ _ P˙ .predᵒ a ✓a =  ∀ x →  P˙ x .predᵒ a ✓a
+∀ᵒ˙ _ P˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoˢ $ ∀ˢ˙ _ P˙ .predˢ
-  proof a⊑b ∀xPxa x =  P˙ x .monoˢ a⊑b (∀xPxa x)
-∃ˢ˙ _ P˙ .predˢ a ✓a =  Σ x ,  P˙ x .predˢ a ✓a
-∃ˢ˙ _ P˙ .monoˢ =  proof
+  proof :  Monoᵒ $ ∀ᵒ˙ _ P˙ .predᵒ
+  proof a⊑b ∀xPxa x =  P˙ x .monoᵒ a⊑b (∀xPxa x)
+∃ᵒ˙ _ P˙ .predᵒ a ✓a =  Σ x ,  P˙ x .predᵒ a ✓a
+∃ᵒ˙ _ P˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoˢ $ ∃ˢ˙ _ P˙ .predˢ
-  proof a⊑b (x , Pxa) =  x ,  P˙ x .monoˢ a⊑b Pxa
+  proof :  Monoᵒ $ ∃ᵒ˙ _ P˙ .predᵒ
+  proof a⊑b (x , Pxa) =  x ,  P˙ x .monoᵒ a⊑b Pxa
 
-∀ˢ∈-syntax ∃ˢ∈-syntax :  (A : Set (sucˡ ℓ)) →  (A → Propˢ) →  Propˢ
-∀ˢ∈-syntax =  ∀ˢ˙
-∃ˢ∈-syntax =  ∃ˢ˙
+∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (A : Set (sucˡ ℓ)) →  (A → Propᵒ) →  Propᵒ
+∀ᵒ∈-syntax =  ∀ᵒ˙
+∃ᵒ∈-syntax =  ∃ᵒ˙
 
-∀ˢ-syntax ∃ˢ-syntax :  (A → Propˢ) →  Propˢ
-∀ˢ-syntax =  ∀ˢ˙ _
-∃ˢ-syntax =  ∃ˢ˙ _
+∀ᵒ-syntax ∃ᵒ-syntax :  (A → Propᵒ) →  Propᵒ
+∀ᵒ-syntax =  ∀ᵒ˙ _
+∃ᵒ-syntax =  ∃ᵒ˙ _
 
-infix 3 ∀ˢ∈-syntax ∃ˢ∈-syntax ∀ˢ-syntax ∃ˢ-syntax
-syntax ∀ˢ∈-syntax A (λ x → P) =  ∀ˢ x ∈ A , P
-syntax ∃ˢ∈-syntax A (λ x → P) =  ∃ˢ x ∈ A , P
-syntax ∀ˢ-syntax (λ x → P) =  ∀ˢ x , P
-syntax ∃ˢ-syntax (λ x → P) =  ∃ˢ x , P
+infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax
+syntax ∀ᵒ∈-syntax A (λ x → P) =  ∀ᵒ x ∈ A , P
+syntax ∃ᵒ∈-syntax A (λ x → P) =  ∃ᵒ x ∈ A , P
+syntax ∀ᵒ-syntax (λ x → P) =  ∀ᵒ x , P
+syntax ∃ᵒ-syntax (λ x → P) =  ∃ᵒ x , P
 
 abstract
 
-  -- Introducing ∀ˢ / Eliminating ∃ˢ
+  -- Introducing ∀ᵒ / Eliminating ∃ᵒ
 
-  ∀ˢ-intro :  (∀ x → P ⊨ Q˙ x) →  P ⊨ ∀ˢ˙ _ Q˙
-  ∀ˢ-intro ∀xP⊨Qx Pa x =  ∀xP⊨Qx x Pa
+  ∀ᵒ-intro :  (∀ x → P ⊨ Q˙ x) →  P ⊨ ∀ᵒ˙ _ Q˙
+  ∀ᵒ-intro ∀xP⊨Qx Pa x =  ∀xP⊨Qx x Pa
 
-  ∃ˢ-elim :  (∀ x → P˙ x ⊨ Q) →  ∃ˢ˙ _ P˙ ⊨ Q
-  ∃ˢ-elim ∀xPx⊨Q (x , Pxa) =  ∀xPx⊨Q x Pxa
+  ∃ᵒ-elim :  (∀ x → P˙ x ⊨ Q) →  ∃ᵒ˙ _ P˙ ⊨ Q
+  ∃ᵒ-elim ∀xPx⊨Q (x , Pxa) =  ∀xPx⊨Q x Pxa
 
-  -- Eliminating ∀ˢ / Introducing ∃ˢ
+  -- Eliminating ∀ᵒ / Introducing ∃ᵒ
 
-  ∀ˢ-elim :  ∀ˢ˙ _ P˙ ⊨ P˙ x
-  ∀ˢ-elim ∀Pa =  ∀Pa _
+  ∀ᵒ-elim :  ∀ᵒ˙ _ P˙ ⊨ P˙ x
+  ∀ᵒ-elim ∀Pa =  ∀Pa _
 
-  ∃ˢ-intro :  P˙ x ⊨ ∃ˢ˙ _ P˙
-  ∃ˢ-intro Px =  _ , Px
+  ∃ᵒ-intro :  P˙ x ⊨ ∃ᵒ˙ _ P˙
+  ∃ᵒ-intro Px =  _ , Px
 
   -- Choice
 
-  choiceˢ :  ∀ {P˙˙ : ∀ (x : A) (y : F x) → _} →
-    ∀ˢ x , ∃ˢ y , P˙˙ x y ⊨ ∃ˢ f ∈ (∀ x → F x) , ∀ˢ x , P˙˙ x (f x)
-  choiceˢ ∀x∃yPxy =  (λ x → ∀x∃yPxy x .proj₀) , λ x →  ∀x∃yPxy x .proj₁
+  choiceᵒ :  ∀ {P˙˙ : ∀ (x : A) (y : F x) → _} →
+    ∀ᵒ x , ∃ᵒ y , P˙˙ x y ⊨ ∃ᵒ f ∈ (∀ x → F x) , ∀ᵒ x , P˙˙ x (f x)
+  choiceᵒ ∀x∃yPxy =  (λ x → ∀x∃yPxy x .proj₀) , λ x →  ∀x∃yPxy x .proj₁
 
 --------------------------------------------------------------------------------
--- ∧ˢ: Conjunction
--- ∨ˢ: Disjunction
+-- ∧ᵒ: Conjunction
+-- ∨ᵒ: Disjunction
 
-infixr 7 _∧ˢ_
-infixr 6 _∨ˢ_
+infixr 7 _∧ᵒ_
+infixr 6 _∨ᵒ_
 
-_∧ˢ_ _∨ˢ_ :  Propˢ →  Propˢ →  Propˢ
-P ∧ˢ Q =  ∀ˢ˙ _ (binary P Q)
-P ∨ˢ Q =  ∃ˢ˙ _ (binary P Q)
-
---------------------------------------------------------------------------------
--- ⊤ˢ: Truth
--- ⊥ˢ: Falsehood
-
-⊤ˢ ⊥ˢ :  Propˢ
-⊤ˢ =  ∀ˢ˙ _ absurd
-⊥ˢ =  ∃ˢ˙ _ absurd
+_∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
+P ∧ᵒ Q =  ∀ᵒ˙ _ (binary P Q)
+P ∨ᵒ Q =  ∃ᵒ˙ _ (binary P Q)
 
 --------------------------------------------------------------------------------
--- →ˢ: Implication
+-- ⊤ᵒ: Truth
+-- ⊥ᵒ: Falsehood
 
-infixr 5 _→ˢ_
-_→ˢ_ :  Propˢ → Propˢ → Propˢ
-(P →ˢ Q) .predˢ a _ =  ∀ {b ✓b} →  a ⊑ b →  P .predˢ b ✓b →  Q .predˢ b ✓b
-(P →ˢ Q) .monoˢ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+⊤ᵒ ⊥ᵒ :  Propᵒ
+⊤ᵒ =  ∀ᵒ˙ _ absurd
+⊥ᵒ =  ∃ᵒ˙ _ absurd
+
+--------------------------------------------------------------------------------
+-- →ᵒ: Implication
+
+infixr 5 _→ᵒ_
+_→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+(P →ᵒ Q) .predᵒ a _ =  ∀ {b ✓b} →  a ⊑ b →  P .predᵒ b ✓b →  Q .predᵒ b ✓b
+(P →ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoˢ $ (P →ˢ Q) .predˢ
+  proof :  Monoᵒ $ (P →ᵒ Q) .predᵒ
   proof a⊑b P→Qa b⊑c =  P→Qa (⊑-trans a⊑b b⊑c)
 
 abstract
 
-  →ˢ-intro :  P ∧ˢ Q ⊨ R →  Q ⊨ P →ˢ R
-  →ˢ-intro {Q = Q} P∧Q⊨R Qa a⊑b Pb =  P∧Q⊨R $ binary Pb $ Q .monoˢ a⊑b Qa
+  →ᵒ-intro :  P ∧ᵒ Q ⊨ R →  Q ⊨ P →ᵒ R
+  →ᵒ-intro {Q = Q} P∧Q⊨R Qa a⊑b Pb =  P∧Q⊨R $ binary Pb $ Q .monoᵒ a⊑b Qa
 
-  →ˢ-elim :  Q ⊨ P →ˢ R →  P ∧ˢ Q ⊨ R
-  →ˢ-elim Q⊨P→R P∧Qa =  Q⊨P→R (P∧Qa 1₂) ⊑-refl (P∧Qa 0₂)
+  →ᵒ-elim :  Q ⊨ P →ᵒ R →  P ∧ᵒ Q ⊨ R
+  →ᵒ-elim Q⊨P→R P∧Qa =  Q⊨P→R (P∧Qa 1₂) ⊑-refl (P∧Qa 0₂)
 
 --------------------------------------------------------------------------------
--- ∗ˢ: Separating conjunction
+-- ∗ᵒ: Separating conjunction
 
-infixr 7 _∗ˢ_
-_∗ˢ_ :  Propˢ → Propˢ → Propˢ
-(P ∗ˢ Q) .predˢ a _ =  Σ b , Σ c , Σ ✓b , Σ ✓c ,
-  b ∙ c ≈ a  ×  P .predˢ b ✓b  ×  Q .predˢ c ✓c
-(P ∗ˢ Q) .monoˢ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+infixr 7 _∗ᵒ_
+_∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+(P ∗ᵒ Q) .predᵒ a _ =  Σ b , Σ c , Σ ✓b , Σ ✓c ,
+  b ∙ c ≈ a  ×  P .predᵒ b ✓b  ×  Q .predᵒ c ✓c
+(P ∗ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoˢ $ (P ∗ˢ Q) .predˢ
+  proof :  Monoᵒ $ (P ∗ᵒ Q) .predᵒ
   proof {✓b = ✓b} a⊑b@(c , c∙a≈b) (d , e , _ , _ , d∙e≈a , Pd , Qe) =
     c ∙ d , e ,
     (flip ✓-mono ✓b $ ⊑-respʳ c∙a≈b $ ∙-monoʳ $ e , (∙-comm »˜ d∙e≈a)) ,
     _ , (∙-assocˡ »˜ ∙-congʳ d∙e≈a »˜ c∙a≈b) ,
-    P .monoˢ ∙-incrˡ Pd , Qe
+    P .monoᵒ ∙-incrˡ Pd , Qe
 
 abstract
 
-  -- ∗ˢ is unital w.r.t. ⊤ˢ, commutative, associative, and monotone
+  -- ∗ᵒ is unital w.r.t. ⊤ᵒ, commutative, associative, and monotone
 
-  ⊤∗ˢ-elim :  ⊤ˢ ∗ˢ P ⊨ P
-  ⊤∗ˢ-elim {P} (b , c , _ , _ , b∙c≈a , _ , Pc) =  P .monoˢ (b , b∙c≈a) Pc
+  ⊤∗ᵒ-elim :  ⊤ᵒ ∗ᵒ P ⊨ P
+  ⊤∗ᵒ-elim {P} (b , c , _ , _ , b∙c≈a , _ , Pc) =  P .monoᵒ (b , b∙c≈a) Pc
 
-  ⊤∗ˢ-intro :  P ⊨ ⊤ˢ ∗ˢ P
-  ⊤∗ˢ-intro Pa =  (ε , _ , ✓-ε , _ , ∙-unitˡ , absurd , Pa)
+  ⊤∗ᵒ-intro :  P ⊨ ⊤ᵒ ∗ᵒ P
+  ⊤∗ᵒ-intro Pa =  (ε , _ , ✓-ε , _ , ∙-unitˡ , absurd , Pa)
 
-  ∗ˢ-comm :  P ∗ˢ Q ⊨ Q ∗ˢ P
-  ∗ˢ-comm (b , c , _ , _ , b∙c≈a , Pb , Qc) =
+  ∗ᵒ-comm :  P ∗ᵒ Q ⊨ Q ∗ᵒ P
+  ∗ᵒ-comm (b , c , _ , _ , b∙c≈a , Pb , Qc) =
     c , b , _ , _ , (∙-comm »˜ b∙c≈a) , Qc , Pb
 
-  ∗ˢ-assocˡ :  (P ∗ˢ Q) ∗ˢ R ⊨ P ∗ˢ (Q ∗ˢ R)
-  ∗ˢ-assocˡ {a = a} {✓a}
+  ∗ᵒ-assocˡ :  (P ∗ᵒ Q) ∗ᵒ R ⊨ P ∗ᵒ (Q ∗ᵒ R)
+  ∗ᵒ-assocˡ {a = a} {✓a}
    (bc , d , _ , _ , bc∙d≈a , (b , c , _ , _ , b∙c≈bc , Pb , Qc) , Rd) =
     b , c ∙ d , _ , ✓-mono (b , b∙cd≈a) ✓a , b∙cd≈a , Pb , c , d , _ , _ ,
     refl˜ , Qc , Rd
@@ -187,43 +187,43 @@ abstract
     b∙cd≈a :  b ∙ (c ∙ d) ≈ a
     b∙cd≈a =  ∙-assocʳ »˜ ∙-congˡ b∙c≈bc »˜ bc∙d≈a
 
-  ∗ˢ-monoˡ :  P ⊨ Q →  P ∗ˢ R ⊨ Q ∗ˢ R
-  ∗ˢ-monoˡ P⊨Q (b , c , _ , _ , b∙c≈a , Pb , Rc) =
+  ∗ᵒ-monoˡ :  P ⊨ Q →  P ∗ᵒ R ⊨ Q ∗ᵒ R
+  ∗ᵒ-monoˡ P⊨Q (b , c , _ , _ , b∙c≈a , Pb , Rc) =
     b , c , _ , _ , b∙c≈a , P⊨Q Pb , Rc
 
 --------------------------------------------------------------------------------
--- -∗ˢ: Magic wand
+-- -∗ᵒ: Magic wand
 
-infixr 5 _-∗ˢ_
-_-∗ˢ_ :  Propˢ → Propˢ → Propˢ
-(P -∗ˢ Q) .predˢ a _ =  ∀ {b c ✓c ✓c∙b} →  a ⊑ b →
-  P .predˢ c ✓c → Q .predˢ (c ∙ b) ✓c∙b
-(P -∗ˢ Q) .monoˢ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+infixr 5 _-∗ᵒ_
+_-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+(P -∗ᵒ Q) .predᵒ a _ =  ∀ {b c ✓c ✓c∙b} →  a ⊑ b →
+  P .predᵒ c ✓c → Q .predᵒ (c ∙ b) ✓c∙b
+(P -∗ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoˢ $ (P -∗ˢ Q) .predˢ
+  proof :  Monoᵒ $ (P -∗ᵒ Q) .predᵒ
   proof a⊑b P-∗Qa b⊑c Pc =  P-∗Qa (⊑-trans a⊑b b⊑c) Pc
 
 abstract
 
-  -- -∗ˢ is the right adjoint of ∗ˢ
+  -- -∗ᵒ is the right adjoint of ∗ᵒ
 
-  -∗ˢ-intro :  P ∗ˢ Q ⊨ R →  Q ⊨ P -∗ˢ R
-  -∗ˢ-intro {Q = Q} P∗Q⊨R Qa {✓c∙b = ✓c∙b} a⊑b Pb =  P∗Q⊨R $
-    _ , _ , _ , ✓-mono ∙-incrˡ ✓c∙b , refl˜ , Pb , Q .monoˢ a⊑b Qa
+  -∗ᵒ-intro :  P ∗ᵒ Q ⊨ R →  Q ⊨ P -∗ᵒ R
+  -∗ᵒ-intro {Q = Q} P∗Q⊨R Qa {✓c∙b = ✓c∙b} a⊑b Pb =  P∗Q⊨R $
+    _ , _ , _ , ✓-mono ∙-incrˡ ✓c∙b , refl˜ , Pb , Q .monoᵒ a⊑b Qa
 
-  -∗ˢ-elim :  Q ⊨ P -∗ˢ R →  P ∗ˢ Q ⊨ R
-  -∗ˢ-elim {R = R} Q⊨P-∗R {✓a = ✓a} (b , c , _ , _ , b∙c≈a , Pb , Qc) =
-    R .monoˢ {✓a = ✓-resp (sym˜ b∙c≈a) ✓a} (≈⇒⊑ b∙c≈a) $ Q⊨P-∗R Qc ⊑-refl Pb
+  -∗ᵒ-elim :  Q ⊨ P -∗ᵒ R →  P ∗ᵒ Q ⊨ R
+  -∗ᵒ-elim {R = R} Q⊨P-∗R {✓a = ✓a} (b , c , _ , _ , b∙c≈a , Pb , Qc) =
+    R .monoᵒ {✓a = ✓-resp (sym˜ b∙c≈a) ✓a} (≈⇒⊑ b∙c≈a) $ Q⊨P-∗R Qc ⊑-refl Pb
 
 --------------------------------------------------------------------------------
--- |=>ˢ: Update modality
+-- |=>ᵒ: Update modality
 
-infix 8 |=>ˢ_
-|=>ˢ_ :  Propˢ → Propˢ
-(|=>ˢ P) .predˢ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓b ,  ✓ c ∙ b  ×  P .predˢ b ✓b
-(|=>ˢ P) .monoˢ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+infix 8 |=>ᵒ_
+|=>ᵒ_ :  Propᵒ → Propᵒ
+(|=>ᵒ P) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓b ,  ✓ c ∙ b  ×  P .predᵒ b ✓b
+(|=>ᵒ P) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoˢ $ (|=>ˢ P) .predˢ
+  proof :  Monoᵒ $ (|=>ᵒ P) .predᵒ
   proof (d , d∙a≈b) |=>Pa e ✓e∙b with
     |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (sym˜ d∙a≈b) »˜ ∙-assocʳ
   ... | (c , _ , ✓ed∙c , Pc) =  c , _ ,
@@ -231,72 +231,72 @@ infix 8 |=>ˢ_
 
 abstract
 
-  -- |=>ˢ is monadic: monotone, increasing, and idempotent
+  -- |=>ᵒ is monadic: monotone, increasing, and idempotent
 
-  |=>ˢ-mono :  P ⊨ Q →  |=>ˢ P ⊨ |=>ˢ Q
-  |=>ˢ-mono P⊨Q |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
+  |=>ᵒ-mono :  P ⊨ Q →  |=>ᵒ P ⊨ |=>ᵒ Q
+  |=>ᵒ-mono P⊨Q |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
   ... | b , _ , ✓c∙b , Pb =  b , _ , ✓c∙b , P⊨Q Pb
 
-  |=>ˢ-intro :  P ⊨ |=>ˢ P
-  |=>ˢ-intro Pa c ✓c∙a =  _ , _ , ✓c∙a , Pa
+  |=>ᵒ-intro :  P ⊨ |=>ᵒ P
+  |=>ᵒ-intro Pa c ✓c∙a =  _ , _ , ✓c∙a , Pa
 
-  |=>ˢ-join :  |=>ˢ |=>ˢ P ⊨ |=>ˢ P
-  |=>ˢ-join |=>|=>Pa d ✓d∙a with |=>|=>Pa d ✓d∙a
+  |=>ᵒ-join :  |=>ᵒ |=>ᵒ P ⊨ |=>ᵒ P
+  |=>ᵒ-join |=>|=>Pa d ✓d∙a with |=>|=>Pa d ✓d∙a
   ... | b , _ , ✓d∙b , |=>Pb with  |=>Pb d ✓d∙b
   ...   | c , _ , ✓d∙c , Pc = c , _ , ✓d∙c , Pc
 
-  -- ∗ˢ can get inside |=>ˢ
+  -- ∗ᵒ can get inside |=>ᵒ
 
-  |=>ˢ-frameˡ :  P ∗ˢ |=>ˢ Q ⊨ |=>ˢ (P ∗ˢ Q)
-  |=>ˢ-frameˡ (b , c , _ , _ , b∙c≈a , Pb , |=>Qc) e ✓e∙a with
+  |=>ᵒ-frameˡ :  P ∗ᵒ |=>ᵒ Q ⊨ |=>ᵒ (P ∗ᵒ Q)
+  |=>ᵒ-frameˡ (b , c , _ , _ , b∙c≈a , Pb , |=>Qc) e ✓e∙a with
     |=>Qc (e ∙ b) $ flip ✓-resp ✓e∙a $ ∙-congʳ (sym˜ b∙c≈a) »˜ ∙-assocʳ
   ... | d , _ , ✓eb∙d , Qd =  b ∙ d , (flip ✓-mono ✓eb∙d $ ∙-monoˡ ∙-incrˡ) ,
     (✓-resp ∙-assocˡ ✓eb∙d) , b , d , _ , _ , refl˜ , Pb , Qd
 
-  -- ∃ˢ _ , can get outside |=>ˢ
+  -- ∃ᵒ _ , can get outside |=>ᵒ
 
-  |=>ˢ-∃-out :  |=>ˢ (∃ˢ _ ∈ A , P) ⊨ ∃ˢ _ ∈ A , |=>ˢ P
-  |=>ˢ-∃-out {✓a = ✓a} |=>∃AP .proj₀ with |=>∃AP ε (✓-resp (sym˜ ∙-unitˡ) ✓a)
+  |=>ᵒ-∃-out :  |=>ᵒ (∃ᵒ _ ∈ A , P) ⊨ ∃ᵒ _ ∈ A , |=>ᵒ P
+  |=>ᵒ-∃-out {✓a = ✓a} |=>∃AP .proj₀ with |=>∃AP ε (✓-resp (sym˜ ∙-unitˡ) ✓a)
   ... | _ , _ , _ , x , _ =  x
-  |=>ˢ-∃-out {✓a = ✓a} |=>∃AP .proj₁ c ✓c∙a with |=>∃AP c ✓c∙a
+  |=>ᵒ-∃-out {✓a = ✓a} |=>∃AP .proj₁ c ✓c∙a with |=>∃AP c ✓c∙a
   ... | b , _ , ✓c∙b , _ , Pb =  b , _ , ✓c∙b , Pb
 
 --------------------------------------------------------------------------------
--- □ˢ: Persistence modality
+-- □ᵒ: Persistence modality
 
-infix 8 □ˢ_
-□ˢ_ :  Propˢ → Propˢ
-(□ˢ P) .predˢ a ✓a =  P .predˢ ⌞ a ⌟ (✓-⌞⌟ ✓a)
-(□ˢ P) .monoˢ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+infix 8 □ᵒ_
+□ᵒ_ :  Propᵒ → Propᵒ
+(□ᵒ P) .predᵒ a ✓a =  P .predᵒ ⌞ a ⌟ (✓-⌞⌟ ✓a)
+(□ᵒ P) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where
-  proof :  Monoˢ $ (□ˢ P) .predˢ
-  proof a⊑b P⌞a⌟ =  P .monoˢ (⌞⌟-mono a⊑b) P⌞a⌟
+  proof :  Monoᵒ $ (□ᵒ P) .predᵒ
+  proof a⊑b P⌞a⌟ =  P .monoᵒ (⌞⌟-mono a⊑b) P⌞a⌟
 
 abstract
 
-  -- □ˢ is comonadic: monotone, decreasing, and idempotent
+  -- □ᵒ is comonadic: monotone, decreasing, and idempotent
 
-  □ˢ-mono :  P ⊨ Q →  □ˢ P ⊨ □ˢ Q
-  □ˢ-mono P⊨Q P⌞a⌟ =  P⊨Q P⌞a⌟
+  □ᵒ-mono :  P ⊨ Q →  □ᵒ P ⊨ □ᵒ Q
+  □ᵒ-mono P⊨Q P⌞a⌟ =  P⊨Q P⌞a⌟
 
-  □ˢ-elim :  □ˢ P ⊨ P
-  □ˢ-elim {P = P} P⌞a⌟ =  P .monoˢ ⌞⌟-decr P⌞a⌟
+  □ᵒ-elim :  □ᵒ P ⊨ P
+  □ᵒ-elim {P = P} P⌞a⌟ =  P .monoᵒ ⌞⌟-decr P⌞a⌟
 
-  □ˢ-dup :  □ˢ P ⊨ □ˢ □ˢ P
-  □ˢ-dup {P = P} P⌞a⌟ =  P .monoˢ (≈⇒⊑ $ sym˜ ⌞⌟-idem) P⌞a⌟
+  □ᵒ-dup :  □ᵒ P ⊨ □ᵒ □ᵒ P
+  □ᵒ-dup {P = P} P⌞a⌟ =  P .monoᵒ (≈⇒⊑ $ sym˜ ⌞⌟-idem) P⌞a⌟
 
-  -- ∧ˢ can turn into ∗ˢ when one argument is under □ˢ
+  -- ∧ᵒ can turn into ∗ᵒ when one argument is under □ᵒ
 
-  □ˢˡ-∧ˢ⇒∗ˢ :  □ˢ P ∧ˢ Q ⊨ □ˢ P ∗ˢ Q
-  □ˢˡ-∧ˢ⇒∗ˢ {P = P} {a = a} {✓a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ✓-⌞⌟ ✓a , _ , ⌞⌟-unitˡ ,
-    P .monoˢ (≈⇒⊑ $ sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) , P⌞a⌟∧Qa 1₂
+  □ᵒˡ-∧ᵒ⇒∗ᵒ :  □ᵒ P ∧ᵒ Q ⊨ □ᵒ P ∗ᵒ Q
+  □ᵒˡ-∧ᵒ⇒∗ᵒ {P = P} {a = a} {✓a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ✓-⌞⌟ ✓a , _ , ⌞⌟-unitˡ ,
+    P .monoᵒ (≈⇒⊑ $ sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) , P⌞a⌟∧Qa 1₂
 
-  -- ∀ˢ can get inside □ˢ
+  -- ∀ᵒ can get inside □ᵒ
 
-  □ˢ-∀ˢ-in :  ∀ˢ˙ _ (□ˢ_ ∘ P˙) ⊨ □ˢ ∀ˢ˙ _ P˙
-  □ˢ-∀ˢ-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
+  □ᵒ-∀ᵒ-in :  ∀ᵒ˙ _ (□ᵒ_ ∘ P˙) ⊨ □ᵒ ∀ᵒ˙ _ P˙
+  □ᵒ-∀ᵒ-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
 
-  -- ∃ˢ can get outside □ˢ
+  -- ∃ᵒ can get outside □ᵒ
 
-  □ˢ-∃ˢ-out :  □ˢ ∃ˢ˙ _ P˙ ⊨ ∃ˢ˙ _ (□ˢ_ ∘ P˙)
-  □ˢ-∃ˢ-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟
+  □ᵒ-∃ᵒ-out :  □ᵒ ∃ᵒ˙ _ P˙ ⊨ ∃ᵒ˙ _ (□ᵒ_ ∘ P˙)
+  □ᵒ-∃ᵒ-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟

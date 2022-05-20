@@ -108,20 +108,18 @@ abstract
   -- ∧/∨ is associative
 
   ∧-assocˡ :  (P ∧ Q) ∧ R ⊢[ ι ] P ∧ (Q ∧ R)
-  ∧-assocˡ =  ∧-intro (∧-elimˡ » ∧-elimˡ) $
-              ∧-intro (∧-elimˡ » ∧-elimʳ) ∧-elimʳ
+  ∧-assocˡ =  ∧-intro (∧-elimˡ » ∧-elimˡ) $ ∧-intro (∧-elimˡ » ∧-elimʳ) ∧-elimʳ
 
   ∧-assocʳ :  P ∧ (Q ∧ R) ⊢[ ι ] (P ∧ Q) ∧ R
-  ∧-assocʳ =  ∧-intro (∧-intro ∧-elimˡ $ ∧-elimʳ » ∧-elimˡ) $
-              ∧-elimʳ » ∧-elimʳ
+  ∧-assocʳ =  ∧-intro (∧-intro ∧-elimˡ $ ∧-elimʳ » ∧-elimˡ) $ ∧-elimʳ » ∧-elimʳ
 
   ∨-assocˡ :  (P ∨ Q) ∨ R ⊢[ ι ] P ∨ (Q ∨ R)
-  ∨-assocˡ =  ∨-elim (∨-elim ∨-introˡ $ ∨-introˡ » ∨-introʳ) $
-              ∨-introʳ » ∨-introʳ
+  ∨-assocˡ =
+    ∨-elim (∨-elim ∨-introˡ $ ∨-introˡ » ∨-introʳ) $ ∨-introʳ » ∨-introʳ
 
   ∨-assocʳ :  P ∨ (Q ∨ R) ⊢[ ι ] (P ∨ Q) ∨ R
-  ∨-assocʳ =  ∨-elim (∨-introˡ » ∨-introˡ) $
-              ∨-elim (∨-introʳ » ∨-introˡ) $ ∨-introʳ
+  ∨-assocʳ =
+    ∨-elim (∨-introˡ » ∨-introˡ) $ ∨-elim (∨-introʳ » ∨-introˡ) $ ∨-introʳ
 
   -- ∧/∨ is unital w.r.t. ⊤'/⊥'
 

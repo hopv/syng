@@ -14,5 +14,6 @@ open import Base.Size using (Size; Size<)
 
 record  Thunk {ℓ : Level} (F : Size → Set ℓ) (ι : Size) :  Set ℓ  where
   coinductive
+  constructor thunk
   field  ! :  {ι' : Size< ι} →  F ι'
 open Thunk public

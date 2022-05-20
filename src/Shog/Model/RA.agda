@@ -15,6 +15,7 @@ open import Base.Setoid using (Setoid)
 --------------------------------------------------------------------------------
 -- Resource algebra (Unital)
 record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
+  constructor ra
   ------------------------------------------------------------------------------
   -- Fields
   infix 4 _≈_

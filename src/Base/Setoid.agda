@@ -13,6 +13,7 @@ open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; Σ-syntax; _,_)
 
 record  Setoid ℓ ℓ≈ :  Set (sucˡ (ℓ ⊔ˡ ℓ≈))  where
+  constructor setoid
   infix 4 _≈_
   infixr -1 _»˜_
   field

@@ -134,6 +134,9 @@ data Judg ι where
   -- by allocating □ P^, ... minus the tokens save□ P^, ... themselves
   save□-alloc-rec :
     [∗]-map save□ P^s -∗ [∗ P^ ∈ P^s ] □ P^ .! ⊢[ ι ]=>> [∗]-map save□ P^s
+  -- Use a exclusive/persistent save token
+  saveˣ-use :  saveˣ P^ ⊢[ ι ]=>> P^ .!
+  save□-use :  save□ P^ ⊢[ ι ]=>> □ P^ .!
 
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition

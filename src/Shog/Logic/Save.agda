@@ -19,7 +19,7 @@ open import Shog.Logic.Supd ℓ using (_ᵘ»_)
 
 -- Import and re-export the axiomatic rules
 open import Shog.Logic.Judg.All ℓ public using (saveˣ-mono; save□-mono;
-  save□-□; saveˣ-alloc; save□-alloc-rec)
+  save□-□; saveˣ-alloc; save□-alloc-rec; saveˣ-use; save□-use)
 
 private variable
   ι :  Size

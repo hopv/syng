@@ -13,6 +13,7 @@ module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (sucˡ ℓ) (sucˡ ℓ) (s
 open import Base.Few using (binary; 0₂; 1₂; absurd)
 open import Base.Func using (_$_; _▷_; flip; _∘_)
 open import Base.Prod using (Σ-syntax; _×_; _,_; proj₀; proj₁)
+open import Base.List using (List; _∷_; []; map)
 
 open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; refl˜;
   sym˜; _»˜_; ⊑-refl; ⊑-trans; ⊑-respʳ; ≈⇒⊑; ✓-resp; ✓-mono; ✓-ε; ∙-congˡ;
@@ -38,6 +39,8 @@ private variable
   P˙ Q˙ :  A → Propᵒ
   x :  A
   F :  A →  Set (sucˡ ℓ)
+  ℓ' :  Level
+  D :  Set ℓ'
 
 --------------------------------------------------------------------------------
 -- ⊨: Entailment
@@ -130,6 +133,12 @@ P ∨ᵒ Q =  ∃ᵒ˙ _ (binary P Q)
 ⊥ᵒ =  ∃ᵒ˙ _ absurd
 
 --------------------------------------------------------------------------------
+-- ⌜ ⌝ᵒ: Set embedding
+
+⌜_⌝ᵒ :  Set (sucˡ ℓ) →  Propᵒ
+⌜ A ⌝ᵒ =  ∃ᵒ˙ A (λ _ → ⊤ᵒ)
+
+--------------------------------------------------------------------------------
 -- →ᵒ: Implication
 
 infixr 5 _→ᵒ_
@@ -190,6 +199,24 @@ abstract
   ∗ᵒ-monoˡ :  P ⊨ Q →  P ∗ᵒ R ⊨ Q ∗ᵒ R
   ∗ᵒ-monoˡ P⊨Q (b , c , _ , _ , b∙c≈a , Pb , Rc) =
     b , c , _ , _ , b∙c≈a , P⊨Q Pb , Rc
+
+--------------------------------------------------------------------------------
+-- [∗ᵒ]: Iterated separating conjunction
+
+[∗ᵒ] :  List Propᵒ →  Propᵒ
+[∗ᵒ] [] =  ⊤ᵒ
+[∗ᵒ] (P ∷ Ps) =  P ∗ᵒ [∗ᵒ] Ps
+
+-- [∗ᵒ] with map
+
+[∗ᵒ]-map :  (D → Propᵒ) →  List D →  Propᵒ
+[∗ᵒ]-map P˙ ds =  [∗ᵒ] (map P˙ ds)
+
+[∗ᵒ]-map-syntax :  (D → Propᵒ) →  List D →  Propᵒ
+[∗ᵒ]-map-syntax =  [∗ᵒ]-map
+
+infix 8 [∗ᵒ]-map-syntax
+syntax [∗ᵒ]-map-syntax (λ d → P) ds =  [∗ᵒ d ∈ ds ] P
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ: Magic wand

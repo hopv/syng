@@ -20,7 +20,7 @@ open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 open import Shog.Logic.Prop ℓ using (
   Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_; [∗])
-open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; pers)
+open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; ⇒□)
 
 -- Import and re-export the axiomatic rules
 open import Shog.Logic.Judg.All ℓ public using (refl; _»_;
@@ -416,10 +416,10 @@ abstract
   -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
   ∀-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∀˙ _ P˙)
-  ∀-Pers ∀Pers .pers =  ∀-mono (λ a → ∀Pers a .pers) » □-∀-in
+  ∀-Pers ∀Pers .⇒□ =  ∀-mono (λ a → ∀Pers a .⇒□) » □-∀-in
 
   ∃-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∃˙ _ P˙)
-  ∃-Pers ∀Pers .pers =  ∃-mono (λ a → ∀Pers a .pers) » □-∃-in
+  ∃-Pers ∀Pers .⇒□ =  ∃-mono (λ a → ∀Pers a .⇒□) » □-∃-in
 
   instance
 
@@ -440,7 +440,7 @@ abstract
     -- For ∗
 
     ∗-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∗ Q)
-    ∗-Pers .pers =  ∗⇒∧ » pers » in□-∧⇒∗
+    ∗-Pers .⇒□ =  ∗⇒∧ » ⇒□ » in□-∧⇒∗
 
     -- For ⌜ ⌝
 
@@ -450,7 +450,7 @@ abstract
     -- For □
 
     □-Pers :  Pers (□ P)
-    □-Pers .pers =  □-dup
+    □-Pers .⇒□ =  □-dup
 
   ------------------------------------------------------------------------------
   -- Using Pers P
@@ -458,14 +458,14 @@ abstract
   -- ∧ can turn into ∗ when one argument is persistent
 
   Persˡ-∧⇒∗ :  {{Pers P}} →  P ∧ Q ⊢[ ι ] P ∗ Q
-  Persˡ-∧⇒∗ =  ∧-monoˡ pers » □ˡ-∧⇒∗ » ∗-monoˡ □-elim
+  Persˡ-∧⇒∗ =  ∧-monoˡ ⇒□ » □ˡ-∧⇒∗ » ∗-monoˡ □-elim
 
   Persʳ-∧⇒∗ :  {{Pers Q}} →  P ∧ Q ⊢[ ι ] P ∗ Q
   Persʳ-∧⇒∗ =  ∧-comm » Persˡ-∧⇒∗ » ∗-comm
 
   -- The antecedent can be retained when the succedent is persistent
   retain-Pers :  {{Pers Q}} →  P ⊢[ ι ] Q →  P ⊢[ ι ] Q ∗ P
-  retain-Pers P⊢Q =  retain-□ (P⊢Q » pers) » ∗-monoˡ □-elim
+  retain-Pers P⊢Q =  retain-□ (P⊢Q » ⇒□) » ∗-monoˡ □-elim
 
   -- A persistent proposition can be duplicated
   dup-Pers :  {{Pers P}} →  P ⊢[ ι ] P ∗ P
@@ -473,7 +473,7 @@ abstract
 
   -- -∗ can turn into →' when the left-hand side is persistent
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
-  Pers--∗⇒→ =  -∗⇒□→ » →-monoˡ pers
+  Pers--∗⇒→ =  -∗⇒□→ » →-monoˡ ⇒□
 
   -- Introducing and eliminating ⌜ ⌝ ∗
 

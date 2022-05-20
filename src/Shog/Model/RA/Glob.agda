@@ -17,28 +17,28 @@ Prop-setoid :  Setoid (sucˡ ℓ) (sucˡ ℓ)
 Prop-setoid =  ≡-setoid (Prop' ∞)
 
 --------------------------------------------------------------------------------
--- PropExcᴿᴬ, PropAgᴿᴬ: Exclusive / agreement RA on Prop' ∞
+-- Excᴾᴿᴬ, Agᴾᴿᴬ: Exclusive / agreement RA on Prop' ∞
 
 open import Shog.Model.RA.Exc Prop-setoid public using ()
-  renaming (Excᴿᴬ to PropExcᴿᴬ)
+  renaming (Excᴿᴬ to Excᴾᴿᴬ; #ˣ_ to #ˣᴾ_; #ˣ-↝ to #ˣᴾ-↝)
 
 open import Shog.Model.RA.Ag Prop-setoid public using ()
-  renaming (Agᴿᴬ to PropAgᴿᴬ)
+  renaming (Agᴿᴬ to Agᴾᴿᴬ; ag to agᴾ; ✓-ag to ✓-agᴾ; agree to agreeᴾ)
 
 --------------------------------------------------------------------------------
 -- Saveˣᴿᴬ, Save□ᴿᴬ: Exclusive and persistent save token RA
 
-open import Shog.Model.RA.Fin PropExcᴿᴬ public using ()
-  renaming (Finᴿᴬ to Saveˣᴿᴬ)
+open import Shog.Model.RA.Fin Excᴾᴿᴬ public using () renaming (Finᴿᴬ to Saveˣᴿᴬ;
+  injᶠ to injᶠˢˣ; allocᶠ to allocᶠˢˣ)
 open RA Saveˣᴿᴬ public using () renaming (Car to Saveˣ)
 
-open import Shog.Model.RA.Fin PropAgᴿᴬ public using ()
-  renaming (Finᴿᴬ to Save□ᴿᴬ)
+open import Shog.Model.RA.Fin Agᴾᴿᴬ public using () renaming (Finᴿᴬ to Save□ᴿᴬ;
+  injᶠ to injᶠˢ□; allocᶠ to allocᶠˢ□)
 open RA Save□ᴿᴬ public using () renaming (Car to Save□)
 
 --------------------------------------------------------------------------------
 -- Globᴿᴬ: Global RA
 
 open import Shog.Model.RA.Prod Saveˣᴿᴬ Save□ᴿᴬ public using ()
-  renaming (Prodᴿᴬ to Globᴿᴬ; ×-injˡ to inj-Saveˣ; ×-injʳ to inj-Save□)
+  renaming (Prodᴿᴬ to Globᴿᴬ; ×-injˡ to injˢˣ; ×-injʳ to injˢ□)
 open RA Globᴿᴬ public using () renaming (Car to Glob)

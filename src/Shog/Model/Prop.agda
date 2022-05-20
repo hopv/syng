@@ -32,7 +32,7 @@ record  Propᵒ :  Set (sucˡ (sucˡ ℓ))  where
   field
     predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (sucˡ ℓ)
     monoᵒ :  Monoᵒ predᵒ
-open Propᵒ
+open Propᵒ public
 
 private variable
   X :  Set (sucˡ ℓ)

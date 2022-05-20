@@ -17,9 +17,10 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.List using (List; _∷_; []; map)
 
 open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
-  _↝ˢ_; refl˜; sym˜; _»˜_; ⊑-refl; ⊑-trans; ⊑-respʳ; ≈⇒⊑; ✓-resp; ✓-mono; ✓-ε;
-  ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm;
-  ∙-assocˡ; ∙-assocʳ; ∙-unitˡ; ε-min; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ⌞⌟-mono; ✓-⌞⌟)
+  _↝ˢ_; refl˜; sym˜; _»˜_; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ≈⇒⊑; ✓-resp;
+  ✓-mono; ✓-ε; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ;
+  ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-unitˡ; ε-min; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr;
+  ⌞⌟-mono; ✓-⌞⌟)
 
 --------------------------------------------------------------------------------
 -- Propᵒ: Semantic proposition
@@ -356,6 +357,12 @@ own a .predᵒ b _ =  a ⊑ b
 own a .monoᵒ b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
 abstract
+
+  own-resp :  a ≈ b →  own a ⊨ own b
+  own-resp a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
+
+  own-mono :  a ⊑ b →  own b ⊨ own a
+  own-mono a⊑b b⊑c =  ⊑-trans a⊑b b⊑c
 
   own-∙⇒∗ :  own (a ∙ b) ⊨ own a ∗ᵒ own b
   own-∙⇒∗ {a = a} {b} {c} {✓c} ab⊑c@(d , d∙ab≈c) =  d ∙ a , b ,

@@ -34,11 +34,11 @@ record  Propᵒ :  Set (sucˡ (sucˡ ℓ))  where
 open Propᵒ
 
 private variable
-  A :  Set (sucˡ ℓ)
+  X :  Set (sucˡ ℓ)
   P Q R :  Propᵒ
-  P˙ Q˙ :  A → Propᵒ
-  x :  A
-  F :  A →  Set (sucˡ ℓ)
+  P˙ Q˙ :  X → Propᵒ
+  x :  X
+  F :  X →  Set (sucˡ ℓ)
   ℓ' :  Level
   D :  Set ℓ'
 
@@ -63,7 +63,7 @@ abstract
 --------------------------------------------------------------------------------
 -- ∀ᵒ˙, ∃ᵒ˙: Universal/existential quantification
 
-∀ᵒ˙ ∃ᵒ˙ :  (A : Set (sucˡ ℓ)) →  (A → Propᵒ) →  Propᵒ
+∀ᵒ˙ ∃ᵒ˙ :  (X : Set (sucˡ ℓ)) →  (X → Propᵒ) →  Propᵒ
 ∀ᵒ˙ _ P˙ .predᵒ a ✓a =  ∀ x →  P˙ x .predᵒ a ✓a
 ∀ᵒ˙ _ P˙ .monoᵒ =  proof
  where abstract
@@ -75,17 +75,17 @@ abstract
   proof :  Monoᵒ $ ∃ᵒ˙ _ P˙ .predᵒ
   proof a⊑b (x , Pxa) =  x ,  P˙ x .monoᵒ a⊑b Pxa
 
-∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (A : Set (sucˡ ℓ)) →  (A → Propᵒ) →  Propᵒ
+∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (X : Set (sucˡ ℓ)) →  (X → Propᵒ) →  Propᵒ
 ∀ᵒ∈-syntax =  ∀ᵒ˙
 ∃ᵒ∈-syntax =  ∃ᵒ˙
 
-∀ᵒ-syntax ∃ᵒ-syntax :  (A → Propᵒ) →  Propᵒ
+∀ᵒ-syntax ∃ᵒ-syntax :  (X → Propᵒ) →  Propᵒ
 ∀ᵒ-syntax =  ∀ᵒ˙ _
 ∃ᵒ-syntax =  ∃ᵒ˙ _
 
 infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax
-syntax ∀ᵒ∈-syntax A (λ x → P) =  ∀ᵒ x ∈ A , P
-syntax ∃ᵒ∈-syntax A (λ x → P) =  ∃ᵒ x ∈ A , P
+syntax ∀ᵒ∈-syntax X (λ x → P) =  ∀ᵒ x ∈ X , P
+syntax ∃ᵒ∈-syntax X (λ x → P) =  ∃ᵒ x ∈ X , P
 syntax ∀ᵒ-syntax (λ x → P) =  ∀ᵒ x , P
 syntax ∃ᵒ-syntax (λ x → P) =  ∃ᵒ x , P
 
@@ -109,7 +109,7 @@ abstract
 
   -- Choice
 
-  choiceᵒ :  ∀ {P˙˙ : ∀ (x : A) (y : F x) → _} →
+  choiceᵒ :  ∀ {P˙˙ : ∀ (x : X) (y : F x) → _} →
     ∀ᵒ x , ∃ᵒ y , P˙˙ x y ⊨ ∃ᵒ f ∈ (∀ x → F x) , ∀ᵒ x , P˙˙ x (f x)
   choiceᵒ ∀x∃yPxy =  (λ x → ∀x∃yPxy x .proj₀) , λ x → ∀x∃yPxy x .proj₁
 
@@ -136,7 +136,7 @@ P ∨ᵒ Q =  ∃ᵒ˙ _ (binary P Q)
 -- ⌜ ⌝ᵒ: Set embedding
 
 ⌜_⌝ᵒ :  Set (sucˡ ℓ) →  Propᵒ
-⌜ A ⌝ᵒ =  ∃ᵒ˙ A (λ _ → ⊤ᵒ)
+⌜ X ⌝ᵒ =  ∃ᵒ˙ X (λ _ → ⊤ᵒ)
 
 --------------------------------------------------------------------------------
 -- →ᵒ: Implication
@@ -282,7 +282,7 @@ abstract
 
   -- ∃ᵒ _ , can get outside |=>ᵒ
 
-  |=>ᵒ-∃-out :  |=>ᵒ (∃ᵒ _ ∈ A , P) ⊨ ∃ᵒ _ ∈ A , |=>ᵒ P
+  |=>ᵒ-∃-out :  |=>ᵒ (∃ᵒ _ ∈ X , P) ⊨ ∃ᵒ _ ∈ X , |=>ᵒ P
   |=>ᵒ-∃-out {✓a = ✓a} |=>∃AP .proj₀ with |=>∃AP ε (✓-resp (sym˜ ∙-unitˡ) ✓a)
   ... | _ , _ , _ , x , _ =  x
   |=>ᵒ-∃-out {✓a = ✓a} |=>∃AP .proj₁ c ✓c∙a with |=>∃AP c ✓c∙a

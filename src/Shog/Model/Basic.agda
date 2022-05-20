@@ -20,10 +20,10 @@ open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; ∀ᵒ˙; ∃ᵒ˙; _∗�
 -- [| |]ᴮ[ ] : Interpreting IsBasic propositions
 
 [|_|]ᴮ[_] :  (P : Prop' ∞) →  IsBasic P →  Propᵒ
-[| ∀˙ A P˙ |]ᴮ[ ∀-IsBasic IsBaP˙ ] =
-  ∀ᵒ˙ (Upˡ A) $ λ (upˡ x) → [| P˙ x |]ᴮ[ IsBaP˙ x ]
-[| ∃˙ A P˙ |]ᴮ[ ∃-IsBasic IsBaP˙ ] =
-  ∃ᵒ˙ (Upˡ A) $ λ (upˡ x) → [| P˙ x |]ᴮ[ IsBaP˙ x ]
+[| ∀˙ X P˙ |]ᴮ[ ∀-IsBasic IsBaP˙ ] =
+  ∀ᵒ˙ (Upˡ X) $ λ (upˡ x) → [| P˙ x |]ᴮ[ IsBaP˙ x ]
+[| ∃˙ X P˙ |]ᴮ[ ∃-IsBasic IsBaP˙ ] =
+  ∃ᵒ˙ (Upˡ X) $ λ (upˡ x) → [| P˙ x |]ᴮ[ IsBaP˙ x ]
 [| P ∗ Q |]ᴮ[ ∗-IsBasic IsBaP IsBaQ ] =  [| P |]ᴮ[ IsBaP ] ∗ᵒ [| Q |]ᴮ[ IsBaQ ]
 
 --------------------------------------------------------------------------------

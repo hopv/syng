@@ -36,4 +36,4 @@ lineˢ□ i P =  own $ injˢ□ $ injᶠˢ□ i $ agᴾ P
 
 save□ᵒ :  Prop' ∞ →  Propᵒ
 save□ᵒ P =  ∃ᵒ P' , ∃ᵒ B , ∃ᵒ BaB , ∃ᵒ i ,
-  ⌜ B ∗ P ⊢[ ∞ ] P' ⌝ᵒ'  ∧ᵒ'  [| B |]ᴮ {{ BaB }}  ∧ᵒ'  lineˢ□ (↓ˡ i) P
+  ⌜ B ∗ P' ⊢[ ∞ ] P ⌝ᵒ'  ∧ᵒ'  [| B |]ᴮ {{ BaB }}  ∧ᵒ'  lineˢ□ (↓ˡ i) P'

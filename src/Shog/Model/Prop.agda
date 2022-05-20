@@ -108,7 +108,7 @@ abstract
 
   choiceᵒ :  ∀ {P˙˙ : ∀ (x : A) (y : F x) → _} →
     ∀ᵒ x , ∃ᵒ y , P˙˙ x y ⊨ ∃ᵒ f ∈ (∀ x → F x) , ∀ᵒ x , P˙˙ x (f x)
-  choiceᵒ ∀x∃yPxy =  (λ x → ∀x∃yPxy x .proj₀) , λ x →  ∀x∃yPxy x .proj₁
+  choiceᵒ ∀x∃yPxy =  (λ x → ∀x∃yPxy x .proj₀) , λ x → ∀x∃yPxy x .proj₁
 
 --------------------------------------------------------------------------------
 -- ∧ᵒ: Conjunction

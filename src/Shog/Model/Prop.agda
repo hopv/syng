@@ -10,9 +10,10 @@ open import Shog.Model.RA using (RA)
 module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (sucˡ ℓ) (sucˡ ℓ) (sucˡ ℓ))
   where
 
-open import Base.Few using (binary; 0₂; 1₂; absurd)
+open import Base.Few using (binary; 0₂; 1₂; ⊤; ⊥; absurd)
 open import Base.Func using (_$_; _▷_; flip; _∘_; _∈_)
 open import Base.Prod using (Σ-syntax; _×_; _,_; proj₀; proj₁)
+open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.List using (List; _∷_; []; map)
 
 open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
@@ -116,29 +117,46 @@ abstract
   choiceᵒ ∀x∃yPxy =  (λ x → ∀x∃yPxy x .proj₀) , λ x → ∀x∃yPxy x .proj₁
 
 --------------------------------------------------------------------------------
--- ∧ᵒ: Conjunction
--- ∨ᵒ: Disjunction
+-- ∧ᵒ, ∧ᵒ': Conjunction
+-- ∨ᵒ, ∨ᵒ': Disjunction
 
-infixr 7 _∧ᵒ_
-infixr 6 _∨ᵒ_
+infixr 7 _∧ᵒ_ _∧ᵒ'_
+infixr 6 _∨ᵒ_ _∨ᵒ'_
 
-_∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
+_∧ᵒ_ _∨ᵒ_ _∧ᵒ'_ _∨ᵒ'_ :  Propᵒ →  Propᵒ →  Propᵒ
 P ∧ᵒ Q =  ∀ᵒ˙ _ (binary P Q)
 P ∨ᵒ Q =  ∃ᵒ˙ _ (binary P Q)
+(P ∧ᵒ' Q) .predᵒ a ✓a =  P .predᵒ a ✓a  ×  Q .predᵒ a ✓a
+(P ∧ᵒ' Q) .monoᵒ =  proof
+ where abstract
+  proof :  Monoᵒ $ (P ∧ᵒ' Q) .predᵒ
+  proof a⊑b (Pa , Qa) =  P .monoᵒ a⊑b Pa , Q .monoᵒ a⊑b Qa
+(P ∨ᵒ' Q) .predᵒ a ✓a =  P .predᵒ a ✓a  ⊎  Q .predᵒ a ✓a
+(P ∨ᵒ' Q) .monoᵒ =  proof
+ where abstract
+  proof :  Monoᵒ $ (P ∨ᵒ' Q) .predᵒ
+  proof a⊑b (inj₀ Pa) =  inj₀ $ P .monoᵒ a⊑b Pa
+  proof a⊑b (inj₁ Qa) =  inj₁ $ Q .monoᵒ a⊑b Qa
 
 --------------------------------------------------------------------------------
--- ⊤ᵒ: Truth
--- ⊥ᵒ: Falsehood
+-- ⊤ᵒ, ⊤ᵒ': Truth
+-- ⊥ᵒ, ⊥ᵒ': Falsehood
 
-⊤ᵒ ⊥ᵒ :  Propᵒ
+⊤ᵒ ⊥ᵒ ⊤ᵒ' ⊥ᵒ' :  Propᵒ
 ⊤ᵒ =  ∀ᵒ˙ _ absurd
 ⊥ᵒ =  ∃ᵒ˙ _ absurd
+⊤ᵒ' .predᵒ _ _ =  ⊤
+⊤ᵒ' .monoᵒ _ _ =  _
+⊥ᵒ' .predᵒ _ _ =  ⊥
+⊥ᵒ' .monoᵒ _ ()
 
 --------------------------------------------------------------------------------
--- ⌜ ⌝ᵒ: Set embedding
+-- ⌜ ⌝ᵒ, ⌜ ⌝ᵒ': Set embedding
 
-⌜_⌝ᵒ :  Set (sucˡ ℓ) →  Propᵒ
+⌜_⌝ᵒ ⌜_⌝ᵒ' :  Set (sucˡ ℓ) →  Propᵒ
 ⌜ X ⌝ᵒ =  ∃ᵒ˙ X (λ _ → ⊤ᵒ)
+⌜ X ⌝ᵒ' .predᵒ _ _ =  X
+⌜ _ ⌝ᵒ' .monoᵒ _ x =  x
 
 --------------------------------------------------------------------------------
 -- →ᵒ: Implication

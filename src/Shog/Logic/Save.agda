@@ -12,7 +12,7 @@ open import Base.Thunk using (!)
 open import Base.Bool using (Bool; _≤ᴮ_; ff≤tt; ≤ᴮ-refl)
 open import Base.List using ([_])
 open import Shog.Logic.Prop ℓ using (Prop'; Prop<; □_; _∗_; Basic; saveˣ; save□)
-open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; Pers; ⇒□)
+open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; Pers; Pers-⇒□)
 open import Shog.Logic.Core ℓ using (refl; _»_; ∗-monoʳ; ∗-elimˡ; ∗⊤-intro;
   -∗-const)
 open import Shog.Logic.Supd ℓ using (_ᵘ»_)
@@ -32,7 +32,7 @@ abstract
   instance
     -- save□ P^ is persistent
     save□-Pers :  Pers (save□ P^)
-    save□-Pers .⇒□ =  save□-□
+    save□-Pers .Pers-⇒□ =  save□-□
 
   -- Allocating save□, without recursion
 

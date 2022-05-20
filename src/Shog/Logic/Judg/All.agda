@@ -140,6 +140,6 @@ data Judg ι where
 
 record Pers (P : Prop' ∞) :  Set (sucˡ ℓ) where
   constructor pers
-  -- ⇒□: P can turn into □ P
-  field ⇒□ :  P ⊢[ ι ] □ P
+  -- Pers-⇒□: P can turn into □ P
+  field Pers-⇒□ :  P ⊢[ ι ] □ P
 open Pers {{...}} public

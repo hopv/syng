@@ -20,7 +20,7 @@ open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 open import Shog.Logic.Prop ℓ using (
   Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
   _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_; [∗])
-open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; ⇒□)
+open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; Pers-⇒□)
 
 -- Import and re-export the axiomatic rules
 open import Shog.Logic.Judg.All ℓ public using (refl; _»_;
@@ -379,8 +379,8 @@ abstract
 
   -- P -∗ can turn into □ P →'
 
-  -∗⇒□→ :  P -∗ Q ⊢[ ι ] □ P →' Q
-  -∗⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-apply
+  -∗Pers-⇒□→ :  P -∗ Q ⊢[ ι ] □ P →' Q
+  -∗Pers-⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-apply
 
   -- Under □, -∗ can turn into →'
   in□--∗⇒→ :  □ (P -∗ Q) ⊢[ ι ] □ (P →' Q)
@@ -416,10 +416,10 @@ abstract
   -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
   ∀-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∀˙ _ P˙)
-  ∀-Pers ∀Pers .⇒□ =  ∀-mono (λ a → ∀Pers a .⇒□) » □-∀-in
+  ∀-Pers ∀Pers .Pers-⇒□ =  ∀-mono (λ a → ∀Pers a .Pers-⇒□) » □-∀-in
 
   ∃-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∃˙ _ P˙)
-  ∃-Pers ∀Pers .⇒□ =  ∃-mono (λ a → ∀Pers a .⇒□) » □-∃-in
+  ∃-Pers ∀Pers .Pers-⇒□ =  ∃-mono (λ a → ∀Pers a .Pers-⇒□) » □-∃-in
 
   instance
 
@@ -440,7 +440,7 @@ abstract
     -- For ∗
 
     ∗-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∗ Q)
-    ∗-Pers .⇒□ =  ∗⇒∧ » ⇒□ » in□-∧⇒∗
+    ∗-Pers .Pers-⇒□ =  ∗⇒∧ » Pers-⇒□ » in□-∧⇒∗
 
     -- For ⌜ ⌝
 
@@ -450,7 +450,7 @@ abstract
     -- For □
 
     □-Pers :  Pers (□ P)
-    □-Pers .⇒□ =  □-dup
+    □-Pers .Pers-⇒□ =  □-dup
 
   ------------------------------------------------------------------------------
   -- Using Pers P
@@ -458,14 +458,14 @@ abstract
   -- ∧ can turn into ∗ when one argument is persistent
 
   Persˡ-∧⇒∗ :  {{Pers P}} →  P ∧ Q ⊢[ ι ] P ∗ Q
-  Persˡ-∧⇒∗ =  ∧-monoˡ ⇒□ » □ˡ-∧⇒∗ » ∗-monoˡ □-elim
+  Persˡ-∧⇒∗ =  ∧-monoˡ Pers-⇒□ » □ˡ-∧⇒∗ » ∗-monoˡ □-elim
 
   Persʳ-∧⇒∗ :  {{Pers Q}} →  P ∧ Q ⊢[ ι ] P ∗ Q
   Persʳ-∧⇒∗ =  ∧-comm » Persˡ-∧⇒∗ » ∗-comm
 
   -- The antecedent can be retained when the succedent is persistent
   retain-Pers :  {{Pers Q}} →  P ⊢[ ι ] Q →  P ⊢[ ι ] Q ∗ P
-  retain-Pers P⊢Q =  retain-□ (P⊢Q » ⇒□) » ∗-monoˡ □-elim
+  retain-Pers P⊢Q =  retain-□ (P⊢Q » Pers-⇒□) » ∗-monoˡ □-elim
 
   -- A persistent proposition can be duplicated
   dup-Pers :  {{Pers P}} →  P ⊢[ ι ] P ∗ P
@@ -473,7 +473,7 @@ abstract
 
   -- -∗ can turn into →' when the left-hand side is persistent
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
-  Pers--∗⇒→ =  -∗⇒□→ » →-monoˡ ⇒□
+  Pers--∗⇒→ =  -∗Pers-⇒□→ » →-monoˡ Pers-⇒□
 
   -- Introducing and eliminating ⌜ ⌝ ∗
 

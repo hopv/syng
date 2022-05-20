@@ -121,7 +121,8 @@ data IsBasic :  Prop' ∞ →  Set (sucˡ ℓ) where
 
 -- Basic: Type class wrapping IsBasic
 record  Basic (P : Prop' ∞) :  Set (sucˡ ℓ)  where
-  field  basic :  IsBasic P
+  constructor basic
+  field  isBasic :  IsBasic P
 open Basic {{...}} public
 
 abstract
@@ -132,10 +133,10 @@ abstract
   -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
   ∀-Basic :  (∀ a → Basic (P˙ a)) →  Basic (∀˙ _ P˙)
-  ∀-Basic ∀Basic .basic =  ∀-IsBasic $ λ a → ∀Basic a .basic
+  ∀-Basic ∀Basic .isBasic =  ∀-IsBasic $ λ a → ∀Basic a .isBasic
 
   ∃-Basic :  (∀ a → Basic (P˙ a)) →  Basic (∃˙ _ P˙)
-  ∃-Basic ∀Basic .basic =  ∃-IsBasic $ λ a → ∀Basic a .basic
+  ∃-Basic ∀Basic .isBasic =  ∃-IsBasic $ λ a → ∀Basic a .isBasic
 
   instance
 
@@ -156,7 +157,7 @@ abstract
     -- For ∗
 
     ∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∗ Q)
-    ∗-Basic .basic =  ∗-IsBasic basic basic
+    ∗-Basic .isBasic =  ∗-IsBasic isBasic isBasic
 
     -- For ⌜ ⌝
 

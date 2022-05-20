@@ -287,16 +287,16 @@ abstract
 
   -- ∧ᵒ can turn into ∗ᵒ when one argument is under □ᵒ
 
-  □ᵒˡ-∧ᵒ⇒∗ᵒ :  □ᵒ P ∧ᵒ Q ⊨ □ᵒ P ∗ᵒ Q
-  □ᵒˡ-∧ᵒ⇒∗ᵒ {P = P} {a = a} {✓a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ✓-⌞⌟ ✓a , _ , ⌞⌟-unitˡ ,
+  □ᵒˡ-∧⇒∗ :  □ᵒ P ∧ᵒ Q ⊨ □ᵒ P ∗ᵒ Q
+  □ᵒˡ-∧⇒∗ {P = P} {a = a} {✓a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ✓-⌞⌟ ✓a , _ , ⌞⌟-unitˡ ,
     P .monoᵒ (≈⇒⊑ $ sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) , P⌞a⌟∧Qa 1₂
 
   -- ∀ᵒ can get inside □ᵒ
 
-  □ᵒ-∀ᵒ-in :  ∀ᵒ˙ _ (□ᵒ_ ∘ P˙) ⊨ □ᵒ ∀ᵒ˙ _ P˙
-  □ᵒ-∀ᵒ-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
+  □ᵒ-∀-in :  ∀ᵒ˙ _ (□ᵒ_ ∘ P˙) ⊨ □ᵒ ∀ᵒ˙ _ P˙
+  □ᵒ-∀-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
 
   -- ∃ᵒ can get outside □ᵒ
 
-  □ᵒ-∃ᵒ-out :  □ᵒ ∃ᵒ˙ _ P˙ ⊨ ∃ᵒ˙ _ (□ᵒ_ ∘ P˙)
-  □ᵒ-∃ᵒ-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟
+  □ᵒ-∃-out :  □ᵒ ∃ᵒ˙ _ P˙ ⊨ ∃ᵒ˙ _ (□ᵒ_ ∘ P˙)
+  □ᵒ-∃-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟

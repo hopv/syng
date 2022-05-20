@@ -377,6 +377,9 @@ abstract
   own-ε-intro :  P ⊨ own ε
   own-ε-intro _ =  ε-min
 
+  own-⌞⌟-□ :  own ⌞ a ⌟ ⊨ □ᵒ own ⌞ a ⌟
+  own-⌞⌟-□ ⌞a⌟⊑b =  ⊑-respˡ ⌞⌟-idem $ ⌞⌟-mono ⌞a⌟⊑b
+
   own⇒✓ :  own a ⊨ ⌜ ✓ a ⌝ᵒ
   own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b , absurd
 

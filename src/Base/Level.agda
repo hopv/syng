@@ -12,3 +12,4 @@ open import Agda.Primitive public using (Level)
 record  Upˡ {ℓ : Level} (A : Set ℓ) {ℓ' : Level} :  Set (ℓ ⊔ˡ ℓ')  where
   constructor upˡ
   field  downˡ :  A
+open Upˡ public

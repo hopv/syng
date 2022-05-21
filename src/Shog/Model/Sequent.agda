@@ -21,7 +21,8 @@ open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; pure; refl; _»_;
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
 open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_)
-open import Shog.Model.Save ℓ using (saveˣᵒ; save□ᵒ)
+open import Shog.Model.Save.X ℓ using (saveˣᵒ)
+open import Shog.Model.Save.P ℓ using (save□ᵒ)
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ[_]; [|_|]ᴮ)
 
 private variable

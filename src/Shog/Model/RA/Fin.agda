@@ -29,13 +29,13 @@ open import Base.List.Set (≡-setoid ℕ) using (_∉ᴸ_; ∉ᴸ-[];
 
 -- Type of out-ε
 Out-ε :  (ℕ → A) → List ℕ → Set ℓ≈
-Out-ε mapᶠ supp =  ∀ {i} →  i ∉ᴸ supp →  mapᶠ i ≈' ε'
+Out-ε fin supp =  ∀ {i} →  i ∉ᴸ supp →  fin i ≈' ε'
 
 record  Fin :  Set (ℓ ⊔ˡ ℓ≈)  where
   field
-    mapᶠ :  ℕ → A
+    fin :  ℕ → A
     supp :  List ℕ
-    out-ε :  Out-ε mapᶠ supp
+    out-ε :  Out-ε fin supp
 open Fin
 
 private variable
@@ -51,38 +51,38 @@ private module _ where
   -- Equivalence
   infix 4 _≈ᶠ_
   _≈ᶠ_ :  Fin →  Fin →  Set ℓ≈
-  F ≈ᶠ G =  ∀ i →  F .mapᶠ i ≈' G .mapᶠ i
+  F ≈ᶠ G =  ∀ i →  F .fin i ≈' G .fin i
 
   -- Validity
   infix 3 ✓ᶠ_
   ✓ᶠ_ :  Fin →  Set ℓ✓
-  ✓ᶠ F =  ∀ i →  ✓' (F .mapᶠ i)
+  ✓ᶠ F =  ∀ i →  ✓' (F .fin i)
 
   -- Product
   infixl 7 _∙ᶠ_
   _∙ᶠ_ :  Fin →  Fin →  Fin
-  (F ∙ᶠ G) .mapᶠ i =  F .mapᶠ i ∙' G .mapᶠ i
+  (F ∙ᶠ G) .fin i =  F .fin i ∙' G .fin i
   (F ∙ᶠ G) .supp =  F .supp ++ G .supp
   (F ∙ᶠ G) .out-ε =  proof
    where abstract
-    proof :  Out-ε ((F ∙ᶠ G) .mapᶠ) ((F ∙ᶠ G) .supp)
+    proof :  Out-ε ((F ∙ᶠ G) .fin) ((F ∙ᶠ G) .supp)
     proof i∉++ =
       ∙-cong Ra (F .out-ε (∉ᴸ-++-elim₀ i∉++)) (G .out-ε (∉ᴸ-++-elim₁ i∉++)) »'
       ∙-unitˡ Ra
 
   -- Unit
   εᶠ :  Fin
-  εᶠ .mapᶠ i =  ε'
+  εᶠ .fin i =  ε'
   εᶠ .supp =  []
   εᶠ .out-ε _ =  refl'
 
   -- Core
   ⌞_⌟ᶠ :  Fin →  Fin
-  ⌞ F ⌟ᶠ .mapᶠ i =  ⌞ F .mapᶠ i ⌟'
+  ⌞ F ⌟ᶠ .fin i =  ⌞ F .fin i ⌟'
   ⌞ F ⌟ᶠ .supp =  F .supp
   ⌞ F ⌟ᶠ .out-ε =  proof
    where abstract
-    proof :  Out-ε (⌞ F ⌟ᶠ .mapᶠ) (⌞ F ⌟ᶠ .supp)
+    proof :  Out-ε (⌞ F ⌟ᶠ .fin) (⌞ F ⌟ᶠ .supp)
     proof i∉ =  ⌞⌟-cong Ra (F .out-ε i∉) »' ⌞⌟-ε Ra
 
 --------------------------------------------------------------------------------
@@ -92,13 +92,13 @@ private module _ where abstract
   open RA
 
   ⌞⌟ᶠ-add :  ∀ F G →  Σ G' ,  G' ∙ᶠ ⌞ F ⌟ᶠ ≈ᶠ ⌞ G ∙ᶠ F ⌟ᶠ
-  ⌞⌟ᶠ-add F G .proj₀ .mapᶠ i =  Ra .⌞⌟-add {F .mapᶠ i} {G .mapᶠ i} .proj₀
+  ⌞⌟ᶠ-add F G .proj₀ .fin i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₀
   ⌞⌟ᶠ-add F G .proj₀ .supp =  (G ∙ᶠ F) .supp
   ⌞⌟ᶠ-add F G .proj₀ .out-ε {i} i∉ =  sym' (∙-unitʳ Ra) »'
     ∙-congʳ Ra (sym' $ (Ra .⌞⌟-cong $ F .out-ε $ ∉ᴸ-++-elim₁ i∉) »' ⌞⌟-ε Ra) »'
-    Ra .⌞⌟-add {F .mapᶠ i} {G .mapᶠ i} .proj₁ »'
+    Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁ »'
     Ra .⌞⌟-cong ((G ∙ᶠ F) .out-ε i∉) »' ⌞⌟-ε Ra
-  ⌞⌟ᶠ-add F G .proj₁ i =  Ra .⌞⌟-add {F .mapᶠ i} {G .mapᶠ i} .proj₁
+  ⌞⌟ᶠ-add F G .proj₁ i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁
 
 --------------------------------------------------------------------------------
 -- Finᴿᴬ : Finite-map resource algebra
@@ -137,9 +137,9 @@ open RA Finᴿᴬ using (_≈_; ✓_; _∙_; ⌞_⌟; ε; _↝_; _↝ˢ_; refl˜
 abstract -- Definition is made abstract for better type inference
 
   updᶠ :  ℕ → A → Fin → Fin
-  updᶠ i a F .mapᶠ j with i ≡ᵇ j
+  updᶠ i a F .fin j with i ≡ᵇ j
   ... | tt =  a
-  ... | ff =  F .mapᶠ j
+  ... | ff =  F .fin j
   updᶠ i _ F .supp =  i ∷ F .supp
   updᶠ i a F .out-ε {j} j∉i∷is with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
   ... | tt | ⇒i≡j =  absurd $ ∉ᴸ-∷-elim₀ j∉i∷is $ sym⁼ $ ⇒i≡j _
@@ -180,7 +180,7 @@ module _ {i : ℕ} where abstract
 
   updᶠ-↝ :  a ↝' b →  updᶠ i a F ↝ updᶠ i b F
   updᶠ-↝ a↝b G ✓G∙iaF j with i ≡ᵇ j | ✓G∙iaF j
-  ... | tt | ✓Gi∙a =  a↝b (G .mapᶠ j) ✓Gi∙a
+  ... | tt | ✓Gi∙a =  a↝b (G .fin j) ✓Gi∙a
   ... | ff | ✓Gj∙Fj =  ✓Gj∙Fj
 
   -- Double update

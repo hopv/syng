@@ -10,7 +10,8 @@ open import Shog.Model.RA using (RA)
 module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (^ˡ ℓ) (^ˡ ℓ) (^ˡ ℓ))
   where
 
-open import Base.Few using (binary; 0₂; 1₂; ⊤; ⊥; absurd)
+open import Base.Level using (Upˡ; ↓ˡ_; ↑ˡ_)
+open import Base.Few using (⟨2⟩; 0₂; 1₂; binary; ⊤; ⊥; absurd)
 open import Base.Func using (_$_; _▷_; flip; _∘_; _∈_)
 open import Base.Prod using (Σ-syntax; _×_; _,_; proj₀; proj₁)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
@@ -21,6 +22,9 @@ open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; 
   ✓-mono; ✓-ε; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ;
   ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-unitˡ; ε-min; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr;
   ⌞⌟-mono; ✓-⌞⌟)
+
+private variable
+  ℓF :  Level
 
 --------------------------------------------------------------------------------
 -- Propᵒ: Semantic proposition
@@ -36,11 +40,12 @@ record  Propᵒ :  Set (^ˡ ^ˡ ℓ)  where
 open Propᵒ public
 
 private variable
-  X :  Set (^ˡ ℓ)
+  X :  Set ℓ
+  X^ :  Set (^ˡ ℓ)
   P Q R :  Propᵒ
   P˙ Q˙ :  X → Propᵒ
   x :  X
-  F :  X →  Set (^ˡ ℓ)
+  F :  X →  Set ℓ
   ℓ' :  Level
   D :  Set ℓ'
   a b :  Glob
@@ -65,9 +70,11 @@ abstract
   (P⊨Q »ᵒ Q⊨R) Pa =  Pa ▷ P⊨Q ▷ Q⊨R
 
 --------------------------------------------------------------------------------
--- ∀ᵒ˙, ∃ᵒ˙: Universal/existential quantification
+-- ∀ᵒ˙, ∃ᵒ˙, ∀ᵒ˙', ∃ᵒ˙': Universal/existential quantification
 
-∀ᵒ˙ ∃ᵒ˙ :  (X : Set (^ˡ ℓ)) →  (X → Propᵒ) →  Propᵒ
+-- For Set ℓ
+
+∀ᵒ˙ ∃ᵒ˙ :  (X : Set ℓ) →  (X → Propᵒ) →  Propᵒ
 ∀ᵒ˙ _ P˙ .predᵒ a ✓a =  ∀ x →  P˙ x .predᵒ a ✓a
 ∀ᵒ˙ _ P˙ .monoᵒ =  proof
  where abstract
@@ -79,19 +86,44 @@ abstract
   proof :  Monoᵒ $ ∃ᵒ˙ _ P˙ .predᵒ
   proof a⊑b (x , Pxa) =  x ,  P˙ x .monoᵒ a⊑b Pxa
 
-∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (X : Set (^ˡ ℓ)) →  (X → Propᵒ) →  Propᵒ
+-- For Set (^ˡ ℓ)
+
+∀^˙ ∃^˙ :  (X^ : Set (^ˡ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
+∀^˙ _ P˙ .predᵒ a ✓a =  ∀ x →  P˙ x .predᵒ a ✓a
+∀^˙ _ P˙ .monoᵒ =  proof
+ where abstract
+  proof :  Monoᵒ $ ∀^˙ _ P˙ .predᵒ
+  proof a⊑b ∀xPxa x =  P˙ x .monoᵒ a⊑b (∀xPxa x)
+∃^˙ _ P˙ .predᵒ a ✓a =  Σ x ,  P˙ x .predᵒ a ✓a
+∃^˙ _ P˙ .monoᵒ =  proof
+ where abstract
+  proof :  Monoᵒ $ ∃^˙ _ P˙ .predᵒ
+  proof a⊑b (x , Pxa) =  x ,  P˙ x .monoᵒ a⊑b Pxa
+
+∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (X : Set ℓ) →  (X → Propᵒ) →  Propᵒ
+∀^∈-syntax ∃^∈-syntax :  (X^ : Set (^ˡ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
 ∀ᵒ∈-syntax =  ∀ᵒ˙
 ∃ᵒ∈-syntax =  ∃ᵒ˙
+∀^∈-syntax =  ∀^˙
+∃^∈-syntax =  ∃^˙
 
 ∀ᵒ-syntax ∃ᵒ-syntax :  (X → Propᵒ) →  Propᵒ
+∀^-syntax ∃^-syntax :  (X^ → Propᵒ) →  Propᵒ
 ∀ᵒ-syntax =  ∀ᵒ˙ _
 ∃ᵒ-syntax =  ∃ᵒ˙ _
+∀^-syntax =  ∀^˙ _
+∃^-syntax =  ∃^˙ _
 
-infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax
+infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀^∈-syntax ∃^∈-syntax
+  ∀ᵒ-syntax ∃ᵒ-syntax ∀^-syntax ∃^-syntax
 syntax ∀ᵒ∈-syntax X (λ x → P) =  ∀ᵒ x ∈ X , P
 syntax ∃ᵒ∈-syntax X (λ x → P) =  ∃ᵒ x ∈ X , P
+syntax ∀^∈-syntax X (λ x → P) =  ∀^ x ∈ X , P
+syntax ∃^∈-syntax X (λ x → P) =  ∃^ x ∈ X , P
 syntax ∀ᵒ-syntax (λ x → P) =  ∀ᵒ x , P
 syntax ∃ᵒ-syntax (λ x → P) =  ∃ᵒ x , P
+syntax ∀^-syntax (λ x → P) =  ∀^ x , P
+syntax ∃^-syntax (λ x → P) =  ∃^ x , P
 
 abstract
 
@@ -152,12 +184,14 @@ P ∨ᵒ Q =  ∃ᵒ˙ _ (binary P Q)
 ⊥ᵒ' .monoᵒ _ ()
 
 --------------------------------------------------------------------------------
--- ⌜ ⌝ᵒ, ⌜ ⌝ᵒ': Set embedding
+-- ⌜ ⌝ᵒ, ⌜ ⌝^: Set embedding
 
-⌜_⌝ᵒ ⌜_⌝ᵒ' :  Set (^ˡ ℓ) →  Propᵒ
+⌜_⌝ᵒ :  Set ℓ →  Propᵒ
 ⌜ X ⌝ᵒ =  ∃ᵒ˙ X (λ _ → ⊤ᵒ)
-⌜ X ⌝ᵒ' .predᵒ _ _ =  X
-⌜ _ ⌝ᵒ' .monoᵒ _ x =  x
+
+⌜_⌝^ :  Set (^ˡ ℓ) →  Propᵒ
+⌜ X ⌝^ .predᵒ _ _ =  X
+⌜ _ ⌝^ .monoᵒ _ x =  x
 
 --------------------------------------------------------------------------------
 -- →ᵒ: Implication
@@ -386,8 +420,8 @@ abstract
   own-⌞⌟-□' :  ⌞ a ⌟ ≈ a →  own a ⊨ □ᵒ own a
   own-⌞⌟-□' ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
 
-  own⇒✓ :  own a ⊨ ⌜ ✓ a ⌝ᵒ
-  own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b , absurd
+  own⇒✓ :  own a ⊨ ⌜ ✓ a ⌝^
+  own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b
 
   own-↝ :  a ↝ b →  own a ⊨ |=>ᵒ own b
   own-↝ {b = b} a↝b {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' =  b , ✓-mono ∙-incrˡ ✓d∙b ,
@@ -397,11 +431,10 @@ abstract
     ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) $ a↝b (d ∙ c) $ flip ✓-resp ✓d∙a' $
       ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
 
-  own-↝ˢ :  a ↝ˢ B →  own a ⊨ |=>ᵒ (∃ᵒ b , ⌜ b ∈ B ⌝ᵒ ∧ᵒ own b)
+  own-↝ˢ :  a ↝ˢ B →  own a ⊨ |=>ᵒ (∃^ b , ⌜ b ∈ B ⌝^ ∧ᵒ' own b)
   own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' with a↝B (d ∙ c) $
     flip ✓-resp ✓d∙a' $ ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
-  ... | b , b∈B , ✓d∙cb =  b , ✓-mono ∙-incrˡ ✓d∙b , ✓d∙b , b ,
-    binary (b∈B , absurd) ⊑-refl
+  ... | b , b∈B , ✓d∙cb =  b , ✓-mono ∙-incrˡ ✓d∙b , ✓d∙b , b , b∈B , ⊑-refl
    where
     ✓d∙b :  ✓ d ∙ b
     ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb

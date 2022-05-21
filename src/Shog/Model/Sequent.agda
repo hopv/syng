@@ -8,7 +8,6 @@ open import Base.Level using (Level)
 module Shog.Model.Sequent (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
-open import Base.Level using (↓ˡ_)
 open import Base.Func using (_$_)
 open import Base.Thunk using (!)
 open import Base.Prod using (_,_)
@@ -37,8 +36,8 @@ private variable
 -- [| |]: Interpreting propositions
 
 [|_|] :  (P : Prop' ∞) →  Propᵒ
-[| ∀˙ _ P˙ |] =  ∀ᵒ x , [| P˙ (↓ˡ x) |]
-[| ∃˙ _ P˙ |] =  ∃ᵒ x , [| P˙ (↓ˡ x) |]
+[| ∀˙ _ P˙ |] =  ∀ᵒ x , [| P˙ x |]
+[| ∃˙ _ P˙ |] =  ∃ᵒ x , [| P˙ x |]
 [| P →' Q |] =  [| P |] →ᵒ [| Q |]
 [| P ∗ Q |] =  [| P |] ∗ᵒ [| Q |]
 [| P -∗ Q |] =  [| P |] -∗ᵒ [| Q |]
@@ -52,14 +51,14 @@ abstract
   -- [| |]ᴮ[ ] / [| |]ᴮ agrees with [| |]
 
   [||]-ᴮ'⇒ :  (IsBaP : IsBasic P) →  [| P |]ᴮ[ IsBaP ] ⊨ [| P |]
-  [||]-ᴮ'⇒ (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-ᴮ'⇒ (IsBaP˙ $ ↓ˡ x) (∀xPxa x)
-  [||]-ᴮ'⇒ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-ᴮ'⇒ (IsBaP˙ $ ↓ˡ x) Pxa
+  [||]-ᴮ'⇒ (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-ᴮ'⇒ (IsBaP˙ x) (∀xPxa x)
+  [||]-ᴮ'⇒ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-ᴮ'⇒ (IsBaP˙ x) Pxa
   [||]-ᴮ'⇒ (∗-IsBasic IsBaP IsBaQ) (b , c , _ , _ , bc≈a , Pb , Qc) =
     b , c , _ , _ , bc≈a , [||]-ᴮ'⇒ IsBaP Pb , [||]-ᴮ'⇒ IsBaQ Qc
 
   [||]-⇒ᴮ' :  (IsBaP : IsBasic P) →  [| P |] ⊨ [| P |]ᴮ[ IsBaP ]
-  [||]-⇒ᴮ' (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-⇒ᴮ' (IsBaP˙ $ ↓ˡ x) (∀xPxa x)
-  [||]-⇒ᴮ' (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-⇒ᴮ' (IsBaP˙ $ ↓ˡ x) Pxa
+  [||]-⇒ᴮ' (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-⇒ᴮ' (IsBaP˙ x) (∀xPxa x)
+  [||]-⇒ᴮ' (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-⇒ᴮ' (IsBaP˙ x) Pxa
   [||]-⇒ᴮ' (∗-IsBasic IsBaP IsBaQ) (b , c , _ , _ , bc≈a , Pb , Qc) =
     b , c , _ , _ , bc≈a , [||]-⇒ᴮ' IsBaP Pb , [||]-⇒ᴮ' IsBaQ Qc
 

@@ -16,11 +16,11 @@ open import Base.Bool using (Bool; tt; ff)
 open import Base.List using (List; []; _∷_; map)
 
 --------------------------------------------------------------------------------
--- Prop' ι: Proposition
+-- Prop': Proposition
 
 data  Prop' (ι : Size) :  Set (^ˡ ℓ)
 
--- Prop: Prop' under Thunk
+-- Prop<: Prop' under Thunk
 Prop< :  Size →  Set (^ˡ ℓ)
 Prop< ι =  Thunk Prop' ι
 

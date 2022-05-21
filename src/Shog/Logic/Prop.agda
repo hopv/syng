@@ -121,7 +121,6 @@ data IsBasic :  Prop' ∞ →  Set (^ˡ ℓ) where
 
 -- Basic: Type class wrapping IsBasic
 record  Basic (P : Prop' ∞) :  Set (^ˡ ℓ)  where
-  constructor basic
   field  isBasic :  IsBasic P
 open Basic {{...}} public
 

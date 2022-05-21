@@ -32,7 +32,6 @@ Out-ε :  (ℕ → A) → List ℕ → Set ℓ≈
 Out-ε mapᶠ supp =  ∀ {i} →  i ∉ᴸ supp →  mapᶠ i ≈' ε'
 
 record  Fin :  Set (ℓ ⊔ˡ ℓ≈)  where
-  constructor fin
   field
     mapᶠ :  ℕ → A
     supp :  List ℕ

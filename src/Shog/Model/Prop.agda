@@ -31,7 +31,6 @@ Monoᵒ :  ∀ (predᵒ : ∀ (a : Glob) →  ✓ a →  Set (^ˡ ℓ)) →  Set
 Monoᵒ predᵒ =  ∀ {a b ✓a ✓b} →  a ⊑ b →  predᵒ a ✓a →  predᵒ b ✓b
 
 record  Propᵒ :  Set (^ˡ ^ˡ ℓ)  where
-  constructor propᵒ
   field
     predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ˡ ℓ)
     monoᵒ :  Monoᵒ predᵒ

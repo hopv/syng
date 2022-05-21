@@ -2,6 +2,8 @@
 -- Trivial resource algebra
 --------------------------------------------------------------------------------
 
+{-# OPTIONS --without-K --safe #-}
+
 open import Base.Level using (Level)
 module Shog.Model.RA.Top {ℓ ℓ≈ ℓ✓ : Level} where
 

@@ -4,11 +4,11 @@
 
 {-# OPTIONS --without-K --safe #-}
 
+open import Base.Level using (Level)
 open import Base.Setoid using (Setoid)
-module Shog.Model.RA.Exc {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
+module Shog.Model.RA.Exc {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) {ℓ✓ : Level} where
 open Setoid S using (_≈_; refl˜; sym˜; _»˜_) renaming (Car to A)
 
-open import Base.Level using (Level; 0ˡ)
 open import Base.Func using (id)
 open import Base.Prod using (_,_)
 open import Base.Few using (⊤; ⊥)
@@ -43,7 +43,7 @@ private
 
   -- Validity
   infix 3 ✓ˣ_
-  ✓ˣ_ :  Exc → Set
+  ✓ˣ_ :  Exc → Set ℓ✓
   ✓ˣ_ ↯ˣ =  ⊥
   ✓ˣ_ _ =  ⊤
 
@@ -114,7 +114,7 @@ private abstract
 module _ where
   open RA
 
-  Excᴿᴬ : RA ℓ ℓ≈ 0ˡ
+  Excᴿᴬ : RA ℓ ℓ≈ ℓ✓
   Excᴿᴬ .Car =  Exc
   Excᴿᴬ ._≈_ =  _≈ˣ_
   Excᴿᴬ .✓_ =  ✓ˣ_

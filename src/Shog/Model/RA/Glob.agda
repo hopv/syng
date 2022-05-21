@@ -19,7 +19,7 @@ Prop-setoid =  ≡-setoid (Prop' ∞)
 --------------------------------------------------------------------------------
 -- Excᴾᴿᴬ, Agᴾᴿᴬ: Exclusive / agreement RA on Prop' ∞
 
-open import Shog.Model.RA.Exc Prop-setoid public using ()
+open import Shog.Model.RA.Exc Prop-setoid {sucˡ ℓ} public using ()
   renaming (Excᴿᴬ to Excᴾᴿᴬ; #ˣ_ to #ˣᴾ_; #ˣ-↝ to #ˣᴾ-↝)
 
 open import Shog.Model.RA.Ag Prop-setoid public using ()

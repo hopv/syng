@@ -123,9 +123,9 @@ data Judg ι where
   ------------------------------------------------------------------------------
   -- An exclusive/persistent save token can be modified using a thunk sequent
   saveˣ-mono :  {{Basic R}} →
-    R ∗ P^ .! ⊢[< ι ] Q^ .! →  R ∗ saveˣ P^ ⊢[ ι ] saveˣ Q^
+    R ∧ P^ .! ⊢[< ι ] Q^ .! →  R ∧ saveˣ P^ ⊢[ ι ] saveˣ Q^
   save□-mono :  {{Basic R}} →
-    R ∗ P^ .! ⊢[< ι ] Q^ .! →  R ∗ save□ P^ ⊢[ ι ] save□ Q^
+    R ∧ P^ .! ⊢[< ι ] Q^ .! →  R ∧ save□ P^ ⊢[ ι ] save□ Q^
   -- save□ is persistent
   save□-□ :  save□ P^ ⊢[ ι ] □ save□ P^
   -- An exclusive save token saveˣ P^ is obtained by allocating P^

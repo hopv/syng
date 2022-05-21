@@ -12,7 +12,7 @@ open import Base.Func using (_$_)
 open import Base.Nat using (ℕ)
 open import Base.Level using (↓ˡ_)
 open import Base.Prod using (_,_)
-open import Shog.Logic.Prop ℓ using (Prop'; _∗_; Basic)
+open import Shog.Logic.Prop ℓ using (Prop'; _∧_; Basic)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ; Glob; module MAllIᴳ;
@@ -37,7 +37,7 @@ lineˢ□ i P =  injᴬ 1 $ injᶠ i $ ag P
 
 save□ᵒ :  Prop' ∞ →  Propᵒ
 save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ i ,
-  ⌜ Q ∗ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  [| Q |]ᴮ {{ BaQ }}  ∧ᵒ  own (lineˢ□ (↓ˡ i) P')
+  ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  [| Q |]ᴮ {{ BaQ }}  ∧ᵒ  own (lineˢ□ (↓ˡ i) P')
 
 abstract
 

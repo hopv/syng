@@ -6,13 +6,13 @@
 
 module Base.Setoid where
 
-open import Base.Level using (Level; _⊔ˡ_; sucˡ)
+open import Base.Level using (Level; _⊔ˡ_; ^ˡ_)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_)
 open import Base.Few using (¬_)
 open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; Σ-syntax; _,_)
 
-record  Setoid ℓ ℓ≈ :  Set (sucˡ (ℓ ⊔ˡ ℓ≈))  where
+record  Setoid ℓ ℓ≈ :  Set (^ˡ (ℓ ⊔ˡ ℓ≈))  where
   constructor setoid
   infix 4 _≈_
   infixr -1 _»˜_

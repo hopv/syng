@@ -7,19 +7,19 @@
 open import Base.Level using (Level)
 module Shog.Model.RA.Glob (ℓ : Level) where
 
-open import Base.Level using (sucˡ)
+open import Base.Level using (^ˡ_)
 open import Base.Size using (∞)
 open import Base.Setoid using (Setoid; ≡-setoid)
 open import Shog.Logic.Prop ℓ using (Prop')
 open import Shog.Model.RA using (RA)
 
-Prop-setoid :  Setoid (sucˡ ℓ) (sucˡ ℓ)
+Prop-setoid :  Setoid (^ˡ ℓ) (^ˡ ℓ)
 Prop-setoid =  ≡-setoid (Prop' ∞)
 
 --------------------------------------------------------------------------------
 -- Excᴾᴿᴬ, Agᴾᴿᴬ: Exclusive / agreement RA on Prop' ∞
 
-open import Shog.Model.RA.Exc Prop-setoid {sucˡ ℓ} public using ()
+open import Shog.Model.RA.Exc Prop-setoid {^ˡ ℓ} public using ()
   renaming (Excᴿᴬ to Excᴾᴿᴬ; #ˣ_ to #ˣᴾ_; #ˣ-↝ to #ˣᴾ-↝)
 
 open import Shog.Model.RA.Ag Prop-setoid public using ()

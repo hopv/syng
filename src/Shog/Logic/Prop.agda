@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Logic.Prop (ℓ : Level) where
 
-open import Base.Level using (sucˡ)
+open import Base.Level using (^ˡ_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
@@ -18,10 +18,10 @@ open import Base.List using (List; []; _∷_; map)
 --------------------------------------------------------------------------------
 -- Prop' ι: Proposition
 
-data  Prop' (ι : Size) :  Set (sucˡ ℓ)
+data  Prop' (ι : Size) :  Set (^ˡ ℓ)
 
 -- Prop: Prop' under Thunk
-Prop< :  Size →  Set (sucˡ ℓ)
+Prop< :  Size →  Set (^ˡ ℓ)
 Prop< ι =  Thunk Prop' ι
 
 infixr 5 _→'_ _-∗_
@@ -114,13 +114,13 @@ syntax [∗]-map-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
 -- Basic Shog proposition
 
 -- IsBasic P: P consists only of ∀, ∃ and ∗
-data IsBasic :  Prop' ∞ →  Set (sucˡ ℓ) where
+data IsBasic :  Prop' ∞ →  Set (^ˡ ℓ) where
   ∀-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∀˙ _ P˙)
   ∃-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∃˙ _ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
 
 -- Basic: Type class wrapping IsBasic
-record  Basic (P : Prop' ∞) :  Set (sucˡ ℓ)  where
+record  Basic (P : Prop' ∞) :  Set (^ˡ ℓ)  where
   constructor basic
   field  isBasic :  IsBasic P
 open Basic {{...}} public

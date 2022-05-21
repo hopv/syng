@@ -6,7 +6,7 @@
 
 module Shog.Model.RA where
 
-open import Base.Level using (Level; _⊔ˡ_; sucˡ)
+open import Base.Level using (Level; _⊔ˡ_; ^ˡ_)
 open import Base.Eq using (_≡_; refl⁼)
 open import Base.Func using (_$_; id; _▷_; _∈_)
 open import Base.Prod using (_×_; _,_; Σ-syntax)
@@ -14,7 +14,7 @@ open import Base.Setoid using (Setoid)
 
 --------------------------------------------------------------------------------
 -- Resource algebra (Unital)
-record RA ℓ ℓ≈ ℓ✓ : Set (sucˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
+record RA ℓ ℓ≈ ℓ✓ : Set (^ˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
   constructor ra
   ------------------------------------------------------------------------------
   -- Fields

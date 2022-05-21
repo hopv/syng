@@ -4,10 +4,10 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level; sucˡ)
+open import Base.Level using (Level; ^ˡ_)
 open import Shog.Model.RA using (RA)
 -- Parametric over the global RA
-module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (sucˡ ℓ) (sucˡ ℓ) (sucˡ ℓ))
+module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (^ˡ ℓ) (^ˡ ℓ) (^ˡ ℓ))
   where
 
 open import Base.Few using (binary; 0₂; 1₂; ⊤; ⊥; absurd)
@@ -25,22 +25,22 @@ open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; 
 --------------------------------------------------------------------------------
 -- Propᵒ: Semantic proposition
 
-Monoᵒ :  ∀ (predᵒ : ∀ (a : Glob) →  ✓ a →  Set (sucˡ ℓ)) →  Set (sucˡ ℓ)
+Monoᵒ :  ∀ (predᵒ : ∀ (a : Glob) →  ✓ a →  Set (^ˡ ℓ)) →  Set (^ˡ ℓ)
 Monoᵒ predᵒ =  ∀ {a b ✓a ✓b} →  a ⊑ b →  predᵒ a ✓a →  predᵒ b ✓b
 
-record  Propᵒ :  Set (sucˡ (sucˡ ℓ))  where
+record  Propᵒ :  Set (^ˡ ^ˡ ℓ)  where
   constructor propᵒ
   field
-    predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (sucˡ ℓ)
+    predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ˡ ℓ)
     monoᵒ :  Monoᵒ predᵒ
 open Propᵒ public
 
 private variable
-  X :  Set (sucˡ ℓ)
+  X :  Set (^ˡ ℓ)
   P Q R :  Propᵒ
   P˙ Q˙ :  X → Propᵒ
   x :  X
-  F :  X →  Set (sucˡ ℓ)
+  F :  X →  Set (^ˡ ℓ)
   ℓ' :  Level
   D :  Set ℓ'
   a b :  Glob
@@ -50,7 +50,7 @@ private variable
 -- ⊨: Entailment
 
 infix 1 _⊨_
-_⊨_ :  Propᵒ →  Propᵒ →  Set (sucˡ ℓ)
+_⊨_ :  Propᵒ →  Propᵒ →  Set (^ˡ ℓ)
 P ⊨ Q =  ∀ {a ✓a} →  P .predᵒ a ✓a →  Q .predᵒ a ✓a
 
 abstract
@@ -67,7 +67,7 @@ abstract
 --------------------------------------------------------------------------------
 -- ∀ᵒ˙, ∃ᵒ˙: Universal/existential quantification
 
-∀ᵒ˙ ∃ᵒ˙ :  (X : Set (sucˡ ℓ)) →  (X → Propᵒ) →  Propᵒ
+∀ᵒ˙ ∃ᵒ˙ :  (X : Set (^ˡ ℓ)) →  (X → Propᵒ) →  Propᵒ
 ∀ᵒ˙ _ P˙ .predᵒ a ✓a =  ∀ x →  P˙ x .predᵒ a ✓a
 ∀ᵒ˙ _ P˙ .monoᵒ =  proof
  where abstract
@@ -79,7 +79,7 @@ abstract
   proof :  Monoᵒ $ ∃ᵒ˙ _ P˙ .predᵒ
   proof a⊑b (x , Pxa) =  x ,  P˙ x .monoᵒ a⊑b Pxa
 
-∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (X : Set (sucˡ ℓ)) →  (X → Propᵒ) →  Propᵒ
+∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (X : Set (^ˡ ℓ)) →  (X → Propᵒ) →  Propᵒ
 ∀ᵒ∈-syntax =  ∀ᵒ˙
 ∃ᵒ∈-syntax =  ∃ᵒ˙
 
@@ -154,7 +154,7 @@ P ∨ᵒ Q =  ∃ᵒ˙ _ (binary P Q)
 --------------------------------------------------------------------------------
 -- ⌜ ⌝ᵒ, ⌜ ⌝ᵒ': Set embedding
 
-⌜_⌝ᵒ ⌜_⌝ᵒ' :  Set (sucˡ ℓ) →  Propᵒ
+⌜_⌝ᵒ ⌜_⌝ᵒ' :  Set (^ˡ ℓ) →  Propᵒ
 ⌜ X ⌝ᵒ =  ∃ᵒ˙ X (λ _ → ⊤ᵒ)
 ⌜ X ⌝ᵒ' .predᵒ _ _ =  X
 ⌜ _ ⌝ᵒ' .monoᵒ _ x =  x

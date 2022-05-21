@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Logic.Core (ℓ : Level) where
 
-open import Base.Level using (sucˡ)
+open import Base.Level using (^ˡ_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)

@@ -13,8 +13,8 @@ open import Base.Nat using (ℕ)
 open import Base.Level using (↓ˡ_)
 open import Shog.Logic.Prop ℓ using (Prop'; _∗_; Basic)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_)
-open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ; Saveˣ; injˢˣ; injᶠˢˣ; #ˣᴾ_;
-  Save□; injˢ□; injᶠˢ□; agᴾ)
+open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ; injᴳ; Saveˣ; #ˣᴾ_; injᶠˢˣ;
+  Save□; injᶠˢ□; agᴾ)
 open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; own; ∃ᵒ-syntax; ⌜_⌝ᵒ'; _∧ᵒ'_)
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ)
 
@@ -22,7 +22,7 @@ open import Shog.Model.Basic ℓ using ([|_|]ᴮ)
 -- Interpreting exclusive save tokens
 
 lineˢˣ :  ℕ →  Prop' ∞ →  Propᵒ
-lineˢˣ i P =  own $ injˢˣ $ injᶠˢˣ i $ #ˣᴾ P
+lineˢˣ i P =  own $ injᴳ 0 $ injᶠˢˣ i $ #ˣᴾ P
 
 saveˣᵒ :  Prop' ∞ →  Propᵒ
 saveˣᵒ P =  ∃ᵒ P' , ∃ᵒ B , ∃ᵒ BaB , ∃ᵒ i ,
@@ -32,7 +32,7 @@ saveˣᵒ P =  ∃ᵒ P' , ∃ᵒ B , ∃ᵒ BaB , ∃ᵒ i ,
 -- Interpreting persistent save tokens
 
 lineˢ□ :  ℕ →  Prop' ∞ →  Propᵒ
-lineˢ□ i P =  own $ injˢ□ $ injᶠˢ□ i $ agᴾ P
+lineˢ□ i P =  own $ injᴳ 1 $ injᶠˢ□ i $ agᴾ P
 
 save□ᵒ :  Prop' ∞ →  Propᵒ
 save□ᵒ P =  ∃ᵒ P' , ∃ᵒ B , ∃ᵒ BaB , ∃ᵒ i ,

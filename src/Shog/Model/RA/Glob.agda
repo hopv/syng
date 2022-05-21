@@ -10,8 +10,10 @@ module Shog.Model.RA.Glob (ℓ : Level) where
 open import Base.Level using (^ˡ_)
 open import Base.Size using (∞)
 open import Base.Setoid using (Setoid; ≡-setoid)
+open import Base.Nat using (ℕ; _≡?_)
 open import Shog.Logic.Prop ℓ using (Prop')
 open import Shog.Model.RA using (RA)
+open import Shog.Model.RA.Top using (⊤ᴿᴬ)
 
 Prop-setoid :  Setoid (^ˡ ℓ) (^ˡ ℓ)
 Prop-setoid =  ≡-setoid (Prop' ∞)
@@ -39,6 +41,13 @@ open RA Save□ᴿᴬ public using () renaming (Car to Save□)
 --------------------------------------------------------------------------------
 -- Globᴿᴬ: Global RA
 
-open import Shog.Model.RA.Prod Saveˣᴿᴬ Save□ᴿᴬ public using ()
-  renaming (Prodᴿᴬ to Globᴿᴬ; ×-injˡ to injˢˣ; ×-injʳ to injˢ□)
+Globᴿᴬ˙ :  ℕ →  RA (^ˡ ℓ) (^ˡ ℓ) (^ˡ ℓ)
+Globᴿᴬ˙ 0 =  Saveˣᴿᴬ
+Globᴿᴬ˙ 1 =  Save□ᴿᴬ
+Globᴿᴬ˙ _ =  ⊤ᴿᴬ
+
+open import Shog.Model.RA.All Globᴿᴬ˙ public using () renaming (Allᴿᴬ to Globᴿᴬ)
 open RA Globᴿᴬ public using () renaming (Car to Glob)
+open import Shog.Model.RA.All.Index Globᴿᴬ˙ _≡?_ public using () renaming (
+  injᴬ to injᴳ; injᴬ-cong to injᴳ-cong; injᴬ-✓ to injᴳ-✓; injᴬ-∙ to injᴳ-∙;
+  injᴬ-ε to injᴳ-ε; injᴬ-⌞⌟ to injᴳ-⌞⌟; injᴬ-↝ to injᴳ-↝)

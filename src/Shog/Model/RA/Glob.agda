@@ -35,7 +35,7 @@ open import Shog.Model.RA.Fin Excᴾᴿᴬ public using () renaming (Finᴿᴬ t
 open RA Saveˣᴿᴬ public using () renaming (Car to Saveˣ)
 
 open import Shog.Model.RA.Fin Agᴾᴿᴬ public using () renaming (Finᴿᴬ to Save□ᴿᴬ;
-  injᶠ to injᶠˢ□; allocᶠ to allocᶠˢ□)
+  injᶠ to injᶠˢ□; injᶠ-⌞⌟ to injᶠˢ□-⌞⌟; allocᶠ to allocᶠˢ□)
 open RA Save□ᴿᴬ public using () renaming (Car to Save□)
 
 --------------------------------------------------------------------------------

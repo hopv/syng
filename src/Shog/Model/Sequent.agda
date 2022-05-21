@@ -20,11 +20,7 @@ open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; pure; refl; _»_;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out; save□-□)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
 open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
-  _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; reflᵒ; _»ᵒ_;
-  ∀ᵒ-intro; ∃ᵒ-elim; ∀ᵒ-elim; ∃ᵒ-intro; choiceᵒ; →ᵒ-intro; →ᵒ-elim;
-  ⊤∗ᵒ-elim; ⊤∗ᵒ-intro; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-monoˡ; -∗ᵒ-intro; -∗ᵒ-elim;
-  |=>ᵒ-mono; |=>ᵒ-intro; |=>ᵒ-join; |=>ᵒ-frameˡ; |=>ᵒ-∃-out;
-  □ᵒ-mono; □ᵒ-elim; □ᵒ-dup; □ᵒˡ-∧⇒∗; □ᵒ-∀-in; □ᵒ-∃-out)
+  _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_)
 open import Shog.Model.Save ℓ using (saveˣᵒ; save□ᵒ)
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ[_]; [|_|]ᴮ)
 

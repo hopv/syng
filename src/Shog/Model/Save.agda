@@ -18,7 +18,7 @@ open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ; injᴳ; Saveˣ; #ˣᴾ_; injᶠˢˣ;
   Save□; injᶠˢ□; agᴾ; injᴳ-cong; injᴳ-⌞⌟; injᶠˢ□-⌞⌟)
 open RA Globᴿᴬ using (_≈_; ⌞_⌟; sym˜; _»˜_)
-open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; _⊨_; ∃^-syntax; _∧ᵒ'_; ⌜_⌝^;
+open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; _⊨_; ∃^-syntax; _∧ᵒ_; ⌜_⌝^;
   □ᵒ_; own; own-⌞⌟-□')
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ; [||]ᴮ-⇒□)
 
@@ -33,7 +33,7 @@ lineˢˣ i P =  own $ injᴳ 0 $ injᶠˢˣ i $ #ˣᴾ P
 
 saveˣᵒ :  Prop' ∞ →  Propᵒ
 saveˣᵒ P =  ∃^ P' , ∃^ B , ∃^ BaB , ∃^ i ,
-  ⌜ B ∗ P ⊢[ ∞ ] P' ⌝^  ∧ᵒ'  [| B |]ᴮ {{ BaB }}  ∧ᵒ'  lineˢˣ (↓ˡ i) P
+  ⌜ B ∗ P ⊢[ ∞ ] P' ⌝^  ∧ᵒ  [| B |]ᴮ {{ BaB }}  ∧ᵒ  lineˢˣ (↓ˡ i) P
 
 --------------------------------------------------------------------------------
 -- Interpreting persistent save tokens
@@ -43,7 +43,7 @@ lineˢ□ i P =  own $ injᴳ 1 $ injᶠˢ□ i $ agᴾ P
 
 save□ᵒ :  Prop' ∞ →  Propᵒ
 save□ᵒ P =  ∃^ P' , ∃^ B , ∃^ BaB , ∃^ i ,
-  ⌜ B ∗ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ'  [| B |]ᴮ {{ BaB }}  ∧ᵒ'  lineˢ□ (↓ˡ i) P'
+  ⌜ B ∗ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  [| B |]ᴮ {{ BaB }}  ∧ᵒ  lineˢ□ (↓ˡ i) P'
 
 abstract
 

@@ -5,8 +5,7 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Shog.Model.RA using (RA)
-module Shog.Model.RA.All {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
-  (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) where
+module Shog.Model.RA.All {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'} (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) where
 
 open import Base.Level using (_⊔ˡ_)
 open import Base.Prod using (_,_; proj₀; proj₁)

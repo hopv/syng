@@ -177,13 +177,15 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(P ∗ᵒ Q) .predᵒ a ✓a =  Σ b , Σ c , Σ b∙c≈a ,
-  P .predᵒ b (✓b b∙c≈a)  ×  Q .predᵒ c (✓c b∙c≈a)
- where abstract
-  ✓b :  b ∙ c ≈ a →  ✓ b
-  ✓b b∙c≈a =  ✓-mono (_ , (∙-comm »˜ b∙c≈a)) ✓a
-  ✓c :  b ∙ c ≈ a →  ✓ c
-  ✓c b∙c≈a =  ✓-mono (_ , b∙c≈a) ✓a
+(P ∗ᵒ Q) .predᵒ a ✓a =  Σ b , Σ c , Σ b∙c≈a , body b c b∙c≈a
+ where
+  body :  ∀ b c →  b ∙ c ≈ a →  Set (^ˡ ℓ)
+  body b c b∙c≈a =  P .predᵒ b ✓b  ×  Q .predᵒ c ✓c
+   where abstract
+    ✓b :  ✓ b
+    ✓b =  ✓-mono (_ , (∙-comm »˜ b∙c≈a)) ✓a
+    ✓c :  ✓ c
+    ✓c =  ✓-mono (_ , b∙c≈a) ✓a
 (P ∗ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
   proof :  Monoᵒ $ (P ∗ᵒ Q) .predᵒ

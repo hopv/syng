@@ -302,5 +302,4 @@ abstract
   own-↝ˢ :  a ↝ˢ B →  own a ⊨ |=>ᵒ (∃^ b , ⌜ b ∈ B ⌝^ ∧ᵒ own b)
   own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' with a↝B (d ∙ c) $
     flip ✓-resp ✓d∙a' $ ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
-  ... | b , b∈B , ✓d∙cb =  b , (✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb) , b , b∈B ,
-    ⊑-refl
+  ... | b , b∈B , ✓d∙cb =  b , ✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb , b , b∈B , ⊑-refl

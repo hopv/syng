@@ -228,11 +228,13 @@ _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ
-(|=>ᵒ P) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓c∙b ,
-  P .predᵒ b (✓b {c} {b} ✓c∙b)
- where abstract
-  ✓b :  ✓ c ∙ b →  ✓ b
-  ✓b ✓c∙b =  ✓-mono ∙-incrˡ ✓c∙b
+(|=>ᵒ P) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓c∙b ,  body c b ✓c∙b
+ where
+  body :  ∀ c b →  ✓ c ∙ b →  Set (^ˡ ℓ)
+  body _ b ✓c∙b = P .predᵒ b ✓b
+   where abstract
+    ✓b :  ✓ b
+    ✓b =  ✓-mono ∙-incrˡ ✓c∙b
 (|=>ᵒ P) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
   proof :  Monoᵒ $ (|=>ᵒ P) .predᵒ

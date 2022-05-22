@@ -27,20 +27,20 @@ Prop-setoid =  ≡-setoid (Prop' ∞)
 --------------------------------------------------------------------------------
 -- Excᴾᴿᴬ, Agᴾᴿᴬ: Exclusive / agreement RA on Prop' ∞
 
-module MExcᴾ =  Shog.Model.RA.Exc Prop-setoid {^ˡ ℓ}
-open MExcᴾ public using () renaming (Excᴿᴬ to Excᴾᴿᴬ; Exc to Excᴾ)
+module ModExcᴾ =  Shog.Model.RA.Exc Prop-setoid {^ˡ ℓ}
+open ModExcᴾ public using () renaming (Excᴿᴬ to Excᴾᴿᴬ; Exc to Excᴾ)
 
-module MAgᴾ =  Shog.Model.RA.Ag Prop-setoid
-open MAgᴾ public using () renaming (Agᴿᴬ to Agᴾᴿᴬ)
+module ModAgᴾ =  Shog.Model.RA.Ag Prop-setoid
+open ModAgᴾ public using () renaming (Agᴿᴬ to Agᴾᴿᴬ)
 
 --------------------------------------------------------------------------------
 -- Saveˣᴿᴬ, Save□ᴿᴬ: Exclusive/persistent save token RA
 
-module MFinˢˣ =  Shog.Model.RA.Fin Excᴾᴿᴬ
-open MFinˢˣ public using () renaming (Finᴿᴬ to Saveˣᴿᴬ; Fin to Saveˣ)
+module ModSaveˣ =  Shog.Model.RA.Fin Excᴾᴿᴬ
+open ModSaveˣ public using () renaming (Finᴿᴬ to Saveˣᴿᴬ; Fin to Saveˣ)
 
-module MFinˢ□ =  Shog.Model.RA.Fin Agᴾᴿᴬ
-open MFinˢ□ public using () renaming (Finᴿᴬ to Save□ᴿᴬ; Fin to Save□)
+module ModSave□ =  Shog.Model.RA.Fin Agᴾᴿᴬ
+open ModSave□ public using () renaming (Finᴿᴬ to Save□ᴿᴬ; Fin to Save□)
 
 --------------------------------------------------------------------------------
 -- Globᴿᴬ: Global RA
@@ -50,7 +50,7 @@ Globᴿᴬ˙ 0 =  Saveˣᴿᴬ
 Globᴿᴬ˙ 1 =  Save□ᴿᴬ
 Globᴿᴬ˙ _ =  ⊤ᴿᴬ
 
-module MAllᴳ =  Shog.Model.RA.All Globᴿᴬ˙
-open MAllᴳ public using () renaming (Allᴿᴬ to Globᴿᴬ)
+module ModGlob =  Shog.Model.RA.All Globᴿᴬ˙
+open ModGlob public using () renaming (Allᴿᴬ to Globᴿᴬ)
 open RA Globᴿᴬ public using () renaming (Car to Glob)
-module MAllIᴳ =  Shog.Model.RA.All.Index Globᴿᴬ˙ _≡?_
+module ModGlobI =  Shog.Model.RA.All.Index Globᴿᴬ˙ _≡?_

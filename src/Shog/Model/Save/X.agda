@@ -14,11 +14,11 @@ open import Base.Level using (↓ˡ_)
 open import Shog.Logic.Prop ℓ using (Prop'; _∧_; Basic)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_)
 open import Shog.Model.RA using (RA)
-open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ; Glob; module MAllIᴳ;
-  module MFinˢˣ; module MExcᴾ)
-open MAllIᴳ using (injᴬ)
-open MFinˢˣ using (injᶠ)
-open MExcᴾ using (#ˣ_)
+open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ; Glob; module ModGlobI;
+  module ModSaveˣ; module ModExcᴾ)
+open ModGlobI using (injᴬ)
+open ModSaveˣ using (injᶠ)
+open ModExcᴾ using (#ˣ_)
 open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; _⊨_; ∃^-syntax; _∧ᵒ_; ⌜_⌝^;
   own)
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ)

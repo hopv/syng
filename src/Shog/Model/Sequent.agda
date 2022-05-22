@@ -47,8 +47,8 @@ private variable
 [| P -∗ Q |] =  [| P |] -∗ᵒ [| Q |]
 [| |=> P |] =  |=>ᵒ [| P |]
 [| □ P |] =  □ᵒ [| P |]
-[| saveˣ P^ |] =  saveˣᵒ (P^ .!)
-[| save□ P^ |] =  save□ᵒ (P^ .!)
+[| saveˣ P˂ |] =  saveˣᵒ (P˂ .!)
+[| save□ P˂ |] =  save□ᵒ (P˂ .!)
 
 abstract
 
@@ -191,9 +191,9 @@ abstract
   ⊢-sem □-∃-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟
 
   -- saveˣ-mono :  {{Basic R}} →
-  --   R ∧ P^ .! ⊢[< ∞ ] Q^ .! →  R ∧ saveˣ P^ ⊢[ ∞ ] saveˣ Q^
-  ⊢-sem (saveˣ-mono {R = R} R∧P⊢<Q) R∧saveˣP^a =
-    (R∧saveˣP^a 0₂ , R∧saveˣP^a 1₂) ▷
+  --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ saveˣ P˂ ⊢[ ∞ ] saveˣ Q˂
+  ⊢-sem (saveˣ-mono {R = R} R∧P⊢<Q) R∧saveˣP˂a =
+    (R∧saveˣP˂a 0₂ , R∧saveˣP˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) →
     let instance BaS :  Basic S
                  BaS =  BaS in
@@ -201,16 +201,16 @@ abstract
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢˣTa
 
   -- save□-mono :  {{Basic R}} →
-  --   R ∧ P^ .! ⊢[< ∞ ] Q^ .! →  R ∧ save□ P^ ⊢[ ∞ ] save□ Q^
-  ⊢-sem (save□-mono {R = R} R∧P⊢<Q) R∧save□P^a =
-    (R∧save□P^a 0₂ , R∧save□P^a 1₂) ▷
+  --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ save□ P˂ ⊢[ ∞ ] save□ Q˂
+  ⊢-sem (save□-mono {R = R} R∧P⊢<Q) R∧save□P˂a =
+    (R∧save□P˂a 0₂ , R∧save□P˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) →
     let instance BaS :  Basic S
                  BaS =  BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢ□Ta
 
-  -- save□-□ :  save□ P^ ⊢[ ∞ ] □ save□ P^
+  -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂
   ⊢-sem save□-□ {✓a = ✓a} (_ , _ , BaB , i , B∗P'⊢P , Ba , line□iP'a) =
     _ , _ , _ , _ , B∗P'⊢P , [||]ᴮ-⇒□ {{BaB}} Ba ,
     own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a

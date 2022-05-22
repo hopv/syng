@@ -20,9 +20,9 @@ open import Base.List using (List; []; _∷_; map)
 
 data  Prop' (ι : Size) :  Set (^ˡ ℓ)
 
--- Prop<: Prop' under Thunk
-Prop< :  Size →  Set (^ˡ ℓ)
-Prop< ι =  Thunk Prop' ι
+-- Prop˂: Prop' under Thunk
+Prop˂ :  Size →  Set (^ˡ ℓ)
+Prop˂ ι =  Thunk Prop' ι
 
 infixr 5 _→'_ _-∗_
 infixr 7 _∗_
@@ -40,7 +40,7 @@ data Prop' ι where
   -- □: Persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
   -- saveˣ, save□: Save token, exclusive and persistent
-  saveˣ save□ :  Prop< ι →  Prop' ι
+  saveˣ save□ :  Prop˂ ι →  Prop' ι
 
 private variable
   ι :  Size

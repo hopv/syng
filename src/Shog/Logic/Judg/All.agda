@@ -32,11 +32,11 @@ private variable
   Jr :  JudgRes
   A :  Set ℓ
   P˙ Q˙ :  A → Prop' ∞
-  P^ Q^ :  Prop< ∞
+  P˂ Q˂ :  Prop˂ ∞
   a :  A
   F :  A → Set ℓ
   b :  Bool
-  P^s :  List (Prop< ∞)
+  P˂s :  List (Prop˂ ∞)
   ι :  Size
 
 -- Declaring Judg
@@ -123,20 +123,20 @@ data Judg ι where
   ------------------------------------------------------------------------------
   -- An exclusive/persistent save token can be modified using a thunk sequent
   saveˣ-mono :  {{Basic R}} →
-    R ∧ P^ .! ⊢[< ι ] Q^ .! →  R ∧ saveˣ P^ ⊢[ ι ] saveˣ Q^
+    R ∧ P˂ .! ⊢[< ι ] Q˂ .! →  R ∧ saveˣ P˂ ⊢[ ι ] saveˣ Q˂
   save□-mono :  {{Basic R}} →
-    R ∧ P^ .! ⊢[< ι ] Q^ .! →  R ∧ save□ P^ ⊢[ ι ] save□ Q^
+    R ∧ P˂ .! ⊢[< ι ] Q˂ .! →  R ∧ save□ P˂ ⊢[ ι ] save□ Q˂
   -- save□ is persistent
-  save□-□ :  save□ P^ ⊢[ ι ] □ save□ P^
-  -- An exclusive save token saveˣ P^ is obtained by allocating P^
-  saveˣ-alloc :  P^ .! ⊢[ ι ]=>> saveˣ P^
-  -- Persistent save tokens save□ P^, ... can be obtained
-  -- by allocating □ P^, ... minus the tokens save□ P^, ... themselves
+  save□-□ :  save□ P˂ ⊢[ ι ] □ save□ P˂
+  -- An exclusive save token saveˣ P˂ is obtained by allocating P˂
+  saveˣ-alloc :  P˂ .! ⊢[ ι ]=>> saveˣ P˂
+  -- Persistent save tokens save□ P˂, ... can be obtained
+  -- by allocating □ P˂, ... minus the tokens save□ P˂, ... themselves
   save□-alloc-rec :
-    [∗]-map save□ P^s -∗ [∗ P^ ∈ P^s ] □ P^ .! ⊢[ ι ]=>> [∗]-map save□ P^s
+    [∗]-map save□ P˂s -∗ [∗ P˂ ∈ P˂s ] □ P˂ .! ⊢[ ι ]=>> [∗]-map save□ P˂s
   -- Use a exclusive/persistent save token
-  saveˣ-use :  saveˣ P^ ⊢[ ι ]=>> P^ .!
-  save□-use :  save□ P^ ⊢[ ι ]=>> □ P^ .!
+  saveˣ-use :  saveˣ P˂ ⊢[ ι ]=>> P˂ .!
+  save□-use :  save□ P˂ ⊢[ ι ]=>> □ P˂ .!
 
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition

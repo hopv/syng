@@ -24,7 +24,7 @@ open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; refl; _»_;
 open import Shog.Logic.Core ℓ using (∧-assocˡ; ∧-monoʳ)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
-open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; _⊨_; ∀ᵒ-syntax;
+open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀ᵒ-syntax;
   ∃ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; own-⌞⌟-□')
 open RA Globᴿᴬ using (_≈_; _∙_; ε; ⌞_⌟; refl˜; sym˜; _»˜_; ⊑-refl; ≈⇒⊑; ✓-resp;
   ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ∙-assocʳ;
@@ -57,14 +57,17 @@ abstract
   [||]-ᴮ'⇒ :  (IsBaP : IsBasic P) →  [| P |]ᴮ[ IsBaP ] ⊨ [| P |]
   [||]-ᴮ'⇒ (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-ᴮ'⇒ (IsBaP˙ x) (∀xPxa x)
   [||]-ᴮ'⇒ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-ᴮ'⇒ (IsBaP˙ x) Pxa
-  [||]-ᴮ'⇒ (∗-IsBasic IsBaP IsBaQ) (b , c , _ , _ , bc≈a , Pb , Qc) =
-    b , c , _ , _ , bc≈a , [||]-ᴮ'⇒ IsBaP Pb , [||]-ᴮ'⇒ IsBaQ Qc
+  [||]-ᴮ'⇒ (∗-IsBasic {P} {Q} IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
+    b , c , bc≈a ,
+    renewᵒ [| P |] ([||]-ᴮ'⇒ IsBaP Pb) , renewᵒ [| Q |] ([||]-ᴮ'⇒ IsBaQ Qc)
 
   [||]-⇒ᴮ' :  (IsBaP : IsBasic P) →  [| P |] ⊨ [| P |]ᴮ[ IsBaP ]
   [||]-⇒ᴮ' (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-⇒ᴮ' (IsBaP˙ x) (∀xPxa x)
   [||]-⇒ᴮ' (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-⇒ᴮ' (IsBaP˙ x) Pxa
-  [||]-⇒ᴮ' (∗-IsBasic IsBaP IsBaQ) (b , c , _ , _ , bc≈a , Pb , Qc) =
-    b , c , _ , _ , bc≈a , [||]-⇒ᴮ' IsBaP Pb , [||]-⇒ᴮ' IsBaQ Qc
+  [||]-⇒ᴮ' (∗-IsBasic {P} {Q} IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
+    b , c , bc≈a ,
+    renewᵒ [| P |]ᴮ[ _ ] ([||]-⇒ᴮ' IsBaP Pb) ,
+    renewᵒ [| Q |]ᴮ[ _ ] ([||]-⇒ᴮ' IsBaQ Qc)
 
   [||]-ᴮ⇒ :  {{BaP : Basic P}} →  [| P |]ᴮ {{BaP}} ⊨ [| P |]
   [||]-ᴮ⇒ =  [||]-ᴮ'⇒ isBasic
@@ -114,61 +117,58 @@ abstract
   ⊢-sem (→-elim Q⊢P→R) P∧Qa =  ⊢-sem Q⊢P→R (P∧Qa 1₂) ⊑-refl (P∧Qa 0₂)
 
   -- ⊤∗-elim :  ⊤' ∗ P ⊢[ ∞ ] P
-  ⊢-sem (⊤∗-elim {P = P}) (b , c , _ , _ , b∙c≈a , _ , Pc) =
+  ⊢-sem (⊤∗-elim {P}) (b , c , b∙c≈a , _ , Pc) =
     [| P |] .monoᵒ (b , b∙c≈a) Pc
 
   -- ⊤∗-intro :  P ⊢[ ∞ ] ⊤' ∗ P
-  ⊢-sem ⊤∗-intro Pa =  ε , _ , ✓-ε , _ , ∙-unitˡ , absurd , Pa
+  ⊢-sem (⊤∗-intro {P}) Pa =  ε , _ , ∙-unitˡ , absurd , renewᵒ [| P |] Pa
 
   -- ∗-comm :  P ∗ Q ⊢[ ∞ ] Q ∗ P
-  ⊢-sem ∗-comm (b , c , _ , _ , b∙c≈a , Pb , Qc) =
-    c , b , _ , _ , (∙-comm »˜ b∙c≈a) , Qc , Pb
+  ⊢-sem (∗-comm {P} {Q}) (b , c , b∙c≈a , Pb , Qc) =
+    c , b , (∙-comm »˜ b∙c≈a) , renewᵒ [| Q |] Qc , renewᵒ [| P |] Pb
 
   -- ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ∞ ] P ∗ (Q ∗ R)
-  ⊢-sem ∗-assocˡ {a = a} {✓a}
-   (bc , d , _ , _ , bc∙d≈a , (b , c , _ , _ , b∙c≈bc , Pb , Qc) , Rd) =
-    b , c ∙ d , _ , ✓-mono (b , b∙cd≈a) ✓a , b∙cd≈a , Pb , c , d , _ , _ ,
-    refl˜ , Qc , Rd
-   where
-    b∙cd≈a :  b ∙ (c ∙ d) ≈ a
-    b∙cd≈a =  ∙-assocʳ »˜ ∙-congˡ b∙c≈bc »˜ bc∙d≈a
+  ⊢-sem (∗-assocˡ {P} {Q} {R}) {a = a} {✓a}
+   (bc , d , bc∙d≈a , (b , c , b∙c≈bc , Pb , Qc) , Rd) =
+    b , c ∙ d , (∙-assocʳ »˜ ∙-congˡ b∙c≈bc »˜ bc∙d≈a) ,
+    renewᵒ [| P |] Pb , c , d , refl˜ , renewᵒ [| Q |] Qc , renewᵒ [| R |] Rd
 
   -- ∗-monoˡ :  P ⊢[ ∞ ] Q →  P ∗ R ⊢[ ∞ ] Q ∗ R
-  ⊢-sem (∗-monoˡ P⊢Q) (b , c , _ , _ , b∙c≈a , Pb , Rc) =
-    b , c , _ , _ , b∙c≈a , ⊢-sem P⊢Q Pb , Rc
+  ⊢-sem (∗-monoˡ {Q = Q} {R} P⊢Q) (b , c , b∙c≈a , Pb , Rc) =
+    b , c , b∙c≈a , renewᵒ [| Q |] (⊢-sem P⊢Q Pb) , renewᵒ [| R |] Rc
 
   -- -∗-intro :  P ∗ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P -∗ R
-  ⊢-sem (-∗-intro {Q = Q} P∗Q⊢R) Qa {✓c∙b = ✓c∙b} a⊑b Pb =  ⊢-sem P∗Q⊢R $
-    _ , _ , _ , ✓-mono ∙-incrˡ ✓c∙b , refl˜ , Pb , [| Q |] .monoᵒ a⊑b Qa
+  ⊢-sem (-∗-intro {P} {Q} P∗Q⊢R) Qa a⊑b Pb =  ⊢-sem P∗Q⊢R $
+    _ , _ , refl˜ , renewᵒ [| P |] Pb , [| Q |] .monoᵒ a⊑b Qa
 
   -- -∗-elim :  Q ⊢[ ∞ ] P -∗ R →  P ∗ Q ⊢[ ∞ ] R
-  ⊢-sem (-∗-elim {R = R} Q⊢P-∗R) {✓a = ✓a} (b , c , _ , _ , b∙c≈a , Pb , Qc) =
+  ⊢-sem (-∗-elim {R = R} Q⊢P-∗R) {✓a = ✓a} (b , c , b∙c≈a , Pb , Qc) =
     [| R |] .monoᵒ {✓a = ✓-resp (sym˜ b∙c≈a) ✓a} (≈⇒⊑ b∙c≈a) $
     ⊢-sem Q⊢P-∗R Qc ⊑-refl Pb
 
   -- |=>-mono :  P ⊢[ ∞ ] Q →  |=> P ⊢[ ∞ ] |=> Q
-  ⊢-sem (|=>-mono P⊢Q) |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
-  ... | b , _ , ✓c∙b , Pb =  b , _ , ✓c∙b , ⊢-sem P⊢Q Pb
+  ⊢-sem (|=>-mono {Q = Q} P⊢Q) |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
+  ... | b , ✓c∙b , Pb =  b , ✓c∙b , renewᵒ [| Q |] (⊢-sem P⊢Q Pb)
 
   -- |=>-intro :  P ⊢[ ∞ ] |=> P
-  ⊢-sem |=>-intro Pa c ✓c∙a =  _ , _ , ✓c∙a , Pa
+  ⊢-sem (|=>-intro {P}) Pa c ✓c∙a =  _ , ✓c∙a , renewᵒ [| P |] Pa
 
   -- |=>-join :  |=> |=> P ⊢[ ∞ ] |=> P
-  ⊢-sem |=>-join |=>|=>Pa d ✓d∙a with |=>|=>Pa d ✓d∙a
-  ... | b , _ , ✓d∙b , |=>Pb with  |=>Pb d ✓d∙b
-  ...   | c , _ , ✓d∙c , Pc = c , _ , ✓d∙c , Pc
+  ⊢-sem (|=>-join {P}) |=>|=>Pa d ✓d∙a with |=>|=>Pa d ✓d∙a
+  ... | b , ✓d∙b , |=>Pb with  |=>Pb d ✓d∙b
+  ...   | c , ✓d∙c , Pc =  c , ✓d∙c , renewᵒ [| P |] Pc
 
   -- |=>-frameˡ :  P ∗ |=> Q ⊢[ ∞ ] |=> (P ∗ Q)
-  ⊢-sem |=>-frameˡ (b , c , _ , _ , b∙c≈a , Pb , |=>Qc) e ✓e∙a with
+  ⊢-sem (|=>-frameˡ {P} {Q}) (b , c , b∙c≈a , Pb , |=>Qc) e ✓e∙a with
     |=>Qc (e ∙ b) $ flip ✓-resp ✓e∙a $ ∙-congʳ (sym˜ b∙c≈a) »˜ ∙-assocʳ
-  ... | d , _ , ✓eb∙d , Qd =  b ∙ d , (flip ✓-mono ✓eb∙d $ ∙-monoˡ ∙-incrˡ) ,
-    (✓-resp ∙-assocˡ ✓eb∙d) , b , d , _ , _ , refl˜ , Pb , Qd
+  ... | d , ✓eb∙d , Qd =  b ∙ d , (✓-resp ∙-assocˡ ✓eb∙d) , b , d , refl˜ ,
+    renewᵒ [| P |] Pb , renewᵒ [| Q |] Qd
 
   -- |=>-∃-out :  |=> (∃ _ ∈ A , P) ⊢[ ∞ ] ∃ _ ∈ A , |=> P
-  ⊢-sem |=>-∃-out {✓a = ✓a} |=>∃AP =  λ where
-    .proj₀ →  |=>∃AP ε (✓-resp (sym˜ ∙-unitˡ) ✓a) ▷ λ (_ , _ , _ , x , _) → x
-    .proj₁ c ✓c∙a →  |=>∃AP c ✓c∙a ▷ λ (b , _ , ✓c∙b , _ , Pb) →
-      b , _ , ✓c∙b , Pb
+  ⊢-sem (|=>-∃-out {P = P}) {✓a = ✓a} |=>∃AP =  λ where
+    .proj₀ →  |=>∃AP ε (✓-resp (sym˜ ∙-unitˡ) ✓a) ▷ λ (_ , _ , x , _) → x
+    .proj₁ c ✓c∙a →  |=>∃AP c ✓c∙a ▷ λ (b , ✓c∙b , _ , Pb) →
+      b , ✓c∙b , renewᵒ [| P |] Pb
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
   ⊢-sem (□-mono P⊢Q) P⌞a⌟ =  ⊢-sem P⊢Q P⌞a⌟
@@ -180,8 +180,9 @@ abstract
   ⊢-sem (□-dup {P = P}) P⌞a⌟ =  [| P |] .monoᵒ (≈⇒⊑ $ sym˜ ⌞⌟-idem) P⌞a⌟
 
   -- □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ∞ ] □ P ∗ Q
-  ⊢-sem (□ˡ-∧⇒∗ {P = P}) {a = a} {✓a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ✓-⌞⌟ ✓a , _ ,
-    ⌞⌟-unitˡ , [| P |] .monoᵒ (≈⇒⊑ $ sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) , P⌞a⌟∧Qa 1₂
+  ⊢-sem (□ˡ-∧⇒∗ {P} {Q}) {a = a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ⌞⌟-unitˡ ,
+    [| P |] .monoᵒ (≈⇒⊑ $ sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) ,
+    renewᵒ [| Q |] (P⌞a⌟∧Qa 1₂)
 
   -- □-∀-in :  ∀˙ _ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀˙ _ P˙
   ⊢-sem □-∀-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟

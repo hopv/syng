@@ -34,6 +34,8 @@ record  Propᵒ :  Set (^ˡ ^ˡ ℓ)  where
   field
     predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ˡ ℓ)
     monoᵒ :  Monoᵒ predᵒ
+  renewᵒ :  ∀ {a ✓a ✓a'} →  predᵒ a ✓a →  predᵒ a ✓a'
+  renewᵒ =  monoᵒ ⊑-refl
 open Propᵒ public
 
 private variable
@@ -45,7 +47,7 @@ private variable
   F :  X →  Set ℓ
   ℓ' :  Level
   D :  Set ℓ'
-  a b :  Glob
+  a b c :  Glob
   B :  Glob → Set ℓ'
 
 --------------------------------------------------------------------------------
@@ -175,16 +177,19 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(P ∗ᵒ Q) .predᵒ a _ =  Σ b , Σ c , Σ ✓b , Σ ✓c ,
-  b ∙ c ≈ a  ×  P .predᵒ b ✓b  ×  Q .predᵒ c ✓c
+(P ∗ᵒ Q) .predᵒ a ✓a =  Σ b , Σ c , Σ b∙c≈a ,
+  P .predᵒ b (✓b b∙c≈a)  ×  Q .predᵒ c (✓c b∙c≈a)
+ where abstract
+  ✓b :  b ∙ c ≈ a →  ✓ b
+  ✓b b∙c≈a =  ✓-mono (_ , (∙-comm »˜ b∙c≈a)) ✓a
+  ✓c :  b ∙ c ≈ a →  ✓ c
+  ✓c b∙c≈a =  ✓-mono (_ , b∙c≈a) ✓a
 (P ∗ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
   proof :  Monoᵒ $ (P ∗ᵒ Q) .predᵒ
-  proof {✓b = ✓b} a⊑b@(c , c∙a≈b) (d , e , _ , _ , d∙e≈a , Pd , Qe) =
-    c ∙ d , e ,
-    (flip ✓-mono ✓b $ ⊑-respʳ c∙a≈b $ ∙-monoʳ $ e , (∙-comm »˜ d∙e≈a)) ,
-    _ , (∙-assocˡ »˜ ∙-congʳ d∙e≈a »˜ c∙a≈b) ,
-    P .monoᵒ ∙-incrˡ Pd , Qe
+  proof (c , c∙a≈b) (d , e , d∙e≈a , Pd , Qe) =
+    c ∙ d , e , (∙-assocˡ »˜ ∙-congʳ d∙e≈a »˜ c∙a≈b) ,
+    P .monoᵒ ∙-incrˡ Pd , renewᵒ Q Qe
 
 --------------------------------------------------------------------------------
 -- [∗ᵒ]: Iterated separating conjunction
@@ -221,14 +226,18 @@ _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ
-(|=>ᵒ P) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓b ,  ✓ c ∙ b  ×  P .predᵒ b ✓b
+(|=>ᵒ P) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓c∙b ,
+  P .predᵒ b (✓b {c} {b} ✓c∙b)
+ where abstract
+  ✓b :  ✓ c ∙ b →  ✓ b
+  ✓b ✓c∙b =  ✓-mono ∙-incrˡ ✓c∙b
 (|=>ᵒ P) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
   proof :  Monoᵒ $ (|=>ᵒ P) .predᵒ
   proof (d , d∙a≈b) |=>Pa e ✓e∙b with
     |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (sym˜ d∙a≈b) »˜ ∙-assocʳ
-  ... | (c , _ , ✓ed∙c , Pc) =  c , _ ,
-    (flip ✓-mono ✓ed∙c $ ∙-monoˡ ∙-incrʳ) , Pc
+  ... | (c , ✓ed∙c , Pc) =  c , (flip ✓-mono ✓ed∙c $ ∙-monoˡ ∙-incrʳ) ,
+    renewᵒ P Pc
 
 --------------------------------------------------------------------------------
 -- □ᵒ: Persistence modality
@@ -260,13 +269,11 @@ abstract
   own-mono a⊑b b⊑c =  ⊑-trans a⊑b b⊑c
 
   own-∙⇒∗ :  own (a ∙ b) ⊨ own a ∗ᵒ own b
-  own-∙⇒∗ {a = a} {b} {c} {✓c} ab⊑c@(d , d∙ab≈c) =  d ∙ a , b ,
-    (flip ✓-mono ✓c $ ⊑-respʳ d∙ab≈c $ ∙-monoʳ ∙-incrʳ) ,
-    (flip ✓-mono ✓c $ ⊑-trans ∙-incrˡ ab⊑c) , (∙-assocˡ »˜ d∙ab≈c) ,
+  own-∙⇒∗ {a = a} {b} {c} (d , d∙ab≈c) =  d ∙ a , b , (∙-assocˡ »˜ d∙ab≈c) ,
     ∙-incrˡ , ⊑-refl
 
   own-∗⇒∙ :  own a ∗ᵒ own b ⊨ own (a ∙ b)
-  own-∗⇒∙ {a = a} {b} (a' , b' , _ , _ , a'∙b'≈c , a⊑a' , b⊑b') =
+  own-∗⇒∙ {a = a} {b} (a' , b' , a'∙b'≈c , a⊑a' , b⊑b') =
     ⊑-respʳ a'∙b'≈c (∙-mono a⊑a' b⊑b')
 
   own-ε-intro :  P ⊨ own ε
@@ -282,8 +289,7 @@ abstract
   own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b
 
   own-↝ :  a ↝ b →  own a ⊨ |=>ᵒ own b
-  own-↝ {b = b} a↝b {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' =  b , ✓-mono ∙-incrˡ ✓d∙b ,
-    ✓d∙b , ⊑-refl
+  own-↝ {b = b} a↝b (c , c∙a≈a') d ✓d∙a' =  b , ✓d∙b , ⊑-refl
    where
     ✓d∙b :  ✓ d ∙ b
     ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) $ a↝b (d ∙ c) $ flip ✓-resp ✓d∙a' $
@@ -292,7 +298,5 @@ abstract
   own-↝ˢ :  a ↝ˢ B →  own a ⊨ |=>ᵒ (∃^ b , ⌜ b ∈ B ⌝^ ∧ᵒ own b)
   own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' with a↝B (d ∙ c) $
     flip ✓-resp ✓d∙a' $ ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
-  ... | b , b∈B , ✓d∙cb =  b , ✓-mono ∙-incrˡ ✓d∙b , ✓d∙b , b , b∈B , ⊑-refl
-   where
-    ✓d∙b :  ✓ d ∙ b
-    ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb
+  ... | b , b∈B , ✓d∙cb =  b , (✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb) , b , b∈B ,
+    ⊑-refl

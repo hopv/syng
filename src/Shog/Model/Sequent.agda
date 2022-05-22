@@ -58,16 +58,13 @@ abstract
   [||]-ᴮ'⇒ (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-ᴮ'⇒ (IsBaP˙ x) (∀xPxa x)
   [||]-ᴮ'⇒ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-ᴮ'⇒ (IsBaP˙ x) Pxa
   [||]-ᴮ'⇒ (∗-IsBasic {P} {Q} IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
-    b , c , bc≈a ,
-    renewᵒ [| P |] ([||]-ᴮ'⇒ IsBaP Pb) , renewᵒ [| Q |] ([||]-ᴮ'⇒ IsBaQ Qc)
+    b , c , bc≈a , [||]-ᴮ'⇒ IsBaP Pb , [||]-ᴮ'⇒ IsBaQ Qc
 
   [||]-⇒ᴮ' :  (IsBaP : IsBasic P) →  [| P |] ⊨ [| P |]ᴮ[ IsBaP ]
   [||]-⇒ᴮ' (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-⇒ᴮ' (IsBaP˙ x) (∀xPxa x)
   [||]-⇒ᴮ' (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-⇒ᴮ' (IsBaP˙ x) Pxa
   [||]-⇒ᴮ' (∗-IsBasic {P} {Q} IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
-    b , c , bc≈a ,
-    renewᵒ [| P |]ᴮ[ _ ] ([||]-⇒ᴮ' IsBaP Pb) ,
-    renewᵒ [| Q |]ᴮ[ _ ] ([||]-⇒ᴮ' IsBaQ Qc)
+    b , c , bc≈a , [||]-⇒ᴮ' IsBaP Pb , [||]-⇒ᴮ' IsBaQ Qc
 
   [||]-ᴮ⇒ :  {{BaP : Basic P}} →  [| P |]ᴮ {{BaP}} ⊨ [| P |]
   [||]-ᴮ⇒ =  [||]-ᴮ'⇒ isBasic
@@ -135,7 +132,7 @@ abstract
 
   -- ∗-monoˡ :  P ⊢[ ∞ ] Q →  P ∗ R ⊢[ ∞ ] Q ∗ R
   ⊢-sem (∗-monoˡ {Q = Q} {R} P⊢Q) (b , c , b∙c≈a , Pb , Rc) =
-    b , c , b∙c≈a , renewᵒ [| Q |] (⊢-sem P⊢Q Pb) , renewᵒ [| R |] Rc
+    b , c , b∙c≈a , ⊢-sem P⊢Q Pb , Rc
 
   -- -∗-intro :  P ∗ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P -∗ R
   ⊢-sem (-∗-intro {P} {Q} P∗Q⊢R) Qa a⊑b Pb =  ⊢-sem P∗Q⊢R $
@@ -148,7 +145,7 @@ abstract
 
   -- |=>-mono :  P ⊢[ ∞ ] Q →  |=> P ⊢[ ∞ ] |=> Q
   ⊢-sem (|=>-mono {Q = Q} P⊢Q) |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
-  ... | b , ✓c∙b , Pb =  b , ✓c∙b , renewᵒ [| Q |] (⊢-sem P⊢Q Pb)
+  ... | b , ✓c∙b , Pb =  b , ✓c∙b , ⊢-sem P⊢Q Pb
 
   -- |=>-intro :  P ⊢[ ∞ ] |=> P
   ⊢-sem (|=>-intro {P}) Pa c ✓c∙a =  _ , ✓c∙a , renewᵒ [| P |] Pa
@@ -156,7 +153,7 @@ abstract
   -- |=>-join :  |=> |=> P ⊢[ ∞ ] |=> P
   ⊢-sem (|=>-join {P}) |=>|=>Pa d ✓d∙a with |=>|=>Pa d ✓d∙a
   ... | b , ✓d∙b , |=>Pb with  |=>Pb d ✓d∙b
-  ...   | c , ✓d∙c , Pc =  c , ✓d∙c , renewᵒ [| P |] Pc
+  ...   | c , ✓d∙c , Pc =  c , ✓d∙c , Pc
 
   -- |=>-frameˡ :  P ∗ |=> Q ⊢[ ∞ ] |=> (P ∗ Q)
   ⊢-sem (|=>-frameˡ {P} {Q}) (b , c , b∙c≈a , Pb , |=>Qc) e ✓e∙a with
@@ -167,8 +164,7 @@ abstract
   -- |=>-∃-out :  |=> (∃ _ ∈ A , P) ⊢[ ∞ ] ∃ _ ∈ A , |=> P
   ⊢-sem (|=>-∃-out {P = P}) {✓a = ✓a} |=>∃AP =  λ where
     .proj₀ →  |=>∃AP ε (✓-resp (sym˜ ∙-unitˡ) ✓a) ▷ λ (_ , _ , x , _) → x
-    .proj₁ c ✓c∙a →  |=>∃AP c ✓c∙a ▷ λ (b , ✓c∙b , _ , Pb) →
-      b , ✓c∙b , renewᵒ [| P |] Pb
+    .proj₁ c ✓c∙a →  |=>∃AP c ✓c∙a ▷ λ (b , ✓c∙b , _ , Pb) → b , ✓c∙b , Pb
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
   ⊢-sem (□-mono P⊢Q) P⌞a⌟ =  ⊢-sem P⊢Q P⌞a⌟

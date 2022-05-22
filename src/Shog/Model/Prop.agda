@@ -18,8 +18,8 @@ open import Base.List using (List; _∷_; []; map)
 
 open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
   _↝ˢ_; sym˜; _»˜_; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ✓-resp; ✓-mono; ∙-congʳ;
-  ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ε-min;
-  ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
+  ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ;
+  ∙≈-✓ˡ; ∙≈-✓ʳ; ✓-remˡ; ε-min; ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
 
 private variable
   ℓF :  Level
@@ -177,15 +177,8 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(P ∗ᵒ Q) .predᵒ a ✓a =  Σ b , Σ c , Σ b∙c≈a , body b c b∙c≈a
- where
-  body :  ∀ b c →  b ∙ c ≈ a →  Set (^ˡ ℓ)
-  body b c b∙c≈a =  P .predᵒ b ✓b  ×  Q .predᵒ c ✓c
-   where abstract
-    ✓b :  ✓ b
-    ✓b =  ✓-mono (_ , (∙-comm »˜ b∙c≈a)) ✓a
-    ✓c :  ✓ c
-    ✓c =  ✓-mono (_ , b∙c≈a) ✓a
+(P ∗ᵒ Q) .predᵒ a ✓a =  Σ b , Σ c , Σ b∙c≈a ,
+  P .predᵒ b (∙≈-✓ˡ b∙c≈a ✓a)  ×  Q .predᵒ c (∙≈-✓ʳ b∙c≈a ✓a)
 (P ∗ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
   proof :  Monoᵒ $ (P ∗ᵒ Q) .predᵒ
@@ -228,13 +221,8 @@ _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ
-(|=>ᵒ P) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓c∙b ,  body c b ✓c∙b
- where
-  body :  ∀ c b →  ✓ c ∙ b →  Set (^ˡ ℓ)
-  body _ b ✓c∙b = P .predᵒ b ✓b
-   where abstract
-    ✓b :  ✓ b
-    ✓b =  ✓-mono ∙-incrˡ ✓c∙b
+(|=>ᵒ P) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓c∙b ,
+  P .predᵒ b (✓-remˡ {c} {b} ✓c∙b)
 (|=>ᵒ P) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
   proof :  Monoᵒ $ (|=>ᵒ P) .predᵒ

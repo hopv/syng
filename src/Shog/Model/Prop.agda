@@ -42,7 +42,7 @@ private variable
   ℓB :  Level
   X :  Set ℓ
   X^ :  Set (^ˡ ℓ)
-  P Q R :  Propᵒ
+  Pᵒ Qᵒ Rᵒ :  Propᵒ
   a b :  Glob
   B :  Glob → Set ℓB
 
@@ -51,17 +51,17 @@ private variable
 
 infix 1 _⊨_
 _⊨_ :  Propᵒ →  Propᵒ →  Set (^ˡ ℓ)
-P ⊨ Q =  ∀ {a ✓a} →  P .predᵒ a ✓a →  Q .predᵒ a ✓a
+Pᵒ ⊨ Qᵒ =  ∀ {a ✓a} →  Pᵒ .predᵒ a ✓a →  Qᵒ .predᵒ a ✓a
 
 abstract
 
   -- ⊨ is reflexive and transitive
 
-  reflᵒ :  P ⊨ P
+  reflᵒ :  Pᵒ ⊨ Pᵒ
   reflᵒ Pa =  Pa
 
   infixr -1 _»ᵒ_
-  _»ᵒ_ :  P ⊨ Q →  Q ⊨ R →  P ⊨ R
+  _»ᵒ_ :  Pᵒ ⊨ Qᵒ →  Qᵒ ⊨ Rᵒ →  Pᵒ ⊨ Rᵒ
   (P⊨Q »ᵒ Q⊨R) Pa =  Pa ▷ P⊨Q ▷ Q⊨R
 
 --------------------------------------------------------------------------------
@@ -70,30 +70,30 @@ abstract
 -- For Set ℓ
 
 ∀ᵒ˙ ∃ᵒ˙ :  (X : Set ℓ) →  (X → Propᵒ) →  Propᵒ
-∀ᵒ˙ _ P˙ .predᵒ a ✓a =  ∀ x →  P˙ x .predᵒ a ✓a
-∀ᵒ˙ _ P˙ .monoᵒ =  proof
+∀ᵒ˙ _ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
+∀ᵒ˙ _ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∀ᵒ˙ _ P˙ .predᵒ
-  proof a⊑b ∀xPxa x =  P˙ x .monoᵒ a⊑b (∀xPxa x)
-∃ᵒ˙ _ P˙ .predᵒ a ✓a =  Σ x ,  P˙ x .predᵒ a ✓a
-∃ᵒ˙ _ P˙ .monoᵒ =  proof
+  proof :  Monoᵒ $ ∀ᵒ˙ _ Pᵒ˙ .predᵒ
+  proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
+∃ᵒ˙ _ Pᵒ˙ .predᵒ a ✓a =  Σ x ,  Pᵒ˙ x .predᵒ a ✓a
+∃ᵒ˙ _ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∃ᵒ˙ _ P˙ .predᵒ
-  proof a⊑b (x , Pxa) =  x ,  P˙ x .monoᵒ a⊑b Pxa
+  proof :  Monoᵒ $ ∃ᵒ˙ _ Pᵒ˙ .predᵒ
+  proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
 -- For Set (^ˡ ℓ)
 
 ∀^˙ ∃^˙ :  (X^ : Set (^ˡ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
-∀^˙ _ P˙ .predᵒ a ✓a =  ∀ x →  P˙ x .predᵒ a ✓a
-∀^˙ _ P˙ .monoᵒ =  proof
+∀^˙ _ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
+∀^˙ _ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∀^˙ _ P˙ .predᵒ
-  proof a⊑b ∀xPxa x =  P˙ x .monoᵒ a⊑b (∀xPxa x)
-∃^˙ _ P˙ .predᵒ a ✓a =  Σ x ,  P˙ x .predᵒ a ✓a
-∃^˙ _ P˙ .monoᵒ =  proof
+  proof :  Monoᵒ $ ∀^˙ _ Pᵒ˙ .predᵒ
+  proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
+∃^˙ _ Pᵒ˙ .predᵒ a ✓a =  Σ x ,  Pᵒ˙ x .predᵒ a ✓a
+∃^˙ _ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∃^˙ _ P˙ .predᵒ
-  proof a⊑b (x , Pxa) =  x ,  P˙ x .monoᵒ a⊑b Pxa
+  proof :  Monoᵒ $ ∃^˙ _ Pᵒ˙ .predᵒ
+  proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
 ∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (X : Set ℓ) →  (X → Propᵒ) →  Propᵒ
 ∀^∈-syntax ∃^∈-syntax :  (X^ : Set (^ˡ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
@@ -111,14 +111,14 @@ abstract
 
 infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀^∈-syntax ∃^∈-syntax
   ∀ᵒ-syntax ∃ᵒ-syntax ∀^-syntax ∃^-syntax
-syntax ∀ᵒ∈-syntax X (λ x → P) =  ∀ᵒ x ∈ X , P
-syntax ∃ᵒ∈-syntax X (λ x → P) =  ∃ᵒ x ∈ X , P
-syntax ∀^∈-syntax X (λ x → P) =  ∀^ x ∈ X , P
-syntax ∃^∈-syntax X (λ x → P) =  ∃^ x ∈ X , P
-syntax ∀ᵒ-syntax (λ x → P) =  ∀ᵒ x , P
-syntax ∃ᵒ-syntax (λ x → P) =  ∃ᵒ x , P
-syntax ∀^-syntax (λ x → P) =  ∀^ x , P
-syntax ∃^-syntax (λ x → P) =  ∃^ x , P
+syntax ∀ᵒ∈-syntax X (λ x → Pᵒ) =  ∀ᵒ x ∈ X , Pᵒ
+syntax ∃ᵒ∈-syntax X (λ x → Pᵒ) =  ∃ᵒ x ∈ X , Pᵒ
+syntax ∀^∈-syntax X (λ x → Pᵒ) =  ∀^ x ∈ X , Pᵒ
+syntax ∃^∈-syntax X (λ x → Pᵒ) =  ∃^ x ∈ X , Pᵒ
+syntax ∀ᵒ-syntax (λ x → Pᵒ) =  ∀ᵒ x , Pᵒ
+syntax ∃ᵒ-syntax (λ x → Pᵒ) =  ∃ᵒ x , Pᵒ
+syntax ∀^-syntax (λ x → Pᵒ) =  ∀^ x , Pᵒ
+syntax ∃^-syntax (λ x → Pᵒ) =  ∃^ x , Pᵒ
 
 --------------------------------------------------------------------------------
 -- ∧ᵒ: Conjunction
@@ -128,17 +128,17 @@ infixr 7 _∧ᵒ_
 infixr 6 _∨ᵒ_
 
 _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
-(P ∧ᵒ Q) .predᵒ a ✓a =  P .predᵒ a ✓a  ×  Q .predᵒ a ✓a
-(P ∧ᵒ Q) .monoᵒ =  proof
+(Pᵒ ∧ᵒ Qᵒ) .predᵒ a ✓a =  Pᵒ .predᵒ a ✓a  ×  Qᵒ .predᵒ a ✓a
+(Pᵒ ∧ᵒ Qᵒ) .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ (P ∧ᵒ Q) .predᵒ
-  proof a⊑b (Pa , Qa) =  P .monoᵒ a⊑b Pa , Q .monoᵒ a⊑b Qa
-(P ∨ᵒ Q) .predᵒ a ✓a =  P .predᵒ a ✓a  ⊎  Q .predᵒ a ✓a
-(P ∨ᵒ Q) .monoᵒ =  proof
+  proof :  Monoᵒ $ (Pᵒ ∧ᵒ Qᵒ) .predᵒ
+  proof a⊑b (Pa , Qa) =  Pᵒ .monoᵒ a⊑b Pa , Qᵒ .monoᵒ a⊑b Qa
+(Pᵒ ∨ᵒ Qᵒ) .predᵒ a ✓a =  Pᵒ .predᵒ a ✓a  ⊎  Qᵒ .predᵒ a ✓a
+(Pᵒ ∨ᵒ Qᵒ) .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ (P ∨ᵒ Q) .predᵒ
-  proof a⊑b (inj₀ Pa) =  inj₀ $ P .monoᵒ a⊑b Pa
-  proof a⊑b (inj₁ Qa) =  inj₁ $ Q .monoᵒ a⊑b Qa
+  proof :  Monoᵒ $ (Pᵒ ∨ᵒ Qᵒ) .predᵒ
+  proof a⊑b (inj₀ Pa) =  inj₀ $ Pᵒ .monoᵒ a⊑b Pa
+  proof a⊑b (inj₁ Qa) =  inj₁ $ Qᵒ .monoᵒ a⊑b Qa
 
 --------------------------------------------------------------------------------
 -- ⊤ᵒ: Truth
@@ -162,10 +162,10 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 
 infixr 5 _→ᵒ_
 _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(P →ᵒ Q) .predᵒ a _ =  ∀ {b ✓b} →  a ⊑ b →  P .predᵒ b ✓b →  Q .predᵒ b ✓b
-(P →ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+(Pᵒ →ᵒ Qᵒ) .predᵒ a _ =  ∀ {b ✓b} →  a ⊑ b →  Pᵒ .predᵒ b ✓b →  Qᵒ .predᵒ b ✓b
+(Pᵒ →ᵒ Qᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (P →ᵒ Q) .predᵒ
+  proof :  Monoᵒ $ (Pᵒ →ᵒ Qᵒ) .predᵒ
   proof a⊑b P→Qa b⊑c =  P→Qa (⊑-trans a⊑b b⊑c)
 
 --------------------------------------------------------------------------------
@@ -173,25 +173,25 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(P ∗ᵒ Q) .predᵒ a ✓a =  Σ b , Σ c , Σ b∙c≈a ,
-  P .predᵒ b (∙≈-✓ˡ b∙c≈a ✓a)  ×  Q .predᵒ c (∙≈-✓ʳ b∙c≈a ✓a)
-(P ∗ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+(Pᵒ ∗ᵒ Qᵒ) .predᵒ a ✓a =  Σ b , Σ c , Σ b∙c≈a ,
+  Pᵒ .predᵒ b (∙≈-✓ˡ b∙c≈a ✓a)  ×  Qᵒ .predᵒ c (∙≈-✓ʳ b∙c≈a ✓a)
+(Pᵒ ∗ᵒ Qᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (P ∗ᵒ Q) .predᵒ
+  proof :  Monoᵒ $ (Pᵒ ∗ᵒ Qᵒ) .predᵒ
   proof (c , c∙a≈b) (d , e , d∙e≈a , Pd , Qe) =
     c ∙ d , e , (∙-assocˡ »˜ ∙-congʳ d∙e≈a »˜ c∙a≈b) ,
-    P .monoᵒ ∙-incrˡ Pd , renewᵒ Q Qe
+    Pᵒ .monoᵒ ∙-incrˡ Pd , renewᵒ Qᵒ Qe
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ: Magic wand
 
 infixr 5 _-∗ᵒ_
 _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(P -∗ᵒ Q) .predᵒ a _ =  ∀ {b c ✓c ✓c∙b} →  a ⊑ b →
-  P .predᵒ c ✓c → Q .predᵒ (c ∙ b) ✓c∙b
-(P -∗ᵒ Q) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+(Pᵒ -∗ᵒ Qᵒ) .predᵒ a _ =  ∀ {b c ✓c ✓c∙b} →  a ⊑ b →
+  Pᵒ .predᵒ c ✓c → Qᵒ .predᵒ (c ∙ b) ✓c∙b
+(Pᵒ -∗ᵒ Qᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (P -∗ᵒ Q) .predᵒ
+  proof :  Monoᵒ $ (Pᵒ -∗ᵒ Qᵒ) .predᵒ
   proof a⊑b P-∗Qa b⊑c Pc =  P-∗Qa (⊑-trans a⊑b b⊑c) Pc
 
 --------------------------------------------------------------------------------
@@ -199,26 +199,26 @@ _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ
-(|=>ᵒ P) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓c∙b ,
-  P .predᵒ b (✓-remˡ {c} {b} ✓c∙b)
-(|=>ᵒ P) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+(|=>ᵒ Pᵒ) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓c∙b ,
+  Pᵒ .predᵒ b (✓-remˡ {c} {b} ✓c∙b)
+(|=>ᵒ Pᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (|=>ᵒ P) .predᵒ
+  proof :  Monoᵒ $ (|=>ᵒ Pᵒ) .predᵒ
   proof (d , d∙a≈b) |=>Pa e ✓e∙b with
     |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (sym˜ d∙a≈b) »˜ ∙-assocʳ
   ... | (c , ✓ed∙c , Pc) =  c , (flip ✓-mono ✓ed∙c $ ∙-monoˡ ∙-incrʳ) ,
-    renewᵒ P Pc
+    renewᵒ Pᵒ Pc
 
 --------------------------------------------------------------------------------
 -- □ᵒ: Persistence modality
 
 infix 8 □ᵒ_
 □ᵒ_ :  Propᵒ → Propᵒ
-(□ᵒ P) .predᵒ a ✓a =  P .predᵒ ⌞ a ⌟ (✓-⌞⌟ ✓a)
-(□ᵒ P) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+(□ᵒ Pᵒ) .predᵒ a ✓a =  Pᵒ .predᵒ ⌞ a ⌟ (✓-⌞⌟ ✓a)
+(□ᵒ Pᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (□ᵒ P) .predᵒ
-  proof a⊑b P⌞a⌟ =  P .monoᵒ (⌞⌟-mono a⊑b) P⌞a⌟
+  proof :  Monoᵒ $ (□ᵒ Pᵒ) .predᵒ
+  proof a⊑b P⌞a⌟ =  Pᵒ .monoᵒ (⌞⌟-mono a⊑b) P⌞a⌟
 
 --------------------------------------------------------------------------------
 -- own: Owning a resource
@@ -246,7 +246,7 @@ abstract
   own-∗⇒∙ {a = a} {b} (a' , b' , a'∙b'≈c , a⊑a' , b⊑b') =
     ⊑-respʳ a'∙b'≈c (∙-mono a⊑a' b⊑b')
 
-  own-ε-intro :  P ⊨ own ε
+  own-ε-intro :  Pᵒ ⊨ own ε
   own-ε-intro _ =  ε-min
 
   own-⌞⌟-□ :  own ⌞ a ⌟ ⊨ □ᵒ own ⌞ a ⌟

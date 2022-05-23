@@ -148,11 +148,11 @@ abstract
     ∨-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∨ Q)
     ∨-Basic =  ∃-Basic $ binary it it
 
-    ⊤'-Basic :  Basic ⊤'
-    ⊤'-Basic =  ∀-Basic absurd
+    ⊤-Basic :  Basic ⊤'
+    ⊤-Basic =  ∀-Basic absurd
 
-    ⊥'-Basic :  Basic ⊥'
-    ⊥'-Basic =  ∃-Basic absurd
+    ⊥-Basic :  Basic ⊥'
+    ⊥-Basic =  ∃-Basic absurd
 
     -- For ∗
 
@@ -162,7 +162,7 @@ abstract
     -- For ⌜ ⌝
 
     ⌜⌝-Basic :  Basic ⌜ A ⌝
-    ⌜⌝-Basic =  ∃-Basic $ λ _ → ⊤'-Basic
+    ⌜⌝-Basic =  ∃-Basic $ λ _ → ⊤-Basic
 
     -- For ⌜ ⌝
 

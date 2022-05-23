@@ -122,9 +122,9 @@ data Judg ι where
   =>>-frameˡ :  Q ⊢[ ι ]=>> R →  P ∗ Q ⊢[ ι ]=>> P ∗ R
   ------------------------------------------------------------------------------
   -- An exclusive/persistent save token can be modified using a thunk sequent
-  saveˣ-mono :  {{Basic R}} →
+  saveˣ-mono-∧ :  {{Basic R}} →
     R ∧ P˂ .! ⊢[< ι ] Q˂ .! →  R ∧ saveˣ P˂ ⊢[ ι ] saveˣ Q˂
-  save□-mono :  {{Basic R}} →
+  save□-mono-∧ :  {{Basic R}} →
     R ∧ P˂ .! ⊢[< ι ] Q˂ .! →  R ∧ save□ P˂ ⊢[ ι ] save□ Q˂
   -- save□ is persistent
   save□-□ :  save□ P˂ ⊢[ ι ] □ save□ P˂

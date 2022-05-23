@@ -20,7 +20,7 @@ open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; refl; _»_;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out;
-  saveˣ-mono; save□-mono; save□-□)
+  saveˣ-mono-∧; save□-mono-∧; save□-□)
 open import Shog.Logic.Core ℓ using (∧-assocˡ; ∧-monoʳ)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
@@ -187,18 +187,18 @@ abstract
   -- □-∃-out :  □ ∃˙ _ P˙ ⊢[ ∞ ] ∃˙ _ (□_ ∘ P˙)
   ⊢-sem □-∃-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟
 
-  -- saveˣ-mono :  {{Basic R}} →
+  -- saveˣ-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ saveˣ P˂ ⊢[ ∞ ] saveˣ Q˂
-  ⊢-sem (saveˣ-mono {R = R} R∧P⊢<Q) R∧saveˣP˂a =
+  ⊢-sem (saveˣ-mono-∧ {R = R} R∧P⊢<Q) R∧saveˣP˂a =
     (R∧saveˣP˂a 0₂ , R∧saveˣP˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) →
     let instance _ = BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢˣTa
 
-  -- save□-mono :  {{Basic R}} →
+  -- save□-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ save□ P˂ ⊢[ ∞ ] save□ Q˂
-  ⊢-sem (save□-mono {R = R} R∧P⊢<Q) R∧save□P˂a =
+  ⊢-sem (save□-mono-∧ {R = R} R∧P⊢<Q) R∧save□P˂a =
     (R∧save□P˂a 0₂ , R∧save□P˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) →
     let instance _ = BaS in

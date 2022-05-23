@@ -39,15 +39,12 @@ record  Propᵒ :  Set (^ˡ ^ˡ ℓ)  where
 open Propᵒ public
 
 private variable
+  ℓB :  Level
   X :  Set ℓ
   X^ :  Set (^ˡ ℓ)
   P Q R :  Propᵒ
-  P˙ Q˙ :  X → Propᵒ
-  x :  X
-  F :  X →  Set ℓ
-  ℓ' :  Level
-  a b c :  Glob
-  B :  Glob → Set ℓ'
+  a b :  Glob
+  B :  Glob → Set ℓB
 
 --------------------------------------------------------------------------------
 -- ⊨: Entailment

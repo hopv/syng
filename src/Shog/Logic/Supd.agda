@@ -8,7 +8,7 @@ open import Base.Level using (Level)
 module Shog.Logic.Supd (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
-open import Base.Thunk using (!; thunk)
+open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Shog.Logic.Prop ℓ using (Prop'; _∗_; |=>_)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_)

@@ -24,9 +24,9 @@ open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; refl; _»_;
 open import Shog.Logic.Core ℓ using (∧-assocˡ; ∧-monoʳ)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
-open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀ᵒ-syntax;
-  ∃ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; own-⌞⌟-□')
-open RA Globᴿᴬ using (_≈_; _∙_; ε; ⌞_⌟; refl˜; sym˜; _»˜_; ⊑-refl; ≈⇒⊑; ✓-resp;
+open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; renewᵒ; congᵒ; congᵒ';
+  _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; own-⌞⌟-□')
+open RA Globᴿᴬ using (_≈_; _∙_; ε; ⌞_⌟; refl˜; sym˜; _»˜_; ⊑-refl; ✓-resp;
   ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ∙-assocʳ;
   ∙-incrˡ; ✓-ε; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ✓-⌞⌟)
 open import Shog.Model.Save.X ℓ using (saveˣᵒ)
@@ -140,8 +140,7 @@ abstract
 
   -- -∗-elim :  Q ⊢[ ∞ ] P -∗ R →  P ∗ Q ⊢[ ∞ ] R
   ⊢-sem (-∗-elim {R = R} Q⊢P-∗R) {✓a = ✓a} (b , c , b∙c≈a , Pb , Qc) =
-    [| R |] .monoᵒ {✓a = ✓-resp (sym˜ b∙c≈a) ✓a} (≈⇒⊑ b∙c≈a) $
-    ⊢-sem Q⊢P-∗R Qc ⊑-refl Pb
+    congᵒ' [| R |] b∙c≈a $ ⊢-sem Q⊢P-∗R Qc ⊑-refl Pb
 
   -- |=>-mono :  P ⊢[ ∞ ] Q →  |=> P ⊢[ ∞ ] |=> Q
   ⊢-sem (|=>-mono {Q = Q} P⊢Q) |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
@@ -173,11 +172,11 @@ abstract
   ⊢-sem (□-elim {P = P}) P⌞a⌟ =  [| P |] .monoᵒ ⌞⌟-decr P⌞a⌟
 
   -- □-dup :  □ P ⊢[ ∞ ] □ □ P
-  ⊢-sem (□-dup {P = P}) P⌞a⌟ =  [| P |] .monoᵒ (≈⇒⊑ $ sym˜ ⌞⌟-idem) P⌞a⌟
+  ⊢-sem (□-dup {P = P}) P⌞a⌟ =  congᵒ [| P |] (sym˜ ⌞⌟-idem) P⌞a⌟
 
   -- □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ∞ ] □ P ∗ Q
   ⊢-sem (□ˡ-∧⇒∗ {P} {Q}) {a = a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ⌞⌟-unitˡ ,
-    [| P |] .monoᵒ (≈⇒⊑ $ sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) ,
+    congᵒ [| P |] (sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) ,
     renewᵒ [| Q |] (P⌞a⌟∧Qa 1₂)
 
   -- □-∀-in :  ∀˙ _ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀˙ _ P˙

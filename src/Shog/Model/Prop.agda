@@ -17,9 +17,9 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.List using (List; _∷_; []; map)
 
 open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
-  _↝ˢ_; sym˜; _»˜_; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ✓-resp; ✓-mono; ∙-congʳ;
-  ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ;
-  ∙≈-✓ˡ; ∙≈-✓ʳ; ✓-remˡ; ε-min; ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
+  _↝ˢ_; sym˜; _»˜_; ≈⇒⊑; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ✓-resp; ✓-mono;
+  ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ;
+  ∙-assocʳ; ∙≈-✓ˡ; ∙≈-✓ʳ; ✓-remˡ; ε-min; ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
 
 private variable
   ℓF :  Level
@@ -34,8 +34,18 @@ record  Propᵒ :  Set (^ˡ ^ˡ ℓ)  where
   field
     predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ˡ ℓ)
     monoᵒ :  Monoᵒ predᵒ
-  renewᵒ :  ∀ {a ✓a ✓a'} →  predᵒ a ✓a →  predᵒ a ✓a'
-  renewᵒ =  monoᵒ ⊑-refl
+
+  abstract
+
+    renewᵒ :  ∀ {a ✓a ✓a'} →  predᵒ a ✓a →  predᵒ a ✓a'
+    renewᵒ =  monoᵒ ⊑-refl
+
+    congᵒ :  ∀ {a b ✓a ✓b} →  a ≈ b →  predᵒ a ✓a →  predᵒ b ✓b
+    congᵒ a≈b =  monoᵒ (≈⇒⊑ a≈b)
+
+    congᵒ' :  ∀ {a b ✓b} a≈b →  predᵒ a (✓-resp (sym˜ a≈b) ✓b) →  predᵒ b ✓b
+    congᵒ' a≈b =  congᵒ a≈b
+
 open Propᵒ public
 
 private variable

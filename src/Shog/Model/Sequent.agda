@@ -13,8 +13,8 @@ open import Base.Thunk using (!)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Prod using (_,_; proj₀; proj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
-  □_; saveˣ; save□; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; Basic; isBasic;
-  ∧-Basic)
+  □_; saveˣ; save□; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic;
+  isBasic; ∧-Basic)
 open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; refl; _»_;
   ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
@@ -59,12 +59,14 @@ abstract
   [||]-ᴮ'⇒ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-ᴮ'⇒ (IsBaP˙ x) Pxa
   [||]-ᴮ'⇒ (∗-IsBasic {P} {Q} IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
     b , c , bc≈a , [||]-ᴮ'⇒ IsBaP Pb , [||]-ᴮ'⇒ IsBaQ Qc
+  [||]-ᴮ'⇒ (□-IsBasic IsBaP) =  [||]-ᴮ'⇒ IsBaP
 
   [||]-⇒ᴮ' :  (IsBaP : IsBasic P) →  [| P |] ⊨ [| P |]ᴮ[ IsBaP ]
   [||]-⇒ᴮ' (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]-⇒ᴮ' (IsBaP˙ x) (∀xPxa x)
   [||]-⇒ᴮ' (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]-⇒ᴮ' (IsBaP˙ x) Pxa
   [||]-⇒ᴮ' (∗-IsBasic {P} {Q} IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
     b , c , bc≈a , [||]-⇒ᴮ' IsBaP Pb , [||]-⇒ᴮ' IsBaQ Qc
+  [||]-⇒ᴮ' (□-IsBasic IsBaP) =  [||]-⇒ᴮ' IsBaP
 
   [||]-ᴮ⇒ :  {{_ : Basic P}} →  [| P |]ᴮ ⊨ [| P |]
   [||]-ᴮ⇒ =  [||]-ᴮ'⇒ isBasic

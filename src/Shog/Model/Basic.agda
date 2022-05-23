@@ -10,8 +10,8 @@ module Shog.Model.Basic (ℓ : Level) where
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Prod using (_,_)
-open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∗_; IsBasic; ∀-IsBasic;
-  ∃-IsBasic; ∗-IsBasic; Basic; isBasic)
+open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∗_; □_; IsBasic; ∀-IsBasic;
+  ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
 open RA Globᴿᴬ using (_⊑_; ✓_; _∙_; ⌞_⌟; _»˜_; ∙-comm; ⌞⌟-dup; ✓-⌞⌟)
@@ -28,6 +28,7 @@ private variable
 [| ∀˙ _ P˙ |]ᴮ[ ∀-IsBasic IsBaP˙ ] =  ∀ᵒ x , [| P˙ x |]ᴮ[ IsBaP˙ x ]
 [| ∃˙ _ P˙ |]ᴮ[ ∃-IsBasic IsBaP˙ ] =  ∃ᵒ x , [| P˙ x |]ᴮ[ IsBaP˙ x ]
 [| P ∗ Q |]ᴮ[ ∗-IsBasic IsBaP IsBaQ ] =  [| P |]ᴮ[ IsBaP ] ∗ᵒ [| Q |]ᴮ[ IsBaQ ]
+[| □ P |]ᴮ[ □-IsBasic IsBaP ] =  □ᵒ [| P |]ᴮ[ IsBaP ]
 
 abstract
 
@@ -40,6 +41,7 @@ abstract
     renewᵒ P'
       ([||]ᴮ'-⇒□ IsBaP {✓a = ✓a} $ P' .monoᵒ (c , (∙-comm »˜ b∙c≈a)) Pb) ,
     renewᵒ Q' ([||]ᴮ'-⇒□ IsBaQ {✓a = ✓a} $ Q' .monoᵒ (b , b∙c≈a) Qc)
+  [||]ᴮ'-⇒□ (□-IsBasic IsBaP) P⌞a⌟ =  [||]ᴮ'-⇒□ IsBaP P⌞a⌟
 
 --------------------------------------------------------------------------------
 -- [| |]ᴮ : Interpreting Basic propositions

@@ -118,6 +118,7 @@ data IsBasic :  Prop' ∞ →  Set (^ˡ ℓ) where
   ∀-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∀˙ _ P˙)
   ∃-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∃˙ _ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
+  □-IsBasic :  IsBasic P →  IsBasic (□ P)
 
 -- Basic: Type class wrapping IsBasic
 record  Basic (P : Prop' ∞) :  Set (^ˡ ℓ)  where
@@ -162,3 +163,8 @@ abstract
 
     ⌜⌝-Basic :  Basic ⌜ A ⌝
     ⌜⌝-Basic =  ∃-Basic $ λ _ → ⊤'-Basic
+
+    -- For ⌜ ⌝
+
+    □-Basic :  {{Basic P}} →  Basic (□ P)
+    □-Basic .isBasic =  □-IsBasic isBasic

@@ -46,7 +46,6 @@ private variable
   x :  X
   F :  X →  Set ℓ
   ℓ' :  Level
-  D :  Set ℓ'
   a b c :  Glob
   B :  Glob → Set ℓ'
 
@@ -185,24 +184,6 @@ _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
   proof (c , c∙a≈b) (d , e , d∙e≈a , Pd , Qe) =
     c ∙ d , e , (∙-assocˡ »˜ ∙-congʳ d∙e≈a »˜ c∙a≈b) ,
     P .monoᵒ ∙-incrˡ Pd , renewᵒ Q Qe
-
---------------------------------------------------------------------------------
--- [∗ᵒ]: Iterated separating conjunction
-
-[∗ᵒ] :  List Propᵒ →  Propᵒ
-[∗ᵒ] [] =  ⊤ᵒ
-[∗ᵒ] (P ∷ Ps) =  P ∗ᵒ [∗ᵒ] Ps
-
--- [∗ᵒ] with map
-
-[∗ᵒ]-map :  (D → Propᵒ) →  List D →  Propᵒ
-[∗ᵒ]-map P˙ ds =  [∗ᵒ] (map P˙ ds)
-
-[∗ᵒ]-map-syntax :  (D → Propᵒ) →  List D →  Propᵒ
-[∗ᵒ]-map-syntax =  [∗ᵒ]-map
-
-infix 8 [∗ᵒ]-map-syntax
-syntax [∗ᵒ]-map-syntax (λ d → P) ds =  [∗ᵒ d ∈ ds ] P
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ: Magic wand

@@ -66,10 +66,10 @@ abstract
   [||]-⇒ᴮ' (∗-IsBasic {P} {Q} IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
     b , c , bc≈a , [||]-⇒ᴮ' IsBaP Pb , [||]-⇒ᴮ' IsBaQ Qc
 
-  [||]-ᴮ⇒ :  {{BaP : Basic P}} →  [| P |]ᴮ {{BaP}} ⊨ [| P |]
+  [||]-ᴮ⇒ :  {{_ : Basic P}} →  [| P |]ᴮ ⊨ [| P |]
   [||]-ᴮ⇒ =  [||]-ᴮ'⇒ isBasic
 
-  [||]-⇒ᴮ :  {{BaP : Basic P}} →  [| P |] ⊨ [| P |]ᴮ {{BaP}}
+  [||]-⇒ᴮ :  {{_ : Basic P}} →  [| P |] ⊨ [| P |]ᴮ
   [||]-⇒ᴮ =  [||]-⇒ᴮ' isBasic
 
 --------------------------------------------------------------------------------
@@ -191,8 +191,7 @@ abstract
   ⊢-sem (saveˣ-mono {R = R} R∧P⊢<Q) R∧saveˣP˂a =
     (R∧saveˣP˂a 0₂ , R∧saveˣP˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) →
-    let instance BaS :  Basic S
-                 BaS =  BaS in
+    let instance BaS = BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢˣTa
 
@@ -201,12 +200,12 @@ abstract
   ⊢-sem (save□-mono {R = R} R∧P⊢<Q) R∧save□P˂a =
     (R∧save□P˂a 0₂ , R∧save□P˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) →
-    let instance BaS :  Basic S
-                 BaS =  BaS in
+    let instance BaS = BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢ□Ta
 
   -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂
   ⊢-sem save□-□ {✓a = ✓a} (_ , _ , BaB , i , B∗P'⊢P , Ba , line□iP'a) =
-    _ , _ , _ , _ , B∗P'⊢P , [||]ᴮ-⇒□ {{BaB}} Ba ,
+    let instance BaB = BaB in
+    _ , _ , _ , _ , B∗P'⊢P , [||]ᴮ-⇒□ Ba ,
     own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a

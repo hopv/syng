@@ -206,7 +206,7 @@ abstract
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢ□Ta
 
   -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂
-  ⊢-sem save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∗P'⊢P , Qa , line□iP'a) =
+  ⊢-sem save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∧P'⊢P , Qa , line□iP'a) =
     let instance _ = BaQ in
-    _ , _ , _ , _ , Q∗P'⊢P , [||]ᴮ-⇒□ Qa ,
+    _ , _ , _ , _ , Q∧P'⊢P , [||]ᴮ-⇒□ Qa ,
     own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a

@@ -192,7 +192,7 @@ abstract
   ⊢-sem (saveˣ-mono {R = R} R∧P⊢<Q) R∧saveˣP˂a =
     (R∧saveˣP˂a 0₂ , R∧saveˣP˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) →
-    let instance BaS = BaS in
+    let instance _ = BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢˣTa
 
@@ -201,12 +201,12 @@ abstract
   ⊢-sem (save□-mono {R = R} R∧P⊢<Q) R∧save□P˂a =
     (R∧save□P˂a 0₂ , R∧save□P˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) →
-    let instance BaS = BaS in
+    let instance _ = BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢ□Ta
 
   -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂
   ⊢-sem save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∗P'⊢P , Qa , line□iP'a) =
-    let instance BaQ = BaQ in
+    let instance _ = BaQ in
     _ , _ , _ , _ , Q∗P'⊢P , [||]ᴮ-⇒□ Qa ,
     own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a

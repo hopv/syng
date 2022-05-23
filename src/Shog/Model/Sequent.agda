@@ -20,7 +20,7 @@ open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; refl; _»_;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out;
-  saveˣ-mono-∧; save□-mono-∧; save□-□)
+  save□-□; saveˣ-mono-∧; save□-mono-∧)
 open import Shog.Logic.Core ℓ using (∧-assocˡ; ∧-monoʳ)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
@@ -187,6 +187,12 @@ abstract
   -- □-∃-out :  □ ∃˙ _ P˙ ⊢[ ∞ ] ∃˙ _ (□_ ∘ P˙)
   ⊢-sem □-∃-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟
 
+  -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂
+  ⊢-sem save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∧P'⊢P , Qa , line□iP'a) =
+    let instance _ = BaQ in
+    _ , _ , _ , _ , Q∧P'⊢P , [||]ᴮ-⇒□ Qa ,
+    own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a
+
   -- saveˣ-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ saveˣ P˂ ⊢[ ∞ ] saveˣ Q˂
   ⊢-sem (saveˣ-mono-∧ {R = R} R∧P⊢<Q) R∧saveˣP˂a =
@@ -204,9 +210,3 @@ abstract
     let instance _ = BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢ□Ta
-
-  -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂
-  ⊢-sem save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∧P'⊢P , Qa , line□iP'a) =
-    let instance _ = BaQ in
-    _ , _ , _ , _ , Q∧P'⊢P , [||]ᴮ-⇒□ Qa ,
-    own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a

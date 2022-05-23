@@ -17,9 +17,9 @@ open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.List using (List; []; _∷_; _++_)
 open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 
-open import Shog.Logic.Prop ℓ using (
-  Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax; ∀-syntax; ∃-syntax;
-  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_; [∗])
+open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
+  ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_; [∗];
+  IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
 open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; Pers-⇒□)
 
 -- Import and re-export the axiomatic rules
@@ -449,6 +449,16 @@ abstract
 
     □-Pers :  Pers (□ P)
     □-Pers .Pers-⇒□ =  □-dup
+
+  IsBasic-Pers :  IsBasic P →  Pers P
+  IsBasic-Pers (∀-IsBasic IsBaP˙) =  ∀-Pers (λ x → IsBasic-Pers $ IsBaP˙ x)
+  IsBasic-Pers (∃-IsBasic IsBaP˙) =  ∃-Pers (λ x → IsBasic-Pers $ IsBaP˙ x)
+  IsBasic-Pers (∗-IsBasic IsBaP IsBaQ) =
+    ∗-Pers {{IsBasic-Pers IsBaP}} {{IsBasic-Pers IsBaQ}}
+  IsBasic-Pers (□-IsBasic _) =  it
+
+  Basic-Pers :  {{Basic P}} →  Pers P
+  Basic-Pers =  IsBasic-Pers isBasic
 
   ------------------------------------------------------------------------------
   -- Using Pers P

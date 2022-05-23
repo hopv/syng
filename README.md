@@ -27,7 +27,7 @@ Notable features used in Shog are:
 - [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html)
 - [**Copatterns**](https://agda.readthedocs.io/en/latest/language/copatterns.html)
 - [**Record modules**](https://agda.readthedocs.io/en/latest/language/record-types.html#record-modules)
-- [**With-abstraction](https://agda.readthedocs.io/en/latest/language/with-abstraction.html)
+- [**With-abstraction**](https://agda.readthedocs.io/en/latest/language/with-abstraction.html)
 - [**Pattern-matching lambda**](https://agda.readthedocs.io/en/latest/language/lambda-abstraction.html#pattern-matching-lambda)
 
 ## Agda Mode

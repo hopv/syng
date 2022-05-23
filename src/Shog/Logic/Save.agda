@@ -9,7 +9,6 @@ module Shog.Logic.Save (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
-open import Base.Bool using (Bool; _≤ᴮ_; ff≤tt; ≤ᴮ-refl)
 open import Base.List using ([_])
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; □_; _∗_; Basic; saveˣ; save□)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; Pers; Pers-⇒□)
@@ -25,7 +24,6 @@ private variable
   ι :  Size
   P˂ Q˂ :  Prop˂ ∞
   R :  Prop' ∞
-  b b' :  Bool
 
 abstract
 

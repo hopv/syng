@@ -141,7 +141,7 @@ data Judg ι where
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition
 
-record Pers (P : Prop' ∞) :  Set (^ˡ ℓ) where
+record  Pers (P : Prop' ∞) :  Set (^ˡ ℓ)  where
   -- Pers-⇒□: P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
 open Pers {{...}} public

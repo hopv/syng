@@ -44,8 +44,8 @@ private
   -- Validity
   infix 3 ✓ˣ_
   ✓ˣ_ :  Exc → Set ℓ✓
-  ✓ˣ_ ↯ˣ =  ⊥
-  ✓ˣ_ _ =  ⊤
+  ✓ˣ ↯ˣ =  ⊥
+  ✓ˣ _ =  ⊤
 
   -- Product
   infixl 7 _∙ˣ_

@@ -108,7 +108,7 @@ abstract
   -- Get <⁺, ≡ or >⁺
 
   cmp⁺ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  m >⁺ n
-  cmp⁺ (1+ m⁰) (1+ n⁰) with cmp m⁰ n⁰
+  cmp⁺ (1+ m⁰) (1+ n⁰)  with cmp m⁰ n⁰
   ... | inj₀ m⁰<n⁰ =  inj₀ m⁰<n⁰
   ... | inj₁₀ refl⁼ =  inj₁₀ refl⁼
   ... | inj₁₁ m⁰>n⁰ =  inj₁₁ m⁰>n⁰

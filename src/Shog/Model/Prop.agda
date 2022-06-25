@@ -214,7 +214,7 @@ infix 8 |=>ᵒ_
 (|=>ᵒ Pᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
   proof :  Monoᵒ $ (|=>ᵒ Pᵒ) .predᵒ
-  proof (d , d∙a≈b) |=>Pa e ✓e∙b with
+  proof (d , d∙a≈b) |=>Pa e ✓e∙b  with
     |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (sym˜ d∙a≈b) »˜ ∙-assocʳ
   ... | (c , ✓ed∙c , Pc) =  c , (flip ✓-mono ✓ed∙c $ ∙-monoˡ ∙-incrʳ) ,
     renewᵒ Pᵒ Pc
@@ -276,6 +276,6 @@ abstract
       ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
 
   own-↝ˢ :  a ↝ˢ B →  own a ⊨ |=>ᵒ (∃^ b , ⌜ b ∈ B ⌝^ ∧ᵒ own b)
-  own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a' with a↝B (d ∙ c) $
+  own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a'  with a↝B (d ∙ c) $
     flip ✓-resp ✓d∙a' $ ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
   ... | b , b∈B , ✓d∙cb =  b , ✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb , b , b∈B , ⊑-refl

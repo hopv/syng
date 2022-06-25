@@ -26,7 +26,7 @@ open RA Allᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓
 abstract -- Definition is made abstract for better type inference
 
   updᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ →  Aᴬ
-  updᴬ i a b˙ j with i ≟ j
+  updᴬ i a b˙ j  with i ≟ j
   ... | yes refl⁼ =  a
   ... | no _ =  b˙ j
 
@@ -53,36 +53,36 @@ module _ {i : I} where
     -- updᴬ preserves ≈/✓/∙/⌞⌟/↝
 
     updᴬ-cong :  a ≈ⁱ b →  c˙ ≈ᴬ d˙ →  updᴬ i a c˙ ≈ᴬ updᴬ i b d˙
-    updᴬ-cong a≈b c˙≈d˙ j with i ≟ j
+    updᴬ-cong a≈b c˙≈d˙ j  with i ≟ j
     ... | yes refl⁼ =  a≈b
     ... | no _ =  c˙≈d˙ j
 
     updᴬ-✓ :  ✓ⁱ a →  ✓ᴬ b˙ →  ✓ᴬ updᴬ i a b˙
-    updᴬ-✓ ✓a ✓b˙ j with i ≟ j
+    updᴬ-✓ ✓a ✓b˙ j  with i ≟ j
     ... | yes refl⁼ =  ✓a
     ... | no _ =  ✓b˙ j
 
     updᴬ-∙ :  updᴬ i a c˙ ∙ᴬ updᴬ i b d˙  ≈ᴬ  updᴬ i (a ∙ⁱ b) (c˙ ∙ᴬ d˙)
-    updᴬ-∙ j with i ≟ j
+    updᴬ-∙ j  with i ≟ j
     ... | yes refl⁼ =  reflⁱ
     ... | no _ =  Ra˙ j .refl˜
 
     updᴬ-⌞⌟ :  ⌞ updᴬ i a b˙ ⌟ᴬ  ≈ᴬ  updᴬ i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴬ
-    updᴬ-⌞⌟ j with i ≟ j
+    updᴬ-⌞⌟ j  with i ≟ j
     ... | yes refl⁼ =  reflⁱ
     ... | no _ =  Ra˙ j .refl˜
 
     updᴬ-↝ :  a ↝ⁱ b →  updᴬ i a c˙ ↝ᴬ updᴬ i b c˙
-    updᴬ-↝ a↝b d˙ ✓d˙∙iac˙ j with i ≟ j | ✓d˙∙iac˙ j
+    updᴬ-↝ a↝b d˙ ✓d˙∙iac˙ j  with i ≟ j | ✓d˙∙iac˙ j
     ... | yes refl⁼ | ✓d˙i∙a =  a↝b (d˙ i) ✓d˙i∙a
     ... | no _ | ✓d˙j∙c˙j =  ✓d˙j∙c˙j
 
     -- Double update
 
     updᴬ-2 :  updᴬ i a (updᴬ i b c˙) ≈ᴬ updᴬ i a c˙
-    updᴬ-2 j with i ≟ j
+    updᴬ-2 j  with i ≟ j
     ... | yes refl⁼ =  reflⁱ
-    ... | no i≢j with i ≟ j  -- We need this to simplify updᴬ i b c˙ j
+    ... | no i≢j  with i ≟ j  -- We need this to simplify updᴬ i b c˙ j
     ...   | yes i≡j =  absurd (i≢j i≡j)
     ...   | no _ =  Ra˙ j .refl˜
 
@@ -101,7 +101,7 @@ module _ {i : I} where
     injᴬ-∙ =  updᴬ-∙ »ᴬ updᴬ-cong reflⁱ ∙-unitˡᴬ
 
     injᴬ-ε :  injᴬ i εⁱ ≈ᴬ εᴬ
-    injᴬ-ε j with i ≟ j
+    injᴬ-ε j  with i ≟ j
     ... | yes refl⁼ =  reflⁱ
     ... | no _ =  Ra˙ j .refl˜
 

@@ -120,7 +120,7 @@ abstract
   cmp 0 (suc _) =  inj₀ 0<suc
   cmp 0 0 =  inj₁₀ refl⁼
   cmp (suc _) 0 =  inj₁₁ 0<suc
-  cmp (suc m') (suc n') with cmp m' n'
+  cmp (suc m') (suc n')  with cmp m' n'
   ... | inj₀ m'<n' =  inj₀ $ suc<suc m'<n'
   ... | inj₁₀ m'≡n' =  inj₁₀ $ cong suc m'≡n'
   ... | inj₁₁ m'>n' =  inj₁₁ (suc<suc m'>n')
@@ -246,7 +246,7 @@ abstract
   -- + is injective
 
   +-injˡ :  ∀ {l m n} →  m + l ≡ n + l →  m ≡ n
-  +-injˡ {_} {m} {n} m+l≡n+l with cmp m n
+  +-injˡ {_} {m} {n} m+l≡n+l  with cmp m n
   ... | inj₀ m<n =  absurd $ ≡⇒¬< m+l≡n+l (+-smonoˡ m<n)
   ... | inj₁₀ m≡n =  m≡n
   ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (sym⁼ m+l≡n+l) (+-smonoˡ m>n)
@@ -329,7 +329,7 @@ abstract
   -- * with a positive argument is injective
 
   *-injˡ :  ∀ {l m n} →  m * suc l ≡ n * suc l →  m ≡ n
-  *-injˡ {_} {m} {n} m*sl≡n*sl with cmp m n
+  *-injˡ {_} {m} {n} m*sl≡n*sl  with cmp m n
   ... | inj₀ m<n =  absurd $ ≡⇒¬< m*sl≡n*sl (*-smonoˡ m<n)
   ... | inj₁₀ m≡n =  m≡n
   ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (sym⁼ m*sl≡n*sl) (*-smonoˡ m>n)

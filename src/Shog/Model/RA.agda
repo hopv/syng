@@ -174,7 +174,7 @@ record RA ℓ ℓ≈ ℓ✓ : Set (^ˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓)) where
     ∙-mono a⊑b c⊑d =  ⊑-trans (∙-monoˡ a⊑b) (∙-monoʳ c⊑d)
 
     ⌞⌟-mono :  a ⊑ b →  ⌞ a ⌟ ⊑ ⌞ b ⌟
-    ⌞⌟-mono (c , c∙a≈b) with ⌞⌟-add {_} {c}
+    ⌞⌟-mono (c , c∙a≈b)  with ⌞⌟-add {_} {c}
     ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ =  c' , (c'∙⌞a⌟≈⌞c∙a⌟ »˜ ⌞⌟-cong c∙a≈b)
 
     -- ⌞ ⌟ is decreasing

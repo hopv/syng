@@ -165,7 +165,7 @@ abstract
   -- ≤1ᴿ⁺ holds after removing an addend
 
   ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
-  ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd with cmp⁺ c d
+  ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd  with cmp⁺ c d
   ... | inj₀ c<d =  <⁺⇒≤⁺ c<d
   ... | inj₁₀ refl⁼ =  ≤⁺-refl
   ... | inj₁₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
@@ -179,7 +179,7 @@ abstract
   -- ≤1ᴿ⁺ respects ≈ᴿ⁺
 
   ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  p ≤1ᴿ⁺ →  q ≤1ᴿ⁺
-  ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b with cmp⁺ c d
+  ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b  with cmp⁺ c d
   ... | inj₀ c<d =  <⁺⇒≤⁺ c<d
   ... | inj₁₀ refl⁼ =  ≤⁺-refl
   ... | inj₁₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc »⁼ *⁺-comm {b} {c}) $

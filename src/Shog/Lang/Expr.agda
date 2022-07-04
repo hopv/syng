@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Lang.Expr (ℓ : Level) where
 
-open import Base.Level using (^ˡ_; 0ˡ)
+open import Base.Level using (^ˡ_)
 open import Base.Size using (Size)
 open import Base.Thunk using (Thunk)
 open import Base.Few using (⊤)

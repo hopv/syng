@@ -63,7 +63,7 @@ P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 infixr -1 _»_ _ᵘ»ᵘ_
 
 -- Defining Judg
-data Judg ι where
+data  Judg ι  where
   ------------------------------------------------------------------------------
   -- The sequent is reflexive
   refl :  P ⊢[ ι ] P

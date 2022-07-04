@@ -28,7 +28,7 @@ infixr 5 _→'_ _-∗_
 infixr 7 _∗_
 infix 8 |=>_ □_
 
-data Prop' ι where
+data  Prop' ι  where
   -- ∀˙, ∃˙: Universal/existential quantification
   ∀˙ ∃˙ :  (A : Set ℓ) →  (A → Prop' ι) →  Prop' ι
   -- →': Implication

@@ -71,3 +71,11 @@ pattern ↑⌜_⌝ x =  ⌜ ↑ˡ x ⌝ᴱ
 λ-syntax =  λ˙
 syntax λ*-syntax (λ x → e) =  λ* x , e
 syntax λ-syntax (λ x → e) =  λᴱ x , e
+
+-- Let binding over any value / a pure value
+let*-syntax :  Expr Φ ι T →  (Φ T → Expr Φ ι U) →  Expr Φ ι U
+let*-syntax e₀ e˙ =  λ*˙ e˙ $ᴱ e₀
+let-syntax :  Expr' Φ ι A →  (A → Expr Φ ι T) →  Expr Φ ι T
+let-syntax e₀ e˙ =  λ˙ e˙ $ᴱ e₀
+syntax let*-syntax e₀ (λ x → e) =  let* x := e₀ inᴱ e
+syntax let-syntax e₀ (λ x → e) =  letᴱ x := e₀ inᴱ e

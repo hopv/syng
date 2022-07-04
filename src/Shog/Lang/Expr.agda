@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Lang.Expr (ℓ : Level) where
 
-open import Base.Level using (^ˡ_)
+open import Base.Level using (^ˡ_; ↑ˡ_)
 open import Base.Size using (Size)
 open import Base.Thunk using (Thunk)
 open import Base.Few using (⊤)
@@ -60,6 +60,9 @@ data  Expr Φ ι  where
   *ᴱ_ :  Expr' Φ ι (Addr A) →  Expr' Φ ι A
   -- Write to the memory
   _←ᴱ_ :  Expr' Φ ι (Addr A) →  Expr' Φ ι A →  Expr' Φ ι ⊤
+
+-- Utility for embedding
+pattern ↑⌜_⌝ x =  ⌜ ↑ˡ x ⌝ᴱ
 
 -- Syntax for lambda abstraction
 λ*-syntax :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)

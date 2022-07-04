@@ -51,7 +51,9 @@ data  Expr Φ ι  where
   -- Variable
   #ᴱ_ :  Φ T →  Expr Φ ι T
   -- Lambda abstraction over any value
-  λ˙ᴱ :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)
+  λ*˙ᴱ :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)
+  -- Lambda abstraction over a pure value
+  λ˙ᴱ :  (A → Expr Φ ι T) →  Expr Φ ι (⌜ A ⌝ᵀ ⇒ T)
   -- Application
   _$ᴱ_ :  Expr Φ ι (T ⇒ U) →  Expr Φ ι T →  Expr Φ ι U
   -- Read from the memory
@@ -60,6 +62,9 @@ data  Expr Φ ι  where
   _←ᴱ_ :  Expr' Φ ι (Addr A) →  Expr' Φ ι A →  Expr' Φ ι ⊤
 
 -- Syntax for lambda abstraction
-λᴱ-syntax :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)
+λ*ᴱ-syntax :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)
+λ*ᴱ-syntax =  λ*˙ᴱ
+λᴱ-syntax :  (A → Expr Φ ι T) →  Expr Φ ι (⌜ A ⌝ᵀ ⇒ T)
 λᴱ-syntax =  λ˙ᴱ
+syntax λ*ᴱ-syntax (λ x → e) =  λ*ᴱ x , e
 syntax λᴱ-syntax (λ x → e) =  λᴱ x , e

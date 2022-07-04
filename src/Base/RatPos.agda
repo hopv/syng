@@ -6,6 +6,7 @@
 
 module Base.RatPos where
 
+open import Base.Level using (0ˡ)
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; cmp⁺; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_; _*⁺_;
   ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ; ᵇ⇒≤⁺; ≤⁺⇒ᵇ;
   +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
@@ -43,7 +44,7 @@ private variable
 -- ≈ᴿ⁺: Equivalence over ℚ⁺
 
 infix 4 _≈ᴿ⁺_
-_≈ᴿ⁺_ : ℚ⁺ → ℚ⁺ → Set
+_≈ᴿ⁺_ : ℚ⁺ → ℚ⁺ → Set 0ˡ
 (a //⁺ b) ≈ᴿ⁺ (c //⁺ d) =  d *⁺ a ≡ b *⁺ c
 
 abstract
@@ -153,7 +154,7 @@ _/⁺_ :  ℚ⁺ → ℕ⁺ → ℚ⁺
 -- ≤1ᴿ⁺: No more than 1ᴿ⁺
 
 infix 4 _≤1ᴿ⁺
-_≤1ᴿ⁺ :  ℚ⁺ → Set
+_≤1ᴿ⁺ :  ℚ⁺ → Set 0ˡ
 a //⁺ b ≤1ᴿ⁺ =  a ≤⁺ b
 
 abstract

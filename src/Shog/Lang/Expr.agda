@@ -38,14 +38,15 @@ Expr Expr˂ :  (Type → Set ℓ) →  Size →  Set ℓ →  Set (^ˡ ℓ)
 Expr Φ ι A =  Expr* Φ ι ⌜ A ⌝ᵀ
 Expr˂ Φ ι A =  Expr˂* Φ ι ⌜ A ⌝ᵀ
 
+infix 8 ▷_
 infix 8 *ᴱ_
 infix 4 _←ᴱ_
 infix 4 #ᴱ_
 infixr -1 _$ᴱ_
 
 data  Expr* Φ ι  where
-  -- Constructor for an infinite experssion
-  ⟨_⟩ᴱ :  Expr˂* Φ ι T →  Expr* Φ ι T
+  -- Later, for infinite construction
+  ▷_ :  Expr˂* Φ ι T →  Expr* Φ ι T
   -- Embedding a value
   ⌜_⌝ᴱ :  A →  Expr Φ ι A
   -- Variable

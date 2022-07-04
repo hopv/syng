@@ -33,7 +33,7 @@ data  Expr (Φ : Type → Set ℓ) (ι : Size) :  Type →  Set (^ˡ ℓ)
 Expr˂ :  (Type → Set ℓ) →  Size →  Type →  Set (^ˡ ℓ)
 Expr˂ Φ ι T =  Thunk (λ ι → Expr Φ ι T) ι
 
--- Expr' / Expr˂': Expr / Expr˂ over Set ℓ
+-- Expr' / Expr˂': Expr / Expr˂ over a pure type
 Expr' Expr˂' :  (Type → Set ℓ) →  Size →  Set ℓ →  Set (^ˡ ℓ)
 Expr' Φ ι A =  Expr Φ ι ⌜ A ⌝ᵀ
 Expr˂' Φ ι A =  Expr˂ Φ ι ⌜ A ⌝ᵀ
@@ -48,16 +48,16 @@ data  Expr Φ ι  where
   ⟨_⟩ᴱ :  Expr˂ Φ ι T →  Expr Φ ι T
   -- Embedding a value
   ⌜_⌝ᴱ :  A →  Expr' Φ ι A
+  -- Variable
+  #ᴱ_ :  Φ T →  Expr Φ ι T
+  -- Lambda abstraction over any value
+  λ˙ᴱ :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)
+  -- Application
+  _$ᴱ_ :  Expr Φ ι (T ⇒ U) →  Expr Φ ι T →  Expr Φ ι U
   -- Read from the memory
   *ᴱ_ :  Expr' Φ ι (Addr A) →  Expr' Φ ι A
   -- Write to the memory
   _←ᴱ_ :  Expr' Φ ι (Addr A) →  Expr' Φ ι A →  Expr' Φ ι ⊤
-  -- Variable
-  #ᴱ_ :  Φ T →  Expr Φ ι T
-  -- Lambda abstraction
-  λ˙ᴱ :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)
-  -- Application
-  _$ᴱ_ :  Expr Φ ι (T ⇒ U) →  Expr Φ ι T →  Expr Φ ι U
 
 -- Syntax for lambda abstraction
 λᴱ-syntax :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)

@@ -15,7 +15,7 @@ open import Base.Level using (^ˡ_)
 infixr 4 _⇒_
 
 data  Type :  Set (^ˡ ℓ)  where
-  -- Embedding Set ℓ
+  -- Embedding a pure type
   ⌜_⌝ᵀ :  Set ℓ →  Type
   -- Function
   _⇒_ :  Type →  Type →  Type

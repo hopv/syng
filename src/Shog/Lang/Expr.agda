@@ -11,7 +11,7 @@ open import Base.Level using (^ˡ_; ↑ˡ_)
 open import Base.Size using (Size)
 open import Base.Thunk using (Thunk)
 open import Base.Few using (⊤)
-open import Shog.Lang.Type ℓ using (Type; ⌜_⌝ᵀ; _⇒_)
+open import Shog.Lang.Type ℓ using (Type; ⌜_⌝ᵀ; _*→*_; _→*_)
 
 private variable
   A :  Set ℓ
@@ -51,11 +51,11 @@ data  Expr Φ ι  where
   -- Variable
   #ᴱ_ :  Φ T →  Expr Φ ι T
   -- Lambda abstraction over any value
-  λ*˙ :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)
+  λ*˙ :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T *→* U)
   -- Lambda abstraction over a pure value
-  λ˙ :  (A → Expr Φ ι T) →  Expr Φ ι (⌜ A ⌝ᵀ ⇒ T)
+  λ˙ :  (A → Expr Φ ι T) →  Expr Φ ι (A →* T)
   -- Application
-  _$ᴱ_ :  Expr Φ ι (T ⇒ U) →  Expr Φ ι T →  Expr Φ ι U
+  _$ᴱ_ :  Expr Φ ι (T *→* U) →  Expr Φ ι T →  Expr Φ ι U
   -- Read from the memory
   *ᴱ_ :  Expr' Φ ι (Addr A) →  Expr' Φ ι A
   -- Write to the memory
@@ -65,9 +65,9 @@ data  Expr Φ ι  where
 pattern ↑⌜_⌝ x =  ⌜ ↑ˡ x ⌝ᴱ
 
 -- Syntax for lambda abstraction
-λ*-syntax :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T ⇒ U)
+λ*-syntax :  (Φ T → Expr Φ ι U) →  Expr Φ ι (T *→* U)
 λ*-syntax =  λ*˙
-λ-syntax :  (A → Expr Φ ι T) →  Expr Φ ι (⌜ A ⌝ᵀ ⇒ T)
+λ-syntax :  (A → Expr Φ ι T) →  Expr Φ ι (A →* T)
 λ-syntax =  λ˙
 syntax λ*-syntax (λ x → e) =  λ* x , e
 syntax λ-syntax (λ x → e) =  λᴱ x , e

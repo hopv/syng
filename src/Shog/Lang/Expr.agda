@@ -70,6 +70,7 @@ pattern ↑⌜_⌝ x =  ⌜ ↑ˡ x ⌝ᴱ
 λ*-syntax =  λ*˙
 λ-syntax :  (A → Expr* Φ ι T) →  Expr* Φ ι (A →* T)
 λ-syntax =  λ˙
+infix 3 λ*-syntax λ-syntax
 syntax λ*-syntax (λ x → e) =  λ* x , e
 syntax λ-syntax (λ x → e) =  λᴱ x , e
 
@@ -78,5 +79,6 @@ let*-syntax :  Expr* Φ ι T →  (Φ T → Expr* Φ ι U) →  Expr* Φ ι U
 let*-syntax e₀ e˙ =  λ*˙ e˙ $ᴱ e₀
 let-syntax :  Expr Φ ι A →  (A → Expr* Φ ι T) →  Expr* Φ ι T
 let-syntax e₀ e˙ =  λ˙ e˙ $ᴱ e₀
+infix 3 let*-syntax let-syntax
 syntax let*-syntax e₀ (λ x → e) =  let* x := e₀ inᴱ e
 syntax let-syntax e₀ (λ x → e) =  letᴱ x := e₀ inᴱ e

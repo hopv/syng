@@ -38,15 +38,15 @@ Expr Expr˂ :  (Type → Set ℓ) →  Size →  Set ℓ →  Set (^ˡ ℓ)
 Expr Φ ι A =  Expr* Φ ι ⌜ A ⌝ᵀ
 Expr˂ Φ ι A =  Expr˂* Φ ι ⌜ A ⌝ᵀ
 
-infix 8 ▷_
+infix 8 ▸_
 infix 8 *ᴱ_
 infix 4 _←ᴱ_
 infix 4 #ᴱ_
-infixr -1 _$ᴱ_
+infixl -1 _◁_
 
 data  Expr* Φ ι  where
   -- Later, for infinite construction
-  ▷_ :  Expr˂* Φ ι T →  Expr* Φ ι T
+  ▸_ :  Expr˂* Φ ι T →  Expr* Φ ι T
   -- Embedding a value
   ⌜_⌝ᴱ :  A →  Expr Φ ι A
   -- Variable
@@ -56,7 +56,7 @@ data  Expr* Φ ι  where
   -- Lambda abstraction over a pure value
   λ˙ :  (A → Expr* Φ ι T) →  Expr* Φ ι (A →* T)
   -- Application
-  _$ᴱ_ :  Expr* Φ ι (T *→* U) →  Expr* Φ ι T →  Expr* Φ ι U
+  _◁_ :  Expr* Φ ι (T *→* U) →  Expr* Φ ι T →  Expr* Φ ι U
   -- Read from the memory
   *ᴱ_ :  Expr Φ ι (Addr A) →  Expr Φ ι A
   -- Write to the memory
@@ -76,9 +76,9 @@ syntax λ-syntax (λ x → e) =  λᴱ x , e
 
 -- Let binding over any value / a pure value
 let*-syntax :  Expr* Φ ι T →  (Φ T → Expr* Φ ι U) →  Expr* Φ ι U
-let*-syntax e₀ e˙ =  λ*˙ e˙ $ᴱ e₀
+let*-syntax e₀ e˙ =  λ*˙ e˙ ◁ e₀
 let-syntax :  Expr Φ ι A →  (A → Expr* Φ ι T) →  Expr* Φ ι T
-let-syntax e₀ e˙ =  λ˙ e˙ $ᴱ e₀
+let-syntax e₀ e˙ =  λ˙ e˙ ◁ e₀
 infix 3 let*-syntax let-syntax
 syntax let*-syntax e₀ (λ x → e) =  let* x := e₀ inᴱ e
 syntax let-syntax e₀ (λ x → e) =  letᴱ x := e₀ inᴱ e

@@ -9,12 +9,12 @@ module Shog.Lang.Reduce (ℓ : Level) where
 
 open import Base.Level using (^ˡ_; ↑ˡ_)
 open import Base.Size using (Size; ∞)
-open import Base.Thunk using (Thunk; !)
+open import Base.Thunk using (!)
 open import Base.Func using (_$_; id; _▷_)
 open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.Option using (??_; some; none)
-open import Shog.Lang.Type ℓ using (Type; _*→*_; _→*_; VTF; Vt*; Vt)
+open import Shog.Lang.Type ℓ using (Type; VTF)
 open import Shog.Lang.Expr ℓ using (Expr*; ▸_; ∇*_; λ*˙; _◁_; ★_; _←_)
 
 private variable

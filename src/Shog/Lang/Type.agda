@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Lang.Type (ℓ : Level) where
 
-open import Base.Level using (Upˡ; ^ˡ_)
+open import Base.Level using (^ˡ_; Upˡ)
 open import Base.Func using (_$_)
 
 --------------------------------------------------------------------------------

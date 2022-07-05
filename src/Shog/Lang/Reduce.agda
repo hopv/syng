@@ -24,26 +24,38 @@ private variable
 --------------------------------------------------------------------------------
 -- Evaluation Context and Redex
 
+-- Type for the evaluation context and redex
+EvctxRedex :  VTF →  Type →  Set (^ˡ ℓ)
+EvctxRedex Φ T =  ∑ U , (Expr* Φ ∞ U → Expr* Φ ∞ T) × Expr* Φ ∞ U
+
 -- Calculate the evaluation context and redex of an expression,
 -- returning none for a value
-evctx-redex :  Expr* Φ ∞ T →
-  ?? (∑ U , (Expr* Φ ∞ U → Expr* Φ ∞ T) × Expr* Φ ∞ U)
+evctx-redex :  Expr* Φ ∞ T →  ?? EvctxRedex Φ T
 evctx-redex (∇* _) =  none
 evctx-redex (λ*˙ _) =  none
-evctx-redex e@(▸ _) =  some $ _ , id , e
-evctx-redex (e ◁ e')  with  evctx-redex e'
-... | some (_ , e'ᶜ , e'ʳ) =  some $ _ , (λ e₀ → e ◁ e'ᶜ e₀) , e'ʳ
-... | none  with evctx-redex e
-...   | some (_ , eᶜ , eʳ) =  some $ _ , (λ e₀ → eᶜ e₀ ◁ e') , eʳ
-...   | none =  some $ _ , id , (e ◁ e')
-evctx-redex (★ e)  with evctx-redex e
-... | some (_ , eᶜ , eʳ) =  some $ _ , (λ e₀ → ★ eᶜ e₀) , eʳ
-... | none =  some $ _ , id , ★ e
-evctx-redex (e ← e')  with  evctx-redex e'
-... | some (_ , e'ᶜ , e'ʳ) =  some $ _ , (λ e₀ → e ← e'ᶜ e₀) , e'ʳ
-... | none  with evctx-redex e
-...   | some (_ , eᶜ , eʳ) =  some $ _ , (λ e₀ → eᶜ e₀ ← e') , eʳ
-...   | none =  some $ _ , id , (e ← e')
+evctx-redex (▸ e) =  some $ _ , id , ▸ e
+evctx-redex (e ◁ e') =  some body
+ where
+  body :  EvctxRedex _ _
+  body  with evctx-redex e'
+  ... | some (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ◁ e'ᶜ e₀) , e'ʳ
+  ... | none  with evctx-redex e
+  ...   | some (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ◁ e') , eʳ
+  ...   | none =  _ , id , (e ◁ e')
+evctx-redex (★ e) =  some body
+ where
+  body :  EvctxRedex _ _
+  body  with evctx-redex e
+  ... | some (_ , eᶜ , eʳ) =  _ , (λ e₀ → ★ eᶜ e₀) , eʳ
+  ... | none =  _ , id , ★ e
+evctx-redex (e ← e') =  some body
+ where
+  body :  EvctxRedex _ _
+  body  with  evctx-redex e'
+  ... | some (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ← e'ᶜ e₀) , e'ʳ
+  ... | none  with evctx-redex e
+  ...   | some (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ← e') , eʳ
+  ...   | none =  _ , id , (e ← e')
 
 -- Judge if the expression is a value
 is-value :  Expr* Φ ∞ T →  Bool

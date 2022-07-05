@@ -40,8 +40,8 @@ Expr Φ ι A =  Expr* Φ ι ⌜ A ⌝ᵀ
 Expr˂ Φ ι A =  Expr˂* Φ ι ⌜ A ⌝ᵀ
 
 infix 4 ▸_ ∇*_ ∇_
-infix 8 *ᴱ_
-infix 4 _←ᴱ_
+infix 8 ★_
+infix 4 _←_
 infixl 0 _◁_
 
 data  Expr* Φ ι  where
@@ -54,9 +54,9 @@ data  Expr* Φ ι  where
   -- Application
   _◁_ :  Expr* Φ ι (T *→* U) →  Expr* Φ ι T →  Expr* Φ ι U
   -- Read from the memory
-  *ᴱ_ :  Expr Φ ι (Addr A) →  Expr Φ ι A
+  ★_ :  Expr Φ ι (Addr A) →  Expr Φ ι A
   -- Write to the memory
-  _←ᴱ_ :  Expr Φ ι (Addr A) →  Expr Φ ι A →  Expr Φ ι ⊤
+  _←_ :  Expr Φ ι (Addr A) →  Expr Φ ι A →  Expr Φ ι ⊤
 
 -- ∇* for a pure value
 ∇_ :  A →  Expr Φ ι A
@@ -105,5 +105,5 @@ squash (▸ e˂) =  ▸ λ{ .! → squash (e˂ .!) }
 squash (∇* e) =  ExprVtf⇒Expr e
 squash {T = T *→* _} (λ*˙ e˙) =  λ*˙ $ λ a → squash (e˙ (⇒ExprVtf {T = T} a))
 squash (e ◁ e') =  squash e ◁ squash e'
-squash (*ᴱ e) =  *ᴱ squash e
-squash (e ←ᴱ e') =  squash e ←ᴱ squash e'
+squash (★ e) =  ★ squash e
+squash (e ← e') =  squash e ← squash e'

@@ -164,8 +164,8 @@ abstract
 
   -- |=>-∃-out :  |=> (∃ _ ∈ A , P) ⊢[ ∞ ] ∃ _ ∈ A , |=> P
   ⊢-sem (|=>-∃-out {P = P}) {✓a = ✓a} |=>∃AP =  λ where
-    .proj₀ →  |=>∃AP ε (✓-resp (sym˜ ∙-unitˡ) ✓a) ▷ λ (_ , _ , x , _) → x
-    .proj₁ c ✓c∙a →  |=>∃AP c ✓c∙a ▷ λ (b , ✓c∙b , _ , Pb) → b , ✓c∙b , Pb
+    .proj₀ →  let (_ , _ , x , _) = |=>∃AP ε $ ✓-resp (sym˜ ∙-unitˡ) ✓a in  x
+    .proj₁ c ✓c∙a →  let (b , ✓c∙b , _ , Pb) = |=>∃AP c ✓c∙a in  b , ✓c∙b , Pb
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
   ⊢-sem (□-mono P⊢Q) P⌞a⌟ =  ⊢-sem P⊢Q P⌞a⌟

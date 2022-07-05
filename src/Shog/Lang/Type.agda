@@ -17,13 +17,13 @@ infixr 4 _*→*_ _→*_
 
 data  Type :  Set (^ˡ ℓ)  where
   -- Embedding a pure type
-  ⌜_⌝ᵀ :  Set ℓ →  Type
+  ⎡_⎤ :  Set ℓ →  Type
   -- Function
   _*→*_ :  Type →  Type →  Type
 
 -- Function with a pure domain type
 _→*_ :  Set ℓ →  Type →  Type
-A →* T =  ⌜ A ⌝ᵀ *→* T
+A →* T =  ⎡ A ⎤ *→* T
 
 --------------------------------------------------------------------------------
 -- VTF: Data defining a value-type function
@@ -34,7 +34,7 @@ record  VTF :  Set (^ˡ ^ˡ ℓ)  where
 open VTF public
 
 -- Interpret (Φ : VTF) as a value-type function (Type → Set ℓ),
--- mapping ⌜ A ⌝ᵀ to A, with a level tweak
+-- mapping ⎡ A ⎤ to A, with a level tweak
 Vt :  VTF →  Type →  Set (^ˡ ℓ)
-Vt _ ⌜ A ⌝ᵀ =  Upˡ A
+Vt _ ⎡ A ⎤ =  Upˡ A
 Vt Φ (T *→* U) =  Φ .Vt* $ T *→* U

@@ -12,7 +12,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
-open import Shog.Lang.Type ℓ using (Type; ⌜_⌝ᵀ; _*→*_; _→*_; VTF; Vt*; Vt)
+open import Shog.Lang.Type ℓ using (Type; ⎡_⎤; _*→*_; _→*_; VTF; Vt*; Vt)
 
 private variable
   A :  Set ℓ
@@ -36,8 +36,8 @@ Expr˂* Φ ι T =  Thunk (λ ι → Expr* Φ ι T) ι
 
 -- Expr / Expr˂: Expr* / Expr˂* over a pure type
 Expr Expr˂ :  VTF →  Size →  Set ℓ →  Set (^ˡ ℓ)
-Expr Φ ι A =  Expr* Φ ι ⌜ A ⌝ᵀ
-Expr˂ Φ ι A =  Expr˂* Φ ι ⌜ A ⌝ᵀ
+Expr Φ ι A =  Expr* Φ ι ⎡ A ⎤
+Expr˂ Φ ι A =  Expr˂* Φ ι ⎡ A ⎤
 
 infix 4 ▸_ ∇*_ ∇_
 infix 8 ★_
@@ -93,10 +93,10 @@ ExprVtf Φ .Vt* T =  Expr* Φ ∞ T
 
 -- Conversion functions for ExprVtf
 ExprVtf⇒Expr :  Vt (ExprVtf Φ) T →  Expr* Φ ∞ T
-ExprVtf⇒Expr {T = ⌜ _ ⌝ᵀ} a =  ∇* a
+ExprVtf⇒Expr {T = ⎡ _ ⎤} a =  ∇* a
 ExprVtf⇒Expr {T = _ *→* _} e =  e
 ⇒ExprVtf :  Vt Φ T →  Vt (ExprVtf Φ) T
-⇒ExprVtf {T = ⌜ _ ⌝ᵀ} a =  a
+⇒ExprVtf {T = ⎡ _ ⎤} a =  a
 ⇒ExprVtf {T = _ *→* _} a =  ∇* a
 
 -- Core of substitution

@@ -185,7 +185,7 @@ abstract
   ⊢-sem □-∀-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
 
   -- □-∃-out :  □ ∃˙ _ P˙ ⊢[ ∞ ] ∃˙ _ (□_ ∘ P˙)
-  ⊢-sem □-∃-out ΣxPx⌞a⌟ =  ΣxPx⌞a⌟
+  ⊢-sem □-∃-out ∑xPx⌞a⌟ =  ∑xPx⌞a⌟
 
   -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂
   ⊢-sem save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∧P'⊢P , Qa , line□iP'a) =

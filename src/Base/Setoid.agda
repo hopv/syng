@@ -10,7 +10,7 @@ open import Base.Level using (Level; _⊔ˡ_; ^ˡ_)
 open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_)
 open import Base.Few using (¬_)
 open import Base.Func using (_∈_)
-open import Base.Prod using (_×_; Σ-syntax; _,_)
+open import Base.Prod using (_×_; ∑-syntax; _,_)
 
 record  Setoid ℓ ℓ≈ :  Set (^ˡ (ℓ ⊔ˡ ℓ≈))  where
   infix 4 _≈_
@@ -47,7 +47,7 @@ record  Setoid ℓ ℓ≈ :  Set (^ˡ (ℓ ⊔ˡ ℓ≈))  where
 
   infix 4 _⊆≈_
   _⊆≈_ :  (Car → Set ℓX) →  (Car → Set ℓY) →  Set (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓX ⊔ˡ ℓY)
-  X ⊆≈ Y  =  ∀ {a} →  a ∈ X →  Σ b ,  a ≈ b  ×  b ∈ Y
+  X ⊆≈ Y  =  ∀ {a} →  a ∈ X →  ∑ b ,  a ≈ b  ×  b ∈ Y
 
   abstract
     -- ⊆≈ is reflexive and transitive

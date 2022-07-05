@@ -11,7 +11,7 @@ open import Base.Level using (^ˡ_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)
-open import Base.Prod using (_×_; _,_; Σ-syntax)
+open import Base.Prod using (_×_; _,_; ∑-syntax)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.List using (List; []; _∷_; _++_)
@@ -203,10 +203,10 @@ abstract
   ⌜⌝-∀-out :  ⌜ (∀ a →  F a) ⌝ ⊢[ ι ] ∀' a , ⌜ F a ⌝
   ⌜⌝-∀-out =  ∀-intro $ λ a →  ⌜⌝-elim $ λ f →  ⌜⌝-intro $ f a
 
-  ⌜⌝-∃-in :  ∃ a , ⌜ F a ⌝ ⊢[ ι ] ⌜ Σ a , F a ⌝
+  ⌜⌝-∃-in :  ∃ a , ⌜ F a ⌝ ⊢[ ι ] ⌜ ∑ a , F a ⌝
   ⌜⌝-∃-in =  ∃-elim $ λ a →  ⌜⌝-mono $ λ fa →  a , fa
 
-  ⌜⌝-∃-out :  ⌜ Σ a , F a ⌝ ⊢[ ι ] ∃ a , ⌜ F a ⌝
+  ⌜⌝-∃-out :  ⌜ ∑ a , F a ⌝ ⊢[ ι ] ∃ a , ⌜ F a ⌝
   ⌜⌝-∃-out =  ⌜⌝-elim $ λ (_ , fa) →  ⌜⌝-intro fa » ∃-intro
 
   ⌜⌝-∧-in :  ⌜ A ⌝ ∧ ⌜ B ⌝ ⊢[ ι ] ⌜ A × B ⌝

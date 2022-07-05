@@ -17,7 +17,7 @@ open import Base.Eq using (_≡_; refl⁼; sym⁼)
 open import Base.Setoid using (≡-setoid)
 open import Base.Func using (_$_; flip)
 open import Base.Few using (absurd)
-open import Base.Prod using (Σ-syntax; _,_; proj₀; proj₁)
+open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
 open import Base.Nat using (ℕ; suc; _≡ᵇ_; ᵇ⇒≡; ≡⇒ᵇ)
 open import Base.Nat.List using ([⊔]; suc[⊔]∉ᴸ)
 open import Base.List using (List; _∷_; []; _++_)
@@ -91,7 +91,7 @@ private module _ where
 private module _ where abstract
   open RA
 
-  ⌞⌟ᶠ-add :  ∀ F G →  Σ G' ,  G' ∙ᶠ ⌞ F ⌟ᶠ ≈ᶠ ⌞ G ∙ᶠ F ⌟ᶠ
+  ⌞⌟ᶠ-add :  ∀ F G →  ∑ G' ,  G' ∙ᶠ ⌞ F ⌟ᶠ ≈ᶠ ⌞ G ∙ᶠ F ⌟ᶠ
   ⌞⌟ᶠ-add F G .proj₀ .fin i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₀
   ⌞⌟ᶠ-add F G .proj₀ .supp =  (G ∙ᶠ F) .supp
   ⌞⌟ᶠ-add F G .proj₀ .out-ε {i} i∉ =  sym' (∙-unitʳ Ra) »'
@@ -222,7 +222,7 @@ module _ {i : ℕ} where abstract
 
   -- Allocate at a fresh index
 
-  allocᶠ :  ✓' a →  ε ↝ˢ λ F → Σ i , F ≡ injᶠ i a
+  allocᶠ :  ✓' a →  ε ↝ˢ λ F → ∑ i , F ≡ injᶠ i a
   allocᶠ {a} ✓a G ✓G∙ε =  injᶠ i₀ a , (_ , refl⁼) , proof
    where
     i₀ :  ℕ

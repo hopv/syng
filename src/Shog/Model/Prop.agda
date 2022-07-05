@@ -12,7 +12,7 @@ module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (^ˡ ℓ) (^ˡ ℓ) (^ˡ �
 
 open import Base.Few using (⊤; ⊥)
 open import Base.Func using (_$_; _▷_; flip; _∈_)
-open import Base.Prod using (Σ-syntax; _×_; _,_)
+open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.List using (List; _∷_; []; map)
 
@@ -85,7 +85,7 @@ abstract
  where abstract
   proof :  Monoᵒ $ ∀ᵒ˙ _ Pᵒ˙ .predᵒ
   proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃ᵒ˙ _ Pᵒ˙ .predᵒ a ✓a =  Σ x ,  Pᵒ˙ x .predᵒ a ✓a
+∃ᵒ˙ _ Pᵒ˙ .predᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .predᵒ a ✓a
 ∃ᵒ˙ _ Pᵒ˙ .monoᵒ =  proof
  where abstract
   proof :  Monoᵒ $ ∃ᵒ˙ _ Pᵒ˙ .predᵒ
@@ -99,7 +99,7 @@ abstract
  where abstract
   proof :  Monoᵒ $ ∀^˙ _ Pᵒ˙ .predᵒ
   proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃^˙ _ Pᵒ˙ .predᵒ a ✓a =  Σ x ,  Pᵒ˙ x .predᵒ a ✓a
+∃^˙ _ Pᵒ˙ .predᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .predᵒ a ✓a
 ∃^˙ _ Pᵒ˙ .monoᵒ =  proof
  where abstract
   proof :  Monoᵒ $ ∃^˙ _ Pᵒ˙ .predᵒ
@@ -183,7 +183,7 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(Pᵒ ∗ᵒ Qᵒ) .predᵒ a ✓a =  Σ b , Σ c , Σ b∙c≈a ,
+(Pᵒ ∗ᵒ Qᵒ) .predᵒ a ✓a =  ∑ b , ∑ c , ∑ b∙c≈a ,
   Pᵒ .predᵒ b (∙≈-✓ˡ b∙c≈a ✓a)  ×  Qᵒ .predᵒ c (∙≈-✓ʳ b∙c≈a ✓a)
 (Pᵒ ∗ᵒ Qᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
@@ -209,7 +209,7 @@ _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ
-(|=>ᵒ Pᵒ) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  Σ b , Σ ✓c∙b ,
+(|=>ᵒ Pᵒ) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  ∑ b , ∑ ✓c∙b ,
   Pᵒ .predᵒ b (✓-remˡ {c} {b} ✓c∙b)
 (|=>ᵒ Pᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract

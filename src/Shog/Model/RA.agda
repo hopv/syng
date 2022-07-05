@@ -9,7 +9,7 @@ module Shog.Model.RA where
 open import Base.Level using (Level; _⊔ˡ_; ^ˡ_)
 open import Base.Eq using (_≡_; refl⁼)
 open import Base.Func using (_$_; id; _▷_; _∈_)
-open import Base.Prod using (_×_; _,_; Σ-syntax)
+open import Base.Prod using (_×_; _,_; ∑-syntax)
 open import Base.Setoid using (Setoid)
 
 --------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓))  where
     -- ⌞⌟ preserves ≈
     ⌞⌟-cong :  ∀ {a b} →  a ≈ b →  ⌞ a ⌟ ≈ ⌞ b ⌟
     -- When ⌞⌟'s argument gets added, ⌞⌟'s result gets added
-    ⌞⌟-add :  ∀ {a b} →  Σ b' ,  b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
+    ⌞⌟-add :  ∀ {a b} →  ∑ b' ,  b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
     -- ⌞ a ⌟ is absorbed by a
     ⌞⌟-unitˡ :  ∀ {a} →  ⌞ a ⌟ ∙ a  ≈  a
     -- ⌞⌟ is idempotent
@@ -117,7 +117,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓))  where
 
   infix 4 _⊑_
   _⊑_ :  Car → Car → Set (ℓ ⊔ˡ ℓ≈)
-  a ⊑ b =  Σ c ,  c ∙ a  ≈  b
+  a ⊑ b =  ∑ c ,  c ∙ a  ≈  b
 
   abstract
 
@@ -210,7 +210,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓))  where
 
   -- a ↝ˢ B : a can be updated into b, regardless of the frame c
   _↝ˢ_ :  Car →  (Car → Set ℓB) →  Set (ℓ ⊔ˡ ℓ✓ ⊔ˡ ℓB)
-  a ↝ˢ B =  ∀ c →  ✓ c ∙ a →  Σ b ,  b ∈ B  ×  ✓ c ∙ b
+  a ↝ˢ B =  ∀ c →  ✓ c ∙ a →  ∑ b ,  b ∈ B  ×  ✓ c ∙ b
 
   abstract
 
@@ -265,7 +265,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ˡ (ℓ ⊔ˡ ℓ≈ ⊔ˡ ℓ✓))  where
       a↝b _ ▷ ✓-resp (∙-assocˡ »˜ ∙-congʳ ∙-comm)
 
     ∙-mono-↝ˢ :  a ↝ˢ B →  c ↝ˢ D  →
-      (∀ {b d} →  b ∈ B →  d ∈ D →  Σ e ,  e ≈ b ∙ d  ×  e ∈ E) →  a ∙ c ↝ˢ E
+      (∀ {b d} →  b ∈ B →  d ∈ D →  ∑ e ,  e ≈ b ∙ d  ×  e ∈ E) →  a ∙ c ↝ˢ E
     ∙-mono-↝ˢ a↝ˢB c↝ˢD BDE f ✓f∙a∙c  with ✓f∙a∙c ▷ ✓-resp ∙-assocʳ ▷ c↝ˢD _
     ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d ▷
       ✓-resp (∙-assocˡ »˜ ∙-congʳ ∙-comm »˜ ∙-assocʳ) ▷ a↝ˢB _

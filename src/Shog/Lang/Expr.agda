@@ -35,7 +35,7 @@ record  Addr :  Set ℓ  where
 open Addr public
 
 private variable
-  xᵃ :  Addr
+  x :  Addr
   m n :  ℕ
 
 -- ₒ: Address offset operation
@@ -48,7 +48,7 @@ abstract
 
   -- Associativity of ₒ
 
-  ₒ-assoc :  xᵃ ₒ m ₒ n ≡ xᵃ ₒ (n + m)
+  ₒ-assoc :  x ₒ m ₒ n ≡ x ₒ (n + m)
   ₒ-assoc {n = n} =  cong (addr _) (+-assocʳ {n})
 
 --------------------------------------------------------------------------------

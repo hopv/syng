@@ -2,8 +2,7 @@
 -- Reduction
 --------------------------------------------------------------------------------
 
--- {-# OPTIONS --without-K --sized-types #-}
-{-# OPTIONS --sized-types #-}
+{-# OPTIONS --without-K --sized-types #-}
 
 open import Base.Level using (Level)
 module Shog.Lang.Reduce (ℓ : Level) where
@@ -134,5 +133,5 @@ check =  ▶-red
 
 open import Base.Eq using (refl⁼)
 
-check2 :  ∀ {e} →  Red loop M e M →  e ≡ loop
+check2 :  ∀ {e M'} →  Red loop M e M' →  e ≡ loop
 check2 ▶-red =  refl⁼

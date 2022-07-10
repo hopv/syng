@@ -29,10 +29,9 @@ private variable
 -------------------------------------------------------------------------------
 -- Redex
 
-infix 4 ▶ᴿ_
-infixl 0 _◁ᴿ_
-infix 8 ★ᴿ_
-infix 4 _←ᴿ_
+infix 6 ▶ᴿ_
+infixl 5 _◁ᴿ_
+infix 6 ★ᴿ_ _←ᴿ_
 
 data  Redex :  Type →  Set (^ ℓ)  where
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
@@ -79,7 +78,7 @@ val/ctxred (e ◁ e') =  inj₁ body
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ◁ ctx •) , red
   ... | inj₀ (↑ a)  with val/ctxred e
   ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ◁ e') , red
-  ...   | inj₀ v =  _ , id , (v ◁ᴿ a)
+  ...   | inj₀ v =  _ , id , v ◁ᴿ a
 val/ctxred (★ e) =  inj₁ body
  where
   body :  _
@@ -93,7 +92,7 @@ val/ctxred (e ← e') =  inj₁ body
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ← ctx •) , red
   ... | inj₀ v  with val/ctxred e
   ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ← e') , red
-  ...   | inj₀ (↑ x) =  _ , id , (x ←ᴿ v)
+  ...   | inj₀ (↑ x) =  _ , id , x ←ᴿ v
 
 --------------------------------------------------------------------------------
 -- Reduction
@@ -112,7 +111,7 @@ private variable
 
 data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
   ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e˂) M (ctx $ e˂ .!) M
-  ◁-red :  Red' (inj₁ $ _ , ctx , (λ˙ e˙ ◁ᴿ a)) M (ctx $ e˙ a) M
+  ◁-red :  Red' (inj₁ $ _ , ctx , λ˙ e˙ ◁ᴿ a) M (ctx $ e˙ a) M
   ★-red :  M b !! i ≡ some (U , v) →
     Red' (inj₁ $ _ , ctx , ★ᴿ (addr b i)) M (ctx $ Val⇒Expr v) M
 

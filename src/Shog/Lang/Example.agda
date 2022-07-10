@@ -48,7 +48,7 @@ loop-red =  ▶-red
 --------------------------------------------------------------------------------
 -- Destructing Red
 
-plus◁-red-inv :  Red plus◁ M e M' →  (e , M') ≡ ((∇ ↑ 7) , M)
+plus◁-red-inv :  Red plus◁ M e M' →  (e , M') ≡ (∇ ↑ 7 , M)
 plus◁-red-inv ◁-red =  refl⁼
 
 loop-red-inv :  Red loop M e M' →  (e , M') ≡ (loop , M)

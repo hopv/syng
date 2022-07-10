@@ -11,12 +11,14 @@ open import Base.Level using (^_; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_; id)
+open import Base.Few using (⊤)
 open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
-open import Base.Few using (⊤)
-open import Base.Nat using (ℕ)
+open import Base.Option using (??_)
+open import Base.Bool using (tt; ff)
+open import Base.Nat using (ℕ; _≡ᵇ_)
 open import Base.List using (List)
-open import Base.List.Nat using (_!!_)
+open import Base.List.Nat using (_!!_; upd)
 open import Base.Option using (some)
 open import Base.Eq using (_≡_)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; _➔_; Addr; addr; Expr; Expr˂; ▶_;
@@ -51,6 +53,18 @@ MemCell =  ∑ T , Val T
 
 Mem :  Set (^ ℓ)
 Mem =  ℕ →  List MemCell
+
+-- Memory read
+
+_!!ᴹ_ :  Mem →  Addr →  ?? MemCell
+M !!ᴹ addr b i =  M b !! i
+
+-- Memory update
+
+updᴹ :  Addr →  MemCell →  Mem →  Mem
+updᴹ (addr b i) c M b'  with b' ≡ᵇ b
+... | tt =  upd i c (M b')
+... | ff =  M b'
 
 --------------------------------------------------------------------------------
 -- Value & Context-Redex Pair
@@ -106,14 +120,16 @@ private variable
   e˂ :  Expr˂ ∞ U
   e˙ :  A → Expr ∞ U
   a :  A
-  v : Val U
-  b i :  ℕ
+  v :  Val U
+  x :  Addr
 
 data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
   ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e˂) M (ctx $ e˂ .!) M
   ◁-red :  Red' (inj₁ $ _ , ctx , e˙ ◁ᴿ a) M (ctx $ e˙ a) M
-  ★-red :  M b !! i ≡ some (U , v) →
-    Red' (inj₁ $ _ , ctx , ★ᴿ (addr b i)) M (ctx $ Val⇒Expr v) M
+  ★-red :  M !!ᴹ x ≡ some (U , v) →
+    Red' (inj₁ $ _ , ctx , ★ᴿ x) M (ctx $ Val⇒Expr v) M
+  ←-red :  ∀ {v : Val V} →
+    Red' (inj₁ $ _ , ctx , x ←ᴿ v) M (ctx $ ∇ _) (updᴹ x (_ , v) M)
 
 -- Red e M e' M' :  e & M reduces to e' & M'
 

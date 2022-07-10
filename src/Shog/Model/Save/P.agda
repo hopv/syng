@@ -10,7 +10,7 @@ module Shog.Model.Save.P (ℓ : Level) where
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Nat using (ℕ)
-open import Base.Level using (Upˡ; ↑ˡ_)
+open import Base.Level using (Up; ↑_)
 open import Base.Prod using (_,_)
 open import Shog.Logic.Prop ℓ using (Prop'; _∧_; Basic)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_)
@@ -36,7 +36,7 @@ lineˢ□ :  ℕ →  Prop' ∞ →  Glob
 lineˢ□ i P =  injᴬ 1 $ injᶠ i $ ag P
 
 save□ᵒ :  Prop' ∞ →  Propᵒ
-save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ˡ i) ∈ Upˡ _ ,
+save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
   ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  [| Q |]ᴮ {{ BaQ }}  ∧ᵒ  own (lineˢ□ i P')
 
 abstract

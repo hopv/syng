@@ -7,11 +7,11 @@
 module Base.Level where
 
 open import Agda.Primitive public using (Level)
-  renaming (lzero to 0ˡ; lsuc to infix 8 ^ˡ_; _⊔_ to _⊔ˡ_)
+  renaming (lzero to ○; lsuc to infix 8 ^_; _⊔_ to _⌴_)
 
-infix 8 ↑ˡ_
-record  Upˡ {ℓ : Level} (A : Set ℓ) {ℓ' : Level} :  Set (ℓ ⊔ˡ ℓ')  where
-  constructor ↑ˡ_
-  infix 8 ↓ˡ_
-  field  ↓ˡ_ :  A
-open Upˡ public
+infix 8 ↑_
+record  Up {ℓ : Level} (A : Set ℓ) {ℓ' : Level} :  Set (ℓ ⌴ ℓ')  where
+  constructor ↑_
+  infix 8 ↓_
+  field  ↓_ :  A
+open Up public

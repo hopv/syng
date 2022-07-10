@@ -6,7 +6,7 @@
 
 module Base.List.Any where
 
-open import Base.Level using (Level; _⊔ˡ_)
+open import Base.Level using (Level; _⌴_)
 open import Base.List using (List; _∷_; []; _++_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Func using (_$_)
@@ -21,7 +21,7 @@ private variable
 
 --------------------------------------------------------------------------------
 -- Disjunction over list elements
-data  Any {A : Set ℓA} (F : A → Set ℓF) :  List A → Set (ℓA ⊔ˡ ℓF)  where
+data  Any {A : Set ℓA} (F : A → Set ℓF) :  List A → Set (ℓA ⌴ ℓF)  where
   by-hd :  ∀ {a as} →  F a →  Any F (a ∷ as)
   by-tl :  ∀ {a as} →  Any F as →  Any F (a ∷ as)
 open Any public

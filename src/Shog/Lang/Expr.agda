@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Lang.Expr (ℓ : Level) where
 
-open import Base.Level using (^ˡ_; ↑ˡ_)
+open import Base.Level using (^_; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
@@ -28,14 +28,14 @@ record  Addr (A : Set ℓ) :  Set ℓ  where
 --------------------------------------------------------------------------------
 -- Expr*: Expression, possibly infinite, in PHOAS
 
-data  Expr* (Φ : VTF) (ι : Size) :  Type →  Set (^ˡ ℓ)
+data  Expr* (Φ : VTF) (ι : Size) :  Type →  Set (^ ℓ)
 
 -- Expr˂*: Expr* under Thunk
-Expr˂* :  VTF →  Size →  Type →  Set (^ˡ ℓ)
+Expr˂* :  VTF →  Size →  Type →  Set (^ ℓ)
 Expr˂* Φ ι T =  Thunk (λ ι → Expr* Φ ι T) ι
 
 -- Expr / Expr˂: Expr* / Expr˂* over a pure type
-Expr Expr˂ :  VTF →  Size →  Set ℓ →  Set (^ˡ ℓ)
+Expr Expr˂ :  VTF →  Size →  Set ℓ →  Set (^ ℓ)
 Expr Φ ι A =  Expr* Φ ι ⎡ A ⎤
 Expr˂ Φ ι A =  Expr˂* Φ ι ⎡ A ⎤
 
@@ -60,11 +60,11 @@ data  Expr* Φ ι  where
 
 -- ∇* for a pure value
 ∇_ :  A →  Expr Φ ι A
-∇ a =  ∇* ↑ˡ a
+∇ a =  ∇* ↑ a
 
 -- λ*˙ for a pure value
 λ˙ :  (A → Expr* Φ ι T) →  Expr* Φ ι (A →* T)
-λ˙ e˙ =  λ*˙ $ λ (↑ˡ a) → e˙ a
+λ˙ e˙ =  λ*˙ $ λ (↑ a) → e˙ a
 
 -- Syntax for lambda abstraction, for a general / pure value
 λ*-syntax :  (Vt Φ T → Expr* Φ ι U) →  Expr* Φ ι (T *→* U)

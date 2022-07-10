@@ -4,10 +4,10 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level; ^ˡ_)
+open import Base.Level using (Level; ^_)
 open import Shog.Model.RA using (RA)
 -- Parametric over the global RA
-module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (^ˡ ℓ) (^ˡ ℓ) (^ˡ ℓ))
+module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (^ ℓ) (^ ℓ) (^ ℓ))
   where
 
 open import Base.Few using (⊤; ⊥)
@@ -27,12 +27,12 @@ private variable
 --------------------------------------------------------------------------------
 -- Propᵒ: Semantic proposition
 
-Monoᵒ :  ∀ (predᵒ : ∀ (a : Glob) →  ✓ a →  Set (^ˡ ℓ)) →  Set (^ˡ ℓ)
+Monoᵒ :  ∀ (predᵒ : ∀ (a : Glob) →  ✓ a →  Set (^ ℓ)) →  Set (^ ℓ)
 Monoᵒ predᵒ =  ∀ {a b ✓a ✓b} →  a ⊑ b →  predᵒ a ✓a →  predᵒ b ✓b
 
-record  Propᵒ :  Set (^ˡ ^ˡ ℓ)  where
+record  Propᵒ :  Set (^ ^ ℓ)  where
   field
-    predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ˡ ℓ)
+    predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ ℓ)
     monoᵒ :  Monoᵒ predᵒ
 
   abstract
@@ -51,7 +51,7 @@ open Propᵒ public
 private variable
   ℓB :  Level
   X :  Set ℓ
-  X^ :  Set (^ˡ ℓ)
+  X^ :  Set (^ ℓ)
   Pᵒ Qᵒ Rᵒ :  Propᵒ
   a b :  Glob
   B :  Glob → Set ℓB
@@ -60,7 +60,7 @@ private variable
 -- ⊨: Entailment
 
 infix 1 _⊨_
-_⊨_ :  Propᵒ →  Propᵒ →  Set (^ˡ ℓ)
+_⊨_ :  Propᵒ →  Propᵒ →  Set (^ ℓ)
 Pᵒ ⊨ Qᵒ =  ∀ {a ✓a} →  Pᵒ .predᵒ a ✓a →  Qᵒ .predᵒ a ✓a
 
 abstract
@@ -91,9 +91,9 @@ abstract
   proof :  Monoᵒ $ ∃ᵒ˙ _ Pᵒ˙ .predᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
--- For Set (^ˡ ℓ)
+-- For Set (^ ℓ)
 
-∀^˙ ∃^˙ :  (X^ : Set (^ˡ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
+∀^˙ ∃^˙ :  (X^ : Set (^ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
 ∀^˙ _ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
 ∀^˙ _ Pᵒ˙ .monoᵒ =  proof
  where abstract
@@ -106,7 +106,7 @@ abstract
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
 ∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (X : Set ℓ) →  (X → Propᵒ) →  Propᵒ
-∀^∈-syntax ∃^∈-syntax :  (X^ : Set (^ˡ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
+∀^∈-syntax ∃^∈-syntax :  (X^ : Set (^ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
 ∀ᵒ∈-syntax =  ∀ᵒ˙
 ∃ᵒ∈-syntax =  ∃ᵒ˙
 ∀^∈-syntax =  ∀^˙
@@ -163,7 +163,7 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 --------------------------------------------------------------------------------
 -- ⌜ ⌝^: Set embedding
 
-⌜_⌝^ :  Set (^ˡ ℓ) →  Propᵒ
+⌜_⌝^ :  Set (^ ℓ) →  Propᵒ
 ⌜ X ⌝^ .predᵒ _ _ =  X
 ⌜ _ ⌝^ .monoᵒ _ x =  x
 

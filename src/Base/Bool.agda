@@ -6,7 +6,7 @@
 
 module Base.Bool where
 
-open import Base.Level using (Level; 0ˡ)
+open import Base.Level using (Level; ○)
 open import Base.Few using (⊤; ⊥)
 
 --------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ if ff then aᵗ else aᶠ =  aᶠ
 
 -- Bool to Set
 
-Tt :  Bool → Set 0ˡ
+Tt :  Bool → Set ○
 Tt tt =  ⊤
 Tt ff =  ⊥
 
@@ -64,7 +64,7 @@ Tt ff =  ⊥
 -- ≤ᴮ: Order over Bool
 
 infix 4 _≤ᴮ_
-data  _≤ᴮ_ :  Bool → Bool → Set 0ˡ  where
+data  _≤ᴮ_ :  Bool → Bool → Set ○  where
   ff≤tt :  ff ≤ᴮ tt
   ≤ᴮ-refl :  ∀ {b} →  b ≤ᴮ b
 open _≤ᴮ_ public

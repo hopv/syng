@@ -6,7 +6,7 @@
 
 module Base.Dec where
 
-open import Base.Level using (Level; _⊔ˡ_)
+open import Base.Level using (Level; _⌴_)
 open import Base.Few using (¬_)
 
 private variable
@@ -21,8 +21,8 @@ data  Dec {ℓA : Level} (A : Set ℓA) :  Set ℓA  where
 --------------------------------------------------------------------------------
 -- Decision on a predicate
 
-Dec¹ :  ∀ {A : Set ℓA} →  (A → Set ℓF) →  Set (ℓA ⊔ˡ ℓF)
+Dec¹ :  ∀ {A : Set ℓA} →  (A → Set ℓF) →  Set (ℓA ⌴ ℓF)
 Dec¹ F =  ∀ a →  Dec (F a)
 
-Dec² :  ∀ {A : Set ℓA} {B : Set ℓB} →  (A → B → Set ℓF) →  Set (ℓA ⊔ˡ ℓB ⊔ˡ ℓF)
+Dec² :  ∀ {A : Set ℓA} {B : Set ℓB} →  (A → B → Set ℓF) →  Set (ℓA ⌴ ℓB ⌴ ℓF)
 Dec² F =  ∀ a b →  Dec (F a b)

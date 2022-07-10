@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Lang.Type (ℓ : Level) where
 
-open import Base.Level using (^ˡ_; Upˡ)
+open import Base.Level using (^_; Up)
 open import Base.Func using (_$_)
 
 --------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ open import Base.Func using (_$_)
 
 infixr 4 _*→*_ _→*_
 
-data  Type :  Set (^ˡ ℓ)  where
+data  Type :  Set (^ ℓ)  where
   -- Embedding a pure type
   ⎡_⎤ :  Set ℓ →  Type
   -- Function
@@ -27,14 +27,14 @@ A →* T =  ⎡ A ⎤ *→* T
 
 --------------------------------------------------------------------------------
 -- VTF: Data defining a value-type function
-record  VTF :  Set (^ˡ ^ˡ ℓ)  where
+record  VTF :  Set (^ ^ ℓ)  where
   field
     -- Defines the value-type for a non-pure type
-    Vt* :  Type →  Set (^ˡ ℓ)
+    Vt* :  Type →  Set (^ ℓ)
 open VTF public
 
 -- Interpret (Φ : VTF) as a value-type function (Type → Set ℓ),
 -- mapping ⎡ A ⎤ to A, with a level tweak
-Vt :  VTF →  Type →  Set (^ˡ ℓ)
-Vt _ ⎡ A ⎤ =  Upˡ A
+Vt :  VTF →  Type →  Set (^ ℓ)
+Vt _ ⎡ A ⎤ =  Up A
 Vt Φ (T *→* U) =  Φ .Vt* $ T *→* U

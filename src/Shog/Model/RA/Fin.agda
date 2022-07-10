@@ -11,7 +11,7 @@ open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to
   ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; sym˜ to sym'; _»˜_ to _»'_;
   ✓-resp to ✓'-resp; ∙-congˡ to ∙'-congˡ; ∙-unitˡ to ∙'-unitˡ)
 
-open import Base.Level using (_⊔ˡ_)
+open import Base.Level using (_⌴_)
 open import Base.Bool using (tt; ff)
 open import Base.Eq using (_≡_; refl⁼; sym⁼)
 open import Base.Setoid using (≡-setoid)
@@ -31,7 +31,7 @@ open import Base.List.Set (≡-setoid ℕ) using (_∉ᴸ_; ∉ᴸ-[];
 Out-ε :  (ℕ → A) → List ℕ → Set ℓ≈
 Out-ε fin supp =  ∀ {i} →  i ∉ᴸ supp →  fin i ≈' ε'
 
-record  Fin :  Set (ℓ ⊔ˡ ℓ≈)  where
+record  Fin :  Set (ℓ ⌴ ℓ≈)  where
   field
     fin :  ℕ → A
     supp :  List ℕ
@@ -106,7 +106,7 @@ private module _ where abstract
 module _ where
   open RA
 
-  Finᴿᴬ : RA (ℓ ⊔ˡ ℓ≈) ℓ≈ ℓ✓
+  Finᴿᴬ : RA (ℓ ⌴ ℓ≈) ℓ≈ ℓ✓
   Finᴿᴬ .Car =  Fin
   Finᴿᴬ ._≈_ =  _≈ᶠ_
   Finᴿᴬ .✓_ =  ✓ᶠ_

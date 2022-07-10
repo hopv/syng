@@ -8,7 +8,7 @@ open import Base.Setoid using (Setoid)
 module Shog.Model.RA.FrAg {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S using (_≈_; refl˜) renaming (Car to A)
 
-open import Base.Level using (_⊔ˡ_)
+open import Base.Level using (_⌴_)
 open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Prod using (_×_; _,_)
 open import Base.Func using (_$_)
@@ -48,14 +48,14 @@ private
 
   -- Equivalence
   infix 4 _≈ᶠ_
-  _≈ᶠ_ :  FrAg →  FrAg →  Set (ℓ ⊔ˡ ℓ≈)
+  _≈ᶠ_ :  FrAg →  FrAg →  Set (ℓ ⌴ ℓ≈)
   ⟨ p ⟩ᶠᴸ as ≈ᶠ ⟨ q ⟩ᶠᴸ bs =  p ≈ᴿ⁺ q  ×  as ≈ᴸ bs
   εᶠ ≈ᶠ εᶠ =  ⊤
   _ ≈ᶠ _ =  ⊥
 
   -- Validity
   infix 3 ✓ᶠ_
-  ✓ᶠ_ :  FrAg →  Set (ℓ ⊔ˡ ℓ≈)
+  ✓ᶠ_ :  FrAg →  Set (ℓ ⌴ ℓ≈)
   ✓ᶠ ⟨ p ⟩ᶠᴸ a =  p ≤1ᴿ⁺  ×  homo a
   ✓ᶠ εᶠ =  ⊤
 
@@ -122,7 +122,7 @@ private abstract
 module _ where
   open RA
 
-  FrAgᴿᴬ : RA ℓ (ℓ ⊔ˡ ℓ≈) (ℓ ⊔ˡ ℓ≈)
+  FrAgᴿᴬ : RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
   FrAgᴿᴬ .Car =  FrAg
   FrAgᴿᴬ ._≈_ =  _≈ᶠ_
   FrAgᴿᴬ .✓_ =  ✓ᶠ_

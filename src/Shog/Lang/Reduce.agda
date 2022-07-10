@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Lang.Reduce (ℓ : Level) where
 
-open import Base.Level using (^ˡ_; ↑ˡ_)
+open import Base.Level using (^_; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_; id; _▷_)
@@ -25,7 +25,7 @@ private variable
 -- Evaluation Context and Redex
 
 -- Type for the evaluation context and redex
-EvctxRedex :  VTF →  Type →  Set (^ˡ ℓ)
+EvctxRedex :  VTF →  Type →  Set (^ ℓ)
 EvctxRedex Φ T =  ∑ U , (Expr* Φ ∞ U → Expr* Φ ∞ T) × Expr* Φ ∞ U
 
 -- Calculate the evaluation context and redex of an expression,

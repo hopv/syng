@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Logic.Judg.All (ℓ : Level) where
 
-open import Base.Level using (^ˡ_)
+open import Base.Level using (^_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_)
@@ -21,7 +21,7 @@ open import Shog.Logic.Prop ℓ
 infix 3 |=>>_
 
 -- Result of a judgment
-data  JudgRes :  Set (^ˡ ℓ)  where
+data  JudgRes :  Set (^ ℓ)  where
   -- Just a proposition
   pure :  Prop' ∞ →  JudgRes
   -- Under the super update
@@ -40,24 +40,24 @@ private variable
   ι :  Size
 
 -- Declaring Judg
-data  Judg (ι : Size) :  Prop' ∞ →  JudgRes →  Set (^ˡ ℓ)
+data  Judg (ι : Size) :  Prop' ∞ →  JudgRes →  Set (^ ℓ)
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
 
 -- ⊢[ ]* : General judgment
-_⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ˡ ℓ)
+_⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ℓ)
 P ⊢[ ι ]* Jr =  Judg ι P Jr
 
 -- ⊢[ ] : Sequent
-_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ˡ ℓ)
+_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
 P ⊢[ ι ] Q =  P ⊢[ ι ]* pure Q
 
 -- ⊢[< ] : Sequent under thunk
-_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ˡ ℓ)
+_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ]=>> : Super update
-_⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ˡ ℓ)
+_⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
 P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
 infixr -1 _»_ _ᵘ»ᵘ_
@@ -141,7 +141,7 @@ data  Judg ι  where
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition
 
-record  Pers (P : Prop' ∞) :  Set (^ˡ ℓ)  where
+record  Pers (P : Prop' ∞) :  Set (^ ℓ)  where
   -- Pers-⇒□: P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
 open Pers {{...}} public

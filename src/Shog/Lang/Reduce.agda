@@ -20,13 +20,12 @@ open import Base.List using (List)
 open import Base.List.Nat using (_!!_)
 open import Base.Option using (some)
 open import Base.Eq using (_≡_)
-open import Shog.Lang.Type ℓ using (Type; ◸_; _➔_; ValGen; Val)
-open import Shog.Lang.Expr ℓ using (Addr; addr; Expr; Expr˂; ▶_; ∇*_; λ*˙; _◁_;
-  ★_; _←_; Exprᵛ; Exprᵛ⇒Expr; ⇒Exprᵛ; squash)
+open import Shog.Lang.Expr ℓ using (Type; ◸_; _➔_; Addr; addr; Expr; Expr˂; ▶_;
+  ∇_; λ˙; _◁_; ★_; _←_; Val; Val⇒Expr)
 
 private variable
+  A :  Set ℓ
   T U V :  Type
-  Φ :  ValGen
 
 -------------------------------------------------------------------------------
 -- Redex
@@ -36,23 +35,23 @@ infixl 0 _◁ᴿ_
 infix 8 ★ᴿ_
 infix 4 _←ᴿ_
 
-data  Redex (Φ : ValGen) :  Type →  Set (^ ℓ)  where
-  ▶ᴿ_ :  Expr˂ Φ ∞ T →  Redex Φ T
-  _◁ᴿ_ :  Val (Exprᵛ Φ) (T ➔ U) →  Val (Exprᵛ Φ) T →  Redex Φ U
-  ★ᴿ_ :  Addr →  Redex Φ T
-  _←ᴿ_ :  Addr →  Val (Exprᵛ Φ) T →  Redex Φ (◸ ⊤)
+data  Redex :  Type →  Set (^ ℓ)  where
+  ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
+  _◁ᴿ_ :  Val (A ➔ T) →  A →  Redex T
+  ★ᴿ_ :  Addr →  Redex T
+  _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
 
 --------------------------------------------------------------------------------
 -- Memory
 
--- Memory cell, containing a value of any type T, parametrized over Φ
+-- Memory cell, containing a value of any type T, parametrized over
 
-MemCell :  Set (^ ^ ℓ)
-MemCell =  ∑ T , ∀ {Φ} → Val (Exprᵛ Φ) T
+MemCell :  Set (^ ℓ)
+MemCell =  ∑ T , Val T
 
 -- Memory, consisting of memory blocks, which are a list of memory cells
 
-Mem :  Set (^ ^ ℓ)
+Mem :  Set (^ ℓ)
 Mem =  ℕ →  List MemCell
 
 --------------------------------------------------------------------------------
@@ -60,42 +59,42 @@ Mem =  ℕ →  List MemCell
 
 -- Type for a context-redex pair
 
-Ctxred :  ValGen →  Type →  Set (^ ℓ)
-Ctxred Φ T =  ∑ U , (Expr Φ ∞ U → Expr Φ ∞ T) × Redex Φ U
+Ctxred :  Type →  Set (^ ℓ)
+Ctxred T =  ∑ U , (Expr ∞ U → Expr ∞ T) × Redex U
 
 -- Type for either a value or a context-redex pair
 
-Val/Ctxred :  ValGen →  Type →  Set (^ ℓ)
-Val/Ctxred Φ T =  Val (Exprᵛ Φ) T ⊎ Ctxred Φ T
+Val/Ctxred :  Type →  Set (^ ℓ)
+Val/Ctxred T =  Val T ⊎ Ctxred T
 
 -- Calculate the value or context-redex pair of the expression
 
-val/ctxred :  Expr Φ ∞ T →  Val/Ctxred Φ T
-val/ctxred {T = T} (∇* a) =  inj₀ $ ⇒Exprᵛ {T = T} a
-val/ctxred (λ*˙ e˙) =  inj₀ $ λ*˙ e˙
+val/ctxred :  Expr ∞ T →  Val/Ctxred T
+val/ctxred (∇ a) =  inj₀ $ ↑ a
+val/ctxred (λ˙ e˙) =  inj₀ $ λ˙ e˙
 val/ctxred (▶ e) =  inj₁ $ _ , id , ▶ᴿ e
 val/ctxred (e ◁ e') =  inj₁ body
  where
   body :  _
   body  with val/ctxred e'
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ◁ ctx •) , red
-  ... | inj₀ v'  with val/ctxred e
+  ... | inj₀ (↑ a)  with val/ctxred e
   ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ◁ e') , red
-  ...   | inj₀ v =  _ , id , (v ◁ᴿ v')
+  ...   | inj₀ v =  _ , id , (v ◁ᴿ a)
 val/ctxred (★ e) =  inj₁ body
  where
   body :  _
   body  with val/ctxred e
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → ★ ctx •) , red
   ... | inj₀ (↑ x) =  _ , id , ★ᴿ x
-val/ctxred (_←_ {T = T} e e') =  inj₁ body
+val/ctxred (e ← e') =  inj₁ body
  where
   body :  _
   body  with  val/ctxred e'
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ← ctx •) , red
   ... | inj₀ v  with val/ctxred e
   ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ← e') , red
-  ...   | inj₀ (↑ x) =  _ , id , (_←ᴿ_ {T = T} x v)
+  ...   | inj₀ (↑ x) =  _ , id , (x ←ᴿ v)
 
 --------------------------------------------------------------------------------
 -- Reduction
@@ -105,44 +104,35 @@ val/ctxred (_←_ {T = T} e e') =  inj₁ body
 
 private variable
   M :  Mem
-  ctx :  ∀ {Φ} → Expr Φ ∞ U → Expr Φ ∞ T
+  ctx :  Expr ∞ U → Expr ∞ T
+  e˂ :  Expr˂ ∞ U
+  e˙ :  A → Expr ∞ U
+  a :  A
+  v : Val U
   b i :  ℕ
 
-data  Red' {T : Type} :  (∀ {Φ} → Val/Ctxred Φ T) →  Mem →
-                        (∀ {Φ} → Expr Φ ∞ T) →  Mem →  Set (^ ^ ℓ)  where
-  ▶-red :  ∀ {e˂ :  ∀{Φ} → Expr˂ Φ ∞ U} →
-    Red' (inj₁ (_ , ctx , ▶ᴿ e˂)) M (ctx (e˂ .!)) M
-  ◁-red : ∀ {e˙ : ∀{Φ} → Val Φ V → Expr Φ ∞ U} {v : ∀{Φ} → Val (Exprᵛ Φ) V} →
-    Red' (inj₁ $ _ , ctx , _◁ᴿ_ {T = V} (λ*˙ e˙) v) M (ctx $ squash $ e˙ v) M
-  ★-red :  ∀ {v : ∀{Φ} → Val (Exprᵛ Φ) U} →  M b !! i ≡ some (U , v) →
-    Red' (inj₁ $ _ , ctx , ★ᴿ (addr b i)) M (ctx $ Exprᵛ⇒Expr {T = U} v) M
+data  Red' {T : Type} :  (Val/Ctxred T) →  Mem →
+                         Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
+  ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e˂) M (ctx $ e˂ .!) M
+  ◁-red :  Red' (inj₁ $ _ , ctx , (λ˙ e˙ ◁ᴿ a)) M (ctx $ e˙ a) M
+  ★-red :  M b !! i ≡ some (U , v) →
+    Red' (inj₁ $ _ , ctx , ★ᴿ (addr b i)) M (ctx $ Val⇒Expr v) M
 
 -- Red e M e' M' :  e & M reduces to e' & M'
 
-Red :  (∀ {Φ} → Expr Φ ∞ T) →  Mem →  (∀ {Φ} → Expr Φ ∞ T) →  Mem →  Set (^ ^ ℓ)
+Red :  (Expr ∞ T) →  Mem →  (Expr ∞ T) →  Mem →  Set (^ ^ ℓ)
 Red e M e' M' =  Red' (val/ctxred e) M e' M'
 
 --------------------------------------------------------------------------------
 -- Example
 
-loop :  ∀ {ι : Size} → Expr Φ ι (◸ ⊤)
+loop :  ∀ {ι : Size} → Expr ι (◸ ⊤)
 loop =  ▶ λ{ .! → loop }
 
 check :  Red loop M loop M
 check =  ▶-red
 
-check2 :  ∀{e : ∀{Φ} → Expr Φ ∞ (◸ ⊤)} →  Red loop M e M →  e ≡ loop
-check2 ▶-red =  ?
-{-
-  We get the following error for the pattern ▶-red,
-  due to higher-order pattern matching.
-  Parametrized HOAS seems a bad idea in this regard.
-  > I'm not sure if there should be a case for the constructor ▶-red,
-    because I get stuck when trying to solve the following unification
-    problems (inferred index ≟ expected index):
-      inj₁ (U , ctx , (▶ᴿ e˂)) ≟ val/ctxred loop
-      M ≟ M₁
-      ctx (e˂ .!) ≟ e
-      M ≟ M₁
-    when checking that the pattern ▶-red has type Red loop M e M
--}
+open import Base.Eq using (refl⁼)
+
+check2 :  ∀ {e} →  Red loop M e M →  e ≡ loop
+check2 ▶-red =  refl⁼

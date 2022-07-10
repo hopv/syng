@@ -43,21 +43,21 @@ val/ctxred (e ◁ e') =  inj₁ body
  where
   body :  _
   body  with val/ctxred e'
-  ... | inj₁ (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ◁ e'ᶜ e₀) , e'ʳ
+  ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ◁ ctx •) , red
   ... | inj₀ _  with val/ctxred e
-  ...   | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ◁ e') , eʳ
+  ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ◁ e') , red
   ...   | inj₀ _ =  _ , id , (e ◁ e')
 val/ctxred (★ e) =  inj₁ body
  where
   body :  _
   body  with val/ctxred e
-  ... | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → ★ eᶜ e₀) , eʳ
+  ... | inj₁ (_ , ctx , red) =  _ , (λ • → ★ ctx •) , red
   ... | inj₀ _ =  _ , id , ★ e
 val/ctxred (e ← e') =  inj₁ body
  where
   body :  _
   body  with  val/ctxred e'
-  ... | inj₁ (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ← e'ᶜ e₀) , e'ʳ
+  ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ← ctx •) , red
   ... | inj₀ _  with val/ctxred e
-  ...   | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ← e') , eʳ
+  ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ← e') , red
   ...   | inj₀ _ =  _ , id , (e ← e')

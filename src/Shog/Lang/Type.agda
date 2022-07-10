@@ -35,4 +35,4 @@ open VtyGen public
 -- mapping ◸ A to A, with a level tweak
 Vty :  VtyGen →  Type →  Set (^ ℓ)
 Vty _ (◸ A) =  Up A
-Vty Φ (T ➔ U) =  Φ .Vty* $ T ➔ U
+Vty Φ T =  Φ .Vty* T

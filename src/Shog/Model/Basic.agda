@@ -32,6 +32,8 @@ private variable
 
 abstract
 
+  -- [| P |]ᴮ[ ... ] is persistent
+
   [||]ᴮ'-⇒□ :  ∀ IsBaP →  [| P |]ᴮ[ IsBaP ] ⊨ □ᵒ [| P |]ᴮ[ IsBaP ]
   [||]ᴮ'-⇒□ (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]ᴮ'-⇒□ (IsBaP˙ x) (∀xPxa x)
   [||]ᴮ'-⇒□ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]ᴮ'-⇒□ (IsBaP˙ x) Pxa
@@ -50,6 +52,8 @@ abstract
 [| P |]ᴮ =  [| P |]ᴮ[ isBasic ]
 
 abstract
+
+  -- [| P |]ᴮ is persistent
 
   [||]ᴮ-⇒□ :  {{_ : Basic P}} →  [| P |]ᴮ ⊨ □ᵒ [| P |]ᴮ
   [||]ᴮ-⇒□ =  [||]ᴮ'-⇒□ isBasic

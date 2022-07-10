@@ -24,7 +24,7 @@ len (_ ∷ as) =  suc $ len as
 
 -- Partial lookup
 
-infix 3 _!!_
+infix 5 _!!_
 _!!_ :  List A →  ℕ →  ?? A
 [] !! _ =  none
 (a ∷ _) !! 0 =  some a

@@ -14,26 +14,26 @@ open import Base.Func using (_$_; id; _▷_)
 open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.Option using (??_; some; none)
-open import Shog.Lang.Type ℓ using (Type; VTF)
-open import Shog.Lang.Expr ℓ using (Expr*; ▸_; ∇*_; λ*˙; _◁_; ★_; _←_)
+open import Shog.Lang.Type ℓ using (Type; VtyGen)
+open import Shog.Lang.Expr ℓ using (Expr; ▶_; ∇*_; λ*˙; _◁_; ★_; _←_)
 
 private variable
   T U :  Type
-  Φ :  VTF
+  Φ :  VtyGen
 
 --------------------------------------------------------------------------------
 -- Evaluation Context and Redex
 
 -- Type for the evaluation context and redex
-EvctxRedex :  VTF →  Type →  Set (^ ℓ)
-EvctxRedex Φ T =  ∑ U , (Expr* Φ ∞ U → Expr* Φ ∞ T) × Expr* Φ ∞ U
+EvctxRedex :  VtyGen →  Type →  Set (^ ℓ)
+EvctxRedex Φ T =  ∑ U , (Expr Φ ∞ U → Expr Φ ∞ T) × Expr Φ ∞ U
 
 -- Calculate the evaluation context and redex of an expression,
 -- returning none for a value
-evctx-redex :  Expr* Φ ∞ T →  ?? EvctxRedex Φ T
+evctx-redex :  Expr Φ ∞ T →  ?? EvctxRedex Φ T
 evctx-redex (∇* _) =  none
 evctx-redex (λ*˙ _) =  none
-evctx-redex (▸ e) =  some $ _ , id , ▸ e
+evctx-redex (▶ e) =  some $ _ , id , ▶ e
 evctx-redex (e ◁ e') =  some body
  where
   body :  EvctxRedex _ _
@@ -58,7 +58,7 @@ evctx-redex (e ← e') =  some body
   ...   | none =  _ , id , (e ← e')
 
 -- Judge if the expression is a value
-is-value :  Expr* Φ ∞ T →  Bool
+is-value :  Expr Φ ∞ T →  Bool
 is-value e  with evctx-redex e
 ... | none =  tt
 ... | some _ =  ff

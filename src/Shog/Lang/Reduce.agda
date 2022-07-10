@@ -120,17 +120,3 @@ data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ �
 
 Red :  Expr ∞ T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)
 Red e M e' M' =  Red' (val/ctxred e) M e' M'
-
---------------------------------------------------------------------------------
--- Example
-
-loop :  ∀ {ι : Size} → Expr ι (◸ ⊤)
-loop =  ▶ λ{ .! → loop }
-
-check :  Red loop M loop M
-check =  ▶-red
-
-open import Base.Eq using (refl⁼)
-
-check2 :  ∀ {e M'} →  Red loop M e M' →  e ≡ loop
-check2 ▶-red =  refl⁼

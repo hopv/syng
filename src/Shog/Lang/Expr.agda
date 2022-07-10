@@ -108,10 +108,10 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 
 Val :  Type →  Set (^ ℓ)
 Val (◸ A) =  Up A
-Val T =  Expr ∞ T
+Val (A ➔ T) =  A → Expr ∞ T
 
 -- Conversion from Val to Expr
 
 Val⇒Expr :  Val T →  Expr ∞ T
 Val⇒Expr {T = ◸ _} (↑ a) =  ∇ a
-Val⇒Expr {T = _ ➔ _} e =  e
+Val⇒Expr {T = _ ➔ _} e˙ =  λ˙ e˙

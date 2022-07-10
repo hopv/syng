@@ -35,7 +35,7 @@ infix 6 ★ᴿ_ _←ᴿ_
 
 data  Redex :  Type →  Set (^ ℓ)  where
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
-  _◁ᴿ_ :  Val (A ➔ T) →  A →  Redex T
+  _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
   ★ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
 
@@ -69,7 +69,7 @@ Val/Ctxred T =  Val T ⊎ Ctxred T
 
 val/ctxred :  Expr ∞ T →  Val/Ctxred T
 val/ctxred (∇ a) =  inj₀ $ ↑ a
-val/ctxred (λ˙ e˙) =  inj₀ $ λ˙ e˙
+val/ctxred (λ˙ e˙) =  inj₀ $ e˙
 val/ctxred (▶ e) =  inj₁ $ _ , id , ▶ᴿ e
 val/ctxred (e ◁ e') =  inj₁ body
  where
@@ -111,7 +111,7 @@ private variable
 
 data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
   ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e˂) M (ctx $ e˂ .!) M
-  ◁-red :  Red' (inj₁ $ _ , ctx , λ˙ e˙ ◁ᴿ a) M (ctx $ e˙ a) M
+  ◁-red :  Red' (inj₁ $ _ , ctx , e˙ ◁ᴿ a) M (ctx $ e˙ a) M
   ★-red :  M b !! i ≡ some (U , v) →
     Red' (inj₁ $ _ , ctx , ★ᴿ (addr b i)) M (ctx $ Val⇒Expr v) M
 

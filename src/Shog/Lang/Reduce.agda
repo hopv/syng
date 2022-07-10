@@ -9,10 +9,8 @@ module Shog.Lang.Reduce (ℓ : Level) where
 
 open import Base.Level using (^_; ↑_)
 open import Base.Size using (Size; ∞)
-open import Base.Thunk using (!)
-open import Base.Func using (_$_; id; _▷_)
+open import Base.Func using (_$_; id)
 open import Base.Prod using (∑-syntax; _×_; _,_)
-open import Base.Bool using (Bool; tt; ff)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Shog.Lang.Type ℓ using (Type; ValGen; Val)
 open import Shog.Lang.Expr ℓ using (Expr; ▶_; ∇*_; λ*˙; _◁_; ★_; _←_; Exprᵛ;

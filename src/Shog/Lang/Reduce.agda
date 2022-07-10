@@ -13,52 +13,46 @@ open import Base.Thunk using (!)
 open import Base.Func using (_$_; id; _▷_)
 open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Bool using (Bool; tt; ff)
-open import Base.Option using (??_; some; none)
-open import Shog.Lang.Type ℓ using (Type; ValGen)
-open import Shog.Lang.Expr ℓ using (Expr; ▶_; ∇*_; λ*˙; _◁_; ★_; _←_)
+open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Shog.Lang.Type ℓ using (Type; ValGen; Val)
+open import Shog.Lang.Expr ℓ using (Expr; ▶_; ∇*_; λ*˙; _◁_; ★_; _←_; Exprᵛ;
+  ⇒Exprᵛ)
 
 private variable
   T U :  Type
   Φ :  ValGen
 
 --------------------------------------------------------------------------------
--- Evaluation Context and Redex
+-- Value & Context-Redex Pair
 
--- Type for the evaluation context and redex
-EvctxRedex :  ValGen →  Type →  Set (^ ℓ)
-EvctxRedex Φ T =  ∑ U , (Expr Φ ∞ U → Expr Φ ∞ T) × Expr Φ ∞ U
+-- Type for the context-redex pair
+Ctxred :  ValGen →  Type →  Set (^ ℓ)
+Ctxred Φ T =  ∑ U , (Expr Φ ∞ U → Expr Φ ∞ T) × Expr Φ ∞ U
 
--- Calculate the evaluation context and redex of an expression,
--- returning none for a value
-evctx-redex :  Expr Φ ∞ T →  ?? EvctxRedex Φ T
-evctx-redex (∇* _) =  none
-evctx-redex (λ*˙ _) =  none
-evctx-redex (▶ e) =  some $ _ , id , ▶ e
-evctx-redex (e ◁ e') =  some body
+-- Calculate the value or context-redex pair of the expression
+val-ctxred :  Expr Φ ∞ T →  Val (Exprᵛ Φ) T ⊎ Ctxred Φ T
+val-ctxred {T = T} (∇* a) =  inj₀ $ ⇒Exprᵛ {T = T} a
+val-ctxred (λ*˙ e˙) =  inj₀ $ λ*˙ e˙
+val-ctxred (▶ e) =  inj₁ $ _ , id , ▶ e
+val-ctxred (e ◁ e') =  inj₁ body
  where
-  body :  EvctxRedex _ _
-  body  with evctx-redex e'
-  ... | some (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ◁ e'ᶜ e₀) , e'ʳ
-  ... | none  with evctx-redex e
-  ...   | some (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ◁ e') , eʳ
-  ...   | none =  _ , id , (e ◁ e')
-evctx-redex (★ e) =  some body
+  body :  _
+  body  with val-ctxred e'
+  ... | inj₁ (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ◁ e'ᶜ e₀) , e'ʳ
+  ... | inj₀ _  with val-ctxred e
+  ...   | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ◁ e') , eʳ
+  ...   | inj₀ _ =  _ , id , (e ◁ e')
+val-ctxred (★ e) =  inj₁ body
  where
-  body :  EvctxRedex _ _
-  body  with evctx-redex e
-  ... | some (_ , eᶜ , eʳ) =  _ , (λ e₀ → ★ eᶜ e₀) , eʳ
-  ... | none =  _ , id , ★ e
-evctx-redex (e ← e') =  some body
+  body :  _
+  body  with val-ctxred e
+  ... | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → ★ eᶜ e₀) , eʳ
+  ... | inj₀ _ =  _ , id , ★ e
+val-ctxred (e ← e') =  inj₁ body
  where
-  body :  EvctxRedex _ _
-  body  with  evctx-redex e'
-  ... | some (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ← e'ᶜ e₀) , e'ʳ
-  ... | none  with evctx-redex e
-  ...   | some (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ← e') , eʳ
-  ...   | none =  _ , id , (e ← e')
-
--- Judge if the expression is a value
-is-value :  Expr Φ ∞ T →  Bool
-is-value e  with evctx-redex e
-... | none =  tt
-... | some _ =  ff
+  body :  _
+  body  with  val-ctxred e'
+  ... | inj₁ (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ← e'ᶜ e₀) , e'ʳ
+  ... | inj₀ _  with val-ctxred e
+  ...   | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ← e') , eʳ
+  ...   | inj₀ _ =  _ , id , (e ← e')

@@ -14,18 +14,18 @@ open import Base.Func using (_$_; id; _▷_)
 open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.Option using (??_; some; none)
-open import Shog.Lang.Type ℓ using (Type; VtyGen)
+open import Shog.Lang.Type ℓ using (Type; ValGen)
 open import Shog.Lang.Expr ℓ using (Expr; ▶_; ∇*_; λ*˙; _◁_; ★_; _←_)
 
 private variable
   T U :  Type
-  Φ :  VtyGen
+  Φ :  ValGen
 
 --------------------------------------------------------------------------------
 -- Evaluation Context and Redex
 
 -- Type for the evaluation context and redex
-EvctxRedex :  VtyGen →  Type →  Set (^ ℓ)
+EvctxRedex :  ValGen →  Type →  Set (^ ℓ)
 EvctxRedex Φ T =  ∑ U , (Expr Φ ∞ U → Expr Φ ∞ T) × Expr Φ ∞ U
 
 -- Calculate the evaluation context and redex of an expression,

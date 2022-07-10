@@ -23,16 +23,16 @@ data  Type :  Set (^ ℓ)  where
   _➔_ :  Type →  Type →  Type
 
 --------------------------------------------------------------------------------
--- VtyGen: Data for generating a value-type function
+-- ValGen: Data for generating a value-type function
 
-record  VtyGen :  Set (^ ^ ℓ)  where
+record  ValGen :  Set (^ ^ ℓ)  where
   field
     -- Defines the value-type for a non-pure type
-    Vty* :  Type →  Set (^ ℓ)
-open VtyGen public
+    Val* :  Type →  Set (^ ℓ)
+open ValGen public
 
--- Interpret (Φ : VtyFn) as a value-type function (Type → Set ℓ),
+-- Interpret (Φ : ValFn) as a value-type function (Type → Set ℓ),
 -- mapping ◸ A to A, with a level tweak
-Vty :  VtyGen →  Type →  Set (^ ℓ)
-Vty _ (◸ A) =  Up A
-Vty Φ T =  Φ .Vty* T
+Val :  ValGen →  Type →  Set (^ ℓ)
+Val _ (◸ A) =  Up A
+Val Φ T =  Φ .Val* T

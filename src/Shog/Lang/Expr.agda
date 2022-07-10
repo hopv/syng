@@ -12,13 +12,13 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
-open import Shog.Lang.Type ℓ using (Type; ◸_; _➔_; VtyGen; Vty*; Vty)
+open import Shog.Lang.Type ℓ using (Type; ◸_; _➔_; ValGen; Val*; Val)
 
 private variable
   A :  Set ℓ
   ι :  Size
   T U :  Type
-  Φ :  VtyGen
+  Φ :  ValGen
 
 --------------------------------------------------------------------------------
 -- Addr: Address
@@ -28,10 +28,10 @@ record  Addr (A : Set ℓ) :  Set ℓ  where
 --------------------------------------------------------------------------------
 -- Expr: Expression, possibly infinite, in PHOAS
 
-data  Expr (Φ : VtyGen) (ι : Size) :  Type →  Set (^ ℓ)
+data  Expr (Φ : ValGen) (ι : Size) :  Type →  Set (^ ℓ)
 
 -- Expr˂: Expr under Thunk
-Expr˂ :  VtyGen →  Size →  Type →  Set (^ ℓ)
+Expr˂ :  ValGen →  Size →  Type →  Set (^ ℓ)
 Expr˂ Φ ι T =  Thunk (λ ι → Expr Φ ι T) ι
 
 infix 4 ▶_ ∇*_ ∇_
@@ -43,9 +43,9 @@ data  Expr Φ ι  where
   -- Later, for infinite construction
   ▶_ :  Expr˂ Φ ι T →  Expr Φ ι T
   -- Turn a value into an expression
-  ∇*_ :  Vty Φ T →  Expr Φ ι T
+  ∇*_ :  Val Φ T →  Expr Φ ι T
   -- Lambda abstraction over a value
-  λ*˙ :  (Vty Φ T → Expr Φ ι U) →  Expr Φ ι (T ➔ U)
+  λ*˙ :  (Val Φ T → Expr Φ ι U) →  Expr Φ ι (T ➔ U)
   -- Application
   _◁_ :  Expr Φ ι (T ➔ U) →  Expr Φ ι T →  Expr Φ ι U
   -- Read from the memory
@@ -62,7 +62,7 @@ data  Expr Φ ι  where
 λ˙ e˙ =  λ*˙ $ λ (↑ a) → e˙ a
 
 -- Syntax for lambda abstraction, for a general / pure value
-λ*-syntax :  (Vty Φ T → Expr Φ ι U) →  Expr Φ ι (T ➔ U)
+λ*-syntax :  (Val Φ T → Expr Φ ι U) →  Expr Φ ι (T ➔ U)
 λ*-syntax =  λ*˙
 λ-syntax :  (A → Expr Φ ι T) →  Expr Φ ι (◸ A ➔ T)
 λ-syntax =  λ˙
@@ -71,7 +71,7 @@ syntax λ*-syntax (λ x → e) =  λ* x , e
 syntax λ-syntax (λ x → e) =  λ' x , e
 
 -- Let binding for a general / pure value
-let*-syntax :  Expr Φ ι T →  (Vty Φ T → Expr Φ ι U) →  Expr Φ ι U
+let*-syntax :  Expr Φ ι T →  (Val Φ T → Expr Φ ι U) →  Expr Φ ι U
 let*-syntax e₀ e˙ =  λ*˙ e˙ ◁ e₀
 let-syntax :  Expr Φ ι (◸ A) →  (A → Expr Φ ι T) →  Expr Φ ι T
 let-syntax e₀ e˙ =  λ˙ e˙ ◁ e₀
@@ -82,15 +82,15 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 --------------------------------------------------------------------------------
 -- For β-reduction
 
--- Exprᵛ Φ: VtyGen that maps non-pure T to Expr Φ ∞ T
-Exprᵛ :  VtyGen →  VtyGen
-Exprᵛ Φ .Vty* T =  Expr Φ ∞ T
+-- Exprᵛ Φ: ValGen that maps non-pure T to Expr Φ ∞ T
+Exprᵛ :  ValGen →  ValGen
+Exprᵛ Φ .Val* T =  Expr Φ ∞ T
 
 -- Conversion functions for Exprᵛ
-Exprᵛ⇒Expr :  Vty (Exprᵛ Φ) T →  Expr Φ ∞ T
+Exprᵛ⇒Expr :  Val (Exprᵛ Φ) T →  Expr Φ ∞ T
 Exprᵛ⇒Expr {T = ◸ _} a =  ∇* a
 Exprᵛ⇒Expr {T = _ ➔ _} e =  e
-⇒Exprᵛ :  Vty Φ T →  Vty (Exprᵛ Φ) T
+⇒Exprᵛ :  Val Φ T →  Val (Exprᵛ Φ) T
 ⇒Exprᵛ {T = ◸ _} a =  a
 ⇒Exprᵛ {T = _ ➔ _} a =  ∇* a
 

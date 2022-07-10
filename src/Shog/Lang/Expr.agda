@@ -12,6 +12,8 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
+open import Base.Nat using (ℕ; _+_; +-assocʳ)
+open import Base.Eq using (_≡_; cong)
 open import Shog.Lang.Type ℓ using (Type; ◸_; _➔_; ValGen; Val*; Val)
 
 private variable
@@ -21,9 +23,31 @@ private variable
   Φ :  ValGen
 
 --------------------------------------------------------------------------------
--- Addr: Address
+-- Addr: Address, pointing at a memory cell
 
-record  Addr (A : Set ℓ) :  Set ℓ  where
+record  Addr :  Set ℓ  where
+  constructor addr
+  field
+    -- the memory block's id
+    blᵃ :  ℕ
+    -- the index in the memory block
+    idxᵃ :  ℕ
+open Addr public
+
+private variable
+  xᵃ :  Addr
+  m n :  ℕ
+
+-- ₒ: Address offset operation
+infixl 6 _ₒ_
+_ₒ_ :  Addr →  ℕ →  Addr
+addr b i ₒ n =  addr b (n + i)
+
+abstract
+
+  -- Associativity of ₒ
+  ₒ-assoc :  xᵃ ₒ m ₒ n ≡ xᵃ ₒ (n + m)
+  ₒ-assoc {n = n} =  cong (addr _) (+-assocʳ {n})
 
 --------------------------------------------------------------------------------
 -- Expr: Expression, possibly infinite, in PHOAS
@@ -49,9 +73,9 @@ data  Expr Φ ι  where
   -- Application
   _◁_ :  Expr Φ ι (T ➔ U) →  Expr Φ ι T →  Expr Φ ι U
   -- Read from the memory
-  ★_ :  Expr Φ ι (◸ Addr A) →  Expr Φ ι (◸ A)
+  ★_ :  Expr Φ ι (◸ Addr) →  Expr Φ ι T
   -- Write to the memory
-  _←_ :  Expr Φ ι (◸ Addr A) →  Expr Φ ι (◸ A) →  Expr Φ ι (◸ ⊤)
+  _←_ :  Expr Φ ι (◸ Addr) →  Expr Φ ι T →  Expr Φ ι (◸ ⊤)
 
 -- ∇* for a pure value
 ∇_ :  A →  Expr Φ ι (◸ A)

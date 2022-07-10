@@ -39,6 +39,7 @@ private variable
   m n :  ℕ
 
 -- ₒ: Address offset operation
+
 infixl 6 _ₒ_
 _ₒ_ :  Addr →  ℕ →  Addr
 addr b i ₒ n =  addr b (n + i)
@@ -46,6 +47,7 @@ addr b i ₒ n =  addr b (n + i)
 abstract
 
   -- Associativity of ₒ
+
   ₒ-assoc :  xᵃ ₒ m ₒ n ≡ xᵃ ₒ (n + m)
   ₒ-assoc {n = n} =  cong (addr _) (+-assocʳ {n})
 
@@ -55,6 +57,7 @@ abstract
 data  Expr (Φ : ValGen) (ι : Size) :  Type →  Set (^ ℓ)
 
 -- Expr˂: Expr under Thunk
+
 Expr˂ :  ValGen →  Size →  Type →  Set (^ ℓ)
 Expr˂ Φ ι T =  Thunk (λ ι → Expr Φ ι T) ι
 
@@ -78,14 +81,17 @@ data  Expr Φ ι  where
   _←_ :  Expr Φ ι (◸ Addr) →  Expr Φ ι T →  Expr Φ ι (◸ ⊤)
 
 -- ∇* for a pure value
+
 ∇_ :  A →  Expr Φ ι (◸ A)
 ∇ a =  ∇* ↑ a
 
 -- λ*˙ for a pure value
+
 λ˙ :  (A → Expr Φ ι T) →  Expr Φ ι (◸ A ➔ T)
 λ˙ e˙ =  λ*˙ $ λ (↑ a) → e˙ a
 
 -- Syntax for lambda abstraction, for a general / pure value
+
 λ*-syntax :  (Val Φ T → Expr Φ ι U) →  Expr Φ ι (T ➔ U)
 λ*-syntax =  λ*˙
 λ-syntax :  (A → Expr Φ ι T) →  Expr Φ ι (◸ A ➔ T)
@@ -95,6 +101,7 @@ syntax λ*-syntax (λ x → e) =  λ* x , e
 syntax λ-syntax (λ x → e) =  λ' x , e
 
 -- Let binding for a general / pure value
+
 let*-syntax :  Expr Φ ι T →  (Val Φ T → Expr Φ ι U) →  Expr Φ ι U
 let*-syntax e₀ e˙ =  λ*˙ e˙ ◁ e₀
 let-syntax :  Expr Φ ι (◸ A) →  (A → Expr Φ ι T) →  Expr Φ ι T
@@ -107,20 +114,25 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 -- For β-reduction
 
 -- Exprᵛ Φ: ValGen that maps non-pure T to Expr Φ ∞ T
+
 Exprᵛ :  ValGen →  ValGen
 Exprᵛ Φ .Val* T =  Expr Φ ∞ T
 
 -- Conversion from Val (Exprᵛ Φ) to Expr Φ ∞
+
 Exprᵛ⇒Expr :  Val (Exprᵛ Φ) T →  Expr Φ ∞ T
 Exprᵛ⇒Expr {T = ◸ _} a =  ∇* a
 Exprᵛ⇒Expr {T = _ ➔ _} e =  e
 
 -- Conversion from Val Φ to Val (Exprᵛ Φ)
+
 ⇒Exprᵛ :  Val Φ T →  Val (Exprᵛ Φ) T
 ⇒Exprᵛ {T = ◸ _} a =  a
 ⇒Exprᵛ {T = _ ➔ _} a =  ∇* a
 
--- Core of substitution
+-- Conversion from Expr (Exprᵛ Φ) to Expr Φ,
+-- which is the core of β-reduction
+
 squash :  Expr (Exprᵛ Φ) ι T →  Expr Φ ι T
 squash (▶ e˂) =  ▶ λ{ .! → squash (e˂ .!) }
 squash (∇* e) =  Exprᵛ⇒Expr e

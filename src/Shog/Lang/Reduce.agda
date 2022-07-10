@@ -23,15 +23,18 @@ private variable
 --------------------------------------------------------------------------------
 -- Value & Context-Redex Pair
 
--- Context-redex pair
+-- Type for a context-redex pair
+
 Ctxred :  ValGen →  Type →  Set (^ ℓ)
 Ctxred Φ T =  ∑ U , (Expr Φ ∞ U → Expr Φ ∞ T) × Expr Φ ∞ U
 
--- Value or context-redex pair
+-- Type for either a value or a context-redex pair
+
 Val/Ctxred :  ValGen →  Type →  Set (^ ℓ)
 Val/Ctxred Φ T =  Val (Exprᵛ Φ) T ⊎ Ctxred Φ T
 
 -- Calculate the value or context-redex pair of the expression
+
 val/ctxred :  Expr Φ ∞ T →  Val/Ctxred Φ T
 val/ctxred {T = T} (∇* a) =  inj₀ $ ⇒Exprᵛ {T = T} a
 val/ctxred (λ*˙ e˙) =  inj₀ $ λ*˙ e˙

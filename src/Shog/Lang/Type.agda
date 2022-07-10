@@ -33,6 +33,7 @@ open ValGen public
 
 -- Interpret (Φ : ValFn) as a value-type function (Type → Set ℓ),
 -- mapping ◸ A to A, with a level tweak
+
 Val :  ValGen →  Type →  Set (^ ℓ)
 Val _ (◸ A) =  Up A
 Val Φ T =  Φ .Val* T

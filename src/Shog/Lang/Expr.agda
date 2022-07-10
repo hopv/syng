@@ -110,10 +110,12 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 Exprᵛ :  ValGen →  ValGen
 Exprᵛ Φ .Val* T =  Expr Φ ∞ T
 
--- Conversion functions for Exprᵛ
+-- Conversion from Val (Exprᵛ Φ) to Expr Φ ∞
 Exprᵛ⇒Expr :  Val (Exprᵛ Φ) T →  Expr Φ ∞ T
 Exprᵛ⇒Expr {T = ◸ _} a =  ∇* a
 Exprᵛ⇒Expr {T = _ ➔ _} e =  e
+
+-- Conversion from Val Φ to Val (Exprᵛ Φ)
 ⇒Exprᵛ :  Val Φ T →  Val (Exprᵛ Φ) T
 ⇒Exprᵛ {T = ◸ _} a =  a
 ⇒Exprᵛ {T = _ ➔ _} a =  ∇* a

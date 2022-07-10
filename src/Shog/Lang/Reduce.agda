@@ -110,8 +110,7 @@ private variable
   v : Val U
   b i :  ℕ
 
-data  Red' {T : Type} :  (Val/Ctxred T) →  Mem →
-                         Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
+data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
   ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e˂) M (ctx $ e˂ .!) M
   ◁-red :  Red' (inj₁ $ _ , ctx , (λ˙ e˙ ◁ᴿ a)) M (ctx $ e˙ a) M
   ★-red :  M b !! i ≡ some (U , v) →
@@ -119,7 +118,7 @@ data  Red' {T : Type} :  (Val/Ctxred T) →  Mem →
 
 -- Red e M e' M' :  e & M reduces to e' & M'
 
-Red :  (Expr ∞ T) →  Mem →  (Expr ∞ T) →  Mem →  Set (^ ^ ℓ)
+Red :  Expr ∞ T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)
 Red e M e' M' =  Red' (val/ctxred e) M e' M'
 
 --------------------------------------------------------------------------------

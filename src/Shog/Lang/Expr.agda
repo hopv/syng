@@ -62,9 +62,9 @@ Expr˂ :  ValGen →  Size →  Type →  Set (^ ℓ)
 Expr˂ Φ ι T =  Thunk (λ ι → Expr Φ ι T) ι
 
 infix 4 ▶_ ∇*_ ∇_
+infixl 0 _◁_
 infix 8 ★_
 infix 4 _←_
-infixl 0 _◁_
 
 data  Expr Φ ι  where
   -- Later, for infinite construction

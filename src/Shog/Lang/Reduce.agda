@@ -25,34 +25,38 @@ private variable
 --------------------------------------------------------------------------------
 -- Value & Context-Redex Pair
 
--- Type for the context-redex pair
+-- Context-redex pair
 Ctxred :  ValGen →  Type →  Set (^ ℓ)
 Ctxred Φ T =  ∑ U , (Expr Φ ∞ U → Expr Φ ∞ T) × Expr Φ ∞ U
 
+-- Value or context-redex pair
+Val/Ctxred :  ValGen →  Type →  Set (^ ℓ)
+Val/Ctxred Φ T =  Val (Exprᵛ Φ) T ⊎ Ctxred Φ T
+
 -- Calculate the value or context-redex pair of the expression
-val-ctxred :  Expr Φ ∞ T →  Val (Exprᵛ Φ) T ⊎ Ctxred Φ T
-val-ctxred {T = T} (∇* a) =  inj₀ $ ⇒Exprᵛ {T = T} a
-val-ctxred (λ*˙ e˙) =  inj₀ $ λ*˙ e˙
-val-ctxred (▶ e) =  inj₁ $ _ , id , ▶ e
-val-ctxred (e ◁ e') =  inj₁ body
+val/ctxred :  Expr Φ ∞ T →  Val/Ctxred Φ T
+val/ctxred {T = T} (∇* a) =  inj₀ $ ⇒Exprᵛ {T = T} a
+val/ctxred (λ*˙ e˙) =  inj₀ $ λ*˙ e˙
+val/ctxred (▶ e) =  inj₁ $ _ , id , ▶ e
+val/ctxred (e ◁ e') =  inj₁ body
  where
   body :  _
-  body  with val-ctxred e'
+  body  with val/ctxred e'
   ... | inj₁ (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ◁ e'ᶜ e₀) , e'ʳ
-  ... | inj₀ _  with val-ctxred e
+  ... | inj₀ _  with val/ctxred e
   ...   | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ◁ e') , eʳ
   ...   | inj₀ _ =  _ , id , (e ◁ e')
-val-ctxred (★ e) =  inj₁ body
+val/ctxred (★ e) =  inj₁ body
  where
   body :  _
-  body  with val-ctxred e
+  body  with val/ctxred e
   ... | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → ★ eᶜ e₀) , eʳ
   ... | inj₀ _ =  _ , id , ★ e
-val-ctxred (e ← e') =  inj₁ body
+val/ctxred (e ← e') =  inj₁ body
  where
   body :  _
-  body  with  val-ctxred e'
+  body  with  val/ctxred e'
   ... | inj₁ (_ , e'ᶜ , e'ʳ) =  _ , (λ e₀ → e ← e'ᶜ e₀) , e'ʳ
-  ... | inj₀ _  with val-ctxred e
+  ... | inj₀ _  with val/ctxred e
   ...   | inj₁ (_ , eᶜ , eʳ) =  _ , (λ e₀ → eᶜ e₀ ← e') , eʳ
   ...   | inj₀ _ =  _ , id , (e ← e')

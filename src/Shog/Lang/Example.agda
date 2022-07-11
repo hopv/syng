@@ -28,35 +28,35 @@ private variable
 --------------------------------------------------------------------------------
 -- Constructing Expr
 
-plus :  Expr ι $ Up (ℕ × ℕ) →* ◸ Up ℕ
-plus =  λ' (↑ (m , n)) ,  ∇ ↑ (m + n)
-
-plus◁ :  Expr ι $ ◸ Up ℕ
-plus◁ =  plus ◁ ∇ ↑ (3 , 4)
-
 loop :  Expr ι (◸ ⊤)
 loop =  ▶ λ{ .! → loop }
 
 stuck :  Expr ι (◸ ⊤)
 stuck =  free $ ∇ addr 42 42
 
+plus :  Expr ι $ Up (ℕ × ℕ) →* ◸ Up ℕ
+plus =  λ' (↑ (m , n)) ,  ∇ ↑ (m + n)
+
+plus◁3'4 :  Expr ι $ ◸ Up ℕ
+plus◁3'4 =  plus ◁ ∇ ↑ (3 , 4)
+
 --------------------------------------------------------------------------------
 -- Constructing Red
-
-plus◁-red :  Red plus◁ M (∇ ↑ 7) M
-plus◁-red =  ◁-red
 
 loop-red :  Red loop M loop M
 loop-red =  ▶-red
 
+plus◁3'4-red :  Red plus◁3'4 M (∇ ↑ 7) M
+plus◁3'4-red =  ◁-red
+
 --------------------------------------------------------------------------------
 -- Destructing Red
-
-plus◁-red-inv :  Red plus◁ M e M' →  (e , M') ≡ (∇ ↑ 7 , M)
-plus◁-red-inv ◁-red =  refl
 
 loop-red-inv :  Red loop M e M' →  (e , M') ≡ (loop , M)
 loop-red-inv ▶-red =  refl
 
 stuck-no-red :  ¬ Red stuck M e M'
 stuck-no-red ()
+
+plus◁3'4-red-inv :  Red plus◁3'4 M e M' →  (e , M') ≡ (∇ ↑ 7 , M)
+plus◁3'4-red-inv ◁-red =  refl

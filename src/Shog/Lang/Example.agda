@@ -32,7 +32,7 @@ loop :  Expr ι (◸ ⊤)
 loop =  ▶ λ{ .! → loop }
 
 stuck :  Expr ι (◸ ⊤)
-stuck =  free $ ∇ addr 42 42
+stuck =  free $ ∇ ↑ addr 42 42
 
 plus :  Expr ι $ Up (ℕ × ℕ) →* ◸ Up ℕ
 plus =  λ' (↑ (m , n)) ,  ∇ ↑ (m + n)

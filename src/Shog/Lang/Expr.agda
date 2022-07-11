@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Lang.Expr (ℓ : Level) where
 
-open import Base.Level using (^_; Up; ↑_)
+open import Base.Level using (○; ^_; Up; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
@@ -18,7 +18,7 @@ open import Base.Eq using (_≡_; cong)
 --------------------------------------------------------------------------------
 -- Addr: Address, pointing at a memory cell
 
-record  Addr :  Set ℓ  where
+record  Addr :  Set ○  where
   constructor addr
   field
     -- the memory block's id
@@ -85,13 +85,13 @@ data  Expr ι  where
   -- Application
   _◁_ :  Expr ι (A →* T) →  Expr ι (◸ A) →  Expr ι T
   -- Read from the memory
-  ★_ :  Expr ι (◸ Addr) →  Expr ι T
+  ★_ :  Expr ι (◸ Up Addr) →  Expr ι T
   -- Write to the memory
-  _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
+  _←_ :  Expr ι (◸ Up Addr) →  Expr ι T →  Expr ι (◸ ⊤)
   -- Allocating a new memory block
-  alloc :  Expr ι (◸ Up ℕ) →  Expr ι (◸ Addr)
+  alloc :  Expr ι (◸ Up ℕ) →  Expr ι (◸ Up Addr)
   -- Freeing a memory block
-  free :  Expr ι (◸ Addr) →  Expr ι (◸ ⊤)
+  free :  Expr ι (◸ Up Addr) →  Expr ι (◸ ⊤)
 
 -- Lambda abstraction
 

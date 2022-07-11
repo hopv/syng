@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Lang.Reduce (ℓ : Level) where
 
-open import Base.Level using (^_; ↑_)
+open import Base.Level using (Up; ^_; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_; id)
@@ -40,7 +40,7 @@ data  Redex :  Type →  Set (^ ℓ)  where
   _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
   ★ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
-  allocᴿ :  ℕ →  Redex (◸ Addr)
+  allocᴿ :  ℕ →  Redex (◸ Up Addr)
   freeᴿ :  Addr →  Redex (◸ ⊤)
 
 --------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ val/ctxred (★ e) =  inj₁ body
   body :  _
   body  with val/ctxred e
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → ★ ctx •) , red
-  ... | inj₀ (↑ x) =  _ , id , ★ᴿ x
+  ... | inj₀ (↑ ↑ x) =  _ , id , ★ᴿ x
 val/ctxred (e ← e') =  inj₁ body
  where
   body :  _
@@ -113,7 +113,7 @@ val/ctxred (e ← e') =  inj₁ body
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ← ctx •) , red
   ... | inj₀ v  with val/ctxred e
   ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ← e') , red
-  ...   | inj₀ (↑ x) =  _ , id , x ←ᴿ v
+  ...   | inj₀ (↑ ↑ x) =  _ , id , x ←ᴿ v
 val/ctxred (alloc e) =  inj₁ body
  where
   body :  _
@@ -125,7 +125,7 @@ val/ctxred (free e) =  inj₁ body
   body :  _
   body  with val/ctxred e
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → free $ ctx •) , red
-  ... | inj₀ (↑ x) =  _ , id , freeᴿ x
+  ... | inj₀ (↑ ↑ x) =  _ , id , freeᴿ x
 
 --------------------------------------------------------------------------------
 -- Reduction
@@ -152,7 +152,7 @@ data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ �
     Red' (inj₁ $ _ , ctx , x ←ᴿ v) M (ctx $ ∇ _) (updᴹ x (_ , v) M)
   alloc-red :  ∀ b →  M b ≡ [] →
     Red' (inj₁ $ _ , ctx , allocᴿ n) M
-         (ctx $ ∇ addr b 0) (updᴹᴮ b (repeat n (◸ ⊤ , _)) M)
+         (ctx $ ∇ ↑ addr b 0) (updᴹᴮ b (repeat n (◸ ⊤ , _)) M)
   free-red :  Red' (inj₁ $ _ , ctx , freeᴿ $ addr b 0) M
                    (ctx $ ∇ _) (updᴹᴮ b [] M)
 

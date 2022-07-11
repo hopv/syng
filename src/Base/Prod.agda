@@ -19,13 +19,12 @@ private variable
 
 -- Syntax for ∑
 
+infix 2 ∑∈-syntax ∑-syntax
 ∑∈-syntax :  ∀ (A : Set ℓA) →  (A → Set ℓF) →  Set (ℓA ⌴ ℓF)
 ∑∈-syntax =  ∑˙
-syntax ∑∈-syntax A (λ a → b) =  ∑ a ∈ A , b
-
-infix 2 ∑-syntax
 ∑-syntax :  ∀ {A : Set ℓA} →  (A → Set ℓF) →  Set (ℓA ⌴ ℓF)
 ∑-syntax =  ∑˙ _
+syntax ∑∈-syntax A (λ a → b) =  ∑ a ∈ A , b
 syntax ∑-syntax (λ a → B) =  ∑ a , B
 
 --------------------------------------------------------------------------------

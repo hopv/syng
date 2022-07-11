@@ -182,22 +182,21 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 abstract
 
-  ∙≈-✓ˡ :  b ∙ c ≈ a →  ✓ a →  ✓ b
-  ∙≈-✓ˡ b∙c≈a ✓a =  ✓-mono (_ , (∙-comm ◇˜ b∙c≈a)) ✓a
+  ∙⊑-✓ˡ :  b ∙ c ⊑ a →  ✓ a →  ✓ b
+  ∙⊑-✓ˡ b∙c⊑a ✓a =  ✓-mono (⊑-trans ∙-incrʳ b∙c⊑a) ✓a
 
-  ∙≈-✓ʳ :  b ∙ c ≈ a →  ✓ a →  ✓ c
-  ∙≈-✓ʳ b∙c≈a ✓a =  ✓-mono (_ , b∙c≈a) ✓a
+  ∙⊑-✓ʳ :  b ∙ c ⊑ a →  ✓ a →  ✓ c
+  ∙⊑-✓ʳ b∙c⊑a ✓a =  ✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) ✓a
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(Pᵒ ∗ᵒ Qᵒ) .predᵒ a ✓a =  ∑ b , ∑ c , ∑ b∙c≈a ,
-  Pᵒ .predᵒ b (∙≈-✓ˡ b∙c≈a ✓a)  ×  Qᵒ .predᵒ c (∙≈-✓ʳ b∙c≈a ✓a)
+(Pᵒ ∗ᵒ Qᵒ) .predᵒ a ✓a =  ∑ b , ∑ c , ∑ b∙c⊑a ,
+  Pᵒ .predᵒ b (∙⊑-✓ˡ b∙c⊑a ✓a)  ×  Qᵒ .predᵒ c (∙⊑-✓ʳ b∙c⊑a ✓a)
 (Pᵒ ∗ᵒ Qᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
   proof :  Monoᵒ $ (Pᵒ ∗ᵒ Qᵒ) .predᵒ
-  proof (c , c∙a≈b) (d , e , d∙e≈a , Pd , Qe) =
-    c ∙ d , e , (∙-assocˡ ◇˜ ∙-congʳ d∙e≈a ◇˜ c∙a≈b) ,
-    Pᵒ .monoᵒ ∙-incrˡ Pd , renewᵒ Qᵒ Qe
+  proof a⊑a' (b , c , b∙c⊑a , Pd , Qe) =
+    b , c , ⊑-trans b∙c⊑a a⊑a' , renewᵒ Pᵒ Pd , renewᵒ Qᵒ Qe
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ: Magic wand
@@ -261,12 +260,11 @@ abstract
   own-mono a⊑b b⊑c =  ⊑-trans a⊑b b⊑c
 
   own-∙⇒∗ :  own (a ∙ b) ⊨ own a ∗ᵒ own b
-  own-∙⇒∗ {a = a} {b} {c} (d , d∙ab≈c) =  d ∙ a , b , (∙-assocˡ ◇˜ d∙ab≈c) ,
-    ∙-incrˡ , ⊑-refl
+  own-∙⇒∗ a∙b⊑c =  _ , _ , a∙b⊑c , ⊑-refl , ⊑-refl
 
   own-∗⇒∙ :  own a ∗ᵒ own b ⊨ own (a ∙ b)
-  own-∗⇒∙ {a = a} {b} (a' , b' , a'∙b'≈c , a⊑a' , b⊑b') =
-    ⊑-respʳ a'∙b'≈c (∙-mono a⊑a' b⊑b')
+  own-∗⇒∙ (_ , _ , a'∙b'⊑c , a⊑a' , b⊑b') =
+    ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
 
   own-ε-intro :  Pᵒ ⊨ own ε
   own-ε-intro _ =  ε-min

@@ -183,6 +183,11 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
     ⌞⌟-decr :  ⌞ a ⌟ ⊑ a
     ⌞⌟-decr =  ⊑-respʳ ⌞⌟-unitˡ ∙-incrʳ
 
+    -- ⌞ ⌟ and ∙ commute weakly
+
+    ⌞⌟-∙ :  ⌞ a ⌟ ∙ ⌞ b ⌟ ⊑ ⌞ a ∙ b ⌟
+    ⌞⌟-∙ =  ⊑-respʳ ⌞⌟-dup $ ∙-mono (⌞⌟-mono ∙-incrʳ) (⌞⌟-mono ∙-incrˡ)
+
     -- ✓ a implies ✓ ⌞ a ⌟
 
     ✓-⌞⌟ :  ✓ a →  ✓ ⌞ a ⌟

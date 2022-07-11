@@ -14,7 +14,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∗_; □_; IsBasic
   ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
-open RA Globᴿᴬ using (_⊑_; ✓_; _∙_; ⌞_⌟; _◇˜_; ∙-comm; ⌞⌟-dup; ✓-⌞⌟)
+open RA Globᴿᴬ using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
 open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀ᵒ-syntax;
   ∃ᵒ-syntax; _∗ᵒ_; □ᵒ_)
 
@@ -37,12 +37,10 @@ abstract
   [||]ᴮ'-⇒□ :  ∀ IsBaP →  [| P |]ᴮ[ IsBaP ] ⊨ □ᵒ [| P |]ᴮ[ IsBaP ]
   [||]ᴮ'-⇒□ (∀-IsBasic IsBaP˙) ∀xPxa x =  [||]ᴮ'-⇒□ (IsBaP˙ x) (∀xPxa x)
   [||]ᴮ'-⇒□ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , [||]ᴮ'-⇒□ (IsBaP˙ x) Pxa
-  [||]ᴮ'-⇒□ (∗-IsBasic {P} {Q} IsBaP IsBaQ) {a = a} {✓a}
-   (b , c , b∙c≈a , Pb , Qc) =  ⌞ a ⌟ , ⌞ a ⌟ , ⌞⌟-dup {a} ,
-    let P' = [| P |]ᴮ[ IsBaP ] in  let Q' = [| Q |]ᴮ[ IsBaQ ] in
-    renewᵒ P'
-      ([||]ᴮ'-⇒□ IsBaP {✓a = ✓a} $ P' .monoᵒ (c , (∙-comm ◇˜ b∙c≈a)) Pb) ,
-    renewᵒ Q' ([||]ᴮ'-⇒□ IsBaQ {✓a = ✓a} $ Q' .monoᵒ (b , b∙c≈a) Qc)
+  [||]ᴮ'-⇒□ (∗-IsBasic {P} {Q} IsBaP IsBaQ) (_ , _ , b∙c⊑a , Pb , Qc) =
+    _ , _ , ⊑-trans ⌞⌟-∙ (⌞⌟-mono b∙c⊑a) ,
+    renewᵒ [| P |]ᴮ[ IsBaP ] ([||]ᴮ'-⇒□ IsBaP Pb) ,
+    renewᵒ [| Q |]ᴮ[ IsBaQ ] ([||]ᴮ'-⇒□ IsBaQ Qc)
   [||]ᴮ'-⇒□ (□-IsBasic IsBaP) P⌞a⌟ =  [||]ᴮ'-⇒□ IsBaP P⌞a⌟
 
 --------------------------------------------------------------------------------

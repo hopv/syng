@@ -8,7 +8,7 @@ module Shog.Model.RA where
 
 open import Base.Level using (Level; _⌴_; ^_)
 open import Base.Eq using (_≡_; refl)
-open import Base.Func using (_$_; id; _▷_; _∈_)
+open import Base.Func using (_$_; id; _▷_; flip; _∈_)
 open import Base.Prod using (_×_; _,_; ∑-syntax)
 open import Base.Setoid using (Setoid)
 
@@ -169,7 +169,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
     ∙-monoˡ (d , d∙a≈b) =  d , ∙-assocʳ ◇˜ ∙-congˡ d∙a≈b
 
     ∙-monoʳ :  a ⊑ b →  c ∙ a  ⊑  c ∙ b
-    ∙-monoʳ a⊑b =  ⊑-resp ∙-comm ∙-comm (∙-monoˡ a⊑b)
+    ∙-monoʳ a⊑b =  ⊑-resp ∙-comm ∙-comm $ ∙-monoˡ a⊑b
 
     ∙-mono :  a ⊑ b →  c ⊑ d →  a ∙ c  ⊑  b ∙ d
     ∙-mono a⊑b c⊑d =  ⊑-trans (∙-monoˡ a⊑b) (∙-monoʳ c⊑d)
@@ -264,5 +264,5 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
     ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d ▷
       ✓-resp (∙-assocˡ ◇˜ ∙-congʳ ∙-comm ◇˜ ∙-assocʳ) ▷ a↝ˢB _
     ...   | b , b∈B , ✓f∙d∙b  with  BDE b∈B d∈D
-    ...     | e , e≈b∙d , e∈E =  e , e∈E ,
-      ✓-resp (∙-assocˡ ◇˜ ∙-congʳ $ ∙-comm ◇˜ ◠˜ e≈b∙d) ✓f∙d∙b
+    ...     | e , e≈b∙d , e∈E =  e , e∈E , flip ✓-resp ✓f∙d∙b $
+      ∙-assocˡ ◇˜ ∙-congʳ $ ∙-comm ◇˜ ◠˜ e≈b∙d

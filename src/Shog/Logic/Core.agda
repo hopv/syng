@@ -160,7 +160,7 @@ abstract
   -- Introducing and eliminating ⌜⌝
 
   ⌜⌝-intro :  A →  P ⊢[ ι ] ⌜ A ⌝
-  ⌜⌝-intro a =  ⊤-intro » ∃-intro {a =  a}
+  ⌜⌝-intro a =  ⊤-intro » ∃-intro {a = a}
 
   ⌜⌝-elim :  (A →  ⊤' ⊢[ ι ]* Jr) →  ⌜ A ⌝ ⊢[ ι ]* Jr
   ⌜⌝-elim A→⊤⊢P =  ∃-elim $ λ a →  A→⊤⊢P a
@@ -185,12 +185,12 @@ abstract
   ⌜⌝→⇒∀ =  ∀-intro $ λ a →  ⌜⌝∧-intro a » →-apply
 
   ∀⇒⌜⌝→ :  ∀' _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ →' P
-  ∀⇒⌜⌝→ =  →-intro $ ⌜⌝∧-elim $ λ a →  ∀-elim {a =  a}
+  ∀⇒⌜⌝→ =  →-intro $ ⌜⌝∧-elim $ λ a →  ∀-elim {a = a}
 
   -- ⌜ A ⌝ ∧ is the same with ∃ _ ∈ A ,
 
   ⌜⌝∧⇒∃ :  ⌜ A ⌝ ∧ P ⊢[ ι ] ∃ _ ∈ A , P
-  ⌜⌝∧⇒∃ =  ⌜⌝∧-elim $ λ a →  ⊢-refl » ∃-intro {a =  a}
+  ⌜⌝∧⇒∃ =  ⌜⌝∧-elim $ λ a →  ⊢-refl » ∃-intro {a = a}
 
   ∃⇒⌜⌝∧ :  ∃ _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ ∧ P
   ∃⇒⌜⌝∧ =  ∃-elim $ λ a →  ⌜⌝∧-intro a

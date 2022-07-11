@@ -22,8 +22,10 @@ open import Shog.Lang.Example ℓ using (loop; plus◁3'4)
 private variable
   ι :  Size
 
-loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ λ _ → ⊥'
-loop-⊥ =  hor-▶ λ{ .! → loop-⊥ }
+abstract
 
-plus◁3'4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3'4 ⟩ λ (↑ ↑ n) → ⌜ Up (n ≡ 7) ⌝
-plus◁3'4-7 =  hor-◁ $ hor-val $ ⌜⌝-intro $ ↑ refl
+  loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ λ _ → ⊥'
+  loop-⊥ =  hor-▶ λ{ .! → loop-⊥ }
+
+  plus◁3'4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3'4 ⟩ λ (↑ ↑ n) → ⌜ Up (n ≡ 7) ⌝
+  plus◁3'4-7 =  hor-◁ $ hor-val $ ⌜⌝-intro $ ↑ refl

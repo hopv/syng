@@ -43,20 +43,24 @@ plus◁3'4 =  plus ◁ ∇ ↑ (3 , 4)
 --------------------------------------------------------------------------------
 -- Constructing Red
 
-loop-red :  Red loop M loop M
-loop-red =  ▶-red
+abstract
 
-plus◁3'4-red :  Red plus◁3'4 M (∇ ↑ 7) M
-plus◁3'4-red =  ◁-red
+  loop-red :  Red loop M loop M
+  loop-red =  ▶-red
+
+  plus◁3'4-red :  Red plus◁3'4 M (∇ ↑ 7) M
+  plus◁3'4-red =  ◁-red
 
 --------------------------------------------------------------------------------
 -- Destructing Red
 
-loop-red-inv :  Red loop M e M' →  (e , M') ≡ (loop , M)
-loop-red-inv ▶-red =  refl
+abstract
 
-stuck-no-red :  ¬ Red stuck M e M'
-stuck-no-red ()
+  loop-red-inv :  Red loop M e M' →  (e , M') ≡ (loop , M)
+  loop-red-inv ▶-red =  refl
 
-plus◁3'4-red-inv :  Red plus◁3'4 M e M' →  (e , M') ≡ (∇ ↑ 7 , M)
-plus◁3'4-red-inv ◁-red =  refl
+  stuck-no-red :  ¬ Red stuck M e M'
+  stuck-no-red ()
+
+  plus◁3'4-red-inv :  Red plus◁3'4 M e M' →  (e , M') ≡ (∇ ↑ 7 , M)
+  plus◁3'4-red-inv ◁-red =  refl

@@ -59,12 +59,17 @@ Mem =  ℕ →  List MemCell
 _!!ᴹ_ :  Mem →  Addr →  ?? MemCell
 M !!ᴹ addr b i =  M b !! i
 
+-- Memory block update
+
+updᴹᴮ :  ℕ →  List MemCell →  Mem →  Mem
+updᴹᴮ b cs M b'  with b' ≡ᵇ b
+... | tt =  cs
+... | ff =  M b'
+
 -- Memory update
 
 updᴹ :  Addr →  MemCell →  Mem →  Mem
-updᴹ (addr b i) c M b'  with b' ≡ᵇ b
-... | tt =  upd i c (M b')
-... | ff =  M b'
+updᴹ (addr b i) c M =  updᴹᴮ b (upd i c $ M b) M
 
 --------------------------------------------------------------------------------
 -- Value & Context-Redex Pair

@@ -36,7 +36,7 @@ infixl 5 _◁ᴿ_
 infix 6 ★ᴿ_ _←ᴿ_
 
 data  Redex :  Type →  Set (^ ℓ)  where
-  ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
+  ▶ᴿ_ :  Expr ∞ T →  Redex T
   _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
   ★ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
@@ -91,7 +91,7 @@ Val/Ctxred T =  Val T ⊎ Ctxred T
 val/ctxred :  Expr ∞ T →  Val/Ctxred T
 val/ctxred (∇ a) =  inj₀ $ ↑ a
 val/ctxred (λ˙ e˙) =  inj₀ $ e˙
-val/ctxred (▶ e) =  inj₁ $ _ , id , ▶ᴿ e
+val/ctxred (▶ e˂) =  inj₁ $ _ , id , ▶ᴿ (e˂ .!)
 val/ctxred (e ◁ e') =  inj₁ body
  where
   body :  _
@@ -136,7 +136,7 @@ val/ctxred (free e) =  inj₁ body
 private variable
   M :  Mem
   ctx :  Expr ∞ U → Expr ∞ T
-  e˂ :  Expr˂ ∞ U
+  e :  Expr ∞ U
   e˙ :  A → Expr ∞ U
   a :  A
   x :  Addr
@@ -144,7 +144,7 @@ private variable
   b n :  ℕ
 
 data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
-  ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e˂) M (ctx $ e˂ .!) M
+  ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e) M (ctx e) M
   ◁-red :  Red' (inj₁ $ _ , ctx , e˙ ◁ᴿ a) M (ctx $ e˙ a) M
   ★-red :  M !!ᴹ x ≡ some (U , u) →
     Red' (inj₁ $ _ , ctx , ★ᴿ x) M (ctx $ Val⇒Expr u) M

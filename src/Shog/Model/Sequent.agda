@@ -77,13 +77,13 @@ abstract
 --------------------------------------------------------------------------------
 -- ⊢-sem: Semantic soundness of the sequent
 
-private
-
-  -- Lemma for saveˣ/□-mono
-  for-token-mono :  S ∧ T ⊢[ ∞ ] P →  R ∧ P ⊢[ ∞ ] Q →  (R ∧ S) ∧ T ⊢[ ∞ ] Q
-  for-token-mono S∧T⊢P R∧P⊢Q =  ∧-assocˡ » ∧-monoʳ S∧T⊢P » R∧P⊢Q
-
 abstract
+
+  private
+
+    -- Lemma for saveˣ/□-mono
+    for-token-mono :  S ∧ T ⊢[ ∞ ] P →  R ∧ P ⊢[ ∞ ] Q →  (R ∧ S) ∧ T ⊢[ ∞ ] Q
+    for-token-mono S∧T⊢P R∧P⊢Q =  ∧-assocˡ » ∧-monoʳ S∧T⊢P » R∧P⊢Q
 
   ⊢-sem :  P ⊢[ ∞ ] Q →  [| P |] ⊨ [| Q |]
 

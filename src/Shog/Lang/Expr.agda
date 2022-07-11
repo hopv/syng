@@ -91,16 +91,20 @@ data  Expr ι  where
 
 -- Lambda abstraction
 
-λ-syntax :  (A → Expr ι T) →  Expr ι (A ➔ T)
+λ∈-syntax λ-syntax :  (A → Expr ι T) →  Expr ι (A ➔ T)
+λ∈-syntax =  λ˙
 λ-syntax =  λ˙
-infix 3 λ-syntax
+infix 3 λ∈-syntax λ-syntax
+syntax λ∈-syntax {A = A} (λ x → e) =  λ' x ∈ A , e
 syntax λ-syntax (λ x → e) =  λ' x , e
 
 -- Let binding
 
-let-syntax :  Expr ι (◸ A) →  (A → Expr ι T) →  Expr ι T
+let∈-syntax let-syntax :  Expr ι (◸ A) →  (A → Expr ι T) →  Expr ι T
+let∈-syntax e₀ e˙ =  λ˙ e˙ ◁ e₀
 let-syntax e₀ e˙ =  λ˙ e˙ ◁ e₀
-infix 3 let-syntax
+infix 3 let∈-syntax let-syntax
+syntax let∈-syntax {A = A} e₀ (λ x → e) =  let' x ∈ A := e₀ in' e
 syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 
 --------------------------------------------------------------------------------

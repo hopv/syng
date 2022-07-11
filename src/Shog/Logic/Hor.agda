@@ -18,7 +18,7 @@ open import Shog.Lang.Reduce ℓ using (Val/Ctxred)
 -- Import and re-export
 open import Shog.Logic.Judg ℓ public using (WpK; par; tot; wp;
   _⊢[_]'⟨_⟩[_]_; _⊢[_]'⟨_⟩_; _⊢[_]'⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩_; _⊢[<_]⟨_⟩_;
-  _⊢[_]⟨_⟩ᵀ_; hor-monoᵘᵘ; hor-ᵀ⇒; hor-val; hor-▶; hor-◁)
+  _⊢[_]⟨_⟩ᵀ_; hor-monoˡᵘ; hor-monoʳᵘ; hor-ᵀ⇒; hor-val; hor-▶; hor-◁)
 
 private variable
   ι :  Size
@@ -28,17 +28,9 @@ private variable
   Qᵛ Q'ᵛ :  Val T → Prop' ∞
   vc :  Val/Ctxred T
 
-hor-monoˡᵘ :  ∀{Qᵛ : Val T → _} →
-  P' ⊢[ ι ]=>> P →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
-hor-monoˡᵘ P'⊢=>>P =  hor-monoᵘᵘ P'⊢=>>P (λ _ → =>>-refl)
-
 hor-monoˡ :  ∀{Qᵛ : Val T → _} →
   P' ⊢[ ι ] P →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
 hor-monoˡ P'⊢P =  hor-monoˡᵘ $ ⇒=>> P'⊢P
-
-hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
-  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
-hor-monoʳᵘ ∀vQ⊢=>>Q' =  hor-monoᵘᵘ =>>-refl ∀vQ⊢=>>Q'
 
 hor-monoʳ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →
   P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ

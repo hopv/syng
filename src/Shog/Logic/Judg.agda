@@ -207,9 +207,10 @@ data  Judg ι  where
   -- Rules on Hoare triple
 
   -- Monotonicity
-  hor-monoᵘᵘ :  ∀{Qᵛ : Val T → _} →
-    P' ⊢[ ι ]=>> P →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
-    P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
+  hor-monoˡᵘ :  ∀{Qᵛ : Val T → _} →
+    P' ⊢[ ι ]=>> P →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
+  hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
+    P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
 
   -- Weaken a Hoare triple from total to partial
   hor-ᵀ⇒ :  ∀{Qᵛ : Val T → _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ Qᵛ

@@ -21,7 +21,7 @@ open import Base.List using (List; [])
 open import Base.List.Nat using (_!!_; upd; repeat)
 open import Base.Option using (some)
 open import Base.Eq using (_≡_)
-open import Shog.Lang.Expr ℓ using (Type; ◸_; _➔_; Addr; addr; Expr; Expr˂; ▶_;
+open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; addr; Expr; Expr˂; ▶_;
   ∇_; λ˙; _◁_; ★_; _←_; alloc; free; Val; Val⇒Expr)
 
 private variable

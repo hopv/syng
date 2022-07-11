@@ -48,13 +48,13 @@ abstract
 -- Type:  Simple type for expressions
 
 infix 8 ◸_
-infixr 4 _➔_
+infixr 4 _→*_
 
 data  Type :  Set (^ ℓ)  where
   -- Embedding a pure type
   ◸_ :  Set ℓ →  Type
   -- Function
-  _➔_ :  Set ℓ →  Type →  Type
+  _→*_ :  Set ℓ →  Type →  Type
 
 private variable
   A :  Set ℓ
@@ -81,9 +81,9 @@ data  Expr ι  where
   -- Turn a value into an expression
   ∇_ :  A →  Expr ι (◸ A)
   -- Lambda abstraction over a value
-  λ˙ :  (A → Expr ι T) →  Expr ι (A ➔ T)
+  λ˙ :  (A → Expr ι T) →  Expr ι (A →* T)
   -- Application
-  _◁_ :  Expr ι (A ➔ T) →  Expr ι (◸ A) →  Expr ι T
+  _◁_ :  Expr ι (A →* T) →  Expr ι (◸ A) →  Expr ι T
   -- Read from the memory
   ★_ :  Expr ι (◸ Addr) →  Expr ι T
   -- Write to the memory
@@ -95,7 +95,7 @@ data  Expr ι  where
 
 -- Lambda abstraction
 
-λ∈-syntax λ-syntax :  (A → Expr ι T) →  Expr ι (A ➔ T)
+λ∈-syntax λ-syntax :  (A → Expr ι T) →  Expr ι (A →* T)
 λ∈-syntax =  λ˙
 λ-syntax =  λ˙
 infix 3 λ∈-syntax λ-syntax
@@ -116,10 +116,10 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 
 Val :  Type →  Set (^ ℓ)
 Val (◸ A) =  Up A
-Val (A ➔ T) =  A → Expr ∞ T
+Val (A →* T) =  A → Expr ∞ T
 
 -- Conversion from Val to Expr
 
 Val⇒Expr :  Val T →  Expr ∞ T
 Val⇒Expr {T = ◸ _} (↑ a) =  ∇ a
-Val⇒Expr {T = _ ➔ _} e˙ =  λ˙ e˙
+Val⇒Expr {T = _ →* _} e˙ =  λ˙ e˙

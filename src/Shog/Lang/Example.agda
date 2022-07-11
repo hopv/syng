@@ -15,7 +15,7 @@ open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_)
 open import Base.Nat using (ℕ; _+_)
-open import Shog.Lang.Expr ℓ using (Addr; addr; Type; ◸_; _➔_; Expr; ▶_; ∇_;
+open import Shog.Lang.Expr ℓ using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_;
   _◁_; free; λ-syntax)
 open import Shog.Lang.Reduce ℓ using (Mem; Red; ▶-red; ◁-red)
 
@@ -28,7 +28,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Constructing Expr
 
-plus :  Expr ι $ Up (ℕ × ℕ) ➔ ◸ Up ℕ
+plus :  Expr ι $ Up (ℕ × ℕ) →* ◸ Up ℕ
 plus =  λ' (↑ (m , n)) ,  ∇ ↑ (m + n)
 
 plus◁ :  Expr ι $ ◸ Up ℕ

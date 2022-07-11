@@ -15,7 +15,7 @@ open import Base.Few using (⊤; ⊥)
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------
--- Exc : Excᴿᴬ's carrier
+-- Exc : ExcRA's carrier
 
 infix 8 #ˣ_
 data  Exc :  Set ℓ  where
@@ -109,34 +109,34 @@ private abstract
   ✓ˣ-rem (#ˣ _) ?ˣ =  _
 
 --------------------------------------------------------------------------------
--- Excᴿᴬ : Exclusive resource algebra
+-- ExcRA : Exclusive resource algebra
 
 module _ where
   open RA
 
-  Excᴿᴬ : RA ℓ ℓ≈ ℓ✓
-  Excᴿᴬ .Car =  Exc
-  Excᴿᴬ ._≈_ =  _≈ˣ_
-  Excᴿᴬ .✓_ =  ✓ˣ_
-  Excᴿᴬ ._∙_ =  _∙ˣ_
-  Excᴿᴬ .ε =  ?ˣ
-  Excᴿᴬ .⌞_⌟ _ =  ?ˣ
-  Excᴿᴬ .refl˜ {x} =  ≈ˣ-refl x
-  Excᴿᴬ .◠˜_ {x} =  ≈ˣ-sym x _
-  Excᴿᴬ ._◇˜_ {x} =  ≈ˣ-trans x _ _
-  Excᴿᴬ .∙-congˡ {x} =  ∙ˣ-congˡ x _ _
-  Excᴿᴬ .∙-unitˡ {x} =  ≈ˣ-refl x
-  Excᴿᴬ .∙-comm {x} =  ∙ˣ-comm x _
-  Excᴿᴬ .∙-assocˡ {x} =  ∙ˣ-assocˡ x _ _
-  Excᴿᴬ .✓-resp =  ✓ˣ-resp _ _
-  Excᴿᴬ .✓-rem {x} {y} =  ✓ˣ-rem x y
-  Excᴿᴬ .✓-ε =  _
-  Excᴿᴬ .⌞⌟-cong =  _
-  Excᴿᴬ .⌞⌟-add =  ?ˣ , _
-  Excᴿᴬ .⌞⌟-unitˡ {x} =  ≈ˣ-refl x
-  Excᴿᴬ .⌞⌟-idem =  _
+  ExcRA : RA ℓ ℓ≈ ℓ✓
+  ExcRA .Car =  Exc
+  ExcRA ._≈_ =  _≈ˣ_
+  ExcRA .✓_ =  ✓ˣ_
+  ExcRA ._∙_ =  _∙ˣ_
+  ExcRA .ε =  ?ˣ
+  ExcRA .⌞_⌟ _ =  ?ˣ
+  ExcRA .refl˜ {x} =  ≈ˣ-refl x
+  ExcRA .◠˜_ {x} =  ≈ˣ-sym x _
+  ExcRA ._◇˜_ {x} =  ≈ˣ-trans x _ _
+  ExcRA .∙-congˡ {x} =  ∙ˣ-congˡ x _ _
+  ExcRA .∙-unitˡ {x} =  ≈ˣ-refl x
+  ExcRA .∙-comm {x} =  ∙ˣ-comm x _
+  ExcRA .∙-assocˡ {x} =  ∙ˣ-assocˡ x _ _
+  ExcRA .✓-resp =  ✓ˣ-resp _ _
+  ExcRA .✓-rem {x} {y} =  ✓ˣ-rem x y
+  ExcRA .✓-ε =  _
+  ExcRA .⌞⌟-cong =  _
+  ExcRA .⌞⌟-add =  ?ˣ , _
+  ExcRA .⌞⌟-unitˡ {x} =  ≈ˣ-refl x
+  ExcRA .⌞⌟-idem =  _
 
-open RA Excᴿᴬ using (_↝_)
+open RA ExcRA using (_↝_)
 
 --------------------------------------------------------------------------------
 -- Lemmas

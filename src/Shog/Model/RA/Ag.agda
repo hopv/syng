@@ -18,40 +18,40 @@ open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈�
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------
--- ag: Lifting A to Agᴿᴬ's carrier
+-- ag: Lifting A to AgRA's carrier
 
 ag :  A →  List A
 ag a =  [ a ]
 
 --------------------------------------------------------------------------------
--- Agᴿᴬ : Agreement resource algebra
+-- AgRA : Agreement resource algebra
 
 module _ where
   open RA
 
-  Agᴿᴬ :  RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
-  Agᴿᴬ .Car =  List A
-  Agᴿᴬ ._≈_ =  _≈ᴸ_
-  Agᴿᴬ .✓_ =  homo
-  Agᴿᴬ ._∙_ =  _++_
-  Agᴿᴬ .ε =  []
-  Agᴿᴬ .⌞_⌟ =  id
-  Agᴿᴬ .refl˜ =  ≈ᴸ-refl
-  Agᴿᴬ .◠˜_ =  ≈ᴸ-sym
-  Agᴿᴬ ._◇˜_ =  ≈ᴸ-trans
-  Agᴿᴬ .∙-congˡ =  ++-congˡ
-  Agᴿᴬ .∙-unitˡ =  ≈ᴸ-refl
-  Agᴿᴬ .∙-comm {as} =  ++-comm {as}
-  Agᴿᴬ .∙-assocˡ {as} =  ≡⇒≈ᴸ (++-assocˡ {as = as})
-  Agᴿᴬ .✓-resp =  homo-resp
-  Agᴿᴬ .✓-rem =  homo-mono ++-⊆ᴸ-introʳ
-  Agᴿᴬ .✓-ε =  homo-[]
-  Agᴿᴬ .⌞⌟-cong =  id
-  Agᴿᴬ .⌞⌟-add =  _ , ≈ᴸ-refl
-  Agᴿᴬ .⌞⌟-unitˡ =  ++-idem
-  Agᴿᴬ .⌞⌟-idem =  ≈ᴸ-refl
+  AgRA :  RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
+  AgRA .Car =  List A
+  AgRA ._≈_ =  _≈ᴸ_
+  AgRA .✓_ =  homo
+  AgRA ._∙_ =  _++_
+  AgRA .ε =  []
+  AgRA .⌞_⌟ =  id
+  AgRA .refl˜ =  ≈ᴸ-refl
+  AgRA .◠˜_ =  ≈ᴸ-sym
+  AgRA ._◇˜_ =  ≈ᴸ-trans
+  AgRA .∙-congˡ =  ++-congˡ
+  AgRA .∙-unitˡ =  ≈ᴸ-refl
+  AgRA .∙-comm {as} =  ++-comm {as}
+  AgRA .∙-assocˡ {as} =  ≡⇒≈ᴸ (++-assocˡ {as = as})
+  AgRA .✓-resp =  homo-resp
+  AgRA .✓-rem =  homo-mono ++-⊆ᴸ-introʳ
+  AgRA .✓-ε =  homo-[]
+  AgRA .⌞⌟-cong =  id
+  AgRA .⌞⌟-add =  _ , ≈ᴸ-refl
+  AgRA .⌞⌟-unitˡ =  ++-idem
+  AgRA .⌞⌟-idem =  ≈ᴸ-refl
 
-open RA Agᴿᴬ using (✓_; _∙_)
+open RA AgRA using (✓_; _∙_)
 
 private variable
   a b :  A

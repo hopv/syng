@@ -13,7 +13,7 @@ open import Base.Setoid using (Setoid; ≡-setoid)
 open import Base.Nat using (ℕ; _≡?_)
 open import Shog.Logic.Prop ℓ using (Prop')
 open import Shog.Model.RA using (RA)
-open import Shog.Model.RA.Top using (⊤ᴿᴬ)
+open import Shog.Model.RA.Top using (⊤RA)
 
 import Shog.Model.RA.Exc
 import Shog.Model.RA.Ag
@@ -25,32 +25,32 @@ Prop-setoid :  Setoid (^ ℓ) (^ ℓ)
 Prop-setoid =  ≡-setoid (Prop' ∞)
 
 --------------------------------------------------------------------------------
--- Excᴾᴿᴬ, Agᴾᴿᴬ: Exclusive / agreement RA on Prop' ∞
+-- ExcᴾRA, AgᴾRA: Exclusive / agreement RA on Prop' ∞
 
 module ModExcᴾ =  Shog.Model.RA.Exc Prop-setoid {^ ℓ}
-open ModExcᴾ public using () renaming (Excᴿᴬ to Excᴾᴿᴬ; Exc to Excᴾ)
+open ModExcᴾ public using () renaming (ExcRA to ExcᴾRA; Exc to Excᴾ)
 
 module ModAgᴾ =  Shog.Model.RA.Ag Prop-setoid
-open ModAgᴾ public using () renaming (Agᴿᴬ to Agᴾᴿᴬ)
+open ModAgᴾ public using () renaming (AgRA to AgᴾRA)
 
 --------------------------------------------------------------------------------
--- Saveˣᴿᴬ, Save□ᴿᴬ: Exclusive/persistent save token RA
+-- SaveˣRA, Save□RA: Exclusive/persistent save token RA
 
-module ModSaveˣ =  Shog.Model.RA.Fin Excᴾᴿᴬ
-open ModSaveˣ public using () renaming (Finᴿᴬ to Saveˣᴿᴬ; Fin to Saveˣ)
+module ModSaveˣ =  Shog.Model.RA.Fin ExcᴾRA
+open ModSaveˣ public using () renaming (FinRA to SaveˣRA; Fin to Saveˣ)
 
-module ModSave□ =  Shog.Model.RA.Fin Agᴾᴿᴬ
-open ModSave□ public using () renaming (Finᴿᴬ to Save□ᴿᴬ; Fin to Save□)
+module ModSave□ =  Shog.Model.RA.Fin AgᴾRA
+open ModSave□ public using () renaming (FinRA to Save□RA; Fin to Save□)
 
 --------------------------------------------------------------------------------
--- Globᴿᴬ: Global RA
+-- GlobRA: Global RA
 
-Globᴿᴬ˙ :  ℕ →  RA (^ ℓ) (^ ℓ) (^ ℓ)
-Globᴿᴬ˙ 0 =  Saveˣᴿᴬ
-Globᴿᴬ˙ 1 =  Save□ᴿᴬ
-Globᴿᴬ˙ _ =  ⊤ᴿᴬ
+GlobRA˙ :  ℕ →  RA (^ ℓ) (^ ℓ) (^ ℓ)
+GlobRA˙ 0 =  SaveˣRA
+GlobRA˙ 1 =  Save□RA
+GlobRA˙ _ =  ⊤RA
 
-module ModGlob =  Shog.Model.RA.All Globᴿᴬ˙
-open ModGlob public using () renaming (Allᴿᴬ to Globᴿᴬ)
-open RA Globᴿᴬ public using () renaming (Car to Glob)
-module ModGlobI =  Shog.Model.RA.All.Index Globᴿᴬ˙ _≡?_
+module ModGlob =  Shog.Model.RA.All GlobRA˙
+open ModGlob public using () renaming (AllRA to GlobRA)
+open RA GlobRA public using () renaming (Car to Glob)
+module ModGlobI =  Shog.Model.RA.All.Index GlobRA˙ _≡?_

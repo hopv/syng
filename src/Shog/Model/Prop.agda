@@ -7,7 +7,7 @@
 open import Base.Level using (Level; ^_)
 open import Shog.Model.RA using (RA)
 -- Parametric over the global RA
-module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (^ ℓ) (^ ℓ) (^ ℓ)) where
+module Shog.Model.Prop {ℓ : Level} (GlobRA : RA (^ ℓ) (^ ℓ) (^ ℓ)) where
 
 open import Base.Few using (⊤; ⊥)
 open import Base.Func using (_$_; _▷_; flip; _∈_)
@@ -15,7 +15,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.List using (List; _∷_; []; map)
 
-open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
+open RA GlobRA renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
   _↝ˢ_; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ✓-resp; ✓-mono;
   ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ;
   ∙-assocʳ; ε-min; ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)

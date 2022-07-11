@@ -13,9 +13,9 @@ open import Base.Prod using (_,_)
 open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∗_; □_; IsBasic; ∀-IsBasic;
   ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
 open import Shog.Model.RA using (RA)
-open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
-open RA Globᴿᴬ using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
-open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀ᵒ-syntax;
+open import Shog.Model.RA.Glob ℓ using (GlobRA)
+open RA GlobRA using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
+open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀ᵒ-syntax;
   ∃ᵒ-syntax; _∗ᵒ_; □ᵒ_)
 
 private variable

@@ -11,27 +11,27 @@ open import Base.Few using (⊤)
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------
--- ⊤ᴿᴬ : Trivial resource algebra
+-- ⊤RA : Trivial resource algebra
 
 open RA
-⊤ᴿᴬ :  RA ℓ ℓ≈ ℓ✓
-⊤ᴿᴬ .Car =  ⊤
-⊤ᴿᴬ ._≈_ _ _ =  ⊤
-⊤ᴿᴬ .✓_ _ =  ⊤
-⊤ᴿᴬ ._∙_ =  _
-⊤ᴿᴬ .ε =  _
-⊤ᴿᴬ .⌞_⌟ =  _
-⊤ᴿᴬ .refl˜ =  _
-⊤ᴿᴬ .◠˜_ =  _
-⊤ᴿᴬ ._◇˜_ =  _
-⊤ᴿᴬ .∙-congˡ =  _
-⊤ᴿᴬ .∙-unitˡ =  _
-⊤ᴿᴬ .∙-comm =  _
-⊤ᴿᴬ .∙-assocˡ =  _
-⊤ᴿᴬ .✓-resp =  _
-⊤ᴿᴬ .✓-rem =  _
-⊤ᴿᴬ .✓-ε =  _
-⊤ᴿᴬ .⌞⌟-cong =  _
-⊤ᴿᴬ .⌞⌟-add =  _
-⊤ᴿᴬ .⌞⌟-unitˡ =  _
-⊤ᴿᴬ .⌞⌟-idem =  _
+⊤RA :  RA ℓ ℓ≈ ℓ✓
+⊤RA .Car =  ⊤
+⊤RA ._≈_ _ _ =  ⊤
+⊤RA .✓_ _ =  ⊤
+⊤RA ._∙_ =  _
+⊤RA .ε =  _
+⊤RA .⌞_⌟ =  _
+⊤RA .refl˜ =  _
+⊤RA .◠˜_ =  _
+⊤RA ._◇˜_ =  _
+⊤RA .∙-congˡ =  _
+⊤RA .∙-unitˡ =  _
+⊤RA .∙-comm =  _
+⊤RA .∙-assocˡ =  _
+⊤RA .✓-resp =  _
+⊤RA .✓-rem =  _
+⊤RA .✓-ε =  _
+⊤RA .⌞⌟-cong =  _
+⊤RA .⌞⌟-add =  _
+⊤RA .⌞⌟-unitˡ =  _
+⊤RA .⌞⌟-idem =  _

@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Index-specific operations on Allᴿᴬ
+-- Index-specific operations on AllRA
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
@@ -13,10 +13,10 @@ module Shog.Model.RA.All.Index {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
 open import Base.Eq using (refl)
 open import Base.Dec using (yes; no)
 open import Base.Few using (absurd)
-open import Shog.Model.RA.All Ra˙ using (Allᴿᴬ)
+open import Shog.Model.RA.All Ra˙ using (AllRA)
 
 open RA
-open RA Allᴿᴬ using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_;
+open RA AllRA using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_;
   _∙_ to _∙ᴬ_; ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _◇˜_ to _◇ᴬ_;
   ∙-unitˡ to ∙-unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
 

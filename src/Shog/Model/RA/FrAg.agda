@@ -22,7 +22,7 @@ open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈�
 open import Shog.Model.RA using (RA)
 
 --------------------------------------------------------------------------------
--- FrAg : FrAgᴿᴬ's carrier
+-- FrAg : FrAgRA's carrier
 
 infix 8 ⟨_⟩ᶠᴸ_
 data  FrAg : Set ℓ  where
@@ -117,34 +117,34 @@ private abstract
   ✓ᶠ-rem εᶠ (⟨ _ ⟩ᶠᴸ _) ✓x =  ✓x
 
 --------------------------------------------------------------------------------
--- FrAgᴿᴬ : Fractional resource algebra
+-- FrAgRA : Fractional resource algebra
 
 module _ where
   open RA
 
-  FrAgᴿᴬ : RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
-  FrAgᴿᴬ .Car =  FrAg
-  FrAgᴿᴬ ._≈_ =  _≈ᶠ_
-  FrAgᴿᴬ .✓_ =  ✓ᶠ_
-  FrAgᴿᴬ ._∙_ =  _∙ᶠ_
-  FrAgᴿᴬ .ε =  εᶠ
-  FrAgᴿᴬ .⌞_⌟ _ =  εᶠ
-  FrAgᴿᴬ .refl˜ =  ≈ᶠ-refl
-  FrAgᴿᴬ .◠˜_ =  ≈ᶠ-sym
-  FrAgᴿᴬ ._◇˜_ =  ≈ᶠ-trans
-  FrAgᴿᴬ .∙-congˡ =  ∙ᶠ-congˡ _ _ _
-  FrAgᴿᴬ .∙-unitˡ =  ≈ᶠ-refl
-  FrAgᴿᴬ .∙-comm {x} =  ∙ᶠ-comm x _
-  FrAgᴿᴬ .∙-assocˡ {x} =  ∙ᶠ-assocˡ x _ _
-  FrAgᴿᴬ .✓-resp =  ✓ᶠ-resp _ _
-  FrAgᴿᴬ .✓-rem {x} =  ✓ᶠ-rem x _
-  FrAgᴿᴬ .✓-ε =  _
-  FrAgᴿᴬ .⌞⌟-cong _ =  ≈ᶠ-refl
-  FrAgᴿᴬ .⌞⌟-add =  εᶠ , ≈ᶠ-refl
-  FrAgᴿᴬ .⌞⌟-unitˡ =  ≈ᶠ-refl
-  FrAgᴿᴬ .⌞⌟-idem =  ≈ᶠ-refl
+  FrAgRA : RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
+  FrAgRA .Car =  FrAg
+  FrAgRA ._≈_ =  _≈ᶠ_
+  FrAgRA .✓_ =  ✓ᶠ_
+  FrAgRA ._∙_ =  _∙ᶠ_
+  FrAgRA .ε =  εᶠ
+  FrAgRA .⌞_⌟ _ =  εᶠ
+  FrAgRA .refl˜ =  ≈ᶠ-refl
+  FrAgRA .◠˜_ =  ≈ᶠ-sym
+  FrAgRA ._◇˜_ =  ≈ᶠ-trans
+  FrAgRA .∙-congˡ =  ∙ᶠ-congˡ _ _ _
+  FrAgRA .∙-unitˡ =  ≈ᶠ-refl
+  FrAgRA .∙-comm {x} =  ∙ᶠ-comm x _
+  FrAgRA .∙-assocˡ {x} =  ∙ᶠ-assocˡ x _ _
+  FrAgRA .✓-resp =  ✓ᶠ-resp _ _
+  FrAgRA .✓-rem {x} =  ✓ᶠ-rem x _
+  FrAgRA .✓-ε =  _
+  FrAgRA .⌞⌟-cong _ =  ≈ᶠ-refl
+  FrAgRA .⌞⌟-add =  εᶠ , ≈ᶠ-refl
+  FrAgRA .⌞⌟-unitˡ =  ≈ᶠ-refl
+  FrAgRA .⌞⌟-idem =  ≈ᶠ-refl
 
-open RA FrAgᴿᴬ using (_∙_; ✓_; _↝_)
+open RA FrAgRA using (_∙_; ✓_; _↝_)
 
 --------------------------------------------------------------------------------
 -- Lemmas

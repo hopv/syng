@@ -15,13 +15,13 @@ open import Base.Prod using (_,_)
 open import Shog.Logic.Prop ℓ using (Prop'; _∧_; Basic)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_)
 open import Shog.Model.RA using (RA)
-open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ; Glob; module ModGlobI;
+open import Shog.Model.RA.Glob ℓ using (GlobRA; Glob; module ModGlobI;
   module ModSave□; module ModAgᴾ)
-open RA Globᴿᴬ using (_≈_; ⌞_⌟; _◇˜_)
+open RA GlobRA using (_≈_; ⌞_⌟; _◇˜_)
 open ModGlobI using (injᴬ; injᴬ-cong; injᴬ-⌞⌟)
 open ModSave□ using (injᶠ; injᶠ-⌞⌟)
 open ModAgᴾ using (ag)
-open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; _⊨_; ∃^-syntax; ∃^∈-syntax;
+open import Shog.Model.Prop GlobRA using (Propᵒ; _⊨_; ∃^-syntax; ∃^∈-syntax;
   _∧ᵒ_; ⌜_⌝^; own)
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ)
 

@@ -15,7 +15,7 @@ open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_)
 open import Shog.Logic.Core ℓ using (_»_; ∗-comm; |=>-intro)
 
 -- Import and re-export the axiomatic rules
-open import Shog.Logic.Judg.All ℓ using (˂|=>⇒=>>; _ᵘ»ᵘ_; =>>-frameˡ)
+open import Shog.Logic.Judg.All ℓ public using (˂|=>⇒=>>; _ᵘ»ᵘ_; =>>-frameˡ)
 
 private variable
   ι :  Size

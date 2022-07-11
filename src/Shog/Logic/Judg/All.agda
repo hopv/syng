@@ -115,7 +115,7 @@ data  Judg ι  where
   □-∃-out :  □ ∃˙ _ P˙ ⊢[ ι ] ∃˙ _ (□_ ∘ P˙)
   ------------------------------------------------------------------------------
   -- A thunk sequent under |=> can be lifted to a super update =>>
-  ^|=>⇒=>> :  P ⊢[< ι ] |=> Q →  P ⊢[ ι ]=>> Q
+  ˂|=>⇒=>> :  P ⊢[< ι ] |=> Q →  P ⊢[ ι ]=>> Q
   -- The super update =>> is transitive
   _ᵘ»ᵘ_ :  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]=>> R →  P ⊢[ ι ]=>> R
   -- The super update =>> can frame

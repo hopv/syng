@@ -15,7 +15,7 @@ open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_)
 open import Shog.Logic.Core ℓ using (_»_; ∗-comm; |=>-intro)
 
 -- Import and re-export the axiomatic rules
-open import Shog.Logic.Judg.All ℓ using (^|=>⇒=>>; _ᵘ»ᵘ_; =>>-frameˡ)
+open import Shog.Logic.Judg.All ℓ using (˂|=>⇒=>>; _ᵘ»ᵘ_; =>>-frameˡ)
 
 private variable
   ι :  Size
@@ -24,16 +24,16 @@ private variable
 abstract
 
   -- Lifting a thunk sequent into a super update =>>
-  ^⇒=>> :  P ⊢[< ι ] Q →  P ⊢[ ι ]=>> Q
-  ^⇒=>> P⊢^Q =  ^|=>⇒=>> λ{ .! → P⊢^Q .! » |=>-intro }
+  ˂⇒=>> :  P ⊢[< ι ] Q →  P ⊢[ ι ]=>> Q
+  ˂⇒=>> P⊢˂Q =  ˂|=>⇒=>> λ{ .! → P⊢˂Q .! » |=>-intro }
 
   -- Lifting a sequent under |=> into a super update =>>
   |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ]=>> Q
-  |=>⇒=>> P⊢Q =  ^|=>⇒=>> λ{ .! → P⊢Q }
+  |=>⇒=>> P⊢Q =  ˂|=>⇒=>> λ{ .! → P⊢Q }
 
   -- Lifting a sequent into a super update =>>
   ⇒=>> :  P ⊢[ ι ] Q →  P ⊢[ ι ]=>> Q
-  ⇒=>> P⊢Q =  ^⇒=>> λ{ .! → P⊢Q }
+  ⇒=>> P⊢Q =  ˂⇒=>> λ{ .! → P⊢Q }
 
   -- Modifying the succedent of a super update with a sequent
 

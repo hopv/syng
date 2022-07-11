@@ -216,7 +216,7 @@ data  Judg ι  where
   hor-ᵀ⇒ :  ∀{Qᵛ : Val T → _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ Qᵛ
 
   -- Value
-  hor-val :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
+  hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
 
   -- ▶, for partial Hoare triple
   hor-▶ :  ∀{Qᵛ : Val T → _} →

@@ -9,6 +9,7 @@ module Shog.Logic.Hor (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_)
+open import Base.Sum using (inj₀)
 open import Shog.Logic.Prop ℓ using (Prop')
 open import Shog.Logic.Core ℓ using (_⊢[_]_)
 open import Shog.Logic.Supd ℓ using (_⊢[_]=>>_; ⇒=>>; =>>-refl)
@@ -18,7 +19,7 @@ open import Shog.Lang.Reduce ℓ using (Val/Ctxred)
 -- Import and re-export
 open import Shog.Logic.Judg ℓ public using (WpK; par; tot; wp;
   _⊢[_]'⟨_⟩[_]_; _⊢[_]'⟨_⟩_; _⊢[_]'⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩_; _⊢[<_]⟨_⟩_;
-  _⊢[_]⟨_⟩ᵀ_; hor-monoˡᵘ; hor-monoʳᵘ; hor-ᵀ⇒; hor-val; hor-▶; hor-◁)
+  _⊢[_]⟨_⟩ᵀ_; hor-monoˡᵘ; hor-monoʳᵘ; hor-ᵀ⇒; hor-valᵘ; hor-▶; hor-◁)
 
 private variable
   ι :  Size
@@ -35,3 +36,6 @@ hor-monoˡ P'⊢P =  hor-monoˡᵘ $ ⇒=>> P'⊢P
 hor-monoʳ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →
   P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
 hor-monoʳ ∀vQ⊢Q' =  hor-monoʳᵘ (λ _ → ⇒=>> $ ∀vQ⊢Q' _)
+
+hor-val :  ∀{v : Val T} →  P ⊢[ ι ] Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
+hor-val P⊢Q =  hor-valᵘ $ ⇒=>> P⊢Q

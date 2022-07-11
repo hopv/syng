@@ -7,8 +7,7 @@
 open import Base.Level using (Level; ^_)
 open import Shog.Model.RA using (RA)
 -- Parametric over the global RA
-module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (^ ℓ) (^ ℓ) (^ ℓ))
-  where
+module Shog.Model.Prop {ℓ : Level} (Globᴿᴬ : RA (^ ℓ) (^ ℓ) (^ ℓ)) where
 
 open import Base.Few using (⊤; ⊥)
 open import Base.Func using (_$_; _▷_; flip; _∈_)

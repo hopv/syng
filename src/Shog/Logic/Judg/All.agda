@@ -13,7 +13,9 @@ open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_)
 open import Base.Bool using (Bool)
 open import Base.List using (List)
-open import Shog.Logic.Prop ℓ
+open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
+  ∀-syntax; ∃-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]; [∗]-map;
+  [∗]-map-syntax; saveˣ; save□; Basic)
 
 --------------------------------------------------------------------------------
 -- Judgment: P ⊢[ ι ]* Jr

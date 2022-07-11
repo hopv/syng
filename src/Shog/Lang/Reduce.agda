@@ -120,14 +120,14 @@ private variable
   e˂ :  Expr˂ ∞ U
   e˙ :  A → Expr ∞ U
   a :  A
-  v :  Val U
   x :  Addr
+  u :  Val U
 
 data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
   ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e˂) M (ctx $ e˂ .!) M
   ◁-red :  Red' (inj₁ $ _ , ctx , e˙ ◁ᴿ a) M (ctx $ e˙ a) M
-  ★-red :  M !!ᴹ x ≡ some (U , v) →
-    Red' (inj₁ $ _ , ctx , ★ᴿ x) M (ctx $ Val⇒Expr v) M
+  ★-red :  M !!ᴹ x ≡ some (U , u) →
+    Red' (inj₁ $ _ , ctx , ★ᴿ x) M (ctx $ Val⇒Expr u) M
   ←-red :  ∀ {v : Val V} →
     Red' (inj₁ $ _ , ctx , x ←ᴿ v) M (ctx $ ∇ _) (updᴹ x (_ , v) M)
 

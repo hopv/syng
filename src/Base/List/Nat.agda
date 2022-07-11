@@ -36,3 +36,9 @@ upd :  ℕ →  A →  List A →  List A
 upd _ _ [] =  []
 upd 0 b (_ ∷ as) =  b ∷ as
 upd (suc n) b (a ∷ as) =  a ∷ upd n b as
+
+-- Repeat
+
+repeat :  ℕ →  A →  List A
+repeat 0 _ =  []
+repeat (suc n) a =  a ∷ repeat n a

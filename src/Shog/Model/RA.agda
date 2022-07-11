@@ -133,7 +133,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
     -- ⊑ is transitive
 
     ⊑-trans :  a ⊑ b →  b ⊑ c →  a ⊑ c
-    ⊑-trans (d , d∙a≈b) (e , e∙b≈c) =  (d ∙ e) ,
+    ⊑-trans (d , d∙a≈b) (e , e∙b≈c) =  d ∙ e ,
       (∙-congˡ ∙-comm ◇˜ ∙-assocˡ ◇˜ ∙-congʳ d∙a≈b ◇˜ e∙b≈c)
 
     -- ⊑ respects ≈

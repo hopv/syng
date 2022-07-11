@@ -7,44 +7,52 @@
 open import Base.Level using (Level)
 module Shog.Logic.Judg (ℓ : Level) where
 
-open import Base.Level using (^_)
+open import Base.Level using (^_; ○)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
-open import Base.Func using (_∘_)
+open import Base.Func using (_∘_; _$_)
 open import Base.Bool using (Bool)
 open import Base.List using (List)
+open import Base.Prod using (_,_)
+open import Base.Sum using (inj₀; inj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗]-map; [∗∈]-syntax;
   saveˣ; save□; Basic)
+open import Shog.Lang.Expr ℓ using (Type; Expr; ▶_; Val)
+open import Shog.Lang.Reduce ℓ using (▶ᴿ_; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
+  Val/Ctxred; val/ctxred)
 
 --------------------------------------------------------------------------------
--- Judgment: P ⊢[ ι ]* Jr
+-- WpK: Weakest precondion kind
+
+data  WpK :  Set ○  where
+  -- Partial/total
+  par tot :  WpK
+
+--------------------------------------------------------------------------------
+-- JudgRes: Result of a judgment
+
+private variable
+  T U :  Type
 
 infix 3 |=>>_
 
--- Result of a judgment
 data  JudgRes :  Set (^ ℓ)  where
   -- Just a proposition
   pure :  Prop' ∞ →  JudgRes
   -- Under the super update
   |=>>_ :  Prop' ∞ →  JudgRes
+  -- Weakest precondion, over Val/Ctxred
+  wp :  WpK →  Val/Ctxred T →  (Val T → Prop' ∞) →  JudgRes
 
-private variable
-  P Q R :  Prop' ∞
-  Jr :  JudgRes
-  A :  Set ℓ
-  P˙ Q˙ :  A → Prop' ∞
-  P˂ Q˂ :  Prop˂ ∞
-  a :  A
-  F :  A → Set ℓ
-  b :  Bool
-  P˂s :  List (Prop˂ ∞)
-  ι :  Size
+--------------------------------------------------------------------------------
+-- P ⊢[ ι ]* Jr :  Judgment
 
 -- Declaring Judg
 data  Judg (ι : Size) :  Prop' ∞ →  JudgRes →  Set (^ ℓ)
 
-infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_
+infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]'⟨_⟩[_]_ _⊢[_]'⟨_⟩_ _⊢[_]'⟨_⟩ᵀ_
+  _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_
 
 -- ⊢[ ]* : General judgment
 _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ℓ)
@@ -61,6 +69,45 @@ P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 -- ⊢[ ]=>> : Super update
 _⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
 P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
+
+-- ⊢[ ]'⟨ ⟩[ ] : Hoare-triple, over Val/Ctxred
+
+_⊢[_]'⟨_⟩[_]_ :
+  Prop' ∞ →  Size →  Val/Ctxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
+P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* wp κ vc Qᵛ
+
+_⊢[_]'⟨_⟩_ _⊢[_]'⟨_⟩ᵀ_ :
+  Prop' ∞ →  Size →  Val/Ctxred T →  (Val T → Prop' ∞) →  Set (^ ℓ)
+P ⊢[ ι ]'⟨ vc ⟩ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ par ] Qᵛ
+P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ tot ] Qᵛ
+
+-- ⊢[ ]⟨ ⟩[ ] : Hoare-triple, over Expr
+_⊢[_]⟨_⟩[_]_ :
+  Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
+P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ctxred e ⟩[ κ ] Qᵛ
+
+_⊢[_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_ :
+  Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set (^ ℓ)
+P ⊢[ ι ]⟨ e ⟩ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
+P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
+
+private variable
+  ι :  Size
+  A :  Set ℓ
+  a :  A
+  F :  A → Set ℓ
+  Jr :  JudgRes
+  P Q R P' :  Prop' ∞
+  P˙ Q˙ :  A → Prop' ∞
+  P˂ Q˂ :  Prop˂ ∞
+  P˂s :  List (Prop˂ ∞)
+  κ :  WpK
+  vc :  Val/Ctxred T
+  ctx :  Expr ∞ U → Expr ∞ T
+  Qᵛ Q'ᵛ :  Val T → Prop' ∞
+  e :  Expr ∞ U
+  e˙ :  A → Expr ∞ U
+  v :  Val T
 
 infixr -1 _»_ _ᵘ»ᵘ_
 
@@ -154,6 +201,28 @@ data  Judg ι  where
   -- Use a exclusive/persistent save token
   saveˣ-use :  saveˣ P˂ ⊢[ ι ]=>> P˂ .!
   save□-use :  save□ P˂ ⊢[ ι ]=>> □ P˂ .!
+
+  ------------------------------------------------------------------------------
+  -- Rules on Hoare triple
+
+  -- Monotonicity
+  hor-monoᵘᵘ :  ∀{Qᵛ : Val T → _} →
+    P' ⊢[ ι ]=>> P →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
+    P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
+
+  -- Weaken a Hoare triple from total to partial
+  hor-ᵀ⇒ :  ∀{Qᵛ : Val T → _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ Qᵛ
+
+  -- Value
+  hor-val :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
+
+  -- ▶, for partial Hoare triple
+  hor-▶ :  ∀{Qᵛ : Val T → _} →
+    P ⊢[ ι ]⟨ ctx e ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ Qᵛ
+
+  -- Application
+  hor-◁ :  ∀{Qᵛ : Val T → _} →
+    P ⊢[ ι ]⟨ ctx $ e˙ a ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , e˙ ◁ᴿ a ⟩ Qᵛ
 
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition

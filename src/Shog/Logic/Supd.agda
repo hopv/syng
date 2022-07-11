@@ -8,14 +8,12 @@ open import Base.Level using (Level)
 module Shog.Logic.Supd (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
-open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Shog.Logic.Prop ℓ using (Prop'; _∗_; |=>_)
-open import Shog.Logic.Core ℓ using (_⊢[_]_; _⊢[<_]_; ⊢-refl; _»_; ∗-comm;
-  |=>-intro)
+open import Shog.Logic.Core ℓ using (_⊢[_]_; ⊢-refl; _»_; ∗-comm; |=>-intro)
 
 -- Import and re-export
-open import Shog.Logic.Judg ℓ public using (|=>>_; _⊢[_]=>>_; ˂|=>⇒=>>; _ᵘ»ᵘ_;
+open import Shog.Logic.Judg ℓ public using (|=>>_; _⊢[_]=>>_; |=>⇒=>>; _ᵘ»ᵘ_;
   =>>-frameˡ)
 
 private variable
@@ -24,17 +22,9 @@ private variable
 
 abstract
 
-  -- Lifting a thunk sequent into a super update =>>
-  ˂⇒=>> :  P ⊢[< ι ] Q →  P ⊢[ ι ]=>> Q
-  ˂⇒=>> P⊢˂Q =  ˂|=>⇒=>> λ{ .! → P⊢˂Q .! » |=>-intro }
-
-  -- Lifting a sequent under |=> into a super update =>>
-  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ]=>> Q
-  |=>⇒=>> P⊢Q =  ˂|=>⇒=>> λ{ .! → P⊢Q }
-
-  -- Lifting a sequent into a super update =>>
+  -- Lift a sequent into a super update =>>
   ⇒=>> :  P ⊢[ ι ] Q →  P ⊢[ ι ]=>> Q
-  ⇒=>> P⊢Q =  ˂⇒=>> λ{ .! → P⊢Q }
+  ⇒=>> P⊢Q =  |=>⇒=>> $ P⊢Q » |=>-intro
 
   -- Reflexivity
   =>>-refl :  P ⊢[ ι ]=>> P

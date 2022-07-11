@@ -125,8 +125,8 @@ data  Judg ι  where
   ------------------------------------------------------------------------------
   -- Rules on super update
 
-  -- A thunk sequent under |=> can be lifted to a super update =>>
-  ˂|=>⇒=>> :  P ⊢[< ι ] |=> Q →  P ⊢[ ι ]=>> Q
+  -- Lift a sequent under |=> to a super update =>>
+  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ]=>> Q
   -- The super update =>> is transitive
   _ᵘ»ᵘ_ :  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]=>> R →  P ⊢[ ι ]=>> R
   -- The super update =>> can frame

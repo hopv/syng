@@ -28,9 +28,17 @@ infixr 5 _→'_ _-∗_
 infixr 7 _∗_
 infix 8 |=>_ □_
 
+private variable
+  ι :  Size
+  A :  Set ℓ
+  P˙ :  A → Prop' ∞
+  P Q R S :  Prop' ∞
+  ℓ' :  Level
+  D :  Set ℓ'
+
 data  Prop' ι  where
   -- ∀˙, ∃˙: Universal/existential quantification
-  ∀˙ ∃˙ :  (A : Set ℓ) →  (A → Prop' ι) →  Prop' ι
+  ∀˙ ∃˙ :  (A → Prop' ι) →  Prop' ι
   -- →': Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
   -- ∗: Separating conjunction
@@ -42,28 +50,17 @@ data  Prop' ι  where
   -- saveˣ, save□: Save token, exclusive and persistent
   saveˣ save□ :  Prop˂ ι →  Prop' ι
 
-private variable
-  ι :  Size
-  A :  Set ℓ
-  P˙ :  A → Prop' ∞
-  P Q R S :  Prop' ∞
-  ℓ' :  Level
-  D :  Set ℓ'
-
 --------------------------------------------------------------------------------
--- ∀∈-syntax, ∃∈-syntax, ∀-syntax, ∃-syntax: Syntax for ∀/∃
+-- Syntax for ∀/∃
 
-∀∈-syntax ∃∈-syntax :  (A : Set ℓ) →  (A → Prop' ι) →  Prop' ι
+∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  (A → Prop' ι) →  Prop' ι
 ∀∈-syntax =  ∀˙
 ∃∈-syntax =  ∃˙
-
-∀-syntax ∃-syntax :  (A → Prop' ι) →  Prop' ι
-∀-syntax =  ∀˙ _
-∃-syntax =  ∃˙ _
-
+∀-syntax =  ∀˙
+∃-syntax =  ∃˙
 infix 3 ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
-syntax ∀∈-syntax A (λ x → P) =  ∀' x ∈ A , P
-syntax ∃∈-syntax A (λ x → P) =  ∃ x ∈ A , P
+syntax ∀∈-syntax {A = A} (λ x → P) =  ∀' x ∈ A , P
+syntax ∃∈-syntax {A = A} (λ x → P) =  ∃ x ∈ A , P
 syntax ∀-syntax (λ x → P) =  ∀' x , P
 syntax ∃-syntax (λ x → P) =  ∃ x , P
 
@@ -75,22 +72,22 @@ infixr 7 _∧_
 infixr 6 _∨_
 
 _∧_ _∨_ :  Prop' ι →  Prop' ι →  Prop' ι
-P ∧ Q =  ∀˙ _ (binary P Q)
-P ∨ Q =  ∃˙ _ (binary P Q)
+P ∧ Q =  ∀˙ (binary P Q)
+P ∨ Q =  ∃˙ (binary P Q)
 
 --------------------------------------------------------------------------------
 -- ⊤': Truth
 -- ⊥': Falsehood
 
 ⊤' ⊥' :  Prop' ι
-⊤' =  ∀˙ _ absurd
-⊥' =  ∃˙ _ absurd
+⊤' =  ∀˙ absurd
+⊥' =  ∃˙ absurd
 
 --------------------------------------------------------------------------------
 -- ⌜ ⌝: Set embedding
 
 ⌜_⌝ :  Set ℓ →  Prop' ι
-⌜ A ⌝ =  ∃˙ A (λ _ → ⊤')
+⌜ A ⌝ =  ∃ _ ∈ A , ⊤'
 
 --------------------------------------------------------------------------------
 -- [∗]: Iterated separating conjunction
@@ -115,8 +112,8 @@ syntax [∗]-map-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
 
 -- IsBasic P: P consists only of ∀, ∃ and ∗
 data  IsBasic :  Prop' ∞ →  Set (^ ℓ)  where
-  ∀-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∀˙ _ P˙)
-  ∃-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∃˙ _ P˙)
+  ∀-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∀˙ P˙)
+  ∃-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∃˙ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
   □-IsBasic :  IsBasic P →  IsBasic (□ P)
 
@@ -132,10 +129,10 @@ abstract
   -- -- They are not instances, because unfortunately
   -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
-  ∀-Basic :  (∀ a → Basic (P˙ a)) →  Basic (∀˙ _ P˙)
+  ∀-Basic :  (∀ a → Basic (P˙ a)) →  Basic (∀˙ P˙)
   ∀-Basic ∀Basic .isBasic =  ∀-IsBasic $ λ a → ∀Basic a .isBasic
 
-  ∃-Basic :  (∀ a → Basic (P˙ a)) →  Basic (∃˙ _ P˙)
+  ∃-Basic :  (∀ a → Basic (P˙ a)) →  Basic (∃˙ P˙)
   ∃-Basic ∀Basic .isBasic =  ∃-IsBasic $ λ a → ∀Basic a .isBasic
 
   instance

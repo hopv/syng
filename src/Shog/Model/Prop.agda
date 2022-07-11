@@ -78,54 +78,51 @@ abstract
 
 -- For Set ℓ
 
-∀ᵒ˙ ∃ᵒ˙ :  (X : Set ℓ) →  (X → Propᵒ) →  Propᵒ
-∀ᵒ˙ _ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
-∀ᵒ˙ _ Pᵒ˙ .monoᵒ =  proof
+∀ᵒ˙ ∃ᵒ˙ : (X → Propᵒ) →  Propᵒ
+∀ᵒ˙ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
+∀ᵒ˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∀ᵒ˙ _ Pᵒ˙ .predᵒ
+  proof :  Monoᵒ $ ∀ᵒ˙ Pᵒ˙ .predᵒ
   proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃ᵒ˙ _ Pᵒ˙ .predᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .predᵒ a ✓a
-∃ᵒ˙ _ Pᵒ˙ .monoᵒ =  proof
+∃ᵒ˙ Pᵒ˙ .predᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .predᵒ a ✓a
+∃ᵒ˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∃ᵒ˙ _ Pᵒ˙ .predᵒ
+  proof :  Monoᵒ $ ∃ᵒ˙ Pᵒ˙ .predᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
 -- For Set (^ ℓ)
 
-∀^˙ ∃^˙ :  (X^ : Set (^ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
-∀^˙ _ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
-∀^˙ _ Pᵒ˙ .monoᵒ =  proof
+∀^˙ ∃^˙ :  (X^ → Propᵒ) →  Propᵒ
+∀^˙ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
+∀^˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∀^˙ _ Pᵒ˙ .predᵒ
+  proof :  Monoᵒ $ ∀^˙ Pᵒ˙ .predᵒ
   proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃^˙ _ Pᵒ˙ .predᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .predᵒ a ✓a
-∃^˙ _ Pᵒ˙ .monoᵒ =  proof
+∃^˙ Pᵒ˙ .predᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .predᵒ a ✓a
+∃^˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∃^˙ _ Pᵒ˙ .predᵒ
+  proof :  Monoᵒ $ ∃^˙ Pᵒ˙ .predᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
-∀ᵒ∈-syntax ∃ᵒ∈-syntax :  (X : Set ℓ) →  (X → Propᵒ) →  Propᵒ
-∀^∈-syntax ∃^∈-syntax :  (X^ : Set (^ ℓ)) →  (X^ → Propᵒ) →  Propᵒ
+∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax :  (X → Propᵒ) →  Propᵒ
 ∀ᵒ∈-syntax =  ∀ᵒ˙
 ∃ᵒ∈-syntax =  ∃ᵒ˙
+∀ᵒ-syntax =  ∀ᵒ˙
+∃ᵒ-syntax =  ∃ᵒ˙
+∀^∈-syntax ∃^∈-syntax ∀^-syntax ∃^-syntax :  (X^ → Propᵒ) →  Propᵒ
 ∀^∈-syntax =  ∀^˙
 ∃^∈-syntax =  ∃^˙
+∀^-syntax =  ∀^˙
+∃^-syntax =  ∃^˙
 
-∀ᵒ-syntax ∃ᵒ-syntax :  (X → Propᵒ) →  Propᵒ
-∀^-syntax ∃^-syntax :  (X^ → Propᵒ) →  Propᵒ
-∀ᵒ-syntax =  ∀ᵒ˙ _
-∃ᵒ-syntax =  ∃ᵒ˙ _
-∀^-syntax =  ∀^˙ _
-∃^-syntax =  ∃^˙ _
-
-infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀^∈-syntax ∃^∈-syntax
-  ∀ᵒ-syntax ∃ᵒ-syntax ∀^-syntax ∃^-syntax
-syntax ∀ᵒ∈-syntax X (λ x → Pᵒ) =  ∀ᵒ x ∈ X , Pᵒ
-syntax ∃ᵒ∈-syntax X (λ x → Pᵒ) =  ∃ᵒ x ∈ X , Pᵒ
-syntax ∀^∈-syntax X (λ x → Pᵒ) =  ∀^ x ∈ X , Pᵒ
-syntax ∃^∈-syntax X (λ x → Pᵒ) =  ∃^ x ∈ X , Pᵒ
+infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax
+  ∀^∈-syntax ∃^∈-syntax ∀^-syntax ∃^-syntax
+syntax ∀ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∀ᵒ x ∈ X , Pᵒ
+syntax ∃ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∃ᵒ x ∈ X , Pᵒ
 syntax ∀ᵒ-syntax (λ x → Pᵒ) =  ∀ᵒ x , Pᵒ
 syntax ∃ᵒ-syntax (λ x → Pᵒ) =  ∃ᵒ x , Pᵒ
+syntax ∀^∈-syntax {X^ = X^} (λ x → Pᵒ) =  ∀^ x ∈ X^ , Pᵒ
+syntax ∃^∈-syntax {X^ = X^} (λ x → Pᵒ) =  ∃^ x ∈ X^ , Pᵒ
 syntax ∀^-syntax (λ x → Pᵒ) =  ∀^ x , Pᵒ
 syntax ∃^-syntax (λ x → Pᵒ) =  ∃^ x , Pᵒ
 

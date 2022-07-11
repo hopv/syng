@@ -40,8 +40,8 @@ private variable
 -- [| |]: Interpreting propositions
 
 [|_|] :  (P : Prop' ∞) →  Propᵒ
-[| ∀˙ _ P˙ |] =  ∀ᵒ x , [| P˙ x |]
-[| ∃˙ _ P˙ |] =  ∃ᵒ x , [| P˙ x |]
+[| ∀˙ P˙ |] =  ∀ᵒ x , [| P˙ x |]
+[| ∃˙ P˙ |] =  ∃ᵒ x , [| P˙ x |]
 [| P →' Q |] =  [| P |] →ᵒ [| Q |]
 [| P ∗ Q |] =  [| P |] ∗ᵒ [| Q |]
 [| P -∗ Q |] =  [| P |] -∗ᵒ [| Q |]
@@ -93,16 +93,16 @@ abstract
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ] R →  P ⊢[ ∞ ] R
   ⊢-sem (P⊢Q » Q⊢R) Pa =  Pa ▷ ⊢-sem P⊢Q ▷ ⊢-sem Q⊢R
 
-  -- ∀-intro :  (∀ a → P ⊢[ ∞ ] Q˙ a) →  P ⊢[ ∞ ] ∀˙ _ Q˙
+  -- ∀-intro :  (∀ a → P ⊢[ ∞ ] Q˙ a) →  P ⊢[ ∞ ] ∀˙ Q˙
   ⊢-sem (∀-intro ∀xP⊢Qx) Pa x =  ⊢-sem (∀xP⊢Qx x) Pa
 
-  -- ∃-elim :  (∀ a → P˙ a ⊢[ ∞ ] Q) →  ∃˙ _ P˙ ⊢[ ∞ ] Q
+  -- ∃-elim :  (∀ a → P˙ a ⊢[ ∞ ] Q) →  ∃˙ P˙ ⊢[ ∞ ] Q
   ⊢-sem (∃-elim ∀xPx⊢Q) (x , Pxa) =  ⊢-sem (∀xPx⊢Q x) Pxa
 
-  -- ∀-elim :  ∀˙ _ P˙ ⊢[ ∞ ] P˙ a
+  -- ∀-elim :  ∀˙ P˙ ⊢[ ∞ ] P˙ a
   ⊢-sem ∀-elim ∀Pa =  ∀Pa _
 
-  -- ∃-intro :  P˙ a ⊢[ ∞ ] ∃˙ _ P˙
+  -- ∃-intro :  P˙ a ⊢[ ∞ ] ∃˙ P˙
   ⊢-sem ∃-intro Px =  _ , Px
 
   -- choice :  ∀' a , ∃ b , P˙˙ a b ⊢[ ∞ ] ∃ f , ∀' a , P˙˙ a (f a)
@@ -181,10 +181,10 @@ abstract
     congᵒ [| P |] (◠˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) ,
     renewᵒ [| Q |] (P⌞a⌟∧Qa 1₂)
 
-  -- □-∀-in :  ∀˙ _ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀˙ _ P˙
+  -- □-∀-in :  ∀˙ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀˙ P˙
   ⊢-sem □-∀-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
 
-  -- □-∃-out :  □ ∃˙ _ P˙ ⊢[ ∞ ] ∃˙ _ (□_ ∘ P˙)
+  -- □-∃-out :  □ ∃˙ P˙ ⊢[ ∞ ] ∃˙ (□_ ∘ P˙)
   ⊢-sem □-∃-out ∑xPx⌞a⌟ =  ∑xPx⌞a⌟
 
   -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂

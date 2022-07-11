@@ -169,7 +169,7 @@ abstract
 
   -- Eliminate ∃/∨/⊥' from the head
 
-  0-∃-elim :  (∀ a → P˙ a ∗ Q ⊢[ ι ]* Jr) →  (∃˙ _ P˙) ∗ Q ⊢[ ι ]* Jr
+  0-∃-elim :  (∀ a → P˙ a ∗ Q ⊢[ ι ]* Jr) →  (∃˙ P˙) ∗ Q ⊢[ ι ]* Jr
   0-∃-elim →P˙∗⊢ =  ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →P˙∗⊢ a
 
   0-∨-elim :  P ∗ Q ⊢[ ι ]* Jr →  P' ∗ Q ⊢[ ι ]* Jr →  (P ∨ P') ∗ Q ⊢[ ι ]* Jr

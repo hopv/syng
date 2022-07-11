@@ -25,8 +25,8 @@ private variable
 -- [| |]ᴮ[ ] : Interpreting IsBasic propositions
 
 [|_|]ᴮ[_] :  (P : Prop' ∞) →  IsBasic P →  Propᵒ
-[| ∀˙ _ P˙ |]ᴮ[ ∀-IsBasic IsBaP˙ ] =  ∀ᵒ x , [| P˙ x |]ᴮ[ IsBaP˙ x ]
-[| ∃˙ _ P˙ |]ᴮ[ ∃-IsBasic IsBaP˙ ] =  ∃ᵒ x , [| P˙ x |]ᴮ[ IsBaP˙ x ]
+[| ∀˙ P˙ |]ᴮ[ ∀-IsBasic IsBaP˙ ] =  ∀ᵒ x , [| P˙ x |]ᴮ[ IsBaP˙ x ]
+[| ∃˙ P˙ |]ᴮ[ ∃-IsBasic IsBaP˙ ] =  ∃ᵒ x , [| P˙ x |]ᴮ[ IsBaP˙ x ]
 [| P ∗ Q |]ᴮ[ ∗-IsBasic IsBaP IsBaQ ] =  [| P |]ᴮ[ IsBaP ] ∗ᵒ [| Q |]ᴮ[ IsBaQ ]
 [| □ P |]ᴮ[ □-IsBasic IsBaP ] =  □ᵒ [| P |]ᴮ[ IsBaP ]
 

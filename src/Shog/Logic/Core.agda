@@ -73,10 +73,10 @@ abstract
 
   -- ∀/∃/∧/∨ is monotone
 
-  ∀-mono :  (∀ a →  P˙ a ⊢[ ι ] Q˙ a) →  ∀˙ _ P˙ ⊢[ ι ] ∀˙ _ Q˙
+  ∀-mono :  (∀ a →  P˙ a ⊢[ ι ] Q˙ a) →  ∀˙ P˙ ⊢[ ι ] ∀˙ Q˙
   ∀-mono P˙⊢Q˙ =  ∀-intro $ λ a →  ∀-elim » P˙⊢Q˙ a
 
-  ∃-mono :  (∀ a →  P˙ a ⊢[ ι ] Q˙ a) →  ∃˙ _ P˙ ⊢[ ι ] ∃˙ _ Q˙
+  ∃-mono :  (∀ a →  P˙ a ⊢[ ι ] Q˙ a) →  ∃˙ P˙ ⊢[ ι ] ∃˙ Q˙
   ∃-mono P˙⊢Q˙ =  ∃-elim $ λ a →  P˙⊢Q˙ a » ∃-intro
 
   ∧-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  P ∧ R ⊢[ ι ] Q ∧ S
@@ -265,7 +265,7 @@ abstract
 
   -- ∃ can get outside ∗
 
-  ∗-∃-out :  P ∗ ∃˙ _ Q˙ ⊢[ ι ] ∃ a , P ∗ Q˙ a
+  ∗-∃-out :  P ∗ ∃˙ Q˙ ⊢[ ι ] ∃ a , P ∗ Q˙ a
   ∗-∃-out =  -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
 
   -- ∗ can turn into ∧
@@ -335,10 +335,10 @@ abstract
 
   -- ∀/∧ can get outside □ / ∃/∨ can get inside □
 
-  □-∀-out :  □ ∀˙ _ P˙ ⊢[ ι ] ∀˙ _ (□_ ∘ P˙)
+  □-∀-out :  □ ∀˙ P˙ ⊢[ ι ] ∀˙ (□_ ∘ P˙)
   □-∀-out =  ∀-intro $ λ _ → □-mono ∀-elim
 
-  □-∃-in :  ∃˙ A (□_ ∘ P˙) ⊢[ ι ] □ ∃˙ A P˙
+  □-∃-in :  ∃˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃˙ P˙
   □-∃-in =  ∃-elim $ λ _ → □-mono ∃-intro
 
   □-∧-out :  □ (P ∧ Q) ⊢[ ι ] □ P ∧ □ Q
@@ -413,10 +413,10 @@ abstract
   -- -- They are not instances, because unfortunately
   -- -- Agda can't search a universally quantified instance (∀ a → ...)
 
-  ∀-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∀˙ _ P˙)
+  ∀-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∀˙ P˙)
   ∀-Pers ∀Pers .Pers-⇒□ =  ∀-mono (λ a → ∀Pers a .Pers-⇒□) » □-∀-in
 
-  ∃-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∃˙ _ P˙)
+  ∃-Pers :  (∀ a → Pers (P˙ a)) →  Pers (∃˙ P˙)
   ∃-Pers ∀Pers .Pers-⇒□ =  ∃-mono (λ a → ∀Pers a .Pers-⇒□) » □-∃-in
 
   instance

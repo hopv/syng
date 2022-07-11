@@ -19,7 +19,7 @@ open import Base.List using (List; _∷_; []; map)
 open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
   _↝ˢ_; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ✓-resp; ✓-mono;
   ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ;
-  ∙-assocʳ; ∙≈-✓ˡ; ∙≈-✓ʳ; ✓-remˡ; ε-min; ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
+  ∙-assocʳ; ε-min; ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
 
 private variable
   ℓF :  Level
@@ -53,7 +53,7 @@ private variable
   X :  Set ℓ
   X^ :  Set (^ ℓ)
   Pᵒ Qᵒ Rᵒ :  Propᵒ
-  a b :  Glob
+  a b c :  Glob
   B :  Glob → Set ℓB
 
 --------------------------------------------------------------------------------
@@ -181,6 +181,14 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 --------------------------------------------------------------------------------
 -- ∗ᵒ: Separating conjunction
 
+abstract
+
+  ∙≈-✓ˡ :  b ∙ c ≈ a →  ✓ a →  ✓ b
+  ∙≈-✓ˡ b∙c≈a ✓a =  ✓-mono (_ , (∙-comm ◇˜ b∙c≈a)) ✓a
+
+  ∙≈-✓ʳ :  b ∙ c ≈ a →  ✓ a →  ✓ c
+  ∙≈-✓ʳ b∙c≈a ✓a =  ✓-mono (_ , b∙c≈a) ✓a
+
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 (Pᵒ ∗ᵒ Qᵒ) .predᵒ a ✓a =  ∑ b , ∑ c , ∑ b∙c≈a ,
@@ -206,6 +214,11 @@ _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 --------------------------------------------------------------------------------
 -- |=>ᵒ: Update modality
+
+abstract
+
+  ✓-remˡ :  ✓ a ∙ b →  ✓ b
+  ✓-remˡ ✓a∙b =  ✓-mono ∙-incrˡ ✓a∙b
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ

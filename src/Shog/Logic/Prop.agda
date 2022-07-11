@@ -101,11 +101,12 @@ P ∨ Q =  ∃˙ (binary P Q)
 [∗]-map :  (D → Prop' ι) →  List D →  Prop' ι
 [∗]-map P˙ ds =  [∗] (map P˙ ds)
 
-[∗]-map-syntax :  (D → Prop' ι) →  List D →  Prop' ι
-[∗]-map-syntax =  [∗]-map
+-- Syntax for [∗]-map
 
-infix 8 [∗]-map-syntax
-syntax [∗]-map-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
+[∗∈]-syntax :  (D → Prop' ι) →  List D →  Prop' ι
+[∗∈]-syntax =  [∗]-map
+infix 8 [∗∈]-syntax
+syntax [∗∈]-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
 
 --------------------------------------------------------------------------------
 -- Basic Shog proposition

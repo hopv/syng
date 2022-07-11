@@ -88,6 +88,10 @@ data  Expr ι  where
   ★_ :  Expr ι (◸ Addr) →  Expr ι T
   -- Write to the memory
   _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
+  -- Allocating a new memory block
+  alloc :  Expr ι (◸ Up ℕ) →  Expr ι (◸ Addr)
+  -- Freeing a memory block
+  free :  Expr ι (◸ Addr) →  Expr ι (◸ ⊤)
 
 -- Lambda abstraction
 

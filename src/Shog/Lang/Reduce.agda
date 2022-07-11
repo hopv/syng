@@ -17,12 +17,12 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Option using (??_)
 open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; _≡ᵇ_)
-open import Base.List using (List)
-open import Base.List.Nat using (_!!_; upd)
+open import Base.List using (List; [])
+open import Base.List.Nat using (_!!_; upd; repeat)
 open import Base.Option using (some)
 open import Base.Eq using (_≡_)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; _➔_; Addr; addr; Expr; Expr˂; ▶_;
-  ∇_; λ˙; _◁_; ★_; _←_; Val; Val⇒Expr)
+  ∇_; λ˙; _◁_; ★_; _←_; alloc; free; Val; Val⇒Expr)
 
 private variable
   A :  Set ℓ
@@ -40,6 +40,8 @@ data  Redex :  Type →  Set (^ ℓ)  where
   _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
   ★ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
+  allocᴿ :  ℕ →  Redex (◸ Addr)
+  freeᴿ :  Addr →  Redex (◸ ⊤)
 
 --------------------------------------------------------------------------------
 -- Memory
@@ -112,6 +114,18 @@ val/ctxred (e ← e') =  inj₁ body
   ... | inj₀ v  with val/ctxred e
   ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ← e') , red
   ...   | inj₀ (↑ x) =  _ , id , x ←ᴿ v
+val/ctxred (alloc e) =  inj₁ body
+ where
+  body :  _
+  body  with val/ctxred e
+  ... | inj₁ (_ , ctx , red) =  _ , (λ • → alloc $ ctx •) , red
+  ... | inj₀ (↑ ↑ n) =  _ , id , allocᴿ n
+val/ctxred (free e) =  inj₁ body
+ where
+  body :  _
+  body  with val/ctxred e
+  ... | inj₁ (_ , ctx , red) =  _ , (λ • → free $ ctx •) , red
+  ... | inj₀ (↑ x) =  _ , id , freeᴿ x
 
 --------------------------------------------------------------------------------
 -- Reduction
@@ -127,6 +141,7 @@ private variable
   a :  A
   x :  Addr
   u :  Val U
+  b n :  ℕ
 
 data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
   ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e˂) M (ctx $ e˂ .!) M
@@ -135,6 +150,11 @@ data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ �
     Red' (inj₁ $ _ , ctx , ★ᴿ x) M (ctx $ Val⇒Expr u) M
   ←-red :  ∀ {v : Val V} →
     Red' (inj₁ $ _ , ctx , x ←ᴿ v) M (ctx $ ∇ _) (updᴹ x (_ , v) M)
+  alloc-red :  ∀ b →  M b ≡ [] →
+    Red' (inj₁ $ _ , ctx , allocᴿ n) M
+         (ctx $ ∇ addr b 0) (updᴹᴮ b (repeat n (◸ ⊤ , _)) M)
+  free-red :  Red' (inj₁ $ _ , ctx , freeᴿ $ addr b 0) M
+                   (ctx $ ∇ _) (updᴹᴮ b [] M)
 
 -- Red e M e' M' :  e & M reduces to e' & M'
 

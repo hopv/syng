@@ -15,7 +15,6 @@ open import Base.Func using (_$_; _∘_)
 open import Base.Few using (binary)
 
 open import Shog.Logic.Prop ℓ
-open import Shog.Logic.Judg ℓ
 open import Shog.Logic.Core ℓ
 
 private variable

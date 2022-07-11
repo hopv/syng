@@ -13,14 +13,15 @@ open import Base.Func using (it)
 open import Base.List using ([_])
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; _∧_; _∗_; □_; saveˣ; save□;
   Basic; ⊤-Basic)
-open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; Pers; Pers-⇒□)
-open import Shog.Logic.Core ℓ using (⊢-refl; _»_; ∧-elimʳ; ⊤∧-intro; ∗⇒∧;
-  ∗-monoʳ; ∗-elimˡ; ∗⊤-intro; -∗-const; Basic-Pers; Persˡ-∧⇒∗)
-open import Shog.Logic.Supd ℓ using (_ᵘ»_)
+open import Shog.Logic.Core ℓ using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl;
+  _»_; ∧-elimʳ; ⊤∧-intro; ∗⇒∧; ∗-monoʳ; ∗-elimˡ; ∗⊤-intro; -∗-const; Basic-Pers;
+  Persˡ-∧⇒∗)
+open import Shog.Logic.Supd ℓ using (|=>>_; _⊢[_]=>>_; _ᵘ»_)
 
--- Import and re-export the axiomatic rules
-open import Shog.Logic.Judg.All ℓ public using (save□-□; saveˣ-mono-∧;
-  save□-mono-∧; saveˣ-alloc; save□-alloc-rec; saveˣ-use; save□-use)
+-- Import and re-export
+open import Shog.Logic.Judg ℓ public using (save□-□;
+  saveˣ-mono-∧; save□-mono-∧; saveˣ-alloc; save□-alloc-rec; saveˣ-use;
+  save□-use)
 
 private variable
   ι :  Size

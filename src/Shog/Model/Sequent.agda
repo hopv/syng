@@ -15,13 +15,12 @@ open import Base.Prod using (_,_; proj₀; proj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
   □_; saveˣ; save□; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic;
   isBasic; ∧-Basic)
-open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; ⊢-refl; _»_;
+open import Shog.Logic.Core ℓ using (_⊢[_]_; ⊢-refl; _»_;
   ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
-  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out;
-  save□-□; saveˣ-mono-∧; save□-mono-∧)
-open import Shog.Logic.Core ℓ using (∧-assocˡ; ∧-monoʳ)
+  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out; ∧-assocˡ; ∧-monoʳ)
+open import Shog.Logic.Save ℓ using (save□-□; saveˣ-mono-∧; save□-mono-∧)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
 open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; renewᵒ; congᵒ; congᵒ';

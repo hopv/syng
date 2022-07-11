@@ -130,8 +130,8 @@ module _ where
   FrAgᴿᴬ .ε =  εᶠ
   FrAgᴿᴬ .⌞_⌟ _ =  εᶠ
   FrAgᴿᴬ .refl˜ =  ≈ᶠ-refl
-  FrAgᴿᴬ .sym˜ =  ≈ᶠ-sym
-  FrAgᴿᴬ ._»˜_ =  ≈ᶠ-trans
+  FrAgᴿᴬ .◠˜_ =  ≈ᶠ-sym
+  FrAgᴿᴬ ._◇˜_ =  ≈ᶠ-trans
   FrAgᴿᴬ .∙-congˡ =  ∙ᶠ-congˡ _ _ _
   FrAgᴿᴬ .∙-unitˡ =  ≈ᶠ-refl
   FrAgᴿᴬ .∙-comm {x} =  ∙ᶠ-comm x _

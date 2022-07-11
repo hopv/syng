@@ -37,8 +37,8 @@ module _ where
   Agᴿᴬ .ε =  []
   Agᴿᴬ .⌞_⌟ =  id
   Agᴿᴬ .refl˜ =  ≈ᴸ-refl
-  Agᴿᴬ .sym˜ =  ≈ᴸ-sym
-  Agᴿᴬ ._»˜_ =  ≈ᴸ-trans
+  Agᴿᴬ .◠˜_ =  ≈ᴸ-sym
+  Agᴿᴬ ._◇˜_ =  ≈ᴸ-trans
   Agᴿᴬ .∙-congˡ =  ++-congˡ
   Agᴿᴬ .∙-unitˡ =  ≈ᴸ-refl
   Agᴿᴬ .∙-comm {as} =  ++-comm {as}

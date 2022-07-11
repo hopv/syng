@@ -14,7 +14,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∗_; □_; IsBasic
   ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
-open RA Globᴿᴬ using (_⊑_; ✓_; _∙_; ⌞_⌟; _»˜_; ∙-comm; ⌞⌟-dup; ✓-⌞⌟)
+open RA Globᴿᴬ using (_⊑_; ✓_; _∙_; ⌞_⌟; _◇˜_; ∙-comm; ⌞⌟-dup; ✓-⌞⌟)
 open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀ᵒ-syntax;
   ∃ᵒ-syntax; _∗ᵒ_; □ᵒ_)
 
@@ -41,7 +41,7 @@ abstract
    (b , c , b∙c≈a , Pb , Qc) =  ⌞ a ⌟ , ⌞ a ⌟ , ⌞⌟-dup {a} ,
     let P' = [| P |]ᴮ[ IsBaP ] in  let Q' = [| Q |]ᴮ[ IsBaQ ] in
     renewᵒ P'
-      ([||]ᴮ'-⇒□ IsBaP {✓a = ✓a} $ P' .monoᵒ (c , (∙-comm »˜ b∙c≈a)) Pb) ,
+      ([||]ᴮ'-⇒□ IsBaP {✓a = ✓a} $ P' .monoᵒ (c , (∙-comm ◇˜ b∙c≈a)) Pb) ,
     renewᵒ Q' ([||]ᴮ'-⇒□ IsBaQ {✓a = ✓a} $ Q' .monoᵒ (b , b∙c≈a) Qc)
   [||]ᴮ'-⇒□ (□-IsBasic IsBaP) P⌞a⌟ =  [||]ᴮ'-⇒□ IsBaP P⌞a⌟
 

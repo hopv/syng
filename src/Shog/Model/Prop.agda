@@ -17,7 +17,7 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.List using (List; _∷_; []; map)
 
 open RA Globᴿᴬ renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
-  _↝ˢ_; sym˜; _»˜_; ≈⇒⊑; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ✓-resp; ✓-mono;
+  _↝ˢ_; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ✓-resp; ✓-mono;
   ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ;
   ∙-assocʳ; ∙≈-✓ˡ; ∙≈-✓ʳ; ✓-remˡ; ε-min; ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
 
@@ -43,7 +43,7 @@ record  Propᵒ :  Set (^ ^ ℓ)  where
     congᵒ :  ∀ {a b ✓a ✓b} →  a ≈ b →  predᵒ a ✓a →  predᵒ b ✓b
     congᵒ a≈b =  monoᵒ (≈⇒⊑ a≈b)
 
-    congᵒ' :  ∀ {a b ✓b} a≈b →  predᵒ a (✓-resp (sym˜ a≈b) ✓b) →  predᵒ b ✓b
+    congᵒ' :  ∀ {a b ✓b} a≈b →  predᵒ a (✓-resp (◠˜ a≈b) ✓b) →  predᵒ b ✓b
     congᵒ' a≈b =  congᵒ a≈b
 
 open Propᵒ public
@@ -70,9 +70,9 @@ abstract
   reflᵒ :  Pᵒ ⊨ Pᵒ
   reflᵒ Pa =  Pa
 
-  infixr -1 _»ᵒ_
-  _»ᵒ_ :  Pᵒ ⊨ Qᵒ →  Qᵒ ⊨ Rᵒ →  Pᵒ ⊨ Rᵒ
-  (P⊨Q »ᵒ Q⊨R) Pa =  Pa ▷ P⊨Q ▷ Q⊨R
+  infixr -1 _◇ᵒ_
+  _◇ᵒ_ :  Pᵒ ⊨ Qᵒ →  Qᵒ ⊨ Rᵒ →  Pᵒ ⊨ Rᵒ
+  (P⊨Q ◇ᵒ Q⊨R) Pa =  Pa ▷ P⊨Q ▷ Q⊨R
 
 --------------------------------------------------------------------------------
 -- ∀ᵒ˙, ∃ᵒ˙, ∀ᵒ˙', ∃ᵒ˙': Universal/existential quantification
@@ -189,7 +189,7 @@ _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
  where abstract
   proof :  Monoᵒ $ (Pᵒ ∗ᵒ Qᵒ) .predᵒ
   proof (c , c∙a≈b) (d , e , d∙e≈a , Pd , Qe) =
-    c ∙ d , e , (∙-assocˡ »˜ ∙-congʳ d∙e≈a »˜ c∙a≈b) ,
+    c ∙ d , e , (∙-assocˡ ◇˜ ∙-congʳ d∙e≈a ◇˜ c∙a≈b) ,
     Pᵒ .monoᵒ ∙-incrˡ Pd , renewᵒ Qᵒ Qe
 
 --------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ infix 8 |=>ᵒ_
  where abstract
   proof :  Monoᵒ $ (|=>ᵒ Pᵒ) .predᵒ
   proof (d , d∙a≈b) |=>Pa e ✓e∙b  with
-    |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (sym˜ d∙a≈b) »˜ ∙-assocʳ
+    |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (◠˜ d∙a≈b) ◇˜ ∙-assocʳ
   ... | (c , ✓ed∙c , Pc) =  c , (flip ✓-mono ✓ed∙c $ ∙-monoˡ ∙-incrʳ) ,
     renewᵒ Pᵒ Pc
 
@@ -249,7 +249,7 @@ abstract
   own-mono a⊑b b⊑c =  ⊑-trans a⊑b b⊑c
 
   own-∙⇒∗ :  own (a ∙ b) ⊨ own a ∗ᵒ own b
-  own-∙⇒∗ {a = a} {b} {c} (d , d∙ab≈c) =  d ∙ a , b , (∙-assocˡ »˜ d∙ab≈c) ,
+  own-∙⇒∗ {a = a} {b} {c} (d , d∙ab≈c) =  d ∙ a , b , (∙-assocˡ ◇˜ d∙ab≈c) ,
     ∙-incrˡ , ⊑-refl
 
   own-∗⇒∙ :  own a ∗ᵒ own b ⊨ own (a ∙ b)
@@ -273,9 +273,9 @@ abstract
    where
     ✓d∙b :  ✓ d ∙ b
     ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) $ a↝b (d ∙ c) $ flip ✓-resp ✓d∙a' $
-      ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
+      ∙-congʳ (◠˜ c∙a≈a') ◇˜ ∙-assocʳ
 
   own-↝ˢ :  a ↝ˢ B →  own a ⊨ |=>ᵒ (∃^ b , ⌜ b ∈ B ⌝^ ∧ᵒ own b)
   own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a'  with a↝B (d ∙ c) $
-    flip ✓-resp ✓d∙a' $ ∙-congʳ (sym˜ c∙a≈a') »˜ ∙-assocʳ
+    flip ✓-resp ✓d∙a' $ ∙-congʳ (◠˜ c∙a≈a') ◇˜ ∙-assocʳ
   ... | b , b∈B , ✓d∙cb =  b , ✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb , b , b∈B , ⊑-refl

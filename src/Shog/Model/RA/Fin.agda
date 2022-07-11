@@ -8,12 +8,12 @@ open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Fin {ℓ ℓ≈ ℓ✓} (Ra : RA ℓ ℓ≈ ℓ✓) where
 
 open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
-  ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; sym˜ to sym'; _»˜_ to _»'_;
+  ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_;
   ✓-resp to ✓'-resp; ∙-congˡ to ∙'-congˡ; ∙-unitˡ to ∙'-unitˡ)
 
 open import Base.Level using (_⌴_)
 open import Base.Bool using (tt; ff)
-open import Base.Eq using (_≡_; refl⁼; sym⁼)
+open import Base.Eq using (_≡_; refl; ◠_)
 open import Base.Setoid using (≡-setoid)
 open import Base.Func using (_$_; flip)
 open import Base.Few using (absurd)
@@ -67,7 +67,7 @@ private module _ where
    where abstract
     proof :  Out-ε ((F ∙ᶠ G) .fin) ((F ∙ᶠ G) .supp)
     proof i∉++ =
-      ∙-cong Ra (F .out-ε (∉ᴸ-++-elim₀ i∉++)) (G .out-ε (∉ᴸ-++-elim₁ i∉++)) »'
+      ∙-cong Ra (F .out-ε (∉ᴸ-++-elim₀ i∉++)) (G .out-ε (∉ᴸ-++-elim₁ i∉++)) ◇'
       ∙-unitˡ Ra
 
   -- Unit
@@ -83,7 +83,7 @@ private module _ where
   ⌞ F ⌟ᶠ .out-ε =  proof
    where abstract
     proof :  Out-ε (⌞ F ⌟ᶠ .fin) (⌞ F ⌟ᶠ .supp)
-    proof i∉ =  ⌞⌟-cong Ra (F .out-ε i∉) »' ⌞⌟-ε Ra
+    proof i∉ =  ⌞⌟-cong Ra (F .out-ε i∉) ◇' ⌞⌟-ε Ra
 
 --------------------------------------------------------------------------------
 -- Internal lemma
@@ -94,10 +94,10 @@ private module _ where abstract
   ⌞⌟ᶠ-add :  ∀ F G →  ∑ G' ,  G' ∙ᶠ ⌞ F ⌟ᶠ ≈ᶠ ⌞ G ∙ᶠ F ⌟ᶠ
   ⌞⌟ᶠ-add F G .proj₀ .fin i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₀
   ⌞⌟ᶠ-add F G .proj₀ .supp =  (G ∙ᶠ F) .supp
-  ⌞⌟ᶠ-add F G .proj₀ .out-ε {i} i∉ =  sym' (∙-unitʳ Ra) »'
-    ∙-congʳ Ra (sym' $ (Ra .⌞⌟-cong $ F .out-ε $ ∉ᴸ-++-elim₁ i∉) »' ⌞⌟-ε Ra) »'
-    Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁ »'
-    Ra .⌞⌟-cong ((G ∙ᶠ F) .out-ε i∉) »' ⌞⌟-ε Ra
+  ⌞⌟ᶠ-add F G .proj₀ .out-ε {i} i∉ =  ◠' ∙-unitʳ Ra ◇'
+    ∙-congʳ Ra (◠'_ $ (Ra .⌞⌟-cong $ F .out-ε $ ∉ᴸ-++-elim₁ i∉) ◇' ⌞⌟-ε Ra) ◇'
+    Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁ ◇'
+    Ra .⌞⌟-cong ((G ∙ᶠ F) .out-ε i∉) ◇' ⌞⌟-ε Ra
   ⌞⌟ᶠ-add F G .proj₁ i =  Ra .⌞⌟-add {F .fin i} {G .fin i} .proj₁
 
 --------------------------------------------------------------------------------
@@ -114,8 +114,8 @@ module _ where
   Finᴿᴬ .ε =  εᶠ
   Finᴿᴬ .⌞_⌟ =  ⌞_⌟ᶠ
   Finᴿᴬ .refl˜ _ =  refl'
-  Finᴿᴬ .sym˜ F≈G i =  sym' (F≈G i)
-  Finᴿᴬ ._»˜_ F≈G G≈H i =  F≈G i »' G≈H i
+  Finᴿᴬ .◠˜_ F≈G i =  ◠' F≈G i
+  Finᴿᴬ ._◇˜_ F≈G G≈H i =  F≈G i ◇' G≈H i
   Finᴿᴬ .∙-congˡ F≈G i =  Ra .∙-congˡ (F≈G i)
   Finᴿᴬ .∙-unitˡ i =  Ra .∙-unitˡ
   Finᴿᴬ .∙-comm i =  Ra .∙-comm
@@ -128,7 +128,7 @@ module _ where
   Finᴿᴬ .⌞⌟-unitˡ i =  Ra .⌞⌟-unitˡ
   Finᴿᴬ .⌞⌟-idem i =  Ra .⌞⌟-idem
 
-open RA Finᴿᴬ using (_≈_; ✓_; _∙_; ⌞_⌟; ε; _↝_; _↝ˢ_; refl˜; _»˜_; ✓-ε; ∙-unitˡ;
+open RA Finᴿᴬ using (_≈_; ✓_; _∙_; ⌞_⌟; ε; _↝_; _↝ˢ_; refl˜; _◇˜_; ✓-ε; ∙-unitˡ;
   ⌞⌟-ε)
 
 --------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ abstract -- Definition is made abstract for better type inference
   ... | ff =  F .fin j
   updᶠ i _ F .supp =  i ∷ F .supp
   updᶠ i a F .out-ε {j} j∉i∷is with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
-  ... | tt | ⇒i≡j =  absurd $ ∉ᴸ-∷-elim₀ j∉i∷is $ sym⁼ $ ⇒i≡j _
+  ... | tt | ⇒i≡j =  absurd $ ∉ᴸ-∷-elim₀ j∉i∷is $ ◠ ⇒i≡j _
   ... | ff | _ =  F .out-ε (∉ᴸ-∷-elim₁ j∉i∷is)
 
 --------------------------------------------------------------------------------
@@ -205,7 +205,7 @@ module _ {i : ℕ} where abstract
   injᶠ-✓ ✓a =  updᶠ-✓ ✓a ✓-ε
 
   injᶠ-∙ :  injᶠ i a ∙ injᶠ i b  ≈  injᶠ i (a ∙' b)
-  injᶠ-∙ =  _»˜_ {injᶠ i _ ∙ injᶠ i _} {updᶠ i _ _} {injᶠ i _}
+  injᶠ-∙ =  _◇˜_ {injᶠ i _ ∙ injᶠ i _} {updᶠ i _ _} {injᶠ i _}
     updᶠ-∙ $ updᶠ-cong refl' (∙-unitˡ {a = ε})
 
   injᶠ-ε :  injᶠ i ε' ≈ ε
@@ -214,7 +214,7 @@ module _ {i : ℕ} where abstract
   ... | ff =  refl'
 
   injᶠ-⌞⌟ :  ⌞ injᶠ i a ⌟  ≈  injᶠ i ⌞ a ⌟'
-  injᶠ-⌞⌟ =  _»˜_ {⌞ injᶠ i _ ⌟} {updᶠ i ⌞ _ ⌟' ⌞ _ ⌟} {injᶠ i ⌞ _ ⌟'}
+  injᶠ-⌞⌟ =  _◇˜_ {⌞ injᶠ i _ ⌟} {updᶠ i ⌞ _ ⌟' ⌞ _ ⌟} {injᶠ i ⌞ _ ⌟'}
     updᶠ-⌞⌟ $ updᶠ-cong refl' ⌞⌟-ε
 
   injᶠ-↝ :  a ↝' b →  injᶠ i a ↝ injᶠ i b
@@ -223,7 +223,7 @@ module _ {i : ℕ} where abstract
   -- Allocate at a fresh index
 
   allocᶠ :  ✓' a →  ε ↝ˢ λ F → ∑ i , F ≡ injᶠ i a
-  allocᶠ {a} ✓a G ✓G∙ε =  injᶠ i₀ a , (_ , refl⁼) , proof
+  allocᶠ {a} ✓a G ✓G∙ε =  injᶠ i₀ a , (_ , refl) , proof
    where
     i₀ :  ℕ
     i₀ =  suc $ [⊔] $ G .supp
@@ -231,5 +231,5 @@ module _ {i : ℕ} where abstract
     proof j with i₀ ≡ᵇ j | ᵇ⇒≡ {i₀} {j}
     ... | ff | _ =  ✓G∙ε j
     ... | tt | ⇒i₀≡j with ⇒i₀≡j _
-    ...   | refl⁼ =  flip ✓'-resp ✓a $ sym' $
-      ∙'-congˡ (G .out-ε suc[⊔]∉ᴸ) »' ∙'-unitˡ
+    ...   | refl =  flip ✓'-resp ✓a $ ◠'_ $
+      ∙'-congˡ (G .out-ε suc[⊔]∉ᴸ) ◇' ∙'-unitˡ

@@ -12,7 +12,7 @@ open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; cm
   ≤-<-trans; <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; ᵇ⇒≡; ≡⇒ᵇ; ᵇ⇒≤;
   ≤⇒ᵇ; ᵇ⇒<; <⇒ᵇ; +-comm; +-assocˡ; +-injˡ; +-0; +-incrˡ; +-smonoʳ; *-comm;
   *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ; *-smonoˡ)
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_; cong; cong₂; subst; subst₂)
+open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Func using (_$_)
 open import Base.Bool using (Bool; Tt)
 open import Base.Few using (¬_)
@@ -49,7 +49,7 @@ abstract
   -- ℕ⁺⇒ℕ is injective
 
   ℕ⁺⇒ℕ-inj :  ℕ⁺⇒ℕ m ≡ ℕ⁺⇒ℕ n →  m ≡ n
-  ℕ⁺⇒ℕ-inj refl⁼ =  refl⁼
+  ℕ⁺⇒ℕ-inj refl =  refl
 
 --------------------------------------------------------------------------------
 -- ≤⁺, <⁺, ≥⁺, >⁺: Order
@@ -80,7 +80,7 @@ abstract
   <⁺-irrefl =  <-irrefl
 
   ≡⇒¬<⁺ :  m ≡ n →  ¬ m <⁺ n
-  ≡⇒¬<⁺ refl⁼ =  <⁺-irrefl
+  ≡⇒¬<⁺ refl =  <⁺-irrefl
 
   <⁺-trans :  l <⁺ m →  m <⁺ n →  l <⁺ n
   <⁺-trans =  <-trans
@@ -111,7 +111,7 @@ abstract
   cmp⁺ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  m >⁺ n
   cmp⁺ (1+ m⁰) (1+ n⁰)  with cmp m⁰ n⁰
   ... | inj₀ m⁰<n⁰ =  inj₀ m⁰<n⁰
-  ... | inj₁₀ refl⁼ =  inj₁₀ refl⁼
+  ... | inj₁₀ refl =  inj₁₀ refl
   ... | inj₁₁ m⁰>n⁰ =  inj₁₁ m⁰>n⁰
 
 --------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ abstract
   ⁺ᵇ⇒≡ m⁰≡ᵇn⁰ =  cong 1+ (ᵇ⇒≡ m⁰≡ᵇn⁰)
 
   ≡⇒⁺ᵇ :  m ≡ n →  Tt (m ≡⁺ᵇ n)
-  ≡⇒⁺ᵇ {1+ m⁰} {1+ n⁰} refl⁼ =  ≡⇒ᵇ {m⁰} {n⁰} refl⁼
+  ≡⇒⁺ᵇ {1+ m⁰} {1+ n⁰} refl =  ≡⇒ᵇ {m⁰} {n⁰} refl
 
   -- Conversion between ≤ᵇ and ≤
 
@@ -172,7 +172,7 @@ abstract
   +⁺-assocˡ {1+ l⁰} =  ℕ⁺⇒ℕ-inj $ +-assocˡ {suc l⁰}
 
   +⁺-assocʳ :  l +⁺ (m +⁺ n) ≡ (l +⁺ m) +⁺ n
-  +⁺-assocʳ =  sym⁼ +⁺-assocˡ
+  +⁺-assocʳ =  ◠ +⁺-assocˡ
 
   -- +⁺ is injective
 
@@ -211,17 +211,17 @@ abstract
   *⁺-assocˡ {1+ l⁰} {1+ m⁰} =  ℕ⁺⇒ℕ-inj $ *-assocˡ {suc l⁰} {suc m⁰}
 
   *⁺-assocʳ :  l *⁺ (m *⁺ n) ≡ (l *⁺ m) *⁺ n
-  *⁺-assocʳ {l} {m} =  sym⁼ $ *⁺-assocˡ {l} {m}
+  *⁺-assocʳ {l} {m} =  ◠ *⁺-assocˡ {l} {m}
 
   -- Commutativity over left/right actions
 
   *⁺-actˡ-comm :  l *⁺ (m *⁺ n) ≡ m *⁺ (l *⁺ n)
-  *⁺-actˡ-comm {l} {m} {n} =  *⁺-assocʳ {l} {m} {n} »⁼
-      cong (_*⁺ n) (*⁺-comm {l} {m}) »⁼ *⁺-assocˡ {m} {l} {n}
+  *⁺-actˡ-comm {l} {m} {n} =  *⁺-assocʳ {l} {m} {n} ◇
+      cong (_*⁺ n) (*⁺-comm {l} {m}) ◇ *⁺-assocˡ {m} {l} {n}
 
   *⁺-actʳ-comm :  (l *⁺ m) *⁺ n ≡ (l *⁺ n) *⁺ m
-  *⁺-actʳ-comm {l} {m} {n} =  *⁺-assocˡ {l} {m} {n} »⁼
-      cong (l *⁺_) (*⁺-comm {m} {n}) »⁼ *⁺-assocʳ {l} {n} {m}
+  *⁺-actʳ-comm {l} {m} {n} =  *⁺-assocˡ {l} {m} {n} ◇
+      cong (l *⁺_) (*⁺-comm {m} {n}) ◇ *⁺-assocʳ {l} {n} {m}
 
   -- *⁺ is injective
 
@@ -237,7 +237,7 @@ abstract
   *⁺-+⁺-distrˡ {1+ l⁰} =  ℕ⁺⇒ℕ-inj $ *-+-distrˡ {suc l⁰}
 
   *⁺-+⁺-distrʳ :  l *⁺ (m +⁺ n) ≡ l *⁺ m +⁺ l *⁺ n
-  *⁺-+⁺-distrʳ {l} {m} {n} =  *⁺-comm {l} »⁼ *⁺-+⁺-distrˡ {m} »⁼
+  *⁺-+⁺-distrʳ {l} {m} {n} =  *⁺-comm {l} ◇ *⁺-+⁺-distrˡ {m} ◇
     cong₂ _+⁺_ (*⁺-comm {m}) (*⁺-comm {n})
 
   -- *⁺ is unital with 1⁺

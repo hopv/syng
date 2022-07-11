@@ -15,7 +15,7 @@ open import Base.Prod using (_,_; proj₀; proj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
   □_; saveˣ; save□; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic;
   isBasic; ∧-Basic)
-open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; refl; _»_;
+open import Shog.Logic.Judg.All ℓ using (_⊢[_]_; ⊢-refl; _»_;
   ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
@@ -26,7 +26,7 @@ open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ)
 open import Shog.Model.Prop Globᴿᴬ using (Propᵒ; monoᵒ; renewᵒ; congᵒ; congᵒ';
   _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; own-⌞⌟-□')
-open RA Globᴿᴬ using (_≈_; _∙_; ε; ⌞_⌟; refl˜; sym˜; _»˜_; ⊑-refl; ✓-resp;
+open RA Globᴿᴬ using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl; ✓-resp;
   ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ∙-assocʳ;
   ∙-incrˡ; ✓-ε; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ✓-⌞⌟)
 open import Shog.Model.Save.X ℓ using (saveˣᵒ)
@@ -87,8 +87,8 @@ abstract
 
   ⊢-sem :  P ⊢[ ∞ ] Q →  [| P |] ⊨ [| Q |]
 
-  -- refl :  P ⊢[ ∞ ] P
-  ⊢-sem refl Pa =  Pa
+  -- ⊢-refl :  P ⊢[ ∞ ] P
+  ⊢-sem ⊢-refl Pa =  Pa
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ] R →  P ⊢[ ∞ ] R
   ⊢-sem (P⊢Q » Q⊢R) Pa =  Pa ▷ ⊢-sem P⊢Q ▷ ⊢-sem Q⊢R
@@ -124,12 +124,12 @@ abstract
 
   -- ∗-comm :  P ∗ Q ⊢[ ∞ ] Q ∗ P
   ⊢-sem (∗-comm {P} {Q}) (b , c , b∙c≈a , Pb , Qc) =
-    c , b , (∙-comm »˜ b∙c≈a) , renewᵒ [| Q |] Qc , renewᵒ [| P |] Pb
+    c , b , (∙-comm ◇˜ b∙c≈a) , renewᵒ [| Q |] Qc , renewᵒ [| P |] Pb
 
   -- ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ∞ ] P ∗ (Q ∗ R)
   ⊢-sem (∗-assocˡ {P} {Q} {R}) {a = a} {✓a}
    (bc , d , bc∙d≈a , (b , c , b∙c≈bc , Pb , Qc) , Rd) =
-    b , c ∙ d , (∙-assocʳ »˜ ∙-congˡ b∙c≈bc »˜ bc∙d≈a) ,
+    b , c ∙ d , (∙-assocʳ ◇˜ ∙-congˡ b∙c≈bc ◇˜ bc∙d≈a) ,
     renewᵒ [| P |] Pb , c , d , refl˜ , renewᵒ [| Q |] Qc , renewᵒ [| R |] Rd
 
   -- ∗-monoˡ :  P ⊢[ ∞ ] Q →  P ∗ R ⊢[ ∞ ] Q ∗ R
@@ -158,13 +158,13 @@ abstract
 
   -- |=>-frameˡ :  P ∗ |=> Q ⊢[ ∞ ] |=> (P ∗ Q)
   ⊢-sem (|=>-frameˡ {P} {Q}) (b , c , b∙c≈a , Pb , |=>Qc) e ✓e∙a with
-    |=>Qc (e ∙ b) $ flip ✓-resp ✓e∙a $ ∙-congʳ (sym˜ b∙c≈a) »˜ ∙-assocʳ
+    |=>Qc (e ∙ b) $ flip ✓-resp ✓e∙a $ ∙-congʳ (◠˜ b∙c≈a) ◇˜ ∙-assocʳ
   ... | d , ✓eb∙d , Qd =  b ∙ d , (✓-resp ∙-assocˡ ✓eb∙d) , b , d , refl˜ ,
     renewᵒ [| P |] Pb , renewᵒ [| Q |] Qd
 
   -- |=>-∃-out :  |=> (∃ _ ∈ A , P) ⊢[ ∞ ] ∃ _ ∈ A , |=> P
   ⊢-sem (|=>-∃-out {P = P}) {✓a = ✓a} |=>∃AP =  λ where
-    .proj₀ →  let (_ , _ , x , _) = |=>∃AP ε $ ✓-resp (sym˜ ∙-unitˡ) ✓a in  x
+    .proj₀ →  let (_ , _ , x , _) = |=>∃AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
     .proj₁ c ✓c∙a →  let (b , ✓c∙b , _ , Pb) = |=>∃AP c ✓c∙a in  b , ✓c∙b , Pb
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
@@ -174,11 +174,11 @@ abstract
   ⊢-sem (□-elim {P = P}) P⌞a⌟ =  [| P |] .monoᵒ ⌞⌟-decr P⌞a⌟
 
   -- □-dup :  □ P ⊢[ ∞ ] □ □ P
-  ⊢-sem (□-dup {P = P}) P⌞a⌟ =  congᵒ [| P |] (sym˜ ⌞⌟-idem) P⌞a⌟
+  ⊢-sem (□-dup {P = P}) P⌞a⌟ =  congᵒ [| P |] (◠˜ ⌞⌟-idem) P⌞a⌟
 
   -- □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ∞ ] □ P ∗ Q
   ⊢-sem (□ˡ-∧⇒∗ {P} {Q}) {a = a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ⌞⌟-unitˡ ,
-    congᵒ [| P |] (sym˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) ,
+    congᵒ [| P |] (◠˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) ,
     renewᵒ [| Q |] (P⌞a⌟∧Qa 1₂)
 
   -- □-∀-in :  ∀˙ _ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀˙ _ P˙

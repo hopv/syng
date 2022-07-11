@@ -14,8 +14,8 @@ open import Base.List using ([_])
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; _∧_; _∗_; □_; saveˣ; save□;
   Basic; ⊤-Basic)
 open import Shog.Logic.Judg ℓ using (_⊢[_]_; _⊢[<_]_; _⊢[_]=>>_; Pers; Pers-⇒□)
-open import Shog.Logic.Core ℓ using (refl; _»_; ∧-elimʳ; ⊤∧-intro; ∗⇒∧; ∗-monoʳ;
-  ∗-elimˡ; ∗⊤-intro; -∗-const; Basic-Pers; Persˡ-∧⇒∗)
+open import Shog.Logic.Core ℓ using (⊢-refl; _»_; ∧-elimʳ; ⊤∧-intro; ∗⇒∧;
+  ∗-monoʳ; ∗-elimˡ; ∗⊤-intro; -∗-const; Basic-Pers; Persˡ-∧⇒∗)
 open import Shog.Logic.Supd ℓ using (_ᵘ»_)
 
 -- Import and re-export the axiomatic rules

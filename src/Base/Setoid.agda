@@ -7,14 +7,15 @@
 module Base.Setoid where
 
 open import Base.Level using (Level; _⌴_; ^_)
-open import Base.Eq using (_≡_; refl⁼; sym⁼; _»⁼_)
+open import Base.Eq using (_≡_; refl; ◠_; _◇_)
 open import Base.Few using (¬_)
 open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; ∑-syntax; _,_)
 
 record  Setoid ℓ ℓ≈ :  Set (^ (ℓ ⌴ ℓ≈))  where
   infix 4 _≈_
-  infixr -1 _»˜_
+  infix 0 ◠˜_
+  infixr -1 _◇˜_
   field
     -- Car: Carrier set
     Car :  Set ℓ
@@ -22,8 +23,8 @@ record  Setoid ℓ ℓ≈ :  Set (^ (ℓ ⌴ ℓ≈))  where
     _≈_ :  Car → Car → Set ℓ≈
     -- ≈ is reflexive, symmetric and transitive
     refl˜ :  ∀ {a} →  a ≈ a
-    sym˜ :  ∀ {a b} →  a ≈ b →  b ≈ a
-    _»˜_ :  ∀ {a b c} →  a ≈ b →  b ≈ c →  a ≈ c
+    ◠˜_ :  ∀ {a b} →  a ≈ b →  b ≈ a
+    _◇˜_ :  ∀ {a b c} →  a ≈ b →  b ≈ c →  a ≈ c
 
   private variable
     a b c :  Car
@@ -33,7 +34,7 @@ record  Setoid ℓ ℓ≈ :  Set (^ (ℓ ⌴ ℓ≈))  where
     Z :  Car → Set ℓZ
 
   ≡⇒≈ :  a ≡ b →  a ≈ b
-  ≡⇒≈ refl⁼ =  refl˜
+  ≡⇒≈ refl =  refl˜
 
   ------------------------------------------------------------------------------
   -- ≉: Negation of ≈
@@ -58,7 +59,7 @@ record  Setoid ℓ ℓ≈ :  Set (^ (ℓ ⌴ ℓ≈))  where
     ⊆≈-trans :  X ⊆≈ Y →  Y ⊆≈ Z →  X ⊆≈ Z
     ⊆≈-trans X⊆≈Y Y⊆≈Z a∈X with X⊆≈Y a∈X
     ... | b , a≈b , b∈Y with Y⊆≈Z b∈Y
-    ...   | c , b≈c , c∈Z =  c , (a≈b »˜ b≈c) , c∈Z
+    ...   | c , b≈c , c∈Z =  c , (a≈b ◇˜ b≈c) , c∈Z
 
 open Setoid
 
@@ -68,6 +69,6 @@ private variable
 ≡-setoid :  Set ℓA →  Setoid ℓA ℓA
 ≡-setoid A .Car =  A
 ≡-setoid _ ._≈_ =  _≡_
-≡-setoid _ .refl˜ =  refl⁼
-≡-setoid _ .sym˜ =  sym⁼
-≡-setoid _ ._»˜_ =  _»⁼_
+≡-setoid _ .refl˜ =  refl
+≡-setoid _ .◠˜_ =  ◠_
+≡-setoid _ ._◇˜_ =  _◇_

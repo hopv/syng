@@ -17,7 +17,7 @@ open import Shog.Logic.Judg ℓ using (_⊢[_]_)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (Globᴿᴬ; Glob; module ModGlobI;
   module ModSave□; module ModAgᴾ)
-open RA Globᴿᴬ using (_≈_; ⌞_⌟; _»˜_)
+open RA Globᴿᴬ using (_≈_; ⌞_⌟; _◇˜_)
 open ModGlobI using (injᴬ; injᴬ-cong; injᴬ-⌞⌟)
 open ModSave□ using (injᶠ; injᶠ-⌞⌟)
 open ModAgᴾ using (ag)
@@ -42,4 +42,4 @@ save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
 abstract
 
   lineˢ□-⌞⌟ :  ⌞ lineˢ□ i P ⌟ ≈ lineˢ□ i P
-  lineˢ□-⌞⌟ =  injᴬ-⌞⌟ »˜ injᴬ-cong injᶠ-⌞⌟
+  lineˢ□-⌞⌟ =  injᴬ-⌞⌟ ◇˜ injᴬ-cong injᶠ-⌞⌟

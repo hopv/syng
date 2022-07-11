@@ -12,7 +12,7 @@ open import Base.Level using (Up; ↑_)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
-open import Base.Eq using (_≡_; refl⁼)
+open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_)
 open import Base.Nat using (ℕ; _+_)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; _➔_; Expr; ▶_; ∇_; _◁_; λ-syntax)
@@ -49,7 +49,7 @@ loop-red =  ▶-red
 -- Destructing Red
 
 plus◁-red-inv :  Red plus◁ M e M' →  (e , M') ≡ (∇ ↑ 7 , M)
-plus◁-red-inv ◁-red =  refl⁼
+plus◁-red-inv ◁-red =  refl
 
 loop-red-inv :  Red loop M e M' →  (e , M') ≡ (loop , M)
-loop-red-inv ▶-red =  refl⁼
+loop-red-inv ▶-red =  refl

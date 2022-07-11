@@ -66,7 +66,7 @@ infixr -1 _»_ _ᵘ»ᵘ_
 data  Judg ι  where
   ------------------------------------------------------------------------------
   -- The sequent is reflexive
-  refl :  P ⊢[ ι ] P
+  ⊢-refl :  P ⊢[ ι ] P
   -- The left-hand side of a judgment can be modified with a sequent
   _»_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ]* Jr →  P ⊢[ ι ]* Jr
   ------------------------------------------------------------------------------

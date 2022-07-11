@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 open import Base.Setoid using (Setoid)
 module Shog.Model.RA.Exc {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) {ℓ✓ : Level} where
-open Setoid S using (_≈_; refl˜; sym˜; _»˜_) renaming (Car to A)
+open Setoid S using (_≈_; refl˜; ◠˜_; _◇˜_) renaming (Car to A)
 
 open import Base.Func using (id)
 open import Base.Prod using (_,_)
@@ -66,12 +66,12 @@ private abstract
   ≈ˣ-sym :  ∀ x y →  x ≈ˣ y →  y ≈ˣ x
   ≈ˣ-sym ?ˣ ?ˣ =  _
   ≈ˣ-sym ↯ˣ ↯ˣ =  _
-  ≈ˣ-sym (#ˣ _) (#ˣ _) =  sym˜
+  ≈ˣ-sym (#ˣ _) (#ˣ _) =  ◠˜_
 
   ≈ˣ-trans :  ∀ x y z →  x ≈ˣ y →  y ≈ˣ z →  x ≈ˣ z
   ≈ˣ-trans ?ˣ ?ˣ ?ˣ =  _
   ≈ˣ-trans ↯ˣ ↯ˣ ↯ˣ =  _
-  ≈ˣ-trans (#ˣ _) (#ˣ _) (#ˣ _) =  _»˜_
+  ≈ˣ-trans (#ˣ _) (#ˣ _) (#ˣ _) =  _◇˜_
 
   ∙ˣ-congˡ :  ∀ x y z →  x ≈ˣ y →  x ∙ˣ z  ≈ˣ  y ∙ˣ z
   ∙ˣ-congˡ ?ˣ ?ˣ z _ =  ≈ˣ-refl z
@@ -122,8 +122,8 @@ module _ where
   Excᴿᴬ .ε =  ?ˣ
   Excᴿᴬ .⌞_⌟ _ =  ?ˣ
   Excᴿᴬ .refl˜ {x} =  ≈ˣ-refl x
-  Excᴿᴬ .sym˜ {x} =  ≈ˣ-sym x _
-  Excᴿᴬ ._»˜_ {x} =  ≈ˣ-trans x _ _
+  Excᴿᴬ .◠˜_ {x} =  ≈ˣ-sym x _
+  Excᴿᴬ ._◇˜_ {x} =  ≈ˣ-trans x _ _
   Excᴿᴬ .∙-congˡ {x} =  ∙ˣ-congˡ x _ _
   Excᴿᴬ .∙-unitˡ {x} =  ≈ˣ-refl x
   Excᴿᴬ .∙-comm {x} =  ∙ˣ-comm x _

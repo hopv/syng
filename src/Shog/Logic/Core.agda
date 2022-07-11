@@ -23,7 +23,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃�
 open import Shog.Logic.Judg ℓ using (JudgRes; _⊢[_]*_; _⊢[_]_; Pers; Pers-⇒□)
 
 -- Import and re-export the axiomatic rules
-open import Shog.Logic.Judg.All ℓ public using (refl; _»_;
+open import Shog.Logic.Judg.All ℓ public using (⊢-refl; _»_;
   ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
@@ -86,16 +86,16 @@ abstract
   ∨-mono P⊢Q R⊢S =  ∨-elim (P⊢Q » ∨-introˡ) (R⊢S » ∨-introʳ)
 
   ∧-monoˡ :  P ⊢[ ι ] Q →  P ∧ R ⊢[ ι ] Q ∧ R
-  ∧-monoˡ P⊢Q =  ∧-mono P⊢Q refl
+  ∧-monoˡ P⊢Q =  ∧-mono P⊢Q ⊢-refl
 
   ∧-monoʳ :  P ⊢[ ι ] Q →  R ∧ P ⊢[ ι ] R ∧ Q
-  ∧-monoʳ P⊢Q =  ∧-mono refl P⊢Q
+  ∧-monoʳ P⊢Q =  ∧-mono ⊢-refl P⊢Q
 
   ∨-monoˡ :  P ⊢[ ι ] Q →  P ∨ R ⊢[ ι ] Q ∨ R
-  ∨-monoˡ P⊢Q =  ∨-mono P⊢Q refl
+  ∨-monoˡ P⊢Q =  ∨-mono P⊢Q ⊢-refl
 
   ∨-monoʳ :  P ⊢[ ι ] Q →  R ∨ P ⊢[ ι ] R ∨ Q
-  ∨-monoʳ P⊢Q =  ∨-mono refl P⊢Q
+  ∨-monoʳ P⊢Q =  ∨-mono ⊢-refl P⊢Q
 
   -- ∧/∨ is commutative
 
@@ -124,16 +124,16 @@ abstract
   -- ∧/∨ is unital w.r.t. ⊤'/⊥'
 
   ∧⊤-intro :  P ⊢[ ι ] P ∧ ⊤'
-  ∧⊤-intro =  ∧-intro refl ⊤-intro
+  ∧⊤-intro =  ∧-intro ⊢-refl ⊤-intro
 
   ⊤∧-intro :  P ⊢[ ι ] ⊤' ∧ P
-  ⊤∧-intro =  ∧-intro ⊤-intro refl
+  ⊤∧-intro =  ∧-intro ⊤-intro ⊢-refl
 
   ∨⊥-elim :  P ∨ ⊥' ⊢[ ι ] P
-  ∨⊥-elim =  ∨-elim refl ⊥-elim
+  ∨⊥-elim =  ∨-elim ⊢-refl ⊥-elim
 
   ⊥∨-elim :  ⊥' ∨ P ⊢[ ι ] P
-  ⊥∨-elim =  ∨-elim ⊥-elim refl
+  ⊥∨-elim =  ∨-elim ⊥-elim ⊢-refl
 
   ------------------------------------------------------------------------------
   -- On →'
@@ -141,7 +141,7 @@ abstract
   -- Application on →'
 
   →-apply :  P ∧ (P →' Q) ⊢[ ι ] Q
-  →-apply =  →-elim refl
+  →-apply =  →-elim ⊢-refl
 
   -- →' is monotone
 
@@ -149,10 +149,10 @@ abstract
   →-mono Q⊢P R⊢S =  →-intro $ ∧-monoˡ Q⊢P » →-apply » R⊢S
 
   →-monoˡ :  Q ⊢[ ι ] P →  P →' R ⊢[ ι ] Q →' R
-  →-monoˡ Q⊢P =  →-mono Q⊢P refl
+  →-monoˡ Q⊢P =  →-mono Q⊢P ⊢-refl
 
   →-monoʳ :  P ⊢[ ι ] Q →  R →' P ⊢[ ι ] R →' Q
-  →-monoʳ P⊢Q =  →-mono refl P⊢Q
+  →-monoʳ P⊢Q =  →-mono ⊢-refl P⊢Q
 
   ------------------------------------------------------------------------------
   -- On ⌜⌝
@@ -173,7 +173,7 @@ abstract
   -- Introducing and eliminating ⌜ ⌝ ∧
 
   ⌜⌝∧-intro :  A →  P ⊢[ ι ] ⌜ A ⌝ ∧ P
-  ⌜⌝∧-intro a =  ∧-intro (⌜⌝-intro a) refl
+  ⌜⌝∧-intro a =  ∧-intro (⌜⌝-intro a) ⊢-refl
 
   ⌜⌝∧-elim :  (A →  P ⊢[ ι ] Q) →  ⌜ A ⌝ ∧ P ⊢[ ι ] Q
   ⌜⌝∧-elim A→P⊢Q =  ∧-comm » →-elim $ ⌜⌝-elim $
@@ -190,7 +190,7 @@ abstract
   -- ⌜ A ⌝ ∧ is the same with ∃ _ ∈ A ,
 
   ⌜⌝∧⇒∃ :  ⌜ A ⌝ ∧ P ⊢[ ι ] ∃ _ ∈ A , P
-  ⌜⌝∧⇒∃ =  ⌜⌝∧-elim $ λ a →  refl » ∃-intro {a =  a}
+  ⌜⌝∧⇒∃ =  ⌜⌝∧-elim $ λ a →  ⊢-refl » ∃-intro {a =  a}
 
   ∃⇒⌜⌝∧ :  ∃ _ ∈ A , P ⊢[ ι ] ⌜ A ⌝ ∧ P
   ∃⇒⌜⌝∧ =  ∃-elim $ λ a →  ⌜⌝∧-intro a
@@ -284,7 +284,7 @@ abstract
   -- Application on -∗
 
   -∗-apply :  P ∗ (P -∗ Q) ⊢[ ι ] Q
-  -∗-apply =  -∗-elim refl
+  -∗-apply =  -∗-elim ⊢-refl
 
   -- -∗ is monotone
 
@@ -292,15 +292,15 @@ abstract
   -∗-mono Q⊢P R⊢S =  -∗-intro $ ∗-monoˡ Q⊢P » -∗-apply » R⊢S
 
   -∗-monoˡ :  Q ⊢[ ι ] P →  P -∗ R ⊢[ ι ] Q -∗ R
-  -∗-monoˡ Q⊢P =  -∗-mono Q⊢P refl
+  -∗-monoˡ Q⊢P =  -∗-mono Q⊢P ⊢-refl
 
   -∗-monoʳ :  P ⊢[ ι ] Q →  R -∗ P ⊢[ ι ] R -∗ Q
-  -∗-monoʳ P⊢Q =  -∗-mono refl P⊢Q
+  -∗-monoʳ P⊢Q =  -∗-mono ⊢-refl P⊢Q
 
   -- →' can turn into -∗
 
   →⇒-∗ :  P →' Q ⊢[ ι ] P -∗ Q
-  →⇒-∗ =  -∗-intro $ ∗⇒∧ » →-elim refl
+  →⇒-∗ =  -∗-intro $ ∗⇒∧ » →-elim ⊢-refl
 
   ------------------------------------------------------------------------------
   -- On |=>
@@ -361,11 +361,11 @@ abstract
 
   -- The antecedent can be retained when the succedent is under □
   retain-□ :  P ⊢[ ι ] □ Q →  P ⊢[ ι ] □ Q ∗ P
-  retain-□ P⊢Q =  ∧-intro P⊢Q refl » □ˡ-∧⇒∗
+  retain-□ P⊢Q =  ∧-intro P⊢Q ⊢-refl » □ˡ-∧⇒∗
 
   -- A proposition under □ can be duplicated
   dup-□ :  □ P ⊢[ ι ] □ P ∗ □ P
-  dup-□ =  retain-□ refl
+  dup-□ =  retain-□ ⊢-refl
 
   -- ∗ can go outside □
   □-∗-out :  □ (P ∗ Q) ⊢[ ι ] □ P ∗ □ Q
@@ -477,7 +477,7 @@ abstract
 
   -- A persistent proposition can be duplicated
   dup-Pers :  {{Pers P}} →  P ⊢[ ι ] P ∗ P
-  dup-Pers =  retain-Pers refl
+  dup-Pers =  retain-Pers ⊢-refl
 
   -- -∗ can turn into →' when the left-hand side is persistent
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
@@ -502,7 +502,7 @@ abstract
   -- [∗] is monotone
 
   [∗]-mono :  All² _⊢[ ι ]_ Ps Qs →  [∗] Ps ⊢[ ι ] [∗] Qs
-  [∗]-mono []ᴬ² =  refl
+  [∗]-mono []ᴬ² =  ⊢-refl
   [∗]-mono (P⊢Q ∷ᴬ² Ps⊢Qs) =  ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)
 
   -- ++ can get inside and outside [∗]

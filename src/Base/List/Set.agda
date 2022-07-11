@@ -6,7 +6,7 @@
 
 open import Base.Setoid using (Setoid)
 module Base.List.Set {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
-open Setoid S using (_≈_; _≉_; refl˜; sym˜; _»˜_) renaming (Car to A)
+open Setoid S using (_≈_; _≉_; refl˜; ◠˜_; _◇˜_) renaming (Car to A)
 
 open import Base.Level using (_⌴_)
 open import Base.List using (List; _∷_; []; [_]; _++_)
@@ -14,7 +14,7 @@ open import Base.List.Any using (Any; by-hd; by-tl;
   Any-++-inj₀; Any-++-inj₁; Any-++-case;
   ¬Any-[]; ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁;
   ¬Any-++-intro; ¬Any-++-elim₀; ¬Any-++-elim₁)
-open import Base.Eq using (_≡_; refl⁼)
+open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Few using (¬_)
@@ -103,7 +103,7 @@ abstract
   -- On [_] and ⊆ᴸ
 
   [?]-cong-⊆ᴸ :  a ≈ b →  [ a ] ⊆ᴸ [ b ]
-  [?]-cong-⊆ᴸ a≈b c∈[a] =  by-hd $ ∈ᴸ-[?] c∈[a] »˜ a≈b
+  [?]-cong-⊆ᴸ a≈b c∈[a] =  by-hd $ ∈ᴸ-[?] c∈[a] ◇˜ a≈b
 
   -- ++ is the lub w.r.t. ⊆ᴸ
 
@@ -142,7 +142,7 @@ abstract
   ≈ᴸ-refl =  ⊆ᴸ-refl , ⊆ᴸ-refl
 
   ≡⇒≈ᴸ :  as ≡ bs →  as ≈ᴸ bs
-  ≡⇒≈ᴸ refl⁼ =  ≈ᴸ-refl
+  ≡⇒≈ᴸ refl =  ≈ᴸ-refl
 
   ≈ᴸ-sym :  as ≈ᴸ bs →  bs ≈ᴸ as
   ≈ᴸ-sym (as⊆bs , bs⊆as) =  bs⊆as , as⊆bs
@@ -154,7 +154,7 @@ abstract
   -- [_] is congruent
 
   [?]-cong :  a ≈ b →  [ a ] ≈ᴸ [ b ]
-  [?]-cong a≈b =  [?]-cong-⊆ᴸ a≈b , [?]-cong-⊆ᴸ (sym˜ a≈b)
+  [?]-cong a≈b =  [?]-cong-⊆ᴸ a≈b , [?]-cong-⊆ᴸ (◠˜ a≈b)
 
   -- ++ is congruent, commutative and idempotent w.r.t. ≈ᴸ
 
@@ -179,7 +179,7 @@ abstract
   homo-[] ()
 
   homo-[?] :  homo [ a ]
-  homo-[?] a'∈[a] b'∈[a] =  ∈ᴸ-[?] a'∈[a] »˜ sym˜ $ ∈ᴸ-[?] b'∈[a]
+  homo-[?] a'∈[a] b'∈[a] =  ∈ᴸ-[?] a'∈[a] ◇˜ ◠˜ ∈ᴸ-[?] b'∈[a]
 
   homo-mono :  as ⊆ᴸ bs →  homo bs →  homo as
   homo-mono as⊆bs homo'bs a∈as b∈as =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)

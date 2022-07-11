@@ -52,7 +52,7 @@ data  JudgRes :  Set (^ ℓ)  where
 data  Judg (ι : Size) :  Prop' ∞ →  JudgRes →  Set (^ ℓ)
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]'⟨_⟩[_]_ _⊢[_]'⟨_⟩_ _⊢[_]'⟨_⟩ᵀ_
-  _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_
+  _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩_ _⊢[<_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_
 
 -- ⊢[ ]* : General judgment
 _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ℓ)
@@ -86,9 +86,10 @@ _⊢[_]⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
 P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ctxred e ⟩[ κ ] Qᵛ
 
-_⊢[_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_ :
+_⊢[_]⟨_⟩_ _⊢[<_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_ :
   Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set (^ ℓ)
 P ⊢[ ι ]⟨ e ⟩ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
+P ⊢[< ι ]⟨ e ⟩ Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Qᵛ) ι
 P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
 
 private variable
@@ -218,7 +219,7 @@ data  Judg ι  where
 
   -- ▶, for partial Hoare triple
   hor-▶ :  ∀{Qᵛ : Val T → _} →
-    P ⊢[ ι ]⟨ ctx e ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ Qᵛ
+    P ⊢[< ι ]⟨ ctx e ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ Qᵛ
 
   -- Application
   hor-◁ :  ∀{Qᵛ : Val T → _} →

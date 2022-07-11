@@ -227,7 +227,7 @@ infix 8 |=>ᵒ_
   proof :  Monoᵒ $ (|=>ᵒ Pᵒ) .predᵒ
   proof (d , d∙a≈b) |=>Pa e ✓e∙b  with
     |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (◠˜ d∙a≈b) ◇˜ ∙-assocʳ
-  ... | (c , ✓ed∙c , Pc) =  c , (flip ✓-mono ✓ed∙c $ ∙-monoˡ ∙-incrʳ) ,
+  ... | (c , ✓ed∙c , Pc) =  c , flip ✓-mono ✓ed∙c (∙-monoˡ ∙-incrʳ) ,
     renewᵒ Pᵒ Pc
 
 --------------------------------------------------------------------------------

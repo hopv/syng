@@ -125,7 +125,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
     -- ⊑ is reflexive
 
     ≈⇒⊑ :  a ≈ b →  a ⊑ b
-    ≈⇒⊑ a≈b =  ε , (∙-unitˡ ◇˜ a≈b)
+    ≈⇒⊑ a≈b =  ε , ∙-unitˡ ◇˜ a≈b
 
     ⊑-refl :  a ⊑ a
     ⊑-refl =  ≈⇒⊑ refl˜
@@ -134,12 +134,12 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
 
     ⊑-trans :  a ⊑ b →  b ⊑ c →  a ⊑ c
     ⊑-trans (d , d∙a≈b) (e , e∙b≈c) =  d ∙ e ,
-      (∙-congˡ ∙-comm ◇˜ ∙-assocˡ ◇˜ ∙-congʳ d∙a≈b ◇˜ e∙b≈c)
+      ∙-congˡ ∙-comm ◇˜ ∙-assocˡ ◇˜ ∙-congʳ d∙a≈b ◇˜ e∙b≈c
 
     -- ⊑ respects ≈
 
     ⊑-resp :  a ≈ b →  c ≈ d →  a ⊑ c →  b ⊑ d
-    ⊑-resp a≈b c≈d (e , e∙a≈c) =  e , (∙-congʳ (◠˜ a≈b) ◇˜ e∙a≈c ◇˜ c≈d)
+    ⊑-resp a≈b c≈d (e , e∙a≈c) =  e , ∙-congʳ (◠˜ a≈b) ◇˜ e∙a≈c ◇˜ c≈d
 
     ⊑-respˡ :  a ≈ b →  a ⊑ c →  b ⊑ c
     ⊑-respˡ a≈b a⊑c =  ⊑-resp a≈b refl˜ a⊑c
@@ -166,7 +166,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
     ✓-mono (c , c∙a≈b) ✓b =  ✓b ▷ ✓-resp (◠˜ c∙a≈b) ▷ ✓-rem
 
     ∙-monoˡ :  a ⊑ b →  a ∙ c  ⊑  b ∙ c
-    ∙-monoˡ (d , d∙a≈b) =  d , (∙-assocʳ ◇˜ ∙-congˡ d∙a≈b)
+    ∙-monoˡ (d , d∙a≈b) =  d , ∙-assocʳ ◇˜ ∙-congˡ d∙a≈b
 
     ∙-monoʳ :  a ⊑ b →  c ∙ a  ⊑  c ∙ b
     ∙-monoʳ a⊑b =  ⊑-resp ∙-comm ∙-comm (∙-monoˡ a⊑b)
@@ -176,7 +176,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
 
     ⌞⌟-mono :  a ⊑ b →  ⌞ a ⌟ ⊑ ⌞ b ⌟
     ⌞⌟-mono (c , c∙a≈b)  with ⌞⌟-add {_} {c}
-    ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ =  c' , (c'∙⌞a⌟≈⌞c∙a⌟ ◇˜ ⌞⌟-cong c∙a≈b)
+    ... | c' , c'∙⌞a⌟≈⌞c∙a⌟ =  c' , c'∙⌞a⌟≈⌞c∙a⌟ ◇˜ ⌞⌟-cong c∙a≈b
 
     -- ⌞ ⌟ is decreasing
 

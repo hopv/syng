@@ -92,14 +92,15 @@ P ∨ Q =  ∃˙ (binary P Q)
 --------------------------------------------------------------------------------
 -- [∗]: Iterated separating conjunction
 
-[∗] :  List (Prop' ι) →  Prop' ι
+infix 9 [∗]_
+[∗]_ :  List (Prop' ι) →  Prop' ι
 [∗] [] =  ⊤'
 [∗] (P ∷ Ps) =  P ∗ [∗] Ps
 
 -- [∗] with map
 
 [∗]-map :  (D → Prop' ι) →  List D →  Prop' ι
-[∗]-map P˙ ds =  [∗] (map P˙ ds)
+[∗]-map P˙ ds =  [∗] map P˙ ds
 
 -- Syntax for [∗]-map
 

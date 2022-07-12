@@ -71,6 +71,7 @@ empmem =  initᶠᵐ [] refl
 
 -- Memory read
 
+infix 5 _!!ᴹ_
 _!!ᴹ_ :  Mem →  Addr →  ?? MemCell
 M !!ᴹ addr b i =  M .block b !! i
 

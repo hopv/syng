@@ -391,3 +391,11 @@ abstract
 
   ⊔-assocʳ :  l ⊔ (m ⊔ n) ≡ (l ⊔ m) ⊔ n
   ⊔-assocʳ {l} =  ◠ ⊔-assocˡ {l}
+
+  -- Utility
+
+  ⊔≤-introˡ :  l ⊔ m ≤ n →  l ≤ n
+  ⊔≤-introˡ l⊔m≤n =  ≤-trans ⊔-introˡ l⊔m≤n
+
+  ⊔≤-introʳ :  l ⊔ m ≤ n →  m ≤ n
+  ⊔≤-introʳ {l} l⊔m≤n =  ≤-trans (⊔-introʳ {_} {l}) l⊔m≤n

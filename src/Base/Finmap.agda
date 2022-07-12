@@ -9,7 +9,7 @@ module Base.Finmap {ℓ ℓ'} (A : Set ℓ) (null : A → Set ℓ') where
 open import Base.Level using (Level; _⌴_)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
 open import Base.Func using (_$_)
-open import Base.Eq using (refl)
+open import Base.Eq using (_≡_; refl)
 open import Base.Few using (absurd)
 open import Base.Nat using (ℕ; suc; _≤_; _≡ᵇ_; _⊔_; ≤-trans; ᵇ⇒≡; ⊔≤-introˡ;
   ⊔≤-introʳ; <-irrefl)
@@ -49,6 +49,16 @@ updᶠᵐ i a M@(finmap _ n monu) .mostnull =  proof
   ... | ff | _ =  monu $ ⊔≤-introʳ {suc _} si⊔n≤j
   ... | tt | ⇒i≡j  with ⇒i≡j _
   ...   | refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
+
+abstract
+
+  -- Abstract version of updᶠᵐ
+
+  updaᶠᵐ :  ℕ →  A →  Finmap →  Finmap
+  updaᶠᵐ =  updᶠᵐ
+
+  updaᶠᵐ-eq :  updaᶠᵐ ≡ updᶠᵐ
+  updaᶠᵐ-eq =  refl
 
 -- Merge finmaps using a merge operation _∙_
 

@@ -40,10 +40,10 @@ updᶠᵐ i _ (finmap _ n monu) .mostnull {j} si⊔n≤j  with i ≡ᵇ j | ᵇ�
 ... | tt | ⇒i≡j  with ⇒i≡j _
 ...   | refl =  absurd $ <-irrefl $ ≤-trans (⊔-introˡ {_} {n}) si⊔n≤j
 
-merge :  ∀ (_∙_ : A → A → A) →  (∀{a b} → null a → null b → null (a ∙ b)) →
-         Finmap →  Finmap →  Finmap
-merge _∙_ _ (finmap f _ _) (finmap g _ _) .mapfin i =  f i ∙ g i
-merge _ _ (finmap _ m _) (finmap _ n _) .boundfin =  m ⊔ n
-merge _ null∙ (finmap _ m monuf) (finmap _ _ monug) .mostnull m⊔n≤j =
+mergeᶠᵐ :  ∀ (_∙_ : A → A → A) →  (∀{a b} → null a → null b → null (a ∙ b)) →
+           Finmap →  Finmap →  Finmap
+mergeᶠᵐ _∙_ _ (finmap f _ _) (finmap g _ _) .mapfin i =  f i ∙ g i
+mergeᶠᵐ _ _ (finmap _ m _) (finmap _ n _) .boundfin =  m ⊔ n
+mergeᶠᵐ _ null∙ (finmap _ m monuf) (finmap _ _ monug) .mostnull m⊔n≤j =
   null∙ (monuf $ ≤-trans ⊔-introˡ m⊔n≤j)
         (monug $ ≤-trans (⊔-introʳ {_} {m}) m⊔n≤j)

@@ -19,7 +19,7 @@ open import Shog.Model.RA.Glob ℓ using (GlobRA; Glob; module ModGlobI;
   module ModSave□; module ModAgᴾ)
 open RA GlobRA using (_≈_; ⌞_⌟; _◇˜_)
 open ModGlobI using (injᴬ; injᴬ-cong; injᴬ-⌞⌟)
-open ModSave□ using (injᶠ; injᶠ-⌞⌟)
+open ModSave□ using (injaᶠᵐ; injaᶠᵐ-⌞⌟)
 open ModAgᴾ using (ag)
 open import Shog.Model.Prop GlobRA using (Propᵒ; _⊨_; ∃^-syntax; ∃^∈-syntax;
   _∧ᵒ_; ⌜_⌝^; own)
@@ -33,7 +33,7 @@ private variable
 -- Interpreting persistent save tokens
 
 lineˢ□ :  ℕ →  Prop' ∞ →  Glob
-lineˢ□ i P =  injᴬ 1 $ injᶠ i $ ag P
+lineˢ□ i P =  injᴬ 1 $ injaᶠᵐ i $ ag P
 
 save□ᵒ :  Prop' ∞ →  Propᵒ
 save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
@@ -42,4 +42,4 @@ save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
 abstract
 
   lineˢ□-⌞⌟ :  ⌞ lineˢ□ i P ⌟ ≈ lineˢ□ i P
-  lineˢ□-⌞⌟ =  injᴬ-⌞⌟ ◇˜ injᴬ-cong injᶠ-⌞⌟
+  lineˢ□-⌞⌟ =  injᴬ-⌞⌟ ◇˜ injᴬ-cong injaᶠᵐ-⌞⌟

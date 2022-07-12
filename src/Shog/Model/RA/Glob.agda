@@ -17,7 +17,7 @@ open import Shog.Model.RA.Top using (⊤RA)
 
 import Shog.Model.RA.Exc
 import Shog.Model.RA.Ag
-import Shog.Model.RA.Fin
+import Shog.Model.RA.Finmap
 import Shog.Model.RA.All
 import Shog.Model.RA.All.Index
 
@@ -36,11 +36,11 @@ open ModAgᴾ public using () renaming (AgRA to AgᴾRA)
 --------------------------------------------------------------------------------
 -- SaveˣRA, Save□RA: Exclusive/persistent save token RA
 
-module ModSaveˣ =  Shog.Model.RA.Fin ExcᴾRA
-open ModSaveˣ public using () renaming (FinRA to SaveˣRA; Fin to Saveˣ)
+module ModSaveˣ =  Shog.Model.RA.Finmap ExcᴾRA
+open ModSaveˣ public using () renaming (FinmapRA to SaveˣRA; Finmap to Saveˣ)
 
-module ModSave□ =  Shog.Model.RA.Fin AgᴾRA
-open ModSave□ public using () renaming (FinRA to Save□RA; Fin to Save□)
+module ModSave□ =  Shog.Model.RA.Finmap AgᴾRA
+open ModSave□ public using () renaming (FinmapRA to Save□RA; Finmap to Save□)
 
 --------------------------------------------------------------------------------
 -- GlobRA: Global RA

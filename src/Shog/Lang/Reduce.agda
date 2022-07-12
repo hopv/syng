@@ -115,9 +115,6 @@ val/ctxred (free e)  with val/ctxred e
 --------------------------------------------------------------------------------
 -- Reduction
 
--- Red' vc M e M' :  vc & M reduces to e & M',
--- where vc is supposed to be obtained by val/ctxred
-
 private variable
   M :  Mem
   ctx :  Expr ∞ U → Expr ∞ T
@@ -127,6 +124,9 @@ private variable
   x :  Addr
   u :  Val U
   b n :  ℕ
+
+-- Red' vc M e M' :  vc & M reduces to e & M',
+-- where vc is supposed to be obtained by val/ctxred
 
 data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ ℓ)  where
   ▶-red :  Red' (inj₁ $ _ , ctx , ▶ᴿ e) M (ctx e) M

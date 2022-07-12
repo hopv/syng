@@ -28,10 +28,14 @@ record  Finmap :  Set (ℓ ⌴ ℓ')  where
     mostnull :  Mostnull mapfin boundfin
 open Finmap public
 
+-- Finmap that constantly returns a null value
+
 initᶠᵐ :  ∀ a →  null a →  Finmap
 initᶠᵐ a _ .mapfin _ =  a
 initᶠᵐ _ _ .boundfin =  0
 initᶠᵐ _ nulla .mostnull _ =  nulla
+
+-- Update a finmap at an index
 
 updᶠᵐ :  ℕ →  A →  Finmap →  Finmap
 updᶠᵐ i a (finmap f _ _) .mapfin j  with i ≡ᵇ j
@@ -45,6 +49,8 @@ updᶠᵐ i a M@(finmap _ n monu) .mostnull =  proof
   ... | ff | _ =  monu $ ⊔≤-introʳ {suc _} si⊔n≤j
   ... | tt | ⇒i≡j  with ⇒i≡j _
   ...   | refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
+
+-- Merge finmaps using a merge operation _∙_
 
 mergeᶠᵐ :  ∀ (_∙_ : A → A → A) →  (∀{a b} → null a → null b → null (a ∙ b)) →
            Finmap →  Finmap →  Finmap

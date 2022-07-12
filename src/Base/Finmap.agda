@@ -15,6 +15,10 @@ open import Base.Nat using (ℕ; suc; _≤_; _≡ᵇ_; _⊔_; ≤-trans; ᵇ⇒�
   ⊔≤-introʳ; <-irrefl)
 open import Base.Bool using (tt; ff)
 
+--------------------------------------------------------------------------------
+-- Finmap : Finite map over natural numbers
+
+-- Mostnull mapfin boundfin : mapfin i is null for every i ≥ boundfin
 Mostnull :  (ℕ → A) →  ℕ →  Set ℓ'
 Mostnull mapfin boundfin =  ∀ {i} → boundfin ≤ i → null (mapfin i)
 
@@ -23,10 +27,13 @@ record  Finmap :  Set (ℓ ⌴ ℓ')  where
   field
     -- Main map
     mapfin :  ℕ → A
-    -- finmap i is null for every i ≥ boundfin
+    -- mapfin i is null for every i ≥ boundfin
     boundfin :  ℕ
     mostnull :  Mostnull mapfin boundfin
 open Finmap public
+
+--------------------------------------------------------------------------------
+-- Various operations on Finmap
 
 -- Finmap that constantly returns a null value
 

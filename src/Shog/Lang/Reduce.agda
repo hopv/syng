@@ -20,7 +20,7 @@ open import Base.Nat using (ℕ; _≡ᵇ_)
 open import Base.List using (List; [])
 open import Base.List.Nat using (_!!_; upd; repeat)
 open import Base.Option using (some)
-open import Base.Eq using (_≡_)
+open import Base.Eq using (_≡_; refl)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; addr; Expr; ▶_; ∇_;
   λ˙; _◁_; ★_; _←_; alloc; free; Val; Val⇒Expr)
 
@@ -51,27 +51,33 @@ data  Redex :  Type →  Set (^ ℓ)  where
 MemCell :  Set (^ ℓ)
 MemCell =  ∑ T , Val T
 
--- Memory, consisting of memory blocks, which are a list of memory cells
+-- Re-export
+open import Base.Finmap (List MemCell) (_≡ []) public using () renaming (
 
-Mem :  Set (^ ℓ)
-Mem =  ℕ →  List MemCell
+  -- Memory, consisting of a finite number of memory blocks,
+  -- each of which is a list of memory cells
+  Finmap to Mem;
+  finmap to mem; mapfin to block; boundfin to boundmem; mostnull to mostnil;
+
+  -- Memory block update
+  updᶠᵐ to updᴹᴮ; updaᶠᵐ to updaᴹᴮ; updaᶠᵐ-eq to updaᴹᴮ-eq)
+
+open import Base.Finmap (List MemCell) (_≡ []) using (initᶠᵐ)
+
+-- Empty memory
+
+empmem :  Mem
+empmem =  initᶠᵐ [] refl
 
 -- Memory read
 
 _!!ᴹ_ :  Mem →  Addr →  ?? MemCell
-M !!ᴹ addr b i =  M b !! i
-
--- Memory block update
-
-updᴹᴮ :  ℕ →  List MemCell →  Mem →  Mem
-updᴹᴮ b cs M b'  with b' ≡ᵇ b
-... | tt =  cs
-... | ff =  M b'
+M !!ᴹ addr b i =  M .block b !! i
 
 -- Memory update
 
 updᴹ :  Addr →  MemCell →  Mem →  Mem
-updᴹ (addr b i) c M =  updᴹᴮ b (upd i c $ M b) M
+updᴹ (addr b i) c M =  updᴹᴮ b (upd i c $ M .block b) M
 
 --------------------------------------------------------------------------------
 -- Value & Context-Redex Pair
@@ -135,7 +141,7 @@ data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ �
     Red' (inj₁ $ _ , ctx , ★ᴿ x) M (ctx $ Val⇒Expr u) M
   ←-red :  ∀ {v : Val V} →
     Red' (inj₁ $ _ , ctx , x ←ᴿ v) M (ctx $ ∇ _) (updᴹ x (_ , v) M)
-  alloc-red :  ∀ b →  M b ≡ [] →
+  alloc-red :  ∀ b →  M .block b ≡ [] →
     Red' (inj₁ $ _ , ctx , allocᴿ n) M
          (ctx $ ∇ ↑ addr b 0) (updᴹᴮ b (repeat n (◸ ⊤ , _)) M)
   free-red :  Red' (inj₁ $ _ , ctx , freeᴿ $ addr b 0) M

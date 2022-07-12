@@ -15,6 +15,9 @@ open import Base.Nat using (ℕ; suc; _≤_; _≡ᵇ_; _⊔_; ≤-trans; ᵇ⇒�
   ⊔≤-introʳ; <-irrefl)
 open import Base.Bool using (tt; ff)
 
+Mostnull :  (ℕ → A) →  ℕ →  Set ℓ'
+Mostnull mapfin boundfin =  ∀ {i} → boundfin ≤ i → null (mapfin i)
+
 record  Finmap :  Set (ℓ ⌴ ℓ')  where
   constructor finmap
   field
@@ -22,7 +25,7 @@ record  Finmap :  Set (ℓ ⌴ ℓ')  where
     mapfin :  ℕ → A
     -- finmap i is null for every i ≥ boundfin
     boundfin :  ℕ
-    mostnull :  ∀ {i} → boundfin ≤ i → null (mapfin i)
+    mostnull :  Mostnull mapfin boundfin
 open Finmap public
 
 initᶠᵐ :  ∀ a →  null a →  Finmap
@@ -35,14 +38,19 @@ updᶠᵐ i a (finmap f _ _) .mapfin j  with i ≡ᵇ j
 ... | ff =  f j
 ... | tt =  a
 updᶠᵐ i _ (finmap _ n _) .boundfin =  suc i ⊔ n
-updᶠᵐ i _ (finmap _ n monu) .mostnull {j} si⊔n≤j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
-... | ff | _ =  monu $ ⊔≤-introʳ {suc _} si⊔n≤j
-... | tt | ⇒i≡j  with ⇒i≡j _
-...   | refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
+updᶠᵐ i a M@(finmap _ n monu) .mostnull =  proof
+ where abstract
+  proof :  Mostnull (updᶠᵐ i a M .mapfin) (suc i ⊔ n)
+  proof {j} si⊔n≤j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
+  ... | ff | _ =  monu $ ⊔≤-introʳ {suc _} si⊔n≤j
+  ... | tt | ⇒i≡j  with ⇒i≡j _
+  ...   | refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
 
 mergeᶠᵐ :  ∀ (_∙_ : A → A → A) →  (∀{a b} → null a → null b → null (a ∙ b)) →
            Finmap →  Finmap →  Finmap
 mergeᶠᵐ _∙_ _ (finmap f _ _) (finmap g _ _) .mapfin i =  f i ∙ g i
 mergeᶠᵐ _ _ (finmap _ m _) (finmap _ n _) .boundfin =  m ⊔ n
-mergeᶠᵐ _ null∙ (finmap _ m monuf) (finmap _ _ monug) .mostnull m⊔n≤j =
-  null∙ (monuf $ ⊔≤-introˡ m⊔n≤j) (monug $ ⊔≤-introʳ {m} m⊔n≤j)
+mergeᶠᵐ _∙_ null∙ (finmap f m monuf) (finmap g n monug) .mostnull =  proof
+ where abstract
+  proof :  Mostnull (λ i → f i ∙ g i) (m ⊔ n)
+  proof m⊔n≤j =  null∙ (monuf $ ⊔≤-introˡ m⊔n≤j) (monug $ ⊔≤-introʳ {m} m⊔n≤j)

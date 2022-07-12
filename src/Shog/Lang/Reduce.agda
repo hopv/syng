@@ -92,40 +92,25 @@ val/ctxred :  Expr ∞ T →  Val/Ctxred T
 val/ctxred (∇ a) =  inj₀ $ ↑ a
 val/ctxred (λ˙ e˙) =  inj₀ $ e˙
 val/ctxred (▶ e˂) =  inj₁ $ _ , id , ▶ᴿ (e˂ .!)
-val/ctxred (e ◁ e') =  inj₁ body
- where
-  body :  _
-  body  with val/ctxred e'
-  ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ◁ ctx •) , red
-  ... | inj₀ (↑ a)  with val/ctxred e
-  ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ◁ e') , red
-  ...   | inj₀ v =  _ , id , v ◁ᴿ a
-val/ctxred (★ e) =  inj₁ body
- where
-  body :  _
-  body  with val/ctxred e
-  ... | inj₁ (_ , ctx , red) =  _ , (λ • → ★ ctx •) , red
-  ... | inj₀ (↑ ↑ x) =  _ , id , ★ᴿ x
-val/ctxred (e ← e') =  inj₁ body
- where
-  body :  _
-  body  with  val/ctxred e'
-  ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ← ctx •) , red
-  ... | inj₀ v  with val/ctxred e
-  ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ← e') , red
-  ...   | inj₀ (↑ ↑ x) =  _ , id , x ←ᴿ v
-val/ctxred (alloc e) =  inj₁ body
- where
-  body :  _
-  body  with val/ctxred e
-  ... | inj₁ (_ , ctx , red) =  _ , (λ • → alloc $ ctx •) , red
-  ... | inj₀ (↑ ↑ n) =  _ , id , allocᴿ n
-val/ctxred (free e) =  inj₁ body
- where
-  body :  _
-  body  with val/ctxred e
-  ... | inj₁ (_ , ctx , red) =  _ , (λ • → free $ ctx •) , red
-  ... | inj₀ (↑ ↑ x) =  _ , id , freeᴿ x
+val/ctxred (e ◁ e')  with val/ctxred e'
+... | inj₁ (_ , ctx , red) =  inj₁ $ _ , (λ • → e ◁ ctx •) , red
+... | inj₀ (↑ a)  with val/ctxred e
+...   | inj₁ (_ , ctx , red) =  inj₁ $ _ , (λ • → ctx • ◁ e') , red
+...   | inj₀ v =  inj₁ $ _ , id , v ◁ᴿ a
+val/ctxred (★ e)  with val/ctxred e
+... | inj₁ (_ , ctx , red) =  inj₁ $ _ , (λ • → ★ ctx •) , red
+... | inj₀ (↑ ↑ x) =  inj₁ $ _ , id , ★ᴿ x
+val/ctxred (e ← e')  with  val/ctxred e'
+... | inj₁ (_ , ctx , red) =  inj₁ $ _ , (λ • → e ← ctx •) , red
+... | inj₀ v  with val/ctxred e
+...   | inj₁ (_ , ctx , red) =  inj₁ $ _ , (λ • → ctx • ← e') , red
+...   | inj₀ (↑ ↑ x) =  inj₁ $ _ , id , x ←ᴿ v
+val/ctxred (alloc e)  with val/ctxred e
+... | inj₁ (_ , ctx , red) =  inj₁ $ _ , (λ • → alloc $ ctx •) , red
+... | inj₀ (↑ ↑ n) =  inj₁ $ _ , id , allocᴿ n
+val/ctxred (free e)  with val/ctxred e
+... | inj₁ (_ , ctx , red) =  inj₁ $ _ , (λ • → free $ ctx •) , red
+... | inj₀ (↑ ↑ x) =  inj₁ $ _ , id , freeᴿ x
 
 --------------------------------------------------------------------------------
 -- Reduction

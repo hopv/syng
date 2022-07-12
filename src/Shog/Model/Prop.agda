@@ -26,22 +26,26 @@ private variable
 --------------------------------------------------------------------------------
 -- Propᵒ: Semantic proposition
 
+-- Monoᵒ predᵒ :
+--   predᵒ is monotone over the resource, ignoring the validity data
 Monoᵒ :  ∀ (predᵒ : ∀ (a : Glob) →  ✓ a →  Set (^ ℓ)) →  Set (^ ℓ)
 Monoᵒ predᵒ =  ∀ {a b ✓a ✓b} →  a ⊑ b →  predᵒ a ✓a →  predᵒ b ✓b
 
 record  Propᵒ :  Set (^ ^ ℓ)  where
   field
+    -- Predicate, parametrized over a resource a that is valid
     predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ ℓ)
+    -- predᵒ is monotone over the resource, ignoring the validity data
     monoᵒ :  Monoᵒ predᵒ
 
   abstract
-
+    -- Change the validity of predᵒ
     renewᵒ :  ∀ {a ✓a ✓a'} →  predᵒ a ✓a →  predᵒ a ✓a'
     renewᵒ =  monoᵒ ⊑-refl
-
+    -- Change the resource of predᵒ into an equivalent one
     congᵒ :  ∀ {a b ✓a ✓b} →  a ≈ b →  predᵒ a ✓a →  predᵒ b ✓b
     congᵒ a≈b =  monoᵒ (≈⇒⊑ a≈b)
-
+    -- congᵒ with the validity predicate specified
     congᵒ' :  ∀ {a b ✓b} a≈b →  predᵒ a (✓-resp (◠˜ a≈b) ✓b) →  predᵒ b ✓b
     congᵒ' a≈b =  congᵒ a≈b
 

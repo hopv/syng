@@ -5,7 +5,7 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Shog.Model.RA using (RA)
-open import Base.Eq using (_≡_)
+open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (Dec²)
 module Shog.Model.RA.All.Index {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
   (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) (_≟_ : Dec² _≡_) where
@@ -23,12 +23,10 @@ open RA AllRA using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_
 --------------------------------------------------------------------------------
 -- updᴬ: Updating an element at an index
 
-abstract -- Definition is made abstract for better type inference
-
-  updᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ →  Aᴬ
-  updᴬ i a b˙ j  with i ≟ j
-  ... | yes refl =  a
-  ... | no _ =  b˙ j
+updᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ →  Aᴬ
+updᴬ i a b˙ j  with i ≟ j
+... | yes refl =  a
+... | no _ =  b˙ j
 
 --------------------------------------------------------------------------------
 -- injᴬ: Injecting an element at an index

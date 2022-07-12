@@ -228,7 +228,7 @@ abstract
   +-monoˡ (suc≤suc l'≤m') =  suc≤suc $ +-monoˡ l'≤m'
 
   +-monoʳ :  ∀ {l m n} →  m ≤ n →  l + m ≤ l + n
-  +-monoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-monoˡ
+  +-monoʳ {l} {m} {n}  rewrite +-comm {l} {m} | +-comm {l} {n} =  +-monoˡ
 
   +-mono :  k ≤ l →  m ≤ n →  k + m ≤ l + n
   +-mono k≤l m≤n =  ≤-trans (+-monoˡ k≤l) (+-monoʳ m≤n)
@@ -239,7 +239,7 @@ abstract
   +-smonoˡ =  +-monoˡ
 
   +-smonoʳ :  ∀ {l m n} →  m < n →  l + m < l + n
-  +-smonoʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-smonoˡ
+  +-smonoʳ {l} {m} {n}  rewrite +-comm {l} {m} | +-comm {l} {n} =  +-smonoˡ
 
   +-smono :  k < l →  m < n →  k + m < l + n
   +-smono k<l m<n =  <-trans (+-smonoˡ k<l) (+-smonoʳ m<n)
@@ -253,7 +253,7 @@ abstract
   ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m+l≡n+l) (+-smonoˡ m>n)
 
   +-injʳ :  l + m ≡ l + n →  m ≡ n
-  +-injʳ {l} {m} {n} rewrite +-comm {l} {m} | +-comm {l} {n} =  +-injˡ
+  +-injʳ {l} {m} {n}  rewrite +-comm {l} {m} | +-comm {l} {n} =  +-injˡ
 
 --------------------------------------------------------------------------------
 -- *: Multiplication
@@ -313,7 +313,7 @@ abstract
   *-monoˡ (suc≤suc l'≤m') =  +-monoʳ $ *-monoˡ l'≤m'
 
   *-monoʳ :  ∀ {l m n} →  m ≤ n →  l * m ≤ l * n
-  *-monoʳ {l} {m} {n} rewrite *-comm {l} {m} | *-comm {l} {n} =  *-monoˡ
+  *-monoʳ {l} {m} {n}  rewrite *-comm {l} {m} | *-comm {l} {n} =  *-monoˡ
 
   *-mono :  k ≤ l →  m ≤ n →  k * m ≤ l * n
   *-mono {l = l} k≤l m≤n =  ≤-trans (*-monoˡ k≤l) (*-monoʳ {l} m≤n)
@@ -324,7 +324,7 @@ abstract
   *-smonoˡ sl≤m =  ≤-trans (suc≤suc +-incrˡ) (*-monoˡ sl≤m)
 
   *-smonoʳ :  ∀ {l m n} →  m < n →  suc l * m < suc l * n
-  *-smonoʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n}
+  *-smonoʳ {l} {m} {n}  rewrite *-comm {suc l} {m} | *-comm {suc l} {n}
     =  *-smonoˡ
 
   -- * with a positive argument is injective
@@ -336,7 +336,7 @@ abstract
   ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m*sl≡n*sl) (*-smonoˡ m>n)
 
   *-injʳ :  suc l * m ≡ suc l * n →  m ≡ n
-  *-injʳ {l} {m} {n} rewrite *-comm {suc l} {m} | *-comm {suc l} {n} =  *-injˡ
+  *-injʳ {l} {m} {n}  rewrite *-comm {suc l} {m} | *-comm {suc l} {n} =  *-injˡ
 
 --------------------------------------------------------------------------------
 -- ∸: Truncated subtraction

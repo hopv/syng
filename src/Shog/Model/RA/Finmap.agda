@@ -134,34 +134,34 @@ module _ {i : ℕ} where abstract
   -- updaᶠᵐ preserves ≈/✓/∙/⌞⌟/↝
 
   updaᶠᵐ-cong :  a ≈' b →  M ≈ N →  updaᶠᵐ i a M ≈ updaᶠᵐ i b N
-  updaᶠᵐ-cong a≈b M≈N j rewrite updaᶠᵐ-eq  with i ≡ᵇ j
+  updaᶠᵐ-cong a≈b M≈N j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  a≈b
   ... | ff =  M≈N j
 
   updaᶠᵐ-✓ :  ✓' a →  ✓ M →  ✓ updaᶠᵐ i a M
-  updaᶠᵐ-✓ ✓a ✓M j rewrite updaᶠᵐ-eq  with i ≡ᵇ j
+  updaᶠᵐ-✓ ✓a ✓M j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  ✓a
   ... | ff =  ✓M j
 
   updaᶠᵐ-∙ :  updaᶠᵐ i a M ∙ updaᶠᵐ i b N  ≈  updaᶠᵐ i (a ∙' b) (M ∙ N)
-  updaᶠᵐ-∙ j rewrite updaᶠᵐ-eq  with i ≡ᵇ j
+  updaᶠᵐ-∙ j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  refl'
   ... | ff =  refl'
 
   updaᶠᵐ-⌞⌟ :  ⌞ updaᶠᵐ i a M ⌟  ≈  updaᶠᵐ i ⌞ a ⌟' ⌞ M ⌟
-  updaᶠᵐ-⌞⌟ j rewrite updaᶠᵐ-eq  with i ≡ᵇ j
+  updaᶠᵐ-⌞⌟ j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  refl'
   ... | ff =  refl'
 
   updaᶠᵐ-↝ :  a ↝' b →  updaᶠᵐ i a M ↝ updaᶠᵐ i b M
-  updaᶠᵐ-↝ a↝b N ✓N∙iaM j rewrite updaᶠᵐ-eq  with i ≡ᵇ j | ✓N∙iaM j
+  updaᶠᵐ-↝ a↝b N ✓N∙iaM j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j | ✓N∙iaM j
   ... | tt | ✓Ni∙a =  a↝b (N .mapfin j) ✓Ni∙a
   ... | ff | ✓Nj∙Mj =  ✓Nj∙Mj
 
   -- Double update
 
   updaᶠᵐ-2 :  updaᶠᵐ i a (updaᶠᵐ i b M) ≈ updaᶠᵐ i a M
-  updaᶠᵐ-2 j rewrite updaᶠᵐ-eq  with i ≡ᵇ j | ≡⇒ᵇ {i} {j}
+  updaᶠᵐ-2 j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j | ≡⇒ᵇ {i} {j}
   ... | tt | _ =  refl'
   ... | ff | i≢j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
     -- We need with i ≡ᵇ j to simplify updaᶠᵐ i b M j
@@ -184,7 +184,7 @@ module _ {i : ℕ} where abstract
     updaᶠᵐ-∙ $ updaᶠᵐ-cong refl' (∙-unitˡ {a = ε})
 
   injaᶠᵐ-ε :  injaᶠᵐ i ε' ≈ ε
-  injaᶠᵐ-ε j rewrite updaᶠᵐ-eq  with i ≡ᵇ j
+  injaᶠᵐ-ε j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  refl'
   ... | ff =  refl'
 
@@ -201,7 +201,7 @@ module _ {i : ℕ} where abstract
   allocᶠᵐ {a} ✓a N@(finmap f n monu) ✓N∙ε =  injaᶠᵐ n a , (_ , refl) , proof
    where
     proof :  ✓ N ∙ injaᶠᵐ n a
-    proof i rewrite updaᶠᵐ-eq  with n ≡ᵇ i | ᵇ⇒≡ {n} {i}
+    proof i  rewrite updaᶠᵐ-eq  with n ≡ᵇ i | ᵇ⇒≡ {n} {i}
     ... | ff | _ =  ✓N∙ε i
     ... | tt | ⇒n≡i with ⇒n≡i _
     ...   | refl =  flip ✓'-resp ✓a $ ◠'_ $ ∙'-congˡ (monu ≤-refl) ◇' ∙'-unitˡ

@@ -180,7 +180,7 @@ abstract
   +⁺-injˡ {1+ l⁰} m+l≡n+l =  ℕ⁺⇒ℕ-inj $ +-injˡ $ cong ℕ⁺⇒ℕ m+l≡n+l
 
   +⁺-injʳ :  l +⁺ m ≡ l +⁺ n →  m ≡ n
-  +⁺-injʳ {l} {m} {n} rewrite +⁺-comm {l} {m} | +⁺-comm {l} {n} =  +⁺-injˡ
+  +⁺-injʳ {l} {m} {n}  rewrite +⁺-comm {l} {m} | +⁺-comm {l} {n} =  +⁺-injˡ
 
   -- +⁺ strictly increases
 
@@ -229,7 +229,7 @@ abstract
   *⁺-injˡ {1+ l⁰} m*l≡n*l =  ℕ⁺⇒ℕ-inj $ *-injˡ $ cong ℕ⁺⇒ℕ m*l≡n*l
 
   *⁺-injʳ :  l *⁺ m ≡ l *⁺ n →  m ≡ n
-  *⁺-injʳ {l} {m} {n} rewrite *⁺-comm {l} {m} | *⁺-comm {l} {n} =  *⁺-injˡ
+  *⁺-injʳ {l} {m} {n}  rewrite *⁺-comm {l} {m} | *⁺-comm {l} {n} =  *⁺-injˡ
 
   -- *⁺ is distributive over +⁺
 
@@ -246,7 +246,7 @@ abstract
   *⁺-1ˡ =  cong 1+ +-0
 
   *⁺-1ʳ :  n *⁺ 1⁺ ≡ n
-  *⁺-1ʳ {n} rewrite *⁺-comm {n} {1⁺} =  *⁺-1ˡ {n}
+  *⁺-1ʳ {n}  rewrite *⁺-comm {n} {1⁺} =  *⁺-1ˡ {n}
 
   -- *⁺ is monotone
 

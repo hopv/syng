@@ -28,7 +28,7 @@ private variable
 
 -- Monoᵒ predᵒ :
 --   predᵒ is monotone over the resource, ignoring the validity data
-Monoᵒ :  ∀ (predᵒ : ∀ (a : Glob) →  ✓ a →  Set (^ ℓ)) →  Set (^ ℓ)
+Monoᵒ :  (∀ a → ✓ a → Set (^ ℓ)) →  Set (^ ℓ)
 Monoᵒ predᵒ =  ∀ {a b ✓a ✓b} →  a ⊑ b →  predᵒ a ✓a →  predᵒ b ✓b
 
 record  Propᵒ :  Set (^ ^ ℓ)  where

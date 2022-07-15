@@ -37,12 +37,12 @@ abstract
 
   -- Monotonicity
 
-  hor-monoˡ :  ∀{Qᵛ : Val T → _} →
-    P' ⊢[ ι ] P →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
+  hor-monoˡ :  ∀{Qᵛ : Val T → _} →  P' ⊢[ ι ] P →
+               P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
   hor-monoˡ P'⊢P =  hor-monoˡᵘ $ ⇒=>> P'⊢P
 
   hor-monoʳ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →
-    P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
+               P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
   hor-monoʳ ∀vQ⊢Q' =  hor-monoʳᵘ (λ _ → ⇒=>> $ ∀vQ⊢Q' _)
 
   -- Let binding

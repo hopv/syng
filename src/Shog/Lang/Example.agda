@@ -17,7 +17,7 @@ open import Base.Prod using (_×_; _,_)
 open import Base.Nat using (ℕ; _+_)
 open import Shog.Lang.Expr ℓ using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_;
   _◁_; free; λ-syntax)
-open import Shog.Lang.Reduce ℓ using (Mem; Red; ▶-red; ◁-red)
+open import Shog.Lang.Reduce ℓ using (Mem; ▶-red; ◁-red; _⇒ᴱ_; redᴱ)
 
 private variable
   ι :  Size
@@ -45,22 +45,23 @@ plus◁3'4 =  plus ◁ ∇ ↑ (3 , 4)
 
 abstract
 
-  loop-red :  Red loop M loop M
-  loop-red =  ▶-red
+  loop-red :  (loop , M) ⇒ᴱ (loop , M)
+  loop-red =  redᴱ refl ▶-red
 
-  plus◁3'4-red :  Red plus◁3'4 M (∇ ↑ 7) M
-  plus◁3'4-red =  ◁-red
+  plus◁3'4-red :  (plus◁3'4 , M) ⇒ᴱ (∇ ↑ 7 , M)
+  plus◁3'4-red =  redᴱ refl ◁-red
 
 --------------------------------------------------------------------------------
 -- Destructing Red
 
 abstract
 
-  loop-red-inv :  Red loop M e M' →  (e , M') ≡ (loop , M)
-  loop-red-inv ▶-red =  refl
+  loop-red-inv :  (loop , M) ⇒ᴱ (e , M') →  (e , M') ≡ (loop , M)
+  loop-red-inv (redᴱ refl ▶-red) =  refl
 
-  stuck-no-red :  ¬ Red stuck M e M'
-  stuck-no-red ()
+  stuck-no-red :  ¬ (stuck , M) ⇒ᴱ (e , M')
+  stuck-no-red (redᴱ refl R)  with R
+  ... | ()
 
-  plus◁3'4-red-inv :  Red plus◁3'4 M e M' →  (e , M') ≡ (∇ ↑ 7 , M)
-  plus◁3'4-red-inv ◁-red =  refl
+  plus◁3'4-red-inv :  (plus◁3'4 , M) ⇒ᴱ (e , M') →  (e , M') ≡ (∇ ↑ 7 , M)
+  plus◁3'4-red-inv (redᴱ refl ◁-red) =  refl

@@ -98,7 +98,7 @@ private variable
   a :  A
   F :  A → Set ℓ
   Jr :  JudgRes
-  P Q R P' :  Prop' ∞
+  P P' Q R :  Prop' ∞
   P˙ Q˙ :  A → Prop' ∞
   P˂ Q˂ :  Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
@@ -207,23 +207,23 @@ data  Judg ι  where
   -- Rules on Hoare triple
 
   -- Monotonicity
-  hor-monoˡᵘ :  ∀{Qᵛ : Val T → _} →
+  hor-monoˡᵘ :  ∀{Qᵛ : _} →
     P' ⊢[ ι ]=>> P →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
   hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
     P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
 
   -- Weaken a Hoare triple from total to partial
-  hor-ᵀ⇒ :  ∀{Qᵛ : Val T → _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ Qᵛ
+  hor-ᵀ⇒ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ Qᵛ
 
   -- Value
   hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
 
   -- ▶, for partial Hoare triple
-  hor-▶ :  ∀{Qᵛ : Val T → _} →
+  hor-▶ :  ∀{Qᵛ : _} →
     P ⊢[< ι ]⟨ ctx e ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ Qᵛ
 
   -- Application
-  hor-◁ :  ∀{Qᵛ : Val T → _} →
+  hor-◁ :  ∀{Qᵛ : _} →
     P ⊢[ ι ]⟨ ctx $ e˙ a ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , e˙ ◁ᴿ a ⟩ Qᵛ
 
 --------------------------------------------------------------------------------

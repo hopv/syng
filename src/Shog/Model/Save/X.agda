@@ -16,7 +16,7 @@ open import Shog.Logic.Judg ℓ using (_⊢[_]_)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (GlobRA; Glob; module ModGlobI;
   module ModSaveˣ; module ModExcᴾ)
-open ModGlobI using (injᴬ)
+open ModGlobI using (injaᴬ)
 open ModSaveˣ using (injaᶠᵐ)
 open ModExcᴾ using (#ˣ_)
 open import Shog.Model.Prop GlobRA using (Propᵒ; _⊨_; ∃^-syntax; ∃^∈-syntax;
@@ -27,7 +27,7 @@ open import Shog.Model.Basic ℓ using ([|_|]ᴮ)
 -- Interpreting exclusive save tokens
 
 lineˢˣ :  ℕ →  Prop' ∞ →  Glob
-lineˢˣ i P =  injᴬ 0 $ injaᶠᵐ i $ #ˣ P
+lineˢˣ i P =  injaᴬ 0 $ injaᶠᵐ i $ #ˣ P
 
 saveˣᵒ :  Prop' ∞ →  Propᵒ
 saveˣᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,

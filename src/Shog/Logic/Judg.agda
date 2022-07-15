@@ -223,8 +223,8 @@ data  Judg ι  where
     P ⊢[< ι ]⟨ ctx e ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ Qᵛ
 
   -- Application
-  hor-◁ :  ∀{Qᵛ : _} →
-    P ⊢[ ι ]⟨ ctx $ e˙ a ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , e˙ ◁ᴿ a ⟩ Qᵛ
+  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx $ e˙ a ⟩[ κ ] Qᵛ →
+           P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , e˙ ◁ᴿ a ⟩[ κ ] Qᵛ
 
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition

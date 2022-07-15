@@ -1,11 +1,11 @@
 --------------------------------------------------------------------------------
--- Interpreting propositions and proving semantic soundness of the sequent
+-- Prove semantic soundness of the pure sequent
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
 open import Base.Level using (Level)
-module Shog.Model.Sequent (ℓ : Level) where
+module Shog.Model.Pure (ℓ : Level) where
 
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _▷_; flip; it)

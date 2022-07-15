@@ -12,7 +12,7 @@ open import Base.Func using (_$_)
 open import Base.Few using (¬_; absurd)
 open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
 open import Base.Bool using (Bool; tt; Tt)
-open import Base.Dec using (Dec²)
+open import Base.Dec using (Dec²; yes; no)
 open import Base.Dec.Construct using (dec-Tt)
 
 --------------------------------------------------------------------------------
@@ -174,8 +174,14 @@ abstract
 
 infix 4 _≡?_ _≤?_ _<?_
 
+-- Defined directly without abstract for better normalization
 _≡?_ :  Dec² {A = ℕ} _≡_
-_≡?_ _ _ =  dec-Tt ᵇ⇒≡ ≡⇒ᵇ
+0 ≡? 0 =  yes refl
+0 ≡? suc _ =  no λ ()
+suc _ ≡? 0 =  no λ ()
+suc m ≡? suc n  with m ≡? n
+... | yes refl =  yes refl
+... | no m≢n =  no $ λ{ refl → m≢n refl }
 
 _≤?_ :  Dec² _≤_
 _≤?_ _ _ =  dec-Tt ᵇ⇒≤ ≤⇒ᵇ

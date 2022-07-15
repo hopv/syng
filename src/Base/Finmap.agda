@@ -18,18 +18,18 @@ open import Base.Bool using (tt; ff)
 --------------------------------------------------------------------------------
 -- Finmap : Finite map over natural numbers
 
--- Mostnull mapfin boundfin : mapfin i is null for every i ≥ boundfin
-Mostnull :  (ℕ → A) →  ℕ →  Set ℓ'
-Mostnull mapfin boundfin =  ∀ {i} → boundfin ≤ i → null (mapfin i)
+-- Finᶠᵐ mapᶠᵐ n : mapᶠᵐ i is null for every i ≥ n
+Finᶠᵐ :  (ℕ → A) →  ℕ →  Set ℓ'
+Finᶠᵐ mapᶠᵐ n =  ∀ {i} → n ≤ i → null (mapᶠᵐ i)
 
+infix 5 _|ᶠᵐ_
 record  Finmap :  Set (ℓ ⌴ ℓ')  where
-  constructor finmap
+  constructor _|ᶠᵐ_
   field
     -- Main map
-    mapfin :  ℕ → A
-    -- mapfin i is null for every i ≥ boundfin
-    boundfin :  ℕ
-    mostnull :  Mostnull mapfin boundfin
+    mapᶠᵐ :  ℕ → A
+    -- mapᶠᵐ i is null for every i ≥ n for some n
+    finᶠᵐ :  ∑ n , Finᶠᵐ mapᶠᵐ n
 open Finmap public
 
 --------------------------------------------------------------------------------
@@ -38,22 +38,20 @@ open Finmap public
 -- Finmap that constantly returns a null value
 
 initᶠᵐ :  ∀ a →  null a →  Finmap
-initᶠᵐ a _ .mapfin _ =  a
-initᶠᵐ _ _ .boundfin =  0
-initᶠᵐ _ nulla .mostnull _ =  nulla
+initᶠᵐ a _ .mapᶠᵐ _ =  a
+initᶠᵐ _ nulla .finᶠᵐ =  0 , λ _ → nulla
 
 -- Update a finmap at an index
 
 updᶠᵐ :  ℕ →  A →  Finmap →  Finmap
-updᶠᵐ i a (finmap f _ _) .mapfin j  with i ≡ᵇ j
+updᶠᵐ i a (f |ᶠᵐ _) .mapᶠᵐ j  with i ≡ᵇ j
 ... | ff =  f j
 ... | tt =  a
-updᶠᵐ i _ (finmap _ n _) .boundfin =  suc i ⊔ n
-updᶠᵐ i a M@(finmap _ n monu) .mostnull =  proof
+updᶠᵐ i a M@(_ |ᶠᵐ (n , fi)) .finᶠᵐ =  suc i ⊔ n , proof
  where abstract
-  proof :  Mostnull (updᶠᵐ i a M .mapfin) (suc i ⊔ n)
+  proof :  Finᶠᵐ (updᶠᵐ i a M .mapᶠᵐ) (suc i ⊔ n)
   proof {j} si⊔n≤j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
-  ... | ff | _ =  monu $ ⊔≤-introʳ {suc _} si⊔n≤j
+  ... | ff | _ =  fi $ ⊔≤-introʳ {suc _} si⊔n≤j
   ... | tt | ⇒i≡j  with ⇒i≡j _
   ...   | refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
 
@@ -71,9 +69,8 @@ abstract
 
 mergeᶠᵐ :  ∀ (_∙_ : A → A → A) →  (∀{a b} → null a → null b → null (a ∙ b)) →
            Finmap →  Finmap →  Finmap
-mergeᶠᵐ _∙_ _ (finmap f _ _) (finmap g _ _) .mapfin i =  f i ∙ g i
-mergeᶠᵐ _ _ (finmap _ m _) (finmap _ n _) .boundfin =  m ⊔ n
-mergeᶠᵐ _∙_ null∙ (finmap f m monuf) (finmap g n monug) .mostnull =  proof
+mergeᶠᵐ _∙_ _ (f |ᶠᵐ _) (g |ᶠᵐ _) .mapᶠᵐ i =  f i ∙ g i
+mergeᶠᵐ _∙_ null∙ (f |ᶠᵐ (m , fi)) (g |ᶠᵐ (n , fi')) .finᶠᵐ =  m ⊔ n , proof
  where abstract
-  proof :  Mostnull (λ i → f i ∙ g i) (m ⊔ n)
-  proof m⊔n≤j =  null∙ (monuf $ ⊔≤-introˡ m⊔n≤j) (monug $ ⊔≤-introʳ {m} m⊔n≤j)
+  proof :  Finᶠᵐ (λ i → f i ∙ g i) (m ⊔ n)
+  proof m⊔n≤j =  null∙ (fi $ ⊔≤-introˡ m⊔n≤j) (fi' $ ⊔≤-introʳ {m} m⊔n≤j)

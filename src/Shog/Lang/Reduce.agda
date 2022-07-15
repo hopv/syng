@@ -57,7 +57,7 @@ open import Base.Finmap (List MemCell) (_≡ []) public using () renaming (
   -- Memory, consisting of a finite number of memory blocks,
   -- each of which is a list of memory cells
   Finmap to Mem;
-  finmap to mem; mapfin to block; boundfin to boundmem; mostnull to mostnil;
+  _|ᶠᵐ_ to _|ᴹ_; mapᶠᵐ to bloᴹ; finᶠᵐ to finᴹ;
 
   -- Memory block update
   updᶠᵐ to updᴹᴮ; updaᶠᵐ to updaᴹᴮ; updaᶠᵐ-eq to updaᴹᴮ-eq)
@@ -66,19 +66,19 @@ open import Base.Finmap (List MemCell) (_≡ []) using (initᶠᵐ)
 
 -- Empty memory
 
-empmem :  Mem
-empmem =  initᶠᵐ [] refl
+empᴹ :  Mem
+empᴹ =  initᶠᵐ [] refl
 
 -- Memory read
 
 infix 5 _!!ᴹ_
 _!!ᴹ_ :  Mem →  Addr →  ?? MemCell
-M !!ᴹ addr b i =  M .block b !! i
+M !!ᴹ addr b i =  M .bloᴹ b !! i
 
 -- Memory update
 
 updᴹ :  Addr →  MemCell →  Mem →  Mem
-updᴹ (addr b i) c M =  updᴹᴮ b (upd i c $ M .block b) M
+updᴹ (addr b i) c M =  updᴹᴮ b (upd i c $ M .bloᴹ b) M
 
 --------------------------------------------------------------------------------
 -- Value & Context-Redex Pair
@@ -142,7 +142,7 @@ data  Red' {T} :  Val/Ctxred T →  Mem →  Expr ∞ T →  Mem →  Set (^ ^ �
     Red' (inj₁ $ _ , ctx , ★ᴿ x) M (ctx $ Val⇒Expr u) M
   ←-red :  ∀ {v : Val V} →
     Red' (inj₁ $ _ , ctx , x ←ᴿ v) M (ctx $ ∇ _) (updᴹ x (_ , v) M)
-  alloc-red :  ∀ b →  M .block b ≡ [] →
+  alloc-red :  ∀ b →  M .bloᴹ b ≡ [] →
     Red' (inj₁ $ _ , ctx , allocᴿ n) M
          (ctx $ ∇ ↑ addr b 0) (updᴹᴮ b (repeat n (◸ ⊤ , _)) M)
   free-red :  Red' (inj₁ $ _ , ctx , freeᴿ $ addr b 0) M

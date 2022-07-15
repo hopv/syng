@@ -18,9 +18,9 @@ open import Base.Sum using (inj₀; inj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗]-map; [∗∈]-syntax;
   saveˣ; save□; Basic)
-open import Shog.Lang.Expr ℓ using (Type; Expr; ▶_; Val)
+open import Shog.Lang.Expr ℓ using (Type; Expr; ▶_; Val; Val⇒Expr)
 open import Shog.Lang.Reduce ℓ using (▶ᴿ_; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
-  Val/Ctxred; val/ctxred)
+  Val/Ctxred; val/ctxred; Ktx; _•←_)
 
 --------------------------------------------------------------------------------
 -- WpK: Weakest precondion kind
@@ -105,9 +105,10 @@ private variable
   κ :  WpK
   vc :  Val/Ctxred T
   ctx :  Expr ∞ U → Expr ∞ T
-  Qᵛ Q'ᵛ :  Val T → Prop' ∞
+  Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
   e :  Expr ∞ U
   e˙ :  A → Expr ∞ U
+  ktx :  Ktx T U
   v :  Val T
 
 infixr -1 _»_ _ᵘ»ᵘ_
@@ -214,6 +215,11 @@ data  Judg ι  where
 
   -- Weaken a Hoare triple from total to partial
   hor-ᵀ⇒ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ Qᵛ
+
+  -- Bind by a context
+  hor-bind :  ∀{Qᵛ : _ → _} {Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →
+              (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx •← Val⇒Expr v ⟩[ κ ] Rᵛ) →
+              P ⊢[ ι ]⟨ ktx •← e ⟩[ κ ] Rᵛ
 
   -- Value
   hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ

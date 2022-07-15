@@ -120,10 +120,8 @@ open RA FinmapRA using (_≈_; ✓_; _∙_; ⌞_⌟; ε; _↝_; _↝ˢ_; refl˜;
 
 -- injᶠᵐ/injaᶠᵐ: Injecting an element at an index
 
-injᶠᵐ :  ℕ → A → Finmap
+injᶠᵐ injaᶠᵐ :  ℕ → A → Finmap
 injᶠᵐ i a =  updᶠᵐ i a ε
-
-injaᶠᵐ :  ℕ → A → Finmap
 injaᶠᵐ i a =  updaᶠᵐ i a ε
 
 module _ {i : ℕ} where abstract

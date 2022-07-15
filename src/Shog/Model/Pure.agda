@@ -74,7 +74,7 @@ abstract
   [||]-⇒ᴮ =  [||]-⇒ᴮ' isBasic
 
 --------------------------------------------------------------------------------
--- ⊢⇒⊨: Semantic soundness of the sequent
+-- ⊢⇒⊨: Semantic soundness of the pure sequent
 
 abstract
 

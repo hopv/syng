@@ -58,11 +58,11 @@ infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]'⟨_⟩[_]_ _⊢[_]'⟨
 _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ℓ)
 P ⊢[ ι ]* Jr =  Judg ι P Jr
 
--- ⊢[ ] : Sequent
+-- ⊢[ ] : Pure sequent
 _⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
 P ⊢[ ι ] Q =  P ⊢[ ι ]* pure Q
 
--- ⊢[< ] : Sequent under thunk
+-- ⊢[< ] : Pure sequent under thunk
 _⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 

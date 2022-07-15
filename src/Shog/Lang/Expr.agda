@@ -104,9 +104,10 @@ syntax λ-syntax (λ x → e) =  λ' x , e
 
 -- Let binding
 
-let∈-syntax let-syntax :  Expr ι (◸ A) →  (A → Expr ι T) →  Expr ι T
-let∈-syntax e₀ e˙ =  λ˙ e˙ ◁ e₀
-let-syntax e₀ e˙ =  λ˙ e˙ ◁ e₀
+let˙ let∈-syntax let-syntax :  Expr ι (◸ A) →  (A → Expr ι T) →  Expr ι T
+let˙ e₀ e˙ =  λ˙ e˙ ◁ e₀
+let∈-syntax =  let˙
+let-syntax =  let˙
 infix 3 let∈-syntax let-syntax
 syntax let∈-syntax {A = A} e₀ (λ x → e) =  let' x ∈ A := e₀ in' e
 syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e

@@ -131,7 +131,7 @@ data  Judg ι  where
   ∃-intro :  P˙ a ⊢[ ι ] ∃˙ P˙
   -- Choice
   choice :  ∀ {P˙˙ : ∀ (a : A) → F a → Prop' ∞} →
-    ∀' a , ∃ b , P˙˙ a b ⊢[ ι ] ∃ f ∈ (∀ a → F a) , ∀' a , P˙˙ a (f a)
+            ∀' a , ∃ b , P˙˙ a b ⊢[ ι ] ∃ f ∈ (∀ a → F a) , ∀' a , P˙˙ a (f a)
 
   -- → is the right adjoint of ∧
   →-intro :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
@@ -188,10 +188,10 @@ data  Judg ι  where
   save□-□ :  save□ P˂ ⊢[ ι ] □ save□ P˂
 
   -- An exclusive/persistent save token can be modified using a thunk sequent
-  saveˣ-mono-∧ :  {{Basic R}} →
-    R ∧ P˂ .! ⊢[< ι ] Q˂ .! →  R ∧ saveˣ P˂ ⊢[ ι ] saveˣ Q˂
-  save□-mono-∧ :  {{Basic R}} →
-    R ∧ P˂ .! ⊢[< ι ] Q˂ .! →  R ∧ save□ P˂ ⊢[ ι ] save□ Q˂
+  saveˣ-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
+                  R ∧ saveˣ P˂ ⊢[ ι ] saveˣ Q˂
+  save□-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
+                  R ∧ save□ P˂ ⊢[ ι ] save□ Q˂
 
   -- An exclusive save token saveˣ P˂ is obtained by allocating P˂
   saveˣ-alloc :  P˂ .! ⊢[ ι ]=>> saveˣ P˂
@@ -208,10 +208,10 @@ data  Judg ι  where
   -- Rules on Hoare triple
 
   -- Monotonicity
-  hor-monoˡᵘ :  ∀{Qᵛ : _} →
-    P' ⊢[ ι ]=>> P →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
+  hor-monoˡᵘ :  ∀{Qᵛ : _} →  P' ⊢[ ι ]=>> P →
+                P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
   hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
-    P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
+                P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
 
   -- Weaken a Hoare triple from total to partial
   hor-ᵀ⇒ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ Qᵛ
@@ -226,7 +226,7 @@ data  Judg ι  where
 
   -- ▶, for partial Hoare triple
   hor-▶ :  ∀{Qᵛ : _} →
-    P ⊢[< ι ]⟨ ctx e ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ Qᵛ
+           P ⊢[< ι ]⟨ ctx e ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ Qᵛ
 
   -- Application
   hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx $ e˙ a ⟩[ κ ] Qᵛ →

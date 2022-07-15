@@ -60,7 +60,7 @@ abstract
   loop-red-inv (redᴱ refl ▶-red) =  refl
 
   stuck-no-red :  ¬ (stuck , M) ⇒ᴱ (e , M')
-  stuck-no-red (redᴱ refl R)  with R
+  stuck-no-red (redᴱ refl r⇒)  with r⇒
   ... | ()
 
   plus◁3'4-red-inv :  (plus◁3'4 , M) ⇒ᴱ (e , M') →  (e , M') ≡ (∇ ↑ 7 , M)

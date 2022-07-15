@@ -293,9 +293,9 @@ data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^
 -- Enrich reduction with syntactic context
 
 red-ktx :  (e , M) ⇒ᴱ (e' , M') → (ktx •← e , M) ⇒ᴱ (ktx •← e' , M')
-red-ktx (redᴱ eq R) =  redᴱ (val/ctxred-ktx eq) R
+red-ktx (redᴱ eq r⇒) =  redᴱ (val/ctxred-ktx eq) r⇒
 
 red-ktx-inv :  nonval e →  (ktx •← e , M) ⇒ᴱ (e! , M') →
                ∑ e' ,  e! ≡ ktx •← e' × (e , M) ⇒ᴱ (e' , M')
-red-ktx-inv nv'e (redᴱ eq R)  with val/ctxred-ktx-inv nv'e eq
-... | _ , refl , eq' =  _ , refl , redᴱ eq' R
+red-ktx-inv nv'e (redᴱ eq r⇒)  with val/ctxred-ktx-inv nv'e eq
+... | _ , refl , eq' =  _ , refl , redᴱ eq' r⇒

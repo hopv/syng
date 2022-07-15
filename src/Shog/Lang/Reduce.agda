@@ -28,21 +28,6 @@ private variable
   A :  Set ℓ
   T U V :  Type
 
--------------------------------------------------------------------------------
--- Redex
-
-infix 6 ▶ᴿ_
-infixl 5 _◁ᴿ_
-infix 6 ★ᴿ_ _←ᴿ_
-
-data  Redex :  Type →  Set (^ ℓ)  where
-  ▶ᴿ_ :  Expr ∞ T →  Redex T
-  _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
-  ★ᴿ_ :  Addr →  Redex T
-  _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
-  allocᴿ :  ℕ →  Redex (◸ Up Addr)
-  freeᴿ :  Addr →  Redex (◸ ⊤)
-
 --------------------------------------------------------------------------------
 -- Memory
 
@@ -79,6 +64,21 @@ M !!ᴹ addr b i =  M .bloᴹ b !! i
 
 updᴹ :  Addr →  MemCell →  Mem →  Mem
 updᴹ (addr b i) c M =  updᴹᴮ b (upd i c $ M .bloᴹ b) M
+
+-------------------------------------------------------------------------------
+-- Redex
+
+infix 6 ▶ᴿ_
+infixl 5 _◁ᴿ_
+infix 6 ★ᴿ_ _←ᴿ_
+
+data  Redex :  Type →  Set (^ ℓ)  where
+  ▶ᴿ_ :  Expr ∞ T →  Redex T
+  _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
+  ★ᴿ_ :  Addr →  Redex T
+  _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
+  allocᴿ :  ℕ →  Redex (◸ Up Addr)
+  freeᴿ :  Addr →  Redex (◸ ⊤)
 
 --------------------------------------------------------------------------------
 -- Value & Context-Redex Pair

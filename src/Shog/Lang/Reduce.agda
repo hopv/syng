@@ -81,9 +81,9 @@ data  Redex :  Type →  Set (^ ℓ)  where
   freeᴿ :  Addr →  Redex (◸ ⊤)
 
 --------------------------------------------------------------------------------
--- Value & Context-Redex Pair
+-- Context-redex pair
 
--- Type for a context-redex pair
+-- Type for a context-redex pair, i.e. a pair of an evaluation context & a redex
 
 Ctxred :  Type →  Set (^ ℓ)
 Ctxred T =  ∑ U , (Expr ∞ U → Expr ∞ T) × Redex U
@@ -142,7 +142,7 @@ nonval e  with val/ctxred e
 ... | inj₁ _ =  ⊤
 
 --------------------------------------------------------------------------------
--- Ktx: Syntactic Context
+-- Ktx: Syntactic evaluation context
 
 data  Ktx :  Type →  Type →  Set (^ ℓ)  where
   -- Hole

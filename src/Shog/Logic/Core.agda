@@ -224,7 +224,7 @@ abstract
   ⌜⊤⌝-intro :  P ⊢[ ι ] ⌜ ⊤ ⌝
   ⌜⊤⌝-intro =  ⌜⌝-intro _
 
-  ⌜⊥⌝-elim :  ⌜ ⊥ ⌝ ⊢[ ι ] P
+  ⌜⊥⌝-elim :  ⌜ ⊥ ⌝ ⊢[ ι ]* Jr
   ⌜⊥⌝-elim =  ⌜⌝-elim absurd
 
   ⌜⌝-→-in :  ⌜ A ⌝ →' ⌜ B ⌝ ⊢[ ι ] ⌜ (A → B) ⌝
@@ -348,7 +348,7 @@ abstract
 
   -- □ ⊥' can be eliminated
 
-  □-⊥-elim :  □ ⊥' ⊢[ ι ] P
+  □-⊥-elim :  □ ⊥' ⊢[ ι ]* Jr
   □-⊥-elim =  □-elim » ⊥-elim
 
   ------------------------------------------------------------------------------

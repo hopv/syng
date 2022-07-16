@@ -80,6 +80,8 @@ data  Expr ι  where
   ▶_ :  Expr˂ ι T →  Expr ι T
   -- Turn a value into an expression
   ∇_ :  A →  Expr ι (◸ A)
+  -- Non-deterministic value
+  nd :  Expr ι (◸ A)
   -- Lambda abstraction over a value
   λ˙ :  (A → Expr ι T) →  Expr ι (A →* T)
   -- Application

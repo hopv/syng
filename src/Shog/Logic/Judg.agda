@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 module Shog.Logic.Judg (ℓ : Level) where
 
-open import Base.Level using (^_; ○)
+open import Base.Level using (^_; ○; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_; _$_)
@@ -19,7 +19,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; 
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗]-map; [∗∈]-syntax;
   saveˣ; save□; Basic)
 open import Shog.Lang.Expr ℓ using (Type; Expr; ▶_; Val; Val⇒Expr)
-open import Shog.Lang.Reduce ℓ using (▶ᴿ_; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
+open import Shog.Lang.Reduce ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Val/Ctxred; val/ctxred; Ktx; _•←_)
 
 --------------------------------------------------------------------------------
@@ -223,6 +223,9 @@ data  Judg ι  where
 
   -- Value
   hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
+
+  -- Application
+  hor-nd :  (∀ a → P ⊢[ ι ]=>> Qᵛ (↑ a)) →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ndᴿ ⟩ Qᵛ
 
   -- ▶, for partial Hoare triple
   hor-▶ :  ∀{Qᵛ : _} →

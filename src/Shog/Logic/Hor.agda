@@ -46,7 +46,7 @@ abstract
 
   hor-monoʳ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →
                P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
-  hor-monoʳ ∀vQ⊢Q' =  hor-monoʳᵘ (λ _ → ⇒=>> $ ∀vQ⊢Q' _)
+  hor-monoʳ ∀vQ⊢Q' =  hor-monoʳᵘ $ λ _ → ⇒=>> $ ∀vQ⊢Q' _
 
   -- Non-deterministic value
 
@@ -60,7 +60,7 @@ abstract
               (∀ a → Qᵛ (↑ a) ⊢[ ι ]⟨ e˙ a ⟩[ κ ] Rᵛ) →
               P ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ] Rᵛ
   hor-let P⊢⟨e₀⟩Q ∀aQ⊢⟨e˙⟩R =
-    hor-bind {ktx = _ ◁ᴷʳ [•]} P⊢⟨e₀⟩Q (λ (↑ a) → hor-◁ $ ∀aQ⊢⟨e˙⟩R a)
+    hor-bind {ktx = _ ◁ᴷʳ [•]} P⊢⟨e₀⟩Q $ λ (↑ a) → hor-◁ $ ∀aQ⊢⟨e˙⟩R a
 
   -- Value
 

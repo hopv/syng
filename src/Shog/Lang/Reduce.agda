@@ -236,42 +236,42 @@ abstract
     with val/ctxred (ktx •← e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{V ctx' red} → val/ctxred-ktx-inv {ktx = ktx} {V} {ctx'} {red} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
-  ...   | ctx , refl , eq =  ctx , refl , eq
+  ...   | ctx , refl , eq' =  ctx , refl , eq'
   val/ctxred-ktx-inv {e = e} {ktx = ktx ◁ᴷˡ _} nv'e eq
     with val/ctxred (ktx •← e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{V ctx' red} → val/ctxred-ktx-inv {ktx = ktx} {V} {ctx'} {red} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
-  ...   | ctx , refl , eq =  ctx , refl , eq
+  ...   | ctx , refl , eq' =  ctx , refl , eq'
   val/ctxred-ktx-inv {e = e} {ktx = ★ᴷ ktx} nv'e eq
     with val/ctxred (ktx •← e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{V ctx' red} → val/ctxred-ktx-inv {ktx = ktx} {V} {ctx'} {red} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
-  ...   | ctx , refl , eq =  ctx , refl , eq
+  ...   | ctx , refl , eq' =  ctx , refl , eq'
   val/ctxred-ktx-inv {e = e} {ktx = _ ←ᴷʳ ktx} nv'e eq
     with val/ctxred (ktx •← e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{V ctx' red} → val/ctxred-ktx-inv {ktx = ktx} {V} {ctx'} {red} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
-  ...   | ctx , refl , eq =  ctx , refl , eq
+  ...   | ctx , refl , eq' =  ctx , refl , eq'
   val/ctxred-ktx-inv {e = e} {ktx = _←ᴷˡ_ {T = ◸ _} ktx _} nv'e eq
     with val/ctxred (ktx •← e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{V ctx' red} → val/ctxred-ktx-inv {ktx = ktx} {V} {ctx'} {red} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
-  ...   | ctx , refl , eq =  ctx , refl , eq
+  ...   | ctx , refl , eq' =  ctx , refl , eq'
   val/ctxred-ktx-inv {e = e} {ktx = _←ᴷˡ_ {T = _ →* _} ktx _} nv'e eq
     with val/ctxred (ktx •← e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{V ctx' red} → val/ctxred-ktx-inv {ktx = ktx} {V} {ctx'} {red} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
-  ...   | ctx , refl , eq =  ctx , refl , eq
+  ...   | ctx , refl , eq' =  ctx , refl , eq'
   val/ctxred-ktx-inv {e = e} {ktx = allocᴷ ktx} nv'e eq
     with val/ctxred (ktx •← e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{V ctx' red} → val/ctxred-ktx-inv {ktx = ktx} {V} {ctx'} {red} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
-  ...   | ctx , refl , eq =  ctx , refl , eq
+  ...   | ctx , refl , eq' =  ctx , refl , eq'
   val/ctxred-ktx-inv {e = e} {ktx = freeᴷ ktx} nv'e eq
     with val/ctxred (ktx •← e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{V ctx' red} → val/ctxred-ktx-inv {ktx = ktx} {V} {ctx'} {red} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
-  ...   | ctx , refl , eq =  ctx , refl , eq
+  ...   | ctx , refl , eq' =  ctx , refl , eq'
 
 --------------------------------------------------------------------------------
 -- Reduction

@@ -48,15 +48,11 @@ data  JudgRes :  Set (^ ℓ)  where
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
 
--- Declaring Judg
-data  Judg (ι : Size) :  Prop' ∞ →  JudgRes →  Set (^ ℓ)
-
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]'⟨_⟩[_]_ _⊢[_]'⟨_⟩_ _⊢[_]'⟨_⟩ᵀ_
   _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩_ _⊢[<_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_
 
--- ⊢[ ]* : General judgment
-_⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ℓ)
-P ⊢[ ι ]* Jr =  Judg ι P Jr
+-- Declaring _⊢[_]*_
+data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ℓ)
 
 -- ⊢[ ] : Pure sequent
 _⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
@@ -113,8 +109,8 @@ private variable
 
 infixr -1 _»_ _ᵘ»ᵘ_
 
--- Defining Judg
-data  Judg ι  where
+-- Defining _⊢[_]*_
+data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- Pure rules
 

@@ -14,7 +14,7 @@ open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Shog.Logic.Prop ℓ using (⊤'; ⊥'; ⌜_⌝)
 open import Shog.Logic.Core ℓ using (⌜⌝-intro)
-open import Shog.Logic.Hor ℓ using (_⊢[_]⟨_⟩_; _⊢[_]⟨_⟩ᵀ_; hor-val; hor-▶;
+open import Shog.Logic.Hor ℓ using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_; hor-val; hor-▶;
   hor-◁)
 
 open import Shog.Lang.Example ℓ using (loop; plus◁3'4)
@@ -24,8 +24,8 @@ private variable
 
 abstract
 
-  loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ λ _ → ⊥'
+  loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ᴾ λ _ → ⊥'
   loop-⊥ =  hor-▶ λ{ .! → loop-⊥ }
 
-  plus◁3'4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3'4 ⟩ λ (↑ ↑ n) → ⌜ Up (n ≡ 7) ⌝
+  plus◁3'4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3'4 ⟩ᵀ λ (↑ ↑ n) → ⌜ Up (n ≡ 7) ⌝
   plus◁3'4-7 =  hor-◁ $ hor-val $ ⌜⌝-intro $ ↑ refl

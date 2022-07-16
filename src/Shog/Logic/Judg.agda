@@ -48,8 +48,8 @@ data  JudgRes :  Set (^ ℓ)  where
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
 
-infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]'⟨_⟩[_]_ _⊢[_]'⟨_⟩_ _⊢[_]'⟨_⟩ᵀ_
-  _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩_ _⊢[<_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_
+infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]'⟨_⟩[_]_ _⊢[_]'⟨_⟩ᴾ_ _⊢[_]'⟨_⟩ᵀ_
+  _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_
 
 -- Declaring _⊢[_]*_
 data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ℓ)
@@ -72,9 +72,9 @@ _⊢[_]'⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Val/Ctxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
 P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* Wp' κ vc Qᵛ
 
-_⊢[_]'⟨_⟩_ _⊢[_]'⟨_⟩ᵀ_ :
+_⊢[_]'⟨_⟩ᴾ_ _⊢[_]'⟨_⟩ᵀ_ :
   Prop' ∞ →  Size →  Val/Ctxred T →  (Val T → Prop' ∞) →  Set (^ ℓ)
-P ⊢[ ι ]'⟨ vc ⟩ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ par ] Qᵛ
+P ⊢[ ι ]'⟨ vc ⟩ᴾ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ par ] Qᵛ
 P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ tot ] Qᵛ
 
 -- ⊢[ ]⟨ ⟩[ ] : Hoare-triple, over Expr
@@ -82,10 +82,10 @@ _⊢[_]⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
 P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ctxred e ⟩[ κ ] Qᵛ
 
-_⊢[_]⟨_⟩_ _⊢[<_]⟨_⟩_ _⊢[_]⟨_⟩ᵀ_ :
+_⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_ :
   Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set (^ ℓ)
-P ⊢[ ι ]⟨ e ⟩ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
-P ⊢[< ι ]⟨ e ⟩ Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Qᵛ) ι
+P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
+P ⊢[< ι ]⟨ e ⟩ᴾ Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Qᵛ) ι
 P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
 
 private variable
@@ -210,7 +210,7 @@ data  _⊢[_]*_  where
                 P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
 
   -- Weaken a Hoare triple from total to partial
-  hor-ᵀ⇒ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ Qᵛ
+  hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ᴾ Qᵛ
 
   -- Bind by a context
   hor-bind :  ∀{Qᵛ : _ → _} {Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →
@@ -226,7 +226,7 @@ data  _⊢[_]*_  where
 
   -- ▶, for partial Hoare triple
   hor-▶ :  ∀{Qᵛ : _} →
-           P ⊢[< ι ]⟨ ctx e ⟩ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ Qᵛ
+           P ⊢[< ι ]⟨ ctx e ⟩ᴾ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ᴾ Qᵛ
 
   -- Application
   hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx $ e˙ a ⟩[ κ ] Qᵛ →

@@ -181,7 +181,7 @@ _≡?_ :  Dec² {A = ℕ} _≡_
 suc _ ≡? 0 =  no λ ()
 suc m ≡? suc n  with m ≡? n
 ... | yes refl =  yes refl
-... | no m≢n =  no $ λ{ refl → m≢n refl }
+... | no m≢n =  no λ{ refl → m≢n refl }
 
 _≤?_ :  Dec² _≤_
 _≤?_ _ _ =  dec-Tt ᵇ⇒≤ ≤⇒ᵇ

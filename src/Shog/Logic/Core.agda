@@ -22,7 +22,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃�
 
 -- Import and re-export
 open import Shog.Logic.Judg ℓ public using (
-  JudgRes; pure; Judg; _⊢[_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□;
+  JudgRes; Pure; Judg; _⊢[_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□;
   ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;

@@ -18,7 +18,7 @@ open import Shog.Lang.Expr ℓ using (Type; Expr; Val; let˙)
 open import Shog.Lang.Reduce ℓ using (Val/Ctxred; Ktx; _◁ᴷʳ_; [•])
 
 -- Import and re-export
-open import Shog.Logic.Judg ℓ public using (WpK; par; tot; wp;
+open import Shog.Logic.Judg ℓ public using (WpK; par; tot; Wp';
   _⊢[_]'⟨_⟩[_]_; _⊢[_]'⟨_⟩_; _⊢[_]'⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩_; _⊢[<_]⟨_⟩_;
   _⊢[_]⟨_⟩ᵀ_; hor-monoˡᵘ; hor-monoʳᵘ; hor-ᵀ⇒; hor-bind; hor-valᵘ; hor-▶; hor-◁)
 

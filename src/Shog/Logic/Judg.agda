@@ -39,11 +39,11 @@ infix 3 |=>>_
 
 data  JudgRes :  Set (^ ℓ)  where
   -- Just a proposition
-  pure :  Prop' ∞ →  JudgRes
+  Pure :  Prop' ∞ →  JudgRes
   -- Under the super update
   |=>>_ :  Prop' ∞ →  JudgRes
   -- Weakest precondion, over Val/Ctxred
-  wp :  WpK →  Val/Ctxred T →  (Val T → Prop' ∞) →  JudgRes
+  Wp' :  WpK →  Val/Ctxred T →  (Val T → Prop' ∞) →  JudgRes
 
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
@@ -60,7 +60,7 @@ P ⊢[ ι ]* Jr =  Judg ι P Jr
 
 -- ⊢[ ] : Pure sequent
 _⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
-P ⊢[ ι ] Q =  P ⊢[ ι ]* pure Q
+P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 
 -- ⊢[< ] : Pure sequent under thunk
 _⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
@@ -74,7 +74,7 @@ P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
 _⊢[_]'⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Val/Ctxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
-P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* wp κ vc Qᵛ
+P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* Wp' κ vc Qᵛ
 
 _⊢[_]'⟨_⟩_ _⊢[_]'⟨_⟩ᵀ_ :
   Prop' ∞ →  Size →  Val/Ctxred T →  (Val T → Prop' ∞) →  Set (^ ℓ)

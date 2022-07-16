@@ -32,9 +32,9 @@ private variable
   P P' :  Prop' ∞
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
   vc :  Val/Ctxred T
-  ctx :  Expr ∞ U →  Expr ∞ T
+  ctx :  Expr ∞ U → Expr ∞ T
   e₀ :  Expr ∞ T
-  e˙ :  A →  Expr ∞ T
+  e˙ :  A → Expr ∞ T
 
 abstract
 

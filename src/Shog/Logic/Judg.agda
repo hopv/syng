@@ -209,6 +209,10 @@ data  _⊢[_]*_  where
   hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
                 P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
 
+  -- Frame
+  hor-frame :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →
+               P ∗ R ⊢[ ι ]'⟨ vc ⟩[ κ ] λ v → Qᵛ v ∗ R
+
   -- Weaken a Hoare triple from total to partial
   hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ᴾ Qᵛ
 

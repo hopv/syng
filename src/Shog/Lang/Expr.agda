@@ -123,6 +123,6 @@ Val (A →* T) =  A → Expr ∞ T
 
 -- Conversion from Val to Expr
 
-Val⇒Expr :  Val T →  Expr ∞ T
-Val⇒Expr {T = ◸ _} (↑ a) =  ∇ a
-Val⇒Expr {T = _ →* _} e˙ =  λ˙ e˙
+V⇒E :  Val T →  Expr ∞ T
+V⇒E {T = ◸ _} (↑ a) =  ∇ a
+V⇒E {T = _ →* _} e˙ =  λ˙ e˙

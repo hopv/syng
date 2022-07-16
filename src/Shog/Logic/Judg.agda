@@ -18,7 +18,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗]-map; [∗∈]-syntax;
   saveˣ; save□; Basic)
-open import Shog.Lang.Expr ℓ using (Type; Expr; ▶_; Val; Val⇒Expr)
+open import Shog.Lang.Expr ℓ using (Type; Expr; ▶_; Val; V⇒E)
 open import Shog.Lang.Reduce ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Val/Ctxred; val/ctxred; Ktx; _•←_)
 
@@ -218,7 +218,7 @@ data  _⊢[_]*_  where
 
   -- Bind by a context
   hor-bind :  ∀{Qᵛ : _ → _} {Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →
-              (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx •← Val⇒Expr v ⟩[ κ ] Rᵛ) →
+              (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx •← V⇒E v ⟩[ κ ] Rᵛ) →
               P ⊢[ ι ]⟨ ktx •← e ⟩[ κ ] Rᵛ
 
   -- Value

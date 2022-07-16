@@ -22,7 +22,7 @@ open import Base.List.Nat using (_!!_; upd; repeat)
 open import Base.Option using (some)
 open import Base.Eq using (_≡_; refl)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; addr; Expr; ▶_; ∇_;
-  nd; λ˙; _◁_; ★_; _←_; alloc; free; Val; Val⇒Expr)
+  nd; λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
 
 private variable
   A :  Set ℓ
@@ -122,7 +122,7 @@ val/ctxred (e ← e') =  inj₁ body
   body  with val/ctxred e'
   ... | inj₁ (_ , ctx , red) =  _ , (λ • → e ← ctx •) , red
   ... | inj₀ v  with val/ctxred e
-  ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ← Val⇒Expr v) , red
+  ...   | inj₁ (_ , ctx , red) =  _ , (λ • → ctx • ← V⇒E v) , red
   ...   | inj₀ (↑ ↑ x) =  _ , id , x ←ᴿ v
 val/ctxred (alloc e) =  inj₁ body
  where
@@ -148,7 +148,7 @@ abstract
 
   -- If val/ctxred e returns a value v, then e is v
 
-  val/ctxred-val :  ∀{v : Val T} →  val/ctxred e ≡ inj₀ v →  e ≡ Val⇒Expr v
+  val/ctxred-val :  ∀{v : Val T} →  val/ctxred e ≡ inj₀ v →  e ≡ V⇒E v
   val/ctxred-val {e = ∇ _} refl =  refl
   val/ctxred-val {e = λ˙ _} refl =  refl
 
@@ -180,7 +180,7 @@ _•←_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
 (ktx ◁ᴷˡ a) •← e =  (ktx •← e) ◁ ∇ a
 ★ᴷ ktx •← e =  ★ (ktx •← e)
 (e' ←ᴷʳ ktx) •← e =  e' ← (ktx •← e)
-(ktx ←ᴷˡ v) •← e =  (ktx •← e) ← Val⇒Expr v
+(ktx ←ᴷˡ v) •← e =  (ktx •← e) ← V⇒E v
 allocᴷ ktx •← e =  alloc (ktx •← e)
 freeᴷ ktx •← e =  free (ktx •← e)
 
@@ -291,7 +291,7 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   nd-red :  ∀ (a : A) →  (ndᴿ , M) ⇒ᴿ (∇ a , M)
   ▶-red :  (▶ᴿ e , M) ⇒ᴿ (e , M)
   ◁-red :  (e˙ ◁ᴿ a , M) ⇒ᴿ (e˙ a , M)
-  ★-red :  M !!ᴹ x ≡ some (U , u) →  (★ᴿ x , M) ⇒ᴿ (Val⇒Expr u , M)
+  ★-red :  M !!ᴹ x ≡ some (U , u) →  (★ᴿ x , M) ⇒ᴿ (V⇒E u , M)
   ←-red :  ∀{v : Val V} →  (x ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ x (_ , v) M)
   alloc-red :  ∀ b →  M .bloᴹ b ≡ [] →
     (allocᴿ n , M) ⇒ᴿ (∇ ↑ addr b 0 , updᴹᴮ b (repeat n (◸ ⊤ , _)) M)

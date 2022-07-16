@@ -27,6 +27,7 @@ open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; addr; Expr; ▶_
 private variable
   A :  Set ℓ
   T U V :  Type
+  e :  Expr ∞ T
 
 --------------------------------------------------------------------------------
 -- Memory
@@ -143,6 +144,14 @@ nonval e  with val/ctxred e
 ... | inj₀ _ =  ⊥
 ... | inj₁ _ =  ⊤
 
+abstract
+
+  -- If val/ctxred e returns a value v, then e is v
+
+  val/ctxred-val :  ∀{v : Val T} →  val/ctxred e ≡ inj₀ v →  e ≡ Val⇒Expr v
+  val/ctxred-val {e = ∇ _} refl =  refl
+  val/ctxred-val {e = λ˙ _} refl =  refl
+
 --------------------------------------------------------------------------------
 -- Ktx: Syntactic evaluation context
 
@@ -179,7 +188,7 @@ private variable
   ctx ctx' :  Expr ∞ V → Expr ∞ U
   red :  Redex V
   ktx : Ktx U T
-  e e' e! :  Expr ∞ U
+  e' e! :  Expr ∞ U
 
 abstract
 

@@ -203,6 +203,9 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- Rules on Hoare triple
 
+  -- Weaken a Hoare triple from total to partial
+  hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ᴾ Qᵛ
+
   -- Monotonicity
   hor-monoˡᵘ :  ∀{Qᵛ : _} →  P' ⊢[ ι ]=>> P →
                 P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
@@ -212,9 +215,6 @@ data  _⊢[_]*_  where
   -- Frame
   hor-frame :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →
                P ∗ R ⊢[ ι ]'⟨ vc ⟩[ κ ] λ v → Qᵛ v ∗ R
-
-  -- Weaken a Hoare triple from total to partial
-  hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ᴾ Qᵛ
 
   -- Bind by a context
   hor-bind :  ∀{Qᵛ : _ → _} {Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →

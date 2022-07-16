@@ -20,7 +20,7 @@ open import Shog.Lang.Reduce ℓ using (Val/Ctxred; Ktx; _◁ᴷʳ_; [•])
 -- Import and re-export
 open import Shog.Logic.Judg ℓ public using (WpK; par; tot; Wp'; _⊢[_]'⟨_⟩[_]_;
   _⊢[_]'⟨_⟩ᴾ_; _⊢[_]'⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_;
-  hor-monoˡᵘ; hor-monoʳᵘ; hor-frame; hor-ᵀ⇒ᴾ; hor-bind; hor-valᵘ; hor-▶; hor-◁)
+  hor-ᵀ⇒ᴾ; hor-monoˡᵘ; hor-monoʳᵘ; hor-frame; hor-bind; hor-valᵘ; hor-▶; hor-◁)
 
 private variable
   ι :  Size

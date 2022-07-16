@@ -10,26 +10,29 @@ module Shog.Logic.Hor (ℓ : Level) where
 open import Base.Level using (↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_)
-open import Base.Sum using (inj₀)
+open import Base.Prod using (_,_)
+open import Base.Sum using (inj₀; inj₁)
 open import Shog.Logic.Prop ℓ using (Prop')
 open import Shog.Logic.Core ℓ using (_⊢[_]_)
 open import Shog.Logic.Supd ℓ using (_⊢[_]=>>_; ⇒=>>; =>>-refl)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Val; let˙)
-open import Shog.Lang.Reduce ℓ using (Val/Ctxred; Ktx; _◁ᴷʳ_; [•])
+open import Shog.Lang.Reduce ℓ using (Val/Ctxred; Ktx; ndᴿ; _◁ᴷʳ_; [•])
 
 -- Import and re-export
 open import Shog.Logic.Judg ℓ public using (WpK; par; tot; Wp'; _⊢[_]'⟨_⟩[_]_;
   _⊢[_]'⟨_⟩ᴾ_; _⊢[_]'⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_;
-  hor-ᵀ⇒ᴾ; hor-monoˡᵘ; hor-monoʳᵘ; hor-frame; hor-bind; hor-valᵘ; hor-▶; hor-◁)
+  hor-ᵀ⇒ᴾ; hor-monoˡᵘ; hor-monoʳᵘ; hor-frame; hor-bind; hor-valᵘ; hor-ndᵘ;
+  hor-▶; hor-◁)
 
 private variable
   ι :  Size
   A :  Set ℓ
-  T :  Type
+  T U :  Type
   κ :  WpK
   P P' :  Prop' ∞
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
   vc :  Val/Ctxred T
+  ctx :  Expr ∞ U →  Expr ∞ T
   e₀ :  Expr ∞ T
   e˙ :  A →  Expr ∞ T
 
@@ -44,6 +47,12 @@ abstract
   hor-monoʳ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →
                P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
   hor-monoʳ ∀vQ⊢Q' =  hor-monoʳᵘ (λ _ → ⇒=>> $ ∀vQ⊢Q' _)
+
+  -- Non-deterministic value
+
+  hor-nd :  (∀ a → P ⊢[ ι ] Qᵛ (↑ a)) →
+            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ndᴿ ⟩[ κ ] Qᵛ
+  hor-nd ∀aP⊢Q =  hor-ndᵘ $ λ _ → ⇒=>> $ ∀aP⊢Q _
 
   -- Let binding
 

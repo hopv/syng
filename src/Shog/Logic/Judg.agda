@@ -224,9 +224,9 @@ data  _⊢[_]*_  where
   -- Value
   hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
 
-  -- Application
-  hor-nd :  (∀ a → P ⊢[ ι ]=>> Qᵛ (↑ a)) →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ndᴿ ⟩[ κ ] Qᵛ
+  -- Non-deterministic value
+  hor-ndᵘ :  (∀ a → P ⊢[ ι ]=>> Qᵛ (↑ a)) →
+             P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ndᴿ ⟩[ κ ] Qᵛ
 
   -- ▶, for partial Hoare triple
   hor-▶ :  ∀{Qᵛ : _} →

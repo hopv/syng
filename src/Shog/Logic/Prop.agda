@@ -37,7 +37,8 @@ private variable
   D :  Set ℓ'
 
 data  Prop' ι  where
-  -- ∀˙, ∃˙: Universal/existential quantification
+  -- ∀˙, ∃˙: Universal/existential quantification over any type A in Set ℓ,
+  --         which does not include Prop' ι itself (predicativity)
   ∀˙ ∃˙ :  (A → Prop' ι) →  Prop' ι
   -- →': Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι

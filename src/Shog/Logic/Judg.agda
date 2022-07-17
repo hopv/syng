@@ -125,7 +125,7 @@ data  _⊢[_]*_  where
   -- Eliminating ∀ / Introducing ∃
   ∀-elim :  ∀˙ P˙ ⊢[ ι ] P˙ a
   ∃-intro :  P˙ a ⊢[ ι ] ∃˙ P˙
-  -- Choice
+  -- Choice, which is safe to have thanks to the logic's predicativity
   choice :  ∀ {P˙˙ : ∀ (a : A) → F a → Prop' ∞} →
             ∀' a , ∃ b , P˙˙ a b ⊢[ ι ] ∃ f ∈ (∀ a → F a) , ∀' a , P˙˙ a (f a)
 

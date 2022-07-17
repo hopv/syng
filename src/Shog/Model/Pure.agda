@@ -105,6 +105,7 @@ abstract
   ⊢⇒⊨ ∃-intro Px =  _ , Px
 
   -- choice :  ∀' a , ∃ b , P˙˙ a b ⊢[ ∞ ] ∃ f , ∀' a , P˙˙ a (f a)
+  -- It can be proved axiom-free thanks to the logic's predicativity
   ⊢⇒⊨ choice ∀x∃yPxy =  (λ x → ∀x∃yPxy x .proj₀) , λ x → ∀x∃yPxy x .proj₁
 
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R

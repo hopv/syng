@@ -19,7 +19,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
   -- Fields
   infix 4 _≈_
   infix 3 ✓_
-  infixl 7 _∙_
+  infixr 7 _∙_
   infix 0 ◠˜_
   infixr -1 _◇˜_
   field

@@ -228,9 +228,11 @@ data  _⊢[_]*_  where
   hor-ndᵘ :  (∀ a → P ⊢[ ι ]=>> Qᵛ (↑ a)) →
              P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ndᴿ ⟩[ κ ] Qᵛ
 
-  -- ▶, for partial Hoare triple
-  hor-▶ :  ∀{Qᵛ : _} →
-           P ⊢[< ι ]⟨ ctx e ⟩ᴾ Qᵛ →  P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ᴾ Qᵛ
+  -- ▶, for partial and total Hoare triples
+  horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ctx e ⟩ᴾ Qᵛ →
+            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ᴾ Qᵛ
+  horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx e ⟩ᵀ Qᵛ →
+            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ᵀ Qᵛ
 
   -- Application
   hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx $ e˙ a ⟩[ κ ] Qᵛ →

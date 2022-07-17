@@ -22,7 +22,7 @@ open import Shog.Lang.Reduce ℓ using (Val/Ctxred; Ktx; ndᴿ; _◁ᴷʳ_; [•
 open import Shog.Logic.Judg ℓ public using (WpK; par; tot; Wp'; _⊢[_]'⟨_⟩[_]_;
   _⊢[_]'⟨_⟩ᴾ_; _⊢[_]'⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_;
   hor-ᵀ⇒ᴾ; hor-monoˡᵘ; hor-monoʳᵘ; hor-frame; hor-bind; hor-valᵘ; hor-ndᵘ;
-  hor-▶; hor-◁)
+  horᴾ-▶; horᵀ-▶; hor-◁)
 
 private variable
   ι :  Size

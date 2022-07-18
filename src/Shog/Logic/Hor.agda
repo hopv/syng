@@ -16,7 +16,7 @@ open import Shog.Logic.Prop ℓ using (Prop')
 open import Shog.Logic.Core ℓ using (_⊢[_]_)
 open import Shog.Logic.Supd ℓ using (_⊢[_]=>>_; ⇒=>>; =>>-refl)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Val; let˙)
-open import Shog.Lang.Reduce ℓ using (Val/Ctxred; Ktx; ndᴿ; _◁ᴷʳ_; [•])
+open import Shog.Lang.Reduce ℓ using (Val/Ktxred; Ktx; ndᴿ; _◁ᴷʳ_; •ᴷ)
 
 -- Import and re-export
 open import Shog.Logic.Judg ℓ public using (WpK; par; tot; Wp'; _⊢[_]'⟨_⟩[_]_;
@@ -31,8 +31,8 @@ private variable
   κ :  WpK
   P P' :  Prop' ∞
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
-  vc :  Val/Ctxred T
-  ctx :  Expr ∞ U → Expr ∞ T
+  vc :  Val/Ktxred T
+  ktx :  Ktx U T
   e₀ :  Expr ∞ T
   e˙ :  A → Expr ∞ T
 
@@ -51,7 +51,7 @@ abstract
   -- Non-deterministic value
 
   hor-nd :  (∀ a → P ⊢[ ι ] Qᵛ (↑ a)) →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ndᴿ ⟩[ κ ] Qᵛ
+            P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ndᴿ ⟩[ κ ] Qᵛ
   hor-nd ∀aP⊢Q =  hor-ndᵘ $ λ _ → ⇒=>> $ ∀aP⊢Q _
 
   -- Let binding
@@ -60,7 +60,7 @@ abstract
               (∀ a → Qᵛ (↑ a) ⊢[ ι ]⟨ e˙ a ⟩[ κ ] Rᵛ) →
               P ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ] Rᵛ
   hor-let P⊢⟨e₀⟩Q ∀aQ⊢⟨e˙⟩R =
-    hor-bind {ktx = _ ◁ᴷʳ [•]} P⊢⟨e₀⟩Q $ λ (↑ a) → hor-◁ $ ∀aQ⊢⟨e˙⟩R a
+    hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q $ λ (↑ a) → hor-◁ $ ∀aQ⊢⟨e˙⟩R a
 
   -- Value
 

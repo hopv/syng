@@ -20,7 +20,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; 
   saveˣ; save□; Basic)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Expr˂; ▶_; Val; V⇒E)
 open import Shog.Lang.Reduce ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
-  Val/Ctxred; val/ctxred; Ktx; _•←_)
+  Val/Ktxred; val/ktxred; Ktx; _ᴷ◀_)
 
 --------------------------------------------------------------------------------
 -- WpK: Weakest precondion kind
@@ -42,8 +42,8 @@ data  JudgRes :  Set (^ ℓ)  where
   Pure :  Prop' ∞ →  JudgRes
   -- Under the super update
   |=>>_ :  Prop' ∞ →  JudgRes
-  -- Weakest precondion, over Val/Ctxred
-  Wp' :  WpK →  Val/Ctxred T →  (Val T → Prop' ∞) →  JudgRes
+  -- Weakest precondion, over Val/Ktxred
+  Wp' :  WpK →  Val/Ktxred T →  (Val T → Prop' ∞) →  JudgRes
 
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
@@ -66,21 +66,21 @@ P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 _⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
 P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
--- ⊢[ ]'⟨ ⟩[ ] : Hoare-triple, over Val/Ctxred
+-- ⊢[ ]'⟨ ⟩[ ] : Hoare-triple, over Val/Ktxred
 
 _⊢[_]'⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Val/Ctxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
+  Prop' ∞ →  Size →  Val/Ktxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
 P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* Wp' κ vc Qᵛ
 
 _⊢[_]'⟨_⟩ᴾ_ _⊢[_]'⟨_⟩ᵀ_ :
-  Prop' ∞ →  Size →  Val/Ctxred T →  (Val T → Prop' ∞) →  Set (^ ℓ)
+  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set (^ ℓ)
 P ⊢[ ι ]'⟨ vc ⟩ᴾ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ par ] Qᵛ
 P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ tot ] Qᵛ
 
 -- ⊢[ ]⟨ ⟩[ ] : Hoare-triple, over Expr
 _⊢[_]⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
-P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ctxred e ⟩[ κ ] Qᵛ
+P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ktxred e ⟩[ κ ] Qᵛ
 
 _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_ :
   Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set (^ ℓ)
@@ -99,8 +99,7 @@ private variable
   P˂ Q˂ :  Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
   κ :  WpK
-  vc :  Val/Ctxred T
-  ctx :  Expr ∞ U → Expr ∞ T
+  vc :  Val/Ktxred T
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
   e :  Expr ∞ U
   e˂ :  Expr˂ ∞ U
@@ -219,25 +218,25 @@ data  _⊢[_]*_  where
 
   -- Bind by a context
   hor-bind :  ∀{Qᵛ : _ → _} {Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →
-              (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx •← V⇒E v ⟩[ κ ] Rᵛ) →
-              P ⊢[ ι ]⟨ ktx •← e ⟩[ κ ] Rᵛ
+              (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◀ V⇒E v ⟩[ κ ] Rᵛ) →
+              P ⊢[ ι ]⟨ ktx ᴷ◀ e ⟩[ κ ] Rᵛ
 
   -- Value
   hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
 
   -- Non-deterministic value
   hor-ndᵘ :  (∀ a → P ⊢[ ι ]=>> Qᵛ (↑ a)) →
-             P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ndᴿ ⟩[ κ ] Qᵛ
+             P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ndᴿ ⟩[ κ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples
-  horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ctx $ e˂ .! ⟩ᴾ Qᵛ →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e˂ ⟩ᴾ Qᵛ
-  horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx $ e˂ .! ⟩ᵀ Qᵛ →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e˂ ⟩ᵀ Qᵛ
+  horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ktx ᴷ◀ e˂ .! ⟩ᴾ Qᵛ →
+            P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᴾ Qᵛ
+  horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◀ e˂ .! ⟩ᵀ Qᵛ →
+            P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᵀ Qᵛ
 
   -- Application
-  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx $ e˙ a ⟩[ κ ] Qᵛ →
-           P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , e˙ ◁ᴿ a ⟩[ κ ] Qᵛ
+  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◀ e˙ a ⟩[ κ ] Qᵛ →
+           P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , e˙ ◁ᴿ a ⟩[ κ ] Qᵛ
 
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition

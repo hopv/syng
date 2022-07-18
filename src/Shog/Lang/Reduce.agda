@@ -82,6 +82,15 @@ data  Redex :  Type →  Set (^ ℓ)  where
   allocᴿ :  ℕ →  Redex (◸ Up Addr)
   freeᴿ :  Addr →  Redex (◸ ⊤)
 
+R⇒E :  Redex T →  Expr ∞ T
+R⇒E (▶ᴿ e˂) =  ▶ e˂
+R⇒E ndᴿ =  nd
+R⇒E (e˙ ◁ᴿ a) =  λ˙ e˙ ◁ ∇ a
+R⇒E (★ᴿ x) =  ★ ∇ ↑ x
+R⇒E (x ←ᴿ v) =  ∇ ↑ x ← V⇒E v
+R⇒E (allocᴿ n) =  alloc $ ∇ ↑ n
+R⇒E (freeᴿ x) =  free $ ∇ ↑ x
+
 --------------------------------------------------------------------------------
 -- Context-redex pair
 

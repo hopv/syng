@@ -108,6 +108,6 @@ abstract
   -- Unwrap an evaluation context from a reduction
 
   red-ktx-inv :  nonval e →  (ktx ᴷ◁ e , M) ⇒ᴱ (e'' , M') →
-                ∑ e' ,  e'' ≡ ktx ᴷ◁ e'  ×  (e , M) ⇒ᴱ (e' , M')
+                 ∑ e' ,  e'' ≡ ktx ᴷ◁ e'  ×  (e , M) ⇒ᴱ (e' , M')
   red-ktx-inv {ktx = ktx} nv'e (redᴱ eq r⇒)  with val/ktxred-ktx-inv nv'e eq
   ... | _ , refl , eq' =  _ , ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} , redᴱ eq' r⇒

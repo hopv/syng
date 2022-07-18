@@ -17,8 +17,7 @@ open import Shog.Model.RA.All Ra˙ using (AllRA)
 
 open RA
 open RA AllRA using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_;
-  _∙_ to _∙ᴬ_; ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _◇˜_ to _◇ᴬ_;
-  ∙-unitˡ to ∙-unitˡᴬ; ✓-ε to ✓ᴬ-ε; ⌞⌟-ε to ⌞⌟ᴬ-ε)
+  _∙_ to _∙ᴬ_; ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _◇˜_ to _◇ᴬ_)
 
 --------------------------------------------------------------------------------
 -- updᴬ/updaᴬ: Updating an element at an index
@@ -104,10 +103,10 @@ module _ {i : I} where
     injaᴬ-cong a≈b =  updaᴬ-cong a≈b reflᴬ
 
     injaᴬ-✓ :  ✓ⁱ a →  ✓ᴬ injaᴬ i a
-    injaᴬ-✓ ✓a =  updaᴬ-✓ ✓a ✓ᴬ-ε
+    injaᴬ-✓ ✓a =  updaᴬ-✓ ✓a (✓-ε AllRA)
 
     injaᴬ-∙ :  injaᴬ i a ∙ᴬ injaᴬ i b  ≈ᴬ  injaᴬ i (a ∙ⁱ b)
-    injaᴬ-∙ =  updaᴬ-∙ ◇ᴬ updaᴬ-cong reflⁱ ∙-unitˡᴬ
+    injaᴬ-∙ =  updaᴬ-∙ ◇ᴬ updaᴬ-cong reflⁱ (∙-unitˡ AllRA)
 
     injaᴬ-ε :  injaᴬ i εⁱ ≈ᴬ εᴬ
     injaᴬ-ε j  with i ≟ j
@@ -115,7 +114,7 @@ module _ {i : I} where
     ... | no _ =  Ra˙ j .refl˜
 
     injaᴬ-⌞⌟ :  ⌞ injaᴬ i a ⌟ᴬ  ≈ᴬ  injaᴬ i ⌞ a ⌟ⁱ
-    injaᴬ-⌞⌟ =  updaᴬ-⌞⌟ ◇ᴬ updaᴬ-cong reflⁱ ⌞⌟ᴬ-ε
+    injaᴬ-⌞⌟ =  updaᴬ-⌞⌟ ◇ᴬ updaᴬ-cong reflⁱ (⌞⌟-ε AllRA)
 
     injaᴬ-↝ :  a ↝ⁱ b →  injaᴬ i a ↝ᴬ injaᴬ i b
     injaᴬ-↝ =  updaᴬ-↝

@@ -21,6 +21,8 @@ open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈�
   [?]-cong; homo-[?]; homo-agree)
 open import Shog.Model.RA using (RA)
 
+open RA renaming (_≈_ to _≈'_; refl˜ to refl')
+
 --------------------------------------------------------------------------------
 -- FrAg : FrAgRA's carrier
 
@@ -119,32 +121,30 @@ private abstract
 --------------------------------------------------------------------------------
 -- FrAgRA : Fractional resource algebra
 
-module _ where
-  open RA
+FrAgRA : RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
+FrAgRA .Car =  FrAg
+FrAgRA ._≈'_ =  _≈ᶠ_
+FrAgRA .✓_ =  ✓ᶠ_
+FrAgRA ._∙_ =  _∙ᶠ_
+FrAgRA .ε =  εᶠ
+FrAgRA .⌞_⌟ _ =  εᶠ
+FrAgRA .refl' =  ≈ᶠ-refl
+FrAgRA .◠˜_ =  ≈ᶠ-sym
+FrAgRA ._◇˜_ =  ≈ᶠ-trans
+FrAgRA .∙-congˡ =  ∙ᶠ-congˡ _ _ _
+FrAgRA .∙-unitˡ =  ≈ᶠ-refl
+FrAgRA .∙-comm {x} =  ∙ᶠ-comm x _
+FrAgRA .∙-assocˡ {x} =  ∙ᶠ-assocˡ x _ _
+FrAgRA .✓-resp =  ✓ᶠ-resp _ _
+FrAgRA .✓-rem {x} =  ✓ᶠ-rem x _
+FrAgRA .✓-ε =  _
+FrAgRA .⌞⌟-cong _ =  ≈ᶠ-refl
+FrAgRA .⌞⌟-add =  εᶠ , ≈ᶠ-refl
+FrAgRA .⌞⌟-unitˡ =  ≈ᶠ-refl
+FrAgRA .⌞⌟-idem =  ≈ᶠ-refl
 
-  FrAgRA : RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
-  FrAgRA .Car =  FrAg
-  FrAgRA ._≈_ =  _≈ᶠ_
-  FrAgRA .✓_ =  ✓ᶠ_
-  FrAgRA ._∙_ =  _∙ᶠ_
-  FrAgRA .ε =  εᶠ
-  FrAgRA .⌞_⌟ _ =  εᶠ
-  FrAgRA .refl˜ =  ≈ᶠ-refl
-  FrAgRA .◠˜_ =  ≈ᶠ-sym
-  FrAgRA ._◇˜_ =  ≈ᶠ-trans
-  FrAgRA .∙-congˡ =  ∙ᶠ-congˡ _ _ _
-  FrAgRA .∙-unitˡ =  ≈ᶠ-refl
-  FrAgRA .∙-comm {x} =  ∙ᶠ-comm x _
-  FrAgRA .∙-assocˡ {x} =  ∙ᶠ-assocˡ x _ _
-  FrAgRA .✓-resp =  ✓ᶠ-resp _ _
-  FrAgRA .✓-rem {x} =  ✓ᶠ-rem x _
-  FrAgRA .✓-ε =  _
-  FrAgRA .⌞⌟-cong _ =  ≈ᶠ-refl
-  FrAgRA .⌞⌟-add =  εᶠ , ≈ᶠ-refl
-  FrAgRA .⌞⌟-unitˡ =  ≈ᶠ-refl
-  FrAgRA .⌞⌟-idem =  ≈ᶠ-refl
-
-open RA FrAgRA using (_∙_; ✓_; _↝_)
+open RA FrAgRA using () renaming (_≈_ to _≈⁺_; _∙_ to _∙⁺_; ✓_ to ✓⁺_;
+  _↝_ to _↝⁺_)
 
 --------------------------------------------------------------------------------
 -- Lemmas
@@ -153,37 +153,37 @@ abstract
 
   -- Congruence on ⟨ ⟩ᶠ
 
-  ⟨⟩ᶠ-cong :  p ≈ᴿ⁺ q →  a ≈ b →  ⟨ p ⟩ᶠ a ≈ᶠ ⟨ q ⟩ᶠ b
+  ⟨⟩ᶠ-cong :  p ≈ᴿ⁺ q →  a ≈ b →  ⟨ p ⟩ᶠ a ≈⁺ ⟨ q ⟩ᶠ b
   ⟨⟩ᶠ-cong p≈q a≈b =  p≈q , [?]-cong a≈b
 
-  ⟨⟩ᶠ-congˡ :  p ≈ᴿ⁺ q →  ⟨ p ⟩ᶠ a ≈ᶠ ⟨ q ⟩ᶠ a
+  ⟨⟩ᶠ-congˡ :  p ≈ᴿ⁺ q →  ⟨ p ⟩ᶠ a ≈⁺ ⟨ q ⟩ᶠ a
   ⟨⟩ᶠ-congˡ {p} {q} p≈q =  ⟨⟩ᶠ-cong {p} {q} p≈q refl˜
 
-  ⟨⟩ᶠ-congʳ :  ∀ {p a b} →  a ≈ b →  ⟨ p ⟩ᶠ a ≈ᶠ ⟨ p ⟩ᶠ b
+  ⟨⟩ᶠ-congʳ :  ∀ {p a b} →  a ≈ b →  ⟨ p ⟩ᶠ a ≈⁺ ⟨ p ⟩ᶠ b
   ⟨⟩ᶠ-congʳ {p} a≈b =  ⟨⟩ᶠ-cong {p} {p} (≈ᴿ⁺-refl {p}) a≈b
 
   -- ⟨ p ⟩ᶠ a is valid for p ≤1ᴿ⁺
 
-  ✓-⟨⟩ᶠ :  p ≤1ᴿ⁺ →  ✓ ⟨ p ⟩ᶠ a
+  ✓-⟨⟩ᶠ :  p ≤1ᴿ⁺ →  ✓⁺ ⟨ p ⟩ᶠ a
   ✓-⟨⟩ᶠ p≤1 =  p≤1 , homo-[?]
 
   -- ⟨ 1ᴿ⁺ ⟩ᶠ a is valid
 
-  ✓-⟨1⟩ᶠ :  ✓ ⟨ 1ᴿ⁺ ⟩ᶠ a
+  ✓-⟨1⟩ᶠ :  ✓⁺ ⟨ 1ᴿ⁺ ⟩ᶠ a
   ✓-⟨1⟩ᶠ =  ✓-⟨⟩ᶠ 1≤1ᴿ⁺
 
   -- Joining ⟨ ⟩ᶠ
 
-  join-⟨⟩ᶠ : ∀ {p q a} →  ⟨ p ⟩ᶠ a ∙ ⟨ q ⟩ᶠ a ≈ᶠ ⟨ p +ᴿ⁺ q ⟩ᶠ a
+  join-⟨⟩ᶠ : ∀ {p q a} →  ⟨ p ⟩ᶠ a ∙⁺ ⟨ q ⟩ᶠ a ≈⁺ ⟨ p +ᴿ⁺ q ⟩ᶠ a
   join-⟨⟩ᶠ {p} {q} =  ≈ᴿ⁺-refl {p +ᴿ⁺ q} , ++-idem
 
   -- Agreement
 
-  agreeᶠ :  ✓ ⟨ p ⟩ᶠ a ∙ ⟨ q ⟩ᶠ b →  a ≈ b
+  agreeᶠ :  ✓⁺ ⟨ p ⟩ᶠ a ∙⁺ ⟨ q ⟩ᶠ b →  a ≈ b
   agreeᶠ (_ , homo'ab) =  homo-agree homo'ab
 
   -- Update
 
-  updateᶠ :  ⟨ 1ᴿ⁺ ⟩ᶠ a ↝ ⟨ 1ᴿ⁺ ⟩ᶠ b
+  updateᶠ :  ⟨ 1ᴿ⁺ ⟩ᶠ a ↝⁺ ⟨ 1ᴿ⁺ ⟩ᶠ b
   updateᶠ εᶠ _ =  ✓-⟨1⟩ᶠ
   updateᶠ (⟨ p ⟩ᶠᴸ _) (p+1≤1 , _) =  absurd $ ?+1-not-≤1ᴿ⁺ {p} p+1≤1

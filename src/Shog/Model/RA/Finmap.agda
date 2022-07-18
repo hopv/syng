@@ -7,6 +7,7 @@
 open import Shog.Model.RA using (RA)
 module Shog.Model.RA.Finmap {ℓ ℓ≈ ℓ✓} (Ra : RA ℓ ℓ≈ ℓ✓) where
 
+open RA
 open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
   ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_;
   ✓-resp to ✓'-resp; ∙-congˡ to ∙'-congˡ; ∙-unitˡ to ∙'-unitˡ)
@@ -36,8 +37,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Internal definitions
 
-private module _ where
-  open RA
+private
 
   -- Equivalence
   infix 4 _≈ᶠᵐ_
@@ -67,8 +67,7 @@ private module _ where
 --------------------------------------------------------------------------------
 -- Internal lemma
 
-private module _ where abstract
-  open RA
+private abstract
 
   ⌞⌟ᶠᵐ-add :  ∀ M N →  ∑ N' ,  N' ∙ᶠᵐ ⌞ M ⌟ᶠᵐ ≈ᶠᵐ ⌞ N ∙ᶠᵐ M ⌟ᶠᵐ
   ⌞⌟ᶠᵐ-add (f |ᶠᵐ _) (g |ᶠᵐ _) .proj₀ .mapᶠᵐ i =  Ra .⌞⌟-add {f i} {g i} .proj₀
@@ -84,39 +83,37 @@ private module _ where abstract
 --------------------------------------------------------------------------------
 -- FinmapRA : Finite-map resource algebra
 
-module _ where
-  open RA
+FinmapRA : RA (ℓ ⌴ ℓ≈) ℓ≈ ℓ✓
+FinmapRA .Car =  Finmap
+FinmapRA ._≈_ =  _≈ᶠᵐ_
+FinmapRA .✓_ =  ✓ᶠᵐ_
+FinmapRA ._∙_ =  _∙ᶠᵐ_
+FinmapRA .ε =  εᶠᵐ
+FinmapRA .⌞_⌟ =  ⌞_⌟ᶠᵐ
+FinmapRA .refl˜ _ =  refl'
+FinmapRA .◠˜_ M≈N i =  ◠' M≈N i
+FinmapRA ._◇˜_ M≈N N≈O i =  M≈N i ◇' N≈O i
+FinmapRA .∙-congˡ M≈N i =  Ra .∙-congˡ (M≈N i)
+FinmapRA .∙-unitˡ i =  Ra .∙-unitˡ
+FinmapRA .∙-comm i =  Ra .∙-comm
+FinmapRA .∙-assocˡ i =  Ra .∙-assocˡ
+FinmapRA .✓-resp M≈N ✓M i =  Ra .✓-resp (M≈N i) (✓M i)
+FinmapRA .✓-rem ✓M∙N i =  Ra .✓-rem (✓M∙N i)
+FinmapRA .✓-ε i =  Ra .✓-ε
+FinmapRA .⌞⌟-cong M≈N i =  Ra .⌞⌟-cong (M≈N i)
+FinmapRA .⌞⌟-add {M} {N} =  ⌞⌟ᶠᵐ-add M N
+FinmapRA .⌞⌟-unitˡ i =  Ra .⌞⌟-unitˡ
+FinmapRA .⌞⌟-idem i =  Ra .⌞⌟-idem
 
-  FinmapRA : RA (ℓ ⌴ ℓ≈) ℓ≈ ℓ✓
-  FinmapRA .Car =  Finmap
-  FinmapRA ._≈_ =  _≈ᶠᵐ_
-  FinmapRA .✓_ =  ✓ᶠᵐ_
-  FinmapRA ._∙_ =  _∙ᶠᵐ_
-  FinmapRA .ε =  εᶠᵐ
-  FinmapRA .⌞_⌟ =  ⌞_⌟ᶠᵐ
-  FinmapRA .refl˜ _ =  refl'
-  FinmapRA .◠˜_ M≈N i =  ◠' M≈N i
-  FinmapRA ._◇˜_ M≈N N≈O i =  M≈N i ◇' N≈O i
-  FinmapRA .∙-congˡ M≈N i =  Ra .∙-congˡ (M≈N i)
-  FinmapRA .∙-unitˡ i =  Ra .∙-unitˡ
-  FinmapRA .∙-comm i =  Ra .∙-comm
-  FinmapRA .∙-assocˡ i =  Ra .∙-assocˡ
-  FinmapRA .✓-resp M≈N ✓M i =  Ra .✓-resp (M≈N i) (✓M i)
-  FinmapRA .✓-rem ✓M∙N i =  Ra .✓-rem (✓M∙N i)
-  FinmapRA .✓-ε i =  Ra .✓-ε
-  FinmapRA .⌞⌟-cong M≈N i =  Ra .⌞⌟-cong (M≈N i)
-  FinmapRA .⌞⌟-add {M} {N} =  ⌞⌟ᶠᵐ-add M N
-  FinmapRA .⌞⌟-unitˡ i =  Ra .⌞⌟-unitˡ
-  FinmapRA .⌞⌟-idem i =  Ra .⌞⌟-idem
-
-open RA FinmapRA using (_≈_; ✓_; _∙_; ⌞_⌟; ε; _↝_; _↝ˢ_; refl˜; _◇˜_; ✓-ε;
-  ∙-unitˡ; ⌞⌟-ε)
+open RA FinmapRA using () renaming (_≈_ to _≈⁺_; ✓_ to ✓⁺_; _∙_ to _∙⁺_;
+  ⌞_⌟ to ⌞_⌟⁺; ε to ε⁺; _↝_ to _↝⁺_; _↝ˢ_ to _↝ˢ⁺_; refl˜ to refl⁺;
+  _◇˜_ to _◇⁺_)
 
 -- injᶠᵐ/injaᶠᵐ: Injecting an element at an index
 
 injᶠᵐ injaᶠᵐ :  ℕ → A → Finmap
-injᶠᵐ i a =  updᶠᵐ i a ε
-injaᶠᵐ i a =  updaᶠᵐ i a ε
+injᶠᵐ i a =  updᶠᵐ i a ε⁺
+injaᶠᵐ i a =  updaᶠᵐ i a ε⁺
 
 module _ {i : ℕ} where abstract
 
@@ -125,34 +122,34 @@ module _ {i : ℕ} where abstract
 
   -- updaᶠᵐ preserves ≈/✓/∙/⌞⌟/↝
 
-  updaᶠᵐ-cong :  a ≈' b →  M ≈ N →  updaᶠᵐ i a M ≈ updaᶠᵐ i b N
+  updaᶠᵐ-cong :  a ≈' b →  M ≈⁺ N →  updaᶠᵐ i a M ≈⁺ updaᶠᵐ i b N
   updaᶠᵐ-cong a≈b M≈N j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  a≈b
   ... | ff =  M≈N j
 
-  updaᶠᵐ-✓ :  ✓' a →  ✓ M →  ✓ updaᶠᵐ i a M
+  updaᶠᵐ-✓ :  ✓' a →  ✓⁺ M →  ✓⁺ updaᶠᵐ i a M
   updaᶠᵐ-✓ ✓a ✓M j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  ✓a
   ... | ff =  ✓M j
 
-  updaᶠᵐ-∙ :  updaᶠᵐ i a M ∙ updaᶠᵐ i b N  ≈  updaᶠᵐ i (a ∙' b) (M ∙ N)
+  updaᶠᵐ-∙ :  updaᶠᵐ i a M ∙⁺ updaᶠᵐ i b N  ≈⁺  updaᶠᵐ i (a ∙' b) (M ∙⁺ N)
   updaᶠᵐ-∙ j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  refl'
   ... | ff =  refl'
 
-  updaᶠᵐ-⌞⌟ :  ⌞ updaᶠᵐ i a M ⌟  ≈  updaᶠᵐ i ⌞ a ⌟' ⌞ M ⌟
+  updaᶠᵐ-⌞⌟ :  ⌞ updaᶠᵐ i a M ⌟⁺  ≈⁺  updaᶠᵐ i ⌞ a ⌟' ⌞ M ⌟⁺
   updaᶠᵐ-⌞⌟ j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  refl'
   ... | ff =  refl'
 
-  updaᶠᵐ-↝ :  a ↝' b →  updaᶠᵐ i a M ↝ updaᶠᵐ i b M
+  updaᶠᵐ-↝ :  a ↝' b →  updaᶠᵐ i a M ↝⁺ updaᶠᵐ i b M
   updaᶠᵐ-↝ a↝b N ✓N∙iaM j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j | ✓N∙iaM j
   ... | tt | ✓Ni∙a =  a↝b (N .mapᶠᵐ j) ✓Ni∙a
   ... | ff | ✓Nj∙Mj =  ✓Nj∙Mj
 
   -- Double update
 
-  updaᶠᵐ-2 :  updaᶠᵐ i a (updaᶠᵐ i b M) ≈ updaᶠᵐ i a M
+  updaᶠᵐ-2 :  updaᶠᵐ i a (updaᶠᵐ i b M) ≈⁺ updaᶠᵐ i a M
   updaᶠᵐ-2 j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j | ≡⇒ᵇ {i} {j}
   ... | tt | _ =  refl'
   ... | ff | i≢j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
@@ -165,34 +162,34 @@ module _ {i : ℕ} where abstract
 
   -- injaᶠᵐ preserves ≈/✓/∙/ε/⌞⌟/↝
 
-  injaᶠᵐ-cong :  a ≈' b →  injaᶠᵐ i a  ≈  injaᶠᵐ i b
-  injaᶠᵐ-cong a≈b =  updaᶠᵐ-cong a≈b $ refl˜ {a = ε}
+  injaᶠᵐ-cong :  a ≈' b →  injaᶠᵐ i a  ≈⁺  injaᶠᵐ i b
+  injaᶠᵐ-cong a≈b =  updaᶠᵐ-cong a≈b $ refl⁺ {a = ε⁺}
 
-  injaᶠᵐ-✓ :  ✓' a →  ✓ injaᶠᵐ i a
-  injaᶠᵐ-✓ ✓a =  updaᶠᵐ-✓ ✓a ✓-ε
+  injaᶠᵐ-✓ :  ✓' a →  ✓⁺ injaᶠᵐ i a
+  injaᶠᵐ-✓ ✓a =  updaᶠᵐ-✓ ✓a (✓-ε FinmapRA)
 
-  injaᶠᵐ-∙ :  injaᶠᵐ i a ∙ injaᶠᵐ i b  ≈  injaᶠᵐ i (a ∙' b)
-  injaᶠᵐ-∙ =  _◇˜_ {injaᶠᵐ i _ ∙ injaᶠᵐ i _} {updaᶠᵐ i _ _} {injaᶠᵐ i _}
-    updaᶠᵐ-∙ $ updaᶠᵐ-cong refl' (∙-unitˡ {a = ε})
+  injaᶠᵐ-∙ :  injaᶠᵐ i a ∙⁺ injaᶠᵐ i b  ≈⁺  injaᶠᵐ i (a ∙' b)
+  injaᶠᵐ-∙ =  _◇⁺_ {injaᶠᵐ i _ ∙⁺ injaᶠᵐ i _} {updaᶠᵐ i _ _} {injaᶠᵐ i _}
+    updaᶠᵐ-∙ $ updaᶠᵐ-cong refl' (∙-unitˡ FinmapRA {a = ε⁺})
 
-  injaᶠᵐ-ε :  injaᶠᵐ i ε' ≈ ε
+  injaᶠᵐ-ε :  injaᶠᵐ i ε' ≈⁺ ε⁺
   injaᶠᵐ-ε j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j
   ... | tt =  refl'
   ... | ff =  refl'
 
-  injaᶠᵐ-⌞⌟ :  ⌞ injaᶠᵐ i a ⌟  ≈  injaᶠᵐ i ⌞ a ⌟'
-  injaᶠᵐ-⌞⌟ =  _◇˜_ {⌞ injaᶠᵐ i _ ⌟} {updaᶠᵐ i ⌞ _ ⌟' ⌞ _ ⌟} {injaᶠᵐ i ⌞ _ ⌟'}
-    updaᶠᵐ-⌞⌟ $ updaᶠᵐ-cong refl' ⌞⌟-ε
+  injaᶠᵐ-⌞⌟ :  ⌞ injaᶠᵐ i a ⌟⁺  ≈⁺  injaᶠᵐ i ⌞ a ⌟'
+  injaᶠᵐ-⌞⌟ =  _◇⁺_ {⌞ injaᶠᵐ i _ ⌟⁺} {updaᶠᵐ i ⌞ _ ⌟' ⌞ _ ⌟⁺} {injaᶠᵐ i ⌞ _ ⌟'}
+    updaᶠᵐ-⌞⌟ $ updaᶠᵐ-cong refl' (⌞⌟-ε FinmapRA)
 
-  injaᶠᵐ-↝ :  a ↝' b →  injaᶠᵐ i a ↝ injaᶠᵐ i b
+  injaᶠᵐ-↝ :  a ↝' b →  injaᶠᵐ i a ↝⁺ injaᶠᵐ i b
   injaᶠᵐ-↝ =  updaᶠᵐ-↝
 
   -- Allocate at a fresh index
 
-  allocᶠᵐ :  ✓' a →  ε ↝ˢ λ M → ∑ i , M ≡ injaᶠᵐ i a
+  allocᶠᵐ :  ✓' a →  ε⁺ ↝ˢ⁺ λ M → ∑ i , M ≡ injaᶠᵐ i a
   allocᶠᵐ {a} ✓a N@(f |ᶠᵐ (n , fi)) ✓N∙ε =  injaᶠᵐ n a , (_ , refl) , proof
    where
-    proof :  ✓ N ∙ injaᶠᵐ n a
+    proof :  ✓⁺ N ∙⁺ injaᶠᵐ n a
     proof i  rewrite updaᶠᵐ-eq  with n ≡ᵇ i | ᵇ⇒≡ {n} {i}
     ... | ff | _ =  ✓N∙ε i
     ... | tt | ⇒n≡i with ⇒n≡i _

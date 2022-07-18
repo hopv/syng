@@ -14,6 +14,8 @@ open import Base.Prod using (_,_)
 open import Base.Few using (⊤; ⊥)
 open import Shog.Model.RA using (RA)
 
+open RA renaming (_≈_ to _≈'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_)
+
 --------------------------------------------------------------------------------
 -- Exc : ExcRA's carrier
 
@@ -111,32 +113,29 @@ private abstract
 --------------------------------------------------------------------------------
 -- ExcRA : Exclusive resource algebra
 
-module _ where
-  open RA
+ExcRA : RA ℓ ℓ≈ ℓ✓
+ExcRA .Car =  Exc
+ExcRA ._≈'_ =  _≈ˣ_
+ExcRA .✓_ =  ✓ˣ_
+ExcRA ._∙_ =  _∙ˣ_
+ExcRA .ε =  ?ˣ
+ExcRA .⌞_⌟ _ =  ?ˣ
+ExcRA .refl' {x} =  ≈ˣ-refl x
+ExcRA .◠'_ {x} =  ≈ˣ-sym x _
+ExcRA ._◇'_ {x} =  ≈ˣ-trans x _ _
+ExcRA .∙-congˡ {x} =  ∙ˣ-congˡ x _ _
+ExcRA .∙-unitˡ {x} =  ≈ˣ-refl x
+ExcRA .∙-comm {x} =  ∙ˣ-comm x _
+ExcRA .∙-assocˡ {x} =  ∙ˣ-assocˡ x _ _
+ExcRA .✓-resp =  ✓ˣ-resp _ _
+ExcRA .✓-rem {x} {y} =  ✓ˣ-rem x y
+ExcRA .✓-ε =  _
+ExcRA .⌞⌟-cong =  _
+ExcRA .⌞⌟-add =  ?ˣ , _
+ExcRA .⌞⌟-unitˡ {x} =  ≈ˣ-refl x
+ExcRA .⌞⌟-idem =  _
 
-  ExcRA : RA ℓ ℓ≈ ℓ✓
-  ExcRA .Car =  Exc
-  ExcRA ._≈_ =  _≈ˣ_
-  ExcRA .✓_ =  ✓ˣ_
-  ExcRA ._∙_ =  _∙ˣ_
-  ExcRA .ε =  ?ˣ
-  ExcRA .⌞_⌟ _ =  ?ˣ
-  ExcRA .refl˜ {x} =  ≈ˣ-refl x
-  ExcRA .◠˜_ {x} =  ≈ˣ-sym x _
-  ExcRA ._◇˜_ {x} =  ≈ˣ-trans x _ _
-  ExcRA .∙-congˡ {x} =  ∙ˣ-congˡ x _ _
-  ExcRA .∙-unitˡ {x} =  ≈ˣ-refl x
-  ExcRA .∙-comm {x} =  ∙ˣ-comm x _
-  ExcRA .∙-assocˡ {x} =  ∙ˣ-assocˡ x _ _
-  ExcRA .✓-resp =  ✓ˣ-resp _ _
-  ExcRA .✓-rem {x} {y} =  ✓ˣ-rem x y
-  ExcRA .✓-ε =  _
-  ExcRA .⌞⌟-cong =  _
-  ExcRA .⌞⌟-add =  ?ˣ , _
-  ExcRA .⌞⌟-unitˡ {x} =  ≈ˣ-refl x
-  ExcRA .⌞⌟-idem =  _
-
-open RA ExcRA using (_↝_)
+open RA ExcRA using () renaming (_↝_ to _↝⁺_)
 
 --------------------------------------------------------------------------------
 -- Lemmas
@@ -145,6 +144,6 @@ abstract
 
   -- Update on #ˣ
 
-  #ˣ-↝ :  #ˣ a  ↝  #ˣ b
+  #ˣ-↝ :  #ˣ a  ↝⁺  #ˣ b
   #ˣ-↝ ?ˣ =  _
   -- The frame z can only be ?ˣ; otherwise ✓ z ∙ #ˣ a does not hold

@@ -22,7 +22,7 @@ open import Base.Eq using (_≡_; refl; ◠_)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; addr; Expr; Expr˂; ▶_;
   ∇_; nd; λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
 open import Shog.Lang.Ktxred ℓ using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ;
-  freeᴿ; Ktx; _ᴷ◀_; ᴷ∙ᴷ-ᴷ◀; val/ktxred; nonval; val/ktxred-ktx;
+  freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; val/ktxred; nonval; val/ktxred-ktx;
   val/ktxred-ktx-inv)
 
 --------------------------------------------------------------------------------
@@ -95,19 +95,19 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
 -- Reduction on an expression
 data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^ ℓ)  where
   redᴱ :  val/ktxred e ≡ inj₁ (_ , ktx , red) →  (red , M) ⇒ᴿ (e' , M') →
-          (e , M) ⇒ᴱ (ktx ᴷ◀ e' , M')
+          (e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
 
 abstract
 
   -- Enrich a reduction with an evaluation context
 
-  red-ktx :  (e , M) ⇒ᴱ (e' , M') →  (ktx ᴷ◀ e , M) ⇒ᴱ (ktx ᴷ◀ e' , M')
+  red-ktx :  (e , M) ⇒ᴱ (e' , M') →  (ktx ᴷ◁ e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
   red-ktx {ktx = ktx} (redᴱ {ktx = ktx'} {e' = e'} eq r⇒)
-    rewrite ◠ ᴷ∙ᴷ-ᴷ◀ {ktx = ktx} {ktx'} {e'} =  redᴱ (val/ktxred-ktx eq) r⇒
+    rewrite ◠ ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e'} =  redᴱ (val/ktxred-ktx eq) r⇒
 
   -- Unwrap an evaluation context from a reduction
 
-  red-ktx-inv :  nonval e →  (ktx ᴷ◀ e , M) ⇒ᴱ (e'' , M') →
-                ∑ e' ,  e'' ≡ ktx ᴷ◀ e'  ×  (e , M) ⇒ᴱ (e' , M')
+  red-ktx-inv :  nonval e →  (ktx ᴷ◁ e , M) ⇒ᴱ (e'' , M') →
+                ∑ e' ,  e'' ≡ ktx ᴷ◁ e'  ×  (e , M) ⇒ᴱ (e' , M')
   red-ktx-inv {ktx = ktx} nv'e (redᴱ eq r⇒)  with val/ktxred-ktx-inv nv'e eq
-  ... | _ , refl , eq' =  _ , ᴷ∙ᴷ-ᴷ◀ {ktx = ktx} , redᴱ eq' r⇒
+  ... | _ , refl , eq' =  _ , ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} , redᴱ eq' r⇒

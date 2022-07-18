@@ -20,7 +20,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; 
   saveˣ; save□; Basic)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Expr˂; ▶_; Val; V⇒E)
 open import Shog.Lang.Ktxred ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
-  Val/Ktxred; val/ktxred; Ktx; _ᴷ◀_)
+  Val/Ktxred; val/ktxred; Ktx; _ᴷ◁_)
 
 --------------------------------------------------------------------------------
 -- WpK: Weakest precondion kind
@@ -218,8 +218,8 @@ data  _⊢[_]*_  where
 
   -- Bind by a context
   hor-bind :  ∀{Qᵛ : _ → _} {Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →
-              (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◀ V⇒E v ⟩[ κ ] Rᵛ) →
-              P ⊢[ ι ]⟨ ktx ᴷ◀ e ⟩[ κ ] Rᵛ
+              (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ κ ] Rᵛ) →
+              P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ κ ] Rᵛ
 
   -- Value
   hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
@@ -229,13 +229,13 @@ data  _⊢[_]*_  where
              P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ndᴿ ⟩[ κ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples
-  horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ktx ᴷ◀ e˂ .! ⟩ᴾ Qᵛ →
+  horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
             P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᴾ Qᵛ
-  horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◀ e˂ .! ⟩ᵀ Qᵛ →
+  horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ Qᵛ →
             P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᵀ Qᵛ
 
   -- Application
-  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◀ e˙ a ⟩[ κ ] Qᵛ →
+  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ a ⟩[ κ ] Qᵛ →
            P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , e˙ ◁ᴿ a ⟩[ κ ] Qᵛ
 
 --------------------------------------------------------------------------------

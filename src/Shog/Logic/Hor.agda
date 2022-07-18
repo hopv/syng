@@ -16,7 +16,7 @@ open import Shog.Logic.Prop ℓ using (Prop')
 open import Shog.Logic.Core ℓ using (_⊢[_]_)
 open import Shog.Logic.Supd ℓ using (_⊢[_]=>>_; ⇒=>>; =>>-refl)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Val; let˙)
-open import Shog.Lang.Reduce ℓ using (Val/Ktxred; Ktx; ndᴿ; _◁ᴷʳ_; •ᴷ)
+open import Shog.Lang.Ktx ℓ using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; Val/Ktxred)
 
 -- Import and re-export
 open import Shog.Logic.Judg ℓ public using (WpK; par; tot; Wp'; _⊢[_]'⟨_⟩[_]_;

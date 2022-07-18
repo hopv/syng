@@ -17,7 +17,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Nat using (ℕ; _+_)
 open import Shog.Lang.Expr ℓ using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_;
   nd; _◁_; free; λ-syntax)
-open import Shog.Lang.Reduce ℓ using (Mem; nd-red; ▶-red; ◁-red; _⇒ᴱ_; redᴱ)
+open import Shog.Lang.Red ℓ using (Mem; nd-red; ▶-red; ◁-red; _⇒ᴱ_; redᴱ)
 
 private variable
   ι :  Size

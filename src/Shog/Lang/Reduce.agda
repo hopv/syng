@@ -103,7 +103,8 @@ abstract
 
   red-ktx :  (e , M) ⇒ᴱ (e' , M') →  (ktx ᴷ◁ e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
   red-ktx {ktx = ktx} (redᴱ {ktx = ktx'} {e' = e'} eq r⇒)
-    rewrite ◠ ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e'} =  redᴱ (val/ktxred-ktx eq) r⇒
+    rewrite ◠ ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e'}
+    =  redᴱ (val/ktxred-ktx eq) r⇒
 
   -- Unwrap an evaluation context from a reduction
 

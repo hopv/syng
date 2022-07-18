@@ -71,9 +71,9 @@ data  Expr (ι : Size) :  Type →  Set (^ ℓ)
 Expr˂ :  Size →  Type →  Set (^ ℓ)
 Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 
-infix 6 ▶_ ∇_
+infix 7 ∇_
+infix 6 ▶_ ★_ _←_
 infixl 5 _◁_
-infix 6 ★_ _←_
 
 data  Expr ι  where
   -- Later, for infinite construction

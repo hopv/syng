@@ -9,8 +9,7 @@ module Shog.Model.RA.Finmap {ℓ ℓ≈ ℓ✓} (Ra : RA ℓ ℓ≈ ℓ✓) wher
 
 open RA
 open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
-  ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_;
-  ✓-resp to ✓'-resp; ∙-congˡ to ∙'-congˡ; ∙-unitˡ to ∙'-unitˡ)
+  ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_)
 
 open import Base.Level using (_⌴_)
 open import Base.Bool using (tt; ff)
@@ -193,4 +192,5 @@ module _ {i : ℕ} where abstract
     proof i  rewrite updaᶠᵐ-eq  with n ≡ᵇ i | ᵇ⇒≡ {n} {i}
     ... | ff | _ =  ✓N∙ε i
     ... | tt | ⇒n≡i with ⇒n≡i _
-    ...   | refl =  flip ✓'-resp ✓a $ ◠'_ $ ∙'-congˡ (fi ≤-refl) ◇' ∙'-unitˡ
+    ...   | refl =
+      flip (✓-resp Ra) ✓a $ ◠'_ $ ∙-congˡ Ra (fi ≤-refl) ◇' ∙-unitˡ Ra

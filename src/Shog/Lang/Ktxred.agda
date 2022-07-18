@@ -104,8 +104,7 @@ Val/Ktxred :  Type →  Set (^ ℓ)
 Val/Ktxred T =  Val T ⊎ Ktxred T
 
 private variable
-  ktx ktx' ktx'' :  Ktx V U
-  red :  Redex V
+  ktx :  Ktx V U
   kr : Ktxred T
 
 abstract
@@ -202,7 +201,7 @@ abstract
 
   -- Calculate val/ktxred (ktx ᴷ◁ e)
 
-  val/ktxred-ktx :  val/ktxred e ≡ inj₁ (_ , ktx' , red) →
+  val/ktxred-ktx :  val/ktxred e ≡ inj₁ kr →  let (_ , ktx' , red) = kr in
                     val/ktxred (ktx ᴷ◁ e) ≡ inj₁ (_ , ktx ᴷ∘ᴷ ktx' , red)
   val/ktxred-ktx {ktx = •ᴷ} eq =  eq
   val/ktxred-ktx {e = e} {ktx = _ ◁ᴷʳ ktx} eq

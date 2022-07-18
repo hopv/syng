@@ -153,6 +153,9 @@ private variable
   kr : Ktxred T
 
 abstract
+
+  -- On ᴷ∙ᴷ and ᴷ◀
+
   ᴷ∙ᴷ-ᴷ◀ :  ∀{ktx : Ktx U V} {ktx' : Ktx T U} {e} →
             (ktx ᴷ∙ᴷ ktx') ᴷ◀ e ≡ ktx ᴷ◀ (ktx' ᴷ◀ e)
   ᴷ∙ᴷ-ᴷ◀ {ktx = •ᴷ} =  refl
@@ -229,6 +232,18 @@ abstract
   val/ktxred-val {e = ∇ _} refl =  refl
   val/ktxred-val {e = λ˙ _} refl =  refl
 
+  -- Nonval enriched with an evaluation context
+
+  nonval-ktx :  nonval e →  nonval (ktx ᴷ◀ e)
+  nonval-ktx {ktx = •ᴷ} n'e =  n'e
+  nonval-ktx {ktx = _ ◁ᴷʳ _} =  _
+  nonval-ktx {ktx = _ ◁ᴷˡ _} =  _
+  nonval-ktx {ktx = ★ᴷ _} =  _
+  nonval-ktx {ktx = _ ←ᴷʳ _} =  _
+  nonval-ktx {ktx = _ ←ᴷˡ _} =  _
+  nonval-ktx {ktx = allocᴷ _} =  _
+  nonval-ktx {ktx = freeᴷ _} =  _
+
   -- Calculate val/ktxred (ktx ᴷ◀ e)
 
   val/ktxred-ktx :  val/ktxred e ≡ inj₁ (_ , ktx' , red) →
@@ -250,18 +265,6 @@ abstract
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
   val/ktxred-ktx {e = e} {ktx = freeᴷ ktx} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
-
-  -- Nonval and syntactic context
-
-  nonval-ktx :  nonval e →  nonval (ktx ᴷ◀ e)
-  nonval-ktx {ktx = •ᴷ} n'e =  n'e
-  nonval-ktx {ktx = _ ◁ᴷʳ _} =  _
-  nonval-ktx {ktx = _ ◁ᴷˡ _} =  _
-  nonval-ktx {ktx = ★ᴷ _} =  _
-  nonval-ktx {ktx = _ ←ᴷʳ _} =  _
-  nonval-ktx {ktx = _ ←ᴷˡ _} =  _
-  nonval-ktx {ktx = allocᴷ _} =  _
-  nonval-ktx {ktx = freeᴷ _} =  _
 
   -- Invert from val/ktxred (ktx ᴷ◀ e)
 
@@ -340,13 +343,17 @@ data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^
   redᴱ :  val/ktxred e ≡ inj₁ (_ , ktx , red) →  (red , M) ⇒ᴿ (e' , M') →
           (e , M) ⇒ᴱ (ktx ᴷ◀ e' , M')
 
--- Enrich reduction with syntactic context
+abstract
 
-red-ktx :  (e , M) ⇒ᴱ (e' , M') →  (ktx ᴷ◀ e , M) ⇒ᴱ (ktx ᴷ◀ e' , M')
-red-ktx {ktx = ktx} (redᴱ {ktx = ktx'} {e' = e'} eq r⇒)
-  rewrite ◠ ᴷ∙ᴷ-ᴷ◀ {ktx = ktx} {ktx'} {e'} =  redᴱ (val/ktxred-ktx eq) r⇒
+  -- Enrich a reduction with an evaluation context
 
-red-ktx-inv :  nonval e →  (ktx ᴷ◀ e , M) ⇒ᴱ (e! , M') →
-               ∑ e' ,  e! ≡ ktx ᴷ◀ e'  ×  (e , M) ⇒ᴱ (e' , M')
-red-ktx-inv {ktx = ktx} nv'e (redᴱ eq r⇒)  with val/ktxred-ktx-inv nv'e eq
-... | _ , refl , eq' =  _ , ᴷ∙ᴷ-ᴷ◀ {ktx = ktx} , redᴱ eq' r⇒
+  red-ktx :  (e , M) ⇒ᴱ (e' , M') →  (ktx ᴷ◀ e , M) ⇒ᴱ (ktx ᴷ◀ e' , M')
+  red-ktx {ktx = ktx} (redᴱ {ktx = ktx'} {e' = e'} eq r⇒)
+    rewrite ◠ ᴷ∙ᴷ-ᴷ◀ {ktx = ktx} {ktx'} {e'} =  redᴱ (val/ktxred-ktx eq) r⇒
+
+  -- Unwrap an evaluation context from a reduction
+
+  red-ktx-inv :  nonval e →  (ktx ᴷ◀ e , M) ⇒ᴱ (e! , M') →
+                ∑ e' ,  e! ≡ ktx ᴷ◀ e'  ×  (e , M) ⇒ᴱ (e' , M')
+  red-ktx-inv {ktx = ktx} nv'e (redᴱ eq r⇒)  with val/ktxred-ktx-inv nv'e eq
+  ... | _ , refl , eq' =  _ , ᴷ∙ᴷ-ᴷ◀ {ktx = ktx} , redᴱ eq' r⇒

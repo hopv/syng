@@ -182,51 +182,11 @@ nonval e  with val/ktxred e
 
 abstract
 
-  -- If val/ktxred e returns a value v, then e is v
-
-  val/ktxred-val :  ∀{v : Val T} →  val/ktxred e ≡ inj₀ v →  e ≡ V⇒E v
-  val/ktxred-val {e = ∇ _} refl =  refl
-  val/ktxred-val {e = λ˙ _} refl =  refl
-
-  -- Conversely, val/ktxred (V⇒E v) returns inj₀ v
+  -- val/ktxred (V⇒E v) returns inj₀ v
 
   val/ktxred-V⇒E :  ∀{v : Val T} →  val/ktxred (V⇒E v) ≡ inj₀ v
   val/ktxred-V⇒E {T = ◸ _} =  refl
   val/ktxred-V⇒E {T = _ →* _} =  refl
-
-  -- If val/ktxred e returns a context-redex pair (_ , ktx , red),
-  -- then e is ktx with the hole filled with red
-
-  val/ktxred-ktxred :  val/ktxred e ≡ inj₁ kr →
-                       let (_ , ktx , red) = kr in  e ≡ ktx ᴷ◁ R⇒E red
-  val/ktxred-ktxred {e = ▶ _} refl =  refl
-  val/ktxred-ktxred {e = nd} refl =  refl
-  val/ktxred-ktxred {e = e' ◁ e} refl  with val/ktxred e |
-    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
-  ... | inj₁ _ | ind | val  rewrite ind refl =  refl
-  ... | inj₀ _ | _ | val  rewrite val refl  with val/ktxred e' |
-    val/ktxred-ktxred {e = e'} | val/ktxred-val {e = e'}
-  ...   | inj₁ _ | ind' | _  rewrite ind' refl =  refl
-  ...   | inj₀ _ | _ | val'  rewrite val' refl =  refl
-  val/ktxred-ktxred {e = ★ e} refl  with val/ktxred e |
-    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
-  ... | inj₁ _ | ind | _  rewrite ind refl =  refl
-  ... | inj₀ _ | _ | val  rewrite val refl =  refl
-  val/ktxred-ktxred {e = e' ← e} refl  with val/ktxred e |
-    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
-  ... | inj₁ _ | ind | _  rewrite ind refl =  refl
-  ... | inj₀ _ | _ | val  rewrite val refl  with val/ktxred e' |
-    val/ktxred-ktxred {e = e'} | val/ktxred-val {e = e'}
-  ...   | inj₁ _ | ind' | _  rewrite ind' refl =  refl
-  ...   | inj₀ _ | _ | val'  rewrite val' refl =  refl
-  val/ktxred-ktxred {e = alloc e} refl  with val/ktxred e |
-    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
-  ... | inj₁ _ | ind | _  rewrite ind refl =  refl
-  ... | inj₀ _ | _ | val  rewrite val refl =  refl
-  val/ktxred-ktxred {e = free e} refl  with val/ktxred e |
-    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
-  ... | inj₁ _ | ind | _  rewrite ind refl =  refl
-  ... | inj₀ _ | _ | val  rewrite val refl =  refl
 
   -- Nonval enriched with an evaluation context
 

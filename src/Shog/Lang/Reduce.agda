@@ -244,6 +244,40 @@ abstract
   nonval-ktx {ktx = allocᴷ _} =  _
   nonval-ktx {ktx = freeᴷ _} =  _
 
+  -- If val/ktxred e returns a context-redex pair (_ , ktx , red),
+  -- then e is ktx with the hole filled with red
+
+  val/ktxred-ktxred :  ∀{kr : Ktxred T} → let (_ , ktx , red) = kr in
+    val/ktxred e ≡ inj₁ (_ , ktx , red) →  e ≡ ktx ᴷ◀ R⇒E red
+  val/ktxred-ktxred {e = ▶ _} refl =  refl
+  val/ktxred-ktxred {e = nd} refl =  refl
+  val/ktxred-ktxred {e = e' ◁ e} refl  with val/ktxred e |
+    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
+  ... | inj₁ _ | ind | val  rewrite ind refl =  refl
+  ... | inj₀ _ | _ | val  rewrite val refl  with val/ktxred e' |
+    val/ktxred-ktxred {e = e'} | val/ktxred-val {e = e'}
+  ...   | inj₁ _ | ind' | _  rewrite ind' refl =  refl
+  ...   | inj₀ _ | _ | val'  rewrite val' refl =  refl
+  val/ktxred-ktxred {e = ★ e} refl  with val/ktxred e |
+    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
+  ... | inj₁ _ | ind | _  rewrite ind refl =  refl
+  ... | inj₀ _ | _ | val  rewrite val refl =  refl
+  val/ktxred-ktxred {e = e' ← e} refl  with val/ktxred e |
+    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
+  ... | inj₁ _ | ind | _  rewrite ind refl =  refl
+  ... | inj₀ _ | _ | val  rewrite val refl  with val/ktxred e' |
+    val/ktxred-ktxred {e = e'} | val/ktxred-val {e = e'}
+  ...   | inj₁ _ | ind' | _  rewrite ind' refl =  refl
+  ...   | inj₀ _ | _ | val'  rewrite val' refl =  refl
+  val/ktxred-ktxred {e = alloc e} refl  with val/ktxred e |
+    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
+  ... | inj₁ _ | ind | _  rewrite ind refl =  refl
+  ... | inj₀ _ | _ | val  rewrite val refl =  refl
+  val/ktxred-ktxred {e = free e} refl  with val/ktxred e |
+    val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
+  ... | inj₁ _ | ind | _  rewrite ind refl =  refl
+  ... | inj₀ _ | _ | val  rewrite val refl =  refl
+
   -- Calculate val/ktxred (ktx ᴷ◀ e)
 
   val/ktxred-ktx :  val/ktxred e ≡ inj₁ (_ , ktx' , red) →

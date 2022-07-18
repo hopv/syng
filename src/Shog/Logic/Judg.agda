@@ -18,7 +18,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗]-map; [∗∈]-syntax;
   saveˣ; save□; Basic)
-open import Shog.Lang.Expr ℓ using (Type; Expr; ▶_; Val; V⇒E)
+open import Shog.Lang.Expr ℓ using (Type; Expr; Expr˂; ▶_; Val; V⇒E)
 open import Shog.Lang.Reduce ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Val/Ctxred; val/ctxred; Ktx; _•←_)
 
@@ -103,6 +103,7 @@ private variable
   ctx :  Expr ∞ U → Expr ∞ T
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
   e :  Expr ∞ U
+  e˂ :  Expr˂ ∞ U
   e˙ :  A → Expr ∞ U
   ktx :  Ktx T U
   v :  Val T
@@ -229,10 +230,10 @@ data  _⊢[_]*_  where
              P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ndᴿ ⟩[ κ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples
-  horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ctx e ⟩ᴾ Qᵛ →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ᴾ Qᵛ
-  horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx e ⟩ᵀ Qᵛ →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e ⟩ᵀ Qᵛ
+  horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ctx $ e˂ .! ⟩ᴾ Qᵛ →
+            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e˂ ⟩ᴾ Qᵛ
+  horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx $ e˂ .! ⟩ᵀ Qᵛ →
+            P ⊢[ ι ]'⟨ inj₁ $ _ , ctx , ▶ᴿ e˂ ⟩ᵀ Qᵛ
 
   -- Application
   hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ctx $ e˙ a ⟩[ κ ] Qᵛ →

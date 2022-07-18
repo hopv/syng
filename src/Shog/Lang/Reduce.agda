@@ -21,8 +21,8 @@ open import Base.List using (List; [])
 open import Base.List.Nat using (_!!_; upd; repeat)
 open import Base.Option using (some)
 open import Base.Eq using (_≡_; refl)
-open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; addr; Expr; ▶_; ∇_;
-  nd; λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
+open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; addr; Expr; Expr˂; ▶_;
+  ∇_; nd; λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
 
 private variable
   A :  Set ℓ
@@ -75,7 +75,7 @@ infix 6 ★ᴿ_ _←ᴿ_
 
 data  Redex :  Type →  Set (^ ℓ)  where
   ndᴿ :  Redex (◸ A)
-  ▶ᴿ_ :  Expr ∞ T →  Redex T
+  ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
   _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
   ★ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
@@ -100,7 +100,7 @@ Val/Ctxred T =  Val T ⊎ Ctxred T
 val/ctxred :  Expr ∞ T →  Val/Ctxred T
 val/ctxred (∇ a) =  inj₀ $ ↑ a
 val/ctxred (λ˙ e˙) =  inj₀ $ e˙
-val/ctxred (▶ e˂) =  inj₁ $ _ , id , ▶ᴿ (e˂ .!)
+val/ctxred (▶ e˂) =  inj₁ $ _ , id , ▶ᴿ e˂
 val/ctxred nd =  inj₁ $ _ , id , ndᴿ
 val/ctxred (e ◁ e') =  inj₁ body
  where
@@ -278,6 +278,7 @@ abstract
 
 private variable
   M M' :  Mem
+  e˂ :  Expr˂ ∞ T
   e˙ :  A → Expr ∞ U
   a :  A
   x :  Addr
@@ -289,7 +290,7 @@ infix 4 _⇒ᴿ_ _⇒ᴱ_
 -- Reduction on a redex
 data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^ ℓ)  where
   nd-red :  ∀ (a : A) →  (ndᴿ , M) ⇒ᴿ (∇ a , M)
-  ▶-red :  (▶ᴿ e , M) ⇒ᴿ (e , M)
+  ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
   ◁-red :  (e˙ ◁ᴿ a , M) ⇒ᴿ (e˙ a , M)
   ★-red :  M !!ᴹ x ≡ some (U , u) →  (★ᴿ x , M) ⇒ᴿ (V⇒E u , M)
   ←-red :  ∀{v : Val V} →  (x ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ x (_ , v) M)

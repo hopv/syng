@@ -104,30 +104,29 @@ Val/Ktxred :  Type →  Set (^ ℓ)
 Val/Ktxred T =  Val T ⊎ Ktxred T
 
 private variable
-  ktx :  Ktx V U
+  ktx ktx' :  Ktx U T
   kr : Ktxred T
 
 abstract
 
   -- On ᴷ∘ᴷ and ᴷ◁
 
-  ᴷ∘ᴷ-ᴷ◁ :  ∀{ktx : Ktx U V} {ktx' : Ktx T U} {e} →
-            (ktx ᴷ∘ᴷ ktx') ᴷ◁ e ≡ ktx ᴷ◁ (ktx' ᴷ◁ e)
+  ᴷ∘ᴷ-ᴷ◁ :  (ktx ᴷ∘ᴷ ktx') ᴷ◁ e ≡ ktx ᴷ◁ (ktx' ᴷ◁ e)
   ᴷ∘ᴷ-ᴷ◁ {ktx = •ᴷ} =  refl
-  ᴷ∘ᴷ-ᴷ◁ {ktx = _ ◁ᴷʳ ktx} {ktx'} {e}
-    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e} =  refl
-  ᴷ∘ᴷ-ᴷ◁ {ktx = ktx ◁ᴷˡ _} {ktx'} {e}
-    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e} =  refl
-  ᴷ∘ᴷ-ᴷ◁ {ktx = ★ᴷ ktx} {ktx'} {e}
-    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e} =  refl
-  ᴷ∘ᴷ-ᴷ◁ {ktx = _ ←ᴷʳ ktx} {ktx'} {e}
-    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e} =  refl
-  ᴷ∘ᴷ-ᴷ◁ {ktx = ktx ←ᴷˡ _} {ktx'} {e}
-    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e} =  refl
-  ᴷ∘ᴷ-ᴷ◁ {ktx = allocᴷ ktx} {ktx'} {e}
-    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e} =  refl
-  ᴷ∘ᴷ-ᴷ◁ {ktx = freeᴷ ktx} {ktx'} {e}
-    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {ktx = _ ◁ᴷʳ ktx} {ktx' = ktx'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {ktx = ktx ◁ᴷˡ _} {ktx' = ktx'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {ktx = ★ᴷ ktx} {ktx' = ktx'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {ktx = _ ←ᴷʳ ktx} {ktx' = ktx'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {ktx = ktx ←ᴷˡ _} {ktx' = ktx'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {ktx = allocᴷ ktx} {ktx' = ktx'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {ktx = freeᴷ ktx} {ktx' = ktx'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
 
 --------------------------------------------------------------------------------
 -- Calculate the value or context-redex pair of the expression

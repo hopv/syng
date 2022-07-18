@@ -74,8 +74,8 @@ infixl 5 _◁ᴿ_
 infix 6 ★ᴿ_ _←ᴿ_
 
 data  Redex :  Type →  Set (^ ℓ)  where
-  ndᴿ :  Redex (◸ A)
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
+  ndᴿ :  Redex (◸ A)
   _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
   ★ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)

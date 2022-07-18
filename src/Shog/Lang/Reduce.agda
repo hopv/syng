@@ -182,12 +182,12 @@ val/ktxred (∇ a) =  inj₀ $ ↑ a
 val/ktxred (λ˙ e˙) =  inj₀ $ e˙
 val/ktxred (▶ e˂) =  inj₁ $ _ , •ᴷ , ▶ᴿ e˂
 val/ktxred nd =  inj₁ $ _ , •ᴷ , ndᴿ
-val/ktxred (e ◁ e') =  inj₁ body
+val/ktxred (e' ◁ e) =  inj₁ body
  where
   body :  Ktxred _
-  body  with val/ktxred e'
-  ... | inj₁ (_ , ktx , red) =  _ , e ◁ᴷʳ ktx , red
-  ... | inj₀ (↑ a)  with val/ktxred e
+  body  with val/ktxred e
+  ... | inj₁ (_ , ktx , red) =  _ , e' ◁ᴷʳ ktx , red
+  ... | inj₀ (↑ a)  with val/ktxred e'
   ...   | inj₁ (_ , ktx , red) =  _ , ktx ◁ᴷˡ a , red
   ...   | inj₀ v =  _ , •ᴷ , v ◁ᴿ a
 val/ktxred (★ e) =  inj₁ body
@@ -196,12 +196,12 @@ val/ktxred (★ e) =  inj₁ body
   body  with val/ktxred e
   ... | inj₁ (_ , ktx , red) =  _ , ★ᴷ ktx , red
   ... | inj₀ (↑ ↑ x) =  _ , •ᴷ , ★ᴿ x
-val/ktxred (e ← e') =  inj₁ body
+val/ktxred (e' ← e) =  inj₁ body
  where
   body :  Ktxred _
-  body  with val/ktxred e'
-  ... | inj₁ (_ , ktx , red) =  _ , e ←ᴷʳ ktx , red
-  ... | inj₀ v  with val/ktxred e
+  body  with val/ktxred e
+  ... | inj₁ (_ , ktx , red) =  _ , e' ←ᴷʳ ktx , red
+  ... | inj₀ v  with val/ktxred e'
   ...   | inj₁ (_ , ktx , red) =  _ , ktx ←ᴷˡ v , red
   ...   | inj₀ (↑ ↑ x) =  _ , •ᴷ , x ←ᴿ v
 val/ktxred (alloc e) =  inj₁ body

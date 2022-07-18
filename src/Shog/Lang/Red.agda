@@ -7,8 +7,8 @@
 open import Base.Level using (Level)
 module Shog.Lang.Red (ℓ : Level) where
 
-open import Base.Level using (○; ^_; Up; ↑_)
-open import Base.Size using (Size; ∞)
+open import Base.Level using (○; ^_; ↑_)
+open import Base.Size using (∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)

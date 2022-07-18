@@ -19,7 +19,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; 
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗]-map; [∗∈]-syntax;
   saveˣ; save□; Basic)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Expr˂; ▶_; Val; V⇒E)
-open import Shog.Lang.Ktx ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
+open import Shog.Lang.Ktxred ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Val/Ktxred; val/ktxred; Ktx; _ᴷ◀_)
 
 --------------------------------------------------------------------------------

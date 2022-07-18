@@ -5,7 +5,7 @@
 {-# OPTIONS --without-K --sized-types #-}
 
 open import Base.Level using (Level)
-module Shog.Lang.Red (ℓ : Level) where
+module Shog.Lang.Reduce (ℓ : Level) where
 
 open import Base.Level using (○; ^_; ↑_)
 open import Base.Size using (∞)
@@ -21,7 +21,7 @@ open import Base.List.Nat using (_!!_; upd; repeat)
 open import Base.Eq using (_≡_; refl; ◠_)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; addr; Expr; Expr˂; ▶_;
   ∇_; nd; λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
-open import Shog.Lang.Ktx ℓ using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ;
+open import Shog.Lang.Ktxred ℓ using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ;
   freeᴿ; Ktx; _ᴷ◀_; ᴷ∙ᴷ-ᴷ◀; val/ktxred; nonval; val/ktxred-ktx;
   val/ktxred-ktx-inv)
 

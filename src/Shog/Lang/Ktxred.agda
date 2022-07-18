@@ -5,7 +5,7 @@
 {-# OPTIONS --without-K --sized-types #-}
 
 open import Base.Level using (Level)
-module Shog.Lang.Ktx (ℓ : Level) where
+module Shog.Lang.Ktxred (ℓ : Level) where
 
 open import Base.Level using (○; ^_; Up; ↑_)
 open import Base.Size using (∞)

@@ -188,18 +188,6 @@ abstract
   val/ktxred-val {e = ∇ _} refl =  refl
   val/ktxred-val {e = λ˙ _} refl =  refl
 
-  -- Nonval enriched with an evaluation context
-
-  nonval-ktx :  nonval e →  nonval (ktx ᴷ◁ e)
-  nonval-ktx {ktx = •ᴷ} n'e =  n'e
-  nonval-ktx {ktx = _ ◁ᴷʳ _} =  _
-  nonval-ktx {ktx = _ ◁ᴷˡ _} =  _
-  nonval-ktx {ktx = ★ᴷ _} =  _
-  nonval-ktx {ktx = _ ←ᴷʳ _} =  _
-  nonval-ktx {ktx = _ ←ᴷˡ _} =  _
-  nonval-ktx {ktx = allocᴷ _} =  _
-  nonval-ktx {ktx = freeᴷ _} =  _
-
   -- If val/ktxred e returns a context-redex pair (_ , ktx , red),
   -- then e is ktx with the hole filled with red
 
@@ -233,6 +221,18 @@ abstract
     val/ktxred-ktxred {e = e} | val/ktxred-val {e = e}
   ... | inj₁ _ | ind | _  rewrite ind refl =  refl
   ... | inj₀ _ | _ | val  rewrite val refl =  refl
+
+  -- Nonval enriched with an evaluation context
+
+  nonval-ktx :  nonval e →  nonval (ktx ᴷ◁ e)
+  nonval-ktx {ktx = •ᴷ} n'e =  n'e
+  nonval-ktx {ktx = _ ◁ᴷʳ _} =  _
+  nonval-ktx {ktx = _ ◁ᴷˡ _} =  _
+  nonval-ktx {ktx = ★ᴷ _} =  _
+  nonval-ktx {ktx = _ ←ᴷʳ _} =  _
+  nonval-ktx {ktx = _ ←ᴷˡ _} =  _
+  nonval-ktx {ktx = allocᴷ _} =  _
+  nonval-ktx {ktx = freeᴷ _} =  _
 
   -- Calculate val/ktxred (ktx ᴷ◁ e)
 

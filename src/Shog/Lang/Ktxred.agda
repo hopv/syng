@@ -188,6 +188,12 @@ abstract
   val/ktxred-val {e = ∇ _} refl =  refl
   val/ktxred-val {e = λ˙ _} refl =  refl
 
+  -- Conversely, val/ktxred (V⇒E v) returns inj₀ v
+
+  val/ktxred-V⇒E :  ∀{v : Val T} →  val/ktxred (V⇒E v) ≡ inj₀ v
+  val/ktxred-V⇒E {T = ◸ _} =  refl
+  val/ktxred-V⇒E {T = _ →* _} =  refl
+
   -- If val/ktxred e returns a context-redex pair (_ , ktx , red),
   -- then e is ktx with the hole filled with red
 
@@ -247,10 +253,9 @@ abstract
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
   val/ktxred-ktx {e = e} {ktx = _ ←ᴷʳ ktx} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
-  val/ktxred-ktx {e = e} {ktx = _←ᴷˡ_ {T = ◸ _} ktx _} eq
-    rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
-  val/ktxred-ktx {e = e} {ktx = _←ᴷˡ_ {T = _ →* _} ktx _} eq
-    rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
+  val/ktxred-ktx {e = e} {ktx = ktx ←ᴷˡ v} eq
+    rewrite val/ktxred-V⇒E {v = v} | val/ktxred-ktx {e = e} {ktx = ktx} eq
+    =  refl
   val/ktxred-ktx {e = e} {ktx = allocᴷ ktx} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
   val/ktxred-ktx {e = e} {ktx = freeᴷ ktx} eq

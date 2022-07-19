@@ -28,8 +28,8 @@ open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; congᵒ; c
 open RA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ✓-ε; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ✓-⌞⌟)
-open import Shog.Model.Save.X ℓ using (Saveˣᵒ)
-open import Shog.Model.Save.P ℓ using (Save□ᵒ; lineˢ□-⌞⌟)
+open import Shog.Model.Save.Exc ℓ using (Saveˣᵒ)
+open import Shog.Model.Save.Pers ℓ using (Save□ᵒ; lineˢ□-⌞⌟)
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ[_]; [|_|]ᴮ; [||]ᴮ-⇒□)
 
 private variable

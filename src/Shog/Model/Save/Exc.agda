@@ -1,11 +1,11 @@
 --------------------------------------------------------------------------------
--- Interpreting save tokens
+-- Interpreting exclusive save tokens
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
 open import Base.Level using (Level)
-module Shog.Model.Save.X (ℓ : Level) where
+module Shog.Model.Save.Exc (ℓ : Level) where
 
 open import Base.Size using (∞)
 open import Base.Func using (_$_)

@@ -24,10 +24,6 @@ data  Prop' (ι : Size) :  Set (^ ℓ)
 Prop˂ :  Size →  Set (^ ℓ)
 Prop˂ ι =  Thunk Prop' ι
 
-infixr 5 _→'_ _-∗_
-infixr 7 _∗_
-infix 8 |=>_ □_
-
 private variable
   ι :  Size
   A :  Set ℓ
@@ -35,6 +31,10 @@ private variable
   P Q R S :  Prop' ∞
   ℓ' :  Level
   D :  Set ℓ'
+
+infixr 5 _→'_ _-∗_
+infixr 7 _∗_
+infix 8 |=>_ □_
 
 data  Prop' ι  where
   -- ∀˙, ∃˙: Universal/existential quantification over any type A in Set ℓ,

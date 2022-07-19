@@ -75,7 +75,7 @@ private variable
   ktx :  Ktx U T
   red : Redex T
   a :  A
-  x :  Addr
+  ρ :  Addr
   v :  Val V
   b n :  ℕ
 
@@ -86,8 +86,8 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
   nd-red :  ∀ (a : A) →  (ndᴿ , M) ⇒ᴿ (∇ a , M)
   ◁-red :  (e˙ ◁ᴿ a , M) ⇒ᴿ (e˙ a , M)
-  ★-red :  M !!ᴹ x ≡ some (V , v) →  (★ᴿ x , M) ⇒ᴿ (V⇒E v , M)
-  ←-red :  ∀{v : Val V} →  (x ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ x (V , v) M)
+  ★-red :  M !!ᴹ ρ ≡ some (V , v) →  (★ᴿ ρ , M) ⇒ᴿ (V⇒E v , M)
+  ←-red :  ∀{v : Val V} →  (ρ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ ρ (V , v) M)
   alloc-red :  ∀ b →  M .bloᴹ b ≡ [] →
     (allocᴿ n , M) ⇒ᴿ (∇ ↑ addr b 0 , updᴹᴮ b (repeat n (◸ ⊤ , _)) M)
   free-red :  (freeᴿ (addr b 0) , M) ⇒ᴿ (∇ _ , updᴹᴮ b [] M)

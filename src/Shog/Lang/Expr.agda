@@ -28,7 +28,7 @@ record  Addr :  Set ○  where
 open Addr public
 
 private variable
-  x :  Addr
+  ρ :  Addr
   m n :  ℕ
 
 -- ₒ: Address offset operation
@@ -41,7 +41,7 @@ abstract
 
   -- Associativity of ₒ
 
-  ₒ-assoc :  x ₒ m ₒ n ≡ x ₒ (n + m)
+  ₒ-assoc :  ρ ₒ m ₒ n ≡ ρ ₒ (n + m)
   ₒ-assoc {n = n} =  cong (addr _) (+-assocʳ {n})
 
 --------------------------------------------------------------------------------
@@ -101,8 +101,8 @@ data  Expr ι  where
 λ∈-syntax =  λ˙
 λ-syntax =  λ˙
 infix 3 λ∈-syntax λ-syntax
-syntax λ∈-syntax {A = A} (λ x → e) =  λ' x ∈ A , e
-syntax λ-syntax (λ x → e) =  λ' x , e
+syntax λ∈-syntax {A = A} (λ ρ → e) =  λ' ρ ∈ A , e
+syntax λ-syntax (λ ρ → e) =  λ' ρ , e
 
 -- Let binding
 
@@ -111,8 +111,8 @@ let˙ e₀ e˙ =  λ˙ e˙ ◁ e₀
 let∈-syntax =  let˙
 let-syntax =  let˙
 infix 3 let∈-syntax let-syntax
-syntax let∈-syntax {A = A} e₀ (λ x → e) =  let' x ∈ A := e₀ in' e
-syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
+syntax let∈-syntax {A = A} e₀ (λ ρ → e) =  let' ρ ∈ A := e₀ in' e
+syntax let-syntax e₀ (λ ρ → e) =  let' ρ := e₀ in' e
 
 --------------------------------------------------------------------------------
 -- Val: Value type

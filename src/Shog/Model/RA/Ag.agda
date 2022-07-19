@@ -17,7 +17,9 @@ open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈�
   homo-[?]; homo-agree)
 open import Shog.Model.RA using (RA)
 
-open RA renaming (_≈_ to _≈'_)
+open RA renaming (_≈_ to _≈'_) using (Car; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_;
+  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add;
+  ⌞⌟-unitˡ; ⌞⌟-idem)
 
 --------------------------------------------------------------------------------
 -- ag: Lifting A to AgRA's carrier

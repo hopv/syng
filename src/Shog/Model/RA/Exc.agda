@@ -14,7 +14,9 @@ open import Base.Prod using (_,_)
 open import Base.Few using (⊤; ⊥)
 open import Shog.Model.RA using (RA)
 
-open RA renaming (_≈_ to _≈'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_)
+open RA renaming (_≈_ to _≈'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_) using (
+  Car; ✓_; _∙_; ε; ⌞_⌟; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε;
+  ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 --------------------------------------------------------------------------------
 -- Exc : ExcRA's carrier

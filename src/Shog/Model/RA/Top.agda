@@ -10,10 +10,12 @@ module Shog.Model.RA.Top {ℓ ℓ≈ ℓ✓ : Level} where
 open import Base.Few using (⊤)
 open import Shog.Model.RA using (RA)
 
+open RA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
+  ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
+
 --------------------------------------------------------------------------------
 -- ⊤RA : Trivial resource algebra
 
-open RA
 ⊤RA :  RA ℓ ℓ≈ ℓ✓
 ⊤RA .Car =  ⊤
 ⊤RA ._≈_ _ _ =  ⊤

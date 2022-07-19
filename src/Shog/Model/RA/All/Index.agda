@@ -15,7 +15,7 @@ open import Base.Dec using (yes; no)
 open import Base.Few using (absurd)
 open import Shog.Model.RA.All Ra˙ using (AllRA)
 
-open RA
+open RA using (Car; refl˜; ✓-ε; ∙-unitˡ; ⌞⌟-ε)
 open RA AllRA using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_;
   _∙_ to _∙ᴬ_; ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _◇˜_ to _◇ᴬ_)
 

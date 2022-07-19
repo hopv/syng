@@ -272,8 +272,8 @@ abstract
   Own-⌞⌟-□' :  ⌞ a ⌟ ≈ a →  Own a ⊨ □ᵒ Own a
   Own-⌞⌟-□' ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
 
-  own⇒✓ :  Own a ⊨ ⌜ ✓ a ⌝^
-  own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b
+  Own⇒✓ :  Own a ⊨ ⌜ ✓ a ⌝^
+  Own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b
 
   Own-↝ :  a ↝ b →  Own a ⊨ |=>ᵒ Own b
   Own-↝ {b = b} a↝b (c , c∙a≈a') d ✓d∙a' =  b , ✓d∙b , ⊑-refl

@@ -116,7 +116,7 @@ abstract
   ⊢⇒⊨ (→-elim Q⊢P→R) P∧Qa =  ⊢⇒⊨ Q⊢P→R (P∧Qa 1₂) ⊑-refl (P∧Qa 0₂)
 
   -- ⊤∗-elim :  ⊤' ∗ P ⊢[ ∞ ] P
-  ⊢⇒⊨ (⊤∗-elim {P}) (b , c , b∙c⊑a , _ , Pc) =
+  ⊢⇒⊨ (⊤∗-elim {P}) (_ , _ , b∙c⊑a , _ , Pc) =
     [| P |] .monoᵒ (⊑-trans ∙-incrˡ b∙c⊑a) Pc
 
   -- ⊤∗-intro :  P ⊢[ ∞ ] ⊤' ∗ P

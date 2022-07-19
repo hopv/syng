@@ -26,27 +26,26 @@ private variable
 --------------------------------------------------------------------------------
 -- Propᵒ: Semantic proposition
 
--- Monoᵒ predᵒ :
---   predᵒ is monotone over the resource, ignoring the validity data
+-- Monoᵒ F :  F is monotone over the resource, ignoring the validity data
 Monoᵒ :  (∀ a → ✓ a → Set (^ ℓ)) →  Set (^ ℓ)
-Monoᵒ predᵒ =  ∀ {a b ✓a ✓b} →  a ⊑ b →  predᵒ a ✓a →  predᵒ b ✓b
+Monoᵒ F =  ∀ {a b ✓a ✓b} →  a ⊑ b →  F a ✓a →  F b ✓b
 
 record  Propᵒ :  Set (^ ^ ℓ)  where
   field
     -- Predicate, parametrized over a resource a that is valid
-    predᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ ℓ)
-    -- predᵒ is monotone over the resource, ignoring the validity data
-    monoᵒ :  Monoᵒ predᵒ
+    !ᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ ℓ)
+    -- !ᵒ is monotone over the resource, ignoring the validity data
+    monoᵒ :  Monoᵒ !ᵒ
 
   abstract
-    -- Change the validity of predᵒ
-    renewᵒ :  ∀ {a ✓a ✓a'} →  predᵒ a ✓a →  predᵒ a ✓a'
+    -- Change the validity of !ᵒ
+    renewᵒ :  ∀ {a ✓a ✓a'} →  !ᵒ a ✓a →  !ᵒ a ✓a'
     renewᵒ =  monoᵒ ⊑-refl
-    -- Change the resource of predᵒ into an equivalent one
-    congᵒ :  ∀ {a b ✓a ✓b} →  a ≈ b →  predᵒ a ✓a →  predᵒ b ✓b
+    -- Change the resource of !ᵒ into an equivalent one
+    congᵒ :  ∀ {a b ✓a ✓b} →  a ≈ b →  !ᵒ a ✓a →  !ᵒ b ✓b
     congᵒ a≈b =  monoᵒ (≈⇒⊑ a≈b)
     -- congᵒ with the validity predicate specified
-    congᵒ' :  ∀ {a b ✓b} a≈b →  predᵒ a (✓-resp (◠˜ a≈b) ✓b) →  predᵒ b ✓b
+    congᵒ' :  ∀ {a b ✓b} a≈b →  !ᵒ a (✓-resp (◠˜ a≈b) ✓b) →  !ᵒ b ✓b
     congᵒ' a≈b =  congᵒ a≈b
 
 open Propᵒ public
@@ -64,7 +63,7 @@ private variable
 
 infix 1 _⊨_
 _⊨_ :  Propᵒ →  Propᵒ →  Set (^ ℓ)
-Pᵒ ⊨ Qᵒ =  ∀ {a ✓a} →  Pᵒ .predᵒ a ✓a →  Qᵒ .predᵒ a ✓a
+Pᵒ ⊨ Qᵒ =  ∀ {a ✓a} →  Pᵒ .!ᵒ a ✓a →  Qᵒ .!ᵒ a ✓a
 
 abstract
 
@@ -83,29 +82,29 @@ abstract
 -- For Set ℓ
 
 ∀ᵒ˙ ∃ᵒ˙ : (X → Propᵒ) →  Propᵒ
-∀ᵒ˙ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
+∀ᵒ˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
 ∀ᵒ˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∀ᵒ˙ Pᵒ˙ .predᵒ
+  proof :  Monoᵒ $ ∀ᵒ˙ Pᵒ˙ .!ᵒ
   proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃ᵒ˙ Pᵒ˙ .predᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .predᵒ a ✓a
+∃ᵒ˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
 ∃ᵒ˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∃ᵒ˙ Pᵒ˙ .predᵒ
+  proof :  Monoᵒ $ ∃ᵒ˙ Pᵒ˙ .!ᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
 -- For Set (^ ℓ)
 
 ∀^˙ ∃^˙ :  (X^ → Propᵒ) →  Propᵒ
-∀^˙ Pᵒ˙ .predᵒ a ✓a =  ∀ x →  Pᵒ˙ x .predᵒ a ✓a
+∀^˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
 ∀^˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∀^˙ Pᵒ˙ .predᵒ
+  proof :  Monoᵒ $ ∀^˙ Pᵒ˙ .!ᵒ
   proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃^˙ Pᵒ˙ .predᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .predᵒ a ✓a
+∃^˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
 ∃^˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∃^˙ Pᵒ˙ .predᵒ
+  proof :  Monoᵒ $ ∃^˙ Pᵒ˙ .!ᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax :  (X → Propᵒ) →  Propᵒ
@@ -138,15 +137,15 @@ infixr 7 _∧ᵒ_
 infixr 6 _∨ᵒ_
 
 _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
-(Pᵒ ∧ᵒ Qᵒ) .predᵒ a ✓a =  Pᵒ .predᵒ a ✓a  ×  Qᵒ .predᵒ a ✓a
+(Pᵒ ∧ᵒ Qᵒ) .!ᵒ a ✓a =  Pᵒ .!ᵒ a ✓a  ×  Qᵒ .!ᵒ a ✓a
 (Pᵒ ∧ᵒ Qᵒ) .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ (Pᵒ ∧ᵒ Qᵒ) .predᵒ
+  proof :  Monoᵒ $ (Pᵒ ∧ᵒ Qᵒ) .!ᵒ
   proof a⊑b (Pa , Qa) =  Pᵒ .monoᵒ a⊑b Pa , Qᵒ .monoᵒ a⊑b Qa
-(Pᵒ ∨ᵒ Qᵒ) .predᵒ a ✓a =  Pᵒ .predᵒ a ✓a  ⊎  Qᵒ .predᵒ a ✓a
+(Pᵒ ∨ᵒ Qᵒ) .!ᵒ a ✓a =  Pᵒ .!ᵒ a ✓a  ⊎  Qᵒ .!ᵒ a ✓a
 (Pᵒ ∨ᵒ Qᵒ) .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ (Pᵒ ∨ᵒ Qᵒ) .predᵒ
+  proof :  Monoᵒ $ (Pᵒ ∨ᵒ Qᵒ) .!ᵒ
   proof a⊑b (inj₀ Pa) =  inj₀ $ Pᵒ .monoᵒ a⊑b Pa
   proof a⊑b (inj₁ Qa) =  inj₁ $ Qᵒ .monoᵒ a⊑b Qa
 
@@ -155,16 +154,16 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 -- ⊥ᵒ: Falsehood
 
 ⊤ᵒ ⊥ᵒ :  Propᵒ
-⊤ᵒ .predᵒ _ _ =  ⊤
+⊤ᵒ .!ᵒ _ _ =  ⊤
 ⊤ᵒ .monoᵒ _ _ =  _
-⊥ᵒ .predᵒ _ _ =  ⊥
+⊥ᵒ .!ᵒ _ _ =  ⊥
 ⊥ᵒ .monoᵒ _ ()
 
 --------------------------------------------------------------------------------
 -- ⌜ ⌝^: Set embedding
 
 ⌜_⌝^ :  Set (^ ℓ) →  Propᵒ
-⌜ X ⌝^ .predᵒ _ _ =  X
+⌜ X ⌝^ .!ᵒ _ _ =  X
 ⌜ _ ⌝^ .monoᵒ _ x =  x
 
 --------------------------------------------------------------------------------
@@ -172,10 +171,10 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 
 infixr 5 _→ᵒ_
 _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(Pᵒ →ᵒ Qᵒ) .predᵒ a _ =  ∀ {b ✓b} →  a ⊑ b →  Pᵒ .predᵒ b ✓b →  Qᵒ .predᵒ b ✓b
+(Pᵒ →ᵒ Qᵒ) .!ᵒ a _ =  ∀ {b ✓b} →  a ⊑ b →  Pᵒ .!ᵒ b ✓b →  Qᵒ .!ᵒ b ✓b
 (Pᵒ →ᵒ Qᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (Pᵒ →ᵒ Qᵒ) .predᵒ
+  proof :  Monoᵒ $ (Pᵒ →ᵒ Qᵒ) .!ᵒ
   proof a⊑b P→Qa b⊑c =  P→Qa (⊑-trans a⊑b b⊑c)
 
 --------------------------------------------------------------------------------
@@ -191,11 +190,11 @@ abstract
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(Pᵒ ∗ᵒ Qᵒ) .predᵒ a ✓a =  ∑ b , ∑ c , ∑ b∙c⊑a ,
-  Pᵒ .predᵒ b (∙⊑-✓ˡ b∙c⊑a ✓a)  ×  Qᵒ .predᵒ c (∙⊑-✓ʳ b∙c⊑a ✓a)
+(Pᵒ ∗ᵒ Qᵒ) .!ᵒ a ✓a =  ∑ b , ∑ c , ∑ b∙c⊑a ,
+  Pᵒ .!ᵒ b (∙⊑-✓ˡ b∙c⊑a ✓a)  ×  Qᵒ .!ᵒ c (∙⊑-✓ʳ b∙c⊑a ✓a)
 (Pᵒ ∗ᵒ Qᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (Pᵒ ∗ᵒ Qᵒ) .predᵒ
+  proof :  Monoᵒ $ (Pᵒ ∗ᵒ Qᵒ) .!ᵒ
   proof a⊑a' (b , c , b∙c⊑a , Pd , Qe) =
     b , c , ⊑-trans b∙c⊑a a⊑a' , renewᵒ Pᵒ Pd , renewᵒ Qᵒ Qe
 
@@ -204,11 +203,11 @@ _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
 
 infixr 5 _-∗ᵒ_
 _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
-(Pᵒ -∗ᵒ Qᵒ) .predᵒ a _ =  ∀ {b c ✓c ✓c∙b} →  a ⊑ b →
-  Pᵒ .predᵒ c ✓c → Qᵒ .predᵒ (c ∙ b) ✓c∙b
+(Pᵒ -∗ᵒ Qᵒ) .!ᵒ a _ =  ∀ {b c ✓c ✓c∙b} →  a ⊑ b →
+  Pᵒ .!ᵒ c ✓c → Qᵒ .!ᵒ (c ∙ b) ✓c∙b
 (Pᵒ -∗ᵒ Qᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (Pᵒ -∗ᵒ Qᵒ) .predᵒ
+  proof :  Monoᵒ $ (Pᵒ -∗ᵒ Qᵒ) .!ᵒ
   proof a⊑b P-∗Qa b⊑c Pc =  P-∗Qa (⊑-trans a⊑b b⊑c) Pc
 
 --------------------------------------------------------------------------------
@@ -221,11 +220,11 @@ abstract
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ
-(|=>ᵒ Pᵒ) .predᵒ a _ =  ∀ c →  ✓ c ∙ a →  ∑ b , ∑ ✓c∙b ,
-  Pᵒ .predᵒ b (✓-remˡ {c} {b} ✓c∙b)
+(|=>ᵒ Pᵒ) .!ᵒ a _ =  ∀ c →  ✓ c ∙ a →  ∑ b , ∑ ✓c∙b ,
+  Pᵒ .!ᵒ b (✓-remˡ {c} {b} ✓c∙b)
 (|=>ᵒ Pᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (|=>ᵒ Pᵒ) .predᵒ
+  proof :  Monoᵒ $ (|=>ᵒ Pᵒ) .!ᵒ
   proof (d , d∙a≈b) |=>Pa e ✓e∙b  with
     |=>Pa (e ∙ d) $ flip ✓-resp ✓e∙b $ ∙-congʳ (◠˜ d∙a≈b) ◇˜ ∙-assocʳ
   ... | (c , ✓ed∙c , Pc) =  c , flip ✓-mono ✓ed∙c (∙-monoˡ ∙-incrʳ) ,
@@ -236,20 +235,20 @@ infix 8 |=>ᵒ_
 
 infix 8 □ᵒ_
 □ᵒ_ :  Propᵒ → Propᵒ
-(□ᵒ Pᵒ) .predᵒ a ✓a =  Pᵒ .predᵒ ⌞ a ⌟ (✓-⌞⌟ ✓a)
+(□ᵒ Pᵒ) .!ᵒ a ✓a =  Pᵒ .!ᵒ ⌞ a ⌟ (✓-⌞⌟ ✓a)
 (□ᵒ Pᵒ) .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ (□ᵒ Pᵒ) .predᵒ
+  proof :  Monoᵒ $ (□ᵒ Pᵒ) .!ᵒ
   proof a⊑b P⌞a⌟ =  Pᵒ .monoᵒ (⌞⌟-mono a⊑b) P⌞a⌟
 
 --------------------------------------------------------------------------------
 -- Own: Owning a resource
 
 Own :  Glob →  Propᵒ
-Own a .predᵒ b _ =  a ⊑ b
+Own a .!ᵒ b _ =  a ⊑ b
 Own a .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ Own a .predᵒ
+  proof :  Monoᵒ $ Own a .!ᵒ
   proof b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
 abstract

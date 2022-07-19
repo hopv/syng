@@ -20,9 +20,6 @@ open RA GlobRA renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_
   ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrˡ; ∙-incrʳ; ∙-comm; ∙-assocˡ;
   ∙-assocʳ; ε-min; ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
 
-private variable
-  ℓF :  Level
-
 --------------------------------------------------------------------------------
 -- Propᵒ: Semantic proposition
 

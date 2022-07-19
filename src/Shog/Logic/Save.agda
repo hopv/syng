@@ -11,7 +11,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (it)
 open import Base.List using ([_])
-open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; _∧_; _∗_; □_; saveˣ; save□;
+open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; _∧_; _∗_; □_; Saveˣ; Save□;
   Basic; ⊤-Basic)
 open import Shog.Logic.Core ℓ using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl;
   _»_; ∧-elimʳ; ⊤∧-intro; ∗⇒∧; ∗-monoʳ; ∗-elimˡ; ∗⊤-intro; -∗-const; Basic-Pers;
@@ -19,9 +19,9 @@ open import Shog.Logic.Core ℓ using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; �
 open import Shog.Logic.Supd ℓ using (|=>>_; _⊢[_]=>>_; _ᵘ»_)
 
 -- Import and re-export
-open import Shog.Logic.Judg ℓ public using (save□-□;
-  saveˣ-mono-∧; save□-mono-∧; saveˣ-alloc; save□-alloc-rec; saveˣ-use;
-  save□-use)
+open import Shog.Logic.Judg ℓ public using (Save□-□;
+  Saveˣ-mono-∧; Save□-mono-∧; Saveˣ-alloc; Save□-alloc-rec; Saveˣ-use;
+  Save□-use)
 
 private variable
   ι :  Size
@@ -31,31 +31,31 @@ private variable
 abstract
 
   instance
-    -- save□ P˂ is persistent
-    save□-Pers :  Pers (save□ P˂)
-    save□-Pers .Pers-⇒□ =  save□-□
+    -- Save□ P˂ is persistent
+    Save□-Pers :  Pers (Save□ P˂)
+    Save□-Pers .Pers-⇒□ =  Save□-□
 
-  -- Variants of saveˣ/□-mono-∧
+  -- Variants of Saveˣ/□-mono-∧
 
-  saveˣ-mono-∗ :  {{Basic R}} →
-    R ∗ P˂ .! ⊢[< ι ] Q˂ .! →  R ∗ saveˣ P˂ ⊢[ ι ] saveˣ Q˂
-  saveˣ-mono-∗ {R = R} R∗P⊢<Q =
+  Saveˣ-mono-∗ :  {{Basic R}} →
+    R ∗ P˂ .! ⊢[< ι ] Q˂ .! →  R ∗ Saveˣ P˂ ⊢[ ι ] Saveˣ Q˂
+  Saveˣ-mono-∗ {R = R} R∗P⊢<Q =
     let instance _ = Basic-Pers in
-    ∗⇒∧ » saveˣ-mono-∧ λ{ .! → Persˡ-∧⇒∗ » R∗P⊢<Q .! }
+    ∗⇒∧ » Saveˣ-mono-∧ λ{ .! → Persˡ-∧⇒∗ » R∗P⊢<Q .! }
 
-  save□-mono-∗ :  {{Basic R}} →
-    R ∗ P˂ .! ⊢[< ι ] Q˂ .! →  R ∗ save□ P˂ ⊢[ ι ] save□ Q˂
-  save□-mono-∗ {R = R} R∗P⊢<Q =
+  Save□-mono-∗ :  {{Basic R}} →
+    R ∗ P˂ .! ⊢[< ι ] Q˂ .! →  R ∗ Save□ P˂ ⊢[ ι ] Save□ Q˂
+  Save□-mono-∗ {R = R} R∗P⊢<Q =
     let instance _ = Basic-Pers in
-    ∗⇒∧ » save□-mono-∧ λ{ .! → Persˡ-∧⇒∗ » R∗P⊢<Q .! }
+    ∗⇒∧ » Save□-mono-∧ λ{ .! → Persˡ-∧⇒∗ » R∗P⊢<Q .! }
 
-  saveˣ-mono :  P˂ .! ⊢[< ι ] Q˂ .! →  saveˣ P˂ ⊢[ ι ] saveˣ Q˂
-  saveˣ-mono P⊢<Q =  ⊤∧-intro » saveˣ-mono-∧ λ{ .! → ∧-elimʳ » P⊢<Q .! }
+  Saveˣ-mono :  P˂ .! ⊢[< ι ] Q˂ .! →  Saveˣ P˂ ⊢[ ι ] Saveˣ Q˂
+  Saveˣ-mono P⊢<Q =  ⊤∧-intro » Saveˣ-mono-∧ λ{ .! → ∧-elimʳ » P⊢<Q .! }
 
-  save□-mono :  P˂ .! ⊢[< ι ] Q˂ .! →  save□ P˂ ⊢[ ι ] save□ Q˂
-  save□-mono P⊢<Q =  ⊤∧-intro » save□-mono-∧ λ{ .! → ∧-elimʳ » P⊢<Q .! }
+  Save□-mono :  P˂ .! ⊢[< ι ] Q˂ .! →  Save□ P˂ ⊢[ ι ] Save□ Q˂
+  Save□-mono P⊢<Q =  ⊤∧-intro » Save□-mono-∧ λ{ .! → ∧-elimʳ » P⊢<Q .! }
 
-  -- Allocating save□, without recursion
+  -- Allocating Save□, without recursion
 
-  save□-alloc :  □ P˂ .! ⊢[ ι ]=>> save□ P˂
-  save□-alloc =  ∗⊤-intro » -∗-const » save□-alloc-rec {P˂s = [ _ ]} ᵘ» ∗-elimˡ
+  Save□-alloc :  □ P˂ .! ⊢[ ι ]=>> Save□ P˂
+  Save□-alloc =  ∗⊤-intro » -∗-const » Save□-alloc-rec {P˂s = [ _ ]} ᵘ» ∗-elimˡ

@@ -13,14 +13,14 @@ open import Base.Thunk using (!)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Prod using (_,_; proj₀; proj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
-  □_; saveˣ; save□; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic;
+  □_; Saveˣ; Save□; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic;
   isBasic; ∧-Basic)
 open import Shog.Logic.Core ℓ using (_⊢[_]_; ⊢-refl; _»_;
   ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out; ∧-assocˡ; ∧-monoʳ)
-open import Shog.Logic.Save ℓ using (save□-□; saveˣ-mono-∧; save□-mono-∧)
+open import Shog.Logic.Save ℓ using (Save□-□; Saveˣ-mono-∧; Save□-mono-∧)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (GlobRA)
 open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; congᵒ; congᵒ';
@@ -28,8 +28,8 @@ open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; congᵒ; c
 open RA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ✓-ε; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ✓-⌞⌟)
-open import Shog.Model.Save.X ℓ using (saveˣᵒ)
-open import Shog.Model.Save.P ℓ using (save□ᵒ; lineˢ□-⌞⌟)
+open import Shog.Model.Save.X ℓ using (Saveˣᵒ)
+open import Shog.Model.Save.P ℓ using (Save□ᵒ; lineˢ□-⌞⌟)
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ[_]; [|_|]ᴮ; [||]ᴮ-⇒□)
 
 private variable
@@ -46,8 +46,8 @@ private variable
 [| P -∗ Q |] =  [| P |] -∗ᵒ [| Q |]
 [| |=> P |] =  |=>ᵒ [| P |]
 [| □ P |] =  □ᵒ [| P |]
-[| saveˣ P˂ |] =  saveˣᵒ (P˂ .!)
-[| save□ P˂ |] =  save□ᵒ (P˂ .!)
+[| Saveˣ P˂ |] =  Saveˣᵒ (P˂ .!)
+[| Save□ P˂ |] =  Save□ᵒ (P˂ .!)
 
 abstract
 
@@ -80,7 +80,7 @@ abstract
 
   private
 
-    -- Lemma for saveˣ/□-mono
+    -- Lemma for Saveˣ/□-mono
     for-token-mono :  S ∧ T ⊢[ ∞ ] P →  R ∧ P ⊢[ ∞ ] Q →  (R ∧ S) ∧ T ⊢[ ∞ ] Q
     for-token-mono S∧T⊢P R∧P⊢Q =  ∧-assocˡ » ∧-monoʳ S∧T⊢P » R∧P⊢Q
 
@@ -187,25 +187,25 @@ abstract
   -- □-∃-out :  □ ∃˙ P˙ ⊢[ ∞ ] ∃˙ (□_ ∘ P˙)
   ⊢⇒⊨ □-∃-out ∑xPx⌞a⌟ =  ∑xPx⌞a⌟
 
-  -- save□-□ :  save□ P˂ ⊢[ ∞ ] □ save□ P˂
-  ⊢⇒⊨ save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∧P'⊢P , Qa , line□iP'a) =
+  -- Save□-□ :  Save□ P˂ ⊢[ ∞ ] □ Save□ P˂
+  ⊢⇒⊨ Save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∧P'⊢P , Qa , line□iP'a) =
     let instance _ = BaQ in
     _ , _ , _ , _ , Q∧P'⊢P , [||]ᴮ-⇒□ Qa ,
     own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a
 
-  -- saveˣ-mono-∧ :  {{Basic R}} →
-  --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ saveˣ P˂ ⊢[ ∞ ] saveˣ Q˂
-  ⊢⇒⊨ (saveˣ-mono-∧ {R = R} R∧P⊢<Q) R∧saveˣP˂a =
-    (R∧saveˣP˂a 0₂ , R∧saveˣP˂a 1₂) ▷
+  -- Saveˣ-mono-∧ :  {{Basic R}} →
+  --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Saveˣ P˂ ⊢[ ∞ ] Saveˣ Q˂
+  ⊢⇒⊨ (Saveˣ-mono-∧ {R = R} R∧P⊢<Q) R∧SaveˣP˂a =
+    (R∧SaveˣP˂a 0₂ , R∧SaveˣP˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) →
     let instance _ = BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢˣTa
 
-  -- save□-mono-∧ :  {{Basic R}} →
-  --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ save□ P˂ ⊢[ ∞ ] save□ Q˂
-  ⊢⇒⊨ (save□-mono-∧ {R = R} R∧P⊢<Q) R∧save□P˂a =
-    (R∧save□P˂a 0₂ , R∧save□P˂a 1₂) ▷
+  -- Save□-mono-∧ :  {{Basic R}} →
+  --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Save□ P˂ ⊢[ ∞ ] Save□ Q˂
+  ⊢⇒⊨ (Save□-mono-∧ {R = R} R∧P⊢<Q) R∧Save□P˂a =
+    (R∧Save□P˂a 0₂ , R∧Save□P˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) →
     let instance _ = BaS in
     T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,

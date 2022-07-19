@@ -48,8 +48,8 @@ data  Prop' ι  where
   -- |=>: Update modality
   -- □: Persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
-  -- saveˣ, save□: Save token, exclusive and persistent
-  saveˣ save□ :  Prop˂ ι →  Prop' ι
+  -- Saveˣ, Save□: Save token, exclusive and persistent
+  Saveˣ Save□ :  Prop˂ ι →  Prop' ι
 
 --------------------------------------------------------------------------------
 -- Syntax for ∀/∃

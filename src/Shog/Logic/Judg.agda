@@ -17,7 +17,7 @@ open import Base.Prod using (_,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗]-map; [∗∈]-syntax;
-  saveˣ; save□; Basic)
+  Saveˣ; Save□; Basic)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Expr˂; ▶_; Val; V⇒E)
 open import Shog.Lang.Ktxred ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Val/Ktxred; val/ktxred; Ktx; _ᴷ◁_)
@@ -180,25 +180,25 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- Rules on save token
 
-  -- save□ is persistent
-  save□-□ :  save□ P˂ ⊢[ ι ] □ save□ P˂
+  -- Save□ is persistent
+  Save□-□ :  Save□ P˂ ⊢[ ι ] □ Save□ P˂
 
   -- An exclusive/persistent save token can be modified using a thunk sequent
-  saveˣ-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
-                  R ∧ saveˣ P˂ ⊢[ ι ] saveˣ Q˂
-  save□-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
-                  R ∧ save□ P˂ ⊢[ ι ] save□ Q˂
+  Saveˣ-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
+                  R ∧ Saveˣ P˂ ⊢[ ι ] Saveˣ Q˂
+  Save□-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
+                  R ∧ Save□ P˂ ⊢[ ι ] Save□ Q˂
 
-  -- An exclusive save token saveˣ P˂ is obtained by allocating P˂
-  saveˣ-alloc :  P˂ .! ⊢[ ι ]=>> saveˣ P˂
-  -- Persistent save tokens save□ P˂ (for P˂ ∈ P˂s) can be obtained
+  -- An exclusive save token Saveˣ P˂ is obtained by allocating P˂
+  Saveˣ-alloc :  P˂ .! ⊢[ ι ]=>> Saveˣ P˂
+  -- Persistent save tokens Save□ P˂ (for P˂ ∈ P˂s) can be obtained
   -- by allocating □ P˂ (for P˂ ∈ P˂s) minus the save tokens themselves
-  save□-alloc-rec :
-    [∗]-map save□ P˂s -∗ [∗ P˂ ∈ P˂s ] □ P˂ .! ⊢[ ι ]=>> [∗]-map save□ P˂s
+  Save□-alloc-rec :
+    [∗]-map Save□ P˂s -∗ [∗ P˂ ∈ P˂s ] □ P˂ .! ⊢[ ι ]=>> [∗]-map Save□ P˂s
 
   -- Use a exclusive/persistent save token
-  saveˣ-use :  saveˣ P˂ ⊢[ ι ]=>> P˂ .!
-  save□-use :  save□ P˂ ⊢[ ι ]=>> □ P˂ .!
+  Saveˣ-use :  Saveˣ P˂ ⊢[ ι ]=>> P˂ .!
+  Save□-use :  Save□ P˂ ⊢[ ι ]=>> □ P˂ .!
 
   ------------------------------------------------------------------------------
   -- Rules on Hoare triple

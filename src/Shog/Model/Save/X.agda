@@ -29,6 +29,6 @@ open import Shog.Model.Basic ℓ using ([|_|]ᴮ)
 lineˢˣ :  ℕ →  Prop' ∞ →  Glob
 lineˢˣ i P =  injaᴬ 0 $ injaᶠᵐ i $ #ˣ P
 
-saveˣᵒ :  Prop' ∞ →  Propᵒ
-saveˣᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
+Saveˣᵒ :  Prop' ∞ →  Propᵒ
+Saveˣᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
   ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  [| Q |]ᴮ {{ BaQ }}  ∧ᵒ  own (lineˢˣ i P')

@@ -35,8 +35,8 @@ private variable
 lineˢ□ :  ℕ →  Prop' ∞ →  Glob
 lineˢ□ i P =  injaᴬ 1 $ injaᶠᵐ i $ ag P
 
-save□ᵒ :  Prop' ∞ →  Propᵒ
-save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
+Save□ᵒ :  Prop' ∞ →  Propᵒ
+Save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
   ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  [| Q |]ᴮ {{ BaQ }}  ∧ᵒ  own (lineˢ□ i P')
 
 abstract

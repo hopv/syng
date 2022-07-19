@@ -45,12 +45,12 @@ open ModSave□ public using () renaming (FinmapRA to Save□RA; Finmap to Save�
 --------------------------------------------------------------------------------
 -- GlobRA: Global RA
 
-pattern [saveˣ] = 0
-pattern [save□] = 1
+pattern [Saveˣ] = 0
+pattern [Save□] = 1
 
 GlobRA˙ :  ℕ →  RA (^ ℓ) (^ ℓ) (^ ℓ)
-GlobRA˙ [saveˣ] =  SaveˣRA
-GlobRA˙ [save□] =  Save□RA
+GlobRA˙ [Saveˣ] =  SaveˣRA
+GlobRA˙ [Save□] =  Save□RA
 GlobRA˙ _ =  ⊤RA
 
 module ModGlob =  Shog.Model.RA.All GlobRA˙

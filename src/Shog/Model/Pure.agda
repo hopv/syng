@@ -24,7 +24,7 @@ open import Shog.Logic.Save ℓ using (Save□-□; Saveˣ-mono-∧; Save□-mon
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (GlobRA)
 open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; congᵒ; congᵒ';
-  _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; own-⌞⌟-□')
+  _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□')
 open RA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ✓-ε; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ✓-⌞⌟)
@@ -191,7 +191,7 @@ abstract
   ⊢⇒⊨ Save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∧P'⊢P , Qa , line□iP'a) =
     let instance _ = BaQ in
     _ , _ , _ , _ , Q∧P'⊢P , [||]ᴮ-⇒□ Qa ,
-    own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a
+    Own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a
 
   -- Saveˣ-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Saveˣ P˂ ⊢[ ∞ ] Saveˣ Q˂

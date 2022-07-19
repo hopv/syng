@@ -20,7 +20,7 @@ open ModGlobI using (injaᴬ)
 open ModSaveˣ using (injaᶠᵐ)
 open ModExcᴾ using (#ˣ_)
 open import Shog.Model.Prop GlobRA using (Propᵒ; _⊨_; ∃^-syntax; ∃^∈-syntax;
-  _∧ᵒ_; ⌜_⌝^; own)
+  _∧ᵒ_; ⌜_⌝^; Own)
 open import Shog.Model.Basic ℓ using ([|_|]ᴮ)
 
 --------------------------------------------------------------------------------
@@ -31,4 +31,4 @@ lineˢˣ i P =  injaᴬ 0 $ injaᶠᵐ i $ #ˣ P
 
 Saveˣᵒ :  Prop' ∞ →  Propᵒ
 Saveˣᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
-  ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  [| Q |]ᴮ {{ BaQ }}  ∧ᵒ  own (lineˢˣ i P')
+  ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  [| Q |]ᴮ {{ BaQ }}  ∧ᵒ  Own (lineˢˣ i P')

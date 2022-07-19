@@ -243,50 +243,50 @@ infix 8 □ᵒ_
   proof a⊑b P⌞a⌟ =  Pᵒ .monoᵒ (⌞⌟-mono a⊑b) P⌞a⌟
 
 --------------------------------------------------------------------------------
--- own: Owning a resource
+-- Own: Owning a resource
 
-own :  Glob →  Propᵒ
-own a .predᵒ b _ =  a ⊑ b
-own a .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
+Own :  Glob →  Propᵒ
+Own a .predᵒ b _ =  a ⊑ b
+Own a .monoᵒ {✓a = ✓a} {✓b} =  proof {✓a = ✓a} {✓b}
  where abstract
-  proof :  Monoᵒ $ own a .predᵒ
+  proof :  Monoᵒ $ Own a .predᵒ
   proof b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
 abstract
 
-  own-resp :  a ≈ b →  own a ⊨ own b
-  own-resp a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
+  Own-resp :  a ≈ b →  Own a ⊨ Own b
+  Own-resp a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
 
-  own-mono :  a ⊑ b →  own b ⊨ own a
-  own-mono a⊑b b⊑c =  ⊑-trans a⊑b b⊑c
+  Own-mono :  a ⊑ b →  Own b ⊨ Own a
+  Own-mono a⊑b b⊑c =  ⊑-trans a⊑b b⊑c
 
-  own-∙⇒∗ :  own (a ∙ b) ⊨ own a ∗ᵒ own b
-  own-∙⇒∗ a∙b⊑c =  _ , _ , a∙b⊑c , ⊑-refl , ⊑-refl
+  Own-∙⇒∗ :  Own (a ∙ b) ⊨ Own a ∗ᵒ Own b
+  Own-∙⇒∗ a∙b⊑c =  _ , _ , a∙b⊑c , ⊑-refl , ⊑-refl
 
-  own-∗⇒∙ :  own a ∗ᵒ own b ⊨ own (a ∙ b)
-  own-∗⇒∙ (_ , _ , a'∙b'⊑c , a⊑a' , b⊑b') =
+  Own-∗⇒∙ :  Own a ∗ᵒ Own b ⊨ Own (a ∙ b)
+  Own-∗⇒∙ (_ , _ , a'∙b'⊑c , a⊑a' , b⊑b') =
     ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
 
-  own-ε-intro :  Pᵒ ⊨ own ε
-  own-ε-intro _ =  ε-min
+  Own-ε-intro :  Pᵒ ⊨ Own ε
+  Own-ε-intro _ =  ε-min
 
-  own-⌞⌟-□ :  own ⌞ a ⌟ ⊨ □ᵒ own ⌞ a ⌟
-  own-⌞⌟-□ ⌞a⌟⊑b =  ⊑-respˡ ⌞⌟-idem $ ⌞⌟-mono ⌞a⌟⊑b
+  Own-⌞⌟-□ :  Own ⌞ a ⌟ ⊨ □ᵒ Own ⌞ a ⌟
+  Own-⌞⌟-□ ⌞a⌟⊑b =  ⊑-respˡ ⌞⌟-idem $ ⌞⌟-mono ⌞a⌟⊑b
 
-  own-⌞⌟-□' :  ⌞ a ⌟ ≈ a →  own a ⊨ □ᵒ own a
-  own-⌞⌟-□' ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
+  Own-⌞⌟-□' :  ⌞ a ⌟ ≈ a →  Own a ⊨ □ᵒ Own a
+  Own-⌞⌟-□' ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
 
-  own⇒✓ :  own a ⊨ ⌜ ✓ a ⌝^
+  own⇒✓ :  Own a ⊨ ⌜ ✓ a ⌝^
   own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b
 
-  own-↝ :  a ↝ b →  own a ⊨ |=>ᵒ own b
-  own-↝ {b = b} a↝b (c , c∙a≈a') d ✓d∙a' =  b , ✓d∙b , ⊑-refl
+  Own-↝ :  a ↝ b →  Own a ⊨ |=>ᵒ Own b
+  Own-↝ {b = b} a↝b (c , c∙a≈a') d ✓d∙a' =  b , ✓d∙b , ⊑-refl
    where
     ✓d∙b :  ✓ d ∙ b
     ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) $ a↝b (d ∙ c) $ flip ✓-resp ✓d∙a' $
       ∙-congʳ (◠˜ c∙a≈a') ◇˜ ∙-assocʳ
 
-  own-↝ˢ :  a ↝ˢ B →  own a ⊨ |=>ᵒ (∃^ b , ⌜ b ∈ B ⌝^ ∧ᵒ own b)
-  own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a'  with a↝B (d ∙ c) $
+  Own-↝ˢ :  a ↝ˢ B →  Own a ⊨ |=>ᵒ (∃^ b , ⌜ b ∈ B ⌝^ ∧ᵒ Own b)
+  Own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a'  with a↝B (d ∙ c) $
     flip ✓-resp ✓d∙a' $ ∙-congʳ (◠˜ c∙a≈a') ◇˜ ∙-assocʳ
   ... | b , b∈B , ✓d∙cb =  b , ✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb , b , b∈B , ⊑-refl

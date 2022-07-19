@@ -80,9 +80,8 @@ abstract
 
   private
 
-    -- Lemma for Saveˣ/□-mono
-    for-token-mono :  S ∧ T ⊢[ ∞ ] P →  R ∧ P ⊢[ ∞ ] Q →  (R ∧ S) ∧ T ⊢[ ∞ ] Q
-    for-token-mono S∧T⊢P R∧P⊢Q =  ∧-assocˡ » ∧-monoʳ S∧T⊢P » R∧P⊢Q
+    ∧⊢-chain :  S ∧ T ⊢[ ∞ ] P →  R ∧ P ⊢[ ∞ ] Q →  (R ∧ S) ∧ T ⊢[ ∞ ] Q
+    ∧⊢-chain S∧T⊢P R∧P⊢Q =  ∧-assocˡ » ∧-monoʳ S∧T⊢P » R∧P⊢Q
 
   ⊢⇒⊨ :  P ⊢[ ∞ ] Q →  [| P |] ⊨ [| Q |]
 
@@ -199,7 +198,7 @@ abstract
     (R∧SaveˣP˂a 0₂ , R∧SaveˣP˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) →
     let instance _ = BaS in
-    T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
+    T , R ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢˣTa
 
   -- Save□-mono-∧ :  {{Basic R}} →
@@ -208,5 +207,5 @@ abstract
     (R∧Save□P˂a 0₂ , R∧Save□P˂a 1₂) ▷
     λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) →
     let instance _ = BaS in
-    T , R ∧ S , it , _ , for-token-mono S∧T⊢P (R∧P⊢<Q .!) ,
+    T , R ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢ□Ta

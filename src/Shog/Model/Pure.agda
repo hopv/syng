@@ -105,7 +105,8 @@ abstract
 
   -- choice :  ∀' a , ∃ b , P˙˙ a b ⊢[ ∞ ] ∃ f , ∀' a , P˙˙ a (f a)
   -- It can be proved axiom-free thanks to the logic's predicativity
-  ⊢⇒⊨ choice ∀x∃yPxy =  (λ x → ∀x∃yPxy x .proj₀) , λ x → ∀x∃yPxy x .proj₁
+  ⊢⇒⊨ choice ∀x∃yPxy .proj₀ x =  ∀x∃yPxy x .proj₀
+  ⊢⇒⊨ choice ∀x∃yPxy .proj₁ x =  ∀x∃yPxy x .proj₁
 
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
   ⊢⇒⊨ (→-intro {Q = Q} P∧Q⊢R) Qa a⊑b Pb =
@@ -126,14 +127,12 @@ abstract
     c , b , ⊑-respˡ ∙-comm b∙c⊑a , renewᵒ [| Q |] Qc , renewᵒ [| P |] Pb
 
   -- ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ∞ ] P ∗ (Q ∗ R)
-  ⊢⇒⊨ (∗-assocˡ {P} {Q} {R})
-   (e , d , e∙d⊑a , (b , c , b∙c⊑e , Pb , Qc) , Rd) =
+  ⊢⇒⊨ (∗-assocˡ {P} {Q} {R}) (e , d , e∙d⊑a , (b , c , b∙c⊑e , Pb , Qc) , Rd) =
     b , c ∙ d , ⊑-respˡ ∙-assocˡ (⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a) ,
     renewᵒ [| P |] Pb , c , d , ⊑-refl , renewᵒ [| Q |] Qc , renewᵒ [| R |] Rd
 
   -- ∗-monoˡ :  P ⊢[ ∞ ] Q →  P ∗ R ⊢[ ∞ ] Q ∗ R
-  ⊢⇒⊨ (∗-monoˡ {Q = Q} {R} P⊢Q) (b , c , b∙c≈a , Pb , Rc) =
-    b , c , b∙c≈a , ⊢⇒⊨ P⊢Q Pb , Rc
+  ⊢⇒⊨ (∗-monoˡ P⊢Q) (b , c , b∙c≈a , Pb , Rc) =  b , c , b∙c≈a , ⊢⇒⊨ P⊢Q Pb , Rc
 
   -- -∗-intro :  P ∗ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P -∗ R
   ⊢⇒⊨ (-∗-intro {P} {Q} P∗Q⊢R) Qa a⊑b Pb =  ⊢⇒⊨ P∗Q⊢R $
@@ -144,7 +143,7 @@ abstract
     [| R |] .monoᵒ {✓a = ✓-mono b∙c⊑a ✓a} b∙c⊑a $ ⊢⇒⊨ Q⊢P-∗R Qc ⊑-refl Pb
 
   -- |=>-mono :  P ⊢[ ∞ ] Q →  |=> P ⊢[ ∞ ] |=> Q
-  ⊢⇒⊨ (|=>-mono {Q = Q} P⊢Q) |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
+  ⊢⇒⊨ (|=>-mono P⊢Q) |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
   ... | b , ✓c∙b , Pb =  b , ✓c∙b , ⊢⇒⊨ P⊢Q Pb
 
   -- |=>-intro :  P ⊢[ ∞ ] |=> P
@@ -162,9 +161,10 @@ abstract
     renewᵒ [| P |] Pb , renewᵒ [| Q |] Qd
 
   -- |=>-∃-out :  |=> (∃ _ ∈ A , P) ⊢[ ∞ ] ∃ _ ∈ A , |=> P
-  ⊢⇒⊨ (|=>-∃-out {P = P}) {✓a = ✓a} |=>∃AP =  λ where
-    .proj₀ →  let (_ , _ , x , _) = |=>∃AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
-    .proj₁ c ✓c∙a →  let (b , ✓c∙b , _ , Pb) = |=>∃AP c ✓c∙a in  b , ✓c∙b , Pb
+  ⊢⇒⊨ |=>-∃-out {✓a = ✓a} |=>∃AP .proj₀ =
+    let (_ , _ , x , _) = |=>∃AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
+  ⊢⇒⊨ |=>-∃-out |=>∃AP .proj₁ c ✓c∙a =
+    let (b , ✓c∙b , _ , Pb) = |=>∃AP c ✓c∙a in  b , ✓c∙b , Pb
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
   ⊢⇒⊨ (□-mono P⊢Q) P⌞a⌟ =  ⊢⇒⊨ P⊢Q P⌞a⌟
@@ -177,8 +177,7 @@ abstract
 
   -- □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ∞ ] □ P ∗ Q
   ⊢⇒⊨ (□ˡ-∧⇒∗ {P} {Q}) {a = a} P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ≈⇒⊑ ⌞⌟-unitˡ ,
-    congᵒ [| P |] (◠˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) ,
-    renewᵒ [| Q |] (P⌞a⌟∧Qa 1₂)
+    congᵒ [| P |] (◠˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) , renewᵒ [| Q |] (P⌞a⌟∧Qa 1₂)
 
   -- □-∀-in :  ∀˙ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀˙ P˙
   ⊢⇒⊨ □-∀-in ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
@@ -194,18 +193,18 @@ abstract
 
   -- Saveˣ-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Saveˣ P˂ ⊢[ ∞ ] Saveˣ Q˂
-  ⊢⇒⊨ (Saveˣ-mono-∧ {R = R} R∧P⊢<Q) R∧SaveˣP˂a =
-    (R∧SaveˣP˂a 0₂ , R∧SaveˣP˂a 1₂) ▷
-    λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) →
+  ⊢⇒⊨ (Saveˣ-mono-∧ R∧P⊢<Q) R∧SaveˣP˂a =
+    let Ra = R∧SaveˣP˂a 0₂ in
+    let (T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) = R∧SaveˣP˂a 1₂ in
     let instance _ = BaS in
-    T , R ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
+    T , _ ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢˣTa
 
   -- Save□-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Save□ P˂ ⊢[ ∞ ] Save□ Q˂
-  ⊢⇒⊨ (Save□-mono-∧ {R = R} R∧P⊢<Q) R∧Save□P˂a =
-    (R∧Save□P˂a 0₂ , R∧Save□P˂a 1₂) ▷
-    λ (Ra , T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) →
+  ⊢⇒⊨ (Save□-mono-∧ R∧P⊢<Q) R∧Save□P˂a =
+    let Ra = R∧Save□P˂a 0₂ in
+    let (T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) = R∧Save□P˂a 1₂ in
     let instance _ = BaS in
-    T , R ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
+    T , _ ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
     [||]-⇒ᴮ (binary Ra $ [||]-ᴮ⇒ Sa) , lineˢ□Ta

@@ -13,7 +13,10 @@ open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
 open import Base.Bool using (Bool; tt; ff)
+open import Base.Prod using (_×_; curry)
+open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; map)
+open import Base.List.Nat using (mapi)
 
 --------------------------------------------------------------------------------
 -- Prop': Proposition
@@ -102,12 +105,17 @@ infix 9 [∗]_
 [∗] [] =  ⊤'
 [∗] (P ∷ Ps) =  P ∗ [∗] Ps
 
--- Syntax for [∗] map
+-- Syntax for [∗] map / mapi
 
+infix 8 [∗∈]-syntax [∗ⁱ∈]-syntax
 [∗∈]-syntax :  (D → Prop' ι) →  List D →  Prop' ι
 [∗∈]-syntax P˙ ds =  [∗] map P˙ ds
-infix 8 [∗∈]-syntax
+[∗ⁱ∈]-syntax :  (ℕ × D → Prop' ι) →  List D →  Prop' ι
+[∗ⁱ∈]-syntax P˙ ds =  [∗] mapi (curry P˙) ds
 syntax [∗∈]-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
+syntax [∗ⁱ∈]-syntax (λ id → P) ds =  [∗ id ⁱ∈ ds ] P
+-- Currently in Agda, we can't bind two variables in syntax like:
+-- syntax [∗|∈]-syntax (λ i d → P) ds =  [∗ i | d ∈ ds ] P
 
 --------------------------------------------------------------------------------
 -- Basic Shog proposition

@@ -27,7 +27,7 @@ open import Agda.Builtin.List public using (List; []; _∷_)
 -- Map
 
 map :  (A → B) →  List A →  List B
-map f [] =  []
+map _ [] =  []
 map f (a ∷ as) =  f a ∷ map f as
 
 -- Append

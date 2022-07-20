@@ -38,6 +38,8 @@ data  Redex :  Type →  Set (^ ℓ)  where
   allocᴿ :  ℕ →  Redex (◸ Up Addr)
   freeᴿ :  Addr →  Redex (◸ ⊤)
 
+-- Converting Redex to Expr
+
 R⇒E :  Redex T →  Expr ∞ T
 R⇒E (▶ᴿ e˂) =  ▶ e˂
 R⇒E ndᴿ =  nd
@@ -95,6 +97,7 @@ allocᴷ ktx ᴷ∘ᴷ ktx' =  allocᴷ $ ktx ᴷ∘ᴷ ktx'
 freeᴷ ktx ᴷ∘ᴷ ktx' =  freeᴷ $ ktx ᴷ∘ᴷ ktx'
 
 -- Type for a context-redex pair
+
 Ktxred :  Type →  Set (^ ℓ)
 Ktxred T =  ∑ U , Ktx U T × Redex U
 

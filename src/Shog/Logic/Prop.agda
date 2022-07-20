@@ -33,7 +33,7 @@ private variable
   P˙ :  X → Prop' ∞
   P Q R S :  Prop' ∞
   ℓ' :  Level
-  D :  Set ℓ'
+  A :  Set ℓ'
 
 infixr 5 _→'_ _-∗_
 infixr 7 _∗_
@@ -108,14 +108,14 @@ infix 8 [∗]_
 -- Syntax for [∗] map / mapi
 
 infix 8 [∗∈]-syntax [∗ⁱ∈]-syntax
-[∗∈]-syntax :  (D → Prop' ι) →  List D →  Prop' ι
-[∗∈]-syntax P˙ ds =  [∗] map P˙ ds
-[∗ⁱ∈]-syntax :  (ℕ × D → Prop' ι) →  List D →  Prop' ι
-[∗ⁱ∈]-syntax P˙ ds =  [∗] mapi (curry P˙) ds
-syntax [∗∈]-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
-syntax [∗ⁱ∈]-syntax (λ id → P) ds =  [∗ id ⁱ∈ ds ] P
+[∗∈]-syntax :  (A → Prop' ι) →  List A →  Prop' ι
+[∗∈]-syntax P˙ as =  [∗] map P˙ as
+[∗ⁱ∈]-syntax :  (ℕ × A → Prop' ι) →  List A →  Prop' ι
+[∗ⁱ∈]-syntax P˙ as =  [∗] mapi (curry P˙) as
+syntax [∗∈]-syntax (λ a → P) as =  [∗ a ∈ as ] P
+syntax [∗ⁱ∈]-syntax (λ ia → P) as =  [∗ ia ⁱ∈ as ] P
 -- Currently in Agda, we can't bind two variables in syntax like:
---   syntax [∗ⁱ∈]-syntax (λ i d → P) ds =  [∗ i ⁱ d ∈ ds ] P
+--   syntax [∗ⁱ∈]-syntax (λ i a → P) as =  [∗ i ⁱ a ∈ as ] P
 
 --------------------------------------------------------------------------------
 -- Basic Shog proposition

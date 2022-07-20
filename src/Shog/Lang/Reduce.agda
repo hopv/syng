@@ -55,12 +55,12 @@ empᴹ =  initᶠᵐ [] refl
 
 infix 5 _!!ᴹ_
 _!!ᴹ_ :  Mem →  Addr →  ?? MemCell
-M !!ᴹ addr b i =  M .bloᴹ b !! i
+M !!ᴹ addr l i =  M .bloᴹ l !! i
 
 -- Memory update
 
 updᴹ :  Addr →  MemCell →  Mem →  Mem
-updᴹ (addr b i) c M =  updᴹᴮ b (upd i c $ M .bloᴹ b) M
+updᴹ (addr l i) c M =  updᴹᴮ l (upd i c $ M .bloᴹ l) M
 
 --------------------------------------------------------------------------------
 -- Reduction
@@ -77,7 +77,7 @@ private variable
   a :  A
   ρ :  Addr
   v :  Val V
-  b n :  ℕ
+  l n :  ℕ
 
 infix 4 _⇒ᴿ_ _⇒ᴱ_
 
@@ -88,9 +88,9 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   ◁-red :  (e˙ ◁ᴿ a , M) ⇒ᴿ (e˙ a , M)
   ★-red :  M !!ᴹ ρ ≡ some (V , v) →  (★ᴿ ρ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  ∀{v : Val V} →  (ρ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ ρ (V , v) M)
-  alloc-red :  ∀ b →  M .bloᴹ b ≡ [] →
-    (allocᴿ n , M) ⇒ᴿ (∇ ↑ addr b 0 , updᴹᴮ b (repeat n (◸ ⊤ , _)) M)
-  free-red :  (freeᴿ (addr b 0) , M) ⇒ᴿ (∇ _ , updᴹᴮ b [] M)
+  alloc-red :  ∀ l →  M .bloᴹ l ≡ [] →
+    (allocᴿ n , M) ⇒ᴿ (∇ ↑ addr l 0 , updᴹᴮ l (repeat n (◸ ⊤ , _)) M)
+  free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴹᴮ l [] M)
 
 -- Reduction on an expression
 data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^ ℓ)  where

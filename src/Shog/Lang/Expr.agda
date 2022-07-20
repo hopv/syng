@@ -35,7 +35,7 @@ private variable
 
 infixl 6 _ₒ_
 _ₒ_ :  Addr →  ℕ →  Addr
-addr b i ₒ n =  addr b (n + i)
+addr l i ₒ n =  addr l (n + i)
 
 abstract
 

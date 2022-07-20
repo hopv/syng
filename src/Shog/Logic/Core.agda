@@ -42,7 +42,7 @@ abstract
   ------------------------------------------------------------------------------
   -- On ∀/∃/∧/∨/⊤'/⊥'
 
-  -- Introducing ∧/⊤' / Eliminating ∨/⊥'
+  -- Introduce ∧/⊤' & eliminate ∨/⊥'
 
   ∧-intro :  P ⊢[ ι ] Q →  P ⊢[ ι ] R →  P ⊢[ ι ] Q ∧ R
   ∧-intro P⊢Q P⊢R =  ∀-intro $ binary P⊢Q P⊢R
@@ -56,7 +56,7 @@ abstract
   ⊥-elim :  ⊥' ⊢[ ι ]* Jr
   ⊥-elim =  ∃-elim absurd
 
-  -- Eliminating ∧/⊤' / Introducing ∨/⊥'
+  -- Eliminate ∧/⊤' & introduce ∨/⊥'
 
   ∧-elimˡ :  P ∧ Q ⊢[ ι ] P
   ∧-elimˡ =  ∀-elim
@@ -156,7 +156,7 @@ abstract
   ------------------------------------------------------------------------------
   -- On ⌜⌝
 
-  -- Introducing and eliminating ⌜⌝
+  -- Introduce & eliminate ⌜⌝
 
   ⌜⌝-intro :  X →  P ⊢[ ι ] ⌜ X ⌝
   ⌜⌝-intro x =  ⊤-intro » ∃-intro {x = x}
@@ -169,7 +169,7 @@ abstract
   ⌜⌝-mono :  (X →  Y) →  ⌜ X ⌝ ⊢[ ι ] ⌜ Y ⌝
   ⌜⌝-mono f =  ⌜⌝-elim $ λ x →  ⌜⌝-intro $ f x
 
-  -- Introducing and eliminating ⌜ ⌝ ∧
+  -- Introduce & eliminate ⌜ ⌝ ∧
 
   ⌜⌝∧-intro :  X →  P ⊢[ ι ] ⌜ X ⌝ ∧ P
   ⌜⌝∧-intro x =  ∧-intro (⌜⌝-intro x) ⊢-refl
@@ -252,7 +252,7 @@ abstract
   ∗-elimˡ :  P ∗ Q ⊢[ ι ] P
   ∗-elimˡ =  ∗-comm » ∗-elimʳ
 
-  -- Introducing ∗ ⊤'
+  -- Introduce ∗ ⊤'
 
   ∗⊤-intro :  P ⊢[ ι ] P ∗ ⊤'
   ∗⊤-intro =  ⊤∗-intro » ∗-comm
@@ -389,12 +389,12 @@ abstract
   ------------------------------------------------------------------------------
   -- On -∗
 
-  -- Introducing P -∗
+  -- Introduce P -∗
 
   -∗-const :  Q ⊢[ ι ] P -∗ Q
   -∗-const =  -∗-intro ∗-elimʳ
 
-  -- Application on -∗
+  -- Apply -∗
 
   -∗-apply :  P ∗ (P -∗ Q) ⊢[ ι ] Q
   -∗-apply =  -∗-elim ⊢-refl
@@ -423,7 +423,7 @@ abstract
   ------------------------------------------------------------------------------
   -- On |=>
 
-  -- Eliminating |=> from the antecedent
+  -- Eliminate |=> from the antecedent
 
   |=>-elim :  P ⊢[ ι ] |=> Q →  |=> P ⊢[ ι ] |=> Q
   |=>-elim P⊢|=>Q =  |=>-mono P⊢|=>Q » |=>-join
@@ -446,7 +446,7 @@ abstract
   ------------------------------------------------------------------------------
   -- On □
 
-  -- Introducing |=> to the succedent
+  -- Introduce |=> to the succedent
 
   □-intro :  □ P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
   □-intro □P⊢Q =  □-dup » □-mono □P⊢Q
@@ -524,7 +524,7 @@ abstract
   □-∗-in =  ∗⇒∧ » □-∧-in » in□-∧⇒∗
 
   ------------------------------------------------------------------------------
-  -- Deriving Pers P
+  -- Derive Pers P
 
   -- For ∀/∃
   -- They are not instances, because unfortunately Agda can't search a
@@ -578,7 +578,7 @@ abstract
   Basic-Pers =  IsBasic-Pers isBasic
 
   ------------------------------------------------------------------------------
-  -- Using Pers P
+  -- Use Pers P
 
   -- ∧ can turn into ∗ when one argument is persistent
 
@@ -604,7 +604,7 @@ abstract
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
   Pers--∗⇒→ =  -∗Pers-⇒□→ » →-monoˡ Pers-⇒□
 
-  -- Introducing and eliminating ⌜ ⌝ ∗
+  -- Introduce & eliminate ⌜ ⌝ ∗
 
   ⌜⌝∗-intro :  X →  P ⊢[ ι ] ⌜ X ⌝ ∗ P
   ⌜⌝∗-intro x =  ⌜⌝∧-intro x » Persˡ-∧⇒∗

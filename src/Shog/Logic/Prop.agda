@@ -100,7 +100,7 @@ P ∨ Q =  ∃˙ (binary P Q)
 --------------------------------------------------------------------------------
 -- [∗]: Iterated separating conjunction
 
-infix 9 [∗]_
+infix 8 [∗]_
 [∗]_ :  List (Prop' ι) →  Prop' ι
 [∗] [] =  ⊤'
 [∗] (P ∷ Ps) =  P ∗ [∗] Ps

@@ -13,8 +13,9 @@ open import Base.Option using (??_; some; none)
 open import Base.Func using (_$_)
 
 private variable
-  ℓA :  Level
+  ℓA ℓB :  Level
   A :  Set ℓA
+  B :  Set ℓB
 
 -- Length
 
@@ -42,3 +43,12 @@ upd (suc n) b (a ∷ as) =  a ∷ upd n b as
 repeat :  ℕ →  A →  List A
 repeat 0 _ =  []
 repeat (suc n) a =  a ∷ repeat n a
+
+-- Map with an index
+
+mapi :  (ℕ → A → B) →  List A →  List B
+mapi =   go 0
+ where
+  go :  ℕ →  (ℕ → A → B) →  List A →  List B
+  go _ _ [] =  []
+  go i f (a ∷ as) =  f i a ∷ go (suc i) f as

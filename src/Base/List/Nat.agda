@@ -46,9 +46,9 @@ repeat (suc n) a =  a ∷ repeat n a
 
 -- Map with an index
 
+mapi' :  ℕ →  (ℕ → A → B) →  List A →  List B
+mapi' _ _ [] =  []
+mapi' i f (a ∷ as) =  f i a ∷ mapi' (suc i) f as
+
 mapi :  (ℕ → A → B) →  List A →  List B
-mapi =   go 0
- where
-  go :  ℕ →  (ℕ → A → B) →  List A →  List B
-  go _ _ [] =  []
-  go i f (a ∷ as) =  f i a ∷ go (suc i) f as
+mapi =  mapi' 0

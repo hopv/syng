@@ -11,14 +11,20 @@ open import Base.Level using (^_; ○; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_; _$_)
-open import Base.Bool using (Bool)
-open import Base.List using (List; map)
+open import Base.Few using (⊤)
+open import Base.Eq using (_≡_)
 open import Base.Prod using (_,_)
 open import Base.Sum using (inj₀; inj₁)
+open import Base.Bool using (Bool)
+open import Base.Nat using (ℕ)
+open import Base.List using (List; map)
+open import Base.List.Nat using (rep; len)
+open import Base.RatPos using (ℚ⁺)
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗∈]-syntax; Saveˣ;
-  Save□; Basic)
-open import Shog.Lang.Expr ℓ using (Type; Expr; Expr˂; ▶_; Val; V⇒E)
+  Save□; _↦⟨_⟩_; _↦_; _↦ˡ_; Free; Basic)
+open import Shog.Lang.Expr ℓ using (Addr; Type; ◸_; Expr; Expr˂; ∇_; Val; V⇒E;
+  AnyVal; ⊤-val)
 open import Shog.Lang.Ktxred ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Val/Ktxred; val/ktxred; Ktx; _ᴷ◁_)
 
@@ -33,7 +39,7 @@ data  WpK :  Set ○  where
 -- JudgRes: Result of a judgment
 
 private variable
-  T U :  Type
+  T U V :  Type
 
 infix 3 |=>>_
 
@@ -106,6 +112,11 @@ private variable
   e˙ :  X → Expr ∞ U
   ktx :  Ktx T U
   v :  Val T
+  θ :  Addr
+  p :  ℚ⁺
+  n :  ℕ
+  av :  AnyVal
+  avs :  List AnyVal
 
 infixr -1 _»_ _ᵘ»ᵘ_
 
@@ -237,6 +248,23 @@ data  _⊢[_]*_  where
   -- Application
   hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ κ ] Qᵛ →
            P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , e˙ ◁ᴿ x ⟩[ κ ] Qᵛ
+
+  -- Memory read
+  hor-★ :  ∀{Qᵛ : _} →  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ κ ] Qᵛ →
+           θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ★ᴿ θ ⟩[ κ ] Qᵛ
+
+  -- Memory write
+  hor-← :  ∀{Qᵛ : _} →  θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
+           θ ↦ av ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , θ ←ᴿ v ⟩[ κ ] Qᵛ
+
+  -- Memory allocation
+  hor-alloc :  ∀{Qᵛ : _} →
+    (∀ θ →  θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ ↑ θ ⟩[ κ ] Qᵛ) →
+    P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , allocᴿ n ⟩[ κ ] Qᵛ
+
+  -- Memory freeing
+  hor-free :  ∀{Qᵛ : _} →  len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
+    θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , freeᴿ θ ⟩[ κ ] Qᵛ
 
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition

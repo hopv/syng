@@ -13,8 +13,8 @@ open import Base.Thunk using (!)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Prod using (_,_; proj₀; proj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
-  □_; Saveˣ; Save□; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic;
-  isBasic; ∧-Basic)
+  □_; Saveˣ; Save□; _↦⟨_⟩_; Free; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic;
+  □-IsBasic; Basic; isBasic; ∧-Basic)
 open import Shog.Logic.Core ℓ using (_⊢[_]_; ⊢-refl; _»_;
   ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
@@ -24,7 +24,7 @@ open import Shog.Logic.Save ℓ using (Save□-□; Saveˣ-mono-∧; Save□-mon
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob ℓ using (GlobRA)
 open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; congᵒ; congᵒ';
-  _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□')
+  _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□')
 open RA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ✓-ε; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ✓-⌞⌟)
@@ -48,6 +48,8 @@ private variable
 ⸨ □ P ⸩ =  □ᵒ ⸨ P ⸩
 ⸨ Saveˣ P˂ ⸩ =  Saveˣᵒ (P˂ .!)
 ⸨ Save□ P˂ ⸩ =  Save□ᵒ (P˂ .!)
+⸨ _ ↦⟨ _ ⟩ _ ⸩ =  ⊤ᵒ -- For now
+⸨ Free _ _ ⸩ =  ⊤ᵒ -- For now
 
 abstract
 

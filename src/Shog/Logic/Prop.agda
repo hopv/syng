@@ -13,10 +13,12 @@ open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
 open import Base.Bool using (Bool; tt; ff)
-open import Base.Prod using (_×_; curry)
+open import Base.Prod using (_×_; _,_; curry)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; map)
 open import Base.List.Nat using (mapi)
+open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
+open import Shog.Lang.Expr ℓ using (Addr; _ₒ_; AnyVal)
 
 --------------------------------------------------------------------------------
 -- Prop': Proposition
@@ -38,6 +40,7 @@ private variable
 infixr 5 _→'_ _-∗_
 infixr 7 _∗_
 infix 8 |=>_ □_
+infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
 
@@ -57,6 +60,11 @@ data  Prop' ι  where
 
   -- Saveˣ, Save□: Save token, exclusive and persistent
   Saveˣ Save□ :  Prop˂ ι →  Prop' ι
+
+  -- Points-to token
+  _↦⟨_⟩_ :  Addr →  ℚ⁺ →  AnyVal →  Prop' ι
+  -- Freeing token
+  Free :  ℕ →  Addr →  Prop' ι
 
 --------------------------------------------------------------------------------
 -- Syntax for ∀/∃
@@ -116,6 +124,21 @@ syntax [∗∈]-syntax (λ a → P) as =  [∗ a ∈ as ] P
 syntax [∗ⁱ∈]-syntax (λ ia → P) as =  [∗ ia ⁱ∈ as ] P
 -- Currently in Agda, we can't bind two variables in syntax like:
 --   syntax [∗ⁱ∈]-syntax (λ i a → P) as =  [∗ i ⁱ a ∈ as ] P
+
+--------------------------------------------------------------------------------
+-- Extending _↦⟨_⟩_
+
+infix 9 _↦_ _↦ˡ⟨_⟩_ _↦ˡ_
+
+-- Full points-to token
+_↦_ :  Addr →  AnyVal →  Prop' ι
+θ ↦ av =  θ ↦⟨ 1ᴿ⁺ ⟩ av
+
+-- Iterated points-to token
+_↦ˡ⟨_⟩_ :  Addr →  ℚ⁺ →  List AnyVal →  Prop' ι
+θ ↦ˡ⟨ p ⟩ avs =  [∗ (i , av) ⁱ∈ avs ] θ ₒ i ↦⟨ p ⟩ av
+_↦ˡ_ :  Addr →  List AnyVal →  Prop' ι
+θ ↦ˡ avs =  θ ↦ˡ⟨ 1ᴿ⁺ ⟩ avs
 
 --------------------------------------------------------------------------------
 -- Basic Shog proposition

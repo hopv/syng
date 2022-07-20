@@ -22,7 +22,7 @@ open import Base.Eq using (_≡_; refl; ◠_)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤-val)
 open import Shog.Lang.Ktxred ℓ using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ;
-  freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; val/ktxred; nonval; val/ktxred-ktx;
+  freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; _ᴷ|ᴿ_; val/ktxred; nonval; val/ktxred-ktx;
   val/ktxred-ktx-inv)
 
 --------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
 
 -- Reduction on an expression
 data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^ ℓ)  where
-  redᴱ :  val/ktxred e ≡ inj₁ (_ , ktx , red) →  (red , M) ⇒ᴿ (e' , M') →
+  redᴱ :  val/ktxred e ≡ inj₁ (ktx ᴷ|ᴿ red) →  (red , M) ⇒ᴿ (e' , M') →
           (e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
 
 abstract

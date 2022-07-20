@@ -101,6 +101,11 @@ freeᴷ ktx ᴷ∘ᴷ ktx' =  freeᴷ $ ktx ᴷ∘ᴷ ktx'
 Ktxred :  Type →  Set (^ ℓ)
 Ktxred T =  ∑ U , Ktx U T × Redex U
 
+-- Pattern for Ktxred
+
+infix 0 _ᴷ|ᴿ_
+pattern _ᴷ|ᴿ_ ktx red =  _ , ktx , red
+
 -- Type for either a value or a context-redex pair
 
 Val/Ktxred :  Type →  Set (^ ℓ)
@@ -143,36 +148,36 @@ val/ktxred (e' ◁ e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  ... | inj₁ (_ , ktx , red) =  _ , e' ◁ᴷʳ ktx , red
+  ... | inj₁ (ktx ᴷ|ᴿ red) =  e' ◁ᴷʳ ktx ᴷ|ᴿ red
   ... | inj₀ (↑ x)  with val/ktxred e'
-  ...   | inj₁ (_ , ktx , red) =  _ , ktx ◁ᴷˡ x , red
-  ...   | inj₀ v =  _ , •ᴷ , v ◁ᴿ x
+  ...   | inj₁ (ktx ᴷ|ᴿ red) =  ktx ◁ᴷˡ x ᴷ|ᴿ red
+  ...   | inj₀ v =  •ᴷ ᴷ|ᴿ v ◁ᴿ x
 val/ktxred (★ e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  ... | inj₁ (_ , ktx , red) =  _ , ★ᴷ ktx , red
-  ... | inj₀ (↑ ↑ δ) =  _ , •ᴷ , ★ᴿ δ
+  ... | inj₁ (ktx ᴷ|ᴿ red) =  ★ᴷ ktx ᴷ|ᴿ red
+  ... | inj₀ (↑ ↑ δ) =  •ᴷ ᴷ|ᴿ ★ᴿ δ
 val/ktxred (e' ← e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  ... | inj₁ (_ , ktx , red) =  _ , e' ←ᴷʳ ktx , red
+  ... | inj₁ (ktx ᴷ|ᴿ red) =  e' ←ᴷʳ ktx ᴷ|ᴿ red
   ... | inj₀ v  with val/ktxred e'
-  ...   | inj₁ (_ , ktx , red) =  _ , ktx ←ᴷˡ v , red
-  ...   | inj₀ (↑ ↑ δ) =  _ , •ᴷ , δ ←ᴿ v
+  ...   | inj₁ (ktx ᴷ|ᴿ red) =  ktx ←ᴷˡ v ᴷ|ᴿ red
+  ...   | inj₀ (↑ ↑ δ) =  •ᴷ ᴷ|ᴿ δ ←ᴿ v
 val/ktxred (alloc e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  ... | inj₁ (_ , ktx , red) =  _ , allocᴷ ktx , red
-  ... | inj₀ (↑ ↑ n) =  _ , •ᴷ , allocᴿ n
+  ... | inj₁ (ktx ᴷ|ᴿ red) =  allocᴷ ktx ᴷ|ᴿ red
+  ... | inj₀ (↑ ↑ n) =  •ᴷ ᴷ|ᴿ allocᴿ n
 val/ktxred (free e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  ... | inj₁ (_ , ktx , red) =  _ , freeᴷ ktx , red
-  ... | inj₀ (↑ ↑ δ) =  _ , •ᴷ , freeᴿ δ
+  ... | inj₁ (ktx ᴷ|ᴿ red) =  freeᴷ ktx ᴷ|ᴿ red
+  ... | inj₀ (↑ ↑ δ) =  •ᴷ ᴷ|ᴿ freeᴿ δ
 
 -- Judge if the expression is non-value
 
@@ -203,8 +208,8 @@ abstract
 
   -- Calculate val/ktxred (ktx ᴷ◁ e)
 
-  val/ktxred-ktx :  val/ktxred e ≡ inj₁ kr →  let (_ , ktx' , red) = kr in
-                    val/ktxred (ktx ᴷ◁ e) ≡ inj₁ (_ , ktx ᴷ∘ᴷ ktx' , red)
+  val/ktxred-ktx :  val/ktxred e ≡ inj₁ kr →  let (ktx' ᴷ|ᴿ red) = kr in
+                    val/ktxred (ktx ᴷ◁ e) ≡ inj₁ (ktx ᴷ∘ᴷ ktx' ᴷ|ᴿ red)
   val/ktxred-ktx {ktx = •ᴷ} eq =  eq
   val/ktxred-ktx {e = e} {ktx = _ ◁ᴷʳ ktx} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
@@ -225,8 +230,8 @@ abstract
   -- Invert from val/ktxred (ktx ᴷ◁ e)
 
   val/ktxred-ktx-inv :  nonval e →
-    val/ktxred (ktx ᴷ◁ e) ≡ inj₁ kr →  let (_ , ktx'' , red) = kr in
-    ∑ ktx' ,  ktx'' ≡ ktx ᴷ∘ᴷ ktx'  ×  val/ktxred e ≡ inj₁ (_ , ktx' , red)
+    val/ktxred (ktx ᴷ◁ e) ≡ inj₁ kr →  let (ktx'' ᴷ|ᴿ red) = kr in
+    ∑ ktx' ,  ktx'' ≡ ktx ᴷ∘ᴷ ktx'  ×  val/ktxred e ≡ inj₁ (ktx' ᴷ|ᴿ red)
   val/ktxred-ktx-inv {ktx = •ᴷ} _ eq =  _ , refl , eq
   val/ktxred-ktx-inv {e = e} {ktx = _ ◁ᴷʳ ktx} nv'e eq
     with val/ktxred (ktx ᴷ◁ e) | nonval-ktx {ktx = ktx} nv'e | eq |

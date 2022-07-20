@@ -26,7 +26,7 @@ open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; 
 open import Shog.Lang.Expr ℓ using (Addr; Type; ◸_; Expr; Expr˂; ∇_; Val; V⇒E;
   AnyVal; ⊤-val)
 open import Shog.Lang.Ktxred ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
-  Val/Ktxred; val/ktxred; Ktx; _ᴷ◁_)
+  Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- WpK: Weakest precondion kind
@@ -239,37 +239,37 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
   hor-ndᵘ :  (∀ x → P ⊢[ ι ]=>> Qᵛ (↑ x)) →
-             P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ndᴿ ⟩[ κ ] Qᵛ
+             P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ κ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples
   horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
-                         P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᴾ Qᵛ
+                         P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ Qᵛ
   horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ Qᵛ →
-                         P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᵀ Qᵛ
+                         P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ Qᵛ
 
   -- Application
   hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ κ ] Qᵛ →
-                        P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , e˙ ◁ᴿ x ⟩[ κ ] Qᵛ
+                        P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ κ ] Qᵛ
 
   -- Memory read
   hor-★ :  ∀{Qᵛ : _} →
     θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ κ ] Qᵛ →
-    θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ★ᴿ θ ⟩[ κ ] Qᵛ
+    θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ κ ] Qᵛ
 
   -- Memory write
   hor-← :  ∀{Qᵛ : _} →
     θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
-    θ ↦ av ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , θ ←ᴿ v ⟩[ κ ] Qᵛ
+    θ ↦ av ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ κ ] Qᵛ
 
   -- Memory allocation
   hor-alloc :  ∀{Qᵛ : _} →
     (∀ θ →  θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ ↑ θ ⟩[ κ ] Qᵛ) →
-    P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , allocᴿ n ⟩[ κ ] Qᵛ
+    P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ κ ] Qᵛ
 
   -- Memory freeing
   hor-free :  ∀{Qᵛ : _} →
     len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
-    θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , freeᴿ θ ⟩[ κ ] Qᵛ
+    θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ κ ] Qᵛ
 
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition

@@ -16,7 +16,7 @@ open import Shog.Logic.Prop ℓ using (Prop')
 open import Shog.Logic.Core ℓ using (_⊢[_]_)
 open import Shog.Logic.Supd ℓ using (_⊢[_]=>>_; ⇒=>>; =>>-refl)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Val; let˙)
-open import Shog.Lang.Ktxred ℓ using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; Val/Ktxred)
+open import Shog.Lang.Ktxred ℓ using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _ᴷ|ᴿ_; Val/Ktxred)
 
 -- Import and re-export
 open import Shog.Logic.Judg ℓ public using (WpK; par; tot; Wp'; _⊢[_]'⟨_⟩[_]_;
@@ -51,8 +51,7 @@ abstract
 
   -- Non-deterministic value
 
-  hor-nd :  (∀ x → P ⊢[ ι ] Qᵛ (↑ x)) →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ndᴿ ⟩[ κ ] Qᵛ
+  hor-nd :  (∀ x → P ⊢[ ι ] Qᵛ (↑ x)) →  P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ κ ] Qᵛ
   hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⇒=>> $ ∀xP⊢Q _
 
   -- Let binding

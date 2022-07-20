@@ -30,7 +30,7 @@ open import Shog.Logic.Judg ℓ public using (
 
 private variable
   ι :  Size
-  P Q R S :  Prop' ∞
+  P P' Q Q' R R' S S' T T' U U' V V' :  Prop' ∞
   Jr :  JudgRes
   X Y :  Set ℓ
   Y˙ :  X → Set ℓ
@@ -262,15 +262,129 @@ abstract
   ∗-assocʳ :  P ∗ (Q ∗ R) ⊢[ ι ] (P ∗ Q) ∗ R
   ∗-assocʳ =  ∗-comm » ∗-monoˡ ∗-comm » ∗-assocˡ » ∗-comm » ∗-monoˡ ∗-comm
 
+  -- ∗ can turn into ∧
+
+  ∗⇒∧ :  P ∗ Q ⊢[ ι ] P ∧ Q
+  ∗⇒∧ =  ∧-intro ∗-elimˡ ∗-elimʳ
+
   -- ∃ can get outside ∗
 
   ∗-∃-out :  P ∗ ∃˙ Q˙ ⊢[ ι ] ∃ x , P ∗ Q˙ x
   ∗-∃-out =  -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
 
-  -- ∗ can turn into ∧
+  -- Eliminate ∃/∨/⊥' with ∗
 
-  ∗⇒∧ :  P ∗ Q ⊢[ ι ] P ∧ Q
-  ∗⇒∧ =  ∧-intro ∗-elimˡ ∗-elimʳ
+  ∃∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃˙ P˙ ∗ Q ⊢[ ι ]* Jr
+  ∃∗-elim →P˙∗⊢ =  ∗-comm » ∗-∃-out » ∃-elim $ λ x → ∗-comm » →P˙∗⊢ x
+
+  ∨∗-elim :  P ∗ Q ⊢[ ι ]* Jr →  P' ∗ Q ⊢[ ι ]* Jr →  (P ∨ P') ∗ Q ⊢[ ι ]* Jr
+  ∨∗-elim P∗⊢ P'∗⊢ =  ∃∗-elim (binary P∗⊢ P'∗⊢)
+
+  ⊥∗-elim :  ⊥' ∗ P ⊢[ ι ]* Jr
+  ⊥∗-elim =  ∗-elimˡ » ⊥-elim
+
+  ------------------------------------------------------------------------------
+  -- Enrich ∗-mono
+
+  ∗-monoʳˡ :  Q ⊢[ ι ] Q' →  P ∗ Q ∗ R ⊢[ ι ] P ∗ Q' ∗ R
+  ∗-monoʳˡ =  ∗-monoʳ ∘ ∗-monoˡ
+
+  ∗-monoʳ² :  R ⊢[ ι ] R' →  P ∗ Q ∗ R ⊢[ ι ] P ∗ Q ∗ R'
+  ∗-monoʳ² =  ∗-monoʳ ∘ ∗-monoʳ
+
+  ∗-monoʳ²ˡ :  R ⊢[ ι ] R' →  P ∗ Q ∗ R ∗ S ⊢[ ι ] P ∗ Q ∗ R' ∗ S
+  ∗-monoʳ²ˡ =  ∗-monoʳ² ∘ ∗-monoˡ
+
+  ∗-monoʳ³ :  S ⊢[ ι ] S' →  P ∗ Q ∗ R ∗ S ⊢[ ι ] P ∗ Q ∗ R ∗ S'
+  ∗-monoʳ³ =  ∗-monoʳ² ∘ ∗-monoʳ
+
+  ∗-monoʳ³ˡ :  S ⊢[ ι ] S' →  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] P ∗ Q ∗ R ∗ S' ∗ T
+  ∗-monoʳ³ˡ =  ∗-monoʳ³ ∘ ∗-monoˡ
+
+  ∗-monoʳ⁴ :  T ⊢[ ι ] T' →  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] P ∗ Q ∗ R ∗ S ∗ T'
+  ∗-monoʳ⁴ =  ∗-monoʳ³ ∘ ∗-monoʳ
+
+  ∗-monoʳ⁴ˡ :  T ⊢[ ι ] T' →
+               P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] P ∗ Q ∗ R ∗ S ∗ T' ∗ U
+  ∗-monoʳ⁴ˡ =  ∗-monoʳ⁴ ∘ ∗-monoˡ
+
+  ∗-monoʳ⁵ :  U ⊢[ ι ] U' →  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] P ∗ Q ∗ R ∗ S ∗ T ∗ U'
+  ∗-monoʳ⁵ =  ∗-monoʳ⁴ ∘ ∗-monoʳ
+
+  ∗-monoʳ⁵ˡ :  U ⊢[ ι ] U' →
+               P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] P ∗ Q ∗ R ∗ S ∗ T ∗ U' ∗ V
+  ∗-monoʳ⁵ˡ =  ∗-monoʳ⁵ ∘ ∗-monoˡ
+
+  ∗-monoʳ⁶ :  V ⊢[ ι ] V' →
+              P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V'
+  ∗-monoʳ⁶ =  ∗-monoʳ⁵ ∘ ∗-monoʳ
+
+  ------------------------------------------------------------------------------
+  -- Shuffle a nested separating conjunction
+
+  -- Move a separating conjunct to the head
+
+  pullʳˡ :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ P ∗ R
+  pullʳˡ =  ∗-assocʳ » ∗-monoˡ ∗-comm » ∗-assocˡ
+
+  pullʳ² :  P ∗ Q ∗ R ⊢[ ι ] R ∗ P ∗ Q
+  pullʳ² =  ∗-monoʳ ∗-comm » pullʳˡ
+
+  pullʳ²ˡ :  P ∗ Q ∗ R ∗ S ⊢[ ι ] R ∗ P ∗ Q ∗ S
+  pullʳ²ˡ =  ∗-monoʳ pullʳˡ » pullʳˡ
+
+  pullʳ³ :  P ∗ Q ∗ R ∗ S ⊢[ ι ] S ∗ P ∗ Q ∗ R
+  pullʳ³ =  ∗-monoʳ pullʳ² » pullʳˡ
+
+  pullʳ³ˡ :  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] S ∗ P ∗ Q ∗ R ∗ T
+  pullʳ³ˡ =  ∗-monoʳ pullʳ²ˡ » pullʳˡ
+
+  pullʳ⁴ :  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] T ∗ P ∗ Q ∗ R ∗ S
+  pullʳ⁴ =  ∗-monoʳ pullʳ³ » pullʳˡ
+
+  pullʳ⁴ˡ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] T ∗ P ∗ Q ∗ R ∗ S ∗ U
+  pullʳ⁴ˡ =  ∗-monoʳ pullʳ³ˡ » pullʳˡ
+
+  pullʳ⁵ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] U ∗ P ∗ Q ∗ R ∗ S ∗ T
+  pullʳ⁵ =  ∗-monoʳ pullʳ⁴ » pullʳˡ
+
+  pullʳ⁵ˡ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] U ∗ P ∗ Q ∗ R ∗ S ∗ T ∗ V
+  pullʳ⁵ˡ =  ∗-monoʳ pullʳ⁴ˡ » pullʳˡ
+
+  pullʳ⁶ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] V ∗ P ∗ Q ∗ R ∗ S ∗ T ∗ U
+  pullʳ⁶ =  ∗-monoʳ pullʳ⁵ » pullʳˡ
+
+  -- Move the head separating conjunct to somewhere deeper
+
+  pushʳˡ :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ P ∗ R
+  pushʳˡ =  pullʳˡ
+
+  pushʳ² :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ R ∗ P
+  pushʳ² =  pushʳˡ » ∗-monoʳ ∗-comm
+
+  pushʳ²ˡ :  P ∗ Q ∗ R ∗ S ⊢[ ι ] Q ∗ R ∗ P ∗ S
+  pushʳ²ˡ =  pushʳˡ » ∗-monoʳ pushʳˡ
+
+  pushʳ³ :  P ∗ Q ∗ R ∗ S ⊢[ ι ] Q ∗ R ∗ S ∗ P
+  pushʳ³ =  pushʳˡ » ∗-monoʳ pushʳ²
+
+  pushʳ³ˡ :  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] Q ∗ R ∗ S ∗ P ∗ T
+  pushʳ³ˡ =  pushʳˡ » ∗-monoʳ pushʳ²ˡ
+
+  pushʳ⁴ :  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ P
+  pushʳ⁴ =  pushʳˡ » ∗-monoʳ pushʳ³
+
+  pushʳ⁴ˡ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ P ∗ U
+  pushʳ⁴ˡ =  pushʳˡ » ∗-monoʳ pushʳ³ˡ
+
+  pushʳ⁵ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ U ∗ P
+  pushʳ⁵ =  pushʳˡ » ∗-monoʳ pushʳ⁴
+
+  pushʳ⁵ˡ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ U ∗ P ∗ V
+  pushʳ⁵ˡ =  pushʳˡ » ∗-monoʳ pushʳ⁴ˡ
+
+  pushʳ⁶ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ U ∗ V ∗ P
+  pushʳ⁶ =  pushʳˡ » ∗-monoʳ pushʳ⁵
 
   ------------------------------------------------------------------------------
   -- On -∗
@@ -300,6 +414,11 @@ abstract
 
   →⇒-∗ :  P →' Q ⊢[ ι ] P -∗ Q
   →⇒-∗ =  -∗-intro $ ∗⇒∧ » →-elim ⊢-refl
+
+  -- Apply the head magic wand to the succedent
+
+  -∗∗-apply :  Q ⊢[ ι ] P →  (P -∗ P') ∗ Q ⊢[ ι ] P'
+  -∗∗-apply Q⊢P =  ∗-monoˡ (-∗-monoˡ Q⊢P) » ∗-comm » -∗-apply
 
   ------------------------------------------------------------------------------
   -- On |=>
@@ -476,6 +595,10 @@ abstract
   -- A persistent proposition can be duplicated
   dup-Pers :  {{Pers P}} →  P ⊢[ ι ] P ∗ P
   dup-Pers =  retain-Pers ⊢-refl
+
+  -- Duplicate a persistent separting conjunct
+  dup-Pers-∗ :  {{Pers P}} →  P ∗ Q ⊢[ ι ] P ∗ P ∗ Q
+  dup-Pers-∗ =  ∗-monoˡ dup-Pers » ∗-assocˡ
 
   -- -∗ can turn into →' when the left-hand side is persistent
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q

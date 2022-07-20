@@ -12,7 +12,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
-open import Base.Prod using (∑-syntax)
+open import Base.Prod using (∑-syntax; _,_)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 open import Base.Eq using (_≡_; cong)
 
@@ -132,3 +132,6 @@ V⇒E {T = _ →* _} e˙ =  λ˙ e˙
 
 AnyVal :  Set (^ ℓ)
 AnyVal =  ∑ T , Val T
+
+⊤-val :  AnyVal
+⊤-val =  (◸ ⊤ , _)

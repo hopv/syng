@@ -115,7 +115,7 @@ infix 8 [∗∈]-syntax [∗ⁱ∈]-syntax
 syntax [∗∈]-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
 syntax [∗ⁱ∈]-syntax (λ id → P) ds =  [∗ id ⁱ∈ ds ] P
 -- Currently in Agda, we can't bind two variables in syntax like:
--- syntax [∗|∈]-syntax (λ i d → P) ds =  [∗ i | d ∈ ds ] P
+--   syntax [∗ⁱ∈]-syntax (λ i d → P) ds =  [∗ i ⁱ d ∈ ds ] P
 
 --------------------------------------------------------------------------------
 -- Basic Shog proposition

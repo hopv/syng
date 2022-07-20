@@ -51,17 +51,17 @@ abstract
 
   -- Non-deterministic value
 
-  hor-nd :  (∀ a → P ⊢[ ι ] Qᵛ (↑ a)) →
+  hor-nd :  (∀ x → P ⊢[ ι ] Qᵛ (↑ x)) →
             P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ndᴿ ⟩[ κ ] Qᵛ
-  hor-nd ∀aP⊢Q =  hor-ndᵘ $ λ _ → ⇒=>> $ ∀aP⊢Q _
+  hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⇒=>> $ ∀xP⊢Q _
 
   -- Let binding
 
   hor-let :  ∀{Rᵛ : _} →
-    P ⊢[ ι ]⟨ e₀ ⟩[ κ ] Qᵛ →  (∀ a → Qᵛ (↑ a) ⊢[ ι ]⟨ e˙ a ⟩[ κ ] Rᵛ) →
+    P ⊢[ ι ]⟨ e₀ ⟩[ κ ] Qᵛ →  (∀ x → Qᵛ (↑ x) ⊢[ ι ]⟨ e˙ x ⟩[ κ ] Rᵛ) →
     P ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ] Rᵛ
-  hor-let P⊢⟨e₀⟩Q ∀aQ⊢⟨e˙⟩R =
-    hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q $ λ (↑ a) → hor-◁ $ ∀aQ⊢⟨e˙⟩R a
+  hor-let P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
+    hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q $ λ (↑ x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x
 
   -- Value
 

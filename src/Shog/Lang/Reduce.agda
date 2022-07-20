@@ -17,7 +17,7 @@ open import Base.Sum using (inj₁)
 open import Base.Option using (??_; some)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; [])
-open import Base.List.Nat using (_!!_; upd; repeat)
+open import Base.List.Nat using (_!!_; upd; rep)
 open import Base.Eq using (_≡_; refl; ◠_)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal)
@@ -84,7 +84,7 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   ★-red :  M !!ᴹ δ ≡ some (V , v) →  (★ᴿ δ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  ∀{v : Val V} →  (δ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ δ (V , v) M)
   alloc-red :  ∀ l →  M .bloᴹ l ≡ [] →
-    (allocᴿ n , M) ⇒ᴿ (∇ ↑ addr l 0 , updᴹᴮ l (repeat n (◸ ⊤ , _)) M)
+    (allocᴿ n , M) ⇒ᴿ (∇ ↑ addr l 0 , updᴹᴮ l (rep n (◸ ⊤ , _)) M)
   free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴹᴮ l [] M)
 
 -- Reduction on an expression

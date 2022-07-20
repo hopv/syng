@@ -40,9 +40,9 @@ upd (suc n) b (a ∷ as) =  a ∷ upd n b as
 
 -- Repeat
 
-repeat :  ℕ →  A →  List A
-repeat 0 _ =  []
-repeat (suc n) a =  a ∷ repeat n a
+rep :  ℕ →  A →  List A
+rep 0 _ =  []
+rep (suc n) a =  a ∷ rep n a
 
 -- Map with an index
 

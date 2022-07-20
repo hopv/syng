@@ -91,19 +91,19 @@ abstract
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ] R →  P ⊢[ ∞ ] R
   ⊢⇒⊨ (P⊢Q » Q⊢R) Pa =  Pa ▷ ⊢⇒⊨ P⊢Q ▷ ⊢⇒⊨ Q⊢R
 
-  -- ∀-intro :  (∀ a → P ⊢[ ∞ ] Q˙ a) →  P ⊢[ ∞ ] ∀˙ Q˙
+  -- ∀-intro :  (∀ x → P ⊢[ ∞ ] Q˙ x) →  P ⊢[ ∞ ] ∀˙ Q˙
   ⊢⇒⊨ (∀-intro ∀xP⊢Qx) Pa x =  ⊢⇒⊨ (∀xP⊢Qx x) Pa
 
-  -- ∃-elim :  (∀ a → P˙ a ⊢[ ∞ ] Q) →  ∃˙ P˙ ⊢[ ∞ ] Q
+  -- ∃-elim :  (∀ x → P˙ x ⊢[ ∞ ] Q) →  ∃˙ P˙ ⊢[ ∞ ] Q
   ⊢⇒⊨ (∃-elim ∀xPx⊢Q) (x , Pxa) =  ⊢⇒⊨ (∀xPx⊢Q x) Pxa
 
-  -- ∀-elim :  ∀˙ P˙ ⊢[ ∞ ] P˙ a
+  -- ∀-elim :  ∀˙ P˙ ⊢[ ∞ ] P˙ x
   ⊢⇒⊨ ∀-elim ∀Pa =  ∀Pa _
 
-  -- ∃-intro :  P˙ a ⊢[ ∞ ] ∃˙ P˙
+  -- ∃-intro :  P˙ x ⊢[ ∞ ] ∃˙ P˙
   ⊢⇒⊨ ∃-intro Px =  _ , Px
 
-  -- choice :  ∀' a , ∃ b , P˙˙ a b ⊢[ ∞ ] ∃ f , ∀' a , P˙˙ a (f a)
+  -- choice :  ∀' x , ∃ y , P˙˙ x y ⊢[ ∞ ] ∃ y˙ , ∀' x , P˙˙ x (y˙ x)
   -- It can be proved axiom-free thanks to the logic's predicativity
   ⊢⇒⊨ choice ∀x∃yPxy .proj₀ x =  ∀x∃yPxy x .proj₀
   ⊢⇒⊨ choice ∀x∃yPxy .proj₁ x =  ∀x∃yPxy x .proj₁

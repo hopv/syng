@@ -90,12 +90,12 @@ P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
 
 private variable
   ι :  Size
-  A :  Set ℓ
-  a :  A
-  F :  A → Set ℓ
+  X :  Set ℓ
+  x :  X
+  Y˙ :  X → Set ℓ
   Jr :  JudgRes
   P P' Q R :  Prop' ∞
-  P˙ Q˙ :  A → Prop' ∞
+  P˙ Q˙ :  X → Prop' ∞
   P˂ Q˂ :  Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
   κ :  WpK
@@ -103,7 +103,7 @@ private variable
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
   e :  Expr ∞ U
   e˂ :  Expr˂ ∞ U
-  e˙ :  A → Expr ∞ U
+  e˙ :  X → Expr ∞ U
   ktx :  Ktx T U
   v :  Val T
 
@@ -120,14 +120,14 @@ data  _⊢[_]*_  where
   _»_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ]* Jr →  P ⊢[ ι ]* Jr
 
   -- Introducing ∀ / Eliminating ∃
-  ∀-intro :  (∀ a → P ⊢[ ι ] Q˙ a) →  P ⊢[ ι ] ∀˙ Q˙
-  ∃-elim :  (∀ a → P˙ a ⊢[ ι ]* Jr) →  ∃˙ P˙ ⊢[ ι ]* Jr
+  ∀-intro :  (∀ x → P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀˙ Q˙
+  ∃-elim :  (∀ x → P˙ x ⊢[ ι ]* Jr) →  ∃˙ P˙ ⊢[ ι ]* Jr
   -- Eliminating ∀ / Introducing ∃
-  ∀-elim :  ∀˙ P˙ ⊢[ ι ] P˙ a
-  ∃-intro :  P˙ a ⊢[ ι ] ∃˙ P˙
+  ∀-elim :  ∀˙ P˙ ⊢[ ι ] P˙ x
+  ∃-intro :  P˙ x ⊢[ ι ] ∃˙ P˙
   -- Choice, which is safe to have thanks to the logic's predicativity
-  choice :  ∀ {P˙˙ : ∀ (a : A) → F a → Prop' ∞} →
-            ∀' a , ∃ b , P˙˙ a b ⊢[ ι ] ∃ f ∈ (∀ a → F a) , ∀' a , P˙˙ a (f a)
+  choice :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
+    ∀' x , ∃ y , P˙˙ x y ⊢[ ι ] ∃ y˙ ∈ (∀ x → Y˙ x) , ∀' x , P˙˙ x (y˙ x)
 
   -- → is the right adjoint of ∧
   →-intro :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
@@ -154,7 +154,7 @@ data  _⊢[_]*_  where
   -- ∗ can get inside |=>
   |=>-frameˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
   -- ∃ _ , can get outside |=>
-  |=>-∃-out :  |=> (∃ _ ∈ A , P) ⊢[ ι ] ∃ _ ∈ A , |=> P
+  |=>-∃-out :  |=> (∃ _ ∈ X , P) ⊢[ ι ] ∃ _ ∈ X , |=> P
 
   -- □ is comonadic: monotone, decreasing, and idempotent
   □-mono :  P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
@@ -225,7 +225,7 @@ data  _⊢[_]*_  where
   hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
 
   -- Non-deterministic value
-  hor-ndᵘ :  (∀ a → P ⊢[ ι ]=>> Qᵛ (↑ a)) →
+  hor-ndᵘ :  (∀ x → P ⊢[ ι ]=>> Qᵛ (↑ x)) →
              P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ndᴿ ⟩[ κ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples
@@ -235,8 +235,8 @@ data  _⊢[_]*_  where
             P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᵀ Qᵛ
 
   -- Application
-  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ a ⟩[ κ ] Qᵛ →
-           P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , e˙ ◁ᴿ a ⟩[ κ ] Qᵛ
+  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ κ ] Qᵛ →
+           P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , e˙ ◁ᴿ x ⟩[ κ ] Qᵛ
 
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition

@@ -26,8 +26,8 @@ Prop˂ ι =  Thunk Prop' ι
 
 private variable
   ι :  Size
-  A :  Set ℓ
-  P˙ :  A → Prop' ∞
+  X :  Set ℓ
+  P˙ :  X → Prop' ∞
   P Q R S :  Prop' ∞
   ℓ' :  Level
   D :  Set ℓ'
@@ -37,9 +37,9 @@ infixr 7 _∗_
 infix 8 |=>_ □_
 
 data  Prop' ι  where
-  -- ∀˙, ∃˙: Universal/existential quantification over any type A in Set ℓ,
+  -- ∀˙, ∃˙: Universal/existential quantification over any type X in Set ℓ,
   --         which does not include Prop' ι itself (predicativity)
-  ∀˙ ∃˙ :  (A → Prop' ι) →  Prop' ι
+  ∀˙ ∃˙ :  (X → Prop' ι) →  Prop' ι
   -- →': Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
   -- ∗: Separating conjunction
@@ -54,14 +54,14 @@ data  Prop' ι  where
 --------------------------------------------------------------------------------
 -- Syntax for ∀/∃
 
-∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  (A → Prop' ι) →  Prop' ι
+∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  (X → Prop' ι) →  Prop' ι
 ∀∈-syntax =  ∀˙
 ∃∈-syntax =  ∃˙
 ∀-syntax =  ∀˙
 ∃-syntax =  ∃˙
 infix 3 ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
-syntax ∀∈-syntax {A = A} (λ x → P) =  ∀' x ∈ A , P
-syntax ∃∈-syntax {A = A} (λ x → P) =  ∃ x ∈ A , P
+syntax ∀∈-syntax {X = X} (λ x → P) =  ∀' x ∈ X , P
+syntax ∃∈-syntax {X = X} (λ x → P) =  ∃ x ∈ X , P
 syntax ∀-syntax (λ x → P) =  ∀' x , P
 syntax ∃-syntax (λ x → P) =  ∃ x , P
 
@@ -88,7 +88,7 @@ P ∨ Q =  ∃˙ (binary P Q)
 -- ⌜ ⌝: Set embedding
 
 ⌜_⌝ :  Set ℓ →  Prop' ι
-⌜ A ⌝ =  ∃ _ ∈ A , ⊤'
+⌜ X ⌝ =  ∃ _ ∈ X , ⊤'
 
 --------------------------------------------------------------------------------
 -- [∗]: Iterated separating conjunction
@@ -115,8 +115,8 @@ syntax [∗∈]-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
 
 -- IsBasic P: P consists only of ∀, ∃ and ∗
 data  IsBasic :  Prop' ∞ →  Set (^ ℓ)  where
-  ∀-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∀˙ P˙)
-  ∃-IsBasic :  (∀ a → IsBasic (P˙ a)) →  IsBasic (∃˙ P˙)
+  ∀-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∀˙ P˙)
+  ∃-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∃˙ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
   □-IsBasic :  IsBasic P →  IsBasic (□ P)
 
@@ -130,13 +130,13 @@ abstract
   -- For ∀/∃
 
   -- -- They are not instances, because unfortunately
-  -- -- Agda can't search a universally quantified instance (∀ a → ...)
+  -- -- Agda can't search a universally quantified instance (∀ x → ...)
 
-  ∀-Basic :  (∀ a → Basic (P˙ a)) →  Basic (∀˙ P˙)
-  ∀-Basic ∀Basic .isBasic =  ∀-IsBasic $ λ a → ∀Basic a .isBasic
+  ∀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀˙ P˙)
+  ∀-Basic ∀Basic .isBasic =  ∀-IsBasic $ λ x → ∀Basic x .isBasic
 
-  ∃-Basic :  (∀ a → Basic (P˙ a)) →  Basic (∃˙ P˙)
-  ∃-Basic ∀Basic .isBasic =  ∃-IsBasic $ λ a → ∀Basic a .isBasic
+  ∃-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃˙ P˙)
+  ∃-Basic ∀Basic .isBasic =  ∃-IsBasic $ λ x → ∀Basic x .isBasic
 
   instance
 
@@ -161,7 +161,7 @@ abstract
 
     -- For ⌜ ⌝
 
-    ⌜⌝-Basic :  Basic ⌜ A ⌝
+    ⌜⌝-Basic :  Basic ⌜ X ⌝
     ⌜⌝-Basic =  ∃-Basic $ λ _ → ⊤-Basic
 
     -- For ⌜ ⌝

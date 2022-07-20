@@ -20,9 +20,8 @@ open import Shog.Logic.Core ℓ
 private variable
   ι :  Size
   P P' Q Q' R R' S S' T T' U U' V V' :  Prop' ∞
-  A B :  Set ℓ
-  F :  A → Set ℓ
-  P˙ Q˙ :  A → Prop' ∞
+  X :  Set ℓ
+  P˙ Q˙ :  X → Prop' ∞
   Jr :  JudgRes
 
 abstract
@@ -168,8 +167,8 @@ abstract
 
   -- Eliminate ∃/∨/⊥' from the head
 
-  0-∃-elim :  (∀ a → P˙ a ∗ Q ⊢[ ι ]* Jr) →  (∃˙ P˙) ∗ Q ⊢[ ι ]* Jr
-  0-∃-elim →P˙∗⊢ =  ∗-comm » ∗-∃-out » ∃-elim $ λ a → ∗-comm » →P˙∗⊢ a
+  0-∃-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  (∃˙ P˙) ∗ Q ⊢[ ι ]* Jr
+  0-∃-elim →P˙∗⊢ =  ∗-comm » ∗-∃-out » ∃-elim $ λ x → ∗-comm » →P˙∗⊢ x
 
   0-∨-elim :  P ∗ Q ⊢[ ι ]* Jr →  P' ∗ Q ⊢[ ι ]* Jr →  (P ∨ P') ∗ Q ⊢[ ι ]* Jr
   0-∨-elim P∗⊢ P'∗⊢ =  0-∃-elim (binary P∗⊢ P'∗⊢)
@@ -179,12 +178,12 @@ abstract
 
   -- Introduce ⌜ ⌝ to the head
 
-  ⌜⌝⇒0 :  A →  P ⊢[ ι ] ⌜ A ⌝ ∗ P
+  ⌜⌝⇒0 :  X →  P ⊢[ ι ] ⌜ X ⌝ ∗ P
   ⌜⌝⇒0 =  ⌜⌝∗-intro
 
   -- Eliminate ⌜ ⌝ from the head
 
-  0-⌜⌝-elim :  (A → Q ⊢[ ι ] R) →  ⌜ A ⌝ ∗ Q ⊢[ ι ] R
+  0-⌜⌝-elim :  (X → Q ⊢[ ι ] R) →  ⌜ X ⌝ ∗ Q ⊢[ ι ] R
   0-⌜⌝-elim =  ⌜⌝∗-elim
 
   -- Apply the head to the succedent

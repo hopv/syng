@@ -20,18 +20,13 @@ open import Base.List using (List; [])
 open import Base.List.Nat using (_!!_; upd; repeat)
 open import Base.Eq using (_≡_; refl; ◠_)
 open import Shog.Lang.Expr ℓ using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
-  V⇒E)
+  V⇒E; AnyVal)
 open import Shog.Lang.Ktxred ℓ using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ;
   freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; val/ktxred; nonval; val/ktxred-ktx;
   val/ktxred-ktx-inv)
 
 --------------------------------------------------------------------------------
 -- Memory
-
--- Value of any type T
-
-AnyVal :  Set (^ ℓ)
-AnyVal =  ∑ T , Val T
 
 -- Re-export
 open import Base.Finmap (List AnyVal) (_≡ []) public using () renaming (

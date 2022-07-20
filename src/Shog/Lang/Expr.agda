@@ -12,6 +12,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
+open import Base.Prod using (∑-syntax)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 open import Base.Eq using (_≡_; cong)
 
@@ -126,3 +127,8 @@ Val (X →* T) =  X → Expr ∞ T
 V⇒E :  Val T →  Expr ∞ T
 V⇒E {T = ◸ _} (↑ x) =  ∇ x
 V⇒E {T = _ →* _} e˙ =  λ˙ e˙
+
+-- Value of any type T
+
+AnyVal :  Set (^ ℓ)
+AnyVal =  ∑ T , Val T

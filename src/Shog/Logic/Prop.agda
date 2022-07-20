@@ -117,7 +117,7 @@ syntax [∗∈]-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
 --------------------------------------------------------------------------------
 -- Basic Shog proposition
 
--- IsBasic P: P consists only of ∀, ∃ and ∗
+-- IsBasic P: P consists only of ∀, ∃, ∗ and □
 data  IsBasic :  Prop' ∞ →  Set (^ ℓ)  where
   ∀-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∀˙ P˙)
   ∃-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∃˙ P˙)

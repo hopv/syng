@@ -72,7 +72,7 @@ P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 _⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
 P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
--- ⊢[ ]'⟨ ⟩[ ] : Hoare-triple, over Val/Ktxred
+-- ⊢[ ]'⟨ ⟩[ ] : Hoare-triple over Val/Ktxred
 
 _⊢[_]'⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Val/Ktxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
@@ -83,7 +83,8 @@ _⊢[_]'⟨_⟩ᴾ_ _⊢[_]'⟨_⟩ᵀ_ :
 P ⊢[ ι ]'⟨ vk ⟩ᴾ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ par ] Qᵛ
 P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ tot ] Qᵛ
 
--- ⊢[ ]⟨ ⟩[ ] : Hoare-triple, over Expr
+-- ⊢[ ]⟨ ⟩[ ] : Hoare-triple over Expr
+
 _⊢[_]⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
 P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ktxred e ⟩[ κ ] Qᵛ

@@ -128,9 +128,8 @@ open Basic {{...}} public
 abstract
 
   -- For ∀/∃
-
-  -- -- They are not instances, because unfortunately
-  -- -- Agda can't search a universally quantified instance (∀ x → ...)
+  -- They are not instances, because unfortunately Agda can't search a
+  -- universally quantified instance (∀ x → ...)
 
   ∀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀˙ P˙)
   ∀-Basic ∀Basic .isBasic =  ∀-IsBasic $ λ x → ∀Basic x .isBasic

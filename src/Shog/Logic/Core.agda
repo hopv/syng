@@ -407,10 +407,9 @@ abstract
   ------------------------------------------------------------------------------
   -- Deriving Pers P
 
-  -- -- For ∀/∃
-
-  -- -- They are not instances, because unfortunately
-  -- -- Agda can't search a universally quantified instance (∀ x → ...)
+  -- For ∀/∃
+  -- They are not instances, because unfortunately Agda can't search a
+  -- universally quantified instance (∀ x → ...)
 
   ∀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀˙ P˙)
   ∀-Pers ∀Pers .Pers-⇒□ =  ∀-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀-in

@@ -188,25 +188,22 @@ abstract
   ⊢⇒⊨ □-∃-out ∑xPx⌞a⌟ =  ∑xPx⌞a⌟
 
   -- Save□-□ :  Save□ P˂ ⊢[ ∞ ] □ Save□ P˂
-  ⊢⇒⊨ Save□-□ {✓a = ✓a} (_ , _ , BaQ , i , Q∧P'⊢P , Qa , line□iP'a) =
+  ⊢⇒⊨ Save□-□ {✓a = ✓a} (_ , _ , BaQ , _ , Q∧P'⊢P , Qa , line□iP'a) =
     let instance _ = BaQ in
-    _ , _ , _ , _ , Q∧P'⊢P , ⸨⸩ᴮ-⇒□ Qa ,
-    Own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a
+    _ , _ , _ , _ , Q∧P'⊢P , ⸨⸩ᴮ-⇒□ Qa , Own-⌞⌟-□' lineˢ□-⌞⌟ {✓a = ✓a} line□iP'a
 
   -- Saveˣ-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Saveˣ P˂ ⊢[ ∞ ] Saveˣ Q˂
   ⊢⇒⊨ (Saveˣ-mono-∧ R∧P⊢<Q) R∧SaveˣP˂a =
-    let Ra = R∧SaveˣP˂a 0₂ in
     let (T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa) = R∧SaveˣP˂a 1₂ in
     let instance _ = BaS in
     T , _ ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
-    ⸨⸩-⇒ᴮ (binary Ra $ ⸨⸩-ᴮ⇒ Sa) , lineˢˣTa
+    ⸨⸩-⇒ᴮ (binary (R∧SaveˣP˂a 0₂) $ ⸨⸩-ᴮ⇒ Sa) , lineˢˣTa
 
   -- Save□-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Save□ P˂ ⊢[ ∞ ] Save□ Q˂
   ⊢⇒⊨ (Save□-mono-∧ R∧P⊢<Q) R∧Save□P˂a =
-    let Ra = R∧Save□P˂a 0₂ in
     let (T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta) = R∧Save□P˂a 1₂ in
     let instance _ = BaS in
     T , _ ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
-    ⸨⸩-⇒ᴮ (binary Ra $ ⸨⸩-ᴮ⇒ Sa) , lineˢ□Ta
+    ⸨⸩-⇒ᴮ (binary (R∧Save□P˂a 0₂) $ ⸨⸩-ᴮ⇒ Sa) , lineˢ□Ta

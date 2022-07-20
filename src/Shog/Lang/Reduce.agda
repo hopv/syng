@@ -67,14 +67,14 @@ updᴹ (addr l i) c M =  updᴹᴮ l (upd i c $ M .bloᴹ l) M
 
 private variable
   T U V :  Type
-  A :  Set ℓ
+  X :  Set ℓ
   M M' :  Mem
   e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
-  e˙ :  A → Expr ∞ T
+  e˙ :  X → Expr ∞ T
   ktx :  Ktx U T
   red : Redex T
-  a :  A
+  x :  X
   ρ :  Addr
   v :  Val V
   l n :  ℕ
@@ -84,8 +84,8 @@ infix 4 _⇒ᴿ_ _⇒ᴱ_
 -- Reduction on a redex
 data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^ ℓ)  where
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
-  nd-red :  ∀ (a : A) →  (ndᴿ , M) ⇒ᴿ (∇ a , M)
-  ◁-red :  (e˙ ◁ᴿ a , M) ⇒ᴿ (e˙ a , M)
+  nd-red :  ∀ (x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
+  ◁-red :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
   ★-red :  M !!ᴹ ρ ≡ some (V , v) →  (★ᴿ ρ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  ∀{v : Val V} →  (ρ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ ρ (V , v) M)
   alloc-red :  ∀ l →  M .bloᴹ l ≡ [] →

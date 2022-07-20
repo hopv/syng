@@ -57,9 +57,9 @@ data  Type :  Set (^ ℓ)  where
   _→*_ :  Set ℓ →  Type →  Type
 
 private variable
-  A :  Set ℓ
   ι :  Size
   T U :  Type
+  X :  Set ℓ
 
 --------------------------------------------------------------------------------
 -- Expr: Expression, possibly infinite
@@ -79,13 +79,13 @@ data  Expr ι  where
   -- Later, for infinite construction
   ▶_ :  Expr˂ ι T →  Expr ι T
   -- Turn a value into an expression
-  ∇_ :  A →  Expr ι (◸ A)
+  ∇_ :  X →  Expr ι (◸ X)
   -- Non-deterministic value
-  nd :  Expr ι (◸ A)
+  nd :  Expr ι (◸ X)
   -- Lambda abstraction over a value
-  λ˙ :  (A → Expr ι T) →  Expr ι (A →* T)
+  λ˙ :  (X → Expr ι T) →  Expr ι (X →* T)
   -- Application
-  _◁_ :  Expr ι (A →* T) →  Expr ι (◸ A) →  Expr ι T
+  _◁_ :  Expr ι (X →* T) →  Expr ι (◸ X) →  Expr ι T
   -- Read from the memory
   ★_ :  Expr ι (◸ Up Addr) →  Expr ι T
   -- Write to the memory
@@ -97,32 +97,32 @@ data  Expr ι  where
 
 -- Lambda abstraction
 
-λ∈-syntax λ-syntax :  (A → Expr ι T) →  Expr ι (A →* T)
+λ∈-syntax λ-syntax :  (X → Expr ι T) →  Expr ι (X →* T)
 λ∈-syntax =  λ˙
 λ-syntax =  λ˙
 infix 3 λ∈-syntax λ-syntax
-syntax λ∈-syntax {A = A} (λ ρ → e) =  λ' ρ ∈ A , e
+syntax λ∈-syntax {X = X} (λ ρ → e) =  λ' ρ ∈ X , e
 syntax λ-syntax (λ ρ → e) =  λ' ρ , e
 
 -- Let binding
 
-let˙ let∈-syntax let-syntax :  Expr ι (◸ A) →  (A → Expr ι T) →  Expr ι T
+let˙ let∈-syntax let-syntax :  Expr ι (◸ X) →  (X → Expr ι T) →  Expr ι T
 let˙ e₀ e˙ =  λ˙ e˙ ◁ e₀
 let∈-syntax =  let˙
 let-syntax =  let˙
 infix 3 let∈-syntax let-syntax
-syntax let∈-syntax {A = A} e₀ (λ ρ → e) =  let' ρ ∈ A := e₀ in' e
+syntax let∈-syntax {X = X} e₀ (λ ρ → e) =  let' ρ ∈ X := e₀ in' e
 syntax let-syntax e₀ (λ ρ → e) =  let' ρ := e₀ in' e
 
 --------------------------------------------------------------------------------
 -- Val: Value type
 
 Val :  Type →  Set (^ ℓ)
-Val (◸ A) =  Up A
-Val (A →* T) =  A → Expr ∞ T
+Val (◸ X) =  Up X
+Val (X →* T) =  X → Expr ∞ T
 
 -- Conversion from Val to Expr
 
 V⇒E :  Val T →  Expr ∞ T
-V⇒E {T = ◸ _} (↑ a) =  ∇ a
+V⇒E {T = ◸ _} (↑ x) =  ∇ x
 V⇒E {T = _ →* _} e˙ =  λ˙ e˙

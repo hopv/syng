@@ -19,7 +19,7 @@ open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; Expr; Expr˂; �
   nd; λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
 
 private variable
-  A :  Set ℓ
+  X :  Set ℓ
   T U V :  Type
   e :  Expr ∞ T
 
@@ -31,8 +31,8 @@ infixl 5 _◁ᴿ_
 
 data  Redex :  Type →  Set (^ ℓ)  where
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
-  ndᴿ :  Redex (◸ A)
-  _◁ᴿ_ :  (A → Expr ∞ T) →  A →  Redex T
+  ndᴿ :  Redex (◸ X)
+  _◁ᴿ_ :  (X → Expr ∞ T) →  X →  Redex T
   ★ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
   allocᴿ :  ℕ →  Redex (◸ Up Addr)
@@ -41,7 +41,7 @@ data  Redex :  Type →  Set (^ ℓ)  where
 R⇒E :  Redex T →  Expr ∞ T
 R⇒E (▶ᴿ e˂) =  ▶ e˂
 R⇒E ndᴿ =  nd
-R⇒E (e˙ ◁ᴿ a) =  λ˙ e˙ ◁ ∇ a
+R⇒E (e˙ ◁ᴿ x) =  λ˙ e˙ ◁ ∇ x
 R⇒E (★ᴿ ρ) =  ★ ∇ ↑ ρ
 R⇒E (ρ ←ᴿ v) =  ∇ ↑ ρ ← V⇒E v
 R⇒E (allocᴿ n) =  alloc $ ∇ ↑ n
@@ -56,8 +56,8 @@ data  Ktx :  Type →  Type →  Set (^ ℓ)  where
   -- Hole
   •ᴷ :  Ktx T T
   -- On _◁_
-  _◁ᴷʳ_ :  Expr ∞ (A →* T) →  Ktx U (◸ A) →  Ktx U T
-  _◁ᴷˡ_ :  Ktx U (A →* T) →  A →  Ktx U T
+  _◁ᴷʳ_ :  Expr ∞ (X →* T) →  Ktx U (◸ X) →  Ktx U T
+  _◁ᴷˡ_ :  Ktx U (X →* T) →  X →  Ktx U T
   -- On ★_
   ★ᴷ_ :  Ktx U (◸ Up Addr) →  Ktx U T
   -- On _←_
@@ -74,7 +74,7 @@ infix 5 _ᴷ◁_
 _ᴷ◁_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
 •ᴷ ᴷ◁ e =  e
 (e' ◁ᴷʳ ktx) ᴷ◁ e =  e' ◁ (ktx ᴷ◁ e)
-(ktx ◁ᴷˡ a) ᴷ◁ e =  (ktx ᴷ◁ e) ◁ ∇ a
+(ktx ◁ᴷˡ x) ᴷ◁ e =  (ktx ᴷ◁ e) ◁ ∇ x
 ★ᴷ ktx ᴷ◁ e =  ★ (ktx ᴷ◁ e)
 (e' ←ᴷʳ ktx) ᴷ◁ e =  e' ← (ktx ᴷ◁ e)
 (ktx ←ᴷˡ v) ᴷ◁ e =  (ktx ᴷ◁ e) ← V⇒E v
@@ -87,7 +87,7 @@ infix 5 _ᴷ∘ᴷ_
 _ᴷ∘ᴷ_ :  Ktx U T →  Ktx V U →  Ktx V T
 •ᴷ ᴷ∘ᴷ ktx =  ktx
 (e ◁ᴷʳ ktx) ᴷ∘ᴷ ktx' =  e ◁ᴷʳ (ktx ᴷ∘ᴷ ktx')
-(ktx ◁ᴷˡ a) ᴷ∘ᴷ ktx' =  (ktx ᴷ∘ᴷ ktx') ◁ᴷˡ a
+(ktx ◁ᴷˡ x) ᴷ∘ᴷ ktx' =  (ktx ᴷ∘ᴷ ktx') ◁ᴷˡ x
 ★ᴷ ktx ᴷ∘ᴷ ktx' =  ★ᴷ (ktx ᴷ∘ᴷ ktx')
 (e ←ᴷʳ ktx) ᴷ∘ᴷ ktx' =  e ←ᴷʳ (ktx ᴷ∘ᴷ ktx')
 (ktx ←ᴷˡ v) ᴷ∘ᴷ ktx' =  (ktx ᴷ∘ᴷ ktx') ←ᴷˡ v
@@ -132,7 +132,7 @@ abstract
 -- Calculate the value or context-redex pair of the expression
 
 val/ktxred :  Expr ∞ T →  Val/Ktxred T
-val/ktxred (∇ a) =  inj₀ $ ↑ a
+val/ktxred (∇ x) =  inj₀ $ ↑ x
 val/ktxred (λ˙ e˙) =  inj₀ $ e˙
 val/ktxred (▶ e˂) =  inj₁ $ _ , •ᴷ , ▶ᴿ e˂
 val/ktxred nd =  inj₁ $ _ , •ᴷ , ndᴿ
@@ -141,9 +141,9 @@ val/ktxred (e' ◁ e) =  inj₁ body
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (_ , ktx , red) =  _ , e' ◁ᴷʳ ktx , red
-  ... | inj₀ (↑ a)  with val/ktxred e'
-  ...   | inj₁ (_ , ktx , red) =  _ , ktx ◁ᴷˡ a , red
-  ...   | inj₀ v =  _ , •ᴷ , v ◁ᴿ a
+  ... | inj₀ (↑ x)  with val/ktxred e'
+  ...   | inj₁ (_ , ktx , red) =  _ , ktx ◁ᴷˡ x , red
+  ...   | inj₀ v =  _ , •ᴷ , v ◁ᴿ x
 val/ktxred (★ e) =  inj₁ body
  where
   body :  Ktxred _

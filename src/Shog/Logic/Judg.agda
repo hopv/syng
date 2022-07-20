@@ -12,12 +12,12 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_; _$_)
 open import Base.Bool using (Bool)
-open import Base.List using (List)
+open import Base.List using (List; map)
 open import Base.Prod using (_,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
-  ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗]-map; [∗∈]-syntax;
-  Saveˣ; Save□; Basic)
+  ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗∈]-syntax; Saveˣ;
+  Save□; Basic)
 open import Shog.Lang.Expr ℓ using (Type; Expr; Expr˂; ▶_; Val; V⇒E)
 open import Shog.Lang.Ktxred ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Val/Ktxred; val/ktxred; Ktx; _ᴷ◁_)
@@ -194,7 +194,7 @@ data  _⊢[_]*_  where
   -- Persistent save tokens Save□ P˂ (for P˂ ∈ P˂s) can be obtained
   -- by allocating □ P˂ (for P˂ ∈ P˂s) minus the save tokens themselves
   Save□-alloc-rec :
-    [∗]-map Save□ P˂s -∗ [∗ P˂ ∈ P˂s ] □ P˂ .! ⊢[ ι ]=>> [∗]-map Save□ P˂s
+    [∗] map Save□ P˂s -∗ [∗ P˂ ∈ P˂s ] □ P˂ .! ⊢[ ι ]=>> [∗] map Save□ P˂s
 
   -- Use a exclusive/persistent save token
   Saveˣ-use :  Saveˣ P˂ ⊢[ ι ]=>> P˂ .!

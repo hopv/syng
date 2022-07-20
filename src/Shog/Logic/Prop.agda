@@ -102,15 +102,10 @@ infix 9 [∗]_
 [∗] [] =  ⊤'
 [∗] (P ∷ Ps) =  P ∗ [∗] Ps
 
--- [∗] with map
-
-[∗]-map :  (D → Prop' ι) →  List D →  Prop' ι
-[∗]-map P˙ ds =  [∗] map P˙ ds
-
--- Syntax for [∗]-map
+-- Syntax for [∗] map
 
 [∗∈]-syntax :  (D → Prop' ι) →  List D →  Prop' ι
-[∗∈]-syntax =  [∗]-map
+[∗∈]-syntax P˙ ds =  [∗] map P˙ ds
 infix 8 [∗∈]-syntax
 syntax [∗∈]-syntax (λ d → P) ds =  [∗ d ∈ ds ] P
 

@@ -204,8 +204,8 @@ data  _⊢[_]*_  where
   Saveˣ-alloc :  P˂ .! ⊢[ ι ]=>> Saveˣ P˂
   -- Persistent save tokens Save□ P˂ (for P˂ ∈ P˂s) can be obtained
   -- by allocating □ P˂ (for P˂ ∈ P˂s) minus the save tokens themselves
-  Save□-alloc-rec :
-    [∗] map Save□ P˂s -∗ [∗ P˂ ∈ P˂s ] □ P˂ .! ⊢[ ι ]=>> [∗] map Save□ P˂s
+  Save□-alloc-rec :  [∗] map Save□ P˂s -∗ [∗ P˂ ∈ P˂s ] □ P˂ .!
+                     ⊢[ ι ]=>> [∗] map Save□ P˂s
 
   -- Use a exclusive/persistent save token
   Saveˣ-use :  Saveˣ P˂ ⊢[ ι ]=>> P˂ .!
@@ -218,19 +218,20 @@ data  _⊢[_]*_  where
   hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vk ⟩ᴾ Qᵛ
 
   -- Monotonicity
-  hor-monoˡᵘ :  ∀{Qᵛ : _} →  P' ⊢[ ι ]=>> P →
-                P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ
-  hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
-                P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
+  hor-monoˡᵘ :  ∀{Qᵛ : _} →  P' ⊢[ ι ]=>> P →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
+                             P' ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ
+  hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →
+    (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
+    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
 
   -- Frame
   hor-frame :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
-               P ∗ R ⊢[ ι ]'⟨ vk ⟩[ κ ] λ v → Qᵛ v ∗ R
+                            P ∗ R ⊢[ ι ]'⟨ vk ⟩[ κ ] λ v → Qᵛ v ∗ R
 
   -- Bind by a context
-  hor-bind :  ∀{Qᵛ : _ → _} {Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →
-              (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ κ ] Rᵛ) →
-              P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ κ ] Rᵛ
+  hor-bind :  ∀{Qᵛ : _} {Rᵛ : _} →
+    P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ κ ] Rᵛ) →
+    P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ κ ] Rᵛ
 
   -- Value
   hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ κ ] Qᵛ
@@ -241,21 +242,23 @@ data  _⊢[_]*_  where
 
   -- ▶, for partial and total Hoare triples
   horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᴾ Qᵛ
+                         P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᴾ Qᵛ
   horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ Qᵛ →
-            P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᵀ Qᵛ
+                         P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ▶ᴿ e˂ ⟩ᵀ Qᵛ
 
   -- Application
   hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ κ ] Qᵛ →
-           P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , e˙ ◁ᴿ x ⟩[ κ ] Qᵛ
+                        P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , e˙ ◁ᴿ x ⟩[ κ ] Qᵛ
 
   -- Memory read
-  hor-★ :  ∀{Qᵛ : _} →  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ κ ] Qᵛ →
-           θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ★ᴿ θ ⟩[ κ ] Qᵛ
+  hor-★ :  ∀{Qᵛ : _} →
+    θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ κ ] Qᵛ →
+    θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , ★ᴿ θ ⟩[ κ ] Qᵛ
 
   -- Memory write
-  hor-← :  ∀{Qᵛ : _} →  θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
-           θ ↦ av ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , θ ←ᴿ v ⟩[ κ ] Qᵛ
+  hor-← :  ∀{Qᵛ : _} →
+    θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
+    θ ↦ av ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , θ ←ᴿ v ⟩[ κ ] Qᵛ
 
   -- Memory allocation
   hor-alloc :  ∀{Qᵛ : _} →
@@ -263,7 +266,8 @@ data  _⊢[_]*_  where
     P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , allocᴿ n ⟩[ κ ] Qᵛ
 
   -- Memory freeing
-  hor-free :  ∀{Qᵛ : _} →  len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
+  hor-free :  ∀{Qᵛ : _} →
+    len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
     θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]'⟨ inj₁ $ _ , ktx , freeᴿ θ ⟩[ κ ] Qᵛ
 
 --------------------------------------------------------------------------------

@@ -40,12 +40,13 @@ abstract
 
   -- Monotonicity
 
-  hor-monoˡ :  ∀{Qᵛ : Val T → _} →  P' ⊢[ ι ] P →
-               P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ
+  hor-monoˡ :  ∀{Qᵛ : _} →  P' ⊢[ ι ] P →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
+                            P' ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ
   hor-monoˡ P'⊢P =  hor-monoˡᵘ $ ⇒=>> P'⊢P
 
-  hor-monoʳ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →
-               P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
+  hor-monoʳ :  ∀{Qᵛ : Val T → _} →
+    (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
+    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
   hor-monoʳ ∀vQ⊢Q' =  hor-monoʳᵘ $ λ _ → ⇒=>> $ ∀vQ⊢Q' _
 
   -- Non-deterministic value
@@ -56,9 +57,9 @@ abstract
 
   -- Let binding
 
-  hor-let :  ∀{Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e₀ ⟩[ κ ] Qᵛ →
-              (∀ a → Qᵛ (↑ a) ⊢[ ι ]⟨ e˙ a ⟩[ κ ] Rᵛ) →
-              P ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ] Rᵛ
+  hor-let :  ∀{Rᵛ : _} →
+    P ⊢[ ι ]⟨ e₀ ⟩[ κ ] Qᵛ →  (∀ a → Qᵛ (↑ a) ⊢[ ι ]⟨ e˙ a ⟩[ κ ] Rᵛ) →
+    P ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ] Rᵛ
   hor-let P⊢⟨e₀⟩Q ∀aQ⊢⟨e˙⟩R =
     hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q $ λ (↑ a) → hor-◁ $ ∀aQ⊢⟨e˙⟩R a
 

@@ -70,12 +70,12 @@ P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
 _⊢[_]'⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Val/Ktxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
-P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* Wp' κ vc Qᵛ
+P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* Wp' κ vk Qᵛ
 
 _⊢[_]'⟨_⟩ᴾ_ _⊢[_]'⟨_⟩ᵀ_ :
   Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set (^ ℓ)
-P ⊢[ ι ]'⟨ vc ⟩ᴾ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ par ] Qᵛ
-P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vc ⟩[ tot ] Qᵛ
+P ⊢[ ι ]'⟨ vk ⟩ᴾ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ par ] Qᵛ
+P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ tot ] Qᵛ
 
 -- ⊢[ ]⟨ ⟩[ ] : Hoare-triple, over Expr
 _⊢[_]⟨_⟩[_]_ :
@@ -99,7 +99,7 @@ private variable
   P˂ Q˂ :  Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
   κ :  WpK
-  vc :  Val/Ktxred T
+  vk :  Val/Ktxred T
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
   e :  Expr ∞ U
   e˂ :  Expr˂ ∞ U
@@ -204,17 +204,17 @@ data  _⊢[_]*_  where
   -- Rules on Hoare triple
 
   -- Weaken a Hoare triple from total to partial
-  hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩ᴾ Qᵛ
+  hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vk ⟩ᴾ Qᵛ
 
   -- Monotonicity
   hor-monoˡᵘ :  ∀{Qᵛ : _} →  P' ⊢[ ι ]=>> P →
-                P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
+                P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ
   hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →
-                P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
+                P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
 
   -- Frame
-  hor-frame :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →
-               P ∗ R ⊢[ ι ]'⟨ vc ⟩[ κ ] λ v → Qᵛ v ∗ R
+  hor-frame :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
+               P ∗ R ⊢[ ι ]'⟨ vk ⟩[ κ ] λ v → Qᵛ v ∗ R
 
   -- Bind by a context
   hor-bind :  ∀{Qᵛ : _ → _} {Rᵛ : _ → _} →  P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ →

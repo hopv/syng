@@ -31,7 +31,7 @@ private variable
   κ :  WpK
   P P' :  Prop' ∞
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
-  vc :  Val/Ktxred T
+  vk :  Val/Ktxred T
   ktx :  Ktx U T
   e₀ :  Expr ∞ T
   e˙ :  A → Expr ∞ T
@@ -41,11 +41,11 @@ abstract
   -- Monotonicity
 
   hor-monoˡ :  ∀{Qᵛ : Val T → _} →  P' ⊢[ ι ] P →
-               P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ
+               P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  P' ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ
   hor-monoˡ P'⊢P =  hor-monoˡᵘ $ ⇒=>> P'⊢P
 
   hor-monoʳ :  ∀{Qᵛ : Val T → _} →  (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →
-               P ⊢[ ι ]'⟨ vc ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vc ⟩[ κ ] Q'ᵛ
+               P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
   hor-monoʳ ∀vQ⊢Q' =  hor-monoʳᵘ $ λ _ → ⇒=>> $ ∀vQ⊢Q' _
 
   -- Non-deterministic value

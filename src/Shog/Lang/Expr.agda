@@ -33,7 +33,7 @@ private variable
 
 -- ₒ: Address offset operation
 
-infixl 6 _ₒ_
+infixl 10 _ₒ_
 _ₒ_ :  Addr →  ℕ →  Addr
 addr l i ₒ n =  addr l (n + i)
 

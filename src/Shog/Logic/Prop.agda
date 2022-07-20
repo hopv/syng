@@ -37,17 +37,21 @@ infixr 7 _∗_
 infix 8 |=>_ □_
 
 data  Prop' ι  where
+
   -- ∀˙, ∃˙: Universal/existential quantification over any type X in Set ℓ,
   --         which does not include Prop' ι itself (predicativity)
   ∀˙ ∃˙ :  (X → Prop' ι) →  Prop' ι
   -- →': Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
+
   -- ∗: Separating conjunction
   -- -∗: Magic wand
   _∗_ _-∗_ :  Prop' ι →  Prop' ι →  Prop' ι
+
   -- |=>: Update modality
   -- □: Persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
+
   -- Saveˣ, Save□: Save token, exclusive and persistent
   Saveˣ Save□ :  Prop˂ ι →  Prop' ι
 

@@ -42,10 +42,10 @@ R⇒E :  Redex T →  Expr ∞ T
 R⇒E (▶ᴿ e˂) =  ▶ e˂
 R⇒E ndᴿ =  nd
 R⇒E (e˙ ◁ᴿ x) =  λ˙ e˙ ◁ ∇ x
-R⇒E (★ᴿ ρ) =  ★ ∇ ↑ ρ
-R⇒E (ρ ←ᴿ v) =  ∇ ↑ ρ ← V⇒E v
+R⇒E (★ᴿ δ) =  ★ ∇ ↑ δ
+R⇒E (δ ←ᴿ v) =  ∇ ↑ δ ← V⇒E v
 R⇒E (allocᴿ n) =  alloc $ ∇ ↑ n
-R⇒E (freeᴿ ρ) =  free $ ∇ ↑ ρ
+R⇒E (freeᴿ δ) =  free $ ∇ ↑ δ
 
 --------------------------------------------------------------------------------
 -- Ktx: Syntactic evaluation context
@@ -149,7 +149,7 @@ val/ktxred (★ e) =  inj₁ body
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (_ , ktx , red) =  _ , ★ᴷ ktx , red
-  ... | inj₀ (↑ ↑ ρ) =  _ , •ᴷ , ★ᴿ ρ
+  ... | inj₀ (↑ ↑ δ) =  _ , •ᴷ , ★ᴿ δ
 val/ktxred (e' ← e) =  inj₁ body
  where
   body :  Ktxred _
@@ -157,7 +157,7 @@ val/ktxred (e' ← e) =  inj₁ body
   ... | inj₁ (_ , ktx , red) =  _ , e' ←ᴷʳ ktx , red
   ... | inj₀ v  with val/ktxred e'
   ...   | inj₁ (_ , ktx , red) =  _ , ktx ←ᴷˡ v , red
-  ...   | inj₀ (↑ ↑ ρ) =  _ , •ᴷ , ρ ←ᴿ v
+  ...   | inj₀ (↑ ↑ δ) =  _ , •ᴷ , δ ←ᴿ v
 val/ktxred (alloc e) =  inj₁ body
  where
   body :  Ktxred _
@@ -169,7 +169,7 @@ val/ktxred (free e) =  inj₁ body
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (_ , ktx , red) =  _ , freeᴷ ktx , red
-  ... | inj₀ (↑ ↑ ρ) =  _ , •ᴷ , freeᴿ ρ
+  ... | inj₀ (↑ ↑ δ) =  _ , •ᴷ , freeᴿ δ
 
 -- Judge if the expression is non-value
 

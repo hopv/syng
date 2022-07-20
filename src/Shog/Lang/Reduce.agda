@@ -28,13 +28,13 @@ open import Shog.Lang.Ktxred ℓ using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_
 --------------------------------------------------------------------------------
 -- Memory
 
--- Memory cell, containing a value of any type T, parametrized over
+-- Value of any type T
 
-MemCell :  Set (^ ℓ)
-MemCell =  ∑ T , Val T
+AnyVal :  Set (^ ℓ)
+AnyVal =  ∑ T , Val T
 
 -- Re-export
-open import Base.Finmap (List MemCell) (_≡ []) public using () renaming (
+open import Base.Finmap (List AnyVal) (_≡ []) public using () renaming (
 
   -- Memory, consisting of a finite number of memory blocks,
   -- each of which is a list of memory cells
@@ -44,7 +44,7 @@ open import Base.Finmap (List MemCell) (_≡ []) public using () renaming (
   -- Memory block update
   updᶠᵐ to updᴹᴮ; updaᶠᵐ to updaᴹᴮ; updaᶠᵐ-eq to updaᴹᴮ-eq)
 
-open import Base.Finmap (List MemCell) (_≡ []) using (initᶠᵐ)
+open import Base.Finmap (List AnyVal) (_≡ []) using (initᶠᵐ)
 
 -- Empty memory
 
@@ -54,13 +54,13 @@ empᴹ =  initᶠᵐ [] refl
 -- Memory read
 
 infix 5 _!!ᴹ_
-_!!ᴹ_ :  Mem →  Addr →  ?? MemCell
+_!!ᴹ_ :  Mem →  Addr →  ?? AnyVal
 M !!ᴹ addr l i =  M .bloᴹ l !! i
 
 -- Memory update
 
-updᴹ :  Addr →  MemCell →  Mem →  Mem
-updᴹ (addr l i) c M =  updᴹᴮ l (upd i c $ M .bloᴹ l) M
+updᴹ :  Addr →  AnyVal →  Mem →  Mem
+updᴹ (addr l i) av M =  updᴹᴮ l (upd i av $ M .bloᴹ l) M
 
 --------------------------------------------------------------------------------
 -- Reduction

@@ -474,22 +474,27 @@ abstract
   -- On □, with □ˡ-∧⇒∗
 
   -- ∧ can turn into ∗ when one argument is under □
+
   □ʳ-∧⇒∗ :  P ∧ □ Q ⊢[ ι ] P ∗ □ Q
   □ʳ-∧⇒∗ =  ∧-comm » □ˡ-∧⇒∗ » ∗-comm
 
   -- The antecedent can be retained when the succedent is under □
+
   retain-□ :  P ⊢[ ι ] □ Q →  P ⊢[ ι ] □ Q ∗ P
   retain-□ P⊢Q =  ∧-intro P⊢Q ⊢-refl » □ˡ-∧⇒∗
 
   -- A proposition under □ can be duplicated
+
   dup-□ :  □ P ⊢[ ι ] □ P ∗ □ P
   dup-□ =  retain-□ ⊢-refl
 
   -- ∗ can go outside □
+
   □-∗-out :  □ (P ∗ Q) ⊢[ ι ] □ P ∗ □ Q
   □-∗-out =  □-mono ∗⇒∧ » □-∧-out » □ˡ-∧⇒∗
 
   -- Under □, ∧ can turn into ∗
+
   in□-∧⇒∗ :  □ (P ∧ Q) ⊢[ ι ] □ (P ∗ Q)
   in□-∧⇒∗ =  □-intro $ dup-□ » ∗-mono (□-elim » ∧-elimˡ) (□-elim » ∧-elimʳ)
 
@@ -499,6 +504,7 @@ abstract
   -∗Pers-⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-apply
 
   -- Under □, -∗ can turn into →'
+
   in□--∗⇒→ :  □ (P -∗ Q) ⊢[ ι ] □ (P →' Q)
   in□--∗⇒→ =  □-intro $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
 

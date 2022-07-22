@@ -4,20 +4,18 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Lang.Example (ℓ : Level) where
+module Shog.Lang.Example where
 
 open import Base.Size using (Size; ∞)
-open import Base.Level using (Up; ↑_)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Nat using (ℕ; _+_)
-open import Shog.Lang.Expr ℓ using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_;
-  nd; _◁_; free; λ-syntax)
-open import Shog.Lang.Reduce ℓ using (Mem; nd-red; ▶-red; ◁-red; _⇒ᴱ_; redᴱ)
+open import Shog.Lang.Expr using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_; nd;
+  _◁_; free; λ-syntax)
+open import Shog.Lang.Reduce using (Mem; nd-red; ▶-red; ◁-red; _⇒ᴱ_; redᴱ)
 
 private variable
   ι :  Size
@@ -33,15 +31,15 @@ loop :  Expr ι (◸ ⊤)
 loop =  ▶ λ{ .! → loop }
 
 stuck :  Expr ι (◸ ⊤)
-stuck =  free $ ∇ ↑ addr 42 42
+stuck =  free $ ∇ addr 42 42
 
-plus :  Expr ι $ Up (ℕ × ℕ) →* ◸ Up ℕ
-plus =  λ' (↑ (m , n)) ,  ∇ ↑ (m + n)
+plus :  Expr ι $ (ℕ × ℕ) →* ◸ ℕ
+plus =  λ' (m , n) ,  ∇ (m + n)
 
-plus◁3'4 :  Expr ι $ ◸ Up ℕ
-plus◁3'4 =  plus ◁ ∇ ↑ (3 , 4)
+plus◁3'4 :  Expr ι $ ◸ ℕ
+plus◁3'4 =  plus ◁ ∇ (3 , 4)
 
-ndnat :  Expr ι $ ◸ Up ℕ
+ndnat :  Expr ι $ ◸ ℕ
 ndnat =  nd
 
 --------------------------------------------------------------------------------
@@ -52,10 +50,10 @@ abstract
   loop-red :  (loop , M) ⇒ᴱ (loop , M)
   loop-red =  redᴱ refl ▶-red
 
-  plus◁3'4-red :  (plus◁3'4 , M) ⇒ᴱ (∇ ↑ 7 , M)
+  plus◁3'4-red :  (plus◁3'4 , M) ⇒ᴱ (∇ 7 , M)
   plus◁3'4-red =  redᴱ refl ◁-red
 
-  ndnat-red :  (ndnat , M) ⇒ᴱ (∇ ↑ n , M)
+  ndnat-red :  (ndnat , M) ⇒ᴱ (∇ n , M)
   ndnat-red =  redᴱ refl (nd-red _)
 
 --------------------------------------------------------------------------------
@@ -70,8 +68,8 @@ abstract
   stuck-no-red (redᴱ refl r⇒)  with r⇒
   ... | ()
 
-  plus◁3'4-red-inv :  (plus◁3'4 , M) ⇒ᴱ (e , M') →  (e , M') ≡ (∇ ↑ 7 , M)
+  plus◁3'4-red-inv :  (plus◁3'4 , M) ⇒ᴱ (e , M') →  (e , M') ≡ (∇ 7 , M)
   plus◁3'4-red-inv (redᴱ refl ◁-red) =  refl
 
-  ndnat-red-inv :  (ndnat , M) ⇒ᴱ (e , M') →  ∑ n , (e , M') ≡ (∇ ↑ n , M)
+  ndnat-red-inv :  (ndnat , M) ⇒ᴱ (e , M') →  ∑ n , (e , M') ≡ (∇ n , M)
   ndnat-red-inv (redᴱ refl (nd-red _)) =  _ , refl

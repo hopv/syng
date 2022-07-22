@@ -4,22 +4,21 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Logic.Save (ℓ : Level) where
+module Shog.Logic.Save where
 
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (it)
 open import Base.List using ([_])
-open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; _∧_; _∗_; □_; Saveˣ; Save□;
+open import Shog.Logic.Prop using (Prop'; Prop˂; _∧_; _∗_; □_; Saveˣ; Save□;
   Basic; ⊤-Basic)
-open import Shog.Logic.Core ℓ using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl;
-  _»_; ∧-elimʳ; ⊤∧-intro; ∗⇒∧; ∗-monoʳ; ∗-elimˡ; ∗⊤-intro; -∗-const; Basic-Pers;
+open import Shog.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_;
+  ∧-elimʳ; ⊤∧-intro; ∗⇒∧; ∗-monoʳ; ∗-elimˡ; ∗⊤-intro; -∗-const; Basic-Pers;
   Persˡ-∧⇒∗)
-open import Shog.Logic.Supd ℓ using (|=>>_; _⊢[_]=>>_; _ᵘ»_)
+open import Shog.Logic.Supd using (|=>>_; _⊢[_]=>>_; _ᵘ»_)
 
 -- Import and re-export
-open import Shog.Logic.Judg ℓ public using (Save□-□;
+open import Shog.Logic.Judg public using (Save□-□;
   Saveˣ-mono-∧; Save□-mono-∧; Saveˣ-alloc; Save□-alloc-rec; Saveˣ-use;
   Save□-use)
 

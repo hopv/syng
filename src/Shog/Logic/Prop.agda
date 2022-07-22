@@ -4,10 +4,9 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Logic.Prop (ℓ : Level) where
+module Shog.Logic.Prop where
 
-open import Base.Level using (^_)
+open import Base.Level using (Level; ○; ^_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
@@ -18,24 +17,24 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; map)
 open import Base.List.Nat using (mapi)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
-open import Shog.Lang.Expr ℓ using (Addr; _ₒ_; AnyVal)
+open import Shog.Lang.Expr using (Addr; _ₒ_; AnyVal)
 
 --------------------------------------------------------------------------------
 -- Prop': Proposition
 
-data  Prop' (ι : Size) :  Set (^ ℓ)
+data  Prop' (ι : Size) :  Set (^ ^ ○)
 
 -- Prop˂: Prop' under Thunk
-Prop˂ :  Size →  Set (^ ℓ)
+Prop˂ :  Size →  Set (^ ^ ○)
 Prop˂ ι =  Thunk Prop' ι
 
 private variable
   ι :  Size
-  X :  Set ℓ
+  X :  Set (^ ○)
   P˙ :  X → Prop' ∞
   P Q R S :  Prop' ∞
-  ℓ' :  Level
-  A :  Set ℓ'
+  ℓ :  Level
+  A :  Set ℓ
 
 infixr 5 _→'_ _-∗_
 infixr 7 _∗_
@@ -44,7 +43,7 @@ infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
 
-  -- ∀˙, ∃˙: Universal/existential quantification over any type X in Set ℓ,
+  -- ∀˙, ∃˙: Universal/existential quantification over any type X in Set (^ ○),
   --         which does not include Prop' ι itself (predicativity)
   ∀˙ ∃˙ :  (X → Prop' ι) →  Prop' ι
   -- →': Implication
@@ -102,7 +101,7 @@ P ∨ Q =  ∃˙ (binary P Q)
 --------------------------------------------------------------------------------
 -- ⌜ ⌝: Set embedding
 
-⌜_⌝ :  Set ℓ →  Prop' ι
+⌜_⌝ :  Set (^ ○) →  Prop' ι
 ⌜ X ⌝ =  ∃ _ ∈ X , ⊤'
 
 --------------------------------------------------------------------------------
@@ -144,14 +143,14 @@ _↦ˡ_ :  Addr →  List AnyVal →  Prop' ι
 -- Basic Shog proposition
 
 -- IsBasic P: P consists only of ∀, ∃, ∗ and □
-data  IsBasic :  Prop' ∞ →  Set (^ ℓ)  where
+data  IsBasic :  Prop' ∞ →  Set (^ ^ ○)  where
   ∀-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∀˙ P˙)
   ∃-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∃˙ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
   □-IsBasic :  IsBasic P →  IsBasic (□ P)
 
 -- Basic: Type class wrapping IsBasic
-record  Basic (P : Prop' ∞) :  Set (^ ℓ)  where
+record  Basic (P : Prop' ∞) :  Set (^ ^ ○)  where
   field  isBasic :  IsBasic P
 open Basic {{...}} public
 

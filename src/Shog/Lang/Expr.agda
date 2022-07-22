@@ -4,8 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Lang.Expr (ℓ : Level) where
+module Shog.Lang.Expr where
 
 open import Base.Level using (○; ^_; Up; ↑_)
 open import Base.Size using (Size; ∞)
@@ -51,25 +50,25 @@ abstract
 infix 8 ◸_
 infixr 4 _→*_
 
-data  Type :  Set (^ ℓ)  where
+data  Type :  Set (^ ○)  where
   -- Embedding a pure type
-  ◸_ :  Set ℓ →  Type
+  ◸_ :  Set ○ →  Type
   -- Function
-  _→*_ :  Set ℓ →  Type →  Type
+  _→*_ :  Set ○ →  Type →  Type
 
 private variable
   ι :  Size
   T U :  Type
-  X :  Set ℓ
+  X :  Set ○
 
 --------------------------------------------------------------------------------
 -- Expr: Expression, possibly infinite
 
-data  Expr (ι : Size) :  Type →  Set (^ ℓ)
+data  Expr (ι : Size) :  Type →  Set (^ ○)
 
 -- Expr˂: Expr under Thunk
 
-Expr˂ :  Size →  Type →  Set (^ ℓ)
+Expr˂ :  Size →  Type →  Set (^ ○)
 Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 
 infix 7 ∇_
@@ -88,13 +87,13 @@ data  Expr ι  where
   -- Application
   _◁_ :  Expr ι (X →* T) →  Expr ι (◸ X) →  Expr ι T
   -- Read from the memory
-  ★_ :  Expr ι (◸ Up Addr) →  Expr ι T
+  ★_ :  Expr ι (◸ Addr) →  Expr ι T
   -- Write to the memory
-  _←_ :  Expr ι (◸ Up Addr) →  Expr ι T →  Expr ι (◸ ⊤)
+  _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
   -- Allocating a new memory block
-  alloc :  Expr ι (◸ Up ℕ) →  Expr ι (◸ Up Addr)
+  alloc :  Expr ι (◸ ℕ) →  Expr ι (◸ Addr)
   -- Freeing a memory block
-  free :  Expr ι (◸ Up Addr) →  Expr ι (◸ ⊤)
+  free :  Expr ι (◸ Addr) →  Expr ι (◸ ⊤)
 
 -- Lambda abstraction
 
@@ -118,7 +117,7 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 --------------------------------------------------------------------------------
 -- Val: Value type
 
-Val :  Type →  Set (^ ℓ)
+Val :  Type →  Set (^ ○)
 Val (◸ X) =  Up X
 Val (X →* T) =  X → Expr ∞ T
 
@@ -130,7 +129,7 @@ V⇒E {T = _ →* _} e˙ =  λ˙ e˙
 
 -- Value of any type T
 
-AnyVal :  Set (^ ℓ)
+AnyVal :  Set (^ ○)
 AnyVal =  ∑ T , Val T
 
 ⊤-val :  AnyVal

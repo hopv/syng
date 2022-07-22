@@ -4,8 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Lang.Reduce (ℓ : Level) where
+module Shog.Lang.Reduce where
 
 open import Base.Level using (○; ^_; ↑_)
 open import Base.Size using (∞)
@@ -19,9 +18,9 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; [])
 open import Base.List.Nat using (_!!_; upd; rep)
 open import Base.Eq using (_≡_; refl; ◠_)
-open import Shog.Lang.Expr ℓ using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
+open import Shog.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤-val)
-open import Shog.Lang.Ktxred ℓ using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ;
+open import Shog.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ;
   freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; _ᴷ|ᴿ_; val/ktxred; nonval; val/ktxred-ktx;
   val/ktxred-ktx-inv)
 
@@ -62,7 +61,7 @@ updᴹ (addr l i) av M =  updᴹᴮ l (upd i av $ M .bloᴹ l) M
 
 private variable
   T U V :  Type
-  X :  Set ℓ
+  X :  Set ○
   M M' :  Mem
   e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
@@ -77,18 +76,18 @@ private variable
 infix 4 _⇒ᴿ_ _⇒ᴱ_
 
 -- Reduction on a redex
-data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^ ℓ)  where
+data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ○)  where
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
   nd-red :  ∀ (x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
   ◁-red :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
   ★-red :  M !!ᴹ θ ≡ some (V , v) →  (★ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  ∀{v : Val V} →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
   alloc-red :  ∀ l →  M .bloᴹ l ≡ [] →
-    (allocᴿ n , M) ⇒ᴿ (∇ ↑ addr l 0 , updᴹᴮ l (rep n ⊤-val) M)
+    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴹᴮ l (rep n ⊤-val) M)
   free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴹᴮ l [] M)
 
 -- Reduction on an expression
-data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ^ ℓ)  where
+data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ○)  where
   redᴱ :  val/ktxred e ≡ inj₁ (ktx ᴷ|ᴿ red) →  (red , M) ⇒ᴿ (e' , M') →
           (e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
 

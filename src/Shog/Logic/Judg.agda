@@ -4,10 +4,9 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Logic.Judg (ℓ : Level) where
+module Shog.Logic.Judg where
 
-open import Base.Level using (^_; ○; ↑_)
+open import Base.Level using (Level; ^_; ○; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_; _$_)
@@ -20,12 +19,12 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; map)
 open import Base.List.Nat using (rep; len)
 open import Base.RatPos using (ℚ⁺)
-open import Shog.Logic.Prop ℓ using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
+open import Shog.Logic.Prop using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
   ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗∈]-syntax; Saveˣ;
   Save□; _↦⟨_⟩_; _↦_; _↦ˡ_; Free; Basic)
-open import Shog.Lang.Expr ℓ using (Addr; Type; ◸_; Expr; Expr˂; ∇_; Val; V⇒E;
+open import Shog.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ∇_; Val; V⇒E;
   AnyVal; ⊤-val)
-open import Shog.Lang.Ktxred ℓ using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
+open import Shog.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
@@ -43,7 +42,7 @@ private variable
 
 infix 3 |=>>_
 
-data  JudgRes :  Set (^ ℓ)  where
+data  JudgRes :  Set (^ ^ ○)  where
   -- Just a proposition
   Pure :  Prop' ∞ →  JudgRes
   -- Under the super update
@@ -58,45 +57,46 @@ infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]'⟨_⟩[_]_ _⊢[_]'⟨
   _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_
 
 -- Declaring _⊢[_]*_
-data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ℓ)
+data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ^ ○)
 
 -- ⊢[ ] : Pure sequent
-_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
+_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ^ ○)
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 
 -- ⊢[< ] : Pure sequent under thunk
-_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
+_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ^ ○)
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ]=>> : Super update
-_⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ℓ)
+_⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ^ ○)
 P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
 -- ⊢[ ]'⟨ ⟩[ ] : Hoare-triple over Val/Ktxred
 
 _⊢[_]'⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
+  Prop' ∞ →  Size →  Val/Ktxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ^ ○)
 P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* Wp' κ vk Qᵛ
 
 _⊢[_]'⟨_⟩ᴾ_ _⊢[_]'⟨_⟩ᵀ_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set (^ ℓ)
+  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set (^ ^ ○)
 P ⊢[ ι ]'⟨ vk ⟩ᴾ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ par ] Qᵛ
 P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ tot ] Qᵛ
 
 -- ⊢[ ]⟨ ⟩[ ] : Hoare-triple over Expr
 
 _⊢[_]⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set (^ ℓ)
+  Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set (^ ^ ○)
 P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ktxred e ⟩[ κ ] Qᵛ
 
 _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set (^ ℓ)
+  Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set (^ ^ ○)
 P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
 P ⊢[< ι ]⟨ e ⟩ᴾ Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Qᵛ) ι
 P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
 
 private variable
   ι :  Size
+  ℓ :  Level
   X :  Set ℓ
   x :  X
   Y˙ :  X → Set ℓ
@@ -263,7 +263,7 @@ data  _⊢[_]*_  where
 
   -- Memory allocation
   hor-alloc :  ∀{Qᵛ : _} →
-    (∀ θ →  θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ ↑ θ ⟩[ κ ] Qᵛ) →
+    (∀ θ →  θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ κ ] Qᵛ) →
     P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ κ ] Qᵛ
 
   -- Memory freeing
@@ -274,7 +274,7 @@ data  _⊢[_]*_  where
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition
 
-record  Pers (P : Prop' ∞) :  Set (^ ℓ)  where
+record  Pers (P : Prop' ∞) :  Set (^ ^ ○)  where
   -- Pers-⇒□: P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
 open Pers {{...}} public

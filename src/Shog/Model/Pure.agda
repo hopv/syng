@@ -4,33 +4,32 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Model.Pure (ℓ : Level) where
+module Shog.Model.Pure where
 
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _▷_; flip; it)
 open import Base.Thunk using (!)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Prod using (_,_; proj₀; proj₁)
-open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
+open import Shog.Logic.Prop using (Prop'; ∀˙; ∃˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
   □_; Saveˣ; Save□; _↦⟨_⟩_; Free; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic;
   □-IsBasic; Basic; isBasic; ∧-Basic)
-open import Shog.Logic.Core ℓ using (_⊢[_]_; ⊢-refl; _»_;
+open import Shog.Logic.Core using (_⊢[_]_; ⊢-refl; _»_;
   ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out; ∧-assocˡ; ∧-monoʳ)
-open import Shog.Logic.Save ℓ using (Save□-□; Saveˣ-mono-∧; Save□-mono-∧)
+open import Shog.Logic.Save using (Save□-□; Saveˣ-mono-∧; Save□-mono-∧)
 open import Shog.Model.RA using (RA)
-open import Shog.Model.RA.Glob ℓ using (GlobRA)
+open import Shog.Model.RA.Glob using (GlobRA)
 open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; congᵒ; congᵒ';
   _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□')
 open RA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ✓-ε; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ✓-⌞⌟)
-open import Shog.Model.Save.Exc ℓ using (Saveˣᵒ)
-open import Shog.Model.Save.Pers ℓ using (Save□ᵒ; lineˢ□-⌞⌟)
-open import Shog.Model.Basic ℓ using (⸨_⸩ᴮ[_]; ⸨_⸩ᴮ; ⸨⸩ᴮ-⇒□)
+open import Shog.Model.Save.Exc using (Saveˣᵒ)
+open import Shog.Model.Save.Pers using (Save□ᵒ; lineˢ□-⌞⌟)
+open import Shog.Model.Basic using (⸨_⸩ᴮ[_]; ⸨_⸩ᴮ; ⸨⸩ᴮ-⇒□)
 
 private variable
   P Q R S T :  Prop' ∞

@@ -4,10 +4,9 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Lang.Ktxred (ℓ : Level) where
+module Shog.Lang.Ktxred where
 
-open import Base.Level using (○; ^_; Up; ↑_)
+open import Base.Level using (○; ^_; ↑_)
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
@@ -15,11 +14,11 @@ open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Eq using (_≡_; refl)
 open import Base.Nat using (ℕ)
-open import Shog.Lang.Expr ℓ using (Type; ◸_; _→*_; Addr; Expr; Expr˂; ▶_; ∇_;
-  nd; λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
+open import Shog.Lang.Expr using (Type; ◸_; _→*_; Addr; Expr; Expr˂; ▶_; ∇_; nd;
+  λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
 
 private variable
-  X :  Set ℓ
+  X :  Set ○
   T U V :  Type
   e :  Expr ∞ T
 
@@ -29,13 +28,13 @@ private variable
 infix 6 ▶ᴿ_ ★ᴿ_ _←ᴿ_
 infixl 5 _◁ᴿ_
 
-data  Redex :  Type →  Set (^ ℓ)  where
+data  Redex :  Type →  Set (^ ○)  where
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
   ndᴿ :  Redex (◸ X)
   _◁ᴿ_ :  (X → Expr ∞ T) →  X →  Redex T
   ★ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
-  allocᴿ :  ℕ →  Redex (◸ Up Addr)
+  allocᴿ :  ℕ →  Redex (◸ Addr)
   freeᴿ :  Addr →  Redex (◸ ⊤)
 
 -- Converting Redex to Expr
@@ -44,31 +43,31 @@ R⇒E :  Redex T →  Expr ∞ T
 R⇒E (▶ᴿ e˂) =  ▶ e˂
 R⇒E ndᴿ =  nd
 R⇒E (e˙ ◁ᴿ x) =  λ˙ e˙ ◁ ∇ x
-R⇒E (★ᴿ θ) =  ★ ∇ ↑ θ
-R⇒E (θ ←ᴿ v) =  ∇ ↑ θ ← V⇒E v
-R⇒E (allocᴿ n) =  alloc $ ∇ ↑ n
-R⇒E (freeᴿ θ) =  free $ ∇ ↑ θ
+R⇒E (★ᴿ θ) =  ★ ∇ θ
+R⇒E (θ ←ᴿ v) =  ∇ θ ← V⇒E v
+R⇒E (allocᴿ n) =  alloc $ ∇ n
+R⇒E (freeᴿ θ) =  free $ ∇ θ
 
 --------------------------------------------------------------------------------
 -- Ktx: Syntactic evaluation context
 
 infix 6 ★ᴷ_ _←ᴷʳ_ _←ᴷˡ_
 infixl 5 _◁ᴷʳ_ _◁ᴷˡ_
-data  Ktx :  Type →  Type →  Set (^ ℓ)  where
+data  Ktx :  Type →  Type →  Set (^ ○)  where
   -- Hole
   •ᴷ :  Ktx T T
   -- On _◁_
   _◁ᴷʳ_ :  Expr ∞ (X →* T) →  Ktx U (◸ X) →  Ktx U T
   _◁ᴷˡ_ :  Ktx U (X →* T) →  X →  Ktx U T
   -- On ★_
-  ★ᴷ_ :  Ktx U (◸ Up Addr) →  Ktx U T
+  ★ᴷ_ :  Ktx U (◸ Addr) →  Ktx U T
   -- On _←_
-  _←ᴷʳ_ :  Expr ∞ (◸ Up Addr) →  Ktx U T →  Ktx U (◸ ⊤)
-  _←ᴷˡ_ :  Ktx U (◸ Up Addr) →  Val T →  Ktx U (◸ ⊤)
+  _←ᴷʳ_ :  Expr ∞ (◸ Addr) →  Ktx U T →  Ktx U (◸ ⊤)
+  _←ᴷˡ_ :  Ktx U (◸ Addr) →  Val T →  Ktx U (◸ ⊤)
   -- On alloc
-  allocᴷ :  Ktx T (◸ Up ℕ) →  Ktx T (◸ Up Addr)
+  allocᴷ :  Ktx T (◸ ℕ) →  Ktx T (◸ Addr)
   -- On free
-  freeᴷ :  Ktx T (◸ Up Addr) →  Ktx T (◸ ⊤)
+  freeᴷ :  Ktx T (◸ Addr) →  Ktx T (◸ ⊤)
 
 -- Fill in the hole of Ktx U T with Expr ∞ U to get Expr ∞ T
 
@@ -98,7 +97,7 @@ freeᴷ ktx ᴷ∘ᴷ ktx' =  freeᴷ $ ktx ᴷ∘ᴷ ktx'
 
 -- Type for a context-redex pair
 
-Ktxred :  Type →  Set (^ ℓ)
+Ktxred :  Type →  Set (^ ○)
 Ktxred T =  ∑ U , Ktx U T × Redex U
 
 -- Pattern for Ktxred
@@ -108,7 +107,7 @@ pattern _ᴷ|ᴿ_ ktx red =  _ , ktx , red
 
 -- Type for either a value or a context-redex pair
 
-Val/Ktxred :  Type →  Set (^ ℓ)
+Val/Ktxred :  Type →  Set (^ ○)
 Val/Ktxred T =  Val T ⊎ Ktxred T
 
 private variable
@@ -157,7 +156,7 @@ val/ktxred (★ e) =  inj₁ body
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (ktx ᴷ|ᴿ red) =  ★ᴷ ktx ᴷ|ᴿ red
-  ... | inj₀ (↑ ↑ θ) =  •ᴷ ᴷ|ᴿ ★ᴿ θ
+  ... | inj₀ (↑ θ) =  •ᴷ ᴷ|ᴿ ★ᴿ θ
 val/ktxred (e' ← e) =  inj₁ body
  where
   body :  Ktxred _
@@ -165,19 +164,19 @@ val/ktxred (e' ← e) =  inj₁ body
   ... | inj₁ (ktx ᴷ|ᴿ red) =  e' ←ᴷʳ ktx ᴷ|ᴿ red
   ... | inj₀ v  with val/ktxred e'
   ...   | inj₁ (ktx ᴷ|ᴿ red) =  ktx ←ᴷˡ v ᴷ|ᴿ red
-  ...   | inj₀ (↑ ↑ θ) =  •ᴷ ᴷ|ᴿ θ ←ᴿ v
+  ...   | inj₀ (↑ θ) =  •ᴷ ᴷ|ᴿ θ ←ᴿ v
 val/ktxred (alloc e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (ktx ᴷ|ᴿ red) =  allocᴷ ktx ᴷ|ᴿ red
-  ... | inj₀ (↑ ↑ n) =  •ᴷ ᴷ|ᴿ allocᴿ n
+  ... | inj₀ (↑ n) =  •ᴷ ᴷ|ᴿ allocᴿ n
 val/ktxred (free e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (ktx ᴷ|ᴿ red) =  freeᴷ ktx ᴷ|ᴿ red
-  ... | inj₀ (↑ ↑ θ) =  •ᴷ ᴷ|ᴿ freeᴿ θ
+  ... | inj₀ (↑ θ) =  •ᴷ ᴷ|ᴿ freeᴿ θ
 
 -- Judge if the expression is non-value
 

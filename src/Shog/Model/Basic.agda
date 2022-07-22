@@ -4,16 +4,15 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Model.Basic (ℓ : Level) where
+module Shog.Model.Basic where
 
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Prod using (_,_)
-open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; _∗_; □_; IsBasic; ∀-IsBasic;
+open import Shog.Logic.Prop using (Prop'; ∀˙; ∃˙; _∗_; □_; IsBasic; ∀-IsBasic;
   ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
 open import Shog.Model.RA using (RA)
-open import Shog.Model.RA.Glob ℓ using (GlobRA)
+open import Shog.Model.RA.Glob using (GlobRA)
 open RA GlobRA using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
 open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀ᵒ-syntax;
   ∃ᵒ-syntax; _∗ᵒ_; □ᵒ_)

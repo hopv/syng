@@ -4,10 +4,9 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Logic.Core (ℓ : Level) where
+module Shog.Logic.Core where
 
-open import Base.Level using (^_)
+open import Base.Level using (^_; ○)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)
@@ -16,12 +15,12 @@ open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.List using (List; []; _∷_; _++_)
 open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
-open import Shog.Logic.Prop ℓ using (Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
+open import Shog.Logic.Prop using (Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
   ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_;
   IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
 
 -- Import and re-export
-open import Shog.Logic.Judg ℓ public using (
+open import Shog.Logic.Judg public using (
   JudgRes; Pure; _⊢[_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□;
   ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
@@ -32,8 +31,8 @@ private variable
   ι :  Size
   P P' Q Q' R R' S S' T T' U U' V V' :  Prop' ∞
   Jr :  JudgRes
-  X Y :  Set ℓ
-  Y˙ :  X → Set ℓ
+  X Y :  Set (^ ○)
+  Y˙ :  X → Set (^ ○)
   P˙ Q˙ :  X → Prop' ∞
   Ps Qs :  List (Prop' ∞)
 

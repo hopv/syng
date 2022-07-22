@@ -4,20 +4,19 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level)
-module Shog.Logic.Example (ℓ : Level) where
+module Shog.Logic.Example where
 
 open import Base.Level using (Up; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
-open import Shog.Logic.Prop ℓ using (⊤'; ⊥'; ⌜_⌝)
-open import Shog.Logic.Core ℓ using (⌜⌝-intro)
-open import Shog.Logic.Hor ℓ using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_; hor-val; horᴾ-▶;
+open import Shog.Logic.Prop using (⊤'; ⊥'; ⌜_⌝)
+open import Shog.Logic.Core using (⌜⌝-intro)
+open import Shog.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_; hor-val; horᴾ-▶;
   hor-◁)
 
-open import Shog.Lang.Example ℓ using (loop; plus◁3'4)
+open import Shog.Lang.Example using (loop; plus◁3'4)
 
 private variable
   ι :  Size
@@ -27,5 +26,5 @@ abstract
   loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ᴾ λ _ → ⊥'
   loop-⊥ =  horᴾ-▶ λ{ .! → loop-⊥ }
 
-  plus◁3'4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3'4 ⟩ᵀ λ (↑ ↑ n) → ⌜ Up (n ≡ 7) ⌝
+  plus◁3'4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3'4 ⟩ᵀ λ (↑ n) → ⌜ Up (n ≡ 7) ⌝
   plus◁3'4-7 =  hor-◁ $ hor-val $ ⌜⌝-intro $ ↑ refl

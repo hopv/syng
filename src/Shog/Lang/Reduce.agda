@@ -33,7 +33,7 @@ open import Base.Finmap (List AnyVal) (_≡ []) public using () renaming (
   -- Memory, consisting of a finite number of memory blocks,
   -- each of which is a list of memory cells
   Finmap to Mem;
-  _|ᶠᵐ_ to _|ᴹ_; mapᶠᵐ to bloᴹ; finᶠᵐ to finᴹ;
+  _|ᶠᵐ_ to _|ᴹ_; !ᶠᵐ to bloᴹ; finᶠᵐ to finᴹ;
 
   -- Memory block update
   updᶠᵐ to updᴹᴮ; updaᶠᵐ to updaᴹᴮ; updaᶠᵐ-eq to updaᴹᴮ-eq)

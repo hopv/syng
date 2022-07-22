@@ -24,7 +24,7 @@ open import Base.Nat using (ℕ; _≡ᵇ_; _⊔_; ≤-refl; ≡⇒ᵇ; ᵇ⇒≡
 
 import Base.Finmap
 module ModFinmap =  Base.Finmap A (_≈' ε')
-open ModFinmap using (Finᶠᵐ; _|ᶠᵐ_; mapᶠᵐ; finᶠᵐ; mergeᶠᵐ; updᶠᵐ; updaᶠᵐ;
+open ModFinmap using (Finᶠᵐ; _|ᶠᵐ_; !ᶠᵐ; finᶠᵐ; mergeᶠᵐ; updᶠᵐ; updaᶠᵐ;
   updaᶠᵐ-eq)
 open ModFinmap public using (Finmap)
 
@@ -57,12 +57,12 @@ private
 
   -- Unit
   εᶠᵐ :  Finmap
-  εᶠᵐ .mapᶠᵐ _ =  ε'
+  εᶠᵐ .!ᶠᵐ _ =  ε'
   εᶠᵐ .finᶠᵐ =  0 , λ _ → refl'
 
   -- Core
   ⌞_⌟ᶠᵐ :  Finmap →  Finmap
-  ⌞ f |ᶠᵐ _ ⌟ᶠᵐ .mapᶠᵐ i =  ⌞ f i ⌟'
+  ⌞ f |ᶠᵐ _ ⌟ᶠᵐ .!ᶠᵐ i =  ⌞ f i ⌟'
   ⌞ _ |ᶠᵐ (n , fi) ⌟ᶠᵐ .finᶠᵐ =  n , λ n≤j → ⌞⌟-cong Ra (fi n≤j) ◇' ⌞⌟-ε Ra
 
 --------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ private
 private abstract
 
   ⌞⌟ᶠᵐ-add :  ∀ M N →  ∑ N' ,  N' ∙ᶠᵐ ⌞ M ⌟ᶠᵐ ≈ᶠᵐ ⌞ N ∙ᶠᵐ M ⌟ᶠᵐ
-  ⌞⌟ᶠᵐ-add (f |ᶠᵐ _) (g |ᶠᵐ _) .proj₀ .mapᶠᵐ i =  Ra .⌞⌟-add {f i} {g i} .proj₀
+  ⌞⌟ᶠᵐ-add (f |ᶠᵐ _) (g |ᶠᵐ _) .proj₀ .!ᶠᵐ i =  Ra .⌞⌟-add {f i} {g i} .proj₀
   ⌞⌟ᶠᵐ-add M@(f |ᶠᵐ (m , fi)) N@(g |ᶠᵐ (n , _)) .proj₀ .finᶠᵐ =  n ⊔ m , proof
    where abstract
     proof :  Finᶠᵐ (λ i → Ra .⌞⌟-add {f i} {g i} .proj₀) (n ⊔ m)
@@ -145,7 +145,7 @@ module _ {i : ℕ} where abstract
 
   updaᶠᵐ-↝ :  a ↝' b →  updaᶠᵐ i a M ↝⁺ updaᶠᵐ i b M
   updaᶠᵐ-↝ a↝b N ✓N∙iaM j  rewrite updaᶠᵐ-eq  with i ≡ᵇ j | ✓N∙iaM j
-  ... | tt | ✓Ni∙a =  a↝b (N .mapᶠᵐ j) ✓Ni∙a
+  ... | tt | ✓Ni∙a =  a↝b (N .!ᶠᵐ j) ✓Ni∙a
   ... | ff | ✓Nj∙Mj =  ✓Nj∙Mj
 
   -- Double update

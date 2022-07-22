@@ -9,7 +9,6 @@ module Shog.Model.Save.Pers where
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Nat using (ℕ)
-open import Base.Level using (Up; ↑_)
 open import Base.Prod using (_,_)
 open import Shog.Logic.Prop using (Prop'; _∧_; Basic)
 open import Shog.Logic.Judg using (_⊢[_]_)
@@ -20,7 +19,7 @@ open RA GlobRA using (_≈_; ⌞_⌟; _◇˜_)
 open ModGlobI using (injaᴬ; injaᴬ-cong; injaᴬ-⌞⌟)
 open ModSave□ using (injaᶠᵐ; injaᶠᵐ-⌞⌟)
 open ModAgᴾ using (ag)
-open import Shog.Model.Prop GlobRA using (Propᵒ; _⊨_; ∃^-syntax; ∃^∈-syntax;
+open import Shog.Model.Prop GlobRA using (Propᵒ; _⊨_; ∃^-syntax; ∃○-syntax;
   _∧ᵒ_; ⌜_⌝^; Own)
 open import Shog.Model.Basic using (⸨_⸩ᴮ)
 
@@ -35,7 +34,7 @@ lineˢ□ :  ℕ →  Prop' ∞ →  Glob
 lineˢ□ i P =  injaᴬ 1 $ injaᶠᵐ i $ ag P
 
 Save□ᵒ :  Prop' ∞ →  Propᵒ
-Save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃^ (↑ i) ∈ Up _ ,
+Save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃○ i ,
   ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  ⸨ Q ⸩ᴮ {{ BaQ }}  ∧ᵒ  Own (lineˢ□ i P')
 
 abstract

@@ -50,6 +50,7 @@ open Propᵒ public
 private variable
   ℓB :  Level
   X :  Set (^ ○)
+  X○ :  Set ○
   X^ :  Set (^ ^ ○)
   Pᵒ Qᵒ Rᵒ :  Propᵒ
   a b c :  Glob
@@ -74,7 +75,7 @@ abstract
   (P⊨Q ◇ᵒ Q⊨R) Pa =  Pa ▷ P⊨Q ▷ Q⊨R
 
 --------------------------------------------------------------------------------
--- ∀ᵒ˙, ∃ᵒ˙, ∀ᵒ˙', ∃ᵒ˙': Universal/existential quantification
+-- Universal/existential quantification
 
 -- For Set (^ ○)
 
@@ -88,6 +89,20 @@ abstract
 ∃ᵒ˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
   proof :  Monoᵒ $ ∃ᵒ˙ Pᵒ˙ .!ᵒ
+  proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
+
+-- For Set ○
+
+∀○˙ ∃○˙ :  (X○ → Propᵒ) →  Propᵒ
+∀○˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
+∀○˙ Pᵒ˙ .monoᵒ =  proof
+ where abstract
+  proof :  Monoᵒ $ ∀○˙ Pᵒ˙ .!ᵒ
+  proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
+∃○˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
+∃○˙ Pᵒ˙ .monoᵒ =  proof
+ where abstract
+  proof :  Monoᵒ $ ∃○˙ Pᵒ˙ .!ᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
 -- For Set (^ ^ ○)
@@ -109,6 +124,11 @@ abstract
 ∃ᵒ∈-syntax =  ∃ᵒ˙
 ∀ᵒ-syntax =  ∀ᵒ˙
 ∃ᵒ-syntax =  ∃ᵒ˙
+∀○∈-syntax ∃○∈-syntax ∀○-syntax ∃○-syntax :  (X○ → Propᵒ) →  Propᵒ
+∀○∈-syntax =  ∀○˙
+∃○∈-syntax =  ∃○˙
+∀○-syntax =  ∀○˙
+∃○-syntax =  ∃○˙
 ∀^∈-syntax ∃^∈-syntax ∀^-syntax ∃^-syntax :  (X^ → Propᵒ) →  Propᵒ
 ∀^∈-syntax =  ∀^˙
 ∃^∈-syntax =  ∃^˙
@@ -116,11 +136,16 @@ abstract
 ∃^-syntax =  ∃^˙
 
 infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax
+  ∀○∈-syntax ∃○∈-syntax ∀○-syntax ∃○-syntax
   ∀^∈-syntax ∃^∈-syntax ∀^-syntax ∃^-syntax
 syntax ∀ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∀ᵒ x ∈ X , Pᵒ
 syntax ∃ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∃ᵒ x ∈ X , Pᵒ
 syntax ∀ᵒ-syntax (λ x → Pᵒ) =  ∀ᵒ x , Pᵒ
 syntax ∃ᵒ-syntax (λ x → Pᵒ) =  ∃ᵒ x , Pᵒ
+syntax ∀○∈-syntax {X○ = X○} (λ x → Pᵒ) =  ∀○ x ∈ X○ , Pᵒ
+syntax ∃○∈-syntax {X○ = X○} (λ x → Pᵒ) =  ∃○ x ∈ X○ , Pᵒ
+syntax ∀○-syntax (λ x → Pᵒ) =  ∀○ x , Pᵒ
+syntax ∃○-syntax (λ x → Pᵒ) =  ∃○ x , Pᵒ
 syntax ∀^∈-syntax {X^ = X^} (λ x → Pᵒ) =  ∀^ x ∈ X^ , Pᵒ
 syntax ∃^∈-syntax {X^ = X^} (λ x → Pᵒ) =  ∃^ x ∈ X^ , Pᵒ
 syntax ∀^-syntax (λ x → Pᵒ) =  ∀^ x , Pᵒ

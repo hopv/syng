@@ -19,8 +19,8 @@ open RA GlobRA using (_≈_; ⌞_⌟; _◇˜_)
 open ModGlobI using (injaᴬ; injaᴬ-cong; injaᴬ-⌞⌟)
 open ModSave□ using (injaᶠᵐ; injaᶠᵐ-⌞⌟)
 open ModAgᴾ using (ag)
-open import Shog.Model.Prop GlobRA using (Propᵒ; _⊨_; ∃^-syntax; ∃○-syntax;
-  _∧ᵒ_; ⌜_⌝^; Own)
+open import Shog.Model.Prop GlobRA using (Propᵒ; _⊨_; ∃₂-syntax; ∃₀-syntax;
+  _∧ᵒ_; ⌜_⌝₂; Own)
 open import Shog.Model.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -34,8 +34,8 @@ lineˢ□ :  ℕ →  Prop' ∞ →  Glob
 lineˢ□ i P =  injaᴬ 1 $ injaᶠᵐ i $ ag P
 
 Save□ᵒ :  Prop' ∞ →  Propᵒ
-Save□ᵒ P =  ∃^ P' , ∃^ Q , ∃^ BaQ , ∃○ i ,
-  ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝^  ∧ᵒ  ⸨ Q ⸩ᴮ {{ BaQ }}  ∧ᵒ  Own (lineˢ□ i P')
+Save□ᵒ P =  ∃₂ P' , ∃₂ Q , ∃₂ BaQ , ∃₀ i ,
+  ⌜ Q ∧ P' ⊢[ ∞ ] P ⌝₂  ∧ᵒ  ⸨ Q ⸩ᴮ {{ BaQ }}  ∧ᵒ  Own (lineˢ□ i P')
 
 abstract
 

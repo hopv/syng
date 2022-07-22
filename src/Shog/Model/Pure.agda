@@ -23,7 +23,7 @@ open import Shog.Logic.Save using (Save□-□; Saveˣ-mono-∧; Save□-mono-�
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob using (GlobRA)
 open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; congᵒ; congᵒ';
-  _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□')
+  _⊨_; ∀₁-syntax; ∃₁-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□')
 open RA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ✓-ε; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr; ✓-⌞⌟)
@@ -38,8 +38,8 @@ private variable
 -- ⸨ ⸩: Interpreting propositions
 
 ⸨_⸩ :  (P : Prop' ∞) →  Propᵒ
-⸨ ∀˙ P˙ ⸩ =  ∀ᵒ x , ⸨ P˙ x ⸩
-⸨ ∃˙ P˙ ⸩ =  ∃ᵒ x , ⸨ P˙ x ⸩
+⸨ ∀˙ P˙ ⸩ =  ∀₁ x , ⸨ P˙ x ⸩
+⸨ ∃˙ P˙ ⸩ =  ∃₁ x , ⸨ P˙ x ⸩
 ⸨ P →' Q ⸩ =  ⸨ P ⸩ →ᵒ ⸨ Q ⸩
 ⸨ P ∗ Q ⸩ =  ⸨ P ⸩ ∗ᵒ ⸨ Q ⸩
 ⸨ P -∗ Q ⸩ =  ⸨ P ⸩ -∗ᵒ ⸨ Q ⸩

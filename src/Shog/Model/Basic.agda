@@ -14,8 +14,8 @@ open import Shog.Logic.Prop using (Prop'; ∀˙; ∃˙; _∗_; □_; IsBasic; �
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob using (GlobRA)
 open RA GlobRA using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
-open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀ᵒ-syntax;
-  ∃ᵒ-syntax; _∗ᵒ_; □ᵒ_)
+open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀₁-syntax;
+  ∃₁-syntax; _∗ᵒ_; □ᵒ_)
 
 private variable
   P :  Prop' ∞
@@ -24,8 +24,8 @@ private variable
 -- ⸨ ⸩ᴮ[ ] : Interpreting IsBasic propositions
 
 ⸨_⸩ᴮ[_] :  (P : Prop' ∞) →  IsBasic P →  Propᵒ
-⸨ ∀˙ P˙ ⸩ᴮ[ ∀-IsBasic IsBaP˙ ] =  ∀ᵒ x , ⸨ P˙ x ⸩ᴮ[ IsBaP˙ x ]
-⸨ ∃˙ P˙ ⸩ᴮ[ ∃-IsBasic IsBaP˙ ] =  ∃ᵒ x , ⸨ P˙ x ⸩ᴮ[ IsBaP˙ x ]
+⸨ ∀˙ P˙ ⸩ᴮ[ ∀-IsBasic IsBaP˙ ] =  ∀₁ x , ⸨ P˙ x ⸩ᴮ[ IsBaP˙ x ]
+⸨ ∃˙ P˙ ⸩ᴮ[ ∃-IsBasic IsBaP˙ ] =  ∃₁ x , ⸨ P˙ x ⸩ᴮ[ IsBaP˙ x ]
 ⸨ P ∗ Q ⸩ᴮ[ ∗-IsBasic IsBaP IsBaQ ] =  ⸨ P ⸩ᴮ[ IsBaP ] ∗ᵒ ⸨ Q ⸩ᴮ[ IsBaQ ]
 ⸨ □ P ⸩ᴮ[ □-IsBasic IsBaP ] =  □ᵒ ⸨ P ⸩ᴮ[ IsBaP ]
 

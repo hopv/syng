@@ -49,9 +49,9 @@ open Propᵒ public
 
 private variable
   ℓB :  Level
-  X :  Set₁
-  X○ :  Set₀
-  X^ :  Set₂
+  X₀ :  Set₀
+  X₁ :  Set₁
+  X₂ :  Set₂
   Pᵒ Qᵒ Rᵒ :  Propᵒ
   a b c :  Glob
   B :  Glob → Set ℓB
@@ -77,79 +77,79 @@ abstract
 --------------------------------------------------------------------------------
 -- Universal/existential quantification
 
--- For Set₁
-
-∀ᵒ˙ ∃ᵒ˙ : (X → Propᵒ) →  Propᵒ
-∀ᵒ˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
-∀ᵒ˙ Pᵒ˙ .monoᵒ =  proof
- where abstract
-  proof :  Monoᵒ $ ∀ᵒ˙ Pᵒ˙ .!ᵒ
-  proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃ᵒ˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
-∃ᵒ˙ Pᵒ˙ .monoᵒ =  proof
- where abstract
-  proof :  Monoᵒ $ ∃ᵒ˙ Pᵒ˙ .!ᵒ
-  proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
-
 -- For Set₀
 
-∀○˙ ∃○˙ :  (X○ → Propᵒ) →  Propᵒ
-∀○˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
-∀○˙ Pᵒ˙ .monoᵒ =  proof
+∀₀˙ ∃₀˙ :  (X₀ → Propᵒ) →  Propᵒ
+∀₀˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
+∀₀˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∀○˙ Pᵒ˙ .!ᵒ
+  proof :  Monoᵒ $ ∀₀˙ Pᵒ˙ .!ᵒ
   proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃○˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
-∃○˙ Pᵒ˙ .monoᵒ =  proof
+∃₀˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
+∃₀˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∃○˙ Pᵒ˙ .!ᵒ
+  proof :  Monoᵒ $ ∃₀˙ Pᵒ˙ .!ᵒ
+  proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
+
+-- For Set₁
+
+∀₁˙ ∃₁˙ : (X₁ → Propᵒ) →  Propᵒ
+∀₁˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
+∀₁˙ Pᵒ˙ .monoᵒ =  proof
+ where abstract
+  proof :  Monoᵒ $ ∀₁˙ Pᵒ˙ .!ᵒ
+  proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
+∃₁˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
+∃₁˙ Pᵒ˙ .monoᵒ =  proof
+ where abstract
+  proof :  Monoᵒ $ ∃₁˙ Pᵒ˙ .!ᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
 -- For Set₂
 
-∀^˙ ∃^˙ :  (X^ → Propᵒ) →  Propᵒ
-∀^˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
-∀^˙ Pᵒ˙ .monoᵒ =  proof
+∀₂˙ ∃₂˙ :  (X₂ → Propᵒ) →  Propᵒ
+∀₂˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
+∀₂˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∀^˙ Pᵒ˙ .!ᵒ
+  proof :  Monoᵒ $ ∀₂˙ Pᵒ˙ .!ᵒ
   proof a⊑b ∀xPxa x =  Pᵒ˙ x .monoᵒ a⊑b (∀xPxa x)
-∃^˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
-∃^˙ Pᵒ˙ .monoᵒ =  proof
+∃₂˙ Pᵒ˙ .!ᵒ a ✓a =  ∑ x ,  Pᵒ˙ x .!ᵒ a ✓a
+∃₂˙ Pᵒ˙ .monoᵒ =  proof
  where abstract
-  proof :  Monoᵒ $ ∃^˙ Pᵒ˙ .!ᵒ
+  proof :  Monoᵒ $ ∃₂˙ Pᵒ˙ .!ᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
-∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax :  (X → Propᵒ) →  Propᵒ
-∀ᵒ∈-syntax =  ∀ᵒ˙
-∃ᵒ∈-syntax =  ∃ᵒ˙
-∀ᵒ-syntax =  ∀ᵒ˙
-∃ᵒ-syntax =  ∃ᵒ˙
-∀○∈-syntax ∃○∈-syntax ∀○-syntax ∃○-syntax :  (X○ → Propᵒ) →  Propᵒ
-∀○∈-syntax =  ∀○˙
-∃○∈-syntax =  ∃○˙
-∀○-syntax =  ∀○˙
-∃○-syntax =  ∃○˙
-∀^∈-syntax ∃^∈-syntax ∀^-syntax ∃^-syntax :  (X^ → Propᵒ) →  Propᵒ
-∀^∈-syntax =  ∀^˙
-∃^∈-syntax =  ∃^˙
-∀^-syntax =  ∀^˙
-∃^-syntax =  ∃^˙
+∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax :  (X₀ → Propᵒ) →  Propᵒ
+∀₀∈-syntax =  ∀₀˙
+∃₀∈-syntax =  ∃₀˙
+∀₀-syntax =  ∀₀˙
+∃₀-syntax =  ∃₀˙
+∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax :  (X₁ → Propᵒ) →  Propᵒ
+∀₁∈-syntax =  ∀₁˙
+∃₁∈-syntax =  ∃₁˙
+∀₁-syntax =  ∀₁˙
+∃₁-syntax =  ∃₁˙
+∀₂∈-syntax ∃₂∈-syntax ∀₂-syntax ∃₂-syntax :  (X₂ → Propᵒ) →  Propᵒ
+∀₂∈-syntax =  ∀₂˙
+∃₂∈-syntax =  ∃₂˙
+∀₂-syntax =  ∀₂˙
+∃₂-syntax =  ∃₂˙
 
-infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax
-  ∀○∈-syntax ∃○∈-syntax ∀○-syntax ∃○-syntax
-  ∀^∈-syntax ∃^∈-syntax ∀^-syntax ∃^-syntax
-syntax ∀ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∀ᵒ x ∈ X , Pᵒ
-syntax ∃ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∃ᵒ x ∈ X , Pᵒ
-syntax ∀ᵒ-syntax (λ x → Pᵒ) =  ∀ᵒ x , Pᵒ
-syntax ∃ᵒ-syntax (λ x → Pᵒ) =  ∃ᵒ x , Pᵒ
-syntax ∀○∈-syntax {X○ = X○} (λ x → Pᵒ) =  ∀○ x ∈ X○ , Pᵒ
-syntax ∃○∈-syntax {X○ = X○} (λ x → Pᵒ) =  ∃○ x ∈ X○ , Pᵒ
-syntax ∀○-syntax (λ x → Pᵒ) =  ∀○ x , Pᵒ
-syntax ∃○-syntax (λ x → Pᵒ) =  ∃○ x , Pᵒ
-syntax ∀^∈-syntax {X^ = X^} (λ x → Pᵒ) =  ∀^ x ∈ X^ , Pᵒ
-syntax ∃^∈-syntax {X^ = X^} (λ x → Pᵒ) =  ∃^ x ∈ X^ , Pᵒ
-syntax ∀^-syntax (λ x → Pᵒ) =  ∀^ x , Pᵒ
-syntax ∃^-syntax (λ x → Pᵒ) =  ∃^ x , Pᵒ
+infix 3 ∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax
+  ∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax
+  ∀₂∈-syntax ∃₂∈-syntax ∀₂-syntax ∃₂-syntax
+syntax ∀₀∈-syntax {X₀ = X₀} (λ x → Pᵒ) =  ∀₀ x ∈ X₀ , Pᵒ
+syntax ∃₀∈-syntax {X₀ = X₀} (λ x → Pᵒ) =  ∃₀ x ∈ X₀ , Pᵒ
+syntax ∀₀-syntax (λ x → Pᵒ) =  ∀₀ x , Pᵒ
+syntax ∃₀-syntax (λ x → Pᵒ) =  ∃₀ x , Pᵒ
+syntax ∀₁∈-syntax {X₁ = X₁} (λ x → Pᵒ) =  ∀₁ x ∈ X₁ , Pᵒ
+syntax ∃₁∈-syntax {X₁ = X₁} (λ x → Pᵒ) =  ∃₁ x ∈ X₁ , Pᵒ
+syntax ∀₁-syntax (λ x → Pᵒ) =  ∀₁ x , Pᵒ
+syntax ∃₁-syntax (λ x → Pᵒ) =  ∃₁ x , Pᵒ
+syntax ∀₂∈-syntax {X₂ = X₂} (λ x → Pᵒ) =  ∀₂ x ∈ X₂ , Pᵒ
+syntax ∃₂∈-syntax {X₂ = X₂} (λ x → Pᵒ) =  ∃₂ x ∈ X₂ , Pᵒ
+syntax ∀₂-syntax (λ x → Pᵒ) =  ∀₂ x , Pᵒ
+syntax ∃₂-syntax (λ x → Pᵒ) =  ∃₂ x , Pᵒ
 
 --------------------------------------------------------------------------------
 -- ∧ᵒ: Conjunction
@@ -182,11 +182,11 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 ⊥ᵒ .monoᵒ _ ()
 
 --------------------------------------------------------------------------------
--- ⌜ ⌝^: Set embedding
+-- ⌜ ⌝₂: Set embedding
 
-⌜_⌝^ :  Set₂ →  Propᵒ
-⌜ X^ ⌝^ .!ᵒ _ _ =  X^
-⌜ _ ⌝^ .monoᵒ _ x =  x
+⌜_⌝₂ :  Set₂ →  Propᵒ
+⌜ X₂ ⌝₂ .!ᵒ _ _ =  X₂
+⌜ _ ⌝₂ .monoᵒ _ x =  x
 
 --------------------------------------------------------------------------------
 -- →ᵒ: Implication
@@ -297,7 +297,7 @@ abstract
   Own-⌞⌟-□' :  ⌞ a ⌟ ≈ a →  Own a ⊨ □ᵒ Own a
   Own-⌞⌟-□' ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
 
-  Own⇒✓ :  Own a ⊨ ⌜ ✓ a ⌝^
+  Own⇒✓ :  Own a ⊨ ⌜ ✓ a ⌝₂
   Own⇒✓ {✓a = ✓b} a⊑b =  ✓-mono a⊑b ✓b
 
   Own-↝ :  a ↝ b →  Own a ⊨ |=>ᵒ Own b
@@ -307,7 +307,7 @@ abstract
     ✓d∙b =  ✓-mono (∙-monoˡ ∙-incrʳ) $ a↝b (d ∙ c) $ flip ✓-resp ✓d∙a' $
       ∙-congʳ (◠˜ c∙a≈a') ◇˜ ∙-assocʳ
 
-  Own-↝ˢ :  a ↝ˢ B →  Own a ⊨ |=>ᵒ (∃^ b , ⌜ b ∈ B ⌝^ ∧ᵒ Own b)
+  Own-↝ˢ :  a ↝ˢ B →  Own a ⊨ |=>ᵒ (∃₂ b , ⌜ b ∈ B ⌝₂ ∧ᵒ Own b)
   Own-↝ˢ a↝B {✓a = ✓a'} (c , c∙a≈a') d ✓d∙a'  with a↝B (d ∙ c) $
     flip ✓-resp ✓d∙a' $ ∙-congʳ (◠˜ c∙a≈a') ◇˜ ∙-assocʳ
   ... | b , b∈B , ✓d∙cb =  b , ✓-mono (∙-monoˡ ∙-incrʳ) ✓d∙cb , b , b∈B , ⊑-refl

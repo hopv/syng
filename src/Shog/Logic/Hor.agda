@@ -42,7 +42,7 @@ abstract
   -- Compose
 
   _ʰ»_ :  ∀{Qᵛ : Val T → _} →
-    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ → (∀ v → Qᵛ v ⊢[ ι ] Rᵛ v) →
+    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ] Rᵛ v) →
     P ⊢[ ι ]'⟨ vk ⟩[ κ ] Rᵛ
   P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒=>> $ ∀vQ⊢R _
 

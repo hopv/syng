@@ -20,8 +20,8 @@ open import Shog.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _ᴷ|ᴿ_; V
 -- Import and re-export
 open import Shog.Logic.Judg public using (WpK; par; tot; Wp'; _⊢[_]'⟨_⟩[_]_;
   _⊢[_]'⟨_⟩ᴾ_; _⊢[_]'⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_;
-  hor-ᵀ⇒ᴾ; hor-monoˡᵘ; hor-monoʳᵘ; hor-frameˡ; hor-bind; hor-valᵘ; hor-ndᵘ;
-  horᴾ-▶; horᵀ-▶; hor-◁)
+  hor-ᵀ⇒ᴾ; _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ; hor-bind; hor-valᵘ; hor-ndᵘ; horᴾ-▶;
+  horᵀ-▶; hor-◁)
 
 private variable
   ι :  Size
@@ -35,25 +35,22 @@ private variable
   e₀ :  Expr ∞ T
   e˙ :  A → Expr ∞ T
 
+infixr -1 _ʰ»_
+
 abstract
 
-  -- Monotonicity
+  -- Compose
 
-  hor-monoˡ :  ∀{Qᵛ : _} →  P' ⊢[ ι ] P →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
-                            P' ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ
-  hor-monoˡ P'⊢P =  hor-monoˡᵘ $ ⇒=>> P'⊢P
-
-  hor-monoʳ :  ∀{Qᵛ : Val T → _} →
-    (∀ v → Qᵛ v ⊢[ ι ] Q'ᵛ v) →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
-    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
-  hor-monoʳ ∀vQ⊢Q' =  hor-monoʳᵘ $ λ _ → ⇒=>> $ ∀vQ⊢Q' _
+  _ʰ»_ :  ∀{Qᵛ : Val T → _} →
+    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ → (∀ v → Qᵛ v ⊢[ ι ] Rᵛ v) →
+    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Rᵛ
+  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒=>> $ ∀vQ⊢R _
 
   -- Frame
 
   hor-frameʳ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
                              P ∗ R ⊢[ ι ]'⟨ vk ⟩[ κ ] λ v → Qᵛ v ∗ R
-  hor-frameʳ P⊢⟨vk⟩Q =
-    hor-monoʳ (λ _ → ∗-comm) $ ∗-comm » hor-frameˡ P⊢⟨vk⟩Q
+  hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
   -- Non-deterministic value
 

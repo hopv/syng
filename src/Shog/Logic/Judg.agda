@@ -107,7 +107,7 @@ private variable
   P˂s :  List (Prop˂ ∞)
   κ :  WpK
   vk :  Val/Ktxred T
-  Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
+  Qᵛ Rᵛ :  Val T → Prop' ∞
   e :  Expr ∞ U
   e˂ :  Expr˂ ∞ U
   e˙ :  X → Expr ∞ U
@@ -119,7 +119,7 @@ private variable
   av :  AnyVal
   avs :  List AnyVal
 
-infixr -1 _»_ _ᵘ»ᵘ_
+infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ʰ_ _ʰ»ᵘ_
 
 -- Defining _⊢[_]*_
 data  _⊢[_]*_  where
@@ -218,12 +218,12 @@ data  _⊢[_]*_  where
   -- Weaken a Hoare triple from total to partial
   hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vk ⟩ᴾ Qᵛ
 
-  -- Monotonicity
-  hor-monoˡᵘ :  ∀{Qᵛ : _} →  P' ⊢[ ι ]=>> P →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
-                             P' ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ
-  hor-monoʳᵘ :  ∀{Qᵛ : Val T → _} →
-    (∀ v → Qᵛ v ⊢[ ι ]=>> Q'ᵛ v) →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
-    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
+  -- Compose
+  _ᵘ»ʰ_ :  ∀{Rᵛ : _} →  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]'⟨ vk ⟩[ κ ] Rᵛ →
+                        P ⊢[ ι ]'⟨ vk ⟩[ κ ] Rᵛ
+  _ʰ»ᵘ_ :  ∀{Qᵛ : Val T → _} →
+    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ → (∀ v → Qᵛ v ⊢[ ι ]=>> Rᵛ v) →
+    P ⊢[ ι ]'⟨ vk ⟩[ κ ] Rᵛ
 
   -- Frame
   hor-frameˡ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →

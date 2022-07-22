@@ -226,8 +226,8 @@ data  _⊢[_]*_  where
     P ⊢[ ι ]'⟨ vk ⟩[ κ ] Q'ᵛ
 
   -- Frame
-  hor-frame :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
-                            P ∗ R ⊢[ ι ]'⟨ vk ⟩[ κ ] λ v → Qᵛ v ∗ R
+  hor-frameˡ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ →
+                             R ∗ P ⊢[ ι ]'⟨ vk ⟩[ κ ] λ v → R ∗ Qᵛ v
 
   -- Bind by a context
   hor-bind :  ∀{Qᵛ : _} {Rᵛ : _} →

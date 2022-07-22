@@ -6,13 +6,13 @@
 
 module Base.Setoid where
 
-open import Base.Level using (Level; _⌴_; ^_)
+open import Base.Level using (Level; _⊔ᴸ_; sucᴸ)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_)
 open import Base.Few using (¬_)
 open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; ∑-syntax; _,_)
 
-record  Setoid ℓ ℓ≈ :  Set (^ (ℓ ⌴ ℓ≈))  where
+record  Setoid ℓ ℓ≈ :  Set (sucᴸ (ℓ ⊔ᴸ ℓ≈))  where
   infix 4 _≈_
   infix 0 ◠˜_
   infixr -1 _◇˜_
@@ -47,7 +47,7 @@ record  Setoid ℓ ℓ≈ :  Set (^ (ℓ ⌴ ℓ≈))  where
   -- ⊆≈ : Set inclusion relaxed with ≈
 
   infix 4 _⊆≈_
-  _⊆≈_ :  (Car → Set ℓX) →  (Car → Set ℓY) →  Set (ℓ ⌴ ℓ≈ ⌴ ℓX ⌴ ℓY)
+  _⊆≈_ :  (Car → Set ℓX) →  (Car → Set ℓY) →  Set (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓX ⊔ᴸ ℓY)
   X ⊆≈ Y  =  ∀ {a} →  a ∈ X →  ∑ b ,  a ≈ b  ×  b ∈ Y
 
   abstract

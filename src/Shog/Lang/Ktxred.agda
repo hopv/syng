@@ -6,7 +6,7 @@
 
 module Shog.Lang.Ktxred where
 
-open import Base.Level using (○; ^_; ↑_)
+open import Base.Level using (↑_)
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
@@ -18,7 +18,7 @@ open import Shog.Lang.Expr using (Type; ◸_; _→*_; Addr; Expr; Expr˂; ▶_; 
   λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
 
 private variable
-  X :  Set ○
+  X :  Set₀
   T U V :  Type
   e :  Expr ∞ T
 
@@ -28,7 +28,7 @@ private variable
 infix 6 ▶ᴿ_ ★ᴿ_ _←ᴿ_
 infixl 5 _◁ᴿ_
 
-data  Redex :  Type →  Set (^ ○)  where
+data  Redex :  Type →  Set₁  where
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
   ndᴿ :  Redex (◸ X)
   _◁ᴿ_ :  (X → Expr ∞ T) →  X →  Redex T
@@ -53,7 +53,7 @@ R⇒E (freeᴿ θ) =  free $ ∇ θ
 
 infix 6 ★ᴷ_ _←ᴷʳ_ _←ᴷˡ_
 infixl 5 _◁ᴷʳ_ _◁ᴷˡ_
-data  Ktx :  Type →  Type →  Set (^ ○)  where
+data  Ktx :  Type →  Type →  Set₁  where
   -- Hole
   •ᴷ :  Ktx T T
   -- On _◁_
@@ -97,7 +97,7 @@ freeᴷ ktx ᴷ∘ᴷ ktx' =  freeᴷ $ ktx ᴷ∘ᴷ ktx'
 
 -- Type for a context-redex pair
 
-Ktxred :  Type →  Set (^ ○)
+Ktxred :  Type →  Set₁
 Ktxred T =  ∑ U , Ktx U T × Redex U
 
 -- Pattern for Ktxred
@@ -107,7 +107,7 @@ pattern _ᴷ|ᴿ_ ktx red =  _ , ktx , red
 
 -- Type for either a value or a context-redex pair
 
-Val/Ktxred :  Type →  Set (^ ○)
+Val/Ktxred :  Type →  Set₁
 Val/Ktxred T =  Val T ⊎ Ktxred T
 
 private variable
@@ -180,7 +180,7 @@ val/ktxred (free e) =  inj₁ body
 
 -- Judge if the expression is non-value
 
-nonval :  Expr ∞ T →  Set ○
+nonval :  Expr ∞ T →  Set₀
 nonval e  with val/ktxred e
 ... | inj₀ _ =  ⊥
 ... | inj₁ _ =  ⊤

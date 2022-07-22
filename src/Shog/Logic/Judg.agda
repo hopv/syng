@@ -6,7 +6,7 @@
 
 module Shog.Logic.Judg where
 
-open import Base.Level using (Level; ^_; ○; ↑_)
+open import Base.Level using (Level; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_; _$_)
@@ -30,7 +30,7 @@ open import Shog.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_;
 --------------------------------------------------------------------------------
 -- WpK: Weakest precondion kind
 
-data  WpK :  Set ○  where
+data  WpK :  Set₀  where
   -- Partial/total
   par tot :  WpK
 
@@ -42,7 +42,7 @@ private variable
 
 infix 3 |=>>_
 
-data  JudgRes :  Set (^ ^ ○)  where
+data  JudgRes :  Set₂  where
   -- Just a proposition
   Pure :  Prop' ∞ →  JudgRes
   -- Under the super update
@@ -57,39 +57,39 @@ infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]'⟨_⟩[_]_ _⊢[_]'⟨
   _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_
 
 -- Declaring _⊢[_]*_
-data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set (^ ^ ○)
+data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set₂
 
 -- ⊢[ ] : Pure sequent
-_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ^ ○)
+_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 
 -- ⊢[< ] : Pure sequent under thunk
-_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ^ ○)
+_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ]=>> : Super update
-_⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set (^ ^ ○)
+_⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
 -- ⊢[ ]'⟨ ⟩[ ] : Hoare-triple over Val/Ktxred
 
 _⊢[_]'⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  WpK →  (Val T → Prop' ∞) →  Set (^ ^ ○)
+  Prop' ∞ →  Size →  Val/Ktxred T →  WpK →  (Val T → Prop' ∞) →  Set₂
 P ⊢[ ι ]'⟨ vk ⟩[ κ ] Qᵛ =  P ⊢[ ι ]* Wp' κ vk Qᵛ
 
 _⊢[_]'⟨_⟩ᴾ_ _⊢[_]'⟨_⟩ᵀ_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set (^ ^ ○)
+  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set₂
 P ⊢[ ι ]'⟨ vk ⟩ᴾ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ par ] Qᵛ
 P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ tot ] Qᵛ
 
 -- ⊢[ ]⟨ ⟩[ ] : Hoare-triple over Expr
 
 _⊢[_]⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set (^ ^ ○)
+  Prop' ∞ →  Size →  Expr ∞ T →  WpK →  (Val T → Prop' ∞) →  Set₂
 P ⊢[ ι ]⟨ e ⟩[ κ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ktxred e ⟩[ κ ] Qᵛ
 
 _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set (^ ^ ○)
+  Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set₂
 P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
 P ⊢[< ι ]⟨ e ⟩ᴾ Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Qᵛ) ι
 P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
@@ -274,7 +274,7 @@ data  _⊢[_]*_  where
 --------------------------------------------------------------------------------
 -- Pers: Persistence of a proposition
 
-record  Pers (P : Prop' ∞) :  Set (^ ^ ○)  where
+record  Pers (P : Prop' ∞) :  Set₂  where
   -- Pers-⇒□: P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
 open Pers {{...}} public

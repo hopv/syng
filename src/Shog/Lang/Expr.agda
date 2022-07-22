@@ -6,7 +6,7 @@
 
 module Shog.Lang.Expr where
 
-open import Base.Level using (○; ^_; Up; ↑_)
+open import Base.Level using (Up; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
@@ -18,7 +18,7 @@ open import Base.Eq using (_≡_; cong)
 --------------------------------------------------------------------------------
 -- Addr: Address, pointing at a memory cell
 
-record  Addr :  Set ○  where
+record  Addr :  Set₀  where
   constructor addr
   field
     -- the memory block's id
@@ -50,25 +50,25 @@ abstract
 infix 8 ◸_
 infixr 4 _→*_
 
-data  Type :  Set (^ ○)  where
+data  Type :  Set₁  where
   -- Embedding a pure type
-  ◸_ :  Set ○ →  Type
+  ◸_ :  Set₀ →  Type
   -- Function
-  _→*_ :  Set ○ →  Type →  Type
+  _→*_ :  Set₀ →  Type →  Type
 
 private variable
   ι :  Size
   T U :  Type
-  X :  Set ○
+  X :  Set₀
 
 --------------------------------------------------------------------------------
 -- Expr: Expression, possibly infinite
 
-data  Expr (ι : Size) :  Type →  Set (^ ○)
+data  Expr (ι : Size) :  Type →  Set₁
 
 -- Expr˂: Expr under Thunk
 
-Expr˂ :  Size →  Type →  Set (^ ○)
+Expr˂ :  Size →  Type →  Set₁
 Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 
 infix 7 ∇_
@@ -117,7 +117,7 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 --------------------------------------------------------------------------------
 -- Val: Value type
 
-Val :  Type →  Set (^ ○)
+Val :  Type →  Set₁
 Val (◸ X) =  Up X
 Val (X →* T) =  X → Expr ∞ T
 
@@ -129,7 +129,7 @@ V⇒E {T = _ →* _} e˙ =  λ˙ e˙
 
 -- Value of any type T
 
-AnyVal :  Set (^ ○)
+AnyVal :  Set₁
 AnyVal =  ∑ T , Val T
 
 ⊤-val :  AnyVal

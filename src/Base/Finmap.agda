@@ -6,7 +6,7 @@
 
 module Base.Finmap {ℓ ℓ'} (A : Set ℓ) (null : A → Set ℓ') where
 
-open import Base.Level using (Level; _⌴_)
+open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
@@ -23,7 +23,7 @@ Finᶠᵐ :  (ℕ → A) →  ℕ →  Set ℓ'
 Finᶠᵐ mapᶠᵐ n =  ∀ {i} → n ≤ i → null (mapᶠᵐ i)
 
 infix 5 _|ᶠᵐ_
-record  Finmap :  Set (ℓ ⌴ ℓ')  where
+record  Finmap :  Set (ℓ ⊔ᴸ ℓ')  where
   constructor _|ᶠᵐ_
   field
     -- Main map

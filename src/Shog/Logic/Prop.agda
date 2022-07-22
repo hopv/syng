@@ -6,7 +6,7 @@
 
 module Shog.Logic.Prop where
 
-open import Base.Level using (Level; ○; ^_)
+open import Base.Level using (Level)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
@@ -22,15 +22,15 @@ open import Shog.Lang.Expr using (Addr; _ₒ_; AnyVal)
 --------------------------------------------------------------------------------
 -- Prop': Proposition
 
-data  Prop' (ι : Size) :  Set (^ ^ ○)
+data  Prop' (ι : Size) :  Set₂
 
 -- Prop˂: Prop' under Thunk
-Prop˂ :  Size →  Set (^ ^ ○)
+Prop˂ :  Size →  Set₂
 Prop˂ ι =  Thunk Prop' ι
 
 private variable
   ι :  Size
-  X :  Set (^ ○)
+  X :  Set₁
   P˙ :  X → Prop' ∞
   P Q R S :  Prop' ∞
   ℓ :  Level
@@ -43,7 +43,7 @@ infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
 
-  -- ∀˙, ∃˙: Universal/existential quantification over any type X in Set (^ ○),
+  -- ∀˙, ∃˙: Universal/existential quantification over any type X in Set₁,
   --         which does not include Prop' ι itself (predicativity)
   ∀˙ ∃˙ :  (X → Prop' ι) →  Prop' ι
   -- →': Implication
@@ -101,7 +101,7 @@ P ∨ Q =  ∃˙ (binary P Q)
 --------------------------------------------------------------------------------
 -- ⌜ ⌝: Set embedding
 
-⌜_⌝ :  Set (^ ○) →  Prop' ι
+⌜_⌝ :  Set₁ →  Prop' ι
 ⌜ X ⌝ =  ∃ _ ∈ X , ⊤'
 
 --------------------------------------------------------------------------------
@@ -143,14 +143,14 @@ _↦ˡ_ :  Addr →  List AnyVal →  Prop' ι
 -- Basic Shog proposition
 
 -- IsBasic P: P consists only of ∀, ∃, ∗ and □
-data  IsBasic :  Prop' ∞ →  Set (^ ^ ○)  where
+data  IsBasic :  Prop' ∞ →  Set₂  where
   ∀-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∀˙ P˙)
   ∃-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∃˙ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
   □-IsBasic :  IsBasic P →  IsBasic (□ P)
 
 -- Basic: Type class wrapping IsBasic
-record  Basic (P : Prop' ∞) :  Set (^ ^ ○)  where
+record  Basic (P : Prop' ∞) :  Set₂  where
   field  isBasic :  IsBasic P
 open Basic {{...}} public
 

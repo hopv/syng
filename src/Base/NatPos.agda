@@ -6,7 +6,6 @@
 
 module Base.NatPos where
 
-open import Base.Level using (○)
 open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; cmp; _+_; _*_;
   suc≤suc; suc<suc; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤;
   ≤-<-trans; <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; ᵇ⇒≡; ≡⇒ᵇ; ᵇ⇒≤;
@@ -21,7 +20,7 @@ open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
 --------------------------------------------------------------------------------
 -- ℕ⁺: Positive natural number
 
-record  ℕ⁺ :  Set ○  where
+record  ℕ⁺ :  Set₀  where
   constructor 1+
   field  un1+ :  ℕ
 
@@ -55,7 +54,7 @@ abstract
 -- ≤⁺, <⁺, ≥⁺, >⁺: Order
 
 infix 4 _≤⁺_ _<⁺_ _≥⁺_ _>⁺_
-_≤⁺_ _<⁺_ _≥⁺_ _>⁺_ :  ℕ⁺ → ℕ⁺ → Set ○
+_≤⁺_ _<⁺_ _≥⁺_ _>⁺_ :  ℕ⁺ → ℕ⁺ → Set₀
 1+ m⁰ ≤⁺ 1+ n⁰ =  m⁰ ≤ n⁰
 1+ m⁰ <⁺ 1+ n⁰ =  m⁰ < n⁰
 p ≥⁺ q =  q ≤⁺ p

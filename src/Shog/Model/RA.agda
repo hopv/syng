@@ -6,7 +6,7 @@
 
 module Shog.Model.RA where
 
-open import Base.Level using (Level; _⌴_; ^_)
+open import Base.Level using (Level; _⊔ᴸ_; sucᴸ)
 open import Base.Eq using (_≡_; refl)
 open import Base.Func using (_$_; id; _▷_; flip; _∈_)
 open import Base.Prod using (_×_; _,_; ∑-syntax)
@@ -14,7 +14,7 @@ open import Base.Setoid using (Setoid)
 
 --------------------------------------------------------------------------------
 -- Resource algebra (Unital)
-record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
+record  RA ℓ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  where
   ------------------------------------------------------------------------------
   -- Fields
   infix 4 _≈_
@@ -117,7 +117,7 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
   -- ⊑: Derived pre-order
 
   infix 4 _⊑_
-  _⊑_ :  Car → Car → Set (ℓ ⌴ ℓ≈)
+  _⊑_ :  Car → Car → Set (ℓ ⊔ᴸ ℓ≈)
   a ⊑ b =  ∑ c ,  c ∙ a  ≈  b
 
   abstract
@@ -199,11 +199,11 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (^ (ℓ ⌴ ℓ≈ ⌴ ℓ✓))  where
   infix 2 _↝_ _↝ˢ_
 
   -- a ↝ b : a can be updated into b, regardless of the frame c
-  _↝_ :  Car → Car → Set (ℓ ⌴ ℓ✓)
+  _↝_ :  Car → Car → Set (ℓ ⊔ᴸ ℓ✓)
   a ↝ b =  ∀ c →  ✓ c ∙ a →  ✓ c ∙ b
 
   -- a ↝ˢ B : a can be updated into b, regardless of the frame c
-  _↝ˢ_ :  Car →  (Car → Set ℓB) →  Set (ℓ ⌴ ℓ✓ ⌴ ℓB)
+  _↝ˢ_ :  Car →  (Car → Set ℓB) →  Set (ℓ ⊔ᴸ ℓ✓ ⊔ᴸ ℓB)
   a ↝ˢ B =  ∀ c →  ✓ c ∙ a →  ∑ b ,  b ∈ B  ×  ✓ c ∙ b
 
   abstract

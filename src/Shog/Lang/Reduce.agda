@@ -6,7 +6,7 @@
 
 module Shog.Lang.Reduce where
 
-open import Base.Level using (○; ^_; ↑_)
+open import Base.Level using (↑_)
 open import Base.Size using (∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
@@ -61,7 +61,7 @@ updᴹ (addr l i) av M =  updᴹᴮ l (upd i av $ M .bloᴹ l) M
 
 private variable
   T U V :  Type
-  X :  Set ○
+  X :  Set₀
   M M' :  Mem
   e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
@@ -76,7 +76,7 @@ private variable
 infix 4 _⇒ᴿ_ _⇒ᴱ_
 
 -- Reduction on a redex
-data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ○)  where
+data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
   nd-red :  ∀ (x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
   ◁-red :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
@@ -87,7 +87,7 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴹᴮ l [] M)
 
 -- Reduction on an expression
-data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set (^ ○)  where
+data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
   redᴱ :  val/ktxred e ≡ inj₁ (ktx ᴷ|ᴿ red) →  (red , M) ⇒ᴿ (e' , M') →
           (e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
 

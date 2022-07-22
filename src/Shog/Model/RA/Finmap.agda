@@ -13,7 +13,7 @@ open RA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; �
 open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
   ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_)
 
-open import Base.Level using (_⌴_)
+open import Base.Level using (_⊔ᴸ_)
 open import Base.Bool using (tt; ff)
 open import Base.Eq using (_≡_; refl; ◠_)
 open import Base.Setoid using (≡-setoid)
@@ -84,7 +84,7 @@ private abstract
 --------------------------------------------------------------------------------
 -- FinmapRA : Finite-map resource algebra
 
-FinmapRA : RA (ℓ ⌴ ℓ≈) ℓ≈ ℓ✓
+FinmapRA : RA (ℓ ⊔ᴸ ℓ≈) ℓ≈ ℓ✓
 FinmapRA .Car =  Finmap
 FinmapRA ._≈_ =  _≈ᶠᵐ_
 FinmapRA .✓_ =  ✓ᶠᵐ_

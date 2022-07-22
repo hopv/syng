@@ -8,7 +8,7 @@ open import Base.Setoid using (Setoid)
 module Base.List.Set {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S using (_≈_; _≉_; refl˜; ◠˜_; _◇˜_) renaming (Car to A)
 
-open import Base.Level using (_⌴_)
+open import Base.Level using (_⊔ᴸ_)
 open import Base.List using (List; _∷_; []; [_]; _++_)
 open import Base.List.Any using (Any; by-hd; by-tl;
   Any-++-inj₀; Any-++-inj₁; Any-++-case;
@@ -28,7 +28,7 @@ private variable
 -- ∈ᴸ: Containment in a list
 
 infix 4 _∈ᴸ_
-_∈ᴸ_ :  A → List A → Set (ℓ ⌴ ℓ≈)
+_∈ᴸ_ :  A → List A → Set (ℓ ⊔ᴸ ℓ≈)
 a ∈ᴸ as =  Any (a ≈_) as
 
 abstract
@@ -53,7 +53,7 @@ abstract
 -- ∉ᴸ: Non-containment in a list
 
 infix 4 _∉ᴸ_
-_∉ᴸ_ :  A → List A → Set (ℓ ⌴ ℓ≈)
+_∉ᴸ_ :  A → List A → Set (ℓ ⊔ᴸ ℓ≈)
 a ∉ᴸ as =  ¬ a ∈ᴸ as
 
 abstract
@@ -87,7 +87,7 @@ abstract
 -- ⊆ᴸ: Inclusion between lists as sets
 
 infix 4 _⊆ᴸ_
-_⊆ᴸ_ :  List A → List A → Set (ℓ ⌴ ℓ≈)
+_⊆ᴸ_ :  List A → List A → Set (ℓ ⊔ᴸ ℓ≈)
 as ⊆ᴸ bs =  ∀ {a} →  a ∈ᴸ as →  a ∈ᴸ bs
 
 abstract
@@ -131,7 +131,7 @@ abstract
 -- ≈ᴸ: Equivalece of lists as sets
 
 infix 4 _≈ᴸ_
-_≈ᴸ_ :  List A → List A → Set (ℓ ⌴ ℓ≈)
+_≈ᴸ_ :  List A → List A → Set (ℓ ⊔ᴸ ℓ≈)
 as ≈ᴸ bs =  as ⊆ᴸ bs  ×  bs ⊆ᴸ as
 
 abstract
@@ -170,7 +170,7 @@ abstract
 --------------------------------------------------------------------------------
 -- homo: the list is homogeneous as a set
 
-homo :  List A → Set (ℓ ⌴ ℓ≈)
+homo :  List A → Set (ℓ ⊔ᴸ ℓ≈)
 homo as =  ∀ {a b} →  a ∈ᴸ as →  b ∈ᴸ as →  a ≈ b
 
 abstract

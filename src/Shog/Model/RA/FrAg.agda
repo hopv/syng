@@ -8,7 +8,7 @@ open import Base.Setoid using (Setoid)
 module Shog.Model.RA.FrAg {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S using (_≈_; refl˜) renaming (Car to A)
 
-open import Base.Level using (_⌴_)
+open import Base.Level using (_⊔ᴸ_)
 open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Prod using (_×_; _,_)
 open import Base.Func using (_$_)
@@ -50,14 +50,14 @@ private
 
   -- Equivalence
   infix 4 _≈ᶠ_
-  _≈ᶠ_ :  FrAg →  FrAg →  Set (ℓ ⌴ ℓ≈)
+  _≈ᶠ_ :  FrAg →  FrAg →  Set (ℓ ⊔ᴸ ℓ≈)
   ⟨ p ⟩ᶠᴸ as ≈ᶠ ⟨ q ⟩ᶠᴸ bs =  p ≈ᴿ⁺ q  ×  as ≈ᴸ bs
   εᶠ ≈ᶠ εᶠ =  ⊤
   _ ≈ᶠ _ =  ⊥
 
   -- Validity
   infix 3 ✓ᶠ_
-  ✓ᶠ_ :  FrAg →  Set (ℓ ⌴ ℓ≈)
+  ✓ᶠ_ :  FrAg →  Set (ℓ ⊔ᴸ ℓ≈)
   ✓ᶠ ⟨ p ⟩ᶠᴸ a =  p ≤1ᴿ⁺  ×  homo a
   ✓ᶠ εᶠ =  ⊤
 
@@ -121,7 +121,7 @@ private abstract
 --------------------------------------------------------------------------------
 -- FrAgRA : Fractional resource algebra
 
-FrAgRA : RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
+FrAgRA : RA ℓ (ℓ ⊔ᴸ ℓ≈) (ℓ ⊔ᴸ ℓ≈)
 FrAgRA .Car =  FrAg
 FrAgRA ._≈'_ =  _≈ᶠ_
 FrAgRA .✓_ =  ✓ᶠ_

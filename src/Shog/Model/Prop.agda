@@ -4,10 +4,10 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-open import Base.Level using (Level; ^_; ○)
+open import Base.Level using (Level; 2ᴸ)
 open import Shog.Model.RA using (RA)
 -- Parametric over the global RA
-module Shog.Model.Prop (GlobRA : RA (^ ^ ○) (^ ^ ○) (^ ^ ○)) where
+module Shog.Model.Prop (GlobRA : RA 2ᴸ 2ᴸ 2ᴸ) where
 
 open import Base.Few using (⊤; ⊥)
 open import Base.Func using (_$_; _▷_; flip; _∈_)
@@ -24,13 +24,13 @@ open RA GlobRA renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_
 -- Propᵒ: Semantic proposition
 
 -- Monoᵒ F :  F is monotone over the resource, ignoring the validity data
-Monoᵒ :  (∀ a → ✓ a → Set (^ ^ ○)) →  Set (^ ^ ○)
+Monoᵒ :  (∀ a → ✓ a → Set₂) →  Set₂
 Monoᵒ F =  ∀ {a b ✓a ✓b} →  a ⊑ b →  F a ✓a →  F b ✓b
 
-record  Propᵒ :  Set (^ ^ ^ ○)  where
+record  Propᵒ :  Set₃  where
   field
     -- Predicate, parametrized over a resource a that is valid
-    !ᵒ :  ∀ (a : Glob) →  ✓ a →  Set (^ ^ ○)
+    !ᵒ :  ∀ (a : Glob) →  ✓ a →  Set₂
     -- !ᵒ is monotone over the resource, ignoring the validity data
     monoᵒ :  Monoᵒ !ᵒ
 
@@ -49,9 +49,9 @@ open Propᵒ public
 
 private variable
   ℓB :  Level
-  X :  Set (^ ○)
-  X○ :  Set ○
-  X^ :  Set (^ ^ ○)
+  X :  Set₁
+  X○ :  Set₀
+  X^ :  Set₂
   Pᵒ Qᵒ Rᵒ :  Propᵒ
   a b c :  Glob
   B :  Glob → Set ℓB
@@ -60,7 +60,7 @@ private variable
 -- ⊨: Entailment
 
 infix 1 _⊨_
-_⊨_ :  Propᵒ →  Propᵒ →  Set (^ ^ ○)
+_⊨_ :  Propᵒ →  Propᵒ →  Set₂
 Pᵒ ⊨ Qᵒ =  ∀ {a ✓a} →  Pᵒ .!ᵒ a ✓a →  Qᵒ .!ᵒ a ✓a
 
 abstract
@@ -77,7 +77,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Universal/existential quantification
 
--- For Set (^ ○)
+-- For Set₁
 
 ∀ᵒ˙ ∃ᵒ˙ : (X → Propᵒ) →  Propᵒ
 ∀ᵒ˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
@@ -91,7 +91,7 @@ abstract
   proof :  Monoᵒ $ ∃ᵒ˙ Pᵒ˙ .!ᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
--- For Set ○
+-- For Set₀
 
 ∀○˙ ∃○˙ :  (X○ → Propᵒ) →  Propᵒ
 ∀○˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
@@ -105,7 +105,7 @@ abstract
   proof :  Monoᵒ $ ∃○˙ Pᵒ˙ .!ᵒ
   proof a⊑b (x , Pxa) =  x ,  Pᵒ˙ x .monoᵒ a⊑b Pxa
 
--- For Set (^ ^ ○)
+-- For Set₂
 
 ∀^˙ ∃^˙ :  (X^ → Propᵒ) →  Propᵒ
 ∀^˙ Pᵒ˙ .!ᵒ a ✓a =  ∀ x →  Pᵒ˙ x .!ᵒ a ✓a
@@ -184,7 +184,7 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 --------------------------------------------------------------------------------
 -- ⌜ ⌝^: Set embedding
 
-⌜_⌝^ :  Set (^ ^ ○) →  Propᵒ
+⌜_⌝^ :  Set₂ →  Propᵒ
 ⌜ X^ ⌝^ .!ᵒ _ _ =  X^
 ⌜ _ ⌝^ .monoᵒ _ x =  x
 

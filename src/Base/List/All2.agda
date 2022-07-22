@@ -6,7 +6,7 @@
 
 module Base.List.All2 where
 
-open import Base.Level using (Level; _⌴_)
+open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.List using (List; _∷_; []; _++_)
 open import Base.Func using (_$_)
 
@@ -18,7 +18,7 @@ private variable
 
 infixr 5 _∷ᴬ²_
 data  All² {A : Set ℓA} {B : Set ℓB} (F : A → B → Set ℓF) :
-  List A →  List B →  Set (ℓA ⌴ ℓB ⌴ ℓF)  where
+  List A →  List B →  Set (ℓA ⊔ᴸ ℓB ⊔ᴸ ℓF)  where
   []ᴬ² :  All² F [] []
   _∷ᴬ²_ :  ∀ {a b as bs} →  F a b →  All² F as bs →  All² F (a ∷ as) (b ∷ bs)
 open All² public

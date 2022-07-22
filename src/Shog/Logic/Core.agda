@@ -6,7 +6,6 @@
 
 module Shog.Logic.Core where
 
-open import Base.Level using (^_; ○)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)
@@ -31,8 +30,8 @@ private variable
   ι :  Size
   P P' Q Q' R R' S S' T T' U U' V V' :  Prop' ∞
   Jr :  JudgRes
-  X Y :  Set (^ ○)
-  Y˙ :  X → Set (^ ○)
+  X Y :  Set₁
+  Y˙ :  X → Set₁
   P˙ Q˙ :  X → Prop' ∞
   Ps Qs :  List (Prop' ∞)
 

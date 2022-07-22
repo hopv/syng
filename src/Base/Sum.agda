@@ -6,7 +6,7 @@
 
 module Base.Sum where
 
-open import Base.Level using (Level; _⌴_)
+open import Base.Level using (Level; _⊔ᴸ_)
 
 private variable
   ℓA ℓB ℓF :  Level
@@ -17,7 +17,7 @@ private variable
 -- Sum
 
 infixr 1 _⊎_
-data  _⊎_ (A : Set ℓA) (B : Set ℓB) :  Set (ℓA ⌴ ℓB)  where
+data  _⊎_ (A : Set ℓA) (B : Set ℓB) :  Set (ℓA ⊔ᴸ ℓB)  where
   inj₀ :  A →  A ⊎ B
   inj₁ :  B →  A ⊎ B
 

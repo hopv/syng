@@ -6,7 +6,7 @@
 
 module Base.Prod where
 
-open import Base.Level using (Level; _⌴_)
+open import Base.Level using (Level; _⊔ᴸ_)
 
 --------------------------------------------------------------------------------
 -- Sigma type
@@ -23,9 +23,9 @@ private variable
 -- Syntax for ∑
 
 infix 2 ∑∈-syntax ∑-syntax
-∑∈-syntax :  ∀ (A : Set ℓA) →  (A → Set ℓF) →  Set (ℓA ⌴ ℓF)
+∑∈-syntax :  ∀ (A : Set ℓA) →  (A → Set ℓF) →  Set (ℓA ⊔ᴸ ℓF)
 ∑∈-syntax =  ∑˙
-∑-syntax :  ∀ {A : Set ℓA} →  (A → Set ℓF) →  Set (ℓA ⌴ ℓF)
+∑-syntax :  ∀ {A : Set ℓA} →  (A → Set ℓF) →  Set (ℓA ⊔ᴸ ℓF)
 ∑-syntax =  ∑˙ _
 syntax ∑∈-syntax A (λ a → b) =  ∑ a ∈ A , b
 syntax ∑-syntax (λ a → B) =  ∑ a , B
@@ -34,7 +34,7 @@ syntax ∑-syntax (λ a → B) =  ∑ a , B
 -- Product
 
 infixr 2 _×_
-_×_ :  Set ℓA →  Set ℓB →  Set (ℓA ⌴ ℓB)
+_×_ :  Set ℓA →  Set ℓB →  Set (ℓA ⊔ᴸ ℓB)
 A × B =  ∑ _ ∈ A , B
 
 -- Curry and uncurry

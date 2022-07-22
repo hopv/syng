@@ -6,7 +6,7 @@
 
 module Shog.Logic.Hor where
 
-open import Base.Level using (○; ↑_)
+open import Base.Level using (↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_)
 open import Base.Prod using (_,_)
@@ -25,7 +25,7 @@ open import Shog.Logic.Judg public using (WpK; par; tot; Wp'; _⊢[_]'⟨_⟩[_]
 
 private variable
   ι :  Size
-  A :  Set ○
+  A :  Set₀
   T U :  Type
   κ :  WpK
   P P' :  Prop' ∞

@@ -7,7 +7,7 @@
 open import Shog.Model.RA using (RA)
 module Shog.Model.RA.All {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'} (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) where
 
-open import Base.Level using (_⌴_)
+open import Base.Level using (_⊔ᴸ_)
 open import Base.Prod using (_,_; proj₀; proj₁)
 
 open RA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
@@ -16,7 +16,7 @@ open RA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; �
 --------------------------------------------------------------------------------
 -- AllRA: Dependent-function resource algebra
 
-AllRA :  RA (ℓ' ⌴ ℓ) (ℓ' ⌴ ℓ≈) (ℓ' ⌴ ℓ✓)
+AllRA :  RA (ℓ' ⊔ᴸ ℓ) (ℓ' ⊔ᴸ ℓ≈) (ℓ' ⊔ᴸ ℓ✓)
 AllRA .Car =  ∀ i →  Ra˙ i .Car
 AllRA ._≈_ a˙ b˙ =  ∀ i →  Ra˙ i ._≈_ (a˙ i) (b˙ i)
 AllRA .✓_ a˙ =  ∀ i →  Ra˙ i .✓_ (a˙ i)

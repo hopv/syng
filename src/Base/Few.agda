@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Base.Level using (Level; ○)
+open import Base.Level using (Level; 0ᴸ)
 module Base.Few where
 
 private variable
@@ -44,7 +44,7 @@ absurd ()
 
 infix 3 ¬_
 ¬_ :  Set ℓA → Set ℓA
-¬ A =  A →  ⊥ {○}
+¬ A =  A →  ⊥ {0ᴸ}
 
 -- Introducing ¬¬
 

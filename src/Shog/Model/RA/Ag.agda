@@ -8,7 +8,7 @@ open import Base.Setoid using (Setoid)
 module Shog.Model.RA.Ag {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S using (_≈_) renaming (Car to A)
 
-open import Base.Level using (_⌴_)
+open import Base.Level using (_⊔ᴸ_)
 open import Base.Prod using (_,_)
 open import Base.Func using (id; _$_)
 open import Base.List using (List; []; _++_; [_]; ++-assocˡ)
@@ -30,7 +30,7 @@ ag a =  [ a ]
 --------------------------------------------------------------------------------
 -- AgRA : Agreement resource algebra
 
-AgRA :  RA ℓ (ℓ ⌴ ℓ≈) (ℓ ⌴ ℓ≈)
+AgRA :  RA ℓ (ℓ ⊔ᴸ ℓ≈) (ℓ ⊔ᴸ ℓ≈)
 AgRA .Car =  List A
 AgRA ._≈'_ =  _≈ᴸ_
 AgRA .✓_ =  homo

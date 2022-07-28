@@ -163,7 +163,7 @@ abstract
   ... | d , ✓eb∙d , Qd =
     b ∙ d , ✓-resp ∙-assocˡ ✓eb∙d , b , d , ⊑-refl , Pb , Qd
 
-  -- |=>-∃₁-out :  |=> (∃₁ _ ∈ A , P) ⊢[ ∞ ] ∃₁ _ ∈ A , |=> P
+  -- |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ∞ ] ∃₁ _ ∈ X , |=> P
   ⊢⇒⊨ |=>-∃₁-out ✓a |=>∃₁AP .proj₀ =
     let _ , _ , x , _ = |=>∃₁AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
   ⊢⇒⊨ |=>-∃₁-out _ |=>∃₁AP .proj₁ c ✓c∙a =

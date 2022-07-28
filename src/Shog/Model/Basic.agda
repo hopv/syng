@@ -14,7 +14,7 @@ open import Shog.Logic.Prop using (Prop'; ∀˙; ∃˙; _∗_; □_; IsBasic; �
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob using (GlobRA)
 open RA GlobRA using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
-open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; renewᵒ; _⊨_; ∀₁-syntax;
+open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; _⊨'_; ∀₁-syntax;
   ∃₁-syntax; _∗ᵒ_; □ᵒ_)
 
 private variable
@@ -33,13 +33,11 @@ abstract
 
   -- ⸨ P ⸩ᴮ[ ... ] is persistent
 
-  ⸨⸩ᴮ'-⇒□ :  ∀ IsBaP →  ⸨ P ⸩ᴮ[ IsBaP ] ⊨ □ᵒ ⸨ P ⸩ᴮ[ IsBaP ]
+  ⸨⸩ᴮ'-⇒□ :  ∀ IsBaP →  ⸨ P ⸩ᴮ[ IsBaP ] ⊨' □ᵒ ⸨ P ⸩ᴮ[ IsBaP ]
   ⸨⸩ᴮ'-⇒□ (∀-IsBasic IsBaP˙) ∀xPxa x =  ⸨⸩ᴮ'-⇒□ (IsBaP˙ x) (∀xPxa x)
   ⸨⸩ᴮ'-⇒□ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , ⸨⸩ᴮ'-⇒□ (IsBaP˙ x) Pxa
   ⸨⸩ᴮ'-⇒□ (∗-IsBasic {P} {Q} IsBaP IsBaQ) (_ , _ , b∙c⊑a , Pb , Qc) =
-    _ , _ , ⊑-trans ⌞⌟-∙ (⌞⌟-mono b∙c⊑a) ,
-    renewᵒ ⸨ P ⸩ᴮ[ IsBaP ] (⸨⸩ᴮ'-⇒□ IsBaP Pb) ,
-    renewᵒ ⸨ Q ⸩ᴮ[ IsBaQ ] (⸨⸩ᴮ'-⇒□ IsBaQ Qc)
+    _ , _ , ⊑-trans ⌞⌟-∙ (⌞⌟-mono b∙c⊑a) , ⸨⸩ᴮ'-⇒□ IsBaP Pb , ⸨⸩ᴮ'-⇒□ IsBaQ Qc
   ⸨⸩ᴮ'-⇒□ (□-IsBasic IsBaP) P⌞a⌟ =  ⸨⸩ᴮ'-⇒□ IsBaP P⌞a⌟
 
 --------------------------------------------------------------------------------
@@ -52,5 +50,5 @@ abstract
 
   -- ⸨ P ⸩ᴮ is persistent
 
-  ⸨⸩ᴮ-⇒□ :  {{_ : Basic P}} →  ⸨ P ⸩ᴮ ⊨ □ᵒ ⸨ P ⸩ᴮ
+  ⸨⸩ᴮ-⇒□ :  {{_ : Basic P}} →  ⸨ P ⸩ᴮ ⊨' □ᵒ ⸨ P ⸩ᴮ
   ⸨⸩ᴮ-⇒□ =  ⸨⸩ᴮ'-⇒□ isBasic

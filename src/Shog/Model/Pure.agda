@@ -11,19 +11,19 @@ open import Base.Func using (_$_; _▷_; flip; it)
 open import Base.Thunk using (!)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Prod using (_,_; proj₀; proj₁)
-open import Shog.Logic.Prop using (Prop'; ∀˙; ∃˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
-  □_; Saveˣ; Save□; _↦⟨_⟩_; Free; IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic;
+open import Shog.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
+  □_; Saveˣ; Save□; _↦⟨_⟩_; Free; IsBasic; ∀₁-IsBasic; ∃₁-IsBasic; ∗-IsBasic;
   □-IsBasic; Basic; isBasic; ∧-Basic)
 open import Shog.Logic.Core using (_⊢[_]_; ⊢-refl; _»_;
-  ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
+  ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
-  |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
-  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out; ∧-assocˡ; ∧-monoʳ)
+  |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃₁-out;
+  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out; ∧-assocˡ; ∧-monoʳ)
 open import Shog.Logic.Save using (Save□-□; Saveˣ-mono-∧; Save□-mono-∧)
 open import Shog.Model.RA using (RA)
 open import Shog.Model.RA.Glob using (GlobRA)
 open import Shog.Model.Prop GlobRA using (Propᵒ; monoᵒ; congᵒ; _⊨_; _⊨'_;
-  ∀₁-syntax; ∃₁-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□)
+  ∀₁ᵒ-syntax; ∃₁ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□)
 open RA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr)
@@ -38,8 +38,8 @@ private variable
 -- ⸨ ⸩: Interpreting propositions
 
 ⸨_⸩ :  (P : Prop' ∞) →  Propᵒ
-⸨ ∀˙ P˙ ⸩ =  ∀₁ x , ⸨ P˙ x ⸩
-⸨ ∃˙ P˙ ⸩ =  ∃₁ x , ⸨ P˙ x ⸩
+⸨ ∀₁˙ P˙ ⸩ =  ∀₁ᵒ x , ⸨ P˙ x ⸩
+⸨ ∃₁˙ P˙ ⸩ =  ∃₁ᵒ x , ⸨ P˙ x ⸩
 ⸨ P →' Q ⸩ =  ⸨ P ⸩ →ᵒ ⸨ Q ⸩
 ⸨ P ∗ Q ⸩ =  ⸨ P ⸩ ∗ᵒ ⸨ Q ⸩
 ⸨ P -∗ Q ⸩ =  ⸨ P ⸩ -∗ᵒ ⸨ Q ⸩
@@ -55,15 +55,15 @@ abstract
   -- ⸨ ⸩ᴮ[ ] / ⸨ ⸩ᴮ agrees with ⸨ ⸩
 
   ⸨⸩-ᴮ'⇒ :  (IsBaP : IsBasic P) →  ⸨ P ⸩ᴮ[ IsBaP ] ⊨' ⸨ P ⸩
-  ⸨⸩-ᴮ'⇒ (∀-IsBasic IsBaP˙) ∀xPxa x =  ⸨⸩-ᴮ'⇒ (IsBaP˙ x) (∀xPxa x)
-  ⸨⸩-ᴮ'⇒ (∃-IsBasic IsBaP˙) (x , Pxa) =  x , ⸨⸩-ᴮ'⇒ (IsBaP˙ x) Pxa
+  ⸨⸩-ᴮ'⇒ (∀₁-IsBasic IsBaP˙) ∀xPxa x =  ⸨⸩-ᴮ'⇒ (IsBaP˙ x) (∀xPxa x)
+  ⸨⸩-ᴮ'⇒ (∃₁-IsBasic IsBaP˙) (x , Pxa) =  x , ⸨⸩-ᴮ'⇒ (IsBaP˙ x) Pxa
   ⸨⸩-ᴮ'⇒ (∗-IsBasic IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
     b , c , bc≈a , ⸨⸩-ᴮ'⇒ IsBaP Pb , ⸨⸩-ᴮ'⇒ IsBaQ Qc
   ⸨⸩-ᴮ'⇒ (□-IsBasic IsBaP) =  ⸨⸩-ᴮ'⇒ IsBaP
 
   ⸨⸩-⇒ᴮ' :  (IsBaP : IsBasic P) →  ⸨ P ⸩ ⊨' ⸨ P ⸩ᴮ[ IsBaP ]
-  ⸨⸩-⇒ᴮ' (∀-IsBasic IsBaP˙) ∀xPxa x =  ⸨⸩-⇒ᴮ' (IsBaP˙ x) (∀xPxa x)
-  ⸨⸩-⇒ᴮ' (∃-IsBasic IsBaP˙) (x , Pxa) =  x , ⸨⸩-⇒ᴮ' (IsBaP˙ x) Pxa
+  ⸨⸩-⇒ᴮ' (∀₁-IsBasic IsBaP˙) ∀xPxa x =  ⸨⸩-⇒ᴮ' (IsBaP˙ x) (∀xPxa x)
+  ⸨⸩-⇒ᴮ' (∃₁-IsBasic IsBaP˙) (x , Pxa) =  x , ⸨⸩-⇒ᴮ' (IsBaP˙ x) Pxa
   ⸨⸩-⇒ᴮ' (∗-IsBasic IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
     b , c , bc≈a , ⸨⸩-⇒ᴮ' IsBaP Pb , ⸨⸩-⇒ᴮ' IsBaQ Qc
   ⸨⸩-⇒ᴮ' (□-IsBasic IsBaP) =  ⸨⸩-⇒ᴮ' IsBaP
@@ -92,22 +92,22 @@ abstract
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ] R →  P ⊢[ ∞ ] R
   ⊢⇒⊨ (P⊢Q » Q⊢R) ✓a Pa =  Pa ▷ ⊢⇒⊨ P⊢Q ✓a ▷ ⊢⇒⊨ Q⊢R ✓a
 
-  -- ∀-intro :  (∀ x → P ⊢[ ∞ ] Q˙ x) →  P ⊢[ ∞ ] ∀˙ Q˙
-  ⊢⇒⊨ (∀-intro ∀xP⊢Qx) ✓a Pa x =  ⊢⇒⊨ (∀xP⊢Qx x) ✓a Pa
+  -- ∀₁-intro :  (∀₁ x → P ⊢[ ∞ ] Q˙ x) →  P ⊢[ ∞ ] ∀₁˙ Q˙
+  ⊢⇒⊨ (∀₁-intro ∀xP⊢Qx) ✓a Pa x =  ⊢⇒⊨ (∀xP⊢Qx x) ✓a Pa
 
-  -- ∃-elim :  (∀ x → P˙ x ⊢[ ∞ ] Q) →  ∃˙ P˙ ⊢[ ∞ ] Q
-  ⊢⇒⊨ (∃-elim ∀xPx⊢Q) ✓a (x , Pxa) =  ⊢⇒⊨ (∀xPx⊢Q x) ✓a Pxa
+  -- ∃₁-elim :  (∀₁ x → P˙ x ⊢[ ∞ ] Q) →  ∃₁˙ P˙ ⊢[ ∞ ] Q
+  ⊢⇒⊨ (∃₁-elim ∀xPx⊢Q) ✓a (x , Pxa) =  ⊢⇒⊨ (∀xPx⊢Q x) ✓a Pxa
 
-  -- ∀-elim :  ∀˙ P˙ ⊢[ ∞ ] P˙ x
-  ⊢⇒⊨ ∀-elim _ ∀Pa =  ∀Pa _
+  -- ∀₁-elim :  ∀₁˙ P˙ ⊢[ ∞ ] P˙ x
+  ⊢⇒⊨ ∀₁-elim _ ∀Pa =  ∀Pa _
 
-  -- ∃-intro :  P˙ x ⊢[ ∞ ] ∃˙ P˙
-  ⊢⇒⊨ ∃-intro _ Px =  _ , Px
+  -- ∃₁-intro :  P˙ x ⊢[ ∞ ] ∃₁˙ P˙
+  ⊢⇒⊨ ∃₁-intro _ Px =  _ , Px
 
-  -- choice :  ∀' x , ∃ y , P˙˙ x y ⊢[ ∞ ] ∃ y˙ , ∀' x , P˙˙ x (y˙ x)
+  -- choice₁ :  ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ∞ ] ∃₁ y˙ , ∀₁ x , P˙˙ x (y˙ x)
   -- It can be proved axiom-free thanks to the logic's predicativity
-  ⊢⇒⊨ choice _ ∀x∃yPxy .proj₀ x =  ∀x∃yPxy x .proj₀
-  ⊢⇒⊨ choice _ ∀x∃yPxy .proj₁ x =  ∀x∃yPxy x .proj₁
+  ⊢⇒⊨ choice₁ _ ∀x∃₁yPxy .proj₀ x =  ∀x∃₁yPxy x .proj₀
+  ⊢⇒⊨ choice₁ _ ∀x∃₁yPxy .proj₁ x =  ∀x∃₁yPxy x .proj₁
 
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
   ⊢⇒⊨ (→-intro {Q = Q} P∧Q⊢R) _ Qa a⊑b ✓b Pb =
@@ -163,11 +163,11 @@ abstract
   ... | d , ✓eb∙d , Qd =
     b ∙ d , ✓-resp ∙-assocˡ ✓eb∙d , b , d , ⊑-refl , Pb , Qd
 
-  -- |=>-∃-out :  |=> (∃ _ ∈ A , P) ⊢[ ∞ ] ∃ _ ∈ A , |=> P
-  ⊢⇒⊨ |=>-∃-out ✓a |=>∃AP .proj₀ =
-    let _ , _ , x , _ = |=>∃AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
-  ⊢⇒⊨ |=>-∃-out _ |=>∃AP .proj₁ c ✓c∙a =
-    let b , ✓c∙b , _ , Pb = |=>∃AP c ✓c∙a in  b , ✓c∙b , Pb
+  -- |=>-∃₁-out :  |=> (∃₁ _ ∈ A , P) ⊢[ ∞ ] ∃₁ _ ∈ A , |=> P
+  ⊢⇒⊨ |=>-∃₁-out ✓a |=>∃₁AP .proj₀ =
+    let _ , _ , x , _ = |=>∃₁AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
+  ⊢⇒⊨ |=>-∃₁-out _ |=>∃₁AP .proj₁ c ✓c∙a =
+    let b , ✓c∙b , _ , Pb = |=>∃₁AP c ✓c∙a in  b , ✓c∙b , Pb
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
   ⊢⇒⊨ (□-mono P⊢Q) ✓a P⌞a⌟ =  ⊢⇒⊨ P⊢Q (✓-mono ⌞⌟-decr ✓a) P⌞a⌟
@@ -182,11 +182,11 @@ abstract
   ⊢⇒⊨ (□ˡ-∧⇒∗ {P}) {a} _ P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ≈⇒⊑ ⌞⌟-unitˡ ,
     congᵒ ⸨ P ⸩ (◠˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) , P⌞a⌟∧Qa 1₂
 
-  -- □-∀-in :  ∀˙ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀˙ P˙
-  ⊢⇒⊨ □-∀-in _ ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
+  -- □-∀₁-in :  ∀₁˙ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀₁˙ P˙
+  ⊢⇒⊨ □-∀₁-in _ ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
 
-  -- □-∃-out :  □ ∃˙ P˙ ⊢[ ∞ ] ∃˙ (□_ ∘ P˙)
-  ⊢⇒⊨ □-∃-out _ ∑xPx⌞a⌟ =  ∑xPx⌞a⌟
+  -- □-∃₁-out :  □ ∃₁˙ P˙ ⊢[ ∞ ] ∃₁˙ (□_ ∘ P˙)
+  ⊢⇒⊨ □-∃₁-out _ ∑xPx⌞a⌟ =  ∑xPx⌞a⌟
 
   -- Save□-□ :  Save□ P˂ ⊢[ ∞ ] □ Save□ P˂
   ⊢⇒⊨ Save□-□ _ (_ , _ , BaQ , _ , Q∧P'⊢P , Qa , line□iP'a) =

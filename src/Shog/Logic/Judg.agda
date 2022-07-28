@@ -19,8 +19,8 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; map)
 open import Base.List.Nat using (rep; len)
 open import Base.RatPos using (ℚ⁺)
-open import Shog.Logic.Prop using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
-  ∃∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗∈]-syntax; Saveˣ;
+open import Shog.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
+  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗∈]-syntax; Saveˣ;
   Save□; _↦⟨_⟩_; _↦_; _↦ˡ_; Free; Basic)
 open import Shog.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ∇_; Val; V⇒E;
   AnyVal; ⊤-val)
@@ -132,14 +132,14 @@ data  _⊢[_]*_  where
   _»_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ]* Jr →  P ⊢[ ι ]* Jr
 
   -- Introducing ∀ / Eliminating ∃
-  ∀-intro :  (∀ x → P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀˙ Q˙
-  ∃-elim :  (∀ x → P˙ x ⊢[ ι ]* Jr) →  ∃˙ P˙ ⊢[ ι ]* Jr
+  ∀₁-intro :  (∀ x → P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₁˙ Q˙
+  ∃₁-elim :  (∀ x → P˙ x ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ⊢[ ι ]* Jr
   -- Eliminating ∀ / Introducing ∃
-  ∀-elim :  ∀˙ P˙ ⊢[ ι ] P˙ x
-  ∃-intro :  P˙ x ⊢[ ι ] ∃˙ P˙
+  ∀₁-elim :  ∀₁˙ P˙ ⊢[ ι ] P˙ x
+  ∃₁-intro :  P˙ x ⊢[ ι ] ∃₁˙ P˙
   -- Choice, which is safe to have thanks to the logic's predicativity
-  choice :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
-    ∀' x , ∃ y , P˙˙ x y ⊢[ ι ] ∃ y˙ ∈ (∀ x → Y˙ x) , ∀' x , P˙˙ x (y˙ x)
+  choice₁ :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
+    ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ι ] ∃₁ y˙ ∈ (∀ x → Y˙ x) , ∀₁ x , P˙˙ x (y˙ x)
 
   -- → is the right adjoint of ∧
   →-intro :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
@@ -165,8 +165,8 @@ data  _⊢[_]*_  where
   |=>-join :  |=> |=> P ⊢[ ι ] |=> P
   -- ∗ can get inside |=>
   |=>-frameˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
-  -- ∃ _ , can get outside |=>
-  |=>-∃-out :  |=> (∃ _ ∈ X , P) ⊢[ ι ] ∃ _ ∈ X , |=> P
+  -- ∃₁ _ , can get outside |=>
+  |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , |=> P
 
   -- □ is comonadic: monotone, decreasing, and idempotent
   □-mono :  P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
@@ -175,9 +175,9 @@ data  _⊢[_]*_  where
   -- ∧ can turn into ∗ when one argument is under □
   □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ι ] □ P ∗ Q
   -- ∀ can get inside □
-  □-∀-in :  ∀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀˙ P˙
+  □-∀₁-in :  ∀₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₁˙ P˙
   -- ∃ can get outside □
-  □-∃-out :  □ ∃˙ P˙ ⊢[ ι ] ∃˙ (□_ ∘ P˙)
+  □-∃₁-out :  □ ∃₁˙ P˙ ⊢[ ι ] ∃₁˙ (□_ ∘ P˙)
 
   ------------------------------------------------------------------------------
   -- Rules on super update

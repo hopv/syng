@@ -6,7 +6,7 @@
 
 module Shog.Logic.Prop where
 
-open import Base.Level using (Level)
+open import Base.Level using (Level; ↓_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
@@ -30,10 +30,12 @@ Prop˂ ι =  Thunk Prop' ι
 
 private variable
   ι :  Size
-  X :  Set₁
+  X₀ :  Set₀
+  X₁ :  Set₁
+  ℓ :  Level
+  X :  Set ℓ
   P˙ :  X → Prop' ∞
   P Q R S :  Prop' ∞
-  ℓ :  Level
   A :  Set ℓ
 
 infixr 5 _→'_ _-∗_
@@ -43,9 +45,9 @@ infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
 
-  -- ∀˙, ∃˙: Universal/existential quantification over any type X in Set₁,
+  -- ∀₁˙, ∃₁˙: Universal/existential quantification over any type X₁ in Set₁,
   --         which does not include Prop' ι itself (predicativity)
-  ∀˙ ∃˙ :  (X → Prop' ι) →  Prop' ι
+  ∀₁˙ ∃₁˙ :  (X₁ → Prop' ι) →  Prop' ι
   -- →': Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
 
@@ -66,18 +68,32 @@ data  Prop' ι  where
   Free :  ℕ →  Addr →  Prop' ι
 
 --------------------------------------------------------------------------------
--- Syntax for ∀/∃
+-- Utility for ∀/∃
 
-∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  (X → Prop' ι) →  Prop' ι
-∀∈-syntax =  ∀˙
-∃∈-syntax =  ∃˙
-∀-syntax =  ∀˙
-∃-syntax =  ∃˙
-infix 3 ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
-syntax ∀∈-syntax {X = X} (λ x → P) =  ∀' x ∈ X , P
-syntax ∃∈-syntax {X = X} (λ x → P) =  ∃ x ∈ X , P
-syntax ∀-syntax (λ x → P) =  ∀' x , P
-syntax ∃-syntax (λ x → P) =  ∃ x , P
+∀₀˙ ∃₀˙ :  (X₀ → Prop' ι) →  Prop' ι
+∀₀˙ P˙ =  ∀₁˙ $ P˙ ∘ ↓_
+∃₀˙ P˙ =  ∃₁˙ $ P˙ ∘ ↓_
+
+∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax :  (X₁ → Prop' ι) →  Prop' ι
+∀₁∈-syntax =  ∀₁˙
+∃₁∈-syntax =  ∃₁˙
+∀₁-syntax =  ∀₁˙
+∃₁-syntax =  ∃₁˙
+∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax :  (X₀ → Prop' ι) →  Prop' ι
+∀₀∈-syntax =  ∀₀˙
+∃₀∈-syntax =  ∃₀˙
+∀₀-syntax =  ∀₀˙
+∃₀-syntax =  ∃₀˙
+infix 3 ∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax
+  ∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax
+syntax ∀₁∈-syntax {X₁ = X₁} (λ x → P) =  ∀₁ x ∈ X₁ , P
+syntax ∃₁∈-syntax {X₁ = X₁} (λ x → P) =  ∃₁ x ∈ X₁ , P
+syntax ∀₁-syntax (λ x → P) =  ∀₁ x , P
+syntax ∃₁-syntax (λ x → P) =  ∃₁ x , P
+syntax ∀₀∈-syntax {X₀ = X₀} (λ x → P) =  ∀₀ x ∈ X₀ , P
+syntax ∃₀∈-syntax {X₀ = X₀} (λ x → P) =  ∃₀ x ∈ X₀ , P
+syntax ∀₀-syntax (λ x → P) =  ∀₀ x , P
+syntax ∃₀-syntax (λ x → P) =  ∃₀ x , P
 
 --------------------------------------------------------------------------------
 -- ∧: Conjunction
@@ -87,22 +103,24 @@ infixr 7 _∧_
 infixr 6 _∨_
 
 _∧_ _∨_ :  Prop' ι →  Prop' ι →  Prop' ι
-P ∧ Q =  ∀˙ (binary P Q)
-P ∨ Q =  ∃˙ (binary P Q)
+P ∧ Q =  ∀₁˙ (binary P Q)
+P ∨ Q =  ∃₁˙ (binary P Q)
 
 --------------------------------------------------------------------------------
 -- ⊤': Truth
 -- ⊥': Falsehood
 
 ⊤' ⊥' :  Prop' ι
-⊤' =  ∀˙ absurd
-⊥' =  ∃˙ absurd
+⊤' =  ∀₁˙ absurd
+⊥' =  ∃₁˙ absurd
 
 --------------------------------------------------------------------------------
 -- ⌜ ⌝: Set embedding
 
-⌜_⌝ :  Set₁ →  Prop' ι
-⌜ X ⌝ =  ∃ _ ∈ X , ⊤'
+⌜_⌝₁ :  Set₁ →  Prop' ι
+⌜ X₁ ⌝₁ =  ∃₁ _ ∈ X₁ , ⊤'
+⌜_⌝₀ :  Set₀ →  Prop' ι
+⌜ X₀ ⌝₀ =  ∃₀ _ ∈ X₀ , ⊤'
 
 --------------------------------------------------------------------------------
 -- [∗]: Iterated separating conjunction
@@ -142,10 +160,10 @@ _↦ˡ_ :  Addr →  List AnyVal →  Prop' ι
 --------------------------------------------------------------------------------
 -- Basic Shog proposition
 
--- IsBasic P: P consists only of ∀, ∃, ∗ and □
+-- IsBasic P: P consists only of ∀₁, ∃₁, ∗ and □
 data  IsBasic :  Prop' ∞ →  Set₂  where
-  ∀-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∀˙ P˙)
-  ∃-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∃˙ P˙)
+  ∀₁-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∀₁˙ P˙)
+  ∃₁-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∃₁˙ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
   □-IsBasic :  IsBasic P →  IsBasic (□ P)
 
@@ -156,31 +174,37 @@ open Basic {{...}} public
 
 abstract
 
-  -- For ∀/∃
+  -- For ∀₁/∃₁
   -- They are not instances, because unfortunately Agda can't search a
   -- universally quantified instance (∀ x → ...)
 
-  ∀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀˙ P˙)
-  ∀-Basic ∀Basic .isBasic =  ∀-IsBasic $ λ x → ∀Basic x .isBasic
+  ∀₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₁˙ P˙)
+  ∀₁-Basic ∀Basic .isBasic =  ∀₁-IsBasic $ λ x → ∀Basic x .isBasic
 
-  ∃-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃˙ P˙)
-  ∃-Basic ∀Basic .isBasic =  ∃-IsBasic $ λ x → ∀Basic x .isBasic
+  ∀₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₀˙ P˙)
+  ∀₀-Basic ∀Basic =  ∀₁-Basic $ ∀Basic ∘ ↓_
+
+  ∃₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₁˙ P˙)
+  ∃₁-Basic ∀Basic .isBasic =  ∃₁-IsBasic $ λ x → ∀Basic x .isBasic
+
+  ∃₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₀˙ P˙)
+  ∃₀-Basic ∀Basic =  ∃₁-Basic $ ∀Basic ∘ ↓_
 
   instance
 
     -- For ∧/∨/⊤'/⊥'
 
     ∧-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∧ Q)
-    ∧-Basic =  ∀-Basic $ binary it it
+    ∧-Basic =  ∀₁-Basic $ binary it it
 
     ∨-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∨ Q)
-    ∨-Basic =  ∃-Basic $ binary it it
+    ∨-Basic =  ∃₁-Basic $ binary it it
 
     ⊤-Basic :  Basic ⊤'
-    ⊤-Basic =  ∀-Basic absurd
+    ⊤-Basic =  ∀₁-Basic absurd
 
     ⊥-Basic :  Basic ⊥'
-    ⊥-Basic =  ∃-Basic absurd
+    ⊥-Basic =  ∃₁-Basic absurd
 
     -- For ∗
 
@@ -189,8 +213,11 @@ abstract
 
     -- For ⌜ ⌝
 
-    ⌜⌝-Basic :  Basic ⌜ X ⌝
-    ⌜⌝-Basic =  ∃-Basic $ λ _ → ⊤-Basic
+    ⌜⌝₁-Basic :  Basic ⌜ X₁ ⌝₁
+    ⌜⌝₁-Basic =  ∃₁-Basic $ λ _ → ⊤-Basic
+
+    ⌜⌝₀-Basic :  Basic ⌜ X₀ ⌝₀
+    ⌜⌝₀-Basic =  ⌜⌝₁-Basic
 
     -- For ⌜ ⌝
 

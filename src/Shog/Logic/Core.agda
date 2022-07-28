@@ -6,6 +6,7 @@
 
 module Shog.Logic.Core where
 
+open import Base.Level using (Level; ↓_; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)
@@ -14,24 +15,27 @@ open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.List using (List; []; _∷_; _++_)
 open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
-open import Shog.Logic.Prop using (Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
-  ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_;
-  IsBasic; ∀-IsBasic; ∃-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
+open import Shog.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; ∀₀˙; ∃₀˙; ∀₁∈-syntax;
+  ∃₁∈-syntax; ∀₁-syntax;∃₁-syntax; ∀₀∈-syntax; ∃₀∈-syntax; ∀₀-syntax; ∃₀-syntax;
+  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝₀; ⌜_⌝₁; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_;
+  IsBasic; ∀₁-IsBasic; ∃₁-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
 
 -- Import and re-export
 open import Shog.Logic.Judg public using (
   JudgRes; Pure; _⊢[_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□;
-  ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice; →-intro; →-elim;
+  ⊢-refl; _»_; ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
-  |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃-out;
-  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
+  |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃₁-out;
+  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out)
 
 private variable
   ι :  Size
   P P' Q Q' R R' S S' T T' U U' V V' :  Prop' ∞
   Jr :  JudgRes
-  X Y :  Set₁
-  Y˙ :  X → Set₁
+  ℓ :  Level
+  X Y :  Set ℓ
+  x :  X
+  Y˙ :  X → Set ℓ
   P˙ Q˙ :  X → Prop' ∞
   Ps Qs :  List (Prop' ∞)
 
@@ -40,41 +44,59 @@ abstract
   ------------------------------------------------------------------------------
   -- On ∀/∃/∧/∨/⊤'/⊥'
 
-  -- Introduce ∧/⊤' & eliminate ∨/⊥'
+  -- Introduce ∀/∧/⊤' & eliminate ∃/∨/⊥'
+
+  ∀₀-intro :  (∀ x → P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₀˙ Q˙
+  ∀₀-intro ∀xP⊢Q =  ∀₁-intro $ ∀xP⊢Q ∘ ↓_
+
+  ∃₀-elim :  (∀ x → P˙ x ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ⊢[ ι ]* Jr
+  ∃₀-elim ∀xP⊢*Jr =  ∃₁-elim $ ∀xP⊢*Jr ∘ ↓_
 
   ∧-intro :  P ⊢[ ι ] Q →  P ⊢[ ι ] R →  P ⊢[ ι ] Q ∧ R
-  ∧-intro P⊢Q P⊢R =  ∀-intro $ binary P⊢Q P⊢R
+  ∧-intro P⊢Q P⊢R =  ∀₁-intro $ binary P⊢Q P⊢R
 
   ∨-elim :  P ⊢[ ι ]* Jr →  Q ⊢[ ι ]* Jr →  P ∨ Q ⊢[ ι ]* Jr
-  ∨-elim P⊢*Jr Q⊢*Jr =  ∃-elim $ binary P⊢*Jr Q⊢*Jr
+  ∨-elim P⊢*Jr Q⊢*Jr =  ∃₁-elim $ binary P⊢*Jr Q⊢*Jr
 
   ⊤-intro :  P ⊢[ ι ] ⊤'
-  ⊤-intro =  ∀-intro absurd
+  ⊤-intro =  ∀₁-intro absurd
 
   ⊥-elim :  ⊥' ⊢[ ι ]* Jr
-  ⊥-elim =  ∃-elim absurd
+  ⊥-elim =  ∃₁-elim absurd
 
-  -- Eliminate ∧/⊤' & introduce ∨/⊥'
+  -- Eliminate ∀/∧/⊤' & introduce ∃/∨/⊥'
+
+  ∀₀-elim :  ∀₀˙ P˙ ⊢[ ι ] P˙ x
+  ∀₀-elim =  ∀₁-elim
+
+  ∃₀-intro :  P˙ x ⊢[ ι ] ∃₀˙ P˙
+  ∃₀-intro =  ∃₁-intro
 
   ∧-elimˡ :  P ∧ Q ⊢[ ι ] P
-  ∧-elimˡ =  ∀-elim
+  ∧-elimˡ =  ∀₁-elim
 
   ∧-elimʳ :  P ∧ Q ⊢[ ι ] Q
-  ∧-elimʳ =  ∀-elim
+  ∧-elimʳ =  ∀₁-elim
 
   ∨-introˡ :  P ⊢[ ι ] P ∨ Q
-  ∨-introˡ =  ∃-intro
+  ∨-introˡ =  ∃₁-intro
 
   ∨-introʳ :  Q ⊢[ ι ] P ∨ Q
-  ∨-introʳ =  ∃-intro
+  ∨-introʳ =  ∃₁-intro
 
   -- ∀/∃/∧/∨ is monotone
 
-  ∀-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∀˙ P˙ ⊢[ ι ] ∀˙ Q˙
-  ∀-mono P˙⊢Q˙ =  ∀-intro $ λ x →  ∀-elim » P˙⊢Q˙ x
+  ∀₁-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∀₁˙ P˙ ⊢[ ι ] ∀₁˙ Q˙
+  ∀₁-mono P˙⊢Q˙ =  ∀₁-intro $ λ x →  ∀₁-elim » P˙⊢Q˙ x
 
-  ∃-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∃˙ P˙ ⊢[ ι ] ∃˙ Q˙
-  ∃-mono P˙⊢Q˙ =  ∃-elim $ λ x →  P˙⊢Q˙ x » ∃-intro
+  ∃₁-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∃₁˙ P˙ ⊢[ ι ] ∃₁˙ Q˙
+  ∃₁-mono P˙⊢Q˙ =  ∃₁-elim $ λ x →  P˙⊢Q˙ x » ∃₁-intro
+
+  ∀₀-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∀₀˙ P˙ ⊢[ ι ] ∀₀˙ Q˙
+  ∀₀-mono P˙⊢Q˙ =  ∀₁-mono $ P˙⊢Q˙ ∘ ↓_
+
+  ∃₀-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∃₀˙ P˙ ⊢[ ι ] ∃₀˙ Q˙
+  ∃₀-mono P˙⊢Q˙ =  ∃₁-mono $ P˙⊢Q˙ ∘ ↓_
 
   ∧-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  P ∧ R ⊢[ ι ] Q ∧ S
   ∧-mono P⊢Q R⊢S =  ∧-intro (∧-elimˡ » P⊢Q) (∧-elimʳ » R⊢S)
@@ -132,6 +154,12 @@ abstract
   ⊥∨-elim :  ⊥' ∨ P ⊢[ ι ] P
   ⊥∨-elim =  ∨-elim ⊥-elim ⊢-refl
 
+  -- Choice
+
+  choice₀ :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
+    ∀₀ x , ∃₀ y , P˙˙ x y ⊢[ ι ] ∃₀ y˙ ∈ (∀ x → Y˙ x) , ∀₀ x , P˙˙ x (y˙ x)
+  choice₀ =  choice₁ » ∃₁-elim $ λ _ → ∃₀-intro
+
   ------------------------------------------------------------------------------
   -- On →'
 
@@ -156,80 +184,144 @@ abstract
 
   -- Introduce & eliminate ⌜⌝
 
-  ⌜⌝-intro :  X →  P ⊢[ ι ] ⌜ X ⌝
-  ⌜⌝-intro x =  ⊤-intro » ∃-intro {x = x}
+  ⌜⌝₁-intro :  X →  P ⊢[ ι ] ⌜ X ⌝₁
+  ⌜⌝₁-intro x =  ⊤-intro » ∃₁-intro {x = x}
 
-  ⌜⌝-elim :  (X →  ⊤' ⊢[ ι ]* Jr) →  ⌜ X ⌝ ⊢[ ι ]* Jr
-  ⌜⌝-elim A→⊤⊢P =  ∃-elim $ λ x →  A→⊤⊢P x
+  ⌜⌝₁-elim :  (X →  ⊤' ⊢[ ι ]* Jr) →  ⌜ X ⌝₁ ⊢[ ι ]* Jr
+  ⌜⌝₁-elim X→⊤⊢P =  ∃₁-elim $ λ x →  X→⊤⊢P x
+
+  ⌜⌝₀-intro :  X →  P ⊢[ ι ] ⌜ X ⌝₀
+  ⌜⌝₀-intro x =  ⌜⌝₁-intro (↑ x)
+
+  ⌜⌝₀-elim :  (X →  ⊤' ⊢[ ι ]* Jr) →  ⌜ X ⌝₀ ⊢[ ι ]* Jr
+  ⌜⌝₀-elim X→⊤⊢P =  ⌜⌝₁-elim $ X→⊤⊢P ∘ ↓_
 
   -- ⌜⌝ is monotone
 
-  ⌜⌝-mono :  (X →  Y) →  ⌜ X ⌝ ⊢[ ι ] ⌜ Y ⌝
-  ⌜⌝-mono f =  ⌜⌝-elim $ λ x →  ⌜⌝-intro $ f x
+  ⌜⌝₁-mono :  (X →  Y) →  ⌜ X ⌝₁ ⊢[ ι ] ⌜ Y ⌝₁
+  ⌜⌝₁-mono f =  ⌜⌝₁-elim $ λ x →  ⌜⌝₁-intro $ f x
+
+  ⌜⌝₀-mono :  (X →  Y) →  ⌜ X ⌝₀ ⊢[ ι ] ⌜ Y ⌝₀
+  ⌜⌝₀-mono f =  ⌜⌝₁-mono $ ↑_ ∘ f ∘ ↓_
 
   -- Introduce & eliminate ⌜ ⌝ ∧
 
-  ⌜⌝∧-intro :  X →  P ⊢[ ι ] ⌜ X ⌝ ∧ P
-  ⌜⌝∧-intro x =  ∧-intro (⌜⌝-intro x) ⊢-refl
+  ⌜⌝₁∧-intro :  X →  P ⊢[ ι ] ⌜ X ⌝₁ ∧ P
+  ⌜⌝₁∧-intro x =  ∧-intro (⌜⌝₁-intro x) ⊢-refl
 
-  ⌜⌝∧-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝ ∧ P ⊢[ ι ] Q
-  ⌜⌝∧-elim A→P⊢Q =  ∧-comm » →-elim $ ⌜⌝-elim $
-    λ x →  →-intro $ ∧-elimˡ » A→P⊢Q x
+  ⌜⌝₁∧-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₁ ∧ P ⊢[ ι ] Q
+  ⌜⌝₁∧-elim X→P⊢Q =  ∧-comm » →-elim $ ⌜⌝₁-elim $
+    λ x →  →-intro $ ∧-elimˡ » X→P⊢Q x
 
-  -- ⌜ X ⌝ →' is the same with ∀' _ ∈ X ,
+  ⌜⌝₀∧-intro :  X →  P ⊢[ ι ] ⌜ X ⌝₀ ∧ P
+  ⌜⌝₀∧-intro =  ⌜⌝₁∧-intro ∘ ↑_
 
-  ⌜⌝→⇒∀ :  ⌜ X ⌝ →' P ⊢[ ι ] ∀' _ ∈ X , P
-  ⌜⌝→⇒∀ =  ∀-intro $ λ x →  ⌜⌝∧-intro x » →-apply
+  ⌜⌝₀∧-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₀ ∧ P ⊢[ ι ] Q
+  ⌜⌝₀∧-elim X→P⊢Q =  ⌜⌝₁∧-elim $ X→P⊢Q ∘ ↓_
 
-  ∀⇒⌜⌝→ :  ∀' _ ∈ X , P ⊢[ ι ] ⌜ X ⌝ →' P
-  ∀⇒⌜⌝→ =  →-intro $ ⌜⌝∧-elim $ λ x →  ∀-elim {x = x}
+  -- ⌜ X ⌝ →' is the same with ∀ _ ∈ X ,
+
+  ⌜⌝→⇒∀₁ :  ⌜ X ⌝₁ →' P ⊢[ ι ] ∀₁ _ ∈ X , P
+  ⌜⌝→⇒∀₁ =  ∀₁-intro $ λ x →  ⌜⌝₁∧-intro x » →-apply
+
+  ∀₁⇒⌜⌝→ :  ∀₁ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₁ →' P
+  ∀₁⇒⌜⌝→ =  →-intro $ ⌜⌝₁∧-elim $ λ x →  ∀₁-elim {x = x}
+
+  ⌜⌝→⇒∀₀ :  ⌜ X ⌝₀ →' P ⊢[ ι ] ∀₀ _ ∈ X , P
+  ⌜⌝→⇒∀₀ =  ⌜⌝→⇒∀₁
+
+  ∀₀⇒⌜⌝→ :  ∀₀ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₀ →' P
+  ∀₀⇒⌜⌝→ =  ∀₁⇒⌜⌝→
 
   -- ⌜ X ⌝ ∧ is the same with ∃ _ ∈ X ,
 
-  ⌜⌝∧⇒∃ :  ⌜ X ⌝ ∧ P ⊢[ ι ] ∃ _ ∈ X , P
-  ⌜⌝∧⇒∃ =  ⌜⌝∧-elim $ λ x →  ⊢-refl » ∃-intro {x = x}
+  ⌜⌝∧⇒∃₁ :  ⌜ X ⌝₁ ∧ P ⊢[ ι ] ∃₁ _ ∈ X , P
+  ⌜⌝∧⇒∃₁ =  ⌜⌝₁∧-elim $ λ x →  ⊢-refl » ∃₁-intro {x = x}
 
-  ∃⇒⌜⌝∧ :  ∃ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝ ∧ P
-  ∃⇒⌜⌝∧ =  ∃-elim $ λ x →  ⌜⌝∧-intro x
+  ∃₁⇒⌜⌝∧ :  ∃₁ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₁ ∧ P
+  ∃₁⇒⌜⌝∧ =  ∃₁-elim $ λ x →  ⌜⌝₁∧-intro x
+
+  ⌜⌝∧⇒∃₀ :  ⌜ X ⌝₀ ∧ P ⊢[ ι ] ∃₀ _ ∈ X , P
+  ⌜⌝∧⇒∃₀ =  ⌜⌝∧⇒∃₁
+
+  ∃₀⇒⌜⌝∧ :  ∃₀ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₀ ∧ P
+  ∃₀⇒⌜⌝∧ =  ∃₁⇒⌜⌝∧
 
   -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤'/⊥'/→
 
-  ⌜⌝-∀-in :  ∀' x , ⌜ Y˙ x ⌝ ⊢[ ι ] ⌜ (∀ x → Y˙ x) ⌝
-  ⌜⌝-∀-in =  choice » ∃-mono $ λ _ → ⊤-intro
+  ⌜⌝₁-∀₁-in :  ∀₁ x , ⌜ Y˙ x ⌝₁ ⊢[ ι ] ⌜ (∀ x → Y˙ x) ⌝₁
+  ⌜⌝₁-∀₁-in =  choice₁ » ∃₁-mono $ λ _ → ⊤-intro
 
-  ⌜⌝-∀-out :  ⌜ (∀ x → Y˙ x) ⌝ ⊢[ ι ] ∀' x , ⌜ Y˙ x ⌝
-  ⌜⌝-∀-out =  ∀-intro $ λ x →  ⌜⌝-elim $ λ f →  ⌜⌝-intro $ f x
+  ⌜⌝₁-∀₁-out :  ⌜ (∀ x → Y˙ x) ⌝₁ ⊢[ ι ] ∀₁ x , ⌜ Y˙ x ⌝₁
+  ⌜⌝₁-∀₁-out =  ∀₁-intro $ λ x →  ⌜⌝₁-elim $ λ f →  ⌜⌝₁-intro $ f x
 
-  ⌜⌝-∃-in :  ∃ x , ⌜ Y˙ x ⌝ ⊢[ ι ] ⌜ ∑ x , Y˙ x ⌝
-  ⌜⌝-∃-in =  ∃-elim $ λ x →  ⌜⌝-mono $ λ fa →  x , fa
+  ⌜⌝₀-∀₀-in :  ∀₀ x , ⌜ Y˙ x ⌝₀ ⊢[ ι ] ⌜ (∀ x → Y˙ x) ⌝₀
+  ⌜⌝₀-∀₀-in =  choice₀ » ∃₀-mono $ λ _ → ⊤-intro
 
-  ⌜⌝-∃-out :  ⌜ ∑ x , Y˙ x ⌝ ⊢[ ι ] ∃ x , ⌜ Y˙ x ⌝
-  ⌜⌝-∃-out =  ⌜⌝-elim $ λ (_ , fa) →  ⌜⌝-intro fa » ∃-intro
+  ⌜⌝₀-∀₀-out :  ⌜ (∀ x → Y˙ x) ⌝₀ ⊢[ ι ] ∀₀ x , ⌜ Y˙ x ⌝₀
+  ⌜⌝₀-∀₀-out =  ∀₀-intro $ λ x →  ⌜⌝₀-elim $ λ f →  ⌜⌝₀-intro $ f x
 
-  ⌜⌝-∧-in :  ⌜ X ⌝ ∧ ⌜ Y ⌝ ⊢[ ι ] ⌜ X × Y ⌝
-  ⌜⌝-∧-in =  ⌜⌝∧-elim $ λ x →  ⌜⌝-mono $ λ y →  (x , y)
+  ⌜⌝₁-∃₁-in :  ∃₁ x , ⌜ Y˙ x ⌝₁ ⊢[ ι ] ⌜ ∑ x , Y˙ x ⌝₁
+  ⌜⌝₁-∃₁-in =  ∃₁-elim $ λ x →  ⌜⌝₁-mono $ λ fa →  x , fa
 
-  ⌜⌝-∧-out :  ⌜ X × Y ⌝ ⊢[ ι ] ⌜ X ⌝ ∧ ⌜ Y ⌝
-  ⌜⌝-∧-out =  ⌜⌝-elim $ λ (x , y) →  ∧-intro (⌜⌝-intro x) (⌜⌝-intro y)
+  ⌜⌝₁-∃₁-out :  ⌜ ∑ x , Y˙ x ⌝₁ ⊢[ ι ] ∃₁ x , ⌜ Y˙ x ⌝₁
+  ⌜⌝₁-∃₁-out =  ⌜⌝₁-elim $ λ (_ , fa) →  ⌜⌝₁-intro fa » ∃₁-intro
 
-  ⌜⌝-∨-in :  ⌜ X ⌝ ∨ ⌜ Y ⌝ ⊢[ ι ] ⌜ X ⊎ Y ⌝
-  ⌜⌝-∨-in =  ∨-elim (⌜⌝-mono inj₀) (⌜⌝-mono inj₁)
+  ⌜⌝₀-∃₀-in :  ∃₀ x , ⌜ Y˙ x ⌝₀ ⊢[ ι ] ⌜ ∑ x , Y˙ x ⌝₀
+  ⌜⌝₀-∃₀-in =  ∃₀-elim $ λ x →  ⌜⌝₀-mono $ λ fa →  x , fa
 
-  ⌜⌝-∨-out :  ⌜ X ⊎ Y ⌝ ⊢[ ι ] ⌜ X ⌝ ∨ ⌜ Y ⌝
-  ⌜⌝-∨-out =  ⌜⌝-elim $ ⊎-case
-    (λ x → ⌜⌝-intro x » ∨-introˡ) (λ y → ⌜⌝-intro y » ∨-introʳ)
+  ⌜⌝₀-∃₀-out :  ⌜ ∑ x , Y˙ x ⌝₀ ⊢[ ι ] ∃₀ x , ⌜ Y˙ x ⌝₀
+  ⌜⌝₀-∃₀-out =  ⌜⌝₀-elim $ λ (_ , fa) →  ⌜⌝₀-intro fa » ∃₀-intro
 
-  ⌜⊤⌝-intro :  P ⊢[ ι ] ⌜ ⊤ ⌝
-  ⌜⊤⌝-intro =  ⌜⌝-intro _
+  ⌜⌝₁-∧-in :  ⌜ X ⌝₁ ∧ ⌜ Y ⌝₁ ⊢[ ι ] ⌜ X × Y ⌝₁
+  ⌜⌝₁-∧-in =  ⌜⌝₁∧-elim $ λ x →  ⌜⌝₁-mono $ λ y →  (x , y)
 
-  ⌜⊥⌝-elim :  ⌜ ⊥ ⌝ ⊢[ ι ]* Jr
-  ⌜⊥⌝-elim =  ⌜⌝-elim absurd
+  ⌜⌝₁-∧-out :  ⌜ X × Y ⌝₁ ⊢[ ι ] ⌜ X ⌝₁ ∧ ⌜ Y ⌝₁
+  ⌜⌝₁-∧-out =  ⌜⌝₁-elim $ λ (x , y) →  ∧-intro (⌜⌝₁-intro x) (⌜⌝₁-intro y)
 
-  ⌜⌝-→-in :  ⌜ X ⌝ →' ⌜ Y ⌝ ⊢[ ι ] ⌜ (X → Y) ⌝
-  ⌜⌝-→-in =  ⌜⌝→⇒∀ » ⌜⌝-∀-in
+  ⌜⌝₀-∧-in :  ⌜ X ⌝₀ ∧ ⌜ Y ⌝₀ ⊢[ ι ] ⌜ X × Y ⌝₀
+  ⌜⌝₀-∧-in =  ⌜⌝₀∧-elim $ λ x →  ⌜⌝₀-mono $ λ y →  (x , y)
 
-  ⌜⌝-→-out :  ⌜ (X → Y) ⌝ ⊢[ ι ] ⌜ X ⌝ →' ⌜ Y ⌝
-  ⌜⌝-→-out =  →-intro $ ⌜⌝∧-elim $ λ x → ⌜⌝-mono $ λ f → f x
+  ⌜⌝₀-∧-out :  ⌜ X × Y ⌝₀ ⊢[ ι ] ⌜ X ⌝₀ ∧ ⌜ Y ⌝₀
+  ⌜⌝₀-∧-out =  ⌜⌝₀-elim $ λ (x , y) →  ∧-intro (⌜⌝₀-intro x) (⌜⌝₀-intro y)
+
+  ⌜⌝₁-∨-in :  ⌜ X ⌝₁ ∨ ⌜ Y ⌝₁ ⊢[ ι ] ⌜ X ⊎ Y ⌝₁
+  ⌜⌝₁-∨-in =  ∨-elim (⌜⌝₁-mono inj₀) (⌜⌝₁-mono inj₁)
+
+  ⌜⌝₁-∨-out :  ⌜ X ⊎ Y ⌝₁ ⊢[ ι ] ⌜ X ⌝₁ ∨ ⌜ Y ⌝₁
+  ⌜⌝₁-∨-out =  ⌜⌝₁-elim $ ⊎-case
+    (λ x → ⌜⌝₁-intro x » ∨-introˡ) (λ y → ⌜⌝₁-intro y » ∨-introʳ)
+
+  ⌜⌝₀-∨-in :  ⌜ X ⌝₀ ∨ ⌜ Y ⌝₀ ⊢[ ι ] ⌜ X ⊎ Y ⌝₀
+  ⌜⌝₀-∨-in =  ∨-elim (⌜⌝₀-mono inj₀) (⌜⌝₀-mono inj₁)
+
+  ⌜⌝₀-∨-out :  ⌜ X ⊎ Y ⌝₀ ⊢[ ι ] ⌜ X ⌝₀ ∨ ⌜ Y ⌝₀
+  ⌜⌝₀-∨-out =  ⌜⌝₀-elim $ ⊎-case
+    (λ x → ⌜⌝₀-intro x » ∨-introˡ) (λ y → ⌜⌝₀-intro y » ∨-introʳ)
+
+  ⌜⊤⌝₁-intro :  P ⊢[ ι ] ⌜ ⊤ ⌝₁
+  ⌜⊤⌝₁-intro =  ⌜⌝₁-intro _
+
+  ⌜⊤⌝₀-intro :  P ⊢[ ι ] ⌜ ⊤ ⌝₀
+  ⌜⊤⌝₀-intro =  ⌜⌝₀-intro _
+
+  ⌜⊥⌝₁-elim :  ⌜ ⊥ ⌝₁ ⊢[ ι ]* Jr
+  ⌜⊥⌝₁-elim =  ⌜⌝₁-elim absurd
+
+  ⌜⊥⌝₀-elim :  ⌜ ⊥ ⌝₀ ⊢[ ι ]* Jr
+  ⌜⊥⌝₀-elim =  ⌜⌝₀-elim absurd
+
+  ⌜⌝₁-→-in :  ⌜ X ⌝₁ →' ⌜ Y ⌝₁ ⊢[ ι ] ⌜ (X → Y) ⌝₁
+  ⌜⌝₁-→-in =  ⌜⌝→⇒∀₁ » ⌜⌝₁-∀₁-in
+
+  ⌜⌝₁-→-out :  ⌜ (X → Y) ⌝₁ ⊢[ ι ] ⌜ X ⌝₁ →' ⌜ Y ⌝₁
+  ⌜⌝₁-→-out =  →-intro $ ⌜⌝₁∧-elim $ λ x → ⌜⌝₁-mono $ λ f → f x
+
+  ⌜⌝₀-→-in :  ⌜ X ⌝₀ →' ⌜ Y ⌝₀ ⊢[ ι ] ⌜ (X → Y) ⌝₀
+  ⌜⌝₀-→-in =  ⌜⌝→⇒∀₀ » ⌜⌝₀-∀₀-in
+
+  ⌜⌝₀-→-out :  ⌜ (X → Y) ⌝₀ ⊢[ ι ] ⌜ X ⌝₀ →' ⌜ Y ⌝₀
+  ⌜⌝₀-→-out =  →-intro $ ⌜⌝₀∧-elim $ λ x → ⌜⌝₀-mono $ λ f → f x
 
   ------------------------------------------------------------------------------
   -- On ∗
@@ -267,16 +359,22 @@ abstract
 
   -- ∃ can get outside ∗
 
-  ∗-∃-out :  P ∗ ∃˙ Q˙ ⊢[ ι ] ∃ x , P ∗ Q˙ x
-  ∗-∃-out =  -∗-elim $ ∃-elim λ _ → -∗-intro ∃-intro
+  ∗-∃₀-out :  P ∗ ∃₀˙ Q˙ ⊢[ ι ] ∃₀ x , P ∗ Q˙ x
+  ∗-∃₀-out =  -∗-elim $ ∃₀-elim λ _ → -∗-intro ∃₀-intro
+
+  ∗-∃₁-out :  P ∗ ∃₁˙ Q˙ ⊢[ ι ] ∃₁ x , P ∗ Q˙ x
+  ∗-∃₁-out =  -∗-elim $ ∃₁-elim λ _ → -∗-intro ∃₁-intro
 
   -- Eliminate ∃/∨/⊥' with ∗
 
-  ∃∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃˙ P˙ ∗ Q ⊢[ ι ]* Jr
-  ∃∗-elim →P˙∗⊢ =  ∗-comm » ∗-∃-out » ∃-elim $ λ x → ∗-comm » →P˙∗⊢ x
+  ∃₀∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ∗ Q ⊢[ ι ]* Jr
+  ∃₀∗-elim →P˙∗⊢ =  ∗-comm » ∗-∃₀-out » ∃₀-elim $ λ x → ∗-comm » →P˙∗⊢ x
+
+  ∃₁∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ∗ Q ⊢[ ι ]* Jr
+  ∃₁∗-elim →P˙∗⊢ =  ∗-comm » ∗-∃₁-out » ∃₁-elim $ λ x → ∗-comm » →P˙∗⊢ x
 
   ∨∗-elim :  P ∗ Q ⊢[ ι ]* Jr →  P' ∗ Q ⊢[ ι ]* Jr →  (P ∨ P') ∗ Q ⊢[ ι ]* Jr
-  ∨∗-elim P∗⊢ P'∗⊢ =  ∃∗-elim (binary P∗⊢ P'∗⊢)
+  ∨∗-elim P∗⊢ P'∗⊢ =  ∃₁∗-elim (binary P∗⊢ P'∗⊢)
 
   ⊥∗-elim :  ⊥' ∗ P ⊢[ ι ]* Jr
   ⊥∗-elim =  ∗-elimˡ » ⊥-elim
@@ -426,10 +524,18 @@ abstract
   |=>-elim :  P ⊢[ ι ] |=> Q →  |=> P ⊢[ ι ] |=> Q
   |=>-elim P⊢|=>Q =  |=>-mono P⊢|=>Q » |=>-join
 
+  -- ∃ _ , can get outside |=>
+
+  |=>-∃₀-out :  |=> (∃₀ _ ∈ X , P) ⊢[ ι ] ∃₀ _ ∈ X , |=> P
+  |=>-∃₀-out =  |=>-∃₁-out
+
   -- ⌜ ⌝ ∧ can get outside |=>
 
-  |=>-⌜⌝∧-out :  |=> (⌜ X ⌝ ∧ P) ⊢[ ι ] ⌜ X ⌝ ∧ |=> P
-  |=>-⌜⌝∧-out =  |=>-mono ⌜⌝∧⇒∃ » |=>-∃-out » ∃⇒⌜⌝∧
+  |=>-⌜⌝₁∧-out :  |=> (⌜ X ⌝₁ ∧ P) ⊢[ ι ] ⌜ X ⌝₁ ∧ |=> P
+  |=>-⌜⌝₁∧-out =  |=>-mono ⌜⌝∧⇒∃₁ » |=>-∃₁-out » ∃₁⇒⌜⌝∧
+
+  |=>-⌜⌝₀∧-out :  |=> (⌜ X ⌝₀ ∧ P) ⊢[ ι ] ⌜ X ⌝₀ ∧ |=> P
+  |=>-⌜⌝₀∧-out =  |=>-⌜⌝₁∧-out
 
   -- ∗ can get inside |=>
 
@@ -451,11 +557,17 @@ abstract
 
   -- ∀/∧ can get outside □ / ∃/∨ can get inside □
 
-  □-∀-out :  □ ∀˙ P˙ ⊢[ ι ] ∀˙ (□_ ∘ P˙)
-  □-∀-out =  ∀-intro $ λ _ → □-mono ∀-elim
+  □-∀₁-out :  □ ∀₁˙ P˙ ⊢[ ι ] ∀₁˙ (□_ ∘ P˙)
+  □-∀₁-out =  ∀₁-intro $ λ _ → □-mono ∀₁-elim
 
-  □-∃-in :  ∃˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃˙ P˙
-  □-∃-in =  ∃-elim $ λ _ → □-mono ∃-intro
+  □-∀₀-out :  □ ∀₀˙ P˙ ⊢[ ι ] ∀₀˙ (□_ ∘ P˙)
+  □-∀₀-out =  ∀₀-intro $ λ _ → □-mono ∀₀-elim
+
+  □-∃₁-in :  ∃₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₁˙ P˙
+  □-∃₁-in =  ∃₁-elim $ λ _ → □-mono ∃₁-intro
+
+  □-∃₀-in :  ∃₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₀˙ P˙
+  □-∃₀-in =  ∃₀-elim $ λ _ → □-mono ∃₀-intro
 
   □-∧-out :  □ (P ∧ Q) ⊢[ ι ] □ P ∧ □ Q
   □-∧-out =  ∧-intro (□-mono ∧-elimˡ) (□-mono ∧-elimʳ)
@@ -509,18 +621,28 @@ abstract
   ------------------------------------------------------------------------------
   -- On □, with □-∀-in/□-∃-out
 
+  -- ∀ can get inside □
+
+  □-∀₀-in :  ∀₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₀˙ P˙
+  □-∀₀-in =  □-∀₁-in
+
+  -- ∃ can get outside □
+
+  □-∃₀-out :  □ ∃₀˙ P˙ ⊢[ ι ] ∃₀˙ (□_ ∘ P˙)
+  □-∃₀-out =  □-∃₁-out
+
   -- ∧ / ∨ can get inside / outside □
 
   □-∧-in :  □ P ∧ □ Q ⊢[ ι ] □ (P ∧ Q)
-  □-∧-in =  ∀-intro (binary ∧-elimˡ ∧-elimʳ) » □-∀-in
+  □-∧-in =  ∀₁-intro (binary ∧-elimˡ ∧-elimʳ) » □-∀₁-in
 
   □-∨-out :  □ (P ∨ Q) ⊢[ ι ] □ P ∨ □ Q
-  □-∨-out =  □-∃-out » ∃-elim (binary ∨-introˡ ∨-introʳ)
+  □-∨-out =  □-∃₁-out » ∃₁-elim (binary ∨-introˡ ∨-introʳ)
 
   -- □ ⊤' can be introduced
 
   □-⊤-intro :  P ⊢[ ι ] □ ⊤'
-  □-⊤-intro =  ∀-intro absurd » □-∀-in
+  □-⊤-intro =  ∀₁-intro absurd » □-∀₁-in
 
   -- ∗ can get inside □
 
@@ -534,27 +656,33 @@ abstract
   -- They are not instances, because unfortunately Agda can't search a
   -- universally quantified instance (∀ x → ...)
 
-  ∀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀˙ P˙)
-  ∀-Pers ∀Pers .Pers-⇒□ =  ∀-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀-in
+  ∀₁-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀₁˙ P˙)
+  ∀₁-Pers ∀Pers .Pers-⇒□ =  ∀₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀₁-in
 
-  ∃-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃˙ P˙)
-  ∃-Pers ∀Pers .Pers-⇒□ =  ∃-mono (λ x → ∀Pers x .Pers-⇒□) » □-∃-in
+  ∀₀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀₀˙ P˙)
+  ∀₀-Pers ∀Pers =  ∀₁-Pers $ ∀Pers ∘ ↓_
+
+  ∃₁-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃₁˙ P˙)
+  ∃₁-Pers ∀Pers .Pers-⇒□ =  ∃₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∃₁-in
+
+  ∃₀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃₀˙ P˙)
+  ∃₀-Pers ∀Pers =  ∃₁-Pers $ ∀Pers ∘ ↓_
 
   instance
 
     -- For ∧/∨/⊤'/⊥'
 
     ∧-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∧ Q)
-    ∧-Pers =  ∀-Pers $ binary it it
+    ∧-Pers =  ∀₁-Pers $ binary it it
 
     ∨-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∨ Q)
-    ∨-Pers =  ∃-Pers $ binary it it
+    ∨-Pers =  ∃₁-Pers $ binary it it
 
     ⊤-Pers :  Pers ⊤'
-    ⊤-Pers =  ∀-Pers absurd
+    ⊤-Pers =  ∀₁-Pers absurd
 
     ⊥-Pers :  Pers ⊥'
-    ⊥-Pers =  ∃-Pers absurd
+    ⊥-Pers =  ∃₁-Pers absurd
 
     -- For ∗
 
@@ -563,8 +691,11 @@ abstract
 
     -- For ⌜ ⌝
 
-    ⌜⌝-Pers :  Pers ⌜ X ⌝
-    ⌜⌝-Pers =  ∃-Pers $ λ _ → ⊤-Pers
+    ⌜⌝₁-Pers :  Pers ⌜ X ⌝₁
+    ⌜⌝₁-Pers =  ∃₁-Pers $ λ _ → ⊤-Pers
+
+    ⌜⌝₀-Pers :  Pers ⌜ X ⌝₀
+    ⌜⌝₀-Pers =  ⌜⌝₁-Pers
 
     -- For □
 
@@ -572,8 +703,8 @@ abstract
     □-Pers .Pers-⇒□ =  □-dup
 
   IsBasic-Pers :  IsBasic P →  Pers P
-  IsBasic-Pers (∀-IsBasic IsBaP˙) =  ∀-Pers (λ x → IsBasic-Pers $ IsBaP˙ x)
-  IsBasic-Pers (∃-IsBasic IsBaP˙) =  ∃-Pers (λ x → IsBasic-Pers $ IsBaP˙ x)
+  IsBasic-Pers (∀₁-IsBasic IsBaP˙) =  ∀₁-Pers (λ x → IsBasic-Pers $ IsBaP˙ x)
+  IsBasic-Pers (∃₁-IsBasic IsBaP˙) =  ∃₁-Pers (λ x → IsBasic-Pers $ IsBaP˙ x)
   IsBasic-Pers (∗-IsBasic IsBaP IsBaQ) =
     ∗-Pers {{IsBasic-Pers IsBaP}} {{IsBasic-Pers IsBaQ}}
   IsBasic-Pers (□-IsBasic _) =  it
@@ -610,16 +741,25 @@ abstract
 
   -- Introduce & eliminate ⌜ ⌝ ∗
 
-  ⌜⌝∗-intro :  X →  P ⊢[ ι ] ⌜ X ⌝ ∗ P
-  ⌜⌝∗-intro x =  ⌜⌝∧-intro x » Persˡ-∧⇒∗
+  ⌜⌝₁∗-intro :  X →  P ⊢[ ι ] ⌜ X ⌝₁ ∗ P
+  ⌜⌝₁∗-intro x =  ⌜⌝₁∧-intro x » Persˡ-∧⇒∗
 
-  ⌜⌝∗-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝ ∗ P ⊢[ ι ] Q
-  ⌜⌝∗-elim A→P⊢Q =  ∗⇒∧ » ⌜⌝∧-elim A→P⊢Q
+  ⌜⌝₀∗-intro :  X →  P ⊢[ ι ] ⌜ X ⌝₀ ∗ P
+  ⌜⌝₀∗-intro =  ⌜⌝₁∗-intro ∘ ↑_
+
+  ⌜⌝₁∗-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₁ ∗ P ⊢[ ι ] Q
+  ⌜⌝₁∗-elim X→P⊢Q =  ∗⇒∧ » ⌜⌝₁∧-elim X→P⊢Q
+
+  ⌜⌝₀∗-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₀ ∗ P ⊢[ ι ] Q
+  ⌜⌝₀∗-elim X→P⊢Q =  ⌜⌝₁∗-elim $ X→P⊢Q ∘ ↓_
 
   -- ⌜ ⌝ ∗ can get outside |=>
 
-  |=>-⌜⌝∗-out :  |=> (⌜ X ⌝ ∗ P) ⊢[ ι ] ⌜ X ⌝ ∗ |=> P
-  |=>-⌜⌝∗-out =  |=>-mono ∗⇒∧ » |=>-⌜⌝∧-out » Persˡ-∧⇒∗
+  |=>-⌜⌝₁∗-out :  |=> (⌜ X ⌝₁ ∗ P) ⊢[ ι ] ⌜ X ⌝₁ ∗ |=> P
+  |=>-⌜⌝₁∗-out =  |=>-mono ∗⇒∧ » |=>-⌜⌝₁∧-out » Persˡ-∧⇒∗
+
+  |=>-⌜⌝₀∗-out :  |=> (⌜ X ⌝₀ ∗ P) ⊢[ ι ] ⌜ X ⌝₀ ∗ |=> P
+  |=>-⌜⌝₀∗-out =  |=>-⌜⌝₁∗-out
 
   ------------------------------------------------------------------------------
   -- On [∗]

@@ -98,11 +98,11 @@ abstract
   -- ∃₁-elim :  (∀₁ x → P˙ x ⊢[ ∞ ] Q) →  ∃₁˙ P˙ ⊢[ ∞ ] Q
   ⊢⇒⊨ (∃₁-elim ∀xPx⊢Q) ✓a (x , Pxa) =  ⊢⇒⊨ (∀xPx⊢Q x) ✓a Pxa
 
-  -- ∀₁-elim :  ∀₁˙ P˙ ⊢[ ∞ ] P˙ x
-  ⊢⇒⊨ ∀₁-elim _ ∀Pa =  ∀Pa _
+  -- ∀₁-elim :  ∀ x →  ∀₁˙ P˙ ⊢[ ∞ ] P˙ x
+  ⊢⇒⊨ (∀₁-elim _) _ ∀Pa =  ∀Pa _
 
-  -- ∃₁-intro :  P˙ x ⊢[ ∞ ] ∃₁˙ P˙
-  ⊢⇒⊨ ∃₁-intro _ Px =  _ , Px
+  -- ∃₁-intro :  ∀ x →  P˙ x ⊢[ ∞ ] ∃₁˙ P˙
+  ⊢⇒⊨ (∃₁-intro _) _ Px =  _ , Px
 
   -- choice₁ :  ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ∞ ] ∃₁ y˙ , ∀₁ x , P˙˙ x (y˙ x)
   -- It can be proved axiom-free thanks to the logic's predicativity

@@ -146,20 +146,20 @@ abstract
       Qc ⊑-refl (✓-mono b∙c⊑a ✓a) Pb
 
   -- |=>-mono :  P ⊢[ ∞ ] Q →  |=> P ⊢[ ∞ ] |=> Q
-  ⊢⇒⊨ (|=>-mono P⊢Q) _ |=>Pa c ✓c∙a with |=>Pa c ✓c∙a
+  ⊢⇒⊨ (|=>-mono P⊢Q) _ |=>Pa c ✓c∙a  with |=>Pa c ✓c∙a
   ... | b , ✓c∙b , Pb =  b , ✓c∙b , ⊢⇒⊨ P⊢Q (✓-mono ∙-incrˡ ✓c∙b) Pb
 
   -- |=>-intro :  P ⊢[ ∞ ] |=> P
   ⊢⇒⊨ |=>-intro _ Pa c ✓c∙a =  _ , ✓c∙a , Pa
 
   -- |=>-join :  |=> |=> P ⊢[ ∞ ] |=> P
-  ⊢⇒⊨ |=>-join _ |=>|=>Pa d ✓d∙a with |=>|=>Pa d ✓d∙a
-  ... | b , ✓d∙b , |=>Pb with  |=>Pb d ✓d∙b
+  ⊢⇒⊨ |=>-join _ |=>|=>Pa d ✓d∙a  with |=>|=>Pa d ✓d∙a
+  ... | b , ✓d∙b , |=>Pb  with |=>Pb d ✓d∙b
   ...   | c , ✓d∙c , Pc =  c , ✓d∙c , Pc
 
   -- |=>-frameˡ :  P ∗ |=> Q ⊢[ ∞ ] |=> (P ∗ Q)
-  ⊢⇒⊨ |=>-frameˡ _ (b , c , b∙c⊑a , Pb , |=>Qc) e ✓e∙a with
-    |=>Qc (e ∙ b) $ flip ✓-mono ✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
+  ⊢⇒⊨ |=>-frameˡ _ (b , c , b∙c⊑a , Pb , |=>Qc) e ✓e∙a
+    with |=>Qc (e ∙ b) $ flip ✓-mono ✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | d , ✓eb∙d , Qd =
     b ∙ d , ✓-resp ∙-assocˡ ✓eb∙d , b , d , ⊑-refl , Pb , Qd
 

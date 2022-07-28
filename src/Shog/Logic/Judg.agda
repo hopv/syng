@@ -135,8 +135,8 @@ data  _⊢[_]*_  where
   ∀₁-intro :  (∀ x → P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₁˙ Q˙
   ∃₁-elim :  (∀ x → P˙ x ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ⊢[ ι ]* Jr
   -- Eliminating ∀ / Introducing ∃
-  ∀₁-elim :  ∀₁˙ P˙ ⊢[ ι ] P˙ x
-  ∃₁-intro :  P˙ x ⊢[ ι ] ∃₁˙ P˙
+  ∀₁-elim :  ∀ x →  ∀₁˙ P˙ ⊢[ ι ] P˙ x
+  ∃₁-intro :  ∀ x →  P˙ x ⊢[ ι ] ∃₁˙ P˙
   -- Choice, which is safe to have thanks to the logic's predicativity
   choice₁ :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
     ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ι ] ∃₁ y˙ ∈ (∀ x → Y˙ x) , ∀₁ x , P˙˙ x (y˙ x)

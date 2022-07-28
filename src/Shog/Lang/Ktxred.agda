@@ -207,7 +207,7 @@ abstract
 
   -- Calculate val/ktxred (ktx ᴷ◁ e)
 
-  val/ktxred-ktx :  val/ktxred e ≡ inj₁ kr →  let (ktx' ᴷ|ᴿ red) = kr in
+  val/ktxred-ktx :  val/ktxred e ≡ inj₁ kr →  let ktx' ᴷ|ᴿ red = kr in
                     val/ktxred (ktx ᴷ◁ e) ≡ inj₁ (ktx ᴷ∘ᴷ ktx' ᴷ|ᴿ red)
   val/ktxred-ktx {ktx = •ᴷ} eq =  eq
   val/ktxred-ktx {e = e} {ktx = _ ◁ᴷʳ ktx} eq
@@ -229,7 +229,7 @@ abstract
   -- Invert from val/ktxred (ktx ᴷ◁ e)
 
   val/ktxred-ktx-inv :  nonval e →
-    val/ktxred (ktx ᴷ◁ e) ≡ inj₁ kr →  let (ktx'' ᴷ|ᴿ red) = kr in
+    val/ktxred (ktx ᴷ◁ e) ≡ inj₁ kr →  let ktx'' ᴷ|ᴿ red = kr in
     ∑ ktx' ,  ktx'' ≡ ktx ᴷ∘ᴷ ktx'  ×  val/ktxred e ≡ inj₁ (ktx' ᴷ|ᴿ red)
   val/ktxred-ktx-inv {ktx = •ᴷ} _ eq =  _ , refl , eq
   val/ktxred-ktx-inv {e = e} {ktx = _ ◁ᴷʳ ktx} nv'e eq

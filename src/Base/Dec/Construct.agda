@@ -15,33 +15,34 @@ open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Func using (_$_)
 
 private variable
-  ℓA ℓB :  Level
+  ℓX ℓY :  Level
   b :  Bool
-  A :  Set ℓA
-  B :  Set ℓB
+  X :  Set ℓX
+  Y :  Set ℓY
 
 abstract
 
   -- From conversion between Tt
-  dec-Tt :  (Tt b → A) → (A → Tt b) → Dec A
-  dec-Tt {tt} ⇒A _ =  yes (⇒A _)
-  dec-Tt {ff} _ A⇒ =  no A⇒
+  dec-Tt :  (Tt b → X) →  (X → Tt b) →  Dec X
+  dec-Tt {tt} ⇒X _ =  yes $ ⇒X _
+  dec-Tt {ff} _ X⇒ =  no X⇒
 
   -- ¬
-  ¬? :  Dec A → Dec (¬ A)
-  ¬? (yes a) =  no (⇒¬¬ a)
-  ¬? (no ¬a) =  yes ¬a
+  infix 3 ¬?_
+  ¬? :  Dec X →  Dec (¬ X)
+  ¬? yes x =  no $ ⇒¬¬ x
+  ¬? no ¬x =  yes ¬x
 
   -- ×
   infixr 2 _×?_
-  _×?_ :  Dec A → Dec B → Dec (A × B)
-  (yes a) ×? (yes b) =  yes (a , b)
-  (no ¬a) ×? _ =  no (λ (a , _) → ¬a a)
-  _ ×? (no ¬b) =  no (λ (_ , b) → ¬b b)
+  _×?_ :  Dec X →  Dec Y →  Dec (X × Y)
+  yes x ×? yes y =  yes $ x , y
+  no ¬x ×? _ =  no $ λ (x , _) → ¬x x
+  _ ×? no ¬y =  no $ λ (_ , y) → ¬y y
 
   -- ⊎
   infixr 1 _⊎?_
-  _⊎?_ :  Dec A → Dec B → Dec (A ⊎ B)
-  (yes a) ⊎? _ =  yes (inj₀ a)
-  _ ⊎? (yes b) =  yes (inj₁ b)
-  (no ¬a) ⊎? (no ¬b) =  no $ ⊎-case ¬a ¬b
+  _⊎?_ :  Dec X →  Dec Y →  Dec (X ⊎ Y)
+  yes x ⊎? _ =  yes $ inj₀ x
+  _ ⊎? yes y =  yes $ inj₁ y
+  no ¬x ⊎? no ¬y =  no $ ⊎-case ¬x ¬y

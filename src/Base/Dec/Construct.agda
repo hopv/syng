@@ -29,7 +29,7 @@ abstract
 
   -- ¬
   infix 3 ¬?_
-  ¬? :  Dec X →  Dec (¬ X)
+  ¬?_ :  Dec X →  Dec (¬ X)
   ¬? yes x =  no $ ⇒¬¬ x
   ¬? no ¬x =  yes ¬x
 

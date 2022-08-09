@@ -123,21 +123,27 @@ P ∨ Q =  ∃₁˙ (binary P Q)
 ⌜ X₀ ⌝₀ =  ∃₀ _ ∈ X₀ , ⊤'
 
 --------------------------------------------------------------------------------
--- [∗]: Iterated separating conjunction
+-- [∧], [∗]: Iterated conjunction / separating conjunction
 
-infix 8 [∗]_
-[∗]_ :  List (Prop' ι) →  Prop' ι
+infix 8 [∧]_ [∗]_
+[∧]_ [∗]_ :  List (Prop' ι) →  Prop' ι
+[∧] [] =  ⊤'
+[∧] (P ∷ Ps) =  P ∧ [∧] Ps
 [∗] [] =  ⊤'
 [∗] (P ∷ Ps) =  P ∗ [∗] Ps
 
--- Syntax for [∗] map / mapi
+-- Syntax for [∧] / [∗] map / mapi
 
-infix 8 [∗∈]-syntax [∗ⁱ∈]-syntax
-[∗∈]-syntax :  (A → Prop' ι) →  List A →  Prop' ι
+infix 8 [∧∈]-syntax [∗∈]-syntax [∧ⁱ∈]-syntax [∗ⁱ∈]-syntax
+[∧∈]-syntax [∗∈]-syntax :  (A → Prop' ι) →  List A →  Prop' ι
+[∧∈]-syntax P˙ as =  [∧] map P˙ as
 [∗∈]-syntax P˙ as =  [∗] map P˙ as
-[∗ⁱ∈]-syntax :  (ℕ × A → Prop' ι) →  List A →  Prop' ι
+[∧ⁱ∈]-syntax [∗ⁱ∈]-syntax :  (ℕ × A → Prop' ι) →  List A →  Prop' ι
+[∧ⁱ∈]-syntax P˙ as =  [∧] mapi (curry P˙) as
 [∗ⁱ∈]-syntax P˙ as =  [∗] mapi (curry P˙) as
+syntax [∧∈]-syntax (λ a → P) as =  [∧ a ∈ as ] P
 syntax [∗∈]-syntax (λ a → P) as =  [∗ a ∈ as ] P
+syntax [∧ⁱ∈]-syntax (λ ia → P) as =  [∧ ia ⁱ∈ as ] P
 syntax [∗ⁱ∈]-syntax (λ ia → P) as =  [∗ ia ⁱ∈ as ] P
 -- Currently in Agda, we can't bind two variables in syntax like:
 --   syntax [∗ⁱ∈]-syntax (λ i a → P) as =  [∗ i ⁱ a ∈ as ] P

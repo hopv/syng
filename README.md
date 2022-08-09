@@ -1,14 +1,14 @@
-# Shog
+# Syho
 
-**Shog** is a separation logic with **syntactic higher-order ghost states**.
+**Syho** is a **syntactically higher-order** separation logic.
 It supports *higher-order ghost states* (or *impredicative resources*),
-whose model is constructed using the *syntax* of the logic itself.
+whose semantics is constructed using the *syntax* of the logic itself.
 
-Unlike Iris, Shog is *not step-indexed*.
-Thanks to this, Shog has an intuitive model and can much better support
+Unlike Iris, Syho is *not step-indexed*.
+Thanks to this, Syho has intuitive semantics and can flexibly support
 *termination-sensitive* program reasoning.
 
-Shog is mechanized in [**Agda**](https://agda.readthedocs.io/en/latest/),
+Syho is mechanized in [**Agda**](https://agda.readthedocs.io/en/latest/),
 a modern dependently typed programming language.
 
 ## Installation
@@ -17,13 +17,13 @@ a modern dependently typed programming language.
 
 That's all!
 
-We have checked that Shog works with Agda 2.6.2.2.
+We have checked that Syho works with Agda 2.6.2.2.
 
 ## Learning Agda
 
 You can learn Agda's language features
 by [the official document](https://agda.readthedocs.io/en/latest/language/index.html).
-Notable features used in Shog are:
+Notable features used in Syho are:
 - [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html)
 - [**Copatterns**](https://agda.readthedocs.io/en/latest/language/copatterns.html)
 - [**Record modules**](https://agda.readthedocs.io/en/latest/language/record-types.html#record-modules)

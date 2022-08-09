@@ -40,7 +40,7 @@ private variable
 
 infixr 5 _→'_ _-∗_
 infixr 7 _∗_
-infix 8 |=>_ □_
+infix 8 |=>_ □_ ○_
 infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
@@ -59,8 +59,8 @@ data  Prop' ι  where
   -- □: Persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
 
-  -- Saveˣ, Save□: Save token, exclusive and persistent
-  Saveˣ Save□ :  Prop˂ ι →  Prop' ι
+  -- ○: Indirection modality
+  ○_ :  Prop˂ ι →  Prop' ι
 
   -- Points-to token
   _↦⟨_⟩_ :  Addr →  ℚ⁺ →  AnyVal →  Prop' ι

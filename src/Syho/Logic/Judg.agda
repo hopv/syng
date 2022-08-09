@@ -20,8 +20,8 @@ open import Base.List using (List; map)
 open import Base.List.Nat using (rep; len)
 open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_; [∗∈]-syntax; Saveˣ;
-  Save□; _↦⟨_⟩_; _↦_; _↦ˡ_; Free; Basic)
+  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∧]_; [∧∈]-syntax; ○_; _↦⟨_⟩_;
+  _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ∇_; Val; V⇒E;
   AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
@@ -245,35 +245,26 @@ data  _⊢[_]*_  where
   =>>-frameˡ :  Q ⊢[ ι ]=>> R →  P ∗ Q ⊢[ ι ]=>> P ∗ R
 
   ------------------------------------------------------------------------------
-  -- On save token
+  -- On ○
 
-  -- Save□ is persistent
+  -- Monotonicity of ○
 
-  Save□-□ :  Save□ P˂ ⊢[ ι ] □ Save□ P˂
+  ○-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
+                  R ∧ ○ P˂ ⊢[ ι ] ○ Q˂
 
-  -- An exclusive/persistent save token can be modified using a thunk sequent
+  -- ○ P˂ is obtained by allocating P˂
 
-  Saveˣ-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
-                  R ∧ Saveˣ P˂ ⊢[ ι ] Saveˣ Q˂
+  ○-alloc :  P˂ .! ⊢[ ι ]=>> ○ P˂
 
-  Save□-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
-                  R ∧ Save□ P˂ ⊢[ ι ] Save□ Q˂
+  -- ∧_i □ ○ P˂_i can be mutual recursively obtained,
+  -- by allocating ∧_i □ P˂_i minus the target ∧_i □ ○ P˂_i
 
-  -- An exclusive save token Saveˣ P˂ is obtained by allocating P˂
+  □○-alloc-mutrec :  [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] □ P˂ .!
+                    ⊢[ ι ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
 
-  Saveˣ-alloc :  P˂ .! ⊢[ ι ]=>> Saveˣ P˂
+  -- Use ○ P˂
 
-  -- Persistent save tokens Save□ P˂ (for P˂ ∈ P˂s) can be obtained
-  -- by allocating □ P˂ (for P˂ ∈ P˂s) minus the save tokens themselves
-
-  Save□-alloc-rec :  [∗] map Save□ P˂s -∗ [∗ P˂ ∈ P˂s ] □ P˂ .!
-                     ⊢[ ι ]=>> [∗] map Save□ P˂s
-
-  -- Use a exclusive/persistent save token
-
-  Saveˣ-use :  Saveˣ P˂ ⊢[ ι ]=>> P˂ .!
-
-  Save□-use :  Save□ P˂ ⊢[ ι ]=>> □ P˂ .!
+  ○-use :  ○ P˂ ⊢[ ι ]=>> P˂ .!
 
   ------------------------------------------------------------------------------
   -- On Hoare triple

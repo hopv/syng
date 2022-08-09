@@ -163,6 +163,11 @@ abstract
   ------------------------------------------------------------------------------
   -- On →'
 
+  -- Introduce P →'
+
+  →-const :  Q ⊢[ ι ] P →' Q
+  →-const =  →-intro ∧-elimʳ
+
   -- Application on →'
 
   →-apply :  P ∧ (P →' Q) ⊢[ ι ] Q

@@ -57,11 +57,17 @@ ndnat =  nd
 
 abstract
 
+  -- Reduce loop
+
   loop-red :  (loop , M) ⇒ᴱ (loop , M)
   loop-red =  redᴱ refl ▶-red
 
+  -- Reduce plus◁3,4
+
   plus◁3,4-red :  (plus◁3,4 , M) ⇒ᴱ (∇ 7 , M)
   plus◁3,4-red =  redᴱ refl ◁-red
+
+  -- Reduce ndnat
 
   ndnat-red :  (ndnat , M) ⇒ᴱ (∇ n , M)
   ndnat-red =  redᴱ refl (nd-red _)
@@ -71,15 +77,23 @@ abstract
 
 abstract
 
+  -- Invert reduction on loop
+
   loop-red-inv :  (loop , M) ⇒ᴱ (e , M') →  (e , M') ≡ (loop , M)
   loop-red-inv (redᴱ refl ▶-red) =  refl
+
+  -- stuck can't be reduced (it's stuck!)
 
   stuck-no-red :  ¬ (stuck , M) ⇒ᴱ (e , M')
   stuck-no-red (redᴱ refl r⇒)  with r⇒
   ... | ()
 
+  -- Invert reduction on plus◁3,4
+
   plus◁3,4-red-inv :  (plus◁3,4 , M) ⇒ᴱ (e , M') →  (e , M') ≡ (∇ 7 , M)
   plus◁3,4-red-inv (redᴱ refl ◁-red) =  refl
+
+  -- Invert reduction on ndnat
 
   ndnat-red-inv :  (ndnat , M) ⇒ᴱ (e , M') →  ∑ n , (e , M') ≡ (∇ n , M)
   ndnat-red-inv (redᴱ refl (nd-red _)) =  _ , refl

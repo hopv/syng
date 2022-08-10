@@ -31,7 +31,7 @@ module _
   ○□↪=>>⊥⇒↪=>>⊥ :  ○ ¡ □ ↪=>>⊥ ⊢[ ∞ ] ↪=>>⊥
   ○□↪=>>⊥⇒↪=>>⊥ =  ○⇒↪=>> $ ∗-elimˡ » □-elim » ⊤∗-intro » ↪=>>-use'
 
-  -- Thus we can allocate ↪=>>⊥
+  -- Thus we can allocate ↪=>>⊥, using □○-alloc-rec
 
   ↪=>>⊥-alloc :  ⊤' ⊢[ ∞ ][ 0 ]=>> ↪=>>⊥
   ↪=>>⊥-alloc =  →-intro (∧-elimˡ » □-mono ○□↪=>>⊥⇒↪=>>⊥) »

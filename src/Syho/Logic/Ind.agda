@@ -9,7 +9,7 @@ module Syho.Logic.Ind where
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.List using ([_])
-open import Base.List.All using ([]ᴬ-it; ∷ᴬ-it)
+open import Base.List.All using ()
 open import Syho.Logic.Prop using (Prop'; Prop˂; _∧_; _→'_; _∗_; □_; ○_; Basic;
   ⊤-Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∧-elimˡ;

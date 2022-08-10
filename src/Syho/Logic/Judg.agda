@@ -18,6 +18,7 @@ open import Base.Bool using (Bool)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; map)
 open import Base.List.Nat using (rep; len)
+open import Base.List.All using (All)
 open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
   ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∧]_; [∧∈]-syntax; ○_; _↦⟨_⟩_;
@@ -264,11 +265,12 @@ data  _⊢[_]*_  where
 
   ○-alloc :  P˂ .! ⊢[ ι ]=>> ○ P˂
 
-  -- ∧_i □ ○ P˂_i can be mutual recursively obtained,
-  -- by allocating ∧_i □ P˂_i minus the target ∧_i □ ○ P˂_i
+  -- When every P˂_i is persistent,
+  -- ∧_i □ ○ P˂_i can be obtained mutually recursively, i.e.,
+  -- by allocating ∧_i P˂_i minus the target ∧_i □ ○ P˂_i
 
-  □○-alloc-mutrec :  [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] □ P˂ .!
-                    ⊢[ ι ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
+  □○-alloc-mutrec : {{All (λ P˂ → Pers (P˂ .!)) P˂s}} →
+    [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] P˂ .! ⊢[ ι ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
 
   -- Use ○ P˂
 

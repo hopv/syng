@@ -690,8 +690,8 @@ abstract
     □-Pers .Pers-⇒□ =  □-dup
 
   IsBasic-Pers :  IsBasic P →  Pers P
-  IsBasic-Pers (∀₁-IsBasic IsBaP˙) =  ∀₁-Pers (λ x → IsBasic-Pers $ IsBaP˙ x)
-  IsBasic-Pers (∃₁-IsBasic IsBaP˙) =  ∃₁-Pers (λ x → IsBasic-Pers $ IsBaP˙ x)
+  IsBasic-Pers (∀₁-IsBasic IsBaP˙) =  ∀₁-Pers $ IsBasic-Pers ∘ IsBaP˙
+  IsBasic-Pers (∃₁-IsBasic IsBaP˙) =  ∃₁-Pers $ IsBasic-Pers ∘ IsBaP˙
   IsBasic-Pers (∗-IsBasic IsBaP IsBaQ) =
     ∗-Pers {{IsBasic-Pers IsBaP}} {{IsBasic-Pers IsBaQ}}
   IsBasic-Pers (□-IsBasic _) =  it
@@ -755,13 +755,13 @@ abstract
 
   [∗]-mono :  All² _⊢[ ι ]_ Ps Qs →  [∗] Ps ⊢[ ι ] [∗] Qs
   [∗]-mono []ᴬ² =  ⊢-refl
-  [∗]-mono (P⊢Q ∷ᴬ² Ps⊢Qs) =  ∗-mono P⊢Q ([∗]-mono Ps⊢Qs)
+  [∗]-mono (P⊢Q ∷ᴬ² Ps⊢Qs) =  ∗-mono P⊢Q $ [∗]-mono Ps⊢Qs
 
   -- ++ can get inside and outside [∗]
 
   [∗]-++-in :  [∗] Ps ∗ [∗] Qs ⊢[ ι ] [∗] (Ps ++ Qs)
   [∗]-++-in {[]} =  ∗-elimʳ
-  [∗]-++-in {_ ∷ Ps'} =  ∗-assocˡ » ∗-monoʳ ([∗]-++-in {Ps'})
+  [∗]-++-in {_ ∷ Ps'} =  ∗-assocˡ » ∗-monoʳ $ [∗]-++-in {Ps'}
 
   [∗]-++-out :  [∗] (Ps ++ Qs) ⊢[ ι ] [∗] Ps ∗ [∗] Qs
   [∗]-++-out {[]} =  ⊤∗-intro

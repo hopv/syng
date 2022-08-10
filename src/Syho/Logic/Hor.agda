@@ -21,7 +21,7 @@ open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _ᴷ|ᴿ_; V
 open import Syho.Logic.Judg public using (WpKind; par; tot; Wp'; _⊢[_]'⟨_⟩[_]_;
   _⊢[_]'⟨_⟩ᴾ_; _⊢[_]'⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_;
   hor-ᵀ⇒ᴾ; _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ; hor-bind; hor-valᵘ; hor-ndᵘ; horᴾ-▶;
-  horᵀ-▶; hor-◁)
+  horᵀ-▶; hor-◁; hor-★; hor-←; hor-alloc; hor-free)
 
 private variable
   ι :  Size

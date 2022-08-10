@@ -27,7 +27,12 @@ private variable
 
 abstract
 
+  -->  ○-use :  ○ P˂ ⊢[ ι ]=>> P˂ .!
+
   -- Monotonicity
+
+  -->  ○-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
+  -->              R ∧ ○ P˂ ⊢[ ι ] ○ Q˂
 
   ○-mono-∗ :  {{Basic R}} →  R ∗ P˂ .! ⊢[< ι ] Q˂ .! →  R ∗ ○ P˂ ⊢[ ι ] ○ Q˂
   ○-mono-∗ R∗P⊢<Q =  let instance _ = Basic-Pers in
@@ -37,6 +42,12 @@ abstract
   ○-mono P⊢<Q =  ⊤∧-intro » ○-mono-∧ λ{ .! → ∧-elimʳ » P⊢<Q .! }
 
   -- Allocation
+
+  -->  ○-alloc :  P˂ .! ⊢[ ι ]=>> ○ P˂
+
+  -->  □○-alloc-mutrec :  {{All (λ P˂ → Pers (P˂ .!)) P˂s}} →
+  -->    [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] P˂ .!
+  -->                   ⊢[ ι ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
 
   □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ →' P˂ .! ⊢[ ι ]=>> □ ○ P˂
   □○-alloc-rec =  →-mono ∧-elimˡ ∧⊤-intro » □○-alloc-mutrec ᵘ» ∧-elimˡ

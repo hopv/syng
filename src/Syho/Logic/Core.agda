@@ -41,15 +41,23 @@ private variable
 
 abstract
 
+  -->  ⊢-refl :  P ⊢[ ι ] P
+
+  -->  _»_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ]* Jr →  P ⊢[ ι ]* Jr
+
   ------------------------------------------------------------------------------
   -- On ∀/∃/∧/∨/⊤'/⊥'
 
   -- Introduce ∀/∧/⊤' & eliminate ∃/∨/⊥'
 
-  ∀₀-intro :  (∀ x → P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₀˙ Q˙
+  -->  ∀₁-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₁˙ Q˙
+
+  ∀₀-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₀˙ Q˙
   ∀₀-intro ∀xP⊢Q =  ∀₁-intro $ ∀xP⊢Q ∘ ↓_
 
-  ∃₀-elim :  (∀ x → P˙ x ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ⊢[ ι ]* Jr
+  -->  ∃₁-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ⊢[ ι ]* Jr
+
+  ∃₀-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ⊢[ ι ]* Jr
   ∃₀-elim ∀xP⊢*Jr =  ∃₁-elim $ ∀xP⊢*Jr ∘ ↓_
 
   ∧-intro :  P ⊢[ ι ] Q →  P ⊢[ ι ] R →  P ⊢[ ι ] Q ∧ R
@@ -66,8 +74,12 @@ abstract
 
   -- Eliminate ∀/∧/⊤' & introduce ∃/∨/⊥'
 
+  -->  ∀₁-elim :  ∀ x →  ∀₁˙ P˙ ⊢[ ι ] P˙ x
+
   ∀₀-elim :  ∀ x →  ∀₀˙ P˙ ⊢[ ι ] P˙ x
   ∀₀-elim =  ∀₁-elim ∘ ↑_
+
+  -->  ∃₁-intro :  ∀ x →  P˙ x ⊢[ ι ] ∃₁˙ P˙
 
   ∃₀-intro :  ∀ x →  P˙ x ⊢[ ι ] ∃₀˙ P˙
   ∃₀-intro =  ∃₁-intro ∘ ↑_
@@ -156,12 +168,18 @@ abstract
 
   -- Choice
 
+  -->  choice₁ :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
+  -->    ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ι ] ∃₁ y˙ ∈ (∀ x → Y˙ x) , ∀₁ x , P˙˙ x (y˙ x)
+
   choice₀ :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
     ∀₀ x , ∃₀ y , P˙˙ x y ⊢[ ι ] ∃₀ y˙ ∈ (∀ x → Y˙ x) , ∀₀ x , P˙˙ x (y˙ x)
   choice₀ =  choice₁ » ∃₁-elim $ λ _ → ∃₀-intro _
 
   ------------------------------------------------------------------------------
   -- On →'
+
+  -->  →-intro :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
+  -->  →-elim :  Q ⊢[ ι ] P →' R →  P ∧ Q ⊢[ ι ] R
 
   -- Introduce P →'
 
@@ -331,7 +349,11 @@ abstract
   ------------------------------------------------------------------------------
   -- On ∗
 
+  -->  ∗-comm :  P ∗ Q ⊢[ ι ] Q ∗ P
+
   -- ∗ is monotone
+
+  -->  ∗-monoˡ :  P ⊢[ ι ] Q →  P ∗ R ⊢[ ι ] Q ∗ R
 
   ∗-monoʳ :  P ⊢[ ι ] Q →  R ∗ P ⊢[ ι ] R ∗ Q
   ∗-monoʳ P⊢Q =  ∗-comm » ∗-monoˡ P⊢Q » ∗-comm
@@ -341,18 +363,24 @@ abstract
 
   -- Eliminating ∗
 
+  -->  ⊤∗-elim :  ⊤' ∗ P ⊢[ ι ] P
+
   ∗-elimʳ :  P ∗ Q ⊢[ ι ] Q
   ∗-elimʳ =  ∗-monoˡ ⊤-intro » ⊤∗-elim
 
   ∗-elimˡ :  P ∗ Q ⊢[ ι ] P
   ∗-elimˡ =  ∗-comm » ∗-elimʳ
 
-  -- Introduce ∗ ⊤'
+  -- Introduce ⊤' with ∗
+
+  -->  ⊤∗-intro :  P ⊢[ ι ] ⊤' ∗ P
 
   ∗⊤-intro :  P ⊢[ ι ] P ∗ ⊤'
   ∗⊤-intro =  ⊤∗-intro » ∗-comm
 
   -- ∗ is associative
+
+  -->  ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ι ] P ∗ (Q ∗ R)
 
   ∗-assocʳ :  P ∗ (Q ∗ R) ⊢[ ι ] (P ∗ Q) ∗ R
   ∗-assocʳ =  ∗-comm » ∗-monoˡ ∗-comm » ∗-assocˡ » ∗-comm » ∗-monoˡ ∗-comm
@@ -490,6 +518,9 @@ abstract
   ------------------------------------------------------------------------------
   -- On -∗
 
+  -->  -∗-intro :  P ∗ Q ⊢[ ι ] R →  Q ⊢[ ι ] P -∗ R
+  -->  -∗-elim :  Q ⊢[ ι ] P -∗ R →  P ∗ Q ⊢[ ι ] R
+
   -- Introduce P -∗
 
   -∗-const :  Q ⊢[ ι ] P -∗ Q
@@ -524,12 +555,20 @@ abstract
   ------------------------------------------------------------------------------
   -- On |=>
 
+  -->  |=>-mono :  P ⊢[ ι ] Q →  |=> P ⊢[ ι ] |=> Q
+
+  -->  |=>-intro :  P ⊢[ ι ] |=> P
+
+  -->  |=>-join :  |=> |=> P ⊢[ ι ] |=> P
+
   -- Eliminate |=> from the antecedent
 
   |=>-elim :  P ⊢[ ι ] |=> Q →  |=> P ⊢[ ι ] |=> Q
   |=>-elim P⊢|=>Q =  |=>-mono P⊢|=>Q » |=>-join
 
   -- ∃ _ , can get outside |=>
+
+  -->  |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , |=> P
 
   |=>-∃₀-out :  |=> (∃₀ _ ∈ X , P) ⊢[ ι ] ∃₀ _ ∈ X , |=> P
   |=>-∃₀-out =  |=>-∃₁-out
@@ -544,6 +583,8 @@ abstract
 
   -- ∗ can get inside |=>
 
+  -->  |=>-frameˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
+
   |=>-frameʳ :  |=> P ∗ Q ⊢[ ι ] |=> (P ∗ Q)
   |=>-frameʳ =  ∗-comm » |=>-frameˡ » |=>-mono ∗-comm
 
@@ -554,6 +595,12 @@ abstract
 
   ------------------------------------------------------------------------------
   -- On □
+
+  -->  □-mono :  P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
+
+  -->  □-elim :  □ P ⊢[ ι ] P
+
+  -->  □-dup :  □ P ⊢[ ι ] □ □ P
 
   -- Introduce |=> to the succedent
 
@@ -571,6 +618,8 @@ abstract
   dup-□ =  retain-□ ⊢-refl
 
   -- ∧ can turn into ∗ when one argument is under □
+
+  -->  □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ι ] □ P ∗ Q
 
   □ʳ-∧⇒∗ :  P ∧ □ Q ⊢[ ι ] P ∗ □ Q
   □ʳ-∧⇒∗ =  ∧-comm » □ˡ-∧⇒∗ » ∗-comm
@@ -592,6 +641,8 @@ abstract
 
   -- ∀, ∧, ∃, ∨ and ∗ commute with □
 
+  -->  □-∀₁-in :  ∀₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₁˙ P˙
+
   □-∀₀-in :  ∀₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₀˙ P˙
   □-∀₀-in =  □-∀₁-in
 
@@ -601,14 +652,16 @@ abstract
   □-∀₀-out :  □ ∀₀˙ P˙ ⊢[ ι ] ∀₀˙ (□_ ∘ P˙)
   □-∀₀-out =  □-∀₁-out
 
-  □-∃₀-out :  □ ∃₀˙ P˙ ⊢[ ι ] ∃₀˙ (□_ ∘ P˙)
-  □-∃₀-out =  □-∃₁-out
-
   □-∃₁-in :  ∃₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₁˙ P˙
   □-∃₁-in =  ∃₁-elim $ □-mono ∘ ∃₁-intro
 
   □-∃₀-in :  ∃₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₀˙ P˙
   □-∃₀-in =  □-∃₁-in
+
+  -->  □-∃₁-out :  □ ∃₁˙ P˙ ⊢[ ι ] ∃₁˙ (□_ ∘ P˙)
+
+  □-∃₀-out :  □ ∃₀˙ P˙ ⊢[ ι ] ∃₀˙ (□_ ∘ P˙)
+  □-∃₀-out =  □-∃₁-out
 
   □-∧-in :  □ P ∧ □ Q ⊢[ ι ] □ (P ∧ Q)
   □-∧-in =  ∀₁-intro (binary ∧-elimˡ ∧-elimʳ) » □-∀₁-in

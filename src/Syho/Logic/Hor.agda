@@ -39,7 +39,44 @@ infixr -1 _ʰ»_
 
 abstract
 
+  -->  hor-ᵀ⇒ᴾ :  P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ →  P ⊢[ ι ]'⟨ vk ⟩ᴾ Qᵛ
+
+  -->  hor-bind :  P ⊢[ ι ]⟨ e ⟩[ wk ] Qᵛ →
+  -->              (∀ v →  Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wk ] Rᵛ) →
+  -->              P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wk ] Rᵛ
+
+  -->  horᴾ-▶ :  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
+  -->            P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ Qᵛ
+
+  -->  horᵀ-▶ :  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ Qᵛ →
+  -->            P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ Qᵛ
+
+  -->  hor-◁ :  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wk ] Qᵛ →
+  -->           P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wk ] Qᵛ
+
+
+  -->  hor-★ :  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wk ] Qᵛ →
+  -->           θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wk ] Qᵛ
+
+  -->  hor-← :  θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wk ] Qᵛ →
+  -->           θ ↦ av ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wk ] Qᵛ
+
+  -->  hor-alloc :
+  -->    (∀ θ →
+  -->      θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wk ] Qᵛ) →
+  -->    P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wk ] Qᵛ
+
+  -->  hor-free :  ∀{Qᵛ : _} →
+  -->    len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wk ] Qᵛ →
+  -->    θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ wk ] Qᵛ
+
   -- Compose
+
+  -->  _ᵘ»ʰ_ :  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]'⟨ vk ⟩[ wk ] Rᵛ →
+  -->           P ⊢[ ι ]'⟨ vk ⟩[ wk ] Rᵛ
+
+  -->  _ʰ»ᵘ_ :  P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ]=>> Rᵛ v) →
+  -->           P ⊢[ ι ]'⟨ vk ⟩[ wk ] Rᵛ
 
   _ʰ»_ :  ∀{Qᵛ : Val T → _} →
     P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ] Rᵛ v) →
@@ -48,11 +85,17 @@ abstract
 
   -- Frame
 
+  -->  hor-frameˡ :  P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ →
+  -->                R ∗ P ⊢[ ι ]'⟨ vk ⟩[ wk ] λ v → R ∗ Qᵛ v
+
   hor-frameʳ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ →
                              P ∗ R ⊢[ ι ]'⟨ vk ⟩[ wk ] λ v → Qᵛ v ∗ R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
   -- Non-deterministic value
+
+  -->  hor-ndᵘ :  (∀ x →  P ⊢[ ι ]=>> Qᵛ (↑ x)) →
+  -->             P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wk ] Qᵛ
 
   hor-nd :  (∀ x →  P ⊢[ ι ] Qᵛ (↑ x)) →
             P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wk ] Qᵛ
@@ -67,6 +110,8 @@ abstract
     hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q $ λ (↑ x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x
 
   -- Value
+
+  -->  hor-valᵘ :  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ wk ] Qᵛ
 
   hor-val :  ∀{v : Val T} →  P ⊢[ ι ] Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ wk ] Qᵛ
   hor-val P⊢Q =  hor-valᵘ $ ⇒=>> P⊢Q

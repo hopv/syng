@@ -149,9 +149,9 @@ data  _⊢[_]*_  where
 
   -- Introducing ∀ / Eliminating ∃
 
-  ∀₁-intro :  (∀ x → P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₁˙ Q˙
+  ∀₁-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₁˙ Q˙
 
-  ∃₁-elim :  (∀ x → P˙ x ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ⊢[ ι ]* Jr
+  ∃₁-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ⊢[ ι ]* Jr
 
   -- Eliminating ∀ / Introducing ∃
 
@@ -212,7 +212,7 @@ data  _⊢[_]*_  where
 
   |=>-frameˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
 
-  -- ∃₁ _ , can get outside |=>
+  -- ∃ _ , can get outside |=>
 
   |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , |=> P
 
@@ -269,7 +269,7 @@ data  _⊢[_]*_  where
   -- ∧_i □ ○ P˂_i can be obtained mutually recursively, i.e.,
   -- by allocating ∧_i P˂_i minus the target ∧_i □ ○ P˂_i
 
-  □○-alloc-mutrec : {{All (λ P˂ → Pers (P˂ .!)) P˂s}} →
+  □○-alloc-mutrec :  {{All (λ P˂ → Pers (P˂ .!)) P˂s}} →
     [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] P˂ .! ⊢[ ι ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
 
   -- Use ○ P˂
@@ -289,7 +289,7 @@ data  _⊢[_]*_  where
                         P ⊢[ ι ]'⟨ vk ⟩[ wk ] Rᵛ
 
   _ʰ»ᵘ_ :  ∀{Qᵛ : Val T → _} →
-    P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ → (∀ v → Qᵛ v ⊢[ ι ]=>> Rᵛ v) →
+    P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]=>> Rᵛ v) →
     P ⊢[ ι ]'⟨ vk ⟩[ wk ] Rᵛ
 
   -- Frame
@@ -300,7 +300,7 @@ data  _⊢[_]*_  where
   -- Bind by a context
 
   hor-bind :  ∀{Qᵛ : _} {Rᵛ : _} →
-    P ⊢[ ι ]⟨ e ⟩[ wk ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wk ] Rᵛ) →
+    P ⊢[ ι ]⟨ e ⟩[ wk ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wk ] Rᵛ) →
     P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wk ] Rᵛ
 
   -- Value
@@ -309,7 +309,7 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
 
-  hor-ndᵘ :  (∀ x → P ⊢[ ι ]=>> Qᵛ (↑ x)) →
+  hor-ndᵘ :  (∀ x →  P ⊢[ ι ]=>> Qᵛ (↑ x)) →
              P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wk ] Qᵛ
 
   -- ▶, for partial and total Hoare triples

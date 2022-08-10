@@ -13,17 +13,17 @@ open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_∘_; _$_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)
-open import Base.Prod using (_,_)
+open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (Bool)
-open import Base.Nat using (ℕ)
+open import Base.Nat using (ℕ; suc)
 open import Base.List using (List; map)
 open import Base.List.Nat using (rep; len)
 open import Base.List.All using (All)
 open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∧]_; [∧∈]-syntax; ○_; _↦⟨_⟩_;
-  _↦_; _↦ˡ_; Free; Basic)
+  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∧]_; [∧∈]-syntax; _↪[_]=>>_;
+  ○_; _↦⟨_⟩_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ∇_; Val; V⇒E;
   AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
@@ -43,21 +43,21 @@ private variable
   T U V :  Type
   ι :  Size
 
-infix 3 |=>>_ ⁺⟨_⟩[_]_
+infix 3 [_]=>>_ ⁺⟨_⟩[_]_
 
 data  JudgRes :  Set₂  where
   -- Just a proposition
   Pure :  Prop' ∞ →  JudgRes
   -- Under the super update
-  |=>>_ :  Prop' ∞ →  JudgRes
+  [_]=>>_ :  ℕ →  Prop' ∞ →  JudgRes
   -- Weakest precondion, over Val/Ktxred
   ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  JudgRes
 
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
 
-infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_]=>>_ _⊢[_]⁺⟨_⟩[_]_ _⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ_
-  _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_
+infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]=>>_ _⊢[_]⁺⟨_⟩[_]_ _⊢[_]⁺⟨_⟩ᴾ_
+  _⊢[_]⁺⟨_⟩ᵀ_ _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_
 
 -- Declaring _⊢[_]*_
 data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set₂
@@ -70,9 +70,9 @@ P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 _⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
--- ⊢[ ]=>> : Super update
-_⊢[_]=>>_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
-P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
+-- ⊢[ ][ ]=>> : Super update
+_⊢[_][_]=>>_ :  Prop' ∞ →  Size →  ℕ →  Prop' ∞ →  Set₂
+P ⊢[ ι ][ i ]=>> Q =  P ⊢[ ι ]* [ i ]=>> Q
 
 -- ⊢[ ]⁺⟨ ⟩[ ] : Hoare-triple over Val/Ktxred
 
@@ -107,13 +107,15 @@ open Pers {{...}} public
 
 private variable
   ℓ :  Level
+  i j n :  ℕ
   X :  Set ℓ
   x :  X
   Y˙ :  X → Set ℓ
   Jr :  JudgRes
   P P' Q R :  Prop' ∞
   P˙ Q˙ :  X → Prop' ∞
-  P˂ Q˂ :  Prop˂ ∞
+  P˂ P'˂ Q˂ Q'˂ :  Prop˂ ∞
+  P˂˙ Q˂˙ :  X → Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
   wκ :  WpKind
   vk :  Val/Ktxred T
@@ -125,7 +127,6 @@ private variable
   v :  Val T
   θ :  Addr
   p :  ℚ⁺
-  n :  ℕ
   av :  AnyVal
   avs :  List AnyVal
 
@@ -240,19 +241,23 @@ data  _⊢[_]*_  where
   □-∃₁-out :  □ ∃₁˙ P˙ ⊢[ ι ] ∃₁˙ (□_ ∘ P˙)
 
   ------------------------------------------------------------------------------
-  -- On super update
+  -- On =>>
+
+  -- Increment the counter of a super update by 1
+
+  =>>-suc :  P ⊢[ ι ][ i ]=>> Q →  P ⊢[ ι ][ suc i ]=>> Q
 
   -- Lift a sequent under |=> to a super update =>>
 
-  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ]=>> Q
+  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ][ i ]=>> Q
 
   -- The super update =>> is transitive
 
-  _ᵘ»ᵘ_ :  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]=>> R →  P ⊢[ ι ]=>> R
+  _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ][ i ]=>> R →  P ⊢[ ι ][ i ]=>> R
 
   -- The super update =>> can frame
 
-  =>>-frameˡ :  Q ⊢[ ι ]=>> R →  P ∗ Q ⊢[ ι ]=>> P ∗ R
+  =>>-frameˡ :  Q ⊢[ ι ][ i ]=>> R →  P ∗ Q ⊢[ ι ][ i ]=>> P ∗ R
 
   ------------------------------------------------------------------------------
   -- On ○
@@ -263,18 +268,42 @@ data  _⊢[_]*_  where
 
   -- ○ P˂ is obtained by allocating P˂
 
-  ○-alloc :  P˂ .! ⊢[ ι ]=>> ○ P˂
+  ○-alloc :  P˂ .! ⊢[ ι ][ i ]=>> ○ P˂
 
   -- When every P˂_i is persistent,
   -- ∧_i □ ○ P˂_i can be obtained mutually recursively, i.e.,
   -- by allocating ∧_i P˂_i minus the target ∧_i □ ○ P˂_i
 
   □○-alloc-mutrec :  {{All (λ P˂ → Pers (P˂ .!)) P˂s}} →
-    [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] P˂ .! ⊢[ ι ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
+    [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] P˂ .!
+      ⊢[ ι ][ i ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
 
   -- Use ○ P˂
 
-  ○-use :  ○ P˂ ⊢[ ι ]=>> P˂ .!
+  ○-use :  ○ P˂ ⊢[ ι ][ i ]=>> P˂ .!
+
+  ------------------------------------------------------------------------------
+  -- On ↪=>>
+
+  -- Monotonicity of ↪=>>
+
+  ↪=>>-monoˡ-∧ :  {{Basic R}} →  (R ∧ P'˂ .! ⊢[< ι ] P˂ .!) →
+                  R ∧ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
+
+  ↪=>>-monoʳ-∧ :  {{Basic R}} →  (R ∧ Q˂ .! ⊢[< ι ] Q'˂ .!) →
+                  R ∧ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
+
+  -- Allocate ↪=>>
+
+  ∀₁↪=>>-alloc :  (∀ x →  R ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
+                  R  ⊢[ ι ][ j ]=>>  ∀₁ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
+
+  ∀₁□↪=>>-alloc :  {{Pers R}} →  (∀ x →  R ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
+                   R  ⊢[ ι ][ j ]=>>  ∀₁ x , □ (P˂˙ x ↪[ i ]=>> Q˂˙ x)
+
+  -- Use ↪=>>
+
+  ↪=>>-alloc-use :  (P˂ ↪[ i ]=>> Q˂) ∗ P˂ .!  ⊢[ ι ][ suc i ]=>>  Q˂ .!
 
   ------------------------------------------------------------------------------
   -- On Hoare triple
@@ -285,11 +314,11 @@ data  _⊢[_]*_  where
 
   -- Compose with a super update
 
-  _ᵘ»ʰ_ :  ∀{Rᵛ : _} →  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
+  _ᵘ»ʰ_ :  ∀{Rᵛ : _} →  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
                         P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
   _ʰ»ᵘ_ :  ∀{Qᵛ : Val T → _} →
-    P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]=>> Rᵛ v) →
+    P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ][ i ]=>> Rᵛ v) →
     P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
   -- Frame
@@ -305,11 +334,12 @@ data  _⊢[_]*_  where
 
   -- Value
 
-  hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
+  hor-valᵘ :  ∀{v : Val T} →
+    P ⊢[ ι ][ i ]=>> Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
 
   -- Non-deterministic value
 
-  hor-ndᵘ :  (∀ x →  P ⊢[ ι ]=>> Qᵛ (↑ x)) →
+  hor-ndᵘ :  (∀ x →  P ⊢[ ι ][ i ]=>> Qᵛ (↑ x)) →
              P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples

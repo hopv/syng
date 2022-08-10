@@ -38,7 +38,7 @@ private variable
   P Q R S :  Prop' ∞
   A :  Set ℓ
 
-infixr 5 _→'_ _-∗_
+infixr 5 _→'_ _-∗_ _↪[_]=>>_
 infixr 7 _∗_
 infix 8 |=>_ □_ ○_
 infix 9 _↦⟨_⟩_
@@ -58,6 +58,9 @@ data  Prop' ι  where
   -- |=> :  Update modality
   -- □ :  Persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
+
+  -- ↪[_]=>> : Super-update token
+  _↪[_]=>>_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
 
   -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι

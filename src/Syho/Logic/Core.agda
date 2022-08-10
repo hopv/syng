@@ -560,39 +560,6 @@ abstract
   □-intro :  □ P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
   □-intro □P⊢Q =  □-dup » □-mono □P⊢Q
 
-  -- ∀/∧ can get outside □ / ∃/∨ can get inside □
-
-  □-∀₁-out :  □ ∀₁˙ P˙ ⊢[ ι ] ∀₁˙ (□_ ∘ P˙)
-  □-∀₁-out =  ∀₁-intro $ □-mono ∘ ∀₁-elim
-
-  □-∀₀-out :  □ ∀₀˙ P˙ ⊢[ ι ] ∀₀˙ (□_ ∘ P˙)
-  □-∀₀-out =  □-∀₁-out
-
-  □-∃₁-in :  ∃₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₁˙ P˙
-  □-∃₁-in =  ∃₁-elim $ □-mono ∘ ∃₁-intro
-
-  □-∃₀-in :  ∃₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₀˙ P˙
-  □-∃₀-in =  □-∃₁-in
-
-  □-∧-out :  □ (P ∧ Q) ⊢[ ι ] □ P ∧ □ Q
-  □-∧-out =  ∧-intro (□-mono ∧-elimˡ) (□-mono ∧-elimʳ)
-
-  □-∨-in :  □ P ∨ □ Q ⊢[ ι ] □ (P ∨ Q)
-  □-∨-in =  ∨-elim (□-mono ∨-introˡ) (□-mono ∨-introʳ)
-
-  -- □ ⊥' can be eliminated
-
-  □-⊥-elim :  □ ⊥' ⊢[ ι ]* Jr
-  □-⊥-elim =  □-elim » ⊥-elim
-
-  ------------------------------------------------------------------------------
-  -- On □, with □ˡ-∧⇒∗
-
-  -- ∧ can turn into ∗ when one argument is under □
-
-  □ʳ-∧⇒∗ :  P ∧ □ Q ⊢[ ι ] P ∗ □ Q
-  □ʳ-∧⇒∗ =  ∧-comm » □ˡ-∧⇒∗ » ∗-comm
-
   -- The antecedent can be retained when the succedent is under □
 
   retain-□ :  P ⊢[ ι ] □ Q →  P ⊢[ ι ] □ Q ∗ P
@@ -603,10 +570,10 @@ abstract
   dup-□ :  □ P ⊢[ ι ] □ P ∗ □ P
   dup-□ =  retain-□ ⊢-refl
 
-  -- ∗ can go outside □
+  -- ∧ can turn into ∗ when one argument is under □
 
-  □-∗-out :  □ (P ∗ Q) ⊢[ ι ] □ P ∗ □ Q
-  □-∗-out =  □-mono ∗⇒∧ » □-∧-out » □ˡ-∧⇒∗
+  □ʳ-∧⇒∗ :  P ∧ □ Q ⊢[ ι ] P ∗ □ Q
+  □ʳ-∧⇒∗ =  ∧-comm » □ˡ-∧⇒∗ » ∗-comm
 
   -- Under □, ∧ can turn into ∗
 
@@ -615,44 +582,59 @@ abstract
 
   -- P -∗ can turn into □ P →'
 
-  -∗Pers-⇒□→ :  P -∗ Q ⊢[ ι ] □ P →' Q
-  -∗Pers-⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-apply
+  -∗⇒□→ :  P -∗ Q ⊢[ ι ] □ P →' Q
+  -∗⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-apply
 
   -- Under □, -∗ can turn into →'
 
   in□--∗⇒→ :  □ (P -∗ Q) ⊢[ ι ] □ (P →' Q)
   in□--∗⇒→ =  □-intro $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
 
-  ------------------------------------------------------------------------------
-  -- On □, with □-∀-in/□-∃-out
-
-  -- ∀ can get inside □
+  -- ∀, ∧, ∃, ∨ and ∗ commute with □
 
   □-∀₀-in :  ∀₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₀˙ P˙
   □-∀₀-in =  □-∀₁-in
 
-  -- ∃ can get outside □
+  □-∀₁-out :  □ ∀₁˙ P˙ ⊢[ ι ] ∀₁˙ (□_ ∘ P˙)
+  □-∀₁-out =  ∀₁-intro $ □-mono ∘ ∀₁-elim
+
+  □-∀₀-out :  □ ∀₀˙ P˙ ⊢[ ι ] ∀₀˙ (□_ ∘ P˙)
+  □-∀₀-out =  □-∀₁-out
 
   □-∃₀-out :  □ ∃₀˙ P˙ ⊢[ ι ] ∃₀˙ (□_ ∘ P˙)
   □-∃₀-out =  □-∃₁-out
 
-  -- ∧ / ∨ can get inside / outside □
+  □-∃₁-in :  ∃₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₁˙ P˙
+  □-∃₁-in =  ∃₁-elim $ □-mono ∘ ∃₁-intro
+
+  □-∃₀-in :  ∃₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₀˙ P˙
+  □-∃₀-in =  □-∃₁-in
 
   □-∧-in :  □ P ∧ □ Q ⊢[ ι ] □ (P ∧ Q)
   □-∧-in =  ∀₁-intro (binary ∧-elimˡ ∧-elimʳ) » □-∀₁-in
 
-  □-∨-out :  □ (P ∨ Q) ⊢[ ι ] □ P ∨ □ Q
-  □-∨-out =  □-∃₁-out » ∃₁-elim (binary ∨-introˡ ∨-introʳ)
+  □-∧-out :  □ (P ∧ Q) ⊢[ ι ] □ P ∧ □ Q
+  □-∧-out =  ∧-intro (□-mono ∧-elimˡ) (□-mono ∧-elimʳ)
 
-  -- □ ⊤' can be introduced
+  □-∨-in :  □ P ∨ □ Q ⊢[ ι ] □ (P ∨ Q)
+  □-∨-in =  ∨-elim (□-mono ∨-introˡ) (□-mono ∨-introʳ)
+
+  □-∨-out :  □ (P ∨ Q) ⊢[ ι ] □ P ∨ □ Q
+  □-∨-out =  □-∃₁-out » ∃₁-elim $ binary ∨-introˡ ∨-introʳ
+
+  □-∗-in :  □ P ∗ □ Q ⊢[ ι ] □ (P ∗ Q)
+  □-∗-in =  ∗⇒∧ » □-∧-in » in□-∧⇒∗
+
+  □-∗-out :  □ (P ∗ Q) ⊢[ ι ] □ P ∗ □ Q
+  □-∗-out =  □-mono ∗⇒∧ » □-∧-out » □ˡ-∧⇒∗
+
+  -- □ ⊤' can be introduced and □ ⊥' can be eliminated
 
   □-⊤-intro :  P ⊢[ ι ] □ ⊤'
   □-⊤-intro =  ∀₁-intro absurd » □-∀₁-in
 
-  -- ∗ can get inside □
-
-  □-∗-in :  □ P ∗ □ Q ⊢[ ι ] □ (P ∗ Q)
-  □-∗-in =  ∗⇒∧ » □-∧-in » in□-∧⇒∗
+  □-⊥-elim :  □ ⊥' ⊢[ ι ]* Jr
+  □-⊥-elim =  □-elim » ⊥-elim
 
   ------------------------------------------------------------------------------
   -- Derive Pers P
@@ -742,7 +724,7 @@ abstract
 
   -- -∗ can turn into →' when the left-hand side is persistent
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
-  Pers--∗⇒→ =  -∗Pers-⇒□→ » →-monoˡ Pers-⇒□
+  Pers--∗⇒→ =  -∗⇒□→ » →-monoˡ Pers-⇒□
 
   -- Introduce & eliminate ⌜ ⌝ ∗
 

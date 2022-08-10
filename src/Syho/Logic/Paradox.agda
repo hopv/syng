@@ -7,7 +7,7 @@
 module Syho.Logic.Paradox where
 
 open import Base.Size using (∞)
-open import Base.Thunk using (thunk; !)
+open import Base.Thunk using (¡_; !)
 open import Base.Func using (_$_)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]=>>_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-elimˡ; →-intro; ∗-elimˡ;
@@ -24,11 +24,11 @@ module _
   where abstract
 
   ↪=>>⊥ :  Prop' ∞
-  ↪=>>⊥ =  thunk ⊤' ↪[ 0 ]=>> thunk ⊥'
+  ↪=>>⊥ =  ¡ ⊤' ↪[ 0 ]=>> ¡ ⊥'
 
   -- We can turn ○ □ ↪=>>⊥ into ↪=>>⊥, using ↪=>>-use'
 
-  ○□↪=>>⊥⇒↪=>>⊥ :  ○ thunk (□ ↪=>>⊥) ⊢[ ∞ ] ↪=>>⊥
+  ○□↪=>>⊥⇒↪=>>⊥ :  ○ ¡ □ ↪=>>⊥ ⊢[ ∞ ] ↪=>>⊥
   ○□↪=>>⊥⇒↪=>>⊥ =  ○⇒↪=>> $ ∗-elimˡ » □-elim » ⊤∗-intro » ↪=>>-use'
 
   -- Thus we can allocate ↪=>>⊥

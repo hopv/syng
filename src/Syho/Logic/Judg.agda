@@ -66,7 +66,7 @@ data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set₂
 _⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 
--- ⊢[< ] : Pure sequent under thunk
+-- ⊢[< ] : Pure sequent under ¡
 _⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 

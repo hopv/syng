@@ -78,7 +78,7 @@ P ⊢[ ι ]=>> Q =  P ⊢[ ι ]* |=>> Q
 
 _⊢[_]'⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₂
-P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ =  P ⊢[ ι ]* Wp' wk vk Qᵛ
+P ⊢[ ι ]'⟨ vk ⟩[ wκ ] Qᵛ =  P ⊢[ ι ]* Wp' wκ vk Qᵛ
 
 _⊢[_]'⟨_⟩ᴾ_ _⊢[_]'⟨_⟩ᵀ_ :
   Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set₂
@@ -89,7 +89,7 @@ P ⊢[ ι ]'⟨ vk ⟩ᵀ Qᵛ =  P ⊢[ ι ]'⟨ vk ⟩[ tot ] Qᵛ
 
 _⊢[_]⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Expr ∞ T →  WpKind →  (Val T → Prop' ∞) →  Set₂
-P ⊢[ ι ]⟨ e ⟩[ wk ] Qᵛ =  P ⊢[ ι ]'⟨ val/ktxred e ⟩[ wk ] Qᵛ
+P ⊢[ ι ]⟨ e ⟩[ wκ ] Qᵛ =  P ⊢[ ι ]'⟨ val/ktxred e ⟩[ wκ ] Qᵛ
 
 _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_ :
   Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set₂
@@ -115,7 +115,7 @@ private variable
   P˙ Q˙ :  X → Prop' ∞
   P˂ Q˂ :  Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
-  wk :  WpKind
+  wκ :  WpKind
   vk :  Val/Ktxred T
   Qᵛ Rᵛ :  Val T → Prop' ∞
   e :  Expr ∞ U
@@ -285,32 +285,32 @@ data  _⊢[_]*_  where
 
   -- Compose with a super update
 
-  _ᵘ»ʰ_ :  ∀{Rᵛ : _} →  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]'⟨ vk ⟩[ wk ] Rᵛ →
-                        P ⊢[ ι ]'⟨ vk ⟩[ wk ] Rᵛ
+  _ᵘ»ʰ_ :  ∀{Rᵛ : _} →  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]'⟨ vk ⟩[ wκ ] Rᵛ →
+                        P ⊢[ ι ]'⟨ vk ⟩[ wκ ] Rᵛ
 
   _ʰ»ᵘ_ :  ∀{Qᵛ : Val T → _} →
-    P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]=>> Rᵛ v) →
-    P ⊢[ ι ]'⟨ vk ⟩[ wk ] Rᵛ
+    P ⊢[ ι ]'⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]=>> Rᵛ v) →
+    P ⊢[ ι ]'⟨ vk ⟩[ wκ ] Rᵛ
 
   -- Frame
 
-  hor-frameˡ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ wk ] Qᵛ →
-                             R ∗ P ⊢[ ι ]'⟨ vk ⟩[ wk ] λ v → R ∗ Qᵛ v
+  hor-frameˡ :  ∀{Qᵛ : _} →  P ⊢[ ι ]'⟨ vk ⟩[ wκ ] Qᵛ →
+                             R ∗ P ⊢[ ι ]'⟨ vk ⟩[ wκ ] λ v → R ∗ Qᵛ v
 
   -- Bind by a context
 
   hor-bind :  ∀{Qᵛ : _} {Rᵛ : _} →
-    P ⊢[ ι ]⟨ e ⟩[ wk ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wk ] Rᵛ) →
-    P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wk ] Rᵛ
+    P ⊢[ ι ]⟨ e ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Rᵛ) →
+    P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wκ ] Rᵛ
 
   -- Value
 
-  hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ wk ] Qᵛ
+  hor-valᵘ :  ∀{v : Val T} →  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]'⟨ inj₀ v ⟩[ wκ ] Qᵛ
 
   -- Non-deterministic value
 
   hor-ndᵘ :  (∀ x →  P ⊢[ ι ]=>> Qᵛ (↑ x)) →
-             P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wk ] Qᵛ
+             P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples
 
@@ -322,29 +322,29 @@ data  _⊢[_]*_  where
 
   -- Application
 
-  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wk ] Qᵛ →
-                        P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wk ] Qᵛ
+  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ] Qᵛ →
+                        P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ] Qᵛ
 
   -- Memory read
 
   hor-★ :  ∀{Qᵛ : _} →
-    θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wk ] Qᵛ →
-    θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wk ] Qᵛ
+    θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
+    θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
 
   -- Memory write
 
   hor-← :  ∀{Qᵛ : _} →
-    θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wk ] Qᵛ →
-    θ ↦ av ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wk ] Qᵛ
+    θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
+    θ ↦ av ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wκ ] Qᵛ
 
   -- Memory allocation
 
   hor-alloc :  ∀{Qᵛ : _} →
-    (∀ θ →  θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wk ] Qᵛ) →
-    P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wk ] Qᵛ
+    (∀ θ →  θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ] Qᵛ) →
+    P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wκ ] Qᵛ
 
   -- Memory freeing
 
   hor-free :  ∀{Qᵛ : _} →
-    len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wk ] Qᵛ →
-    θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ wk ] Qᵛ
+    len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
+    θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ wκ ] Qᵛ

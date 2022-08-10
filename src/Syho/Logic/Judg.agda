@@ -114,7 +114,7 @@ private variable
   Jr :  JudgRes
   P P' Q R :  Prop' ∞
   P˙ Q˙ :  X → Prop' ∞
-  P˂ P'˂ Q˂ Q'˂ :  Prop˂ ∞
+  P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
   P˂˙ Q˂˙ :  X → Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
   wκ :  WpKind
@@ -293,17 +293,14 @@ data  _⊢[_]*_  where
   ↪=>>-monoʳ-∧ :  {{Basic R}} →  (R ∧ Q˂ .! ⊢[< ι ] Q'˂ .!) →
                   R ∧ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
 
-  -- Allocate ↪=>>
+  -- Make ↪=>> out of ○
 
-  ∀₁↪=>>-alloc :  (∀ x →  R ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
-                  R  ⊢[ ι ][ j ]=>>  ∀₁ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
-
-  ∀₁□↪=>>-alloc :  {{Pers R}} →  (∀ x →  R ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
-                   R  ⊢[ ι ][ j ]=>>  ∀₁ x , □ (P˂˙ x ↪[ i ]=>> Q˂˙ x)
+  ○⇒∀₁↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
+              ○ R˂  ⊢[ ι ]  ∀₁ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
 
   -- Use ↪=>>
 
-  ↪=>>-alloc-use :  (P˂ ↪[ i ]=>> Q˂) ∗ P˂ .!  ⊢[ ι ][ suc i ]=>>  Q˂ .!
+  ↪=>>-use :  (P˂ ↪[ i ]=>> Q˂) ∗ P˂ .!  ⊢[ ι ][ suc i ]=>>  Q˂ .!
 
   ------------------------------------------------------------------------------
   -- On Hoare triple

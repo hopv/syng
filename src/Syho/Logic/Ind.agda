@@ -24,14 +24,13 @@ open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _ᵘ»_)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (○-mono-∧; ○-alloc; □○-alloc-mutrec;
-  ○-use; ↪=>>-monoˡ-∧; ↪=>>-monoʳ-∧; ∀₁↪=>>-alloc; ∀₁□↪=>>-alloc;
-  ↪=>>-alloc-use)
+  ○-use; ↪=>>-monoˡ-∧; ↪=>>-monoʳ-∧; ○⇒∀₁↪=>>; ↪=>>-use)
 
 private variable
   ℓ :  Level
   ι :  Size
   i j :  ℕ
-  P˂ P'˂ Q˂ Q'˂ :  Prop˂ ∞
+  P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
   X :  Set ℓ
   x :  X
   P˂˙ Q˂˙ :  X → Prop˂ ∞
@@ -73,7 +72,7 @@ abstract
   ------------------------------------------------------------------------------
   -- On ↪=>>
 
-  -->  ↪=>>-alloc-use :  (P˂ ↪[ i ]=>> Q˂) ∗ P˂ .!  ⊢[ ι ][ suc i ]=>>  Q˂ .!
+  -->  ↪=>>-use :  (P˂ ↪[ i ]=>> Q˂) ∗ P˂ .!  ⊢[ ι ][ suc i ]=>>  Q˂ .!
 
   -- Monotonicity of ↪=>>
 
@@ -104,27 +103,15 @@ abstract
                 P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
   ↪=>>-monoʳ Q⊢<Q' =  ⊤∧-intro » ↪=>>-monoʳ-∧ λ{ .! → ∧-elimʳ » Q⊢<Q' .! }
 
-  -- Allocate ↪=>>
+  -- Make ↪=>> out of ○
 
-  -->  ∀₁↪=>>-alloc :  (∀ x →  R ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
-  -->                  R  ⊢[ ι ][ j ]=>>  ∀₁ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
+  -->  ○⇒∀₁↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
+  -->              ○ R˂  ⊢[ ι ]  ∀₁ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
 
-  ∀₀↪=>>-alloc :  (∀ x →  R ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
-                  R  ⊢[ ι ][ j ]=>>  ∀₀ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
-  ∀₀↪=>>-alloc =  ∀₁↪=>>-alloc ∘ _∘ ↓_
+  ○⇒∀₀↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
+              ○ R˂  ⊢[ ι ]  ∀₀ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
+  ○⇒∀₀↪=>> =  ○⇒∀₁↪=>> ∘ _∘ ↓_
 
-  ↪=>>-alloc :  R ∗ P˂ .! ⊢[ ι ][ i ]=>> Q˂ .! →
-                R  ⊢[ ι ][ j ]=>>  (P˂ ↪[ i ]=>> Q˂)
-  ↪=>>-alloc =  (_ᵘ» ∀₁-elim 0⊤) ∘ ∀₁↪=>>-alloc ∘ const
-
-  -->  ∀₁□↪=>>-alloc :  {{Pers R}} →
-  -->                   (∀ x →  R ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
-  -->                   R  ⊢[ ι ][ j ]=>>  ∀₁ x , □ (P˂˙ x ↪[ i ]=>> Q˂˙ x)
-
-  ∀₀□↪=>>-alloc :  {{Pers R}} →  (∀ x →  R ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
-                   R  ⊢[ ι ][ j ]=>>  ∀₀ x , □ (P˂˙ x ↪[ i ]=>> Q˂˙ x)
-  ∀₀□↪=>>-alloc =  ∀₁□↪=>>-alloc ∘ _∘ ↓_
-
-  □↪=>>-alloc :  {{Pers R}} →  R ∗ P˂ .! ⊢[ ι ][ i ]=>> Q˂ .! →
-                 R  ⊢[ ι ][ j ]=>>  □ (P˂ ↪[ i ]=>> Q˂)
-  □↪=>>-alloc =  (_ᵘ» ∀₁-elim 0⊤) ∘ ∀₁□↪=>>-alloc ∘ const
+  ○⇒↪=>> :  R˂ .! ∗ P˂ .! ⊢[ ι ][ i ]=>> Q˂ .! →
+            ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
+  ○⇒↪=>> =  (_» ∀₁-elim 0⊤) ∘ ○⇒∀₁↪=>> ∘ const

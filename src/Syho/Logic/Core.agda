@@ -53,12 +53,12 @@ abstract
   -->  ∀₁-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₁˙ Q˙
 
   ∀₀-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₀˙ Q˙
-  ∀₀-intro ∀xP⊢Q =  ∀₁-intro $ ∀xP⊢Q ∘ ↓_
+  ∀₀-intro =  ∀₁-intro ∘ _∘ ↓_
 
   -->  ∃₁-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ⊢[ ι ]* Jr
 
   ∃₀-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ⊢[ ι ]* Jr
-  ∃₀-elim ∀xP⊢*Jr =  ∃₁-elim $ ∀xP⊢*Jr ∘ ↓_
+  ∃₀-elim =  ∃₁-elim ∘ _∘ ↓_
 
   ∧-intro :  P ⊢[ ι ] Q →  P ⊢[ ι ] R →  P ⊢[ ι ] Q ∧ R
   ∧-intro P⊢Q P⊢R =  ∀₁-intro $ binary P⊢Q P⊢R
@@ -105,10 +105,10 @@ abstract
   ∃₁-mono P˙⊢Q˙ =  ∃₁-elim $ λ x →  P˙⊢Q˙ x » ∃₁-intro x
 
   ∀₀-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∀₀˙ P˙ ⊢[ ι ] ∀₀˙ Q˙
-  ∀₀-mono P˙⊢Q˙ =  ∀₁-mono $ P˙⊢Q˙ ∘ ↓_
+  ∀₀-mono =  ∀₁-mono ∘ _∘ ↓_
 
   ∃₀-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∃₀˙ P˙ ⊢[ ι ] ∃₀˙ Q˙
-  ∃₀-mono P˙⊢Q˙ =  ∃₁-mono $ P˙⊢Q˙ ∘ ↓_
+  ∃₀-mono =  ∃₁-mono ∘ _∘ ↓_
 
   ∧-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  P ∧ R ⊢[ ι ] Q ∧ S
   ∧-mono P⊢Q R⊢S =  ∧-intro (∧-elimˡ » P⊢Q) (∧-elimʳ » R⊢S)
@@ -217,14 +217,14 @@ abstract
   ⌜⌝₀-intro =  ⌜⌝₁-intro ∘ ↑_
 
   ⌜⌝₀-elim :  (X →  ⊤' ⊢[ ι ]* Jr) →  ⌜ X ⌝₀ ⊢[ ι ]* Jr
-  ⌜⌝₀-elim X→⊤⊢P =  ⌜⌝₁-elim $ X→⊤⊢P ∘ ↓_
+  ⌜⌝₀-elim =  ⌜⌝₁-elim ∘ _∘ ↓_
 
   -- ⌜⌝ is monotone
 
-  ⌜⌝₁-mono :  (X →  Y) →  ⌜ X ⌝₁ ⊢[ ι ] ⌜ Y ⌝₁
+  ⌜⌝₁-mono :  (X → Y) →  ⌜ X ⌝₁ ⊢[ ι ] ⌜ Y ⌝₁
   ⌜⌝₁-mono f =  ⌜⌝₁-elim $ λ x →  ⌜⌝₁-intro $ f x
 
-  ⌜⌝₀-mono :  (X →  Y) →  ⌜ X ⌝₀ ⊢[ ι ] ⌜ Y ⌝₀
+  ⌜⌝₀-mono :  (X → Y) →  ⌜ X ⌝₀ ⊢[ ι ] ⌜ Y ⌝₀
   ⌜⌝₀-mono f =  ⌜⌝₁-mono $ ↑_ ∘ f ∘ ↓_
 
   -- Introduce & eliminate ⌜ ⌝ ∧
@@ -240,7 +240,7 @@ abstract
   ⌜⌝₀∧-intro =  ⌜⌝₁∧-intro ∘ ↑_
 
   ⌜⌝₀∧-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₀ ∧ P ⊢[ ι ] Q
-  ⌜⌝₀∧-elim X→P⊢Q =  ⌜⌝₁∧-elim $ X→P⊢Q ∘ ↓_
+  ⌜⌝₀∧-elim =  ⌜⌝₁∧-elim ∘ _∘ ↓_
 
   -- ⌜ X ⌝ →' is the same with ∀ _ ∈ X ,
 
@@ -404,7 +404,7 @@ abstract
   ∃₁∗-elim ∀P˙∗⊢ =  ∗-comm » ∗-∃₁-out » ∃₁-elim $ λ x → ∗-comm » ∀P˙∗⊢ x
 
   ∃₀∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ∗ Q ⊢[ ι ]* Jr
-  ∃₀∗-elim ∀P˙∗⊢ =  ∃₁∗-elim $ ∀P˙∗⊢ ∘ ↓_
+  ∃₀∗-elim =  ∃₁∗-elim ∘ _∘ ↓_
 
   ∨∗-elim :  P ∗ Q ⊢[ ι ]* Jr →  P' ∗ Q ⊢[ ι ]* Jr →  (P ∨ P') ∗ Q ⊢[ ι ]* Jr
   ∨∗-elim P∗⊢ P'∗⊢ =  ∃₁∗-elim (binary P∗⊢ P'∗⊢)
@@ -700,13 +700,13 @@ abstract
   ∀₁-Pers ∀Pers .Pers-⇒□ =  ∀₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀₁-in
 
   ∀₀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀₀˙ P˙)
-  ∀₀-Pers ∀Pers =  ∀₁-Pers $ ∀Pers ∘ ↓_
+  ∀₀-Pers =  ∀₁-Pers ∘ _∘ ↓_
 
   ∃₁-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃₁˙ P˙)
   ∃₁-Pers ∀Pers .Pers-⇒□ =  ∃₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∃₁-in
 
   ∃₀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃₀˙ P˙)
-  ∃₀-Pers ∀Pers =  ∃₁-Pers $ ∀Pers ∘ ↓_
+  ∃₀-Pers =  ∃₁-Pers ∘ _∘ ↓_
 
   instance
 
@@ -791,7 +791,7 @@ abstract
   ⌜⌝₁∗-elim X→P⊢Q =  ∗⇒∧ » ⌜⌝₁∧-elim X→P⊢Q
 
   ⌜⌝₀∗-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₀ ∗ P ⊢[ ι ] Q
-  ⌜⌝₀∗-elim X→P⊢Q =  ⌜⌝₁∗-elim $ X→P⊢Q ∘ ↓_
+  ⌜⌝₀∗-elim =  ⌜⌝₁∗-elim ∘ _∘ ↓_
 
   -- ⌜ ⌝ ∗ can get outside |=>
 

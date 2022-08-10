@@ -191,13 +191,13 @@ abstract
   ∀₁-Basic ∀Basic .isBasic =  ∀₁-IsBasic $ λ x → ∀Basic x .isBasic
 
   ∀₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₀˙ P˙)
-  ∀₀-Basic ∀Basic =  ∀₁-Basic $ ∀Basic ∘ ↓_
+  ∀₀-Basic =  ∀₁-Basic ∘ _∘ ↓_
 
   ∃₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₁˙ P˙)
   ∃₁-Basic ∀Basic .isBasic =  ∃₁-IsBasic $ λ x → ∀Basic x .isBasic
 
   ∃₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₀˙ P˙)
-  ∃₀-Basic ∀Basic =  ∃₁-Basic $ ∀Basic ∘ ↓_
+  ∃₀-Basic =  ∃₁-Basic ∘ _∘ ↓_
 
   instance
 

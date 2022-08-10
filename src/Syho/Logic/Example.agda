@@ -18,7 +18,7 @@ open import Syho.Logic.Ind using (□○-alloc-rec)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_; hor-val; horᴾ-▶;
   hor-◁)
 
-open import Syho.Lang.Example using (loop; plus◁3'4)
+open import Syho.Lang.Example using (loop; plus◁3,4)
 
 private variable
   ι :  Size
@@ -30,13 +30,17 @@ private variable
 
 abstract
 
-  -- We can get □ ○ □ ○ □ ○ ... for free
+  -- Get □ ○ □ ○ □ ○ ... for free
 
   □○-loop-alloc :  ⊤' ⊢[ ι ]=>> □○-loop
   □○-loop-alloc =  →-intro ∧-elimˡ » □○-alloc-rec
 
+  -- Get ⊥' after ▶ ▶ ▶ ... under partial Hoare triple
+
   loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ᴾ λ _ → ⊥'
   loop-⊥ =  horᴾ-▶ λ{ .! → loop-⊥ }
 
-  plus◁3'4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3'4 ⟩ᵀ λ (↑ n) → ⌜ n ≡ 7 ⌝₀
-  plus◁3'4-7 =  hor-◁ $ hor-val $ ⌜⌝₀-intro refl
+  -- Execute plus ◁ ∇ (3 , 4)
+
+  plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ λ (↑ n) → ⌜ n ≡ 7 ⌝₀
+  plus◁3,4-7 =  hor-◁ $ hor-val $ ⌜⌝₀-intro refl

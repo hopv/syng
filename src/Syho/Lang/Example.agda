@@ -27,17 +27,27 @@ private variable
 --------------------------------------------------------------------------------
 -- Constructing Expr
 
+-- ▶ ▶ ▶ ...
+
 loop :  Expr ι (◸ ⊤)
 loop =  ▶ λ{ .! → loop }
+
+-- Some stuck expression
 
 stuck :  Expr ι (◸ ⊤)
 stuck =  free $ ∇ addr 42 42
 
+-- Just add two natural-number arguments
+
 plus :  Expr ι $ (ℕ × ℕ) →* ◸ ℕ
 plus =  λ' (m , n) ,  ∇ (m + n)
 
-plus◁3'4 :  Expr ι $ ◸ ℕ
-plus◁3'4 =  plus ◁ ∇ (3 , 4)
+-- plus on 3 & 4
+
+plus◁3,4 :  Expr ι $ ◸ ℕ
+plus◁3,4 =  plus ◁ ∇ (3 , 4)
+
+-- Non-deterministic natural number
 
 ndnat :  Expr ι $ ◸ ℕ
 ndnat =  nd
@@ -50,8 +60,8 @@ abstract
   loop-red :  (loop , M) ⇒ᴱ (loop , M)
   loop-red =  redᴱ refl ▶-red
 
-  plus◁3'4-red :  (plus◁3'4 , M) ⇒ᴱ (∇ 7 , M)
-  plus◁3'4-red =  redᴱ refl ◁-red
+  plus◁3,4-red :  (plus◁3,4 , M) ⇒ᴱ (∇ 7 , M)
+  plus◁3,4-red =  redᴱ refl ◁-red
 
   ndnat-red :  (ndnat , M) ⇒ᴱ (∇ n , M)
   ndnat-red =  redᴱ refl (nd-red _)
@@ -68,8 +78,8 @@ abstract
   stuck-no-red (redᴱ refl r⇒)  with r⇒
   ... | ()
 
-  plus◁3'4-red-inv :  (plus◁3'4 , M) ⇒ᴱ (e , M') →  (e , M') ≡ (∇ 7 , M)
-  plus◁3'4-red-inv (redᴱ refl ◁-red) =  refl
+  plus◁3,4-red-inv :  (plus◁3,4 , M) ⇒ᴱ (e , M') →  (e , M') ≡ (∇ 7 , M)
+  plus◁3,4-red-inv (redᴱ refl ◁-red) =  refl
 
   ndnat-red-inv :  (ndnat , M) ⇒ᴱ (e , M') →  ∑ n , (e , M') ≡ (∇ n , M)
   ndnat-red-inv (redᴱ refl (nd-red _)) =  _ , refl

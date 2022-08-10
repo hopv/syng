@@ -1,6 +1,7 @@
 --------------------------------------------------------------------------------
 -- Judgment in Syho
 --------------------------------------------------------------------------------
+-- Its contents are re-exported across Syho.Logic.Core, Supd, Ind, and Hor
 
 {-# OPTIONS --without-K --sized-types #-}
 

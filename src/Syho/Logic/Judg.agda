@@ -39,6 +39,7 @@ data  WpK :  Set₀  where
 
 private variable
   T U V :  Type
+  ι :  Size
 
 infix 3 |=>>_
 
@@ -94,8 +95,15 @@ P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
 P ⊢[< ι ]⟨ e ⟩ᴾ Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Qᵛ) ι
 P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
 
+-- Pers: Persistence of a proposition
+
+record  Pers (P : Prop' ∞) :  Set₂  where
+  inductive
+  -- Pers-⇒□: P can turn into □ P
+  field Pers-⇒□ :  P ⊢[ ι ] □ P
+open Pers {{...}} public
+
 private variable
-  ι :  Size
   ℓ :  Level
   X :  Set ℓ
   x :  X
@@ -338,11 +346,3 @@ data  _⊢[_]*_  where
   hor-free :  ∀{Qᵛ : _} →
     len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ κ ] Qᵛ →
     θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]'⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ κ ] Qᵛ
-
---------------------------------------------------------------------------------
--- Pers: Persistence of a proposition
-
-record  Pers (P : Prop' ∞) :  Set₂  where
-  -- Pers-⇒□: P can turn into □ P
-  field Pers-⇒□ :  P ⊢[ ι ] □ P
-open Pers {{...}} public

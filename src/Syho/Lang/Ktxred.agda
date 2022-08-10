@@ -49,7 +49,7 @@ R⇒E (allocᴿ n) =  alloc $ ∇ n
 R⇒E (freeᴿ θ) =  free $ ∇ θ
 
 --------------------------------------------------------------------------------
--- Ktx: Syntactic evaluation context
+-- Ktx :  Syntactic evaluation context
 
 infix 6 ★ᴷ_ _←ᴷʳ_ _←ᴷˡ_
 infixl 5 _◁ᴷʳ_ _◁ᴷˡ_

@@ -30,14 +30,14 @@ open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_;
   Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
--- WpKind: Weakest precondion kind
+-- WpKind :  Weakest precondion kind
 
 data  WpKind :  Set₀  where
   -- Partial/total
   par tot :  WpKind
 
 --------------------------------------------------------------------------------
--- JudgRes: Result of a judgment
+-- JudgRes :  Result of a judgment
 
 private variable
   T U V :  Type
@@ -97,11 +97,11 @@ P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
 P ⊢[< ι ]⟨ e ⟩ᴾ Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Qᵛ) ι
 P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
 
--- Pers: Persistence of a proposition
+-- Pers :  Persistence of a proposition
 
 record  Pers (P : Prop' ∞) :  Set₂  where
   inductive
-  -- Pers-⇒□: P can turn into □ P
+  -- Pers-⇒□ :  P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
 open Pers {{...}} public
 
@@ -200,7 +200,7 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On |=>
 
-  -- |=> is monadic: monotone, increasing, and idempotent
+  -- |=> is monadic :  monotone, increasing, and idempotent
 
   |=>-mono :  P ⊢[ ι ] Q →  |=> P ⊢[ ι ] |=> Q
 
@@ -219,7 +219,7 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On □
 
-  -- □ is comonadic: monotone, decreasing, and idempotent
+  -- □ is comonadic :  monotone, decreasing, and idempotent
 
   □-mono :  P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
 

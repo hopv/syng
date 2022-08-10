@@ -21,7 +21,7 @@ open RA GlobRA renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_
   ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
 
 --------------------------------------------------------------------------------
--- Propᵒ: Semantic proposition
+-- Prop$1 :  Semantic proposition
 
 -- Monoᵒ !ᵒ :  !ᵒ is monotone over the resource
 Monoᵒ :  (Glob → Set₂) →  Set₂
@@ -51,7 +51,7 @@ private variable
   B :  Glob → Set ℓB
 
 --------------------------------------------------------------------------------
--- ⊨: Entailment
+-- ⊨ :  Entailment
 
 infix 1 _⊨_ _⊨'_
 _⊨_ _⊨'_ :  Propᵒ →  Propᵒ →  Set₂
@@ -136,8 +136,8 @@ syntax ∀₀ᵒ-syntax (λ x → Pᵒ) =  ∀₀ᵒ x , Pᵒ
 syntax ∃₀ᵒ-syntax (λ x → Pᵒ) =  ∃₀ᵒ x , Pᵒ
 
 --------------------------------------------------------------------------------
--- ∧ᵒ: Conjunction
--- ∨ᵒ: Disjunction
+-- ∧$1 :  Conjunction
+-- ∨$1 :  Disjunction
 
 infixr 7 _∧ᵒ_
 infixr 6 _∨ᵒ_
@@ -156,8 +156,8 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
   proof a⊑b (inj₁ Qa) =  inj₁ $ Qᵒ .monoᵒ a⊑b Qa
 
 --------------------------------------------------------------------------------
--- ⊤ᵒ: Truth
--- ⊥ᵒ: Falsehood
+-- ⊤$1 :  Truth
+-- ⊥$1 :  Falsehood
 
 ⊤ᵒ ⊥ᵒ :  Propᵒ
 ⊤ᵒ .!ᵒ _ =  ⊤
@@ -166,14 +166,14 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 ⊥ᵒ .monoᵒ _ ()
 
 --------------------------------------------------------------------------------
--- ⌜ ⌝ᵒ: Set embedding
+-- ⌜ ⌝$1 :  Set embedding
 
 ⌜_⌝₂ᵒ :  Set₂ →  Propᵒ
 ⌜ X₂ ⌝₂ᵒ .!ᵒ _ =  X₂
 ⌜ _ ⌝₂ᵒ .monoᵒ _ x =  x
 
 --------------------------------------------------------------------------------
--- →ᵒ: Implication
+-- →$1 :  Implication
 
 infixr 5 _→ᵒ_
 _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
@@ -184,7 +184,7 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
   proof a⊑b P→Qa b⊑c =  P→Qa (⊑-trans a⊑b b⊑c)
 
 --------------------------------------------------------------------------------
--- ∗ᵒ: Separating conjunction
+-- ∗$1 :  Separating conjunction
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
@@ -195,7 +195,7 @@ _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
   proof a⊑a' (b , c , b∙c⊑a , Pd , Qe) =  b , c , ⊑-trans b∙c⊑a a⊑a' , Pd , Qe
 
 --------------------------------------------------------------------------------
--- -∗ᵒ: Magic wand
+-- -∗$1 :  Magic wand
 
 infixr 5 _-∗ᵒ_
 _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
@@ -206,7 +206,7 @@ _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
   proof a⊑b P-∗Qa b⊑c Pc =  P-∗Qa (⊑-trans a⊑b b⊑c) Pc
 
 --------------------------------------------------------------------------------
--- |=>ᵒ: Update modality
+-- |=>$1 :  Update modality
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ
@@ -219,7 +219,7 @@ infix 8 |=>ᵒ_
   ... | (c , ✓ed∙c , Pc) =  c , flip ✓-mono ✓ed∙c (∙-monoˡ ∙-incrʳ) , Pc
 
 --------------------------------------------------------------------------------
--- □ᵒ: Persistence modality
+-- □$1 :  Persistence modality
 
 infix 8 □ᵒ_
 □ᵒ_ :  Propᵒ → Propᵒ
@@ -230,7 +230,7 @@ infix 8 □ᵒ_
   proof a⊑b P⌞a⌟ =  Pᵒ .monoᵒ (⌞⌟-mono a⊑b) P⌞a⌟
 
 --------------------------------------------------------------------------------
--- Own: Owning a resource
+-- Own :  Owning a resource
 
 Own :  Glob →  Propᵒ
 Own a .!ᵒ b =  a ⊑ b

@@ -22,7 +22,7 @@ open RA renaming (_≈_ to _≈'_) using (Car; ✓_; _∙_; ε; ⌞_⌟; refl˜;
   ⌞⌟-unitˡ; ⌞⌟-idem)
 
 --------------------------------------------------------------------------------
--- ag: Lifting A to AgRA's carrier
+-- ag :  Lifting A to AgRA's carrier
 
 ag :  A →  List A
 ag a =  [ a ]

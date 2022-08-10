@@ -20,7 +20,7 @@ open RA AllRA using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_
   _∙_ to _∙ᴬ_; ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _◇˜_ to _◇ᴬ_)
 
 --------------------------------------------------------------------------------
--- updᴬ/updaᴬ: Updating an element at an index
+-- updᴬ/upda$1 :  Updating an element at an index
 
 updᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ →  Aᴬ
 updᴬ i a b˙ j  with i ≟ j
@@ -38,7 +38,7 @@ abstract
   updaᴬ-eq =  refl
 
 --------------------------------------------------------------------------------
--- injᴬ/injaᴬ: Injecting an element at an index
+-- injᴬ/inja$1 :  Injecting an element at an index
 
 injᴬ injaᴬ :  ∀ i →  Ra˙ i .Car →  Aᴬ
 injᴬ i a =  updᴬ i a εᴬ

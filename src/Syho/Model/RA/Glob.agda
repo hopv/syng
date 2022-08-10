@@ -24,7 +24,7 @@ Prop-setoid :  Setoid 2ᴸ 2ᴸ
 Prop-setoid =  ≡-setoid (Prop' ∞)
 
 --------------------------------------------------------------------------------
--- ExcᴾRA, AgᴾRA: Exclusive / agreement RA on Prop' ∞
+-- ExcᴾRA, AgᴾRA :  Exclusive / agreement RA on Prop' ∞
 
 module ModExcᴾ =  Syho.Model.RA.Exc Prop-setoid {2ᴸ}
 open ModExcᴾ public using () renaming (ExcRA to ExcᴾRA; Exc to Excᴾ)
@@ -33,7 +33,7 @@ module ModAgᴾ =  Syho.Model.RA.Ag Prop-setoid
 open ModAgᴾ public using () renaming (AgRA to AgᴾRA)
 
 --------------------------------------------------------------------------------
--- SaveˣRA, Save□RA: Exclusive/persistent save token RA
+-- SaveˣRA, Save□RA :  Exclusive/persistent save token RA
 
 module ModSaveˣ =  Syho.Model.RA.Finmap ExcᴾRA
 open ModSaveˣ public using () renaming (FinmapRA to SaveˣRA; Finmap to Saveˣ)
@@ -42,7 +42,7 @@ module ModSave□ =  Syho.Model.RA.Finmap AgᴾRA
 open ModSave□ public using () renaming (FinmapRA to Save□RA; Finmap to Save□)
 
 --------------------------------------------------------------------------------
--- GlobRA: Global RA
+-- GlobRA :  Global RA
 
 pattern [Saveˣ] = 0
 pattern [Save□] = 1

@@ -35,7 +35,7 @@ private variable
   P Q R S T :  Prop' ∞
 
 --------------------------------------------------------------------------------
--- ⸨ ⸩: Interpreting propositions
+-- ⸨ ⸩ :  Interpreting propositions
 
 ⸨_⸩ :  (P : Prop' ∞) →  Propᵒ
 ⸨ ∀₁˙ P˙ ⸩ =  ∀₁ᵒ x , ⸨ P˙ x ⸩
@@ -75,7 +75,7 @@ abstract
   ⸨⸩-⇒ᴮ =  ⸨⸩-⇒ᴮ' isBasic
 
 --------------------------------------------------------------------------------
--- ⊢⇒⊨: Semantic soundness of the pure sequent
+-- ⊢⇒⊨ :  Semantic soundness of the pure sequent
 
 abstract
 

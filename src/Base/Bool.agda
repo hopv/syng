@@ -10,7 +10,7 @@ open import Base.Level using (Level)
 open import Base.Few using (⊤; ⊥)
 
 --------------------------------------------------------------------------------
--- Bool: Boolean
+-- Bool :  Boolean
 
 open import Agda.Builtin.Bool public using (Bool)
   renaming (true to tt; false to ff)
@@ -61,7 +61,7 @@ Tt tt =  ⊤
 Tt ff =  ⊥
 
 --------------------------------------------------------------------------------
--- ≤ᴮ: Order over Bool
+-- ≤ᴮ :  Order over Bool
 
 infix 4 _≤ᴮ_
 data  _≤ᴮ_ :  Bool → Bool → Set₀  where

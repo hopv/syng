@@ -16,7 +16,7 @@ open import Base.Nat using (ℕ; _+_; +-assocʳ)
 open import Base.Eq using (_≡_; cong)
 
 --------------------------------------------------------------------------------
--- Addr: Address, pointing at a memory cell
+-- Addr :  Address, pointing at a memory cell
 
 record  Addr :  Set₀  where
   constructor addr
@@ -31,7 +31,7 @@ private variable
   θ :  Addr
   m n :  ℕ
 
--- ₒ: Address offset operation
+-- $1 :  Address offset operation
 
 infixl 10 _ₒ_
 _ₒ_ :  Addr →  ℕ →  Addr
@@ -45,7 +45,7 @@ abstract
   ₒ-assoc {n = n} =  cong (addr _) (+-assocʳ {n})
 
 --------------------------------------------------------------------------------
--- Type:  Simple type for expressions
+-- Type :   Simple type for expressions
 
 infix 8 ◸_
 infixr 4 _→*_
@@ -62,11 +62,11 @@ private variable
   X :  Set₀
 
 --------------------------------------------------------------------------------
--- Expr: Expression, possibly infinite
+-- Expr :  Expression, possibly infinite
 
 data  Expr (ι : Size) :  Type →  Set₁
 
--- Expr˂: Expr under Thunk
+-- Expr˂ :  Expr under Thunk
 
 Expr˂ :  Size →  Type →  Set₁
 Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
@@ -115,7 +115,7 @@ syntax let∈-syntax {X = X} e₀ (λ x → e) =  let' x ∈ X := e₀ in' e
 syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 
 --------------------------------------------------------------------------------
--- Val: Value type
+-- Val :  Value type
 
 Val :  Type →  Set₁
 Val (◸ X) =  Up X

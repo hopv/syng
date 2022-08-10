@@ -9,7 +9,7 @@ module Base.Option where
 open import Base.Level using (Level)
 
 --------------------------------------------------------------------------------
--- ??: Option type
+-- ?? :  Option type
 open import Agda.Builtin.Maybe renaming (Maybe to infix 0 ??_; just to some;
   nothing to none) public
 

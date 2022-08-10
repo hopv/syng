@@ -20,11 +20,11 @@ open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; _ₒ_; AnyVal)
 
 --------------------------------------------------------------------------------
--- Prop': Proposition
+-- Prop' :  Proposition
 
 data  Prop' (ι : Size) :  Set₂
 
--- Prop˂: Prop' under Thunk
+-- Prop˂ :  Prop' under Thunk
 Prop˂ :  Size →  Set₂
 Prop˂ ι =  Thunk Prop' ι
 
@@ -45,21 +45,21 @@ infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
 
-  -- ∀₁˙, ∃₁˙: Universal/existential quantification over any type X₁ in Set₁,
+  -- ∀₁˙, ∃₁˙ :  Universal/existential quantification over any type X₁ in Set₁,
   --         which does not include Prop' ι itself (predicativity)
   ∀₁˙ ∃₁˙ :  (X₁ → Prop' ι) →  Prop' ι
-  -- →': Implication
+  -- →' :  Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
 
-  -- ∗: Separating conjunction
-  -- -∗: Magic wand
+  -- ∗ :  Separating conjunction
+  -- -∗ :  Magic wand
   _∗_ _-∗_ :  Prop' ι →  Prop' ι →  Prop' ι
 
-  -- |=>: Update modality
-  -- □: Persistence modality
+  -- |=> :  Update modality
+  -- □ :  Persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
 
-  -- ○: Indirection modality
+  -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι
 
   -- Points-to token
@@ -96,8 +96,8 @@ syntax ∀₀-syntax (λ x → P) =  ∀₀ x , P
 syntax ∃₀-syntax (λ x → P) =  ∃₀ x , P
 
 --------------------------------------------------------------------------------
--- ∧: Conjunction
--- ∨: Disjunction
+-- ∧ :  Conjunction
+-- ∨ :  Disjunction
 
 infixr 7 _∧_
 infixr 6 _∨_
@@ -107,15 +107,15 @@ P ∧ Q =  ∀₁˙ (binary P Q)
 P ∨ Q =  ∃₁˙ (binary P Q)
 
 --------------------------------------------------------------------------------
--- ⊤': Truth
--- ⊥': Falsehood
+-- ⊤' :  Truth
+-- ⊥' :  Falsehood
 
 ⊤' ⊥' :  Prop' ι
 ⊤' =  ∀₁˙ absurd
 ⊥' =  ∃₁˙ absurd
 
 --------------------------------------------------------------------------------
--- ⌜ ⌝: Set embedding
+-- ⌜ ⌝ :  Set embedding
 
 ⌜_⌝₁ :  Set₁ →  Prop' ι
 ⌜ X₁ ⌝₁ =  ∃₁ _ ∈ X₁ , ⊤'
@@ -123,7 +123,7 @@ P ∨ Q =  ∃₁˙ (binary P Q)
 ⌜ X₀ ⌝₀ =  ∃₀ _ ∈ X₀ , ⊤'
 
 --------------------------------------------------------------------------------
--- [∧], [∗]: Iterated conjunction / separating conjunction
+-- [∧], [∗] :  Iterated conjunction / separating conjunction
 
 infix 8 [∧]_ [∗]_
 [∧]_ [∗]_ :  List (Prop' ι) →  Prop' ι
@@ -166,14 +166,14 @@ _↦ˡ_ :  Addr →  List AnyVal →  Prop' ι
 --------------------------------------------------------------------------------
 -- Basic Syho proposition
 
--- IsBasic P: P consists only of ∀₁, ∃₁, ∗ and □
+-- IsBasic P :  P consists only of ∀₁, ∃₁, ∗ and □
 data  IsBasic :  Prop' ∞ →  Set₂  where
   ∀₁-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∀₁˙ P˙)
   ∃₁-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∃₁˙ P˙)
   ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
   □-IsBasic :  IsBasic P →  IsBasic (□ P)
 
--- Basic: Type class wrapping IsBasic
+-- Basic :  Type class wrapping IsBasic
 record  Basic (P : Prop' ∞) :  Set₂  where
   field  isBasic :  IsBasic P
 open Basic {{...}} public

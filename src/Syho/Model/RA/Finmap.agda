@@ -110,7 +110,7 @@ open RA FinmapRA using () renaming (_≈_ to _≈⁺_; ✓_ to ✓⁺_; _∙_ to
   ⌞_⌟ to ⌞_⌟⁺; ε to ε⁺; _↝_ to _↝⁺_; _↝ˢ_ to _↝ˢ⁺_; refl˜ to refl⁺;
   _◇˜_ to _◇⁺_)
 
--- injᶠᵐ/injaᶠᵐ: Injecting an element at an index
+-- injᶠᵐ/injaᶠ$1 :  Injecting an element at an index
 
 injᶠᵐ injaᶠᵐ :  ℕ → A → Finmap
 injᶠᵐ i a =  updᶠᵐ i a ε⁺

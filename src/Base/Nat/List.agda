@@ -19,7 +19,7 @@ private variable
   ns :  List ℕ
 
 --------------------------------------------------------------------------------
--- [⊔]: Maximum of a list
+-- [⊔] :  Maximum of a list
 
 [⊔] :  List ℕ → ℕ
 [⊔] (n ∷ ns) =  n ⊔ [⊔] ns

@@ -17,9 +17,9 @@ record  Setoid ℓ ℓ≈ :  Set (sucᴸ (ℓ ⊔ᴸ ℓ≈))  where
   infix 0 ◠˜_
   infixr -1 _◇˜_
   field
-    -- Car: Carrier set
+    -- Car :  Carrier set
     Car :  Set ℓ
-    -- ≈: Binary relation over Car
+    -- ≈ :  Binary relation over Car
     _≈_ :  Car → Car → Set ℓ≈
     -- ≈ is reflexive, symmetric and transitive
     refl˜ :  ∀ {a} →  a ≈ a
@@ -37,7 +37,7 @@ record  Setoid ℓ ℓ≈ :  Set (sucᴸ (ℓ ⊔ᴸ ℓ≈))  where
   ≡⇒≈ refl =  refl˜
 
   ------------------------------------------------------------------------------
-  -- ≉: Negation of ≈
+  -- ≉ :  Negation of ≈
 
   infix 4 _≉_
   _≉_ :  Car → Car → Set ℓ≈

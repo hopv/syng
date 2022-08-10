@@ -15,7 +15,7 @@ open import Base.Dec using (Dec²; yes; no)
 open import Base.Dec.Construct using (dec-Tt)
 
 --------------------------------------------------------------------------------
--- ℕ: Natural number
+-- $1 :  Natural number
 
 open import Agda.Builtin.Nat public
   using (zero; suc) renaming (Nat to ℕ)
@@ -24,7 +24,7 @@ private variable
   k l m n :  ℕ
 
 --------------------------------------------------------------------------------
--- ≤, <, ≥, >: Order
+-- ≤, <, ≥, > :  Order
 
 infix 4 _≤_ _<_ _≥_ _>_
 
@@ -189,7 +189,7 @@ _<?_ :  Dec² _<_
 _<?_ _ _ =  dec-Tt ᵇ⇒< <⇒ᵇ
 
 --------------------------------------------------------------------------------
--- +: Addition
+-- + :  Addition
 
 open import Agda.Builtin.Nat public using (_+_)
 
@@ -261,7 +261,7 @@ abstract
   +-injʳ {l} {m} {n}  rewrite +-comm {l} {m} | +-comm {l} {n} =  +-injˡ
 
 --------------------------------------------------------------------------------
--- *: Multiplication
+-- * :  Multiplication
 
 open import Agda.Builtin.Nat public using (_*_)
 
@@ -344,12 +344,12 @@ abstract
   *-injʳ {l} {m} {n}  rewrite *-comm {suc l} {m} | *-comm {suc l} {n} =  *-injˡ
 
 --------------------------------------------------------------------------------
--- ∸: Truncated subtraction
+-- ∸ :  Truncated subtraction
 
 open import Agda.Builtin.Nat public using () renaming (_-_ to _∸_)
 
 --------------------------------------------------------------------------------
--- ⊔: Maximum
+-- ⊔ :  Maximum
 
 _⊔_ :  ℕ → ℕ →  ℕ
 0 ⊔ n =  n

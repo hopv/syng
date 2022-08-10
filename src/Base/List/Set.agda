@@ -25,7 +25,7 @@ private variable
   a b :  A
 
 --------------------------------------------------------------------------------
--- ∈ᴸ: Containment in a list
+-- ∈ᴸ :  Containment in a list
 
 infix 4 _∈ᴸ_
 _∈ᴸ_ :  A → List A → Set (ℓ ⊔ᴸ ℓ≈)
@@ -50,7 +50,7 @@ abstract
   ∈ᴸ-++-case =  Any-++-case
 
 --------------------------------------------------------------------------------
--- ∉ᴸ: Non-containment in a list
+-- ∉ᴸ :  Non-containment in a list
 
 infix 4 _∉ᴸ_
 _∉ᴸ_ :  A → List A → Set (ℓ ⊔ᴸ ℓ≈)
@@ -84,7 +84,7 @@ abstract
   ∉ᴸ-++-elim₁ =  ¬Any-++-elim₁
 
 --------------------------------------------------------------------------------
--- ⊆ᴸ: Inclusion between lists as sets
+-- ⊆ᴸ :  Inclusion between lists as sets
 
 infix 4 _⊆ᴸ_
 _⊆ᴸ_ :  List A → List A → Set (ℓ ⊔ᴸ ℓ≈)
@@ -128,7 +128,7 @@ abstract
     ++-⊆ᴸ-elim {as} {bs} {bs ++ as} ++-⊆ᴸ-introʳ ++-⊆ᴸ-introˡ
 
 --------------------------------------------------------------------------------
--- ≈ᴸ: Equivalece of lists as sets
+-- ≈ᴸ :  Equivalece of lists as sets
 
 infix 4 _≈ᴸ_
 _≈ᴸ_ :  List A → List A → Set (ℓ ⊔ᴸ ℓ≈)
@@ -168,7 +168,7 @@ abstract
   ++-idem =  ++-⊆ᴸ-elim ⊆ᴸ-refl ⊆ᴸ-refl , ++-⊆ᴸ-introˡ
 
 --------------------------------------------------------------------------------
--- homo: the list is homogeneous as a set
+-- homo :  the list is homogeneous as a set
 
 homo :  List A → Set (ℓ ⊔ᴸ ℓ≈)
 homo as =  ∀ {a b} →  a ∈ᴸ as →  b ∈ᴸ as →  a ≈ b

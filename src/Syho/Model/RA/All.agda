@@ -14,7 +14,7 @@ open RA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; �
   ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 --------------------------------------------------------------------------------
--- AllRA: Dependent-function resource algebra
+-- AllRA :  Dependent-function resource algebra
 
 AllRA :  RA (ℓ' ⊔ᴸ ℓ) (ℓ' ⊔ᴸ ℓ≈) (ℓ' ⊔ᴸ ℓ✓)
 AllRA .Car =  ∀ i →  Ra˙ i .Car

@@ -12,7 +12,7 @@ private variable
   A :  Set ℓA
 
 --------------------------------------------------------------------------------
--- ⟨2⟩: 2-element set / doubleton set
+-- ⟨2⟩ :  2-element set / doubleton set
 
 data  ⟨2⟩ {ℓ} :  Set ℓ  where
   0₂ 1₂ :  ⟨2⟩
@@ -24,13 +24,13 @@ binary a _ 0₂ =  a
 binary _ b 1₂ =  b
 
 --------------------------------------------------------------------------------
--- ⊤: 1-element set / singleton set / truth
+-- ⊤ :  1-element set / singleton set / truth
 
 record  ⊤ {ℓ} :  Set ℓ  where
   instance constructor 0⊤
 
 --------------------------------------------------------------------------------
--- ⊥: 0-element set / empty set / falsehood
+-- ⊥ :  0-element set / empty set / falsehood
 
 data  ⊥ {ℓ} :  Set ℓ  where
 
@@ -40,7 +40,7 @@ absurd :  ∀ {F : ⊥ {ℓ} → Set ℓF} →  (x : ⊥) →  F x
 absurd ()
 
 --------------------------------------------------------------------------------
--- ¬: Negation
+-- ¬ :  Negation
 
 infix 3 ¬_
 ¬_ :  Set ℓA → Set ℓA

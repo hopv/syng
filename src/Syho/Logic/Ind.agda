@@ -72,10 +72,10 @@ abstract
 
   -- Monotonicity of ↪=>>
 
-  -->  ↪=>>-monoˡ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
+  -->  ↪=>>-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
   -->                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
 
-  -->  ↪=>>-monoʳ-∗ :  {{Basic R}} →  (R ∗ Q˂ .! ⊢[< ι ] Q'˂ .!) →
+  -->  ↪=>>-monoʳ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ] Q'˂ .! →
   -->                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
 
   -- We don't have ↪=>>-mono rules (which modify both the P and Q sides),

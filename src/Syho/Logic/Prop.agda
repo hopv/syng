@@ -35,7 +35,7 @@ private variable
   ℓ :  Level
   X :  Set ℓ
   P˙ :  X → Prop' ∞
-  P Q R S :  Prop' ∞
+  P Q :  Prop' ∞
   n :  ℕ
   θ :  Addr
   q⁺ :  ℚ⁺

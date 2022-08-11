@@ -11,9 +11,10 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
+open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_)
 open import Syho.Logic.Core using (_»_; ∧-elimˡ; ⌜⌝₀-intro; →-intro)
-open import Syho.Logic.Supd using (_⊢[_]=>>_)
+open import Syho.Logic.Supd using (_⊢[_][_]=>>_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_; hor-val; horᴾ-▶;
   hor-◁)
@@ -22,6 +23,7 @@ open import Syho.Lang.Example using (loop; plus◁3,4)
 
 private variable
   ι :  Size
+  i :  ℕ
 
 -- □ ○ □ ○ □ ○ ...
 
@@ -32,7 +34,7 @@ abstract
 
   -- Get □ ○ □ ○ □ ○ ... for free
 
-  □○-loop-alloc :  ⊤' ⊢[ ι ]=>> □○-loop
+  □○-loop-alloc :  ⊤' ⊢[ ι ][ i ]=>> □○-loop
   □○-loop-alloc =  →-intro ∧-elimˡ » □○-alloc-rec
 
   -- Get ⊥' after ▶ ▶ ▶ ... under partial Hoare triple

@@ -140,6 +140,7 @@ private variable
 infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ʰ_ _ʰ»ᵘ_
 
 -- Defining _⊢[_]*_
+
 data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- General rules
@@ -354,7 +355,7 @@ data  _⊢[_]*_  where
   -- Compose with a super update
 
   _ᵘ»ʰ_ :  ∀{Rᵛ} →  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
-                        P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
+                    P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
   _ʰ»ᵘ_ :  ∀{Qᵛ : Val T → _} →
     P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ][ i ]=>> Rᵛ v) →
@@ -363,7 +364,7 @@ data  _⊢[_]*_  where
   -- Frame
 
   hor-frameˡ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
-                             R ∗ P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → R ∗ Qᵛ v
+                         R ∗ P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → R ∗ Qᵛ v
 
   -- Bind by a context
 
@@ -384,15 +385,15 @@ data  _⊢[_]*_  where
   -- ▶, for partial and total Hoare triples
 
   horᴾ-▶ :  ∀{Qᵛ} →  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
-                         P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ Qᵛ
+                     P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ Qᵛ
 
   horᵀ-▶ :  ∀{Qᵛ} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ Qᵛ →
-                         P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ Qᵛ
+                     P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ Qᵛ
 
   -- Application
 
   hor-◁ :  ∀{Qᵛ} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ] Qᵛ →
-                        P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ] Qᵛ
+                    P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ] Qᵛ
 
   -- Memory read
 

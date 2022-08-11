@@ -33,7 +33,7 @@ private variable
 
 module _
   -- ↪=>>-use without counter increment
-  (↪=>>-use' :  ∀{P˂ Q˂} →  P˂ .! ∗ (P˂ ↪[ 0 ]=>> Q˂)  ⊢[ ∞ ][ 0 ]=>>  Q˂ .!)
+  (↪=>>-use' :  ∀{P˂ Q˂ ι} →  P˂ .! ∗ (P˂ ↪[ 0 ]=>> Q˂)  ⊢[ ι ][ 0 ]=>>  Q˂ .!)
   where abstract
 
   ↪=>>⊥ :  Prop' ∞
@@ -42,7 +42,7 @@ module _
   -- We can turn ○ ↪=>>⊥ into ↪=>>⊥, using ↪=>>-use'
 
   ○⇒-↪=>>⊥ :  ○ ¡ ↪=>>⊥ ⊢[ ∞ ] ↪=>>⊥
-  ○⇒-↪=>>⊥ =  ○⇒↪=>> $ ∗-elimˡ » ⊤∗-intro » ↪=>>-use'
+  ○⇒-↪=>>⊥ =  ○⇒↪=>> λ{ .! → ∗-elimˡ » ⊤∗-intro » ↪=>>-use' }
 
   -- Therefore, by ○-rec, we get ⊥ after super update --- a paradox!
 

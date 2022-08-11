@@ -9,7 +9,7 @@ module Syho.Logic.Judg where
 
 open import Base.Level using (Level; ↑_)
 open import Base.Size using (Size; ∞)
-open import Base.Thunk using (Thunk; !)
+open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Func using (_∘_; _$_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)
@@ -298,9 +298,15 @@ data  _⊢[_]*_  where
   ↪=>>-monoʳ-∗ :  {{Basic R}} →  (R ∗ Q˂ .! ⊢[< ι ] Q'˂ .!) →
                   R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
 
+  -- Modify =>> proof
+
+  ↪=>>-suc :  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]=>> Q˂
+
+  ↪=>>-frameˡ :  ¡ P ↪[ i ]=>> ¡ Q  ⊢[ ι ]  ¡ (R ∗ P) ↪[ i ]=>> ¡ (R ∗ Q)
+
   -- Make ↪=>> out of ○
 
-  ○⇒∀₁↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
+  ○⇒∀₁↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[< ι ][ i ]=>> Q˂˙ x .!) →
               ○ R˂  ⊢[ ι ]  ∀₁ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
 
   -- Use ↪=>>

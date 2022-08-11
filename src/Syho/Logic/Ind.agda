@@ -8,7 +8,7 @@ module Syho.Logic.Ind where
 
 open import Base.Level using (Level; ↓_)
 open import Base.Size using (Size; ∞)
-open import Base.Thunk using (Thunk; !)
+open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Few using (0⊤)
 open import Base.Func using (_∘_; const)
 open import Base.Prod using (_×_; _,_)
@@ -18,17 +18,18 @@ open import Base.List.All using ()
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∧_; _→'_; _∗_; □_;
   ○_; _↪[_]=>>_; Basic; ⊤-Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∀₁-elim;
-  ∧-elimˡ; ∧⊤-intro; →-mono; →-const; ∗-elimʳ; ⊤∗-intro)
-open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _ᵘ»_)
+  ∧-elimˡ; ∧⊤-intro; →-mono; →-const; ∗-comm; ∗-elimʳ; ⊤∗-intro)
+open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _⊢[<_][_]=>>_; _ᵘ»_)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (○-mono-∗; ○-alloc; □○-alloc-mutrec;
-  ○-use; ↪=>>-monoˡ-∗; ↪=>>-monoʳ-∗; ○⇒∀₁↪=>>; ↪=>>-use)
+  ○-use; ↪=>>-monoˡ-∗; ↪=>>-monoʳ-∗; ↪=>>-suc; ↪=>>-frameˡ; ○⇒∀₁↪=>>; ↪=>>-use)
 
 private variable
   ℓ :  Level
   ι :  Size
   i j :  ℕ
+  P Q :  Prop' ∞
   P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
   X :  Set ℓ
   x :  X
@@ -88,15 +89,24 @@ abstract
                 P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
   ↪=>>-monoʳ Q⊢<Q' =  ⊤∗-intro » ↪=>>-monoʳ-∗ λ{ .! → ∗-elimʳ » Q⊢<Q' .! }
 
+  -- Modify =>> proof
+
+  --> ↪=>>-suc :  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]=>> Q˂
+
+  --> ↪=>>-frameˡ :  ¡ P ↪[ i ]=>> ¡ Q  ⊢[ ι ]  ¡ (R ∗ P) ↪[ i ]=>> ¡ (R ∗ Q)
+
+  ↪=>>-frameʳ :  ¡ P ↪[ i ]=>> ¡ Q  ⊢[ ι ]  ¡ (P ∗ R) ↪[ i ]=>> ¡ (Q ∗ R)
+  ↪=>>-frameʳ =  ↪=>>-frameˡ » ↪=>>-monoˡ (¡ ∗-comm) » ↪=>>-monoʳ (¡ ∗-comm)
+
   -- Make ↪=>> out of ○
 
-  -->  ○⇒∀₁↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
+  -->  ○⇒∀₁↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[< ι ][ i ]=>> Q˂˙ x .!) →
   -->              ○ R˂  ⊢[ ι ]  ∀₁ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
 
-  ○⇒∀₀↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[ ι ][ i ]=>> Q˂˙ x .!) →
+  ○⇒∀₀↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[< ι ][ i ]=>> Q˂˙ x .!) →
               ○ R˂  ⊢[ ι ]  ∀₀ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
   ○⇒∀₀↪=>> =  ○⇒∀₁↪=>> ∘ _∘ ↓_
 
-  ○⇒↪=>> :  R˂ .! ∗ P˂ .! ⊢[ ι ][ i ]=>> Q˂ .! →
+  ○⇒↪=>> :  R˂ .! ∗ P˂ .! ⊢[< ι ][ i ]=>> Q˂ .! →
             ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
   ○⇒↪=>> =  (_» ∀₁-elim 0⊤) ∘ ○⇒∀₁↪=>> ∘ const

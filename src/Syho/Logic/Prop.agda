@@ -36,7 +36,6 @@ private variable
   X :  Set ℓ
   P˙ :  X → Prop' ∞
   P Q R S :  Prop' ∞
-  A :  Set ℓ
 
 infixr 5 _→'_ _-∗_ _↪[_]=>>_
 infixr 7 _∗_
@@ -138,10 +137,10 @@ infix 8 [∧]_ [∗]_
 -- Syntax for [∧] / [∗] map / mapi
 
 infix 8 [∧∈]-syntax [∗∈]-syntax [∧ⁱ∈]-syntax [∗ⁱ∈]-syntax
-[∧∈]-syntax [∗∈]-syntax :  (A → Prop' ι) →  List A →  Prop' ι
+[∧∈]-syntax [∗∈]-syntax :  (X → Prop' ι) →  List X →  Prop' ι
 [∧∈]-syntax P˙ as =  [∧] map P˙ as
 [∗∈]-syntax P˙ as =  [∗] map P˙ as
-[∧ⁱ∈]-syntax [∗ⁱ∈]-syntax :  (ℕ × A → Prop' ι) →  List A →  Prop' ι
+[∧ⁱ∈]-syntax [∗ⁱ∈]-syntax :  (ℕ × X → Prop' ι) →  List X →  Prop' ι
 [∧ⁱ∈]-syntax P˙ as =  [∧] mapi (curry P˙) as
 [∗ⁱ∈]-syntax P˙ as =  [∗] mapi (curry P˙) as
 syntax [∧∈]-syntax (λ a → P) as =  [∧ a ∈ as ] P

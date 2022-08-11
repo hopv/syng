@@ -264,7 +264,7 @@ data  _⊢[_]*_  where
 
   -- Monotonicity of ○
 
-  ○-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →  R ∧ ○ P˂ ⊢[ ι ] ○ Q˂
+  ○-mono-∗ :  {{Basic R}} →  R ∗ P˂ .! ⊢[< ι ] Q˂ .! →  R ∗ ○ P˂ ⊢[ ι ] ○ Q˂
 
   -- ○ P˂ is obtained by allocating P˂
 
@@ -287,11 +287,11 @@ data  _⊢[_]*_  where
 
   -- Monotonicity of ↪=>>
 
-  ↪=>>-monoˡ-∧ :  {{Basic R}} →  (R ∧ P'˂ .! ⊢[< ι ] P˂ .!) →
-                  R ∧ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
+  ↪=>>-monoˡ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
+                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
 
-  ↪=>>-monoʳ-∧ :  {{Basic R}} →  (R ∧ Q˂ .! ⊢[< ι ] Q'˂ .!) →
-                  R ∧ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
+  ↪=>>-monoʳ-∗ :  {{Basic R}} →  (R ∗ Q˂ .! ⊢[< ι ] Q'˂ .!) →
+                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
 
   -- Make ↪=>> out of ○
 

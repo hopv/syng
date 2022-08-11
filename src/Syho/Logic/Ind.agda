@@ -18,13 +18,12 @@ open import Base.List.All using ()
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∧_; _→'_; _∗_; □_;
   ○_; _↪[_]=>>_; Basic; ⊤-Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∀₁-elim;
-  ∧-elimˡ; ∧-elimʳ; ∧⊤-intro; ⊤∧-intro; →-mono; →-const; ∗⇒∧; Basic-Pers;
-  Persˡ-∧⇒∗)
+  ∧-elimˡ; ∧⊤-intro; →-mono; →-const; ∗-elimʳ; ⊤∗-intro)
 open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _ᵘ»_)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (○-mono-∧; ○-alloc; □○-alloc-mutrec;
-  ○-use; ↪=>>-monoˡ-∧; ↪=>>-monoʳ-∧; ○⇒∀₁↪=>>; ↪=>>-use)
+open import Syho.Logic.Judg public using (○-mono-∗; ○-alloc; □○-alloc-mutrec;
+  ○-use; ↪=>>-monoˡ-∗; ↪=>>-monoʳ-∗; ○⇒∀₁↪=>>; ↪=>>-use)
 
 private variable
   ℓ :  Level
@@ -45,15 +44,11 @@ abstract
 
   -- Monotonicity
 
-  -->  ○-mono-∧ :  {{Basic R}} →  R ∧ P˂ .! ⊢[< ι ] Q˂ .! →
-  -->              R ∧ ○ P˂ ⊢[ ι ] ○ Q˂
-
-  ○-mono-∗ :  {{Basic R}} →  R ∗ P˂ .! ⊢[< ι ] Q˂ .! →  R ∗ ○ P˂ ⊢[ ι ] ○ Q˂
-  ○-mono-∗ R∗P⊢<Q =  let instance _ = Basic-Pers in
-    ∗⇒∧ » ○-mono-∧ λ{ .! → Persˡ-∧⇒∗ » R∗P⊢<Q .! }
+  -->  ○-mono-∗ :  {{Basic R}} →  R ∗ P˂ .! ⊢[< ι ] Q˂ .! →
+  -->              R ∗ ○ P˂ ⊢[ ι ] ○ Q˂
 
   ○-mono :  P˂ .! ⊢[< ι ] Q˂ .! →  ○ P˂ ⊢[ ι ] ○ Q˂
-  ○-mono P⊢<Q =  ⊤∧-intro » ○-mono-∧ λ{ .! → ∧-elimʳ » P⊢<Q .! }
+  ○-mono P⊢<Q =  ⊤∗-intro » ○-mono-∗ λ{ .! → ∗-elimʳ » P⊢<Q .! }
 
   -- Allocation
 
@@ -76,32 +71,22 @@ abstract
 
   -- Monotonicity of ↪=>>
 
-  -->  ↪=>>-monoˡ-∧ :  {{Basic R}} →  (R ∧ P'˂ .! ⊢[< ι ] P˂ .!) →
-  -->                  R ∧ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
+  -->  ↪=>>-monoˡ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
+  -->                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
 
-  -->  ↪=>>-monoʳ-∧ :  {{Basic R}} →  (R ∧ Q˂ .! ⊢[< ι ] Q'˂ .!) →
-  -->                  R ∧ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
+  -->  ↪=>>-monoʳ-∗ :  {{Basic R}} →  (R ∗ Q˂ .! ⊢[< ι ] Q'˂ .!) →
+  -->                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
 
   -- We don't have ↪=>>-mono rules (which modify both the P and Q sides),
   -- because handling two thunks doesn't work well on the current Agda
 
-  ↪=>>-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
-                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
-  ↪=>>-monoˡ-∗ R∗P'⊢<P =  let instance _ = Basic-Pers in
-    ∗⇒∧ » ↪=>>-monoˡ-∧ λ{ .! → Persˡ-∧⇒∗ » R∗P'⊢<P .! }
-
-  ↪=>>-monoʳ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ] Q'˂ .! →
-                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
-  ↪=>>-monoʳ-∗ R∗Q⊢<Q' =  let instance _ = Basic-Pers in
-    ∗⇒∧ » ↪=>>-monoʳ-∧ λ{ .! → Persˡ-∧⇒∗ » R∗Q⊢<Q' .! }
-
   ↪=>>-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
                 P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
-  ↪=>>-monoˡ P'⊢<P =  ⊤∧-intro » ↪=>>-monoˡ-∧ λ{ .! → ∧-elimʳ » P'⊢<P .! }
+  ↪=>>-monoˡ P'⊢<P =  ⊤∗-intro » ↪=>>-monoˡ-∗ λ{ .! → ∗-elimʳ » P'⊢<P .! }
 
   ↪=>>-monoʳ :  Q˂ .! ⊢[< ι ] Q'˂ .! →
                 P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
-  ↪=>>-monoʳ Q⊢<Q' =  ⊤∧-intro » ↪=>>-monoʳ-∧ λ{ .! → ∧-elimʳ » Q⊢<Q' .! }
+  ↪=>>-monoʳ Q⊢<Q' =  ⊤∗-intro » ↪=>>-monoʳ-∗ λ{ .! → ∗-elimʳ » Q⊢<Q' .! }
 
   -- Make ↪=>> out of ○
 

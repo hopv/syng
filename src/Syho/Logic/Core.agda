@@ -742,16 +742,6 @@ abstract
     □-Pers :  Pers (□ P)
     □-Pers .Pers-⇒□ =  □-dup
 
-  IsBasic-Pers :  IsBasic P →  Pers P
-  IsBasic-Pers (∀₁-IsBasic IsBaP˙) =  ∀₁-Pers $ IsBasic-Pers ∘ IsBaP˙
-  IsBasic-Pers (∃₁-IsBasic IsBaP˙) =  ∃₁-Pers $ IsBasic-Pers ∘ IsBaP˙
-  IsBasic-Pers (∗-IsBasic IsBaP IsBaQ) =
-    ∗-Pers {{IsBasic-Pers IsBaP}} {{IsBasic-Pers IsBaQ}}
-  IsBasic-Pers (□-IsBasic _) =  it
-
-  Basic-Pers :  {{Basic P}} →  Pers P
-  Basic-Pers =  IsBasic-Pers isBasic
-
   ------------------------------------------------------------------------------
   -- Use Pers P
 

@@ -17,7 +17,7 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; map)
 open import Base.List.Nat using (mapi)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; _ₒ_; AnyVal)
+open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; AnyVal)
 
 --------------------------------------------------------------------------------
 -- Prop' :  Proposition
@@ -40,8 +40,9 @@ private variable
   θ :  Addr
   q⁺ :  ℚ⁺
   av :  AnyVal
+  T :  Type
 
-infixr 5 _→'_ _-∗_ _↪[_]=>>_
+infixr 5 _→'_ _-∗_ _↪[_]=>>_ _↪⟨_⟩ᴾ_
 infixr 7 _∗_
 infix 8 |=>_ □_ ○_
 infix 9 _↦⟨_⟩_
@@ -66,7 +67,9 @@ data  Prop' ι  where
   ○_ :  Prop˂ ι →  Prop' ι
 
   -- ↪[ ]=>> :  Super-update precursor
+  -- ↪⟨ ⟩ᴾ :  Partial-Hoare-triple precursor
   _↪[_]=>>_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
+  _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr ∞ T →  (Val T → Prop˂ ∞) →  Prop' ι
 
   -- ↦⟨ ⟩ :  Points-to token
   -- Free:  Freeing token

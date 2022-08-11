@@ -23,8 +23,8 @@ open import Base.List.All using (All)
 open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
   ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∧]_; [∧∈]-syntax; _↪[_]=>>_;
-  ○_; _↦⟨_⟩_; _↦_; _↦ˡ_; Free; Basic)
-open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ∇_; Val; V⇒E;
+  ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_; _↦_; _↦ˡ_; Free; Basic)
+open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; V⇒E;
   AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
@@ -125,6 +125,8 @@ private variable
   wκ :  WpKind
   vk :  Val/Ktxred T
   Qᵛ Rᵛ :  Val T → Prop' ∞
+  Q˂ᵛ Q'˂ᵛ :  Val T → Prop˂ ∞
+  Q˂ᵛ˙ :  X → Val T → Prop˂ ∞
   e :  Expr ∞ U
   e˂ :  Expr˂ ∞ U
   e˙ :  X → Expr ∞ U
@@ -312,6 +314,35 @@ data  _⊢[_]*_  where
   -- Use ↪=>>, with counter increment
 
   ↪=>>-use :  P˂ .! ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ][ suc i ]=>>  Q˂ .!
+
+  ------------------------------------------------------------------------------
+  -- On ↪⟨ ⟩ᴾ
+
+  -- Monotonicity of ↪⟨ ⟩ᴾ
+
+  ↪⟨⟩ᴾ-monoˡ-∗ :  ∀{Q˂ᵛ} →
+    {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
+    R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+
+  ↪⟨⟩ᴾ-monoʳ-∗ :  ∀{Q˂ᵛ : Val T → _} →
+    {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+    R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
+
+  -- Modify ⟨ ⟩ᴾ proof
+
+  ↪⟨⟩ᴾ-frameˡ :  ∀{Qᵛ : _ → Prop' ∞} →
+    ¡ P ↪⟨ e ⟩ᴾ (λ v → ¡ Qᵛ v)  ⊢[ ι ]  ¡ (R ∗ P) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Qᵛ v)
+
+  -- Make ↪⟨ ⟩ᴾ out of ○
+
+  ○⇒∀₁↪⟨⟩ᴾ :  ∀{Q˂ᵛ˙ : _ → _} →
+    (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[< ι ]⟨ e ⟩ᴾ λ v → Q˂ᵛ˙ x v .!) →
+    ○ R˂  ⊢[ ι ]  ∀₁ x , (P˂˙ x ↪⟨ e ⟩ᴾ Q˂ᵛ˙ x)
+
+  -- Use ↪⟨⟩ᴾ, with ▶ on the expression
+
+  ↪⟨⟩ᴾ-use :  ∀{Q˂ᵛ} →
+    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]⟨ ▶ ¡ e ⟩ᴾ  λ v → Q˂ᵛ v .!
 
   ------------------------------------------------------------------------------
   -- On Hoare triple

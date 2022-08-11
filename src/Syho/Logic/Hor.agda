@@ -13,12 +13,12 @@ open import Base.Prod using (_,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
-open import Syho.Logic.Supd using (_⊢[_]=>>_; ⇒=>>; =>>-refl)
+open import Syho.Logic.Supd using (_⊢[_][_]=>>_; ⇒=>>; =>>-refl)
 open import Syho.Lang.Expr using (Type; Expr; Val; let˙)
 open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _ᴷ|ᴿ_; Val/Ktxred)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (WpKind; par; tot; Wp'; _⊢[_]⁺⟨_⟩[_]_;
+open import Syho.Logic.Judg public using (WpKind; par; tot; _⊢[_]⁺⟨_⟩[_]_;
   _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_;
   hor-ᵀ⇒ᴾ; _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ; hor-bind; hor-valᵘ; hor-ndᵘ; horᴾ-▶;
   horᵀ-▶; hor-◁; hor-★; hor-←; hor-alloc; hor-free)
@@ -72,16 +72,16 @@ abstract
 
   -- Compose
 
-  -->  _ᵘ»ʰ_ :  P ⊢[ ι ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
+  -->  _ᵘ»ʰ_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
   -->           P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
-  -->  _ʰ»ᵘ_ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ]=>> Rᵛ v) →
+  -->  _ʰ»ᵘ_ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ][ i ]=>> Rᵛ v) →
   -->           P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
   _ʰ»_ :  ∀{Qᵛ : Val T → _} →
     P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ] Rᵛ v) →
     P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
-  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒=>> $ ∀vQ⊢R _
+  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒=>> {i = 0} $ ∀vQ⊢R _
 
   -- Frame
 
@@ -99,7 +99,7 @@ abstract
 
   hor-nd :  (∀ x →  P ⊢[ ι ] Qᵛ (↑ x)) →
             P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ] Qᵛ
-  hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⇒=>> $ ∀xP⊢Q _
+  hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⇒=>> {i = 0} $ ∀xP⊢Q _
 
   -- Let binding
 
@@ -114,4 +114,4 @@ abstract
   -->  hor-valᵘ :  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
 
   hor-val :  ∀{v : Val T} →  P ⊢[ ι ] Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
-  hor-val P⊢Q =  hor-valᵘ $ ⇒=>> P⊢Q
+  hor-val P⊢Q =  hor-valᵘ $ ⇒=>> {i = 0} P⊢Q

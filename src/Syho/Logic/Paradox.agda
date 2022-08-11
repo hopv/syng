@@ -36,6 +36,8 @@ module _
   (↪=>>-use' :  ∀{P˂ Q˂ ι} →  P˂ .! ∗ (P˂ ↪[ 0 ]=>> Q˂)  ⊢[ ι ][ 0 ]=>>  Q˂ .!)
   where abstract
 
+  -- Precursor that gets ⊥' after super update
+
   ↪=>>⊥ :  Prop' ∞
   ↪=>>⊥ =  ¡ ⊤' ↪[ 0 ]=>> ¡ ⊥'
 

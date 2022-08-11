@@ -36,6 +36,10 @@ private variable
   X :  Set ℓ
   P˙ :  X → Prop' ∞
   P Q R S :  Prop' ∞
+  n :  ℕ
+  θ :  Addr
+  q⁺ :  ℚ⁺
+  av :  AnyVal
 
 infixr 5 _→'_ _-∗_ _↪[_]=>>_
 infixr 7 _∗_
@@ -166,34 +170,33 @@ _↦ˡ_ :  Addr →  List AnyVal →  Prop' ι
 θ ↦ˡ avs =  θ ↦ˡ⟨ 1ᴿ⁺ ⟩ avs
 
 --------------------------------------------------------------------------------
--- Basic Syho proposition
+-- Basic P :  P doesn't contain impredicate connectives
 
--- IsBasic P :  P consists only of ∀₁, ∃₁, ∗ and □
-data  IsBasic :  Prop' ∞ →  Set₂  where
-  ∀₁-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∀₁˙ P˙)
-  ∃₁-IsBasic :  (∀ x → IsBasic (P˙ x)) →  IsBasic (∃₁˙ P˙)
-  ∗-IsBasic :  IsBasic P →  IsBasic Q →  IsBasic (P ∗ Q)
-  □-IsBasic :  IsBasic P →  IsBasic (□ P)
+data  Basic :  Prop' ∞ →  Set₂  where
 
--- Basic :  Type class wrapping IsBasic
-record  Basic (P : Prop' ∞) :  Set₂  where
-  field  isBasic :  IsBasic P
-open Basic {{...}} public
-
-abstract
-
-  -- For ∀₁/∃₁
   -- They are not instances, because unfortunately Agda can't search a
   -- universally quantified instance (∀ x → ...)
 
   ∀₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₁˙ P˙)
-  ∀₁-Basic ∀Basic .isBasic =  ∀₁-IsBasic $ λ x → ∀Basic x .isBasic
+  ∃₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₁˙ P˙)
+
+  -- Instance data constructors
+  instance
+
+    →-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P →' Q)
+    ∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∗ Q)
+    -∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P -∗ Q)
+    |=>-Basic :  {{Basic P}} →  Basic (|=> P)
+    □-Basic :  {{Basic P}} →  Basic (□ P)
+    ↦⟨⟩-Basic :  Basic (θ ↦⟨ q⁺ ⟩ av)
+    Free-Basic :  Basic (Free n θ)
+
+abstract
+
+  -- For ∀/∃₀
 
   ∀₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₀˙ P˙)
   ∀₀-Basic =  ∀₁-Basic ∘ _∘ ↓_
-
-  ∃₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₁˙ P˙)
-  ∃₁-Basic ∀Basic .isBasic =  ∃₁-IsBasic $ λ x → ∀Basic x .isBasic
 
   ∃₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₀˙ P˙)
   ∃₀-Basic =  ∃₁-Basic ∘ _∘ ↓_
@@ -214,20 +217,7 @@ abstract
     ⊥-Basic :  Basic ⊥'
     ⊥-Basic =  ∃₁-Basic absurd
 
-    -- For ∗
-
-    ∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∗ Q)
-    ∗-Basic .isBasic =  ∗-IsBasic isBasic isBasic
-
     -- For ⌜ ⌝
 
     ⌜⌝₁-Basic :  Basic ⌜ X₁ ⌝₁
     ⌜⌝₁-Basic =  ∃₁-Basic $ λ _ → ⊤-Basic
-
-    ⌜⌝₀-Basic :  Basic ⌜ X₀ ⌝₀
-    ⌜⌝₀-Basic =  ⌜⌝₁-Basic
-
-    -- For ⌜ ⌝
-
-    □-Basic :  {{Basic P}} →  Basic (□ P)
-    □-Basic .isBasic =  □-IsBasic isBasic

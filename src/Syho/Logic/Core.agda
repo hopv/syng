@@ -17,8 +17,7 @@ open import Base.List using (List; []; _∷_; _++_)
 open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; ∀₀˙; ∃₀˙; ∀₁∈-syntax;
   ∃₁∈-syntax; ∀₁-syntax;∃₁-syntax; ∀₀∈-syntax; ∃₀∈-syntax; ∀₀-syntax; ∃₀-syntax;
-  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝₁; ⌜_⌝₀; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_;
-  IsBasic; ∀₁-IsBasic; ∃₁-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
+  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝₁; ⌜_⌝₀; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (

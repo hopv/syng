@@ -62,15 +62,15 @@ data  Prop' ι  where
   -- □ :  Persistence modality
   |=>_ □_ :  Prop' ι →  Prop' ι
 
-  -- ↪[_]=>> : Super-update token
-  _↪[_]=>>_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
-
   -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι
 
-  -- Points-to token
+  -- ↪[ ]=>> :  Super-update precursor
+  _↪[_]=>>_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
+
+  -- ↦⟨ ⟩ :  Points-to token
+  -- Free:  Freeing token
   _↦⟨_⟩_ :  Addr →  ℚ⁺ →  AnyVal →  Prop' ι
-  -- Freeing token
   Free :  ℕ →  Addr →  Prop' ι
 
 --------------------------------------------------------------------------------

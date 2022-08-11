@@ -13,7 +13,20 @@ open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-elimˡ; →-intro; ∗-elimˡ;
   ⊤∗-intro; □-mono; □-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]=>>_; _ᵘ»ᵘ_; _ᵘ»_)
-open import Syho.Logic.Ind using (□○-alloc-rec; ○⇒↪=>>; ○-use)
+open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○⇒↪=>>; ○-use)
+
+private variable
+  P :  Prop' ∞
+
+--------------------------------------------------------------------------------
+-- Utility
+
+-- If we can turn ○ P into P, then we get P after a super update,
+-- thanks to □○-alloc-rec
+
+○-rec :  ○ ¡ P ⊢[ ∞ ] P →  ⊤' ⊢[ ∞ ][ 0 ]=>> P
+○-rec {P} ○P⊢P =  →-intro (∧-elimˡ » □-mono $ ○-mono (¡ □-elim) » ○P⊢P) »
+    □○-alloc-rec {P˂ = ¡ □ P} ᵘ»ᵘ □-elim » ○-use ᵘ» □-elim
 
 --------------------------------------------------------------------------------
 -- If we can use ↪=>> without counter increment, then we get a paradox
@@ -26,18 +39,12 @@ module _
   ↪=>>⊥ :  Prop' ∞
   ↪=>>⊥ =  ¡ ⊤' ↪[ 0 ]=>> ¡ ⊥'
 
-  -- We can turn ○ □ ↪=>>⊥ into ↪=>>⊥, using ↪=>>-use'
+  -- We can turn ○ ↪=>>⊥ into ↪=>>⊥, using ↪=>>-use'
 
-  ○□↪=>>⊥⇒↪=>>⊥ :  ○ ¡ □ ↪=>>⊥ ⊢[ ∞ ] ↪=>>⊥
-  ○□↪=>>⊥⇒↪=>>⊥ =  ○⇒↪=>> $ ∗-elimˡ » □-elim » ⊤∗-intro » ↪=>>-use'
+  ○⇒-↪=>>⊥ :  ○ ¡ ↪=>>⊥ ⊢[ ∞ ] ↪=>>⊥
+  ○⇒-↪=>>⊥ =  ○⇒↪=>> $ ∗-elimˡ » ⊤∗-intro » ↪=>>-use'
 
-  -- Thus we can allocate ↪=>>⊥, using □○-alloc-rec
-
-  ↪=>>⊥-alloc :  ⊤' ⊢[ ∞ ][ 0 ]=>> ↪=>>⊥
-  ↪=>>⊥-alloc =  →-intro (∧-elimˡ » □-mono ○□↪=>>⊥⇒↪=>>⊥) »
-    □○-alloc-rec ᵘ»ᵘ □-elim » ○-use ᵘ» □-elim
-
-  -- Finally, we get ⊥ after super update --- a paradox!
+  -- Therefore, by ○-rec, we get ⊥ after super update --- a paradox!
 
   =>>⊥ :  ⊤' ⊢[ ∞ ][ 0 ]=>> ⊥'
-  =>>⊥ =  ↪=>>⊥-alloc ᵘ»ᵘ ⊤∗-intro » ↪=>>-use'
+  =>>⊥ =  ○-rec ○⇒-↪=>>⊥ ᵘ»ᵘ ⊤∗-intro » ↪=>>-use'

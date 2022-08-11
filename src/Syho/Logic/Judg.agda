@@ -60,21 +60,25 @@ infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]=>>_ _⊢[_]⁺⟨_⟩[_]_ _⊢[_
   _⊢[_]⁺⟨_⟩ᵀ_ _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_
 
 -- Declaring _⊢[_]*_
+
 data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set₂
 
--- ⊢[ ] : Pure sequent
+-- ⊢[ ] :  Pure sequent
+
 _⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 
--- ⊢[< ] : Pure sequent under ¡
+-- ⊢[< ] :  Pure sequent under thunk
+
 _⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ][ ]=>> : Super update
+
 _⊢[_][_]=>>_ :  Prop' ∞ →  Size →  ℕ →  Prop' ∞ →  Set₂
 P ⊢[ ι ][ i ]=>> Q =  P ⊢[ ι ]* [ i ]=>> Q
 
--- ⊢[ ]⁺⟨ ⟩[ ] : Hoare-triple over Val/Ktxred
+-- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Hoare triple over Val/Ktxred
 
 _⊢[_]⁺⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₂
@@ -85,7 +89,7 @@ _⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ_ :
 P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Qᵛ =  P ⊢[ ι ]⁺⟨ vk ⟩[ par ] Qᵛ
 P ⊢[ ι ]⁺⟨ vk ⟩ᵀ Qᵛ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot ] Qᵛ
 
--- ⊢[ ]⟨ ⟩[ ] : Hoare-triple over Expr
+-- ⊢[ ]⟨ ⟩[ ] etc. :  Hoare triple over Expr
 
 _⊢[_]⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Expr ∞ T →  WpKind →  (Val T → Prop' ∞) →  Set₂

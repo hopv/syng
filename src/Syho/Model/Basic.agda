@@ -21,7 +21,7 @@ private variable
   P :  Prop' ∞
 
 --------------------------------------------------------------------------------
--- ⸨ ⸩ᴮ[ ] : Interpreting IsBasic propositions
+-- ⸨ ⸩ᴮ[ ] :  Interpreting IsBasic propositions
 
 ⸨_⸩ᴮ[_] :  (P : Prop' ∞) →  IsBasic P →  Propᵒ
 ⸨ ∀₁˙ P˙ ⸩ᴮ[ ∀₁-IsBasic IsBaP˙ ] =  ∀₁ᵒ x , ⸨ P˙ x ⸩ᴮ[ IsBaP˙ x ]

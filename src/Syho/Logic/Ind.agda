@@ -29,12 +29,11 @@ private variable
   ℓ :  Level
   ι :  Size
   i j :  ℕ
-  P Q :  Prop' ∞
+  P Q R :  Prop' ∞
   P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
   X :  Set ℓ
   x :  X
   P˂˙ Q˂˙ :  X → Prop˂ ∞
-  R :  Prop' ∞
 
 abstract
 

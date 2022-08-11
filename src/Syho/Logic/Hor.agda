@@ -66,7 +66,7 @@ abstract
   -->      θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ] Qᵛ) →
   -->    P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wκ ] Qᵛ
 
-  -->  hor-free :  ∀{Qᵛ : _} →
+  -->  hor-free :
   -->    len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
   -->    θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ wκ ] Qᵛ
 
@@ -88,7 +88,7 @@ abstract
   -->  hor-frameˡ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
   -->                R ∗ P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → R ∗ Qᵛ v
 
-  hor-frameʳ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
+  hor-frameʳ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
                              P ∗ R ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → Qᵛ v ∗ R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
@@ -103,7 +103,7 @@ abstract
 
   -- Let binding
 
-  hor-let :  ∀{Rᵛ : _} →
+  hor-let :  ∀{Rᵛ} →
     P ⊢[ ι ]⟨ e₀ ⟩[ wκ ] Qᵛ →  (∀ x → Qᵛ (↑ x) ⊢[ ι ]⟨ e˙ x ⟩[ wκ ] Rᵛ) →
     P ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ wκ ] Rᵛ
   hor-let P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =

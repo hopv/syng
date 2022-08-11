@@ -318,11 +318,11 @@ data  _⊢[_]*_  where
 
   -- Weaken a Hoare triple from total to partial
 
-  hor-ᵀ⇒ᴾ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Qᵛ
+  hor-ᵀ⇒ᴾ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Qᵛ
 
   -- Compose with a super update
 
-  _ᵘ»ʰ_ :  ∀{Rᵛ : _} →  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
+  _ᵘ»ʰ_ :  ∀{Rᵛ} →  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
                         P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
   _ʰ»ᵘ_ :  ∀{Qᵛ : Val T → _} →
@@ -331,12 +331,12 @@ data  _⊢[_]*_  where
 
   -- Frame
 
-  hor-frameˡ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
+  hor-frameˡ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
                              R ∗ P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → R ∗ Qᵛ v
 
   -- Bind by a context
 
-  hor-bind :  ∀{Qᵛ : _} {Rᵛ : _} →
+  hor-bind :  ∀{Qᵛ Rᵛ} →
     P ⊢[ ι ]⟨ e ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Rᵛ) →
     P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wκ ] Rᵛ
 
@@ -352,37 +352,37 @@ data  _⊢[_]*_  where
 
   -- ▶, for partial and total Hoare triples
 
-  horᴾ-▶ :  ∀{Qᵛ : _} →  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
+  horᴾ-▶ :  ∀{Qᵛ} →  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
                          P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ Qᵛ
 
-  horᵀ-▶ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ Qᵛ →
+  horᵀ-▶ :  ∀{Qᵛ} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ Qᵛ →
                          P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ Qᵛ
 
   -- Application
 
-  hor-◁ :  ∀{Qᵛ : _} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ] Qᵛ →
+  hor-◁ :  ∀{Qᵛ} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ] Qᵛ →
                         P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ] Qᵛ
 
   -- Memory read
 
-  hor-★ :  ∀{Qᵛ : _} →
+  hor-★ :  ∀{Qᵛ} →
     θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
     θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
 
   -- Memory write
 
-  hor-← :  ∀{Qᵛ : _} →
+  hor-← :  ∀{Qᵛ} →
     θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
     θ ↦ av ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wκ ] Qᵛ
 
   -- Memory allocation
 
-  hor-alloc :  ∀{Qᵛ : _} →
+  hor-alloc :  ∀{Qᵛ} →
     (∀ θ →  θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ] Qᵛ) →
     P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wκ ] Qᵛ
 
   -- Memory freeing
 
-  hor-free :  ∀{Qᵛ : _} →
+  hor-free :  ∀{Qᵛ} →
     len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
     θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ wκ ] Qᵛ

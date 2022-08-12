@@ -120,13 +120,11 @@ private variable
   P P' Q R :  Prop' ∞
   P˙ Q˙ :  X → Prop' ∞
   P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
-  P˂˙ Q˂˙ :  X → Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
   wκ :  WpKind
   vk :  Val/Ktxred T
   Qᵛ Rᵛ :  Val T → Prop' ∞
   Q˂ᵛ Q'˂ᵛ :  Val T → Prop˂ ∞
-  Q˂ᵛ˙ :  X → Val T → Prop˂ ∞
   e :  Expr ∞ U
   e˂ :  Expr˂ ∞ U
   e˙ :  X → Expr ∞ U
@@ -309,8 +307,7 @@ data  _⊢[_]*_  where
 
   -- Make ↪=>> out of ○
 
-  ○⇒∀₁↪=>> :  (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[< ι ][ i ]=>> Q˂˙ x .!) →
-              ○ R˂  ⊢[ ι ]  ∀₁ x , (P˂˙ x ↪[ i ]=>> Q˂˙ x)
+  ○⇒↪=>> :  R˂ .! ∗ P˂ .! ⊢[< ι ][ i ]=>> Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
 
   -- Use ↪=>>, with counter increment
 
@@ -336,9 +333,8 @@ data  _⊢[_]*_  where
 
   -- Make ↪⟨ ⟩ᴾ out of ○
 
-  ○⇒∀₁↪⟨⟩ᴾ :  ∀{Q˂ᵛ˙ : _ → _} →
-    (∀ x →  R˂ .! ∗ P˂˙ x .! ⊢[< ι ]⟨ e ⟩ᴾ λ v → Q˂ᵛ˙ x v .!) →
-    ○ R˂  ⊢[ ι ]  ∀₁ x , (P˂˙ x ↪⟨ e ⟩ᴾ Q˂ᵛ˙ x)
+  ○⇒↪⟨⟩ᴾ :  ∀{Q˂ᵛ} →
+    R˂ .! ∗ P˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂ᵛ v .!) →  ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
   -- Use ↪⟨⟩ᴾ, with ▶ on the expression
 

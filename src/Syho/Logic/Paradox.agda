@@ -6,24 +6,30 @@
 
 module Syho.Logic.Paradox where
 
-open import Base.Size using (∞)
+open import Base.Size using (Size; ∞)
 open import Base.Thunk using (¡_; !)
 open import Base.Func using (_$_)
 open import Base.Few using (0⊤)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (∇_)
-open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]=>>_;
+open import Syho.Lang.Expr using (Type; Expr; Val)
+open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]=>>_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-elimˡ; →-intro; ∗-elimˡ;
-  ⊤∗-intro; □-mono; □-elim)
-open import Syho.Logic.Supd using (_⊢[_][_]=>>_; _ᵘ»ᵘ_; _ᵘ»_)
+  ∗⊤-intro; □-mono; □-elim)
+open import Syho.Logic.Supd using (_⊢[_][_]=>>_; _ᵘ»ᵘ_; _ᵘ»_; =>>-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _ᵘ»ʰ_)
 open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪=>>; ○⇒↪⟨⟩ᴾ;
   ○⇒↪⟨⟩ᵀ)
 
 private variable
-  P :  Prop' ∞
+  ι :  Size
   i :  ℕ
+  T :  Type
+  e :  Expr ∞ T
+  P Q :  Prop' ∞
+  P˂ Q˂ :  Prop˂ ∞
+  Qᵛ :  Val T → Prop' ∞
+  Q˂ᵛ :  Val T → Prop˂ ∞
 
 --------------------------------------------------------------------------------
 -- Utility
@@ -31,7 +37,7 @@ private variable
 -- If we can turn ○ P into P, then we get P after a super update,
 -- thanks to □○-alloc-rec
 
-○-rec :  ○ ¡ P ⊢[ ∞ ] P →  ⊤' ⊢[ ∞ ][ 0 ]=>> P
+○-rec :  ○ ¡ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]=>> P
 ○-rec {P} ○P⊢P =  →-intro (∧-elimˡ » □-mono $ ○-mono (¡ □-elim) » ○P⊢P) »
     □○-alloc-rec {P˂ = ¡ □ P} ᵘ»ᵘ □-elim » ○-use ᵘ» □-elim
 
@@ -40,68 +46,58 @@ private variable
 
 module _
   -- ↪=>>-use without counter increment
-  (↪=>>-use' :  ∀{P˂ Q˂ ι} →  P˂ .! ∗ (P˂ ↪[ 0 ]=>> Q˂)  ⊢[ ι ][ 0 ]=>>  Q˂ .!)
+  (↪=>>-use' :  ∀{P˂ Q˂ ι i} →
+    P˂ .! ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ][ i ]=>>  Q˂ .!)
   where abstract
 
-  -- Precursor that gets ⊥' after super update
+  -- We can strip ○ from ↪=>>, using ↪=>>-use'
 
-  ↪=>>⊥ :  Prop' ∞
-  ↪=>>⊥ =  ¡ ⊤' ↪[ 0 ]=>> ¡ ⊥'
+  ○⇒-↪=>> :  ○ ¡ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
+  ○⇒-↪=>> =  ○⇒↪=>> λ{ .! → ↪=>>-use' }
 
-  -- We can turn ○ ↪=>>⊥ into ↪=>>⊥, using ↪=>>-use'
+  -- Therefore, by ○-rec, we can do any super update --- a paradox!
 
-  ○⇒-↪=>>⊥ :  ○ ¡ ↪=>>⊥ ⊢[ ∞ ] ↪=>>⊥
-  ○⇒-↪=>>⊥ =  ○⇒↪=>> λ{ .! → ∗-elimˡ » ⊤∗-intro » ↪=>>-use' }
-
-  -- Therefore, by ○-rec, we get ⊥ after super update --- a paradox!
-
-  =>>⊥ :  ⊤' ⊢[ ∞ ][ 0 ]=>> ⊥'
-  =>>⊥ =  ○-rec ○⇒-↪=>>⊥ ᵘ»ᵘ ⊤∗-intro » ↪=>>-use'
+  =>> :  P ⊢[ ι ][ i ]=>> Q
+  =>> {P} {Q = Q} =  ∗⊤-intro »
+    =>>-frameˡ (○-rec ○⇒-↪=>>) ᵘ»ᵘ ↪=>>-use' {¡ P} {¡ Q}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᴾ without ▶, then we get a paradox
 
 module _
   -- ↪⟨⟩ᴾ-use without ▶
-  (↪⟨⟩ᴾ-use' :  ∀{e P˂ Q˂ᵛ ι} →
+  (↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} {P˂ Q˂ᵛ ι} →
     P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᴾ  λ v → Q˂ᵛ v .!)
   where abstract
 
-  -- Precursor that gets ⊥' after executing just a literal, ∇ 0⊤
+  -- We can strip ○ from ↪⟨⟩ᴾ, using ↪⟨⟩ᴾ-use'
 
-  ↪⟨⟩ᴾ⊥ :  Prop' ∞
-  ↪⟨⟩ᴾ⊥ =  ¡ ⊤' ↪⟨ ∇ 0⊤ ⟩ᴾ λ _ → ¡ ⊥'
+  ○⇒-↪⟨⟩ᴾ :  ∀{e : Expr ∞ T} →  ○ ¡ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+  ○⇒-↪⟨⟩ᴾ =  ○⇒↪⟨⟩ᴾ λ{ .! → ↪⟨⟩ᴾ-use' }
 
-  -- We can turn ○ ↪⟨⟩ᴾ⊥ into ↪⟨⟩ᴾ⊥, using ↪⟨⟩ᴾ-use'
+  -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
 
-  ○⇒-↪⟨⟩ᴾ⊥ :  ○ ¡ ↪⟨⟩ᴾ⊥ ⊢[ ∞ ] ↪⟨⟩ᴾ⊥
-  ○⇒-↪⟨⟩ᴾ⊥ =  ○⇒↪⟨⟩ᴾ λ{ .! → ∗-elimˡ » ⊤∗-intro » ↪⟨⟩ᴾ-use' }
-
-  -- Therefore, by ○-rec, we get ⊥ after executing a literal --- a paradox!
-
-  ⟨⟩ᴾ⊥ :  ⊤' ⊢[ ∞ ]⟨ ∇ 0⊤ ⟩ᴾ λ _ → ⊥'
-  ⟨⟩ᴾ⊥ =  ○-rec ○⇒-↪⟨⟩ᴾ⊥ ᵘ»ʰ ⊤∗-intro » ↪⟨⟩ᴾ-use'
+  ⟨⟩ᴾ :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ
+  ⟨⟩ᴾ {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
+    =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ) ᵘ»ʰ ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᵀ without counter increment, then we get a paradox
 
 module _
   -- ↪⟨⟩ᵀ-use without counter increment
-  (↪⟨⟩ᵀ-use' :  ∀{e P˂ Q˂ᵛ ι} →
+  (↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} {P˂ Q˂ᵛ i ι} →
     P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  λ v → Q˂ᵛ v .!)
   where abstract
 
-  -- Precursor that gets ⊥' after executing just a literal, ∇ 0⊤
+  -- We can strip ○ from ↪⟨⟩ᵀ, using ↪⟨⟩ᵀ-use'
 
-  ↪⟨⟩ᵀ⊥ :  Prop' ∞
-  ↪⟨⟩ᵀ⊥ =  ¡ ⊤' ↪⟨ ∇ 0⊤ ⟩ᵀ[ i ] λ _ → ¡ ⊥'
+  ○⇒-↪⟨⟩ᵀ :  ∀{e : Expr ∞ T} →
+    ○ ¡ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+  ○⇒-↪⟨⟩ᵀ =  ○⇒↪⟨⟩ᵀ λ{ .! → ↪⟨⟩ᵀ-use' }
 
-  -- We can turn ○ ↪⟨⟩ᵀ⊥ into ↪⟨⟩ᵀ⊥, using ↪⟨⟩ᵀ-use'
+  -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
-  ○⇒-↪⟨⟩ᵀ⊥ :  ○ ¡ ↪⟨⟩ᵀ⊥ ⊢[ ∞ ] ↪⟨⟩ᵀ⊥
-  ○⇒-↪⟨⟩ᵀ⊥ =  ○⇒↪⟨⟩ᵀ λ{ .! → ∗-elimˡ » ⊤∗-intro » ↪⟨⟩ᵀ-use' }
-
-  -- Therefore, by ○-rec, we get ⊥ after executing a literal --- a paradox!
-
-  ⟨⟩ᵀ⊥ :  ⊤' ⊢[ ∞ ]⟨ ∇ 0⊤ ⟩ᵀ[ i ] λ _ → ⊥'
-  ⟨⟩ᵀ⊥ =  ○-rec ○⇒-↪⟨⟩ᵀ⊥ ᵘ»ʰ ⊤∗-intro » ↪⟨⟩ᵀ-use'
+  ⟨⟩ᵀ :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Qᵛ
+  ⟨⟩ᵀ {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
+    =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ) ᵘ»ʰ ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}

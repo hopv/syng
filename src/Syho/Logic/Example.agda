@@ -16,7 +16,7 @@ open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_)
 open import Syho.Logic.Core using (_»_; ∧-elimˡ; ⌜⌝₀-intro; →-intro)
 open import Syho.Logic.Supd using (_⊢[_][_]=>>_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ_; hor-val; horᴾ-▶;
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; horᴾ-▶;
   hor-◁)
 
 open import Syho.Lang.Example using (loop; plus◁3,4)
@@ -44,5 +44,5 @@ abstract
 
   -- Execute plus ◁ ∇ (3 , 4)
 
-  plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ λ (↑ n) → ⌜ n ≡ 7 ⌝₀
+  plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ[ 0 ] λ (↑ n) → ⌜ n ≡ 7 ⌝₀
   plus◁3,4-7 =  hor-◁ $ hor-val $ ⌜⌝₀-intro refl

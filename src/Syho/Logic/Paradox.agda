@@ -10,17 +10,20 @@ open import Base.Size using (∞)
 open import Base.Thunk using (¡_; !)
 open import Base.Func using (_$_)
 open import Base.Few using (0⊤)
+open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (∇_)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]=>>_;
-  _↪⟨_⟩ᴾ_)
+  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-elimˡ; →-intro; ∗-elimˡ;
   ⊤∗-intro; □-mono; □-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]=>>_; _ᵘ»ᵘ_; _ᵘ»_)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _ᵘ»ʰ_)
-open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪=>>; ○⇒↪⟨⟩ᴾ)
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _ᵘ»ʰ_)
+open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪=>>; ○⇒↪⟨⟩ᴾ;
+  ○⇒↪⟨⟩ᵀ)
 
 private variable
   P :  Prop' ∞
+  i :  ℕ
 
 --------------------------------------------------------------------------------
 -- Utility
@@ -78,3 +81,27 @@ module _
 
   ⟨⟩ᴾ⊥ :  ⊤' ⊢[ ∞ ]⟨ ∇ 0⊤ ⟩ᴾ λ _ → ⊥'
   ⟨⟩ᴾ⊥ =  ○-rec ○⇒-↪⟨⟩ᴾ⊥ ᵘ»ʰ ⊤∗-intro » ↪⟨⟩ᴾ-use'
+
+--------------------------------------------------------------------------------
+-- If we can use ↪⟨ ⟩ᵀ without counter increment, then we get a paradox
+
+module _
+  -- ↪⟨⟩ᵀ-use without counter increment
+  (↪⟨⟩ᵀ-use' :  ∀{e P˂ Q˂ᵛ ι} →
+    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  λ v → Q˂ᵛ v .!)
+  where abstract
+
+  -- Precursor that gets ⊥' after executing just a literal, ∇ 0⊤
+
+  ↪⟨⟩ᵀ⊥ :  Prop' ∞
+  ↪⟨⟩ᵀ⊥ =  ¡ ⊤' ↪⟨ ∇ 0⊤ ⟩ᵀ[ i ] λ _ → ¡ ⊥'
+
+  -- We can turn ○ ↪⟨⟩ᵀ⊥ into ↪⟨⟩ᵀ⊥, using ↪⟨⟩ᵀ-use'
+
+  ○⇒-↪⟨⟩ᵀ⊥ :  ○ ¡ ↪⟨⟩ᵀ⊥ ⊢[ ∞ ] ↪⟨⟩ᵀ⊥
+  ○⇒-↪⟨⟩ᵀ⊥ =  ○⇒↪⟨⟩ᵀ λ{ .! → ∗-elimˡ » ⊤∗-intro » ↪⟨⟩ᵀ-use' }
+
+  -- Therefore, by ○-rec, we get ⊥ after executing a literal --- a paradox!
+
+  ⟨⟩ᵀ⊥ :  ⊤' ⊢[ ∞ ]⟨ ∇ 0⊤ ⟩ᵀ[ i ] λ _ → ⊥'
+  ⟨⟩ᵀ⊥ =  ○-rec ○⇒-↪⟨⟩ᵀ⊥ ᵘ»ʰ ⊤∗-intro » ↪⟨⟩ᵀ-use'

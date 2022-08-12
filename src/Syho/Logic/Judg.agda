@@ -23,7 +23,7 @@ open import Base.List.All using (All)
 open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
   ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∧]_; [∧∈]-syntax; _↪[_]=>>_;
-  ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_; _↦_; _↦ˡ_; Free; Basic)
+  ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; V⇒E;
   AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
@@ -33,8 +33,10 @@ open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_;
 -- WpKind :  Weakest precondion kind
 
 data  WpKind :  Set₀  where
-  -- Partial/total
-  par tot :  WpKind
+  -- Partial
+  par :  WpKind
+  -- Total, with a counter
+  tot :  ℕ →  WpKind
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -57,7 +59,8 @@ data  JudgRes :  Set₂  where
 -- P ⊢[ ι ]* Jr :  Judgment
 
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]=>>_ _⊢[<_][_]=>>_ _⊢[_]⁺⟨_⟩[_]_
-  _⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ_ _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_
+  _⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ[_]_
+  _⊢[<_]⟨_⟩ᵀ[_]_
 
 -- Declaring _⊢[_]*_
 
@@ -85,10 +88,12 @@ _⊢[_]⁺⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₂
 P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ =  P ⊢[ ι ]* ⁺⟨ vk ⟩[ wκ ] Qᵛ
 
-_⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set₂
+_⊢[_]⁺⟨_⟩ᴾ_ :  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set₂
 P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Qᵛ =  P ⊢[ ι ]⁺⟨ vk ⟩[ par ] Qᵛ
-P ⊢[ ι ]⁺⟨ vk ⟩ᵀ Qᵛ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot ] Qᵛ
+
+_⊢[_]⁺⟨_⟩ᵀ[_]_ :
+  Prop' ∞ →  Size →  Val/Ktxred T →  ℕ →  (Val T → Prop' ∞) →  Set₂
+P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Qᵛ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot i ] Qᵛ
 
 -- ⊢[ ]⟨ ⟩[ ] etc. :  Hoare triple over Expr
 
@@ -96,11 +101,15 @@ _⊢[_]⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Expr ∞ T →  WpKind →  (Val T → Prop' ∞) →  Set₂
 P ⊢[ ι ]⟨ e ⟩[ wκ ] Qᵛ =  P ⊢[ ι ]⁺⟨ val/ktxred e ⟩[ wκ ] Qᵛ
 
-_⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ_ :
+_⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ :
   Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set₂
 P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ par ] Qᵛ
 P ⊢[< ι ]⟨ e ⟩ᴾ Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Qᵛ) ι
-P ⊢[ ι ]⟨ e ⟩ᵀ Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot ] Qᵛ
+
+_⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_ :
+  Prop' ∞ →  Size →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Set₂
+P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Qᵛ =  P ⊢[ ι ]⟨ e ⟩[ tot i ] Qᵛ
+P ⊢[< ι ]⟨ e ⟩ᵀ[ i ] Qᵛ =  Thunk (P ⊢[_]⟨ e ⟩ᵀ[ i ] Qᵛ) ι
 
 -- Pers :  Persistence of a proposition
 
@@ -342,11 +351,48 @@ data  _⊢[_]*_  where
     P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]⟨ ▶ ¡ e ⟩ᴾ  λ v → Q˂ᵛ v .!
 
   ------------------------------------------------------------------------------
+  -- On ↪⟨ ⟩ᵀ
+
+  -- Monotonicity of ↪⟨ ⟩ᵀ
+
+  ↪⟨⟩ᵀ-monoˡ-∗ :  ∀{Q˂ᵛ} →
+    {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
+    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+
+  ↪⟨⟩ᵀ-monoʳ-∗ :  ∀{Q˂ᵛ : Val T → _} →
+    {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+
+  -- Modify ⟨ ⟩ᵀ proof
+
+  ↪⟨⟩ᵀ-suc :  ∀{Q˂ᵛ} →
+    P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
+
+  ↪⟨⟩ᵀ-frameˡ :  ∀{Qᵛ : _ → Prop' ∞} →
+    ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
+      ¡ (R ∗ P) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Qᵛ v)
+
+  -- Make ↪⟨ ⟩ᵀ out of ○
+
+  ○⇒↪⟨⟩ᵀ :  ∀{Q˂ᵛ} →
+    R˂ .! ∗ P˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂ᵛ v .!) →
+    ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+
+  -- Use ↪⟨⟩ᵀ, with counter increment
+
+  ↪⟨⟩ᵀ-use :  ∀{Q˂ᵛ} →
+    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᵀ[ suc i ]  λ v → Q˂ᵛ v .!
+
+  ------------------------------------------------------------------------------
   -- On Hoare triple
 
   -- Weaken a Hoare triple from total to partial
 
-  hor-ᵀ⇒ᴾ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Qᵛ
+  hor-ᵀ⇒ᴾ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Qᵛ
+
+  -- Counter increment on total Hoare triple
+
+  horᵀ-suc :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ suc i ] Qᵛ
 
   -- Compose with a super update
 
@@ -383,8 +429,8 @@ data  _⊢[_]*_  where
   horᴾ-▶ :  ∀{Qᵛ} →  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
                      P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ Qᵛ
 
-  horᵀ-▶ :  ∀{Qᵛ} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ Qᵛ →
-                     P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ Qᵛ
+  horᵀ-▶ :  ∀{Qᵛ} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ[ i ] Qᵛ →
+                     P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ[ i ] Qᵛ
 
   -- Application
 

@@ -42,7 +42,7 @@ private variable
   av :  AnyVal
   T :  Type
 
-infixr 5 _→'_ _-∗_ _↪[_]=>>_ _↪⟨_⟩ᴾ_
+infixr 5 _→'_ _-∗_ _↪[_]=>>_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
 infixr 7 _∗_
 infix 8 |=>_ □_ ○_
 infix 9 _↦⟨_⟩_
@@ -67,9 +67,11 @@ data  Prop' ι  where
   ○_ :  Prop˂ ι →  Prop' ι
 
   -- ↪[ ]=>> :  Super-update precursor
-  -- ↪⟨ ⟩ᴾ :  Partial-Hoare-triple precursor
   _↪[_]=>>_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
+
+  -- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare-triple precursor
   _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr ∞ T →  (Val T → Prop˂ ∞) →  Prop' ι
+  _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr ∞ T →  ℕ →  (Val T → Prop˂ ∞) →  Prop' ι
 
   -- ↦⟨ ⟩ :  Points-to token
   -- Free:  Freeing token

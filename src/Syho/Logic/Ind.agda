@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Proof rules on ○, ↪=>>, and ↪⟨ ⟩ᴾ
+-- Proof rules on ○, ↪=>>, ↪⟨ ⟩ᴾ, and ↪⟨ ⟩ᵀ
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -17,16 +17,16 @@ open import Base.List using ([_])
 open import Base.List.All using ()
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∧_; _→'_; _∗_; □_;
-  ○_; _↪[_]=>>_; _↪⟨_⟩ᴾ_; Basic)
+  ○_; _↪[_]=>>_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∀₁-elim;
   ∧-elimˡ; ∧⊤-intro; →-mono; →-const; ∗-comm; ∗-elimʳ; ⊤∗-intro)
 open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _⊢[<_][_]=>>_; _ᵘ»_)
-open import Syho.Logic.Hor using (_⊢[<_]⟨_⟩ᴾ_)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (○-mono-∗; ○-alloc; □○-alloc-mutrec;
   ○-use; ↪=>>-monoˡ-∗; ↪=>>-monoʳ-∗; ↪=>>-suc; ↪=>>-frameˡ; ○⇒↪=>>; ↪=>>-use;
-  ↪⟨⟩ᴾ-monoˡ-∗; ↪⟨⟩ᴾ-monoʳ-∗; ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᴾ-use)
+  ↪⟨⟩ᴾ-monoˡ-∗; ↪⟨⟩ᴾ-monoʳ-∗; ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-monoˡ-∗;
+  ↪⟨⟩ᵀ-monoʳ-∗; ↪⟨⟩ᵀ-suc; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ; ↪⟨⟩ᵀ-use)
 
 private variable
   ℓ :  Level
@@ -147,3 +147,45 @@ abstract
     ¡ P ↪⟨ e ⟩ᴾ (λ v → ¡ Qᵛ v)  ⊢[ ι ]  ¡ (P ∗ R) ↪⟨ e ⟩ᴾ λ v → ¡ (Qᵛ v ∗ R)
   ↪⟨⟩ᴾ-frameʳ =  ↪⟨⟩ᴾ-frameˡ »
     ↪⟨⟩ᴾ-monoˡ (¡ ∗-comm) » ↪⟨⟩ᴾ-monoʳ (λ _ → ¡ ∗-comm)
+
+  ------------------------------------------------------------------------------
+  -- On ↪⟨ ⟩ᵀ
+
+  -->  ○⇒↪⟨⟩ᵀ :  ∀{Q˂ᵛ} →
+  -->    R˂ .! ∗ P˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂ᵛ v .!) →
+  -->    ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+
+  -->  ↪⟨⟩ᵀ-use :
+  -->    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]⟨ ¡ e ⟩ᵀ[ suc i ]  λ v → Q˂ᵛ v .!
+
+  -- Monotonicity of ↪⟨ ⟩ᵀ
+
+  -->  ↪⟨⟩ᵀ-monoˡ-∗ :
+  -->    {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
+  -->    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+
+  -->  ↪⟨⟩ᵀ-monoʳ-∗ :
+  -->    {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+  -->    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+
+  ↪⟨⟩ᵀ-monoˡ :  ∀{Q˂ᵛ} →
+    P'˂ .! ⊢[< ι ] P˂ .! →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+  ↪⟨⟩ᵀ-monoˡ P'⊢<P =  ⊤∗-intro » ↪⟨⟩ᵀ-monoˡ-∗ λ{ .! → ∗-elimʳ » P'⊢<P .! }
+
+  ↪⟨⟩ᵀ-monoʳ :  ∀{Q˂ᵛ : Val T → _} →
+    (∀ v →  Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+    P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+  ↪⟨⟩ᵀ-monoʳ ∀vQ⊢<Q' =
+    ⊤∗-intro » ↪⟨⟩ᵀ-monoʳ-∗ λ{ v .! → ∗-elimʳ » ∀vQ⊢<Q' v .! }
+
+  -- Modify ⟨ ⟩ᵀ proof
+
+  -->  ↪⟨⟩ᵀ-frameˡ :  ∀{Qᵛ : _ → Prop' ∞} →
+  -->    ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
+  -->      ¡ (R ∗ P) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Qᵛ v)
+
+  ↪⟨⟩ᵀ-frameʳ :  ∀{Qᵛ : _ → Prop' ∞} →
+    ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
+      ¡ (P ∗ R) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (Qᵛ v ∗ R)
+  ↪⟨⟩ᵀ-frameʳ =  ↪⟨⟩ᵀ-frameˡ »
+    ↪⟨⟩ᵀ-monoˡ (¡ ∗-comm) » ↪⟨⟩ᵀ-monoʳ (λ _ → ¡ ∗-comm)

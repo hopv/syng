@@ -49,7 +49,7 @@ abstract
 
   -->  ○-use :  ○ P˂ ⊢[ ι ][ i ]=>> P˂ .!
 
-  -- Monotonicity
+  -- Monotonicity of ○
 
   -->  ○-mono-∗ :  {{Basic R}} →  R ∗ P˂ .! ⊢[< ι ] Q˂ .! →
   -->              R ∗ ○ P˂ ⊢[ ι ] ○ Q˂
@@ -57,7 +57,7 @@ abstract
   ○-mono :  P˂ .! ⊢[< ι ] Q˂ .! →  ○ P˂ ⊢[ ι ] ○ Q˂
   ○-mono P⊢<Q =  ⊤∗-intro » ○-mono-∗ λ{ .! → ∗-elimʳ » P⊢<Q .! }
 
-  -- Allocation
+  -- Allocate ○
 
   -->  ○-alloc :  P˂ .! ⊢[ ι ][ i ]=>> ○ P˂
 

@@ -77,8 +77,8 @@ module _
 
   -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
 
-  ⟨⟩ᴾ :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ
-  ⟨⟩ᴾ {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
+  horᴾ :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ
+  horᴾ {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
     =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ) ᵘ»ʰ ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}
 
 --------------------------------------------------------------------------------
@@ -98,6 +98,6 @@ module _
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
-  ⟨⟩ᵀ :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Qᵛ
-  ⟨⟩ᵀ {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
+  horᵀ :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Qᵛ
+  horᵀ {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
     =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ) ᵘ»ʰ ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}

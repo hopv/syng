@@ -316,7 +316,7 @@ data  _⊢[_]*_  where
 
   -- Make ↪=>> out of ○
 
-  ○⇒↪=>> :  R˂ .! ∗ P˂ .! ⊢[< ι ][ i ]=>> Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
+  ○⇒↪=>> :  P˂ .! ∗ R˂ .! ⊢[< ι ][ i ]=>> Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
 
   -- Use ↪=>>, with counter increment
 
@@ -343,7 +343,7 @@ data  _⊢[_]*_  where
   -- Make ↪⟨ ⟩ᴾ out of ○
 
   ○⇒↪⟨⟩ᴾ :  ∀{Q˂ᵛ} →
-    R˂ .! ∗ P˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂ᵛ v .!) →  ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+    P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂ᵛ v .!) →  ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
   -- Use ↪⟨⟩ᴾ, with ▶ on the expression
 
@@ -375,7 +375,7 @@ data  _⊢[_]*_  where
   -- Make ↪⟨ ⟩ᵀ out of ○
 
   ○⇒↪⟨⟩ᵀ :  ∀{Q˂ᵛ} →
-    R˂ .! ∗ P˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂ᵛ v .!) →
+    P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂ᵛ v .!) →
     ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
 
   -- Use ↪⟨⟩ᵀ, with counter increment

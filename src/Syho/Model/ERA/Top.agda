@@ -1,39 +1,44 @@
 --------------------------------------------------------------------------------
--- Trivial resource algebra
+-- Trivial ERA
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Base.Level using (Level)
-module Syho.Model.ERA.Top {ℓ ℓ≈ ℓ✓ : Level} where
+module Syho.Model.ERA.Top where
 
+open import Base.Level using (Level)
 open import Base.Few using (⊤)
 open import Syho.Model.ERA using (ERA)
 
-open ERA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
-  ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
+open ERA using (Car; Env; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
+  ⌞⌟-idem)
+
+private variable
+  ℓ ℓᴱ ℓ≈ ℓ✓ :  Level
 
 --------------------------------------------------------------------------------
--- ⊤RA : Trivial resource algebra
+-- ⊤ᴱᴿᴬ : Trivial ERA
 
-⊤RA :  ERA ℓ ℓ≈ ℓ✓
-⊤RA .Car =  ⊤
-⊤RA ._≈_ _ _ =  ⊤
-⊤RA .✓_ _ =  ⊤
-⊤RA ._∙_ =  _
-⊤RA .ε =  _
-⊤RA .⌞_⌟ =  _
-⊤RA .refl˜ =  _
-⊤RA .◠˜_ =  _
-⊤RA ._◇˜_ =  _
-⊤RA .∙-congˡ =  _
-⊤RA .∙-unitˡ =  _
-⊤RA .∙-comm =  _
-⊤RA .∙-assocˡ =  _
-⊤RA .✓-resp =  _
-⊤RA .✓-rem =  _
-⊤RA .✓-ε =  _
-⊤RA .⌞⌟-cong =  _
-⊤RA .⌞⌟-add =  _
-⊤RA .⌞⌟-unitˡ =  _
-⊤RA .⌞⌟-idem =  _
+⊤ᴱᴿᴬ :  ERA ℓ ℓᴱ ℓ≈ ℓ✓
+⊤ᴱᴿᴬ .Car =  ⊤
+⊤ᴱᴿᴬ .Env =  ⊤
+⊤ᴱᴿᴬ ._≈_ _ _ =  ⊤
+⊤ᴱᴿᴬ ._✓_ _ _ =  ⊤
+⊤ᴱᴿᴬ ._∙_ =  _
+⊤ᴱᴿᴬ .ε =  _
+⊤ᴱᴿᴬ .⌞_⌟ =  _
+⊤ᴱᴿᴬ .refl˜ =  _
+⊤ᴱᴿᴬ .◠˜_ =  _
+⊤ᴱᴿᴬ ._◇˜_ =  _
+⊤ᴱᴿᴬ .∙-congˡ =  _
+⊤ᴱᴿᴬ .∙-unitˡ =  _
+⊤ᴱᴿᴬ .∙-comm =  _
+⊤ᴱᴿᴬ .∙-assocˡ =  _
+⊤ᴱᴿᴬ .✓-resp =  _
+⊤ᴱᴿᴬ .✓-rem =  _
+⊤ᴱᴿᴬ .✓-ε =  _
+⊤ᴱᴿᴬ .⌞⌟-cong =  _
+⊤ᴱᴿᴬ .⌞⌟-add =  _
+⊤ᴱᴿᴬ .⌞⌟-unitˡ =  _
+⊤ᴱᴿᴬ .⌞⌟-idem =  _

@@ -365,8 +365,7 @@ data  _⊢[_]*_  where
 
   -- Modify ⟨ ⟩ᵀ proof
 
-  ↪⟨⟩ᵀ-suc :  ∀{Q˂ᵛ} →
-    P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
+  ↪⟨⟩ᵀ-suc :  ∀{Q˂ᵛ} →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
 
   ↪⟨⟩ᵀ-frameˡ :  ∀{Qᵛ : _ → Prop' ∞} →
     ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]

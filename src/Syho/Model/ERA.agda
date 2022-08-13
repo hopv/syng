@@ -24,50 +24,76 @@ record  ERA ℓ ℓᴱ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓᴱ ⊔ᴸ ℓ
   infix 0 ◠˜_
   infixr -1 _◇˜_
   field
-    -- Carrier set
+    ----------------------------------------------------------------------------
+    -- Main components
+
+    -- Car :  Carrier set
     Car :  Set ℓ
-    -- Environment
+
+    -- Env :  Environment
     Env :  Set ℓᴱ
-    ----------------------------------------------------------------------------
-    -- Equivalence
+
+    -- ≈ :  Equivalence
     _≈_ :  Car → Car → Set ℓ≈
-    -- Validity
+
+    -- ✓ :  Validity
     _✓_ :  Env → Car → Set ℓ✓
-    -- Product
+
+    -- ∙ :  Product
     _∙_ :  Car → Car → Car
-    -- Unit
+
+    -- ε :  Unit
     ε :  Car
-    -- Core
+
+    -- ⌞ ⌟ :  Core
     ⌞_⌟ :  Car → Car
+
     ----------------------------------------------------------------------------
+    -- On ≈
+
     -- ≈ is reflexive, symmetric and transitive
     refl˜ :  ∀ {a} →  a ≈ a
     ◠˜_ :  ∀ {a b} →  a ≈ b →  b ≈ a
     _◇˜_ :  ∀ {a b c} →  a ≈ b →  b ≈ c →  a ≈ c
+
     ----------------------------------------------------------------------------
+    -- On ∙
+
     -- ∙ is congruent, unital with ε, commutative, and associative
     ∙-congˡ :  ∀ {a b c} →  a ≈ b →  a ∙ c ≈ b ∙ c
     ∙-unitˡ :  ∀ {a} →  ε ∙ a ≈ a
     ∙-comm :  ∀ {a b} →  a ∙ b ≈ b ∙ a
     ∙-assocˡ :  ∀ {a b c} →  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
+
     ----------------------------------------------------------------------------
+    -- On ✓
+
     -- ✓ respects ≈
     ✓-resp :  ∀ {E a b} →  a ≈ b →  E ✓ a →  E ✓ b
+
     -- ✓ is kept after a resource is removed
     ✓-rem :  ∀ {E a b} →  E ✓ a ∙ b →  E ✓ b
+
     -- ε satisfies ✓
     ✓-ε :  ∀{E} →  E ✓ ε
+
     ----------------------------------------------------------------------------
+    -- On ⌞⌟
+
     -- ⌞⌟ preserves ≈
     ⌞⌟-cong :  ∀ {a b} →  a ≈ b →  ⌞ a ⌟ ≈ ⌞ b ⌟
+
     -- When ⌞⌟'s argument gets added, ⌞⌟'s result gets added
     ⌞⌟-add :  ∀ {a b} →  ∑ b' ,  b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
+
     -- ⌞ a ⌟ is absorbed by a
     ⌞⌟-unitˡ :  ∀ {a} →  ⌞ a ⌟ ∙ a  ≈  a
+
     -- ⌞⌟ is idempotent
     ⌞⌟-idem :  ∀ {a} →  ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
 
   -- Setoid structure
+
   setoid :  Setoid ℓ ℓ≈
   setoid =  record{ Car = Car; _≈_ = _≈_; refl˜ = refl˜; ◠˜_ = ◠˜_;
     _◇˜_ = _◇˜_ }

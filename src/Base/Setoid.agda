@@ -27,11 +27,7 @@ record  Setoid ℓ ℓ≈ :  Set (sucᴸ (ℓ ⊔ᴸ ℓ≈))  where
     _◇˜_ :  ∀ {a b c} →  a ≈ b →  b ≈ c →  a ≈ c
 
   private variable
-    a b c :  Car
-    ℓX ℓY ℓZ :  Level
-    X :  Car → Set ℓX
-    Y :  Car → Set ℓY
-    Z :  Car → Set ℓZ
+    a b :  Car
 
   ≡⇒≈ :  a ≡ b →  a ≈ b
   ≡⇒≈ refl =  refl˜
@@ -42,24 +38,6 @@ record  Setoid ℓ ℓ≈ :  Set (sucᴸ (ℓ ⊔ᴸ ℓ≈))  where
   infix 4 _≉_
   _≉_ :  Car → Car → Set ℓ≈
   a ≉ b =  ¬  a ≈ b
-
-  ------------------------------------------------------------------------------
-  -- ⊆≈ : Set inclusion relaxed with ≈
-
-  infix 4 _⊆≈_
-  _⊆≈_ :  (Car → Set ℓX) →  (Car → Set ℓY) →  Set (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓX ⊔ᴸ ℓY)
-  X ⊆≈ Y  =  ∀ {a} →  a ∈ X →  ∑ b ,  a ≈ b  ×  b ∈ Y
-
-  abstract
-    -- ⊆≈ is reflexive and transitive
-
-    ⊆≈-refl :  X ⊆≈ X
-    ⊆≈-refl {a = a} a∈X =  a , refl˜ , a∈X
-
-    ⊆≈-trans :  X ⊆≈ Y →  Y ⊆≈ Z →  X ⊆≈ Z
-    ⊆≈-trans X⊆≈Y Y⊆≈Z a∈X with X⊆≈Y a∈X
-    ... | b , a≈b , b∈Y with Y⊆≈Z b∈Y
-    ...   | c , b≈c , c∈Z =  c , (a≈b ◇˜ b≈c) , c∈Z
 
 open Setoid
 

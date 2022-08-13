@@ -10,9 +10,9 @@ open import Base.Level using (Level; ↓_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Few using (0⊤)
-open import Base.Func using (_∘_; const)
+open import Base.Func using (_∘_; id; const)
 open import Base.Prod using (_×_; _,_)
-open import Base.Nat using (ℕ)
+open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈsuc; _≤_; ≤⇒≤ᵈ)
 open import Base.List using ([_])
 open import Base.List.All using ()
 open import Syho.Lang.Expr using (Type; Expr; Val)
@@ -102,6 +102,13 @@ abstract
 
   --> ↪=>>-suc :  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]=>> Q˂
 
+  ↪=>>-≤ᵈ :  i ≤ᵈ j →  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ j ]=>> Q˂
+  ↪=>>-≤ᵈ ≤ᵈ-refl =  ⊢-refl
+  ↪=>>-≤ᵈ (≤ᵈsuc i≤ᵈj') =  ↪=>>-≤ᵈ i≤ᵈj' » ↪=>>-suc
+
+  ↪=>>-≤ :  i ≤ j →  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ j ]=>> Q˂
+  ↪=>>-≤ =  ↪=>>-≤ᵈ ∘ ≤⇒≤ᵈ
+
   --> ↪=>>-frameˡ :  ¡ P ↪[ i ]=>> ¡ Q  ⊢[ ι ]  ¡ (R ∗ P) ↪[ i ]=>> ¡ (R ∗ Q)
 
   ↪=>>-frameʳ :  ¡ P ↪[ i ]=>> ¡ Q  ⊢[ ι ]  ¡ (P ∗ R) ↪[ i ]=>> ¡ (Q ∗ R)
@@ -181,6 +188,14 @@ abstract
   -- Modify ⟨ ⟩ᵀ proof
 
   -->  ↪⟨⟩ᵀ-suc :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
+
+  ↪⟨⟩ᵀ-≤ᵈ :  ∀{Q˂ᵛ} →
+    i ≤ᵈ j →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂ᵛ
+  ↪⟨⟩ᵀ-≤ᵈ ≤ᵈ-refl =  ⊢-refl
+  ↪⟨⟩ᵀ-≤ᵈ (≤ᵈsuc i≤ᵈj') =  ↪⟨⟩ᵀ-≤ᵈ i≤ᵈj' » ↪⟨⟩ᵀ-suc
+
+  ↪⟨⟩ᵀ-≤ :  ∀{Q˂ᵛ} →  i ≤ j →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂ᵛ
+  ↪⟨⟩ᵀ-≤ =  ↪⟨⟩ᵀ-≤ᵈ ∘ ≤⇒≤ᵈ
 
   -->  ↪⟨⟩ᵀ-frameˡ :
   -->    ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]

@@ -7,8 +7,8 @@
 module Syho.Logic.Supd where
 
 open import Base.Size using (Size; ∞)
-open import Base.Func using (_$_)
-open import Base.Nat using (ℕ)
+open import Base.Func using (_$_; _∘_; id)
+open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈsuc; _≤_; ≤⇒≤ᵈ)
 open import Syho.Logic.Prop using (Prop'; _∗_; |=>_)
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∗-comm; |=>-intro)
 
@@ -18,14 +18,23 @@ open import Syho.Logic.Judg public using ([_]=>>_; _⊢[_][_]=>>_; _⊢[<_][_]=>
 
 private variable
   ι :  Size
-  i :  ℕ
+  i j :  ℕ
   P Q R :  Prop' ∞
 
 abstract
 
+  -->  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ][ i ]=>> Q
+
+  -- Counter tweak
+
   -->  =>>-suc :  P ⊢[ ι ][ i ]=>> Q →  P ⊢[ ι ][ suc i ]=>> Q
 
-  -->  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ][ i ]=>> Q
+  =>>-≤ᵈ :  i ≤ᵈ j →  P ⊢[ ι ][ i ]=>> Q →  P ⊢[ ι ][ j ]=>> Q
+  =>>-≤ᵈ ≤ᵈ-refl =  id
+  =>>-≤ᵈ (≤ᵈsuc i≤ᵈj') =  =>>-suc ∘ =>>-≤ᵈ i≤ᵈj'
+
+  =>>-≤ :  i ≤ j →  P ⊢[ ι ][ i ]=>> Q →  P ⊢[ ι ][ j ]=>> Q
+  =>>-≤ =  =>>-≤ᵈ ∘ ≤⇒≤ᵈ
 
   -- Lift a sequent into a super update =>>
 

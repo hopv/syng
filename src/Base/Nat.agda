@@ -15,7 +15,7 @@ open import Base.Dec using (Dec²; yes; no)
 open import Base.Dec.Construct using (dec-Tt)
 
 --------------------------------------------------------------------------------
--- $1 :  Natural number
+-- ℕ :  Natural number
 
 open import Agda.Builtin.Nat public
   using (zero; suc) renaming (Nat to ℕ)

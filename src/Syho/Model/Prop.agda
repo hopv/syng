@@ -5,9 +5,9 @@
 {-# OPTIONS --without-K --sized-types #-}
 
 open import Base.Level using (Level; 2ᴸ)
-open import Syho.Model.RA using (RA)
--- Parametric over the global RA
-module Syho.Model.Prop (GlobRA : RA 2ᴸ 2ᴸ 2ᴸ) where
+open import Syho.Model.ERA using (ERA)
+-- Parametric over the global ERA
+module Syho.Model.Prop (GlobRA : ERA 2ᴸ 2ᴸ 2ᴸ) where
 
 open import Base.Few using (⊤; ⊥)
 open import Base.Func using (_$_; _▷_; flip; _∈_)
@@ -15,7 +15,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.List using (List; _∷_; []; map)
 
-open RA GlobRA renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
+open ERA GlobRA renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞_⌟; _↝_;
   _↝ˢ_; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans; ⊑-respˡ; ⊑-respʳ; ✓-resp; ✓-mono;
   ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-mono; ∙-incrʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ε-min;
   ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)

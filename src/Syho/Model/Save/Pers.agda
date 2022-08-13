@@ -12,10 +12,10 @@ open import Base.Nat using (ℕ)
 open import Base.Prod using (_,_)
 open import Syho.Logic.Prop using (Prop'; _∧_; Basic)
 open import Syho.Logic.Judg using (_⊢[_]_)
-open import Syho.Model.RA using (RA)
-open import Syho.Model.RA.Glob using (GlobRA; Glob; module ModGlobI;
+open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Glob using (GlobRA; Glob; module ModGlobI;
   module ModSave□; module ModAgᴾ)
-open RA GlobRA using (_≈_; ⌞_⌟; _◇˜_)
+open ERA GlobRA using (_≈_; ⌞_⌟; _◇˜_)
 open ModGlobI using (injaᴬ; injaᴬ-cong; injaᴬ-⌞⌟)
 open ModSave□ using (injaᶠᵐ; injaᶠᵐ-⌞⌟)
 open ModAgᴾ using (ag)

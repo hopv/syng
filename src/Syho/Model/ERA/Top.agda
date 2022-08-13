@@ -5,18 +5,18 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Base.Level using (Level)
-module Syho.Model.RA.Top {ℓ ℓ≈ ℓ✓ : Level} where
+module Syho.Model.ERA.Top {ℓ ℓ≈ ℓ✓ : Level} where
 
 open import Base.Few using (⊤)
-open import Syho.Model.RA using (RA)
+open import Syho.Model.ERA using (ERA)
 
-open RA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
+open ERA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
   ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 --------------------------------------------------------------------------------
 -- ⊤RA : Trivial resource algebra
 
-⊤RA :  RA ℓ ℓ≈ ℓ✓
+⊤RA :  ERA ℓ ℓ≈ ℓ✓
 ⊤RA .Car =  ⊤
 ⊤RA ._≈_ _ _ =  ⊤
 ⊤RA .✓_ _ =  ⊤

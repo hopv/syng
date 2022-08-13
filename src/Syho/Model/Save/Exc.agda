@@ -11,8 +11,8 @@ open import Base.Func using (_$_)
 open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Prop'; _∧_; Basic)
 open import Syho.Logic.Judg using (_⊢[_]_)
-open import Syho.Model.RA using (RA)
-open import Syho.Model.RA.Glob using (GlobRA; Glob; module ModGlobI;
+open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Glob using (GlobRA; Glob; module ModGlobI;
   module ModSaveˣ; module ModExcᴾ)
 open ModGlobI using (injaᴬ)
 open ModSaveˣ using (injaᶠᵐ)

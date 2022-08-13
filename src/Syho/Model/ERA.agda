@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Resource Algebra
+-- Environmental Resource Algebra
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.RA where
+module Syho.Model.ERA where
 
 open import Base.Level using (Level; _⊔ᴸ_; sucᴸ)
 open import Base.Eq using (_≡_; refl)
@@ -13,23 +13,26 @@ open import Base.Prod using (_×_; _,_; ∑-syntax)
 open import Base.Setoid using (Setoid)
 
 --------------------------------------------------------------------------------
--- Resource algebra (Unital)
-record  RA ℓ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  where
+-- Environmental Resource algebra
+
+record  ERA ℓ ℓᴱ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓᴱ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  where
   ------------------------------------------------------------------------------
   -- Fields
   infix 4 _≈_
-  infix 3 ✓_
+  infix 3 _✓_
   infixr 7 _∙_
   infix 0 ◠˜_
   infixr -1 _◇˜_
   field
     -- Carrier set
     Car :  Set ℓ
+    -- Environment
+    Env :  Set ℓᴱ
     ----------------------------------------------------------------------------
     -- Equivalence
     _≈_ :  Car → Car → Set ℓ≈
     -- Validity
-    ✓_ :  Car → Set ℓ✓
+    _✓_ :  Env → Car → Set ℓ✓
     -- Product
     _∙_ :  Car → Car → Car
     -- Unit
@@ -49,11 +52,11 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  w
     ∙-assocˡ :  ∀ {a b c} →  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
     ----------------------------------------------------------------------------
     -- ✓ respects ≈
-    ✓-resp :  ∀ {a b} →  a ≈ b →  ✓ a →  ✓ b
+    ✓-resp :  ∀ {E a b} →  a ≈ b →  E ✓ a →  E ✓ b
     -- ✓ is kept after a resource is removed
-    ✓-rem :  ∀ {a b} →  ✓ a ∙ b →  ✓ b
+    ✓-rem :  ∀ {E a b} →  E ✓ a ∙ b →  E ✓ b
     -- ε satisfies ✓
-    ✓-ε :  ✓ ε
+    ✓-ε :  ∀{E} →  E ✓ ε
     ----------------------------------------------------------------------------
     -- ⌞⌟ preserves ≈
     ⌞⌟-cong :  ∀ {a b} →  a ≈ b →  ⌞ a ⌟ ≈ ⌞ b ⌟
@@ -72,13 +75,10 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  w
 
   private variable
     a a' b b' c d :  Car
-    ℓA ℓB ℓB' ℓC ℓD ℓE :  Level
-    A :  Car → Set ℓA
-    B :  Car → Set ℓB
-    B' :  Car → Set ℓB'
-    C :  Car → Set ℓC
-    D :  Car → Set ℓD
-    E :  Car → Set ℓE
+    E :  Env
+    ℓX ℓY :  Level
+    X :  Set ℓX
+    b˙ b'˙ :  X → Car
 
   ------------------------------------------------------------------------------
   -- Utility lemmas
@@ -162,8 +162,8 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  w
 
     -- Monotonicity of ✓, ∙ and ⌞⌟
 
-    ✓-mono :  a ⊑ b →  ✓ b →  ✓ a
-    ✓-mono (c , c∙a≈b) ✓b =  ✓b ▷ ✓-resp (◠˜ c∙a≈b) ▷ ✓-rem
+    ✓-mono :  a ⊑ b →  E ✓ b →  E ✓ a
+    ✓-mono (c , c∙a≈b) E✓b =  E✓b ▷ ✓-resp (◠˜ c∙a≈b) ▷ ✓-rem
 
     ∙-monoˡ :  a ⊑ b →  a ∙ c  ⊑  b ∙ c
     ∙-monoˡ (d , d∙a≈b) =  d , ∙-assocʳ ◇˜ ∙-congˡ d∙a≈b
@@ -188,35 +188,33 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  w
     ⌞⌟-∙ :  ⌞ a ⌟ ∙ ⌞ b ⌟ ⊑ ⌞ a ∙ b ⌟
     ⌞⌟-∙ =  ⊑-respʳ ⌞⌟-dup $ ∙-mono (⌞⌟-mono ∙-incrʳ) (⌞⌟-mono ∙-incrˡ)
 
-    -- ✓ a implies ✓ ⌞ a ⌟
+    -- E ✓ a implies E ✓ ⌞ a ⌟
 
-    ✓-⌞⌟ :  ✓ a →  ✓ ⌞ a ⌟
+    ✓-⌞⌟ :  E ✓ a →  E ✓ ⌞ a ⌟
     ✓-⌞⌟ ✓a =  ✓-mono ⌞⌟-decr ✓a
 
   ------------------------------------------------------------------------------
-  -- ↝/↝ˢ : Resource update
+  -- ↝/↝˙ : Resource update
 
-  infix 2 _↝_ _↝ˢ_
+  infix 2 _↝_ _↝˙_
 
-  -- a ↝ b : a can be updated into b, regardless of the frame c
-  _↝_ :  Car → Car → Set (ℓ ⊔ᴸ ℓ✓)
-  a ↝ b =  ∀ c →  ✓ c ∙ a →  ✓ c ∙ b
+  -- a ↝ b : a can be updated into b,
+  -- regardless of the environment E and the frame c
+  _↝_ :  Car → Car → Set (ℓ ⊔ᴸ ℓᴱ ⊔ᴸ ℓ✓)
+  a ↝ b =  ∀ E c →  E ✓ c ∙ a →  E ✓ c ∙ b
 
-  -- a ↝ˢ B : a can be updated into b, regardless of the frame c
-  _↝ˢ_ :  Car →  (Car → Set ℓB) →  Set (ℓ ⊔ᴸ ℓ✓ ⊔ᴸ ℓB)
-  a ↝ˢ B =  ∀ c →  ✓ c ∙ a →  ∑ b ,  b ∈ B  ×  ✓ c ∙ b
+  -- a ↝˙ b˙ : a can be updated into b˙ x for some x,
+  -- regardless of the environment E and the frame c
+  _↝˙_ :  {X : Set ℓX} →  Car →  (X → Car) →  Set (ℓ ⊔ᴸ ℓᴱ ⊔ᴸ ℓ✓ ⊔ᴸ ℓX)
+  a ↝˙ b˙ =  ∀ E c →  E ✓ c ∙ a →  ∑ x ,  E ✓ c ∙ b˙ x
 
   abstract
-
-    -- ↝ into ↝ˢ
-    ↝⇒↝ˢ :  a ↝ b →  a ↝ˢ (b ≡_)
-    ↝⇒↝ˢ {b = b} a↝b c ✓c∙a =  b , refl , a↝b c ✓c∙a
 
     -- ↝ respects ≈
 
     ↝-resp :  a ≈ a' →  b ≈ b' →  a ↝ b →  a' ↝ b'
-    ↝-resp a≈a' b≈b' a↝b c ✓c∙a' =  ✓c∙a' ▷
-      ✓-resp (∙-congʳ $ ◠˜ a≈a') ▷ a↝b c ▷ ✓-resp (∙-congʳ b≈b')
+    ↝-resp a≈a' b≈b' a↝b E c E✓c∙a' =  E✓c∙a' ▷
+      ✓-resp (∙-congʳ $ ◠˜ a≈a') ▷ a↝b E c ▷ ✓-resp (∙-congʳ b≈b')
 
     ↝-respˡ :  a ≈ a' →  a ↝ b →  a' ↝ b
     ↝-respˡ a≈a' =  ↝-resp a≈a' refl˜
@@ -224,45 +222,20 @@ record  RA ℓ ℓ≈ ℓ✓ : Set (sucᴸ (ℓ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  w
     ↝-respʳ :  b ≈ b' →  a ↝ b →  a ↝ b'
     ↝-respʳ b≈b' =  ↝-resp refl˜ b≈b'
 
-    -- ↝ˢ respects ≈ and ⊆≈
+    -- ↝˙ respects ≈
 
-    ↝ˢ-resp :  a ≈ a' →  B ⊆≈ B' →  a ↝ˢ B →  a' ↝ˢ B'
-    ↝ˢ-resp a≈a' B⊆≈B' a↝ˢB c ✓c∙a'
-      with  ✓c∙a' ▷ ✓-resp (∙-congʳ $ ◠˜ a≈a') ▷ a↝ˢB c
-    ... | b , b∈B , ✓c∙b  with  B⊆≈B' b∈B
-    ...   | b' , b≈b' , b'∈B' =  b' , b'∈B' , ✓-resp (∙-congʳ b≈b') ✓c∙b
+    ↝˙-resp :  a ≈ a' →  (∀ x → b˙ x ≈ b'˙ x) →  a ↝˙ b˙ →  a' ↝˙ b'˙
+    ↝˙-resp a≈a' b˙≈b'˙ a↝b˙ E c E✓c∙a'
+      with  E✓c∙a' ▷ ✓-resp (∙-congʳ $ ◠˜ a≈a') ▷ a↝b˙ E c
+    ... | x , E✓c∙b˙x  =  x , ✓-resp (∙-congʳ $ b˙≈b'˙ x) E✓c∙b˙x
 
-    ↝ˢ-respˡ :  a ≈ a' →  a ↝ˢ B →  a' ↝ˢ B
-    ↝ˢ-respˡ a≈a' =  ↝ˢ-resp a≈a' ⊆≈-refl
+    ↝˙-respˡ :  a ≈ a' →  a ↝˙ b˙ →  a' ↝˙ b˙
+    ↝˙-respˡ a≈a' =  ↝˙-resp a≈a' (λ _ → refl˜)
 
-    ↝ˢ-respʳ :  B ⊆≈ B' →  a ↝ˢ B →  a ↝ˢ B'
-    ↝ˢ-respʳ =  ↝ˢ-resp refl˜
+    ↝˙-respʳ :  (∀ x → b˙ x ≈ b'˙ x) →  a ↝˙ b˙ →  a ↝˙ b'˙
+    ↝˙-respʳ =  ↝˙-resp refl˜
 
-    -- ↝ is reflexive and transitive
+    -- Reflexivity
 
     ↝-refl :  a ↝ a
-    ↝-refl _ =  id
-
-    ↝-trans :  a ↝ b →  b ↝ c →  a ↝ c
-    ↝-trans a↝b b↝c d ✓d∙a =  ✓d∙a ▷ a↝b d ▷ b↝c d
-
-    -- ↝ and ↝ˢ can be composed
-
-    ↝-↝ˢ :  a ↝ b →  b ↝ˢ C →  a ↝ˢ C
-    ↝-↝ˢ a↝b b↝ˢC d ✓d∙a =  ✓d∙a ▷ a↝b d ▷ b↝ˢC d
-
-    -- ↝/↝ˢ can be merged with respect to ∙
-
-    ∙-mono-↝ :  a ↝ b →  c ↝ d →  a ∙ c  ↝  b ∙ d
-    ∙-mono-↝ a↝b c↝d e ✓e∙a∙c =  ✓e∙a∙c ▷ ✓-resp ∙-assocʳ ▷
-      c↝d _ ▷ ✓-resp (∙-assocˡ ◇˜ ∙-congʳ ∙-comm ◇˜ ∙-assocʳ) ▷
-      a↝b _ ▷ ✓-resp (∙-assocˡ ◇˜ ∙-congʳ ∙-comm)
-
-    ∙-mono-↝ˢ :  a ↝ˢ B →  c ↝ˢ D  →
-      (∀ {b d} →  b ∈ B →  d ∈ D →  ∑ e ,  e ≈ b ∙ d  ×  e ∈ E) →  a ∙ c ↝ˢ E
-    ∙-mono-↝ˢ a↝ˢB c↝ˢD BDE f ✓f∙a∙c  with ✓f∙a∙c ▷ ✓-resp ∙-assocʳ ▷ c↝ˢD _
-    ... | d , d∈D , ✓f∙a∙d  with  ✓f∙a∙d ▷
-      ✓-resp (∙-assocˡ ◇˜ ∙-congʳ ∙-comm ◇˜ ∙-assocʳ) ▷ a↝ˢB _
-    ...   | b , b∈B , ✓f∙d∙b  with  BDE b∈B d∈D
-    ...     | e , e≈b∙d , e∈E =  e , e∈E , flip ✓-resp ✓f∙d∙b $
-      ∙-assocˡ ◇˜ ∙-congʳ $ ∙-comm ◇˜ ◠˜ e≈b∙d
+    ↝-refl _ _ =  id

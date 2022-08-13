@@ -5,7 +5,7 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Base.Setoid using (Setoid)
-module Syho.Model.RA.FrAg {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
+module Syho.Model.ERA.FrAg {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
 open Setoid S using (_≈_; refl˜) renaming (Car to A)
 
 open import Base.Level using (_⊔ᴸ_)
@@ -19,9 +19,9 @@ open import Base.List using (List; []; _++_; [_]; ++-assocˡ)
 open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈ᴸ-trans; ≡⇒≈ᴸ;
   ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp;
   [?]-cong; homo-[?]; homo-agree)
-open import Syho.Model.RA using (RA)
+open import Syho.Model.ERA using (ERA)
 
-open RA renaming (_≈_ to _≈'_; refl˜ to refl')
+open ERA renaming (_≈_ to _≈'_; refl˜ to refl')
 
 --------------------------------------------------------------------------------
 -- FrAg : FrAgRA's carrier
@@ -121,7 +121,7 @@ private abstract
 --------------------------------------------------------------------------------
 -- FrAgRA : Fractional resource algebra
 
-FrAgRA : RA ℓ (ℓ ⊔ᴸ ℓ≈) (ℓ ⊔ᴸ ℓ≈)
+FrAgRA : ERA ℓ (ℓ ⊔ᴸ ℓ≈) (ℓ ⊔ᴸ ℓ≈)
 FrAgRA .Car =  FrAg
 FrAgRA ._≈'_ =  _≈ᶠ_
 FrAgRA .✓_ =  ✓ᶠ_
@@ -143,7 +143,7 @@ FrAgRA .⌞⌟-add =  εᶠ , ≈ᶠ-refl
 FrAgRA .⌞⌟-unitˡ =  ≈ᶠ-refl
 FrAgRA .⌞⌟-idem =  ≈ᶠ-refl
 
-open RA FrAgRA using () renaming (_≈_ to _≈⁺_; _∙_ to _∙⁺_; ✓_ to ✓⁺_;
+open ERA FrAgRA using () renaming (_≈_ to _≈⁺_; _∙_ to _∙⁺_; ✓_ to ✓⁺_;
   _↝_ to _↝⁺_)
 
 --------------------------------------------------------------------------------

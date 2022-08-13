@@ -4,19 +4,19 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Syho.Model.RA using (RA)
-module Syho.Model.RA.All {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'} (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) where
+open import Syho.Model.ERA using (ERA)
+module Syho.Model.ERA.All {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'} (Ra˙ : I → ERA ℓ ℓ≈ ℓ✓) where
 
 open import Base.Level using (_⊔ᴸ_)
 open import Base.Prod using (_,_; proj₀; proj₁)
 
-open RA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
+open ERA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
   ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 --------------------------------------------------------------------------------
 -- AllRA :  Dependent-function resource algebra
 
-AllRA :  RA (ℓ' ⊔ᴸ ℓ) (ℓ' ⊔ᴸ ℓ≈) (ℓ' ⊔ᴸ ℓ✓)
+AllRA :  ERA (ℓ' ⊔ᴸ ℓ) (ℓ' ⊔ᴸ ℓ≈) (ℓ' ⊔ᴸ ℓ✓)
 AllRA .Car =  ∀ i →  Ra˙ i .Car
 AllRA ._≈_ a˙ b˙ =  ∀ i →  Ra˙ i ._≈_ (a˙ i) (b˙ i)
 AllRA .✓_ a˙ =  ∀ i →  Ra˙ i .✓_ (a˙ i)

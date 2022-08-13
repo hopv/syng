@@ -11,9 +11,9 @@ open import Base.Func using (_$_)
 open import Base.Prod using (_,_)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∗_; □_; IsBasic;
   ∀₁-IsBasic; ∃₁-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
-open import Syho.Model.RA using (RA)
-open import Syho.Model.RA.Glob using (GlobRA)
-open RA GlobRA using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
+open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Glob using (GlobRA)
+open ERA GlobRA using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
 open import Syho.Model.Prop GlobRA using (Propᵒ; monoᵒ; _⊨'_; ∀₁ᵒ-syntax;
   ∃₁ᵒ-syntax; _∗ᵒ_; □ᵒ_)
 

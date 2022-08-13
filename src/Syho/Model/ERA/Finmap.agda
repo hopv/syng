@@ -4,13 +4,13 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Syho.Model.RA using (RA)
-module Syho.Model.RA.Finmap {ℓ ℓ≈ ℓ✓} (Ra : RA ℓ ℓ≈ ℓ✓) where
+open import Syho.Model.ERA using (ERA)
+module Syho.Model.ERA.Finmap {ℓ ℓ≈ ℓ✓} (Ra : ERA ℓ ℓ≈ ℓ✓) where
 
-open RA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
+open ERA using (Car; _≈_; ✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ;
   ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem;
   ∙-cong; ⌞⌟-ε; ∙-unitʳ; ∙-congʳ)
-open RA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
+open ERA Ra using () renaming (Car to A; _≈_ to _≈'_; ✓_ to ✓'_; _∙_ to _∙'_;
   ε to ε'; ⌞_⌟ to ⌞_⌟'; _↝_ to _↝'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_)
 
 open import Base.Level using (_⊔ᴸ_)
@@ -84,7 +84,7 @@ private abstract
 --------------------------------------------------------------------------------
 -- FinmapRA : Finite-map resource algebra
 
-FinmapRA : RA (ℓ ⊔ᴸ ℓ≈) ℓ≈ ℓ✓
+FinmapRA : ERA (ℓ ⊔ᴸ ℓ≈) ℓ≈ ℓ✓
 FinmapRA .Car =  Finmap
 FinmapRA ._≈_ =  _≈ᶠᵐ_
 FinmapRA .✓_ =  ✓ᶠᵐ_
@@ -106,7 +106,7 @@ FinmapRA .⌞⌟-add {M} {N} =  ⌞⌟ᶠᵐ-add M N
 FinmapRA .⌞⌟-unitˡ i =  Ra .⌞⌟-unitˡ
 FinmapRA .⌞⌟-idem i =  Ra .⌞⌟-idem
 
-open RA FinmapRA using () renaming (_≈_ to _≈⁺_; ✓_ to ✓⁺_; _∙_ to _∙⁺_;
+open ERA FinmapRA using () renaming (_≈_ to _≈⁺_; ✓_ to ✓⁺_; _∙_ to _∙⁺_;
   ⌞_⌟ to ⌞_⌟⁺; ε to ε⁺; _↝_ to _↝⁺_; _↝ˢ_ to _↝ˢ⁺_; refl˜ to refl⁺;
   _◇˜_ to _◇⁺_)
 

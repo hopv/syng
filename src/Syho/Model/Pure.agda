@@ -20,11 +20,11 @@ open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_;
   |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃₁-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out; ∧-assocˡ; ∧-monoʳ)
 open import Syho.Logic.Save using (Save□-□; Saveˣ-mono-∧; Save□-mono-∧)
-open import Syho.Model.RA using (RA)
-open import Syho.Model.RA.Glob using (GlobRA)
+open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Glob using (GlobRA)
 open import Syho.Model.Prop GlobRA using (Propᵒ; monoᵒ; congᵒ; _⊨_; _⊨'_;
   ∀₁ᵒ-syntax; ∃₁ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; |=>ᵒ_; □ᵒ_; Own-⌞⌟-□)
-open RA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
+open ERA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr)
 open import Syho.Model.Save.Exc using (Saveˣᵒ)

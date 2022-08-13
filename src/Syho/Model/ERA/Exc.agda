@@ -6,15 +6,15 @@
 
 open import Base.Level using (Level)
 open import Base.Setoid using (Setoid)
-module Syho.Model.RA.Exc {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) {ℓ✓ : Level} where
+module Syho.Model.ERA.Exc {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) {ℓ✓ : Level} where
 open Setoid S using (_≈_; refl˜; ◠˜_; _◇˜_) renaming (Car to A)
 
 open import Base.Func using (id)
 open import Base.Prod using (_,_)
 open import Base.Few using (⊤; ⊥)
-open import Syho.Model.RA using (RA)
+open import Syho.Model.ERA using (ERA)
 
-open RA renaming (_≈_ to _≈'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_) using (
+open ERA renaming (_≈_ to _≈'_; refl˜ to refl'; ◠˜_ to ◠'_; _◇˜_ to _◇'_) using (
   Car; ✓_; _∙_; ε; ⌞_⌟; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε;
   ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
@@ -115,7 +115,7 @@ private abstract
 --------------------------------------------------------------------------------
 -- ExcRA : Exclusive resource algebra
 
-ExcRA : RA ℓ ℓ≈ ℓ✓
+ExcRA : ERA ℓ ℓ≈ ℓ✓
 ExcRA .Car =  Exc
 ExcRA ._≈'_ =  _≈ˣ_
 ExcRA .✓_ =  ✓ˣ_
@@ -137,7 +137,7 @@ ExcRA .⌞⌟-add =  ?ˣ , _
 ExcRA .⌞⌟-unitˡ {x} =  ≈ˣ-refl x
 ExcRA .⌞⌟-idem =  _
 
-open RA ExcRA using () renaming (_↝_ to _↝⁺_)
+open ERA ExcRA using () renaming (_↝_ to _↝⁺_)
 
 --------------------------------------------------------------------------------
 -- Lemmas

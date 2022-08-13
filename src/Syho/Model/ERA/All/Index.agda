@@ -4,19 +4,19 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Syho.Model.RA using (RA)
+open import Syho.Model.ERA using (ERA)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (Dec²)
-module Syho.Model.RA.All.Index {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
-  (Ra˙ : I → RA ℓ ℓ≈ ℓ✓) (_≟_ : Dec² _≡_) where
+module Syho.Model.ERA.All.Index {ℓ' ℓ ℓ≈ ℓ✓} {I : Set ℓ'}
+  (Ra˙ : I → ERA ℓ ℓ≈ ℓ✓) (_≟_ : Dec² _≡_) where
 
 open import Base.Eq using (refl)
 open import Base.Dec using (yes; no)
 open import Base.Few using (absurd)
-open import Syho.Model.RA.All Ra˙ using (AllRA)
+open import Syho.Model.ERA.All Ra˙ using (AllRA)
 
-open RA using (Car; refl˜; ✓-ε; ∙-unitˡ; ⌞⌟-ε)
-open RA AllRA using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_;
+open ERA using (Car; refl˜; ✓-ε; ∙-unitˡ; ⌞⌟-ε)
+open ERA AllRA using () renaming (Car to Aᴬ; _≈_ to _≈ᴬ_; ✓_ to ✓ᴬ_;
   _∙_ to _∙ᴬ_; ε to εᴬ; ⌞_⌟ to ⌞_⌟ᴬ; _↝_ to _↝ᴬ_; refl˜ to reflᴬ; _◇˜_ to _◇ᴬ_)
 
 --------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ injaᴬ i a =  updaᴬ i a εᴬ
 
 module _ {i : I} where
 
-  open RA (Ra˙ i) using () renaming (Car to Aⁱ; _≈_ to _≈ⁱ_; ✓_ to ✓ⁱ_;
+  open ERA (Ra˙ i) using () renaming (Car to Aⁱ; _≈_ to _≈ⁱ_; ✓_ to ✓ⁱ_;
     _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; refl˜ to reflⁱ; _↝_ to _↝ⁱ_)
 
   private variable

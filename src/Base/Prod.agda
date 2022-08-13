@@ -7,6 +7,7 @@
 module Base.Prod where
 
 open import Base.Level using (Level; _⊔ᴸ_)
+open import Base.Func using (it)
 
 --------------------------------------------------------------------------------
 -- Sigma type
@@ -44,3 +45,8 @@ curry f a b =  f (a , b)
 
 uncurry :  (A → B → C) →  (A × B → C)
 uncurry f (a , b) =  f a b
+
+instance
+
+  ,-it :  {{A}} →  {{B}} →  A × B
+  ,-it =  it , it

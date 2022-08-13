@@ -24,18 +24,27 @@ private variable
   k l m n :  ℕ
 
 --------------------------------------------------------------------------------
--- ≤, < :  Order
+-- ≤, <, ≤ᵈ, <ᵈ :  Order
 
-infix 4 _≤_ _<_ _≥_ _>_
+infix 4 _≤_ _<_ _≥_ _>_ _≤ᵈ_ _<ᵈ_
+
+-- ≤ :  Order, with induction on the left-hand side
 
 data  _≤_ :  ℕ → ℕ → Set₀  where
   0≤ :  0 ≤ n
   suc≤suc :  m ≤ n →  suc m ≤ suc n
 
-_<_ _≥_ _>_ :  ℕ → ℕ → Set₀
+-- ≤ᵈ :  Order, with induction on difference
+
+data  _≤ᵈ_ :  ℕ → ℕ → Set₀  where
+  ≤ᵈ-refl :  n ≤ᵈ n
+  ≤ᵈsuc :  m ≤ᵈ n →  m ≤ᵈ suc n
+
+_<_ _≥_ _>_ _<ᵈ_ :  ℕ → ℕ → Set₀
 m < n =  suc m ≤ n
 m ≥ n =  n ≤ m
 m > n =  n < m
+m <ᵈ n =  suc m ≤ᵈ n
 
 pattern 0<suc =  suc≤suc 0≤
 pattern suc<suc m<n =  suc≤suc m<n
@@ -124,6 +133,24 @@ abstract
   ... | inj₀ m'<n' =  inj₀ $ suc<suc m'<n'
   ... | inj₁₀ m'≡n' =  inj₁₀ $ cong suc m'≡n'
   ... | inj₁₁ m'>n' =  inj₁₁ (suc<suc m'>n')
+
+  -- Conversion between ≤ and ≤ᵈ
+
+  0≤ᵈ :  0 ≤ᵈ n
+  0≤ᵈ {n = 0} =  ≤ᵈ-refl
+  0≤ᵈ {n = suc n'} =  ≤ᵈsuc $ 0≤ᵈ {n = n'}
+
+  suc≤ᵈsuc :  m ≤ᵈ n →  suc m ≤ᵈ suc n
+  suc≤ᵈsuc ≤ᵈ-refl =  ≤ᵈ-refl
+  suc≤ᵈsuc (≤ᵈsuc m≤ᵈn') =  ≤ᵈsuc $ suc≤ᵈsuc m≤ᵈn'
+
+  ≤⇒≤ᵈ :  m ≤ n →  m ≤ᵈ n
+  ≤⇒≤ᵈ 0≤ =  0≤ᵈ
+  ≤⇒≤ᵈ (suc≤suc m≤n) =  suc≤ᵈsuc $ ≤⇒≤ᵈ m≤n
+
+  ≤ᵈ⇒≤ :  m ≤ᵈ n →  m ≤ n
+  ≤ᵈ⇒≤ ≤ᵈ-refl =  ≤-refl
+  ≤ᵈ⇒≤ (≤ᵈsuc m≤ᵈn') =  ≤-trans (≤ᵈ⇒≤ m≤ᵈn') suc-incr
 
 --------------------------------------------------------------------------------
 -- ≡ᵇ, ≤ᵇ, <ᵇ : Boolean order

@@ -66,7 +66,8 @@ abstract
   -->                   ⊢[ ι ][ i ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
 
   □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ →' P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
-  □○-alloc-rec =  →-mono ∧-elimˡ ∧⊤-intro » □○-alloc-mutrec ᵘ» ∧-elimˡ
+  □○-alloc-rec =  →-mono ∧-elimˡ ∧⊤-intro »
+    □○-alloc-mutrec {P˂s = [ _ ]} ᵘ» ∧-elimˡ
 
   □○-alloc :  {{Pers (P˂ .!)}} →  P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
   □○-alloc =  →-const » □○-alloc-rec

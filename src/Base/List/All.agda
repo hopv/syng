@@ -8,31 +8,19 @@ module Base.List.All where
 
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.List using (List; _∷_; []; _++_)
-open import Base.Func using (_$_; it)
+open import Base.Few using (⊤)
+open import Base.Prod using (_×_)
 
 private variable
-  ℓA ℓB ℓF :  Level
+  ℓA ℓF :  Level
   A :  Set ℓA
   F :  A → Set ℓF
   a :  A
   as :  List A
 
 --------------------------------------------------------------------------------
--- Conjunction over pairs of two lists
+-- Conjunction over a list
 
-infixr 5 _∷ᴬ_
-data  All {A : Set ℓA} (F : A → Set ℓF) :
-  List A →  Set (ℓA ⊔ᴸ ℓF)  where
-  []ᴬ :  All F []
-  _∷ᴬ_ :  ∀ {a as} →  F a →  All F as →  All F (a ∷ as)
-open All public
-
-instance
-
-  -- Instance search
-
-  []ᴬ-it :  All F []
-  []ᴬ-it =  []ᴬ
-
-  ∷ᴬ-it :  {{F a}} →  {{All F as}} →  All F (a ∷ as)
-  ∷ᴬ-it =  it ∷ᴬ it
+All :  (A → Set ℓF) →  List A →  Set ℓF
+All F [] =  ⊤
+All F (a ∷ as) =  F a × All F as

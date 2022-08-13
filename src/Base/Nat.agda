@@ -24,13 +24,13 @@ private variable
   k l m n :  ℕ
 
 --------------------------------------------------------------------------------
--- ≤, <, ≥, > :  Order
+-- ≤, < :  Order
 
 infix 4 _≤_ _<_ _≥_ _>_
 
 data  _≤_ :  ℕ → ℕ → Set₀  where
-  0≤ :  ∀ {n} →  0 ≤ n
-  suc≤suc :  ∀ {m n} →  m ≤ n →  suc m ≤ suc n
+  0≤ :  0 ≤ n
+  suc≤suc :  m ≤ n →  suc m ≤ suc n
 
 _<_ _≥_ _>_ :  ℕ → ℕ → Set₀
 m < n =  suc m ≤ n

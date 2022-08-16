@@ -52,14 +52,14 @@ module _
 
   -- We can strip ○ from ↪=>>, using ↪=>>-use'
 
-  ○⇒-↪=>> :  ○ ¡ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
-  ○⇒-↪=>> =  ○⇒↪=>> λ{ .! → ↪=>>-use' }
+  ○⇒-↪=>>/↪=>>-use' :  ○ ¡ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
+  ○⇒-↪=>>/↪=>>-use' =  ○⇒↪=>> λ{ .! → ↪=>>-use' }
 
   -- Therefore, by ○-rec, we can do any super update --- a paradox!
 
-  =>> :  P ⊢[ ι ][ i ]=>> Q
-  =>> {P} {Q = Q} =  ∗⊤-intro »
-    =>>-frameˡ (○-rec ○⇒-↪=>>) ᵘ»ᵘ ↪=>>-use' {¡ P} {¡ Q}
+  =>>/↪=>>-use' :  P ⊢[ ι ][ i ]=>> Q
+  =>>/↪=>>-use' {P} {Q = Q} =  ∗⊤-intro »
+    =>>-frameˡ (○-rec ○⇒-↪=>>/↪=>>-use') ᵘ»ᵘ ↪=>>-use' {¡ P} {¡ Q}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᴾ without ▶, then we get a paradox
@@ -72,14 +72,16 @@ module _
 
   -- We can strip ○ from ↪⟨⟩ᴾ, using ↪⟨⟩ᴾ-use'
 
-  ○⇒-↪⟨⟩ᴾ :  ∀{e : Expr ∞ T} →  ○ ¡ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
-  ○⇒-↪⟨⟩ᴾ =  ○⇒↪⟨⟩ᴾ λ{ .! → ↪⟨⟩ᴾ-use' }
+  ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} →
+    ○ ¡ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+  ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' =  ○⇒↪⟨⟩ᴾ λ{ .! → ↪⟨⟩ᴾ-use' }
 
   -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
 
-  horᴾ :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ
-  horᴾ {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
-    =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ) ᵘ»ʰ ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}
+  horᴾ/↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ
+  horᴾ/↪⟨⟩ᴾ-use' {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
+    =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
+    ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᵀ without counter increment, then we get a paradox
@@ -92,12 +94,13 @@ module _
 
   -- We can strip ○ from ↪⟨⟩ᵀ, using ↪⟨⟩ᵀ-use'
 
-  ○⇒-↪⟨⟩ᵀ :  ∀{e : Expr ∞ T} →
+  ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} →
     ○ ¡ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
-  ○⇒-↪⟨⟩ᵀ =  ○⇒↪⟨⟩ᵀ λ{ .! → ↪⟨⟩ᵀ-use' }
+  ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' =  ○⇒↪⟨⟩ᵀ λ{ .! → ↪⟨⟩ᵀ-use' }
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
-  horᵀ :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Qᵛ
-  horᵀ {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
-    =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ) ᵘ»ʰ ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}
+  horᵀ/↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Qᵛ
+  horᵀ/↪⟨⟩ᵀ-use' {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
+    =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
+    ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}

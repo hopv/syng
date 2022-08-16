@@ -2,6 +2,8 @@
 -- Exclusivity box
 --------------------------------------------------------------------------------
 
+{-# OPTIONS --without-K --safe #-}
+
 module Syho.Model.Exc where
 
 open import Base.Level using (Level)

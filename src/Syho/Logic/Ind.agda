@@ -23,7 +23,7 @@ open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; �
 open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _⊢[<_][_]=>>_; _ᵘ»_)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (○-mono-∗; ○-alloc; □○-alloc-mutrec;
+open import Syho.Logic.Judg public using (○-mono-∗; ○-alloc; □○-alloc-rec;
   ○-use; ↪=>>-monoˡ-∗; ↪=>>-monoʳ-∗; ↪=>>-suc; ↪=>>-frameˡ; ○⇒↪=>>; ↪=>>-use;
   ↪⟨⟩ᴾ-monoˡ-∗; ↪⟨⟩ᴾ-monoʳ-∗; ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-monoˡ-∗;
   ↪⟨⟩ᵀ-monoʳ-∗; ↪⟨⟩ᵀ-suc; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ; ↪⟨⟩ᵀ-use)
@@ -61,13 +61,7 @@ abstract
 
   -->  ○-alloc :  P˂ .! ⊢[ ι ][ i ]=>> ○ P˂
 
-  -->  □○-alloc-mutrec :  {{All (λ P˂ → Pers (P˂ .!)) P˂s}} →
-  -->    [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] P˂ .!
-  -->                   ⊢[ ι ][ i ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
-
-  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ →' P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
-  □○-alloc-rec =  →-mono ∧-elimˡ ∧⊤-intro »
-    □○-alloc-mutrec {P˂s = [ _ ]} ᵘ» ∧-elimˡ
+  -->  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ →' P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
 
   □○-alloc :  {{Pers (P˂ .!)}} →  P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
   □○-alloc =  →-const » □○-alloc-rec

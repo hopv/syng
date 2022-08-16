@@ -285,13 +285,10 @@ data  _⊢[_]*_  where
 
   ○-alloc :  P˂ .! ⊢[ ι ][ i ]=>> ○ P˂
 
-  -- When every P˂_i is persistent,
-  -- ∧_i □ ○ P˂_i can be obtained mutually recursively, i.e.,
-  -- by allocating ∧_i P˂_i minus the target ∧_i □ ○ P˂_i
+  -- When P˂ is persistent, □ ○ P˂_i can be obtained recursively, i.e.,
+  -- by allocating P˂ minus the target □ ○ P˂
 
-  □○-alloc-mutrec :  {{All (λ P˂ → Pers (P˂ .!)) P˂s}} →
-    [∧ P˂ ∈ P˂s ] □ ○ P˂ →' [∧ P˂ ∈ P˂s ] P˂ .!
-      ⊢[ ι ][ i ]=>> [∧ P˂ ∈ P˂s ] □ ○ P˂
+  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ →' P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
 
   -- Use ○ P˂
 

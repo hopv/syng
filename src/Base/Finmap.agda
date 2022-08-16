@@ -14,6 +14,7 @@ open import Base.Few using (absurd)
 open import Base.Nat using (ℕ; suc; _≤_; _≡ᵇ_; _⊔_; ≤-trans; ᵇ⇒≡; ⊔≤-introˡ;
   ⊔≤-introʳ; <-irrefl)
 open import Base.Bool using (tt; ff)
+open import Base.Nmap A using (updⁿᵐ)
 
 --------------------------------------------------------------------------------
 -- Finmap : Finite map over natural numbers
@@ -44,9 +45,7 @@ initᶠᵐ _ nulla .finᶠᵐ =  0 , λ _ → nulla
 -- Update a finmap at an index
 
 updᶠᵐ :  ℕ →  A →  Finmap →  Finmap
-updᶠᵐ i a (f |ᶠᵐ _) .!ᶠᵐ j  with i ≡ᵇ j
-... | ff =  f j
-... | tt =  a
+updᶠᵐ i a (f |ᶠᵐ _) .!ᶠᵐ =  updⁿᵐ i a f
 updᶠᵐ i a M@(_ |ᶠᵐ (n , fi)) .finᶠᵐ =  suc i ⊔ n , proof
  where abstract
   proof :  Finᶠᵐ (updᶠᵐ i a M .!ᶠᵐ) (suc i ⊔ n)

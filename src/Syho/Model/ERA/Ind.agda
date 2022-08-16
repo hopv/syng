@@ -67,10 +67,14 @@ Indˣᴱᴿᴬ .⌞⌟-idem _ =  refl
 
 open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; ε to εˣ; _↝_ to _↝ˣ_)
 
+-- Exclusively own a proposition at an index
+
 line-indˣ :  ℕ →  Prop' ∞ →  Resˣ
 line-indˣ i P =  updⁿᵐ i (#ˣ P) (λ _ → ?ˣ)
 
 abstract
+
+  -- Add a new proposition and get a line
 
   add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ (addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q)
   add-indˣ {Pᶠᵐ = _ |ᶠᵐ (n , fi)} R˙ˣ P✓R∙ε j  with P✓R∙ε j

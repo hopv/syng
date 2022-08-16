@@ -82,7 +82,7 @@ abstract
   ∙ˣ-?ˣ :  x ∙ˣ ?ˣ ≡ x
   ∙ˣ-?ˣ {x = x}  rewrite ∙ˣ-comm {x = x} {?ˣ} =  refl
 
-  -- ∙ˣ is commutative
+  -- ∙ˣ is associative
 
   ∙ˣ-assocˡ :  (x ∙ˣ y) ∙ˣ z  ≡  x ∙ˣ (y ∙ˣ z)
   ∙ˣ-assocˡ {x = ?ˣ} =  refl

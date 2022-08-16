@@ -72,7 +72,7 @@ abstract
       cong (b *⁺_) (*⁺-comm {c} {f} ◇ fc≡de) ◇ *⁺-actˡ-comm {b} {d} {e}
 
 --------------------------------------------------------------------------------
--- ≈ᴿ⁺$1 :  Boolean equivalence over ℚ⁺
+-- ≈ᴿ⁺ᵇ :  Boolean equivalence over ℚ⁺
 
 infix 4 _≈ᴿ⁺ᵇ_
 _≈ᴿ⁺ᵇ_ : ℚ⁺ → ℚ⁺ → Bool
@@ -186,7 +186,7 @@ abstract
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
 
 --------------------------------------------------------------------------------
--- ≤1ᴿ⁺$1 :  Boolean version of ≤1ᴿ⁺
+-- ≤1ᴿ⁺ᵇ :  Boolean version of ≤1ᴿ⁺
 
 infix 4 _≤1ᴿ⁺ᵇ
 _≤1ᴿ⁺ᵇ :  ℚ⁺ → Bool

@@ -31,7 +31,7 @@ private variable
   θ :  Addr
   m n :  ℕ
 
--- $1 :  Address offset operation
+-- ∘ :  Address offset operation
 
 infixl 10 _ₒ_
 _ₒ_ :  Addr →  ℕ →  Addr

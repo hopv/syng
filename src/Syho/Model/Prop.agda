@@ -21,7 +21,7 @@ open ERA GlobRA renaming (Car to Glob) using (_≈_; _⊑_; ✓_; _∙_; ε; ⌞
   ⌞⌟-idem; ⌞⌟-mono; ✓-⌞⌟)
 
 --------------------------------------------------------------------------------
--- Prop$1 :  Semantic proposition
+-- Propᵒ :  Semantic proposition
 
 -- Monoᵒ !ᵒ :  !ᵒ is monotone over the resource
 Monoᵒ :  (Glob → Set₂) →  Set₂
@@ -136,8 +136,8 @@ syntax ∀₀ᵒ-syntax (λ x → Pᵒ) =  ∀₀ᵒ x , Pᵒ
 syntax ∃₀ᵒ-syntax (λ x → Pᵒ) =  ∃₀ᵒ x , Pᵒ
 
 --------------------------------------------------------------------------------
--- ∧$1 :  Conjunction
--- ∨$1 :  Disjunction
+-- ∧ᵒ :  Conjunction
+-- ∨ᵒ :  Disjunction
 
 infixr 7 _∧ᵒ_
 infixr 6 _∨ᵒ_
@@ -156,8 +156,8 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
   proof a⊑b (inj₁ Qa) =  inj₁ $ Qᵒ .monoᵒ a⊑b Qa
 
 --------------------------------------------------------------------------------
--- ⊤$1 :  Truth
--- ⊥$1 :  Falsehood
+-- ⊤ᵒ :  Truth
+-- ⊥ᵒ :  Falsehood
 
 ⊤ᵒ ⊥ᵒ :  Propᵒ
 ⊤ᵒ .!ᵒ _ =  ⊤
@@ -166,14 +166,14 @@ _∧ᵒ_ _∨ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 ⊥ᵒ .monoᵒ _ ()
 
 --------------------------------------------------------------------------------
--- ⌜ ⌝$1 :  Set embedding
+-- ⌜ ⌝₂ᵒ :  Set embedding
 
 ⌜_⌝₂ᵒ :  Set₂ →  Propᵒ
 ⌜ X₂ ⌝₂ᵒ .!ᵒ _ =  X₂
 ⌜ _ ⌝₂ᵒ .monoᵒ _ x =  x
 
 --------------------------------------------------------------------------------
--- →$1 :  Implication
+-- →ᵒ :  Implication
 
 infixr 5 _→ᵒ_
 _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
@@ -184,7 +184,7 @@ _→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
   proof a⊑b P→Qa b⊑c =  P→Qa (⊑-trans a⊑b b⊑c)
 
 --------------------------------------------------------------------------------
--- ∗$1 :  Separating conjunction
+-- ∗ᵒ :  Separating conjunction
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
@@ -195,7 +195,7 @@ _∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
   proof a⊑a' (b , c , b∙c⊑a , Pd , Qe) =  b , c , ⊑-trans b∙c⊑a a⊑a' , Pd , Qe
 
 --------------------------------------------------------------------------------
--- -∗$1 :  Magic wand
+-- -∗ᵒ :  Magic wand
 
 infixr 5 _-∗ᵒ_
 _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
@@ -206,7 +206,7 @@ _-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
   proof a⊑b P-∗Qa b⊑c Pc =  P-∗Qa (⊑-trans a⊑b b⊑c) Pc
 
 --------------------------------------------------------------------------------
--- |=>$1 :  Update modality
+-- |=>ᵒ :  Update modality
 
 infix 8 |=>ᵒ_
 |=>ᵒ_ :  Propᵒ → Propᵒ
@@ -219,7 +219,7 @@ infix 8 |=>ᵒ_
   ... | (c , ✓ed∙c , Pc) =  c , flip ✓-mono ✓ed∙c (∙-monoˡ ∙-incrʳ) , Pc
 
 --------------------------------------------------------------------------------
--- □$1 :  Persistence modality
+-- □ᵒ :  Persistence modality
 
 infix 8 □ᵒ_
 □ᵒ_ :  Propᵒ → Propᵒ

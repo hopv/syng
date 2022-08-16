@@ -99,7 +99,7 @@ open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; ε to εˣ; _↝_ to _�
 -- Exclusively own a proposition at an index
 
 line-indˣ :  ℕ →  Prop' ∞ →  Resˣ
-line-indˣ i P =  updⁿᵐ i (#ˣ P) (λ _ → ?ˣ)
+line-indˣ i P =  updⁿᵐ i (#ˣ P) εˣ
 
 abstract
 

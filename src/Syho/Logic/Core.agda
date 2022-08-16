@@ -178,6 +178,7 @@ abstract
   -- On →'
 
   -->  →-intro :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
+
   -->  →-elim :  Q ⊢[ ι ] P →' R →  P ∧ Q ⊢[ ι ] R
 
   -- Introduce P →'

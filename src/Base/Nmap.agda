@@ -4,12 +4,16 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Base.Nmap {ℓ} (A : Set ℓ) where
+module Base.Nmap where
 
 open import Base.Level using (Level)
 open import Base.Eq using (_≡_; refl)
 open import Base.Nat using (ℕ; _≡ᵇ_)
 open import Base.Bool using (tt; ff)
+
+private variable
+  ℓ :  Level
+  A :  Set ℓ
 
 --------------------------------------------------------------------------------
 -- updⁿᵐ :  Update a map at an index
@@ -26,5 +30,5 @@ abstract
   updaⁿᵐ :  ℕ →  A →  (ℕ → A) →  (ℕ → A)
   updaⁿᵐ =  updⁿᵐ
 
-  updaⁿᵐ-eq :  updaⁿᵐ ≡ updⁿᵐ
+  updaⁿᵐ-eq :  ∀{A : Set ℓ} →  updaⁿᵐ {A = A} ≡ updⁿᵐ
   updaⁿᵐ-eq =  refl

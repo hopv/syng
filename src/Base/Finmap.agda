@@ -14,7 +14,7 @@ open import Base.Few using (absurd)
 open import Base.Nat using (ℕ; suc; _≤_; _≡ᵇ_; _⊔_; ≤-trans; ᵇ⇒≡; ⊔≤-introˡ;
   ⊔≤-introʳ; <-irrefl)
 open import Base.Bool using (tt; ff)
-open import Base.Nmap A using (updⁿᵐ)
+open import Base.Nmap using (updⁿᵐ)
 
 --------------------------------------------------------------------------------
 -- Finmap : Finite map over natural numbers

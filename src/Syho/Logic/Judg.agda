@@ -319,6 +319,8 @@ data  _⊢[_]*_  where
   ○⇒↪=>> :  P˂ .! ∗ R˂ .! ⊢[< ι ][ i ]=>> Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
 
   -- Use ↪=>>, with counter increment
+  ---- Without that counter increment, we could do any super update
+  ---- (=>>/↪=>>-use' in Syho.Logic.Paradox)
 
   ↪=>>-use :  P˂ .! ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ][ suc i ]=>>  Q˂ .!
 
@@ -346,6 +348,8 @@ data  _⊢[_]*_  where
     P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂ᵛ v .!) →  ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
   -- Use ↪⟨⟩ᴾ, with ▶ on the expression
+  ---- Without that ▶, we could have any partial Hoare triple
+  ---- (horᴾ/↪⟨⟩ᴾ-use' in Syho.Logic.Paradox)
 
   ↪⟨⟩ᴾ-use :  ∀{Q˂ᵛ} →
     P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]⟨ ▶ ¡ e ⟩ᴾ  λ v → Q˂ᵛ v .!
@@ -378,6 +382,8 @@ data  _⊢[_]*_  where
     ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
 
   -- Use ↪⟨⟩ᵀ, with counter increment
+  ---- Without that counter increment, we could have any total Hoare triple
+  ---- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
 
   ↪⟨⟩ᵀ-use :  ∀{Q˂ᵛ} →
     P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᵀ[ suc i ]  λ v → Q˂ᵛ v .!

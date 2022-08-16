@@ -327,12 +327,12 @@ record  ERA {ℓᴱ ℓ ℓ≈ᴱ ℓ≈ ℓ✓} : Set (sucᴸ (ℓᴱ ⊔ᴸ �
 
   abstract
 
-    -- Reflexivity
+    -- ↝ is reflexive
 
     ↝-refl :  Ea ↝ Ea
     ↝-refl _ =  id
 
-    -- ↝ respects ≈
+    -- ↝ respects ≈ᴱᴿ
 
     ↝-resp :  Ea ≈ᴱᴿ E'a' →  Fb ≈ᴱᴿ F'b' →  Ea ↝ Fb →  E'a' ↝ F'b'
     ↝-resp (E≈E' , a≈a') (F≈F' , b≈b') Ea↝Fb c E'✓c∙a' =  E'✓c∙a' ▷
@@ -345,7 +345,7 @@ record  ERA {ℓᴱ ℓ ℓ≈ᴱ ℓ≈ ℓ✓} : Set (sucᴸ (ℓᴱ ⊔ᴸ �
     ↝-respʳ :  Fb ≈ᴱᴿ F'b' →  Ea ↝ Fb →  Ea ↝ F'b'
     ↝-respʳ =  ↝-resp refl˜ᴱᴿ
 
-    -- ↝˙ respects ≈
+    -- ↝˙ respects ≈ᴱᴿ
 
     ↝˙-resp :  Ea ≈ᴱᴿ E'a' →  (∀ x →  Fb˙ x ≈ᴱᴿ F'b'˙ x) →
       Ea ↝˙ Fb˙ →  E'a' ↝˙ F'b'˙

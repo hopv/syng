@@ -68,8 +68,8 @@ _↪[_]=>>ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ
 abstract
 
   ↪=>>ᵒ-suc :  P ↪[ i ]=>>ᵒ Q  ⊨  P ↪[ suc i ]=>>ᵒ Q
-  ↪=>>ᵒ-suc (_ , _ , BasicS , P∗S∗R⊢[i]=>>Q , S∗Ra) =
-    _ , _ , BasicS , =>>-suc P∗S∗R⊢[i]=>>Q , S∗Ra
+  ↪=>>ᵒ-suc (-, -, BasicS , P∗S∗R⊢[i]=>>Q , S∗Ra) =
+    -, -, BasicS , =>>-suc P∗S∗R⊢[i]=>>Q , S∗Ra
 
   ↪=>>ᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →
     R ∗ P' ⊢[ ∞ ][ i ]=>> P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]=>>ᵒ Q)  ⊨  P' ↪[ i ]=>>ᵒ Q
@@ -130,8 +130,8 @@ _↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop
 abstract
 
   ↪⟨⟩ᵀᵒ-suc :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ suc i ]ᵒ Qᵛ
-  ↪⟨⟩ᵀᵒ-suc (_ , _ , BasicS , P∗S∗R⊢⟨e⟩[i]Q , S∗Ra) =
-    _ , _ , BasicS , horᵀ-suc P∗S∗R⊢⟨e⟩[i]Q , S∗Ra
+  ↪⟨⟩ᵀᵒ-suc (-, -, BasicS , P∗S∗R⊢⟨e⟩[i]Q , S∗Ra) =
+    -, -, BasicS , horᵀ-suc P∗S∗R⊢⟨e⟩[i]Q , S∗Ra
 
   ↪⟨⟩ᵀᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]=>> P →
                     ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ

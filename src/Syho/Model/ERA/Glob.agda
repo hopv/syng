@@ -6,6 +6,7 @@
 
 module Syho.Model.ERA.Glob where
 
+open import Base.Level using (2ᴸ)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no)
@@ -26,12 +27,12 @@ open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ;
 pattern indˣ =  0
 pattern ind□ =  1
 
-Globᴱᴿᴬ˙ :  ℕ →  ERA
+Globᴱᴿᴬ˙ :  ℕ →  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 Globᴱᴿᴬ˙ indˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ ind□ =  Ind□ᴱᴿᴬ
 Globᴱᴿᴬ˙ _ =  ⊤ᴱᴿᴬ
 
-Globᴱᴿᴬ :  ERA
+Globᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 Globᴱᴿᴬ .Env =  ∀ i →  Globᴱᴿᴬ˙ i .Env
 Globᴱᴿᴬ .Res =  ∀ i →  Globᴱᴿᴬ˙ i .Res
 Globᴱᴿᴬ ._≈ᴱ_ E F =  ∀ i →  Globᴱᴿᴬ˙ i ._≈ᴱ_ (E i) (F i)

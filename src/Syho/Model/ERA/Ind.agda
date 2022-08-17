@@ -6,6 +6,7 @@
 
 module Syho.Model.ERA.Ind where
 
+open import Base.Level using (2ᴸ)
 open import Base.Size using (∞)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Func using (_∘_; _$_; id; _▷_)
@@ -36,7 +37,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Indˣᴱᴿᴬ :  Exclusive indirection ERA
 
-Indˣᴱᴿᴬ :  ERA
+Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 
 Indˣᴱᴿᴬ .Env =  Finmap
 
@@ -119,7 +120,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Ind□ᴱᴿᴬ :  Persistent indirection ERA
 
-Ind□ᴱᴿᴬ :  ERA
+Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 
 Ind□ᴱᴿᴬ .Env =  Finmap
 

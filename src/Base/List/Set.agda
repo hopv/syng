@@ -15,7 +15,7 @@ open import Base.List.Any using (Any; by-hd; by-tl;
   ¬Any-++-intro; ¬Any-++-elim₀; ¬Any-++-elim₁)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
-open import Base.Few using (¬_)
+open import Base.Few using (¬_; absurd)
 open import Base.Func using (id; _∘_; _$_)
 
 private variable
@@ -92,6 +92,15 @@ as ⊆ᴸ bs =  ∀ {a} →  a ∈ᴸ as →  a ∈ᴸ bs
 
 abstract
 
+  -- ⊆ᴸ and []
+
+  []-⊆ᴸ :  [] ⊆ᴸ as
+  []-⊆ᴸ ()
+
+  ⊆ᴸ-[] :  as ⊆ᴸ [] →  as ≡ []
+  ⊆ᴸ-[] {as = []} _ =  refl
+  ⊆ᴸ-[] {as = _ ∷ _} as⊆[] =  absurd $ ∉ᴸ-[] $ as⊆[] $ by-hd refl
+
   -- ⊆ᴸ is reflexive and transitive
 
   ⊆ᴸ-refl :  as ⊆ᴸ as
@@ -145,6 +154,11 @@ abstract
   ≈ᴸ-trans :  as ≈ᴸ bs →  bs ≈ᴸ cs →  as ≈ᴸ cs
   ≈ᴸ-trans (as⊆bs , bs⊆as) (bs⊆cs , cs⊆bs) =
     ⊆ᴸ-trans as⊆bs bs⊆cs , ⊆ᴸ-trans cs⊆bs bs⊆as
+
+  -- ≈ᴸ and []
+
+  ≈ᴸ-[] :  as ≈ᴸ [] →  as ≡ []
+  ≈ᴸ-[] (as⊆[] , _) =  ⊆ᴸ-[] as⊆[]
 
   -- ++ is congruent, commutative and idempotent w.r.t. ≈ᴸ
 

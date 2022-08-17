@@ -97,3 +97,15 @@ abstract
   ∗ᵒ-assocʳ :  Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ
   ∗ᵒ-assocʳ proof =  proof ▷
     ∗ᵒ-comm ▷ ∗ᵒ-monoˡ ∗ᵒ-comm ▷ ∗ᵒ-assocˡ ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ ∗ᵒ-comm
+
+  ------------------------------------------------------------------------------
+  -- On □
+
+  □ᵒ-mono :  Pᵒ ⊨ Qᵒ →  □ᵒ Pᵒ ⊨ □ᵒ Qᵒ
+  □ᵒ-mono P⊨Q =  P⊨Q
+
+  □ᵒ-elim :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ⊨ Pᵒ
+  □ᵒ-elim MonoP P⌞a⌟ =  MonoP ⌞⌟-decr P⌞a⌟
+
+  □ᵒ-dup :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ⊨ □ᵒ □ᵒ Pᵒ
+  □ᵒ-dup MonoP P⌞a⌟ =  MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟

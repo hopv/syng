@@ -7,11 +7,12 @@
 module Syho.Model.Prop where
 
 open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_)
+open import Base.Func using (_$_; _▷_)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
-open ERA Globᴱᴿᴬ renaming (Res to Glob) using (_⊑_; _✓_; _∙_; ⌞_⌟; ⊑-respˡ;
-  ⊑-refl; ⊑-trans; ∙-monoˡ; ∙-assocˡ)
+open ERA Globᴱᴿᴬ renaming (Res to Glob) using (_⊑_; _✓_; _∙_; ⌞_⌟; ◠˜_; ⊑-respˡ;
+  ⊑-refl; ⊑-trans; ≈⇒⊑; ∙-monoˡ; ∙-comm; ∙-assocˡ; ⌞⌟-decr; ⌞⌟-idem)
 
 --------------------------------------------------------------------------------
 -- Propᵒ :  Semantic proposition
@@ -25,7 +26,7 @@ Monoᵒ :  Propᵒ →  Set₂
 Monoᵒ Pᵒ =  ∀ {a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
-  Pᵒ Qᵒ Rᵒ :  Propᵒ
+  Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ
   X₁ :  Set₁
 
 --------------------------------------------------------------------------------
@@ -67,3 +68,32 @@ infix 8 |=>ᵒ_
 infix 8 □ᵒ_
 □ᵒ_ :  Propᵒ → Propᵒ
 (□ᵒ Pᵒ) a =  Pᵒ ⌞ a ⌟
+
+--------------------------------------------------------------------------------
+-- Lemmas
+
+abstract
+
+  ------------------------------------------------------------------------------
+  -- On ∗ᵒ
+
+  ∗ᵒ-monoˡ :  Pᵒ ⊨ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Rᵒ
+  ∗ᵒ-monoˡ P⊨Q (_ , b∙c⊑a , Pb , Rc) =  _ , b∙c⊑a , P⊨Q Pb , Rc
+
+  ∗ᵒ-comm :  Pᵒ ∗ᵒ Qᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
+  ∗ᵒ-comm (_ , b∙c⊑a , Pb , Qc) =  _ , ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
+
+  ∗ᵒ-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ ∗ᵒ Pᵒ ⊨ Rᵒ ∗ᵒ Qᵒ
+  ∗ᵒ-monoʳ P⊨Q proof =  proof ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ P⊨Q ▷ ∗ᵒ-comm
+
+  ∗ᵒ-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Sᵒ
+  ∗ᵒ-mono P⊨Q R⊨S proof =  proof ▷ ∗ᵒ-monoˡ P⊨Q ▷ ∗ᵒ-monoʳ R⊨S
+
+  ∗ᵒ-assocˡ :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ)
+  ∗ᵒ-assocˡ (_ , e∙d⊑a , (_ , b∙c⊑e , Pb , Qc) , Rd) =
+    _ , ⊑-respˡ ∙-assocˡ (⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a) , Pb ,
+    _ , ⊑-refl , Qc , Rd
+
+  ∗ᵒ-assocʳ :  Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ
+  ∗ᵒ-assocʳ proof =  proof ▷
+    ∗ᵒ-comm ▷ ∗ᵒ-monoˡ ∗ᵒ-comm ▷ ∗ᵒ-assocˡ ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ ∗ᵒ-comm

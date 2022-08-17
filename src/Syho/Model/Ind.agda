@@ -11,10 +11,12 @@ open import Base.Func using (it)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⊎_)
 open import Base.Nat using (ℕ; suc)
+open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; pullʳˡ)
 open import Syho.Logic.Supd using (_⊢[_][_]=>>_; =>>-suc; =>>-frameˡ; _ᵘ»_)
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _ʰ»_; hor-frameˡ)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
@@ -24,8 +26,11 @@ open import Syho.Model.Basic using (⸨_⸩ᴮ)
 open ERA Globᴱᴿᴬ using (_⊑_)
 
 private variable
-  P P' Q Q' R :  Prop' ∞
   i :  ℕ
+  T :  Type
+  P P' Q Q' R :  Prop' ∞
+  Qᵛ Q'ᵛ :  Val T →  Prop' ∞
+  e :  Expr ∞ T
 
 --------------------------------------------------------------------------------
 -- indᵒ :  Indirection base
@@ -78,4 +83,30 @@ abstract
     let instance _ = BasicT in  -, -, it ,
     -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢=>> R∗Q ⊢ Q'
     (∗-monoʳ ∗-assocˡ » pullʳˡ » =>>-frameˡ P∗T∗S⊢=>>Q ᵘ» R∗Q⊢Q') ,
+    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+
+--------------------------------------------------------------------------------
+-- ↪⟨ ⟩ᴾᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᴾ
+
+infixr 5 _↪⟨_⟩ᴾᵒ_
+_↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ
+(P ↪⟨ e ⟩ᴾᵒ Qᵛ) a =  ∑ R , ∑ S , ∑ BasicS ,
+  P ∗ S ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ indᵒ R) a
+
+abstract
+
+  ↪⟨⟩ᴾᵒ-monoˡ-∗ :  {{_ : Basic R}} →
+    R ∗ P' ⊢[ ∞ ] P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
+  ↪⟨⟩ᴾᵒ-monoˡ-∗ R∗P'⊢P (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+    let instance _ = BasicT in  -, -, it ,
+    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢ P∗T∗S ⊢⟨e⟩ᴾ Qᵛ
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ∗-monoˡ R∗P'⊢P » P∗T∗S⊢⟨e⟩Q) ,
+    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+
+  ↪⟨⟩ᴾᵒ-monoʳ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ] Q'ᵛ v) →
+    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
+  ↪⟨⟩ᴾᵒ-monoʳ-∗ R∗Q⊢Q' (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+    let instance _ = BasicT in  -, -, it ,
+    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᴾ R∗Q ⊢ Q'
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ» R∗Q⊢Q') ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)

@@ -9,10 +9,10 @@ module Base.List.Set where
 open import Base.Level using (Level)
 open import Base.Eq using (_≡_; refl; _≢_; _◇_; ◠_)
 open import Base.List using (List; _∷_; []; [_]; _++_)
-open import Base.List.Any using (Any; by-hd; by-tl;
-  Any-++-inj₀; Any-++-inj₁; Any-++-case;
-  ¬Any-[]; ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁;
-  ¬Any-++-intro; ¬Any-++-elim₀; ¬Any-++-elim₁)
+open import Base.List.Any using (by-hd; by-tl) public -- Re-export
+open import Base.List.Any using (Any; Any-++-inj₀; Any-++-inj₁; Any-++-case;
+  ¬Any-[]; ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁; ¬Any-++-intro;
+  ¬Any-++-elim₀; ¬Any-++-elim₁)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Few using (¬_; absurd)

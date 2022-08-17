@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Environmental Resource Algebra
+-- Environmental resource algebra
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
@@ -13,7 +13,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Setoid using (Setoid)
 
 --------------------------------------------------------------------------------
--- Environmental Resource algebra
+-- Environmental resource algebra
 
 record  ERA ℓᴱ ℓ ℓ≈ᴱ ℓ≈ ℓ✓ : Set (sucᴸ (ℓᴱ ⊔ᴸ ℓ ⊔ᴸ ℓ≈ᴱ ⊔ᴸ ℓ≈ ⊔ᴸ ℓ✓))  where
   ------------------------------------------------------------------------------

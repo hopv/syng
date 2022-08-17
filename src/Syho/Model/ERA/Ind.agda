@@ -65,11 +65,11 @@ Indˣᴱᴿᴬ ._◇˜ᴱ_ (refl , ∀iPi≡Qi) (refl , ∀iQi≡Ri) =
 
 Indˣᴱᴿᴬ .refl˜ _ =  refl
 
-Indˣᴱᴿᴬ .◠˜_ ∀iPi≡Qi i =  ◠ ∀iPi≡Qi i
+Indˣᴱᴿᴬ .◠˜_ ∀iPˣi≡Qˣi i =  ◠ ∀iPˣi≡Qˣi i
 
-Indˣᴱᴿᴬ ._◇˜_ ∀iPi≡Qi ∀iQi≡Ri i =  ∀iPi≡Qi i ◇ ∀iQi≡Ri i
+Indˣᴱᴿᴬ ._◇˜_ ∀iPˣi≡Qˣi ∀iQˣi≡Rˣi i =  ∀iPˣi≡Qˣi i ◇ ∀iQˣi≡Rˣi i
 
-Indˣᴱᴿᴬ .∙-congˡ ∀iPi≡Qi i  rewrite ∀iPi≡Qi i =  refl
+Indˣᴱᴿᴬ .∙-congˡ ∀iPˣi≡Qˣi i  rewrite ∀iPˣi≡Qˣi i =  refl
 
 Indˣᴱᴿᴬ .∙-unitˡ _ =  refl
 
@@ -77,11 +77,11 @@ Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} i =  ∙ˣ-comm {x = Pˣ˙ i}
 
 Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} i =  ∙ˣ-assocˡ {x = Pˣ˙ i}
 
-Indˣᴱᴿᴬ .✓-resp (refl , ∀iPi≡Qi) ∀iRi≡Si P✓R i  with P✓R i
-... | P✓Ri  rewrite ∀iPi≡Qi i | ∀iRi≡Si i =  P✓Ri
+Indˣᴱᴿᴬ .✓-resp (refl , ∀iPi≡Qi) ∀iRˣi≡Sˣi P✓Rˣ i  with P✓Rˣ i
+... | P✓Rˣi  rewrite ∀iPi≡Qi i | ∀iRˣi≡Sˣi i =  P✓Rˣi
 
-Indˣᴱᴿᴬ .✓-rem {a = Pˣ˙} {b = Qˣ˙} R✓P∙Q i  with Pˣ˙ i | Qˣ˙ i | R✓P∙Q i
-... | ?ˣ | _ | R✓Qi =  R✓Qi
+Indˣᴱᴿᴬ .✓-rem {a = Pˣ˙} {b = Qˣ˙} R✓Pˣ∙Qˣ i  with Pˣ˙ i | Qˣ˙ i | R✓Pˣ∙Qˣ i
+... | ?ˣ | _ | R✓Qˣi =  R✓Qˣi
 ... | _ | ?ˣ | _ =  _ , λ _ → refl
 
 Indˣᴱᴿᴬ .✓-ε _ =  _ , λ _ → refl
@@ -106,9 +106,9 @@ abstract
   -- Add a new proposition and get a line
 
   add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ (addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q)
-  add-indˣ {Pᶠᵐ = _ |ᶠᵐ (n , fi)} R˙ˣ P✓R∙ε j  with P✓R∙ε j
-  ... | (Pj←Rj∙? , n≤j⇒Rj≡?ˣ)  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
-  ...   | ff | _ =  Pj←Rj∙? , n≤j⇒Rj≡?ˣ ∘ <⇒≤
+  add-indˣ {Pᶠᵐ = _ |ᶠᵐ (n , fi)} Rˣ˙ P✓Rˣ∙ε j  with P✓Rˣ∙ε j
+  ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
+  ...   | ff | _ =  Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡? ∘ <⇒≤
   ...   | tt | ⇒n≡j  with ⇒n≡j _
-  ...     | refl  rewrite ∙ˣ-?ˣ {x = R˙ˣ n} | n≤j⇒Rj≡?ˣ ≤-refl
+  ...     | refl  rewrite ∙ˣ-?ˣ {x = Rˣ˙ j} | n≤j⇒Rˣj∙?≡? ≤-refl
     =  refl , absurd ∘ <-irrefl

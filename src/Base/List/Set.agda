@@ -4,23 +4,23 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Base.Setoid using (Setoid)
-module Base.List.Set {ℓ ℓ≈} (S : Setoid ℓ ℓ≈) where
-open Setoid S using (_≈_; _≉_; refl˜; ◠˜_; _◇˜_) renaming (Car to A)
+module Base.List.Set where
 
-open import Base.Level using (_⊔ᴸ_)
+open import Base.Level using (Level)
+open import Base.Eq using (_≡_; refl; _≢_; _◇_; ◠_)
 open import Base.List using (List; _∷_; []; [_]; _++_)
 open import Base.List.Any using (Any; by-hd; by-tl;
   Any-++-inj₀; Any-++-inj₁; Any-++-case;
   ¬Any-[]; ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁;
   ¬Any-++-intro; ¬Any-++-elim₀; ¬Any-++-elim₁)
-open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Few using (¬_)
 open import Base.Func using (id; _∘_; _$_)
 
 private variable
+  ℓ :  Level
+  A :  Set ℓ
   as bs cs :  List A
   a b :  A
 
@@ -28,15 +28,15 @@ private variable
 -- ∈ᴸ :  Containment in a list
 
 infix 4 _∈ᴸ_
-_∈ᴸ_ :  A → List A → Set (ℓ ⊔ᴸ ℓ≈)
-a ∈ᴸ as =  Any (a ≈_) as
+_∈ᴸ_ :  ∀{A : Set ℓ} →  A →  List A →  Set ℓ
+a ∈ᴸ as =  Any (a ≡_) as
 
 abstract
 
   -- ∈ᴸ and [ ]
 
-  ∈ᴸ-[?] :  a ∈ᴸ  [ b ] →  a ≈ b
-  ∈ᴸ-[?] (by-hd a≈b) =  a≈b
+  ∈ᴸ-[?] :  a ∈ᴸ  [ b ] →  a ≡ b
+  ∈ᴸ-[?] (by-hd a≡b) =  a≡b
 
   -- ∈ᴸ and ++
 
@@ -53,7 +53,7 @@ abstract
 -- ∉ᴸ :  Non-containment in a list
 
 infix 4 _∉ᴸ_
-_∉ᴸ_ :  A → List A → Set (ℓ ⊔ᴸ ℓ≈)
+_∉ᴸ_ :  A →  List A →  Set _
 a ∉ᴸ as =  ¬ a ∈ᴸ as
 
 abstract
@@ -63,10 +63,10 @@ abstract
 
   -- ∉ᴸ and ∷
 
-  ∉ᴸ-∷-intro :  a ≉ b →  a ∉ᴸ bs →  a ∉ᴸ b ∷ bs
+  ∉ᴸ-∷-intro :  a ≢ b →  a ∉ᴸ bs →  a ∉ᴸ b ∷ bs
   ∉ᴸ-∷-intro =  ¬Any-∷-intro
 
-  ∉ᴸ-∷-elim₀ :  a ∉ᴸ b ∷ bs →  a ≉ b
+  ∉ᴸ-∷-elim₀ :  a ∉ᴸ b ∷ bs →  a ≢ b
   ∉ᴸ-∷-elim₀ =  ¬Any-∷-elim₀
 
   ∉ᴸ-∷-elim₁ :  a ∉ᴸ b ∷ bs →  a ∉ᴸ bs
@@ -87,7 +87,7 @@ abstract
 -- ⊆ᴸ :  Inclusion between lists as sets
 
 infix 4 _⊆ᴸ_
-_⊆ᴸ_ :  List A → List A → Set (ℓ ⊔ᴸ ℓ≈)
+_⊆ᴸ_ :  ∀{A : Set ℓ} →  List A →  List A →  Set ℓ
 as ⊆ᴸ bs =  ∀ {a} →  a ∈ᴸ as →  a ∈ᴸ bs
 
 abstract
@@ -100,14 +100,9 @@ abstract
   ⊆ᴸ-trans :  as ⊆ᴸ bs →  bs ⊆ᴸ cs →  as ⊆ᴸ cs
   ⊆ᴸ-trans as⊆bs bs⊆cs =  bs⊆cs ∘ as⊆bs
 
-  -- On [_] and ⊆ᴸ
-
-  [?]-cong-⊆ᴸ :  a ≈ b →  [ a ] ⊆ᴸ [ b ]
-  [?]-cong-⊆ᴸ a≈b c∈[a] =  by-hd $ ∈ᴸ-[?] c∈[a] ◇˜ a≈b
-
   -- ++ is the lub w.r.t. ⊆ᴸ
 
-  ++-⊆ᴸ-elim :  ∀ {as bs cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ++ bs  ⊆ᴸ  cs
+  ++-⊆ᴸ-elim :  ∀ {cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ++ bs  ⊆ᴸ  cs
   ++-⊆ᴸ-elim as⊆cs bs⊆cs a∈as++bs with ∈ᴸ-++-case a∈as++bs
   ... | inj₀ a∈as =  as⊆cs a∈as
   ... | inj₁ a∈bs =  bs⊆cs a∈bs
@@ -124,14 +119,14 @@ abstract
   ++-monoˡ as⊆bs =  ++-⊆ᴸ-elim (⊆ᴸ-trans as⊆bs ++-⊆ᴸ-introˡ) ++-⊆ᴸ-introʳ
 
   ++-⊆ᴸ-comm :  as ++ bs  ⊆ᴸ  bs ++ as
-  ++-⊆ᴸ-comm {as} {bs}  =
-    ++-⊆ᴸ-elim {as} {bs} {bs ++ as} ++-⊆ᴸ-introʳ ++-⊆ᴸ-introˡ
+  ++-⊆ᴸ-comm {as = as} {bs}  =
+    ++-⊆ᴸ-elim {as = as} {bs} {bs ++ as} ++-⊆ᴸ-introʳ ++-⊆ᴸ-introˡ
 
 --------------------------------------------------------------------------------
 -- ≈ᴸ :  Equivalece of lists as sets
 
 infix 4 _≈ᴸ_
-_≈ᴸ_ :  List A → List A → Set (ℓ ⊔ᴸ ℓ≈)
+_≈ᴸ_ :  ∀{A : Set ℓ} →  List A → List A → Set ℓ
 as ≈ᴸ bs =  as ⊆ᴸ bs  ×  bs ⊆ᴸ as
 
 abstract
@@ -151,18 +146,14 @@ abstract
   ≈ᴸ-trans (as⊆bs , bs⊆as) (bs⊆cs , cs⊆bs) =
     ⊆ᴸ-trans as⊆bs bs⊆cs , ⊆ᴸ-trans cs⊆bs bs⊆as
 
-  -- [_] is congruent
-
-  [?]-cong :  a ≈ b →  [ a ] ≈ᴸ [ b ]
-  [?]-cong a≈b =  [?]-cong-⊆ᴸ a≈b , [?]-cong-⊆ᴸ (◠˜ a≈b)
-
   -- ++ is congruent, commutative and idempotent w.r.t. ≈ᴸ
 
   ++-congˡ :  as ≈ᴸ bs →  as ++ cs  ≈ᴸ  bs ++ cs
   ++-congˡ (as⊆bs , bs⊆as) =  ++-monoˡ as⊆bs , ++-monoˡ bs⊆as
 
   ++-comm :  as ++ bs  ≈ᴸ  bs ++ as
-  ++-comm {as} {bs} =  ++-⊆ᴸ-comm {as} {bs} , ++-⊆ᴸ-comm {bs} {as}
+  ++-comm {as = as} {bs} =
+    ++-⊆ᴸ-comm {as = as} {bs} , ++-⊆ᴸ-comm {as = bs} {as}
 
   ++-idem :  as ++ as  ≈ᴸ  as
   ++-idem =  ++-⊆ᴸ-elim ⊆ᴸ-refl ⊆ᴸ-refl , ++-⊆ᴸ-introˡ
@@ -170,16 +161,16 @@ abstract
 --------------------------------------------------------------------------------
 -- homo :  the list is homogeneous as a set
 
-homo :  List A → Set (ℓ ⊔ᴸ ℓ≈)
-homo as =  ∀ {a b} →  a ∈ᴸ as →  b ∈ᴸ as →  a ≈ b
+homo :  ∀{A : Set ℓ} →  List A →  Set ℓ
+homo as =  ∀ {a b} →  a ∈ᴸ as →  b ∈ᴸ as →  a ≡ b
 
 abstract
 
-  homo-[] :  homo []
+  homo-[] :  homo ([] {A = A})
   homo-[] ()
 
   homo-[?] :  homo [ a ]
-  homo-[?] a'∈[a] b'∈[a] =  ∈ᴸ-[?] a'∈[a] ◇˜ ◠˜ ∈ᴸ-[?] b'∈[a]
+  homo-[?] a'∈[a] b'∈[a] =  ∈ᴸ-[?] a'∈[a] ◇ ◠ ∈ᴸ-[?] b'∈[a]
 
   homo-mono :  as ⊆ᴸ bs →  homo bs →  homo as
   homo-mono as⊆bs homo'bs a∈as b∈as =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)
@@ -187,5 +178,5 @@ abstract
   homo-resp :  as ≈ᴸ bs →  homo as →  homo bs
   homo-resp (_ , bs⊆as) =  homo-mono bs⊆as
 
-  homo-agree :  homo (a ∷ b ∷ []) →  a ≈ b
-  homo-agree homo'abcs =  homo'abcs (by-hd refl˜) (by-tl $ by-hd refl˜)
+  homo-agree :  homo (a ∷ b ∷ []) →  a ≡ b
+  homo-agree homo'abcs =  homo'abcs (by-hd refl) (by-tl $ by-hd refl)

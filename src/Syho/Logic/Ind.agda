@@ -38,6 +38,7 @@ private variable
   X :  Set ℓ
   x :  X
   P˂˙ Q˂˙ :  X → Prop˂ ∞
+  Qᵛ :  Val T → Prop' ∞
   Q˂ᵛ Q'˂ᵛ :  Val T → Prop˂ ∞
   Q˂ᵛ˙ :  X → Val T → Prop˂ ∞
   e :  Expr ∞ T
@@ -141,11 +142,10 @@ abstract
 
   -- Modify ⟨ ⟩ᴾ proof
 
-  -->  ↪⟨⟩ᴾ-frameˡ :  ∀{Qᵛ : _ → Prop' ∞} →
-  -->    ¡ P ↪⟨ e ⟩ᴾ (λ v → ¡ Qᵛ v)  ⊢[ ι ]
-  -->      ¡ (R ∗ P) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Qᵛ v)
+  -->  ↪⟨⟩ᴾ-frameˡ :  ¡ P ↪⟨ e ⟩ᴾ (λ v → ¡ Qᵛ v)  ⊢[ ι ]
+  -->                   ¡ (R ∗ P) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Qᵛ v)
 
-  ↪⟨⟩ᴾ-frameʳ :  ∀{Qᵛ : _ → Prop' ∞} →
+  ↪⟨⟩ᴾ-frameʳ :
     ¡ P ↪⟨ e ⟩ᴾ (λ v → ¡ Qᵛ v)  ⊢[ ι ]  ¡ (P ∗ R) ↪⟨ e ⟩ᴾ λ v → ¡ (Qᵛ v ∗ R)
   ↪⟨⟩ᴾ-frameʳ =  ↪⟨⟩ᴾ-frameˡ »
     ↪⟨⟩ᴾ-monoˡ (¡ ∗-comm) » ↪⟨⟩ᴾ-monoʳ (λ _ → ¡ ∗-comm)
@@ -192,12 +192,10 @@ abstract
   ↪⟨⟩ᵀ-≤ :  ∀{Q˂ᵛ} →  i ≤ j →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂ᵛ
   ↪⟨⟩ᵀ-≤ =  ↪⟨⟩ᵀ-≤ᵈ ∘ ≤⇒≤ᵈ
 
-  -->  ↪⟨⟩ᵀ-frameˡ :
-  -->    ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
-  -->      ¡ (R ∗ P) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Qᵛ v)
+  -->  ↪⟨⟩ᵀ-frameˡ :  ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
+  -->                   ¡ (R ∗ P) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Qᵛ v)
 
-  ↪⟨⟩ᵀ-frameʳ :  ∀{Qᵛ : _ → Prop' ∞} →
-    ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
-      ¡ (P ∗ R) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (Qᵛ v ∗ R)
+  ↪⟨⟩ᵀ-frameʳ :  ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
+                   ¡ (P ∗ R) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (Qᵛ v ∗ R)
   ↪⟨⟩ᵀ-frameʳ =  ↪⟨⟩ᵀ-frameˡ »
     ↪⟨⟩ᵀ-monoˡ (¡ ∗-comm) » ↪⟨⟩ᵀ-monoʳ (λ _ → ¡ ∗-comm)

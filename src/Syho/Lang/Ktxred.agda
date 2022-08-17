@@ -15,7 +15,7 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Eq using (_≡_; refl)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; ◸_; _→*_; Addr; Expr; Expr˂; ▶_; ∇_; nd;
-  λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E)
+  λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E; val; val→*)
 
 private variable
   X :  Set₀
@@ -139,8 +139,8 @@ abstract
 -- Calculate the value or context-redex pair of the expression
 
 val/ktxred :  Expr ∞ T →  Val/Ktxred T
-val/ktxred (∇ x) =  inj₀ $ ↑ x
-val/ktxred (λ˙ e˙) =  inj₀ $ e˙
+val/ktxred (∇ x) =  inj₀ $ val x
+val/ktxred (λ˙ e˙) =  inj₀ $ val→* e˙
 val/ktxred (▶ e˂) =  inj₁ $ -, •ᴷ , ▶ᴿ e˂
 val/ktxred nd =  inj₁ $ -, •ᴷ , ndᴿ
 val/ktxred (e' ◁ e) =  inj₁ body
@@ -148,15 +148,15 @@ val/ktxred (e' ◁ e) =  inj₁ body
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (ktx ᴷ|ᴿ red) =  e' ◁ᴷʳ ktx ᴷ|ᴿ red
-  ... | inj₀ (↑ x)  with val/ktxred e'
+  ... | inj₀ (val x)  with val/ktxred e'
   ...   | inj₁ (ktx ᴷ|ᴿ red) =  ktx ◁ᴷˡ x ᴷ|ᴿ red
-  ...   | inj₀ v =  •ᴷ ᴷ|ᴿ v ◁ᴿ x
+  ...   | inj₀ (val→* v) =  •ᴷ ᴷ|ᴿ v ◁ᴿ x
 val/ktxred (★ e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (ktx ᴷ|ᴿ red) =  ★ᴷ ktx ᴷ|ᴿ red
-  ... | inj₀ (↑ θ) =  •ᴷ ᴷ|ᴿ ★ᴿ θ
+  ... | inj₀ (val θ) =  •ᴷ ᴷ|ᴿ ★ᴿ θ
 val/ktxred (e' ← e) =  inj₁ body
  where
   body :  Ktxred _
@@ -164,19 +164,19 @@ val/ktxred (e' ← e) =  inj₁ body
   ... | inj₁ (ktx ᴷ|ᴿ red) =  e' ←ᴷʳ ktx ᴷ|ᴿ red
   ... | inj₀ v  with val/ktxred e'
   ...   | inj₁ (ktx ᴷ|ᴿ red) =  ktx ←ᴷˡ v ᴷ|ᴿ red
-  ...   | inj₀ (↑ θ) =  •ᴷ ᴷ|ᴿ θ ←ᴿ v
+  ...   | inj₀ (val θ) =  •ᴷ ᴷ|ᴿ θ ←ᴿ v
 val/ktxred (alloc e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (ktx ᴷ|ᴿ red) =  allocᴷ ktx ᴷ|ᴿ red
-  ... | inj₀ (↑ n) =  •ᴷ ᴷ|ᴿ allocᴿ n
+  ... | inj₀ (val n) =  •ᴷ ᴷ|ᴿ allocᴿ n
 val/ktxred (free e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   ... | inj₁ (ktx ᴷ|ᴿ red) =  freeᴷ ktx ᴷ|ᴿ red
-  ... | inj₀ (↑ θ) =  •ᴷ ᴷ|ᴿ freeᴿ θ
+  ... | inj₀ (val θ) =  •ᴷ ᴷ|ᴿ freeᴿ θ
 
 -- Judge if the expression is non-value
 
@@ -190,8 +190,8 @@ abstract
   -- val/ktxred (V⇒E v) returns inj₀ v
 
   val/ktxred-V⇒E :  ∀{v : Val T} →  val/ktxred (V⇒E v) ≡ inj₀ v
-  val/ktxred-V⇒E {T = ◸ _} =  refl
-  val/ktxred-V⇒E {T = _ →* _} =  refl
+  val/ktxred-V⇒E {v = val _} =  refl
+  val/ktxred-V⇒E {v = val→* _} =  refl
 
   -- Nonval enriched with an evaluation context
 
@@ -252,12 +252,12 @@ abstract
       (λ{kr} → val/ktxred-ktx-inv {ktx = ktx} {kr} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
   ...   | ktx , refl , eq' =  ktx , refl , eq'
-  val/ktxred-ktx-inv {e = e} {ktx = _←ᴷˡ_ {T = ◸ _} ktx _} nv'e eq
+  val/ktxred-ktx-inv {e = e} {ktx = ktx ←ᴷˡ val _} nv'e eq
     with val/ktxred (ktx ᴷ◁ e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{kr} → val/ktxred-ktx-inv {ktx = ktx} {kr} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
   ...   | ktx , refl , eq' =  ktx , refl , eq'
-  val/ktxred-ktx-inv {e = e} {ktx = _←ᴷˡ_ {T = _ →* _} ktx _} nv'e eq
+  val/ktxred-ktx-inv {e = e} {ktx = ktx ←ᴷˡ val→* _} nv'e eq
     with val/ktxred (ktx ᴷ◁ e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{kr} → val/ktxred-ktx-inv {ktx = ktx} {kr} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl

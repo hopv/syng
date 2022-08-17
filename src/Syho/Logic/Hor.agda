@@ -14,7 +14,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]=>>_; ⇒=>>; =>>-refl)
-open import Syho.Lang.Expr using (Type; Expr; Val; let˙)
+open import Syho.Lang.Expr using (Type; Expr; Val; let˙; val)
 open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _ᴷ|ᴿ_; Val/Ktxred)
 
 -- Import and re-export
@@ -35,6 +35,7 @@ private variable
   ktx :  Ktx U T
   e₀ :  Expr ∞ T
   e˙ :  A → Expr ∞ T
+  v :  Val T
 
 infixr -1 _ʰ»_
 
@@ -81,9 +82,8 @@ abstract
   -->  _ʰ»ᵘ_ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ][ i ]=>> Rᵛ v) →
   -->           P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
-  _ʰ»_ :  ∀{Qᵛ : Val T → _} →
-    P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ] Rᵛ v) →
-    P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
+  _ʰ»_ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v → Qᵛ v ⊢[ ι ] Rᵛ v) →
+          P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
   P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒=>> {i = 0} $ ∀vQ⊢R _
 
   -- Frame
@@ -91,8 +91,8 @@ abstract
   -->  hor-frameˡ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
   -->                R ∗ P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → R ∗ Qᵛ v
 
-  hor-frameʳ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
-                             P ∗ R ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → Qᵛ v ∗ R
+  hor-frameʳ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
+                P ∗ R ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → Qᵛ v ∗ R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
   -- Non-deterministic value
@@ -100,21 +100,21 @@ abstract
   -->  hor-ndᵘ :  (∀ x →  P ⊢[ ι ]=>> Qᵛ (↑ x)) →
   -->             P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ] Qᵛ
 
-  hor-nd :  (∀ x →  P ⊢[ ι ] Qᵛ (↑ x)) →
+  hor-nd :  (∀ x →  P ⊢[ ι ] Qᵛ (val x)) →
             P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ] Qᵛ
   hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⇒=>> {i = 0} $ ∀xP⊢Q _
 
   -- Let binding
 
-  hor-let :  ∀{Rᵛ} →
-    P ⊢[ ι ]⟨ e₀ ⟩[ wκ ] Qᵛ →  (∀ x → Qᵛ (↑ x) ⊢[ ι ]⟨ e˙ x ⟩[ wκ ] Rᵛ) →
+  hor-let :
+    P ⊢[ ι ]⟨ e₀ ⟩[ wκ ] Qᵛ →  (∀ x → Qᵛ (val x) ⊢[ ι ]⟨ e˙ x ⟩[ wκ ] Rᵛ) →
     P ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ wκ ] Rᵛ
   hor-let P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
-    hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q $ λ (↑ x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x
+    hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q $ λ{ (val x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }
 
   -- Value
 
   -->  hor-valᵘ :  P ⊢[ ι ]=>> Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
 
-  hor-val :  ∀{v : Val T} →  P ⊢[ ι ] Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
+  hor-val :  P ⊢[ ι ] Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
   hor-val P⊢Q =  hor-valᵘ $ ⇒=>> {i = 0} P⊢Q

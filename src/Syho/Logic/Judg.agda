@@ -22,8 +22,8 @@ open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
   ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; _↪[_]=>>_; ○_; _↦⟨_⟩_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
-open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; V⇒E;
-  AnyVal; ⊤-val)
+open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; val;
+  V⇒E; AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
 
@@ -324,63 +324,58 @@ data  _⊢[_]*_  where
 
   -- Monotonicity of ↪⟨ ⟩ᴾ
 
-  ↪⟨⟩ᴾ-monoˡ-∗ :  ∀{Q˂ᵛ} →
+  ↪⟨⟩ᴾ-monoˡ-∗ :
     {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
     R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
-  ↪⟨⟩ᴾ-monoʳ-∗ :  ∀{Q˂ᵛ : Val T → _} →
+  ↪⟨⟩ᴾ-monoʳ-∗ :
     {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
     R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
 
   -- Modify ⟨ ⟩ᴾ proof
 
-  ↪⟨⟩ᴾ-frameˡ :  ∀{Qᵛ : _ → Prop' ∞} →
+  ↪⟨⟩ᴾ-frameˡ :
     ¡ P ↪⟨ e ⟩ᴾ (λ v → ¡ Qᵛ v)  ⊢[ ι ]  ¡ (R ∗ P) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Qᵛ v)
 
   -- Make ↪⟨ ⟩ᴾ out of ○
 
-  ○⇒↪⟨⟩ᴾ :  ∀{Q˂ᵛ} →
+  ○⇒↪⟨⟩ᴾ :
     P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂ᵛ v .!) →  ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
   -- Use ↪⟨⟩ᴾ, with ▶ on the expression
   ---- Without that ▶, we could have any partial Hoare triple
   ---- (horᴾ/↪⟨⟩ᴾ-use' in Syho.Logic.Paradox)
 
-  ↪⟨⟩ᴾ-use :  ∀{Q˂ᵛ} →
-    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]⟨ ▶ ¡ e ⟩ᴾ  λ v → Q˂ᵛ v .!
+  ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]⟨ ▶ ¡ e ⟩ᴾ  λ v → Q˂ᵛ v .!
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᵀ
 
   -- Monotonicity of ↪⟨ ⟩ᵀ
 
-  ↪⟨⟩ᵀ-monoˡ-∗ :  ∀{Q˂ᵛ} →
-    {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
-    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+  ↪⟨⟩ᵀ-monoˡ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
+                  R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
 
-  ↪⟨⟩ᵀ-monoʳ-∗ :  ∀{Q˂ᵛ : Val T → _} →
-    {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
-    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+  ↪⟨⟩ᵀ-monoʳ-∗ :  {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+                  R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
 
   -- Modify ⟨ ⟩ᵀ proof
 
-  ↪⟨⟩ᵀ-suc :  ∀{Q˂ᵛ} →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
+  ↪⟨⟩ᵀ-suc :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
 
-  ↪⟨⟩ᵀ-frameˡ :  ∀{Qᵛ : _ → Prop' ∞} →
-    ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
-      ¡ (R ∗ P) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Qᵛ v)
+  ↪⟨⟩ᵀ-frameˡ :  ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
+                   ¡ (R ∗ P) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Qᵛ v)
 
   -- Make ↪⟨ ⟩ᵀ out of ○
 
-  ○⇒↪⟨⟩ᵀ :  ∀{Q˂ᵛ} →
-    P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂ᵛ v .!) →
-    ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+  ○⇒↪⟨⟩ᵀ :  P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂ᵛ v .!) →
+            ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
 
   -- Use ↪⟨⟩ᵀ, with counter increment
   ---- Without that counter increment, we could have any total Hoare triple
   ---- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
 
-  ↪⟨⟩ᵀ-use :  ∀{Q˂ᵛ} →
+  ↪⟨⟩ᵀ-use :
     P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᵀ[ suc i ]  λ v → Q˂ᵛ v .!
 
   ------------------------------------------------------------------------------
@@ -388,75 +383,71 @@ data  _⊢[_]*_  where
 
   -- Weaken a Hoare triple from total to partial
 
-  hor-ᵀ⇒ᴾ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Qᵛ
+  hor-ᵀ⇒ᴾ :  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Qᵛ
 
   -- Counter increment on total Hoare triple
 
-  horᵀ-suc :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ suc i ] Qᵛ
+  horᵀ-suc :  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Qᵛ →  P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ suc i ] Qᵛ
 
   -- Compose with a super update
 
-  _ᵘ»ʰ_ :  ∀{Rᵛ} →  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
-                    P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
+  _ᵘ»ʰ_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
+           P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
-  _ʰ»ᵘ_ :  ∀{Qᵛ : Val T → _} →
-    P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ][ i ]=>> Rᵛ v) →
-    P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
+  _ʰ»ᵘ_ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ][ i ]=>> Rᵛ v) →
+           P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
   -- Frame
 
-  hor-frameˡ :  ∀{Qᵛ} →  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
-                         R ∗ P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → R ∗ Qᵛ v
+  hor-frameˡ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →
+                R ∗ P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v → R ∗ Qᵛ v
 
   -- Bind by a context
 
-  hor-bind :  ∀{Qᵛ Rᵛ} →
+  hor-bind :
     P ⊢[ ι ]⟨ e ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Rᵛ) →
     P ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wκ ] Rᵛ
 
   -- Value
 
-  hor-valᵘ :  ∀{v : Val T} →
-    P ⊢[ ι ][ i ]=>> Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
+  hor-valᵘ :  P ⊢[ ι ][ i ]=>> Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
 
   -- Non-deterministic value
 
-  hor-ndᵘ :  (∀ x →  P ⊢[ ι ][ i ]=>> Qᵛ (↑ x)) →
+  hor-ndᵘ :  (∀ x →  P ⊢[ ι ][ i ]=>> Qᵛ (val x)) →
              P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples
 
-  horᴾ-▶ :  ∀{Qᵛ} →  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
-                     P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ Qᵛ
+  horᴾ-▶ :  P ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ Qᵛ →
+            P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ Qᵛ
 
-  horᵀ-▶ :  ∀{Qᵛ} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ[ i ] Qᵛ →
-                     P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ[ i ] Qᵛ
+  horᵀ-▶ :  P ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ[ i ] Qᵛ →
+            P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ[ i ] Qᵛ
 
   -- Application
 
-  hor-◁ :  ∀{Qᵛ} →  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ] Qᵛ →
-                    P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ] Qᵛ
+  hor-◁ :  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ] Qᵛ →
+           P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ] Qᵛ
 
   -- Memory read
 
-  hor-★ :  ∀{Qᵛ} →
-    θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
-    θ ↦⟨ p ⟩ (-, v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
+  hor-★ :  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
+           θ ↦⟨ p ⟩ (-, v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
 
   -- Memory write
 
-  hor-← :  ∀{Qᵛ} →
-    θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
-    θ ↦ av ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wκ ] Qᵛ
+  hor-← :  θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
+           θ ↦ av ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wκ ] Qᵛ
 
   -- Memory allocation
 
-  hor-alloc :  ∀{Qᵛ} →
+  hor-alloc :
     (∀ θ →  θ ↦ˡ rep n ⊤-val ∗ Free n θ ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ] Qᵛ) →
     P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wκ ] Qᵛ
 
   -- Memory freeing
 
-  hor-free :  ∀{Qᵛ} →
+  hor-free :
     len avs ≡ n →  P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
     θ ↦ˡ avs ∗ Free n θ ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ wκ ] Qᵛ

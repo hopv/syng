@@ -115,17 +115,17 @@ syntax let∈-syntax {X = X} e₀ (λ x → e) =  let' x ∈ X := e₀ in' e
 syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 
 --------------------------------------------------------------------------------
--- Val :  Value type
+-- Val :  Value data
 
-Val :  Type →  Set₁
-Val (◸ X) =  Up X
-Val (X →* T) =  X → Expr ∞ T
+data  Val :  Type →  Set₁  where
+  val :  X →  Val (◸ X)
+  val→* :  (X → Expr ∞ T) →  Val (X →* T)
 
 -- Conversion from Val to Expr
 
 V⇒E :  Val T →  Expr ∞ T
-V⇒E {T = ◸ _} (↑ x) =  ∇ x
-V⇒E {T = _ →* _} e˙ =  λ˙ e˙
+V⇒E (val x) =  ∇ x
+V⇒E (val→* e˙) =  λ˙ e˙
 
 -- Value of any type T
 
@@ -133,4 +133,4 @@ AnyVal :  Set₁
 AnyVal =  ∑ T , Val T
 
 ⊤-val :  AnyVal
-⊤-val =  (◸ ⊤ , _)
+⊤-val =  (◸ ⊤ , val _)

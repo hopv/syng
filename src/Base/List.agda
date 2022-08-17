@@ -9,15 +9,15 @@ module Base.List where
 open import Base.Level using (Level)
 open import Base.Eq using (_≡_; refl; cong)
 
-private variable
-  ℓA ℓB :  Level
-  A :  Set ℓA
-  B :  Set ℓB
-
 --------------------------------------------------------------------------------
 -- List
 
 open import Agda.Builtin.List public using (List; []; _∷_)
+
+private variable
+  ℓ :  Level
+  A B :  Set ℓ
+  as bs cs :  List A
 
 --------------------------------------------------------------------------------
 -- Singleton list
@@ -44,6 +44,6 @@ abstract
 
   -- ++ is associative
 
-  ++-assocˡ :  ∀ {as bs cs : List A} →  (as ++ bs) ++ cs ≡ as ++ (bs ++ cs)
+  ++-assocˡ :  (as ++ bs) ++ cs ≡ as ++ (bs ++ cs)
   ++-assocˡ {as = []} =  refl
   ++-assocˡ {as = _ ∷ as} =  cong (_ ∷_) (++-assocˡ {as = as})

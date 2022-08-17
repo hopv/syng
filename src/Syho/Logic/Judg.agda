@@ -297,10 +297,10 @@ data  _⊢[_]*_  where
 
   -- Monotonicity of ↪=>>
 
-  ↪=>>-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
+  ↪=>>-monoˡᵘ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]=>> P˂ .! →
                   R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
 
-  ↪=>>-monoʳ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ] Q'˂ .! →
+  ↪=>>-monoʳᵘ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ][ i ]=>> Q'˂ .! →
                   R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
 
   -- Modify =>> proof
@@ -324,12 +324,11 @@ data  _⊢[_]*_  where
 
   -- Monotonicity of ↪⟨ ⟩ᴾ
 
-  ↪⟨⟩ᴾ-monoˡ-∗ :
-    {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
-    R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+  ↪⟨⟩ᴾ-monoˡᵘ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ i ]=>> P˂ .!) →
+                  R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
-  ↪⟨⟩ᴾ-monoʳ-∗ :
-    {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+  ↪⟨⟩ᴾ-monoʳᵘ-∗ :  {{Basic R}} →
+    (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ][ i ]=>> Q'˂ᵛ v .!) →
     R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
 
   -- Modify ⟨ ⟩ᴾ proof
@@ -353,11 +352,12 @@ data  _⊢[_]*_  where
 
   -- Monotonicity of ↪⟨ ⟩ᵀ
 
-  ↪⟨⟩ᵀ-monoˡ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ] P˂ .!) →
-                  R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+  ↪⟨⟩ᵀ-monoˡᵘ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ j ]=>> P˂ .!) →
+                   R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
 
-  ↪⟨⟩ᵀ-monoʳ-∗ :  {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
-                  R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+  ↪⟨⟩ᵀ-monoʳᵘ-∗ :  {{Basic R}} →
+    (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ][ j ]=>> Q'˂ᵛ v .!) →
+    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
 
   -- Modify ⟨ ⟩ᵀ proof
 

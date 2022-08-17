@@ -10,7 +10,7 @@ open import Base.Level using (Level; ↓_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Few using (0⊤)
-open import Base.Func using (_∘_; id; const)
+open import Base.Func using (_∘_; id; const; _$_)
 open import Base.Prod using (_×_; _,_)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈsuc; _≤_; ≤⇒≤ᵈ)
 open import Base.List using ([_])
@@ -20,13 +20,14 @@ open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∧_; _→'_; 
   ○_; _↪[_]=>>_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∀₁-elim;
   ∧-elimˡ; ∧⊤-intro; →-mono; →-const; ∗-comm; ∗-elimʳ; ⊤∗-intro)
-open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _⊢[<_][_]=>>_; _ᵘ»_)
+open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _⊢[<_][_]=>>_; ⇒=>>;
+  _ᵘ»_)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (○-mono-∗; ○-alloc; □○-alloc-rec;
-  ○-use; ↪=>>-monoˡ-∗; ↪=>>-monoʳ-∗; ↪=>>-suc; ↪=>>-frameˡ; ○⇒↪=>>; ↪=>>-use;
-  ↪⟨⟩ᴾ-monoˡ-∗; ↪⟨⟩ᴾ-monoʳ-∗; ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-monoˡ-∗;
-  ↪⟨⟩ᵀ-monoʳ-∗; ↪⟨⟩ᵀ-suc; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ; ↪⟨⟩ᵀ-use)
+  ○-use; ↪=>>-monoˡᵘ-∗; ↪=>>-monoʳᵘ-∗; ↪=>>-suc; ↪=>>-frameˡ; ○⇒↪=>>; ↪=>>-use;
+  ↪⟨⟩ᴾ-monoˡᵘ-∗; ↪⟨⟩ᴾ-monoʳᵘ-∗; ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-monoˡᵘ-∗;
+  ↪⟨⟩ᵀ-monoʳᵘ-∗; ↪⟨⟩ᵀ-suc; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ; ↪⟨⟩ᵀ-use)
 
 private variable
   ℓ :  Level
@@ -77,22 +78,38 @@ abstract
 
   -- Monotonicity of ↪=>>
 
-  -->  ↪=>>-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
-  -->                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
+  -->  ↪=>>-monoˡᵘ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]=>> P˂ .! →
+  -->                   R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
 
-  -->  ↪=>>-monoʳ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ] Q'˂ .! →
-  -->                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
+  -->  ↪=>>-monoʳᵘ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ][ i ]=>> Q'˂ .! →
+  -->                   R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
 
   -- We don't have ↪=>>-mono rules (which modify both the P and Q sides),
   -- because handling two thunks doesn't work well on the current Agda
 
+  ↪=>>-monoˡᵘ :  P'˂ .! ⊢[< ι ][ i ]=>> P˂ .! →
+                 P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
+  ↪=>>-monoˡᵘ P'⊢=>>P =  ⊤∗-intro » ↪=>>-monoˡᵘ-∗ λ{ .! → ∗-elimʳ » P'⊢=>>P .! }
+
+  ↪=>>-monoʳᵘ :  Q˂ .! ⊢[< ι ][ i ]=>> Q'˂ .! →
+                 P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
+  ↪=>>-monoʳᵘ Q⊢=>>Q' =  ⊤∗-intro » ↪=>>-monoʳᵘ-∗ λ{ .! → ∗-elimʳ » Q⊢=>>Q' .! }
+
+  ↪=>>-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
+                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
+  ↪=>>-monoˡ-∗ ⊢< =  ↪=>>-monoˡᵘ-∗ $ λ{ .! → ⇒=>> $ ⊢< .! }
+
+  ↪=>>-monoʳ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ] Q'˂ .! →
+                  R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
+  ↪=>>-monoʳ-∗ ⊢< =  ↪=>>-monoʳᵘ-∗ $ λ{ .! → ⇒=>> $ ⊢< .! }
+
   ↪=>>-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
                 P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
-  ↪=>>-monoˡ P'⊢<P =  ⊤∗-intro » ↪=>>-monoˡ-∗ λ{ .! → ∗-elimʳ » P'⊢<P .! }
+  ↪=>>-monoˡ ⊢< =  ↪=>>-monoˡᵘ $ λ{ .! → ⇒=>> $ ⊢< .! }
 
   ↪=>>-monoʳ :  Q˂ .! ⊢[< ι ] Q'˂ .! →
                 P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
-  ↪=>>-monoʳ Q⊢<Q' =  ⊤∗-intro » ↪=>>-monoʳ-∗ λ{ .! → ∗-elimʳ » Q⊢<Q' .! }
+  ↪=>>-monoʳ ⊢< =  ↪=>>-monoʳᵘ $ λ{ .! → ⇒=>> $ ⊢< .! }
 
   -- Modify =>> proof
 
@@ -120,20 +137,37 @@ abstract
 
   -- Monotonicity of ↪⟨ ⟩ᴾ
 
-  -->  ↪⟨⟩ᴾ-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
-  -->                  R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+  -->  ↪⟨⟩ᴾ-monoˡᵘ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]=>> P˂ .! →
+  -->                   R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
-  -->  ↪⟨⟩ᴾ-monoʳ-∗ :  {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
-  -->                  R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
+  -->  ↪⟨⟩ᴾ-monoʳᵘ-∗ :  {{Basic R}} →
+  -->    (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ][ i ]=>> Q'˂ᵛ v .!) →
+  -->    R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
+
+  ↪⟨⟩ᴾ-monoˡᵘ :  P'˂ .! ⊢[< ι ][ i ]=>> P˂ .! →
+                 P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+  ↪⟨⟩ᴾ-monoˡᵘ P'⊢=>>P =  ⊤∗-intro » ↪⟨⟩ᴾ-monoˡᵘ-∗ λ{ .! → ∗-elimʳ » P'⊢=>>P .! }
+
+  ↪⟨⟩ᴾ-monoʳᵘ :  (∀ v →  Q˂ᵛ v .! ⊢[< ι ][ i ]=>> Q'˂ᵛ v .!) →
+                 P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
+  ↪⟨⟩ᴾ-monoʳᵘ ∀vQ⊢=>>Q' =
+    ⊤∗-intro » ↪⟨⟩ᴾ-monoʳᵘ-∗ λ{ v .! → ∗-elimʳ » ∀vQ⊢=>>Q' v .! }
+
+  ↪⟨⟩ᴾ-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
+                  R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+  ↪⟨⟩ᴾ-monoˡ-∗ ⊢< =  ↪⟨⟩ᴾ-monoˡᵘ-∗ {i = 0} $ λ{ .! → ⇒=>> $ ⊢< .! }
+
+  ↪⟨⟩ᴾ-monoʳ-∗ :  {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+                  R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
+  ↪⟨⟩ᴾ-monoʳ-∗ ⊢< =  ↪⟨⟩ᴾ-monoʳᵘ-∗ {i = 0} $ λ{ v .! → ⇒=>> $ ⊢< v .! }
 
   ↪⟨⟩ᴾ-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
                 P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
-  ↪⟨⟩ᴾ-monoˡ P'⊢<P =  ⊤∗-intro » ↪⟨⟩ᴾ-monoˡ-∗ λ{ .! → ∗-elimʳ » P'⊢<P .! }
+  ↪⟨⟩ᴾ-monoˡ ⊢< =  ↪⟨⟩ᴾ-monoˡᵘ {i = 0} $ λ{ .! → ⇒=>> $ ⊢< .! }
 
   ↪⟨⟩ᴾ-monoʳ :  (∀ v →  Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
                 P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
-  ↪⟨⟩ᴾ-monoʳ ∀vQ⊢<Q' =
-    ⊤∗-intro » ↪⟨⟩ᴾ-monoʳ-∗ λ{ v .! → ∗-elimʳ » ∀vQ⊢<Q' v .! }
+  ↪⟨⟩ᴾ-monoʳ ⊢< =  ↪⟨⟩ᴾ-monoʳᵘ {i = 0} $ λ{ v .! → ⇒=>> $ ⊢< v .! }
 
   -- Modify ⟨ ⟩ᴾ proof
 
@@ -156,20 +190,37 @@ abstract
 
   -- Monotonicity of ↪⟨ ⟩ᵀ
 
-  -->  ↪⟨⟩ᵀ-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
-  -->                  R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+  -->  ↪⟨⟩ᵀ-monoˡᵘ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ j ]=>> P˂ .! →
+  -->                   R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
 
-  -->  ↪⟨⟩ᵀ-monoʳ-∗ :  {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+  -->  ↪⟨⟩ᵀ-monoʳᵘ-∗ :  {{Basic R}} →
+  -->    (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ][ j ]=>> Q'˂ᵛ v .!) →
   -->    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+
+  ↪⟨⟩ᵀ-monoˡᵘ :  P'˂ .! ⊢[< ι ][ j ]=>> P˂ .! →
+                 P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+  ↪⟨⟩ᵀ-monoˡᵘ P'⊢=>>P =  ⊤∗-intro » ↪⟨⟩ᵀ-monoˡᵘ-∗ λ{ .! → ∗-elimʳ » P'⊢=>>P .! }
+
+  ↪⟨⟩ᵀ-monoʳᵘ :  (∀ v →  Q˂ᵛ v .! ⊢[< ι ][ j ]=>> Q'˂ᵛ v .!) →
+                 P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+  ↪⟨⟩ᵀ-monoʳᵘ ∀vQ⊢=>>Q' =
+    ⊤∗-intro » ↪⟨⟩ᵀ-monoʳᵘ-∗ λ{ v .! → ∗-elimʳ » ∀vQ⊢=>>Q' v .! }
+
+  ↪⟨⟩ᵀ-monoˡ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ] P˂ .! →
+                  R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+  ↪⟨⟩ᵀ-monoˡ-∗ ⊢< =  ↪⟨⟩ᵀ-monoˡᵘ-∗ {j = 0} $ λ{ .! → ⇒=>> $ ⊢< .! }
+
+  ↪⟨⟩ᵀ-monoʳ-∗ :  {{Basic R}} →  (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
+                  R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+  ↪⟨⟩ᵀ-monoʳ-∗ ⊢< =  ↪⟨⟩ᵀ-monoʳᵘ-∗ {j = 0} $ λ{ v .! → ⇒=>> $ ⊢< v .! }
 
   ↪⟨⟩ᵀ-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
                 P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
-  ↪⟨⟩ᵀ-monoˡ P'⊢<P =  ⊤∗-intro » ↪⟨⟩ᵀ-monoˡ-∗ λ{ .! → ∗-elimʳ » P'⊢<P .! }
+  ↪⟨⟩ᵀ-monoˡ ⊢< =  ↪⟨⟩ᵀ-monoˡᵘ {j = 0} $ λ{ .! → ⇒=>> $ ⊢< .! }
 
   ↪⟨⟩ᵀ-monoʳ :  (∀ v →  Q˂ᵛ v .! ⊢[< ι ] Q'˂ᵛ v .!) →
                 P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
-  ↪⟨⟩ᵀ-monoʳ ∀vQ⊢<Q' =
-    ⊤∗-intro » ↪⟨⟩ᵀ-monoʳ-∗ λ{ v .! → ∗-elimʳ » ∀vQ⊢<Q' v .! }
+  ↪⟨⟩ᵀ-monoʳ ⊢< =  ↪⟨⟩ᵀ-monoʳᵘ {j = 0} $ λ{ v .! → ⇒=>> $ ⊢< v .! }
 
   -- Modify ⟨ ⟩ᵀ proof
 

@@ -15,9 +15,10 @@ open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; pullʳˡ)
-open import Syho.Logic.Supd using (_⊢[_][_]=>>_; =>>-suc; =>>-frameˡ; _ᵘ»_)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-suc; _ʰ»_;
-  hor-frameˡ)
+open import Syho.Logic.Supd using (_⊢[_][_]=>>_; =>>-suc; _ᵘ»ᵘ_; =>>-frameˡ;
+  =>>-frameʳ)
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-suc; _ʰ»ᵘ_;
+  _ᵘ»ʰ_; hor-frameˡ)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
@@ -27,7 +28,7 @@ open import Syho.Model.Basic using (⸨_⸩ᴮ)
 open ERA Globᴱᴿᴬ using (_⊑_)
 
 private variable
-  i :  ℕ
+  i j :  ℕ
   T :  Type
   P P' Q Q' R :  Prop' ∞
   Qᵛ Q'ᵛ :  Val T →  Prop' ∞
@@ -70,20 +71,23 @@ abstract
   ↪=>>ᵒ-suc (_ , _ , BasicS , P∗S∗R⊢[i]=>>Q , S∗Ra) =
     _ , _ , BasicS , =>>-suc P∗S∗R⊢[i]=>>Q , S∗Ra
 
-  ↪=>>ᵒ-monoˡ-∗ :  {{_ : Basic R}} →
-    R ∗ P' ⊢[ ∞ ] P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]=>>ᵒ Q)  ⊨  P' ↪[ i ]=>>ᵒ Q
-  ↪=>>ᵒ-monoˡ-∗ R∗P'⊢P (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢=>>Q , T∗indSc) =
+  ↪=>>ᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →
+    R ∗ P' ⊢[ ∞ ][ i ]=>> P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]=>>ᵒ Q)  ⊨  P' ↪[ i ]=>>ᵒ Q
+  ↪=>>ᵒ-monoˡᵘ-∗ R∗P'⊢=>>P
+    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢=>>Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
-    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢ P∗T∗S ⊢=>> Q
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ∗-monoˡ R∗P'⊢P » P∗T∗S⊢=>>Q) ,
+    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢=>> P∗T∗S ⊢=>> Q
+    (∗-monoʳ ∗-assocˡ »
+      pullʳˡ » ∗-assocʳ » =>>-frameʳ R∗P'⊢=>>P ᵘ»ᵘ P∗T∗S⊢=>>Q) ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
-  ↪=>>ᵒ-monoʳ-∗ :  {{_ : Basic R}} →
-    R ∗ Q ⊢[ ∞ ] Q' →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]=>>ᵒ Q)  ⊨  P ↪[ i ]=>>ᵒ Q'
-  ↪=>>ᵒ-monoʳ-∗ R∗Q⊢Q' (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢=>>Q , T∗indSc) =
+  ↪=>>ᵒ-monoʳᵘ-∗ :  {{_ : Basic R}} →
+    R ∗ Q ⊢[ ∞ ][ i ]=>> Q' →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]=>>ᵒ Q)  ⊨  P ↪[ i ]=>>ᵒ Q'
+  ↪=>>ᵒ-monoʳᵘ-∗ R∗Q⊢=>>Q'
+    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢=>>Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
-    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢=>> R∗Q ⊢ Q'
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » =>>-frameˡ P∗T∗S⊢=>>Q ᵘ» R∗Q⊢Q') ,
+    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢=>> R∗P∗T∗S ⊢=>> R∗Q ⊢ Q'
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » =>>-frameˡ P∗T∗S⊢=>>Q ᵘ»ᵘ R∗Q⊢=>>Q') ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
 --------------------------------------------------------------------------------
@@ -96,20 +100,23 @@ _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  
 
 abstract
 
-  ↪⟨⟩ᴾᵒ-monoˡ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ] P →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
-  ↪⟨⟩ᴾᵒ-monoˡ-∗ R∗P'⊢P (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+  ↪⟨⟩ᴾᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]=>> P →
+                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
+  ↪⟨⟩ᴾᵒ-monoˡᵘ-∗ R∗P'⊢=>>P
+    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
-    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢ P∗T∗S ⊢⟨e⟩ᴾ Qᵛ
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ∗-monoˡ R∗P'⊢P » P∗T∗S⊢⟨e⟩Q) ,
+    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢=>> P∗T∗S ⊢⟨e⟩ᴾ Qᵛ
+    (∗-monoʳ ∗-assocˡ »
+      pullʳˡ » ∗-assocʳ » =>>-frameʳ R∗P'⊢=>>P ᵘ»ʰ P∗T∗S⊢⟨e⟩Q) ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
-  ↪⟨⟩ᴾᵒ-monoʳ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ] Q'ᵛ v) →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
-  ↪⟨⟩ᴾᵒ-monoʳ-∗ R∗Q⊢Q' (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+  ↪⟨⟩ᴾᵒ-monoʳᵘ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ][ i ]=>> Q'ᵛ v) →
+                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
+  ↪⟨⟩ᴾᵒ-monoʳᵘ-∗ R∗Q⊢=>>Q'
+    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
-    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᴾ R∗Q ⊢ Q'
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ» R∗Q⊢Q') ,
+    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᴾ R∗Q ⊢=>> Q'
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ»ᵘ R∗Q⊢=>>Q') ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
 --------------------------------------------------------------------------------
@@ -126,18 +133,21 @@ abstract
   ↪⟨⟩ᵀᵒ-suc (_ , _ , BasicS , P∗S∗R⊢⟨e⟩[i]Q , S∗Ra) =
     _ , _ , BasicS , horᵀ-suc P∗S∗R⊢⟨e⟩[i]Q , S∗Ra
 
-  ↪⟨⟩ᵀᵒ-monoˡ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ] P →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ
-  ↪⟨⟩ᵀᵒ-monoˡ-∗ R∗P'⊢P (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+  ↪⟨⟩ᵀᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]=>> P →
+                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ
+  ↪⟨⟩ᵀᵒ-monoˡᵘ-∗ R∗P'⊢=>>P
+    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
-    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢ P∗T∗S ⊢⟨e⟩ᵀ Qᵛ
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ∗-monoˡ R∗P'⊢P » P∗T∗S⊢⟨e⟩Q) ,
+    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢=>> P∗T∗S ⊢⟨e⟩ᵀ Qᵛ
+    (∗-monoʳ ∗-assocˡ »
+      pullʳˡ » ∗-assocʳ » =>>-frameʳ R∗P'⊢=>>P ᵘ»ʰ P∗T∗S⊢⟨e⟩Q) ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
-  ↪⟨⟩ᵀᵒ-monoʳ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ] Q'ᵛ v) →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'ᵛ
-  ↪⟨⟩ᵀᵒ-monoʳ-∗ R∗Q⊢Q' (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+  ↪⟨⟩ᵀᵒ-monoʳᵘ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ][ j ]=>> Q'ᵛ v) →
+                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'ᵛ
+  ↪⟨⟩ᵀᵒ-monoʳᵘ-∗ R∗Q⊢=>>Q'
+    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
     -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᵀ R∗Q ⊢ Q'
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ» R∗Q⊢Q') ,
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ»ᵘ R∗Q⊢=>>Q') ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)

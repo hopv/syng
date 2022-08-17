@@ -24,10 +24,10 @@ private variable
   P Q R :  Prop' ∞
 
 --------------------------------------------------------------------------------
--- ind :  Interpret the indirection modality without the monotonicity patch
+-- indᵒ :  Indirection base
 
-ind :  Prop' ∞ →  Propᵒ
-ind P a =  ∑ i ,
+indᵒ :  Prop' ∞ →  Propᵒ
+indᵒ P a =  ∑ i ,
   a ⊑ injᴳ indˣ (line-indˣ i P)  ⊎  a ⊑ injᴳ ind□ (line-ind□ i P)
 
 --------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ ind P a =  ∑ i ,
 infix 8 ○ᵒ_
 ○ᵒ_ :  Prop' ∞ →  Propᵒ
 (○ᵒ P) a =  ∑ Q , ∑ R , ∑ BasicR ,
-  R ∗ Q ⊢[ ∞ ] P  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ ind Q) a
+  R ∗ Q ⊢[ ∞ ] P  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ indᵒ Q) a
 
 abstract
 

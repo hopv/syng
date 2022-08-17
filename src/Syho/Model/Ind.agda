@@ -16,7 +16,8 @@ open import Syho.Logic.Prop using (Prop'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; pullʳˡ)
 open import Syho.Logic.Supd using (_⊢[_][_]=>>_; =>>-suc; =>>-frameˡ; _ᵘ»_)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _ʰ»_; hor-frameˡ)
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-suc; _ʰ»_;
+  hor-frameˡ)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
@@ -108,5 +109,35 @@ abstract
   ↪⟨⟩ᴾᵒ-monoʳ-∗ R∗Q⊢Q' (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
     -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᴾ R∗Q ⊢ Q'
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ» R∗Q⊢Q') ,
+    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+
+--------------------------------------------------------------------------------
+-- ↪⟨ ⟩ᵀᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᵀ
+
+infixr 5 _↪⟨_⟩ᵀ[_]ᵒ_
+_↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Propᵒ
+(P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ) a =  ∑ R , ∑ S , ∑ BasicS ,
+  P ∗ S ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ indᵒ R) a
+
+abstract
+
+  ↪⟨⟩ᵀᵒ-suc :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ suc i ]ᵒ Qᵛ
+  ↪⟨⟩ᵀᵒ-suc (_ , _ , BasicS , P∗S∗R⊢⟨e⟩[i]Q , S∗Ra) =
+    _ , _ , BasicS , horᵀ-suc P∗S∗R⊢⟨e⟩[i]Q , S∗Ra
+
+  ↪⟨⟩ᵀᵒ-monoˡ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ] P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ
+  ↪⟨⟩ᵀᵒ-monoˡ-∗ R∗P'⊢P (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+    let instance _ = BasicT in  -, -, it ,
+    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢ P∗T∗S ⊢⟨e⟩ᵀ Qᵛ
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ∗-monoˡ R∗P'⊢P » P∗T∗S⊢⟨e⟩Q) ,
+    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+
+  ↪⟨⟩ᵀᵒ-monoʳ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ] Q'ᵛ v) →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'ᵛ
+  ↪⟨⟩ᵀᵒ-monoʳ-∗ R∗Q⊢Q' (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+    let instance _ = BasicT in  -, -, it ,
+    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᵀ R∗Q ⊢ Q'
     (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ» R∗Q⊢Q') ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)

@@ -20,11 +20,10 @@ open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; ∀₀˙; ∃₀˙
   _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝₁; ⌜_⌝₀; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (
-  JudgRes; Pure; _⊢[_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□;
-  ⊢-refl; _»_; ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim;
-  ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
-  |=>-mono; |=>-intro; |=>-join; |=>-eatˡ; |=>-∃₁-out;
+open import Syho.Logic.Judg public using (JudgRes; Pure; _⊢[_]*_; _⊢[_]_;
+  _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro;
+  choice₁; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ;
+  -∗-intro; -∗-elim; |=>-mono; |=>-intro; |=>-join; |=>-eatˡ; |=>-∃₁-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out)
 
 private variable

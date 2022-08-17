@@ -157,26 +157,3 @@ abstract
 
   ++-idem :  as ++ as  ≈ᴸ  as
   ++-idem =  ++-⊆ᴸ-elim ⊆ᴸ-refl ⊆ᴸ-refl , ++-⊆ᴸ-introˡ
-
---------------------------------------------------------------------------------
--- homo :  the list is homogeneous as a set
-
-homo :  ∀{A : Set ℓ} →  List A →  Set ℓ
-homo as =  ∀ {a b} →  a ∈ᴸ as →  b ∈ᴸ as →  a ≡ b
-
-abstract
-
-  homo-[] :  homo ([] {A = A})
-  homo-[] ()
-
-  homo-[?] :  homo [ a ]
-  homo-[?] a'∈[a] b'∈[a] =  ∈ᴸ-[?] a'∈[a] ◇ ◠ ∈ᴸ-[?] b'∈[a]
-
-  homo-mono :  as ⊆ᴸ bs →  homo bs →  homo as
-  homo-mono as⊆bs homo'bs a∈as b∈as =  homo'bs (as⊆bs a∈as) (as⊆bs b∈as)
-
-  homo-resp :  as ≈ᴸ bs →  homo as →  homo bs
-  homo-resp (_ , bs⊆as) =  homo-mono bs⊆as
-
-  homo-agree :  homo (a ∷ b ∷ []) →  a ≡ b
-  homo-agree homo'abcs =  homo'abcs (by-hd refl) (by-tl $ by-hd refl)

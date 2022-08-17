@@ -29,12 +29,12 @@ private variable
   X₁ :  Set₁
 
 --------------------------------------------------------------------------------
--- ⊨, ⊨' :  Entailment, with or without a validity input
+-- ⊨✓, ⊨ :  Entailment, with or without a validity input
 
-infix 1 _⊨_ _⊨'_
-_⊨_ _⊨'_ :  Propᵒ →  Propᵒ →  Set₂
-Pᵒ ⊨ Qᵒ =  ∀ {E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
-Pᵒ ⊨' Qᵒ =  ∀ {a} →  Pᵒ a →  Qᵒ a
+infix 1 _⊨✓_ _⊨_
+_⊨✓_ _⊨_ :  Propᵒ →  Propᵒ →  Set₂
+Pᵒ ⊨✓ Qᵒ =  ∀ {E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
+Pᵒ ⊨ Qᵒ =  ∀ {a} →  Pᵒ a →  Qᵒ a
 
 --------------------------------------------------------------------------------
 -- Interpret ∀₁, ∃₁, →', ∗, -∗, |=>, □

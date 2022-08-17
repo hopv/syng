@@ -256,26 +256,26 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On =>>
 
-  -- Increment the counter of a super update by 1
+  -- Increment the counter of =>> by 1
 
   =>>-suc :  P ⊢[ ι ][ i ]=>> Q →  P ⊢[ ι ][ suc i ]=>> Q
 
-  -- Lift a sequent under |=> to a super update =>>
+  -- Lift ⊢ |=> to ⊢=>>
 
   |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ][ i ]=>> Q
 
-  -- The super update =>> is transitive
+  -- ⊢=>> is transitive
 
   _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ][ i ]=>> R →  P ⊢[ ι ][ i ]=>> R
 
-  -- The super update =>> can frame
+  -- ⊢=>> can frame
 
   =>>-frameˡ :  Q ⊢[ ι ][ i ]=>> R →  P ∗ Q ⊢[ ι ][ i ]=>> P ∗ R
 
   ------------------------------------------------------------------------------
   -- On ○
 
-  -- Monotonicity of ○
+  -- ○ is monotone
 
   ○-mono-∗ :  {{Basic R}} →  R ∗ P˂ .! ⊢[< ι ] Q˂ .! →  R ∗ ○ P˂ ⊢[ ι ] ○ Q˂
 
@@ -295,7 +295,7 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On ↪=>>
 
-  -- Monotonicity of ↪=>>
+  -- ↪=>> is monotone
 
   ↪=>>-monoˡᵘ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]=>> P˂ .! →
                    R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
@@ -322,7 +322,7 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᴾ
 
-  -- Monotonicity of ↪⟨ ⟩ᴾ
+  -- ↪⟨ ⟩ᴾ is monotone
 
   ↪⟨⟩ᴾ-monoˡᵘ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ i ]=>> P˂ .!) →
                    R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
@@ -350,7 +350,7 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᵀ
 
-  -- Monotonicity of ↪⟨ ⟩ᵀ
+  -- ↪⟨ ⟩ᵀ is monotone
 
   ↪⟨⟩ᵀ-monoˡᵘ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ j ]=>> P˂ .!) →
                    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ

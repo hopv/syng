@@ -23,8 +23,6 @@ private variable
 
 abstract
 
-  -->  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ][ i ]=>> Q
-
   -- Counter tweak
 
   -->  =>>-suc :  P ⊢[ ι ][ i ]=>> Q →  P ⊢[ ι ][ suc i ]=>> Q
@@ -38,24 +36,26 @@ abstract
 
   -- Lift a sequent into a super update =>>
 
+  -->  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ][ i ]=>> Q
+
   ⇒=>> :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]=>> Q
   ⇒=>> P⊢Q =  |=>⇒=>> $ P⊢Q » |=>-intro
 
-  -- Reflexivity
+  -- Reflexivity of =>>
 
   =>>-refl :  P ⊢[ ι ][ i ]=>> P
   =>>-refl =  ⇒=>> ⊢-refl
 
-  -->  _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ][ i ]=>> R →  P ⊢[ ι ][ i ]=>> R
+  -- Compose with =>>
 
-  -- Modifying the succedent of a super update with a sequent
+  -->  _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ][ i ]=>> R →  P ⊢[ ι ][ i ]=>> R
 
   infixr -1 _ᵘ»_
 
   _ᵘ»_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ] R →  P ⊢[ ι ][ i ]=>> R
   P⊢=>>Q ᵘ» Q⊢R =  P⊢=>>Q ᵘ»ᵘ ⇒=>> Q⊢R
 
-  -- The super update =>> can frame
+  -- Framing of =>>
 
   -->  =>>-frameˡ :  Q ⊢[ ι ][ i ]=>> R →  P ∗ Q ⊢[ ι ][ i ]=>> P ∗ R
 

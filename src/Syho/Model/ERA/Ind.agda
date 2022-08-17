@@ -45,14 +45,15 @@ Indˣᴱᴿᴬ .Res =  ℕ →  Exc (Prop' ∞)
 
 -- We need the bound equality m ≡ n because ✓ uses the bound information
 
-Indˣᴱᴿᴬ ._≈ᴱ_ (P˙ |ᶠᵐ (m , _)) (Q˙ |ᶠᵐ (n , _)) =  m ≡ n × (∀ i → P˙ i ≡ Q˙ i)
+Indˣᴱᴿᴬ ._≈ᴱ_ (P˙ |ᶠᵐ (m , _)) (Q˙ |ᶠᵐ (n , _)) =
+  m ≡ n  ×  (∀ i →  P˙ i ≡ Q˙ i)
 
 Indˣᴱᴿᴬ ._≈_ Pˣ˙ Qˣ˙ =  ∀ i →  Pˣ˙ i ≡ Qˣ˙ i
 
 -- Qˣ˙ i agrees with P˙ i and equals ?ˣ if i is in the null range
 
 Indˣᴱᴿᴬ ._✓_ (P˙ |ᶠᵐ (n , _)) Qˣ˙ =
-  ∀ i →  P˙ i ←ˣ Qˣ˙ i  ×  (n ≤ i → Qˣ˙ i ≡ ?ˣ)
+  ∀ i →  P˙ i ←ˣ Qˣ˙ i  ×  (n ≤ i →  Qˣ˙ i ≡ ?ˣ)
 
 Indˣᴱᴿᴬ ._∙_ Pˣ˙ Qˣ˙ i =  Pˣ˙ i ∙ˣ Qˣ˙ i
 
@@ -113,8 +114,7 @@ abstract
   add-indˣ {Pᶠᵐ = _ |ᶠᵐ (n , fi)} Rˣ˙ P✓Rˣ∙ε j  with P✓Rˣ∙ε j
   ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
   ...   | ff | _ =  Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡? ∘ <⇒≤
-  ...   | tt | ⇒n≡j  with ⇒n≡j _
-  ...     | refl  rewrite ∙ˣ-?ˣ {x = Rˣ˙ j} | n≤j⇒Rˣj∙?≡? ≤-refl
+  ...   | tt | ⇒n≡j  rewrite ⇒n≡j _ | ∙ˣ-?ˣ {x = Rˣ˙ j} | n≤j⇒Rˣj∙?≡? ≤-refl
     =  refl , absurd ∘ <-irrefl
 
 --------------------------------------------------------------------------------
@@ -128,14 +128,15 @@ Ind□ᴱᴿᴬ .Res =  ℕ →  List (Prop' ∞)
 
 -- We need the bound equality m ≡ n because ✓ uses the bound information
 
-Ind□ᴱᴿᴬ ._≈ᴱ_ (P˙ |ᶠᵐ (m , _)) (Q˙ |ᶠᵐ (n , _)) =  m ≡ n × (∀ i → P˙ i ≡ Q˙ i)
+Ind□ᴱᴿᴬ ._≈ᴱ_ (P˙ |ᶠᵐ (m , _)) (Q˙ |ᶠᵐ (n , _)) =
+  m ≡ n  ×  (∀ i →  P˙ i ≡ Q˙ i)
 
 Ind□ᴱᴿᴬ ._≈_ Ps˙ Qs˙ =  ∀ i →  Ps˙ i ≈ᴸ Qs˙ i
 
 -- Qs˙ i agrees with P˙ i and equals [] if i is in the null range
 
 Ind□ᴱᴿᴬ ._✓_ (P˙ |ᶠᵐ (n , _)) Qs˙ =
-  ∀ i →  (∀{Q} → Q ∈ᴸ Qs˙ i → P˙ i ≡ Q)  ×  (n ≤ i → Qs˙ i ≡ [])
+  ∀ i →  (∀{Q} →  Q ∈ᴸ Qs˙ i →  P˙ i ≡ Q)  ×  (n ≤ i →  Qs˙ i ≡ [])
 
 Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ++ Qs˙ i
 
@@ -156,7 +157,7 @@ Ind□ᴱᴿᴬ .◠˜_ ∀iPsi≈Qsi i =  ≈ᴸ-sym $ ∀iPsi≈Qsi i
 
 Ind□ᴱᴿᴬ ._◇˜_ ∀iPsi≈Qsi ∀iQsi≈Rsi i =  ≈ᴸ-trans (∀iPsi≈Qsi i) (∀iQsi≈Rsi i)
 
-Ind□ᴱᴿᴬ .∙-congˡ ∀iPsi≈Qsi i =  ++-congˡ (∀iPsi≈Qsi i)
+Ind□ᴱᴿᴬ .∙-congˡ ∀iPsi≈Qsi i =  ++-congˡ $ ∀iPsi≈Qsi i
 
 Ind□ᴱᴿᴬ .∙-unitˡ _ =  ≈ᴸ-refl
 
@@ -199,6 +200,5 @@ abstract
   add-ind□ {Pᶠᵐ = _ |ᶠᵐ (n , fi)} Rs˙ P✓Rs∙ε j  with P✓Rs∙ε j
   ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
   ...   | ff | _ =  Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[] ∘ <⇒≤
-  ...   | tt | ⇒n≡j  with ⇒n≡j _
-  ...     | refl  rewrite ++-[] {as = Rs˙ j} | n≤j⇒Rsj++[]≡[] ≤-refl
+  ...   | tt | ⇒n≡j  rewrite ⇒n≡j _ | ++-[] {as = Rs˙ j} | n≤j⇒Rsj++[]≡[] ≤-refl
     =  (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl

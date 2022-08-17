@@ -14,8 +14,8 @@ open import Syho.Logic.Judg using (_⊢[_]_)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
-open import Syho.Model.Prop using (Propᵒ)
-open import Syho.Model.Basic using (⸨_⸩ᴮ; _∗ᵒ_)
+open import Syho.Model.Prop using (Propᵒ; _∗ᵒ_)
+open import Syho.Model.Basic using (⸨_⸩ᴮ)
 
 open ERA Globᴱᴿᴬ using (_⊑_)
 

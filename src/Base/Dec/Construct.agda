@@ -34,14 +34,14 @@ abstract
   ¬? no ¬x =  yes ¬x
 
   -- ×
-  infixr 2 _×?_
+  infixr 1 _×?_
   _×?_ :  Dec X →  Dec Y →  Dec (X × Y)
   yes x ×? yes y =  yes $ x , y
   no ¬x ×? _ =  no $ λ (x , _) → ¬x x
   _ ×? no ¬y =  no $ λ (_ , y) → ¬y y
 
   -- ⊎
-  infixr 1 _⊎?_
+  infixr 0 _⊎?_
   _⊎?_ :  Dec X →  Dec Y →  Dec (X ⊎ Y)
   yes x ⊎? _ =  yes $ inj₀ x
   _ ⊎? yes y =  yes $ inj₁ y

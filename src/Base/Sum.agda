@@ -16,7 +16,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Sum
 
-infixr 1 _⊎_
+infixr 0 _⊎_
 data  _⊎_ (A : Set ℓA) (B : Set ℓB) :  Set (ℓA ⊔ᴸ ℓB)  where
   inj₀ :  A →  A ⊎ B
   inj₁ :  B →  A ⊎ B

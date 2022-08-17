@@ -23,7 +23,7 @@ private variable
 
 -- Syntax for ∑
 
-infix 2 ∑∈-syntax ∑-syntax
+infix -1 ∑∈-syntax ∑-syntax
 ∑∈-syntax :  ∀ (A : Set ℓA) →  (A → Set ℓF) →  Set (ℓA ⊔ᴸ ℓF)
 ∑∈-syntax =  ∑˙
 ∑-syntax :  ∀ {A : Set ℓA} →  (A → Set ℓF) →  Set (ℓA ⊔ᴸ ℓF)
@@ -34,7 +34,7 @@ syntax ∑-syntax (λ a → B) =  ∑ a , B
 --------------------------------------------------------------------------------
 -- Product
 
-infixr 2 _×_
+infixr 1 _×_
 _×_ :  Set ℓA →  Set ℓB →  Set (ℓA ⊔ᴸ ℓB)
 A × B =  ∑ _ ∈ A , B
 

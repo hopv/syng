@@ -6,12 +6,12 @@
 
 module Syho.Logic.Example where
 
-open import Base.Level using (↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Nat using (ℕ)
+open import Syho.Lang.Expr using (λᵛ-syntax)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_)
 open import Syho.Logic.Core using (_»_; ∧-elimˡ; ⌜⌝₀-intro; →-intro)
 open import Syho.Logic.Supd using (_⊢[_][_]=>>_)
@@ -44,5 +44,5 @@ abstract
 
   -- Execute plus ◁ ∇ (3 , 4)
 
-  plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ[ 0 ] λ (↑ n) → ⌜ n ≡ 7 ⌝₀
+  plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ[ 0 ] λᵛ n , ⌜ n ≡ 7 ⌝₀
   plus◁3,4-7 =  hor-◁ $ hor-val $ ⌜⌝₀-intro refl

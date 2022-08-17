@@ -7,13 +7,16 @@
 module Syho.Model.ERA.Ind where
 
 open import Base.Size using (∞)
-open import Base.Eq using (_≡_; refl; ◠_; _◇_)
-open import Base.Func using (_∘_)
-open import Base.Prod using (_,_; _×_)
+open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
+open import Base.Func using (_∘_; _$_; id; _▷_)
+open import Base.Prod using (_×_; proj₁; _,_)
 open import Base.Few using (absurd)
 open import Base.Nat using (ℕ; _≡ᵇ_; ᵇ⇒≡; _≤_; <⇒≤; ≤-refl; <-irrefl)
 open import Base.Nmap using (updⁿᵐ)
 open import Base.Bool using (ff; tt)
+open import Base.List using (List; []; [_]; _++_; ++-assocˡ; ++-[]; ++-≡[])
+open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
+  ≈ᴸ-trans; ++-congˡ; ++-idem; ++-comm; ⊆ᴸ-[]; ++-⊆ᴸ-introʳ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm; ∙ˣ-assocˡ;
@@ -112,3 +115,89 @@ abstract
   ...   | tt | ⇒n≡j  with ⇒n≡j _
   ...     | refl  rewrite ∙ˣ-?ˣ {x = Rˣ˙ j} | n≤j⇒Rˣj∙?≡? ≤-refl
     =  refl , absurd ∘ <-irrefl
+
+--------------------------------------------------------------------------------
+-- Ind□ᴱᴿᴬ :  Persistent indirection ERA
+
+Ind□ᴱᴿᴬ :  ERA
+
+Ind□ᴱᴿᴬ .Env =  Finmap
+
+Ind□ᴱᴿᴬ .Res =  ℕ →  List (Prop' ∞)
+
+-- We need the bound equality m ≡ n because ✓ uses the bound information
+
+Ind□ᴱᴿᴬ ._≈ᴱ_ (P˙ |ᶠᵐ (m , _)) (Q˙ |ᶠᵐ (n , _)) =  m ≡ n × (∀ i → P˙ i ≡ Q˙ i)
+
+Ind□ᴱᴿᴬ ._≈_ Ps˙ Qs˙ =  ∀ i →  Ps˙ i ≈ᴸ Qs˙ i
+
+-- Qs˙ i agrees with P˙ i and equals [] if i is in the null range
+
+Ind□ᴱᴿᴬ ._✓_ (P˙ |ᶠᵐ (n , _)) Qs˙ =
+  ∀ i →  (∀{Q} → Q ∈ᴸ Qs˙ i → P˙ i ≡ Q)  ×  (n ≤ i → Qs˙ i ≡ [])
+
+Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ++ Qs˙ i
+
+Ind□ᴱᴿᴬ .ε i =  []
+
+Ind□ᴱᴿᴬ .⌞_⌟ Ps˙ =  Ps˙
+
+Ind□ᴱᴿᴬ .refl˜ᴱ =  refl , λ _ → refl
+
+Ind□ᴱᴿᴬ .◠˜ᴱ_ (refl , ∀iPi≡Qi) =  refl , λ i → ◠ ∀iPi≡Qi i
+
+Ind□ᴱᴿᴬ ._◇˜ᴱ_ (refl , ∀iPi≡Qi) (refl , ∀iQi≡Ri) =
+  refl , λ i → ∀iPi≡Qi i ◇ ∀iQi≡Ri i
+
+Ind□ᴱᴿᴬ .refl˜ _ =  ≈ᴸ-refl
+
+Ind□ᴱᴿᴬ .◠˜_ ∀iPsi≈Qsi i =  ≈ᴸ-sym $ ∀iPsi≈Qsi i
+
+Ind□ᴱᴿᴬ ._◇˜_ ∀iPsi≈Qsi ∀iQsi≈Rsi i =  ≈ᴸ-trans (∀iPsi≈Qsi i) (∀iQsi≈Rsi i)
+
+Ind□ᴱᴿᴬ .∙-congˡ ∀iPsi≈Qsi i =  ++-congˡ (∀iPsi≈Qsi i)
+
+Ind□ᴱᴿᴬ .∙-unitˡ _ =  ≈ᴸ-refl
+
+Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} i =  ++-comm {as = Ps˙ i}
+
+Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} i =  ≡⇒≈ᴸ $ ++-assocˡ {as = Ps˙ i}
+
+Ind□ᴱᴿᴬ .✓-resp (refl , ∀iPi≡Qi) ∀iRsi≈Ssi P✓R i  with P✓R i | ∀iRsi≈Ssi i
+... | (Pi≡Rsi , n≤i⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  rewrite ∀iPi≡Qi i =
+  (λ S∈Ssi → Pi≡Rsi $ Ssi⊆Rsi S∈Ssi) ,
+  λ n≤i →  ⊆ᴸ-[] $ subst (_ ⊆ᴸ_) (n≤i⇒Rsi≡[] n≤i) Ssi⊆Rsi
+
+Ind□ᴱᴿᴬ .✓-rem R✓Ps++Qs i  with R✓Ps++Qs i
+... | Ri≡Ps++Qsi , n≤i⇒Psi++Qsi≡[] =
+  (λ Q∈Qsi → Ri≡Ps++Qsi $ ++-⊆ᴸ-introʳ Q∈Qsi) ,
+  λ n≤i →  proj₁ $ ++-≡[] $ n≤i⇒Psi++Qsi≡[] n≤i
+
+Ind□ᴱᴿᴬ .✓-ε _ =  (λ ()) , λ _ → refl
+
+Ind□ᴱᴿᴬ .⌞⌟-cong =  id
+
+Ind□ᴱᴿᴬ .⌞⌟-add =  _ , λ _ → ≈ᴸ-refl
+
+Ind□ᴱᴿᴬ .⌞⌟-unitˡ _ =  ++-idem
+
+Ind□ᴱᴿᴬ .⌞⌟-idem _ =  ≈ᴸ-refl
+
+open ERA Ind□ᴱᴿᴬ using () renaming (Res to Res□; ε to ε□; _↝_ to _↝□_)
+
+-- Persistently own a proposition at an index
+
+line-ind□ :  ℕ →  Prop' ∞ →  Res□
+line-ind□ i P =  updⁿᵐ i [ P ] ε□
+
+abstract
+
+  -- Add a new proposition and get a line
+
+  add-ind□ :  (Pᶠᵐ , ε□) ↝□ (addᶠᵐ Q Pᶠᵐ , line-ind□ (boundᶠᵐ Pᶠᵐ) Q)
+  add-ind□ {Pᶠᵐ = _ |ᶠᵐ (n , fi)} Rs˙ P✓Rs∙ε j  with P✓Rs∙ε j
+  ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
+  ...   | ff | _ =  Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[] ∘ <⇒≤
+  ...   | tt | ⇒n≡j  with ⇒n≡j _
+  ...     | refl  rewrite ++-[] {as = Rs˙ j} | n≤j⇒Rsj++[]≡[] ≤-refl
+    =  (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl

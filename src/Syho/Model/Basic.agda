@@ -7,48 +7,63 @@
 module Syho.Model.Basic where
 
 open import Base.Size using (∞)
-open import Base.Func using (_$_)
-open import Base.Prod using (_,_)
-open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∗_; □_; IsBasic;
-  ∀₁-IsBasic; ∃₁-IsBasic; ∗-IsBasic; □-IsBasic; Basic; isBasic)
+open import Base.Few using (⊤)
+open import Base.Prod using (∑-syntax; _×_; _,_)
+open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _→'_; _∗_; _-∗_; |=>_; □_;
+  _↦⟨_⟩_; Free; Basic; ∀₁-Basic; ∃₁-Basic; →-Basic; ∗-Basic; -∗-Basic;
+  |=>-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.ERA using (ERA)
-open import Syho.Model.ERA.Glob using (GlobRA)
-open ERA GlobRA using (⊑-trans; ⌞⌟-∙; ⌞⌟-mono)
-open import Syho.Model.Prop GlobRA using (Propᵒ; monoᵒ; _⊨'_; ∀₁ᵒ-syntax;
-  ∃₁ᵒ-syntax; _∗ᵒ_; □ᵒ_)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
+open import Syho.Model.Prop using (Propᵒ)
+
+open ERA Globᴱᴿᴬ using (_⊑_; _✓_; _∙_; ⌞_⌟)
 
 private variable
   P :  Prop' ∞
+  X₁ :  Set₁
 
 --------------------------------------------------------------------------------
--- ⸨ ⸩ᴮ[ ] :  Interpreting IsBasic propositions
+-- Interpreting ∀₁, ∃₁, →', ∗, -∗, |=>, □
 
-⸨_⸩ᴮ[_] :  (P : Prop' ∞) →  IsBasic P →  Propᵒ
-⸨ ∀₁˙ P˙ ⸩ᴮ[ ∀₁-IsBasic IsBaP˙ ] =  ∀₁ᵒ x , ⸨ P˙ x ⸩ᴮ[ IsBaP˙ x ]
-⸨ ∃₁˙ P˙ ⸩ᴮ[ ∃₁-IsBasic IsBaP˙ ] =  ∃₁ᵒ x , ⸨ P˙ x ⸩ᴮ[ IsBaP˙ x ]
-⸨ P ∗ Q ⸩ᴮ[ ∗-IsBasic IsBaP IsBaQ ] =  ⸨ P ⸩ᴮ[ IsBaP ] ∗ᵒ ⸨ Q ⸩ᴮ[ IsBaQ ]
-⸨ □ P ⸩ᴮ[ □-IsBasic IsBaP ] =  □ᵒ ⸨ P ⸩ᴮ[ IsBaP ]
+∀₁ᵒ˙ ∃₁ᵒ˙ ∀₁ᵒ-syntax ∃₁ᵒ-syntax : (X₁ → Propᵒ) →  Propᵒ
+∀₁ᵒ˙ Pᵒ˙ a =  ∀ x →  Pᵒ˙ x a
+∃₁ᵒ˙ Pᵒ˙ a =  ∑ x ,  Pᵒ˙ x a
+∀₁ᵒ-syntax =  ∀₁ᵒ˙
+∃₁ᵒ-syntax =  ∃₁ᵒ˙
+infix 3 ∀₁ᵒ-syntax ∃₁ᵒ-syntax
+syntax ∀₁ᵒ-syntax (λ x → Pᵒ) =  ∀₁ᵒ x , Pᵒ
+syntax ∃₁ᵒ-syntax (λ x → Pᵒ) =  ∃₁ᵒ x , Pᵒ
 
-abstract
+infixr 5 _→ᵒ_
+_→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+(Pᵒ →ᵒ Qᵒ) a =  ∀ {E b} →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
 
-  -- ⸨ P ⸩ᴮ[ ... ] is persistent
+infixr 7 _∗ᵒ_
+_∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+(Pᵒ ∗ᵒ Qᵒ) a =  ∑ b , ∑ c ,  b ∙ c ⊑ a × Pᵒ b  ×  Qᵒ c
 
-  ⸨⸩ᴮ'-⇒□ :  ∀ IsBaP →  ⸨ P ⸩ᴮ[ IsBaP ] ⊨' □ᵒ ⸨ P ⸩ᴮ[ IsBaP ]
-  ⸨⸩ᴮ'-⇒□ (∀₁-IsBasic IsBaP˙) ∀xPxa x =  ⸨⸩ᴮ'-⇒□ (IsBaP˙ x) (∀xPxa x)
-  ⸨⸩ᴮ'-⇒□ (∃₁-IsBasic IsBaP˙) (x , Pxa) =  x , ⸨⸩ᴮ'-⇒□ (IsBaP˙ x) Pxa
-  ⸨⸩ᴮ'-⇒□ (∗-IsBasic {P} {Q} IsBaP IsBaQ) (_ , _ , b∙c⊑a , Pb , Qc) =
-    _ , _ , ⊑-trans ⌞⌟-∙ (⌞⌟-mono b∙c⊑a) , ⸨⸩ᴮ'-⇒□ IsBaP Pb , ⸨⸩ᴮ'-⇒□ IsBaQ Qc
-  ⸨⸩ᴮ'-⇒□ (□-IsBasic IsBaP) P⌞a⌟ =  ⸨⸩ᴮ'-⇒□ IsBaP P⌞a⌟
+infixr 5 _-∗ᵒ_
+_-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+(Pᵒ -∗ᵒ Qᵒ) a =  ∀ {E b c} →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
+
+infix 8 |=>ᵒ_
+|=>ᵒ_ :  Propᵒ → Propᵒ
+(|=>ᵒ Pᵒ) a =  ∀ {E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
+
+infix 8 □ᵒ_
+□ᵒ_ :  Propᵒ → Propᵒ
+(□ᵒ Pᵒ) a =  Pᵒ ⌞ a ⌟
 
 --------------------------------------------------------------------------------
--- ⸨ ⸩ᴮ : Interpreting Basic propositions
+-- ⸨ ⸩ᴮ :  Interpreting Basic propositions
 
 ⸨_⸩ᴮ :  (P : Prop' ∞) →  {{Basic P}} →  Propᵒ
-⸨ P ⸩ᴮ =  ⸨ P ⸩ᴮ[ isBasic ]
-
-abstract
-
-  -- ⸨ P ⸩ᴮ is persistent
-
-  ⸨⸩ᴮ-⇒□ :  {{_ : Basic P}} →  ⸨ P ⸩ᴮ ⊨' □ᵒ ⸨ P ⸩ᴮ
-  ⸨⸩ᴮ-⇒□ =  ⸨⸩ᴮ'-⇒□ isBasic
+⸨ ∀₁˙ P˙ ⸩ᴮ {{∀₁-Basic IsBaP˙}} =  ∀₁ᵒ x , ⸨ P˙ x ⸩ᴮ {{IsBaP˙ x}}
+⸨ ∃₁˙ P˙ ⸩ᴮ {{∃₁-Basic IsBaP˙}} =  ∃₁ᵒ x , ⸨ P˙ x ⸩ᴮ {{IsBaP˙ x}}
+⸨ P →' Q ⸩ᴮ {{→-Basic}} =  ⸨ P ⸩ᴮ →ᵒ ⸨ Q ⸩ᴮ
+⸨ P ∗ Q ⸩ᴮ {{∗-Basic}} =  ⸨ P ⸩ᴮ ∗ᵒ ⸨ Q ⸩ᴮ
+⸨ P -∗ Q ⸩ᴮ {{ -∗-Basic}} =  ⸨ P ⸩ᴮ -∗ᵒ ⸨ Q ⸩ᴮ
+⸨ □ P ⸩ᴮ {{□-Basic}} =  □ᵒ ⸨ P ⸩ᴮ
+⸨ |=> P ⸩ᴮ {{|=>-Basic}} =  |=>ᵒ ⸨ P ⸩ᴮ
+⸨ θ ↦⟨ q⁺ ⟩ av ⸩ᴮ {{↦⟨⟩-Basic}} =  λ _ → ⊤
+⸨ Free n θ ⸩ᴮ {{Free-Basic}} =  λ _ → ⊤

@@ -8,6 +8,7 @@ module Base.List where
 
 open import Base.Level using (Level)
 open import Base.Eq using (_≡_; refl; cong)
+open import Base.Prod using (_×_; _,_)
 
 --------------------------------------------------------------------------------
 -- List
@@ -47,3 +48,12 @@ abstract
   ++-assocˡ :  (as ++ bs) ++ cs ≡ as ++ (bs ++ cs)
   ++-assocˡ {as = []} =  refl
   ++-assocˡ {as = _ ∷ as} =  cong (_ ∷_) (++-assocˡ {as = as})
+
+  -- ++ and []
+
+  ++-[] :  as ++ [] ≡ as
+  ++-[] {as = []} =  refl
+  ++-[] {as = _ ∷ as}  rewrite ++-[] {as = as} =  refl
+
+  ++-≡[] :  as ++ bs ≡ [] →  as ≡ [] × bs ≡ []
+  ++-≡[] {as = []} {bs = []} _ =  refl , refl

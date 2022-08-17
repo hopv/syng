@@ -68,25 +68,16 @@ open ERA Globᴱᴿᴬ using () renaming (Env to Envᴳ; Res to Resᴳ; _≈_ to
 
 -- updᴱᴳ, updᴳ :  Update an element at an index
 
-updᴱᴳ updaᴱᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Env →  Envᴳ →  Envᴳ
+updᴱᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Env →  Envᴳ →  Envᴳ
 updᴱᴳ =  updᵈⁿᵐ
-updaᴱᴳ =  updaᵈⁿᵐ
 
-updaᴱᴳ-eq :  updaᴱᴳ ≡ updᴱᴳ
-updaᴱᴳ-eq =  updaᵈⁿᵐ-eq
-
-updᴳ updaᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Resᴳ →  Resᴳ
+updᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Resᴳ →  Resᴳ
 updᴳ =  updᵈⁿᵐ
-updaᴳ =  updaᵈⁿᵐ
-
-updaᴳ-eq :  updaᴳ ≡ updᴳ
-updaᴳ-eq =  updaᵈⁿᵐ-eq
 
 -- injᴳ :  Inject an element at an index
 
-injᴳ injaᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Resᴳ
+injᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Resᴳ
 injᴳ i a =  updᴳ i a εᴳ
-injaᴳ i a =  updaᴳ i a εᴳ
 
 module _ {i : ℕ} where
 

@@ -17,7 +17,7 @@ open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _�
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_;
   ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
-  |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃₁-out;
+  |=>-mono; |=>-intro; |=>-join; |=>-eatˡ; |=>-∃₁-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out; ∧-assocˡ; ∧-monoʳ)
 open import Syho.Logic.Save using (Save□-□; Saveˣ-mono-∧; Save□-mono-∧)
 open import Syho.Model.ERA using (ERA)
@@ -157,8 +157,8 @@ abstract
   ... | b , ✓d∙b , |=>Pb  with |=>Pb d ✓d∙b
   ...   | c , ✓d∙c , Pc =  c , ✓d∙c , Pc
 
-  -- |=>-frameˡ :  P ∗ |=> Q ⊢[ ∞ ] |=> (P ∗ Q)
-  ⊢⇒⊨ |=>-frameˡ _ (b , c , b∙c⊑a , Pb , |=>Qc) e ✓e∙a
+  -- |=>-eatˡ :  P ∗ |=> Q ⊢[ ∞ ] |=> (P ∗ Q)
+  ⊢⇒⊨ |=>-eatˡ _ (b , c , b∙c⊑a , Pb , |=>Qc) e ✓e∙a
     with |=>Qc (e ∙ b) $ flip ✓-mono ✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | d , ✓eb∙d , Qd =
     b ∙ d , ✓-resp ∙-assocˡ ✓eb∙d , b , d , ⊑-refl , Pb , Qd

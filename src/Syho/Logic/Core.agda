@@ -24,7 +24,7 @@ open import Syho.Logic.Judg public using (
   JudgRes; Pure; _⊢[_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□;
   ⊢-refl; _»_; ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
-  |=>-mono; |=>-intro; |=>-join; |=>-frameˡ; |=>-∃₁-out;
+  |=>-mono; |=>-intro; |=>-join; |=>-eatˡ; |=>-∃₁-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out)
 
 private variable
@@ -583,15 +583,15 @@ abstract
 
   -- ∗ can get inside |=>
 
-  -->  |=>-frameˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
+  -->  |=>-eatˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
 
-  |=>-frameʳ :  |=> P ∗ Q ⊢[ ι ] |=> (P ∗ Q)
-  |=>-frameʳ =  ∗-comm » |=>-frameˡ » |=>-mono ∗-comm
+  |=>-eatʳ :  |=> P ∗ Q ⊢[ ι ] |=> (P ∗ Q)
+  |=>-eatʳ =  ∗-comm » |=>-eatˡ » |=>-mono ∗-comm
 
   -- Updates |=> can be merged
 
   |=>-merge :  |=> P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
-  |=>-merge =  |=>-frameˡ » |=>-mono |=>-frameʳ » |=>-join
+  |=>-merge =  |=>-eatˡ » |=>-mono |=>-eatʳ » |=>-join
 
   ------------------------------------------------------------------------------
   -- On □

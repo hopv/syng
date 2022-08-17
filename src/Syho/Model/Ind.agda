@@ -95,8 +95,8 @@ _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  
 
 abstract
 
-  ↪⟨⟩ᴾᵒ-monoˡ-∗ :  {{_ : Basic R}} →
-    R ∗ P' ⊢[ ∞ ] P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
+  ↪⟨⟩ᴾᵒ-monoˡ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ] P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
   ↪⟨⟩ᴾᵒ-monoˡ-∗ R∗P'⊢P (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
     -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢ P∗T∗S ⊢⟨e⟩ᴾ Qᵛ
@@ -104,7 +104,7 @@ abstract
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
   ↪⟨⟩ᴾᵒ-monoʳ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ] Q'ᵛ v) →
-    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
   ↪⟨⟩ᴾᵒ-monoʳ-∗ R∗Q⊢Q' (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
     -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᴾ R∗Q ⊢ Q'

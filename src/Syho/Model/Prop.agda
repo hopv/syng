@@ -18,7 +18,7 @@ open ERA Globᴱᴿᴬ renaming (Res to Glob) using (_⊑_; _✓_; _∙_; ⌞_�
 -- Propᵒ :  Semantic proposition
 
 Propᵒ :  Set₃
-Propᵒ =  Glob → Set₂
+Propᵒ =  Glob →  Set₂
 
 -- Monoᵒ Pᵒ :  Pᵒ is monotone over the resource
 
@@ -50,23 +50,23 @@ syntax ∀₁ᵒ-syntax (λ x → Pᵒ) =  ∀₁ᵒ x , Pᵒ
 syntax ∃₁ᵒ-syntax (λ x → Pᵒ) =  ∃₁ᵒ x , Pᵒ
 
 infixr 5 _→ᵒ_
-_→ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+_→ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 (Pᵒ →ᵒ Qᵒ) a =  ∀ {E b} →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
 
 infixr 7 _∗ᵒ_
-_∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+_∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 (Pᵒ ∗ᵒ Qᵒ) a =  ∑ (b , c) ∈ _ × _ ,  b ∙ c ⊑ a  ×  Pᵒ b  ×  Qᵒ c
 
 infixr 5 _-∗ᵒ_
-_-∗ᵒ_ :  Propᵒ → Propᵒ → Propᵒ
+_-∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 (Pᵒ -∗ᵒ Qᵒ) a =  ∀ {E b c} →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
 
 infix 8 |=>ᵒ_
-|=>ᵒ_ :  Propᵒ → Propᵒ
+|=>ᵒ_ :  Propᵒ →  Propᵒ
 (|=>ᵒ Pᵒ) a =  ∀ {E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
 
 infix 8 □ᵒ_
-□ᵒ_ :  Propᵒ → Propᵒ
+□ᵒ_ :  Propᵒ →  Propᵒ
 (□ᵒ Pᵒ) a =  Pᵒ ⌞ a ⌟
 
 --------------------------------------------------------------------------------

@@ -10,7 +10,7 @@ open import Base.Level using (Level; ↓_; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)
-open import Base.Prod using (_×_; _,_; ∑-syntax)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.List using (List; []; _∷_; _++_)
@@ -566,7 +566,7 @@ abstract
   |=>-elim :  P ⊢[ ι ] |=> Q →  |=> P ⊢[ ι ] |=> Q
   |=>-elim P⊢|=>Q =  |=>-mono P⊢|=>Q » |=>-join
 
-  -- ∃ _ , can get outside |=>
+  -- ∃ -, can get outside |=>
 
   -->  |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , |=> P
 

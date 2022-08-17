@@ -10,7 +10,7 @@ open import Base.Level using (↑_)
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
-open import Base.Prod using (∑-syntax; _×_; _,_)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Eq using (_≡_; refl)
 open import Base.Nat using (ℕ)
@@ -103,7 +103,7 @@ Ktxred T =  ∑ U , Ktx U T × Redex U
 -- Pattern for Ktxred
 
 infix 0 _ᴷ|ᴿ_
-pattern _ᴷ|ᴿ_ ktx red =  _ , ktx , red
+pattern _ᴷ|ᴿ_ ktx red =  -, ktx , red
 
 -- Type for either a value or a context-redex pair
 
@@ -141,8 +141,8 @@ abstract
 val/ktxred :  Expr ∞ T →  Val/Ktxred T
 val/ktxred (∇ x) =  inj₀ $ ↑ x
 val/ktxred (λ˙ e˙) =  inj₀ $ e˙
-val/ktxred (▶ e˂) =  inj₁ $ _ , •ᴷ , ▶ᴿ e˂
-val/ktxred nd =  inj₁ $ _ , •ᴷ , ndᴿ
+val/ktxred (▶ e˂) =  inj₁ $ -, •ᴷ , ▶ᴿ e˂
+val/ktxred nd =  inj₁ $ -, •ᴷ , ndᴿ
 val/ktxred (e' ◁ e) =  inj₁ body
  where
   body :  Ktxred _
@@ -231,7 +231,7 @@ abstract
   val/ktxred-ktx-inv :  nonval e →
     val/ktxred (ktx ᴷ◁ e) ≡ inj₁ kr →  let ktx'' ᴷ|ᴿ red = kr in
     ∑ ktx' ,  ktx'' ≡ ktx ᴷ∘ᴷ ktx'  ×  val/ktxred e ≡ inj₁ (ktx' ᴷ|ᴿ red)
-  val/ktxred-ktx-inv {ktx = •ᴷ} _ eq =  _ , refl , eq
+  val/ktxred-ktx-inv {ktx = •ᴷ} _ eq =  -, refl , eq
   val/ktxred-ktx-inv {e = e} {ktx = _ ◁ᴷʳ ktx} nv'e eq
     with val/ktxred (ktx ᴷ◁ e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{kr} → val/ktxred-ktx-inv {ktx = ktx} {kr} nv'e)

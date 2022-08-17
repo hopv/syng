@@ -13,7 +13,7 @@ open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Func using (_∘_; _$_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)
-open import Base.Prod using (_×_; _,_)
+open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Nat using (ℕ; suc)
 open import Base.List using (List)
@@ -226,7 +226,7 @@ data  _⊢[_]*_  where
 
   |=>-frameˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
 
-  -- ∃ _ , can get outside |=>
+  -- ∃ -, can get outside |=>
 
   |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , |=> P
 
@@ -441,7 +441,7 @@ data  _⊢[_]*_  where
 
   hor-★ :  ∀{Qᵛ} →
     θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
-    θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
+    θ ↦⟨ p ⟩ (-, v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
 
   -- Memory write
 

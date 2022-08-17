@@ -11,7 +11,7 @@ open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
-open import Base.Prod using (∑-syntax; _×_; _,_)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; _+_)
 open import Syho.Lang.Expr using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_; nd;
   _◁_; free; λ-syntax)
@@ -96,4 +96,4 @@ abstract
   -- Invert reduction on ndnat
 
   ndnat-red-inv :  (ndnat , M) ⇒ᴱ (e , M') →  ∑ n , (e , M') ≡ (∇ n , M)
-  ndnat-red-inv (redᴱ refl (nd-red _)) =  _ , refl
+  ndnat-red-inv (redᴱ refl (nd-red _)) =  -, refl

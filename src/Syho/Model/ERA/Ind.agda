@@ -9,7 +9,7 @@ module Syho.Model.ERA.Ind where
 open import Base.Size using (∞)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Func using (_∘_; _$_; id; _▷_)
-open import Base.Prod using (_×_; proj₁; _,_)
+open import Base.Prod using (_×_; proj₁; _,_; -,_)
 open import Base.Few using (absurd)
 open import Base.Nat using (ℕ; _≡ᵇ_; ᵇ⇒≡; _≤_; <⇒≤; ≤-refl; <-irrefl)
 open import Base.Nmap using (updⁿᵐ)
@@ -85,9 +85,9 @@ Indˣᴱᴿᴬ .✓-resp (refl , ∀iPi≡Qi) ∀iRˣi≡Sˣi P✓Rˣ i  with P�
 
 Indˣᴱᴿᴬ .✓-rem {a = Pˣ˙} {b = Qˣ˙} R✓Pˣ∙Qˣ i  with Pˣ˙ i | Qˣ˙ i | R✓Pˣ∙Qˣ i
 ... | ?ˣ | _ | R✓Qˣi =  R✓Qˣi
-... | _ | ?ˣ | _ =  _ , λ _ → refl
+... | _ | ?ˣ | _ =  -, λ _ → refl
 
-Indˣᴱᴿᴬ .✓-ε _ =  _ , λ _ → refl
+Indˣᴱᴿᴬ .✓-ε _ =  -, λ _ → refl
 
 Indˣᴱᴿᴬ .⌞⌟-cong _ _ =  refl
 
@@ -177,7 +177,7 @@ Ind□ᴱᴿᴬ .✓-ε _ =  (λ ()) , λ _ → refl
 
 Ind□ᴱᴿᴬ .⌞⌟-cong =  id
 
-Ind□ᴱᴿᴬ .⌞⌟-add =  _ , λ _ → ≈ᴸ-refl
+Ind□ᴱᴿᴬ .⌞⌟-add =  -, λ _ → ≈ᴸ-refl
 
 Ind□ᴱᴿᴬ .⌞⌟-unitˡ _ =  ++-idem
 

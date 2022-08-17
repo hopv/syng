@@ -9,7 +9,7 @@ module Syho.Model.ERA where
 open import Base.Level using (Level; _⊔ᴸ_; sucᴸ)
 open import Base.Eq using (_≡_; refl)
 open import Base.Func using (_$_; id; _▷_; flip; _∈_)
-open import Base.Prod using (_×_; _,_; ∑-syntax)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Setoid using (Setoid)
 
 --------------------------------------------------------------------------------
@@ -265,12 +265,12 @@ record  ERA {ℓᴱ ℓ ℓ≈ᴱ ℓ≈ ℓ✓} : Set (sucᴸ (ℓᴱ ⊔ᴸ �
     -- ε is the minimum
 
     ε-min :  ε ⊑ a
-    ε-min =  _ , ∙-unitʳ
+    ε-min =  -, ∙-unitʳ
 
     -- ∙ is increasing
 
     ∙-incrˡ :  a  ⊑  b ∙ a
-    ∙-incrˡ =  _ , refl˜
+    ∙-incrˡ =  -, refl˜
 
     ∙-incrʳ :  a  ⊑  a ∙ b
     ∙-incrʳ =  ⊑-respʳ ∙-comm ∙-incrˡ

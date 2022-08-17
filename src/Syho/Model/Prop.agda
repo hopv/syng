@@ -6,7 +6,7 @@
 
 module Syho.Model.Prop where
 
-open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_)
+open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_)
 open import Base.Func using (_$_; _▷_)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
@@ -78,10 +78,10 @@ abstract
   -- On ∗ᵒ
 
   ∗ᵒ-monoˡ :  Pᵒ ⊨ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Rᵒ
-  ∗ᵒ-monoˡ P⊨Q (_ , b∙c⊑a , Pb , Rc) =  _ , b∙c⊑a , P⊨Q Pb , Rc
+  ∗ᵒ-monoˡ P⊨Q (-, b∙c⊑a , Pb , Rc) =  -, b∙c⊑a , P⊨Q Pb , Rc
 
   ∗ᵒ-comm :  Pᵒ ∗ᵒ Qᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
-  ∗ᵒ-comm (_ , b∙c⊑a , Pb , Qc) =  _ , ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
+  ∗ᵒ-comm (-, b∙c⊑a , Pb , Qc) =  -, ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
 
   ∗ᵒ-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ ∗ᵒ Pᵒ ⊨ Rᵒ ∗ᵒ Qᵒ
   ∗ᵒ-monoʳ P⊨Q proof =  proof ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ P⊨Q ▷ ∗ᵒ-comm
@@ -90,9 +90,9 @@ abstract
   ∗ᵒ-mono P⊨Q R⊨S proof =  proof ▷ ∗ᵒ-monoˡ P⊨Q ▷ ∗ᵒ-monoʳ R⊨S
 
   ∗ᵒ-assocˡ :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ)
-  ∗ᵒ-assocˡ (_ , e∙d⊑a , (_ , b∙c⊑e , Pb , Qc) , Rd) =
-    _ , ⊑-respˡ ∙-assocˡ (⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a) , Pb ,
-    _ , ⊑-refl , Qc , Rd
+  ∗ᵒ-assocˡ (-, e∙d⊑a , (-, b∙c⊑e , Pb , Qc) , Rd) =
+    -, ⊑-respˡ ∙-assocˡ (⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a) , Pb ,
+    -, ⊑-refl , Qc , Rd
 
   ∗ᵒ-assocʳ :  Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ
   ∗ᵒ-assocʳ proof =  proof ▷

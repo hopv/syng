@@ -11,7 +11,7 @@ open import Base.Size using (∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
-open import Base.Prod using (∑-syntax; _×_; _,_)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (inj₁)
 open import Base.Option using (??_; some)
 open import Base.Nat using (ℕ)
@@ -105,4 +105,4 @@ abstract
   red-ktx-inv :  nonval e →  (ktx ᴷ◁ e , M) ⇒ᴱ (e'' , M') →
                  ∑ e' ,  e'' ≡ ktx ᴷ◁ e'  ×  (e , M) ⇒ᴱ (e' , M')
   red-ktx-inv {ktx = ktx} nv'e (redᴱ eq r⇒)  with val/ktxred-ktx-inv nv'e eq
-  ... | _ , refl , eq' =  _ , ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} , redᴱ eq' r⇒
+  ... | -, refl , eq' =  -, ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} , redᴱ eq' r⇒

@@ -10,7 +10,7 @@ open import Base.Level using (Level)
 open import Base.Dec using (Dec; yes; no)
 open import Base.Bool using (Bool; tt; ff; Tt)
 open import Base.Few using (¬_; ⇒¬¬)
-open import Base.Prod using (_×_; _,_)
+open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Func using (_$_)
 
@@ -38,7 +38,7 @@ abstract
   _×?_ :  Dec X →  Dec Y →  Dec (X × Y)
   yes x ×? yes y =  yes $ x , y
   no ¬x ×? _ =  no $ λ (x , _) → ¬x x
-  _ ×? no ¬y =  no $ λ (_ , y) → ¬y y
+  _ ×? no ¬y =  no $ λ (-, y) → ¬y y
 
   -- ⊎
   infixr 0 _⊎?_

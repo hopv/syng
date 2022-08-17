@@ -10,7 +10,7 @@ open Setoid S using (_≈_; refl˜) renaming (Car to A)
 
 open import Base.Level using (_⊔ᴸ_)
 open import Base.Few using (⊤; ⊥; absurd)
-open import Base.Prod using (_×_; _,_)
+open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Func using (_$_)
 open import Base.RatPos using (ℚ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺; 1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
   ≈ᴿ⁺-trans; ≡⇒≈ᴿ⁺; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem;
@@ -180,7 +180,7 @@ abstract
   -- Agreement
 
   agreeᶠ :  ✓⁺ ⟨ p ⟩ᶠ a ∙⁺ ⟨ q ⟩ᶠ b →  a ≈ b
-  agreeᶠ (_ , homo'ab) =  homo-agree homo'ab
+  agreeᶠ (-, homo'ab) =  homo-agree homo'ab
 
   -- Update
 

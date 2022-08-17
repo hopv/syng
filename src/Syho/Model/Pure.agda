@@ -10,7 +10,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _▷_; flip; it)
 open import Base.Thunk using (!)
 open import Base.Few using (0₂; 1₂; binary; absurd)
-open import Base.Prod using (_,_; proj₀; proj₁)
+open import Base.Prod using (_,_; -,_; proj₀; proj₁)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _∗_; _-∗_; |=>_;
   □_; Saveˣ; Save□; _↦⟨_⟩_; Free; IsBasic; ∀₁-IsBasic; ∃₁-IsBasic; ∗-IsBasic;
   □-IsBasic; Basic; isBasic; ∧-Basic)
@@ -102,7 +102,7 @@ abstract
   ⊢⇒⊨ (∀₁-elim _) _ ∀Pa =  ∀Pa _
 
   -- ∃₁-intro :  ∀ x →  P˙ x ⊢[ ∞ ] ∃₁˙ P˙
-  ⊢⇒⊨ (∃₁-intro _) _ Px =  _ , Px
+  ⊢⇒⊨ (∃₁-intro _) _ Px =  -, Px
 
   -- choice₁ :  ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ∞ ] ∃₁ y˙ , ∀₁ x , P˙˙ x (y˙ x)
   -- It can be proved axiom-free thanks to the logic's predicativity
@@ -117,11 +117,11 @@ abstract
   ⊢⇒⊨ (→-elim Q⊢P→R) ✓a P∧Qa =  ⊢⇒⊨ Q⊢P→R ✓a (P∧Qa 1₂) ⊑-refl ✓a (P∧Qa 0₂)
 
   -- ⊤∗-elim :  ⊤' ∗ P ⊢[ ∞ ] P
-  ⊢⇒⊨ (⊤∗-elim {P}) _ (_ , _ , b∙c⊑a , _ , Pc) =
+  ⊢⇒⊨ (⊤∗-elim {P}) _ (-, -, b∙c⊑a , -, Pc) =
     ⸨ P ⸩ .monoᵒ (⊑-trans ∙-incrˡ b∙c⊑a) Pc
 
   -- ⊤∗-intro :  P ⊢[ ∞ ] ⊤' ∗ P
-  ⊢⇒⊨ ⊤∗-intro _ Pa =  ε , _ , ≈⇒⊑ ∙-unitˡ , absurd , Pa
+  ⊢⇒⊨ ⊤∗-intro _ Pa =  ε , -, ≈⇒⊑ ∙-unitˡ , absurd , Pa
 
   -- ∗-comm :  P ∗ Q ⊢[ ∞ ] Q ∗ P
   ⊢⇒⊨ ∗-comm _ (b , c , b∙c⊑a , Pb , Qc) =
@@ -138,7 +138,7 @@ abstract
 
   -- -∗-intro :  P ∗ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P -∗ R
   ⊢⇒⊨ (-∗-intro {Q = Q} P∗Q⊢R) _ Qa a⊑b ✓c∙b Pc =  ⊢⇒⊨ P∗Q⊢R ✓c∙b $
-    _ , _ , ⊑-refl , Pc , ⸨ Q ⸩ .monoᵒ a⊑b Qa
+    -, -, ⊑-refl , Pc , ⸨ Q ⸩ .monoᵒ a⊑b Qa
 
   -- -∗-elim :  Q ⊢[ ∞ ] P -∗ R →  P ∗ Q ⊢[ ∞ ] R
   ⊢⇒⊨ (-∗-elim {R = R} Q⊢P-∗R) ✓a (b , c , b∙c⊑a , Pb , Qc) =
@@ -150,7 +150,7 @@ abstract
   ... | b , ✓c∙b , Pb =  b , ✓c∙b , ⊢⇒⊨ P⊢Q (✓-mono ∙-incrˡ ✓c∙b) Pb
 
   -- |=>-intro :  P ⊢[ ∞ ] |=> P
-  ⊢⇒⊨ |=>-intro _ Pa c ✓c∙a =  _ , ✓c∙a , Pa
+  ⊢⇒⊨ |=>-intro _ Pa c ✓c∙a =  -, ✓c∙a , Pa
 
   -- |=>-join :  |=> |=> P ⊢[ ∞ ] |=> P
   ⊢⇒⊨ |=>-join _ |=>|=>Pa d ✓d∙a  with |=>|=>Pa d ✓d∙a
@@ -165,9 +165,9 @@ abstract
 
   -- |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ∞ ] ∃₁ _ ∈ X , |=> P
   ⊢⇒⊨ |=>-∃₁-out ✓a |=>∃₁AP .proj₀ =
-    let _ , _ , x , _ = |=>∃₁AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
+    let -, -, x , _ = |=>∃₁AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
   ⊢⇒⊨ |=>-∃₁-out _ |=>∃₁AP .proj₁ c ✓c∙a =
-    let b , ✓c∙b , _ , Pb = |=>∃₁AP c ✓c∙a in  b , ✓c∙b , Pb
+    let b , ✓c∙b , -, Pb = |=>∃₁AP c ✓c∙a in  b , ✓c∙b , Pb
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
   ⊢⇒⊨ (□-mono P⊢Q) ✓a P⌞a⌟ =  ⊢⇒⊨ P⊢Q (✓-mono ⌞⌟-decr ✓a) P⌞a⌟
@@ -189,22 +189,22 @@ abstract
   ⊢⇒⊨ □-∃₁-out _ ∑xPx⌞a⌟ =  ∑xPx⌞a⌟
 
   -- Save□-□ :  Save□ P˂ ⊢[ ∞ ] □ Save□ P˂
-  ⊢⇒⊨ Save□-□ _ (_ , _ , BaQ , _ , Q∧P'⊢P , Qa , line□iP'a) =
+  ⊢⇒⊨ Save□-□ _ (-, -, BaQ , -, Q∧P'⊢P , Qa , line□iP'a) =
     let instance _ = BaQ in
-    _ , _ , _ , _ , Q∧P'⊢P , ⸨⸩ᴮ-⇒□ Qa , Own-⌞⌟-□ lineˢ□-⌞⌟ line□iP'a
+    -, -, -, -, Q∧P'⊢P , ⸨⸩ᴮ-⇒□ Qa , Own-⌞⌟-□ lineˢ□-⌞⌟ line□iP'a
 
   -- Saveˣ-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Saveˣ P˂ ⊢[ ∞ ] Saveˣ Q˂
   ⊢⇒⊨ (Saveˣ-mono-∧ R∧P⊢<Q) _ R∧SaveˣP˂a =
-    let T , S , BaS , _ , S∧T⊢P , Sa , lineˢˣTa = R∧SaveˣP˂a 1₂ in
+    let T , S , BaS , -, S∧T⊢P , Sa , lineˢˣTa = R∧SaveˣP˂a 1₂ in
     let instance _ = BaS in
-    T , _ ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
+    T , _ ∧ S , it , -, ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
     ⸨⸩-⇒ᴮ (binary (R∧SaveˣP˂a 0₂) $ ⸨⸩-ᴮ⇒ Sa) , lineˢˣTa
 
   -- Save□-mono-∧ :  {{Basic R}} →
   --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Save□ P˂ ⊢[ ∞ ] Save□ Q˂
   ⊢⇒⊨ (Save□-mono-∧ R∧P⊢<Q) _ R∧Save□P˂a =
-    let T , S , BaS , _ , S∧T⊢P , Sa , lineˢ□Ta = R∧Save□P˂a 1₂ in
+    let T , S , BaS , -, S∧T⊢P , Sa , lineˢ□Ta = R∧Save□P˂a 1₂ in
     let instance _ = BaS in
-    T , _ ∧ S , it , _ , ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
+    T , _ ∧ S , it , -, ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
     ⸨⸩-⇒ᴮ (binary (R∧Save□P˂a 0₂) $ ⸨⸩-ᴮ⇒ Sa) , lineˢ□Ta

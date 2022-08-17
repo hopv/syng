@@ -8,7 +8,7 @@ module Syho.Model.Ind where
 
 open import Base.Size using (∞)
 open import Base.Func using (it)
-open import Base.Prod using (∑-syntax; _×_; _,_)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⊎_)
 open import Syho.Logic.Prop using (Prop'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-monoʳ)
@@ -41,7 +41,7 @@ infix 8 ○ᵒ_
 abstract
 
   ○ᵒ-mono :  {{_ : Basic R}} →  R ∗ P ⊢[ ∞ ] Q →  ⸨ R ⸩ᴮ ∗ᵒ ○ᵒ P ⊨ ○ᵒ Q
-  ○ᵒ-mono R∗P⊢Q (_ , b∙c⊑a , Rb , _ , _ , BasicT , T∗S⊢P , T∗indSc) =
+  ○ᵒ-mono R∗P⊢Q (-, b∙c⊑a , Rb , -, -, BasicT , T∗S⊢P , T∗indSc) =
     let instance _ = BasicT in
-    _ , _ , it , (∗-assocˡ » ∗-monoʳ T∗S⊢P » R∗P⊢Q) ,
-    ∗ᵒ-assocʳ (_ , b∙c⊑a , Rb , T∗indSc)
+    -, -, it , (∗-assocˡ » ∗-monoʳ T∗S⊢P » R∗P⊢Q) ,
+    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)

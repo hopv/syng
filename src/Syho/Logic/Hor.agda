@@ -9,7 +9,7 @@ module Syho.Logic.Hor where
 open import Base.Level using (↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_)
-open import Base.Prod using (_,_)
+open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
@@ -59,7 +59,7 @@ abstract
 
 
   -->  hor-★ :  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
-  -->           θ ↦⟨ p ⟩ (_ , v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
+  -->           θ ↦⟨ p ⟩ (-, v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
 
   -->  hor-← :  θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
   -->           θ ↦ av ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wκ ] Qᵛ

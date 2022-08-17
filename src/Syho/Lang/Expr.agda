@@ -6,7 +6,7 @@
 
 module Syho.Lang.Expr where
 
-open import Base.Level using (Up; ↑_)
+open import Base.Level using (Level; Up; ↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_)
@@ -57,9 +57,11 @@ data  Type :  Set₁  where
   _→*_ :  Set₀ →  Type →  Type
 
 private variable
+  ℓ :  Level
   ι :  Size
   T U :  Type
   X :  Set₀
+  Y :  Set ℓ
 
 --------------------------------------------------------------------------------
 -- Expr :  Expression, possibly infinite
@@ -120,6 +122,20 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 data  Val :  Type →  Set₁  where
   val :  X →  Val (◸ X)
   val→* :  (X → Expr ∞ T) →  Val (X →* T)
+
+-- Function on Val
+
+λᵛ˙ λᵛ-syntax :  (X →  Y) →  Val (◸ X) →  Y
+λᵛ˙ f (val x) =  f x
+λᵛ-syntax =  λᵛ˙
+
+λᵛ→*˙ λᵛ→*-syntax :  ((X → Expr ∞ T) →  Y) →  Val (X →* T) →  Y
+λᵛ→*˙ f (val→* e˙) =  f e˙
+λᵛ→*-syntax =  λᵛ→*˙
+
+infix 3 λᵛ-syntax λᵛ→*-syntax
+syntax λᵛ-syntax (λ x → y) =  λᵛ x , y
+syntax λᵛ→*-syntax (λ e˙ → y) =  λᵛ→* e˙ , y
 
 -- Conversion from Val to Expr
 

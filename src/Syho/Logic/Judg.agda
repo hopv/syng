@@ -15,15 +15,13 @@ open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (inj₀; inj₁)
-open import Base.Bool using (Bool)
 open import Base.Nat using (ℕ; suc)
-open import Base.List using (List; map)
+open import Base.List using (List)
 open import Base.List.Nat using (rep; len)
-open import Base.List.All using (All)
 open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; [∧]_; [∧∈]-syntax; _↪[_]=>>_;
-  ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
+  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; _↪[_]=>>_; ○_; _↦⟨_⟩_;
+  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; V⇒E;
   AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;

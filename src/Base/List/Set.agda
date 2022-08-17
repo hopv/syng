@@ -35,7 +35,7 @@ abstract
 
   -- ∈ᴸ and [ ]
 
-  ∈ᴸ-[?] :  a ∈ᴸ  [ b ] →  a ≡ b
+  ∈ᴸ-[?] :  a ∈ᴸ [ b ] →  a ≡ b
   ∈ᴸ-[?] (by-hd a≡b) =  a≡b
 
   -- ∈ᴸ and ++

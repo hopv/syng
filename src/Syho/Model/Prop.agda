@@ -118,36 +118,36 @@ _-∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 (Pᵒ -∗ᵒ Qᵒ) a =  ∀ {E b c} →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
 
 --------------------------------------------------------------------------------
--- |=>ᵒ :  Update modality
+-- ⇑ᵒ :  Update modality
 
-infix 8 |=>ᵒ_
-|=>ᵒ_ :  Propᵒ →  Propᵒ
-(|=>ᵒ Pᵒ) a =  ∀ {E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
+infix 8 ⇑ᵒ_
+⇑ᵒ_ :  Propᵒ →  Propᵒ
+(⇑ᵒ Pᵒ) a =  ∀ {E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
 
 abstract
 
-  |=>ᵒ-mono :  Pᵒ ⊨✓ Qᵒ →  |=>ᵒ Pᵒ ⊨ |=>ᵒ Qᵒ
-  |=>ᵒ-mono P⊨✓Q |=>Pa E✓c∙a  with |=>Pa E✓c∙a
+  ⇑ᵒ-mono :  Pᵒ ⊨✓ Qᵒ →  ⇑ᵒ Pᵒ ⊨ ⇑ᵒ Qᵒ
+  ⇑ᵒ-mono P⊨✓Q ⇑Pa E✓c∙a  with ⇑Pa E✓c∙a
   ... | -, E✓c∙b , Pb =  -, E✓c∙b , P⊨✓Q (✓-mono ∙-incrˡ E✓c∙b) Pb
 
-  |=>ᵒ-intro :  Pᵒ ⊨ |=>ᵒ Pᵒ
-  |=>ᵒ-intro Pa E✓c∙a =  -, E✓c∙a , Pa
+  ⇑ᵒ-intro :  Pᵒ ⊨ ⇑ᵒ Pᵒ
+  ⇑ᵒ-intro Pa E✓c∙a =  -, E✓c∙a , Pa
 
-  |=>ᵒ-join :  |=>ᵒ |=>ᵒ Pᵒ ⊨ |=>ᵒ Pᵒ
-  |=>ᵒ-join |=>|=>Pa E✓d∙a  with |=>|=>Pa E✓d∙a
-  ... | -, E✓d∙b , |=>Pb  with |=>Pb E✓d∙b
+  ⇑ᵒ-join :  ⇑ᵒ ⇑ᵒ Pᵒ ⊨ ⇑ᵒ Pᵒ
+  ⇑ᵒ-join ⇑⇑Pa E✓d∙a  with ⇑⇑Pa E✓d∙a
+  ... | -, E✓d∙b , ⇑Pb  with ⇑Pb E✓d∙b
   ...   | -, E✓d∙c , Pc =  -, E✓d∙c , Pc
 
-  |=>ᵒ-eatˡ :  Pᵒ ∗ᵒ |=>ᵒ Qᵒ ⊨ |=>ᵒ (Pᵒ ∗ᵒ Qᵒ)
-  |=>ᵒ-eatˡ (-, b∙c⊑a , Pb , |=>Qc) E✓e∙a
-    with |=>Qc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
+  ⇑ᵒ-eatˡ :  Pᵒ ∗ᵒ ⇑ᵒ Qᵒ ⊨ ⇑ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ⇑ᵒ-eatˡ (-, b∙c⊑a , Pb , ⇑Qc) E✓e∙a
+    with ⇑Qc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | -, E✓eb∙d , Qd =  -, ✓-respʳ ∙-assocˡ E✓eb∙d , -, ⊑-refl , Pb , Qd
 
-  |=>ᵒ-∃₁ᵒ-out :  |=>ᵒ (∃₁ᵒ _ ∈ X₁ , Pᵒ) ⊨✓ ∃₁ᵒ _ ∈ X₁ , |=>ᵒ Pᵒ
-  |=>ᵒ-∃₁ᵒ-out E✓a |=>∃XP .proj₀ =
-    let -, -, x , _ = |=>∃XP $ ✓-respʳ (◠˜ ∙-unitˡ) E✓a in  x
-  |=>ᵒ-∃₁ᵒ-out _ |=>∃XP .proj₁ E✓c∙a =
-    let -, E✓c∙b , -, Pb = |=>∃XP E✓c∙a in  -, E✓c∙b , Pb
+  ⇑ᵒ-∃₁ᵒ-out :  ⇑ᵒ (∃₁ᵒ _ ∈ X₁ , Pᵒ) ⊨✓ ∃₁ᵒ _ ∈ X₁ , ⇑ᵒ Pᵒ
+  ⇑ᵒ-∃₁ᵒ-out E✓a ⇑∃XP .proj₀ =
+    let -, -, x , _ = ⇑∃XP $ ✓-respʳ (◠˜ ∙-unitˡ) E✓a in  x
+  ⇑ᵒ-∃₁ᵒ-out _ ⇑∃XP .proj₁ E✓c∙a =
+    let -, E✓c∙b , -, Pb = ⇑∃XP E✓c∙a in  -, E✓c∙b , Pb
 
 --------------------------------------------------------------------------------
 -- □ᵒ :  Persistence modality

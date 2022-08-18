@@ -17,13 +17,13 @@ open import Base.List using (List; []; _∷_; _++_)
 open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; ∀₀˙; ∃₀˙; ∀₁∈-syntax;
   ∃₁∈-syntax; ∀₁-syntax;∃₁-syntax; ∀₀∈-syntax; ∃₀∈-syntax; ∀₀-syntax; ∃₀-syntax;
-  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝₁; ⌜_⌝₀; _→'_; _∗_; _-∗_; |=>_; □_; [∗]_)
+  _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝₁; ⌜_⌝₀; _→'_; _∗_; _-∗_; ⇑_; □_; [∗]_)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (JudgRes; Pure; _⊢[_]*_; _⊢[_]_;
   _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro;
   choice₁; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ;
-  -∗-intro; -∗-elim; |=>-mono; |=>-intro; |=>-join; |=>-eatˡ; |=>-∃₁-out;
+  -∗-intro; -∗-elim; ⇑-mono; ⇑-intro; ⇑-join; ⇑-eatˡ; ⇑-∃₁-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out)
 
 private variable
@@ -552,45 +552,45 @@ abstract
   -∗∗-apply Q⊢P =  ∗-monoˡ (-∗-monoˡ Q⊢P) » ∗-comm » -∗-apply
 
   ------------------------------------------------------------------------------
-  -- On |=>
+  -- On ⇑
 
-  -->  |=>-mono :  P ⊢[ ι ] Q →  |=> P ⊢[ ι ] |=> Q
+  -->  ⇑-mono :  P ⊢[ ι ] Q →  ⇑ P ⊢[ ι ] ⇑ Q
 
-  -->  |=>-intro :  P ⊢[ ι ] |=> P
+  -->  ⇑-intro :  P ⊢[ ι ] ⇑ P
 
-  -->  |=>-join :  |=> |=> P ⊢[ ι ] |=> P
+  -->  ⇑-join :  ⇑ ⇑ P ⊢[ ι ] ⇑ P
 
-  -- Eliminate |=> from the antecedent
+  -- Eliminate ⇑ from the antecedent
 
-  |=>-elim :  P ⊢[ ι ] |=> Q →  |=> P ⊢[ ι ] |=> Q
-  |=>-elim P⊢|=>Q =  |=>-mono P⊢|=>Q » |=>-join
+  ⇑-elim :  P ⊢[ ι ] ⇑ Q →  ⇑ P ⊢[ ι ] ⇑ Q
+  ⇑-elim P⊢⇑Q =  ⇑-mono P⊢⇑Q » ⇑-join
 
-  -- ∃ -, can get outside |=>
+  -- ∃ -, can get outside ⇑
 
-  -->  |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , |=> P
+  -->  ⇑-∃₁-out :  ⇑ (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , ⇑ P
 
-  |=>-∃₀-out :  |=> (∃₀ _ ∈ X , P) ⊢[ ι ] ∃₀ _ ∈ X , |=> P
-  |=>-∃₀-out =  |=>-∃₁-out
+  ⇑-∃₀-out :  ⇑ (∃₀ _ ∈ X , P) ⊢[ ι ] ∃₀ _ ∈ X , ⇑ P
+  ⇑-∃₀-out =  ⇑-∃₁-out
 
-  -- ⌜ ⌝ ∧ can get outside |=>
+  -- ⌜ ⌝ ∧ can get outside ⇑
 
-  |=>-⌜⌝₁∧-out :  |=> (⌜ X ⌝₁ ∧ P) ⊢[ ι ] ⌜ X ⌝₁ ∧ |=> P
-  |=>-⌜⌝₁∧-out =  |=>-mono ⌜⌝∧⇒∃₁ » |=>-∃₁-out » ∃₁⇒⌜⌝∧
+  ⇑-⌜⌝₁∧-out :  ⇑ (⌜ X ⌝₁ ∧ P) ⊢[ ι ] ⌜ X ⌝₁ ∧ ⇑ P
+  ⇑-⌜⌝₁∧-out =  ⇑-mono ⌜⌝∧⇒∃₁ » ⇑-∃₁-out » ∃₁⇒⌜⌝∧
 
-  |=>-⌜⌝₀∧-out :  |=> (⌜ X ⌝₀ ∧ P) ⊢[ ι ] ⌜ X ⌝₀ ∧ |=> P
-  |=>-⌜⌝₀∧-out =  |=>-⌜⌝₁∧-out
+  ⇑-⌜⌝₀∧-out :  ⇑ (⌜ X ⌝₀ ∧ P) ⊢[ ι ] ⌜ X ⌝₀ ∧ ⇑ P
+  ⇑-⌜⌝₀∧-out =  ⇑-⌜⌝₁∧-out
 
-  -- ∗ can get inside |=>
+  -- ∗ can get inside ⇑
 
-  -->  |=>-eatˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
+  -->  ⇑-eatˡ :  P ∗ ⇑ Q ⊢[ ι ] ⇑ (P ∗ Q)
 
-  |=>-eatʳ :  |=> P ∗ Q ⊢[ ι ] |=> (P ∗ Q)
-  |=>-eatʳ =  ∗-comm » |=>-eatˡ » |=>-mono ∗-comm
+  ⇑-eatʳ :  ⇑ P ∗ Q ⊢[ ι ] ⇑ (P ∗ Q)
+  ⇑-eatʳ =  ∗-comm » ⇑-eatˡ » ⇑-mono ∗-comm
 
-  -- Updates |=> can be merged
+  -- Updates ⇑ can be merged
 
-  |=>-merge :  |=> P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
-  |=>-merge =  |=>-eatˡ » |=>-mono |=>-eatʳ » |=>-join
+  ⇑-merge :  ⇑ P ∗ ⇑ Q ⊢[ ι ] ⇑ (P ∗ Q)
+  ⇑-merge =  ⇑-eatˡ » ⇑-mono ⇑-eatʳ » ⇑-join
 
   ------------------------------------------------------------------------------
   -- On □
@@ -601,7 +601,7 @@ abstract
 
   -->  □-dup :  □ P ⊢[ ι ] □ □ P
 
-  -- Introduce |=> to the succedent
+  -- Introduce ⇑ to the succedent
 
   □-intro :  □ P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
   □-intro □P⊢Q =  □-dup » □-mono □P⊢Q
@@ -794,13 +794,13 @@ abstract
   ⌜⌝₀∗-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₀ ∗ P ⊢[ ι ] Q
   ⌜⌝₀∗-elim =  ⌜⌝₁∗-elim ∘ _∘ ↓_
 
-  -- ⌜ ⌝ ∗ can get outside |=>
+  -- ⌜ ⌝ ∗ can get outside ⇑
 
-  |=>-⌜⌝₁∗-out :  |=> (⌜ X ⌝₁ ∗ P) ⊢[ ι ] ⌜ X ⌝₁ ∗ |=> P
-  |=>-⌜⌝₁∗-out =  |=>-mono ∗⇒∧ » |=>-⌜⌝₁∧-out » Persˡ-∧⇒∗
+  ⇑-⌜⌝₁∗-out :  ⇑ (⌜ X ⌝₁ ∗ P) ⊢[ ι ] ⌜ X ⌝₁ ∗ ⇑ P
+  ⇑-⌜⌝₁∗-out =  ⇑-mono ∗⇒∧ » ⇑-⌜⌝₁∧-out » Persˡ-∧⇒∗
 
-  |=>-⌜⌝₀∗-out :  |=> (⌜ X ⌝₀ ∗ P) ⊢[ ι ] ⌜ X ⌝₀ ∗ |=> P
-  |=>-⌜⌝₀∗-out =  |=>-⌜⌝₁∗-out
+  ⇑-⌜⌝₀∗-out :  ⇑ (⌜ X ⌝₀ ∗ P) ⊢[ ι ] ⌜ X ⌝₀ ∗ ⇑ P
+  ⇑-⌜⌝₀∗-out =  ⇑-⌜⌝₁∗-out
 
   ------------------------------------------------------------------------------
   -- On [∗]

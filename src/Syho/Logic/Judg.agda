@@ -19,8 +19,9 @@ open import Base.Nat using (ℕ; suc)
 open import Base.List using (List)
 open import Base.List.Nat using (rep; len)
 open import Base.RatPos using (ℚ⁺)
+
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; |=>_; □_; _↪[_]=>>_; ○_; _↦⟨_⟩_;
+  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; ⇑_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; val;
   V⇒E; AnyVal; ⊤-val)
@@ -43,20 +44,20 @@ private variable
   T U V :  Type
   ι :  Size
 
-infix 3 [_]=>>_ ⁺⟨_⟩[_]_
+infix 3 [_]⇛_ ⁺⟨_⟩[_]_
 
 data  JudgRes :  Set₂  where
   -- Just a proposition
   Pure :  Prop' ∞ →  JudgRes
   -- Under the super update
-  [_]=>>_ :  ℕ →  Prop' ∞ →  JudgRes
+  [_]⇛_ :  ℕ →  Prop' ∞ →  JudgRes
   -- Weakest precondion, over Val/Ktxred
   ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  JudgRes
 
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
 
-infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]=>>_ _⊢[<_][_]=>>_ _⊢[_]⁺⟨_⟩[_]_
+infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _⊢[_]⁺⟨_⟩[_]_
   _⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ[_]_
   _⊢[<_]⟨_⟩ᵀ[_]_
 
@@ -74,11 +75,11 @@ P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 _⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
--- ⊢[ ][ ]=>> etc. :  Super update
+-- ⊢[ ][ ]⇛ etc. :  Super update
 
-_⊢[_][_]=>>_ _⊢[<_][_]=>>_ :  Prop' ∞ →  Size →  ℕ →  Prop' ∞ →  Set₂
-P ⊢[ ι ][ i ]=>> Q =  P ⊢[ ι ]* [ i ]=>> Q
-P ⊢[< ι ][ i ]=>> Q =  Thunk (P ⊢[_][ i ]=>> Q) ι
+_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop' ∞ →  Size →  ℕ →  Prop' ∞ →  Set₂
+P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
+P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 
 -- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Hoare triple over Val/Ktxred
 
@@ -212,23 +213,23 @@ data  _⊢[_]*_  where
   -∗-elim :  Q ⊢[ ι ] P -∗ R →  P ∗ Q ⊢[ ι ] R
 
   ------------------------------------------------------------------------------
-  -- On |=>
+  -- On ⇑
 
-  -- |=> is monadic :  monotone, increasing, and idempotent
+  -- ⇑ is monadic :  monotone, increasing, and idempotent
 
-  |=>-mono :  P ⊢[ ι ] Q →  |=> P ⊢[ ι ] |=> Q
+  ⇑-mono :  P ⊢[ ι ] Q →  ⇑ P ⊢[ ι ] ⇑ Q
 
-  |=>-intro :  P ⊢[ ι ] |=> P
+  ⇑-intro :  P ⊢[ ι ] ⇑ P
 
-  |=>-join :  |=> |=> P ⊢[ ι ] |=> P
+  ⇑-join :  ⇑ ⇑ P ⊢[ ι ] ⇑ P
 
-  -- ∗ can get inside |=>
+  -- ∗ can get inside ⇑
 
-  |=>-eatˡ :  P ∗ |=> Q ⊢[ ι ] |=> (P ∗ Q)
+  ⇑-eatˡ :  P ∗ ⇑ Q ⊢[ ι ] ⇑ (P ∗ Q)
 
-  -- ∃ -, can get outside |=>
+  -- ∃ -, can get outside ⇑
 
-  |=>-∃₁-out :  |=> (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , |=> P
+  ⇑-∃₁-out :  ⇑ (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , ⇑ P
 
   ------------------------------------------------------------------------------
   -- On □
@@ -254,23 +255,23 @@ data  _⊢[_]*_  where
   □-∃₁-out :  □ ∃₁˙ P˙ ⊢[ ι ] ∃₁˙ (□_ ∘ P˙)
 
   ------------------------------------------------------------------------------
-  -- On =>>
+  -- On ⇛
 
-  -- Increment the counter of =>> by 1
+  -- Increment the counter of ⇛ by 1
 
-  =>>-suc :  P ⊢[ ι ][ i ]=>> Q →  P ⊢[ ι ][ suc i ]=>> Q
+  ⇛-suc :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ suc i ]⇛ Q
 
-  -- Lift ⊢ |=> to ⊢=>>
+  -- Lift ⊢ ⇑ to ⊢⇛
 
-  |=>⇒=>> :  P ⊢[ ι ] |=> Q →  P ⊢[ ι ][ i ]=>> Q
+  ⇑⇒⇛ :  P ⊢[ ι ] ⇑ Q →  P ⊢[ ι ][ i ]⇛ Q
 
-  -- ⊢=>> is transitive
+  -- ⊢⇛ is transitive
 
-  _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ][ i ]=>> R →  P ⊢[ ι ][ i ]=>> R
+  _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]⇛ Q →  Q ⊢[ ι ][ i ]⇛ R →  P ⊢[ ι ][ i ]⇛ R
 
-  -- ⊢=>> can frame
+  -- ⊢⇛ can frame
 
-  =>>-frameˡ :  Q ⊢[ ι ][ i ]=>> R →  P ∗ Q ⊢[ ι ][ i ]=>> P ∗ R
+  ⇛-frameˡ :  Q ⊢[ ι ][ i ]⇛ R →  P ∗ Q ⊢[ ι ][ i ]⇛ P ∗ R
 
   ------------------------------------------------------------------------------
   -- On ○
@@ -281,54 +282,54 @@ data  _⊢[_]*_  where
 
   -- ○ P˂ is obtained by allocating P˂
 
-  ○-alloc :  P˂ .! ⊢[ ι ][ i ]=>> ○ P˂
+  ○-alloc :  P˂ .! ⊢[ ι ][ i ]⇛ ○ P˂
 
   -- When P˂ is persistent, □ ○ P˂_i can be obtained recursively, i.e.,
   -- by allocating P˂ minus the target □ ○ P˂
 
-  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ -∗ P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
+  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ -∗ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
 
   -- Use ○ P˂
 
-  ○-use :  ○ P˂ ⊢[ ι ][ i ]=>> P˂ .!
+  ○-use :  ○ P˂ ⊢[ ι ][ i ]⇛ P˂ .!
 
   ------------------------------------------------------------------------------
-  -- On ↪=>>
+  -- On ↪⇛
 
-  -- ↪=>> is monotone
+  -- ↪⇛ is monotone
 
-  ↪=>>-monoˡᵘ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]=>> P˂ .! →
-                   R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]=>> Q˂
+  ↪⇛-monoˡᵘ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .! →
+                   R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
 
-  ↪=>>-monoʳᵘ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ][ i ]=>> Q'˂ .! →
-                   R ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q'˂
+  ↪⇛-monoʳᵘ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ][ i ]⇛ Q'˂ .! →
+                   R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
 
-  -- Modify =>> proof
+  -- Modify ⇛ proof
 
-  ↪=>>-suc :  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]=>> Q˂
+  ↪⇛-suc :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]⇛ Q˂
 
-  ↪=>>-frameˡ :  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  ¡ (R ∗ P˂ .!) ↪[ i ]=>> ¡ (R ∗ Q˂ .!)
+  ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
-  -- Make ↪=>> out of ○
+  -- Make ↪⇛ out of ○
 
-  ○⇒↪=>> :  P˂ .! ∗ R˂ .! ⊢[< ι ][ i ]=>> Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
+  ○⇒↪⇛ :  P˂ .! ∗ R˂ .! ⊢[< ι ][ i ]⇛ Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
 
-  -- Use ↪=>>, with counter increment
+  -- Use ↪⇛, with counter increment
   ---- Without that counter increment, we could do any super update
-  ---- (=>>/↪=>>-use' in Syho.Logic.Paradox)
+  ---- (⇛/↪⇛-use' in Syho.Logic.Paradox)
 
-  ↪=>>-use :  P˂ .! ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ][ suc i ]=>>  Q˂ .!
+  ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ suc i ]⇛  Q˂ .!
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᴾ
 
   -- ↪⟨ ⟩ᴾ is monotone
 
-  ↪⟨⟩ᴾ-monoˡᵘ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ i ]=>> P˂ .!) →
+  ↪⟨⟩ᴾ-monoˡᵘ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .!) →
                    R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
   ↪⟨⟩ᴾ-monoʳᵘ-∗ :  {{Basic R}} →
-    (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ][ i ]=>> Q'˂ᵛ v .!) →
+    (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ][ i ]⇛ Q'˂ᵛ v .!) →
     R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
 
   -- Modify ⟨ ⟩ᴾ proof
@@ -352,11 +353,11 @@ data  _⊢[_]*_  where
 
   -- ↪⟨ ⟩ᵀ is monotone
 
-  ↪⟨⟩ᵀ-monoˡᵘ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ j ]=>> P˂ .!) →
+  ↪⟨⟩ᵀ-monoˡᵘ-∗ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ j ]⇛ P˂ .!) →
                    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
 
   ↪⟨⟩ᵀ-monoʳᵘ-∗ :  {{Basic R}} →
-    (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ][ j ]=>> Q'˂ᵛ v .!) →
+    (∀ v →  R ∗ Q˂ᵛ v .! ⊢[< ι ][ j ]⇛ Q'˂ᵛ v .!) →
     R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
 
   -- Modify ⟨ ⟩ᵀ proof
@@ -391,10 +392,10 @@ data  _⊢[_]*_  where
 
   -- Compose with a super update
 
-  _ᵘ»ʰ_ :  P ⊢[ ι ][ i ]=>> Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
+  _ᵘ»ʰ_ :  P ⊢[ ι ][ i ]⇛ Q →  Q ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ →
            P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
-  _ʰ»ᵘ_ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ][ i ]=>> Rᵛ v) →
+  _ʰ»ᵘ_ :  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Qᵛ →  (∀ v →  Qᵛ v ⊢[ ι ][ i ]⇛ Rᵛ v) →
            P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Rᵛ
 
   -- Frame
@@ -410,11 +411,11 @@ data  _⊢[_]*_  where
 
   -- Value
 
-  hor-valᵘ :  P ⊢[ ι ][ i ]=>> Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
+  hor-valᵘ :  P ⊢[ ι ][ i ]⇛ Qᵛ v →  P ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ] Qᵛ
 
   -- Non-deterministic value
 
-  hor-ndᵘ :  (∀ x →  P ⊢[ ι ][ i ]=>> Qᵛ (val x)) →
+  hor-ndᵘ :  (∀ x →  P ⊢[ ι ][ i ]⇛ Qᵛ (val x)) →
              P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ] Qᵛ
 
   -- ▶, for partial and total Hoare triples

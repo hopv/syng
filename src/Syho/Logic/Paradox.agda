@@ -12,13 +12,13 @@ open import Base.Func using (_$_)
 open import Base.Few using (0⊤)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr; Val)
-open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]=>>_;
+open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-elimˡ; →-intro; ∗-elimˡ;
   ∗⊤-intro; □-mono; □-elim)
-open import Syho.Logic.Supd using (_⊢[_][_]=>>_; _ᵘ»ᵘ_; _ᵘ»_; =>>-frameˡ)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _ᵘ»ʰ_)
-open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪=>>; ○⇒↪⟨⟩ᴾ;
+open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪⇛; ○⇒↪⟨⟩ᴾ;
   ○⇒↪⟨⟩ᵀ)
 
 private variable
@@ -37,29 +37,29 @@ private variable
 -- If we can turn ○ P into P, then we get P after a super update,
 -- thanks to □○-alloc-rec
 
-○-rec :  ○ ¡ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]=>> P
+○-rec :  ○ ¡ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]⇛ P
 ○-rec {P} ○P⊢P =  →-intro (∧-elimˡ » □-mono $ ○-mono (¡ □-elim) » ○P⊢P) »
     □○-alloc-rec {P˂ = ¡ □ P} ᵘ»ᵘ □-elim » ○-use ᵘ» □-elim
 
 --------------------------------------------------------------------------------
--- If we can use ↪=>> without counter increment, then we get a paradox
+-- If we can use ↪⇛ without counter increment, then we get a paradox
 
 module _
-  -- ↪=>>-use without counter increment
-  (↪=>>-use' :  ∀{P˂ Q˂ ι i} →
-    P˂ .! ∗ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ][ i ]=>>  Q˂ .!)
+  -- ↪⇛-use without counter increment
+  (↪⇛-use' :  ∀{P˂ Q˂ ι i} →
+    P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ i ]⇛  Q˂ .!)
   where abstract
 
-  -- We can strip ○ from ↪=>>, using ↪=>>-use'
+  -- We can strip ○ from ↪⇛, using ↪⇛-use'
 
-  ○⇒-↪=>>/↪=>>-use' :  ○ ¡ (P˂ ↪[ i ]=>> Q˂)  ⊢[ ι ]  P˂ ↪[ i ]=>> Q˂
-  ○⇒-↪=>>/↪=>>-use' =  ○⇒↪=>> λ{ .! → ↪=>>-use' }
+  ○⇒-↪⇛/↪⇛-use' :  ○ ¡ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
+  ○⇒-↪⇛/↪⇛-use' =  ○⇒↪⇛ λ{ .! → ↪⇛-use' }
 
   -- Therefore, by ○-rec, we can do any super update --- a paradox!
 
-  =>>/↪=>>-use' :  P ⊢[ ι ][ i ]=>> Q
-  =>>/↪=>>-use' {P} {Q = Q} =  ∗⊤-intro »
-    =>>-frameˡ (○-rec ○⇒-↪=>>/↪=>>-use') ᵘ»ᵘ ↪=>>-use' {¡ P} {¡ Q}
+  ⇛/↪⇛-use' :  P ⊢[ ι ][ i ]⇛ Q
+  ⇛/↪⇛-use' {P} {Q = Q} =  ∗⊤-intro »
+    ⇛-frameˡ (○-rec ○⇒-↪⇛/↪⇛-use') ᵘ»ᵘ ↪⇛-use' {¡ P} {¡ Q}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᴾ without ▶, then we get a paradox
@@ -80,7 +80,7 @@ module _
 
   horᴾ/↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ
   horᴾ/↪⟨⟩ᴾ-use' {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
-    =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
+    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
     ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}
 
 --------------------------------------------------------------------------------
@@ -102,5 +102,5 @@ module _
 
   horᵀ/↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Qᵛ
   horᵀ/↪⟨⟩ᵀ-use' {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
-    =>>-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
+    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
     ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}

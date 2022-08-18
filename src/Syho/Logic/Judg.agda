@@ -338,8 +338,8 @@ data  _⊢[_]*_  where
 
   -- Make ↪⟨ ⟩ᴾ out of ○
 
-  ○⇒↪⟨⟩ᴾ :
-    P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂ᵛ v .!) →  ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+  ○⇒↪⟨⟩ᴾ :  P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂ᵛ v .!) →
+            ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
 
   -- Use ↪⟨⟩ᴾ, with ▶ on the expression
   ---- Without that ▶, we could have any partial Hoare triple
@@ -375,8 +375,8 @@ data  _⊢[_]*_  where
   ---- Without that counter increment, we could have any total Hoare triple
   ---- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
 
-  ↪⟨⟩ᵀ-use :
-    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᵀ[ suc i ]  λ v → Q˂ᵛ v .!
+  ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)
+                ⊢[ ι ]⟨ e ⟩ᵀ[ suc i ]  λ v → Q˂ᵛ v .!
 
   ------------------------------------------------------------------------------
   -- On Hoare triple

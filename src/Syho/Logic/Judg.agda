@@ -25,7 +25,7 @@ open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syn
   _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; val;
   V⇒E; AnyVal; ⊤-val)
-open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
+open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ⁎ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
   Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
@@ -438,8 +438,8 @@ data  _⊢[_]*_  where
 
   -- Memory read
 
-  hor-★ :  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
-           θ ↦⟨ p ⟩ (-, v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
+  hor-⁎ :  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
+           θ ↦⟨ p ⟩ (-, v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ⁎ᴿ θ ⟩[ wκ ] Qᵛ
 
   -- Memory write
 

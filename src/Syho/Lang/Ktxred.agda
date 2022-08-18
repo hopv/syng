@@ -15,7 +15,7 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Eq using (_≡_; refl)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; ◸_; _→*_; Addr; Expr; Expr˂; ▶_; ∇_; nd;
-  λ˙; _◁_; ★_; _←_; alloc; free; Val; V⇒E; val; val→*)
+  λ˙; _◁_; ⁎_; _←_; alloc; free; Val; V⇒E; val; val→*)
 
 private variable
   X :  Set₀
@@ -25,14 +25,14 @@ private variable
 -------------------------------------------------------------------------------
 -- Redex
 
-infix 6 ▶ᴿ_ ★ᴿ_ _←ᴿ_
+infix 6 ▶ᴿ_ ⁎ᴿ_ _←ᴿ_
 infixl 5 _◁ᴿ_
 
 data  Redex :  Type →  Set₁  where
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
   ndᴿ :  Redex (◸ X)
   _◁ᴿ_ :  (X → Expr ∞ T) →  X →  Redex T
-  ★ᴿ_ :  Addr →  Redex T
+  ⁎ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
   allocᴿ :  ℕ →  Redex (◸ Addr)
   freeᴿ :  Addr →  Redex (◸ ⊤)
@@ -43,7 +43,7 @@ R⇒E :  Redex T →  Expr ∞ T
 R⇒E (▶ᴿ e˂) =  ▶ e˂
 R⇒E ndᴿ =  nd
 R⇒E (e˙ ◁ᴿ x) =  λ˙ e˙ ◁ ∇ x
-R⇒E (★ᴿ θ) =  ★ ∇ θ
+R⇒E (⁎ᴿ θ) =  ⁎ ∇ θ
 R⇒E (θ ←ᴿ v) =  ∇ θ ← V⇒E v
 R⇒E (allocᴿ n) =  alloc $ ∇ n
 R⇒E (freeᴿ θ) =  free $ ∇ θ
@@ -51,7 +51,7 @@ R⇒E (freeᴿ θ) =  free $ ∇ θ
 --------------------------------------------------------------------------------
 -- Ktx :  Syntactic evaluation context
 
-infix 6 ★ᴷ_ _←ᴷʳ_ _←ᴷˡ_
+infix 6 ⁎ᴷ_ _←ᴷʳ_ _←ᴷˡ_
 infixl 5 _◁ᴷʳ_ _◁ᴷˡ_
 data  Ktx :  Type →  Type →  Set₁  where
   -- Hole
@@ -59,8 +59,8 @@ data  Ktx :  Type →  Type →  Set₁  where
   -- On _◁_
   _◁ᴷʳ_ :  Expr ∞ (X →* T) →  Ktx U (◸ X) →  Ktx U T
   _◁ᴷˡ_ :  Ktx U (X →* T) →  X →  Ktx U T
-  -- On ★_
-  ★ᴷ_ :  Ktx U (◸ Addr) →  Ktx U T
+  -- On ⁎_
+  ⁎ᴷ_ :  Ktx U (◸ Addr) →  Ktx U T
   -- On _←_
   _←ᴷʳ_ :  Expr ∞ (◸ Addr) →  Ktx U T →  Ktx U (◸ ⊤)
   _←ᴷˡ_ :  Ktx U (◸ Addr) →  Val T →  Ktx U (◸ ⊤)
@@ -76,7 +76,7 @@ _ᴷ◁_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
 •ᴷ ᴷ◁ e =  e
 (e' ◁ᴷʳ ktx) ᴷ◁ e =  e' ◁ (ktx ᴷ◁ e)
 (ktx ◁ᴷˡ x) ᴷ◁ e =  (ktx ᴷ◁ e) ◁ ∇ x
-★ᴷ ktx ᴷ◁ e =  ★ (ktx ᴷ◁ e)
+⁎ᴷ ktx ᴷ◁ e =  ⁎ (ktx ᴷ◁ e)
 (e' ←ᴷʳ ktx) ᴷ◁ e =  e' ← (ktx ᴷ◁ e)
 (ktx ←ᴷˡ v) ᴷ◁ e =  (ktx ᴷ◁ e) ← V⇒E v
 allocᴷ ktx ᴷ◁ e =  alloc $ ktx ᴷ◁ e
@@ -89,7 +89,7 @@ _ᴷ∘ᴷ_ :  Ktx U T →  Ktx V U →  Ktx V T
 •ᴷ ᴷ∘ᴷ ktx =  ktx
 (e ◁ᴷʳ ktx) ᴷ∘ᴷ ktx' =  e ◁ᴷʳ (ktx ᴷ∘ᴷ ktx')
 (ktx ◁ᴷˡ x) ᴷ∘ᴷ ktx' =  (ktx ᴷ∘ᴷ ktx') ◁ᴷˡ x
-★ᴷ ktx ᴷ∘ᴷ ktx' =  ★ᴷ (ktx ᴷ∘ᴷ ktx')
+⁎ᴷ ktx ᴷ∘ᴷ ktx' =  ⁎ᴷ (ktx ᴷ∘ᴷ ktx')
 (e ←ᴷʳ ktx) ᴷ∘ᴷ ktx' =  e ←ᴷʳ (ktx ᴷ∘ᴷ ktx')
 (ktx ←ᴷˡ v) ᴷ∘ᴷ ktx' =  (ktx ᴷ∘ᴷ ktx') ←ᴷˡ v
 allocᴷ ktx ᴷ∘ᴷ ktx' =  allocᴷ $ ktx ᴷ∘ᴷ ktx'
@@ -124,7 +124,7 @@ abstract
     rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
   ᴷ∘ᴷ-ᴷ◁ {ktx = ktx ◁ᴷˡ _} {ktx' = ktx'} {e}
     rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
-  ᴷ∘ᴷ-ᴷ◁ {ktx = ★ᴷ ktx} {ktx' = ktx'} {e}
+  ᴷ∘ᴷ-ᴷ◁ {ktx = ⁎ᴷ ktx} {ktx' = ktx'} {e}
     rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
   ᴷ∘ᴷ-ᴷ◁ {ktx = _ ←ᴷʳ ktx} {ktx' = ktx'} {e}
     rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
@@ -151,12 +151,12 @@ val/ktxred (e' ◁ e) =  inj₁ body
   ... | inj₀ (val x)  with val/ktxred e'
   ...   | inj₁ (ktx ᴷ|ᴿ red) =  ktx ◁ᴷˡ x ᴷ|ᴿ red
   ...   | inj₀ (val→* v) =  •ᴷ ᴷ|ᴿ v ◁ᴿ x
-val/ktxred (★ e) =  inj₁ body
+val/ktxred (⁎ e) =  inj₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  ... | inj₁ (ktx ᴷ|ᴿ red) =  ★ᴷ ktx ᴷ|ᴿ red
-  ... | inj₀ (val θ) =  •ᴷ ᴷ|ᴿ ★ᴿ θ
+  ... | inj₁ (ktx ᴷ|ᴿ red) =  ⁎ᴷ ktx ᴷ|ᴿ red
+  ... | inj₀ (val θ) =  •ᴷ ᴷ|ᴿ ⁎ᴿ θ
 val/ktxred (e' ← e) =  inj₁ body
  where
   body :  Ktxred _
@@ -199,7 +199,7 @@ abstract
   nonval-ktx {ktx = •ᴷ} n'e =  n'e
   nonval-ktx {ktx = _ ◁ᴷʳ _} =  _
   nonval-ktx {ktx = _ ◁ᴷˡ _} =  _
-  nonval-ktx {ktx = ★ᴷ _} =  _
+  nonval-ktx {ktx = ⁎ᴷ _} =  _
   nonval-ktx {ktx = _ ←ᴷʳ _} =  _
   nonval-ktx {ktx = _ ←ᴷˡ _} =  _
   nonval-ktx {ktx = allocᴷ _} =  _
@@ -214,7 +214,7 @@ abstract
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
   val/ktxred-ktx {e = e} {ktx = ktx ◁ᴷˡ _} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
-  val/ktxred-ktx {e = e} {ktx = ★ᴷ ktx} eq
+  val/ktxred-ktx {e = e} {ktx = ⁎ᴷ ktx} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
   val/ktxred-ktx {e = e} {ktx = _ ←ᴷʳ ktx} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
@@ -242,7 +242,7 @@ abstract
       (λ{kr} → val/ktxred-ktx-inv {ktx = ktx} {kr} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl
   ...   | ktx , refl , eq' =  ktx , refl , eq'
-  val/ktxred-ktx-inv {e = e} {ktx = ★ᴷ ktx} nv'e eq
+  val/ktxred-ktx-inv {e = e} {ktx = ⁎ᴷ ktx} nv'e eq
     with val/ktxred (ktx ᴷ◁ e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{kr} → val/ktxred-ktx-inv {ktx = ktx} {kr} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl

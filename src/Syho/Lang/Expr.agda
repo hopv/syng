@@ -74,7 +74,7 @@ Expr˂ :  Size →  Type →  Set₁
 Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 
 infix 7 ∇_
-infix 6 ▶_ ★_ _←_
+infix 6 ▶_ ⁎_ _←_
 infixl 5 _◁_
 
 data  Expr ι  where
@@ -89,7 +89,7 @@ data  Expr ι  where
   -- Application
   _◁_ :  Expr ι (X →* T) →  Expr ι (◸ X) →  Expr ι T
   -- Read from the memory
-  ★_ :  Expr ι (◸ Addr) →  Expr ι T
+  ⁎_ :  Expr ι (◸ Addr) →  Expr ι T
   -- Write to the memory
   _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
   -- Allocating a new memory block

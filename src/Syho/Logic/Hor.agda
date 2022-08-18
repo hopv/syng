@@ -21,7 +21,7 @@ open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _ᴷ|ᴿ_; V
 open import Syho.Logic.Judg public using (WpKind; par; tot; _⊢[_]⁺⟨_⟩[_]_;
   _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_;
   _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-suc; _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ;
-  hor-bind; hor-valᵘ; hor-ndᵘ; horᴾ-▶; horᵀ-▶; hor-◁; hor-★; hor-←; hor-alloc;
+  hor-bind; hor-valᵘ; hor-ndᵘ; horᴾ-▶; horᵀ-▶; hor-◁; hor-⁎; hor-←; hor-alloc;
   hor-free)
 
 private variable
@@ -58,9 +58,8 @@ abstract
   -->  hor-◁ :  P ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ] Qᵛ →
   -->           P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ] Qᵛ
 
-
-  -->  hor-★ :  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
-  -->           θ ↦⟨ p ⟩ (-, v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ★ᴿ θ ⟩[ wκ ] Qᵛ
+  -->  hor-⁎ :  θ ↦⟨ p ⟩ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ] Qᵛ →
+  -->           θ ↦⟨ p ⟩ (-, v) ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ⁎ᴿ θ ⟩[ wκ ] Qᵛ
 
   -->  hor-← :  θ ↦ (V , v) ∗ P ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ] Qᵛ →
   -->           θ ↦ av ∗ P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wκ ] Qᵛ

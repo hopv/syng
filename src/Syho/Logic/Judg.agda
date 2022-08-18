@@ -119,11 +119,11 @@ record  Pers (P : Prop' ∞) :  Set₂  where
 open Pers {{...}} public
 
 private variable
-  Λ :  Level
+  ł :  Level
   i j n :  ℕ
-  X :  Set Λ
+  X :  Set ł
   x :  X
-  Y˙ :  X → Set Λ
+  Y˙ :  X → Set ł
   Jr :  JudgRes
   P P' Q R :  Prop' ∞
   P˙ Q˙ :  X → Prop' ∞

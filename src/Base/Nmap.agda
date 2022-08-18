@@ -13,9 +13,9 @@ open import Base.Nat using (ℕ; _≡ᵇ_; _≡?_)
 open import Base.Bool using (tt; ff)
 
 private variable
-  Λ :  Level
-  A :  Set Λ
-  A˙ :  ℕ → Set Λ
+  ł :  Level
+  A :  Set ł
+  A˙ :  ℕ → Set ł
 
 --------------------------------------------------------------------------------
 -- updⁿᵐ, dupdⁿᵐ :  Update a map at an index

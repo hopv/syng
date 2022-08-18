@@ -12,15 +12,15 @@ open import Base.Few using (⊤)
 open import Base.Prod using (_×_)
 
 private variable
-  Λ :  Level
-  A :  Set Λ
-  F :  A → Set Λ
+  ł :  Level
+  A :  Set ł
+  F :  A → Set ł
   a :  A
   as :  List A
 
 --------------------------------------------------------------------------------
 -- Conjunction over a list
 
-All :  (A → Set Λ) →  List A →  Set Λ
+All :  (A → Set ł) →  List A →  Set ł
 All F [] =  ⊤
 All F (a ∷ as) =  F a × All F as

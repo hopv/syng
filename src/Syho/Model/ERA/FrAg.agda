@@ -5,7 +5,7 @@
 {-# OPTIONS --without-K --safe #-}
 
 open import Base.Setoid using (Setoid)
-module Syho.Model.ERA.FrAg {Λ Λ≈} (S : Setoid Λ Λ≈) where
+module Syho.Model.ERA.FrAg {ł ł≈} (S : Setoid ł ł≈) where
 open Setoid S using (_≈_; refl˜) renaming (Car to A)
 
 open import Base.Level using (_⊔ᴸ_)
@@ -27,7 +27,7 @@ open ERA renaming (_≈_ to _≈'_; refl˜ to refl')
 -- FrAg : FrAgRA's carrier
 
 infix 8 ⟨_⟩ᶠᴸ_
-data  FrAg : Set Λ  where
+data  FrAg : Set ł  where
   ⟨_⟩ᶠᴸ_ :  ℚ⁺ → List A → FrAg  -- Fractional agreement, internal
   εᶠ :  FrAg  -- Unit
 
@@ -50,14 +50,14 @@ private
 
   -- Equivalence
   infix 4 _≈ᶠ_
-  _≈ᶠ_ :  FrAg →  FrAg →  Set (Λ ⊔ᴸ Λ≈)
+  _≈ᶠ_ :  FrAg →  FrAg →  Set (ł ⊔ᴸ ł≈)
   ⟨ p ⟩ᶠᴸ as ≈ᶠ ⟨ q ⟩ᶠᴸ bs =  p ≈ᴿ⁺ q  ×  as ≈ᴸ bs
   εᶠ ≈ᶠ εᶠ =  ⊤
   _ ≈ᶠ _ =  ⊥
 
   -- Validity
   infix 3 ✓ᶠ_
-  ✓ᶠ_ :  FrAg →  Set (Λ ⊔ᴸ Λ≈)
+  ✓ᶠ_ :  FrAg →  Set (ł ⊔ᴸ ł≈)
   ✓ᶠ ⟨ p ⟩ᶠᴸ a =  p ≤1ᴿ⁺  ×  homo a
   ✓ᶠ εᶠ =  ⊤
 
@@ -121,7 +121,7 @@ private abstract
 --------------------------------------------------------------------------------
 -- FrAgRA : Fractional resource algebra
 
-FrAgRA : ERA Λ (Λ ⊔ᴸ Λ≈) (Λ ⊔ᴸ Λ≈)
+FrAgRA : ERA ł (ł ⊔ᴸ ł≈) (ł ⊔ᴸ ł≈)
 FrAgRA .Car =  FrAg
 FrAgRA ._≈'_ =  _≈ᶠ_
 FrAgRA .✓_ =  ✓ᶠ_

@@ -16,8 +16,8 @@ open import Agda.Builtin.Bool public using (Bool)
   renaming (true to tt; false to ff)
 
 private variable
-  Λ :  Level
-  A :  Set Λ
+  ł :  Level
+  A :  Set ł
   b c d :  Bool
 
 -- Negation

@@ -15,7 +15,7 @@ open import Base.Setoid using (Setoid)
 --------------------------------------------------------------------------------
 -- Environmental resource algebra
 
-record  ERA Λᴱ Λ Λ≈ᴱ Λ≈ Λ✓ : Set (sucᴸ (Λᴱ ⊔ᴸ Λ ⊔ᴸ Λ≈ᴱ ⊔ᴸ Λ≈ ⊔ᴸ Λ✓))  where
+record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ ł≈ᴱ ⊔ᴸ ł≈ ⊔ᴸ ł✓))  where
   ------------------------------------------------------------------------------
   -- Fields
   infix 4 _≈ᴱ_ _≈_
@@ -28,19 +28,19 @@ record  ERA Λᴱ Λ Λ≈ᴱ Λ≈ Λ✓ : Set (sucᴸ (Λᴱ ⊔ᴸ Λ ⊔ᴸ 
     -- Main components
 
     -- Env :  Environment
-    Env :  Set Λᴱ
+    Env :  Set łᴱ
 
     -- Res :  Resource
-    Res :  Set Λ
+    Res :  Set ł
 
     -- ≈ᴱ :  Equivalence on environments
-    _≈ᴱ_ :  Env →  Env →  Set Λ≈ᴱ
+    _≈ᴱ_ :  Env →  Env →  Set ł≈ᴱ
 
     -- ≈ :  Equivalence on resources
-    _≈_ :  Res →  Res →  Set Λ≈
+    _≈_ :  Res →  Res →  Set ł≈
 
     -- ✓ :  Validity
-    _✓_ :  Env →  Res →  Set Λ✓
+    _✓_ :  Env →  Res →  Set ł✓
 
     -- ∙ :  Product
     _∙_ :  Res →  Res →  Res
@@ -115,11 +115,11 @@ record  ERA Λᴱ Λ Λ≈ᴱ Λ≈ Λ✓ : Set (sucᴸ (Λᴱ ⊔ᴸ Λ ⊔ᴸ 
 
   -- Setoid structures for Env and Res
 
-  Env-setoid :  Setoid Λᴱ Λ≈ᴱ
+  Env-setoid :  Setoid łᴱ ł≈ᴱ
   Env-setoid =  record {
     Car = Env; _≈_ = _≈ᴱ_; refl˜ = refl˜ᴱ; ◠˜_ = ◠˜ᴱ_; _◇˜_ = _◇˜ᴱ_ }
 
-  Res-setoid :  Setoid Λ Λ≈
+  Res-setoid :  Setoid ł ł≈
   Res-setoid =  record {
     Car = Res; _≈_ = _≈_; refl˜ = refl˜; ◠˜_ = ◠˜_; _◇˜_ = _◇˜_ }
 
@@ -127,8 +127,8 @@ record  ERA Λᴱ Λ Λ≈ᴱ Λ≈ Λ✓ : Set (sucᴸ (Λᴱ ⊔ᴸ Λ ⊔ᴸ 
     a a' b b' c d :  Res
     E E' F F' :  Env
     Ea E'a' Fb F'b' Gc :  Env × Res
-    ΛX :  Level
-    X :  Set ΛX
+    łX :  Level
+    X :  Set łX
     Fb˙ F'b'˙ :  X →  Env × Res
 
   abstract
@@ -209,7 +209,7 @@ record  ERA Λᴱ Λ Λ≈ᴱ Λ≈ Λ✓ : Set (sucᴸ (Λᴱ ⊔ᴸ Λ ⊔ᴸ 
 
   infix 4 _≈ᴱᴿ_
 
-  _≈ᴱᴿ_ :  Env × Res →  Env × Res →  Set (Λ≈ᴱ ⊔ᴸ Λ≈)
+  _≈ᴱᴿ_ :  Env × Res →  Env × Res →  Set (ł≈ᴱ ⊔ᴸ ł≈)
   (E , a) ≈ᴱᴿ (F , b) =  E ≈ᴱ F  ×  a ≈ b
 
   abstract
@@ -232,7 +232,7 @@ record  ERA Λᴱ Λ Λ≈ᴱ Λ≈ Λ✓ : Set (sucᴸ (Λᴱ ⊔ᴸ Λ ⊔ᴸ 
   -- ⊑ :  Derived pre-order
 
   infix 4 _⊑_
-  _⊑_ :  Res → Res → Set (Λ ⊔ᴸ Λ≈)
+  _⊑_ :  Res → Res → Set (ł ⊔ᴸ ł≈)
   a ⊑ b =  ∑ c ,  c ∙ a  ≈  b
 
   abstract
@@ -315,13 +315,13 @@ record  ERA Λᴱ Λ Λ≈ᴱ Λ≈ Λ✓ : Set (sucᴸ (Λᴱ ⊔ᴸ Λ ⊔ᴸ 
 
   -- (E , a) ↝ (F, b) : A resource a with an environment E can be updated into
   -- a resource b with an environment F, regardless of the frame resource c
-  _↝_ :  Env × Res →  Env × Res →  Set (Λ ⊔ᴸ Λ✓)
+  _↝_ :  Env × Res →  Env × Res →  Set (ł ⊔ᴸ ł✓)
   (E , a) ↝ (F , b) =  ∀ c →  E ✓ c ∙ a →  F ✓ c ∙ b
 
   -- a ↝˙ b˙ : a can be updated into b˙ x for some x,
   -- regardless of the environment E and the frame c
-  _↝˙_ :  {X : Set ΛX} →
-    Env × Res →  (X →  Env × Res) →  Set (Λ ⊔ᴸ Λ✓ ⊔ᴸ ΛX)
+  _↝˙_ :  {X : Set łX} →
+    Env × Res →  (X →  Env × Res) →  Set (ł ⊔ᴸ ł✓ ⊔ᴸ łX)
   (E , a) ↝˙ Fb˙ =  ∀ c →  E ✓ c ∙ a →
     ∑ x ,  let (F , b) = Fb˙ x in  F ✓ c ∙ b
 

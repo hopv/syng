@@ -30,10 +30,10 @@ private variable
   ι :  Size
   P P' Q Q' R R' S S' T T' U U' V V' :  Prop' ∞
   Jr :  JudgRes
-  Λ :  Level
-  X Y :  Set Λ
+  ł :  Level
+  X Y :  Set ł
   x :  X
-  Y˙ :  X → Set Λ
+  Y˙ :  X → Set ł
   P˙ Q˙ :  X → Prop' ∞
   Ps Qs :  List (Prop' ∞)
 

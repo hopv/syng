@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Base.Finmap {Λ Λ'} (A : Set Λ) (null : A → Set Λ') where
+module Base.Finmap {ł ł'} (A : Set ł) (null : A → Set ł') where
 
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
@@ -20,11 +20,11 @@ open import Base.Nmap using (updⁿᵐ)
 -- Finmap : Finite map over natural numbers
 
 -- Finᶠᵐ !ᶠᵐ n : !ᶠᵐ i is null for every i ≥ n
-Finᶠᵐ :  (ℕ → A) →  ℕ →  Set Λ'
+Finᶠᵐ :  (ℕ → A) →  ℕ →  Set ł'
 Finᶠᵐ !ᶠᵐ n =  ∀ {i} → n ≤ i → null (!ᶠᵐ i)
 
 infix 5 _|ᶠᵐ_
-record  Finmap :  Set (Λ ⊔ᴸ Λ')  where
+record  Finmap :  Set (ł ⊔ᴸ ł')  where
   constructor _|ᶠᵐ_
   field
     -- Main map

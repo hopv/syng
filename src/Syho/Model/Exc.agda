@@ -12,8 +12,8 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Func using (id)
 
 private variable
-  Λ :  Level
-  A :  Set Λ
+  ł :  Level
+  A :  Set ł
   a b :  A
 
 --------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ private variable
 
 infix 8 #ˣ_
 
-data  Exc (A : Set Λ) :  Set Λ  where
+data  Exc (A : Set ł) :  Set ł  where
 
   -- Pending
   ?ˣ :  Exc A
@@ -57,7 +57,7 @@ _ ∙ˣ _ =  ↯ˣ
 -- Agreement
 
 infix 4 _←ˣ_
-_←ˣ_ :  ∀{A : Set Λ} →  A →  Exc A →  Set Λ
+_←ˣ_ :  ∀{A : Set ł} →  A →  Exc A →  Set ł
 a ←ˣ #ˣ b =  a ≡ b
 _ ←ˣ ?ˣ =  ⊤
 _ ←ˣ ↯ˣ =  ⊥

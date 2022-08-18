@@ -57,11 +57,11 @@ data  Type :  Set₁  where
   _→*_ :  Set₀ →  Type →  Type
 
 private variable
-  Λ :  Level
+  ł :  Level
   ι :  Size
   T U :  Type
   X :  Set₀
-  Y :  Set Λ
+  Y :  Set ł
 
 --------------------------------------------------------------------------------
 -- Expr :  Expression, possibly infinite

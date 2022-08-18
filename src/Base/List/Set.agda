@@ -19,8 +19,8 @@ open import Base.Few using (¬_; absurd)
 open import Base.Func using (id; _∘_; _$_)
 
 private variable
-  Λ :  Level
-  A :  Set Λ
+  ł :  Level
+  A :  Set ł
   as bs cs :  List A
   a b :  A
 
@@ -28,7 +28,7 @@ private variable
 -- ∈ᴸ :  Containment in a list
 
 infix 4 _∈ᴸ_
-_∈ᴸ_ :  ∀{A : Set Λ} →  A →  List A →  Set Λ
+_∈ᴸ_ :  ∀{A : Set ł} →  A →  List A →  Set ł
 a ∈ᴸ as =  Any (a ≡_) as
 
 abstract
@@ -53,7 +53,7 @@ abstract
 -- ∉ᴸ :  Non-containment in a list
 
 infix 4 _∉ᴸ_
-_∉ᴸ_ :  ∀{A : Set Λ} →  A →  List A →  Set Λ
+_∉ᴸ_ :  ∀{A : Set ł} →  A →  List A →  Set ł
 a ∉ᴸ as =  ¬ a ∈ᴸ as
 
 abstract
@@ -87,7 +87,7 @@ abstract
 -- ⊆ᴸ :  Inclusion between lists as sets
 
 infix 4 _⊆ᴸ_
-_⊆ᴸ_ :  ∀{A : Set Λ} →  List A →  List A →  Set Λ
+_⊆ᴸ_ :  ∀{A : Set ł} →  List A →  List A →  Set ł
 as ⊆ᴸ bs =  ∀ {a} →  a ∈ᴸ as →  a ∈ᴸ bs
 
 abstract
@@ -135,7 +135,7 @@ abstract
 -- ≈ᴸ :  Equivalece of lists as sets
 
 infix 4 _≈ᴸ_
-_≈ᴸ_ :  ∀{A : Set Λ} →  List A → List A → Set Λ
+_≈ᴸ_ :  ∀{A : Set ł} →  List A → List A → Set ł
 as ≈ᴸ bs =  as ⊆ᴸ bs  ×  bs ⊆ᴸ as
 
 abstract

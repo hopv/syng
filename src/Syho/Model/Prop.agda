@@ -40,12 +40,17 @@ Pᵒ ⊨ Qᵒ =  ∀ {a} →  Pᵒ a →  Qᵒ a
 --------------------------------------------------------------------------------
 -- ∀₁ᵒ, ∃₁ᵒ :  Universal/existential quantification
 
-∀₁ᵒ˙ ∃₁ᵒ˙ ∀₁ᵒ-syntax ∃₁ᵒ-syntax : (X₁ → Propᵒ) →  Propᵒ
+∀₁ᵒ˙ ∃₁ᵒ˙ ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax :
+  (X₁ → Propᵒ) →  Propᵒ
 ∀₁ᵒ˙ Pᵒ˙ a =  ∀ x →  Pᵒ˙ x a
 ∃₁ᵒ˙ Pᵒ˙ a =  ∑ x ,  Pᵒ˙ x a
+∀₁ᵒ∈-syntax =  ∀₁ᵒ˙
+∃₁ᵒ∈-syntax =  ∃₁ᵒ˙
 ∀₁ᵒ-syntax =  ∀₁ᵒ˙
 ∃₁ᵒ-syntax =  ∃₁ᵒ˙
-infix 3 ∀₁ᵒ-syntax ∃₁ᵒ-syntax
+infix 3 ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax
+syntax ∀₁ᵒ∈-syntax {X₁ = X₁} (λ x → Pᵒ) =  ∀₁ᵒ x ∈ X₁ , Pᵒ
+syntax ∃₁ᵒ∈-syntax {X₁ = X₁} (λ x → Pᵒ) =  ∃₁ᵒ x ∈ X₁ , Pᵒ
 syntax ∀₁ᵒ-syntax (λ x → Pᵒ) =  ∀₁ᵒ x , Pᵒ
 syntax ∃₁ᵒ-syntax (λ x → Pᵒ) =  ∃₁ᵒ x , Pᵒ
 

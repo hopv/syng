@@ -53,7 +53,7 @@ abstract
 -- ∉ᴸ :  Non-containment in a list
 
 infix 4 _∉ᴸ_
-_∉ᴸ_ :  A →  List A →  Set _
+_∉ᴸ_ :  ∀{A : Set Λ} →  A →  List A →  Set Λ
 a ∉ᴸ as =  ¬ a ∈ᴸ as
 
 abstract

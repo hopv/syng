@@ -15,15 +15,13 @@ open import Base.Few using (¬_)
 open import Agda.Builtin.Equality public using (_≡_; refl)
 
 private variable
-  ΛA ΛB ΛC ΛF :  Level
-  A :  Set ΛA
-  B :  Set ΛB
-  C :  Set ΛC
+  Λ :  Level
+  A B C :  Set Λ
   a a' a'' :  A
 
 -- Negation of _≡_
 infix 4 _≢_
-_≢_ :  ∀ {A : Set ΛA} →  A →  A →  Set ΛA
+_≢_ :  ∀ {A : Set Λ} →  A →  A →  Set Λ
 x ≢ y =  ¬  x ≡ y
 
 abstract
@@ -48,9 +46,9 @@ abstract
 
   -- Substitution
 
-  subst :  ∀ (F : A → Set ΛF) {a a'} →  a ≡ a' →  F a →  F a'
+  subst :  ∀ (F : A → Set Λ) {a a'} →  a ≡ a' →  F a →  F a'
   subst _ refl Fa =  Fa
 
-  subst₂ :  ∀ (F : A → B → Set ΛF) {a a' b b'} →
+  subst₂ :  ∀ (F : A → B → Set Λ) {a a' b b'} →
     a ≡ a' →  b ≡ b' →  F a b →  F a' b'
   subst₂ _ refl refl Fab =  Fab

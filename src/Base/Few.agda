@@ -8,8 +8,8 @@ open import Base.Level using (Level; 0ᴸ)
 module Base.Few where
 
 private variable
-  Λ ΛA ΛF :  Level
-  A :  Set ΛA
+  Λ Λ' :  Level
+  A :  Set Λ
 
 --------------------------------------------------------------------------------
 -- ⟨2⟩ :  2-element set / doubleton set
@@ -19,7 +19,7 @@ data  ⟨2⟩ {Λ} :  Set Λ  where
 
 -- Function from ⟨2⟩
 
-binary :  ∀ {F : ⟨2⟩ {Λ} → Set ΛF} →  F 0₂ →  F 1₂ →  (x : ⟨2⟩) →  F x
+binary :  ∀ {F : ⟨2⟩ {Λ} → Set Λ'} →  F 0₂ →  F 1₂ →  (x : ⟨2⟩) →  F x
 binary a _ 0₂ =  a
 binary _ b 1₂ =  b
 
@@ -36,14 +36,14 @@ data  ⊥ {Λ} :  Set Λ  where
 
 -- Function from ⊥
 
-absurd :  ∀ {F : ⊥ {Λ} → Set ΛF} →  (x : ⊥) →  F x
+absurd :  ∀ {F : ⊥ {Λ} → Set Λ'} →  (x : ⊥) →  F x
 absurd ()
 
 --------------------------------------------------------------------------------
 -- ¬ :  Negation
 
 infix 3 ¬_
-¬_ :  Set ΛA → Set ΛA
+¬_ :  Set Λ → Set Λ
 ¬ A =  A →  ⊥ {0ᴸ}
 
 -- Introducing ¬¬

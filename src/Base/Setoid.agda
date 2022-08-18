@@ -42,9 +42,9 @@ record  Setoid Λ Λ≈ :  Set (sucᴸ (Λ ⊔ᴸ Λ≈))  where
 open Setoid
 
 private variable
-  ΛA :  Level
+  Λ :  Level
 
-≡-setoid :  Set ΛA →  Setoid ΛA ΛA
+≡-setoid :  Set Λ →  Setoid Λ Λ
 ≡-setoid A .Car =  A
 ≡-setoid _ ._≈_ =  _≡_
 ≡-setoid _ .refl˜ =  refl

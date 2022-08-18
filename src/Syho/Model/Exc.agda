@@ -57,7 +57,7 @@ _ ∙ˣ _ =  ↯ˣ
 -- Agreement
 
 infix 4 _←ˣ_
-_←ˣ_ :  A →  Exc A →  Set _
+_←ˣ_ :  ∀{A : Set Λ} →  A →  Exc A →  Set Λ
 a ←ˣ #ˣ b =  a ≡ b
 _ ←ˣ ?ˣ =  ⊤
 _ ←ˣ ↯ˣ =  ⊥

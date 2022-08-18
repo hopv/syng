@@ -10,19 +10,20 @@ open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Few using (¬_)
 
 private variable
-  ΛA ΛB ΛF :  Level
+  Λ Λ' Λ'' :  Level
+  A B : Set Λ
 
 --------------------------------------------------------------------------------
 -- Decision on A
-data  Dec {ΛA : Level} (A : Set ΛA) :  Set ΛA  where
+data  Dec (A : Set Λ) :  Set Λ  where
   yes :  A →  Dec A
   no :  ¬ A →  Dec A
 
 --------------------------------------------------------------------------------
 -- Decision on a predicate
 
-Dec¹ :  ∀ {A : Set ΛA} →  (A → Set ΛF) →  Set (ΛA ⊔ᴸ ΛF)
+Dec¹ :  ∀{A : Set Λ} →  (A → Set Λ') →  Set (Λ ⊔ᴸ Λ')
 Dec¹ F =  ∀ a →  Dec (F a)
 
-Dec² :  ∀ {A : Set ΛA} {B : Set ΛB} →  (A → B → Set ΛF) →  Set (ΛA ⊔ᴸ ΛB ⊔ᴸ ΛF)
+Dec² :  ∀{A : Set Λ} {B : Set Λ'} →  (A → B → Set Λ'') →  Set (Λ ⊔ᴸ Λ' ⊔ᴸ Λ'')
 Dec² F =  ∀ a b →  Dec (F a b)

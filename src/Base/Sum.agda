@@ -9,21 +9,20 @@ module Base.Sum where
 open import Base.Level using (Level; _⊔ᴸ_)
 
 private variable
-  ΛA ΛB ΛF :  Level
-  A :  Set ΛA
-  B :  Set ΛB
+  Λ Λ' :  Level
+  A B :  Set Λ
 
 --------------------------------------------------------------------------------
 -- Sum
 
 infixr 0 _⊎_
-data  _⊎_ (A : Set ΛA) (B : Set ΛB) :  Set (ΛA ⊔ᴸ ΛB)  where
+data  _⊎_ (A : Set Λ) (B : Set Λ') :  Set (Λ ⊔ᴸ Λ')  where
   inj₀ :  A →  A ⊎ B
   inj₁ :  B →  A ⊎ B
 
 -- Pattern matching on ⊎
 
-⊎-case :  ∀ {F : A ⊎ B → Set ΛF} →
+⊎-case :  ∀ {F : A ⊎ B → Set Λ} →
   (∀ a → F (inj₀ a)) →  (∀ b → F (inj₁ b)) →  (a/b : A ⊎ B) →  F a/b
 ⊎-case f _ (inj₀ a) =  f a
 ⊎-case _ g (inj₁ b) =  g b

@@ -12,15 +12,15 @@ open import Base.Few using (¬_)
 open import Base.Func using (_∈_)
 open import Base.Prod using (_×_; ∑-syntax; _,_)
 
-record  Setoid ℓ ℓ≈ :  Set (sucᴸ (ℓ ⊔ᴸ ℓ≈))  where
+record  Setoid Λ Λ≈ :  Set (sucᴸ (Λ ⊔ᴸ Λ≈))  where
   infix 4 _≈_
   infix 0 ◠˜_
   infixr -1 _◇˜_
   field
     -- Car :  Carrier set
-    Car :  Set ℓ
+    Car :  Set Λ
     -- ≈ :  Binary relation over Car
-    _≈_ :  Car → Car → Set ℓ≈
+    _≈_ :  Car → Car → Set Λ≈
     -- ≈ is reflexive, symmetric and transitive
     refl˜ :  ∀ {a} →  a ≈ a
     ◠˜_ :  ∀ {a b} →  a ≈ b →  b ≈ a
@@ -36,15 +36,15 @@ record  Setoid ℓ ℓ≈ :  Set (sucᴸ (ℓ ⊔ᴸ ℓ≈))  where
   -- ≉ :  Negation of ≈
 
   infix 4 _≉_
-  _≉_ :  Car → Car → Set ℓ≈
+  _≉_ :  Car → Car → Set Λ≈
   a ≉ b =  ¬  a ≈ b
 
 open Setoid
 
 private variable
-  ℓA :  Level
+  ΛA :  Level
 
-≡-setoid :  Set ℓA →  Setoid ℓA ℓA
+≡-setoid :  Set ΛA →  Setoid ΛA ΛA
 ≡-setoid A .Car =  A
 ≡-setoid _ ._≈_ =  _≡_
 ≡-setoid _ .refl˜ =  refl

@@ -14,9 +14,9 @@ open import Agda.Builtin.Maybe renaming (Maybe to infix 0 ??_; just to some;
   nothing to none) public
 
 private variable
-  ℓA ℓB : Level
-  A : Set ℓA
-  B : Set ℓB
+  ΛA ΛB : Level
+  A : Set ΛA
+  B : Set ΛB
 
 ??-case :  (A → B) → B → ?? A → B
 ??-case f _ (some a) =  f a

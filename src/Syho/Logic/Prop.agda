@@ -32,8 +32,8 @@ private variable
   ι :  Size
   X₀ :  Set₀
   X₁ :  Set₁
-  ℓ :  Level
-  X :  Set ℓ
+  Λ :  Level
+  X :  Set Λ
   P˙ :  X → Prop' ∞
   P Q :  Prop' ∞
   n :  ℕ

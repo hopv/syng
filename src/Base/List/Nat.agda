@@ -13,9 +13,9 @@ open import Base.Option using (??_; some; none)
 open import Base.Func using (_$_)
 
 private variable
-  ℓA ℓB :  Level
-  A :  Set ℓA
-  B :  Set ℓB
+  ΛA ΛB :  Level
+  A :  Set ΛA
+  B :  Set ΛB
 
 -- Length
 

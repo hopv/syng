@@ -15,10 +15,10 @@ open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Func using (_$_)
 
 private variable
-  ℓX ℓY :  Level
+  ΛX ΛY :  Level
   b :  Bool
-  X :  Set ℓX
-  Y :  Set ℓY
+  X :  Set ΛX
+  Y :  Set ΛY
 
 abstract
 

@@ -16,14 +16,14 @@ open import Agda.Builtin.Sigma public
   renaming (Σ to ∑˙; _,_ to infixr -1 _,_; fst to proj₀; snd to proj₁)
 
 private variable
-  ℓ ℓ' :  Level
-  A B C :  Set ℓ
-  B˙ :  A →  Set ℓ'
+  Λ Λ' :  Level
+  A B C :  Set Λ
+  B˙ :  A →  Set Λ'
 
 -- Syntax for ∑
 
 infix -1 ∑∈-syntax ∑-syntax
-∑∈-syntax ∑-syntax :  ∀{A : Set ℓ} →  (A → Set ℓ') →  Set (ℓ ⊔ᴸ ℓ')
+∑∈-syntax ∑-syntax :  ∀{A : Set Λ} →  (A → Set Λ') →  Set (Λ ⊔ᴸ Λ')
 ∑∈-syntax =  ∑˙ _
 ∑-syntax =  ∑˙ _
 syntax ∑∈-syntax {A = A} (λ a → b) =  ∑ a ∈ A , b
@@ -36,7 +36,7 @@ pattern -,_ b =  _ , b
 -- Product
 
 infixr 1 _×_
-_×_ :  Set ℓ →  Set ℓ' →  Set (ℓ ⊔ᴸ ℓ')
+_×_ :  Set Λ →  Set Λ' →  Set (Λ ⊔ᴸ Λ')
 A × B =  ∑ _ ∈ A , B
 
 -- Curry and uncurry

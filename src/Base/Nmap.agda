@@ -13,9 +13,9 @@ open import Base.Nat using (ℕ; _≡ᵇ_; _≡?_)
 open import Base.Bool using (tt; ff)
 
 private variable
-  ℓ :  Level
-  A :  Set ℓ
-  A˙ :  ℕ → Set ℓ
+  Λ :  Level
+  A :  Set Λ
+  A˙ :  ℕ → Set Λ
 
 --------------------------------------------------------------------------------
 -- updⁿᵐ, dupdⁿᵐ :  Update a map at an index
@@ -42,8 +42,8 @@ abstract
   updaᵈⁿᵐ :  ∀ i →  A˙ i →  (∀ j →  A˙ j) →  (∀ i →  A˙ i)
   updaᵈⁿᵐ =  updᵈⁿᵐ
 
-  updaⁿᵐ-eq :  ∀{A : Set ℓ} →  updaⁿᵐ {A = A} ≡ updⁿᵐ
+  updaⁿᵐ-eq :  ∀{A : Set Λ} →  updaⁿᵐ {A = A} ≡ updⁿᵐ
   updaⁿᵐ-eq =  refl
 
-  updaᵈⁿᵐ-eq :  ∀{A˙ : ℕ → Set ℓ} →  updaᵈⁿᵐ {A˙ = A˙} ≡ updᵈⁿᵐ
+  updaᵈⁿᵐ-eq :  ∀{A˙ : ℕ → Set Λ} →  updaᵈⁿᵐ {A˙ = A˙} ≡ updᵈⁿᵐ
   updaᵈⁿᵐ-eq =  refl

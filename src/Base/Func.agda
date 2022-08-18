@@ -9,10 +9,10 @@ module Base.Func where
 open import Base.Level using (Level)
 
 private variable
-  ℓA ℓB ℓF ℓG :  Level
-  A :  Set ℓA
-  B :  Set ℓB
-  F :  A → Set ℓF
+  ΛA ΛB ΛF ΛG :  Level
+  A :  Set ΛA
+  B :  Set ΛB
+  F :  A → Set ΛF
 
 -- Identity
 
@@ -27,7 +27,7 @@ const a _ =  a
 -- Composition
 
 infixr 9 _∘_
-_∘_ :  ∀ {G : ∀ a → F a → Set ℓG} →
+_∘_ :  ∀ {G : ∀ a → F a → Set ΛG} →
   (∀ {a} b → G a b) →  (f : ∀ a → F a) →  (a : A) →  G a (f a)
 (g ∘ f) a =  g (f a)
 
@@ -46,12 +46,12 @@ a ▷ f =  f a
 -- Function application read as Membership
 
 infix 4 _∈_
-_∈_ :  A → (A → Set ℓB) → Set ℓB
+_∈_ :  A → (A → Set ΛB) → Set ΛB
 a ∈ B =  B a
 
 -- Flip the order of arguments
 
-flip :  ∀ {F : A → B → Set ℓF} → (∀ a b → F a b) → ∀ b a → F a b
+flip :  ∀ {F : A → B → Set ΛF} → (∀ a b → F a b) → ∀ b a → F a b
 flip f b a =  f a b
 
 -- Instance search

@@ -26,7 +26,7 @@ open import Agda.Primitive public using (
 -- Up : Wrapper raising the level
 
 infix 8 ↑_
-record  Up {ℓ : Level} (A : Set ℓ) {ℓ' : Level} :  Set (ℓ ⊔ᴸ ℓ')  where
+record  Up {Λ : Level} (A : Set Λ) {Λ' : Level} :  Set (Λ ⊔ᴸ Λ')  where
   -- ↑/↓ : Wrap into / unwrap from Up
   constructor ↑_
   infix 8 ↓_

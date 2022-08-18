@@ -16,8 +16,8 @@ open import Base.Prod using (_×_; _,_)
 open import Agda.Builtin.List public using (List; []; _∷_)
 
 private variable
-  ℓ :  Level
-  A B :  Set ℓ
+  Λ :  Level
+  A B :  Set Λ
   as bs cs :  List A
 
 --------------------------------------------------------------------------------

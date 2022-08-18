@@ -25,13 +25,13 @@ open import Syho.Logic.Judg public using (○-mono-∗; ○-alloc; □○-alloc-
   ↪⟨⟩ᵀ-monoʳᵘ-∗; ↪⟨⟩ᵀ-suc; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ; ↪⟨⟩ᵀ-use)
 
 private variable
-  ℓ :  Level
+  Λ :  Level
   ι :  Size
   i j :  ℕ
   T :  Type
   P Q R :  Prop' ∞
   P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
-  X :  Set ℓ
+  X :  Set Λ
   x :  X
   P˂˙ Q˂˙ :  X → Prop˂ ∞
   Qᵛ :  Val T → Prop' ∞

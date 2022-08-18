@@ -13,15 +13,15 @@ open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 
 private variable
-  ℓA ℓF :  Level
-  A :  Set ℓA
-  F :  A → Set ℓF
+  ΛA ΛF :  Level
+  A :  Set ΛA
+  F :  A → Set ΛF
   a :  A
   as bs cs :  List A
 
 --------------------------------------------------------------------------------
 -- Disjunction over list elements
-data  Any {A : Set ℓA} (F : A → Set ℓF) :  List A → Set (ℓA ⊔ᴸ ℓF)  where
+data  Any {A : Set ΛA} (F : A → Set ΛF) :  List A → Set (ΛA ⊔ᴸ ΛF)  where
   by-hd :  ∀ {a as} →  F a →  Any F (a ∷ as)
   by-tl :  ∀ {a as} →  Any F as →  Any F (a ∷ as)
 open Any public

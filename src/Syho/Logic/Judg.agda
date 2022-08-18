@@ -307,7 +307,7 @@ data  _⊢[_]*_  where
 
   ↪=>>-suc :  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]=>> Q˂
 
-  ↪=>>-frameˡ :  ¡ P ↪[ i ]=>> ¡ Q  ⊢[ ι ]  ¡ (R ∗ P) ↪[ i ]=>> ¡ (R ∗ Q)
+  ↪=>>-frameˡ :  P˂ ↪[ i ]=>> Q˂  ⊢[ ι ]  ¡ (R ∗ P˂ .!) ↪[ i ]=>> ¡ (R ∗ Q˂ .!)
 
   -- Make ↪=>> out of ○
 
@@ -333,8 +333,8 @@ data  _⊢[_]*_  where
 
   -- Modify ⟨ ⟩ᴾ proof
 
-  ↪⟨⟩ᴾ-frameˡ :
-    ¡ P ↪⟨ e ⟩ᴾ (λ v → ¡ Qᵛ v)  ⊢[ ι ]  ¡ (R ∗ P) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Qᵛ v)
+  ↪⟨⟩ᴾ-frameˡ :  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ  ⊢[ ι ]
+                   ¡ (R ∗ P˂ .!) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂ᵛ v .!)
 
   -- Make ↪⟨ ⟩ᴾ out of ○
 
@@ -363,8 +363,8 @@ data  _⊢[_]*_  where
 
   ↪⟨⟩ᵀ-suc :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
 
-  ↪⟨⟩ᵀ-frameˡ :  ¡ P ↪⟨ e ⟩ᵀ[ i ] (λ v → ¡ Qᵛ v)  ⊢[ ι ]
-                   ¡ (R ∗ P) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Qᵛ v)
+  ↪⟨⟩ᵀ-frameˡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]
+                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂ᵛ v .!)
 
   -- Make ↪⟨ ⟩ᵀ out of ○
 

@@ -284,16 +284,16 @@ data  _⊢[_]*_  where
 
   ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ (Q ∗ P˂ .!)
 
-  -- ○ P˂ is obtained by allocating P˂
+  -- ○ P can be obtained by allocating P
 
   ○-alloc :  P˂ .! ⊢[ ι ][ i ]⇛ ○ P˂
 
-  -- When P˂ is persistent, □ ○ P˂_i can be obtained recursively, i.e.,
-  -- by allocating P˂ minus the target □ ○ P˂
+  -- When P is persistent, □ ○ P_i can be obtained recursively, i.e.,
+  -- by allocating P minus the target □ ○ P
 
   □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ -∗ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
 
-  -- Use ○ P˂
+  -- Use ○ P
 
   ○-use :  ○ P˂ ⊢[ ι ][ i ]⇛ P˂ .!
 

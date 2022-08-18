@@ -31,19 +31,3 @@ updᵈⁿᵐ :  ∀ i →  A˙ i →  (∀ j →  A˙ j) →  (∀ j →  A˙ j)
 updᵈⁿᵐ i a f j  with i ≡? j
 ... | no _ =  f j
 ... | yes refl =  a
-
-abstract
-
-  -- Abstract version of updⁿᵐ & updᵈⁿᵐ
-
-  updaⁿᵐ :  ℕ →  A →  (ℕ → A) →  (ℕ → A)
-  updaⁿᵐ =  updⁿᵐ
-
-  updaᵈⁿᵐ :  ∀ i →  A˙ i →  (∀ j →  A˙ j) →  (∀ i →  A˙ i)
-  updaᵈⁿᵐ =  updᵈⁿᵐ
-
-  updaⁿᵐ-eq :  ∀{A : Set Λ} →  updaⁿᵐ {A = A} ≡ updⁿᵐ
-  updaⁿᵐ-eq =  refl
-
-  updaᵈⁿᵐ-eq :  ∀{A˙ : ℕ → Set Λ} →  updaᵈⁿᵐ {A˙ = A˙} ≡ updᵈⁿᵐ
-  updaᵈⁿᵐ-eq =  refl

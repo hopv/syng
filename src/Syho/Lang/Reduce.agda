@@ -36,7 +36,7 @@ open import Base.Finmap (List AnyVal) (_≡ []) public using () renaming (
   _|ᶠᵐ_ to _|ᴹ_; !ᶠᵐ to bloᴹ; finᶠᵐ to finᴹ;
 
   -- Memory block update
-  updᶠᵐ to updᴹᴮ; updaᶠᵐ to updaᴹᴮ; updaᶠᵐ-eq to updaᴹᴮ-eq)
+  updᶠᵐ to updᴹᴮ)
 
 open import Base.Finmap (List AnyVal) (_≡ []) using (initᶠᵐ)
 

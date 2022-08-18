@@ -71,16 +71,6 @@ updᶠᵐ i a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc i ⊔ n , proof
   ... | tt | ⇒i≡j  with ⇒i≡j _
   ...   | refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
 
-abstract
-
-  -- Abstract version of updᶠᵐ
-
-  updaᶠᵐ :  ℕ →  A →  Finmap →  Finmap
-  updaᶠᵐ =  updᶠᵐ
-
-  updaᶠᵐ-eq :  updaᶠᵐ ≡ updᶠᵐ
-  updaᶠᵐ-eq =  refl
-
 -- Merge finmaps using a merge operation _∙_
 
 mergeᶠᵐ :  ∀ (_∙_ : A → A → A) →  (∀{a b} → null a → null b → null (a ∙ b)) →

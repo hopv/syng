@@ -112,7 +112,7 @@ Val/Ktxred T =  Val T ⊎ Ktxred T
 
 private variable
   ktx ktx' :  Ktx U T
-  kr : Ktxred T
+  kr :  Ktxred T
   v :  Val T
 
 abstract

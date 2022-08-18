@@ -9,17 +9,13 @@ module Syho.Logic.Ind where
 open import Base.Level using (Level; ↓_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; ¡_; !)
-open import Base.Few using (0⊤)
 open import Base.Func using (_∘_; id; const; _$_)
-open import Base.Prod using (_×_; _,_)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈsuc; _≤_; ≤⇒≤ᵈ)
-open import Base.List using ([_])
-open import Base.List.All using ()
 open import Syho.Lang.Expr using (Type; Expr; Val)
-open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∧_; _→'_; _∗_; □_;
-  ○_; _↪[_]=>>_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
-open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∀₁-elim;
-  ∧-elimˡ; ∧⊤-intro; →-mono; ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-const)
+open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∗_; □_; ○_;
+  _↪[_]=>>_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
+open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∗-comm;
+  ∗-elimʳ; ⊤∗-intro; -∗-const)
 open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _⊢[<_][_]=>>_; ⇒=>>;
   _ᵘ»_)
 

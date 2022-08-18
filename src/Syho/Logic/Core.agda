@@ -753,18 +753,22 @@ abstract
   Persʳ-∧⇒∗ =  ∧-comm » Persˡ-∧⇒∗ » ∗-comm
 
   -- The antecedent can be retained when the succedent is persistent
+
   retain-Pers :  {{Pers Q}} →  P ⊢[ ι ] Q →  P ⊢[ ι ] Q ∗ P
   retain-Pers P⊢Q =  retain-□ (P⊢Q » Pers-⇒□) » ∗-monoˡ □-elim
 
   -- A persistent proposition can be duplicated
+
   dup-Pers :  {{Pers P}} →  P ⊢[ ι ] P ∗ P
   dup-Pers =  retain-Pers ⊢-refl
 
   -- Duplicate a persistent separting conjunct
+
   dup-Pers-∗ :  {{Pers P}} →  P ∗ Q ⊢[ ι ] P ∗ P ∗ Q
   dup-Pers-∗ =  ∗-monoˡ dup-Pers » ∗-assocˡ
 
   -- -∗ can turn into →' when the left-hand side is persistent
+
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
   Pers--∗⇒→ =  -∗⇒□→ » →-monoˡ Pers-⇒□
 

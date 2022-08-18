@@ -19,7 +19,7 @@ open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∧_; _→'_; _∗_; □_;
   ○_; _↪[_]=>>_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∀₁-elim;
-  ∧-elimˡ; ∧⊤-intro; →-mono; →-const; ∗-comm; ∗-elimʳ; ⊤∗-intro)
+  ∧-elimˡ; ∧⊤-intro; →-mono; ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-const)
 open import Syho.Logic.Supd using ([_]=>>_; _⊢[_][_]=>>_; _⊢[<_][_]=>>_; ⇒=>>;
   _ᵘ»_)
 
@@ -63,10 +63,10 @@ abstract
 
   -->  ○-alloc :  P˂ .! ⊢[ ι ][ i ]=>> ○ P˂
 
-  -->  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ →' P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
+  -->  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ -∗ P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
 
   □○-alloc :  {{Pers (P˂ .!)}} →  P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
-  □○-alloc =  →-const » □○-alloc-rec
+  □○-alloc =  -∗-const » □○-alloc-rec
 
   ------------------------------------------------------------------------------
   -- On ↪=>>

@@ -286,7 +286,7 @@ data  _⊢[_]*_  where
   -- When P˂ is persistent, □ ○ P˂_i can be obtained recursively, i.e.,
   -- by allocating P˂ minus the target □ ○ P˂
 
-  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ →' P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
+  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ -∗ P˂ .! ⊢[ ι ][ i ]=>> □ ○ P˂
 
   -- Use ○ P˂
 

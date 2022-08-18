@@ -16,7 +16,7 @@ open import Base.Sum using (inj₁)
 open import Base.Option using (??_; some)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; [])
-open import Base.List.Nat using (_!!_; upd; rep)
+open import Base.List.Nat using (_‼_; upd; rep)
 open import Base.Eq using (_≡_; refl; ◠_)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤-val)
@@ -47,9 +47,9 @@ empᴹ =  initᶠᵐ [] refl
 
 -- Memory read
 
-infix 5 _!!ᴹ_
-_!!ᴹ_ :  Mem →  Addr →  ?? AnyVal
-M !!ᴹ addr l i =  M .bloᴹ l !! i
+infix 5 _‼ᴹ_
+_‼ᴹ_ :  Mem →  Addr →  ?? AnyVal
+M ‼ᴹ addr l i =  M .bloᴹ l ‼ i
 
 -- Memory update
 
@@ -80,7 +80,7 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
   nd-red :  ∀ (x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
   ◁-red :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
-  ⁎-red :  M !!ᴹ θ ≡ some (V , v) →  (⁎ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
+  ⁎-red :  M ‼ᴹ θ ≡ some (V , v) →  (⁎ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  ∀{v : Val V} →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
   alloc-red :  ∀ l →  M .bloᴹ l ≡ [] →
     (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴹᴮ l (rep n ⊤-val) M)

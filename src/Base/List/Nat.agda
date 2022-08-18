@@ -24,11 +24,11 @@ len (_ ∷ as) =  suc $ len as
 
 -- Partial lookup
 
-infix 5 _!!_
-_!!_ :  List A →  ℕ →  ?? A
-[] !! _ =  none
-(a ∷ _) !! 0 =  some a
-(_ ∷ as) !! suc n =  as !! n
+infix 5 _‼_
+_‼_ :  List A →  ℕ →  ?? A
+[] ‼ _ =  none
+(a ∷ _) ‼ 0 =  some a
+(_ ∷ as) ‼ suc n =  as ‼ n
 
 -- Index update
 

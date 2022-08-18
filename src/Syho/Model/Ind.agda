@@ -71,6 +71,10 @@ abstract
   ↪=>>ᵒ-suc (-, -, BasicS , P∗S∗R⊢[i]=>>Q , S∗Ra) =
     -, -, BasicS , =>>-suc P∗S∗R⊢[i]=>>Q , S∗Ra
 
+  ↪=>>ᵒ-frameˡ :  P ↪[ i ]=>>ᵒ Q  ⊨  R ∗ P ↪[ i ]=>>ᵒ R ∗ Q
+  ↪=>>ᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢[i]=>>Q , S∗Ra) =
+    -, -, BasicS , (∗-assocˡ » =>>-frameˡ P∗S∗R⊢[i]=>>Q) , S∗Ra
+
   ↪=>>ᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →
     R ∗ P' ⊢[ ∞ ][ i ]=>> P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]=>>ᵒ Q)  ⊨  P' ↪[ i ]=>>ᵒ Q
   ↪=>>ᵒ-monoˡᵘ-∗ R∗P'⊢=>>P
@@ -99,6 +103,10 @@ _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  
   P ∗ S ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ indᵒ R) a
 
 abstract
+
+  ↪⟨⟩ᴾᵒ-frameˡ :  P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Qᵛ v
+  ↪⟨⟩ᴾᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗Ra) =
+    -, -, BasicS , (∗-assocˡ » hor-frameˡ P∗S∗R⊢⟨e⟩Q) , S∗Ra
 
   ↪⟨⟩ᴾᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]=>> P →
                     ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
@@ -132,6 +140,10 @@ abstract
   ↪⟨⟩ᵀᵒ-suc :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ suc i ]ᵒ Qᵛ
   ↪⟨⟩ᵀᵒ-suc (-, -, BasicS , P∗S∗R⊢⟨e⟩[i]Q , S∗Ra) =
     -, -, BasicS , horᵀ-suc P∗S∗R⊢⟨e⟩[i]Q , S∗Ra
+
+  ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Qᵛ v
+  ↪⟨⟩ᵀᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗Ra) =
+    -, -, BasicS , (∗-assocˡ » hor-frameˡ P∗S∗R⊢⟨e⟩Q) , S∗Ra
 
   ↪⟨⟩ᵀᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]=>> P →
                     ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ

@@ -113,6 +113,7 @@ Val/Ktxred T =  Val T ⊎ Ktxred T
 private variable
   ktx ktx' :  Ktx U T
   kr : Ktxred T
+  v :  Val T
 
 abstract
 
@@ -189,7 +190,7 @@ abstract
 
   -- val/ktxred (V⇒E v) returns inj₀ v
 
-  val/ktxred-V⇒E :  ∀{v : Val T} →  val/ktxred (V⇒E v) ≡ inj₀ v
+  val/ktxred-V⇒E :  val/ktxred (V⇒E v) ≡ inj₀ v
   val/ktxred-V⇒E {v = val _} =  refl
   val/ktxred-V⇒E {v = val→* _} =  refl
 

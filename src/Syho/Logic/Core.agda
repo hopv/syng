@@ -772,6 +772,14 @@ abstract
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
   Pers--∗⇒→ =  -∗⇒□→ » →-monoˡ Pers-⇒□
 
+  -- □ can eat persistent propositions
+
+  □-eatˡ-Pers :  {{Pers P}} →  P ∗ □ Q ⊢[ ι ] □ (P ∗ Q)
+  □-eatˡ-Pers =  ∗-monoˡ Pers-⇒□ » □-∗-in
+
+  □-eatʳ-Pers :  {{Pers Q}} →  □ P ∗ Q ⊢[ ι ] □ (P ∗ Q)
+  □-eatʳ-Pers =  ∗-monoʳ Pers-⇒□ » □-∗-in
+
   -- Introduce & eliminate ⌜ ⌝ ∗
 
   ⌜⌝₁∗-intro :  X →  P ⊢[ ι ] ⌜ X ⌝₁ ∗ P

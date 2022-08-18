@@ -23,8 +23,8 @@ open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; ∀₀˙; ∃₀˙
 open import Syho.Logic.Judg public using (JudgRes; Pure; _⊢[_]*_; _⊢[_]_;
   _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro;
   choice₁; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ;
-  -∗-intro; -∗-elim; ⇑-mono; ⇑-intro; ⇑-join; ⇑-eatˡ; ⇑-∃₁-out;
-  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out)
+  -∗-intro; -∗-elim; ⇑-mono; ⇑-intro; ⇑-join; ⇑-eatˡ; ⇑-∃₁-out; □-mono; □-elim;
+  □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out)
 
 private variable
   ι :  Size

@@ -21,8 +21,8 @@ open import Base.List.Nat using (rep; len)
 open import Base.RatPos using (ℚ⁺)
 
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; ⇑_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
-  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
+  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; ⇑_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_;
+  _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; val;
   V⇒E; AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; ★ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
@@ -299,10 +299,10 @@ data  _⊢[_]*_  where
   -- ↪⇛ is monotone
 
   ↪⇛-monoˡᵘ-∗ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .! →
-                   R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
+                 R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
 
   ↪⇛-monoʳᵘ-∗ :  {{Basic R}} →  R ∗ Q˂ .! ⊢[< ι ][ i ]⇛ Q'˂ .! →
-                   R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
+                 R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
 
   -- Modify ⇛ proof
 

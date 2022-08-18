@@ -14,8 +14,8 @@ open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
-open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-elimˡ; →-intro; ∗-elimˡ;
-  ∗⊤-intro; □-mono; □-elim)
+open import Syho.Logic.Core using (_⊢[_]_; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
+  □-mono; □-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _ᵘ»ʰ_)
 open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪⇛; ○⇒↪⟨⟩ᴾ;
@@ -38,7 +38,7 @@ private variable
 -- thanks to □○-alloc-rec
 
 ○-rec :  ○ ¡ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]⇛ P
-○-rec {P} ○P⊢P =  →-intro (∧-elimˡ » □-mono $ ○-mono (¡ □-elim) » ○P⊢P) »
+○-rec {P} ○P⊢P =  -∗-intro (∗-elimˡ » □-mono $ ○-mono (¡ □-elim) » ○P⊢P) »
     □○-alloc-rec {P˂ = ¡ □ P} ᵘ»ᵘ □-elim » ○-use ᵘ» □-elim
 
 --------------------------------------------------------------------------------

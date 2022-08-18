@@ -203,8 +203,8 @@ infix 4 _≡?_ _≤?_ _<?_
 -- Defined directly without abstract for better normalization
 _≡?_ :  Dec² {A = ℕ} _≡_
 0 ≡? 0 =  yes refl
-0 ≡? suc _ =  no λ ()
-suc _ ≡? 0 =  no λ ()
+0 ≡? suc _ =  no $ λ ()
+suc _ ≡? 0 =  no $ λ ()
 suc m ≡? suc n  with m ≡? n
 ... | yes refl =  yes refl
 ... | no m≢n =  no λ{ refl → m≢n refl }

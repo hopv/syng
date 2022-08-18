@@ -110,7 +110,7 @@ abstract
     P ⊢[ ι ]⟨ e₀ ⟩[ wκ ] Qᵛ →  (∀ x → Qᵛ (val x) ⊢[ ι ]⟨ e˙ x ⟩[ wκ ] Rᵛ) →
     P ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ wκ ] Rᵛ
   hor-let P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
-    hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q $ λ{ (val x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }
+    hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ{ (val x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }
 
   -- Value
 

@@ -56,12 +56,12 @@ infixl 5 _◁ᴷʳ_ _◁ᴷˡ_
 data  Ktx :  Type →  Type →  Set₁  where
   -- Hole
   •ᴷ :  Ktx T T
-  -- On _◁_
+  -- On ◁
   _◁ᴷʳ_ :  Expr ∞ (X →* T) →  Ktx U (◸ X) →  Ktx U T
   _◁ᴷˡ_ :  Ktx U (X →* T) →  X →  Ktx U T
-  -- On 🞰_
+  -- On 🞰
   🞰ᴷ_ :  Ktx U (◸ Addr) →  Ktx U T
-  -- On _←_
+  -- On ←
   _←ᴷʳ_ :  Expr ∞ (◸ Addr) →  Ktx U T →  Ktx U (◸ ⊤)
   _←ᴷˡ_ :  Ktx U (◸ Addr) →  Val T →  Ktx U (◸ ⊤)
   -- On alloc

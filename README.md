@@ -36,18 +36,20 @@ For viewing and editing Agda code, you can use
 [**Agda mode** for Emacs](https://agda.readthedocs.io/en/latest/tools/emacs-mode.html),
 which is also [ported to VS Code](https://marketplace.visualstudio.com/items?itemName=banacorn.agda-mode).
 
-## Font
+## Monospace Unicode Fonts
 
-The source code uses a lot of Unicode characters, so we recommend you use
-a font that covers these characters.
-To render them, you can use the following:
-- [**DejaVu Sans Mono**](https://dejavu-fonts.github.io/)
-    + Has a very large Unicode cover.
+Syho's source code uses a lot of Unicode characters.
+To render them beautifully, we recommend you use monospace Unicode fonts that
+support these characters, such as the following:
+- [**JuliaMono**](https://juliamono.netlify.app/)
+    + It has a very large Unicode cover and supports all the Unicode characters
+        used in Syho's source code.
 - [**Menlo**](https://en.wikipedia.org/wiki/Menlo_(typeface))
-    + Preinstalled in Mac. Some characters (e.g., ⊢) are not supported.
+    + It is preinstalled in Mac and pretty beautiful. Some characters (e.g., ⊢
+        and ⊨) are not supported.
 
-For example, in VS Code you can use the following setting (in `settings.json`)
-to mix Menlo with DejaVu Sans Mono.
+For example, in VS Code, you can use the following setting (in `settings.json`)
+to use Menlo as the main font and fill in some gaps with JuliaMono.
 ```json
-"editor.fontFamily": "Menlo, DejaVu Sans Mono"
+"editor.fontFamily": "Menlo, JuliaMono"
 ```

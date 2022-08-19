@@ -21,7 +21,7 @@ open import Base.List.Nat using (rep; len)
 open import Base.RatPos using (ℚ⁺)
 
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; ⇑_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_;
+  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_;
   _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; val;
   V⇒E; AnyVal; ⊤-val)
@@ -213,23 +213,23 @@ data  _⊢[_]*_  where
   -∗-elim :  Q ⊢[ ι ] P -∗ R →  P ∗ Q ⊢[ ι ] R
 
   ------------------------------------------------------------------------------
-  -- On ⇑
+  -- On ⤇
 
-  -- ⇑ is monadic :  monotone, increasing, and idempotent
+  -- ⤇ is monadic :  monotone, increasing, and idempotent
 
-  ⇑-mono :  P ⊢[ ι ] Q →  ⇑ P ⊢[ ι ] ⇑ Q
+  ⤇-mono :  P ⊢[ ι ] Q →  ⤇ P ⊢[ ι ] ⤇ Q
 
-  ⇑-intro :  P ⊢[ ι ] ⇑ P
+  ⤇-intro :  P ⊢[ ι ] ⤇ P
 
-  ⇑-join :  ⇑ ⇑ P ⊢[ ι ] ⇑ P
+  ⤇-join :  ⤇ ⤇ P ⊢[ ι ] ⤇ P
 
-  -- ∗ can get inside ⇑
+  -- ∗ can get inside ⤇
 
-  ⇑-eatˡ :  P ∗ ⇑ Q ⊢[ ι ] ⇑ (P ∗ Q)
+  ⤇-eatˡ :  P ∗ ⤇ Q ⊢[ ι ] ⤇ (P ∗ Q)
 
-  -- ∃ -, can get outside ⇑
+  -- ∃ -, can get outside ⤇
 
-  ⇑-∃₁-out :  ⇑ (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , ⇑ P
+  ⤇-∃₁-out :  ⤇ (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , ⤇ P
 
   ------------------------------------------------------------------------------
   -- On □
@@ -261,9 +261,9 @@ data  _⊢[_]*_  where
 
   ⇛-suc :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ suc i ]⇛ Q
 
-  -- Lift ⊢ ⇑ to ⊢⇛
+  -- Lift ⊢ ⤇ to ⊢⇛
 
-  ⇑⇒⇛ :  P ⊢[ ι ] ⇑ Q →  P ⊢[ ι ][ i ]⇛ Q
+  ⤇⇒⇛ :  P ⊢[ ι ] ⤇ Q →  P ⊢[ ι ][ i ]⇛ Q
 
   -- ⊢⇛ is transitive
 

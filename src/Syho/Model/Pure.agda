@@ -11,19 +11,19 @@ open import Base.Func using (_$_; _▷_; flip; it)
 open import Base.Thunk using (!)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Prod using (_,_; -,_; proj₀; proj₁)
-open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _∗_; _-∗_; ⇑_;
+open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _∗_; _-∗_; ⤇_;
   □_; Saveˣ; Save□; _↦⟨_⟩_; Free; IsBasic; ∀₁-IsBasic; ∃₁-IsBasic; ∗-IsBasic;
   □-IsBasic; Basic; isBasic; ∧-Basic)
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_;
   ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim;
   ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
-  ⇑-mono; ⇑-intro; ⇑-join; ⇑-eatˡ; ⇑-∃₁-out;
+  ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-∃₁-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out; ∧-assocˡ; ∧-monoʳ)
 open import Syho.Logic.Save using (Save□-□; Saveˣ-mono-∧; Save□-mono-∧)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (GlobRA)
 open import Syho.Model.Prop GlobRA using (Propᵒ; monoᵒ; congᵒ; _⊨_; _⊨'_;
-  ∀₁ᵒ-syntax; ∃₁ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⇑ᵒ_; □ᵒ_; Own-⌞⌟-□)
+  ∀₁ᵒ-syntax; ∃₁ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; Own-⌞⌟-□)
 open ERA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
   ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
   ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr)
@@ -43,7 +43,7 @@ private variable
 ⸨ P →' Q ⸩ =  ⸨ P ⸩ →ᵒ ⸨ Q ⸩
 ⸨ P ∗ Q ⸩ =  ⸨ P ⸩ ∗ᵒ ⸨ Q ⸩
 ⸨ P -∗ Q ⸩ =  ⸨ P ⸩ -∗ᵒ ⸨ Q ⸩
-⸨ ⇑ P ⸩ =  ⇑ᵒ ⸨ P ⸩
+⸨ ⤇ P ⸩ =  ⤇ᵒ ⸨ P ⸩
 ⸨ □ P ⸩ =  □ᵒ ⸨ P ⸩
 ⸨ Saveˣ P˂ ⸩ =  Saveˣᵒ (P˂ .!)
 ⸨ Save□ P˂ ⸩ =  Save□ᵒ (P˂ .!)
@@ -145,29 +145,29 @@ abstract
     ⸨ R ⸩ .monoᵒ b∙c⊑a $ ⊢⇒⊨ Q⊢P-∗R (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) ✓a)
       Qc ⊑-refl (✓-mono b∙c⊑a ✓a) Pb
 
-  -- ⇑-mono :  P ⊢[ ∞ ] Q →  ⇑ P ⊢[ ∞ ] ⇑ Q
-  ⊢⇒⊨ (⇑-mono P⊢Q) _ ⇑Pa c ✓c∙a  with ⇑Pa c ✓c∙a
+  -- ⤇-mono :  P ⊢[ ∞ ] Q →  ⤇ P ⊢[ ∞ ] ⤇ Q
+  ⊢⇒⊨ (⤇-mono P⊢Q) _ ⤇Pa c ✓c∙a  with ⤇Pa c ✓c∙a
   ... | b , ✓c∙b , Pb =  b , ✓c∙b , ⊢⇒⊨ P⊢Q (✓-mono ∙-incrˡ ✓c∙b) Pb
 
-  -- ⇑-intro :  P ⊢[ ∞ ] ⇑ P
-  ⊢⇒⊨ ⇑-intro _ Pa c ✓c∙a =  -, ✓c∙a , Pa
+  -- ⤇-intro :  P ⊢[ ∞ ] ⤇ P
+  ⊢⇒⊨ ⤇-intro _ Pa c ✓c∙a =  -, ✓c∙a , Pa
 
-  -- ⇑-join :  ⇑ ⇑ P ⊢[ ∞ ] ⇑ P
-  ⊢⇒⊨ ⇑-join _ ⇑⇑Pa d ✓d∙a  with ⇑⇑Pa d ✓d∙a
-  ... | b , ✓d∙b , ⇑Pb  with ⇑Pb d ✓d∙b
+  -- ⤇-join :  ⤇ ⤇ P ⊢[ ∞ ] ⤇ P
+  ⊢⇒⊨ ⤇-join _ ⤇⤇Pa d ✓d∙a  with ⤇⤇Pa d ✓d∙a
+  ... | b , ✓d∙b , ⤇Pb  with ⤇Pb d ✓d∙b
   ...   | c , ✓d∙c , Pc =  c , ✓d∙c , Pc
 
-  -- ⇑-eatˡ :  P ∗ ⇑ Q ⊢[ ∞ ] ⇑ (P ∗ Q)
-  ⊢⇒⊨ ⇑-eatˡ _ (b , c , b∙c⊑a , Pb , ⇑Qc) e ✓e∙a
-    with ⇑Qc (e ∙ b) $ flip ✓-mono ✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
+  -- ⤇-eatˡ :  P ∗ ⤇ Q ⊢[ ∞ ] ⤇ (P ∗ Q)
+  ⊢⇒⊨ ⤇-eatˡ _ (b , c , b∙c⊑a , Pb , ⤇Qc) e ✓e∙a
+    with ⤇Qc (e ∙ b) $ flip ✓-mono ✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | d , ✓eb∙d , Qd =
     b ∙ d , ✓-resp ∙-assocˡ ✓eb∙d , b , d , ⊑-refl , Pb , Qd
 
-  -- ⇑-∃₁-out :  ⇑ (∃₁ _ ∈ X , P) ⊢[ ∞ ] ∃₁ _ ∈ X , ⇑ P
-  ⊢⇒⊨ ⇑-∃₁-out ✓a ⇑∃₁AP .proj₀ =
-    let -, -, x , _ = ⇑∃₁AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
-  ⊢⇒⊨ ⇑-∃₁-out _ ⇑∃₁AP .proj₁ c ✓c∙a =
-    let b , ✓c∙b , -, Pb = ⇑∃₁AP c ✓c∙a in  b , ✓c∙b , Pb
+  -- ⤇-∃₁-out :  ⤇ (∃₁ _ ∈ X , P) ⊢[ ∞ ] ∃₁ _ ∈ X , ⤇ P
+  ⊢⇒⊨ ⤇-∃₁-out ✓a ⤇∃₁AP .proj₀ =
+    let -, -, x , _ = ⤇∃₁AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
+  ⊢⇒⊨ ⤇-∃₁-out _ ⤇∃₁AP .proj₁ c ✓c∙a =
+    let b , ✓c∙b , -, Pb = ⤇∃₁AP c ✓c∙a in  b , ✓c∙b , Pb
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
   ⊢⇒⊨ (□-mono P⊢Q) ✓a P⌞a⌟ =  ⊢⇒⊨ P⊢Q (✓-mono ⌞⌟-decr ✓a) P⌞a⌟

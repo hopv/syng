@@ -44,7 +44,7 @@ private variable
 
 infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
 infixr 7 _∗_
-infix 8 ⇑_ □_ ○_
+infix 8 ⤇_ □_ ○_
 infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
@@ -59,9 +59,9 @@ data  Prop' ι  where
   -- -∗ :  Magic wand
   _∗_ _-∗_ :  Prop' ι →  Prop' ι →  Prop' ι
 
-  -- ⇑ :  Update modality
+  -- ⤇ :  Update modality
   -- □ :  Persistence modality
-  ⇑_ □_ :  Prop' ι →  Prop' ι
+  ⤇_ □_ :  Prop' ι →  Prop' ι
 
   -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι
@@ -191,7 +191,7 @@ data  Basic :  Prop' ∞ →  Set₂  where
     →-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P →' Q)
     ∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∗ Q)
     -∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P -∗ Q)
-    ⇑-Basic :  {{Basic P}} →  Basic (⇑ P)
+    ⤇-Basic :  {{Basic P}} →  Basic (⤇ P)
     □-Basic :  {{Basic P}} →  Basic (□ P)
     ↦⟨⟩-Basic :  Basic (θ ↦⟨ q⁺ ⟩ av)
     Free-Basic :  Basic (Free n θ)

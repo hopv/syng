@@ -20,7 +20,7 @@ open import Base.List.Nat using (_‼_; upd; rep)
 open import Base.Eq using (_≡_; refl; ◠_)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤-val)
-open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; ⁎ᴿ_; _←ᴿ_; allocᴿ;
+open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; 🞰ᴿ_; _←ᴿ_; allocᴿ;
   freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; _ᴷ|ᴿ_; val/ktxred; nonval; val/ktxred-ktx;
   val/ktxred-ktx-inv)
 
@@ -80,7 +80,7 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
   nd-red :  ∀ (x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
   ◁-red :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
-  ⁎-red :  M ‼ᴹ θ ≡ some (V , v) →  (⁎ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
+  🞰-red :  M ‼ᴹ θ ≡ some (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
   alloc-red :  ∀ l →  M .bloᴹ l ≡ [] →
     (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴹᴮ l (rep n ⊤-val) M)

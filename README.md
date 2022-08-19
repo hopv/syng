@@ -1,15 +1,15 @@
 # Syho
 
 **Syho** is a **syntactically higher-order** separation logic.
-It supports *higher-order ghost states* (or *impredicative resources*),
-whose semantics is constructed using the *syntax* of the logic itself.
+It supports _higher-order ghost states_ (or _impredicative resources_), whose
+semantics is constructed using the logic's _syntax_.
 
-Unlike Iris, Syho is *not step-indexed*.
+Unlike Iris, Syho is _not step-indexed_.
 Thanks to this, Syho has intuitive semantics and can flexibly support
-*termination-sensitive* program reasoning.
+_termination-sensitive_ program reasoning.
 
 Syho is mechanized in [**Agda**](https://agda.readthedocs.io/en/latest/),
-a modern dependently typed programming language.
+a modern, dependently typed programming language.
 
 ## Installation
 
@@ -21,8 +21,8 @@ We have checked that Syho works with Agda 2.6.2.2.
 
 ## Learning Agda
 
-You can learn Agda's language features
-by [the official document](https://agda.readthedocs.io/en/latest/language/index.html).
+You can learn Agda's language features by
+[the official document](https://agda.readthedocs.io/en/latest/language/index.html).
 Notable features used in Syho are:
 - [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html)
 - [**Copatterns**](https://agda.readthedocs.io/en/latest/language/copatterns.html)
@@ -49,7 +49,7 @@ support these characters, such as the following:
         and ⊨) are not supported.
 
 For example, in VS Code, you can use the following setting (in `settings.json`)
-to use Menlo as the main font and fill in some gaps with JuliaMono.
+to use Menlo as the primary font and fill in some gaps with JuliaMono.
 ```json
 "editor.fontFamily": "Menlo, JuliaMono"
 ```

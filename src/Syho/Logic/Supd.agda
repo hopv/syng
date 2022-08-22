@@ -14,7 +14,7 @@ open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∗-comm; ⤇-intro
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_;
-  ⇛-suc; ⤇⇒⇛; _ᵘ»ᵘ_; ⇛-frameˡ)
+  ⇛-suc; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
 
 private variable
   ι :  Size
@@ -34,17 +34,17 @@ abstract
   ⇛-≤ :  i ≤ j →  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ j ]⇛ Q
   ⇛-≤ =  ⇛-≤ᵈ ∘ ≤⇒≤ᵈ
 
-  -- Lift a sequent into a super update ⇛
-
-  -->  ⤇⇒⇛ :  P ⊢[ ι ] ⤇ Q →  P ⊢[ ι ][ i ]⇛ Q
-
-  ⇒⇛ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ Q
-  ⇒⇛ P⊢Q =  ⤇⇒⇛ $ P⊢Q » ⤇-intro
-
   -- Reflexivity of ⇛
 
+  -->  ⇛-refl-⤇ :  ⤇ P ⊢[ ι ][ i ]⇛ P
+
   ⇛-refl :  P ⊢[ ι ][ i ]⇛ P
-  ⇛-refl =  ⇒⇛ ⊢-refl
+  ⇛-refl =  ⤇-intro » ⇛-refl-⤇
+
+  -- Lift a sequent into a super update ⇛
+
+  ⊢⇒⊢⇛ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ Q
+  ⊢⇒⊢⇛ P⊢Q =  P⊢Q » ⇛-refl
 
   -- Compose with ⇛
 
@@ -53,7 +53,7 @@ abstract
   infixr -1 _ᵘ»_
 
   _ᵘ»_ :  P ⊢[ ι ][ i ]⇛ Q →  Q ⊢[ ι ] R →  P ⊢[ ι ][ i ]⇛ R
-  P⊢⇛Q ᵘ» Q⊢R =  P⊢⇛Q ᵘ»ᵘ ⇒⇛ Q⊢R
+  P⊢⇛Q ᵘ» Q⊢R =  P⊢⇛Q ᵘ»ᵘ ⊢⇒⊢⇛ Q⊢R
 
   -- Framing of ⇛
 

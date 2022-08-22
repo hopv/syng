@@ -13,7 +13,7 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇒⇛; ⇛-refl)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
 open import Syho.Lang.Expr using (Type; Expr; Val; let˙; val)
 open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _ᴷ|ᴿ_; Val/Ktxred)
 
@@ -86,7 +86,7 @@ abstract
 
   _ʰ»_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →   (∀ v →  Qᵛ v  ⊢[ ι ]  Rᵛ v)  →
           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Rᵛ
-  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒⇛ {i = 0} $ ∀vQ⊢R _
+  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀vQ⊢R _
 
   -- Frame
 
@@ -102,7 +102,7 @@ abstract
   -->  hor-valᵘ :  P  ⊢[ ι ]⇛  Qᵛ v  →   P  ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ]  Qᵛ
 
   hor-val :  P  ⊢[ ι ]  Qᵛ v  →   P  ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ]  Qᵛ
-  hor-val P⊢Q =  hor-valᵘ $ ⇒⇛ {i = 0} P⊢Q
+  hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} P⊢Q
 
   -- Non-deterministic value
 
@@ -111,7 +111,7 @@ abstract
 
   hor-nd :  (∀ x →  P  ⊢[ ι ]  Qᵛ (val x))  →
             P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
-  hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⇒⇛ {i = 0} $ ∀xP⊢Q _
+  hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀xP⊢Q _
 
   -- Let binding
 

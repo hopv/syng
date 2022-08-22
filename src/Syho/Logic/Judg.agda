@@ -261,9 +261,9 @@ data  _⊢[_]*_  where
 
   ⇛-suc :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ suc i ]⇛ Q
 
-  -- Lift ⊢ ⤇ to ⊢⇛
+  -- ⊢⇛ is reflexive, with removal of ⤇
 
-  ⤇⇒⇛ :  P ⊢[ ι ] ⤇ Q →  P ⊢[ ι ][ i ]⇛ Q
+  ⇛-refl-⤇ :  ⤇ P ⊢[ ι ][ i ]⇛ P
 
   -- ⊢⇛ is transitive
 

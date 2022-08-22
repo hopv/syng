@@ -30,6 +30,7 @@ private variable
   Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ
   X₁ :  Set₁
   Pᵒ˙ Qᵒ˙ :  X₁ →  Propᵒ
+  a :  Glob
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment, with or without a validity input
@@ -236,3 +237,14 @@ abstract
   □ᵒˡ-×ᵒ⇒∗ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ×ᵒ Qᵒ ⊨ □ᵒ Pᵒ ∗ᵒ Qᵒ
   □ᵒˡ-×ᵒ⇒∗ᵒ MonoP (P⌞a⌟ , Qa) =  -, ≈⇒⊑ ⌞⌟-unitˡ ,
     MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟ , Qa
+
+--------------------------------------------------------------------------------
+-- Own :  Own a resource
+
+Own :  Glob →  Propᵒ
+Own a b =  a ⊑ b
+
+abstract
+
+  Own-Mono :  Monoᵒ (Own a)
+  Own-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c

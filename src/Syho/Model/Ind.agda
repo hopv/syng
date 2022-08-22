@@ -22,10 +22,8 @@ open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
-open import Syho.Model.Prop using (Propᵒ; _⊨_; _∗ᵒ_; ∗ᵒ-assocʳ)
+open import Syho.Model.Prop using (Propᵒ; _⊨_; _∗ᵒ_; Own; ∗ᵒ-assocʳ)
 open import Syho.Model.Basic using (⸨_⸩ᴮ)
-
-open ERA Globᴱᴿᴬ using (_⊑_)
 
 private variable
   i j :  ℕ
@@ -39,7 +37,7 @@ private variable
 
 indᵒ :  Prop' ∞ →  Propᵒ
 indᵒ P a =  ∑ i ,
-  a ⊑ injᴳ indˣ (line-indˣ i P)  ⊎  a ⊑ injᴳ ind□ (line-ind□ i P)
+  Own (injᴳ indˣ (line-indˣ i P)) a  ⊎  Own (injᴳ ind□ (line-ind□ i P)) a
 
 --------------------------------------------------------------------------------
 -- ○ᵒ :  Interpret the indirection modality ○

@@ -50,18 +50,23 @@ infix 9 _↦⟨_⟩_
 data  Prop' ι  where
 
   -- ∀₁˙, ∃₁˙ :  Universal/existential quantification over any type X₁ in Set₁,
-  --         which does not include Prop' ι itself (predicativity)
+  --             which does not include Prop' ι itself (predicativity)
   ∀₁˙ ∃₁˙ :  (X₁ → Prop' ι) →  Prop' ι
+
   -- →' :  Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
 
   -- ∗ :  Separating conjunction
+  _∗_ :  Prop' ι →  Prop' ι →  Prop' ι
+
   -- -∗ :  Magic wand
-  _∗_ _-∗_ :  Prop' ι →  Prop' ι →  Prop' ι
+  _-∗_ :  Prop' ι →  Prop' ι →  Prop' ι
 
   -- ⤇ :  Update modality
+  ⤇_ :  Prop' ι →  Prop' ι
+
   -- □ :  Persistence modality
-  ⤇_ □_ :  Prop' ι →  Prop' ι
+  □_ :  Prop' ι →  Prop' ι
 
   -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι
@@ -74,8 +79,9 @@ data  Prop' ι  where
   _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr ∞ T →  ℕ →  (Val T → Prop˂ ∞) →  Prop' ι
 
   -- ↦⟨ ⟩ :  Points-to token
-  -- Free:  Freeing token
   _↦⟨_⟩_ :  Addr →  ℚ⁺ →  AnyVal →  Prop' ι
+
+  -- Free :  Freeing token
   Free :  ℕ →  Addr →  Prop' ι
 
 --------------------------------------------------------------------------------

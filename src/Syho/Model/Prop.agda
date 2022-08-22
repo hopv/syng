@@ -11,9 +11,10 @@ open import Base.Func using (_$_; _›_; _∘_; flip)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
-open ERA Globᴱᴿᴬ renaming (Res to Glob) using (_⊑_; _✓_; _∙_; ⌞_⌟; ◠˜_; ⊑-respˡ;
-  ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
-  ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem; ⌞⌟-unitˡ)
+open ERA Globᴱᴿᴬ renaming (Res to Glob) using (_⊑_; _✓_; _∙_; ε; ⌞_⌟; ◠˜_;
+  ⊑-respˡ; ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ;
+  ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem;
+  ⌞⌟-unitˡ)
 
 --------------------------------------------------------------------------------
 -- Propᵒ :  Semantic proposition
@@ -146,6 +147,12 @@ abstract
 
   ∗ᵒ-elimˡ :  Monoᵒ Pᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨ Pᵒ
   ∗ᵒ-elimˡ MonoP =  ∗ᵒ-comm › ∗ᵒ-elimʳ MonoP
+
+  ?∗ᵒ-intro :  Qᵒ ε →  Pᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
+  ?∗ᵒ-intro Qε Pa =  -, ≈⇒⊑ ∙-unitˡ , Qε , Pa
+
+  ∗ᵒ?-intro :  Qᵒ ε →  Pᵒ ⊨ Pᵒ ∗ᵒ Qᵒ
+  ∗ᵒ?-intro Qε =  ?∗ᵒ-intro Qε › ∗ᵒ-comm
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand

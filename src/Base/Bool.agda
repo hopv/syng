@@ -66,7 +66,7 @@ Tt ff =  ⊥
 infix 4 _≤ᴮ_
 data  _≤ᴮ_ :  Bool → Bool → Set₀  where
   ff≤tt :  ff ≤ᴮ tt
-  ≤ᴮ-refl :  ∀ {b} →  b ≤ᴮ b
+  ≤ᴮ-refl :  ∀{b} →  b ≤ᴮ b
 open _≤ᴮ_ public
 
 abstract

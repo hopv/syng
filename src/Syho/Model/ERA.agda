@@ -56,39 +56,39 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
 
     -- ≈ᴱ is reflexive, symmetric and transitive
 
-    refl˜ᴱ :  ∀ {E} →  E ≈ᴱ E
-    ◠˜ᴱ_ :  ∀ {E F} →  E ≈ᴱ F →  F ≈ᴱ E
-    _◇˜ᴱ_ :  ∀ {E F G} →  E ≈ᴱ F →  F ≈ᴱ G →  E ≈ᴱ G
+    refl˜ᴱ :  ∀{E} →  E ≈ᴱ E
+    ◠˜ᴱ_ :  ∀{E F} →  E ≈ᴱ F →  F ≈ᴱ E
+    _◇˜ᴱ_ :  ∀{E F G} →  E ≈ᴱ F →  F ≈ᴱ G →  E ≈ᴱ G
 
     ----------------------------------------------------------------------------
     -- On ≈
 
     -- ≈ is reflexive, symmetric and transitive
 
-    refl˜ :  ∀ {a} →  a ≈ a
-    ◠˜_ :  ∀ {a b} →  a ≈ b →  b ≈ a
-    _◇˜_ :  ∀ {a b c} →  a ≈ b →  b ≈ c →  a ≈ c
+    refl˜ :  ∀{a} →  a ≈ a
+    ◠˜_ :  ∀{a b} →  a ≈ b →  b ≈ a
+    _◇˜_ :  ∀{a b c} →  a ≈ b →  b ≈ c →  a ≈ c
 
     ----------------------------------------------------------------------------
     -- On ∙
 
     -- ∙ is congruent, unital with ε, commutative, and associative
 
-    ∙-congˡ :  ∀ {a b c} →  a ≈ b →  a ∙ c ≈ b ∙ c
-    ∙-unitˡ :  ∀ {a} →  ε ∙ a ≈ a
-    ∙-comm :  ∀ {a b} →  a ∙ b ≈ b ∙ a
-    ∙-assocˡ :  ∀ {a b c} →  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
+    ∙-congˡ :  ∀{a b c} →  a ≈ b →  a ∙ c ≈ b ∙ c
+    ∙-unitˡ :  ∀{a} →  ε ∙ a ≈ a
+    ∙-comm :  ∀{a b} →  a ∙ b ≈ b ∙ a
+    ∙-assocˡ :  ∀{a b c} →  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
 
     ----------------------------------------------------------------------------
     -- On ✓
 
     -- ✓ respects ≈ᴱ and ≈
 
-    ✓-resp :  ∀ {E F a b} →  E ≈ᴱ F →  a ≈ b →  E ✓ a →  F ✓ b
+    ✓-resp :  ∀{E F a b} →  E ≈ᴱ F →  a ≈ b →  E ✓ a →  F ✓ b
 
     -- ✓ is kept after a resource is removed
 
-    ✓-rem :  ∀ {E a b} →  E ✓ a ∙ b →  E ✓ b
+    ✓-rem :  ∀{E a b} →  E ✓ a ∙ b →  E ✓ b
 
     -- ε satisfies ✓
 
@@ -99,19 +99,19 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
 
     -- ⌞⌟ preserves ≈
 
-    ⌞⌟-cong :  ∀ {a b} →  a ≈ b →  ⌞ a ⌟ ≈ ⌞ b ⌟
+    ⌞⌟-cong :  ∀{a b} →  a ≈ b →  ⌞ a ⌟ ≈ ⌞ b ⌟
 
     -- When ⌞⌟'s argument gets added, ⌞⌟'s result gets added
 
-    ⌞⌟-add :  ∀ {a b} →  ∑ b' ,  b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
+    ⌞⌟-add :  ∀{a b} →  ∑ b' ,  b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
 
     -- ⌞ a ⌟ is absorbed by a
 
-    ⌞⌟-unitˡ :  ∀ {a} →  ⌞ a ⌟ ∙ a  ≈  a
+    ⌞⌟-unitˡ :  ∀{a} →  ⌞ a ⌟ ∙ a  ≈  a
 
     -- ⌞⌟ is idempotent
 
-    ⌞⌟-idem :  ∀ {a} →  ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
+    ⌞⌟-idem :  ∀{a} →  ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
 
   -- Setoid structures for Env and Res
 
@@ -259,7 +259,7 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
     ⊑-respˡ :  a ≈ b →  a ⊑ c →  b ⊑ c
     ⊑-respˡ a≈b a⊑c =  ⊑-resp a≈b refl˜ a⊑c
 
-    ⊑-respʳ :  ∀ {a b c} →  b ≈ c →  a ⊑ b →  a ⊑ c
+    ⊑-respʳ :  ∀{a b c} →  b ≈ c →  a ⊑ b →  a ⊑ c
     ⊑-respʳ b≈c a⊑b =  ⊑-resp refl˜ b≈c a⊑b
 
     -- ε is the minimum

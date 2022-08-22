@@ -22,9 +22,9 @@ record  Setoid ł ł≈ :  Set (sucᴸ (ł ⊔ᴸ ł≈))  where
     -- ≈ :  Binary relation over Car
     _≈_ :  Car → Car → Set ł≈
     -- ≈ is reflexive, symmetric and transitive
-    refl˜ :  ∀ {a} →  a ≈ a
-    ◠˜_ :  ∀ {a b} →  a ≈ b →  b ≈ a
-    _◇˜_ :  ∀ {a b c} →  a ≈ b →  b ≈ c →  a ≈ c
+    refl˜ :  ∀{a} →  a ≈ a
+    ◠˜_ :  ∀{a b} →  a ≈ b →  b ≈ a
+    _◇˜_ :  ∀{a b c} →  a ≈ b →  b ≈ c →  a ≈ c
 
   private variable
     a b :  Car

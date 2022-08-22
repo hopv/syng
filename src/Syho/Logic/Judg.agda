@@ -176,7 +176,7 @@ data  _⊢[_]*_  where
 
   -- Choice, which is safe to have thanks to the logic's predicativity
 
-  choice₁ :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
+  choice₁ :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop' ∞} →
     ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ι ] ∃₁ y˙ ∈ (∀ x → Y˙ x) , ∀₁ x , P˙˙ x (y˙ x)
 
   ------------------------------------------------------------------------------

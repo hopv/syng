@@ -88,7 +88,7 @@ abstract
 
 infix 4 _⊆ᴸ_
 _⊆ᴸ_ :  ∀{A : Set ł} →  List A →  List A →  Set ł
-as ⊆ᴸ bs =  ∀ {a} →  a ∈ᴸ as →  a ∈ᴸ bs
+as ⊆ᴸ bs =  ∀{a} →  a ∈ᴸ as →  a ∈ᴸ bs
 
 abstract
 
@@ -111,7 +111,7 @@ abstract
 
   -- ++ is the lub w.r.t. ⊆ᴸ
 
-  ++-⊆ᴸ-elim :  ∀ {cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ++ bs  ⊆ᴸ  cs
+  ++-⊆ᴸ-elim :  ∀{cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ++ bs  ⊆ᴸ  cs
   ++-⊆ᴸ-elim as⊆cs bs⊆cs a∈as++bs with ∈ᴸ-++-case a∈as++bs
   ... | inj₀ a∈as =  as⊆cs a∈as
   ... | inj₁ a∈bs =  bs⊆cs a∈bs

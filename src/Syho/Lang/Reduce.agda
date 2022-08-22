@@ -78,7 +78,7 @@ infix 4 _⇒ᴿ_ _⇒ᴱ_
 -- Reduction on a redex
 data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
-  nd-red :  ∀ (x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
+  nd-red :  ∀(x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
   ◁-red :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
   🞰-red :  M ‼ᴹ θ ≡ some (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)

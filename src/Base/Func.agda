@@ -26,15 +26,15 @@ const a _ =  a
 -- Composition
 
 infixr 9 _∘_
-_∘_ :  ∀ {G : ∀ a → F a → Set ł} →
-  (∀ {a} b → G a b) →  (f : ∀ a → F a) →  (a : A) →  G a (f a)
+_∘_ :  ∀{G : ∀ a → F a → Set ł} →
+  (∀{a} b → G a b) →  (f : ∀ a → F a) →  (a : A) →  G a (f a)
 (g ∘ f) a =  g (f a)
 
 -- Flipped composition
 
 infixr -1 _›_
-_›_ :  ∀ {G : ∀ a → F a → Set ł} →
-  (f : ∀ a → F a) →  (∀ {a} b → G a b) →  (a : A) →  G a (f a)
+_›_ :  ∀{G : ∀ a → F a → Set ł} →
+  (f : ∀ a → F a) →  (∀{a} b → G a b) →  (a : A) →  G a (f a)
 (f › g) a =  g (f a)
 
 -- Function application
@@ -57,7 +57,7 @@ a ∈ B =  B a
 
 -- Flip the order of arguments
 
-flip :  ∀ {F : A → B → Set ł} → (∀ a b → F a b) → ∀ b a → F a b
+flip :  ∀{F : A → B → Set ł} → (∀ a b → F a b) → ∀ b a → F a b
 flip f b a =  f a b
 
 -- Instance search

@@ -159,7 +159,7 @@ abstract
   ⟨⟩ᶠ-congˡ :  p ≈ᴿ⁺ q →  ⟨ p ⟩ᶠ a ≈⁺ ⟨ q ⟩ᶠ a
   ⟨⟩ᶠ-congˡ {p} {q} p≈q =  ⟨⟩ᶠ-cong {p} {q} p≈q refl˜
 
-  ⟨⟩ᶠ-congʳ :  ∀ {p a b} →  a ≈ b →  ⟨ p ⟩ᶠ a ≈⁺ ⟨ p ⟩ᶠ b
+  ⟨⟩ᶠ-congʳ :  ∀{p a b} →  a ≈ b →  ⟨ p ⟩ᶠ a ≈⁺ ⟨ p ⟩ᶠ b
   ⟨⟩ᶠ-congʳ {p} a≈b =  ⟨⟩ᶠ-cong {p} {p} (≈ᴿ⁺-refl {p}) a≈b
 
   -- ⟨ p ⟩ᶠ a is valid for p ≤1ᴿ⁺
@@ -174,7 +174,7 @@ abstract
 
   -- Joining ⟨ ⟩ᶠ
 
-  join-⟨⟩ᶠ : ∀ {p q a} →  ⟨ p ⟩ᶠ a ∙⁺ ⟨ q ⟩ᶠ a ≈⁺ ⟨ p +ᴿ⁺ q ⟩ᶠ a
+  join-⟨⟩ᶠ : ∀{p q a} →  ⟨ p ⟩ᶠ a ∙⁺ ⟨ q ⟩ᶠ a ≈⁺ ⟨ p +ᴿ⁺ q ⟩ᶠ a
   join-⟨⟩ᶠ {p} {q} =  ≈ᴿ⁺-refl {p +ᴿ⁺ q} , ++-idem
 
   -- Agreement

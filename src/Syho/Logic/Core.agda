@@ -166,10 +166,10 @@ abstract
 
   -- Choice
 
-  -->  choice₁ :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
+  -->  choice₁ :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop' ∞} →
   -->    ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ι ] ∃₁ y˙ ∈ (∀ x → Y˙ x) , ∀₁ x , P˙˙ x (y˙ x)
 
-  choice₀ :  ∀ {P˙˙ : ∀ (x : X) → Y˙ x → Prop' ∞} →
+  choice₀ :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop' ∞} →
     ∀₀ x , ∃₀ y , P˙˙ x y ⊢[ ι ] ∃₀ y˙ ∈ (∀ x → Y˙ x) , ∀₀ x , P˙˙ x (y˙ x)
   choice₀ =  choice₁ » ∃₁-elim $ λ _ → ∃₀-intro _
 

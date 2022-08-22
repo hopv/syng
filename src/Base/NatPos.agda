@@ -175,7 +175,7 @@ abstract
 
   -- +⁺ is injective
 
-  +⁺-injˡ :  ∀ {l m n} →  m +⁺ l ≡ n +⁺ l →  m ≡ n
+  +⁺-injˡ :  ∀{l m n} →  m +⁺ l ≡ n +⁺ l →  m ≡ n
   +⁺-injˡ {1+ l⁰} m+l≡n+l =  ℕ⁺⇒ℕ-inj $ +-injˡ $ cong ℕ⁺⇒ℕ m+l≡n+l
 
   +⁺-injʳ :  l +⁺ m ≡ l +⁺ n →  m ≡ n
@@ -183,7 +183,7 @@ abstract
 
   -- +⁺ strictly increases
 
-  +⁺-sincrˡ :  ∀ {m n} →  n <⁺ m +⁺ n
+  +⁺-sincrˡ :  ∀{m n} →  n <⁺ m +⁺ n
   +⁺-sincrˡ =  ≤-<-trans +-incrˡ (+-smonoʳ suc-sincr)
 
   +⁺-sincrʳ :  m <⁺ m +⁺ n
@@ -224,7 +224,7 @@ abstract
 
   -- *⁺ is injective
 
-  *⁺-injˡ :  ∀ {l m n} →  m *⁺ l ≡ n *⁺ l →  m ≡ n
+  *⁺-injˡ :  ∀{l m n} →  m *⁺ l ≡ n *⁺ l →  m ≡ n
   *⁺-injˡ {1+ l⁰} m*l≡n*l =  ℕ⁺⇒ℕ-inj $ *-injˡ $ cong ℕ⁺⇒ℕ m*l≡n*l
 
   *⁺-injʳ :  l *⁺ m ≡ l *⁺ n →  m ≡ n
@@ -253,7 +253,7 @@ abstract
   *⁺-monoˡ {1+ l⁰} {1+ m⁰} {1+ n⁰} l⁰≤m⁰ =
     suc≤suc⁻¹ $ *-monoˡ {suc l⁰} {suc m⁰} {suc n⁰} $ suc≤suc l⁰≤m⁰
 
-  *⁺-monoʳ :  ∀ {l m n} →  m ≤⁺ n →  l *⁺ m ≤⁺ l *⁺ n
+  *⁺-monoʳ :  ∀{l m n} →  m ≤⁺ n →  l *⁺ m ≤⁺ l *⁺ n
   *⁺-monoʳ {l} {m} {n} m≤n =  subst₂ _≤⁺_ (*⁺-comm {m} {l}) (*⁺-comm {n} {l})
     (*⁺-monoˡ m≤n)
 
@@ -266,7 +266,7 @@ abstract
   *⁺-smonoˡ {1+ l⁰} {1+ m⁰} {1+ n⁰} l⁰<m⁰ =
     suc<suc⁻¹ $ *-smonoˡ {suc l⁰} {suc m⁰} {n⁰} $ suc<suc l⁰<m⁰
 
-  *⁺-smonoʳ :  ∀ {l m n} →  m <⁺ n →  l *⁺ m <⁺ l *⁺ n
+  *⁺-smonoʳ :  ∀{l m n} →  m <⁺ n →  l *⁺ m <⁺ l *⁺ n
   *⁺-smonoʳ {l} {m} {n} m<n =  subst₂ _<⁺_ (*⁺-comm {m} {l}) (*⁺-comm {n} {l})
     (*⁺-smonoˡ m<n)
 

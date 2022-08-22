@@ -21,7 +21,7 @@ open import Base.Nmap using (updⁿᵐ)
 
 -- Finᶠᵐ !ᶠᵐ n : !ᶠᵐ i is null for every i ≥ n
 Finᶠᵐ :  (ℕ → A) →  ℕ →  Set ł'
-Finᶠᵐ !ᶠᵐ n =  ∀ {i} → n ≤ i → null (!ᶠᵐ i)
+Finᶠᵐ !ᶠᵐ n =  ∀{i} → n ≤ i → null (!ᶠᵐ i)
 
 infix 5 _|ᶠᵐ_
 record  Finmap :  Set (ł ⊔ᴸ ł')  where
@@ -73,7 +73,7 @@ updᶠᵐ i a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc i ⊔ n , proof
 
 -- Merge finmaps using a merge operation _∙_
 
-mergeᶠᵐ :  ∀ (_∙_ : A → A → A) →  (∀{a b} → null a → null b → null (a ∙ b)) →
+mergeᶠᵐ :  ∀(_∙_ : A → A → A) →  (∀{a b} → null a → null b → null (a ∙ b)) →
            Finmap →  Finmap →  Finmap
 mergeᶠᵐ _∙_ _ (f |ᶠᵐ _) (g |ᶠᵐ _) .!ᶠᵐ i =  f i ∙ g i
 mergeᶠᵐ _∙_ null∙ (f |ᶠᵐ (m , fi)) (g |ᶠᵐ (n , fi')) .finᶠᵐ =  m ⊔ n , proof

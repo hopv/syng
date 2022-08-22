@@ -21,17 +21,17 @@ private variable
 
 -- Negation of _≡_
 infix 4 _≢_
-_≢_ :  ∀ {A : Set ł} →  A →  A →  Set ł
+_≢_ :  ∀{A : Set ł} →  A →  A →  Set ł
 x ≢ y =  ¬  x ≡ y
 
 abstract
 
   -- Congruence
 
-  cong :  ∀ (f : A → B) {a a'} →  a ≡ a' →  f a ≡ f a'
+  cong :  ∀(f : A → B) {a a'} →  a ≡ a' →  f a ≡ f a'
   cong f refl =  refl
 
-  cong₂ :  ∀ (f : A → B → C) {a a' b b'} →  a ≡ a' →  b ≡ b' →  f a b ≡ f a' b'
+  cong₂ :  ∀(f : A → B → C) {a a' b b'} →  a ≡ a' →  b ≡ b' →  f a b ≡ f a' b'
   cong₂ f refl refl =  refl
 
   -- ≡ is symmetric and transitive
@@ -46,9 +46,9 @@ abstract
 
   -- Substitution
 
-  subst :  ∀ (F : A → Set ł) {a a'} →  a ≡ a' →  F a →  F a'
+  subst :  ∀(F : A → Set ł) {a a'} →  a ≡ a' →  F a →  F a'
   subst _ refl Fa =  Fa
 
-  subst₂ :  ∀ (F : A → B → Set ł) {a a' b b'} →
+  subst₂ :  ∀(F : A → B → Set ł) {a a' b b'} →
     a ≡ a' →  b ≡ b' →  F a b →  F a' b'
   subst₂ _ refl refl Fab =  Fab

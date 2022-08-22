@@ -249,7 +249,7 @@ abstract
 
   -- + is increasing
 
-  +-incrˡ :  ∀ {m n} →  n ≤ m + n
+  +-incrˡ :  ∀{m n} →  n ≤ m + n
   +-incrˡ {0} =  ≤-refl
   +-incrˡ {suc m'} =  ≤-trans (+-incrˡ {m'}) suc-incr
 
@@ -259,7 +259,7 @@ abstract
   +-monoˡ 0≤ =  +-incrˡ
   +-monoˡ (suc≤suc l'≤m') =  suc≤suc $ +-monoˡ l'≤m'
 
-  +-monoʳ :  ∀ {l m n} →  m ≤ n →  l + m ≤ l + n
+  +-monoʳ :  ∀{l m n} →  m ≤ n →  l + m ≤ l + n
   +-monoʳ {l} {m} {n}  rewrite +-comm {l} {m} | +-comm {l} {n} =  +-monoˡ
 
   +-mono :  k ≤ l →  m ≤ n →  k + m ≤ l + n
@@ -270,7 +270,7 @@ abstract
   +-smonoˡ :  l < m →  l + n < m + n
   +-smonoˡ =  +-monoˡ
 
-  +-smonoʳ :  ∀ {l m n} →  m < n →  l + m < l + n
+  +-smonoʳ :  ∀{l m n} →  m < n →  l + m < l + n
   +-smonoʳ {l} {m} {n}  rewrite +-comm {l} {m} | +-comm {l} {n} =  +-smonoˡ
 
   +-smono :  k < l →  m < n →  k + m < l + n
@@ -278,7 +278,7 @@ abstract
 
   -- + is injective
 
-  +-injˡ :  ∀ {l m n} →  m + l ≡ n + l →  m ≡ n
+  +-injˡ :  ∀{l m n} →  m + l ≡ n + l →  m ≡ n
   +-injˡ {_} {m} {n} m+l≡n+l  with cmp m n
   ... | inj₀ m<n =  absurd $ ≡⇒¬< m+l≡n+l (+-smonoˡ m<n)
   ... | inj₁₀ m≡n =  m≡n
@@ -344,7 +344,7 @@ abstract
   *-monoˡ 0≤ =  0≤
   *-monoˡ (suc≤suc l'≤m') =  +-monoʳ $ *-monoˡ l'≤m'
 
-  *-monoʳ :  ∀ {l m n} →  m ≤ n →  l * m ≤ l * n
+  *-monoʳ :  ∀{l m n} →  m ≤ n →  l * m ≤ l * n
   *-monoʳ {l} {m} {n}  rewrite *-comm {l} {m} | *-comm {l} {n} =  *-monoˡ
 
   *-mono :  k ≤ l →  m ≤ n →  k * m ≤ l * n
@@ -355,13 +355,13 @@ abstract
   *-smonoˡ :  l < m →  l * suc n < m * suc n
   *-smonoˡ sl≤m =  ≤-trans (suc≤suc +-incrˡ) (*-monoˡ sl≤m)
 
-  *-smonoʳ :  ∀ {l m n} →  m < n →  suc l * m < suc l * n
+  *-smonoʳ :  ∀{l m n} →  m < n →  suc l * m < suc l * n
   *-smonoʳ {l} {m} {n}  rewrite *-comm {suc l} {m} | *-comm {suc l} {n}
     =  *-smonoˡ
 
   -- * with a positive argument is injective
 
-  *-injˡ :  ∀ {l m n} →  m * suc l ≡ n * suc l →  m ≡ n
+  *-injˡ :  ∀{l m n} →  m * suc l ≡ n * suc l →  m ≡ n
   *-injˡ {_} {m} {n} m*sl≡n*sl  with cmp m n
   ... | inj₀ m<n =  absurd $ ≡⇒¬< m*sl≡n*sl (*-smonoˡ m<n)
   ... | inj₁₀ m≡n =  m≡n
@@ -403,7 +403,7 @@ abstract
   ⊔-introʳ {0} {suc _} =  0≤
   ⊔-introʳ {suc m'} {suc n'} =  suc≤suc $ ⊔-introʳ {m'} {n'}
 
-  ⊔-elim :  ∀ {l m n} →  l ≤ n →  m ≤ n →  l ⊔ m ≤ n
+  ⊔-elim :  ∀{l m n} →  l ≤ n →  m ≤ n →  l ⊔ m ≤ n
   ⊔-elim {0} _ m≤n =  m≤n
   ⊔-elim {suc _} {0} l≤n _ =  l≤n
   ⊔-elim (suc≤suc l'≤n') (suc≤suc m'≤n') =  suc≤suc $ ⊔-elim l'≤n' m'≤n'

@@ -22,8 +22,8 @@ private variable
 --------------------------------------------------------------------------------
 -- Disjunction over list elements
 data  Any {A : Set ł} (F : A → Set ł') :  List A → Set (ł ⊔ᴸ ł')  where
-  by-hd :  ∀ {a as} →  F a →  Any F (a ∷ as)
-  by-tl :  ∀ {a as} →  Any F as →  Any F (a ∷ as)
+  by-hd :  ∀{a as} →  F a →  Any F (a ∷ as)
+  by-tl :  ∀{a as} →  Any F as →  Any F (a ∷ as)
 open Any public
 
 abstract

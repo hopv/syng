@@ -24,7 +24,7 @@ Propᵒ =  Res →  Set₂
 -- Monoᵒ Pᵒ :  Pᵒ is monotone over the resource
 
 Monoᵒ :  Propᵒ →  Set₂
-Monoᵒ Pᵒ =  ∀ {a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
+Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
   Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ
@@ -37,8 +37,8 @@ private variable
 
 infix 1 _⊨✓_ _⊨_
 _⊨✓_ _⊨_ :  Propᵒ →  Propᵒ →  Set₂
-Pᵒ ⊨✓ Qᵒ =  ∀ {E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
-Pᵒ ⊨ Qᵒ =  ∀ {a} →  Pᵒ a →  Qᵒ a
+Pᵒ ⊨✓ Qᵒ =  ∀{E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
+Pᵒ ⊨ Qᵒ =  ∀{a} →  Pᵒ a →  Qᵒ a
 
 abstract
 
@@ -87,7 +87,7 @@ _×ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 
 infixr 5 _→ᵒ_
 _→ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
-(Pᵒ →ᵒ Qᵒ) a =  ∀ {E b} →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
+(Pᵒ →ᵒ Qᵒ) a =  ∀{E b} →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
 
 abstract
 
@@ -157,7 +157,7 @@ abstract
 
 infixr 5 _-∗ᵒ_
 _-∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
-(Pᵒ -∗ᵒ Qᵒ) a =  ∀ {E b c} →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
+(Pᵒ -∗ᵒ Qᵒ) a =  ∀{E b c} →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
 
 abstract
 
@@ -179,7 +179,7 @@ abstract
 
 infix 8 ⤇ᵒ_
 ⤇ᵒ_ :  Propᵒ →  Propᵒ
-(⤇ᵒ Pᵒ) a =  ∀ {E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
+(⤇ᵒ Pᵒ) a =  ∀{E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
 
 abstract
 

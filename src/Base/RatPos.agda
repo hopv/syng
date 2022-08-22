@@ -134,7 +134,7 @@ abstract
         (*⁺-actˡ-comm {d} {f} ◇ cong (f *⁺_) da≡bc ◇ *⁺-actˡ-comm {f} {b}) ◇
       ◠ *⁺-+⁺-distrʳ {b}
 
-  +ᴿ⁺-congʳ :  ∀ {p q r} →  q ≈ᴿ⁺ r →  p +ᴿ⁺ q ≈ᴿ⁺ p +ᴿ⁺ r
+  +ᴿ⁺-congʳ :  ∀{p q r} →  q ≈ᴿ⁺ r →  p +ᴿ⁺ q ≈ᴿ⁺ p +ᴿ⁺ r
   +ᴿ⁺-congʳ {p} {q} {r} q≈r =  subst₂ _≈ᴿ⁺_
     (+ᴿ⁺-comm {q} {p}) (+ᴿ⁺-comm {r} {p}) (+ᴿ⁺-congˡ {q} {r} {p} q≈r)
 

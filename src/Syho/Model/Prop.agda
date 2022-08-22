@@ -13,7 +13,7 @@ open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
 open ERA Globᴱᴿᴬ renaming (Res to Glob) using (_⊑_; _✓_; _∙_; ⌞_⌟; ◠˜_; ⊑-respˡ;
   ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
-  ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ⌞⌟-decr; ⌞⌟-idem)
+  ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem; ⌞⌟-unitˡ)
 
 --------------------------------------------------------------------------------
 -- Propᵒ :  Semantic proposition
@@ -29,6 +29,7 @@ Monoᵒ Pᵒ =  ∀ {a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 private variable
   Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ
   X₁ :  Set₁
+  Pᵒ˙ :  X₁ →  Propᵒ
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment, with or without a validity input
@@ -37,6 +38,11 @@ infix 1 _⊨✓_ _⊨_
 _⊨✓_ _⊨_ :  Propᵒ →  Propᵒ →  Set₂
 Pᵒ ⊨✓ Qᵒ =  ∀ {E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
 Pᵒ ⊨ Qᵒ =  ∀ {a} →  Pᵒ a →  Qᵒ a
+
+abstract
+
+  ⊨⇒⊨✓ :  Pᵒ ⊨ Qᵒ →  Pᵒ ⊨✓ Qᵒ
+  ⊨⇒⊨✓ P⊨Q _ =  P⊨Q
 
 --------------------------------------------------------------------------------
 -- ∀₁ᵒ, ∃₁ᵒ :  Universal/existential quantification
@@ -55,6 +61,14 @@ syntax ∃₁ᵒ∈-syntax {X₁ = X₁} (λ x → Pᵒ) =  ∃₁ᵒ x ∈ X₁
 syntax ∀₁ᵒ-syntax (λ x → Pᵒ) =  ∀₁ᵒ x , Pᵒ
 syntax ∃₁ᵒ-syntax (λ x → Pᵒ) =  ∃₁ᵒ x , Pᵒ
 
+abstract
+
+  ∀₁ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∀₁ᵒ˙ Pᵒ˙)
+  ∀₁ᵒ-Mono ∀MonoP a⊑b ∀Pa x =  ∀MonoP x a⊑b (∀Pa x)
+
+  ∃₁ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃₁ᵒ˙ Pᵒ˙)
+  ∃₁ᵒ-Mono ∀MonoP a⊑b (x , Pa) =  x , ∀MonoP x a⊑b Pa
+
 --------------------------------------------------------------------------------
 -- ×ᵒ :  Conjunction
 
@@ -71,6 +85,9 @@ _→ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 
 abstract
 
+  →ᵒ-Mono :  Monoᵒ (Pᵒ →ᵒ Qᵒ)
+  →ᵒ-Mono a⊑a' P→Qa a'⊑b E✓b Pᵒb =  P→Qa (⊑-trans a⊑a' a'⊑b) E✓b Pᵒb
+
   →ᵒ-intro :  Monoᵒ Qᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ →ᵒ Rᵒ
   →ᵒ-intro MonoQ P×Q⊨✓R Qa a⊑b E✓b Pb =  P×Q⊨✓R E✓b (Pb , MonoQ a⊑b Qa)
 
@@ -85,6 +102,13 @@ _∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 (Pᵒ ∗ᵒ Qᵒ) a =  ∑ (b , c) ∈ _ × _ ,  b ∙ c ⊑ a  ×  Pᵒ b  ×  Qᵒ c
 
 abstract
+
+  ∗ᵒ-Mono :  Monoᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ∗ᵒ-Mono a⊑a' (-, b∙c⊑a , PbQc) =  -, ⊑-trans b∙c⊑a a⊑a' , PbQc
+
+  ∗ᵒ-mono✓ˡ :  Pᵒ ⊨✓ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨✓ Qᵒ ∗ᵒ Rᵒ
+  ∗ᵒ-mono✓ˡ P⊨✓Q E✓a (-, b∙c⊑a , Pb , Rc) =
+    -, b∙c⊑a , P⊨✓Q (✓-mono (⊑-trans ∙-incrʳ b∙c⊑a) E✓a) Pb , Rc
 
   ∗ᵒ-monoˡ :  Pᵒ ⊨ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Rᵒ
   ∗ᵒ-monoˡ P⊨Q (-, b∙c⊑a , Pb , Rc) =  -, b∙c⊑a , P⊨Q Pb , Rc
@@ -110,12 +134,20 @@ abstract
   ∗ᵒ-elimʳ :  Monoᵒ Pᵒ →  Qᵒ ∗ᵒ Pᵒ ⊨ Pᵒ
   ∗ᵒ-elimʳ MonoP (-, b∙c⊑a , -, Pc) =  MonoP (⊑-trans ∙-incrˡ b∙c⊑a) Pc
 
+  ∗ᵒ-elimˡ :  Monoᵒ Pᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨ Pᵒ
+  ∗ᵒ-elimˡ MonoP =  ∗ᵒ-comm › ∗ᵒ-elimʳ MonoP
+
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand
 
 infixr 5 _-∗ᵒ_
 _-∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 (Pᵒ -∗ᵒ Qᵒ) a =  ∀ {E b c} →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
+
+abstract
+
+  -∗ᵒ-Mono :  Monoᵒ (Pᵒ -∗ᵒ Qᵒ)
+  -∗ᵒ-Mono a⊑a' P-∗Qa a'⊑b E✓c∙b Pc =  P-∗Qa (⊑-trans a⊑a' a'⊑b) E✓c∙b Pc
 
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Update modality
@@ -125,6 +157,9 @@ infix 8 ⤇ᵒ_
 (⤇ᵒ Pᵒ) a =  ∀ {E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
 
 abstract
+
+  ⤇ᵒ-Mono :  Monoᵒ (⤇ᵒ Pᵒ)
+  ⤇ᵒ-Mono a⊑a' ⤇Pa E✓c∙a' =  ⤇Pa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
 
   ⤇ᵒ-mono :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
   ⤇ᵒ-mono P⊨✓Q ⤇Pa E✓c∙a  with ⤇Pa E✓c∙a
@@ -158,6 +193,9 @@ infix 8 □ᵒ_
 
 abstract
 
+  □ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ (□ᵒ Pᵒ)
+  □ᵒ-Mono MonoP a⊑b P⌞a⌟ =  MonoP (⌞⌟-mono a⊑b) P⌞a⌟
+
   □ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  □ᵒ Pᵒ ⊨✓ □ᵒ Qᵒ
   □ᵒ-mono✓ P⊨✓Q E✓a =  P⊨✓Q (✓-mono ⌞⌟-decr E✓a)
 
@@ -166,3 +204,7 @@ abstract
 
   □ᵒ-dup :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ⊨ □ᵒ □ᵒ Pᵒ
   □ᵒ-dup MonoP P⌞a⌟ =  MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟
+
+  □ᵒˡ-×ᵒ⇒∗ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ×ᵒ Qᵒ ⊨ □ᵒ Pᵒ ∗ᵒ Qᵒ
+  □ᵒˡ-×ᵒ⇒∗ᵒ MonoP (P⌞a⌟ , Qa) =  -, ≈⇒⊑ ⌞⌟-unitˡ ,
+    MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟ , Qa

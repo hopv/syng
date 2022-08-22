@@ -7,7 +7,7 @@
 module Syho.Model.Prop where
 
 open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
-open import Base.Func using (_$_; _›_; flip)
+open import Base.Func using (_$_; _›_; _∘_; flip)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
@@ -27,9 +27,9 @@ Monoᵒ :  Propᵒ →  Set₂
 Monoᵒ Pᵒ =  ∀ {a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
-  Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ
+  Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ
   X₁ :  Set₁
-  Pᵒ˙ :  X₁ →  Propᵒ
+  Pᵒ˙ Qᵒ˙ :  X₁ →  Propᵒ
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment, with or without a validity input
@@ -69,6 +69,12 @@ abstract
   ∃₁ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃₁ᵒ˙ Pᵒ˙)
   ∃₁ᵒ-Mono ∀MonoP a⊑b (x , Pa) =  x , ∀MonoP x a⊑b Pa
 
+  ∀₁ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∀₁ᵒ˙ Pᵒ˙ ⊨ ∀₁ᵒ˙ Qᵒ˙
+  ∀₁ᵒ-mono Px⊨Qx ∀Pa x =  Px⊨Qx x (∀Pa x)
+
+  ∃₁ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∃₁ᵒ˙ Pᵒ˙ ⊨ ∃₁ᵒ˙ Qᵒ˙
+  ∃₁ᵒ-mono Px⊨Qx (x , Pxa) =  x , Px⊨Qx x Pxa
+
 --------------------------------------------------------------------------------
 -- ×ᵒ :  Conjunction
 
@@ -87,6 +93,9 @@ abstract
 
   →ᵒ-Mono :  Monoᵒ (Pᵒ →ᵒ Qᵒ)
   →ᵒ-Mono a⊑a' P→Qa a'⊑b E✓b Pᵒb =  P→Qa (⊑-trans a⊑a' a'⊑b) E✓b Pᵒb
+
+  →ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ →ᵒ Qᵒ) ⊨ (P'ᵒ →ᵒ Q'ᵒ)
+  →ᵒ-mono P'⊨P Q⊨Q' P→Qa a⊑b E✓b P'b =  Q⊨Q' $ P→Qa a⊑b E✓b $ P'⊨P P'b
 
   →ᵒ-intro :  Monoᵒ Qᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ →ᵒ Rᵒ
   →ᵒ-intro MonoQ P×Q⊨✓R Qa a⊑b E✓b Pb =  P×Q⊨✓R E✓b (Pb , MonoQ a⊑b Qa)
@@ -149,6 +158,9 @@ abstract
   -∗ᵒ-Mono :  Monoᵒ (Pᵒ -∗ᵒ Qᵒ)
   -∗ᵒ-Mono a⊑a' P-∗Qa a'⊑b E✓c∙b Pc =  P-∗Qa (⊑-trans a⊑a' a'⊑b) E✓c∙b Pc
 
+  -∗ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ -∗ᵒ Qᵒ) ⊨ (P'ᵒ -∗ᵒ Q'ᵒ)
+  -∗ᵒ-mono P'⊨P Q⊨Q' P-∗Qa a⊑b E✓c∙b P'c =  Q⊨Q' $ P-∗Qa a⊑b E✓c∙b $ P'⊨P P'c
+
   -∗ᵒ-intro :  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
   -∗ᵒ-intro P∗Q⊨✓R Qa a⊑b E✓c∙b Pc =  P∗Q⊨✓R E✓c∙b $ -, ∙-monoʳ a⊑b , Pc , Qa
 
@@ -168,9 +180,15 @@ abstract
   ⤇ᵒ-Mono :  Monoᵒ (⤇ᵒ Pᵒ)
   ⤇ᵒ-Mono a⊑a' ⤇Pa E✓c∙a' =  ⤇Pa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
 
-  ⤇ᵒ-mono :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
-  ⤇ᵒ-mono P⊨✓Q ⤇Pa E✓c∙a  with ⤇Pa E✓c∙a
+  ⤇ᵒ-mono' :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
+  ⤇ᵒ-mono' P⊨✓Q ⤇Pa E✓c∙a  with ⤇Pa E✓c∙a
   ... | -, E✓c∙b , Pb =  -, E✓c∙b , P⊨✓Q (✓-mono ∙-incrˡ E✓c∙b) Pb
+
+  ⤇ᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
+  ⤇ᵒ-mono =  ⤇ᵒ-mono' ∘ ⊨⇒⊨✓
+
+  ⤇ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨✓ ⤇ᵒ Qᵒ
+  ⤇ᵒ-mono✓ =  ⊨⇒⊨✓ ∘ ⤇ᵒ-mono'
 
   ⤇ᵒ-intro :  Pᵒ ⊨ ⤇ᵒ Pᵒ
   ⤇ᵒ-intro Pa E✓c∙a =  -, E✓c∙a , Pa
@@ -205,6 +223,9 @@ abstract
 
   □ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  □ᵒ Pᵒ ⊨✓ □ᵒ Qᵒ
   □ᵒ-mono✓ P⊨✓Q E✓a =  P⊨✓Q (✓-mono ⌞⌟-decr E✓a)
+
+  □ᵒ-mono :  Pᵒ ⊨ Qᵒ →  □ᵒ Pᵒ ⊨ □ᵒ Qᵒ
+  □ᵒ-mono P⊨Q =  P⊨Q
 
   □ᵒ-elim :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ⊨ Pᵒ
   □ᵒ-elim MonoP P⌞a⌟ =  MonoP ⌞⌟-decr P⌞a⌟

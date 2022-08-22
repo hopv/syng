@@ -51,11 +51,14 @@ infix 8 ○ᵒ_
 
 abstract
 
-  ○ᵒ-mono :  {{_ : Basic R}} →  R ∗ P ⊢[ ∞ ] Q →  ⸨ R ⸩ᴮ ∗ᵒ ○ᵒ P ⊨ ○ᵒ Q
-  ○ᵒ-mono R∗P⊢Q (-, b∙c⊑a , Rb , -, -, BasicT , T∗S⊢P , T∗indSc) =
-    let instance _ = BasicT in
-    -, -, it , (∗-assocˡ » ∗-monoʳ T∗S⊢P » R∗P⊢Q) ,
-    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+  ○ᵒ-mono :  P ⊢[ ∞ ] Q →  ○ᵒ P ⊨ ○ᵒ Q
+  ○ᵒ-mono P⊢Q (-, -, BasicS , S∗R⊢P , S∗indRc) =
+    -, -, BasicS , (S∗R⊢P » P⊢Q) , S∗indRc
+
+  ○ᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ ∗ᵒ ○ᵒ P ⊨ ○ᵒ (Q ∗ P)
+  ○ᵒ-eatˡ (-, b∙c⊑a , Qb , -, -, BasicS , S∗R⊢P , S∗indRc) =
+    let instance _ = BasicS in  -, -, it ,
+    (∗-assocˡ » ∗-monoʳ S∗R⊢P) , ∗ᵒ-assocʳ (-, b∙c⊑a , Qb , S∗indRc)
 
 --------------------------------------------------------------------------------
 -- ↪⇛ᵒ :  Interpret the super-update precursor ↪⇛
@@ -71,28 +74,29 @@ abstract
   ↪⇛ᵒ-suc (-, -, BasicS , P∗S∗R⊢[i]⇛Q , S∗Ra) =
     -, -, BasicS , ⇛-suc P∗S∗R⊢[i]⇛Q , S∗Ra
 
+  ↪⇛ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
+    R ∗ P' ⊢[ ∞ ][ i ]⇛ P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᵒ Q)  ⊨  P' ↪[ i ]⇛ᵒ Q
+  ↪⇛ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⇛Q , T∗indSc) =
+    let instance _ = BasicT in  -, -, it ,
+    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢⇛ P∗T∗S ⊢⇛ Q
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵘ P∗T∗S⊢⇛Q) ,
+    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+
+  ↪⇛ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
+    ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᵒ Q)  ⊨  P ↪[ i ]⇛ᵒ R ∗ Q
+  ↪⇛ᵒ-eatˡ⁻ʳ (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⇛Q , T∗indSc) =
+    let instance _ = BasicT in  -, -, it ,
+    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢⇛ R∗P∗T∗S ⊢⇛ R∗Q
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » ⇛-frameˡ P∗T∗S⊢⇛Q) ,
+    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+
+  ↪⇛ᵒ-monoʳᵘ :  Q ⊢[ ∞ ][ i ]⇛ Q' →  P ↪[ i ]⇛ᵒ Q  ⊨  P ↪[ i ]⇛ᵒ Q'
+  ↪⇛ᵒ-monoʳᵘ Q⊢⇛Q' (-, -, BasicS , P∗S∗R⊢⇛Q , S∗indRc) =
+    -, -, BasicS , (P∗S∗R⊢⇛Q ᵘ»ᵘ Q⊢⇛Q') , S∗indRc
+
   ↪⇛ᵒ-frameˡ :  P ↪[ i ]⇛ᵒ Q  ⊨  R ∗ P ↪[ i ]⇛ᵒ R ∗ Q
   ↪⇛ᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢[i]⇛Q , S∗Ra) =
     -, -, BasicS , (∗-assocˡ » ⇛-frameˡ P∗S∗R⊢[i]⇛Q) , S∗Ra
-
-  ↪⇛ᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →
-    R ∗ P' ⊢[ ∞ ][ i ]⇛ P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᵒ Q)  ⊨  P' ↪[ i ]⇛ᵒ Q
-  ↪⇛ᵒ-monoˡᵘ-∗ R∗P'⊢⇛P
-    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⇛Q , T∗indSc) =
-    let instance _ = BasicT in  -, -, it ,
-    -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢⇛ P∗T∗S ⊢⇛ Q
-    (∗-monoʳ ∗-assocˡ »
-      pullʳˡ » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵘ P∗T∗S⊢⇛Q) ,
-    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
-
-  ↪⇛ᵒ-monoʳᵘ-∗ :  {{_ : Basic R}} →
-    R ∗ Q ⊢[ ∞ ][ i ]⇛ Q' →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᵒ Q)  ⊨  P ↪[ i ]⇛ᵒ Q'
-  ↪⇛ᵒ-monoʳᵘ-∗ R∗Q⊢⇛Q'
-    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⇛Q , T∗indSc) =
-    let instance _ = BasicT in  -, -, it ,
-    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢⇛ R∗P∗T∗S ⊢⇛ R∗Q ⊢ Q'
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » ⇛-frameˡ P∗T∗S⊢⇛Q ᵘ»ᵘ R∗Q⊢⇛Q') ,
-    ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
 --------------------------------------------------------------------------------
 -- ↪⟨ ⟩ᴾᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᴾ
@@ -104,28 +108,31 @@ _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  
 
 abstract
 
-  ↪⟨⟩ᴾᵒ-frameˡ :  P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Qᵛ v
-  ↪⟨⟩ᴾᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗Ra) =
-    -, -, BasicS , (∗-assocˡ » hor-frameˡ P∗S∗R⊢⟨e⟩Q) , S∗Ra
-
-  ↪⟨⟩ᴾᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ P →
-                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
-  ↪⟨⟩ᴾᵒ-monoˡᵘ-∗ R∗P'⊢⇛P
+  ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
+  ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P
     (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
     -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢⇛ P∗T∗S ⊢⟨e⟩ᴾ Qᵛ
-    (∗-monoʳ ∗-assocˡ »
-      pullʳˡ » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗T∗S⊢⟨e⟩Q) ,
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗T∗S⊢⟨e⟩Q) ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
-  ↪⟨⟩ᴾᵒ-monoʳᵘ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ][ i ]⇛ Q'ᵛ v) →
-                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
-  ↪⟨⟩ᴾᵒ-monoʳᵘ-∗ R∗Q⊢⇛Q'
-    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+  ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
+    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Qᵛ v
+  ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
-    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᴾ R∗Q ⊢⇛ Q'
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ»ᵘ R∗Q⊢⇛Q') ,
+    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᴾ R∗Q
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q) ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+
+  ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Qᵛ v ⊢[ ∞ ][ i ]⇛ Q'ᵛ v) →
+                  P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
+  ↪⟨⟩ᴾᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -, BasicR , P∗S∗R⊢⟨e⟩Q , S∗indRc) =
+    -, -, BasicR , (P∗S∗R⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q') , S∗indRc
+
+  ↪⟨⟩ᴾᵒ-frameˡ :  P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Qᵛ v
+  ↪⟨⟩ᴾᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗Ra) =
+    -, -, BasicS , (∗-assocˡ » hor-frameˡ P∗S∗R⊢⟨e⟩Q) , S∗Ra
 
 --------------------------------------------------------------------------------
 -- ↪⟨ ⟩ᵀᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᵀ
@@ -141,25 +148,28 @@ abstract
   ↪⟨⟩ᵀᵒ-suc (-, -, BasicS , P∗S∗R⊢⟨e⟩[i]Q , S∗Ra) =
     -, -, BasicS , horᵀ-suc P∗S∗R⊢⟨e⟩[i]Q , S∗Ra
 
-  ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Qᵛ v
-  ↪⟨⟩ᵀᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗Ra) =
-    -, -, BasicS , (∗-assocˡ » hor-frameˡ P∗S∗R⊢⟨e⟩Q) , S∗Ra
-
-  ↪⟨⟩ᵀᵒ-monoˡᵘ-∗ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
-                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ
-  ↪⟨⟩ᵀᵒ-monoˡᵘ-∗ R∗P'⊢⇛P
+  ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ
+  ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P
     (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
     -- P'∗(R∗T)∗S ⊢ P'∗R∗T∗S ⊢ R∗P'∗T∗S ⊢ (R∗P')∗T∗S ⊢⇛ P∗T∗S ⊢⟨e⟩ᵀ Qᵛ
-    (∗-monoʳ ∗-assocˡ »
-      pullʳˡ » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗T∗S⊢⟨e⟩Q) ,
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗T∗S⊢⟨e⟩Q) ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
 
-  ↪⟨⟩ᵀᵒ-monoʳᵘ-∗ :  {{_ : Basic R}} →  (∀ v →  R ∗ Qᵛ v ⊢[ ∞ ][ j ]⇛ Q'ᵛ v) →
-                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'ᵛ
-  ↪⟨⟩ᵀᵒ-monoʳᵘ-∗ R∗Q⊢⇛Q'
-    (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
+  ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
+    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Qᵛ v
+  ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ (-, b∙c⊑a , Rb , -, -, BasicT , P∗T∗S⊢⟨e⟩Q , T∗indSc) =
     let instance _ = BasicT in  -, -, it ,
-    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᵀ R∗Q ⊢ Q'
-    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q ʰ»ᵘ R∗Q⊢⇛Q') ,
+    -- P∗(R∗T)∗S ⊢ P∗R∗T∗S ⊢ R∗P∗T∗S ⊢⟨e⟩ᵀ R∗Q
+    (∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗T∗S⊢⟨e⟩Q) ,
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗indSc)
+
+  ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Qᵛ v ⊢[ ∞ ][ j ]⇛ Q'ᵛ v) →
+                  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'ᵛ
+  ↪⟨⟩ᵀᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -, BasicR , P∗S∗R⊢⟨e⟩Q , S∗indRc) =
+    -, -, BasicR , (P∗S∗R⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q') , S∗indRc
+
+  ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Qᵛ v
+  ↪⟨⟩ᵀᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗Ra) =
+    -, -, BasicS , (∗-assocˡ » hor-frameˡ P∗S∗R⊢⟨e⟩Q) , S∗Ra

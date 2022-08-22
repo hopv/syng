@@ -23,8 +23,8 @@ open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; ∀₀˙; ∃₀˙
 open import Syho.Logic.Judg public using (JudgRes; Pure; _⊢[_]*_; _⊢[_]_;
   _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro;
   choice₁; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ;
-  -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-∃₁-out; □-mono; □-elim;
-  □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out)
+  -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-∃-out; □-mono; □-elim;
+  □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 
 private variable
   ι :  Size
@@ -243,31 +243,23 @@ abstract
 
   -- ⌜ X ⌝ →' is the same with ∀ _ ∈ X ,
 
-  ⌜⌝→⇒∀₁ :  ⌜ X ⌝₁ →' P ⊢[ ι ] ∀₁ _ ∈ X , P
-  ⌜⌝→⇒∀₁ =  ∀₁-intro $ λ x →  ⌜⌝₁∧-intro x » →-apply
+  ---- These two can work also for ⌜⌝₀ and ∀₀
 
-  ∀₁⇒⌜⌝→ :  ∀₁ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₁ →' P
-  ∀₁⇒⌜⌝→ =  →-intro $ ⌜⌝₁∧-elim $ λ x →  ∀₁-elim x
+  ⌜⌝→⇒∀ :  ⌜ X ⌝₁ →' P ⊢[ ι ] ∀₁ _ ∈ X , P
+  ⌜⌝→⇒∀ =  ∀₁-intro $ λ x →  ⌜⌝₁∧-intro x » →-apply
 
-  ⌜⌝→⇒∀₀ :  ⌜ X ⌝₀ →' P ⊢[ ι ] ∀₀ _ ∈ X , P
-  ⌜⌝→⇒∀₀ =  ⌜⌝→⇒∀₁
-
-  ∀₀⇒⌜⌝→ :  ∀₀ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₀ →' P
-  ∀₀⇒⌜⌝→ =  ∀₁⇒⌜⌝→
+  ∀⇒⌜⌝→ :  ∀₁ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₁ →' P
+  ∀⇒⌜⌝→ =  →-intro $ ⌜⌝₁∧-elim $ λ x →  ∀₁-elim x
 
   -- ⌜ X ⌝ ∧ is the same with ∃ _ ∈ X ,
 
-  ⌜⌝∧⇒∃₁ :  ⌜ X ⌝₁ ∧ P ⊢[ ι ] ∃₁ _ ∈ X , P
-  ⌜⌝∧⇒∃₁ =  ⌜⌝₁∧-elim $ λ x →  ⊢-refl » ∃₁-intro x
+  ---- These two can work also for ⌜⌝₀ and ∃₀
 
-  ∃₁⇒⌜⌝∧ :  ∃₁ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₁ ∧ P
-  ∃₁⇒⌜⌝∧ =  ∃₁-elim $ λ x →  ⌜⌝₁∧-intro x
+  ⌜⌝∧⇒∃ :  ⌜ X ⌝₁ ∧ P ⊢[ ι ] ∃₁ _ ∈ X , P
+  ⌜⌝∧⇒∃ =  ⌜⌝₁∧-elim $ λ x →  ⊢-refl » ∃₁-intro x
 
-  ⌜⌝∧⇒∃₀ :  ⌜ X ⌝₀ ∧ P ⊢[ ι ] ∃₀ _ ∈ X , P
-  ⌜⌝∧⇒∃₀ =  ⌜⌝∧⇒∃₁
-
-  ∃₀⇒⌜⌝∧ :  ∃₀ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₀ ∧ P
-  ∃₀⇒⌜⌝∧ =  ∃₁⇒⌜⌝∧
+  ∃⇒⌜⌝∧ :  ∃₁ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝₁ ∧ P
+  ∃⇒⌜⌝∧ =  ∃₁-elim $ λ x →  ⌜⌝₁∧-intro x
 
   -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤'/⊥'/→
 
@@ -334,13 +326,13 @@ abstract
   ⌜⊥⌝₀-elim =  ⌜⌝₀-elim absurd
 
   ⌜⌝₁-→-in :  ⌜ X ⌝₁ →' ⌜ Y ⌝₁ ⊢[ ι ] ⌜ (X → Y) ⌝₁
-  ⌜⌝₁-→-in =  ⌜⌝→⇒∀₁ » ⌜⌝₁-∀₁-in
+  ⌜⌝₁-→-in =  ⌜⌝→⇒∀ » ⌜⌝₁-∀₁-in
 
   ⌜⌝₁-→-out :  ⌜ (X → Y) ⌝₁ ⊢[ ι ] ⌜ X ⌝₁ →' ⌜ Y ⌝₁
   ⌜⌝₁-→-out =  →-intro $ ⌜⌝₁∧-elim $ λ x → ⌜⌝₁-mono $ λ f → f x
 
   ⌜⌝₀-→-in :  ⌜ X ⌝₀ →' ⌜ Y ⌝₀ ⊢[ ι ] ⌜ (X → Y) ⌝₀
-  ⌜⌝₀-→-in =  ⌜⌝→⇒∀₀ » ⌜⌝₀-∀₀-in
+  ⌜⌝₀-→-in =  ⌜⌝→⇒∀ » ⌜⌝₀-∀₀-in
 
   ⌜⌝₀-→-out :  ⌜ (X → Y) ⌝₀ ⊢[ ι ] ⌜ X ⌝₀ →' ⌜ Y ⌝₀
   ⌜⌝₀-→-out =  →-intro $ ⌜⌝₀∧-elim $ λ x → ⌜⌝₀-mono $ λ f → f x
@@ -560,25 +552,19 @@ abstract
 
   -->  ⤇-join :  ⤇ ⤇ P ⊢[ ι ] ⤇ P
 
+  -->  ⤇-∃-out :  ⤇ (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , ⤇ P
+
   -- Eliminate ⤇ from the antecedent
 
   ⤇-elim :  P ⊢[ ι ] ⤇ Q →  ⤇ P ⊢[ ι ] ⤇ Q
   ⤇-elim P⊢⤇Q =  ⤇-mono P⊢⤇Q » ⤇-join
 
-  -- ∃ -, can get outside ⤇
-
-  -->  ⤇-∃₁-out :  ⤇ (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , ⤇ P
-
-  ⤇-∃₀-out :  ⤇ (∃₀ _ ∈ X , P) ⊢[ ι ] ∃₀ _ ∈ X , ⤇ P
-  ⤇-∃₀-out =  ⤇-∃₁-out
-
   -- ⌜ ⌝ ∧ can get outside ⤇
 
-  ⤇-⌜⌝₁∧-out :  ⤇ (⌜ X ⌝₁ ∧ P) ⊢[ ι ] ⌜ X ⌝₁ ∧ ⤇ P
-  ⤇-⌜⌝₁∧-out =  ⤇-mono ⌜⌝∧⇒∃₁ » ⤇-∃₁-out » ∃₁⇒⌜⌝∧
+  ---- This can work also for ⌜⌝₀
 
-  ⤇-⌜⌝₀∧-out :  ⤇ (⌜ X ⌝₀ ∧ P) ⊢[ ι ] ⌜ X ⌝₀ ∧ ⤇ P
-  ⤇-⌜⌝₀∧-out =  ⤇-⌜⌝₁∧-out
+  ⤇-⌜⌝∧-out :  ⤇ (⌜ X ⌝₁ ∧ P) ⊢[ ι ] ⌜ X ⌝₁ ∧ ⤇ P
+  ⤇-⌜⌝∧-out =  ⤇-mono ⌜⌝∧⇒∃ » ⤇-∃-out » ∃⇒⌜⌝∧
 
   -- ∗ can get inside ⤇
 
@@ -640,30 +626,22 @@ abstract
 
   -- ∀, ∧, ∃, ∨ and ∗ commute with □
 
-  -->  □-∀₁-in :  ∀₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₁˙ P˙
+  -->  □-∀-in :  ∀₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₁˙ P˙
 
-  □-∀₀-in :  ∀₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₀˙ P˙
-  □-∀₀-in =  □-∀₁-in
+  ---- This can work also for ∀₀
 
-  □-∀₁-out :  □ ∀₁˙ P˙ ⊢[ ι ] ∀₁˙ (□_ ∘ P˙)
-  □-∀₁-out =  ∀₁-intro $ □-mono ∘ ∀₁-elim
+  □-∀-out :  □ ∀₁˙ P˙ ⊢[ ι ] ∀₁˙ (□_ ∘ P˙)
+  □-∀-out =  ∀₁-intro $ □-mono ∘ ∀₁-elim
 
-  □-∀₀-out :  □ ∀₀˙ P˙ ⊢[ ι ] ∀₀˙ (□_ ∘ P˙)
-  □-∀₀-out =  □-∀₁-out
+  ---- This can work also for ∃₀
 
-  □-∃₁-in :  ∃₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₁˙ P˙
-  □-∃₁-in =  ∃₁-elim $ □-mono ∘ ∃₁-intro
+  □-∃-in :  ∃₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₁˙ P˙
+  □-∃-in =  ∃₁-elim $ □-mono ∘ ∃₁-intro
 
-  □-∃₀-in :  ∃₀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∃₀˙ P˙
-  □-∃₀-in =  □-∃₁-in
-
-  -->  □-∃₁-out :  □ ∃₁˙ P˙ ⊢[ ι ] ∃₁˙ (□_ ∘ P˙)
-
-  □-∃₀-out :  □ ∃₀˙ P˙ ⊢[ ι ] ∃₀˙ (□_ ∘ P˙)
-  □-∃₀-out =  □-∃₁-out
+  -->  □-∃-out :  □ ∃₁˙ P˙ ⊢[ ι ] ∃₁˙ (□_ ∘ P˙)
 
   □-∧-in :  □ P ∧ □ Q ⊢[ ι ] □ (P ∧ Q)
-  □-∧-in =  ∀₁-intro (binary ∧-elimˡ ∧-elimʳ) » □-∀₁-in
+  □-∧-in =  ∀₁-intro (binary ∧-elimˡ ∧-elimʳ) » □-∀-in
 
   □-∧-out :  □ (P ∧ Q) ⊢[ ι ] □ P ∧ □ Q
   □-∧-out =  ∧-intro (□-mono ∧-elimˡ) (□-mono ∧-elimʳ)
@@ -672,7 +650,7 @@ abstract
   □-∨-in =  ∨-elim (□-mono ∨-introˡ) (□-mono ∨-introʳ)
 
   □-∨-out :  □ (P ∨ Q) ⊢[ ι ] □ P ∨ □ Q
-  □-∨-out =  □-∃₁-out » ∃₁-elim $ binary ∨-introˡ ∨-introʳ
+  □-∨-out =  □-∃-out » ∃₁-elim $ binary ∨-introˡ ∨-introʳ
 
   □-∗-in :  □ P ∗ □ Q ⊢[ ι ] □ (P ∗ Q)
   □-∗-in =  ∗⇒∧ » □-∧-in » in□-∧⇒∗
@@ -683,7 +661,7 @@ abstract
   -- □ ⊤' can be introduced and □ ⊥' can be eliminated
 
   □-⊤-intro :  P ⊢[ ι ] □ ⊤'
-  □-⊤-intro =  ∀₁-intro absurd » □-∀₁-in
+  □-⊤-intro =  ∀₁-intro absurd » □-∀-in
 
   □-⊥-elim :  □ ⊥' ⊢[ ι ]* Jr
   □-⊥-elim =  □-elim » ⊥-elim
@@ -696,13 +674,13 @@ abstract
   -- universally quantified instance (∀ x → ...)
 
   ∀₁-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀₁˙ P˙)
-  ∀₁-Pers ∀Pers .Pers-⇒□ =  ∀₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀₁-in
+  ∀₁-Pers ∀Pers .Pers-⇒□ =  ∀₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀-in
 
   ∀₀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀₀˙ P˙)
   ∀₀-Pers =  ∀₁-Pers ∘ _∘ ↓_
 
   ∃₁-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃₁˙ P˙)
-  ∃₁-Pers ∀Pers .Pers-⇒□ =  ∃₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∃₁-in
+  ∃₁-Pers ∀Pers .Pers-⇒□ =  ∃₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∃-in
 
   ∃₀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃₀˙ P˙)
   ∃₀-Pers =  ∃₁-Pers ∘ _∘ ↓_
@@ -730,11 +708,10 @@ abstract
 
     -- For ⌜ ⌝
 
-    ⌜⌝₁-Pers :  Pers ⌜ X ⌝₁
-    ⌜⌝₁-Pers =  ∃₁-Pers $ λ _ → ⊤-Pers
+    ---- This can work also for ⌜⌝₀
 
-    ⌜⌝₀-Pers :  Pers ⌜ X ⌝₀
-    ⌜⌝₀-Pers =  ⌜⌝₁-Pers
+    ⌜⌝-Pers :  Pers ⌜ X ⌝₁
+    ⌜⌝-Pers =  ∃₁-Pers $ λ _ → ⊤-Pers
 
     -- For □
 
@@ -796,11 +773,10 @@ abstract
 
   -- ⌜ ⌝ ∗ can get outside ⤇
 
-  ⤇-⌜⌝₁∗-out :  ⤇ (⌜ X ⌝₁ ∗ P) ⊢[ ι ] ⌜ X ⌝₁ ∗ ⤇ P
-  ⤇-⌜⌝₁∗-out =  ⤇-mono ∗⇒∧ » ⤇-⌜⌝₁∧-out » Persˡ-∧⇒∗
+  ---- This can work also for ⌜⌝₀
 
-  ⤇-⌜⌝₀∗-out :  ⤇ (⌜ X ⌝₀ ∗ P) ⊢[ ι ] ⌜ X ⌝₀ ∗ ⤇ P
-  ⤇-⌜⌝₀∗-out =  ⤇-⌜⌝₁∗-out
+  ⤇-⌜⌝∗-out :  ⤇ (⌜ X ⌝₁ ∗ P) ⊢[ ι ] ⌜ X ⌝₁ ∗ ⤇ P
+  ⤇-⌜⌝∗-out =  ⤇-mono ∗⇒∧ » ⤇-⌜⌝∧-out » Persˡ-∧⇒∗
 
   ------------------------------------------------------------------------------
   -- On [∗]

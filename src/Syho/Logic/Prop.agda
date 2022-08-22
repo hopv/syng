@@ -6,7 +6,7 @@
 
 module Syho.Logic.Prop where
 
-open import Base.Level using (Level; ↓_)
+open import Base.Level using (Level; Up; ↓_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk)
 open import Base.Func using (_$_; _∘_; it)
@@ -137,7 +137,7 @@ P ∨ Q =  ∃₁˙ (binary P Q)
 ⌜_⌝₁ :  Set₁ →  Prop' ι
 ⌜ X₁ ⌝₁ =  ∃₁ _ ∈ X₁ , ⊤'
 ⌜_⌝₀ :  Set₀ →  Prop' ι
-⌜ X₀ ⌝₀ =  ∃₀ _ ∈ X₀ , ⊤'
+⌜ X₀ ⌝₀ =  ⌜ Up X₀ ⌝₁
 
 --------------------------------------------------------------------------------
 -- [∧], [∗] :  Iterated conjunction / separating conjunction
@@ -230,5 +230,7 @@ abstract
 
     -- For ⌜ ⌝
 
-    ⌜⌝₁-Basic :  Basic ⌜ X₁ ⌝₁
-    ⌜⌝₁-Basic =  ∃₁-Basic $ λ _ → ⊤-Basic
+    ---- This can work also for ⌜⌝₀
+
+    ⌜⌝-Basic :  Basic ⌜ X₁ ⌝₁
+    ⌜⌝-Basic =  ∃₁-Basic $ λ _ → ⊤-Basic

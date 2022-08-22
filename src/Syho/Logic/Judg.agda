@@ -291,6 +291,8 @@ data  _⊢[_]*_  where
   -- When P is persistent, □ ○ P_i can be obtained recursively, i.e.,
   -- by allocating P minus the target □ ○ P
 
+  -- This can be seen as an analog of Löb induction in step-indexed logics
+
   □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ -∗ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
 
   -- Use ○ P

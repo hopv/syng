@@ -187,15 +187,12 @@ abstract
   ⤇ᵒ-Mono :  Monoᵒ (⤇ᵒ Pᵒ)
   ⤇ᵒ-Mono a⊑a' ⤇Pa E✓c∙a' =  ⤇Pa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
 
-  ⤇ᵒ-mono' :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
-  ⤇ᵒ-mono' P⊨✓Q ⤇Pa E✓c∙a  with ⤇Pa E✓c∙a
+  ⤇ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
+  ⤇ᵒ-mono✓ P⊨✓Q ⤇Pa E✓c∙a  with ⤇Pa E✓c∙a
   ... | -, E✓c∙b , Pb =  -, E✓c∙b , P⊨✓Q (✓-mono ∙-incrˡ E✓c∙b) Pb
 
   ⤇ᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
-  ⤇ᵒ-mono =  ⤇ᵒ-mono' ∘ ⊨⇒⊨✓
-
-  ⤇ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨✓ ⤇ᵒ Qᵒ
-  ⤇ᵒ-mono✓ =  ⊨⇒⊨✓ ∘ ⤇ᵒ-mono'
+  ⤇ᵒ-mono =  ⤇ᵒ-mono✓ ∘ ⊨⇒⊨✓
 
   ⤇ᵒ-intro :  Pᵒ ⊨ ⤇ᵒ Pᵒ
   ⤇ᵒ-intro Pa E✓c∙a =  -, E✓c∙a , Pa

@@ -27,7 +27,7 @@ open import Syho.Model.Prop using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀₁ᵒ-
   ∃₁ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ⊨⇒⊨✓; ∀₁ᵒ-Mono; ∀₁ᵒ-mono; ∃₁ᵒ-Mono;
   ∃₁ᵒ-mono; →ᵒ-Mono; →ᵒ-mono; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ;
   ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-Mono; -∗ᵒ-mono;
-  -∗ᵒ-intro; -∗ᵒ-elim; ⤇ᵒ-Mono; ⤇ᵒ-mono; ⤇ᵒ-mono'; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ;
+  -∗ᵒ-intro; -∗ᵒ-elim; ⤇ᵒ-Mono; ⤇ᵒ-mono; ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ;
   ⤇ᵒ-∃₁ᵒ-out; □ᵒ-Mono; □ᵒ-mono; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup; □ᵒˡ-×ᵒ⇒∗ᵒ)
 open import Syho.Model.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_; _↪⟨_⟩ᵀ[_]ᵒ_; ○ᵒ-Mono;
   ○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-Mono; ↪⇛ᵒ-suc; ↪⇛ᵒ-eatˡ⁻ˡᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ;
@@ -179,7 +179,7 @@ abstract
 
   -- ⤇-mono :  P ⊢[ ∞ ] Q →  ⤇ P ⊢[ ∞ ] ⤇ Q
 
-  ⊢⇒⊨✓ (⤇-mono P⊢Q) _ =  ⤇ᵒ-mono' $ ⊢⇒⊨✓ P⊢Q
+  ⊢⇒⊨✓ (⤇-mono P⊢Q) _ =  ⤇ᵒ-mono✓ $ ⊢⇒⊨✓ P⊢Q
 
   -- ⤇-intro :  P ⊢[ ∞ ] ⤇ P
 

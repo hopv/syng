@@ -97,6 +97,13 @@ abstract
                 P ∗ R  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v → Qᵛ v ∗ R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
+  -- Value
+
+  -->  hor-valᵘ :  P  ⊢[ ι ]⇛  Qᵛ v  →   P  ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ]  Qᵛ
+
+  hor-val :  P  ⊢[ ι ]  Qᵛ v  →   P  ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ]  Qᵛ
+  hor-val P⊢Q =  hor-valᵘ $ ⇒⇛ {i = 0} P⊢Q
+
   -- Non-deterministic value
 
   -->  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ]⇛ Qᵛ  (↑ x)) →
@@ -113,10 +120,3 @@ abstract
              P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ wκ ]  Rᵛ
   hor-let P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
     hor-bind {ktx = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ{ (val x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }
-
-  -- Value
-
-  -->  hor-valᵘ :  P  ⊢[ ι ]⇛  Qᵛ v  →   P  ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ]  Qᵛ
-
-  hor-val :  P  ⊢[ ι ]  Qᵛ v  →   P  ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ]  Qᵛ
-  hor-val P⊢Q =  hor-valᵘ $ ⇒⇛ {i = 0} P⊢Q

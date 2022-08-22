@@ -109,6 +109,10 @@ abstract
   ↪⇛ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
     -, -ᴵ, -, (∗-assocˡ » ⇛-frameˡ P∗R∗S⊢⇛Q) , R∗IndSa
 
+  ○ᵒ⇒↪⇛ᵒ :  P ∗ R ⊢[ ∞ ][ i ]⇛ Q →  ○ᵒ R  ⊨  P ↪[ i ]⇛ᵒ Q
+  ○ᵒ⇒↪⇛ᵒ P∗R⊢⇛Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
+    -, -ᴵ, -, (∗-monoʳ S∗T⊢R » P∗R⊢⇛Q) , S∗IndTa
+
 --------------------------------------------------------------------------------
 -- ↪⟨ ⟩ᴾᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᴾ
 
@@ -146,6 +150,10 @@ abstract
   ↪⟨⟩ᴾᵒ-frameˡ :  P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Qᵛ v
   ↪⟨⟩ᴾᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, (∗-assocˡ » hor-frameˡ P∗R∗S⊢⟨e⟩Q) , R∗IndSa
+
+  ○ᵒ⇒↪⟨⟩ᴾᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩ᴾᵒ Qᵛ
+  ○ᵒ⇒↪⟨⟩ᴾᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
+    -, -ᴵ, -, (∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q) , S∗IndTa
 
 --------------------------------------------------------------------------------
 -- ↪⟨ ⟩ᵀᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᵀ
@@ -188,3 +196,7 @@ abstract
   ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Qᵛ v
   ↪⟨⟩ᵀᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, (∗-assocˡ » hor-frameˡ P∗R∗S⊢⟨e⟩Q) , R∗IndSa
+
+  ○ᵒ⇒↪⟨⟩ᵀᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ
+  ○ᵒ⇒↪⟨⟩ᵀᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
+    -, -ᴵ, -, (∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q) , S∗IndTa

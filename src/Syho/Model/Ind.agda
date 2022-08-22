@@ -33,10 +33,10 @@ private variable
   e :  Expr ∞ T
 
 --------------------------------------------------------------------------------
--- indᵒ :  Indirection base
+-- Indᵒ :  Indirection base
 
-indᵒ :  Prop' ∞ →  Propᵒ
-indᵒ P a =  ∑ i ,
+Indᵒ :  Prop' ∞ →  Propᵒ
+Indᵒ P a =  ∑ i ,
   Own (injᴳ indˣ (line-indˣ i P)) a  ⊎  Own (injᴳ ind□ (line-ind□ i P)) a
 
 --------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ indᵒ P a =  ∑ i ,
 infix 8 ○ᵒ_
 ○ᵒ_ :  Prop' ∞ →  Propᵒ
 (○ᵒ P) a =  ∑ Q , ∑ R , ∑ BasicR ,
-  R ∗ Q ⊢[ ∞ ] P  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ indᵒ Q) a
+  R ∗ Q ⊢[ ∞ ] P  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Indᵒ Q) a
 
 abstract
 
@@ -64,7 +64,7 @@ abstract
 infixr 5 _↪[_]⇛ᵒ_
 _↪[_]⇛ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ
 (P ↪[ i ]⇛ᵒ Q) a =  ∑ R , ∑ S , ∑ BasicS ,
-  P ∗ S ∗ R ⊢[ ∞ ][ i ]⇛ Q  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ indᵒ R) a
+  P ∗ S ∗ R ⊢[ ∞ ][ i ]⇛ Q  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ Indᵒ R) a
 
 abstract
 
@@ -102,7 +102,7 @@ abstract
 infixr 5 _↪⟨_⟩ᴾᵒ_
 _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ
 (P ↪⟨ e ⟩ᴾᵒ Qᵛ) a =  ∑ R , ∑ S , ∑ BasicS ,
-  P ∗ S ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ indᵒ R) a
+  P ∗ S ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ Indᵒ R) a
 
 abstract
 
@@ -138,7 +138,7 @@ abstract
 infixr 5 _↪⟨_⟩ᵀ[_]ᵒ_
 _↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Propᵒ
 (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ) a =  ∑ R , ∑ S , ∑ BasicS ,
-  P ∗ S ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ indᵒ R) a
+  P ∗ S ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ Indᵒ R) a
 
 abstract
 

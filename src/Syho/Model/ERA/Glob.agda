@@ -125,8 +125,8 @@ module _ {i : ℕ} where
     ... | no _ | E✓dj∙cj =  E✓dj∙cj
     ... | yes refl | Ei✓d˙i∙a =  Eia↝Eib (d˙ i) Ei✓d˙i∙a
 
-    updᴱᴳ-updᴳ-↝ :  (E , a) ↝ⁱ (F , b) →
-      (updᴱᴳ i E G˙ , updᴳ i a c˙) ↝ᴳ (updᴱᴳ i F G˙ , updᴳ i b c˙)
+    updᴱᴳ-updᴳ-↝ :  (E˙ i , a) ↝ⁱ (F , b) →
+      (E˙ , updᴳ i a c˙) ↝ᴳ (updᴱᴳ i F E˙ , updᴳ i b c˙)
     updᴱᴳ-updᴳ-↝ Ea↝Fb d˙ iEG✓d∙iac j  with i ≡? j | iEG✓d∙iac j
     ... | no _ | Gj✓dj∙cj =  Gj✓dj∙cj
     ... | yes refl | E✓d˙i∙a =  Ea↝Fb (d˙ i) E✓d˙i∙a
@@ -156,6 +156,6 @@ module _ {i : ℕ} where
     injᴳ-↝ :  (E˙ i , a) ↝ⁱ (E˙ i , b) →  (E˙ , injᴳ i a) ↝ᴳ (E˙ , injᴳ i b)
     injᴳ-↝ =  updᴳ-↝
 
-    updᴱᴳ-injᴳ-↝ :  (E , a) ↝ⁱ (F , b) →
-      (updᴱᴳ i E G˙ , injᴳ i a) ↝ᴳ (updᴱᴳ i F G˙ , injᴳ i b)
+    updᴱᴳ-injᴳ-↝ :  (E˙ i , a) ↝ⁱ (F , b) →
+      (E˙ , injᴳ i a) ↝ᴳ (updᴱᴳ i F E˙ , injᴳ i b)
     updᴱᴳ-injᴳ-↝ =  updᴱᴳ-updᴳ-↝

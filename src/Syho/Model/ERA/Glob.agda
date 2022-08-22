@@ -83,8 +83,8 @@ injᴳ i a =  updᴳ i a εᴳ
 module _ {i : ℕ} where
 
   open ERA (Globᴱᴿᴬ˙ i) using () renaming (Env to Envⁱ; Res to Resⁱ;
-    _≈_ to _≈ⁱ_; _✓_ to _✓ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ;
-    refl˜ to refl˜ⁱ; _↝_ to _↝ⁱ_)
+    _≈_ to _≈ⁱ_; _✓_ to _✓ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _↝_ to _↝ⁱ_;
+    refl˜ to refl˜ⁱ)
 
   private variable
     E˙ F˙ G˙ :  Envᴳ

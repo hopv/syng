@@ -18,8 +18,8 @@ open import Syho.Model.Prop using (Propᵒ; ∀₁ᵒ-syntax; ∃₁ᵒ-syntax; 
 -- ⸨ ⸩ᴮ :  Interpreting Basic propositions
 
 ⸨_⸩ᴮ :  (P : Prop' ∞) →  {{Basic P}} →  Propᵒ
-⸨ ∀₁˙ P˙ ⸩ᴮ {{∀₁-Basic IsBaP˙}} =  ∀₁ᵒ x , ⸨ P˙ x ⸩ᴮ {{IsBaP˙ x}}
-⸨ ∃₁˙ P˙ ⸩ᴮ {{∃₁-Basic IsBaP˙}} =  ∃₁ᵒ x , ⸨ P˙ x ⸩ᴮ {{IsBaP˙ x}}
+⸨ ∀₁˙ P˙ ⸩ᴮ {{∀₁-Basic BasicP˙}} =  ∀₁ᵒ x , ⸨ P˙ x ⸩ᴮ {{BasicP˙ x}}
+⸨ ∃₁˙ P˙ ⸩ᴮ {{∃₁-Basic BasicP˙}} =  ∃₁ᵒ x , ⸨ P˙ x ⸩ᴮ {{BasicP˙ x}}
 ⸨ P →' Q ⸩ᴮ {{→-Basic}} =  ⸨ P ⸩ᴮ →ᵒ ⸨ Q ⸩ᴮ
 ⸨ P ∗ Q ⸩ᴮ {{∗-Basic}} =  ⸨ P ⸩ᴮ ∗ᵒ ⸨ Q ⸩ᴮ
 ⸨ P -∗ Q ⸩ᴮ {{ -∗-Basic}} =  ⸨ P ⸩ᴮ -∗ᵒ ⸨ Q ⸩ᴮ

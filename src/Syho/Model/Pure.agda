@@ -7,37 +7,45 @@
 module Syho.Model.Pure where
 
 open import Base.Size using (Size; ∞)
-open import Base.Func using (_$_; _▷_; flip; it)
+open import Base.Func using (_$_; _›_; id)
 open import Base.Thunk using (!)
-open import Base.Few using (0₂; 1₂; binary; absurd)
-open import Base.Prod using (_,_; -,_; proj₀; proj₁)
+open import Base.Few using (⊤; 0₂; 1₂; binary; absurd)
+open import Base.Prod using (_,_; proj₀; proj₁)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _∗_; _-∗_; ⤇_;
-  □_; Saveˣ; Save□; _↦⟨_⟩_; Free; IsBasic; ∀₁-IsBasic; ∃₁-IsBasic; ∗-IsBasic;
-  □-IsBasic; Basic; isBasic; ∧-Basic)
-open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_;
-  ∀₁-intro; ∃₁-elim; ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim;
-  ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim;
-  ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-∃₁-out;
-  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out; ∧-assocˡ; ∧-monoʳ)
-open import Syho.Logic.Save using (Save□-□; Saveˣ-mono-∧; Save□-mono-∧)
-open import Syho.Model.ERA using (ERA)
-open import Syho.Model.ERA.Glob using (GlobRA)
-open import Syho.Model.Prop GlobRA using (Propᵒ; monoᵒ; congᵒ; _⊨_; _⊨'_;
-  ∀₁ᵒ-syntax; ∃₁ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; Own-⌞⌟-□)
-open ERA GlobRA using (_≈_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ≈⇒⊑; ⊑-refl; ⊑-trans;
-  ⊑-respˡ; ✓-resp; ✓-mono; ∙-congˡ; ∙-congʳ; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
-  ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-decr)
-open import Syho.Model.Save.Exc using (Saveˣᵒ)
-open import Syho.Model.Save.Pers using (Save□ᵒ; lineˢ□-⌞⌟)
-open import Syho.Model.Basic using (⸨_⸩ᴮ[_]; ⸨_⸩ᴮ; ⸨⸩ᴮ-⇒□)
+  □_; ○_; _↪[_]⇛_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦⟨_⟩_; Free; Basic; ∀₁-Basic; ∃₁-Basic;
+  →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic)
+open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim;
+  ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm;
+  ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ;
+  ⤇-∃₁-out; □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀₁-in; □-∃₁-out)
+open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-suc; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ;
+  ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛; ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾ-eatˡ⁻ʳ; ↪⟨⟩ᴾ-monoʳᵘ;
+  ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-suc; ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀ-eatˡ⁻ʳ; ↪⟨⟩ᵀ-monoʳᵘ;
+  ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
+open import Syho.Model.Prop using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀₁ᵒ-syntax;
+  ∃₁ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ⊨⇒⊨✓; ∀₁ᵒ-Mono; ∀₁ᵒ-mono; ∃₁ᵒ-Mono;
+  ∃₁ᵒ-mono; →ᵒ-Mono; →ᵒ-mono; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ;
+  ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-Mono; -∗ᵒ-mono;
+  -∗ᵒ-intro; -∗ᵒ-elim; ⤇ᵒ-Mono; ⤇ᵒ-mono; ⤇ᵒ-mono'; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ;
+  ⤇ᵒ-∃₁ᵒ-out; □ᵒ-Mono; □ᵒ-mono; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup; □ᵒˡ-×ᵒ⇒∗ᵒ)
+open import Syho.Model.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_; _↪⟨_⟩ᵀ[_]ᵒ_; ○ᵒ-Mono;
+  ○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-Mono; ↪⇛ᵒ-suc; ↪⇛ᵒ-eatˡ⁻ˡᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ;
+  ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪⟨⟩ᴾᵒ-Mono; ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ; ↪⟨⟩ᴾᵒ-monoʳᵘ;
+  ↪⟨⟩ᴾᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-Mono; ↪⟨⟩ᵀᵒ-suc; ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ;
+  ↪⟨⟩ᵀᵒ-monoʳᵘ; ↪⟨⟩ᵀᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵀᵒ)
+open import Syho.Model.Basic using (⸨_⸩ᴮ)
 
 private variable
   P Q R S T :  Prop' ∞
 
+postulate
+  falso :  ∀{ł} {A : Set ł} → A -- for now
+
 --------------------------------------------------------------------------------
 -- ⸨ ⸩ :  Interpreting propositions
 
-⸨_⸩ :  (P : Prop' ∞) →  Propᵒ
+⸨_⸩ :  Prop' ∞ →  Propᵒ
 ⸨ ∀₁˙ P˙ ⸩ =  ∀₁ᵒ x , ⸨ P˙ x ⸩
 ⸨ ∃₁˙ P˙ ⸩ =  ∃₁ᵒ x , ⸨ P˙ x ⸩
 ⸨ P →' Q ⸩ =  ⸨ P ⸩ →ᵒ ⸨ Q ⸩
@@ -45,166 +53,265 @@ private variable
 ⸨ P -∗ Q ⸩ =  ⸨ P ⸩ -∗ᵒ ⸨ Q ⸩
 ⸨ ⤇ P ⸩ =  ⤇ᵒ ⸨ P ⸩
 ⸨ □ P ⸩ =  □ᵒ ⸨ P ⸩
-⸨ Saveˣ P˂ ⸩ =  Saveˣᵒ (P˂ .!)
-⸨ Save□ P˂ ⸩ =  Save□ᵒ (P˂ .!)
-⸨ _ ↦⟨ _ ⟩ _ ⸩ =  ⊤ᵒ -- For now
-⸨ Free _ _ ⸩ =  ⊤ᵒ -- For now
+⸨ ○ P˂ ⸩ =  ○ᵒ P˂ .!
+⸨ P˂ ↪[ i ]⇛ Q˂ ⸩ =  P˂ .! ↪[ i ]⇛ᵒ Q˂ .!
+⸨ P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ ⸩ =  P˂ .! ↪⟨ e ⟩ᴾᵒ λ v → Q˂ᵛ v .!
+⸨ P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ ⸩ =  P˂ .! ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → Q˂ᵛ v .!
+⸨ _ ↦⟨ _ ⟩ _ ⸩ =  λ _ → ⊤  -- For now
+⸨ Free _ _ ⸩ =  λ _ → ⊤  -- For now
 
 abstract
 
-  -- ⸨ ⸩ᴮ[ ] / ⸨ ⸩ᴮ agrees with ⸨ ⸩
+  -- ⸨ ⸩ᴮ agrees with ⸨ ⸩
+  -- ⸨⸩-ᴮ⇒ and ⸨⸩-⇒ᴮ are mutually recursive
 
-  ⸨⸩-ᴮ'⇒ :  (IsBaP : IsBasic P) →  ⸨ P ⸩ᴮ[ IsBaP ] ⊨' ⸨ P ⸩
-  ⸨⸩-ᴮ'⇒ (∀₁-IsBasic IsBaP˙) ∀xPxa x =  ⸨⸩-ᴮ'⇒ (IsBaP˙ x) (∀xPxa x)
-  ⸨⸩-ᴮ'⇒ (∃₁-IsBasic IsBaP˙) (x , Pxa) =  x , ⸨⸩-ᴮ'⇒ (IsBaP˙ x) Pxa
-  ⸨⸩-ᴮ'⇒ (∗-IsBasic IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
-    b , c , bc≈a , ⸨⸩-ᴮ'⇒ IsBaP Pb , ⸨⸩-ᴮ'⇒ IsBaQ Qc
-  ⸨⸩-ᴮ'⇒ (□-IsBasic IsBaP) =  ⸨⸩-ᴮ'⇒ IsBaP
+  ⸨⸩-ᴮ⇒ :  {{_ : Basic P}} →  ⸨ P ⸩ᴮ ⊨ ⸨ P ⸩
+  ⸨⸩-⇒ᴮ :  {{_ : Basic P}} →  ⸨ P ⸩ ⊨ ⸨ P ⸩ᴮ
 
-  ⸨⸩-⇒ᴮ' :  (IsBaP : IsBasic P) →  ⸨ P ⸩ ⊨' ⸨ P ⸩ᴮ[ IsBaP ]
-  ⸨⸩-⇒ᴮ' (∀₁-IsBasic IsBaP˙) ∀xPxa x =  ⸨⸩-⇒ᴮ' (IsBaP˙ x) (∀xPxa x)
-  ⸨⸩-⇒ᴮ' (∃₁-IsBasic IsBaP˙) (x , Pxa) =  x , ⸨⸩-⇒ᴮ' (IsBaP˙ x) Pxa
-  ⸨⸩-⇒ᴮ' (∗-IsBasic IsBaP IsBaQ) (b , c , bc≈a , Pb , Qc) =
-    b , c , bc≈a , ⸨⸩-⇒ᴮ' IsBaP Pb , ⸨⸩-⇒ᴮ' IsBaQ Qc
-  ⸨⸩-⇒ᴮ' (□-IsBasic IsBaP) =  ⸨⸩-⇒ᴮ' IsBaP
+  ⸨⸩-ᴮ⇒ {{∀₁-Basic BasicP˙}} {a} =  ∀₁ᵒ-mono (λ x → ⸨⸩-ᴮ⇒ {{BasicP˙ x}} {a}) {a}
+  ⸨⸩-ᴮ⇒ {{∃₁-Basic BasicP˙}} {a} =  ∃₁ᵒ-mono (λ x → ⸨⸩-ᴮ⇒ {{BasicP˙ x}} {a}) {a}
+  ⸨⸩-ᴮ⇒ {{→-Basic {P} {Q}}} =  →ᵒ-mono (⸨⸩-⇒ᴮ {P}) (⸨⸩-ᴮ⇒ {Q})
+  ⸨⸩-ᴮ⇒ {{∗-Basic {P} {Q}}} =  ∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (⸨⸩-ᴮ⇒ {Q})
+  ⸨⸩-ᴮ⇒ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) (λ{a} → ⸨⸩-ᴮ⇒ {Q} {a})
+  ⸨⸩-ᴮ⇒ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-ᴮ⇒ {P})
+  ⸨⸩-ᴮ⇒ {{□-Basic {P}}} =  □ᵒ-mono (λ{a} → ⸨⸩-ᴮ⇒ {P} {a})
+  ⸨⸩-ᴮ⇒ {{↦⟨⟩-Basic}} =  _
+  ⸨⸩-ᴮ⇒ {{Free-Basic}} =  _
 
-  ⸨⸩-ᴮ⇒ :  {{_ : Basic P}} →  ⸨ P ⸩ᴮ ⊨' ⸨ P ⸩
-  ⸨⸩-ᴮ⇒ =  ⸨⸩-ᴮ'⇒ isBasic
+  ⸨⸩-⇒ᴮ {{∀₁-Basic BasicP˙}} =  ∀₁ᵒ-mono (λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a})
+  ⸨⸩-⇒ᴮ {{∃₁-Basic BasicP˙}} =  ∃₁ᵒ-mono (λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a})
+  ⸨⸩-⇒ᴮ {{→-Basic {P} {Q}}} =  →ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (⸨⸩-⇒ᴮ {Q})
+  ⸨⸩-⇒ᴮ {{∗-Basic {P} {Q}}} =  ∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) (⸨⸩-⇒ᴮ {Q})
+  ⸨⸩-⇒ᴮ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (λ{a} → ⸨⸩-⇒ᴮ {Q} {a})
+  ⸨⸩-⇒ᴮ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-⇒ᴮ {P})
+  ⸨⸩-⇒ᴮ {{□-Basic {P}}} =  □ᵒ-mono (λ{a} → ⸨⸩-⇒ᴮ {P} {a})
+  ⸨⸩-⇒ᴮ {{↦⟨⟩-Basic}} =  _
+  ⸨⸩-⇒ᴮ {{Free-Basic}} =  _
 
-  ⸨⸩-⇒ᴮ :  {{_ : Basic P}} →  ⸨ P ⸩ ⊨' ⸨ P ⸩ᴮ
-  ⸨⸩-⇒ᴮ =  ⸨⸩-⇒ᴮ' isBasic
+  --  ⸨ P ⸩ satisfies monotonicity
+
+  ⸨⸩-Mono :  Monoᵒ ⸨ P ⸩
+  ⸨⸩-Mono {∀₁˙ P˙} =  ∀₁ᵒ-Mono (λ x → ⸨⸩-Mono {P˙ x})
+  ⸨⸩-Mono {∃₁˙ P˙} =  ∃₁ᵒ-Mono (λ x → ⸨⸩-Mono {P˙ x})
+  ⸨⸩-Mono {_ →' _} =  →ᵒ-Mono
+  ⸨⸩-Mono {_ ∗ _} =  ∗ᵒ-Mono
+  ⸨⸩-Mono {_ -∗ Q} =  -∗ᵒ-Mono {Qᵒ = ⸨ Q ⸩}
+  ⸨⸩-Mono {⤇ _} =  ⤇ᵒ-Mono
+  ⸨⸩-Mono {□ P} =  □ᵒ-Mono (⸨⸩-Mono {P})
+  ⸨⸩-Mono {○ _} =  ○ᵒ-Mono
+  ⸨⸩-Mono {_ ↪[ _ ]⇛ _} =  ↪⇛ᵒ-Mono
+  ⸨⸩-Mono {_ ↪⟨ _ ⟩ᴾ _} =  ↪⟨⟩ᴾᵒ-Mono
+  ⸨⸩-Mono {_ ↪⟨ _ ⟩ᵀ[ _ ] _} =  ↪⟨⟩ᵀᵒ-Mono
+  ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  _
+  ⸨⸩-Mono {Free _ _} =  _
 
 --------------------------------------------------------------------------------
--- ⊢⇒⊨ :  Semantic soundness of the pure sequent
+-- ⊢⇒⊨✓ :  Semantic soundness of the pure sequent
 
 abstract
 
-  private
-
-    ∧⊢-chain :  S ∧ T ⊢[ ∞ ] P →  R ∧ P ⊢[ ∞ ] Q →  (R ∧ S) ∧ T ⊢[ ∞ ] Q
-    ∧⊢-chain S∧T⊢P R∧P⊢Q =  ∧-assocˡ » ∧-monoʳ S∧T⊢P » R∧P⊢Q
-
-  ⊢⇒⊨ :  P ⊢[ ∞ ] Q →  ⸨ P ⸩ ⊨ ⸨ Q ⸩
+  ⊢⇒⊨✓ :  P ⊢[ ∞ ] Q →  ⸨ P ⸩ ⊨✓ ⸨ Q ⸩
 
   -- ⊢-refl :  P ⊢[ ∞ ] P
-  ⊢⇒⊨ ⊢-refl _ Pa =  Pa
+
+  ⊢⇒⊨✓ ⊢-refl _ =  id
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ] R →  P ⊢[ ∞ ] R
-  ⊢⇒⊨ (P⊢Q » Q⊢R) ✓a Pa =  Pa ▷ ⊢⇒⊨ P⊢Q ✓a ▷ ⊢⇒⊨ Q⊢R ✓a
+
+  ⊢⇒⊨✓ (P⊢Q » Q⊢R) E✓a =  ⊢⇒⊨✓ P⊢Q E✓a › ⊢⇒⊨✓ Q⊢R E✓a
 
   -- ∀₁-intro :  (∀₁ x → P ⊢[ ∞ ] Q˙ x) →  P ⊢[ ∞ ] ∀₁˙ Q˙
-  ⊢⇒⊨ (∀₁-intro ∀xP⊢Qx) ✓a Pa x =  ⊢⇒⊨ (∀xP⊢Qx x) ✓a Pa
+
+  ⊢⇒⊨✓ (∀₁-intro ∀xP⊢Qx) E✓a Pa x =  ⊢⇒⊨✓ (∀xP⊢Qx x) E✓a Pa
 
   -- ∃₁-elim :  (∀₁ x → P˙ x ⊢[ ∞ ] Q) →  ∃₁˙ P˙ ⊢[ ∞ ] Q
-  ⊢⇒⊨ (∃₁-elim ∀xPx⊢Q) ✓a (x , Pxa) =  ⊢⇒⊨ (∀xPx⊢Q x) ✓a Pxa
+
+  ⊢⇒⊨✓ (∃₁-elim ∀xPx⊢Q) E✓a (x , Pxa) =  ⊢⇒⊨✓ (∀xPx⊢Q x) E✓a Pxa
 
   -- ∀₁-elim :  ∀ x →  ∀₁˙ P˙ ⊢[ ∞ ] P˙ x
-  ⊢⇒⊨ (∀₁-elim _) _ ∀Pa =  ∀Pa _
+
+  ⊢⇒⊨✓ (∀₁-elim x) _ ∀Pa =  ∀Pa x
 
   -- ∃₁-intro :  ∀ x →  P˙ x ⊢[ ∞ ] ∃₁˙ P˙
-  ⊢⇒⊨ (∃₁-intro _) _ Px =  -, Px
+
+  ⊢⇒⊨✓ (∃₁-intro x) _ Px =  x , Px
 
   -- choice₁ :  ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ∞ ] ∃₁ y˙ , ∀₁ x , P˙˙ x (y˙ x)
+
   -- It can be proved axiom-free thanks to the logic's predicativity
-  ⊢⇒⊨ choice₁ _ ∀x∃₁yPxy .proj₀ x =  ∀x∃₁yPxy x .proj₀
-  ⊢⇒⊨ choice₁ _ ∀x∃₁yPxy .proj₁ x =  ∀x∃₁yPxy x .proj₁
+
+  ⊢⇒⊨✓ choice₁ _ ∀x∃₁yPxy .proj₀ x =  ∀x∃₁yPxy x .proj₀
+  ⊢⇒⊨✓ choice₁ _ ∀x∃₁yPxy .proj₁ x =  ∀x∃₁yPxy x .proj₁
 
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
-  ⊢⇒⊨ (→-intro {Q = Q} P∧Q⊢R) _ Qa a⊑b ✓b Pb =
-    ⊢⇒⊨ P∧Q⊢R ✓b $ binary Pb $ ⸨ Q ⸩ .monoᵒ a⊑b Qa
+
+  ⊢⇒⊨✓ (→-intro {Q = Q} P∧Q⊢R) _ =
+    →ᵒ-intro (⸨⸩-Mono {Q}) (λ E✓a (Pa , Qa) → ⊢⇒⊨✓ P∧Q⊢R E✓a $ binary Pa Qa)
 
   -- →-elim :  Q ⊢[ ∞ ] P →' R →  P ∧ Q ⊢[ ∞ ] R
-  ⊢⇒⊨ (→-elim Q⊢P→R) ✓a P∧Qa =  ⊢⇒⊨ Q⊢P→R ✓a (P∧Qa 1₂) ⊑-refl ✓a (P∧Qa 0₂)
+
+  ⊢⇒⊨✓ (→-elim Q⊢P→R) E✓a P∧Qa =  →ᵒ-elim (⊢⇒⊨✓ Q⊢P→R) E✓a (P∧Qa 0₂ , P∧Qa 1₂)
 
   -- ⊤∗-elim :  ⊤' ∗ P ⊢[ ∞ ] P
-  ⊢⇒⊨ (⊤∗-elim {P}) _ (-, -, b∙c⊑a , -, Pc) =
-    ⸨ P ⸩ .monoᵒ (⊑-trans ∙-incrˡ b∙c⊑a) Pc
+
+  ⊢⇒⊨✓ (⊤∗-elim {P}) _ =  ∗ᵒ-elimʳ $ ⸨⸩-Mono {P}
 
   -- ⊤∗-intro :  P ⊢[ ∞ ] ⊤' ∗ P
-  ⊢⇒⊨ ⊤∗-intro _ Pa =  ε , -, ≈⇒⊑ ∙-unitˡ , absurd , Pa
+
+  ⊢⇒⊨✓ ⊤∗-intro _ =  ?∗ᵒ-intro absurd
 
   -- ∗-comm :  P ∗ Q ⊢[ ∞ ] Q ∗ P
-  ⊢⇒⊨ ∗-comm _ (b , c , b∙c⊑a , Pb , Qc) =
-    c , b , ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
+
+  ⊢⇒⊨✓ ∗-comm _ =  ∗ᵒ-comm
 
   -- ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ∞ ] P ∗ (Q ∗ R)
-  ⊢⇒⊨ ∗-assocˡ _ (e , d , e∙d⊑a , (b , c , b∙c⊑e , Pb , Qc) , Rd) =
-    b , c ∙ d , ⊑-respˡ ∙-assocˡ (⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a) ,
-    Pb , c , d , ⊑-refl , Qc , Rd
+
+  ⊢⇒⊨✓ ∗-assocˡ _ =  ∗ᵒ-assocˡ
 
   -- ∗-monoˡ :  P ⊢[ ∞ ] Q →  P ∗ R ⊢[ ∞ ] Q ∗ R
-  ⊢⇒⊨ (∗-monoˡ P⊢Q) ✓a (b , c , b∙c⊑a , Pb , Rc) =
-    b , c , b∙c⊑a , ⊢⇒⊨ P⊢Q (✓-mono (⊑-trans ∙-incrʳ b∙c⊑a) ✓a) Pb , Rc
+
+  ⊢⇒⊨✓ (∗-monoˡ P⊢Q) =  ∗ᵒ-mono✓ˡ (⊢⇒⊨✓ P⊢Q)
 
   -- -∗-intro :  P ∗ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P -∗ R
-  ⊢⇒⊨ (-∗-intro {Q = Q} P∗Q⊢R) _ Qa a⊑b ✓c∙b Pc =  ⊢⇒⊨ P∗Q⊢R ✓c∙b $
-    -, -, ⊑-refl , Pc , ⸨ Q ⸩ .monoᵒ a⊑b Qa
+
+  ⊢⇒⊨✓ (-∗-intro P∗Q⊢R) _ =  -∗ᵒ-intro $ ⊢⇒⊨✓ P∗Q⊢R
 
   -- -∗-elim :  Q ⊢[ ∞ ] P -∗ R →  P ∗ Q ⊢[ ∞ ] R
-  ⊢⇒⊨ (-∗-elim {R = R} Q⊢P-∗R) ✓a (b , c , b∙c⊑a , Pb , Qc) =
-    ⸨ R ⸩ .monoᵒ b∙c⊑a $ ⊢⇒⊨ Q⊢P-∗R (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) ✓a)
-      Qc ⊑-refl (✓-mono b∙c⊑a ✓a) Pb
+
+  ⊢⇒⊨✓ (-∗-elim {R = R} Q⊢P-∗R) =  -∗ᵒ-elim (⸨⸩-Mono {R}) $ ⊢⇒⊨✓ Q⊢P-∗R
 
   -- ⤇-mono :  P ⊢[ ∞ ] Q →  ⤇ P ⊢[ ∞ ] ⤇ Q
-  ⊢⇒⊨ (⤇-mono P⊢Q) _ ⤇Pa c ✓c∙a  with ⤇Pa c ✓c∙a
-  ... | b , ✓c∙b , Pb =  b , ✓c∙b , ⊢⇒⊨ P⊢Q (✓-mono ∙-incrˡ ✓c∙b) Pb
+
+  ⊢⇒⊨✓ (⤇-mono P⊢Q) _ =  ⤇ᵒ-mono' $ ⊢⇒⊨✓ P⊢Q
 
   -- ⤇-intro :  P ⊢[ ∞ ] ⤇ P
-  ⊢⇒⊨ ⤇-intro _ Pa c ✓c∙a =  -, ✓c∙a , Pa
+
+  ⊢⇒⊨✓ ⤇-intro _ =  ⤇ᵒ-intro
 
   -- ⤇-join :  ⤇ ⤇ P ⊢[ ∞ ] ⤇ P
-  ⊢⇒⊨ ⤇-join _ ⤇⤇Pa d ✓d∙a  with ⤇⤇Pa d ✓d∙a
-  ... | b , ✓d∙b , ⤇Pb  with ⤇Pb d ✓d∙b
-  ...   | c , ✓d∙c , Pc =  c , ✓d∙c , Pc
+
+  ⊢⇒⊨✓ ⤇-join _ =  ⤇ᵒ-join
 
   -- ⤇-eatˡ :  P ∗ ⤇ Q ⊢[ ∞ ] ⤇ (P ∗ Q)
-  ⊢⇒⊨ ⤇-eatˡ _ (b , c , b∙c⊑a , Pb , ⤇Qc) e ✓e∙a
-    with ⤇Qc (e ∙ b) $ flip ✓-mono ✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
-  ... | d , ✓eb∙d , Qd =
-    b ∙ d , ✓-resp ∙-assocˡ ✓eb∙d , b , d , ⊑-refl , Pb , Qd
+
+  ⊢⇒⊨✓ ⤇-eatˡ _ =  ⤇ᵒ-eatˡ
 
   -- ⤇-∃₁-out :  ⤇ (∃₁ _ ∈ X , P) ⊢[ ∞ ] ∃₁ _ ∈ X , ⤇ P
-  ⊢⇒⊨ ⤇-∃₁-out ✓a ⤇∃₁AP .proj₀ =
-    let -, -, x , _ = ⤇∃₁AP ε $ ✓-resp (◠˜ ∙-unitˡ) ✓a in  x
-  ⊢⇒⊨ ⤇-∃₁-out _ ⤇∃₁AP .proj₁ c ✓c∙a =
-    let b , ✓c∙b , -, Pb = ⤇∃₁AP c ✓c∙a in  b , ✓c∙b , Pb
+
+  ⊢⇒⊨✓ ⤇-∃₁-out =  ⤇ᵒ-∃₁ᵒ-out
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
-  ⊢⇒⊨ (□-mono P⊢Q) ✓a P⌞a⌟ =  ⊢⇒⊨ P⊢Q (✓-mono ⌞⌟-decr ✓a) P⌞a⌟
+
+  ⊢⇒⊨✓ (□-mono P⊢Q) =  □ᵒ-mono✓ $ ⊢⇒⊨✓ P⊢Q
 
   -- □-elim :  □ P ⊢[ ∞ ] P
-  ⊢⇒⊨ (□-elim {P}) _ P⌞a⌟ =  ⸨ P ⸩ .monoᵒ ⌞⌟-decr P⌞a⌟
+
+  ⊢⇒⊨✓ (□-elim {P}) _ =  □ᵒ-elim $ ⸨⸩-Mono {P}
 
   -- □-dup :  □ P ⊢[ ∞ ] □ □ P
-  ⊢⇒⊨ (□-dup {P}) _ P⌞a⌟ =  congᵒ ⸨ P ⸩ (◠˜ ⌞⌟-idem) P⌞a⌟
+
+  ⊢⇒⊨✓ (□-dup {P}) _ =   □ᵒ-dup $ ⸨⸩-Mono {P}
 
   -- □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ∞ ] □ P ∗ Q
-  ⊢⇒⊨ (□ˡ-∧⇒∗ {P}) {a} _ P⌞a⌟∧Qa =  ⌞ a ⌟ , a , ≈⇒⊑ ⌞⌟-unitˡ ,
-    congᵒ ⸨ P ⸩ (◠˜ ⌞⌟-idem) (P⌞a⌟∧Qa 0₂) , P⌞a⌟∧Qa 1₂
+
+  ⊢⇒⊨✓ (□ˡ-∧⇒∗ {P}) _ □P∧Qa =
+    □ᵒˡ-×ᵒ⇒∗ᵒ (⸨⸩-Mono {P}) (□P∧Qa 0₂ , □P∧Qa 1₂)
 
   -- □-∀₁-in :  ∀₁˙ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀₁˙ P˙
-  ⊢⇒⊨ □-∀₁-in _ ∀xPx⌞a⌟ =  ∀xPx⌞a⌟
+
+  ⊢⇒⊨✓ □-∀₁-in _ =  id
 
   -- □-∃₁-out :  □ ∃₁˙ P˙ ⊢[ ∞ ] ∃₁˙ (□_ ∘ P˙)
-  ⊢⇒⊨ □-∃₁-out _ ∑xPx⌞a⌟ =  ∑xPx⌞a⌟
 
-  -- Save□-□ :  Save□ P˂ ⊢[ ∞ ] □ Save□ P˂
-  ⊢⇒⊨ Save□-□ _ (-, -, BaQ , -, Q∧P'⊢P , Qa , line□iP'a) =
-    let instance _ = BaQ in
-    -, -, -, -, Q∧P'⊢P , ⸨⸩ᴮ-⇒□ Qa , Own-⌞⌟-□ lineˢ□-⌞⌟ line□iP'a
+  ⊢⇒⊨✓ □-∃₁-out _ =  id
 
-  -- Saveˣ-mono-∧ :  {{Basic R}} →
-  --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Saveˣ P˂ ⊢[ ∞ ] Saveˣ Q˂
-  ⊢⇒⊨ (Saveˣ-mono-∧ R∧P⊢<Q) _ R∧SaveˣP˂a =
-    let T , S , BaS , -, S∧T⊢P , Sa , lineˢˣTa = R∧SaveˣP˂a 1₂ in
-    let instance _ = BaS in
-    T , _ ∧ S , it , -, ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
-    ⸨⸩-⇒ᴮ (binary (R∧SaveˣP˂a 0₂) $ ⸨⸩-ᴮ⇒ Sa) , lineˢˣTa
+  -- ○-mono :  P˂ .! ⊢[< ι ] Q˂ .! →  ○ P˂ ⊢[ ι ] ○ Q˂
 
-  -- Save□-mono-∧ :  {{Basic R}} →
-  --   R ∧ P˂ .! ⊢[< ∞ ] Q˂ .! →  R ∧ Save□ P˂ ⊢[ ∞ ] Save□ Q˂
-  ⊢⇒⊨ (Save□-mono-∧ R∧P⊢<Q) _ R∧Save□P˂a =
-    let T , S , BaS , -, S∧T⊢P , Sa , lineˢ□Ta = R∧Save□P˂a 1₂ in
-    let instance _ = BaS in
-    T , _ ∧ S , it , -, ∧⊢-chain S∧T⊢P (R∧P⊢<Q .!) ,
-    ⸨⸩-⇒ᴮ (binary (R∧Save□P˂a 0₂) $ ⸨⸩-ᴮ⇒ Sa) , lineˢ□Ta
+  ⊢⇒⊨✓ (○-mono P⊢Q) _ =  ○ᵒ-mono $ P⊢Q .!
+
+  -- ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ (Q ∗ P˂ .!)
+
+  ⊢⇒⊨✓ (○-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › ○ᵒ-eatˡ
+
+  -- ↪⇛-suc :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]⇛ Q˂
+  ⊢⇒⊨✓ ↪⇛-suc _ =  ↪⇛ᵒ-suc
+
+  -- ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .! →
+  --               R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
+
+  ⊢⇒⊨✓ (↪⇛-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
+
+  -- ↪⇛-eatˡ⁻ʳ :  {{Basic R}} →
+  --   R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+
+  ⊢⇒⊨✓ (↪⇛-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ʳ
+
+  -- ↪⇛-monoʳᵘ :  Q˂ .! ⊢[< ι ][ i ]⇛ Q'˂ .! →
+  --              P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
+
+  ⊢⇒⊨✓ (↪⇛-monoʳᵘ Q⊢⇛Q') _ =  ↪⇛ᵒ-monoʳᵘ $ Q⊢⇛Q' .!
+
+  -- ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+
+  ⊢⇒⊨✓ ↪⇛-frameˡ _ =  ↪⇛ᵒ-frameˡ
+
+  -- ○⇒↪⇛ :  P˂ .! ∗ R˂ .! ⊢[< ι ][ i ]⇛ Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
+
+  ⊢⇒⊨✓ (○⇒↪⇛ P∗R⊢⇛Q) _ =  ○ᵒ⇒↪⇛ᵒ $ P∗R⊢⇛Q .!
+
+  -- ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .!) →
+  --                 R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+
+  ⊢⇒⊨✓ (↪⟨⟩ᴾ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
+
+  -- ↪⟨⟩ᴾ-eatˡ⁻ʳ :  {{Basic R}} →
+  --   R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂ᵛ v .!)
+
+  ⊢⇒⊨✓ (↪⟨⟩ᴾ-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ
+
+  -- ↪⟨⟩ᴾ-monoʳᵘ :  (∀ v →  Q˂ᵛ v .! ⊢[< ι ][ i ]⇛ Q'˂ᵛ v .!) →
+  --                P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂ᵛ
+
+  ⊢⇒⊨✓ (↪⟨⟩ᴾ-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᴾᵒ-monoʳᵘ $ λ v → ∀vQ⊢⇛Q' v .!
+
+  -- ↪⟨⟩ᴾ-frameˡ :  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ  ⊢[ ι ]
+  --                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂ᵛ v .!)
+
+  ⊢⇒⊨✓ ↪⟨⟩ᴾ-frameˡ _ =  ↪⟨⟩ᴾᵒ-frameˡ
+
+  -- ○⇒↪⟨⟩ᴾ :  P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂ᵛ v .!) →
+  --           ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+
+  ⊢⇒⊨✓ (○⇒↪⟨⟩ᴾ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᴾᵒ $ P∗R⊢⟨e⟩Q .!
+
+  -- ↪⟨⟩ᵀ-suc :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
+
+  ⊢⇒⊨✓ ↪⟨⟩ᵀ-suc _ =  ↪⟨⟩ᵀᵒ-suc
+
+  -- ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ j ]⇛ P˂ .!) →
+  --                 R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+
+  ⊢⇒⊨✓ (↪⟨⟩ᵀ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
+
+  -- ↪⟨⟩ᵀ-eatˡ⁻ʳ :  {{Basic R}} →
+  --   R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂ᵛ v .!)
+
+  ⊢⇒⊨✓ (↪⟨⟩ᵀ-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ
+
+  -- ↪⟨⟩ᵀ-monoʳᵘ :  (∀ v →  Q˂ᵛ v .! ⊢[< ι ][ j ]⇛ Q'˂ᵛ v .!) →
+  --                P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂ᵛ
+
+  ⊢⇒⊨✓ (↪⟨⟩ᵀ-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᵀᵒ-monoʳᵘ $ λ v → ∀vQ⊢⇛Q' v .!
+
+  -- ↪⟨⟩ᵀ-frameˡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]
+  --                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂ᵛ v .!)
+
+  ⊢⇒⊨✓ ↪⟨⟩ᵀ-frameˡ _ =  ↪⟨⟩ᵀᵒ-frameˡ
+
+  -- ○⇒↪⟨⟩ᵀ :  P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂ᵛ v .!) →
+  --           ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+
+  ⊢⇒⊨✓ (○⇒↪⟨⟩ᵀ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᵀᵒ $ P∗R⊢⟨e⟩Q .!

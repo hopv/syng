@@ -50,8 +50,8 @@ infix 8 ○ᵒ_
 abstract
 
   ○ᵒ-mono :  P ⊢[ ∞ ] Q →  ○ᵒ P ⊨ ○ᵒ Q
-  ○ᵒ-mono P⊢Q (-, -, BasicS , S∗R⊢P , S∗IndRc) =
-    -, -, BasicS , (S∗R⊢P » P⊢Q) , S∗IndRc
+  ○ᵒ-mono P⊢Q (-, -, BasicS , S∗R⊢P , S∗IndRa) =
+    -, -, BasicS , (S∗R⊢P » P⊢Q) , S∗IndRa
 
   ○ᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ ∗ᵒ ○ᵒ P ⊨ ○ᵒ (Q ∗ P)
   ○ᵒ-eatˡ (-, b∙c⊑a , Qb , -, -, BasicS , S∗R⊢P , S∗IndRc) =
@@ -89,8 +89,8 @@ abstract
     ∗ᵒ-assocʳ (-, b∙c⊑a , Rb , T∗IndSc)
 
   ↪⇛ᵒ-monoʳᵘ :  Q ⊢[ ∞ ][ i ]⇛ Q' →  P ↪[ i ]⇛ᵒ Q  ⊨  P ↪[ i ]⇛ᵒ Q'
-  ↪⇛ᵒ-monoʳᵘ Q⊢⇛Q' (-, -, BasicS , P∗S∗R⊢⇛Q , S∗IndRc) =
-    -, -, BasicS , (P∗S∗R⊢⇛Q ᵘ»ᵘ Q⊢⇛Q') , S∗IndRc
+  ↪⇛ᵒ-monoʳᵘ Q⊢⇛Q' (-, -, BasicS , P∗S∗R⊢⇛Q , S∗IndRa) =
+    -, -, BasicS , (P∗S∗R⊢⇛Q ᵘ»ᵘ Q⊢⇛Q') , S∗IndRa
 
   ↪⇛ᵒ-frameˡ :  P ↪[ i ]⇛ᵒ Q  ⊨  R ∗ P ↪[ i ]⇛ᵒ R ∗ Q
   ↪⇛ᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢[i]⇛Q , S∗Ra) =
@@ -125,8 +125,8 @@ abstract
 
   ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Qᵛ v ⊢[ ∞ ][ i ]⇛ Q'ᵛ v) →
                   P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
-  ↪⟨⟩ᴾᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -, BasicR , P∗S∗R⊢⟨e⟩Q , S∗IndRc) =
-    -, -, BasicR , (P∗S∗R⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q') , S∗IndRc
+  ↪⟨⟩ᴾᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -, BasicR , P∗S∗R⊢⟨e⟩Q , S∗IndRa) =
+    -, -, BasicR , (P∗S∗R⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q') , S∗IndRa
 
   ↪⟨⟩ᴾᵒ-frameˡ :  P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Qᵛ v
   ↪⟨⟩ᴾᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗Ra) =
@@ -165,8 +165,8 @@ abstract
 
   ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Qᵛ v ⊢[ ∞ ][ j ]⇛ Q'ᵛ v) →
                   P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'ᵛ
-  ↪⟨⟩ᵀᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -, BasicR , P∗S∗R⊢⟨e⟩Q , S∗IndRc) =
-    -, -, BasicR , (P∗S∗R⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q') , S∗IndRc
+  ↪⟨⟩ᵀᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -, BasicR , P∗S∗R⊢⟨e⟩Q , S∗IndRa) =
+    -, -, BasicR , (P∗S∗R⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q') , S∗IndRa
 
   ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Qᵛ v
   ↪⟨⟩ᵀᵒ-frameˡ (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗Ra) =

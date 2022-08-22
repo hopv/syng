@@ -11,16 +11,15 @@ open import Base.Func using (_$_; _›_; _∘_; flip)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
-open ERA Globᴱᴿᴬ renaming (Res to Glob) using (_⊑_; _✓_; _∙_; ε; ⌞_⌟; ◠˜_;
-  ⊑-respˡ; ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ;
-  ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem;
-  ⌞⌟-unitˡ)
+open ERA Globᴱᴿᴬ using (Res; _⊑_; _✓_; _∙_; ε; ⌞_⌟; ◠˜_; ⊑-respˡ; ⊑-refl;
+  ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm; ∙-assocˡ;
+  ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem; ⌞⌟-unitˡ)
 
 --------------------------------------------------------------------------------
 -- Propᵒ :  Semantic proposition
 
 Propᵒ :  Set₃
-Propᵒ =  Glob →  Set₂
+Propᵒ =  Res →  Set₂
 
 -- Monoᵒ Pᵒ :  Pᵒ is monotone over the resource
 
@@ -31,7 +30,7 @@ private variable
   Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ
   X₁ :  Set₁
   Pᵒ˙ Qᵒ˙ :  X₁ →  Propᵒ
-  a :  Glob
+  a :  Res
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment, with or without a validity input
@@ -248,7 +247,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Own :  Own a resource
 
-Own :  Glob →  Propᵒ
+Own :  Res →  Propᵒ
 Own a b =  a ⊑ b
 
 abstract

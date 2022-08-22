@@ -149,6 +149,13 @@ abstract
   -∗ᵒ-Mono :  Monoᵒ (Pᵒ -∗ᵒ Qᵒ)
   -∗ᵒ-Mono a⊑a' P-∗Qa a'⊑b E✓c∙b Pc =  P-∗Qa (⊑-trans a⊑a' a'⊑b) E✓c∙b Pc
 
+  -∗ᵒ-intro :  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
+  -∗ᵒ-intro P∗Q⊨✓R Qa a⊑b E✓c∙b Pc =  P∗Q⊨✓R E✓c∙b $ -, ∙-monoʳ a⊑b , Pc , Qa
+
+  -∗ᵒ-elim :  Monoᵒ Rᵒ →  Qᵒ ⊨✓ Pᵒ -∗ᵒ Rᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ
+  -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $
+    Q⊨✓P-∗R (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) E✓a) Qc ⊑-refl (✓-mono b∙c⊑a E✓a) Pb
+
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Update modality
 

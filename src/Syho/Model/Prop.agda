@@ -7,7 +7,7 @@
 module Syho.Model.Prop where
 
 open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
-open import Base.Func using (_$_; _▷_; flip)
+open import Base.Func using (_$_; _›_; flip)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
@@ -93,10 +93,10 @@ abstract
   ∗ᵒ-comm (-, b∙c⊑a , Pb , Qc) =  -, ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
 
   ∗ᵒ-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ ∗ᵒ Pᵒ ⊨ Rᵒ ∗ᵒ Qᵒ
-  ∗ᵒ-monoʳ P⊨Q proof =  proof ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ P⊨Q ▷ ∗ᵒ-comm
+  ∗ᵒ-monoʳ P⊨Q =  ∗ᵒ-comm › ∗ᵒ-monoˡ P⊨Q › ∗ᵒ-comm
 
   ∗ᵒ-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Sᵒ
-  ∗ᵒ-mono P⊨Q R⊨S proof =  proof ▷ ∗ᵒ-monoˡ P⊨Q ▷ ∗ᵒ-monoʳ R⊨S
+  ∗ᵒ-mono P⊨Q R⊨S =  ∗ᵒ-monoˡ P⊨Q › ∗ᵒ-monoʳ R⊨S
 
   ∗ᵒ-assocˡ :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ)
   ∗ᵒ-assocˡ (-, e∙d⊑a , (-, b∙c⊑e , Pb , Qc) , Rd) =
@@ -104,8 +104,8 @@ abstract
     -, ⊑-refl , Qc , Rd
 
   ∗ᵒ-assocʳ :  Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ
-  ∗ᵒ-assocʳ proof =  proof ▷
-    ∗ᵒ-comm ▷ ∗ᵒ-monoˡ ∗ᵒ-comm ▷ ∗ᵒ-assocˡ ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ ∗ᵒ-comm
+  ∗ᵒ-assocʳ =
+    ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm
 
   ∗ᵒ-elimʳ :  Monoᵒ Pᵒ →  Qᵒ ∗ᵒ Pᵒ ⊨ Pᵒ
   ∗ᵒ-elimʳ MonoP (-, b∙c⊑a , -, Pc) =  MonoP (⊑-trans ∙-incrˡ b∙c⊑a) Pc

@@ -400,13 +400,13 @@ data  _⊢[_]*_  where
   _ᵘ»ʰ_ :  P  ⊢[ ι ][ i ]⇛  Q  →   Q  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Rᵛ  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Rᵛ
 
-  _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →   (∀ v →  Qᵛ v  ⊢[ ι ][ i ]⇛  Rᵛ v) →
+  _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →   (∀ v →  Qᵛ v  ⊢[ ι ][ i ]⇛  Rᵛ v)  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Rᵛ
 
   -- Frame
 
   hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →
-                R ∗ P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v → R ∗ Qᵛ v
+                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v →  R  ∗  Qᵛ v
 
   -- Bind by a context
 
@@ -420,7 +420,7 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
 
-  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ][ i ]⇛  Qᵛ (val x)) →
+  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ][ i ]⇛  Qᵛ (val x))  →
              P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
 
   -- ▶, for partial and total Hoare triples
@@ -449,8 +449,8 @@ data  _⊢[_]*_  where
   -- Memory allocation
 
   hor-alloc :
-    (∀ θ →
-      θ ↦ˡ rep n ⊤-val  ∗  Free n θ  ∗  P  ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ]  Qᵛ) →
+    (∀ θ →  θ ↦ˡ rep n ⊤-val  ∗  Free n θ  ∗  P
+              ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ]  Qᵛ)  →
     P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wκ ]  Qᵛ
 
   -- Memory freeing

@@ -53,7 +53,7 @@ abstract
   -->  horᴾ-▶ :  P  ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ  Qᵛ  →
   -->            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ  Qᵛ
 
-  -->  horᵀ-▶ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ[ i ] Qᵛ  →
+  -->  horᵀ-▶ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ[ i ]  Qᵛ  →
   -->            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ[ i ]  Qᵛ
 
   -->  hor-◁ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ]  Qᵛ  →
@@ -67,7 +67,7 @@ abstract
 
   -->  hor-alloc :
   -->    (∀ θ →  θ ↦ˡ rep n ⊤-val  ∗  Free n θ  ∗  P
-  -->              ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ]  Qᵛ) →
+  -->              ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ]  Qᵛ)  →
   -->    P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wκ ]  Qᵛ
 
   -->  hor-free :
@@ -81,20 +81,20 @@ abstract
   -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Rᵛ
 
   -->  _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →
-  -->           (∀ v →  Qᵛ v  ⊢[ ι ][ i ]⇛  Rᵛ v) →
+  -->           (∀ v →  Qᵛ v  ⊢[ ι ][ i ]⇛  Rᵛ v)  →
   -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Rᵛ
 
-  _ʰ»_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →   (∀ v →  Qᵛ v  ⊢[ ι ]  Rᵛ v) →
+  _ʰ»_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →   (∀ v →  Qᵛ v  ⊢[ ι ]  Rᵛ v)  →
           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Rᵛ
   P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒⇛ {i = 0} $ ∀vQ⊢R _
 
   -- Frame
 
   -->  hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →
-  -->                R ∗ P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v →  R ∗ Qᵛ v
+  -->                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v →  R  ∗  Qᵛ v
 
   hor-frameʳ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Qᵛ  →
-                P ∗ R  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v → Qᵛ v ∗ R
+                P  ∗  R  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v →  Qᵛ v  ∗  R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
   -- Value
@@ -106,11 +106,11 @@ abstract
 
   -- Non-deterministic value
 
-  -->  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ]⇛ Qᵛ  (↑ x)) →
+  -->  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ]⇛  Qᵛ (↑ x))  →
   -->             P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
 
-  hor-nd :  (∀ x →  P ⊢[ ι ] Qᵛ (val x)) →
-            P ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ] Qᵛ
+  hor-nd :  (∀ x →  P  ⊢[ ι ]  Qᵛ (val x))  →
+            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
   hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⇒⇛ {i = 0} $ ∀xP⊢Q _
 
   -- Let binding

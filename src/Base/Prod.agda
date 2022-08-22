@@ -51,3 +51,20 @@ instance
 
   ,-it :  {{A}} →  {{B}} →  A × B
   ,-it =  it , it
+
+--------------------------------------------------------------------------------
+-- ∑ᴵ :  Dependent sum with an instance
+
+infix -1 -ᴵ,_
+data  ∑ᴵ˙ (A : Set ł) (B˙ : A → Set ł') :  Set (ł ⊔ᴸ ł')  where
+  -ᴵ,_ :  ∀{{a : A}} →  B˙ a →  ∑ᴵ˙ A B˙
+
+infixr -1 _ᴵ,_
+pattern _ᴵ,_ a b =  -ᴵ,_ {{a}} b
+
+∑ᴵ∈-syntax ∑ᴵ-syntax :  ∀{A : Set ł} →  (B : A → Set ł') →  Set (ł ⊔ᴸ ł')
+∑ᴵ∈-syntax =  ∑ᴵ˙ _
+∑ᴵ-syntax =  ∑ᴵ˙ _
+infix -1 ∑ᴵ∈-syntax ∑ᴵ-syntax
+syntax ∑ᴵ∈-syntax {A = A} (λ a → B) =  ∑ᴵ a ∈ A , B
+syntax ∑ᴵ-syntax (λ a → B) =  ∑ᴵ a , B

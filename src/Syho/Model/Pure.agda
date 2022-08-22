@@ -39,9 +39,6 @@ open import Syho.Model.Basic using (⸨_⸩ᴮ)
 private variable
   P Q R S T :  Prop' ∞
 
-postulate
-  falso :  ∀{ł} {A : Set ł} → A -- for now
-
 --------------------------------------------------------------------------------
 -- ⸨ ⸩ :  Interpreting propositions
 

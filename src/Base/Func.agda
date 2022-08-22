@@ -30,6 +30,13 @@ _∘_ :  ∀ {G : ∀ a → F a → Set ł} →
   (∀ {a} b → G a b) →  (f : ∀ a → F a) →  (a : A) →  G a (f a)
 (g ∘ f) a =  g (f a)
 
+-- Flipped composition
+
+infixr -1 _›_
+_›_ :  ∀ {G : ∀ a → F a → Set ł} →
+  (f : ∀ a → F a) →  (∀ {a} b → G a b) →  (a : A) →  G a (f a)
+(f › g) a =  g (f a)
+
 -- Function application
 
 infixr -1 _$_

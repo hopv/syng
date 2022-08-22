@@ -48,8 +48,7 @@ abstract
 --------------------------------------------------------------------------------
 -- ∀₁ᵒ, ∃₁ᵒ :  Universal/existential quantification
 
-∀₁ᵒ˙ ∃₁ᵒ˙ ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax :
-  (X₁ → Propᵒ) →  Propᵒ
+∀₁ᵒ˙ ∃₁ᵒ˙ ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax :  (X₁ → Propᵒ) →  Propᵒ
 ∀₁ᵒ˙ Pᵒ˙ a =  ∀ x →  Pᵒ˙ x a
 ∃₁ᵒ˙ Pᵒ˙ a =  ∑ x ,  Pᵒ˙ x a
 ∀₁ᵒ∈-syntax =  ∀₁ᵒ˙

@@ -7,9 +7,9 @@
 module Syho.Model.Ind where
 
 open import Base.Size using (∞)
-open import Base.Func using (it)
+open import Base.Func using (_$_; it)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
-open import Base.Sum using (_⊎_)
+open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ; suc)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; _∗_; Basic)
@@ -22,7 +22,8 @@ open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
-open import Syho.Model.Prop using (Propᵒ; _⊨_; _∗ᵒ_; Own; ∗ᵒ-assocʳ)
+open import Syho.Model.Prop using (Propᵒ; Monoᵒ; _⊨_; _∗ᵒ_; Own; ∗ᵒ-Mono;
+  ∗ᵒ-assocʳ; Own-Mono)
 open import Syho.Model.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -39,6 +40,12 @@ Indᵒ :  Prop' ∞ →  Propᵒ
 Indᵒ P a =  ∑ i ,
   Own (injᴳ indˣ (line-indˣ i P)) a  ⊎  Own (injᴳ ind□ (line-ind□ i P)) a
 
+abstract
+
+  Indᵒ-Mono :  Monoᵒ (Indᵒ P)
+  Indᵒ-Mono a⊑b (i , inj₀ Ownˣ) =  i , inj₀ $ Own-Mono a⊑b Ownˣ
+  Indᵒ-Mono a⊑b (i , inj₁ Own□) =  i , inj₁ $ Own-Mono a⊑b Own□
+
 --------------------------------------------------------------------------------
 -- ○ᵒ :  Interpret the indirection modality ○
 
@@ -48,6 +55,10 @@ infix 8 ○ᵒ_
   R ∗ Q ⊢[ ∞ ] P  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Indᵒ Q) a
 
 abstract
+
+  ○ᵒ-Mono :  Monoᵒ (○ᵒ P)
+  ○ᵒ-Mono a⊑b (-, -, BasicR , R∗Q⊢P , R∗IndQa) =
+    -, -, BasicR , R∗Q⊢P , ∗ᵒ-Mono a⊑b R∗IndQa
 
   ○ᵒ-mono :  P ⊢[ ∞ ] Q →  ○ᵒ P ⊨ ○ᵒ Q
   ○ᵒ-mono P⊢Q (-, -, BasicS , S∗R⊢P , S∗IndRa) =
@@ -67,6 +78,10 @@ _↪[_]⇛ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ
   P ∗ S ∗ R ⊢[ ∞ ][ i ]⇛ Q  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ Indᵒ R) a
 
 abstract
+
+  ↪⇛ᵒ-Mono :  Monoᵒ (P ↪[ i ]⇛ᵒ Q)
+  ↪⇛ᵒ-Mono a⊑b (-, -, BasicS , P∗S∗R⊢Q , S∗IndRa) =
+    -, -, BasicS , P∗S∗R⊢Q , ∗ᵒ-Mono a⊑b S∗IndRa
 
   ↪⇛ᵒ-suc :  P ↪[ i ]⇛ᵒ Q  ⊨  P ↪[ suc i ]⇛ᵒ Q
   ↪⇛ᵒ-suc (-, -, BasicS , P∗S∗R⊢[i]⇛Q , S∗Ra) =
@@ -106,6 +121,10 @@ _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  
 
 abstract
 
+  ↪⟨⟩ᴾᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)
+  ↪⟨⟩ᴾᵒ-Mono a⊑b (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗IndRa) =
+    -, -, BasicS , P∗S∗R⊢⟨e⟩Q , ∗ᵒ-Mono a⊑b S∗IndRa
+
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P
@@ -141,6 +160,10 @@ _↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop
   P ∗ S ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ  ×  (⸨ S ⸩ᴮ {{BasicS}} ∗ᵒ Indᵒ R) a
 
 abstract
+
+  ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)
+  ↪⟨⟩ᵀᵒ-Mono a⊑b (-, -, BasicS , P∗S∗R⊢⟨e⟩Q , S∗IndRa) =
+    -, -, BasicS , P∗S∗R⊢⟨e⟩Q , ∗ᵒ-Mono a⊑b S∗IndRa
 
   ↪⟨⟩ᵀᵒ-suc :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ suc i ]ᵒ Qᵛ
   ↪⟨⟩ᵀᵒ-suc (-, -, BasicS , P∗S∗R⊢⟨e⟩[i]Q , S∗Ra) =

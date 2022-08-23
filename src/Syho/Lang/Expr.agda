@@ -78,22 +78,31 @@ infix 6 ▶_ 🞰_ _←_
 infixl 5 _◁_
 
 data  Expr ι  where
+
   -- Later, for infinite construction
   ▶_ :  Expr˂ ι T →  Expr ι T
+
   -- Turn a value into an expression
   ∇_ :  X →  Expr ι (◸ X)
+
   -- Non-deterministic value
   nd :  Expr ι (◸ X)
+
   -- Lambda abstraction over a value
   λ˙ :  (X → Expr ι T) →  Expr ι (X →* T)
+
   -- Application
   _◁_ :  Expr ι (X →* T) →  Expr ι (◸ X) →  Expr ι T
+
   -- Read from the memory
   🞰_ :  Expr ι (◸ Addr) →  Expr ι T
+
   -- Write to the memory
   _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
+
   -- Allocating a new memory block
   alloc :  Expr ι (◸ ℕ) →  Expr ι (◸ Addr)
+
   -- Freeing a memory block
   free :  Expr ι (◸ Addr) →  Expr ι (◸ ⊤)
 

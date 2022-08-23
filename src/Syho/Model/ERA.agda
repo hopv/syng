@@ -323,8 +323,7 @@ record  ERA łᴱ łᴿ ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ �
   -- (E , a) ↝˙ Fb˙ :  a with E can be updated into Fb˙ x for some x,
   --                   regardless the frame c
 
-  _↝˙_ :  ∀{X : Set ł} →
-    Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
+  _↝˙_ :  ∀{X : Set ł} →  Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
   (E , a) ↝˙ Fb˙ =  ∀{c} →  E ✓ c ∙ a →
     ∑ x ,  let (F , b) = Fb˙ x in  F ✓ c ∙ b
 

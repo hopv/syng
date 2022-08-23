@@ -11,8 +11,10 @@ open import Base.Size using (∞)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Func using (_∘_; _$_; id; _▷_)
 open import Base.Prod using (_×_; proj₁; _,_; -,_)
+open import Base.Sum using (inj₀; inj₁)
 open import Base.Few using (absurd)
-open import Base.Nat using (ℕ; _≡ᵇ_; ᵇ⇒≡; _≤_; <⇒≤; ≤-refl; <-irrefl)
+open import Base.Nat using (ℕ; _≤_; _<_; <⇒≤; ≤-refl; <-irrefl; _≤>_; _≡ᵇ_; ᵇ⇒≡;
+  ≡ᵇ-refl)
 open import Base.Nmap using (updⁿᵐ)
 open import Base.Bool using (ff; tt)
 open import Base.List using (List; []; [_]; _++_; ++-assocˡ; ++-[]; ++-≡[])
@@ -99,7 +101,8 @@ Indˣᴱᴿᴬ .⌞⌟-unitˡ _ =  refl
 
 Indˣᴱᴿᴬ .⌞⌟-idem _ =  refl
 
-open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; ε to εˣ; _↝_ to _↝ˣ_)
+open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; _✓_ to _✓ˣ_; ε to εˣ;
+  _↝_ to _↝ˣ_)
 
 -- Exclusively own a proposition at an index
 
@@ -116,6 +119,13 @@ abstract
   ...   | ff | _ =  Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡? ∘ <⇒≤
   ...   | tt | ⇒n≡j  rewrite ⇒n≡j _ | ∙ˣ-?ˣ {x = Rˣ˙ j} | n≤j⇒Rˣj∙?≡? ≤-refl
     =  refl , absurd ∘ <-irrefl
+
+  line-bound-indˣ :  Pᶠᵐ ✓ˣ line-indˣ i Q →  i < boundᶠᵐ Pᶠᵐ
+  line-bound-indˣ {Pᶠᵐ = _ |ᶠᵐ (n , _)} {i = i} P✓iQ  with n ≤> i
+  ... | inj₁ i<n =  i<n
+  ... | inj₀ n≤i  with P✓iQ i
+  ...   | (_ , n≤i⇒iQi≡?)  rewrite ≡ᵇ-refl {i}  with n≤i⇒iQi≡? n≤i
+  ...     | ()
 
 --------------------------------------------------------------------------------
 -- Ind□ᴱᴿᴬ :  Persistent indirection ERA

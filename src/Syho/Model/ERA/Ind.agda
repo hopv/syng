@@ -10,7 +10,7 @@ open import Base.Level using (2ᴸ)
 open import Base.Size using (∞)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Func using (_∘_; _$_; id; _▷_)
-open import Base.Prod using (_×_; proj₁; _,_; -,_)
+open import Base.Prod using (_×_; proj₀; proj₁; _,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Few using (absurd)
 open import Base.Nat using (ℕ; _≤_; _<_; <⇒≤; ≤-refl; <-irrefl; _≤>_; _≡ᵇ_; ᵇ⇒≡;
@@ -25,7 +25,8 @@ open import Syho.Model.ERA using (ERA)
 open import Syho.Model.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm; ∙ˣ-assocˡ;
   ∙ˣ-?ˣ)
 
-open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; _|ᶠᵐ_; boundᶠᵐ; addᶠᵐ)
+open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; _|ᶠᵐ_; boundᶠᵐ; addᶠᵐ;
+  inupdᶠᵐ)
 
 open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ; ◠˜ᴱ_; _◇˜ᴱ_;
   refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε;
@@ -102,7 +103,7 @@ Indˣᴱᴿᴬ .⌞⌟-unitˡ _ =  refl
 Indˣᴱᴿᴬ .⌞⌟-idem _ =  refl
 
 open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; _✓_ to _✓ˣ_; ε to εˣ;
-  _↝_ to _↝ˣ_)
+  _↝_ to _↝ˣ_; _↝˙_ to _↝˙ˣ_)
 
 -- Exclusively own a proposition at an index
 
@@ -126,6 +127,17 @@ abstract
   ... | inj₀ n≤i  with P✓iQ i
   ...   | (_ , n≤i⇒iQi≡?)  rewrite ≡ᵇ-refl {i}  with n≤i⇒iQi≡? n≤i
   ...     | ()
+
+  -- Remove a proposition consuming a line
+
+  rem-indˣ :  (Pᶠᵐ , line-indˣ i Q) ↝˙ˣ λ i<n → (inupdᶠᵐ i ⊤' Pᶠᵐ i<n , εˣ)
+  rem-indˣ {Pᶠᵐ} Rˣ˙ P✓Rˣ∙iQ .proj₀ =
+    line-bound-indˣ {Pᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Pᶠᵐ} {Rˣ˙} P✓Rˣ∙iQ
+  rem-indˣ {i = i} Rˣ˙ P✓Rˣ∙iQ .proj₁ j  with P✓Rˣ∙iQ j
+  ... | (Pj←Rˣj∙iQj , n≤j⇒Rˣj∙iQj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
+  ...   | ff | _ =  Pj←Rˣj∙iQj , n≤j⇒Rˣj∙iQj≡?
+  ...   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
+  ...     | ?ˣ =  _ , λ _ → refl
 
 --------------------------------------------------------------------------------
 -- Ind□ᴱᴿᴬ :  Persistent indirection ERA

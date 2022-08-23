@@ -26,7 +26,7 @@ open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syn
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; val;
   V⇒E; AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_; allocᴿ;
-  freeᴿ; Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
+  freeᴿ; Ktx; _ᴷ◁_; _ᴷ|_; Val/Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- WpKind :  Weakest precondion kind
@@ -427,45 +427,45 @@ data  _⊢[_]*_  where
   -- Non-deterministic value
 
   hor-nd :  (∀ x →  P  ⊢[ ι ]⟨ ktx ᴷ◁ ∇ x ⟩[ wκ ]  Qᵛ)  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
+            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| ndᴿ ⟩[ wκ ]  Qᵛ
 
   -- ▶, for partial and total Hoare triples
 
   horᴾ-▶ :  P  ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ  Qᵛ  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ  Qᵛ
+            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| ▶ᴿ e˂ ⟩ᴾ  Qᵛ
 
   horᵀ-▶ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᵀ[ i ]  Qᵛ  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᵀ[ i ]  Qᵛ
+            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| ▶ᴿ e˂ ⟩ᵀ[ i ]  Qᵛ
 
   -- Application
 
   hor-◁ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ]  Qᵛ  →
-           P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ]  Qᵛ
+           P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| e˙ ◁ᴿ x ⟩[ wκ ]  Qᵛ
 
   -- Sequential execution
 
   hor-⁏ᴿ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wκ ]  Qᵛ  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ v ⁏ᴿ e ⟩[ wκ ]  Qᵛ
+            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| v ⁏ᴿ e ⟩[ wκ ]  Qᵛ
 
   -- Memory read
 
   hor-🞰 :  θ ↦⟨ p ⟩ (V , v)  ∗  P  ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ]  Qᵛ  →
-           θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ 🞰ᴿ θ ⟩[ wκ ]  Qᵛ
+           θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| 🞰ᴿ θ ⟩[ wκ ]  Qᵛ
 
   -- Memory write
 
   hor-← :  θ ↦ (V , v)  ∗  P  ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ]  Qᵛ  →
-           θ ↦ av  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ θ ←ᴿ v ⟩[ wκ ]  Qᵛ
+           θ ↦ av  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| θ ←ᴿ v ⟩[ wκ ]  Qᵛ
 
   -- Memory allocation
 
   hor-alloc :
     (∀ θ →  θ ↦ˡ rep n ⊤-val  ∗  Free n θ  ∗  P
               ⊢[ ι ]⟨ ktx ᴷ◁ ∇ θ ⟩[ wκ ]  Qᵛ)  →
-    P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ allocᴿ n ⟩[ wκ ]  Qᵛ
+    P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| allocᴿ n ⟩[ wκ ]  Qᵛ
 
   -- Memory freeing
 
   hor-free :
     len avs ≡ n →  P  ⊢[ ι ]⟨ ktx ᴷ◁ ∇ _ ⟩[ wκ ]  Qᵛ  →
-    θ ↦ˡ avs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ freeᴿ θ ⟩[ wκ ]  Qᵛ
+    θ ↦ˡ avs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ| freeᴿ θ ⟩[ wκ ]  Qᵛ

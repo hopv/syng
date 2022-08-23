@@ -21,7 +21,7 @@ open import Base.List.Nat using (_‼_; upd; rep)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;
-  allocᴿ; freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; _ᴷ|ᴿ_; val/ktxred; nonval; val/ktxred-ktx;
+  allocᴿ; freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; _ᴷ|_; val/ktxred; nonval; val/ktxred-ktx;
   val/ktxred-ktx-inv)
 
 --------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
 
 -- Reduction on an expression
 data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
-  redᴱ :  val/ktxred e ≡ inj₁ (ktx ᴷ|ᴿ red) →  (red , M) ⇒ᴿ (e' , M') →
+  redᴱ :  val/ktxred e ≡ inj₁ (ktx ᴷ| red) →  (red , M) ⇒ᴿ (e' , M') →
           (e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
 
 abstract

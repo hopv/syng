@@ -350,17 +350,17 @@ record  ERA łᴱ łᴿ ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ �
 
     -- ↝˙ respects ≈ᴱᴿ
 
-    ↝˙-resp :  Ea ≈ᴱᴿ E'a' →  (∀ x →  Fb˙ x ≈ᴱᴿ F'b'˙ x) →
+    ↝˙-resp :  Ea ≈ᴱᴿ E'a' →  (∀{x} → Fb˙ x ≈ᴱᴿ F'b'˙ x) →
       Ea ↝˙ Fb˙ →  E'a' ↝˙ F'b'˙
-    ↝˙-resp (E≈E' , a≈a') ∀xFbx≈F'b'x a↝˙b E'✓c∙a'
+    ↝˙-resp (E≈E' , a≈a') Fbx≈F'b'x a↝˙b E'✓c∙a'
       with  E'✓c∙a' ▷ ✓-resp (◠˜ᴱ E≈E') (∙-congʳ $ ◠˜ a≈a') ▷ a↝˙b
-    ... | x , Fx✓c∙bx  =  let (Fx≈F'x , bx≈b'x) = ∀xFbx≈F'b'x x in
-      x , ✓-resp Fx≈F'x (∙-congʳ bx≈b'x) Fx✓c∙bx
+    ... | -, Fx✓c∙bx  =  let (Fx≈F'x , bx≈b'x) = Fbx≈F'b'x in
+      -, ✓-resp Fx≈F'x (∙-congʳ bx≈b'x) Fx✓c∙bx
 
     ↝˙-respˡ :  Ea ≈ᴱᴿ E'a' →  Ea ↝˙ Fb˙ →  E'a' ↝˙ Fb˙
-    ↝˙-respˡ Ea≈E'a' =  ↝˙-resp Ea≈E'a' (λ _ → refl˜ᴱᴿ)
+    ↝˙-respˡ Ea≈E'a' =  ↝˙-resp Ea≈E'a' refl˜ᴱᴿ
 
-    ↝˙-respʳ :  (∀ x →  Fb˙ x ≈ᴱᴿ F'b'˙ x) →  Ea ↝˙ Fb˙ →  Ea ↝˙ F'b'˙
+    ↝˙-respʳ :  (∀{x} → Fb˙ x ≈ᴱᴿ F'b'˙ x) →  Ea ↝˙ Fb˙ →  Ea ↝˙ F'b'˙
     ↝˙-respʳ =  ↝˙-resp refl˜ᴱᴿ
 
     -- Change parameterization of ↝˙

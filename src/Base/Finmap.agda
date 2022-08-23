@@ -56,8 +56,7 @@ addᶠᵐ a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc n , proof
   proof :  Finᶠᵐ (updⁿᵐ n a f) (suc n)
   proof {j} n<j  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
   ... | ff | _ =  fi $ <⇒≤ n<j
-  ... | tt | ⇒n≡j  with ⇒n≡j _
-  ...   | refl =  absurd $ <-irrefl n<j
+  ... | tt | ⇒n≡j  rewrite ⇒n≡j _ =  absurd $ <-irrefl n<j
 
 -- Update a finmap at an index within the bound
 
@@ -79,8 +78,8 @@ updᶠᵐ i a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc i ⊔ n , proof
   proof :  Finᶠᵐ (updⁿᵐ i a f) (suc i ⊔ n)
   proof {j} si⊔n≤j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
   ... | ff | _ =  fi $ ⊔≤-introʳ {suc _} si⊔n≤j
-  ... | tt | ⇒i≡j  with ⇒i≡j _
-  ...   | refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
+  ... | tt | ⇒i≡j  rewrite ⇒i≡j _ =
+    absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
 
 -- Merge finmaps using a merge operation _∙_
 

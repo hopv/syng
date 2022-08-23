@@ -10,20 +10,24 @@ open import Base.Size using (Size; ∞)
 open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
-open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (λᵛ-syntax)
-open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_)
-open import Syho.Logic.Core using (_»_; ⌜⌝₀-intro; ∗-elimˡ; -∗-intro)
+open import Base.Prod using (-,_)
+open import Base.Nat using (ℕ; suc)
+open import Syho.Lang.Expr using (Addr; λᵛ-syntax; val; AnyVal)
+open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_; _↦_)
+open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝₀-intro; ∗-elimˡ; ∗⊤-intro;
+  -∗-intro)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; horᴾ-▶;
-  hor-◁)
-
-open import Syho.Lang.Example using (loop; plus◁3,4)
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; hor-nd;
+  horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏ᴿ; hor-🞰; hor-←)
+open import Syho.Lang.Example using (loop; plus◁3,4; decrloop; decrloop';
+  nddecrloop)
 
 private variable
   ι :  Size
-  i :  ℕ
+  i n :  ℕ
+  θ :  Addr
+  av :  AnyVal
 
 -- □ ○ □ ○ □ ○ ...
 
@@ -46,3 +50,23 @@ abstract
 
   plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ[ 0 ] λᵛ n , ⌜ n ≡ 7 ⌝₀
   plus◁3,4-7 =  hor-◁ $ hor-val $ ⌜⌝₀-intro refl
+
+  -- decrloop θ terminates, setting the value at θ to 0
+
+  decrloop-exec :
+    θ ↦ (-, val n)  ⊢[ ∞ ]⟨ decrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, val 0)
+  decrloop'-exec :
+    θ ↦ (-, val n)  ⊢[ ∞ ]⟨ decrloop' θ n ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, val 0)
+
+  decrloop-exec =  ∗⊤-intro » hor-🞰 $ hor-◁ $ ∗-elimˡ » decrloop'-exec
+
+  decrloop'-exec {n = 0} =  hor-val ⊢-refl
+  decrloop'-exec {n = suc n} =
+    ∗⊤-intro » hor-← $ hor-⁏ᴿ $ ∗-elimˡ » horᵀ-▶ decrloop-exec
+
+  -- nddecrloop terminates, setting the value at θ to 0
+
+  nddecrloop-exec :
+    θ ↦ av  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, val 0)
+  nddecrloop-exec =
+    hor-nd $ λ _ → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ᴿ decrloop-exec

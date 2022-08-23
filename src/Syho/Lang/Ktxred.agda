@@ -142,8 +142,8 @@ abstract
 val/ktxred :  Expr ∞ T →  Val/Ktxred T
 val/ktxred (∇ x) =  inj₀ $ val x
 val/ktxred (λ˙ e˙) =  inj₀ $ val→* e˙
-val/ktxred (▶ e˂) =  inj₁ $ -, •ᴷ , ▶ᴿ e˂
-val/ktxred nd =  inj₁ $ -, •ᴷ , ndᴿ
+val/ktxred (▶ e˂) =  inj₁ $ •ᴷ ᴷ|ᴿ ▶ᴿ e˂
+val/ktxred nd =  inj₁ $ •ᴷ ᴷ|ᴿ ndᴿ
 val/ktxred (e' ◁ e) =  inj₁ body
  where
   body :  Ktxred _

@@ -11,8 +11,8 @@ open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Few using (absurd)
-open import Base.Nat using (ℕ; suc; _≤_; _≡ᵇ_; _⊔_; ≤-trans; ᵇ⇒≡; ⊔≤-introˡ;
-  ⊔≤-introʳ; <-irrefl; <⇒≤)
+open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _⊔_; ≤-trans; ᵇ⇒≡; <-irrefl;
+  <⇒≤; ≤⇒¬>; ⊔≤-introˡ; ⊔≤-introʳ)
 open import Base.Bool using (tt; ff)
 open import Base.Nmap using (updⁿᵐ)
 
@@ -58,6 +58,17 @@ addᶠᵐ a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc n , proof
   ... | ff | _ =  fi $ <⇒≤ n<j
   ... | tt | ⇒n≡j  with ⇒n≡j _
   ...   | refl =  absurd $ <-irrefl n<j
+
+-- Update a finmap at an index within the bound
+
+inupdᶠᵐ :  ∀(i : ℕ) (_ : A) (P : Finmap) →  i < boundᶠᵐ P →  Finmap
+inupdᶠᵐ i a (f |ᶠᵐ _) _ .!ᶠᵐ =  updⁿᵐ i a f
+inupdᶠᵐ i a (f |ᶠᵐ (n , fi)) i<n .finᶠᵐ =  n , proof
+ where abstract
+  proof :  Finᶠᵐ (updⁿᵐ i a f) n
+  proof {j} n≤j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
+  ... | tt | ⇒i≡j  rewrite ⇒i≡j _ =  absurd $ ≤⇒¬> n≤j i<n
+  ... | ff | _ =  fi n≤j
 
 -- Update a finmap at an index
 

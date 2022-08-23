@@ -100,34 +100,34 @@ module _ {i : ℕ} where
     -- updᴳ preserves ≈/✓/∙/⌞⌟/↝
 
     updᴳ-cong :  a ≈ⁱ b →  c˙ ≈ᴳ d˙ →  updᴳ i a c˙ ≈ᴳ updᴳ i b d˙
-    updᴳ-cong a≈b c˙≈d˙ j  with i ≡? j
+    updᴳ-cong a≈b c˙≈d˙ j  with j ≡? i
     ... | no _ =  c˙≈d˙ j
     ... | yes refl =  a≈b
 
     updᴳ-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ b˙ →  E˙ ✓ᴳ updᴳ i a b˙
-    updᴳ-✓ Ei✓a E✓b˙ j  with i ≡? j
+    updᴳ-✓ Ei✓a E✓b˙ j  with j ≡? i
     ... | no _ =  E✓b˙ j
     ... | yes refl =  Ei✓a
 
     updᴳ-∙ :  updᴳ i a c˙ ∙ᴳ updᴳ i b d˙  ≈ᴳ  updᴳ i (a ∙ⁱ b) (c˙ ∙ᴳ d˙)
-    updᴳ-∙ j  with i ≡? j
+    updᴳ-∙ j  with j ≡? i
     ... | no _ =  Globᴱᴿᴬ˙ j .refl˜
     ... | yes refl =  refl˜ⁱ
 
     updᴳ-⌞⌟ :  ⌞ updᴳ i a b˙ ⌟ᴳ  ≈ᴳ  updᴳ i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴳ
-    updᴳ-⌞⌟ j  with i ≡? j
+    updᴳ-⌞⌟ j  with j ≡? i
     ... | no _ =  Globᴱᴿᴬ˙ j .refl˜
     ... | yes refl =  refl˜ⁱ
 
     updᴳ-↝ :  (E˙ i , a) ↝ⁱ (E˙ i , b) →
       (E˙ , updᴳ i a c˙) ↝ᴳ (E˙ , updᴳ i b c˙)
-    updᴳ-↝ Eia↝Eib d˙ E✓d∙iac j  with i ≡? j | E✓d∙iac j
+    updᴳ-↝ Eia↝Eib d˙ E✓d∙iac j  with j ≡? i | E✓d∙iac j
     ... | no _ | E✓dj∙cj =  E✓dj∙cj
     ... | yes refl | Ei✓d˙i∙a =  Eia↝Eib (d˙ i) Ei✓d˙i∙a
 
     updᴱᴳ-updᴳ-↝ :  (E˙ i , a) ↝ⁱ (F , b) →
       (E˙ , updᴳ i a c˙) ↝ᴳ (updᴱᴳ i F E˙ , updᴳ i b c˙)
-    updᴱᴳ-updᴳ-↝ Ea↝Fb d˙ iEG✓d∙iac j  with i ≡? j | iEG✓d∙iac j
+    updᴱᴳ-updᴳ-↝ Ea↝Fb d˙ iEG✓d∙iac j  with j ≡? i | iEG✓d∙iac j
     ... | no _ | Gj✓dj∙cj =  Gj✓dj∙cj
     ... | yes refl | E✓d˙i∙a =  Ea↝Fb (d˙ i) E✓d˙i∙a
 
@@ -146,7 +146,7 @@ module _ {i : ℕ} where
     injᴳ-∙ =  updᴳ-∙ ◇˜ᴳ updᴳ-cong refl˜ⁱ $ Globᴱᴿᴬ .∙-unitˡ
 
     injᴳ-ε :  injᴳ i εⁱ ≈ᴳ εᴳ
-    injᴳ-ε j  with i ≡? j
+    injᴳ-ε j  with j ≡? i
     ... | no _ =  Globᴱᴿᴬ˙ j .refl˜
     ... | yes refl =  refl˜ⁱ
 

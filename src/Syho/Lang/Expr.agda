@@ -76,6 +76,7 @@ Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 infix 7 ∇_
 infix 6 ▶_ 🞰_ _←_
 infixl 5 _◁_
+infixr 3 _⁏_
 
 data  Expr ι  where
 
@@ -93,6 +94,10 @@ data  Expr ι  where
 
   -- Application
   _◁_ :  Expr ι (X →* T) →  Expr ι (◸ X) →  Expr ι T
+
+  -- Sequential execution
+  -- We need this (apart from λ˙ and ◁) to support the case where T is non-pure
+  _⁏_ :  Expr ι T →  Expr ι U →  Expr ι U
 
   -- Read from the memory
   🞰_ :  Expr ι (◸ Addr) →  Expr ι T

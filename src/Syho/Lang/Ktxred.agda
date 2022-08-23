@@ -15,7 +15,7 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Eq using (_≡_; refl)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; ◸_; _→*_; Addr; Expr; Expr˂; ▶_; ∇_; nd;
-  λ˙; _◁_; 🞰_; _←_; alloc; free; Val; V⇒E; val; val→*)
+  λ˙; _◁_; _⁏_; 🞰_; _←_; alloc; free; Val; V⇒E; val; val→*)
 
 private variable
   X :  Set₀
@@ -27,11 +27,13 @@ private variable
 
 infix 6 ▶ᴿ_ 🞰ᴿ_ _←ᴿ_
 infixl 5 _◁ᴿ_
+infixr 4 _⁏ᴿ_
 
 data  Redex :  Type →  Set₁  where
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
   ndᴿ :  Redex (◸ X)
   _◁ᴿ_ :  (X → Expr ∞ T) →  X →  Redex T
+  _⁏ᴿ_ :  Val T →  Expr ∞ U →  Redex U
   🞰ᴿ_ :  Addr →  Redex T
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
   allocᴿ :  ℕ →  Redex (◸ Addr)
@@ -43,6 +45,7 @@ R⇒E :  Redex T →  Expr ∞ T
 R⇒E (▶ᴿ e˂) =  ▶ e˂
 R⇒E ndᴿ =  nd
 R⇒E (e˙ ◁ᴿ x) =  λ˙ e˙ ◁ ∇ x
+R⇒E (v ⁏ᴿ e) =  V⇒E v ⁏ e
 R⇒E (🞰ᴿ θ) =  🞰 ∇ θ
 R⇒E (θ ←ᴿ v) =  ∇ θ ← V⇒E v
 R⇒E (allocᴿ n) =  alloc $ ∇ n
@@ -53,12 +56,16 @@ R⇒E (freeᴿ θ) =  free $ ∇ θ
 
 infix 6 🞰ᴷ_ _←ᴷʳ_ _←ᴷˡ_
 infixl 5 _◁ᴷʳ_ _◁ᴷˡ_
+infixr 4 _⁏ᴷ_
+
 data  Ktx :  Type →  Type →  Set₁  where
   -- Hole
   •ᴷ :  Ktx T T
   -- On ◁
   _◁ᴷʳ_ :  Expr ∞ (X →* T) →  Ktx U (◸ X) →  Ktx U T
   _◁ᴷˡ_ :  Ktx U (X →* T) →  X →  Ktx U T
+  -- On ⁏
+  _⁏ᴷ_ :  Ktx V T →  Expr ∞ U →  Ktx V U
   -- On 🞰
   🞰ᴷ_ :  Ktx U (◸ Addr) →  Ktx U T
   -- On ←
@@ -76,6 +83,7 @@ _ᴷ◁_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
 •ᴷ ᴷ◁ e =  e
 (e' ◁ᴷʳ ktx) ᴷ◁ e =  e' ◁ (ktx ᴷ◁ e)
 (ktx ◁ᴷˡ x) ᴷ◁ e =  (ktx ᴷ◁ e) ◁ ∇ x
+(ktx ⁏ᴷ e') ᴷ◁ e =  (ktx ᴷ◁ e) ⁏ e'
 🞰ᴷ ktx ᴷ◁ e =  🞰 (ktx ᴷ◁ e)
 (e' ←ᴷʳ ktx) ᴷ◁ e =  e' ← (ktx ᴷ◁ e)
 (ktx ←ᴷˡ v) ᴷ◁ e =  (ktx ᴷ◁ e) ← V⇒E v
@@ -89,6 +97,7 @@ _ᴷ∘ᴷ_ :  Ktx U T →  Ktx V U →  Ktx V T
 •ᴷ ᴷ∘ᴷ ktx =  ktx
 (e ◁ᴷʳ ktx) ᴷ∘ᴷ ktx' =  e ◁ᴷʳ (ktx ᴷ∘ᴷ ktx')
 (ktx ◁ᴷˡ x) ᴷ∘ᴷ ktx' =  (ktx ᴷ∘ᴷ ktx') ◁ᴷˡ x
+(ktx ⁏ᴷ e) ᴷ∘ᴷ ktx' =  (ktx ᴷ∘ᴷ ktx') ⁏ᴷ e
 🞰ᴷ ktx ᴷ∘ᴷ ktx' =  🞰ᴷ (ktx ᴷ∘ᴷ ktx')
 (e ←ᴷʳ ktx) ᴷ∘ᴷ ktx' =  e ←ᴷʳ (ktx ᴷ∘ᴷ ktx')
 (ktx ←ᴷˡ v) ᴷ∘ᴷ ktx' =  (ktx ᴷ∘ᴷ ktx') ←ᴷˡ v
@@ -125,6 +134,8 @@ abstract
     rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
   ᴷ∘ᴷ-ᴷ◁ {ktx = ktx ◁ᴷˡ _} {ktx' = ktx'} {e}
     rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {ktx = ktx ⁏ᴷ _} {ktx' = ktx'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
   ᴷ∘ᴷ-ᴷ◁ {ktx = 🞰ᴷ ktx} {ktx' = ktx'} {e}
     rewrite ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e} =  refl
   ᴷ∘ᴷ-ᴷ◁ {ktx = _ ←ᴷʳ ktx} {ktx' = ktx'} {e}
@@ -152,6 +163,12 @@ val/ktxred (e' ◁ e) =  inj₁ body
   ... | inj₀ (val x)  with val/ktxred e'
   ...   | inj₁ (ktx ᴷ|ᴿ red) =  ktx ◁ᴷˡ x ᴷ|ᴿ red
   ...   | inj₀ (val→* v) =  •ᴷ ᴷ|ᴿ v ◁ᴿ x
+val/ktxred (e ⁏ e') =  inj₁ body
+ where
+  body :  Ktxred _
+  body  with val/ktxred e
+  ... | inj₀ v =  •ᴷ ᴷ|ᴿ v ⁏ᴿ e'
+  ... | inj₁ (ktx ᴷ|ᴿ red) =  ktx ⁏ᴷ e' ᴷ|ᴿ red
 val/ktxred (🞰 e) =  inj₁ body
  where
   body :  Ktxred _
@@ -200,6 +217,7 @@ abstract
   nonval-ktx {ktx = •ᴷ} n'e =  n'e
   nonval-ktx {ktx = _ ◁ᴷʳ _} =  _
   nonval-ktx {ktx = _ ◁ᴷˡ _} =  _
+  nonval-ktx {ktx = _ ⁏ᴷ _} =  _
   nonval-ktx {ktx = 🞰ᴷ _} =  _
   nonval-ktx {ktx = _ ←ᴷʳ _} =  _
   nonval-ktx {ktx = _ ←ᴷˡ _} =  _
@@ -214,6 +232,8 @@ abstract
   val/ktxred-ktx {e = e} {ktx = _ ◁ᴷʳ ktx} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
   val/ktxred-ktx {e = e} {ktx = ktx ◁ᴷˡ _} eq
+    rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
+  val/ktxred-ktx {e = e} {ktx = ktx ⁏ᴷ _} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
   val/ktxred-ktx {e = e} {ktx = 🞰ᴷ ktx} eq
     rewrite val/ktxred-ktx {e = e} {ktx = ktx} eq =  refl
@@ -239,6 +259,11 @@ abstract
   ...   | inj₁ _ | _ | refl | ind  with ind refl
   ...     | ktx' , refl , eq' =  ktx' , refl , eq'
   val/ktxred-ktx-inv {e = e} {ktx = ktx ◁ᴷˡ _} nv'e eq
+    with val/ktxred (ktx ᴷ◁ e) | nonval-ktx {ktx = ktx} nv'e | eq |
+      (λ{kr} → val/ktxred-ktx-inv {ktx = ktx} {kr} nv'e)
+  ... | inj₁ _ | _ | refl | ind  with ind refl
+  ...   | ktx , refl , eq' =  ktx , refl , eq'
+  val/ktxred-ktx-inv {e = e} {ktx = ktx ⁏ᴷ _} nv'e eq
     with val/ktxred (ktx ᴷ◁ e) | nonval-ktx {ktx = ktx} nv'e | eq |
       (λ{kr} → val/ktxred-ktx-inv {ktx = ktx} {kr} nv'e)
   ... | inj₁ _ | _ | refl | ind  with ind refl

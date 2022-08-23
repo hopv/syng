@@ -25,8 +25,8 @@ open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syn
   _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; val;
   V⇒E; AnyVal; ⊤-val)
-open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; 🞰ᴿ_; _←ᴿ_; allocᴿ; freeᴿ;
-  Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
+open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_; allocᴿ;
+  freeᴿ; Ktx; _ᴷ◁_; _ᴷ|ᴿ_; Val/Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- WpKind :  Weakest precondion kind
@@ -441,6 +441,11 @@ data  _⊢[_]*_  where
 
   hor-◁ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e˙ x ⟩[ wκ ]  Qᵛ  →
            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ e˙ ◁ᴿ x ⟩[ wκ ]  Qᵛ
+
+  -- Sequential execution
+
+  hor-⁏ᴿ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wκ ]  Qᵛ  →
+            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ v ⁏ᴿ e ⟩[ wκ ]  Qᵛ
 
   -- Memory read
 

@@ -7,20 +7,21 @@
 module Syho.Logic.Hor where
 
 open import Base.Size using (Size; ∞)
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; const)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; Expr; Val; let˙; val)
-open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _ᴷ|ᴿ_; Val/Ktxred)
+open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; val; val→*)
+open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _ᴷ|ᴿ_;
+  Val/Ktxred)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (WpKind; par; tot; _⊢[_]⁺⟨_⟩[_]_;
   _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_;
   _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-suc; _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ;
-  hor-bind; hor-valᵘ; hor-ndᵘ; horᴾ-▶; horᵀ-▶; hor-◁; hor-🞰; hor-←; hor-alloc;
+  hor-bind; hor-valᵘ; hor-ndᵘ; horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏ᴿ; hor-🞰; hor-←; hor-alloc;
   hor-free)
 
 private variable
@@ -28,11 +29,11 @@ private variable
   A :  Set₀
   T U :  Type
   wκ :  WpKind
-  P P' R :  Prop' ∞
+  P P' Q R :  Prop' ∞
   Qᵛ Q'ᵛ Rᵛ :  Val T → Prop' ∞
   vk :  Val/Ktxred T
   ktx :  Ktx U T
-  e₀ :  Expr ∞ T
+  e e' e₀ :  Expr ∞ T
   e˙ :  A → Expr ∞ T
   v :  Val T
 
@@ -111,6 +112,16 @@ abstract
   hor-nd :  (∀ x →  P  ⊢[ ι ]  Qᵛ (val x))  →
             P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
   hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀xP⊢Q _
+
+  -- Sequential execution
+
+  -->  hor-⁏ᴿ :  P  ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wκ ]  Qᵛ  →
+  -->            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ v ⁏ᴿ e ⟩[ wκ ]  Qᵛ
+
+  hor-⁏ :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ wκ ]  Rᵛ  →
+           P  ⊢[ ι ]⟨ e ⁏ e' ⟩[ wκ ]  Rᵛ
+  hor-⁏ P⊢⟨e⟩Q Q⊢⟨e'⟩R =  hor-bind {ktx = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q
+    λ{ (val _) → hor-⁏ᴿ Q⊢⟨e'⟩R; (val→* _) → hor-⁏ᴿ Q⊢⟨e'⟩R }
 
   -- Let binding
 

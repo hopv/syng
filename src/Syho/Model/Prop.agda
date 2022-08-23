@@ -12,9 +12,10 @@ open import Base.Few using (⊤)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
-open ERA Globᴱᴿᴬ using (Res; _⊑_; _✓_; _∙_; ε; ⌞_⌟; ◠˜_; ⊑-respˡ; ⊑-refl;
-  ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm; ∙-assocˡ;
-  ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem; ⌞⌟-unitˡ)
+open ERA Globᴱᴿᴬ using (Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; ◠˜_; ⊑-respˡ; ⊑-refl;
+  ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-comm;
+  ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem;
+  ⌞⌟-unitˡ)
 
 --------------------------------------------------------------------------------
 -- Propᵒ :  Semantic proposition
@@ -31,7 +32,7 @@ private variable
   Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ
   X₁ :  Set₁
   Pᵒ˙ Qᵒ˙ :  X₁ →  Propᵒ
-  a :  Res
+  a b :  Res
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment, with or without a validity input
@@ -257,3 +258,24 @@ abstract
 
   Own-Mono :  Monoᵒ (Own a)
   Own-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
+
+  Own-refl :  Own a a
+  Own-refl =  ⊑-refl
+
+  Own-cong :  a ≈ b →  Own a ⊨ Own b
+  Own-cong a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
+
+  Own-mono :  b ⊑ a →  Own a ⊨ Own b
+  Own-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
+
+  Own-ε :  Pᵒ ⊨ Own ε
+  Own-ε _ =  ε-min
+
+  Own-∙⇒∗ᵒ :  Own (a ∙ b) ⊨ Own a ∗ᵒ Own b
+  Own-∙⇒∗ᵒ a∙b⊑c =  -, a∙b⊑c , ⊑-refl , ⊑-refl
+
+  Own-∗ᵒ⇒∙ :  Own a ∗ᵒ Own b ⊨ Own (a ∙ b)
+  Own-∗ᵒ⇒∙ (-, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
+
+  Own-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  Own a ⊨ □ᵒ Own a
+  Own-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b

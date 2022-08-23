@@ -313,13 +313,15 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
 
   infix 2 _↝_ _↝˙_
 
-  -- (E , a) ↝ (F, b) : A resource a with an environment E can be updated into
-  -- a resource b with an environment F, regardless of the frame resource c
+  -- (E , a) ↝ (F, b) :  a with E can be updated into b with F,
+  --                     regardless of the frame c
+
   _↝_ :  Env × Res →  Env × Res →  Set (ł ⊔ᴸ ł✓)
   (E , a) ↝ (F , b) =  ∀ c →  E ✓ c ∙ a →  F ✓ c ∙ b
 
-  -- a ↝˙ b˙ : a can be updated into b˙ x for some x,
-  -- regardless of the environment E and the frame c
+  -- (E , a) ↝˙ Fb˙ :  a with E can be updated into Fb˙ x for some x,
+  --                   regardless the frame c
+
   _↝˙_ :  {X : Set łX} →
     Env × Res →  (X →  Env × Res) →  Set (ł ⊔ᴸ ł✓ ⊔ᴸ łX)
   (E , a) ↝˙ Fb˙ =  ∀ c →  E ✓ c ∙ a →

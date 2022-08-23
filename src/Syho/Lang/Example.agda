@@ -14,7 +14,7 @@ open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; suc; _+_)
 open import Syho.Lang.Expr using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_; nd;
-  λ-syntax; _◁_; _⁏_; 🞰_; _←_; free; let˙)
+  λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free)
 open import Syho.Lang.Reduce using (Mem; nd-red; ▶-red; ◁-red; _⇒ᴱ_; redᴱ)
 
 private variable
@@ -57,7 +57,7 @@ ndnat =  nd
 decrloop :  Addr →  Expr ι $ ◸ ⊤
 decrloop' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
 
-decrloop θ =  let˙ (🞰 ∇ θ) $ decrloop' θ
+decrloop θ =  let' n := 🞰 ∇ θ in' decrloop' θ n
 
 decrloop' θ 0 =  ∇ _
 decrloop' θ (suc n) =  ∇ θ ← ∇ n ⁏ ▶ λ{ .! → decrloop θ }

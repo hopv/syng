@@ -13,7 +13,7 @@ open import Base.Func using (it)
 -- Sigma type
 
 open import Agda.Builtin.Sigma public
-  renaming (Σ to ∑˙; _,_ to infixr -1 _,_; fst to proj₀; snd to proj₁)
+  renaming (Σ to ∑˙; _,_ to infixr -2 _,_; fst to proj₀; snd to proj₁)
 
 private variable
   ł ł' :  Level
@@ -29,7 +29,7 @@ infix -1 ∑∈-syntax ∑-syntax
 syntax ∑∈-syntax {A = A} (λ a → b) =  ∑ a ∈ A , b
 syntax ∑-syntax (λ a → B) =  ∑ a , B
 
-infix -1 -,_
+infix -2 -,_
 pattern -,_ b =  _ , b
 
 --------------------------------------------------------------------------------
@@ -55,11 +55,11 @@ instance
 --------------------------------------------------------------------------------
 -- ∑ᴵ :  Dependent sum with an instance
 
-infix -1 -ᴵ,_
+infix -2 -ᴵ,_
 data  ∑ᴵ˙ (A : Set ł) (B˙ : A → Set ł') :  Set (ł ⊔ᴸ ł')  where
   -ᴵ,_ :  ∀{{a : A}} →  B˙ a →  ∑ᴵ˙ A B˙
 
-infixr -1 _ᴵ,_
+infixr -2 _ᴵ,_
 pattern _ᴵ,_ a b =  -ᴵ,_ {{a}} b
 
 ∑ᴵ∈-syntax ∑ᴵ-syntax :  ∀{A : Set ł} →  (B : A → Set ł') →  Set (ł ⊔ᴸ ł')

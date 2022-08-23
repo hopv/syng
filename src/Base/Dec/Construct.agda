@@ -36,7 +36,7 @@ abstract
   -- ×
   infixr 1 _×?_
   _×?_ :  Dec X →  Dec Y →  Dec (X × Y)
-  yes x ×? yes y =  yes $ x , y
+  yes x ×? yes y =  yes (x , y)
   no ¬x ×? _ =  no $ λ (x , _) → ¬x x
   _ ×? no ¬y =  no $ λ (-, y) → ¬y y
 

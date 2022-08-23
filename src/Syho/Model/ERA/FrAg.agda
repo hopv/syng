@@ -98,11 +98,11 @@ private abstract
   ∙ᶠ-comm x@(⟨ _ ⟩ᶠᴸ _) εᶠ =  ≈ᶠ-refl {x}
   ∙ᶠ-comm εᶠ εᶠ =  ≈ᶠ-refl
   ∙ᶠ-comm (⟨ p ⟩ᶠᴸ as) (⟨ q ⟩ᶠᴸ bs) =
-    ≡⇒≈ᴿ⁺ (+ᴿ⁺-comm {p} {q}) , ++-comm {as} {bs}
+    ≡⇒≈ᴿ⁺ $ +ᴿ⁺-comm {p} {q} , ++-comm {as} {bs}
 
   ∙ᶠ-assocˡ :  ∀ x y z →  (x ∙ᶠ y) ∙ᶠ z  ≈ᶠ  x ∙ᶠ (y ∙ᶠ z)
   ∙ᶠ-assocˡ (⟨ p ⟩ᶠᴸ as) (⟨ q ⟩ᶠᴸ _) (⟨ r ⟩ᶠᴸ _) =
-    ≡⇒≈ᴿ⁺ (+ᴿ⁺-assocˡ {p} {q} {r}) , ≡⇒≈ᴸ (++-assocˡ {as = as})
+    ≡⇒≈ᴿ⁺ $ +ᴿ⁺-assocˡ {p} {q} {r} , ≡⇒≈ᴸ (++-assocˡ {as = as})
   ∙ᶠ-assocˡ εᶠ _ _ =  ≈ᶠ-refl
   ∙ᶠ-assocˡ (⟨ _ ⟩ᶠᴸ _) εᶠ _ =  ≈ᶠ-refl
   ∙ᶠ-assocˡ x@(⟨ _ ⟩ᶠᴸ _) y@(⟨ _ ⟩ᶠᴸ _) εᶠ =  ≈ᶠ-refl {x ∙ᶠ y}

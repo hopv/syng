@@ -114,7 +114,7 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ λ (_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-indˣ (bndᶠᵐ Pᶠᵐ) Q
+  add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ λ(_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-indˣ (bndᶠᵐ Pᶠᵐ) Q
   add-indˣ _ .proj₀ =  _
   add-indˣ {_ |ᶠᵐ (n , _)} {c = Rˣ˙} P✓Rˣ∙ε .proj₁ j  with P✓Rˣ∙ε j
   ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
@@ -221,7 +221,7 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-ind□ :  (Pᶠᵐ , ε□) ↝□ λ (_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-ind□ (bndᶠᵐ Pᶠᵐ) Q
+  add-ind□ :  (Pᶠᵐ , ε□) ↝□ λ(_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-ind□ (bndᶠᵐ Pᶠᵐ) Q
   add-ind□ _ .proj₀ =  _
   add-ind□ {_ |ᶠᵐ (n , _)} {c = Rs˙} P✓Rs∙ε .proj₁ j  with P✓Rs∙ε j
   ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}

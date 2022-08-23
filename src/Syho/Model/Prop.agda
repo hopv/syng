@@ -394,11 +394,11 @@ abstract
 
   -- Introduce ⤇ᴱ
 
-  ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ (_ : ⊤) → E , Pᵒ
+  ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤) → E , Pᵒ
   ⤇ᵒ⇒⤇ᴱ ⤇ᵒPa E✓c∙a  with ⤇ᵒPa E✓c∙a
   ... | (-, E✓c∙b , Pb) =  -, -, E✓c∙b , Pb
 
-  ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ (_ : ⊤) → E , Pᵒ
+  ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤) → E , Pᵒ
   ⤇ᴱ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⤇ᴱ
 
   -- Join ⤇ᴱ

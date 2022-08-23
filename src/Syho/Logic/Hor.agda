@@ -6,7 +6,6 @@
 
 module Syho.Logic.Hor where
 
-open import Base.Level using (↑_)
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_)
 open import Base.Prod using (_,_; -,_)
@@ -106,7 +105,7 @@ abstract
 
   -- Non-deterministic value
 
-  -->  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ]⇛  Qᵛ (↑ x))  →
+  -->  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ]⇛  Qᵛ (val x))  →
   -->             P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
 
   hor-nd :  (∀ x →  P  ⊢[ ι ]  Qᵛ (val x))  →

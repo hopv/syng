@@ -10,6 +10,7 @@ open import Base.Level using (Level)
 open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
 open import Base.Func using (_$_; _›_; _∘_; flip; const)
 open import Base.Few using (⊤)
+open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
@@ -93,6 +94,21 @@ abstract
 infix 7 _×ᵒ_
 _×ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 (Pᵒ ×ᵒ Qᵒ) a =  Pᵒ a × Qᵒ a
+
+--------------------------------------------------------------------------------
+-- ⊎ᵒ :  Disjunction
+
+infix 7 _⊎ᵒ_
+_⊎ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
+(Pᵒ ⊎ᵒ Qᵒ) a =  Pᵒ a ⊎ Qᵒ a
+
+abstract
+
+  -- Monoᵒ on ⊎ᵒ
+
+  ⊎ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ (Pᵒ ⊎ᵒ Qᵒ)
+  ⊎ᵒ-Mono MonoP _ a⊑b (inj₀ Pa) =  inj₀ $ MonoP a⊑b Pa
+  ⊎ᵒ-Mono _ MonoQ a⊑b (inj₁ Qa) =  inj₁ $ MonoQ a⊑b Qa
 
 --------------------------------------------------------------------------------
 -- ⊤ᵒ :  Truthhood

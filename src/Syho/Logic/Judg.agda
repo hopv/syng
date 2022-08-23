@@ -426,8 +426,8 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
 
-  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ][ i ]⇛  Qᵛ (val x))  →
-             P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
+  hor-nd :  (∀ x →  P  ⊢[ ι ]⟨ ktx ᴷ◁ ∇ x ⟩[ wκ ]  Qᵛ)  →
+            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
 
   -- ▶, for partial and total Hoare triples
 

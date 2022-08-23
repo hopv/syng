@@ -21,8 +21,8 @@ open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _�
 open import Syho.Logic.Judg public using (WpKind; par; tot; _⊢[_]⁺⟨_⟩[_]_;
   _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_;
   _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-suc; _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ;
-  hor-bind; hor-valᵘ; hor-ndᵘ; horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏ᴿ; hor-🞰; hor-←; hor-alloc;
-  hor-free)
+  hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏ᴿ; hor-🞰; hor-←;
+  hor-alloc; hor-free)
 
 private variable
   ι :  Size
@@ -49,6 +49,9 @@ abstract
   -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  Qᵛ  →
   -->              (∀ v →  Qᵛ v  ⊢[ ι ]⟨ ktx ᴷ◁ V⇒E v ⟩[ wκ ]  Rᵛ)  →
   -->              P  ⊢[ ι ]⟨ ktx ᴷ◁ e ⟩[ wκ ]  Rᵛ
+
+  -->  hor-nd :  (∀ x →  P  ⊢[ ι ]⟨ ktx ᴷ◁ ∇ x ⟩[ wκ ]  Qᵛ)  →
+  -->            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
 
   -->  horᴾ-▶ :  P  ⊢[< ι ]⟨ ktx ᴷ◁ e˂ .! ⟩ᴾ  Qᵛ  →
   -->            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ▶ᴿ e˂ ⟩ᴾ  Qᵛ
@@ -103,15 +106,6 @@ abstract
 
   hor-val :  P  ⊢[ ι ]  Qᵛ v  →   P  ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ]  Qᵛ
   hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} P⊢Q
-
-  -- Non-deterministic value
-
-  -->  hor-ndᵘ :  (∀ x →  P  ⊢[ ι ]⇛  Qᵛ (val x))  →
-  -->             P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
-
-  hor-nd :  (∀ x →  P  ⊢[ ι ]  Qᵛ (val x))  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ ktx ᴷ|ᴿ ndᴿ ⟩[ wκ ]  Qᵛ
-  hor-nd ∀xP⊢Q =  hor-ndᵘ $ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀xP⊢Q _
 
   -- Sequential execution
 

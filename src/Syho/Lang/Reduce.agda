@@ -66,7 +66,7 @@ private variable
   e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
   e˙ :  X → Expr ∞ T
-  ktx :  Ktx U T
+  K :  Ktx U T
   red : Redex T
   x :  X
   θ :  Addr
@@ -89,21 +89,21 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
 
 -- Reduction on an expression
 data  _⇒ᴱ_ {T} :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
-  redᴱ :  val/ktxred e ≡ inj₁ (ktx ᴷ| red) →  (red , M) ⇒ᴿ (e' , M') →
-          (e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
+  redᴱ :  val/ktxred e ≡ inj₁ (K ᴷ| red) →  (red , M) ⇒ᴿ (e' , M') →
+          (e , M) ⇒ᴱ (K ᴷ◁ e' , M')
 
 abstract
 
   -- Enrich a reduction with an evaluation context
 
-  red-ktx :  (e , M) ⇒ᴱ (e' , M') →  (ktx ᴷ◁ e , M) ⇒ᴱ (ktx ᴷ◁ e' , M')
-  red-ktx {ktx = ktx} (redᴱ {ktx = ktx'} {e' = e'} eq r⇒)
-    rewrite ◠ ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} {ktx' = ktx'} {e'}
+  red-ktx :  (e , M) ⇒ᴱ (e' , M') →  (K ᴷ◁ e , M) ⇒ᴱ (K ᴷ◁ e' , M')
+  red-ktx {K = K} (redᴱ {K = K'} {e' = e'} eq r⇒)
+    rewrite ◠ ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e'}
     =  redᴱ (val/ktxred-ktx eq) r⇒
 
   -- Unwrap an evaluation context from a reduction
 
-  red-ktx-inv :  nonval e →  (ktx ᴷ◁ e , M) ⇒ᴱ (e'' , M') →
-                 ∑ e' ,  e'' ≡ ktx ᴷ◁ e'  ×  (e , M) ⇒ᴱ (e' , M')
-  red-ktx-inv {ktx = ktx} nv'e (redᴱ eq r⇒)  with val/ktxred-ktx-inv nv'e eq
-  ... | -, refl , eq' =  -, ᴷ∘ᴷ-ᴷ◁ {ktx = ktx} , redᴱ eq' r⇒
+  red-ktx-inv :  nonval e →  (K ᴷ◁ e , M) ⇒ᴱ (e'' , M') →
+                 ∑ e' ,  e'' ≡ K ᴷ◁ e'  ×  (e , M) ⇒ᴱ (e' , M')
+  red-ktx-inv {K = K} nv'e (redᴱ eq r⇒)  with val/ktxred-ktx-inv nv'e eq
+  ... | -, refl , eq' =  -, ᴷ∘ᴷ-ᴷ◁ {K = K} , redᴱ eq' r⇒

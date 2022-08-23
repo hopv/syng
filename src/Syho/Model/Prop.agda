@@ -71,11 +71,15 @@ syntax ∃₁ᵒ-syntax (λ x → Pᵒ) =  ∃₁ᵒ x , Pᵒ
 
 abstract
 
+  -- Monoᵒ for ∀/∃₁ᵒ
+
   ∀₁ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∀₁ᵒ˙ Pᵒ˙)
   ∀₁ᵒ-Mono ∀MonoP a⊑b ∀Pa x =  ∀MonoP x a⊑b (∀Pa x)
 
   ∃₁ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃₁ᵒ˙ Pᵒ˙)
   ∃₁ᵒ-Mono ∀MonoP a⊑b (x , Pa) =  x , ∀MonoP x a⊑b Pa
+
+  -- Monotonicity of ∀/∃₁ᵒ
 
   ∀₁ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∀₁ᵒ˙ Pᵒ˙ ⊨ ∀₁ᵒ˙ Qᵒ˙
   ∀₁ᵒ-mono Px⊨Qx ∀Pa x =  Px⊨Qx x (∀Pa x)
@@ -105,11 +109,17 @@ _→ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 
 abstract
 
+  -- Monoᵒ for →ᵒ
+
   →ᵒ-Mono :  Monoᵒ (Pᵒ →ᵒ Qᵒ)
   →ᵒ-Mono a⊑a' P→Qa a'⊑b E✓b Pᵒb =  P→Qa (⊑-trans a⊑a' a'⊑b) E✓b Pᵒb
 
+  -- Monotonicity of →ᵒ
+
   →ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ →ᵒ Qᵒ) ⊨ (P'ᵒ →ᵒ Q'ᵒ)
   →ᵒ-mono P'⊨P Q⊨Q' P→Qa a⊑b E✓b P'b =  Q⊨Q' $ P→Qa a⊑b E✓b $ P'⊨P P'b
+
+  -- Introduce/eliminate →ᵒ
 
   →ᵒ-intro :  Monoᵒ Qᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ →ᵒ Rᵒ
   →ᵒ-intro MonoQ P×Q⊨✓R Qa a⊑b E✓b Pb =  P×Q⊨✓R E✓b (Pb , MonoQ a⊑b Qa)
@@ -126,11 +136,17 @@ _∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 
 abstract
 
+  -- Monoᵒ for ∗ᵒ
+
   ∗ᵒ-Mono :  Monoᵒ (Pᵒ ∗ᵒ Qᵒ)
   ∗ᵒ-Mono a⊑a' (-, b∙c⊑a , PbQc) =  -, ⊑-trans b∙c⊑a a⊑a' , PbQc
 
+  -- ∗ᵒ is commutative
+
   ∗ᵒ-comm :  Pᵒ ∗ᵒ Qᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
   ∗ᵒ-comm (-, b∙c⊑a , Pb , Qc) =  -, ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
+
+  -- Monotonicity of ∗ᵒ
 
   ∗ᵒ-mono✓ˡ :  Pᵒ ⊨✓ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨✓ Qᵒ ∗ᵒ Rᵒ
   ∗ᵒ-mono✓ˡ P⊨✓Q E✓a (-, b∙c⊑a , Pb , Rc) =
@@ -145,6 +161,8 @@ abstract
   ∗ᵒ-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Sᵒ
   ∗ᵒ-mono P⊨Q R⊨S =  ∗ᵒ-monoˡ P⊨Q › ∗ᵒ-monoʳ R⊨S
 
+  -- ∗ᵒ is associative
+
   ∗ᵒ-assocˡ :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ)
   ∗ᵒ-assocˡ (-, e∙d⊑a , (-, b∙c⊑e , Pb , Qc) , Rd) =
     -, ⊑-respˡ ∙-assocˡ $ ⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a , Pb ,
@@ -154,11 +172,15 @@ abstract
   ∗ᵒ-assocʳ =
     ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm
 
+  -- Eliminate ∗ᵒ
+
   ∗ᵒ-elimʳ :  Monoᵒ Pᵒ →  Qᵒ ∗ᵒ Pᵒ ⊨ Pᵒ
   ∗ᵒ-elimʳ MonoP (-, b∙c⊑a , -, Pc) =  MonoP (⊑-trans ∙-incrˡ b∙c⊑a) Pc
 
   ∗ᵒ-elimˡ :  Monoᵒ Pᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨ Pᵒ
   ∗ᵒ-elimˡ MonoP =  ∗ᵒ-comm › ∗ᵒ-elimʳ MonoP
+
+  -- Introduce ∗ᵒ with a trivial proposition
 
   ?∗ᵒ-intro :  Qᵒ ε →  Pᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
   ?∗ᵒ-intro Qε Pa =  -, ≈⇒⊑ ∙-unitˡ , Qε , Pa
@@ -175,11 +197,17 @@ _-∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 
 abstract
 
+  -- Monoᵒ for -∗ᵒ
+
   -∗ᵒ-Mono :  Monoᵒ (Pᵒ -∗ᵒ Qᵒ)
   -∗ᵒ-Mono a⊑a' P-∗Qa a'⊑b E✓c∙b Pc =  P-∗Qa (⊑-trans a⊑a' a'⊑b) E✓c∙b Pc
 
+  -- Monotonicity of -∗ᵒ
+
   -∗ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ -∗ᵒ Qᵒ) ⊨ (P'ᵒ -∗ᵒ Q'ᵒ)
   -∗ᵒ-mono P'⊨P Q⊨Q' P-∗Qa a⊑b E✓c∙b P'c =  Q⊨Q' $ P-∗Qa a⊑b E✓c∙b $ P'⊨P P'c
+
+  -- Introduce/eliminate -∗ᵒ
 
   -∗ᵒ-intro :  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
   -∗ᵒ-intro P∗Q⊨✓R Qa a⊑b E✓c∙b Pc =  P∗Q⊨✓R E✓c∙b (-, ∙-monoʳ a⊑b , Pc , Qa)
@@ -197,8 +225,12 @@ infix 8 ⤇ᵒ_
 
 abstract
 
+  -- Monoᵒ for ⤇ᵒ
+
   ⤇ᵒ-Mono :  Monoᵒ (⤇ᵒ Pᵒ)
   ⤇ᵒ-Mono a⊑a' ⤇Pa E✓c∙a' =  ⤇Pa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
+
+  -- Monotonicity of ⤇ᵒ
 
   ⤇ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
   ⤇ᵒ-mono✓ P⊨✓Q ⤇Pa E✓c∙a  with ⤇Pa E✓c∙a
@@ -207,18 +239,26 @@ abstract
   ⤇ᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
   ⤇ᵒ-mono =  ⤇ᵒ-mono✓ ∘ ⊨⇒⊨✓
 
+  -- Introduce ⤇ᵒ
+
   ⤇ᵒ-intro :  Pᵒ ⊨ ⤇ᵒ Pᵒ
   ⤇ᵒ-intro Pa E✓c∙a =  -, E✓c∙a , Pa
+
+  -- Join ⤇ᵒ ⤇ᵒ into ⤇ᵒ
 
   ⤇ᵒ-join :  ⤇ᵒ ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Pᵒ
   ⤇ᵒ-join ⤇⤇Pa E✓d∙a  with ⤇⤇Pa E✓d∙a
   ... | -, E✓d∙b , ⤇Pb  with ⤇Pb E✓d∙b
   ...   | -, E✓d∙c , Pc =  -, E✓d∙c , Pc
 
+  -- Let ⤇ᵒ eat a proposition under ∗ᵒ
+
   ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ ⤇ᵒ Qᵒ ⊨ ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
   ⤇ᵒ-eatˡ (-, b∙c⊑a , Pb , ⤇Qc) E✓e∙a
     with ⤇Qc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | -, E✓eb∙d , Qd =  -, ✓-respʳ ∙-assocˡ E✓eb∙d , -, ⊑-refl , Pb , Qd
+
+  -- Let ∃₁ _ go out of ⤇ᵒ
 
   ⤇ᵒ-∃₁ᵒ-out :  ⤇ᵒ (∃₁ᵒ _ ∈ X , Pᵒ) ⊨✓ ∃₁ᵒ _ ∈ X , ⤇ᵒ Pᵒ
   ⤇ᵒ-∃₁ᵒ-out E✓a ⤇∃XP .proj₀ =
@@ -235,8 +275,12 @@ infix 8 □ᵒ_
 
 abstract
 
+  -- Monoᵒ for □ᵒ
+
   □ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ (□ᵒ Pᵒ)
   □ᵒ-Mono MonoP a⊑b P⌞a⌟ =  MonoP (⌞⌟-mono a⊑b) P⌞a⌟
+
+  -- Monotonicity of □ᵒ
 
   □ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  □ᵒ Pᵒ ⊨✓ □ᵒ Qᵒ
   □ᵒ-mono✓ P⊨✓Q E✓a =  P⊨✓Q (✓-mono ⌞⌟-decr E✓a)
@@ -244,11 +288,17 @@ abstract
   □ᵒ-mono :  Pᵒ ⊨ Qᵒ →  □ᵒ Pᵒ ⊨ □ᵒ Qᵒ
   □ᵒ-mono P⊨Q =  P⊨Q
 
+  -- Eliminate □ᵒ
+
   □ᵒ-elim :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ⊨ Pᵒ
   □ᵒ-elim MonoP P⌞a⌟ =  MonoP ⌞⌟-decr P⌞a⌟
 
+  -- Duplicate □ᵒ
+
   □ᵒ-dup :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ⊨ □ᵒ □ᵒ Pᵒ
   □ᵒ-dup MonoP P⌞a⌟ =  MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟
+
+  -- Change ×ᵒ into ∗ᵒ when one argument is under □ᵒ
 
   □ᵒˡ-×ᵒ⇒∗ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ×ᵒ Qᵒ ⊨ □ᵒ Pᵒ ∗ᵒ Qᵒ
   □ᵒˡ-×ᵒ⇒∗ᵒ MonoP (P⌞a⌟ , Qa) =  -, ≈⇒⊑ ⌞⌟-unitˡ ,
@@ -262,8 +312,12 @@ Own a b =  a ⊑ b
 
 abstract
 
+  -- Monoᵒ for Own
+
   Own-Mono :  Monoᵒ (Own a)
   Own-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
+
+  -- Modify the resource of Own
 
   Own-cong :  a ≈ b →  Own a ⊨ Own b
   Own-cong a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
@@ -271,17 +325,23 @@ abstract
   Own-mono :  b ⊑ a →  Own a ⊨ Own b
   Own-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
 
+  -- Get Own by reflexivity
+
   Own-refl :  Own a a
   Own-refl =  ⊑-refl
 
   Own-ε :  Own ε a
   Own-ε =  ε-min
 
+  -- Own (a ∙ b) agrees with Own a ∗ᵒ Own b
+
   Own-∙⇒∗ᵒ :  Own (a ∙ b) ⊨ Own a ∗ᵒ Own b
   Own-∙⇒∗ᵒ a∙b⊑c =  -, a∙b⊑c , ⊑-refl , ⊑-refl
 
   Own-∗ᵒ⇒∙ :  Own a ∗ᵒ Own b ⊨ Own (a ∙ b)
   Own-∗ᵒ⇒∙ (-, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
+
+  -- Own a is persistent when ⌞ a ⌟ agrees with a
 
   Own-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  Own a ⊨ □ᵒ Own a
   Own-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
@@ -297,13 +357,19 @@ _⤇ᴱ_ :  ∀{X : Set₂} →  Env →  (X → Env × Propᵒ) →  Propᵒ
 
 abstract
 
+  -- Monoᵒ for ⤇ᴱ
+
   ⤇ᴱ-Mono :  Monoᵒ (E ⤇ᴱ FPᵒ˙)
   ⤇ᴱ-Mono a⊑a' E⤇FPa E✓c∙a' =  E⤇FPa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
+
+  -- Monotonicity of ⤇ᴱ
 
   ⤇ᴱ-mono✓ :  (∀ x →  Pᵒ˙ x ⊨✓ Qᵒ˙ x) →
               E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
   ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa E✓c∙a  with E⤇FPa E✓c∙a
   ... | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx _ (✓-mono ∙-incrˡ F✓c∙b) Pb
+
+  -- Introduce ⤇ᴱ
 
   ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ (_ : ⊤) → E , Pᵒ
   ⤇ᵒ⇒⤇ᴱ ⤇ᵒPa E✓c∙a  with ⤇ᵒPa E✓c∙a
@@ -312,10 +378,14 @@ abstract
   ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ (_ : ⊤) → E , Pᵒ
   ⤇ᴱ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⤇ᴱ
 
+  -- Join ⤇ᴱ
+
   ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙)  ⊨  E ⤇ᴱ GPᵒ˙
   ⤇ᴱ-join E⤇F,F⤇GP E✓d∙a  with E⤇F,F⤇GP E✓d∙a
   ... | -, -, F✓d∙b , F⤇GPb  with F⤇GPb F✓d∙b
   ...   | -, -, G✓d∙c , Pc =  -, -, G✓d∙c , Pc
+
+  -- Let ⤇ᴱ eat a proposition under ∗ᵒ
 
   ⤇ᴱ-eatˡ :  Pᵒ ∗ᵒ (E ⤇ᴱ FQᵒ˙)  ⊨
                E ⤇ᴱ λ x → let (F , Qᵒ) = FQᵒ˙ x in F , Pᵒ ∗ᵒ Qᵒ

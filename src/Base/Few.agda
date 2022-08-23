@@ -29,10 +29,16 @@ binary _ b 1₂ =  b
 record  ⊤ {ł} :  Set ł  where
   instance constructor 0⊤
 
+⊤₀ :  Set₀
+⊤₀ =  ⊤
+
 --------------------------------------------------------------------------------
 -- ⊥ :  0-element set / empty set / falsehood
 
 data  ⊥ {ł} :  Set ł  where
+
+⊥₀ :  Set₀
+⊥₀ =  ⊥
 
 -- Function from ⊥
 
@@ -44,7 +50,7 @@ absurd ()
 
 infix 3 ¬_
 ¬_ :  Set ł → Set ł
-¬ A =  A →  ⊥ {0ᴸ}
+¬ A =  A →  ⊥₀
 
 -- Introducing ¬¬
 

@@ -6,16 +6,16 @@
 
 module Base.NatPos where
 
-open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; cmp; _+_; _*_;
-  suc≤suc; suc<suc; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤;
-  ≤-<-trans; <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; ᵇ⇒≡; ≡⇒ᵇ; ᵇ⇒≤;
-  ≤⇒ᵇ; ᵇ⇒<; <⇒ᵇ; +-comm; +-assocˡ; +-injˡ; +-0; +-incrˡ; +-smonoʳ; *-comm;
-  *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ; *-smonoˡ)
+open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; _<≡>_; _≤>_;
+  _+_; _*_; suc≤suc; suc<suc; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans;
+  <-asym; <⇒≤; ≤-<-trans; <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; ᵇ⇒≡;
+  ≡⇒ᵇ; ᵇ⇒≤; ≤⇒ᵇ; ᵇ⇒<; <⇒ᵇ; +-comm; +-assocˡ; +-injˡ; +-0; +-incrˡ; +-smonoʳ;
+  *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ; *-smonoˡ)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Func using (_$_)
 open import Base.Bool using (Bool; Tt)
 open import Base.Few using (¬_)
-open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
+open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
 
 --------------------------------------------------------------------------------
 -- ℕ⁺ :  Positive natural number
@@ -105,13 +105,22 @@ abstract
   ≤⁺⇒¬>⁺ :  m ≤⁺ n →  ¬ m >⁺ n
   ≤⁺⇒¬>⁺ =  ≤⇒¬>
 
+  infix 4 _<≡>⁺_ _≤>⁺_
+
   -- Get <⁺, ≡ or >⁺
 
-  cmp⁺ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  m >⁺ n
-  cmp⁺ (1+ m⁰) (1+ n⁰)  with cmp m⁰ n⁰
+  _<≡>⁺_ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  m >⁺ n
+  1+ m⁰ <≡>⁺ 1+ n⁰  with m⁰ <≡> n⁰
   ... | inj₀ m⁰<n⁰ =  inj₀ m⁰<n⁰
   ... | inj₁₀ refl =  inj₁₀ refl
   ... | inj₁₁ m⁰>n⁰ =  inj₁₁ m⁰>n⁰
+
+  -- Get ≤⁺ or >⁺
+
+  _≤>⁺_ :  ∀ m n →  m ≤⁺ n  ⊎  m >⁺ n
+  1+ m⁰ ≤>⁺ 1+ n⁰  with m⁰ ≤> n⁰
+  ... | inj₀ m⁰≤n⁰ =  inj₀ m⁰≤n⁰
+  ... | inj₁ m⁰>n⁰ =  inj₁ m⁰>n⁰
 
 --------------------------------------------------------------------------------
 -- ≡⁺ᵇ, ≤⁺ᵇ, <⁺ᵇ, ≥⁺ᵇ, >⁺ᵇ :  Boolean order

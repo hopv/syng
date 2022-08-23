@@ -6,16 +6,16 @@
 
 module Base.RatPos where
 
-open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; cmp⁺; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_; _*⁺_;
-  ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ; ᵇ⇒≤⁺; ≤⁺⇒ᵇ;
-  +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_;
+  _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ; ᵇ⇒≤⁺;
+  ≤⁺⇒ᵇ; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
   *⁺-+⁺-distrʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ;
   *⁺-monoʳ)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
 open import Base.Bool using (Bool; Tt)
 open import Base.Few using (¬_; absurd)
-open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
+open import Base.Sum using (_⊎_; inj₀; inj₁)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number
@@ -165,10 +165,9 @@ abstract
   -- ≤1ᴿ⁺ holds after removing an addend
 
   ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
-  ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd  with cmp⁺ c d
-  ... | inj₀ c<d =  <⁺⇒≤⁺ c<d
-  ... | inj₁₀ refl =  ≤⁺-refl
-  ... | inj₁₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
+  ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd  with c ≤>⁺ d
+  ... | inj₀ c≤d =  c≤d
+  ... | inj₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
     <⁺-trans (*⁺-smonoʳ {b} c>d) +⁺-sincrˡ
 
   -- p +ᴿ⁺ 1ᴿ⁺ does not satisfy ≤1ᴿ⁺
@@ -179,10 +178,9 @@ abstract
   -- ≤1ᴿ⁺ respects ≈ᴿ⁺
 
   ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  p ≤1ᴿ⁺ →  q ≤1ᴿ⁺
-  ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b  with cmp⁺ c d
-  ... | inj₀ c<d =  <⁺⇒≤⁺ c<d
-  ... | inj₁₀ refl =  ≤⁺-refl
-  ... | inj₁₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc ◇ *⁺-comm {b} {c}) $
+  ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b  with c ≤>⁺ d
+  ... | inj₀ c≤d =  c≤d
+  ... | inj₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc ◇ *⁺-comm {b} {c}) $
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
 
 --------------------------------------------------------------------------------

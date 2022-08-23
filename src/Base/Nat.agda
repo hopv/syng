@@ -9,7 +9,7 @@ module Base.Nat where
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Func using (_$_)
 open import Base.Few using (¬_; absurd)
-open import Base.Sum using (_⊎_; inj₀; inj₁₀; inj₁₁)
+open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
 open import Base.Bool using (Bool; tt; Tt)
 open import Base.Dec using (Dec²; yes; no)
 open import Base.Dec.Construct using (dec-Tt)
@@ -123,16 +123,26 @@ abstract
   suc<suc⁻¹ :  suc m < suc n →  m < n
   suc<suc⁻¹ (suc<suc m<n) =   m<n
 
+  infix 4 _<≡>_ _≤>_
+
   -- Get <, ≡ or >
 
-  cmp :  ∀ m n →  m < n  ⊎  m ≡ n  ⊎  m > n
-  cmp 0 (suc _) =  inj₀ 0<suc
-  cmp 0 0 =  inj₁₀ refl
-  cmp (suc _) 0 =  inj₁₁ 0<suc
-  cmp (suc m') (suc n')  with cmp m' n'
+  _<≡>_ :  ∀ m n →  m < n  ⊎  m ≡ n  ⊎  m > n
+  0 <≡> (suc _) =  inj₀ 0<suc
+  0 <≡> 0 =  inj₁₀ refl
+  suc _ <≡> 0 =  inj₁₁ 0<suc
+  suc m' <≡> suc n'  with m' <≡> n'
   ... | inj₀ m'<n' =  inj₀ $ suc<suc m'<n'
-  ... | inj₁₀ m'≡n' =  inj₁₀ $ cong suc m'≡n'
+  ... | inj₁₀ refl =  inj₁₀ refl
   ... | inj₁₁ m'>n' =  inj₁₁ (suc<suc m'>n')
+
+  -- Get ≤ or >
+
+  _≤>_ :  ∀ m n →  m ≤ n  ⊎  m > n
+  m ≤> n  with m <≡> n
+  ... | inj₀ m<n =  inj₀ $ <⇒≤ m<n
+  ... | inj₁₀ refl =  inj₀ ≤-refl
+  ... | inj₁₁ m>n =  inj₁ m>n
 
   -- Conversion between ≤ and ≤ᵈ
 
@@ -279,7 +289,7 @@ abstract
   -- + is injective
 
   +-injˡ :  ∀{l m n} →  m + l ≡ n + l →  m ≡ n
-  +-injˡ {_} {m} {n} m+l≡n+l  with cmp m n
+  +-injˡ {_} {m} {n} m+l≡n+l  with m <≡> n
   ... | inj₀ m<n =  absurd $ ≡⇒¬< m+l≡n+l (+-smonoˡ m<n)
   ... | inj₁₀ m≡n =  m≡n
   ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m+l≡n+l) (+-smonoˡ m>n)
@@ -362,7 +372,7 @@ abstract
   -- * with a positive argument is injective
 
   *-injˡ :  ∀{l m n} →  m * suc l ≡ n * suc l →  m ≡ n
-  *-injˡ {_} {m} {n} m*sl≡n*sl  with cmp m n
+  *-injˡ {_} {m} {n} m*sl≡n*sl  with m <≡> n
   ... | inj₀ m<n =  absurd $ ≡⇒¬< m*sl≡n*sl (*-smonoˡ m<n)
   ... | inj₁₀ m≡n =  m≡n
   ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m*sl≡n*sl) (*-smonoˡ m>n)

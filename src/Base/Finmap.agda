@@ -55,9 +55,9 @@ addᶠᵐ a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc n , proof
  where abstract
   proof :  Finᶠᵐ (updⁿᵐ n a f) (suc n)
   proof {j} n<j  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
-  ... | ff | _ =  fi (<⇒≤ n<j)
+  ... | ff | _ =  fi $ <⇒≤ n<j
   ... | tt | ⇒n≡j  with ⇒n≡j _
-  ...   | refl =  absurd (<-irrefl n<j)
+  ...   | refl =  absurd $ <-irrefl n<j
 
 -- Update a finmap at an index
 

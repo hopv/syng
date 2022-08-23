@@ -6,12 +6,12 @@
 
 module Syho.Model.ERA.Glob where
 
-open import Base.Level using (2ᴸ)
+open import Base.Level using (Level; 2ᴸ)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no)
-open import Base.Prod using (_,_; proj₀; proj₁; -,_)
-open import Base.Nat using (ℕ; _≡?_)
+open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁; -,_)
+open import Base.Nat using (ℕ; _≡?_; ≡?-refl)
 open import Base.Nmap using (updᵈⁿᵐ)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
@@ -91,6 +91,10 @@ module _ {i : ℕ} where
     a˙ b˙ c˙ d˙ :  Resᴳ
     E F :  Envⁱ
     a b :  Resⁱ
+    ł :  Level
+    X :  Set ł
+    bˣ :  X → Resⁱ
+    Fˣ :  X → Envⁱ
 
   abstract
 
@@ -130,17 +134,27 @@ module _ {i : ℕ} where
     ... | no _ =  Globᴱᴿᴬ˙ j .refl˜
     ... | yes refl =  refl˜ⁱ
 
-    updᴳ-↝ :  (E˙ i , a) ↝ⁱ (E˙ i , b) →
-      (E˙ , updᴳ i a c˙) ↝ᴳ (E˙ , updᴳ i b c˙)
-    updᴳ-↝ Eia↝Eib E✓d∙iac j  with j ≡? i | E✓d∙iac j
-    ... | no _ | E✓dj∙cj =  E✓dj∙cj
-    ... | yes refl | Ei✓d˙i∙a =  Eia↝Eib Ei✓d˙i∙a
+    updᴳ-↝ :  (E˙ i , a) ↝ⁱ (λ x → E˙ i , bˣ x) →
+              (E˙ , updᴳ i a c˙) ↝ᴳ λ x → (E˙ , updᴳ i (bˣ x) c˙)
+    updᴳ-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib {d˙} E✓d∙iac  with E✓d∙iac i
+    ... | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
+     where
+      body :  ∑ x , E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
+      body .proj₀ =  Eia↝Eib Ei✓di∙a .proj₀
+      body .proj₁ j  with j ≡? i | E✓d∙iac j
+      ... | no _ | E✓dj∙cj =  E✓dj∙cj
+      ... | yes refl | _ =  Eia↝Eib Ei✓di∙a .proj₁
 
-    updᴱᴳ-updᴳ-↝ :  (E˙ i , a) ↝ⁱ (F , b) →
-      (E˙ , updᴳ i a c˙) ↝ᴳ (updᴱᴳ i F E˙ , updᴳ i b c˙)
-    updᴱᴳ-updᴳ-↝ Ea↝Fb iEG✓d∙iac j  with j ≡? i | iEG✓d∙iac j
-    ... | no _ | Gj✓dj∙cj =  Gj✓dj∙cj
-    ... | yes refl | E✓d˙i∙a =  Ea↝Fb E✓d˙i∙a
+    updᴱᴳ-updᴳ-↝ :  (E˙ i , a) ↝ⁱ (λ x → Fˣ x , bˣ x) →
+      (E˙ , updᴳ i a c˙) ↝ᴳ λ x → updᴱᴳ i (Fˣ x) E˙ , updᴳ i (bˣ x) c˙
+    updᴱᴳ-updᴳ-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb {d˙} E✓d∙iac  with E✓d∙iac i
+    ... | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
+     where
+      body :  ∑ x , updᴱᴳ i (Fˣ x) E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
+      body .proj₀ =  Eia↝Fb Ei✓di∙a .proj₀
+      body .proj₁ j  with j ≡? i | E✓d∙iac j
+      ... | no _ | E✓dj∙cj =  E✓dj∙cj
+      ... | yes refl | _ =  Eia↝Fb Ei✓di∙a .proj₁
 
     ----------------------------------------------------------------------------
     -- On injᴳ
@@ -167,9 +181,10 @@ module _ {i : ℕ} where
     injᴳ-⌞⌟ :  ⌞ injᴳ i a ⌟ᴳ  ≈ᴳ  injᴳ i ⌞ a ⌟ⁱ
     injᴳ-⌞⌟ =  updᴳ-⌞⌟ ◇˜ᴳ updᴳ-cong refl˜ⁱ $ ⌞⌟-ε Globᴱᴿᴬ
 
-    injᴳ-↝ :  (E˙ i , a) ↝ⁱ (E˙ i , b) →  (E˙ , injᴳ i a) ↝ᴳ (E˙ , injᴳ i b)
+    injᴳ-↝ :  (E˙ i , a) ↝ⁱ (λ x → E˙ i , bˣ x) →
+              (E˙ , injᴳ i a) ↝ᴳ λ x → E˙ , injᴳ i $ bˣ x
     injᴳ-↝ =  updᴳ-↝
 
-    updᴱᴳ-injᴳ-↝ :  (E˙ i , a) ↝ⁱ (F , b) →
-      (E˙ , injᴳ i a) ↝ᴳ (updᴱᴳ i F E˙ , injᴳ i b)
+    updᴱᴳ-injᴳ-↝ :  (E˙ i , a) ↝ⁱ (λ x → Fˣ x , bˣ x) →
+      (E˙ , injᴳ i a) ↝ᴳ λ x → updᴱᴳ i (Fˣ x) E˙ , injᴳ i $ bˣ x
     updᴱᴳ-injᴳ-↝ =  updᴱᴳ-updᴳ-↝

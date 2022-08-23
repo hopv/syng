@@ -9,7 +9,7 @@ module Syho.Model.ERA.Ind where
 open import Base.Level using (2ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_∘_; _$_; id; _▷_)
-open import Base.Few using (absurd)
+open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Bool using (ff; tt)
 open import Base.Prod using (_×_; proj₀; proj₁; _,_; -,_)
@@ -103,7 +103,7 @@ Indˣᴱᴿᴬ .⌞⌟-unitˡ _ =  refl
 Indˣᴱᴿᴬ .⌞⌟-idem _ =  refl
 
 open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; _✓_ to _✓ˣ_; ε to εˣ;
-  _↝_ to _↝ˣ_; _↝˙_ to _↝˙ˣ_)
+  _↝_ to _↝ˣ_)
 
 -- Exclusively own a proposition at an index
 
@@ -114,8 +114,10 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ (addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q)
-  add-indˣ {_ |ᶠᵐ (n , _)} {c = Rˣ˙} P✓Rˣ∙ε j  with P✓Rˣ∙ε j
+  add-indˣ :
+    (Pᶠᵐ , εˣ) ↝ˣ λ (_ : ⊤₀) → (addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q)
+  add-indˣ _ .proj₀ =  _
+  add-indˣ {_ |ᶠᵐ (n , _)} {c = Rˣ˙} P✓Rˣ∙ε .proj₁ j  with P✓Rˣ∙ε j
   ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ...   | ff | _ =  Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡? ∘ <⇒≤
   ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | n≤j⇒Rˣj∙?≡? ≤-refl
@@ -132,7 +134,7 @@ abstract
 
   -- Remove a proposition consuming a line
 
-  rem-indˣ :  (Pᶠᵐ , line-indˣ i Q) ↝˙ˣ λ i<n → (inupdᶠᵐ i ⊤' Pᶠᵐ i<n , εˣ)
+  rem-indˣ :  (Pᶠᵐ , line-indˣ i Q) ↝ˣ λ i<n → (inupdᶠᵐ i ⊤' Pᶠᵐ i<n , εˣ)
   rem-indˣ {Pᶠᵐ} {c = Rˣ˙} P✓Rˣ∙iQ .proj₀ =
     line-bound-indˣ {Pᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Pᶠᵐ} {Rˣ˙} P✓Rˣ∙iQ
   rem-indˣ {i = i} {c = Rˣ˙} P✓Rˣ∙iQ .proj₁ j  with P✓Rˣ∙iQ j
@@ -220,8 +222,10 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-ind□ :  (Pᶠᵐ , ε□) ↝□ (addᶠᵐ Q Pᶠᵐ , line-ind□ (boundᶠᵐ Pᶠᵐ) Q)
-  add-ind□ {_ |ᶠᵐ (n , _)} {c = Rs˙} P✓Rs∙ε j  with P✓Rs∙ε j
+  add-ind□ :
+    (Pᶠᵐ , ε□) ↝□ λ (_ : ⊤₀) → (addᶠᵐ Q Pᶠᵐ , line-ind□ (boundᶠᵐ Pᶠᵐ) Q)
+  add-ind□ _ .proj₀ =  _
+  add-ind□ {_ |ᶠᵐ (n , _)} {c = Rs˙} P✓Rs∙ε .proj₁ j  with P✓Rs∙ε j
   ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ...   | ff | _ =  Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[] ∘ <⇒≤
   ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | n≤j⇒Rsj++[]≡[] ≤-refl

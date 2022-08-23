@@ -10,7 +10,7 @@ open import Base.Level using (2ᴸ)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no)
-open import Base.Prod using (_,_; proj₀; proj₁)
+open import Base.Prod using (_,_; proj₀; proj₁; -,_)
 open import Base.Nat using (ℕ; _≡?_)
 open import Base.Nmap using (updᵈⁿᵐ)
 open import Syho.Model.ERA using (ERA)
@@ -18,8 +18,8 @@ open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
 
 open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ; ◠˜ᴱ_; _◇˜ᴱ_;
-  refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε;
-  ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-ε)
+  refl˜; ◠˜_; _◇˜_; ⊑-refl; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem;
+  ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-ε)
 
 --------------------------------------------------------------------------------
 -- Globᴱᴿᴬ :  Global ERA
@@ -61,8 +61,8 @@ Globᴱᴿᴬ .⌞⌟-unitˡ i =  Globᴱᴿᴬ˙ i .⌞⌟-unitˡ
 Globᴱᴿᴬ .⌞⌟-idem i =  Globᴱᴿᴬ˙ i .⌞⌟-idem
 
 open ERA Globᴱᴿᴬ using () renaming (Env to Envᴳ; Res to Resᴳ; _≈_ to _≈ᴳ_;
-  _✓_ to _✓ᴳ_; _∙_ to _∙ᴳ_; ε to εᴳ; ⌞_⌟ to ⌞_⌟ᴳ; _↝_ to _↝ᴳ_; refl˜ to refl˜ᴳ;
-  _◇˜_ to _◇˜ᴳ_)
+  _⊑_ to _⊑ᴳ_; _✓_ to _✓ᴳ_; _∙_ to _∙ᴳ_; ε to εᴳ; ⌞_⌟ to ⌞_⌟ᴳ; _↝_ to _↝ᴳ_;
+  refl˜ to refl˜ᴳ; _◇˜_ to _◇˜ᴳ_)
 
 --------------------------------------------------------------------------------
 -- Update & inject at an index
@@ -83,26 +83,37 @@ injᴳ i a =  updᴳ i a εᴳ
 module _ {i : ℕ} where
 
   open ERA (Globᴱᴿᴬ˙ i) using () renaming (Env to Envⁱ; Res to Resⁱ;
-    _≈_ to _≈ⁱ_; _✓_ to _✓ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _↝_ to _↝ⁱ_;
-    refl˜ to refl˜ⁱ)
+    _≈_ to _≈ⁱ_; _⊑_ to _⊑ⁱ_; _✓_ to _✓ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ;
+    _↝_ to _↝ⁱ_; refl˜ to refl˜ⁱ)
 
   private variable
     E˙ F˙ G˙ :  Envᴳ
-    b˙ c˙ d˙ :  Resᴳ
+    a˙ b˙ c˙ d˙ :  Resᴳ
     E F :  Envⁱ
     a b :  Resⁱ
 
   abstract
 
+    -- ⊑ᴳ distributes
+
+    ⊑ᴳ⇒⊑ :  a˙ ⊑ᴳ b˙ →  a˙ i ⊑ⁱ b˙ i
+    ⊑ᴳ⇒⊑ (-, c∙a≈b) =  -, c∙a≈b i
+
     ----------------------------------------------------------------------------
     -- On updᴳ
 
-    -- updᴳ preserves ≈/✓/∙/⌞⌟/↝
+    -- updᴳ preserves ≈/⊑/✓/∙/⌞⌟/↝
 
     updᴳ-cong :  a ≈ⁱ b →  c˙ ≈ᴳ d˙ →  updᴳ i a c˙ ≈ᴳ updᴳ i b d˙
     updᴳ-cong a≈b c˙≈d˙ j  with j ≡? i
     ... | no _ =  c˙≈d˙ j
     ... | yes refl =  a≈b
+
+    updᴳ-mono :  a ⊑ⁱ b →  c˙ ⊑ᴳ d˙ →  updᴳ i a c˙ ⊑ᴳ updᴳ i b d˙
+    updᴳ-mono _ _ .proj₀ =  updᴳ i _ _
+    updᴳ-mono (-, e∙a≈b) (-, f˙∙c˙≈d˙) .proj₁ j  with j ≡? i
+    ... | no _ =  f˙∙c˙≈d˙ j
+    ... | yes refl =  e∙a≈b
 
     updᴳ-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ b˙ →  E˙ ✓ᴳ updᴳ i a b˙
     updᴳ-✓ Ei✓a E✓b˙ j  with j ≡? i
@@ -138,6 +149,9 @@ module _ {i : ℕ} where
 
     injᴳ-cong :  a ≈ⁱ b →  injᴳ i a  ≈ᴳ  injᴳ i b
     injᴳ-cong a≈b =  updᴳ-cong a≈b refl˜ᴳ
+
+    injᴳ-mono :  a ⊑ⁱ b →  injᴳ i a  ⊑ᴳ  injᴳ i b
+    injᴳ-mono a⊑b =  updᴳ-mono a⊑b $ ⊑-refl Globᴱᴿᴬ
 
     injᴳ-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ injᴳ i a
     injᴳ-✓ Ei✓a =  updᴳ-✓ Ei✓a $ Globᴱᴿᴬ .✓-ε

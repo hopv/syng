@@ -39,18 +39,6 @@ data  Redex :  Type →  Set₁  where
   allocᴿ :  ℕ →  Redex (◸ Addr)
   freeᴿ :  Addr →  Redex (◸ ⊤)
 
--- Converting Redex to Expr
-
-R⇒E :  Redex T →  Expr ∞ T
-R⇒E (▶ᴿ e˂) =  ▶ e˂
-R⇒E ndᴿ =  nd
-R⇒E (e˙ ◁ᴿ x) =  λ˙ e˙ ◁ ∇ x
-R⇒E (v ⁏ᴿ e) =  V⇒E v ⁏ e
-R⇒E (🞰ᴿ θ) =  🞰 ∇ θ
-R⇒E (θ ←ᴿ v) =  ∇ θ ← V⇒E v
-R⇒E (allocᴿ n) =  alloc $ ∇ n
-R⇒E (freeᴿ θ) =  free $ ∇ θ
-
 --------------------------------------------------------------------------------
 -- Ktx :  Syntactic evaluation context
 

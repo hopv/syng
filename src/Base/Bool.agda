@@ -8,6 +8,7 @@ module Base.Bool where
 
 open import Base.Level using (Level)
 open import Base.Few using (⊤; ⊥)
+open import Base.Eq using (_≡_; refl)
 
 --------------------------------------------------------------------------------
 -- Bool :  Boolean
@@ -59,6 +60,11 @@ if ff then aᵗ else aᶠ =  aᶠ
 Tt :  Bool → Set₀
 Tt tt =  ⊤
 Tt ff =  ⊥
+
+abstract
+
+  Tt⇒≡tt :  Tt b →  b ≡ tt
+  Tt⇒≡tt {b = tt} _ =  refl
 
 --------------------------------------------------------------------------------
 -- ≤ᴮ :  Order over Bool

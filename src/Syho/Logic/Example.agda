@@ -19,7 +19,7 @@ open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝₀-intro; ∗-elimˡ; 
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; hor-nd;
-  horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏ᴿ; hor-🞰; hor-←)
+  horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏; hor-🞰; hor-←)
 open import Syho.Lang.Example using (loop; plus◁3,4; decrloop; decrloop';
   nddecrloop)
 
@@ -62,7 +62,7 @@ abstract
 
   decrloop'-exec {n = 0} =  hor-val ⊢-refl
   decrloop'-exec {n = suc n} =
-    ∗⊤-intro » hor-← $ hor-⁏ᴿ $ ∗-elimˡ » horᵀ-▶ decrloop-exec
+    ∗⊤-intro » hor-← $ hor-⁏ $ ∗-elimˡ » horᵀ-▶ decrloop-exec
 
   -- nddecrloop terminates, setting the value at θ to 0
   -- Notably, the number of reduction steps is dynamically determined
@@ -70,4 +70,4 @@ abstract
   nddecrloop-exec :
     θ ↦ av  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, val 0)
   nddecrloop-exec =
-    hor-nd $ λ _ → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ᴿ decrloop-exec
+    hor-nd $ λ _ → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ decrloop-exec

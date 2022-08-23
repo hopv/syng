@@ -444,7 +444,7 @@ data  _⊢[_]*_  where
 
   -- Sequential execution
 
-  hor-⁏ᴿ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Qᵛ  →
+  hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Qᵛ  →
             P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| v ⁏ᴿ e ⟩[ wκ ]  Qᵛ
 
   -- Memory read

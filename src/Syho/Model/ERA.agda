@@ -15,7 +15,7 @@ open import Base.Setoid using (Setoid)
 --------------------------------------------------------------------------------
 -- Environmental resource algebra
 
-record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ ł≈ᴱ ⊔ᴸ ł≈ ⊔ᴸ ł✓))  where
+record  ERA łᴱ łᴿ ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł≈ᴱ ⊔ᴸ ł≈ ⊔ᴸ ł✓))  where
   ------------------------------------------------------------------------------
   -- Fields
   infix 4 _≈ᴱ_ _≈_
@@ -31,7 +31,7 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
     Env :  Set łᴱ
 
     -- Res :  Resource
-    Res :  Set ł
+    Res :  Set łᴿ
 
     -- ≈ᴱ :  Equivalence on environments
     _≈ᴱ_ :  Env →  Env →  Set ł≈ᴱ
@@ -119,7 +119,7 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
   Env-setoid =  record {
     Car = Env; _≈_ = _≈ᴱ_; refl˜ = refl˜ᴱ; ◠˜_ = ◠˜ᴱ_; _◇˜_ = _◇˜ᴱ_ }
 
-  Res-setoid :  Setoid ł ł≈
+  Res-setoid :  Setoid łᴿ ł≈
   Res-setoid =  record {
     Car = Res; _≈_ = _≈_; refl˜ = refl˜; ◠˜_ = ◠˜_; _◇˜_ = _◇˜_ }
 
@@ -127,8 +127,8 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
     a a' b b' c d :  Res
     E E' F F' :  Env
     Ea E'a' Fb F'b' Gc :  Env × Res
-    łX :  Level
-    X :  Set łX
+    ł :  Level
+    X :  Set ł
     Fb˙ F'b'˙ :  X →  Env × Res
 
   abstract
@@ -232,7 +232,7 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
   -- ⊑ :  Derived pre-order
 
   infix 4 _⊑_
-  _⊑_ :  Res → Res → Set (ł ⊔ᴸ ł≈)
+  _⊑_ :  Res → Res → Set (łᴿ ⊔ᴸ ł≈)
   a ⊑ b =  ∑ c ,  c ∙ a  ≈  b
 
   abstract
@@ -316,14 +316,14 @@ record  ERA łᴱ ł ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ ł ⊔ᴸ 
   -- (E , a) ↝ (F, b) :  a with E can be updated into b with F,
   --                     regardless of the frame c
 
-  _↝_ :  Env × Res →  Env × Res →  Set (ł ⊔ᴸ ł✓)
+  _↝_ :  Env × Res →  Env × Res →  Set (łᴿ ⊔ᴸ ł✓)
   (E , a) ↝ (F , b) =  ∀ c →  E ✓ c ∙ a →  F ✓ c ∙ b
 
   -- (E , a) ↝˙ Fb˙ :  a with E can be updated into Fb˙ x for some x,
   --                   regardless the frame c
 
-  _↝˙_ :  {X : Set łX} →
-    Env × Res →  (X →  Env × Res) →  Set (ł ⊔ᴸ ł✓ ⊔ᴸ łX)
+  _↝˙_ :  ∀{X : Set ł} →
+    Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
   (E , a) ↝˙ Fb˙ =  ∀ c →  E ✓ c ∙ a →
     ∑ x ,  let (F , b) = Fb˙ x in  F ✓ c ∙ b
 

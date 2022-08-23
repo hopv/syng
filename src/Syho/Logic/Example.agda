@@ -65,6 +65,7 @@ abstract
     ∗⊤-intro » hor-← $ hor-⁏ᴿ $ ∗-elimˡ » horᵀ-▶ decrloop-exec
 
   -- nddecrloop terminates, setting the value at θ to 0
+  -- Notably, the number of reduction steps is dynamically determined
 
   nddecrloop-exec :
     θ ↦ av  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, val 0)

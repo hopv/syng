@@ -25,7 +25,7 @@ open import Syho.Model.ERA using (ERA)
 open import Syho.Model.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm; ∙ˣ-assocˡ;
   ∙ˣ-?ˣ)
 
-open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; _|ᶠᵐ_; boundᶠᵐ; addᶠᵐ;
+open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; _|ᶠᵐ_; bndᶠᵐ; addᶠᵐ;
   inupdᶠᵐ)
 
 open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ; ◠˜ᴱ_; _◇˜ᴱ_;
@@ -114,7 +114,7 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ λ (_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q
+  add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ λ (_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-indˣ (bndᶠᵐ Pᶠᵐ) Q
   add-indˣ _ .proj₀ =  _
   add-indˣ {_ |ᶠᵐ (n , _)} {c = Rˣ˙} P✓Rˣ∙ε .proj₁ j  with P✓Rˣ∙ε j
   ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
@@ -124,7 +124,7 @@ abstract
 
   -- If we validly have a line, then its index is within the bound
 
-  line-bound-indˣ :  Pᶠᵐ ✓ˣ line-indˣ i Q →  i < boundᶠᵐ Pᶠᵐ
+  line-bound-indˣ :  Pᶠᵐ ✓ˣ line-indˣ i Q →  i < bndᶠᵐ Pᶠᵐ
   line-bound-indˣ {_ |ᶠᵐ (n , _)} {i = i} P✓iQ  with n ≤> i
   ... | inj₁ i<n =  i<n
   ... | inj₀ n≤i  with P✓iQ i
@@ -221,7 +221,7 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-ind□ :  (Pᶠᵐ , ε□) ↝□ λ (_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-ind□ (boundᶠᵐ Pᶠᵐ) Q
+  add-ind□ :  (Pᶠᵐ , ε□) ↝□ λ (_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-ind□ (bndᶠᵐ Pᶠᵐ) Q
   add-ind□ _ .proj₀ =  _
   add-ind□ {_ |ᶠᵐ (n , _)} {c = Rs˙} P✓Rs∙ε .proj₁ j  with P✓Rs∙ε j
   ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}

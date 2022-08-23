@@ -38,8 +38,8 @@ open Finmap public
 
 -- Null bound
 
-boundᶠᵐ :  Finmap →  ℕ
-boundᶠᵐ (_ |ᶠᵐ (n , _)) =  n
+bndᶠᵐ :  Finmap →  ℕ
+bndᶠᵐ (_ |ᶠᵐ (n , _)) =  n
 
 -- Finmap that constantly returns a null value
 
@@ -60,7 +60,7 @@ addᶠᵐ a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc n , proof
 
 -- Update a finmap at an index within the bound
 
-inupdᶠᵐ :  ∀(i : ℕ) (_ : A) (P : Finmap) →  i < boundᶠᵐ P →  Finmap
+inupdᶠᵐ :  ∀(i : ℕ) (_ : A) (P : Finmap) →  i < bndᶠᵐ P →  Finmap
 inupdᶠᵐ i a (f |ᶠᵐ _) _ .!ᶠᵐ =  updⁿᵐ i a f
 inupdᶠᵐ i a (f |ᶠᵐ (n , fi)) i<n .finᶠᵐ =  n , proof
  where abstract

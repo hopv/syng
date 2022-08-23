@@ -134,8 +134,8 @@ module _ {i : ℕ} where
     ... | no _ =  Globᴱᴿᴬ˙ j .refl˜
     ... | yes refl =  refl˜ⁱ
 
-    updᴳ-↝ :  (E˙ i , a) ↝ⁱ (λ x → E˙ i , bˣ x) →
-              (E˙ , updᴳ i a c˙) ↝ᴳ λ x → (E˙ , updᴳ i (bˣ x) c˙)
+    updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x)  →
+              (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → (E˙ , updᴳ i (bˣ x) c˙)
     updᴳ-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib {d˙} E✓d∙iac  with E✓d∙iac i
     ... | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
      where
@@ -145,8 +145,8 @@ module _ {i : ℕ} where
       ... | no _ | E✓dj∙cj =  E✓dj∙cj
       ... | yes refl | _ =  Eia↝Eib Ei✓di∙a .proj₁
 
-    updᴱᴳ-updᴳ-↝ :  (E˙ i , a) ↝ⁱ (λ x → Fˣ x , bˣ x) →
-      (E˙ , updᴳ i a c˙) ↝ᴳ λ x → updᴱᴳ i (Fˣ x) E˙ , updᴳ i (bˣ x) c˙
+    updᴱᴳ-updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
+      (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → updᴱᴳ i (Fˣ x) E˙ , updᴳ i (bˣ x) c˙
     updᴱᴳ-updᴳ-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb {d˙} E✓d∙iac  with E✓d∙iac i
     ... | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
      where
@@ -181,10 +181,10 @@ module _ {i : ℕ} where
     injᴳ-⌞⌟ :  ⌞ injᴳ i a ⌟ᴳ  ≈ᴳ  injᴳ i ⌞ a ⌟ⁱ
     injᴳ-⌞⌟ =  updᴳ-⌞⌟ ◇˜ᴳ updᴳ-cong refl˜ⁱ $ ⌞⌟-ε Globᴱᴿᴬ
 
-    injᴳ-↝ :  (E˙ i , a) ↝ⁱ (λ x → E˙ i , bˣ x) →
-              (E˙ , injᴳ i a) ↝ᴳ λ x → E˙ , injᴳ i $ bˣ x
+    injᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x) →
+              (E˙ , injᴳ i a)  ↝ᴳ  λ x → E˙ , injᴳ i $ bˣ x
     injᴳ-↝ =  updᴳ-↝
 
-    updᴱᴳ-injᴳ-↝ :  (E˙ i , a) ↝ⁱ (λ x → Fˣ x , bˣ x) →
-      (E˙ , injᴳ i a) ↝ᴳ λ x → updᴱᴳ i (Fˣ x) E˙ , injᴳ i $ bˣ x
+    updᴱᴳ-injᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
+                    (E˙ , injᴳ i a)  ↝ᴳ  λ x → updᴱᴳ i (Fˣ x) E˙ , injᴳ i $ bˣ x
     updᴱᴳ-injᴳ-↝ =  updᴱᴳ-updᴳ-↝

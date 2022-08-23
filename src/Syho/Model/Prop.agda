@@ -32,13 +32,14 @@ Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
   ł :  Level
-  X :  Set ł
+  X Y :  Set ł
   Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ
   a b :  Res
   E :  Env
   F˙ :  X →  Env
   FPᵒ˙ FQᵒ˙ GPᵒ˙ :  X →  Env × Propᵒ
+  f :  Y → X
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment, with or without a validity input
@@ -384,6 +385,12 @@ abstract
               E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
   ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa E✓c∙a  with E⤇FPa E✓c∙a
   ... | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx _ (✓-mono ∙-incrˡ F✓c∙b) Pb
+
+  -- Change parameterization of ⤇ᴱ
+
+  ⤇ᴱ-param :  E ⤇ᴱ FPᵒ˙ ∘ f  ⊨  E ⤇ᴱ FPᵒ˙
+  ⤇ᴱ-param E⤇FPf E✓c∙a  with E⤇FPf E✓c∙a
+  ... | -, ∑bF✓c∙b×Pb =  -, ∑bF✓c∙b×Pb
 
   -- Introduce ⤇ᴱ
 

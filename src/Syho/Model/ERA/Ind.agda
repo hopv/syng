@@ -111,7 +111,7 @@ abstract
   -- Add a new proposition and get a line
 
   add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ (addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q)
-  add-indˣ {Pᶠᵐ = _ |ᶠᵐ (n , fi)} Rˣ˙ P✓Rˣ∙ε j  with P✓Rˣ∙ε j
+  add-indˣ {Pᶠᵐ = _ |ᶠᵐ (n , _)} Rˣ˙ P✓Rˣ∙ε j  with P✓Rˣ∙ε j
   ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
   ...   | ff | _ =  Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡? ∘ <⇒≤
   ...   | tt | ⇒n≡j  rewrite ⇒n≡j _ | ∙ˣ-?ˣ {x = Rˣ˙ j} | n≤j⇒Rˣj∙?≡? ≤-refl
@@ -197,7 +197,7 @@ abstract
   -- Add a new proposition and get a line
 
   add-ind□ :  (Pᶠᵐ , ε□) ↝□ (addᶠᵐ Q Pᶠᵐ , line-ind□ (boundᶠᵐ Pᶠᵐ) Q)
-  add-ind□ {Pᶠᵐ = _ |ᶠᵐ (n , fi)} Rs˙ P✓Rs∙ε j  with P✓Rs∙ε j
+  add-ind□ {Pᶠᵐ = _ |ᶠᵐ (n , _)} Rs˙ P✓Rs∙ε j  with P✓Rs∙ε j
   ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
   ...   | ff | _ =  Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[] ∘ <⇒≤
   ...   | tt | ⇒n≡j  rewrite ⇒n≡j _ | ++-[] {as = Rs˙ j} | n≤j⇒Rsj++[]≡[] ≤-refl

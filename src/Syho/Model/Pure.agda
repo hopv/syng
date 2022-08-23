@@ -8,8 +8,8 @@ module Syho.Model.Pure where
 
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _›_; id)
-open import Base.Thunk using (!)
 open import Base.Few using (0₂; 1₂; binary; absurd)
+open import Base.Thunk using (!)
 open import Base.Prod using (_,_; proj₀; proj₁)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _∗_; _-∗_; ⤇_;
   □_; ○_; _↪[_]⇛_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦⟨_⟩_; Free; Basic; ∀₁-Basic; ∃₁-Basic;

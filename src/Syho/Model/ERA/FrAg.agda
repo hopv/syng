@@ -9,9 +9,9 @@ module Syho.Model.ERA.FrAg {ł ł≈} (S : Setoid ł ł≈) where
 open Setoid S using (_≈_; refl˜) renaming (Car to A)
 
 open import Base.Level using (_⊔ᴸ_)
+open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Prod using (_×_; _,_; -,_)
-open import Base.Func using (_$_)
 open import Base.RatPos using (ℚ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺; 1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
   ≈ᴿ⁺-trans; ≡⇒≈ᴿ⁺; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem;
   1≤1ᴿ⁺; ?+1-not-≤1ᴿ⁺)

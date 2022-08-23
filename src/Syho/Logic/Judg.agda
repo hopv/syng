@@ -9,10 +9,10 @@ module Syho.Logic.Judg where
 
 open import Base.Level using (Level; ↑_)
 open import Base.Size using (Size; ∞)
-open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Func using (_∘_; _$_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)
+open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Nat using (ℕ; suc)

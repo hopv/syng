@@ -7,10 +7,10 @@
 module Syho.Lang.Example where
 
 open import Base.Size using (Size; ∞)
-open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
+open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; suc; _+_)
 open import Syho.Lang.Expr using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_; nd;

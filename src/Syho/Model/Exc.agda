@@ -7,9 +7,9 @@
 module Syho.Model.Exc where
 
 open import Base.Level using (Level)
+open import Base.Func using (id)
 open import Base.Few using (⊥; ⊤)
 open import Base.Eq using (_≡_; refl)
-open import Base.Func using (id)
 
 private variable
   ł :  Level

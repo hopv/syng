@@ -7,8 +7,8 @@
 module Syho.Model.ERA where
 
 open import Base.Level using (Level; _⊔ᴸ_; sucᴸ)
-open import Base.Eq using (_≡_; refl)
 open import Base.Func using (_$_; id; _▷_; flip; _∘_)
+open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Setoid using (Setoid)
 

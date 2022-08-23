@@ -7,10 +7,10 @@
 module Base.List.Nat where
 
 open import Base.Level using (Level)
-open import Base.List using (List; []; _∷_)
+open import Base.Func using (_$_)
 open import Base.Nat using (ℕ; suc)
 open import Base.Option using (??_; some; none)
-open import Base.Func using (_$_)
+open import Base.List using (List; []; _∷_)
 
 private variable
   ł :  Level

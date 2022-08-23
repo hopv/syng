@@ -7,8 +7,8 @@
 module Base.List.All2 where
 
 open import Base.Level using (Level; _⊔ᴸ_)
-open import Base.List using (List; _∷_; []; _++_)
 open import Base.Func using (_$_)
+open import Base.List using (List; _∷_; []; _++_)
 
 private variable
   ł ł' ł'' :  Level

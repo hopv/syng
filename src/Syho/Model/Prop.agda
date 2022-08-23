@@ -7,9 +7,9 @@
 module Syho.Model.Prop where
 
 open import Base.Level using (Level)
-open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
 open import Base.Func using (_$_; _›_; _∘_; flip; const)
 open import Base.Few using (⊤)
+open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)

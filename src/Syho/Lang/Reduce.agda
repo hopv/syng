@@ -8,16 +8,16 @@ module Syho.Lang.Reduce where
 
 open import Base.Level using (↑_)
 open import Base.Size using (∞)
-open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
+open import Base.Eq using (_≡_; refl; ◠_)
+open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (inj₁)
 open import Base.Option using (??_; some)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; [])
 open import Base.List.Nat using (_‼_; upd; rep)
-open import Base.Eq using (_≡_; refl; ◠_)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;

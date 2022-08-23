@@ -7,12 +7,12 @@
 module Base.Dec.Construct where
 
 open import Base.Level using (Level)
+open import Base.Func using (_$_)
+open import Base.Few using (¬_; ⇒¬¬)
 open import Base.Dec using (Dec; yes; no)
 open import Base.Bool using (Bool; tt; ff; Tt)
-open import Base.Few using (¬_; ⇒¬¬)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
-open import Base.Func using (_$_)
 
 private variable
   łX łY :  Level

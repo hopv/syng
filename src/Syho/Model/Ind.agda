@@ -22,8 +22,8 @@ open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
-open import Syho.Model.Prop using (Propᵒ; Monoᵒ; _⊨_; _∗ᵒ_; Own; ∗ᵒ-Mono;
-  ∗ᵒ-assocʳ; Own-Mono)
+open import Syho.Model.Prop using (Propᵒ; Monoᵒ; _⊨_; _⊎ᵒ_; _∗ᵒ_; Own; ⊎ᵒ-Mono;
+  ∗ᵒ-Mono; ∗ᵒ-assocʳ; Own-Mono)
 open import Syho.Model.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -34,17 +34,23 @@ private variable
   e :  Expr ∞ T
 
 --------------------------------------------------------------------------------
--- Indᵒ :  Indirection base
+-- Ind :  Indirection base
 
-Indᵒ :  Prop' ∞ →  Propᵒ
-Indᵒ P a =  ∑ i ,
-  Own (injᴳ indˣ (line-indˣ i P)) a  ⊎  Own (injᴳ ind□ (line-ind□ i P)) a
+Indˣ Ind□ Ind :  Prop' ∞ →  Propᵒ
+Indˣ P a =  ∑ i , Own (injᴳ indˣ (line-indˣ i P)) a
+Ind□ P a =  ∑ i , Own (injᴳ ind□ (line-ind□ i P)) a
+Ind P =  Indˣ P ⊎ᵒ Ind□ P
 
 abstract
 
-  Indᵒ-Mono :  Monoᵒ (Indᵒ P)
-  Indᵒ-Mono a⊑b (i , inj₀ Ownˣ) =  i , inj₀ $ Own-Mono a⊑b Ownˣ
-  Indᵒ-Mono a⊑b (i , inj₁ Own□) =  i , inj₁ $ Own-Mono a⊑b Own□
+  Indˣ-Mono :  Monoᵒ (Indˣ P)
+  Indˣ-Mono a⊑b (i , Ownˣ) =  i , Own-Mono a⊑b Ownˣ
+
+  Ind□-Mono :  Monoᵒ (Ind□ P)
+  Ind□-Mono a⊑b (i , Own□) =  i , Own-Mono a⊑b Own□
+
+  Ind-Mono :  Monoᵒ (Ind P)
+  Ind-Mono =  ⊎ᵒ-Mono Indˣ-Mono Ind□-Mono
 
 --------------------------------------------------------------------------------
 -- ○ᵒ :  Interpret the indirection modality ○
@@ -52,7 +58,7 @@ abstract
 infix 8 ○ᵒ_
 ○ᵒ_ :  Prop' ∞ →  Propᵒ
 (○ᵒ P) a =  ∑ Q , ∑ᴵ BasicQ , ∑ R ,
-  Q ∗ R ⊢[ ∞ ] P  ×  (⸨ Q ⸩ᴮ {{BasicQ}} ∗ᵒ Indᵒ R) a
+  Q ∗ R ⊢[ ∞ ] P  ×  (⸨ Q ⸩ᴮ {{BasicQ}} ∗ᵒ Ind R) a
 
 abstract
 
@@ -74,7 +80,7 @@ abstract
 infixr 5 _↪[_]⇛ᵒ_
 _↪[_]⇛ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ
 (P ↪[ i ]⇛ᵒ Q) a =  ∑ R , ∑ᴵ BasicR , ∑ S ,
-  P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Indᵒ S) a
+  P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S) a
 
 abstract
 
@@ -119,7 +125,7 @@ abstract
 infixr 5 _↪⟨_⟩ᴾᵒ_
 _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ
 (P ↪⟨ e ⟩ᴾᵒ Qᵛ) a =  ∑ R , ∑ᴵ BasicR , ∑ S ,
-  P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Indᵒ S) a
+  P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S) a
 
 abstract
 
@@ -161,7 +167,7 @@ abstract
 infixr 5 _↪⟨_⟩ᵀ[_]ᵒ_
 _↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Propᵒ
 (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ) a =  ∑ R , ∑ᴵ BasicR , ∑ S ,
-  P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Indᵒ S) a
+  P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S) a
 
 abstract
 

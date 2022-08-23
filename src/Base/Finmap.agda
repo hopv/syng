@@ -54,9 +54,9 @@ addᶠᵐ a (f |ᶠᵐ (n , _)) .!ᶠᵐ =  updⁿᵐ n a f
 addᶠᵐ a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc n , proof
  where abstract
   proof :  Finᶠᵐ (updⁿᵐ n a f) (suc n)
-  proof {j} n<j  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
+  proof {j} n<j  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ... | ff | _ =  fi $ <⇒≤ n<j
-  ... | tt | ⇒n≡j  rewrite ⇒n≡j _ =  absurd $ <-irrefl n<j
+  ... | tt | ⇒j≡n  rewrite ⇒j≡n _ =  absurd $ <-irrefl n<j
 
 -- Update a finmap at an index within the bound
 
@@ -65,8 +65,8 @@ inupdᶠᵐ i a (f |ᶠᵐ _) _ .!ᶠᵐ =  updⁿᵐ i a f
 inupdᶠᵐ i a (f |ᶠᵐ (n , fi)) i<n .finᶠᵐ =  n , proof
  where abstract
   proof :  Finᶠᵐ (updⁿᵐ i a f) n
-  proof {j} n≤j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
-  ... | tt | ⇒i≡j  rewrite ⇒i≡j _ =  absurd $ ≤⇒¬> n≤j i<n
+  proof {j} n≤j  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
+  ... | tt | ⇒j≡i  rewrite ⇒j≡i _ =  absurd $ ≤⇒¬> n≤j i<n
   ... | ff | _ =  fi n≤j
 
 -- Update a finmap at an index
@@ -76,9 +76,9 @@ updᶠᵐ i a (f |ᶠᵐ _) .!ᶠᵐ =  updⁿᵐ i a f
 updᶠᵐ i a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc i ⊔ n , proof
  where abstract
   proof :  Finᶠᵐ (updⁿᵐ i a f) (suc i ⊔ n)
-  proof {j} si⊔n≤j  with i ≡ᵇ j | ᵇ⇒≡ {i} {j}
+  proof {j} si⊔n≤j  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
   ... | ff | _ =  fi $ ⊔≤-introʳ {suc _} si⊔n≤j
-  ... | tt | ⇒i≡j  rewrite ⇒i≡j _ =
+  ... | tt | ⇒j≡i  rewrite ⇒j≡i _ =
     absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
 
 -- Merge finmaps using a merge operation _∙_

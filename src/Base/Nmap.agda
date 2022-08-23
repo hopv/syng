@@ -21,13 +21,13 @@ private variable
 -- updⁿᵐ, dupdⁿᵐ :  Update a map at an index
 
 updⁿᵐ :  ℕ →  A →  (ℕ → A) →  (ℕ → A)
-updⁿᵐ i a f j  with i ≡ᵇ j
+updⁿᵐ i a f j  with j ≡ᵇ i
 ... | ff =  f j
 ... | tt =  a
 
 -- Return type dependent on the index
 
 updᵈⁿᵐ :  ∀ i →  A˙ i →  (∀ j →  A˙ j) →  (∀ j →  A˙ j)
-updᵈⁿᵐ i a f j  with i ≡? j
+updᵈⁿᵐ i a f j  with j ≡? i
 ... | no _ =  f j
 ... | yes refl =  a

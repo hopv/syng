@@ -115,9 +115,9 @@ abstract
 
   add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ (addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q)
   add-indˣ {_ |ᶠᵐ (n , _)} Rˣ˙ P✓Rˣ∙ε j  with P✓Rˣ∙ε j
-  ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
+  ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ...   | ff | _ =  Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡? ∘ <⇒≤
-  ...   | tt | ⇒n≡j  rewrite ⇒n≡j _ | ∙ˣ-?ˣ {x = Rˣ˙ j} | n≤j⇒Rˣj∙?≡? ≤-refl
+  ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | n≤j⇒Rˣj∙?≡? ≤-refl
     =  refl , absurd ∘ <-irrefl
 
   line-bound-indˣ :  Pᶠᵐ ✓ˣ line-indˣ i Q →  i < boundᶠᵐ Pᶠᵐ
@@ -208,7 +208,7 @@ abstract
 
   add-ind□ :  (Pᶠᵐ , ε□) ↝□ (addᶠᵐ Q Pᶠᵐ , line-ind□ (boundᶠᵐ Pᶠᵐ) Q)
   add-ind□ {_ |ᶠᵐ (n , _)} Rs˙ P✓Rs∙ε j  with P✓Rs∙ε j
-  ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with n ≡ᵇ j | ᵇ⇒≡ {n} {j}
+  ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ...   | ff | _ =  Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[] ∘ <⇒≤
-  ...   | tt | ⇒n≡j  rewrite ⇒n≡j _ | ++-[] {as = Rs˙ j} | n≤j⇒Rsj++[]≡[] ≤-refl
+  ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | n≤j⇒Rsj++[]≡[] ≤-refl
     =  (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl

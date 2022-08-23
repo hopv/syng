@@ -30,8 +30,6 @@ Prop˂ ι =  Thunk Prop' ι
 
 private variable
   ι :  Size
-  X₀ :  Set₀
-  X₁ :  Set₁
   ł :  Level
   X :  Set ł
   P˙ :  X → Prop' ∞
@@ -49,9 +47,9 @@ infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
 
-  -- ∀₁˙, ∃₁˙ :  Universal/existential quantification over any type X₁ in Set₁,
+  -- ∀₁˙, ∃₁˙ :  Universal/existential quantification over any type X in Set₁,
   --             which does not include Prop' ι itself (predicativity)
-  ∀₁˙ ∃₁˙ :  (X₁ → Prop' ι) →  Prop' ι
+  ∀₁˙ ∃₁˙ :  ∀{X : Set₁} →  (X → Prop' ι) →  Prop' ι
 
   -- →' :  Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
@@ -87,28 +85,29 @@ data  Prop' ι  where
 --------------------------------------------------------------------------------
 -- Utility for ∀/∃
 
-∀₀˙ ∃₀˙ :  (X₀ → Prop' ι) →  Prop' ι
-∀₀˙ P˙ =  ∀₁˙ $ P˙ ∘ ↓_
-∃₀˙ P˙ =  ∃₁˙ $ P˙ ∘ ↓_
-
-∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax :  (X₁ → Prop' ι) →  Prop' ι
+∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax :
+  ∀{X : Set₁} →  (X → Prop' ι) →  Prop' ι
 ∀₁∈-syntax =  ∀₁˙
 ∃₁∈-syntax =  ∃₁˙
 ∀₁-syntax =  ∀₁˙
 ∃₁-syntax =  ∃₁˙
-∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax :  (X₀ → Prop' ι) →  Prop' ι
+
+∀₀˙ ∃₀˙ ∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax :
+  ∀{X : Set₀} →  (X → Prop' ι) →  Prop' ι
+∀₀˙ P˙ =  ∀₁˙ $ P˙ ∘ ↓_
+∃₀˙ P˙ =  ∃₁˙ $ P˙ ∘ ↓_
 ∀₀∈-syntax =  ∀₀˙
 ∃₀∈-syntax =  ∃₀˙
 ∀₀-syntax =  ∀₀˙
 ∃₀-syntax =  ∃₀˙
 infix 3 ∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax
   ∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax
-syntax ∀₁∈-syntax {X₁ = X₁} (λ x → P) =  ∀₁ x ∈ X₁ , P
-syntax ∃₁∈-syntax {X₁ = X₁} (λ x → P) =  ∃₁ x ∈ X₁ , P
+syntax ∀₁∈-syntax {X = X} (λ x → P) =  ∀₁ x ∈ X , P
+syntax ∃₁∈-syntax {X = X} (λ x → P) =  ∃₁ x ∈ X , P
 syntax ∀₁-syntax (λ x → P) =  ∀₁ x , P
 syntax ∃₁-syntax (λ x → P) =  ∃₁ x , P
-syntax ∀₀∈-syntax {X₀ = X₀} (λ x → P) =  ∀₀ x ∈ X₀ , P
-syntax ∃₀∈-syntax {X₀ = X₀} (λ x → P) =  ∃₀ x ∈ X₀ , P
+syntax ∀₀∈-syntax {X = X} (λ x → P) =  ∀₀ x ∈ X , P
+syntax ∃₀∈-syntax {X = X} (λ x → P) =  ∃₀ x ∈ X , P
 syntax ∀₀-syntax (λ x → P) =  ∀₀ x , P
 syntax ∃₀-syntax (λ x → P) =  ∃₀ x , P
 
@@ -135,9 +134,9 @@ P ∨ Q =  ∃₁˙ (binary P Q)
 -- ⌜ ⌝ :  Set embedding
 
 ⌜_⌝₁ :  Set₁ →  Prop' ι
-⌜ X₁ ⌝₁ =  ∃₁ _ ∈ X₁ , ⊤'
+⌜ X ⌝₁ =  ∃₁ _ ∈ X , ⊤'
 ⌜_⌝₀ :  Set₀ →  Prop' ι
-⌜ X₀ ⌝₀ =  ⌜ Up X₀ ⌝₁
+⌜ X ⌝₀ =  ⌜ Up X ⌝₁
 
 --------------------------------------------------------------------------------
 -- [∧], [∗] :  Iterated conjunction / separating conjunction
@@ -232,5 +231,5 @@ abstract
 
     ---- This can work also for ⌜⌝₀
 
-    ⌜⌝-Basic :  Basic ⌜ X₁ ⌝₁
+    ⌜⌝-Basic :  Basic ⌜ X ⌝₁
     ⌜⌝-Basic =  ∃₁-Basic $ λ _ → ⊤-Basic

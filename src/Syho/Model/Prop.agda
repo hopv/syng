@@ -30,8 +30,8 @@ Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
   Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ
-  X₁ :  Set₁
-  Pᵒ˙ Qᵒ˙ :  X₁ →  Propᵒ
+  X :  Set₁
+  Pᵒ˙ Qᵒ˙ :  X →  Propᵒ
   a b :  Res
 
 --------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ abstract
 --------------------------------------------------------------------------------
 -- ∀₁ᵒ, ∃₁ᵒ :  Universal/existential quantification
 
-∀₁ᵒ˙ ∃₁ᵒ˙ ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax :  (X₁ → Propᵒ) →  Propᵒ
+∀₁ᵒ˙ ∃₁ᵒ˙ ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax :  (X → Propᵒ) →  Propᵒ
 ∀₁ᵒ˙ Pᵒ˙ a =  ∀ x →  Pᵒ˙ x a
 ∃₁ᵒ˙ Pᵒ˙ a =  ∑ x ,  Pᵒ˙ x a
 ∀₁ᵒ∈-syntax =  ∀₁ᵒ˙
@@ -58,8 +58,8 @@ abstract
 ∀₁ᵒ-syntax =  ∀₁ᵒ˙
 ∃₁ᵒ-syntax =  ∃₁ᵒ˙
 infix 3 ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax
-syntax ∀₁ᵒ∈-syntax {X₁ = X₁} (λ x → Pᵒ) =  ∀₁ᵒ x ∈ X₁ , Pᵒ
-syntax ∃₁ᵒ∈-syntax {X₁ = X₁} (λ x → Pᵒ) =  ∃₁ᵒ x ∈ X₁ , Pᵒ
+syntax ∀₁ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∀₁ᵒ x ∈ X , Pᵒ
+syntax ∃₁ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∃₁ᵒ x ∈ X , Pᵒ
 syntax ∀₁ᵒ-syntax (λ x → Pᵒ) =  ∀₁ᵒ x , Pᵒ
 syntax ∃₁ᵒ-syntax (λ x → Pᵒ) =  ∃₁ᵒ x , Pᵒ
 
@@ -214,7 +214,7 @@ abstract
     with ⤇Qc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | -, E✓eb∙d , Qd =  -, ✓-respʳ ∙-assocˡ E✓eb∙d , -, ⊑-refl , Pb , Qd
 
-  ⤇ᵒ-∃₁ᵒ-out :  ⤇ᵒ (∃₁ᵒ _ ∈ X₁ , Pᵒ) ⊨✓ ∃₁ᵒ _ ∈ X₁ , ⤇ᵒ Pᵒ
+  ⤇ᵒ-∃₁ᵒ-out :  ⤇ᵒ (∃₁ᵒ _ ∈ X , Pᵒ) ⊨✓ ∃₁ᵒ _ ∈ X , ⤇ᵒ Pᵒ
   ⤇ᵒ-∃₁ᵒ-out E✓a ⤇∃XP .proj₀ =
     let -, -, x , _ = ⤇∃XP $ ✓-respʳ (◠˜ ∙-unitˡ) E✓a in  x
   ⤇ᵒ-∃₁ᵒ-out _ ⤇∃XP .proj₁ E✓c∙a =

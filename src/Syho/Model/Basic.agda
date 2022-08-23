@@ -8,12 +8,11 @@ module Syho.Model.Basic where
 
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
-open import Base.Few using (⊤)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _→'_; _∗_; _-∗_; ⤇_; □_;
   _↦⟨_⟩_; Free; Basic; ∀₁-Basic; ∃₁-Basic; →-Basic; ∗-Basic; -∗-Basic;
   ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic)
-open import Syho.Model.Prop using (Propᵒ; Monoᵒ; ∀₁ᵒ-syntax; ∃₁ᵒ-syntax; _→ᵒ_;
-  _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀₁ᵒ-Mono; ∃₁ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono; -∗ᵒ-Mono;
+open import Syho.Model.Prop using (Propᵒ; Monoᵒ; ∀₁ᵒ-syntax; ∃₁ᵒ-syntax; ⊤ᵒ;
+  _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀₁ᵒ-Mono; ∃₁ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono; -∗ᵒ-Mono;
   ⤇ᵒ-Mono; □ᵒ-Mono)
 
 private variable
@@ -30,8 +29,8 @@ private variable
 ⸨ P -∗ Q ⸩ᴮ {{ -∗-Basic}} =  ⸨ P ⸩ᴮ -∗ᵒ ⸨ Q ⸩ᴮ
 ⸨ ⤇ P ⸩ᴮ {{⤇-Basic}} =  ⤇ᵒ ⸨ P ⸩ᴮ
 ⸨ □ P ⸩ᴮ {{□-Basic}} =  □ᵒ ⸨ P ⸩ᴮ
-⸨ θ ↦⟨ q⁺ ⟩ av ⸩ᴮ {{↦⟨⟩-Basic}} =  λ _ → ⊤
-⸨ Free n θ ⸩ᴮ {{Free-Basic}} =  λ _ → ⊤
+⸨ θ ↦⟨ q⁺ ⟩ av ⸩ᴮ {{↦⟨⟩-Basic}} =  ⊤ᵒ  -- For now
+⸨ Free n θ ⸩ᴮ {{Free-Basic}} =  ⊤ᵒ  -- For now
 
 abstract
 

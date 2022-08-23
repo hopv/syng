@@ -9,7 +9,7 @@ module Syho.Model.Pure where
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _›_; id)
 open import Base.Thunk using (!)
-open import Base.Few using (⊤; 0₂; 1₂; binary; absurd)
+open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Prod using (_,_; proj₀; proj₁)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _∗_; _-∗_; ⤇_;
   □_; ○_; _↪[_]⇛_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦⟨_⟩_; Free; Basic; ∀₁-Basic; ∃₁-Basic;
@@ -24,11 +24,11 @@ open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-suc; ↪⇛-eatˡ�
   ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 open import Syho.Model.Prop using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀₁ᵒ-syntax;
-  ∃₁ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ⊨⇒⊨✓; ∀₁ᵒ-Mono; ∀₁ᵒ-mono; ∃₁ᵒ-Mono;
-  ∃₁ᵒ-mono; →ᵒ-Mono; →ᵒ-mono; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ;
-  ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-Mono; -∗ᵒ-mono;
-  -∗ᵒ-intro; -∗ᵒ-elim; ⤇ᵒ-Mono; ⤇ᵒ-mono; ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ;
-  ⤇ᵒ-∃₁ᵒ-out; □ᵒ-Mono; □ᵒ-mono; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup; □ᵒˡ-×ᵒ⇒∗ᵒ)
+  ∃₁ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ⊨⇒⊨✓; ∀₁ᵒ-Mono; ∀₁ᵒ-mono;
+  ∃₁ᵒ-Mono; ∃₁ᵒ-mono; →ᵒ-Mono; →ᵒ-mono; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-Mono; ∗ᵒ-mono;
+  ∗ᵒ-monoˡ; ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-Mono;
+  -∗ᵒ-mono; -∗ᵒ-intro; -∗ᵒ-elim; ⤇ᵒ-Mono; ⤇ᵒ-mono; ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join;
+  ⤇ᵒ-eatˡ; ⤇ᵒ-∃₁ᵒ-out; □ᵒ-Mono; □ᵒ-mono; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup; □ᵒˡ-×ᵒ⇒∗ᵒ)
 open import Syho.Model.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_; _↪⟨_⟩ᵀ[_]ᵒ_; ○ᵒ-Mono;
   ○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-Mono; ↪⇛ᵒ-suc; ↪⇛ᵒ-eatˡ⁻ˡᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ;
   ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪⟨⟩ᴾᵒ-Mono; ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ; ↪⟨⟩ᴾᵒ-monoʳᵘ;
@@ -54,8 +54,8 @@ private variable
 ⸨ P˂ ↪[ i ]⇛ Q˂ ⸩ =  P˂ .! ↪[ i ]⇛ᵒ Q˂ .!
 ⸨ P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ ⸩ =  P˂ .! ↪⟨ e ⟩ᴾᵒ λ v → Q˂ᵛ v .!
 ⸨ P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ ⸩ =  P˂ .! ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → Q˂ᵛ v .!
-⸨ _ ↦⟨ _ ⟩ _ ⸩ =  λ _ → ⊤  -- For now
-⸨ Free _ _ ⸩ =  λ _ → ⊤  -- For now
+⸨ _ ↦⟨ _ ⟩ _ ⸩ =  ⊤ᵒ  -- For now
+⸨ Free _ _ ⸩ =  ⊤ᵒ  -- For now
 
 abstract
 

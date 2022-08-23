@@ -8,6 +8,7 @@ module Syho.Model.Prop where
 
 open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
 open import Base.Func using (_$_; _›_; _∘_; flip)
+open import Base.Few using (⊤)
 open import Syho.Model.ERA using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
@@ -81,6 +82,12 @@ abstract
 infix 7 _×ᵒ_
 _×ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
 (Pᵒ ×ᵒ Qᵒ) a =  Pᵒ a × Qᵒ a
+
+--------------------------------------------------------------------------------
+-- ⊤ᵒ :  Truthhood
+
+⊤ᵒ :  Propᵒ
+⊤ᵒ _ =  ⊤
 
 --------------------------------------------------------------------------------
 -- →ᵒ :  Implication

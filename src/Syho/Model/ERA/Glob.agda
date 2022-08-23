@@ -132,15 +132,15 @@ module _ {i : ℕ} where
 
     updᴳ-↝ :  (E˙ i , a) ↝ⁱ (E˙ i , b) →
       (E˙ , updᴳ i a c˙) ↝ᴳ (E˙ , updᴳ i b c˙)
-    updᴳ-↝ Eia↝Eib d˙ E✓d∙iac j  with j ≡? i | E✓d∙iac j
+    updᴳ-↝ Eia↝Eib E✓d∙iac j  with j ≡? i | E✓d∙iac j
     ... | no _ | E✓dj∙cj =  E✓dj∙cj
-    ... | yes refl | Ei✓d˙i∙a =  Eia↝Eib (d˙ i) Ei✓d˙i∙a
+    ... | yes refl | Ei✓d˙i∙a =  Eia↝Eib Ei✓d˙i∙a
 
     updᴱᴳ-updᴳ-↝ :  (E˙ i , a) ↝ⁱ (F , b) →
       (E˙ , updᴳ i a c˙) ↝ᴳ (updᴱᴳ i F E˙ , updᴳ i b c˙)
-    updᴱᴳ-updᴳ-↝ Ea↝Fb d˙ iEG✓d∙iac j  with j ≡? i | iEG✓d∙iac j
+    updᴱᴳ-updᴳ-↝ Ea↝Fb iEG✓d∙iac j  with j ≡? i | iEG✓d∙iac j
     ... | no _ | Gj✓dj∙cj =  Gj✓dj∙cj
-    ... | yes refl | E✓d˙i∙a =  Ea↝Fb (d˙ i) E✓d˙i∙a
+    ... | yes refl | E✓d˙i∙a =  Ea↝Fb E✓d˙i∙a
 
     ----------------------------------------------------------------------------
     -- On injᴳ

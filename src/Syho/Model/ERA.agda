@@ -8,7 +8,7 @@ module Syho.Model.ERA where
 
 open import Base.Level using (Level; _⊔ᴸ_; sucᴸ)
 open import Base.Eq using (_≡_; refl)
-open import Base.Func using (_$_; id; _▷_; flip; _∈_)
+open import Base.Func using (_$_; id; _▷_; flip; _∘_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Setoid using (Setoid)
 
@@ -128,8 +128,9 @@ record  ERA łᴱ łᴿ ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ �
     E E' F F' :  Env
     Ea E'a' Fb F'b' Gc :  Env × Res
     ł :  Level
-    X :  Set ł
+    X Y :  Set ł
     Fb˙ F'b'˙ :  X →  Env × Res
+    f :  Y → X
 
   abstract
     ----------------------------------------------------------------------------
@@ -317,14 +318,14 @@ record  ERA łᴱ łᴿ ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ �
   --                     regardless of the frame c
 
   _↝_ :  Env × Res →  Env × Res →  Set (łᴿ ⊔ᴸ ł✓)
-  (E , a) ↝ (F , b) =  ∀ c →  E ✓ c ∙ a →  F ✓ c ∙ b
+  (E , a) ↝ (F , b) =  ∀{c} →  E ✓ c ∙ a →  F ✓ c ∙ b
 
   -- (E , a) ↝˙ Fb˙ :  a with E can be updated into Fb˙ x for some x,
   --                   regardless the frame c
 
   _↝˙_ :  ∀{X : Set ł} →
     Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
-  (E , a) ↝˙ Fb˙ =  ∀ c →  E ✓ c ∙ a →
+  (E , a) ↝˙ Fb˙ =  ∀{c} →  E ✓ c ∙ a →
     ∑ x ,  let (F , b) = Fb˙ x in  F ✓ c ∙ b
 
   abstract
@@ -332,13 +333,13 @@ record  ERA łᴱ łᴿ ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ �
     -- ↝ is reflexive
 
     ↝-refl :  Ea ↝ Ea
-    ↝-refl _ =  id
+    ↝-refl =  id
 
     -- ↝ respects ≈ᴱᴿ
 
     ↝-resp :  Ea ≈ᴱᴿ E'a' →  Fb ≈ᴱᴿ F'b' →  Ea ↝ Fb →  E'a' ↝ F'b'
-    ↝-resp (E≈E' , a≈a') (F≈F' , b≈b') Ea↝Fb c E'✓c∙a' =  E'✓c∙a' ▷
-      ✓-resp (◠˜ᴱ E≈E') (∙-congʳ $ ◠˜ a≈a') ▷ Ea↝Fb c ▷
+    ↝-resp (E≈E' , a≈a') (F≈F' , b≈b') Ea↝Fb E'✓c∙a' =  E'✓c∙a' ▷
+      ✓-resp (◠˜ᴱ E≈E') (∙-congʳ $ ◠˜ a≈a') ▷ Ea↝Fb ▷
       ✓-resp F≈F' (∙-congʳ b≈b')
 
     ↝-respˡ :  Ea ≈ᴱᴿ E'a' →  Ea ↝ Fb →  E'a' ↝ Fb
@@ -351,8 +352,8 @@ record  ERA łᴱ łᴿ ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ �
 
     ↝˙-resp :  Ea ≈ᴱᴿ E'a' →  (∀ x →  Fb˙ x ≈ᴱᴿ F'b'˙ x) →
       Ea ↝˙ Fb˙ →  E'a' ↝˙ F'b'˙
-    ↝˙-resp (E≈E' , a≈a') ∀xFbx≈F'b'x a↝˙b c E'✓c∙a'
-      with  E'✓c∙a' ▷ ✓-resp (◠˜ᴱ E≈E') (∙-congʳ $ ◠˜ a≈a') ▷ a↝˙b c
+    ↝˙-resp (E≈E' , a≈a') ∀xFbx≈F'b'x a↝˙b E'✓c∙a'
+      with  E'✓c∙a' ▷ ✓-resp (◠˜ᴱ E≈E') (∙-congʳ $ ◠˜ a≈a') ▷ a↝˙b
     ... | x , Fx✓c∙bx  =  let (Fx≈F'x , bx≈b'x) = ∀xFbx≈F'b'x x in
       x , ✓-resp Fx≈F'x (∙-congʳ bx≈b'x) Fx✓c∙bx
 
@@ -361,3 +362,9 @@ record  ERA łᴱ łᴿ ł≈ᴱ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ �
 
     ↝˙-respʳ :  (∀ x →  Fb˙ x ≈ᴱᴿ F'b'˙ x) →  Ea ↝˙ Fb˙ →  Ea ↝˙ F'b'˙
     ↝˙-respʳ =  ↝˙-resp refl˜ᴱᴿ
+
+    -- Change parameterization of ↝˙
+
+    ↝˙-param :  Ea ↝˙ Fb˙ ∘ f →  Ea ↝˙ Fb˙
+    ↝˙-param Ea↝Fbf E✓c∙a  with Ea↝Fbf E✓c∙a
+    ... | -, F✓c∙b =  -, F✓c∙b

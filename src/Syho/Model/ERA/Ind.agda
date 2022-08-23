@@ -114,8 +114,7 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-indˣ :
-    (Pᶠᵐ , εˣ) ↝ˣ λ (_ : ⊤₀) → (addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q)
+  add-indˣ :  (Pᶠᵐ , εˣ) ↝ˣ λ (_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-indˣ (boundᶠᵐ Pᶠᵐ) Q
   add-indˣ _ .proj₀ =  _
   add-indˣ {_ |ᶠᵐ (n , _)} {c = Rˣ˙} P✓Rˣ∙ε .proj₁ j  with P✓Rˣ∙ε j
   ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
@@ -134,7 +133,7 @@ abstract
 
   -- Remove a proposition consuming a line
 
-  rem-indˣ :  (Pᶠᵐ , line-indˣ i Q) ↝ˣ λ i<n → (inupdᶠᵐ i ⊤' Pᶠᵐ i<n , εˣ)
+  rem-indˣ :  (Pᶠᵐ , line-indˣ i Q) ↝ˣ λ i<n → inupdᶠᵐ i ⊤' Pᶠᵐ i<n , εˣ
   rem-indˣ {Pᶠᵐ} {c = Rˣ˙} P✓Rˣ∙iQ .proj₀ =
     line-bound-indˣ {Pᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Pᶠᵐ} {Rˣ˙} P✓Rˣ∙iQ
   rem-indˣ {i = i} {c = Rˣ˙} P✓Rˣ∙iQ .proj₁ j  with P✓Rˣ∙iQ j
@@ -222,8 +221,7 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-ind□ :
-    (Pᶠᵐ , ε□) ↝□ λ (_ : ⊤₀) → (addᶠᵐ Q Pᶠᵐ , line-ind□ (boundᶠᵐ Pᶠᵐ) Q)
+  add-ind□ :  (Pᶠᵐ , ε□) ↝□ λ (_ : ⊤₀) → addᶠᵐ Q Pᶠᵐ , line-ind□ (boundᶠᵐ Pᶠᵐ) Q
   add-ind□ _ .proj₀ =  _
   add-ind□ {_ |ᶠᵐ (n , _)} {c = Rs˙} P✓Rs∙ε .proj₁ j  with P✓Rs∙ε j
   ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}

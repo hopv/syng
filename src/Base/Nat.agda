@@ -7,10 +7,10 @@
 module Base.Nat where
 
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂)
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; _∘_)
 open import Base.Few using (¬_; absurd)
 open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
-open import Base.Bool using (Bool; tt; Tt)
+open import Base.Bool using (Bool; tt; ff; Tt; Tt⇒≡tt; ¬Tt⇒≡ff)
 open import Base.Dec using (Dec²; yes; no)
 open import Base.Dec.Construct using (dec-Tt)
 
@@ -185,6 +185,11 @@ abstract
   ≡⇒ᵇ {0} {0} _ =  _
   ≡⇒ᵇ {suc m'} {suc n'} refl =  ≡⇒ᵇ {m'} {n'} refl
 
+  -- Reflexivity of ≡ᵇ
+
+  ≡ᵇ-refl :  (n ≡ᵇ n) ≡ tt
+  ≡ᵇ-refl {n} =  Tt⇒≡tt $ ≡⇒ᵇ {n} refl
+
   -- Conversion between <ᵇ and <
 
   ᵇ⇒< :  Tt (m <ᵇ n) →  m < n
@@ -195,6 +200,11 @@ abstract
   <⇒ᵇ 0<suc =  _
   <⇒ᵇ (suc<suc m'<n'@?<?) =  <⇒ᵇ m'<n'
 
+  -- Irreflexivity of <ᵇ
+
+  <ᵇ-irrefl :  (n <ᵇ n) ≡ ff
+  <ᵇ-irrefl {n} =  ¬Tt⇒≡ff (<-irrefl ∘ ᵇ⇒< {n})
+
   -- Conversion between ≤ᵇ and ≤
 
   ᵇ⇒≤ :  Tt (m ≤ᵇ n) →  m ≤ n
@@ -204,6 +214,11 @@ abstract
   ≤⇒ᵇ :  m ≤ n →  Tt (m ≤ᵇ n)
   ≤⇒ᵇ 0≤ =  _
   ≤⇒ᵇ m'<n@?<? =  <⇒ᵇ m'<n
+
+  -- Reflexivity of ≤ᵇ
+
+  ≤ᵇ-refl :  (n ≤ᵇ n) ≡ tt
+  ≤ᵇ-refl {n} =  Tt⇒≡tt $ ≤⇒ᵇ {n} ≤-refl
 
 --------------------------------------------------------------------------------
 -- ≡?, ≤?, <? : Order decision

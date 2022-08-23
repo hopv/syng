@@ -7,13 +7,13 @@
 module Base.RatPos where
 
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_;
-  _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ; ᵇ⇒≤⁺;
-  ≤⁺⇒ᵇ; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
-  *⁺-+⁺-distrʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ;
-  *⁺-monoʳ)
+  _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ;
+  ≡⁺ᵇ-refl; ᵇ⇒≤⁺; ≤⁺⇒ᵇ; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm;
+  *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ;
+  *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Func using (_$_; flip)
-open import Base.Bool using (Bool; Tt)
+open import Base.Bool using (Bool; tt; Tt)
 open import Base.Few using (¬_; absurd)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 
@@ -87,6 +87,11 @@ abstract
 
   ≈ᴿ⁺⇒ᵇ :  p ≈ᴿ⁺ q →  Tt (p ≈ᴿ⁺ᵇ q)
   ≈ᴿ⁺⇒ᵇ *≡⁺* =  ≡⇒⁺ᵇ *≡⁺*
+
+  -- Reflexivity of ≈ᴿ⁺ᵇ
+
+  ≈ᴿ⁺ᵇ-refl :  (p ≈ᴿ⁺ᵇ p) ≡ tt
+  ≈ᴿ⁺ᵇ-refl {a //⁺ b} =  ≡⁺ᵇ-refl {b *⁺ a}
 
 --------------------------------------------------------------------------------
 -- +ᴿ⁺ :  Addition over ℚ⁺

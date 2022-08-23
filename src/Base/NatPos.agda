@@ -9,11 +9,12 @@ module Base.NatPos where
 open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; _<≡>_; _≤>_;
   _+_; _*_; suc≤suc; suc<suc; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans;
   <-asym; <⇒≤; ≤-<-trans; <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; ᵇ⇒≡;
-  ≡⇒ᵇ; ᵇ⇒≤; ≤⇒ᵇ; ᵇ⇒<; <⇒ᵇ; +-comm; +-assocˡ; +-injˡ; +-0; +-incrˡ; +-smonoʳ;
-  *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ; *-smonoˡ)
+  ≡⇒ᵇ; ≡ᵇ-refl; ᵇ⇒≤; ≤⇒ᵇ; ≤ᵇ-refl; ᵇ⇒<; <⇒ᵇ; <ᵇ-irrefl; +-comm; +-assocˡ;
+  +-injˡ; +-0; +-incrˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ;
+  *-smonoˡ)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Func using (_$_)
-open import Base.Bool using (Bool; Tt)
+open import Base.Bool using (Bool; tt; ff; Tt)
 open import Base.Few using (¬_)
 open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
 
@@ -143,6 +144,11 @@ abstract
   ≡⇒⁺ᵇ :  m ≡ n →  Tt (m ≡⁺ᵇ n)
   ≡⇒⁺ᵇ {1+ m⁰} {1+ n⁰} refl =  ≡⇒ᵇ {m⁰} {n⁰} refl
 
+  -- Reflexivity of ≡⁺ᵇ
+
+  ≡⁺ᵇ-refl :  (n ≡⁺ᵇ n) ≡ tt
+  ≡⁺ᵇ-refl {1+ n⁰} =  ≡ᵇ-refl {n⁰}
+
   -- Conversion between ≤ᵇ and ≤
 
   ᵇ⇒≤⁺ :  Tt (m ≤⁺ᵇ n) →  m ≤⁺ n
@@ -151,6 +157,11 @@ abstract
   ≤⁺⇒ᵇ :  m ≤⁺ n →  Tt (m ≤⁺ᵇ n)
   ≤⁺⇒ᵇ =  ≤⇒ᵇ
 
+  -- Reflexivity of ≤⁺ᵇ
+
+  ≤⁺ᵇ-refl :  (n ≤⁺ᵇ n) ≡ tt
+  ≤⁺ᵇ-refl {1+ n⁰} =  ≤ᵇ-refl {n⁰}
+
   -- Conversion between <ᵇ and <
 
   ᵇ⇒<⁺ :  Tt (m <⁺ᵇ n) →  m <⁺ n
@@ -158,6 +169,11 @@ abstract
 
   <⁺⇒ᵇ :  m <⁺ n →  Tt (m <⁺ᵇ n)
   <⁺⇒ᵇ =  <⇒ᵇ
+
+  -- Irreflexivity of <⁺ᵇ
+
+  <⁺ᵇ-irrefl :  (n <⁺ᵇ n) ≡ ff
+  <⁺ᵇ-irrefl {1+ n⁰} =  <ᵇ-irrefl {n⁰}
 
 --------------------------------------------------------------------------------
 -- +⁺ :  Addition

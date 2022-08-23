@@ -129,15 +129,15 @@ abstract
   ∗ᵒ-Mono :  Monoᵒ (Pᵒ ∗ᵒ Qᵒ)
   ∗ᵒ-Mono a⊑a' (-, b∙c⊑a , PbQc) =  -, ⊑-trans b∙c⊑a a⊑a' , PbQc
 
+  ∗ᵒ-comm :  Pᵒ ∗ᵒ Qᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
+  ∗ᵒ-comm (-, b∙c⊑a , Pb , Qc) =  -, ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
+
   ∗ᵒ-mono✓ˡ :  Pᵒ ⊨✓ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨✓ Qᵒ ∗ᵒ Rᵒ
   ∗ᵒ-mono✓ˡ P⊨✓Q E✓a (-, b∙c⊑a , Pb , Rc) =
     -, b∙c⊑a , P⊨✓Q (✓-mono (⊑-trans ∙-incrʳ b∙c⊑a) E✓a) Pb , Rc
 
   ∗ᵒ-monoˡ :  Pᵒ ⊨ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Rᵒ
   ∗ᵒ-monoˡ P⊨Q (-, b∙c⊑a , Pb , Rc) =  -, b∙c⊑a , P⊨Q Pb , Rc
-
-  ∗ᵒ-comm :  Pᵒ ∗ᵒ Qᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
-  ∗ᵒ-comm (-, b∙c⊑a , Pb , Qc) =  -, ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
 
   ∗ᵒ-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ ∗ᵒ Pᵒ ⊨ Rᵒ ∗ᵒ Qᵒ
   ∗ᵒ-monoʳ P⊨Q =  ∗ᵒ-comm › ∗ᵒ-monoˡ P⊨Q › ∗ᵒ-comm
@@ -265,17 +265,17 @@ abstract
   Own-Mono :  Monoᵒ (Own a)
   Own-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
-  Own-refl :  Own a a
-  Own-refl =  ⊑-refl
-
   Own-cong :  a ≈ b →  Own a ⊨ Own b
   Own-cong a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
 
   Own-mono :  b ⊑ a →  Own a ⊨ Own b
   Own-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
 
-  Own-ε :  Pᵒ ⊨ Own ε
-  Own-ε _ =  ε-min
+  Own-refl :  Own a a
+  Own-refl =  ⊑-refl
+
+  Own-ε :  Own ε a
+  Own-ε =  ε-min
 
   Own-∙⇒∗ᵒ :  Own (a ∙ b) ⊨ Own a ∗ᵒ Own b
   Own-∙⇒∗ᵒ a∙b⊑c =  -, a∙b⊑c , ⊑-refl , ⊑-refl

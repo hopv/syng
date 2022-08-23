@@ -121,6 +121,8 @@ abstract
   ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | n≤j⇒Rˣj∙?≡? ≤-refl
     =  refl , absurd ∘ <-irrefl
 
+  -- If we validly have a line, then its index is within the bound
+
   line-bound-indˣ :  Pᶠᵐ ✓ˣ line-indˣ i Q →  i < boundᶠᵐ Pᶠᵐ
   line-bound-indˣ {_ |ᶠᵐ (n , _)} {i = i} P✓iQ  with n ≤> i
   ... | inj₁ i<n =  i<n

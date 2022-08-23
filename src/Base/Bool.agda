@@ -7,7 +7,8 @@
 module Base.Bool where
 
 open import Base.Level using (Level)
-open import Base.Few using (⊤; ⊥)
+open import Base.Func using (_$_)
+open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; refl)
 
 --------------------------------------------------------------------------------
@@ -65,6 +66,10 @@ abstract
 
   Tt⇒≡tt :  Tt b →  b ≡ tt
   Tt⇒≡tt {b = tt} _ =  refl
+
+  ¬Tt⇒≡ff :  ¬ Tt b →  b ≡ ff
+  ¬Tt⇒≡ff {b = tt} ¬⊤ =  absurd $ ¬⊤ _
+  ¬Tt⇒≡ff {b = ff} _ =  refl
 
 --------------------------------------------------------------------------------
 -- ≤ᴮ :  Order over Bool

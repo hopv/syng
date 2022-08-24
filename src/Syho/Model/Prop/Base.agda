@@ -9,7 +9,8 @@ module Syho.Model.Prop.Base where
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; sucᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; const)
 open import Base.Few using (⊤; ⊤₀)
-open import Base.Prod using (∑-syntax; _×_; _,_; -,_; proj₀; proj₁)
+open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
+  proj₁)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
@@ -58,25 +59,30 @@ abstract
   ⊨⇒⊨✓ P⊨Q _ =  P⊨Q
 
 --------------------------------------------------------------------------------
--- ∀ᵒ, ∃ᵒ :  Universal/existential quantification
+-- ∀ᵒ, ∃ᵒ, ∃ᴵ :  Universal/existential quantification
 
-∀ᵒ˙ ∃ᵒ˙ ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax :
+∀ᵒ˙ ∃ᵒ˙ ∃ᴵ˙ ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∃ᴵ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax ∃ᴵ-syntax :
   ∀{X : Set ł} →  (X → Propᵒ ł') →  Propᵒ (ł ⊔ᴸ ł')
 ∀ᵒ˙ Pᵒ˙ a =  ∀ x →  Pᵒ˙ x a
 ∃ᵒ˙ Pᵒ˙ a =  ∑ x ,  Pᵒ˙ x a
+∃ᴵ˙ Pᵒ˙ a =  ∑ᴵ x ,  Pᵒ˙ x a
 ∀ᵒ∈-syntax =  ∀ᵒ˙
 ∃ᵒ∈-syntax =  ∃ᵒ˙
+∃ᴵ∈-syntax =  ∃ᴵ˙
 ∀ᵒ-syntax =  ∀ᵒ˙
 ∃ᵒ-syntax =  ∃ᵒ˙
-infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax
+∃ᴵ-syntax =  ∃ᴵ˙
+infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∃ᴵ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax ∃ᴵ-syntax
 syntax ∀ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∀ᵒ x ∈ X , Pᵒ
 syntax ∃ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∃ᵒ x ∈ X , Pᵒ
+syntax ∃ᴵ∈-syntax {X = X} (λ x → Pᵒ) =  ∃ᴵ x ∈ X , Pᵒ
 syntax ∀ᵒ-syntax (λ x → Pᵒ) =  ∀ᵒ x , Pᵒ
 syntax ∃ᵒ-syntax (λ x → Pᵒ) =  ∃ᵒ x , Pᵒ
+syntax ∃ᴵ-syntax (λ x → Pᵒ) =  ∃ᴵ x , Pᵒ
 
 abstract
 
-  -- Monoᵒ for ∀/∃ᵒ
+  -- Monoᵒ for ∀ᵒ/∃ᵒ/∃ᴵ
 
   ∀ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∀ᵒ˙ Pᵒ˙)
   ∀ᵒ-Mono ∀MonoP a⊑b ∀Pa x =  ∀MonoP x a⊑b (∀Pa x)
@@ -84,13 +90,19 @@ abstract
   ∃ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃ᵒ˙ Pᵒ˙)
   ∃ᵒ-Mono ∀MonoP a⊑b (x , Pa) =  x , ∀MonoP x a⊑b Pa
 
-  -- Monotonicity of ∀/∃ᵒ
+  ∃ᴵ-Mono :  (∀{{x}} → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃ᴵ˙ Pᵒ˙)
+  ∃ᴵ-Mono ∀MonoP a⊑b (-ᴵ, Pa) =  -ᴵ, ∀MonoP a⊑b Pa
+
+  -- Monotonicity of ∀ᵒ/∃ᵒ/∃ᴵ
 
   ∀ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∀ᵒ˙ Pᵒ˙ ⊨ ∀ᵒ˙ Qᵒ˙
   ∀ᵒ-mono Px⊨Qx ∀Pa x =  Px⊨Qx x (∀Pa x)
 
   ∃ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∃ᵒ˙ Pᵒ˙ ⊨ ∃ᵒ˙ Qᵒ˙
   ∃ᵒ-mono Px⊨Qx (x , Pxa) =  x , Px⊨Qx x Pxa
+
+  ∃ᴵ-mono :  (∀{{x}} → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∃ᴵ˙ Pᵒ˙ ⊨ ∃ᴵ˙ Qᵒ˙
+  ∃ᴵ-mono Px⊨Qx (-ᴵ, Pxa) =  -ᴵ, Px⊨Qx Pxa
 
 --------------------------------------------------------------------------------
 -- ×ᵒ :  Conjunction

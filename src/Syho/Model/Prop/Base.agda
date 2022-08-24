@@ -6,9 +6,9 @@
 
 module Syho.Model.Prop.Base where
 
-open import Base.Level using (Level)
+open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; sucᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; const)
-open import Base.Few using (⊤)
+open import Base.Few using (⊤; ⊤₀)
 open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Syho.Model.ERA.Base using (ERA)
@@ -19,33 +19,35 @@ open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟;
   ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono; ⌞⌟-decr;
   ⌞⌟-idem; ⌞⌟-unitˡ)
 
+private variable
+  ł ł' :  Level
+  X Y :  Set ł
+
 --------------------------------------------------------------------------------
 -- Propᵒ :  Semantic proposition
 
-Propᵒ :  Set₃
-Propᵒ =  Res →  Set₂
+Propᵒ :  ∀ ł →  Set (2ᴸ ⊔ᴸ sucᴸ ł)
+Propᵒ ł =  Res →  Set ł
 
 -- Monoᵒ Pᵒ :  Pᵒ is monotone over the resource
 
-Monoᵒ :  Propᵒ →  Set₂
+Monoᵒ :  Propᵒ ł →  Set (2ᴸ ⊔ᴸ ł)
 Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
-  ł :  Level
-  X Y :  Set ł
-  Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ
-  Pᵒ˙ Qᵒ˙ :  X →  Propᵒ
+  Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ ł
+  Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
   a b :  Res
   E :  Env
   F˙ :  X →  Env
-  FPᵒ˙ FQᵒ˙ GPᵒ˙ :  X →  Env × Propᵒ
+  FPᵒ˙ FQᵒ˙ GPᵒ˙ :  X →  Env × Propᵒ ł
   f :  Y → X
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment, with or without a validity input
 
 infix 1 _⊨✓_ _⊨_
-_⊨✓_ _⊨_ :  Propᵒ →  Propᵒ →  Set₂
+_⊨✓_ _⊨_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 Pᵒ ⊨✓ Qᵒ =  ∀{E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
 Pᵒ ⊨ Qᵒ =  ∀{a} →  Pᵒ a →  Qᵒ a
 
@@ -55,52 +57,52 @@ abstract
   ⊨⇒⊨✓ P⊨Q _ =  P⊨Q
 
 --------------------------------------------------------------------------------
--- ∀₁ᵒ, ∃₁ᵒ :  Universal/existential quantification
+-- ∀ᵒ, ∃ᵒ :  Universal/existential quantification
 
-∀₁ᵒ˙ ∃₁ᵒ˙ ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax :
-  ∀{X : Set₁} →  (X → Propᵒ) →  Propᵒ
-∀₁ᵒ˙ Pᵒ˙ a =  ∀ x →  Pᵒ˙ x a
-∃₁ᵒ˙ Pᵒ˙ a =  ∑ x ,  Pᵒ˙ x a
-∀₁ᵒ∈-syntax =  ∀₁ᵒ˙
-∃₁ᵒ∈-syntax =  ∃₁ᵒ˙
-∀₁ᵒ-syntax =  ∀₁ᵒ˙
-∃₁ᵒ-syntax =  ∃₁ᵒ˙
-infix 3 ∀₁ᵒ∈-syntax ∃₁ᵒ∈-syntax ∀₁ᵒ-syntax ∃₁ᵒ-syntax
-syntax ∀₁ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∀₁ᵒ x ∈ X , Pᵒ
-syntax ∃₁ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∃₁ᵒ x ∈ X , Pᵒ
-syntax ∀₁ᵒ-syntax (λ x → Pᵒ) =  ∀₁ᵒ x , Pᵒ
-syntax ∃₁ᵒ-syntax (λ x → Pᵒ) =  ∃₁ᵒ x , Pᵒ
+∀ᵒ˙ ∃ᵒ˙ ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax :
+  ∀{X : Set ł} →  (X → Propᵒ ł') →  Propᵒ (ł ⊔ᴸ ł')
+∀ᵒ˙ Pᵒ˙ a =  ∀ x →  Pᵒ˙ x a
+∃ᵒ˙ Pᵒ˙ a =  ∑ x ,  Pᵒ˙ x a
+∀ᵒ∈-syntax =  ∀ᵒ˙
+∃ᵒ∈-syntax =  ∃ᵒ˙
+∀ᵒ-syntax =  ∀ᵒ˙
+∃ᵒ-syntax =  ∃ᵒ˙
+infix 3 ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax
+syntax ∀ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∀ᵒ x ∈ X , Pᵒ
+syntax ∃ᵒ∈-syntax {X = X} (λ x → Pᵒ) =  ∃ᵒ x ∈ X , Pᵒ
+syntax ∀ᵒ-syntax (λ x → Pᵒ) =  ∀ᵒ x , Pᵒ
+syntax ∃ᵒ-syntax (λ x → Pᵒ) =  ∃ᵒ x , Pᵒ
 
 abstract
 
-  -- Monoᵒ for ∀/∃₁ᵒ
+  -- Monoᵒ for ∀/∃ᵒ
 
-  ∀₁ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∀₁ᵒ˙ Pᵒ˙)
-  ∀₁ᵒ-Mono ∀MonoP a⊑b ∀Pa x =  ∀MonoP x a⊑b (∀Pa x)
+  ∀ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∀ᵒ˙ Pᵒ˙)
+  ∀ᵒ-Mono ∀MonoP a⊑b ∀Pa x =  ∀MonoP x a⊑b (∀Pa x)
 
-  ∃₁ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃₁ᵒ˙ Pᵒ˙)
-  ∃₁ᵒ-Mono ∀MonoP a⊑b (x , Pa) =  x , ∀MonoP x a⊑b Pa
+  ∃ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃ᵒ˙ Pᵒ˙)
+  ∃ᵒ-Mono ∀MonoP a⊑b (x , Pa) =  x , ∀MonoP x a⊑b Pa
 
-  -- Monotonicity of ∀/∃₁ᵒ
+  -- Monotonicity of ∀/∃ᵒ
 
-  ∀₁ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∀₁ᵒ˙ Pᵒ˙ ⊨ ∀₁ᵒ˙ Qᵒ˙
-  ∀₁ᵒ-mono Px⊨Qx ∀Pa x =  Px⊨Qx x (∀Pa x)
+  ∀ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∀ᵒ˙ Pᵒ˙ ⊨ ∀ᵒ˙ Qᵒ˙
+  ∀ᵒ-mono Px⊨Qx ∀Pa x =  Px⊨Qx x (∀Pa x)
 
-  ∃₁ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∃₁ᵒ˙ Pᵒ˙ ⊨ ∃₁ᵒ˙ Qᵒ˙
-  ∃₁ᵒ-mono Px⊨Qx (x , Pxa) =  x , Px⊨Qx x Pxa
+  ∃ᵒ-mono :  (∀ x → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∃ᵒ˙ Pᵒ˙ ⊨ ∃ᵒ˙ Qᵒ˙
+  ∃ᵒ-mono Px⊨Qx (x , Pxa) =  x , Px⊨Qx x Pxa
 
 --------------------------------------------------------------------------------
 -- ×ᵒ :  Conjunction
 
 infix 7 _×ᵒ_
-_×ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
+_×ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
 (Pᵒ ×ᵒ Qᵒ) a =  Pᵒ a × Qᵒ a
 
 --------------------------------------------------------------------------------
 -- ⊎ᵒ :  Disjunction
 
 infix 7 _⊎ᵒ_
-_⊎ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
+_⊎ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
 (Pᵒ ⊎ᵒ Qᵒ) a =  Pᵒ a ⊎ Qᵒ a
 
 abstract
@@ -114,14 +116,14 @@ abstract
 --------------------------------------------------------------------------------
 -- ⊤ᵒ :  Truthhood
 
-⊤ᵒ :  Propᵒ
+⊤ᵒ :  Propᵒ ł
 ⊤ᵒ _ =  ⊤
 
 --------------------------------------------------------------------------------
 -- →ᵒ :  Implication
 
 infixr 5 _→ᵒ_
-_→ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
+_→ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 (Pᵒ →ᵒ Qᵒ) a =  ∀{E b} →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
 
 abstract
@@ -148,7 +150,7 @@ abstract
 -- ∗ᵒ :  Separating conjunction
 
 infixr 7 _∗ᵒ_
-_∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
+_∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 (Pᵒ ∗ᵒ Qᵒ) a =  ∑ (b , c) ∈ _ × _ ,  b ∙ c ⊑ a  ×  Pᵒ b  ×  Qᵒ c
 
 abstract
@@ -214,7 +216,7 @@ abstract
 -- -∗ᵒ :  Magic wand
 
 infixr 5 _-∗ᵒ_
-_-∗ᵒ_ :  Propᵒ →  Propᵒ →  Propᵒ
+_-∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 (Pᵒ -∗ᵒ Qᵒ) a =  ∀{E b c} →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
 
 abstract
@@ -242,7 +244,7 @@ abstract
 -- ⤇ᵒ :  Update modality
 
 infix 8 ⤇ᵒ_
-⤇ᵒ_ :  Propᵒ →  Propᵒ
+⤇ᵒ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
 (⤇ᵒ Pᵒ) a =  ∀{E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
 
 abstract
@@ -282,10 +284,10 @@ abstract
 
   -- Let ∃₁ _ go out of ⤇ᵒ
 
-  ⤇ᵒ-∃₁ᵒ-out :  ⤇ᵒ (∃₁ᵒ _ ∈ X , Pᵒ) ⊨✓ ∃₁ᵒ _ ∈ X , ⤇ᵒ Pᵒ
-  ⤇ᵒ-∃₁ᵒ-out E✓a ⤇∃XP .proj₀ =
+  ⤇ᵒ-∃ᵒ-out :  ⤇ᵒ (∃ᵒ _ ∈ X , Pᵒ) ⊨✓ ∃ᵒ _ ∈ X , ⤇ᵒ Pᵒ
+  ⤇ᵒ-∃ᵒ-out E✓a ⤇∃XP .proj₀ =
     let -, -, x , _ = ⤇∃XP $ ✓-respʳ (◠˜ ∙-unitˡ) E✓a in  x
-  ⤇ᵒ-∃₁ᵒ-out _ ⤇∃XP .proj₁ E✓c∙a =
+  ⤇ᵒ-∃ᵒ-out _ ⤇∃XP .proj₁ E✓c∙a =
     let -, E✓c∙b , -, Pb = ⤇∃XP E✓c∙a in  -, E✓c∙b , Pb
 
 --------------------------------------------------------------------------------
@@ -293,7 +295,7 @@ abstract
 
 infix 8 _⤇ᴱ_
 
-_⤇ᴱ_ :  ∀{X : Set₂} →  Env →  (X → Env × Propᵒ) →  Propᵒ
+_⤇ᴱ_ :  ∀{X : Set ł'} →  Env →  (X → Env × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 (E ⤇ᴱ FPᵒ˙) a =  ∀{c} →  E ✓ c ∙ a →  ∑ x , ∑ b ,
   let (F , Pᵒ) = FPᵒ˙ x in  F ✓ c ∙ b  ×  Pᵒ b
 
@@ -319,11 +321,11 @@ abstract
 
   -- Introduce ⤇ᴱ
 
-  ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤) → E , Pᵒ
+  ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤₀) → E , Pᵒ
   ⤇ᵒ⇒⤇ᴱ ⤇ᵒPa E✓c∙a  with ⤇ᵒPa E✓c∙a
   ... | (-, E✓c∙b , Pb) =  -, -, E✓c∙b , Pb
 
-  ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤) → E , Pᵒ
+  ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤₀) → E , Pᵒ
   ⤇ᴱ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⤇ᴱ
 
   -- Join ⤇ᴱ
@@ -346,7 +348,7 @@ abstract
 -- □ᵒ :  Persistence modality
 
 infix 8 □ᵒ_
-□ᵒ_ :  Propᵒ →  Propᵒ
+□ᵒ_ :  Propᵒ ł →  Propᵒ ł
 (□ᵒ Pᵒ) a =  Pᵒ ⌞ a ⌟
 
 abstract
@@ -383,7 +385,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Own :  Own a resource
 
-Own :  Res →  Propᵒ
+Own :  Res →  Propᵒ 2ᴸ
 Own a b =  a ⊑ b
 
 abstract

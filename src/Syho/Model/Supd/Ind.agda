@@ -6,6 +6,7 @@
 
 module Syho.Model.Supd.Ind where
 
+open import Base.Level using (2ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_; _›_; _∘_; id)
 open import Base.Few using (absurd)
@@ -33,7 +34,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
 
-⸨_,_⸩ⁿᵐ :  (ℕ → Prop' ∞) →  ℕ →  Propᵒ
+⸨_,_⸩ⁿᵐ :  (ℕ → Prop' ∞) →  ℕ →  Propᵒ 2ᴸ
 ⸨ P˙ , 0 ⸩ⁿᵐ =  ⊤ᵒ
 ⸨ P˙ , suc n ⸩ⁿᵐ =  ⸨ P˙ n ⸩ ∗ᵒ ⸨ P˙ , n ⸩ⁿᵐ
 
@@ -96,7 +97,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Interpret Finmap over Prop' ∞
 
-⸨_⸩ᶠᵐ :  Finmap →  Propᵒ
+⸨_⸩ᶠᵐ :  Finmap →  Propᵒ 2ᴸ
 ⸨ P˙ |ᶠᵐ (n , _) ⸩ᶠᵐ =  ⸨ P˙ , n ⸩ⁿᵐ
 
 abstract
@@ -118,11 +119,11 @@ abstract
 --------------------------------------------------------------------------------
 -- Invariant for the exclusive indirection ERA
 
-inv-indˣ :  Finmap →  Propᵒ
+inv-indˣ :  Finmap →  Propᵒ 2ᴸ
 inv-indˣ Pᶠᵐ =  ⸨ Pᶠᵐ ⸩ᶠᵐ
 
 --------------------------------------------------------------------------------
 -- Invariant for the persistent indirection ERA
 
-inv-ind□ :  Finmap →  Propᵒ
+inv-ind□ :  Finmap →  Propᵒ 2ᴸ
 inv-ind□ Pᶠᵐ =  □ᵒ ⸨ Pᶠᵐ ⸩ᶠᵐ

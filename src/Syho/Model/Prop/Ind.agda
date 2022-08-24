@@ -6,6 +6,7 @@
 
 module Syho.Model.Prop.Ind where
 
+open import Base.Level using (2ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_; ∑ᴵ-syntax; -ᴵ,_)
@@ -36,7 +37,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Ind :  Indirection base
 
-Indˣ Ind□ Ind :  Prop' ∞ →  Propᵒ
+Indˣ Ind□ Ind :  Prop' ∞ →  Propᵒ 2ᴸ
 Indˣ P a =  ∑ i , Own (injᴳ indˣ (line-indˣ i P)) a
 Ind□ P a =  ∑ i , Own (injᴳ ind□ (line-ind□ i P)) a
 Ind P =  Indˣ P ⊎ᵒ Ind□ P
@@ -56,7 +57,7 @@ abstract
 -- ○ᵒ :  Interpret the indirection modality ○
 
 infix 8 ○ᵒ_
-○ᵒ_ :  Prop' ∞ →  Propᵒ
+○ᵒ_ :  Prop' ∞ →  Propᵒ 2ᴸ
 (○ᵒ P) a =  ∑ Q , ∑ᴵ BasicQ , ∑ R ,
   Q ∗ R ⊢[ ∞ ] P  ×  (⸨ Q ⸩ᴮ {{BasicQ}} ∗ᵒ Ind R) a
 
@@ -78,7 +79,7 @@ abstract
 -- ↪⇛ᵒ :  Interpret the super-update precursor ↪⇛
 
 infixr 5 _↪[_]⇛ᵒ_
-_↪[_]⇛ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ
+_↪[_]⇛ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ 2ᴸ
 (P ↪[ i ]⇛ᵒ Q) a =  ∑ R , ∑ᴵ BasicR , ∑ S ,
   P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S) a
 
@@ -123,7 +124,7 @@ abstract
 -- ↪⟨ ⟩ᴾᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᴾ
 
 infixr 5 _↪⟨_⟩ᴾᵒ_
-_↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ
+_↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ 2ᴸ
 (P ↪⟨ e ⟩ᴾᵒ Qᵛ) a =  ∑ R , ∑ᴵ BasicR , ∑ S ,
   P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S) a
 
@@ -165,7 +166,7 @@ abstract
 -- ↪⟨ ⟩ᵀᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᵀ
 
 infixr 5 _↪⟨_⟩ᵀ[_]ᵒ_
-_↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Propᵒ
+_↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Propᵒ 2ᴸ
 (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ) a =  ∑ R , ∑ᴵ BasicR , ∑ S ,
   P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S) a
 

@@ -15,6 +15,7 @@ private variable
 
 --------------------------------------------------------------------------------
 -- Decision on A
+
 data  Dec (A : Set ł) :  Set ł  where
   yes :  A →  Dec A
   no :  ¬ A →  Dec A

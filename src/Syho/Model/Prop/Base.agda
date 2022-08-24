@@ -9,7 +9,7 @@ module Syho.Model.Prop.Base where
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; sucᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; const)
 open import Base.Few using (⊤; ⊤₀)
-open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_; proj₀; proj₁)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
@@ -152,28 +152,28 @@ abstract
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-(Pᵒ ∗ᵒ Qᵒ) a =  ∑ (b , c) ∈ _ × _ ,  b ∙ c ⊑ a  ×  Pᵒ b  ×  Qᵒ c
+(Pᵒ ∗ᵒ Qᵒ) a =  ∑ b , ∑ c ,  b ∙ c ⊑ a  ×  Pᵒ b  ×  Qᵒ c
 
 abstract
 
   -- Monoᵒ for ∗ᵒ
 
   ∗ᵒ-Mono :  Monoᵒ (Pᵒ ∗ᵒ Qᵒ)
-  ∗ᵒ-Mono a⊑a' (-, b∙c⊑a , PbQc) =  -, ⊑-trans b∙c⊑a a⊑a' , PbQc
+  ∗ᵒ-Mono a⊑a' (-, -, b∙c⊑a , PbQc) =  -, -, ⊑-trans b∙c⊑a a⊑a' , PbQc
 
   -- ∗ᵒ is commutative
 
   ∗ᵒ-comm :  Pᵒ ∗ᵒ Qᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
-  ∗ᵒ-comm (-, b∙c⊑a , Pb , Qc) =  -, ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
+  ∗ᵒ-comm (-, -, b∙c⊑a , Pb , Qc) =  -, -, ⊑-respˡ ∙-comm b∙c⊑a , Qc , Pb
 
   -- Monotonicity of ∗ᵒ
 
   ∗ᵒ-mono✓ˡ :  Pᵒ ⊨✓ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨✓ Qᵒ ∗ᵒ Rᵒ
-  ∗ᵒ-mono✓ˡ P⊨✓Q E✓a (-, b∙c⊑a , Pb , Rc) =
-    -, b∙c⊑a , P⊨✓Q (✓-mono (⊑-trans ∙-incrʳ b∙c⊑a) E✓a) Pb , Rc
+  ∗ᵒ-mono✓ˡ P⊨✓Q E✓a (-, -, b∙c⊑a , Pb , Rc) =
+    -, -, b∙c⊑a , P⊨✓Q (✓-mono (⊑-trans ∙-incrʳ b∙c⊑a) E✓a) Pb , Rc
 
   ∗ᵒ-monoˡ :  Pᵒ ⊨ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Rᵒ
-  ∗ᵒ-monoˡ P⊨Q (-, b∙c⊑a , Pb , Rc) =  -, b∙c⊑a , P⊨Q Pb , Rc
+  ∗ᵒ-monoˡ P⊨Q (-, -, b∙c⊑a , Pb , Rc) =  -, -, b∙c⊑a , P⊨Q Pb , Rc
 
   ∗ᵒ-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ ∗ᵒ Pᵒ ⊨ Rᵒ ∗ᵒ Qᵒ
   ∗ᵒ-monoʳ P⊨Q =  ∗ᵒ-comm › ∗ᵒ-monoˡ P⊨Q › ∗ᵒ-comm
@@ -184,9 +184,9 @@ abstract
   -- ∗ᵒ is associative
 
   ∗ᵒ-assocˡ :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ)
-  ∗ᵒ-assocˡ (-, e∙d⊑a , (-, b∙c⊑e , Pb , Qc) , Rd) =
-    -, ⊑-respˡ ∙-assocˡ $ ⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a , Pb ,
-    -, ⊑-refl , Qc , Rd
+  ∗ᵒ-assocˡ (-, -, e∙d⊑a , (-, -, b∙c⊑e , Pb , Qc) , Rd) =
+    -, -, ⊑-respˡ ∙-assocˡ $ ⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a , Pb ,
+    -, -, ⊑-refl , Qc , Rd
 
   ∗ᵒ-assocʳ :  Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ
   ∗ᵒ-assocʳ =
@@ -200,7 +200,7 @@ abstract
   -- Eliminate ∗ᵒ
 
   ∗ᵒ-elimʳ :  Monoᵒ Pᵒ →  Qᵒ ∗ᵒ Pᵒ ⊨ Pᵒ
-  ∗ᵒ-elimʳ MonoP (-, b∙c⊑a , -, Pc) =  MonoP (⊑-trans ∙-incrˡ b∙c⊑a) Pc
+  ∗ᵒ-elimʳ MonoP (-, -, b∙c⊑a , -, Pc) =  MonoP (⊑-trans ∙-incrˡ b∙c⊑a) Pc
 
   ∗ᵒ-elimˡ :  Monoᵒ Pᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨ Pᵒ
   ∗ᵒ-elimˡ MonoP =  ∗ᵒ-comm › ∗ᵒ-elimʳ MonoP
@@ -208,7 +208,7 @@ abstract
   -- Introduce ∗ᵒ with a trivial proposition
 
   ?∗ᵒ-intro :  Qᵒ ε →  Pᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
-  ?∗ᵒ-intro Qε Pa =  -, ≈⇒⊑ ∙-unitˡ , Qε , Pa
+  ?∗ᵒ-intro Qε Pa =  -, -, ≈⇒⊑ ∙-unitˡ , Qε , Pa
 
   ∗ᵒ?-intro :  Qᵒ ε →  Pᵒ ⊨ Pᵒ ∗ᵒ Qᵒ
   ∗ᵒ?-intro Qε =  ?∗ᵒ-intro Qε › ∗ᵒ-comm
@@ -235,10 +235,10 @@ abstract
   -- Introduce/eliminate -∗ᵒ
 
   -∗ᵒ-intro :  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
-  -∗ᵒ-intro P∗Q⊨✓R Qa a⊑b E✓c∙b Pc =  P∗Q⊨✓R E✓c∙b (-, ∙-monoʳ a⊑b , Pc , Qa)
+  -∗ᵒ-intro P∗Q⊨✓R Qa a⊑b E✓c∙b Pc =  P∗Q⊨✓R E✓c∙b (-, -, ∙-monoʳ a⊑b , Pc , Qa)
 
   -∗ᵒ-elim :  Monoᵒ Rᵒ →  Qᵒ ⊨✓ Pᵒ -∗ᵒ Rᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ
-  -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $
+  -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, -, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $
     Q⊨✓P-∗R (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) E✓a) Qc ⊑-refl (✓-mono b∙c⊑a E✓a) Pb
 
 --------------------------------------------------------------------------------
@@ -279,9 +279,9 @@ abstract
   -- Let ⤇ᵒ eat a proposition under ∗ᵒ
 
   ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ ⤇ᵒ Qᵒ ⊨ ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
-  ⤇ᵒ-eatˡ (-, b∙c⊑a , Pb , ⤇Qc) E✓e∙a
+  ⤇ᵒ-eatˡ (-, -, b∙c⊑a , Pb , ⤇Qc) E✓e∙a
     with ⤇Qc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
-  ... | -, E✓eb∙d , Qd =  -, ✓-respʳ ∙-assocˡ E✓eb∙d , -, ⊑-refl , Pb , Qd
+  ... | -, E✓eb∙d , Qd =  -, ✓-respʳ ∙-assocˡ E✓eb∙d , -, -, ⊑-refl , Pb , Qd
 
   -- Let ∃₁ _ go out of ⤇ᵒ
 
@@ -340,10 +340,10 @@ abstract
 
   ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  E ⤇ᴱ (λ x → F˙ x , Qᵒ˙ x)  ⊨
                E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
-  ⤇ᴱ-eatˡ (-, b∙c⊑a , Pb , E⤇FQc) E✓e∙a
+  ⤇ᴱ-eatˡ (-, -, b∙c⊑a , Pb , E⤇FQc) E✓e∙a
     with E⤇FQc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | -, -, F✓eb∙d , Qd =
-    -, -, ✓-respʳ ∙-assocˡ F✓eb∙d , -, ⊑-refl , Pb , Qd
+    -, -, ✓-respʳ ∙-assocˡ F✓eb∙d , -, -, ⊑-refl , Pb , Qd
 
 --------------------------------------------------------------------------------
 -- □ᵒ :  Persistence modality
@@ -380,7 +380,7 @@ abstract
   -- Change ×ᵒ into ∗ᵒ when one argument is under □ᵒ
 
   □ᵒˡ-×ᵒ⇒∗ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ×ᵒ Qᵒ ⊨ □ᵒ Pᵒ ∗ᵒ Qᵒ
-  □ᵒˡ-×ᵒ⇒∗ᵒ MonoP (P⌞a⌟ , Qa) =  -, ≈⇒⊑ ⌞⌟-unitˡ ,
+  □ᵒˡ-×ᵒ⇒∗ᵒ MonoP (P⌞a⌟ , Qa) =  -, -, ≈⇒⊑ ⌞⌟-unitˡ ,
     MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟ , Qa
 
 --------------------------------------------------------------------------------
@@ -415,10 +415,10 @@ abstract
   -- Own (a ∙ b) agrees with Own a ∗ᵒ Own b
 
   Own-∙⇒∗ᵒ :  Own (a ∙ b) ⊨ Own a ∗ᵒ Own b
-  Own-∙⇒∗ᵒ a∙b⊑c =  -, a∙b⊑c , ⊑-refl , ⊑-refl
+  Own-∙⇒∗ᵒ a∙b⊑c =  -, -, a∙b⊑c , ⊑-refl , ⊑-refl
 
   Own-∗ᵒ⇒∙ :  Own a ∗ᵒ Own b ⊨ Own (a ∙ b)
-  Own-∗ᵒ⇒∙ (-, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
+  Own-∗ᵒ⇒∙ (-, -, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
 
   -- Own a is persistent when ⌞ a ⌟ agrees with a
 

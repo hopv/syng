@@ -243,6 +243,8 @@ suc m ≡? suc n  with m ≡? n
 
 abstract
 
+  -- Reflexivity of ≡?
+
   ≡?-refl :  (n ≡? n) ≡ yes refl
   ≡?-refl {n = 0} =  refl
   ≡?-refl {n = suc n}  rewrite ≡?-refl {n = n} =  refl

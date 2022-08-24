@@ -204,9 +204,7 @@ abstract
   -- Use ≢ to reduce ≡ᵇ
 
   ≢-≡ᵇ-ff :  m ≢ n →  (m ≡ᵇ n) ≡ ff
-  ≢-≡ᵇ-ff {m} {n} m≢n  with m ≡ᵇ n | ᵇ⇒≡ {m} {n}
-  ... | ff | _ =  refl
-  ... | tt | ⇒m≡n =  absurd $ m≢n $ ⇒m≡n _
+  ≢-≡ᵇ-ff m≢n =  ¬Tt⇒≡ff $ m≢n ∘ ᵇ⇒≡
 
   -- Conversion between <ᵇ and <
 

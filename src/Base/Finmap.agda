@@ -9,11 +9,10 @@ module Base.Finmap {ł ł'} (A : Set ł) (null : A → Set ł') where
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_)
 open import Base.Few using (absurd)
-open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
 open import Base.Bool using (tt; ff)
-open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _⊔_; ≤-trans; ᵇ⇒≡; <-irrefl;
-  <⇒≤; ≤⇒¬>; ⊔≤-introˡ; ⊔≤-introʳ)
+open import Base.Nat using (ℕ; suc; _≤_; _≡ᵇ_; _⊔_; ᵇ⇒≡; <-irrefl; ⊔≤-introˡ;
+  ⊔≤-introʳ)
 open import Base.Nmap using (updⁿᵐ)
 
 --------------------------------------------------------------------------------

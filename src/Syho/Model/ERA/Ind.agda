@@ -21,9 +21,9 @@ open import Base.List using (List; []; [_]; _++_; ++-assocˡ; ++-[]; ++-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
   ≈ᴸ-trans; ++-congˡ; ++-idem; ++-comm; ⊆ᴸ-[]; ++-⊆ᴸ-introʳ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
-open import Syho.Model.ERA using (ERA)
-open import Syho.Model.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm; ∙ˣ-assocˡ;
-  ∙ˣ-?ˣ)
+open import Syho.Model.ERA.Base using (ERA)
+open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm;
+  ∙ˣ-assocˡ; ∙ˣ-?ˣ)
 
 open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; _|ᶠᵐ_; bndᶠᵐ; addᶠᵐ;
   inupdᶠᵐ)

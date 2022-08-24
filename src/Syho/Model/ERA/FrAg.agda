@@ -19,7 +19,7 @@ open import Base.List using (List; []; _++_; [_]; ++-assocˡ)
 open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈ᴸ-trans; ≡⇒≈ᴸ;
   ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp;
   [?]-cong; homo-[?]; homo-agree)
-open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Base using (ERA)
 
 open ERA renaming (_≈_ to _≈'_; refl˜ to refl')
 

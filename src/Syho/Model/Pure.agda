@@ -11,9 +11,7 @@ open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Thunk using (!)
 open import Base.Prod using (_,_; proj₀; proj₁)
-open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _∧_; _→'_; _∗_; _-∗_; ⤇_;
-  □_; ○_; _↪[_]⇛_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦⟨_⟩_; Free; Basic; ∀₁-Basic; ∃₁-Basic;
-  →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic)
+open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim;
   ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm;
   ∗-assocˡ; ∗-monoˡ; -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ;
@@ -22,85 +20,18 @@ open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-suc; ↪⇛-eatˡ�
   ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛; ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾ-eatˡ⁻ʳ; ↪⟨⟩ᴾ-monoʳᵘ;
   ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-suc; ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀ-eatˡ⁻ʳ; ↪⟨⟩ᵀ-monoʳᵘ;
   ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
-open import Syho.Model.Prop using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀₁ᵒ-syntax;
-  ∃₁ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ⊨⇒⊨✓; ∀₁ᵒ-Mono; ∀₁ᵒ-mono;
-  ∃₁ᵒ-Mono; ∃₁ᵒ-mono; →ᵒ-Mono; →ᵒ-mono; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-Mono; ∗ᵒ-mono;
-  ∗ᵒ-monoˡ; ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-Mono;
-  -∗ᵒ-mono; -∗ᵒ-intro; -∗ᵒ-elim; ⤇ᵒ-Mono; ⤇ᵒ-mono; ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join;
-  ⤇ᵒ-eatˡ; ⤇ᵒ-∃₁ᵒ-out; □ᵒ-Mono; □ᵒ-mono; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup; □ᵒˡ-×ᵒ⇒∗ᵒ)
-open import Syho.Model.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_; _↪⟨_⟩ᵀ[_]ᵒ_; ○ᵒ-Mono;
-  ○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-Mono; ↪⇛ᵒ-suc; ↪⇛ᵒ-eatˡ⁻ˡᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ;
-  ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪⟨⟩ᴾᵒ-Mono; ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ; ↪⟨⟩ᴾᵒ-monoʳᵘ;
-  ↪⟨⟩ᴾᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-Mono; ↪⟨⟩ᵀᵒ-suc; ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ;
-  ↪⟨⟩ᵀᵒ-monoʳᵘ; ↪⟨⟩ᵀᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵀᵒ)
-open import Syho.Model.Basic using (⸨_⸩ᴮ)
+open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-monoˡ;
+  ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-intro; -∗ᵒ-elim;
+  ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-∃₁ᵒ-out;  □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
+  □ᵒˡ-×ᵒ⇒∗ᵒ)
+open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_; _↪⟨_⟩ᵀ[_]ᵒ_;
+  ○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-suc; ↪⇛ᵒ-eatˡ⁻ˡᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-frameˡ;
+  ○ᵒ⇒↪⇛ᵒ; ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ; ↪⟨⟩ᴾᵒ-monoʳᵘ; ↪⟨⟩ᴾᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᴾᵒ;
+  ↪⟨⟩ᵀᵒ-suc; ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵀᵒ-monoʳᵘ; ↪⟨⟩ᵀᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵀᵒ)
+open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-⇒ᴮ; ⸨⸩-Mono)
 
 private variable
   P Q R S T :  Prop' ∞
-
---------------------------------------------------------------------------------
--- ⸨ ⸩ :  Interpreting propositions
-
-⸨_⸩ :  Prop' ∞ →  Propᵒ
-⸨ ∀₁˙ P˙ ⸩ =  ∀₁ᵒ x , ⸨ P˙ x ⸩
-⸨ ∃₁˙ P˙ ⸩ =  ∃₁ᵒ x , ⸨ P˙ x ⸩
-⸨ P →' Q ⸩ =  ⸨ P ⸩ →ᵒ ⸨ Q ⸩
-⸨ P ∗ Q ⸩ =  ⸨ P ⸩ ∗ᵒ ⸨ Q ⸩
-⸨ P -∗ Q ⸩ =  ⸨ P ⸩ -∗ᵒ ⸨ Q ⸩
-⸨ ⤇ P ⸩ =  ⤇ᵒ ⸨ P ⸩
-⸨ □ P ⸩ =  □ᵒ ⸨ P ⸩
-⸨ ○ P˂ ⸩ =  ○ᵒ P˂ .!
-⸨ P˂ ↪[ i ]⇛ Q˂ ⸩ =  P˂ .! ↪[ i ]⇛ᵒ Q˂ .!
-⸨ P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ ⸩ =  P˂ .! ↪⟨ e ⟩ᴾᵒ λ v → Q˂ᵛ v .!
-⸨ P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ ⸩ =  P˂ .! ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → Q˂ᵛ v .!
-⸨ _ ↦⟨ _ ⟩ _ ⸩ =  ⊤ᵒ  -- For now
-⸨ Free _ _ ⸩ =  ⊤ᵒ  -- For now
-
-abstract
-
-  -- ⸨ ⸩ᴮ agrees with ⸨ ⸩
-  -- ⸨⸩-ᴮ⇒ and ⸨⸩-⇒ᴮ are mutually recursive
-
-  ⸨⸩-ᴮ⇒ :  {{_ : Basic P}} →  ⸨ P ⸩ᴮ ⊨ ⸨ P ⸩
-  ⸨⸩-⇒ᴮ :  {{_ : Basic P}} →  ⸨ P ⸩ ⊨ ⸨ P ⸩ᴮ
-
-  ⸨⸩-ᴮ⇒ {{∀₁-Basic BasicP˙}} {a} =  ∀₁ᵒ-mono (λ x → ⸨⸩-ᴮ⇒ {{BasicP˙ x}} {a}) {a}
-  ⸨⸩-ᴮ⇒ {{∃₁-Basic BasicP˙}} {a} =  ∃₁ᵒ-mono (λ x → ⸨⸩-ᴮ⇒ {{BasicP˙ x}} {a}) {a}
-  ⸨⸩-ᴮ⇒ {{→-Basic {P} {Q}}} =  →ᵒ-mono (⸨⸩-⇒ᴮ {P}) (⸨⸩-ᴮ⇒ {Q})
-  ⸨⸩-ᴮ⇒ {{∗-Basic {P} {Q}}} =  ∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (⸨⸩-ᴮ⇒ {Q})
-  ⸨⸩-ᴮ⇒ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) (λ{a} → ⸨⸩-ᴮ⇒ {Q} {a})
-  ⸨⸩-ᴮ⇒ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-ᴮ⇒ {P})
-  ⸨⸩-ᴮ⇒ {{□-Basic {P}}} =  □ᵒ-mono (λ{a} → ⸨⸩-ᴮ⇒ {P} {a})
-  ⸨⸩-ᴮ⇒ {{↦⟨⟩-Basic}} =  _
-  ⸨⸩-ᴮ⇒ {{Free-Basic}} =  _
-
-  ⸨⸩-⇒ᴮ {{∀₁-Basic BasicP˙}} =  ∀₁ᵒ-mono (λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a})
-  ⸨⸩-⇒ᴮ {{∃₁-Basic BasicP˙}} =  ∃₁ᵒ-mono (λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a})
-  ⸨⸩-⇒ᴮ {{→-Basic {P} {Q}}} =  →ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (⸨⸩-⇒ᴮ {Q})
-  ⸨⸩-⇒ᴮ {{∗-Basic {P} {Q}}} =  ∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) (⸨⸩-⇒ᴮ {Q})
-  ⸨⸩-⇒ᴮ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (λ{a} → ⸨⸩-⇒ᴮ {Q} {a})
-  ⸨⸩-⇒ᴮ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-⇒ᴮ {P})
-  ⸨⸩-⇒ᴮ {{□-Basic {P}}} =  □ᵒ-mono (λ{a} → ⸨⸩-⇒ᴮ {P} {a})
-  ⸨⸩-⇒ᴮ {{↦⟨⟩-Basic}} =  _
-  ⸨⸩-⇒ᴮ {{Free-Basic}} =  _
-
-  --  ⸨ P ⸩ satisfies monotonicity
-
-  ⸨⸩-Mono :  Monoᵒ ⸨ P ⸩
-  ⸨⸩-Mono {∀₁˙ P˙} =  ∀₁ᵒ-Mono (λ x → ⸨⸩-Mono {P˙ x})
-  ⸨⸩-Mono {∃₁˙ P˙} =  ∃₁ᵒ-Mono (λ x → ⸨⸩-Mono {P˙ x})
-  ⸨⸩-Mono {_ →' _} =  →ᵒ-Mono
-  ⸨⸩-Mono {_ ∗ _} =  ∗ᵒ-Mono
-  ⸨⸩-Mono {_ -∗ Q} =  -∗ᵒ-Mono {Qᵒ = ⸨ Q ⸩}
-  ⸨⸩-Mono {⤇ _} =  ⤇ᵒ-Mono
-  ⸨⸩-Mono {□ P} =  □ᵒ-Mono (⸨⸩-Mono {P})
-  ⸨⸩-Mono {○ _} =  ○ᵒ-Mono
-  ⸨⸩-Mono {_ ↪[ _ ]⇛ _} =  ↪⇛ᵒ-Mono
-  ⸨⸩-Mono {_ ↪⟨ _ ⟩ᴾ _} =  ↪⟨⟩ᴾᵒ-Mono
-  ⸨⸩-Mono {_ ↪⟨ _ ⟩ᵀ[ _ ] _} =  ↪⟨⟩ᵀᵒ-Mono
-  ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  _
-  ⸨⸩-Mono {Free _ _} =  _
 
 --------------------------------------------------------------------------------
 -- ⊢⇒⊨✓ :  Semantic soundness of the pure sequent

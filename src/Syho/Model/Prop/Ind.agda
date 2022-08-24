@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Ind where
+module Syho.Model.Prop.Ind where
 
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
@@ -19,12 +19,12 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-suc; _ᵘ»ᵘ_; ⇛-fram
   ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-suc; _ʰ»ᵘ_;
   _ᵘ»ʰ_; hor-frameˡ)
-open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
-open import Syho.Model.Prop using (Propᵒ; Monoᵒ; _⊨_; _⊎ᵒ_; _∗ᵒ_; Own; ⊎ᵒ-Mono;
-  ∗ᵒ-Mono; ∗ᵒ-assocʳ; Own-Mono)
-open import Syho.Model.Basic using (⸨_⸩ᴮ)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊎ᵒ_; _∗ᵒ_; Own;
+  ⊎ᵒ-Mono; ∗ᵒ-Mono; ∗ᵒ-assocʳ; Own-Mono)
+open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
   i j :  ℕ

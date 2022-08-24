@@ -13,7 +13,7 @@ open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁; -,_)
 open import Base.Nat using (ℕ; _≡?_; ≡?-refl)
 open import Base.Nmap using (updᵈⁿᵐ)
-open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
 

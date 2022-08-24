@@ -8,7 +8,7 @@ module Syho.Model.ERA.Top where
 
 open import Base.Level using (Level)
 open import Base.Few using (⊤)
-open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Base using (ERA)
 
 open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ; ◠˜ᴱ_; _◇˜ᴱ_;
   refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε;

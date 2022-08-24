@@ -4,14 +4,14 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop where
+module Syho.Model.Prop.Base where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _›_; _∘_; flip; const)
 open import Base.Few using (⊤)
 open import Base.Prod using (∑-syntax; ∑∈-syntax; _×_; _,_; -,_; proj₀; proj₁)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
-open import Syho.Model.ERA using (ERA)
+open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
 open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; ◠˜_; ⊑-respˡ;

@@ -9,8 +9,8 @@ module Base.NatPos where
 open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
-open import Base.Bool using (Bool; tt; ff; Tt)
 open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
+open import Base.Bool using (Bool; tt; ff; Tt)
 open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; _<≡>_; _≤>_;
   _+_; _*_; suc≤suc; suc<suc; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans;
   <-asym; <⇒≤; ≤-<-trans; <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; ᵇ⇒≡;

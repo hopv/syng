@@ -9,8 +9,8 @@ module Base.Nmap where
 open import Base.Level using (Level)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no)
-open import Base.Nat using (ℕ; _≡ᵇ_; _≡?_)
 open import Base.Bool using (tt; ff)
+open import Base.Nat using (ℕ; _≡ᵇ_; _≡?_)
 
 private variable
   ł :  Level

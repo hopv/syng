@@ -9,8 +9,8 @@ module Base.RatPos where
 open import Base.Func using (_$_; flip)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
-open import Base.Bool using (Bool; tt; Tt)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Base.Bool using (Bool; tt; Tt)
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_;
   _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ;
   ≡⁺ᵇ-refl; ᵇ⇒≤⁺; ≤⁺⇒ᵇ; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm;

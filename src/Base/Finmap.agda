@@ -47,28 +47,6 @@ initᶠᵐ :  ∀ a →  null a →  Finmap
 initᶠᵐ a _ .!ᶠᵐ _ =  a
 initᶠᵐ _ nulla .finᶠᵐ =  0 , λ _ → nulla
 
--- Add a new element to the bound
-
-addᶠᵐ :  A →  Finmap →  Finmap
-addᶠᵐ a (f |ᶠᵐ (n , _)) .!ᶠᵐ =  updⁿᵐ n a f
-addᶠᵐ a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc n , proof
- where abstract
-  proof :  Finᶠᵐ (updⁿᵐ n a f) (suc n)
-  proof {j} n<j  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  ... | ff | _ =  fi $ <⇒≤ n<j
-  ... | tt | ⇒j≡n  rewrite ⇒j≡n _ =  absurd $ <-irrefl n<j
-
--- Update a finmap at an index within the bound
-
-inupdᶠᵐ :  ∀(i : ℕ) (_ : A) (P : Finmap) →  i < bndᶠᵐ P →  Finmap
-inupdᶠᵐ i a (f |ᶠᵐ _) _ .!ᶠᵐ =  updⁿᵐ i a f
-inupdᶠᵐ i a (f |ᶠᵐ (n , fi)) i<n .finᶠᵐ =  n , proof
- where abstract
-  proof :  Finᶠᵐ (updⁿᵐ i a f) n
-  proof {j} n≤j  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  ... | tt | ⇒j≡i  rewrite ⇒j≡i _ =  absurd $ ≤⇒¬> n≤j i<n
-  ... | ff | _ =  fi n≤j
-
 -- Update a finmap at an index
 
 updᶠᵐ :  ℕ →  A →  Finmap →  Finmap

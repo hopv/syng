@@ -478,3 +478,26 @@ abstract
 
   ⊔≤-introʳ :  l ⊔ m ≤ n →  m ≤ n
   ⊔≤-introʳ {l} l⊔m≤n =  ≤-trans (⊔-introʳ {_} {l}) l⊔m≤n
+
+  -- Reduce ⊔
+
+  ⊔-≤ :  m ≤ n →  m ⊔ n ≡ n
+  ⊔-≤ 0≤ =  refl
+  ⊔-≤ (suc≤suc m'≤n') =  cong suc $ ⊔-≤ m'≤n'
+
+  ⊔-≥ :  m ≥ n →  m ⊔ n ≡ m
+  ⊔-≥ {m} m≥n =  ⊔-comm {m} ◇ ⊔-≤ m≥n
+
+  ⊔-same :  n ⊔ n ≡ n
+  ⊔-same =  ⊔-≥ ≤-refl
+
+  -- Reduce suc _ ⊔ _
+
+  suc⊔-< :  m < n →  suc m ⊔ n ≡ n
+  suc⊔-< =  ⊔-≤
+
+  suc⊔-≥ :  m ≥ n →  suc m ⊔ n ≡ suc m
+  suc⊔-≥ m≥n =  ⊔-≥ $ ≤-trans m≥n suc-incr
+
+  suc⊔-same :  suc n ⊔ n ≡ suc n
+  suc⊔-same =  suc⊔-≥ ≤-refl

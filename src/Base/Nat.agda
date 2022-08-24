@@ -241,9 +241,11 @@ suc m ≡? suc n  with m ≡? n
 ... | yes refl =  yes refl
 ... | no m≢n =  no λ{ refl → m≢n refl }
 
-≡?-refl :  (n ≡? n) ≡ yes refl
-≡?-refl {n = 0} =  refl
-≡?-refl {n = suc n}  rewrite ≡?-refl {n = n} =  refl
+abstract
+
+  ≡?-refl :  (n ≡? n) ≡ yes refl
+  ≡?-refl {n = 0} =  refl
+  ≡?-refl {n = suc n}  rewrite ≡?-refl {n = n} =  refl
 
 _≤?_ :  Dec² _≤_
 _≤?_ _ _ =  dec-Tt ᵇ⇒≤ ≤⇒ᵇ

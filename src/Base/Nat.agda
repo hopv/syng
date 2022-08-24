@@ -8,7 +8,7 @@ module Base.Nat where
 
 open import Base.Func using (_$_; _∘_)
 open import Base.Few using (¬_; absurd)
-open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂)
+open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
 open import Base.Bool using (Bool; tt; ff; Tt; Tt⇒≡tt; ¬Tt⇒≡ff)
 open import Base.Dec using (Dec²; yes; no)
@@ -189,6 +189,13 @@ abstract
 
   ≡ᵇ-refl :  (n ≡ᵇ n) ≡ tt
   ≡ᵇ-refl {n} =  Tt⇒≡tt $ ≡⇒ᵇ {n} refl
+
+  -- Use ≢ to reduce ≡ᵇ
+
+  ≢-≡ᵇ-ff :  m ≢ n →  (m ≡ᵇ n) ≡ ff
+  ≢-≡ᵇ-ff {m} {n} m≢n  with m ≡ᵇ n | ᵇ⇒≡ {m} {n}
+  ... | ff | _ =  refl
+  ... | tt | ⇒m≡n =  absurd $ m≢n $ ⇒m≡n _
 
   -- Conversion between <ᵇ and <
 

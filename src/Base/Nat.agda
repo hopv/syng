@@ -123,7 +123,7 @@ abstract
   suc<suc⁻¹ :  suc m < suc n →  m < n
   suc<suc⁻¹ (suc<suc m<n) =   m<n
 
-  infix 4 _<≡>_ _≤>_
+  infix 4 _<≡>_ _≤>_ _<≥_
 
   -- Get <, ≡ or >
 
@@ -143,6 +143,13 @@ abstract
   ... | inj₀ m<n =  inj₀ $ <⇒≤ m<n
   ... | inj₁₀ refl =  inj₀ ≤-refl
   ... | inj₁₁ m>n =  inj₁ m>n
+
+  -- Get < or ≥
+
+  _<≥_ :  ∀ m n →  m < n  ⊎  m ≥ n
+  m <≥ n  with n ≤> m
+  ... | inj₀ n≤m =  inj₁ n≤m
+  ... | inj₁ n>m =  inj₀ n>m
 
   -- Conversion between ≤ and ≤ᵈ
 

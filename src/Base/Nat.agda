@@ -26,7 +26,7 @@ private variable
 --------------------------------------------------------------------------------
 -- ≤, <, ≤ᵈ, <ᵈ :  Order
 
-infix 4 _≤_ _<_ _≥_ _>_ _≤ᵈ_ _<ᵈ_
+infix 4 _≤_ _<_ _≥_ _>_ _≤ᵈ_ _<ᵈ_ _≥ᵈ_ _>ᵈ_
 
 -- ≤ :  Order, with induction on the left-hand side
 
@@ -40,11 +40,13 @@ data  _≤ᵈ_ :  ℕ → ℕ → Set₀  where
   ≤ᵈ-refl :  n ≤ᵈ n
   ≤ᵈsuc :  m ≤ᵈ n →  m ≤ᵈ suc n
 
-_<_ _≥_ _>_ _<ᵈ_ :  ℕ → ℕ → Set₀
+_<_ _≥_ _>_ _<ᵈ_ _≥ᵈ_ _>ᵈ_ :  ℕ → ℕ → Set₀
 m < n =  suc m ≤ n
 m ≥ n =  n ≤ m
 m > n =  n < m
 m <ᵈ n =  suc m ≤ᵈ n
+m ≥ᵈ n =  n ≤ᵈ m
+m >ᵈ n =  n <ᵈ m
 
 pattern 0<suc =  suc≤suc 0≤
 pattern suc<suc m<n =  suc≤suc m<n
@@ -175,10 +177,12 @@ abstract
 open import Agda.Builtin.Nat public using () renaming (_==_ to _≡ᵇ_;
   _<_ to _<ᵇ_)
 
-infix 4 _≤ᵇ_
-_≤ᵇ_ :  ℕ → ℕ → Bool
+infix 4 _≤ᵇ_ _≥ᵇ_ _>ᵇ_
+_≤ᵇ_ _≥ᵇ_ _>ᵇ_ :  ℕ → ℕ → Bool
 0 ≤ᵇ n =  tt
 suc m ≤ᵇ n =  m <ᵇ n
+m ≥ᵇ n =  n ≤ᵇ m
+m >ᵇ n =  n <ᵇ m
 
 abstract
 

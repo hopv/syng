@@ -11,7 +11,7 @@ open import Base.Func using (_$_)
 open import Base.Few using (absurd)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
 open import Base.Bool using (tt; ff)
-open import Base.Nat using (ℕ; suc; _≤_; _≡ᵇ_; _⊔_; ᵇ⇒≡; <-irrefl; ⊔≤-introˡ;
+open import Base.Nat using (ℕ; suc; _≥_; _≡ᵇ_; _⊔_; ᵇ⇒≡; <-irrefl; ⊔≤-introˡ;
   ⊔≤-introʳ)
 open import Base.Nmap using (updⁿᵐ)
 
@@ -20,7 +20,7 @@ open import Base.Nmap using (updⁿᵐ)
 
 -- Finᶠᵐ !ᶠᵐ n : !ᶠᵐ i is null for every i ≥ n
 Finᶠᵐ :  (ℕ → A) →  ℕ →  Set ł'
-Finᶠᵐ !ᶠᵐ n =  ∀{i} → n ≤ i → null (!ᶠᵐ i)
+Finᶠᵐ !ᶠᵐ n =  ∀{i} →  i ≥ n →  null (!ᶠᵐ i)
 
 infix 5 _|ᶠᵐ_
 record  Finmap :  Set (ł ⊔ᴸ ł')  where

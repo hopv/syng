@@ -445,8 +445,8 @@ abstract
 
   -- ↝ into ⤇ᵒ on Own
 
-  ↝-Own-⤇ᵒ-∃ᵒ :  (∀{E} → (E , a) ↝ λ x → E , b˙ x) →
-                 Own a ⊨ ⤇ᵒ (∃ᵒ x , Own (b˙ x))
+  ↝-Own-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝  λ x → E , b˙ x) →
+                 Own a  ⊨  ⤇ᵒ (∃ᵒ x , Own (b˙ x))
   ↝-Own-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' E✓c∙a'  with Ea↝Ebx $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   ... | -, E✓c∙bx =  -, E✓c∙bx , -, ⊑-refl
 
@@ -455,7 +455,7 @@ abstract
 
   -- ↝ into ⤇ᴱ on Own
 
-  ↝-Own-⤇ᴱ :  (∀{E} → (E , a) ↝ λ x → F˙ x , b˙ x) →
-              Own a ⊨ E ⤇ᴱ λ x → F˙ x , Own (b˙ x)
+  ↝-Own-⤇ᴱ :  (∀{E} →  (E , a)  ↝  λ x → F˙ x , b˙ x) →
+              Own a  ⊨  E  ⤇ᴱ  λ x → F˙ x , Own (b˙ x)
   ↝-Own-⤇ᴱ Ea↝Fxbx a⊑a' E✓c∙a'  with Ea↝Fxbx $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   ... | -, Fx✓c∙bx =  -, -, Fx✓c∙bx , ⊑-refl

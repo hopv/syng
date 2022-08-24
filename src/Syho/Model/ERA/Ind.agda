@@ -14,7 +14,7 @@ open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Prod using (_×_; proj₀; proj₁; _,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (ff; tt)
-open import Base.Nat using (ℕ; _≤_; _<_; <⇒≤; ≤-refl; <-irrefl; _≤>_; _≡ᵇ_; ᵇ⇒≡;
+open import Base.Nat using (ℕ; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _≤>_; _≡ᵇ_; ᵇ⇒≡;
   ≡ᵇ-refl; suc⊔-same; suc⊔-<)
 open import Base.Nmap using (updⁿᵐ)
 open import Base.List using (List; []; [_]; _++_; ++-assocˡ; ++-[]; ++-≡[])
@@ -55,7 +55,7 @@ Indˣᴱᴿᴬ ._≈_ Pˣ˙ Qˣ˙ =  ∀ i →  Pˣ˙ i ≡ Qˣ˙ i
 -- Qˣ˙ i agrees with P˙ i and equals ?ˣ if i is in the null range
 
 Indˣᴱᴿᴬ ._✓_ (P˙ |ᶠᵐ (n , _)) Qˣ˙ =
-  ∀ i →  P˙ i ←ˣ Qˣ˙ i  ×  (n ≤ i →  Qˣ˙ i ≡ ?ˣ)
+  ∀ i →  P˙ i ←ˣ Qˣ˙ i  ×  (i ≥ n →  Qˣ˙ i ≡ ?ˣ)
 
 Indˣᴱᴿᴬ ._∙_ Pˣ˙ Qˣ˙ i =  Pˣ˙ i ∙ˣ Qˣ˙ i
 
@@ -163,7 +163,7 @@ Ind□ᴱᴿᴬ ._≈_ Ps˙ Qs˙ =  ∀ i →  Ps˙ i ≈ᴸ Qs˙ i
 -- Qs˙ i agrees with P˙ i and equals [] if i is in the null range
 
 Ind□ᴱᴿᴬ ._✓_ (P˙ |ᶠᵐ (n , _)) Qs˙ =
-  ∀ i →  (∀{Q} →  Q ∈ᴸ Qs˙ i →  P˙ i ≡ Q)  ×  (n ≤ i →  Qs˙ i ≡ [])
+  ∀ i →  (∀{Q} →  Q ∈ᴸ Qs˙ i →  P˙ i ≡ Q)  ×  (i ≥ n →  Qs˙ i ≡ [])
 
 Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ++ Qs˙ i
 

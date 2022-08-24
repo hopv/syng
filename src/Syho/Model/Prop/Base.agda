@@ -14,7 +14,7 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 
-open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; ◠˜_; ⊑-respˡ;
+open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; ⊑-respˡ;
   ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ;
   ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono; ⌞⌟-decr;
   ⌞⌟-idem; ⌞⌟-unitˡ)
@@ -38,7 +38,8 @@ private variable
   Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
   a b :  Res
-  E :  Env
+  b˙ :  X → Res
+  E F :  Env
   F˙ :  X →  Env
   FPᵒ˙ FQᵒ˙ GPᵒ˙ :  X →  Env × Propᵒ ł
   f :  Y → X
@@ -423,3 +424,20 @@ abstract
 
   Own-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  Own a ⊨ □ᵒ Own a
   Own-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
+
+  -- ↝ into ⤇ᵒ on Own
+
+  ↝-Own-⤇ᵒ-∃ᵒ :  (∀{E} → (E , a) ↝ λ x → E , b˙ x) →
+                 Own a ⊨ ⤇ᵒ (∃ᵒ x , Own (b˙ x))
+  ↝-Own-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' E✓c∙a'  with Ea↝Ebx $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
+  ... | -, E✓c∙bx =  -, E✓c∙bx , -, ⊑-refl
+
+  ↝-Own-⤇ᵒ :  (∀{E} → (E , a) ↝ λ (_ : ⊤₀) → E , b) →  Own a ⊨ ⤇ᵒ Own b
+  ↝-Own-⤇ᵒ Ea↝Eb =  ↝-Own-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono proj₁
+
+  -- ↝ into ⤇ᴱ on Own
+
+  ↝-Own-⤇ᴱ :  (∀{E} → (E , a) ↝ λ x → F˙ x , b˙ x) →
+              Own a ⊨ E ⤇ᴱ λ x → F˙ x , Own (b˙ x)
+  ↝-Own-⤇ᴱ Ea↝Fxbx a⊑a' E✓c∙a'  with Ea↝Fxbx $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
+  ... | -, Fx✓c∙bx =  -, -, Fx✓c∙bx , ⊑-refl

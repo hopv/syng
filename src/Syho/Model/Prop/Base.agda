@@ -289,6 +289,60 @@ abstract
     let -, E✓c∙b , -, Pb = ⤇∃XP E✓c∙a in  -, E✓c∙b , Pb
 
 --------------------------------------------------------------------------------
+-- ⤇ᴱ :  Environmental update modality
+
+infix 8 _⤇ᴱ_
+
+_⤇ᴱ_ :  ∀{X : Set₂} →  Env →  (X → Env × Propᵒ) →  Propᵒ
+(E ⤇ᴱ FPᵒ˙) a =  ∀{c} →  E ✓ c ∙ a →  ∑ x , ∑ b ,
+  let (F , Pᵒ) = FPᵒ˙ x in  F ✓ c ∙ b  ×  Pᵒ b
+
+abstract
+
+  -- Monoᵒ for ⤇ᴱ
+
+  ⤇ᴱ-Mono :  Monoᵒ (E ⤇ᴱ FPᵒ˙)
+  ⤇ᴱ-Mono a⊑a' E⤇FPa E✓c∙a' =  E⤇FPa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
+
+  -- Monotonicity of ⤇ᴱ
+
+  ⤇ᴱ-mono✓ :  (∀{x} →  Pᵒ˙ x ⊨✓ Qᵒ˙ x) →
+              E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
+  ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa E✓c∙a  with E⤇FPa E✓c∙a
+  ... | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx (✓-mono ∙-incrˡ F✓c∙b) Pb
+
+  -- Change parameterization of ⤇ᴱ
+
+  ⤇ᴱ-param :  E ⤇ᴱ FPᵒ˙ ∘ f  ⊨  E ⤇ᴱ FPᵒ˙
+  ⤇ᴱ-param E⤇FPf E✓c∙a  with E⤇FPf E✓c∙a
+  ... | -, ∑bF✓c∙b×Pb =  -, ∑bF✓c∙b×Pb
+
+  -- Introduce ⤇ᴱ
+
+  ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤) → E , Pᵒ
+  ⤇ᵒ⇒⤇ᴱ ⤇ᵒPa E✓c∙a  with ⤇ᵒPa E✓c∙a
+  ... | (-, E✓c∙b , Pb) =  -, -, E✓c∙b , Pb
+
+  ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤) → E , Pᵒ
+  ⤇ᴱ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⤇ᴱ
+
+  -- Join ⤇ᴱ
+
+  ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙)  ⊨  E ⤇ᴱ GPᵒ˙
+  ⤇ᴱ-join E⤇F,F⤇GP E✓d∙a  with E⤇F,F⤇GP E✓d∙a
+  ... | -, -, F✓d∙b , F⤇GPb  with F⤇GPb F✓d∙b
+  ...   | -, -, G✓d∙c , Pc =  -, -, G✓d∙c , Pc
+
+  -- Let ⤇ᴱ eat a proposition under ∗ᵒ
+
+  ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  E ⤇ᴱ (λ x → F˙ x , Qᵒ˙ x)  ⊨
+               E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
+  ⤇ᴱ-eatˡ (-, b∙c⊑a , Pb , E⤇FQc) E✓e∙a
+    with E⤇FQc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
+  ... | -, -, F✓eb∙d , Qd =
+    -, -, ✓-respʳ ∙-assocˡ F✓eb∙d , -, ⊑-refl , Pb , Qd
+
+--------------------------------------------------------------------------------
 -- □ᵒ :  Persistence modality
 
 infix 8 □ᵒ_
@@ -367,57 +421,3 @@ abstract
 
   Own-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  Own a ⊨ □ᵒ Own a
   Own-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
-
---------------------------------------------------------------------------------
--- ⤇ᴱ :  Environmental update modality
-
-infix 8 _⤇ᴱ_
-
-_⤇ᴱ_ :  ∀{X : Set₂} →  Env →  (X → Env × Propᵒ) →  Propᵒ
-(E ⤇ᴱ FPᵒ˙) a =  ∀{c} →  E ✓ c ∙ a →  ∑ x , ∑ b ,
-  let (F , Pᵒ) = FPᵒ˙ x in  F ✓ c ∙ b  ×  Pᵒ b
-
-abstract
-
-  -- Monoᵒ for ⤇ᴱ
-
-  ⤇ᴱ-Mono :  Monoᵒ (E ⤇ᴱ FPᵒ˙)
-  ⤇ᴱ-Mono a⊑a' E⤇FPa E✓c∙a' =  E⤇FPa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
-
-  -- Monotonicity of ⤇ᴱ
-
-  ⤇ᴱ-mono✓ :  (∀{x} →  Pᵒ˙ x ⊨✓ Qᵒ˙ x) →
-              E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
-  ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa E✓c∙a  with E⤇FPa E✓c∙a
-  ... | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx (✓-mono ∙-incrˡ F✓c∙b) Pb
-
-  -- Change parameterization of ⤇ᴱ
-
-  ⤇ᴱ-param :  E ⤇ᴱ FPᵒ˙ ∘ f  ⊨  E ⤇ᴱ FPᵒ˙
-  ⤇ᴱ-param E⤇FPf E✓c∙a  with E⤇FPf E✓c∙a
-  ... | -, ∑bF✓c∙b×Pb =  -, ∑bF✓c∙b×Pb
-
-  -- Introduce ⤇ᴱ
-
-  ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤) → E , Pᵒ
-  ⤇ᵒ⇒⤇ᴱ ⤇ᵒPa E✓c∙a  with ⤇ᵒPa E✓c∙a
-  ... | (-, E✓c∙b , Pb) =  -, -, E✓c∙b , Pb
-
-  ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤) → E , Pᵒ
-  ⤇ᴱ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⤇ᴱ
-
-  -- Join ⤇ᴱ
-
-  ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙)  ⊨  E ⤇ᴱ GPᵒ˙
-  ⤇ᴱ-join E⤇F,F⤇GP E✓d∙a  with E⤇F,F⤇GP E✓d∙a
-  ... | -, -, F✓d∙b , F⤇GPb  with F⤇GPb F✓d∙b
-  ...   | -, -, G✓d∙c , Pc =  -, -, G✓d∙c , Pc
-
-  -- Let ⤇ᴱ eat a proposition under ∗ᵒ
-
-  ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  E ⤇ᴱ (λ x → F˙ x , Qᵒ˙ x)  ⊨
-               E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
-  ⤇ᴱ-eatˡ (-, b∙c⊑a , Pb , E⤇FQc) E✓e∙a
-    with E⤇FQc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
-  ... | -, -, F✓eb∙d , Qd =
-    -, -, ✓-respʳ ∙-assocˡ F✓eb∙d , -, ⊑-refl , Pb , Qd

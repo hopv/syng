@@ -50,10 +50,16 @@ private variable
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment, with or without a validity input
 
-infix 1 _⊨✓_ _⊨_
+infix 1 _⊨✓_ _⊨_ ⊨_
+
 _⊨✓_ _⊨_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 Pᵒ ⊨✓ Qᵒ =  ∀{E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
 Pᵒ ⊨ Qᵒ =  ∀{a} →  Pᵒ a →  Qᵒ a
+
+-- Tautology
+
+⊨_ :  Propᵒ ł →  Set (2ᴸ ⊔ᴸ ł)
+⊨ Pᵒ =  ∀{a} →  Pᵒ a
 
 abstract
 
@@ -157,7 +163,7 @@ abstract
   -- Monotonicity of →ᵒ
 
   →ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ →ᵒ Qᵒ) ⊨ (P'ᵒ →ᵒ Q'ᵒ)
-  →ᵒ-mono P'⊨P Q⊨Q' P→Qa a⊑b E✓b P'b =  Q⊨Q' $ P→Qa a⊑b E✓b $ P'⊨P P'b
+  →ᵒ-mono P⊨P Q⊨Q' P→Qa a⊑b E✓b P'b =  Q⊨Q' $ P→Qa a⊑b E✓b $ P⊨P P'b
 
   -- Introduce/eliminate →ᵒ
 
@@ -250,7 +256,7 @@ abstract
   -- Monotonicity of -∗ᵒ
 
   -∗ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ -∗ᵒ Qᵒ) ⊨ (P'ᵒ -∗ᵒ Q'ᵒ)
-  -∗ᵒ-mono P'⊨P Q⊨Q' P-∗Qa a⊑b E✓c∙b P'c =  Q⊨Q' $ P-∗Qa a⊑b E✓c∙b $ P'⊨P P'c
+  -∗ᵒ-mono P⊨P Q⊨Q' P-∗Qa a⊑b E✓c∙b P'c =  Q⊨Q' $ P-∗Qa a⊑b E✓c∙b $ P⊨P P'c
 
   -- Introduce/eliminate -∗ᵒ
 
@@ -436,7 +442,7 @@ abstract
   ●-refl :  (● a) a
   ●-refl =  ⊑-refl
 
-  ●-ε :  (● ε) a
+  ●-ε :  ⊨ ● ε
   ●-ε =  ε-min
 
   -- ● (a ∙ b) agrees with ● a ∗ᵒ ● b

@@ -459,9 +459,6 @@ abstract
   ↝-●-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' E✓c∙a'  with Ea↝Ebx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   ... | -, E✓c∙bx =  -, E✓c∙bx , -, ⊑-refl
 
-  ↝-●-⤇ᵒ :  (∀{E} → (E , a) ↝ λ (_ : ⊤₀) → E , b) →  ● a ⊨ ⤇ᵒ ● b
-  ↝-●-⤇ᵒ Ea↝Eb =  ↝-●-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono proj₁
-
   -- ↝ into ⤇ᴱ on ●
 
   ↝-●-⤇ᴱ :  ((E , a)  ↝  λ x → F˙ x , b˙ x) →

@@ -14,8 +14,8 @@ open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Prod using (_×_; proj₀; proj₁; _,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (ff; tt)
-open import Base.Nat using (ℕ; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_; ᵇ⇒≡;
-  ≡ᵇ-refl; suc⊔-same; suc⊔-<)
+open import Base.Nat using (ℕ; suc; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
+  ᵇ⇒≡; ≡ᵇ-refl)
 open import Base.Nmap using (updⁿᵐ)
 open import Base.List using (List; []; [_]; _++_; ++-assocˡ; ++-[]; ++-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
@@ -25,23 +25,21 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm;
   ∙ˣ-assocˡ; ∙ˣ-?ˣ)
 
-open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; _|ᶠᵐ_; bndᶠᵐ; updᶠᵐ)
-
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
   ⌞⌟-idem)
 
 private variable
   P :  Prop' ∞
-  Qᶠᵐ :  Finmap
-  i :  ℕ
+  Q˙ :  ℕ → Prop' ∞
+  i n :  ℕ
 
 --------------------------------------------------------------------------------
 -- Indˣᴱᴿᴬ :  Exclusive indirection ERA
 
 Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 
-Indˣᴱᴿᴬ .Env =  Finmap
+Indˣᴱᴿᴬ .Env =  (ℕ → Prop' ∞) × ℕ
 
 Indˣᴱᴿᴬ .Res =  ℕ →  Exc (Prop' ∞)
 
@@ -49,7 +47,7 @@ Indˣᴱᴿᴬ ._≈_ Pˣ˙ Qˣ˙ =  ∀ i →  Pˣ˙ i ≡ Qˣ˙ i
 
 -- Qˣ˙ i agrees with P˙ i and equals ?ˣ if i is in the null range
 
-Indˣᴱᴿᴬ ._✓_ (P˙ |ᶠᵐ (n , _)) Qˣ˙ =
+Indˣᴱᴿᴬ ._✓_ (P˙ , n) Qˣ˙ =
   ∀ i →  P˙ i ←ˣ Qˣ˙ i  ×  (i ≥ n →  Qˣ˙ i ≡ ?ˣ)
 
 Indˣᴱᴿᴬ ._∙_ Pˣ˙ Qˣ˙ i =  Pˣ˙ i ∙ˣ Qˣ˙ i
@@ -102,10 +100,9 @@ abstract
   -- Add a new proposition and get a line
 
   add-indˣ :
-    (Qᶠᵐ , εˣ) ↝ˣ λ(_ : ⊤₀) → updᶠᵐ (bndᶠᵐ Qᶠᵐ) P Qᶠᵐ , line-indˣ (bndᶠᵐ Qᶠᵐ) P
+    ((Q˙ , n) , εˣ) ↝ˣ λ(_ : ⊤₀) → (updⁿᵐ n P Q˙ , suc n) , line-indˣ n P
   add-indˣ _ _ .proj₀ =  _
-  add-indˣ {_ |ᶠᵐ (n , _)} Rˣ˙ Q✓Rˣ∙ε .proj₁ j
-    rewrite suc⊔-same {n}  with Q✓Rˣ∙ε j
+  add-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .proj₁ j  with Q✓Rˣ∙ε j
   ... | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ...   | ff | _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
   ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl
@@ -113,8 +110,8 @@ abstract
 
   -- If we validly have a line, then its index is within the bound
 
-  line-bound-indˣ :  Qᶠᵐ ✓ˣ line-indˣ i P →  i < bndᶠᵐ Qᶠᵐ
-  line-bound-indˣ {_ |ᶠᵐ (n , _)} {i = i} Q✓iP  with i <≥ n
+  line-bound-indˣ :  (Q˙ , n) ✓ˣ line-indˣ i P →  i < n
+  line-bound-indˣ {n = n} {i} Q✓iP  with i <≥ n
   ... | inj₀ i<n =  i<n
   ... | inj₁ i≥n  with Q✓iP i
   ...   | (_ , i≥n⇒iPi≡?)  rewrite ≡ᵇ-refl {i}  with i≥n⇒iPi≡? i≥n
@@ -123,15 +120,13 @@ abstract
   -- Remove a proposition consuming a line
 
   rem-indˣ :
-    (Qᶠᵐ , line-indˣ i P) ↝ˣ λ(_ : i < bndᶠᵐ Qᶠᵐ) → updᶠᵐ i ⊤' Qᶠᵐ , εˣ
-  rem-indˣ {_ |ᶠᵐ (n , _)} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀  with i <≥ n
+    ((Q˙ , n) , line-indˣ i P) ↝ˣ λ(_ : i < n) → (updⁿᵐ i ⊤' Q˙ , n) , εˣ
+  rem-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀  with i <≥ n
   ... | inj₀ i<n =  i<n
   ... | inj₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
   ...   | Rˣ∙iPi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iPi≡?
   ...     | ?ˣ | ()
-  rem-indˣ {Qᶠᵐ} {i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j
-    rewrite suc⊔-< $ line-bound-indˣ {Qᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Qᶠᵐ} {Rˣ˙} Q✓Rˣ∙iP
-    with Q✓Rˣ∙iP j
+  rem-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j  with Q✓Rˣ∙iP j
   ... | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
   ...   | ff | _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
   ...   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
@@ -142,7 +137,7 @@ abstract
 
 Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 
-Ind□ᴱᴿᴬ .Env =  Finmap
+Ind□ᴱᴿᴬ .Env =  (ℕ → Prop' ∞) × ℕ
 
 Ind□ᴱᴿᴬ .Res =  ℕ →  List (Prop' ∞)
 
@@ -150,7 +145,7 @@ Ind□ᴱᴿᴬ ._≈_ Ps˙ Qs˙ =  ∀ i →  Ps˙ i ≈ᴸ Qs˙ i
 
 -- Qs˙ i agrees with P˙ i and equals [] if i is in the null range
 
-Ind□ᴱᴿᴬ ._✓_ (P˙ |ᶠᵐ (n , _)) Qs˙ =
+Ind□ᴱᴿᴬ ._✓_ (P˙ , n) Qs˙ =
   ∀ i →  (∀{Q} →  Q ∈ᴸ Qs˙ i →  P˙ i ≡ Q)  ×  (i ≥ n →  Qs˙ i ≡ [])
 
 Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ++ Qs˙ i
@@ -205,10 +200,9 @@ abstract
   -- Add a new proposition and get a line
 
   add-ind□ :
-    (Qᶠᵐ , ε□) ↝□ λ(_ : ⊤₀) → updᶠᵐ (bndᶠᵐ Qᶠᵐ) P Qᶠᵐ , line-ind□ (bndᶠᵐ Qᶠᵐ) P
+    ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updⁿᵐ n P Q˙ , suc n) , line-ind□ n P
   add-ind□ _ _ .proj₀ =  _
-  add-ind□ {_ |ᶠᵐ (n , _)} Rs˙ Q✓Rs∙ε .proj₁ j
-    rewrite suc⊔-same {n}  with Q✓Rs∙ε j
+  add-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
   ... | (Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ...   | ff | _ =  Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[] ∘ <⇒≤
   ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | j≥n⇒Rsj++[]≡[] ≤-refl

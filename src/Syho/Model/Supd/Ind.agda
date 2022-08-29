@@ -21,8 +21,14 @@ open import Base.Nmap using (updⁿᵐ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; Finᶠᵐ; _|ᶠᵐ_; !ᶠᵐ;
   updᶠᵐ; bndᶠᵐ)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; □ᵒ_; ∗ᵒ-monoʳ;
-  ?∗ᵒ-intro; pullʳˡᵒ)
+open import Syho.Model.ERA.Base using (ERA)
+open import Syho.Model.ERA.Ind using (add-indˣ; rem-indˣ)
+open import Syho.Model.ERA.Glob using (updᴱᴳ; indˣ; Globᴱᴿᴬ)
+open ERA Globᴱᴿᴬ using (Env)
+open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; □ᵒ_; _⤇ᴱ_;
+  ∗ᵒ-mono; ∗ᵒ-monoʳ; ?∗ᵒ-intro; pullʳˡᵒ; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ;
+  ε↝-●-injᴳ-⤇ᴱ)
+open import Syho.Model.Prop.Ind using (Indˣ)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 
 private variable
@@ -30,6 +36,7 @@ private variable
   P :  Prop' ∞
   P˙ Q˙ :  ℕ → Prop' ∞
   Pᶠᵐ Qᶠᵐ :  Finmap
+  E :  Env
 
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
@@ -91,6 +98,15 @@ abstract
 
 inv-indˣ :  Finmap →  Propᵒ 2ᴸ
 inv-indˣ Pᶠᵐ =  ⸨ Pᶠᵐ ⸩ᶠᵐ
+
+abstract
+
+  add-Indˣ :  ⸨ P ⸩ ∗ᵒ inv-indˣ (E indˣ)  ⊨
+              E ⤇ᴱ λ Rᶠᵐ → (updᴱᴳ indˣ Rᶠᵐ E , Indˣ P ∗ᵒ inv-indˣ Rᶠᵐ)
+  add-Indˣ {P} {E} =  let Qᶠᵐ = E indˣ in
+    ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ $ add-indˣ {Qᶠᵐ}) › ⤇ᴱ-eatʳ ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᶠᵐ-add {P} {Qᶠᵐ}) ›
+    ⤇ᴱ-param {f = λ _ → updᶠᵐ _ _ Qᶠᵐ}
 
 --------------------------------------------------------------------------------
 -- Invariant for the persistent indirection ERA

@@ -327,10 +327,10 @@ abstract
 
   -- Monotonicity of ⤇ᴱ
 
-  ⤇ᴱ-mono✓ :  (∀{x} →  Pᵒ˙ x ⊨✓ Qᵒ˙ x) →
+  ⤇ᴱ-mono✓ :  (∀ x →  Pᵒ˙ x ⊨✓ Qᵒ˙ x) →
               E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
   ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa E✓c∙a  with E⤇FPa E✓c∙a
-  ... | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx (✓-mono ∙-incrˡ F✓c∙b) Pb
+  ... | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx _ (✓-mono ∙-incrˡ F✓c∙b) Pb
 
   -- Change parameterization of ⤇ᴱ
 

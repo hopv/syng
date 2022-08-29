@@ -118,9 +118,9 @@ abstract
   add-indˣ _ .proj₀ =  _
   add-indˣ {_ |ᶠᵐ (n , _)} {c = Rˣ˙} P✓Rˣ∙ε .proj₁ j
     rewrite suc⊔-same {n}  with P✓Rˣ∙ε j
-  ... | (Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  ...   | ff | _ =  Pj←Rˣj∙? , n≤j⇒Rˣj∙?≡? ∘ <⇒≤
-  ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | n≤j⇒Rˣj∙?≡? ≤-refl
+  ... | (Pj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
+  ...   | ff | _ =  Pj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
+  ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl
     =  refl , absurd ∘ <-irrefl
 
   -- If we validly have a line, then its index is within the bound
@@ -128,8 +128,8 @@ abstract
   line-bound-indˣ :  Pᶠᵐ ✓ˣ line-indˣ i Q →  i < bndᶠᵐ Pᶠᵐ
   line-bound-indˣ {_ |ᶠᵐ (n , _)} {i = i} P✓iQ  with n ≤> i
   ... | inj₁ i<n =  i<n
-  ... | inj₀ n≤i  with P✓iQ i
-  ...   | (_ , n≤i⇒iQi≡?)  rewrite ≡ᵇ-refl {i}  with n≤i⇒iQi≡? n≤i
+  ... | inj₀ i≥n  with P✓iQ i
+  ...   | (_ , i≥n⇒iQi≡?)  rewrite ≡ᵇ-refl {i}  with i≥n⇒iQi≡? i≥n
   ...     | ()
 
   -- Remove a proposition consuming a line
@@ -139,8 +139,8 @@ abstract
   rem-indˣ {Pᶠᵐ} {i} {c = Rˣ˙} P✓Rˣ∙iQ .proj₁ j
     rewrite suc⊔-< $ line-bound-indˣ {Pᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Pᶠᵐ} {Rˣ˙} P✓Rˣ∙iQ
     with P✓Rˣ∙iQ j
-  ... | (Pj←Rˣj∙iQj , n≤j⇒Rˣj∙iQj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  ...   | ff | _ =  Pj←Rˣj∙iQj , n≤j⇒Rˣj∙iQj≡?
+  ... | (Pj←Rˣj∙iQj , j≥n⇒Rˣj∙iQj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
+  ...   | ff | _ =  Pj←Rˣj∙iQj , j≥n⇒Rˣj∙iQj≡?
   ...   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
   ...     | ?ˣ =  _ , λ _ → refl
 
@@ -193,14 +193,14 @@ Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} i =  ++-comm {as = Ps˙ i}
 Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} i =  ≡⇒≈ᴸ $ ++-assocˡ {as = Ps˙ i}
 
 Ind□ᴱᴿᴬ .✓-resp (refl , ∀iPi≡Qi) ∀iRsi≈Ssi P✓R i  with P✓R i | ∀iRsi≈Ssi i
-... | (Pi≡Rsi , n≤i⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  rewrite ∀iPi≡Qi i =
+... | (Pi≡Rsi , i≥n⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  rewrite ∀iPi≡Qi i =
   (λ S∈Ssi → Pi≡Rsi $ Ssi⊆Rsi S∈Ssi) ,
-  λ n≤i →  ⊆ᴸ-[] $ subst (_ ⊆ᴸ_) (n≤i⇒Rsi≡[] n≤i) Ssi⊆Rsi
+  λ i≥n →  ⊆ᴸ-[] $ subst (_ ⊆ᴸ_) (i≥n⇒Rsi≡[] i≥n) Ssi⊆Rsi
 
 Ind□ᴱᴿᴬ .✓-rem R✓Ps++Qs i  with R✓Ps++Qs i
-... | Ri≡Ps++Qsi , n≤i⇒Psi++Qsi≡[] =
+... | Ri≡Ps++Qsi , i≥n⇒Psi++Qsi≡[] =
   (λ Q∈Qsi → Ri≡Ps++Qsi $ ++-⊆ᴸ-introʳ Q∈Qsi) ,
-  λ n≤i →  proj₁ $ ++-≡[] $ n≤i⇒Psi++Qsi≡[] n≤i
+  λ i≥n →  proj₁ $ ++-≡[] $ i≥n⇒Psi++Qsi≡[] i≥n
 
 Ind□ᴱᴿᴬ .✓-ε _ =  (λ ()) , λ _ → refl
 
@@ -228,7 +228,7 @@ abstract
   add-ind□ _ .proj₀ =  _
   add-ind□ {_ |ᶠᵐ (n , _)} {c = Rs˙} P✓Rs∙ε .proj₁ j
     rewrite suc⊔-same {n}  with P✓Rs∙ε j
-  ... | (Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  ...   | ff | _ =  Pj≡Rsj++[] , n≤j⇒Rsj++[]≡[] ∘ <⇒≤
-  ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | n≤j⇒Rsj++[]≡[] ≤-refl
+  ... | (Pj≡Rsj++[] , j≥n⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
+  ...   | ff | _ =  Pj≡Rsj++[] , j≥n⇒Rsj++[]≡[] ∘ <⇒≤
+  ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | j≥n⇒Rsj++[]≡[] ≤-refl
     =  (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl

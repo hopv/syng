@@ -92,7 +92,7 @@ abstract
 
   rem-Indˣ :  Indˣ P ∗ᵒ inv-indˣ (E indˣ)  ⊨
                 E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , ⸨ P ⸩ ∗ᵒ inv-indˣ Fˣ)
-  rem-Indˣ {E = E} =  let (Q˙ , n) = E indˣ in
+  rem-Indˣ {E = E} =  let (_ , n) = E indˣ in
     ∃ᵒ∗ᵒ-elim $ λ i → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ rem-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ⁿᵐ-Mono {n = n}) › ⸨⸩ⁿᵐ-rem-< i<n })
     › ⤇ᴱ-param

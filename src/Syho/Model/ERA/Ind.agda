@@ -119,9 +119,12 @@ abstract
 
   -- Remove a proposition consuming a line
 
-  rem-indˣ :
-    ((Q˙ , n) , line-indˣ i P) ↝ˣ λ(_ : i < n) → (updⁿᵐ i ⊤' Q˙ , n) , εˣ
-  rem-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀  with i <≥ n
+  rem-indˣ :  ((Q˙ , n) , line-indˣ i P) ↝ˣ
+                λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updⁿᵐ i ⊤' Q˙ , n) , εˣ
+  rem-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₀  with Q✓Rˣ∙iP i
+  ... | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
+  ...   | ?ˣ =  Qi←Rˣi∙#P
+  rem-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₁  with i <≥ n
   ... | inj₀ i<n =  i<n
   ... | inj₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
   ...   | Rˣ∙iPi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iPi≡?

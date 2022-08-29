@@ -17,9 +17,9 @@ open import Base.Bool using (ff; tt)
 open import Base.Nat using (ℕ; suc; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
   ᵇ⇒≡; ≡ᵇ-refl)
 open import Base.Nmap using (updⁿᵐ)
-open import Base.List using (List; []; [_]; _++_; ++-assocˡ; ++-[]; ++-≡[])
+open import Base.List using (List; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
-  ≈ᴸ-trans; ++-congˡ; ++-idem; ++-comm; ⊆ᴸ-[]; ++-⊆ᴸ-introʳ)
+  ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm;
@@ -151,7 +151,7 @@ Ind□ᴱᴿᴬ ._≈_ Ps˙ Qs˙ =  ∀ i →  Ps˙ i ≈ᴸ Qs˙ i
 Ind□ᴱᴿᴬ ._✓_ (P˙ , n) Qs˙ =
   ∀ i →  (∀{Q} →  Q ∈ᴸ Qs˙ i →  P˙ i ≡ Q)  ×  (i ≥ n →  Qs˙ i ≡ [])
 
-Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ++ Qs˙ i
+Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ⧺ Qs˙ i
 
 Ind□ᴱᴿᴬ .ε _ =  []
 
@@ -163,23 +163,23 @@ Ind□ᴱᴿᴬ .◠˜_ Psi≈Qsi _ =  ≈ᴸ-sym $ Psi≈Qsi _
 
 Ind□ᴱᴿᴬ ._◇˜_ Psi≈Qsi Qsi≈Rsi _ =  ≈ᴸ-trans (Psi≈Qsi _) (Qsi≈Rsi _)
 
-Ind□ᴱᴿᴬ .∙-congˡ Psi≈Qsi _ =  ++-congˡ $ Psi≈Qsi _
+Ind□ᴱᴿᴬ .∙-congˡ Psi≈Qsi _ =  ⧺-congˡ $ Psi≈Qsi _
 
 Ind□ᴱᴿᴬ .∙-unitˡ _ =  ≈ᴸ-refl
 
-Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} _ =  ++-comm {as = Ps˙ _}
+Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} _ =  ⧺-comm {as = Ps˙ _}
 
-Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} _ =  ≡⇒≈ᴸ $ ++-assocˡ {as = Ps˙ _}
+Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} _ =  ≡⇒≈ᴸ $ ⧺-assocˡ {as = Ps˙ _}
 
 Ind□ᴱᴿᴬ .✓-resp Rsi≈Ssi P✓R i  with P✓R i | Rsi≈Ssi i
 … | (Pi≡Rsi , i≥n⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  =
   (λ S∈Ssi → Pi≡Rsi $ Ssi⊆Rsi S∈Ssi) ,
   λ i≥n →  ⊆ᴸ-[] $ subst (_ ⊆ᴸ_) (i≥n⇒Rsi≡[] i≥n) Ssi⊆Rsi
 
-Ind□ᴱᴿᴬ .✓-rem R✓Ps++Qs i  with R✓Ps++Qs i
-… | Ri≡Ps++Qsi , i≥n⇒Psi++Qsi≡[] =
-  (λ Q∈Qsi → Ri≡Ps++Qsi $ ++-⊆ᴸ-introʳ Q∈Qsi) ,
-  λ i≥n →  proj₁ $ ++-≡[] $ i≥n⇒Psi++Qsi≡[] i≥n
+Ind□ᴱᴿᴬ .✓-rem R✓Ps⧺Qs i  with R✓Ps⧺Qs i
+… | Ri≡Ps⧺Qsi , i≥n⇒Psi⧺Qsi≡[] =
+  (λ Q∈Qsi → Ri≡Ps⧺Qsi $ ⧺-⊆ᴸ-introʳ Q∈Qsi) ,
+  λ i≥n →  proj₁ $ ⧺-≡[] $ i≥n⇒Psi⧺Qsi≡[] i≥n
 
 Ind□ᴱᴿᴬ .✓-ε _ =  (λ ()) , λ _ → refl
 
@@ -187,7 +187,7 @@ Ind□ᴱᴿᴬ .⌞⌟-cong =  id
 
 Ind□ᴱᴿᴬ .⌞⌟-add =  -, λ _ → ≈ᴸ-refl
 
-Ind□ᴱᴿᴬ .⌞⌟-unitˡ _ =  ++-idem
+Ind□ᴱᴿᴬ .⌞⌟-unitˡ _ =  ⧺-idem
 
 Ind□ᴱᴿᴬ .⌞⌟-idem _ =  ≈ᴸ-refl
 
@@ -206,7 +206,7 @@ abstract
     ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updⁿᵐ n P Q˙ , suc n) , line-ind□ n P
   add-ind□ _ _ .proj₀ =  _
   add-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
-  … | (Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  …   | ff | _ =  Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[] ∘ <⇒≤
-  …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | j≥n⇒Rsj++[]≡[] ≤-refl =
+  … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
+  …   | ff | _ =  Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[] ∘ <⇒≤
+  …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ⧺-[] {as = Rs˙ n} | j≥n⇒Rsj⧺[]≡[] ≤-refl =
     (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl

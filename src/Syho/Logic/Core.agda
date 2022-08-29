@@ -13,7 +13,7 @@ open import Base.Func using (_$_; _∘_; it)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
-open import Base.List using (List; []; _∷_; _++_)
+open import Base.List using (List; []; _∷_; _⧺_)
 open import Base.List.All2 using (All²; []ᴬ²; _∷ᴬ²_)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; ∀₀˙; ∃₀˙; ∀₁∈-syntax;
   ∃₁∈-syntax; ∀₁-syntax;∃₁-syntax; ∀₀∈-syntax; ∃₀∈-syntax; ∀₀-syntax; ∃₀-syntax;
@@ -787,12 +787,12 @@ abstract
   [∗]-mono []ᴬ² =  ⊢-refl
   [∗]-mono (P⊢Q ∷ᴬ² Ps⊢Qs) =  ∗-mono P⊢Q $ [∗]-mono Ps⊢Qs
 
-  -- ++ can get inside and outside [∗]
+  -- ⧺ can get inside and outside [∗]
 
-  [∗]-++-in :  [∗] Ps ∗ [∗] Qs ⊢[ ι ] [∗] (Ps ++ Qs)
-  [∗]-++-in {[]} =  ∗-elimʳ
-  [∗]-++-in {_ ∷ Ps'} =  ∗-assocˡ » ∗-monoʳ $ [∗]-++-in {Ps'}
+  [∗]-⧺-in :  [∗] Ps ∗ [∗] Qs ⊢[ ι ] [∗] (Ps ⧺ Qs)
+  [∗]-⧺-in {[]} =  ∗-elimʳ
+  [∗]-⧺-in {_ ∷ Ps'} =  ∗-assocˡ » ∗-monoʳ $ [∗]-⧺-in {Ps'}
 
-  [∗]-++-out :  [∗] (Ps ++ Qs) ⊢[ ι ] [∗] Ps ∗ [∗] Qs
-  [∗]-++-out {[]} =  ⊤∗-intro
-  [∗]-++-out {_ ∷ Ps'} =  ∗-monoʳ ([∗]-++-out {Ps'}) » ∗-assocʳ
+  [∗]-⧺-out :  [∗] (Ps ⧺ Qs) ⊢[ ι ] [∗] Ps ∗ [∗] Qs
+  [∗]-⧺-out {[]} =  ⊤∗-intro
+  [∗]-⧺-out {_ ∷ Ps'} =  ∗-monoʳ ([∗]-⧺-out {Ps'}) » ∗-assocʳ

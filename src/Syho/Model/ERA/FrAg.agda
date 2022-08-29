@@ -15,10 +15,10 @@ open import Base.Prod using (_×_; _,_; -,_)
 open import Base.RatPos using (ℚ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺; 1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
   ≈ᴿ⁺-trans; ≡⇒≈ᴿ⁺; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem;
   1≤1ᴿ⁺; ?+1-not-≤1ᴿ⁺)
-open import Base.List using (List; []; _++_; [_]; ++-assocˡ)
+open import Base.List using (List; []; _⧺_; [_]; ⧺-assocˡ)
 open import Base.List.Set S using (_≈ᴸ_; homo; ≈ᴸ-refl; ≈ᴸ-sym; ≈ᴸ-trans; ≡⇒≈ᴸ;
-  ++-congˡ; ++-comm; ++-idem; ++-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp;
-  [?]-cong; homo-[?]; homo-agree)
+  ⧺-congˡ; ⧺-comm; ⧺-idem; ⧺-⊆ᴸ-introʳ; homo-[]; homo-mono; homo-resp; [?]-cong;
+  homo-[?]; homo-agree)
 open import Syho.Model.ERA.Base using (ERA)
 
 open ERA renaming (_≈_ to _≈'_; refl˜ to refl')
@@ -66,7 +66,7 @@ private
   _∙ᶠ_ :  FrAg →  FrAg →  FrAg
   εᶠ ∙ᶠ y =  y
   x ∙ᶠ εᶠ =  x
-  ⟨ p ⟩ᶠᴸ as ∙ᶠ ⟨ q ⟩ᶠᴸ bs =  ⟨ p +ᴿ⁺ q ⟩ᶠᴸ (as ++ bs)
+  ⟨ p ⟩ᶠᴸ as ∙ᶠ ⟨ q ⟩ᶠᴸ bs =  ⟨ p +ᴿ⁺ q ⟩ᶠᴸ (as ⧺ bs)
 
 --------------------------------------------------------------------------------
 -- Internal lemmas
@@ -89,7 +89,7 @@ private abstract
 
   ∙ᶠ-congˡ :  ∀ x y z →  x ≈ᶠ y →  x ∙ᶠ z  ≈ᶠ  y ∙ᶠ z
   ∙ᶠ-congˡ (⟨ p ⟩ᶠᴸ _) (⟨ q ⟩ᶠᴸ _) (⟨ r ⟩ᶠᴸ _) (p≈q , as≈bs) =
-    +ᴿ⁺-congˡ {p} {q} {r} p≈q , ++-congˡ as≈bs
+    +ᴿ⁺-congˡ {p} {q} {r} p≈q , ⧺-congˡ as≈bs
   ∙ᶠ-congˡ (⟨ _ ⟩ᶠᴸ _) (⟨ _ ⟩ᶠᴸ _) εᶠ x≈y =  x≈y
   ∙ᶠ-congˡ εᶠ εᶠ _ _ =  ≈ᶠ-refl
 
@@ -98,11 +98,11 @@ private abstract
   ∙ᶠ-comm x@(⟨ _ ⟩ᶠᴸ _) εᶠ =  ≈ᶠ-refl {x}
   ∙ᶠ-comm εᶠ εᶠ =  ≈ᶠ-refl
   ∙ᶠ-comm (⟨ p ⟩ᶠᴸ as) (⟨ q ⟩ᶠᴸ bs) =
-    ≡⇒≈ᴿ⁺ $ +ᴿ⁺-comm {p} {q} , ++-comm {as} {bs}
+    ≡⇒≈ᴿ⁺ $ +ᴿ⁺-comm {p} {q} , ⧺-comm {as} {bs}
 
   ∙ᶠ-assocˡ :  ∀ x y z →  (x ∙ᶠ y) ∙ᶠ z  ≈ᶠ  x ∙ᶠ (y ∙ᶠ z)
   ∙ᶠ-assocˡ (⟨ p ⟩ᶠᴸ as) (⟨ q ⟩ᶠᴸ _) (⟨ r ⟩ᶠᴸ _) =
-    ≡⇒≈ᴿ⁺ $ +ᴿ⁺-assocˡ {p} {q} {r} , ≡⇒≈ᴸ (++-assocˡ {as = as})
+    ≡⇒≈ᴿ⁺ $ +ᴿ⁺-assocˡ {p} {q} {r} , ≡⇒≈ᴸ (⧺-assocˡ {as = as})
   ∙ᶠ-assocˡ εᶠ _ _ =  ≈ᶠ-refl
   ∙ᶠ-assocˡ (⟨ _ ⟩ᶠᴸ _) εᶠ _ =  ≈ᶠ-refl
   ∙ᶠ-assocˡ x@(⟨ _ ⟩ᶠᴸ _) y@(⟨ _ ⟩ᶠᴸ _) εᶠ =  ≈ᶠ-refl {x ∙ᶠ y}
@@ -113,8 +113,8 @@ private abstract
   ✓ᶠ-resp εᶠ εᶠ _ _ =  _
 
   ✓ᶠ-rem :  ∀ x y →  ✓ᶠ x ∙ᶠ y →  ✓ᶠ y
-  ✓ᶠ-rem (⟨ p ⟩ᶠᴸ _) (⟨ q ⟩ᶠᴸ _) (p+q≤1 , homo'as++bs) =
-    ≤1ᴿ⁺-rem {p} p+q≤1 , homo-mono ++-⊆ᴸ-introʳ homo'as++bs
+  ✓ᶠ-rem (⟨ p ⟩ᶠᴸ _) (⟨ q ⟩ᶠᴸ _) (p+q≤1 , homo'as⧺bs) =
+    ≤1ᴿ⁺-rem {p} p+q≤1 , homo-mono ⧺-⊆ᴸ-introʳ homo'as⧺bs
   ✓ᶠ-rem _ εᶠ _ =  _
   ✓ᶠ-rem εᶠ (⟨ _ ⟩ᶠᴸ _) ✓x =  ✓x
 
@@ -175,7 +175,7 @@ abstract
   -- Joining ⟨ ⟩ᶠ
 
   join-⟨⟩ᶠ : ∀{p q a} →  ⟨ p ⟩ᶠ a ∙⁺ ⟨ q ⟩ᶠ a ≈⁺ ⟨ p +ᴿ⁺ q ⟩ᶠ a
-  join-⟨⟩ᶠ {p} {q} =  ≈ᴿ⁺-refl {p +ᴿ⁺ q} , ++-idem
+  join-⟨⟩ᶠ {p} {q} =  ≈ᴿ⁺-refl {p +ᴿ⁺ q} , ⧺-idem
 
   -- Agreement
 

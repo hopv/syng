@@ -15,8 +15,8 @@ open import Base.Prod using (_,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; suc; _≥_; _<_; _<ᵈ_; _≥ᵈ_; _≡ᵇ_; ≤-refl; <⇒≤;
-  <-irrefl; _<≥_; ≤ᵈ-refl; ≤ᵈsuc; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff; suc⊔-<;
-  suc⊔-≥; suc⊔-same)
+  <-irrefl; ≤ᵈ-refl; ≤ᵈsuc; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff; suc⊔-<; suc⊔-≥;
+  suc⊔-same)
 open import Base.Nmap using (updⁿᵐ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; Finᶠᵐ; _|ᶠᵐ_; !ᶠᵐ;
@@ -74,26 +74,6 @@ abstract
   ⸨⸩ⁿᵐ-rem-< :  i < n →  ⸨ P˙ , n ⸩ⁿᵐ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updⁿᵐ i ⊤' P˙ , n ⸩ⁿᵐ
   ⸨⸩ⁿᵐ-rem-< =  ⸨⸩ⁿᵐ-rem-<ᵈ ∘ ≤⇒≤ᵈ
 
-  -- Updating an element into ⊤' out of the Finᶠᵐ bound has no effect
-
-  upd≡-Fin-≥ :  Finᶠᵐ P˙ n →  i ≥ n →  updⁿᵐ i ⊤' P˙ j ≡ P˙ j
-  upd≡-Fin-≥ {i = i} {j} fi i≥n with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  ... | ff | _ =  refl
-  ... | tt | ⇒j≡i  rewrite ⇒j≡i _ | fi i≥n =  refl
-
-  ⸨⸩upd≡-Fin-≥ :  Finᶠᵐ P˙ n →  i ≥ n →  ⸨ updⁿᵐ i ⊤' P˙ , m ⸩ⁿᵐ ≡ ⸨ P˙ , m ⸩ⁿᵐ
-  ⸨⸩upd≡-Fin-≥ {m = m} fi i≥n =  ⸨⸩ⁿᵐ-cong {n = m} $ upd≡-Fin-≥ fi i≥n
-
-  -- Extend the ⸨⸩ⁿᵐ bound from the Finᶠᵐ bound
-
-  ⸨⸩ⁿᵐ-Fin-≥ᵈ :  Finᶠᵐ P˙ n →  m ≥ᵈ n →  ⸨ P˙ , n ⸩ⁿᵐ  ⊨  ⸨ P˙ , m ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-Fin-≥ᵈ _ ≤ᵈ-refl =  id
-  ⸨⸩ⁿᵐ-Fin-≥ᵈ fi (≤ᵈsuc m'≥n)  rewrite fi $ ≤ᵈ⇒≤ m'≥n =
-    ⸨⸩ⁿᵐ-Fin-≥ᵈ fi m'≥n › ?∗ᵒ-intro absurd
-
-  ⸨⸩ⁿᵐ-Fin-≥ :  Finᶠᵐ P˙ n →  m ≥ n →  ⸨ P˙ , n ⸩ⁿᵐ  ⊨  ⸨ P˙ , m ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-Fin-≥ fi =  ⸨⸩ⁿᵐ-Fin-≥ᵈ fi ∘ ≤⇒≤ᵈ
-
 --------------------------------------------------------------------------------
 -- Interpret Finmap over Prop' ∞
 
@@ -109,12 +89,9 @@ abstract
 
   -- Remove a proposition
 
-  ⸨⸩ᶠᵐ-rem :  ⸨ Pᶠᵐ ⸩ᶠᵐ  ⊨  ⸨ Pᶠᵐ .!ᶠᵐ i ⸩ ∗ᵒ ⸨ updᶠᵐ i ⊤' Pᶠᵐ ⸩ᶠᵐ
-  ⸨⸩ᶠᵐ-rem {P˙ |ᶠᵐ (n , fi)} {i}  with i <≥ n
-  ... | inj₀ i<n  rewrite suc⊔-< i<n =  ⸨⸩ⁿᵐ-rem-< i<n
-  ... | inj₁ i≥n
-    rewrite suc⊔-≥ i≥n | fi i≥n | ≡ᵇ-refl {i} | ⸨⸩upd≡-Fin-≥ {m = i} fi i≥n =
-    ⸨⸩ⁿᵐ-Fin-≥ fi i≥n › ?∗ᵒ-intro absurd › ?∗ᵒ-intro absurd
+  ⸨⸩ᶠᵐ-rem :  i < bndᶠᵐ Pᶠᵐ →
+              ⸨ Pᶠᵐ ⸩ᶠᵐ  ⊨  ⸨ Pᶠᵐ .!ᶠᵐ i ⸩ ∗ᵒ ⸨ updᶠᵐ i ⊤' Pᶠᵐ ⸩ᶠᵐ
+  ⸨⸩ᶠᵐ-rem i<n  rewrite suc⊔-< i<n =  ⸨⸩ⁿᵐ-rem-< i<n
 
 --------------------------------------------------------------------------------
 -- Invariant for the exclusive indirection ERA

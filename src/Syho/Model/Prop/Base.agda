@@ -362,8 +362,7 @@ abstract
 
   -- Let ⤇ᴱ eat a proposition under ∗ᵒ
 
-  ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  E ⤇ᴱ (λ x → F˙ x , Qᵒ˙ x)  ⊨
-               E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
+  ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  E ⤇ᴱ (λ x → F˙ x , Qᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
   ⤇ᴱ-eatˡ (-, -, b∙c⊑a , Pb , E⤇FQc) E✓e∙a
     with E⤇FQc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | -, -, F✓eb∙d , Qd =

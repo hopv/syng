@@ -134,8 +134,13 @@ abstract
 
   -- Remove a proposition consuming a line
 
-  rem-indˣ :  (Pᶠᵐ , line-indˣ i Q) ↝ˣ λ(_ : ⊤₀) → updᶠᵐ i ⊤' Pᶠᵐ , εˣ
-  rem-indˣ _ .proj₀ =  _
+  rem-indˣ :
+    (Pᶠᵐ , line-indˣ i Q) ↝ˣ λ(_ : i < bndᶠᵐ Pᶠᵐ) → updᶠᵐ i ⊤' Pᶠᵐ , εˣ
+  rem-indˣ {_ |ᶠᵐ (n , _)} {i} {c = Rˣ˙} P✓Rˣ∙iQ .proj₀  with i <≥ n
+  ... | inj₀ i<n =  i<n
+  ... | inj₁ i≥n  with P✓Rˣ∙iQ _ .proj₁ i≥n
+  ...   | Rˣ∙iQi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iQi≡?
+  ...     | ?ˣ | ()
   rem-indˣ {Pᶠᵐ} {i} {c = Rˣ˙} P✓Rˣ∙iQ .proj₁ j
     rewrite suc⊔-< $ line-bound-indˣ {Pᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Pᶠᵐ} {Rˣ˙} P✓Rˣ∙iQ
     with P✓Rˣ∙iQ j

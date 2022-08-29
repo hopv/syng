@@ -23,8 +23,8 @@ open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax; ∃ᴵ-syntax;
-  ⌜_⌝ᵒ; _×ᵒ_; _⊎ᵒ_; _∗ᵒ_; ●_; ⊎ᵒ-Mono; ∗ᵒ-Mono; ∗ᵒ-assocʳ; ●-Mono)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
+  ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ●_; ⊎ᵒ-Mono; ∗ᵒ-Mono; ∗ᵒ-assocʳ; ●-Mono)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -58,8 +58,8 @@ abstract
 
 infix 8 ○ᵒ_
 ○ᵒ_ :  Prop' ∞ →  Propᵒ 2ᴸ
-○ᵒ P =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
-  ⌜ Q ∗ R ⊢[ ∞ ] P ⌝ᵒ  ×ᵒ  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
+○ᵒ P =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R , ∃ᵒ _ ∈ Q ∗ R ⊢[ ∞ ] P ,
+  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
 
 abstract
 
@@ -80,8 +80,8 @@ abstract
 
 infixr 5 _↪[_]⇛ᵒ_
 _↪[_]⇛ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ 2ᴸ
-(P ↪[ i ]⇛ᵒ Q) a =  ∑ R , ∑ᴵ BasicR , ∑ S ,
-  P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q  ×  (⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S) a
+P ↪[ i ]⇛ᵒ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q ,
+  ⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S
 
 abstract
 
@@ -125,8 +125,8 @@ abstract
 
 infixr 5 _↪⟨_⟩ᴾᵒ_
 _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ 2ᴸ
-P ↪⟨ e ⟩ᴾᵒ Qᵛ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
-  ⌜ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ ⌝ᵒ  ×ᵒ  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
+P ↪⟨ e ⟩ᴾᵒ Qᵛ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ ,
+  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
 abstract
 
@@ -168,7 +168,7 @@ abstract
 infixr 5 _↪⟨_⟩ᵀ[_]ᵒ_
 _↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Propᵒ 2ᴸ
 P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
-  ⌜ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ ⌝ᵒ  ×ᵒ  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
+  ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ ,  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
 abstract
 

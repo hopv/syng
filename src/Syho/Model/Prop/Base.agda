@@ -446,11 +446,6 @@ abstract
   ●-mono :  b ⊑ a →  ● a ⊨ ● b
   ●-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
 
-  -- Get ● by reflexivity
-
-  ●-refl :  (● a) a
-  ●-refl =  ⊑-refl
-
   ●-ε :  ⊨ ● ε
   ●-ε =  ε-min
 

@@ -239,6 +239,12 @@ abstract
   ∗ᵒ?-intro :  ⊨ Qᵒ →  Pᵒ ⊨ Pᵒ ∗ᵒ Qᵒ
   ∗ᵒ?-intro ⊨Q =  ?∗ᵒ-intro ⊨Q › ∗ᵒ-comm
 
+  -- Eliminate ∃ᵒ under ∗ᵒ
+
+  ∃ᵒ∗ᵒ-elim :  (∀ x → Pᵒ˙ x ∗ᵒ Qᵒ ⊨ Rᵒ) →  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ Rᵒ
+  ∃ᵒ∗ᵒ-elim Px∗Q⊨R (-, -, b∙c⊑a , (-, Px) , Q) =
+    Px∗Q⊨R _ (-, -, b∙c⊑a , Px , Q)
+
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand
 

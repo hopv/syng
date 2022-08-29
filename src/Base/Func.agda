@@ -49,12 +49,6 @@ infixl 0 _▷_
 _▷_ :  ∀ a → (∀ a → F a) → F a
 a ▷ f =  f a
 
--- Function application read as Membership
-
-infix 4 _∈_
-_∈_ :  A → (A → Set ł) → Set ł
-a ∈ B =  B a
-
 -- Flip the order of arguments
 
 flip :  ∀{F : A → B → Set ł} → (∀ a b → F a b) → ∀ b a → F a b

@@ -103,9 +103,9 @@ abstract
 
   add-Indˣ :  ⸨ P ⸩ ∗ᵒ inv-indˣ (E indˣ)  ⊨
               E ⤇ᴱ λ Rᶠᵐ → (updᴱᴳ indˣ Rᶠᵐ E , Indˣ P ∗ᵒ inv-indˣ Rᶠᵐ)
-  add-Indˣ {P} {E} =  let Qᶠᵐ = E indˣ in
+  add-Indˣ {_} {E} =  let Qᶠᵐ = E indˣ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ $ add-indˣ {Qᶠᵐ}) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᶠᵐ-add {P} {Qᶠᵐ}) ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᶠᵐ-add {_} {Qᶠᵐ}) ›
     ⤇ᴱ-param {f = λ _ → updᶠᵐ _ _ Qᶠᵐ}
 
 --------------------------------------------------------------------------------

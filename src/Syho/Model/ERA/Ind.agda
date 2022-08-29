@@ -14,7 +14,7 @@ open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Prod using (_×_; proj₀; proj₁; _,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (ff; tt)
-open import Base.Nat using (ℕ; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _≤>_; _≡ᵇ_; ᵇ⇒≡;
+open import Base.Nat using (ℕ; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_; ᵇ⇒≡;
   ≡ᵇ-refl; suc⊔-same; suc⊔-<)
 open import Base.Nmap using (updⁿᵐ)
 open import Base.List using (List; []; [_]; _++_; ++-assocˡ; ++-[]; ++-≡[])
@@ -126,9 +126,9 @@ abstract
   -- If we validly have a line, then its index is within the bound
 
   line-bound-indˣ :  Pᶠᵐ ✓ˣ line-indˣ i Q →  i < bndᶠᵐ Pᶠᵐ
-  line-bound-indˣ {_ |ᶠᵐ (n , _)} {i = i} P✓iQ  with n ≤> i
-  ... | inj₁ i<n =  i<n
-  ... | inj₀ i≥n  with P✓iQ i
+  line-bound-indˣ {_ |ᶠᵐ (n , _)} {i = i} P✓iQ  with i <≥ n
+  ... | inj₀ i<n =  i<n
+  ... | inj₁ i≥n  with P✓iQ i
   ...   | (_ , i≥n⇒iQi≡?)  rewrite ≡ᵇ-refl {i}  with i≥n⇒iQi≡? i≥n
   ...     | ()
 

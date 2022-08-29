@@ -116,7 +116,7 @@ record  Pers (P : Prop' ∞) :  Set₂  where
   inductive
   -- Pers-⇒□ :  P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
-open Pers {{...}} public
+open Pers {{…}} public
 
 private variable
   ł :  Level

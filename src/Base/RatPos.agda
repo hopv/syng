@@ -171,8 +171,8 @@ abstract
 
   ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
   ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd  with c ≤>⁺ d
-  ... | inj₀ c≤d =  c≤d
-  ... | inj₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
+  … | inj₀ c≤d =  c≤d
+  … | inj₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
     <⁺-trans (*⁺-smonoʳ {b} c>d) +⁺-sincrˡ
 
   -- p +ᴿ⁺ 1ᴿ⁺ does not satisfy ≤1ᴿ⁺
@@ -184,8 +184,8 @@ abstract
 
   ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  p ≤1ᴿ⁺ →  q ≤1ᴿ⁺
   ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b  with c ≤>⁺ d
-  ... | inj₀ c≤d =  c≤d
-  ... | inj₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc ◇ *⁺-comm {b} {c}) $
+  … | inj₀ c≤d =  c≤d
+  … | inj₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc ◇ *⁺-comm {b} {c}) $
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
 
 --------------------------------------------------------------------------------

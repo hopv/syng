@@ -294,7 +294,7 @@ abstract
 
   ⤇ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
   ⤇ᵒ-mono✓ P⊨✓Q ⤇Pa _ _ E✓c∙a  with ⤇Pa _ _ E✓c∙a
-  ... | -, E✓c∙b , Pb =  -, E✓c∙b , P⊨✓Q (✓-mono ∙-incrˡ E✓c∙b) Pb
+  … | -, E✓c∙b , Pb =  -, E✓c∙b , P⊨✓Q (✓-mono ∙-incrˡ E✓c∙b) Pb
 
   ⤇ᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
   ⤇ᵒ-mono =  ⤇ᵒ-mono✓ ∘ ⊨⇒⊨✓
@@ -308,15 +308,15 @@ abstract
 
   ⤇ᵒ-join :  ⤇ᵒ ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Pᵒ
   ⤇ᵒ-join ⤇⤇Pa _ _ E✓d∙a  with ⤇⤇Pa _ _ E✓d∙a
-  ... | -, E✓d∙b , ⤇Pb  with ⤇Pb _ _ E✓d∙b
-  ...   | -, E✓d∙c , Pc =  -, E✓d∙c , Pc
+  … | -, E✓d∙b , ⤇Pb  with ⤇Pb _ _ E✓d∙b
+  …   | -, E✓d∙c , Pc =  -, E✓d∙c , Pc
 
   -- Let ⤇ᵒ eat a proposition under ∗ᵒ
 
   ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ ⤇ᵒ Qᵒ ⊨ ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
   ⤇ᵒ-eatˡ (-, -, b∙c⊑a , Pb , ⤇Qc) _ _ E✓e∙a
     with ⤇Qc _ _ $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
-  ... | -, E✓eb∙d , Qd =  -, ✓-resp ∙-assocˡ E✓eb∙d , -, -, ⊑-refl , Pb , Qd
+  … | -, E✓eb∙d , Qd =  -, ✓-resp ∙-assocˡ E✓eb∙d , -, -, ⊑-refl , Pb , Qd
 
   -- Let ∃₁ _ go out of ⤇ᵒ
 
@@ -347,7 +347,7 @@ abstract
   ⤇ᴱ-mono✓ :  (∀ x →  Pᵒ˙ x ⊨✓ Qᵒ˙ x) →
               E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
   ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa _ E✓c∙a  with E⤇FPa _ E✓c∙a
-  ... | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx _ (✓-mono ∙-incrˡ F✓c∙b) Pb
+  … | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx _ (✓-mono ∙-incrˡ F✓c∙b) Pb
 
   ⤇ᴱ-mono :  (∀ x →  Pᵒ˙ x ⊨ Qᵒ˙ x) →
              E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
@@ -357,13 +357,13 @@ abstract
 
   ⤇ᴱ-param :  E ⤇ᴱ FPᵒ˙ ∘ f  ⊨  E ⤇ᴱ FPᵒ˙
   ⤇ᴱ-param E⤇FPf _ E✓c∙a  with E⤇FPf _ E✓c∙a
-  ... | -, ∑bF✓c∙b×Pb =  -, ∑bF✓c∙b×Pb
+  … | -, ∑bF✓c∙b×Pb =  -, ∑bF✓c∙b×Pb
 
   -- Introduce ⤇ᴱ
 
   ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤₀) → E , Pᵒ
   ⤇ᵒ⇒⤇ᴱ ⤇ᵒPa _ E✓c∙a  with ⤇ᵒPa _ _ E✓c∙a
-  ... | (-, E✓c∙b , Pb) =  -, -, E✓c∙b , Pb
+  … | (-, E✓c∙b , Pb) =  -, -, E✓c∙b , Pb
 
   ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤₀) → E , Pᵒ
   ⤇ᴱ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⤇ᴱ
@@ -372,15 +372,15 @@ abstract
 
   ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙)  ⊨  E ⤇ᴱ GPᵒ˙
   ⤇ᴱ-join E⤇F,F⤇GP _ E✓d∙a  with E⤇F,F⤇GP _ E✓d∙a
-  ... | -, -, F✓d∙b , F⤇GPb  with F⤇GPb _ F✓d∙b
-  ...   | -, -, G✓d∙c , Pc =  -, -, G✓d∙c , Pc
+  … | -, -, F✓d∙b , F⤇GPb  with F⤇GPb _ F✓d∙b
+  …   | -, -, G✓d∙c , Pc =  -, -, G✓d∙c , Pc
 
   -- Let ⤇ᴱ eat a proposition under ∗ᵒ
 
   ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  E ⤇ᴱ (λ x → F˙ x , Qᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
   ⤇ᴱ-eatˡ (-, -, b∙c⊑a , Pb , E⤇FQc) _ E✓e∙a
     with E⤇FQc _ $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
-  ... | -, -, F✓eb∙d , Qd =
+  … | -, -, F✓eb∙d , Qd =
     -, -, ✓-resp ∙-assocˡ F✓eb∙d , -, -, ⊑-refl , Pb , Qd
 
   ⤇ᴱ-eatʳ :  E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ∗ᵒ  Qᵒ  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x ∗ᵒ Qᵒ
@@ -475,14 +475,14 @@ abstract
   ↝-●-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝  λ x → E , b˙ x) →
                ● a  ⊨  ⤇ᵒ (∃ᵒ x , ● b˙ x)
   ↝-●-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' _ _ E✓c∙a'  with Ea↝Ebx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
-  ... | -, E✓c∙bx =  -, E✓c∙bx , -, ⊑-refl
+  … | -, E✓c∙bx =  -, E✓c∙bx , -, ⊑-refl
 
   -- ↝ into ⤇ᴱ on ●
 
   ↝-●-⤇ᴱ :  ((E , a)  ↝  λ x → F˙ x , b˙ x) →
             ● a  ⊨  E  ⤇ᴱ  λ x → F˙ x , ● b˙ x
   ↝-●-⤇ᴱ Ea↝Fxbx a⊑a' _ E✓c∙a'  with Ea↝Fxbx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
-  ... | -, Fx✓c∙bx =  -, -, Fx✓c∙bx , ⊑-refl
+  … | -, Fx✓c∙bx =  -, -, Fx✓c∙bx , ⊑-refl
 
 -- On an independent ERA
 

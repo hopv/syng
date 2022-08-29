@@ -28,7 +28,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Constructing Expr
 
--- ▶ ▶ ▶ ...
+-- ▶ ▶ ▶ …
 
 loop :  Expr ι (◸ ⊤)
 loop =  ▶ λ{ .! → loop }
@@ -102,7 +102,7 @@ abstract
 
   stuck-no-red :  ¬ (stuck , M) ⇒ᴱ (e , M')
   stuck-no-red (redᴱ refl (redᴷᴿ r⇒))  with r⇒
-  ... | ()
+  … | ()
 
   -- Invert reduction on plus◁3,4
 

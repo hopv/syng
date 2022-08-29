@@ -671,7 +671,7 @@ abstract
 
   -- For ∀/∃
   -- They are not instances, because unfortunately Agda can't search a
-  -- universally quantified instance (∀ x → ...)
+  -- universally quantified instance (∀ x → …)
 
   ∀₁-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀₁˙ P˙)
   ∀₁-Pers ∀Pers .Pers-⇒□ =  ∀₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀-in

@@ -185,7 +185,7 @@ _↦ˡ_ :  Addr →  List AnyVal →  Prop' ι
 data  Basic :  Prop' ∞ →  Set₂  where
 
   -- They are not instances, because unfortunately Agda can't search a
-  -- universally quantified instance (∀ x → ...)
+  -- universally quantified instance (∀ x → …)
 
   ∀₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₁˙ P˙)
   ∃₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₁˙ P˙)

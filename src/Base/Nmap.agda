@@ -22,12 +22,12 @@ private variable
 
 updⁿᵐ :  ℕ →  A →  (ℕ → A) →  (ℕ → A)
 updⁿᵐ i a f j  with j ≡ᵇ i
-... | ff =  f j
-... | tt =  a
+… | ff =  f j
+… | tt =  a
 
 -- Variant with the return type dependent on the index
 
 updᵈⁿᵐ :  ∀ i →  A˙ i →  (∀ j →  A˙ j) →  (∀ j →  A˙ j)
 updᵈⁿᵐ i a f j  with j ≡? i
-... | no _ =  f j
-... | yes refl =  a
+… | no _ =  f j
+… | yes refl =  a

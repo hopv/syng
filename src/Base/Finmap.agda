@@ -54,9 +54,8 @@ updᶠᵐ i a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc i ⊔ n , proof
  where abstract
   proof :  Finᶠᵐ (updⁿᵐ i a f) (suc i ⊔ n)
   proof {j} si⊔n≤j  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  ... | ff | _ =  fi $ ⊔≤-introʳ {suc _} si⊔n≤j
-  ... | tt | ⇒j≡i  rewrite ⇒j≡i _ =
-    absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
+  … | ff | _ =  fi $ ⊔≤-introʳ {suc _} si⊔n≤j
+  … | tt | ⇒j≡i  rewrite ⇒j≡i _ =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j
 
 -- Merge finmaps using a merge operation _∙_
 

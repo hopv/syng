@@ -29,19 +29,19 @@ private variable
   θ :  Addr
   av :  AnyVal
 
--- □ ○ □ ○ □ ○ ...
+-- □ ○ □ ○ □ ○ …
 
 □○-loop :  Prop' ι
 □○-loop =  □ ○ λ{ .! → □○-loop }
 
 abstract
 
-  -- Get □ ○ □ ○ □ ○ ... for free
+  -- Get □ ○ □ ○ □ ○ … for free
 
   □○-loop-alloc :  ⊤' ⊢[ ι ][ i ]⇛ □○-loop
   □○-loop-alloc =  -∗-intro ∗-elimˡ » □○-alloc-rec
 
-  -- Get ⊥' after ▶ ▶ ▶ ... under partial Hoare triple
+  -- Get ⊥' after ▶ ▶ ▶ … under partial Hoare triple
 
   loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ᴾ λ _ → ⊥'
   loop-⊥ =  horᴾ-▶ λ{ .! → loop-⊥ }

@@ -71,11 +71,11 @@ Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} _ =  ∙ˣ-comm {x = Pˣ˙ _}
 Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} _ =  ∙ˣ-assocˡ {x = Pˣ˙ _}
 
 Indˣᴱᴿᴬ .✓-resp Rˣi≡Sˣi P✓Rˣ i  with P✓Rˣ i
-... | P✓Rˣi  rewrite Rˣi≡Sˣi i =  P✓Rˣi
+… | P✓Rˣi  rewrite Rˣi≡Sˣi i =  P✓Rˣi
 
 Indˣᴱᴿᴬ .✓-rem {a = Pˣ˙} {b = Qˣ˙} R✓Pˣ∙Qˣ i  with Pˣ˙ i | Qˣ˙ i | R✓Pˣ∙Qˣ i
-... | ?ˣ | _ | R✓Qˣi =  R✓Qˣi
-... | _ | ?ˣ | _ =  -, λ _ → refl
+… | ?ˣ | _ | R✓Qˣi =  R✓Qˣi
+… | _ | ?ˣ | _ =  -, λ _ → refl
 
 Indˣᴱᴿᴬ .✓-ε _ =  -, λ _ → refl
 
@@ -103,37 +103,37 @@ abstract
     ((Q˙ , n) , εˣ) ↝ˣ λ(_ : ⊤₀) → (updⁿᵐ n P Q˙ , suc n) , line-indˣ n P
   add-indˣ _ _ .proj₀ =  _
   add-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .proj₁ j  with Q✓Rˣ∙ε j
-  ... | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  ...   | ff | _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
-  ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl
-    =  refl , absurd ∘ <-irrefl
+  … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
+  …   | ff | _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
+  …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl =
+    refl , absurd ∘ <-irrefl
 
   -- If we validly have a line, then its index is within the bound
 
   line-bound-indˣ :  (Q˙ , n) ✓ˣ line-indˣ i P →  i < n
   line-bound-indˣ {n = n} {i} Q✓iP  with i <≥ n
-  ... | inj₀ i<n =  i<n
-  ... | inj₁ i≥n  with Q✓iP i
-  ...   | (_ , i≥n⇒iPi≡?)  rewrite ≡ᵇ-refl {i}  with i≥n⇒iPi≡? i≥n
-  ...     | ()
+  … | inj₀ i<n =  i<n
+  … | inj₁ i≥n  with Q✓iP i
+  …   | (_ , i≥n⇒iPi≡?)  rewrite ≡ᵇ-refl {i}  with i≥n⇒iPi≡? i≥n
+  …     | ()
 
   -- Remove a proposition consuming a line
 
   rem-indˣ :  ((Q˙ , n) , line-indˣ i P) ↝ˣ
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updⁿᵐ i ⊤' Q˙ , n) , εˣ
   rem-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₀  with Q✓Rˣ∙iP i
-  ... | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
-  ...   | ?ˣ =  Qi←Rˣi∙#P
+  … | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
+  …   | ?ˣ =  Qi←Rˣi∙#P
   rem-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₁  with i <≥ n
-  ... | inj₀ i<n =  i<n
-  ... | inj₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
-  ...   | Rˣ∙iPi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iPi≡?
-  ...     | ?ˣ | ()
+  … | inj₀ i<n =  i<n
+  … | inj₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
+  …   | Rˣ∙iPi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iPi≡?
+  …     | ?ˣ | ()
   rem-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j  with Q✓Rˣ∙iP j
-  ... | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  ...   | ff | _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
-  ...   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
-  ...     | ?ˣ =  _ , λ _ → refl
+  … | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
+  …   | ff | _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
+  …   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
+  …     | ?ˣ =  _ , λ _ → refl
 
 --------------------------------------------------------------------------------
 -- Ind□ᴱᴿᴬ :  Persistent indirection ERA
@@ -172,12 +172,12 @@ Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} _ =  ++-comm {as = Ps˙ _}
 Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} _ =  ≡⇒≈ᴸ $ ++-assocˡ {as = Ps˙ _}
 
 Ind□ᴱᴿᴬ .✓-resp Rsi≈Ssi P✓R i  with P✓R i | Rsi≈Ssi i
-... | (Pi≡Rsi , i≥n⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  =
+… | (Pi≡Rsi , i≥n⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  =
   (λ S∈Ssi → Pi≡Rsi $ Ssi⊆Rsi S∈Ssi) ,
   λ i≥n →  ⊆ᴸ-[] $ subst (_ ⊆ᴸ_) (i≥n⇒Rsi≡[] i≥n) Ssi⊆Rsi
 
 Ind□ᴱᴿᴬ .✓-rem R✓Ps++Qs i  with R✓Ps++Qs i
-... | Ri≡Ps++Qsi , i≥n⇒Psi++Qsi≡[] =
+… | Ri≡Ps++Qsi , i≥n⇒Psi++Qsi≡[] =
   (λ Q∈Qsi → Ri≡Ps++Qsi $ ++-⊆ᴸ-introʳ Q∈Qsi) ,
   λ i≥n →  proj₁ $ ++-≡[] $ i≥n⇒Psi++Qsi≡[] i≥n
 
@@ -206,7 +206,7 @@ abstract
     ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updⁿᵐ n P Q˙ , suc n) , line-ind□ n P
   add-ind□ _ _ .proj₀ =  _
   add-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
-  ... | (Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  ...   | ff | _ =  Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[] ∘ <⇒≤
-  ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | j≥n⇒Rsj++[]≡[] ≤-refl
-    =  (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl
+  … | (Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
+  …   | ff | _ =  Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[] ∘ <⇒≤
+  …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | j≥n⇒Rsj++[]≡[] ≤-refl =
+    (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl

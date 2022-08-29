@@ -113,8 +113,8 @@ abstract
 
   ++-⊆ᴸ-elim :  ∀{cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ++ bs  ⊆ᴸ  cs
   ++-⊆ᴸ-elim as⊆cs bs⊆cs a∈as++bs with ∈ᴸ-++-case a∈as++bs
-  ... | inj₀ a∈as =  as⊆cs a∈as
-  ... | inj₁ a∈bs =  bs⊆cs a∈bs
+  … | inj₀ a∈as =  as⊆cs a∈as
+  … | inj₁ a∈bs =  bs⊆cs a∈bs
 
   ++-⊆ᴸ-introˡ :  as  ⊆ᴸ  as ++ bs
   ++-⊆ᴸ-introˡ =  ∈ᴸ-++-inj₀

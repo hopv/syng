@@ -112,23 +112,23 @@ abstract
 
   _<≡>⁺_ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  m >⁺ n
   1+ m⁰ <≡>⁺ 1+ n⁰  with m⁰ <≡> n⁰
-  ... | inj₀ m⁰<n⁰ =  inj₀ m⁰<n⁰
-  ... | inj₁₀ refl =  inj₁₀ refl
-  ... | inj₁₁ m⁰>n⁰ =  inj₁₁ m⁰>n⁰
+  … | inj₀ m⁰<n⁰ =  inj₀ m⁰<n⁰
+  … | inj₁₀ refl =  inj₁₀ refl
+  … | inj₁₁ m⁰>n⁰ =  inj₁₁ m⁰>n⁰
 
   -- Get ≤⁺ or >⁺
 
   _≤>⁺_ :  ∀ m n →  m ≤⁺ n  ⊎  m >⁺ n
   1+ m⁰ ≤>⁺ 1+ n⁰  with m⁰ ≤> n⁰
-  ... | inj₀ m⁰≤n⁰ =  inj₀ m⁰≤n⁰
-  ... | inj₁ m⁰>n⁰ =  inj₁ m⁰>n⁰
+  … | inj₀ m⁰≤n⁰ =  inj₀ m⁰≤n⁰
+  … | inj₁ m⁰>n⁰ =  inj₁ m⁰>n⁰
 
   -- Get <⁺ or ≥⁺
 
   _<≥⁺_ :  ∀ m n →  m <⁺ n  ⊎  m ≥⁺ n
   m <≥⁺ n  with n ≤>⁺ m
-  ... | inj₀ n≤m =  inj₁ n≤m
-  ... | inj₁ n>m =  inj₀ n>m
+  … | inj₀ n≤m =  inj₁ n≤m
+  … | inj₁ n>m =  inj₀ n>m
 
 --------------------------------------------------------------------------------
 -- ≡⁺ᵇ, ≤⁺ᵇ, <⁺ᵇ, ≥⁺ᵇ, >⁺ᵇ :  Boolean order

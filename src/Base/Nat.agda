@@ -134,24 +134,24 @@ abstract
   0 <≡> 0 =  inj₁₀ refl
   suc _ <≡> 0 =  inj₁₁ 0<suc
   suc m' <≡> suc n'  with m' <≡> n'
-  ... | inj₀ m'<n' =  inj₀ $ suc<suc m'<n'
-  ... | inj₁₀ refl =  inj₁₀ refl
-  ... | inj₁₁ m'>n' =  inj₁₁ (suc<suc m'>n')
+  … | inj₀ m'<n' =  inj₀ $ suc<suc m'<n'
+  … | inj₁₀ refl =  inj₁₀ refl
+  … | inj₁₁ m'>n' =  inj₁₁ (suc<suc m'>n')
 
   -- Get ≤ or >
 
   _≤>_ :  ∀ m n →  m ≤ n  ⊎  m > n
   m ≤> n  with m <≡> n
-  ... | inj₀ m<n =  inj₀ $ <⇒≤ m<n
-  ... | inj₁₀ refl =  inj₀ ≤-refl
-  ... | inj₁₁ m>n =  inj₁ m>n
+  … | inj₀ m<n =  inj₀ $ <⇒≤ m<n
+  … | inj₁₀ refl =  inj₀ ≤-refl
+  … | inj₁₁ m>n =  inj₁ m>n
 
   -- Get < or ≥
 
   _<≥_ :  ∀ m n →  m < n  ⊎  m ≥ n
   m <≥ n  with n ≤> m
-  ... | inj₀ n≤m =  inj₁ n≤m
-  ... | inj₁ n>m =  inj₀ n>m
+  … | inj₀ n≤m =  inj₁ n≤m
+  … | inj₁ n>m =  inj₀ n>m
 
   -- Conversion between ≤ and ≤ᵈ
 
@@ -247,8 +247,8 @@ _≡?_ :  Dec² {A = ℕ} _≡_
 0 ≡? suc _ =  no $ λ ()
 suc _ ≡? 0 =  no $ λ ()
 suc m ≡? suc n  with m ≡? n
-... | yes refl =  yes refl
-... | no m≢n =  no λ{ refl → m≢n refl }
+… | yes refl =  yes refl
+… | no m≢n =  no λ{ refl → m≢n refl }
 
 abstract
 
@@ -329,9 +329,9 @@ abstract
 
   +-injˡ :  ∀{l m n} →  m + l ≡ n + l →  m ≡ n
   +-injˡ {_} {m} {n} m+l≡n+l  with m <≡> n
-  ... | inj₀ m<n =  absurd $ ≡⇒¬< m+l≡n+l (+-smonoˡ m<n)
-  ... | inj₁₀ m≡n =  m≡n
-  ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m+l≡n+l) (+-smonoˡ m>n)
+  … | inj₀ m<n =  absurd $ ≡⇒¬< m+l≡n+l (+-smonoˡ m<n)
+  … | inj₁₀ m≡n =  m≡n
+  … | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m+l≡n+l) (+-smonoˡ m>n)
 
   +-injʳ :  l + m ≡ l + n →  m ≡ n
   +-injʳ {l} {m} {n}  rewrite +-comm {l} {m} | +-comm {l} {n} =  +-injˡ
@@ -412,9 +412,9 @@ abstract
 
   *-injˡ :  ∀{l m n} →  m * suc l ≡ n * suc l →  m ≡ n
   *-injˡ {_} {m} {n} m*sl≡n*sl  with m <≡> n
-  ... | inj₀ m<n =  absurd $ ≡⇒¬< m*sl≡n*sl (*-smonoˡ m<n)
-  ... | inj₁₀ m≡n =  m≡n
-  ... | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m*sl≡n*sl) (*-smonoˡ m>n)
+  … | inj₀ m<n =  absurd $ ≡⇒¬< m*sl≡n*sl (*-smonoˡ m<n)
+  … | inj₁₀ m≡n =  m≡n
+  … | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m*sl≡n*sl) (*-smonoˡ m>n)
 
   *-injʳ :  suc l * m ≡ suc l * n →  m ≡ n
   *-injʳ {l} {m} {n}  rewrite *-comm {suc l} {m} | *-comm {suc l} {n} =  *-injˡ

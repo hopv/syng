@@ -151,27 +151,27 @@ abstract
 
 infixr 5 _→ᵒ_
 _→ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-(Pᵒ →ᵒ Qᵒ) a =  ∀{E b} →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
+(Pᵒ →ᵒ Qᵒ) a =  ∀ E b →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
 
 abstract
 
   -- Monoᵒ for →ᵒ
 
   →ᵒ-Mono :  Monoᵒ (Pᵒ →ᵒ Qᵒ)
-  →ᵒ-Mono a⊑a' P→Qa a'⊑b E✓b Pᵒb =  P→Qa (⊑-trans a⊑a' a'⊑b) E✓b Pᵒb
+  →ᵒ-Mono a⊑a' P→Qa _ _ a'⊑b E✓b Pᵒb =  P→Qa _ _ (⊑-trans a⊑a' a'⊑b) E✓b Pᵒb
 
   -- Monotonicity of →ᵒ
 
   →ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ →ᵒ Qᵒ) ⊨ (P'ᵒ →ᵒ Q'ᵒ)
-  →ᵒ-mono P⊨P Q⊨Q' P→Qa a⊑b E✓b P'b =  Q⊨Q' $ P→Qa a⊑b E✓b $ P⊨P P'b
+  →ᵒ-mono P⊨P Q⊨Q' P→Qa _ _ a⊑b E✓b P'b =  Q⊨Q' $ P→Qa _ _ a⊑b E✓b $ P⊨P P'b
 
   -- Introduce/eliminate →ᵒ
 
   →ᵒ-intro :  Monoᵒ Qᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ →ᵒ Rᵒ
-  →ᵒ-intro MonoQ P×Q⊨✓R Qa a⊑b E✓b Pb =  P×Q⊨✓R E✓b (Pb , MonoQ a⊑b Qa)
+  →ᵒ-intro MonoQ P×Q⊨✓R Qa _ _ a⊑b E✓b Pb =  P×Q⊨✓R E✓b (Pb , MonoQ a⊑b Qa)
 
   →ᵒ-elim :  Qᵒ ⊨✓ Pᵒ →ᵒ Rᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ
-  →ᵒ-elim Q⊨✓P→R E✓a (Pa , Qa) =  Q⊨✓P→R E✓a Qa ⊑-refl E✓a Pa
+  →ᵒ-elim Q⊨✓P→R E✓a (Pa , Qa) =  Q⊨✓P→R E✓a Qa _ _ ⊑-refl E✓a Pa
 
 --------------------------------------------------------------------------------
 -- ∗ᵒ :  Separating conjunction
@@ -250,28 +250,31 @@ abstract
 
 infixr 5 _-∗ᵒ_
 _-∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-(Pᵒ -∗ᵒ Qᵒ) a =  ∀{E b c} →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
+(Pᵒ -∗ᵒ Qᵒ) a =  ∀ E b c →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
 
 abstract
 
   -- Monoᵒ for -∗ᵒ
 
   -∗ᵒ-Mono :  Monoᵒ (Pᵒ -∗ᵒ Qᵒ)
-  -∗ᵒ-Mono a⊑a' P-∗Qa a'⊑b E✓c∙b Pc =  P-∗Qa (⊑-trans a⊑a' a'⊑b) E✓c∙b Pc
+  -∗ᵒ-Mono a⊑a' P-∗Qa _ _ _ a'⊑b E✓c∙b Pc =
+    P-∗Qa _ _ _ (⊑-trans a⊑a' a'⊑b) E✓c∙b Pc
 
   -- Monotonicity of -∗ᵒ
 
   -∗ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ -∗ᵒ Qᵒ) ⊨ (P'ᵒ -∗ᵒ Q'ᵒ)
-  -∗ᵒ-mono P⊨P Q⊨Q' P-∗Qa a⊑b E✓c∙b P'c =  Q⊨Q' $ P-∗Qa a⊑b E✓c∙b $ P⊨P P'c
+  -∗ᵒ-mono P⊨P Q⊨Q' P-∗Qa _ _ _ a⊑b E✓c∙b P'c =
+    Q⊨Q' $ P-∗Qa _ _ _ a⊑b E✓c∙b $ P⊨P P'c
 
   -- Introduce/eliminate -∗ᵒ
 
   -∗ᵒ-intro :  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
-  -∗ᵒ-intro P∗Q⊨✓R Qa a⊑b E✓c∙b Pc =  P∗Q⊨✓R E✓c∙b (-, -, ∙-monoʳ a⊑b , Pc , Qa)
+  -∗ᵒ-intro P∗Q⊨✓R Qa _ _ _ a⊑b E✓c∙b Pc =
+    P∗Q⊨✓R E✓c∙b (-, -, ∙-monoʳ a⊑b , Pc , Qa)
 
   -∗ᵒ-elim :  Monoᵒ Rᵒ →  Qᵒ ⊨✓ Pᵒ -∗ᵒ Rᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ
-  -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, -, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $
-    Q⊨✓P-∗R (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) E✓a) Qc ⊑-refl (✓-mono b∙c⊑a E✓a) Pb
+  -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, -, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $ Q⊨✓P-∗R
+    (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) E✓a) Qc _ _ _ ⊑-refl (✓-mono b∙c⊑a E✓a) Pb
 
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Update modality

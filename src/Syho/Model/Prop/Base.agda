@@ -406,60 +406,61 @@ abstract
     MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟ , Qa
 
 --------------------------------------------------------------------------------
--- Own :  Own a resource
+-- ● :  Own a resource
 
-Own :  Res →  Propᵒ 2ᴸ
-Own a b =  a ⊑ b
+infix 8 ●_
+●_ :  Res →  Propᵒ 2ᴸ
+(● a) b =  a ⊑ b
 
 abstract
 
-  -- Monoᵒ for Own
+  -- Monoᵒ for ●
 
-  Own-Mono :  Monoᵒ (Own a)
-  Own-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
+  ●-Mono :  Monoᵒ (● a)
+  ●-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
-  -- Modify the resource of Own
+  -- Modify the resource of ●
 
-  Own-cong :  a ≈ b →  Own a ⊨ Own b
-  Own-cong a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
+  ●-cong :  a ≈ b →  ● a ⊨ ● b
+  ●-cong a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
 
-  Own-mono :  b ⊑ a →  Own a ⊨ Own b
-  Own-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
+  ●-mono :  b ⊑ a →  ● a ⊨ ● b
+  ●-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
 
-  -- Get Own by reflexivity
+  -- Get ● by reflexivity
 
-  Own-refl :  Own a a
-  Own-refl =  ⊑-refl
+  ●-refl :  (● a) a
+  ●-refl =  ⊑-refl
 
-  Own-ε :  Own ε a
-  Own-ε =  ε-min
+  ●-ε :  (● ε) a
+  ●-ε =  ε-min
 
-  -- Own (a ∙ b) agrees with Own a ∗ᵒ Own b
+  -- ● (a ∙ b) agrees with ● a ∗ᵒ ● b
 
-  Own-∙⇒∗ᵒ :  Own (a ∙ b) ⊨ Own a ∗ᵒ Own b
-  Own-∙⇒∗ᵒ a∙b⊑c =  -, -, a∙b⊑c , ⊑-refl , ⊑-refl
+  ●-∙⇒∗ᵒ :  ● (a ∙ b) ⊨ ● a ∗ᵒ ● b
+  ●-∙⇒∗ᵒ a∙b⊑c =  -, -, a∙b⊑c , ⊑-refl , ⊑-refl
 
-  Own-∗ᵒ⇒∙ :  Own a ∗ᵒ Own b ⊨ Own (a ∙ b)
-  Own-∗ᵒ⇒∙ (-, -, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
+  ●-∗ᵒ⇒∙ :  ● a ∗ᵒ ● b ⊨ ● (a ∙ b)
+  ●-∗ᵒ⇒∙ (-, -, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
 
-  -- Own a is persistent when ⌞ a ⌟ agrees with a
+  -- ● a is persistent when ⌞ a ⌟ agrees with a
 
-  Own-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  Own a ⊨ □ᵒ Own a
-  Own-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
+  ●-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  ● a ⊨ □ᵒ ● a
+  ●-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
 
-  -- ↝ into ⤇ᵒ on Own
+  -- ↝ into ⤇ᵒ on ●
 
-  ↝-Own-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝  λ x → E , b˙ x) →
-                 Own a  ⊨  ⤇ᵒ (∃ᵒ x , Own (b˙ x))
-  ↝-Own-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' E✓c∙a'  with Ea↝Ebx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
+  ↝-●-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝  λ x → E , b˙ x) →
+               ● a  ⊨  ⤇ᵒ (∃ᵒ x , ● b˙ x)
+  ↝-●-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' E✓c∙a'  with Ea↝Ebx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   ... | -, E✓c∙bx =  -, E✓c∙bx , -, ⊑-refl
 
-  ↝-Own-⤇ᵒ :  (∀{E} → (E , a) ↝ λ (_ : ⊤₀) → E , b) →  Own a ⊨ ⤇ᵒ Own b
-  ↝-Own-⤇ᵒ Ea↝Eb =  ↝-Own-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono proj₁
+  ↝-●-⤇ᵒ :  (∀{E} → (E , a) ↝ λ (_ : ⊤₀) → E , b) →  ● a ⊨ ⤇ᵒ ● b
+  ↝-●-⤇ᵒ Ea↝Eb =  ↝-●-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono proj₁
 
-  -- ↝ into ⤇ᴱ on Own
+  -- ↝ into ⤇ᴱ on ●
 
-  ↝-Own-⤇ᴱ :  (∀{E} →  (E , a)  ↝  λ x → F˙ x , b˙ x) →
-              Own a  ⊨  E  ⤇ᴱ  λ x → F˙ x , Own (b˙ x)
-  ↝-Own-⤇ᴱ Ea↝Fxbx a⊑a' E✓c∙a'  with Ea↝Fxbx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
+  ↝-●-⤇ᴱ :  (∀{E} →  (E , a)  ↝  λ x → F˙ x , b˙ x) →
+            ● a  ⊨  E  ⤇ᴱ  λ x → F˙ x , ● b˙ x
+  ↝-●-⤇ᴱ Ea↝Fxbx a⊑a' E✓c∙a'  with Ea↝Fxbx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   ... | -, Fx✓c∙bx =  -, -, Fx✓c∙bx , ⊑-refl

@@ -12,8 +12,10 @@ open import Base.Few using (⊤; ⊤₀)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
   proj₁)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ; injᴳ; injᴳ-↝;
+  updᴱᴳ-injᴳ-↝)
 
 open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; ⊑-respˡ;
   ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ;
@@ -406,7 +408,7 @@ abstract
     MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟ , Qa
 
 --------------------------------------------------------------------------------
--- ● :  Own a resource
+-- ● :  ● a resource
 
 infix 8 ●_
 ●_ :  Res →  Propᵒ 2ᴸ
@@ -464,3 +466,33 @@ abstract
             ● a  ⊨  E  ⤇ᴱ  λ x → F˙ x , ● b˙ x
   ↝-●-⤇ᴱ Ea↝Fxbx a⊑a' E✓c∙a'  with Ea↝Fxbx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   ... | -, Fx✓c∙bx =  -, -, Fx✓c∙bx , ⊑-refl
+
+-- On an independent ERA
+
+module _ {i : ℕ} where
+
+  open ERA (Globᴱᴿᴬ˙ i) using () renaming (Res to Resⁱ; Env to Envⁱ;
+    _↝_ to _↝ⁱ_)
+
+  private variable
+    Fⁱ˙ :  X → Envⁱ
+    aⁱ bⁱ :  Resⁱ
+    bⁱ˙ :  X → Resⁱ
+
+  abstract
+
+    -- ↝ⁱ into ⤇ᵒ on ● injᴳ
+
+    ↝-●-injᴳ-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ x → Eⁱ , bⁱ˙ x) →
+                      ● injᴳ i aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ● injᴳ i (bⁱ˙ x))
+    ↝-●-injᴳ-⤇ᵒ-∃ᵒ Ea↝Ebx =  ↝-●-⤇ᵒ-∃ᵒ $ injᴳ-↝ Ea↝Ebx
+
+    ↝-●-injᴳ-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , bⁱ) →
+                   ● injᴳ i aⁱ  ⊨  ⤇ᵒ ● injᴳ i bⁱ
+    ↝-●-injᴳ-⤇ᵒ Ea↝Eb =  ↝-●-injᴳ-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono proj₁
+
+    -- ↝ⁱ into ⤇ᴱ on ● injᴳ
+
+    ↝-●-injᴳ-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , bⁱ˙ x) →
+      ● injᴳ i aⁱ  ⊨  E  ⤇ᴱ  λ x → updᴱᴳ i (Fⁱ˙ x) E , ● injᴳ i (bⁱ˙ x)
+    ↝-●-injᴳ-⤇ᴱ Ea↝Fxbx =  ↝-●-⤇ᴱ $ updᴱᴳ-injᴳ-↝ Ea↝Fxbx

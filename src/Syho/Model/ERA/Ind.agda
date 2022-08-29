@@ -32,8 +32,8 @@ open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ;
   ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 private variable
-  Pᶠᵐ :  Finmap
-  Q :  Prop' ∞
+  P :  Prop' ∞
+  Qᶠᵐ :  Finmap
   i :  ℕ
 
 --------------------------------------------------------------------------------
@@ -114,38 +114,38 @@ abstract
   -- Add a new proposition and get a line
 
   add-indˣ :
-    (Pᶠᵐ , εˣ) ↝ˣ λ(_ : ⊤₀) → updᶠᵐ (bndᶠᵐ Pᶠᵐ) Q Pᶠᵐ , line-indˣ (bndᶠᵐ Pᶠᵐ) Q
+    (Qᶠᵐ , εˣ) ↝ˣ λ(_ : ⊤₀) → updᶠᵐ (bndᶠᵐ Qᶠᵐ) P Qᶠᵐ , line-indˣ (bndᶠᵐ Qᶠᵐ) P
   add-indˣ _ _ .proj₀ =  _
-  add-indˣ {_ |ᶠᵐ (n , _)} Rˣ˙ P✓Rˣ∙ε .proj₁ j
-    rewrite suc⊔-same {n}  with P✓Rˣ∙ε j
-  ... | (Pj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  ...   | ff | _ =  Pj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
+  add-indˣ {_ |ᶠᵐ (n , _)} Rˣ˙ Q✓Rˣ∙ε .proj₁ j
+    rewrite suc⊔-same {n}  with Q✓Rˣ∙ε j
+  ... | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
+  ...   | ff | _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
   ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl
     =  refl , absurd ∘ <-irrefl
 
   -- If we validly have a line, then its index is within the bound
 
-  line-bound-indˣ :  Pᶠᵐ ✓ˣ line-indˣ i Q →  i < bndᶠᵐ Pᶠᵐ
-  line-bound-indˣ {_ |ᶠᵐ (n , _)} {i = i} P✓iQ  with i <≥ n
+  line-bound-indˣ :  Qᶠᵐ ✓ˣ line-indˣ i P →  i < bndᶠᵐ Qᶠᵐ
+  line-bound-indˣ {_ |ᶠᵐ (n , _)} {i = i} Q✓iP  with i <≥ n
   ... | inj₀ i<n =  i<n
-  ... | inj₁ i≥n  with P✓iQ i
-  ...   | (_ , i≥n⇒iQi≡?)  rewrite ≡ᵇ-refl {i}  with i≥n⇒iQi≡? i≥n
+  ... | inj₁ i≥n  with Q✓iP i
+  ...   | (_ , i≥n⇒iPi≡?)  rewrite ≡ᵇ-refl {i}  with i≥n⇒iPi≡? i≥n
   ...     | ()
 
   -- Remove a proposition consuming a line
 
   rem-indˣ :
-    (Pᶠᵐ , line-indˣ i Q) ↝ˣ λ(_ : i < bndᶠᵐ Pᶠᵐ) → updᶠᵐ i ⊤' Pᶠᵐ , εˣ
-  rem-indˣ {_ |ᶠᵐ (n , _)} {i} Rˣ˙ P✓Rˣ∙iQ .proj₀  with i <≥ n
+    (Qᶠᵐ , line-indˣ i P) ↝ˣ λ(_ : i < bndᶠᵐ Qᶠᵐ) → updᶠᵐ i ⊤' Qᶠᵐ , εˣ
+  rem-indˣ {_ |ᶠᵐ (n , _)} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀  with i <≥ n
   ... | inj₀ i<n =  i<n
-  ... | inj₁ i≥n  with P✓Rˣ∙iQ _ .proj₁ i≥n
-  ...   | Rˣ∙iQi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iQi≡?
+  ... | inj₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
+  ...   | Rˣ∙iPi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iPi≡?
   ...     | ?ˣ | ()
-  rem-indˣ {Pᶠᵐ} {i} Rˣ˙ P✓Rˣ∙iQ .proj₁ j
-    rewrite suc⊔-< $ line-bound-indˣ {Pᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Pᶠᵐ} {Rˣ˙} P✓Rˣ∙iQ
-    with P✓Rˣ∙iQ j
-  ... | (Pj←Rˣj∙iQj , j≥n⇒Rˣj∙iQj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  ...   | ff | _ =  Pj←Rˣj∙iQj , j≥n⇒Rˣj∙iQj≡?
+  rem-indˣ {Qᶠᵐ} {i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j
+    rewrite suc⊔-< $ line-bound-indˣ {Qᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Qᶠᵐ} {Rˣ˙} Q✓Rˣ∙iP
+    with Q✓Rˣ∙iP j
+  ... | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
+  ...   | ff | _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
   ...   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
   ...     | ?ˣ =  _ , λ _ → refl
 
@@ -229,11 +229,11 @@ abstract
   -- Add a new proposition and get a line
 
   add-ind□ :
-    (Pᶠᵐ , ε□) ↝□ λ(_ : ⊤₀) → updᶠᵐ (bndᶠᵐ Pᶠᵐ) Q Pᶠᵐ , line-ind□ (bndᶠᵐ Pᶠᵐ) Q
+    (Qᶠᵐ , ε□) ↝□ λ(_ : ⊤₀) → updᶠᵐ (bndᶠᵐ Qᶠᵐ) P Qᶠᵐ , line-ind□ (bndᶠᵐ Qᶠᵐ) P
   add-ind□ _ _ .proj₀ =  _
-  add-ind□ {_ |ᶠᵐ (n , _)} Rs˙ P✓Rs∙ε .proj₁ j
-    rewrite suc⊔-same {n}  with P✓Rs∙ε j
-  ... | (Pj≡Rsj++[] , j≥n⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  ...   | ff | _ =  Pj≡Rsj++[] , j≥n⇒Rsj++[]≡[] ∘ <⇒≤
+  add-ind□ {_ |ᶠᵐ (n , _)} Rs˙ Q✓Rs∙ε .proj₁ j
+    rewrite suc⊔-same {n}  with Q✓Rs∙ε j
+  ... | (Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
+  ...   | ff | _ =  Qj≡Rsj++[] , j≥n⇒Rsj++[]≡[] ∘ <⇒≤
   ...   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ++-[] {as = Rs˙ n} | j≥n⇒Rsj++[]≡[] ≤-refl
     =  (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl

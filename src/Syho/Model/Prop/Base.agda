@@ -272,19 +272,19 @@ abstract
 
 infix 8 ⤇ᵒ_
 ⤇ᵒ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
-(⤇ᵒ Pᵒ) a =  ∀{E c} →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
+(⤇ᵒ Pᵒ) a =  ∀ E c →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
 
 abstract
 
   -- Monoᵒ for ⤇ᵒ
 
   ⤇ᵒ-Mono :  Monoᵒ (⤇ᵒ Pᵒ)
-  ⤇ᵒ-Mono a⊑a' ⤇Pa E✓c∙a' =  ⤇Pa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
+  ⤇ᵒ-Mono a⊑a' ⤇Pa _ _ E✓c∙a' =  ⤇Pa _ _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
 
   -- Monotonicity of ⤇ᵒ
 
   ⤇ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
-  ⤇ᵒ-mono✓ P⊨✓Q ⤇Pa E✓c∙a  with ⤇Pa E✓c∙a
+  ⤇ᵒ-mono✓ P⊨✓Q ⤇Pa _ _ E✓c∙a  with ⤇Pa _ _ E✓c∙a
   ... | -, E✓c∙b , Pb =  -, E✓c∙b , P⊨✓Q (✓-mono ∙-incrˡ E✓c∙b) Pb
 
   ⤇ᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Qᵒ
@@ -293,29 +293,29 @@ abstract
   -- Introduce ⤇ᵒ
 
   ⤇ᵒ-intro :  Pᵒ ⊨ ⤇ᵒ Pᵒ
-  ⤇ᵒ-intro Pa E✓c∙a =  -, E✓c∙a , Pa
+  ⤇ᵒ-intro Pa _ _ E✓c∙a =  -, E✓c∙a , Pa
 
   -- Join ⤇ᵒ ⤇ᵒ into ⤇ᵒ
 
   ⤇ᵒ-join :  ⤇ᵒ ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Pᵒ
-  ⤇ᵒ-join ⤇⤇Pa E✓d∙a  with ⤇⤇Pa E✓d∙a
-  ... | -, E✓d∙b , ⤇Pb  with ⤇Pb E✓d∙b
+  ⤇ᵒ-join ⤇⤇Pa _ _ E✓d∙a  with ⤇⤇Pa _ _ E✓d∙a
+  ... | -, E✓d∙b , ⤇Pb  with ⤇Pb _ _ E✓d∙b
   ...   | -, E✓d∙c , Pc =  -, E✓d∙c , Pc
 
   -- Let ⤇ᵒ eat a proposition under ∗ᵒ
 
   ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ ⤇ᵒ Qᵒ ⊨ ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
-  ⤇ᵒ-eatˡ (-, -, b∙c⊑a , Pb , ⤇Qc) E✓e∙a
-    with ⤇Qc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
+  ⤇ᵒ-eatˡ (-, -, b∙c⊑a , Pb , ⤇Qc) _ _ E✓e∙a
+    with ⤇Qc _ _ $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | -, E✓eb∙d , Qd =  -, ✓-respʳ ∙-assocˡ E✓eb∙d , -, -, ⊑-refl , Pb , Qd
 
   -- Let ∃₁ _ go out of ⤇ᵒ
 
   ⤇ᵒ-∃ᵒ-out :  ⤇ᵒ (∃ᵒ _ ∈ X , Pᵒ) ⊨✓ ∃ᵒ _ ∈ X , ⤇ᵒ Pᵒ
   ⤇ᵒ-∃ᵒ-out E✓a ⤇∃XP .proj₀ =
-    let -, -, x , _ = ⤇∃XP $ ✓-respʳ (◠˜ ∙-unitˡ) E✓a in  x
-  ⤇ᵒ-∃ᵒ-out _ ⤇∃XP .proj₁ E✓c∙a =
-    let -, E✓c∙b , -, Pb = ⤇∃XP E✓c∙a in  -, E✓c∙b , Pb
+    let -, -, x , _ = ⤇∃XP _ _ $ ✓-respʳ (◠˜ ∙-unitˡ) E✓a in  x
+  ⤇ᵒ-∃ᵒ-out _ ⤇∃XP .proj₁ _ _ E✓c∙a =
+    let -, E✓c∙b , -, Pb = ⤇∃XP _ _ E✓c∙a in  -, E✓c∙b , Pb
 
 --------------------------------------------------------------------------------
 -- ⤇ᴱ :  Environmental update modality
@@ -323,7 +323,7 @@ abstract
 infix 8 _⤇ᴱ_
 
 _⤇ᴱ_ :  ∀{X : Set ł'} →  Env →  (X → Env × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-(E ⤇ᴱ FPᵒ˙) a =  ∀{c} →  E ✓ c ∙ a →  ∑ x , ∑ b ,
+(E ⤇ᴱ FPᵒ˙) a =  ∀ c →  E ✓ c ∙ a →  ∑ x , ∑ b ,
   let (F , Pᵒ) = FPᵒ˙ x in  F ✓ c ∙ b  ×  Pᵒ b
 
 abstract
@@ -331,13 +331,13 @@ abstract
   -- Monoᵒ for ⤇ᴱ
 
   ⤇ᴱ-Mono :  Monoᵒ (E ⤇ᴱ FPᵒ˙)
-  ⤇ᴱ-Mono a⊑a' E⤇FPa E✓c∙a' =  E⤇FPa (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
+  ⤇ᴱ-Mono a⊑a' E⤇FPa _ E✓c∙a' =  E⤇FPa _ (✓-mono (∙-monoʳ a⊑a') E✓c∙a')
 
   -- Monotonicity of ⤇ᴱ
 
   ⤇ᴱ-mono✓ :  (∀ x →  Pᵒ˙ x ⊨✓ Qᵒ˙ x) →
               E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
-  ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa E✓c∙a  with E⤇FPa E✓c∙a
+  ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa _ E✓c∙a  with E⤇FPa _ E✓c∙a
   ... | -, -, F✓c∙b , Pb =  -, -, F✓c∙b , Px⊨✓Qx _ (✓-mono ∙-incrˡ F✓c∙b) Pb
 
   ⤇ᴱ-mono :  (∀ x →  Pᵒ˙ x ⊨ Qᵒ˙ x) →
@@ -347,13 +347,13 @@ abstract
   -- Change parameterization of ⤇ᴱ
 
   ⤇ᴱ-param :  E ⤇ᴱ FPᵒ˙ ∘ f  ⊨  E ⤇ᴱ FPᵒ˙
-  ⤇ᴱ-param E⤇FPf E✓c∙a  with E⤇FPf E✓c∙a
+  ⤇ᴱ-param E⤇FPf _ E✓c∙a  with E⤇FPf _ E✓c∙a
   ... | -, ∑bF✓c∙b×Pb =  -, ∑bF✓c∙b×Pb
 
   -- Introduce ⤇ᴱ
 
   ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤₀) → E , Pᵒ
-  ⤇ᵒ⇒⤇ᴱ ⤇ᵒPa E✓c∙a  with ⤇ᵒPa E✓c∙a
+  ⤇ᵒ⇒⤇ᴱ ⤇ᵒPa _ E✓c∙a  with ⤇ᵒPa _ _ E✓c∙a
   ... | (-, E✓c∙b , Pb) =  -, -, E✓c∙b , Pb
 
   ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤₀) → E , Pᵒ
@@ -362,15 +362,15 @@ abstract
   -- Join ⤇ᴱ
 
   ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙)  ⊨  E ⤇ᴱ GPᵒ˙
-  ⤇ᴱ-join E⤇F,F⤇GP E✓d∙a  with E⤇F,F⤇GP E✓d∙a
-  ... | -, -, F✓d∙b , F⤇GPb  with F⤇GPb F✓d∙b
+  ⤇ᴱ-join E⤇F,F⤇GP _ E✓d∙a  with E⤇F,F⤇GP _ E✓d∙a
+  ... | -, -, F✓d∙b , F⤇GPb  with F⤇GPb _ F✓d∙b
   ...   | -, -, G✓d∙c , Pc =  -, -, G✓d∙c , Pc
 
   -- Let ⤇ᴱ eat a proposition under ∗ᵒ
 
   ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  E ⤇ᴱ (λ x → F˙ x , Qᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
-  ⤇ᴱ-eatˡ (-, -, b∙c⊑a , Pb , E⤇FQc) E✓e∙a
-    with E⤇FQc $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
+  ⤇ᴱ-eatˡ (-, -, b∙c⊑a , Pb , E⤇FQc) _ E✓e∙a
+    with E⤇FQc _ $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   ... | -, -, F✓eb∙d , Qd =
     -, -, ✓-respʳ ∙-assocˡ F✓eb∙d , -, -, ⊑-refl , Pb , Qd
 
@@ -465,14 +465,14 @@ abstract
 
   ↝-●-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝  λ x → E , b˙ x) →
                ● a  ⊨  ⤇ᵒ (∃ᵒ x , ● b˙ x)
-  ↝-●-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' E✓c∙a'  with Ea↝Ebx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
+  ↝-●-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' _ _ E✓c∙a'  with Ea↝Ebx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   ... | -, E✓c∙bx =  -, E✓c∙bx , -, ⊑-refl
 
   -- ↝ into ⤇ᴱ on ●
 
   ↝-●-⤇ᴱ :  ((E , a)  ↝  λ x → F˙ x , b˙ x) →
             ● a  ⊨  E  ⤇ᴱ  λ x → F˙ x , ● b˙ x
-  ↝-●-⤇ᴱ Ea↝Fxbx a⊑a' E✓c∙a'  with Ea↝Fxbx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
+  ↝-●-⤇ᴱ Ea↝Fxbx a⊑a' _ E✓c∙a'  with Ea↝Fxbx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   ... | -, Fx✓c∙bx =  -, -, Fx✓c∙bx , ⊑-refl
 
 -- On an independent ERA

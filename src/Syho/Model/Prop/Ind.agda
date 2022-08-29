@@ -24,7 +24,8 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
-  ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ●_; ⊎ᵒ-Mono; ∗ᵒ-Mono; ∗ᵒ-assocʳ; ●-Mono)
+  ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ●_; ∃ᵒ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono; ∗ᵒ-assocʳ;
+  ●-Mono)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -45,10 +46,10 @@ Ind P =  Indˣ P ⊎ᵒ Ind□ P
 abstract
 
   Indˣ-Mono :  Monoᵒ (Indˣ P)
-  Indˣ-Mono a⊑b (i , Ownˣ) =  i , ●-Mono a⊑b Ownˣ
+  Indˣ-Mono =  ∃ᵒ-Mono $ λ _ → ●-Mono
 
   Ind□-Mono :  Monoᵒ (Ind□ P)
-  Ind□-Mono a⊑b (i , ●□) =  i , ●-Mono a⊑b ●□
+  Ind□-Mono =  ∃ᵒ-Mono $ λ _ → ●-Mono
 
   Ind-Mono :  Monoᵒ (Ind P)
   Ind-Mono =  ⊎ᵒ-Mono Indˣ-Mono Ind□-Mono

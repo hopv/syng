@@ -446,6 +446,8 @@ abstract
   ●-mono :  b ⊑ a →  ● a ⊨ ● b
   ●-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
 
+  -- Get ● ε
+
   ●-ε :  ⊨ ● ε
   ●-ε =  ε-min
 

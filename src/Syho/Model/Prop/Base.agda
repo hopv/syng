@@ -15,7 +15,7 @@ open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ; injᴳ; injᴳ-↝;
-  updᴱᴳ-injᴳ-↝)
+  updᴱᴳ-injᴳ-↝; injᴳ-ε)
 
 open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; ⊑-respˡ;
   ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-respʳ; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ;
@@ -479,13 +479,13 @@ abstract
 
 module _ {i : ℕ} where
 
-  open ERA (Globᴱᴿᴬ˙ i) using () renaming (Res to Resⁱ; Env to Envⁱ;
+  open ERA (Globᴱᴿᴬ˙ i) using () renaming (Res to Resⁱ; Env to Envⁱ; ε to εⁱ;
     _↝_ to _↝ⁱ_)
 
   private variable
     Fⁱ˙ :  X → Envⁱ
     aⁱ bⁱ :  Resⁱ
-    bⁱ˙ :  X → Resⁱ
+    aⁱ˙ bⁱ˙ :  X → Resⁱ
 
   abstract
 
@@ -495,12 +495,24 @@ module _ {i : ℕ} where
                       ● injᴳ i aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ● injᴳ i (bⁱ˙ x))
     ↝-●-injᴳ-⤇ᵒ-∃ᵒ Ea↝Ebx =  ↝-●-⤇ᵒ-∃ᵒ $ injᴳ-↝ Ea↝Ebx
 
+    ε↝-●-injᴳ-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ x → Eⁱ , aⁱ˙ x) →
+                       ⊨  ⤇ᵒ (∃ᵒ x , ● injᴳ i (aⁱ˙ x))
+    ε↝-●-injᴳ-⤇ᵒ-∃ᵒ Eε↝Eax =  ↝-●-injᴳ-⤇ᵒ-∃ᵒ Eε↝Eax $ ●-≈ε $ injᴳ-ε
+
     ↝-●-injᴳ-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , bⁱ) →
                    ● injᴳ i aⁱ  ⊨  ⤇ᵒ ● injᴳ i bⁱ
     ↝-●-injᴳ-⤇ᵒ Ea↝Eb =  ↝-●-injᴳ-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono proj₁
+
+    ε↝-●-injᴳ-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , aⁱ) →
+                    ⊨  ⤇ᵒ ● injᴳ i aⁱ
+    ε↝-●-injᴳ-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono proj₁ $ ε↝-●-injᴳ-⤇ᵒ-∃ᵒ Eε↝Ea
 
     -- ↝ⁱ into ⤇ᴱ on ● injᴳ
 
     ↝-●-injᴳ-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , bⁱ˙ x) →
       ● injᴳ i aⁱ  ⊨  E  ⤇ᴱ  λ x → updᴱᴳ i (Fⁱ˙ x) E , ● injᴳ i (bⁱ˙ x)
     ↝-●-injᴳ-⤇ᴱ Ea↝Fxbx =  ↝-●-⤇ᴱ $ updᴱᴳ-injᴳ-↝ Ea↝Fxbx
+
+    ε↝-●-injᴳ-⤇ᴱ :  ((E i , εⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , aⁱ˙ x) →
+                    ⊨  E  ⤇ᴱ  λ x → updᴱᴳ i (Fⁱ˙ x) E , ● injᴳ i (aⁱ˙ x)
+    ε↝-●-injᴳ-⤇ᴱ Eε↝Fax =  ↝-●-injᴳ-⤇ᴱ Eε↝Fax $ ●-≈ε $ injᴳ-ε

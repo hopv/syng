@@ -136,25 +136,25 @@ module _ {i : ℕ} where
 
     updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x)  →
               (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → (E˙ , updᴳ i (bˣ x) c˙)
-    updᴳ-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib {d˙} E✓d∙iac  with E✓d∙iac i
+    updᴳ-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib d˙ E✓d∙iac  with E✓d∙iac i
     ... | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
      where
       body :  ∑ x , E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
-      body .proj₀ =  Eia↝Eib Ei✓di∙a .proj₀
+      body .proj₀ =  Eia↝Eib _ Ei✓di∙a .proj₀
       body .proj₁ j  with j ≡? i | E✓d∙iac j
       ... | no _ | E✓dj∙cj =  E✓dj∙cj
-      ... | yes refl | _ =  Eia↝Eib Ei✓di∙a .proj₁
+      ... | yes refl | _ =  Eia↝Eib _ Ei✓di∙a .proj₁
 
     updᴱᴳ-updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
       (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → updᴱᴳ i (Fˣ x) E˙ , updᴳ i (bˣ x) c˙
-    updᴱᴳ-updᴳ-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb {d˙} E✓d∙iac  with E✓d∙iac i
+    updᴱᴳ-updᴳ-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb d˙ E✓d∙iac  with E✓d∙iac i
     ... | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
      where
       body :  ∑ x , updᴱᴳ i (Fˣ x) E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
-      body .proj₀ =  Eia↝Fb Ei✓di∙a .proj₀
+      body .proj₀ =  Eia↝Fb _ Ei✓di∙a .proj₀
       body .proj₁ j  with j ≡? i | E✓d∙iac j
       ... | no _ | E✓dj∙cj =  E✓dj∙cj
-      ... | yes refl | _ =  Eia↝Fb Ei✓di∙a .proj₁
+      ... | yes refl | _ =  Eia↝Fb _ Ei✓di∙a .proj₁
 
     ----------------------------------------------------------------------------
     -- On injᴳ

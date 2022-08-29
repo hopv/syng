@@ -115,8 +115,8 @@ abstract
 
   add-indˣ :
     (Pᶠᵐ , εˣ) ↝ˣ λ(_ : ⊤₀) → updᶠᵐ (bndᶠᵐ Pᶠᵐ) Q Pᶠᵐ , line-indˣ (bndᶠᵐ Pᶠᵐ) Q
-  add-indˣ _ .proj₀ =  _
-  add-indˣ {_ |ᶠᵐ (n , _)} {c = Rˣ˙} P✓Rˣ∙ε .proj₁ j
+  add-indˣ _ _ .proj₀ =  _
+  add-indˣ {_ |ᶠᵐ (n , _)} Rˣ˙ P✓Rˣ∙ε .proj₁ j
     rewrite suc⊔-same {n}  with P✓Rˣ∙ε j
   ... | (Pj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ...   | ff | _ =  Pj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
@@ -136,12 +136,12 @@ abstract
 
   rem-indˣ :
     (Pᶠᵐ , line-indˣ i Q) ↝ˣ λ(_ : i < bndᶠᵐ Pᶠᵐ) → updᶠᵐ i ⊤' Pᶠᵐ , εˣ
-  rem-indˣ {_ |ᶠᵐ (n , _)} {i} {c = Rˣ˙} P✓Rˣ∙iQ .proj₀  with i <≥ n
+  rem-indˣ {_ |ᶠᵐ (n , _)} {i} Rˣ˙ P✓Rˣ∙iQ .proj₀  with i <≥ n
   ... | inj₀ i<n =  i<n
   ... | inj₁ i≥n  with P✓Rˣ∙iQ _ .proj₁ i≥n
   ...   | Rˣ∙iQi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iQi≡?
   ...     | ?ˣ | ()
-  rem-indˣ {Pᶠᵐ} {i} {c = Rˣ˙} P✓Rˣ∙iQ .proj₁ j
+  rem-indˣ {Pᶠᵐ} {i} Rˣ˙ P✓Rˣ∙iQ .proj₁ j
     rewrite suc⊔-< $ line-bound-indˣ {Pᶠᵐ} $ Indˣᴱᴿᴬ .✓-rem {Pᶠᵐ} {Rˣ˙} P✓Rˣ∙iQ
     with P✓Rˣ∙iQ j
   ... | (Pj←Rˣj∙iQj , j≥n⇒Rˣj∙iQj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
@@ -230,8 +230,8 @@ abstract
 
   add-ind□ :
     (Pᶠᵐ , ε□) ↝□ λ(_ : ⊤₀) → updᶠᵐ (bndᶠᵐ Pᶠᵐ) Q Pᶠᵐ , line-ind□ (bndᶠᵐ Pᶠᵐ) Q
-  add-ind□ _ .proj₀ =  _
-  add-ind□ {_ |ᶠᵐ (n , _)} {c = Rs˙} P✓Rs∙ε .proj₁ j
+  add-ind□ _ _ .proj₀ =  _
+  add-ind□ {_ |ᶠᵐ (n , _)} Rs˙ P✓Rs∙ε .proj₁ j
     rewrite suc⊔-same {n}  with P✓Rs∙ε j
   ... | (Pj≡Rsj++[] , j≥n⇒Rsj++[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   ...   | ff | _ =  Pj≡Rsj++[] , j≥n⇒Rsj++[]≡[] ∘ <⇒≤

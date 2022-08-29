@@ -54,16 +54,16 @@ abstract
 
   -- Add a proposition at the bound
 
-  ⸨⸩ⁿᵐ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , i ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ i P Q˙ , suc i ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-add {i = i}  rewrite ≡ᵇ-refl {i} =  ∗ᵒ-monoʳ $ ⸨⸩ⁿᵐ-⇒upd-≥ $ ≤-refl {i}
+  ⸨⸩ⁿᵐ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , n ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ n P Q˙ , suc n ⸩ⁿᵐ
+  ⸨⸩ⁿᵐ-add {n = n}  rewrite ≡ᵇ-refl {n} =  ∗ᵒ-monoʳ $ ⸨⸩ⁿᵐ-⇒upd-≥ $ ≤-refl {n}
 
-  ⸨⸩ⁿᵐ-add⊤ :  ⸨ P˙ , i ⸩ⁿᵐ  ⊨  ⸨ updⁿᵐ i ⊤' P˙ , suc i ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-add⊤ {i = i} =  ?∗ᵒ-intro absurd › ⸨⸩ⁿᵐ-add {i = i}
+  ⸨⸩ⁿᵐ-add⊤ :  ⸨ P˙ , n ⸩ⁿᵐ  ⊨  ⸨ updⁿᵐ n ⊤' P˙ , suc n ⸩ⁿᵐ
+  ⸨⸩ⁿᵐ-add⊤ {n = n} =  ?∗ᵒ-intro absurd › ⸨⸩ⁿᵐ-add {n = n}
 
   -- Remove an element within the bound to get the element's interpretation
 
   ⸨⸩ⁿᵐ-rem-<ᵈ :  i <ᵈ n →  ⸨ P˙ , n ⸩ⁿᵐ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updⁿᵐ i ⊤' P˙ , n ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-rem-<ᵈ {i} ≤ᵈ-refl =  ∗ᵒ-monoʳ (⸨⸩ⁿᵐ-add⊤ {i = i})
+  ⸨⸩ⁿᵐ-rem-<ᵈ {i} ≤ᵈ-refl =  ∗ᵒ-monoʳ (⸨⸩ⁿᵐ-add⊤ {n = i})
   ⸨⸩ⁿᵐ-rem-<ᵈ {i} (≤ᵈsuc {n = n'} i<ᵈn')
     rewrite ≢-≡ᵇ-ff {n'} {i} λ{ refl → <-irrefl $ ≤ᵈ⇒≤ i<ᵈn'} =
     ∗ᵒ-monoʳ (⸨⸩ⁿᵐ-rem-<ᵈ i<ᵈn') › pullʳˡᵒ
@@ -80,10 +80,10 @@ inv-indˣ P˙n =  ⸨ P˙n ⸩ⁿᵐ
 abstract
 
   add-Indˣ :  ⸨ P ⸩ ∗ᵒ inv-indˣ (E indˣ)  ⊨
-                E ⤇ᴱ λ R˙n → (updᴱᴳ indˣ R˙n E , Indˣ P ∗ᵒ inv-indˣ R˙n)
+                E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Indˣ P ∗ᵒ inv-indˣ Fˣ)
   add-Indˣ {E = E} =  let (_ , n) = E indˣ in
-    ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ $ add-indˣ) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ⁿᵐ-add {i = n}) › ⤇ᴱ-param
+    ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ add-indˣ) › ⤇ᴱ-eatʳ ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ⁿᵐ-add {n = n}) › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
 -- Invariant for the persistent indirection ERA

@@ -40,13 +40,6 @@ private variable
 
 abstract
 
-  -- Congruence on ⸨⸩ⁿᵐ
-
-  ⸨⸩ⁿᵐ-cong :  (∀{i} → P˙ i ≡ Q˙ i) →  ⸨ P˙ , n ⸩ⁿᵐ ≡ ⸨ Q˙ , n ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-cong {n = 0} _ =  refl
-  ⸨⸩ⁿᵐ-cong {P˙} {Q˙} {suc n'} Pi≡Qi
-    rewrite Pi≡Qi {n'} | ⸨⸩ⁿᵐ-cong {P˙} {Q˙} {n'} Pi≡Qi =  refl
-
   -- Update an element out of the bound
 
   ⸨⸩ⁿᵐ-⇒upd-≥ :  i ≥ n →  ⸨ Q˙ , n ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ i P Q˙ , n ⸩ⁿᵐ

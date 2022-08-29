@@ -10,9 +10,9 @@ open import Base.Level using (Level)
 open import Base.Few using (⊤)
 open import Syho.Model.ERA.Base using (ERA)
 
-open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ; ◠˜ᴱ_; _◇˜ᴱ_;
-  refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε;
-  ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
+open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
+  ⌞⌟-idem)
 
 private variable
   łᴱ ł ł≈ᴱ ł≈ ł✓ :  Level
@@ -20,18 +20,14 @@ private variable
 --------------------------------------------------------------------------------
 -- ⊤ᴱᴿᴬ : Trivial ERA
 
-⊤ᴱᴿᴬ :  ERA łᴱ ł ł≈ᴱ ł≈ ł✓
+⊤ᴱᴿᴬ :  ERA łᴱ ł ł≈ ł✓
 ⊤ᴱᴿᴬ .Env =  ⊤
 ⊤ᴱᴿᴬ .Res =  ⊤
-⊤ᴱᴿᴬ ._≈ᴱ_ _ _ =  ⊤
 ⊤ᴱᴿᴬ ._≈_ _ _ =  ⊤
 ⊤ᴱᴿᴬ ._✓_ _ _ =  ⊤
 ⊤ᴱᴿᴬ ._∙_ =  _
 ⊤ᴱᴿᴬ .ε =  _
 ⊤ᴱᴿᴬ .⌞_⌟ =  _
-⊤ᴱᴿᴬ .refl˜ᴱ =  _
-⊤ᴱᴿᴬ .◠˜ᴱ_ =  _
-⊤ᴱᴿᴬ ._◇˜ᴱ_ =  _
 ⊤ᴱᴿᴬ .refl˜ =  _
 ⊤ᴱᴿᴬ .◠˜_ =  _
 ⊤ᴱᴿᴬ ._◇˜_ =  _

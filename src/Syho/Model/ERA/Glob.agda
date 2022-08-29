@@ -17,9 +17,9 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
 
-open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ; ◠˜ᴱ_; _◇˜ᴱ_;
-  refl˜; ◠˜_; _◇˜_; ⊑-refl; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem;
-  ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-ε)
+open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
+  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add;
+  ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-ε)
 
 --------------------------------------------------------------------------------
 -- Globᴱᴿᴬ :  Global ERA
@@ -27,23 +27,19 @@ open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ;
 pattern indˣ =  0
 pattern ind□ =  1
 
-Globᴱᴿᴬ˙ :  ℕ →  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+Globᴱᴿᴬ˙ :  ℕ →  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 Globᴱᴿᴬ˙ indˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ ind□ =  Ind□ᴱᴿᴬ
 Globᴱᴿᴬ˙ _ =  ⊤ᴱᴿᴬ
 
-Globᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+Globᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 Globᴱᴿᴬ .Env =  ∀ i →  Globᴱᴿᴬ˙ i .Env
 Globᴱᴿᴬ .Res =  ∀ i →  Globᴱᴿᴬ˙ i .Res
-Globᴱᴿᴬ ._≈ᴱ_ E F =  ∀ i →  Globᴱᴿᴬ˙ i ._≈ᴱ_ (E i) (F i)
 Globᴱᴿᴬ ._≈_ a b =  ∀ i →  Globᴱᴿᴬ˙ i ._≈_ (a i) (b i)
 Globᴱᴿᴬ ._✓_ E a =  ∀ i →  Globᴱᴿᴬ˙ i ._✓_ (E i) (a i)
 Globᴱᴿᴬ ._∙_ a b i =  Globᴱᴿᴬ˙ i ._∙_ (a i) (b i)
 Globᴱᴿᴬ .ε i =  Globᴱᴿᴬ˙ i .ε
 Globᴱᴿᴬ .⌞_⌟ a i =  Globᴱᴿᴬ˙ i .⌞_⌟ (a i)
-Globᴱᴿᴬ .refl˜ᴱ i =  Globᴱᴿᴬ˙ i .refl˜ᴱ
-Globᴱᴿᴬ .◠˜ᴱ_ E≈F i =  Globᴱᴿᴬ˙ i .◠˜ᴱ_ (E≈F i)
-Globᴱᴿᴬ ._◇˜ᴱ_ E≈F F≈G i =  Globᴱᴿᴬ˙ i ._◇˜ᴱ_ (E≈F i) (F≈G i)
 Globᴱᴿᴬ .refl˜ i =  Globᴱᴿᴬ˙ i .refl˜
 Globᴱᴿᴬ .◠˜_ a≈b i =  Globᴱᴿᴬ˙ i .◠˜_ (a≈b i)
 Globᴱᴿᴬ ._◇˜_ a≈b b≈c i =  Globᴱᴿᴬ˙ i ._◇˜_ (a≈b i) (b≈c i)
@@ -51,7 +47,7 @@ Globᴱᴿᴬ .∙-congˡ a≈b i =  Globᴱᴿᴬ˙ i .∙-congˡ (a≈b i)
 Globᴱᴿᴬ .∙-unitˡ i =  Globᴱᴿᴬ˙ i .∙-unitˡ
 Globᴱᴿᴬ .∙-comm i =  Globᴱᴿᴬ˙ i .∙-comm
 Globᴱᴿᴬ .∙-assocˡ i =  Globᴱᴿᴬ˙ i .∙-assocˡ
-Globᴱᴿᴬ .✓-resp E≈F a≈b E✓a i =  Globᴱᴿᴬ˙ i .✓-resp (E≈F i) (a≈b i) (E✓a i)
+Globᴱᴿᴬ .✓-resp a≈b E✓a i =  Globᴱᴿᴬ˙ i .✓-resp (a≈b i) (E✓a i)
 Globᴱᴿᴬ .✓-rem ✓a∙b i =  Globᴱᴿᴬ˙ i .✓-rem (✓a∙b i)
 Globᴱᴿᴬ .✓-ε i =  Globᴱᴿᴬ˙ i .✓-ε
 Globᴱᴿᴬ .⌞⌟-cong a≈b i =  Globᴱᴿᴬ˙ i .⌞⌟-cong (a≈b i)

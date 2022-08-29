@@ -27,9 +27,9 @@ open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-co
 
 open import Base.Finmap (Prop' ∞) (_≡ ⊤') using (Finmap; _|ᶠᵐ_; bndᶠᵐ; updᶠᵐ)
 
-open ERA using (Env; Res; _≈ᴱ_; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜ᴱ; ◠˜ᴱ_; _◇˜ᴱ_;
-  refl˜; ◠˜_; _◇˜_; ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε;
-  ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
+open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
+  ⌞⌟-idem)
 
 private variable
   P :  Prop' ∞
@@ -39,16 +39,11 @@ private variable
 --------------------------------------------------------------------------------
 -- Indˣᴱᴿᴬ :  Exclusive indirection ERA
 
-Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 
 Indˣᴱᴿᴬ .Env =  Finmap
 
 Indˣᴱᴿᴬ .Res =  ℕ →  Exc (Prop' ∞)
-
--- We need the bound equality m ≡ n because ✓ uses the bound information
-
-Indˣᴱᴿᴬ ._≈ᴱ_ (P˙ |ᶠᵐ (m , _)) (Q˙ |ᶠᵐ (n , _)) =
-  m ≡ n  ×  (∀ i →  P˙ i ≡ Q˙ i)
 
 Indˣᴱᴿᴬ ._≈_ Pˣ˙ Qˣ˙ =  ∀ i →  Pˣ˙ i ≡ Qˣ˙ i
 
@@ -62,13 +57,6 @@ Indˣᴱᴿᴬ ._∙_ Pˣ˙ Qˣ˙ i =  Pˣ˙ i ∙ˣ Qˣ˙ i
 Indˣᴱᴿᴬ .ε i =  ?ˣ
 
 Indˣᴱᴿᴬ .⌞_⌟ _ i =  ?ˣ
-
-Indˣᴱᴿᴬ .refl˜ᴱ =  refl , λ _ → refl
-
-Indˣᴱᴿᴬ .◠˜ᴱ_ (refl , ∀iPi≡Qi) =  refl , λ i → ◠ ∀iPi≡Qi i
-
-Indˣᴱᴿᴬ ._◇˜ᴱ_ (refl , ∀iPi≡Qi) (refl , ∀iQi≡Ri) =
-  refl , λ i → ∀iPi≡Qi i ◇ ∀iQi≡Ri i
 
 Indˣᴱᴿᴬ .refl˜ _ =  refl
 
@@ -84,8 +72,8 @@ Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} i =  ∙ˣ-comm {x = Pˣ˙ i}
 
 Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} i =  ∙ˣ-assocˡ {x = Pˣ˙ i}
 
-Indˣᴱᴿᴬ .✓-resp (refl , ∀iPi≡Qi) ∀iRˣi≡Sˣi P✓Rˣ i  with P✓Rˣ i
-... | P✓Rˣi  rewrite ∀iPi≡Qi i | ∀iRˣi≡Sˣi i =  P✓Rˣi
+Indˣᴱᴿᴬ .✓-resp ∀iRˣi≡Sˣi P✓Rˣ i  with P✓Rˣ i
+... | P✓Rˣi  rewrite ∀iRˣi≡Sˣi i =  P✓Rˣi
 
 Indˣᴱᴿᴬ .✓-rem {a = Pˣ˙} {b = Qˣ˙} R✓Pˣ∙Qˣ i  with Pˣ˙ i | Qˣ˙ i | R✓Pˣ∙Qˣ i
 ... | ?ˣ | _ | R✓Qˣi =  R✓Qˣi
@@ -152,16 +140,11 @@ abstract
 --------------------------------------------------------------------------------
 -- Ind□ᴱᴿᴬ :  Persistent indirection ERA
 
-Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 
 Ind□ᴱᴿᴬ .Env =  Finmap
 
 Ind□ᴱᴿᴬ .Res =  ℕ →  List (Prop' ∞)
-
--- We need the bound equality m ≡ n because ✓ uses the bound information
-
-Ind□ᴱᴿᴬ ._≈ᴱ_ (P˙ |ᶠᵐ (m , _)) (Q˙ |ᶠᵐ (n , _)) =
-  m ≡ n  ×  (∀ i →  P˙ i ≡ Q˙ i)
 
 Ind□ᴱᴿᴬ ._≈_ Ps˙ Qs˙ =  ∀ i →  Ps˙ i ≈ᴸ Qs˙ i
 
@@ -175,13 +158,6 @@ Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ++ Qs˙ i
 Ind□ᴱᴿᴬ .ε i =  []
 
 Ind□ᴱᴿᴬ .⌞_⌟ Ps˙ =  Ps˙
-
-Ind□ᴱᴿᴬ .refl˜ᴱ =  refl , λ _ → refl
-
-Ind□ᴱᴿᴬ .◠˜ᴱ_ (refl , ∀iPi≡Qi) =  refl , λ i → ◠ ∀iPi≡Qi i
-
-Ind□ᴱᴿᴬ ._◇˜ᴱ_ (refl , ∀iPi≡Qi) (refl , ∀iQi≡Ri) =
-  refl , λ i → ∀iPi≡Qi i ◇ ∀iQi≡Ri i
 
 Ind□ᴱᴿᴬ .refl˜ _ =  ≈ᴸ-refl
 
@@ -197,8 +173,8 @@ Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} i =  ++-comm {as = Ps˙ i}
 
 Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} i =  ≡⇒≈ᴸ $ ++-assocˡ {as = Ps˙ i}
 
-Ind□ᴱᴿᴬ .✓-resp (refl , ∀iPi≡Qi) ∀iRsi≈Ssi P✓R i  with P✓R i | ∀iRsi≈Ssi i
-... | (Pi≡Rsi , i≥n⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  rewrite ∀iPi≡Qi i =
+Ind□ᴱᴿᴬ .✓-resp ∀iRsi≈Ssi P✓R i  with P✓R i | ∀iRsi≈Ssi i
+... | (Pi≡Rsi , i≥n⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  =
   (λ S∈Ssi → Pi≡Rsi $ Ssi⊆Rsi S∈Ssi) ,
   λ i≥n →  ⊆ᴸ-[] $ subst (_ ⊆ᴸ_) (i≥n⇒Rsi≡[] i≥n) Ssi⊆Rsi
 

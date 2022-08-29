@@ -52,26 +52,26 @@ Indˣᴱᴿᴬ ._✓_ (P˙ , n) Qˣ˙ =
 
 Indˣᴱᴿᴬ ._∙_ Pˣ˙ Qˣ˙ i =  Pˣ˙ i ∙ˣ Qˣ˙ i
 
-Indˣᴱᴿᴬ .ε i =  ?ˣ
+Indˣᴱᴿᴬ .ε _ =  ?ˣ
 
-Indˣᴱᴿᴬ .⌞_⌟ _ i =  ?ˣ
+Indˣᴱᴿᴬ .⌞_⌟ _ _ =  ?ˣ
 
 Indˣᴱᴿᴬ .refl˜ _ =  refl
 
-Indˣᴱᴿᴬ .◠˜_ ∀iPˣi≡Qˣi i =  ◠ ∀iPˣi≡Qˣi i
+Indˣᴱᴿᴬ .◠˜_ Pˣi≡Qˣi _ =  ◠ Pˣi≡Qˣi _
 
-Indˣᴱᴿᴬ ._◇˜_ ∀iPˣi≡Qˣi ∀iQˣi≡Rˣi i =  ∀iPˣi≡Qˣi i ◇ ∀iQˣi≡Rˣi i
+Indˣᴱᴿᴬ ._◇˜_ Pˣi≡Qˣi Qˣi≡Rˣi _ =  Pˣi≡Qˣi _ ◇ Qˣi≡Rˣi _
 
-Indˣᴱᴿᴬ .∙-congˡ ∀iPˣi≡Qˣi i  rewrite ∀iPˣi≡Qˣi i =  refl
+Indˣᴱᴿᴬ .∙-congˡ Pˣi≡Qˣi i  rewrite Pˣi≡Qˣi i =  refl
 
 Indˣᴱᴿᴬ .∙-unitˡ _ =  refl
 
-Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} i =  ∙ˣ-comm {x = Pˣ˙ i}
+Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} _ =  ∙ˣ-comm {x = Pˣ˙ _}
 
-Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} i =  ∙ˣ-assocˡ {x = Pˣ˙ i}
+Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} _ =  ∙ˣ-assocˡ {x = Pˣ˙ _}
 
-Indˣᴱᴿᴬ .✓-resp ∀iRˣi≡Sˣi P✓Rˣ i  with P✓Rˣ i
-... | P✓Rˣi  rewrite ∀iRˣi≡Sˣi i =  P✓Rˣi
+Indˣᴱᴿᴬ .✓-resp Rˣi≡Sˣi P✓Rˣ i  with P✓Rˣ i
+... | P✓Rˣi  rewrite Rˣi≡Sˣi i =  P✓Rˣi
 
 Indˣᴱᴿᴬ .✓-rem {a = Pˣ˙} {b = Qˣ˙} R✓Pˣ∙Qˣ i  with Pˣ˙ i | Qˣ˙ i | R✓Pˣ∙Qˣ i
 ... | ?ˣ | _ | R✓Qˣi =  R✓Qˣi
@@ -153,25 +153,25 @@ Ind□ᴱᴿᴬ ._✓_ (P˙ , n) Qs˙ =
 
 Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ++ Qs˙ i
 
-Ind□ᴱᴿᴬ .ε i =  []
+Ind□ᴱᴿᴬ .ε _ =  []
 
 Ind□ᴱᴿᴬ .⌞_⌟ Ps˙ =  Ps˙
 
 Ind□ᴱᴿᴬ .refl˜ _ =  ≈ᴸ-refl
 
-Ind□ᴱᴿᴬ .◠˜_ ∀iPsi≈Qsi i =  ≈ᴸ-sym $ ∀iPsi≈Qsi i
+Ind□ᴱᴿᴬ .◠˜_ Psi≈Qsi _ =  ≈ᴸ-sym $ Psi≈Qsi _
 
-Ind□ᴱᴿᴬ ._◇˜_ ∀iPsi≈Qsi ∀iQsi≈Rsi i =  ≈ᴸ-trans (∀iPsi≈Qsi i) (∀iQsi≈Rsi i)
+Ind□ᴱᴿᴬ ._◇˜_ Psi≈Qsi Qsi≈Rsi _ =  ≈ᴸ-trans (Psi≈Qsi _) (Qsi≈Rsi _)
 
-Ind□ᴱᴿᴬ .∙-congˡ ∀iPsi≈Qsi i =  ++-congˡ $ ∀iPsi≈Qsi i
+Ind□ᴱᴿᴬ .∙-congˡ Psi≈Qsi _ =  ++-congˡ $ Psi≈Qsi _
 
 Ind□ᴱᴿᴬ .∙-unitˡ _ =  ≈ᴸ-refl
 
-Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} i =  ++-comm {as = Ps˙ i}
+Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} _ =  ++-comm {as = Ps˙ _}
 
-Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} i =  ≡⇒≈ᴸ $ ++-assocˡ {as = Ps˙ i}
+Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} _ =  ≡⇒≈ᴸ $ ++-assocˡ {as = Ps˙ _}
 
-Ind□ᴱᴿᴬ .✓-resp ∀iRsi≈Ssi P✓R i  with P✓R i | ∀iRsi≈Ssi i
+Ind□ᴱᴿᴬ .✓-resp Rsi≈Ssi P✓R i  with P✓R i | Rsi≈Ssi i
 ... | (Pi≡Rsi , i≥n⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  =
   (λ S∈Ssi → Pi≡Rsi $ Ssi⊆Rsi S∈Ssi) ,
   λ i≥n →  ⊆ᴸ-[] $ subst (_ ⊆ᴸ_) (i≥n⇒Rsi≡[] i≥n) Ssi⊆Rsi

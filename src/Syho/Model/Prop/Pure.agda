@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Pure where
+module Syho.Model.Prop.Pure where
 
 open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _›_; id)

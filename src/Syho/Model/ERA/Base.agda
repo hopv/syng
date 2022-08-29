@@ -11,7 +11,6 @@ open import Base.Func using (_$_; id; _▷_; flip; _∘_)
 open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
-open import Base.Setoid using (Setoid)
 
 --------------------------------------------------------------------------------
 -- Environmental resource algebra
@@ -101,12 +100,6 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
     -- ⌞⌟ is idempotent
 
     ⌞⌟-idem :  ∀{a} →  ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
-
-  -- Setoid structures for Env and Res
-
-  Res-setoid :  Setoid łᴿ ł≈
-  Res-setoid =  record {
-    Car = Res; _≈_ = _≈_; refl˜ = refl˜; ◠˜_ = ◠˜_; _◇˜_ = _◇˜_ }
 
   private variable
     a a' b b' c d :  Res

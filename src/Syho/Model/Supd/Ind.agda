@@ -10,7 +10,7 @@ open import Base.Level using (2ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_; _›_; _∘_; id)
 open import Base.Few using (absurd)
-open import Base.Eq using (_≡_; refl; cong₂)
+open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (tt; ff)
@@ -23,9 +23,9 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (add-indˣ; rem-indˣ)
 open import Syho.Model.ERA.Glob using (updᴱᴳ; indˣ; Globᴱᴿᴬ)
 open ERA Globᴱᴿᴬ using (Env)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; □ᵒ_; _⤇ᴱ_;
-  ∗ᵒ-mono; ∗ᵒ-monoʳ; ?∗ᵒ-intro; pullʳˡᵒ; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ;
-  ε↝-●-injᴳ-⤇ᴱ)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; □ᵒ_; _⤇ᴱ_;
+  ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; pullʳˡᵒ; ∃ᵒ∗ᵒ-elim;
+  ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 
@@ -43,6 +43,12 @@ private variable
 ⸨ P˙ , suc n ⸩ⁿᵐ =  ⸨ P˙ n ⸩ ∗ᵒ ⸨ P˙ , n ⸩ⁿᵐ
 
 abstract
+
+  -- Monoᵒ for ⸨ ⸩ⁿᵐ
+
+  ⸨⸩ⁿᵐ-Mono :  Monoᵒ ⸨ P˙ , n ⸩ⁿᵐ
+  ⸨⸩ⁿᵐ-Mono {n = 0} =  _
+  ⸨⸩ⁿᵐ-Mono {n = suc _} =  ∗ᵒ-Mono
 
   -- Update an element out of the bound
 
@@ -84,6 +90,13 @@ abstract
   add-Indˣ {E = E} =  let (_ , n) = E indˣ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ add-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ⁿᵐ-add {n = n}) › ⤇ᴱ-param
+
+  rem-Indˣ :  Indˣ P ∗ᵒ inv-indˣ (E indˣ)  ⊨
+                E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , ⸨ P ⸩ ∗ᵒ inv-indˣ Fˣ)
+  rem-Indˣ {E = E} =  let (Q˙ , n) = E indˣ in
+    ∃ᵒ∗ᵒ-elim $ λ i → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ rem-indˣ) › ⤇ᴱ-eatʳ ›
+    ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ⁿᵐ-Mono {n = n}) › ⸨⸩ⁿᵐ-rem-< i<n })
+    › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
 -- Invariant for the persistent indirection ERA

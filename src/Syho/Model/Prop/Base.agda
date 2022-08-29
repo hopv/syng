@@ -233,11 +233,11 @@ abstract
 
   -- Introduce ∗ᵒ with a trivial proposition
 
-  ?∗ᵒ-intro :  Qᵒ ε →  Pᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
-  ?∗ᵒ-intro Qε Pa =  -, -, ≈⇒⊑ ∙-unitˡ , Qε , Pa
+  ?∗ᵒ-intro :  ⊨ Qᵒ →  Pᵒ ⊨ Qᵒ ∗ᵒ Pᵒ
+  ?∗ᵒ-intro ⊨Q Pa =  -, -, ≈⇒⊑ ∙-unitˡ , ⊨Q , Pa
 
-  ∗ᵒ?-intro :  Qᵒ ε →  Pᵒ ⊨ Pᵒ ∗ᵒ Qᵒ
-  ∗ᵒ?-intro Qε =  ?∗ᵒ-intro Qε › ∗ᵒ-comm
+  ∗ᵒ?-intro :  ⊨ Qᵒ →  Pᵒ ⊨ Pᵒ ∗ᵒ Qᵒ
+  ∗ᵒ?-intro ⊨Q =  ?∗ᵒ-intro ⊨Q › ∗ᵒ-comm
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand

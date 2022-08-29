@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; refl; ◠_)
 open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (inj₁)
-open import Base.Option using (??_; some)
+open import Base.Option using (¿_; some)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; [])
 open import Base.List.Nat using (_‼_; upd; rep)
@@ -47,7 +47,7 @@ empᴹ =  initᶠᵐ [] refl
 -- Memory read
 
 infix 5 _‼ᴹ_
-_‼ᴹ_ :  Mem →  Addr →  ?? AnyVal
+_‼ᴹ_ :  Mem →  Addr →  ¿ AnyVal
 M ‼ᴹ addr l i =  M .bloᴹ l ‼ i
 
 -- Memory update

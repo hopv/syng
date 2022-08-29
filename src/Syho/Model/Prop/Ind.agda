@@ -173,7 +173,7 @@ P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
 abstract
 
   ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)
-  ↪⟨⟩ᵀᵒ-Mono =  a⊑b (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+  ↪⟨⟩ᵀᵒ-Mono a⊑b (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , ∗ᵒ-Mono a⊑b R∗IndSa
 
   ↪⟨⟩ᵀᵒ-suc :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ suc i ]ᵒ Qᵛ

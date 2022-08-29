@@ -81,7 +81,7 @@ abstract
 -- Invariant for the exclusive indirection ERA
 
 inv-indˣ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
-inv-indˣ P˙n =  ⸨ P˙n ⸩ⁿᵐ
+inv-indˣ Eˣ =  ⸨ Eˣ ⸩ⁿᵐ
 
 abstract
 
@@ -102,4 +102,4 @@ abstract
 -- Invariant for the persistent indirection ERA
 
 inv-ind□ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
-inv-ind□ P˙n =  □ᵒ ⸨ P˙n ⸩ⁿᵐ
+inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ⁿᵐ

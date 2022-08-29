@@ -27,9 +27,9 @@ open import Syho.Model.Prop.Interp using (⸨_⸩)
 
 private variable
   i j m n :  ℕ
+  P :  Prop' ∞
   P˙ Q˙ :  ℕ → Prop' ∞
-  Q :  Prop' ∞
-  Pᶠᵐ :  Finmap
+  Pᶠᵐ Qᶠᵐ :  Finmap
 
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
@@ -49,7 +49,7 @@ abstract
 
   -- Update an element out of the bound
 
-  ⸨⸩ⁿᵐ-⇒upd-≥ :  i ≥ n →  ⸨ P˙ , n ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ i Q P˙ , n ⸩ⁿᵐ
+  ⸨⸩ⁿᵐ-⇒upd-≥ :  i ≥ n →  ⸨ Q˙ , n ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ i P Q˙ , n ⸩ⁿᵐ
   ⸨⸩ⁿᵐ-⇒upd-≥ {_} {0} =  _
   ⸨⸩ⁿᵐ-⇒upd-≥ {i} {suc n'} i>n'  with n' ≡ᵇ i | ᵇ⇒≡ {n'} {i}
   ... | tt | ⇒n'≡i  rewrite ⇒n'≡i _ =  absurd $ <-irrefl i>n'
@@ -57,7 +57,7 @@ abstract
 
   -- Add a proposition at the bound
 
-  ⸨⸩ⁿᵐ-add :  ⸨ Q ⸩ ∗ᵒ ⸨ P˙ , i ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ i Q P˙ , suc i ⸩ⁿᵐ
+  ⸨⸩ⁿᵐ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , i ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ i P Q˙ , suc i ⸩ⁿᵐ
   ⸨⸩ⁿᵐ-add {i = i}  rewrite ≡ᵇ-refl {i} =  ∗ᵒ-monoʳ $ ⸨⸩ⁿᵐ-⇒upd-≥ $ ≤-refl {i}
 
   ⸨⸩ⁿᵐ-add⊤ :  ⸨ P˙ , i ⸩ⁿᵐ  ⊨  ⸨ updⁿᵐ i ⊤' P˙ , suc i ⸩ⁿᵐ
@@ -84,8 +84,8 @@ abstract
 
   -- Add a proposition at the bound
 
-  ⸨⸩ᶠᵐ-add :  ⸨ Q ⸩ ∗ᵒ ⸨ Pᶠᵐ ⸩ᶠᵐ  ⊨  ⸨ updᶠᵐ (bndᶠᵐ Pᶠᵐ) Q Pᶠᵐ ⸩ᶠᵐ
-  ⸨⸩ᶠᵐ-add {Pᶠᵐ = _ |ᶠᵐ (n , _)}  rewrite suc⊔-same {n} =  ⸨⸩ⁿᵐ-add {i = n}
+  ⸨⸩ᶠᵐ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Qᶠᵐ ⸩ᶠᵐ  ⊨  ⸨ updᶠᵐ (bndᶠᵐ Qᶠᵐ) P Qᶠᵐ ⸩ᶠᵐ
+  ⸨⸩ᶠᵐ-add {_} {_ |ᶠᵐ (n , _)}  rewrite suc⊔-same {n} =  ⸨⸩ⁿᵐ-add {i = n}
 
   -- Remove a proposition
 

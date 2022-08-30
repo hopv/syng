@@ -19,13 +19,13 @@ open import Base.Nat using (ℕ; suc; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <�
 open import Base.Nmap using (updᴺᴹ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ)
-open import Syho.Model.ERA.Glob using (updᴱᴳ; indˣ; Globᴱᴿᴬ)
+open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; updᴱᴳ; indˣ; ind□)
 open ERA Globᴱᴿᴬ using (Env)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; □ᵒ_; _⤇ᴱ_;
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; _⤇ᴱ_; □ᵒ_;
   ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; pullʳˡᵒ; ∃ᵒ∗ᵒ-elim;
-  ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
-open import Syho.Model.Prop.Ind using (Indˣ)
+  ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ; □ᵒ-mono; □ᵒ-∗ᵒ-in)
+open import Syho.Model.Prop.Ind using (Indˣ; Ind□)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 
 private variable
@@ -102,3 +102,12 @@ abstract
 
 inv-ind□ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
 inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
+
+abstract
+
+  alloc-Ind□ :  □ᵒ ⸨ P ⸩ ∗ᵒ inv-ind□ (E ind□)  ⊨
+                  E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , Ind□ P ∗ᵒ inv-ind□ F□)
+  alloc-Ind□ {P} {E} =  let (_ , n) = E ind□ in
+    □ᵒ-∗ᵒ-in › ?∗ᵒ-intro {Pᵒ = □ᵒ (⸨ P ⸩ ∗ᵒ _)} (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) ›
+    ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $
+      □ᵒ-mono {Pᵒ = ⸨ P ⸩ ∗ᵒ _} $ ⸨⸩ᴺᴹ-add {P} {n = n}) › ⤇ᴱ-param

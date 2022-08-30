@@ -50,6 +50,11 @@ Cofin F f =  ∑ n ,  ∀{i} → i ≥ n → F (f i)
 
 abstract
 
+  -- Cofin holds if there is no exception
+
+  ∀⇒Cofin :  (∀ i → F (f i)) →  Cofin F f
+  ∀⇒Cofin Ffi =  0 , λ _ → Ffi _
+
   -- Cofin is preserved by updᴺᴹ
 
   Cofin-updᴺᴹ :  Cofin F f →  Cofin F (updᴺᴹ i a f)

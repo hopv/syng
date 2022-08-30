@@ -9,7 +9,7 @@ module Syho.Model.Prop.Ind where
 open import Base.Level using (2ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
-open import Base.Prod using (∑-syntax; _×_; _,_; -,_; ∑ᴵ-syntax; -ᴵ,_)
+open import Base.Prod using (_,_; -,_; -ᴵ,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ; suc)
 open import Syho.Lang.Expr using (Type; Expr; Val)

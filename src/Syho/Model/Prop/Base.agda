@@ -245,6 +245,14 @@ abstract
   ∃ᵒ∗ᵒ-elim Px∗Q⊨R (-, -, b∙c⊑a , (-, Px) , Q) =
     Px∗Q⊨R _ (-, -, b∙c⊑a , Px , Q)
 
+  -- Eliminate ⊎ᵒ under ∗ᵒ
+
+  ⊎ᵒ∗ᵒ-elim :  Pᵒ ∗ᵒ Rᵒ ⊨ Sᵒ →  Qᵒ ∗ᵒ Rᵒ ⊨ Sᵒ →  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Sᵒ
+  ⊎ᵒ∗ᵒ-elim P∗R⊨S _ (-, -, b∙c⊑a , inj₀ Pb , Rc) =
+    P∗R⊨S (-, -, b∙c⊑a , Pb , Rc)
+  ⊎ᵒ∗ᵒ-elim _ Q∗R⊨S (-, -, b∙c⊑a , inj₁ Qb , Rc) =
+    Q∗R⊨S (-, -, b∙c⊑a , Qb , Rc)
+
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand
 

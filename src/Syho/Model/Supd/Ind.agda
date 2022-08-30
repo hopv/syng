@@ -25,8 +25,8 @@ open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; updᴱᴳ; indˣ; ind□)
 open ERA Globᴱᴿᴬ using (Env)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; _⤇ᴱ_; □ᵒ_;
   ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; pullʳˡᵒ;
-  ∃ᵒ∗ᵒ-elim; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ; □ᵒ-Mono;
-  □ᵒ-mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in)
+  ∃ᵒ∗ᵒ-elim; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-mono; □ᵒ-elim; dup-□ᵒ;
+  □ᵒ-∗ᵒ-in; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono)
 
@@ -111,13 +111,13 @@ inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
 
 abstract
 
-  -- Allocate □ P to get Ind□ P
+  -- Allocate □ P to get □ᵒ Ind□ P
 
   alloc-Ind□ :  □ᵒ ⸨ P ⸩ ∗ᵒ inv-ind□ (E ind□)  ⊨
-                  E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , Ind□ P ∗ᵒ inv-ind□ F□)
+                  E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , □ᵒ Ind□ P ∗ᵒ inv-ind□ F□)
   alloc-Ind□ {P} {E} =  let (_ , n) = E ind□ in
     □ᵒ-∗ᵒ-in › ?∗ᵒ-intro {Pᵒ = □ᵒ (⸨ P ⸩ ∗ᵒ _)} (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) ›
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $
+    ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (●-injᴳ-⌞⌟≡-□ᵒ refl › (_ ,_)) $
       □ᵒ-mono {Pᵒ = ⸨ P ⸩ ∗ᵒ _} $ ⸨⸩ᴺᴹ-add {P} {n = n}) › ⤇ᴱ-param
 
   -- Use Ind□ P to get P

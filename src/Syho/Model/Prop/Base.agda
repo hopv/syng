@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _›_; _∘_; flip; const)
 open import Base.Few using (⊤; ⊤₀)
 open import Base.Eq using (_≡_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
-  proj₁)
+  proj₁; uncurry)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
@@ -45,7 +45,8 @@ private variable
   b˙ :  X → Res
   E F :  Env
   F˙ :  X →  Env
-  FPᵒ˙ FQᵒ˙ GPᵒ˙ :  X →  Env × Propᵒ ł
+  FPᵒ˙ FQᵒ˙ :  X →  Env × Propᵒ ł
+  GPᵒ˙˙ :  X →  Y →  Env × Propᵒ ł
   f :  Y → X
 
 --------------------------------------------------------------------------------
@@ -379,10 +380,10 @@ abstract
 
   -- Join ⤇ᴱ
 
-  ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙)  ⊨  E ⤇ᴱ GPᵒ˙
-  ⤇ᴱ-join E⤇F,F⤇GP _ E✓d∙a  with E⤇F,F⤇GP _ E✓d∙a
-  … | -, -, F✓d∙b , F⤇GPb  with F⤇GPb _ F✓d∙b
-  …   | -, -, G✓d∙c , Pc =  -, -, G✓d∙c , Pc
+  ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙˙ x)  ⊨  E ⤇ᴱ uncurry GPᵒ˙˙
+  ⤇ᴱ-join E⤇F,F⤇GPx _ E✓d∙a  with E⤇F,F⤇GPx _ E✓d∙a
+  … | -, -, F✓d∙b , F⤇GPxb  with F⤇GPxb _ F✓d∙b
+  …   | -, -, Gxy✓d∙c , Pxyc =  -, -, Gxy✓d∙c , Pxyc
 
   -- Let ⤇ᴱ eat a proposition under ∗ᵒ
 

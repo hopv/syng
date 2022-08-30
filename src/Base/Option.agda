@@ -25,3 +25,7 @@ private variable
 ¿-map :  (A → B) →  ¿ A →  ¿ B
 ¿-map f (some a) =  some (f a)
 ¿-map f none =  none
+
+¿-bind :  (A → ¿ B) →  ¿ A →  ¿ B
+¿-bind f (some a) =  f a
+¿-bind f none =  none

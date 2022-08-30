@@ -81,23 +81,23 @@ abstract
 --------------------------------------------------------------------------------
 -- Invariant for the exclusive indirection ERA
 
-inv-indˣ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
-inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
+Inv-indˣ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
+Inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
 
 abstract
 
   -- Allocate P to get Indˣ P
 
-  alloc-Indˣ :  ⸨ P ⸩ ∗ᵒ inv-indˣ (E indˣ)  ⊨
-                  E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Indˣ P ∗ᵒ inv-indˣ Fˣ)
+  alloc-Indˣ :  ⸨ P ⸩ ∗ᵒ Inv-indˣ (E indˣ)  ⊨
+                  E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Indˣ P ∗ᵒ Inv-indˣ Fˣ)
   alloc-Indˣ {E = E} =  let (_ , n) = E indˣ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᴺᴹ-add {n = n}) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
-  use-Indˣ :  Indˣ P ∗ᵒ inv-indˣ (E indˣ)  ⊨
-                E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , ⸨ P ⸩ ∗ᵒ inv-indˣ Fˣ)
+  use-Indˣ :  Indˣ P ∗ᵒ Inv-indˣ (E indˣ)  ⊨
+                E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , ⸨ P ⸩ ∗ᵒ Inv-indˣ Fˣ)
   use-Indˣ {E = E} =  let (_ , n) = E indˣ in
     ∃ᵒ∗ᵒ-elim $ λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
@@ -106,15 +106,15 @@ abstract
 --------------------------------------------------------------------------------
 -- Invariant for the persistent indirection ERA
 
-inv-ind□ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
-inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
+Inv-ind□ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
+Inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
 
 abstract
 
   -- Allocate □ P to get □ᵒ Ind□ P
 
-  alloc-Ind□ :  □ᵒ ⸨ P ⸩ ∗ᵒ inv-ind□ (E ind□)  ⊨
-                  E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , □ᵒ Ind□ P ∗ᵒ inv-ind□ F□)
+  alloc-Ind□ :  □ᵒ ⸨ P ⸩ ∗ᵒ Inv-ind□ (E ind□)  ⊨
+                  E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , □ᵒ Ind□ P ∗ᵒ Inv-ind□ F□)
   alloc-Ind□ {P} {E} =  let (_ , n) = E ind□ in
     □ᵒ-∗ᵒ-in › ?∗ᵒ-intro {Pᵒ = □ᵒ (⸨ P ⸩ ∗ᵒ _)} (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) ›
     ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (●-injᴳ-⌞⌟≡-□ᵒ refl › (_ ,_)) $
@@ -122,8 +122,8 @@ abstract
 
   -- Use Ind□ P to get P
 
-  use-Ind□ :  Ind□ P ∗ᵒ inv-ind□ (E ind□)  ⊨
-                E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , ⸨ P ⸩ ∗ᵒ inv-ind□ F□)
+  use-Ind□ :  Ind□ P ∗ᵒ Inv-ind□ (E ind□)  ⊨
+                E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , ⸨ P ⸩ ∗ᵒ Inv-ind□ F□)
   use-Ind□ {P} {E} =  let (_ , n) = E ind□ in
     ∃ᵒ∗ᵒ-elim $ λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ ⸨⸩ᴺᴹ-Mono {n = n}) ›

@@ -19,7 +19,7 @@ open import Base.Nat using (ℕ; suc; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <�
 open import Base.Nmap using (updᴺᴹ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Ind using (add-indˣ; rem-indˣ)
+open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ)
 open import Syho.Model.ERA.Glob using (updᴱᴳ; indˣ; Globᴱᴿᴬ)
 open ERA Globᴱᴿᴬ using (Env)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; □ᵒ_; _⤇ᴱ_;
@@ -84,16 +84,16 @@ inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
 
 abstract
 
-  add-Indˣ :  ⸨ P ⸩ ∗ᵒ inv-indˣ (E indˣ)  ⊨
-                E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Indˣ P ∗ᵒ inv-indˣ Fˣ)
-  add-Indˣ {E = E} =  let (_ , n) = E indˣ in
-    ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ add-indˣ) › ⤇ᴱ-eatʳ ›
+  alloc-Indˣ :  ⸨ P ⸩ ∗ᵒ inv-indˣ (E indˣ)  ⊨
+                  E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Indˣ P ∗ᵒ inv-indˣ Fˣ)
+  alloc-Indˣ {E = E} =  let (_ , n) = E indˣ in
+    ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᴺᴹ-add {n = n}) › ⤇ᴱ-param
 
-  rem-Indˣ :  Indˣ P ∗ᵒ inv-indˣ (E indˣ)  ⊨
+  use-Indˣ :  Indˣ P ∗ᵒ inv-indˣ (E indˣ)  ⊨
                 E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , ⸨ P ⸩ ∗ᵒ inv-indˣ Fˣ)
-  rem-Indˣ {E = E} =  let (_ , n) = E indˣ in
-    ∃ᵒ∗ᵒ-elim $ λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ rem-indˣ) › ⤇ᴱ-eatʳ ›
+  use-Indˣ {E = E} =  let (_ , n) = E indˣ in
+    ∃ᵒ∗ᵒ-elim $ λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
     › ⤇ᴱ-param
 

@@ -99,10 +99,10 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-indˣ :
+  alloc-indˣ :
     ((Q˙ , n) , εˣ) ↝ˣ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , suc n) , line-indˣ n P
-  add-indˣ _ _ .proj₀ =  _
-  add-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .proj₁ j  with Q✓Rˣ∙ε j
+  alloc-indˣ _ _ .proj₀ =  _
+  alloc-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .proj₁ j  with Q✓Rˣ∙ε j
   … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   …   | ff | _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
   …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl =
@@ -119,17 +119,17 @@ abstract
 
   -- Remove a proposition consuming a line
 
-  rem-indˣ :  ((Q˙ , n) , line-indˣ i P) ↝ˣ
+  use-indˣ :  ((Q˙ , n) , line-indˣ i P) ↝ˣ
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updᴺᴹ i ⊤' Q˙ , n) , εˣ
-  rem-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₀  with Q✓Rˣ∙iP i
+  use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₀  with Q✓Rˣ∙iP i
   … | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
   …   | ?ˣ =  Qi←Rˣi∙#P
-  rem-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₁  with i <≥ n
+  use-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₁  with i <≥ n
   … | inj₀ i<n =  i<n
   … | inj₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
   …   | Rˣ∙iPi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iPi≡?
   …     | ?ˣ | ()
-  rem-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j  with Q✓Rˣ∙iP j
+  use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j  with Q✓Rˣ∙iP j
   … | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
   …   | ff | _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
   …   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
@@ -202,10 +202,10 @@ abstract
 
   -- Add a new proposition and get a line
 
-  add-ind□ :
+  alloc-ind□ :
     ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , suc n) , line-ind□ n P
-  add-ind□ _ _ .proj₀ =  _
-  add-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
+  alloc-ind□ _ _ .proj₀ =  _
+  alloc-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
   … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   …   | ff | _ =  Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[] ∘ <⇒≤
   …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ⧺-[] {as = Rs˙ n} | j≥n⇒Rsj⧺[]≡[] ≤-refl =

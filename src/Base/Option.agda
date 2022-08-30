@@ -20,3 +20,7 @@ private variable
 ¿-case :  (A → B) → B → ¿ A → B
 ¿-case f _ (some a) =  f a
 ¿-case _ b none =  b
+
+¿-map :  (A → B) →  ¿ A →  ¿ B
+¿-map f (some a) =  some (f a)
+¿-map f none =  none

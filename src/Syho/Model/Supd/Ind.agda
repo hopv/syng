@@ -116,9 +116,9 @@ abstract
   alloc-Ind□ :  □ᵒ ⸨ P ⸩ ∗ᵒ Inv-ind□ (E ind□)  ⊨
                   E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , □ᵒ Ind□ P ∗ᵒ Inv-ind□ F□)
   alloc-Ind□ {P} {E} =  let (_ , n) = E ind□ in
-    □ᵒ-∗ᵒ-in › ?∗ᵒ-intro {Pᵒ = □ᵒ (⸨ P ⸩ ∗ᵒ _)} (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) ›
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (●-injᴳ-⌞⌟≡-□ᵒ refl › (_ ,_)) $
-      □ᵒ-mono {Pᵒ = ⸨ P ⸩ ∗ᵒ _} $ ⸨⸩ᴺᴹ-add {P} {n = n}) › ⤇ᴱ-param
+    □ᵒ-∗ᵒ-in › ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) › ⤇ᴱ-eatʳ ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (●-injᴳ-⌞⌟≡-□ᵒ refl › (_ ,_)) $
+      □ᵒ-mono {Pᵒ = _ ∗ᵒ _} $ ⸨⸩ᴺᴹ-add {P} {n = n}) › ⤇ᴱ-param
 
   -- Use Ind□ P to get P
 

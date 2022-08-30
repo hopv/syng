@@ -108,15 +108,6 @@ abstract
   …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl =
     refl , absurd ∘ <-irrefl
 
-  -- If we validly have a line, then its index is within the bound
-
-  line-bound-indˣ :  (Q˙ , n) ✓ˣ line-indˣ i P →  i < n
-  line-bound-indˣ {n = n} {i} Q✓iP  with i <≥ n
-  … | inj₀ i<n =  i<n
-  … | inj₁ i≥n  with Q✓iP i
-  …   | (_ , i≥n⇒iPi≡?)  rewrite ≡ᵇ-refl {i}  with i≥n⇒iPi≡? i≥n
-  …     | ()
-
   -- Remove a proposition consuming a line
 
   use-indˣ :  ((Q˙ , n) , line-indˣ i P) ↝ˣ

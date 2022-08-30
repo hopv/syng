@@ -297,7 +297,7 @@ data  _⊢[_]*_  where
 
   -- This can be seen as an analog of Löb induction in step-indexed logics
 
-  □○-alloc-rec :  {{Pers (P˂ .!)}} →  □ ○ P˂ -∗ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
+  □○-alloc-rec :  □ ○ P˂ -∗ □ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
 
   -- Use ○ P
 

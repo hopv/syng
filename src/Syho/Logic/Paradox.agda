@@ -38,8 +38,7 @@ private variable
 -- thanks to □○-alloc-rec
 
 ○-rec :  ○ ¡ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]⇛ P
-○-rec {P} ○P⊢P =  -∗-intro (∗-elimˡ » □-mono $ ○-mono (¡ □-elim) » ○P⊢P) »
-    □○-alloc-rec {P˂ = ¡ □ P} ᵘ»ᵘ □-elim » ○-use ᵘ» □-elim
+○-rec ○P⊢P =  -∗-intro (∗-elimˡ » □-mono ○P⊢P) » □○-alloc-rec ᵘ»ᵘ □-elim » ○-use
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⇛ without counter increment, then we get a paradox

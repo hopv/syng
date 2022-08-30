@@ -17,9 +17,9 @@ open import Base.Bool using (ff; tt)
 open import Base.Nat using (ℕ; suc; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
   ᵇ⇒≡; ≡ᵇ-refl)
 open import Base.Nmap using (updᴺᴹ)
-open import Base.List using (List; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
+open import Base.List using (List; _∷_; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
-  ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
+  ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ∈ᴸ-[?]; ∈ᴸ-⧺-inj₁; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm;
@@ -201,3 +201,17 @@ abstract
   …   | ff | _ =  Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[] ∘ <⇒≤
   …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ⧺-[] {as = Rs˙ n} | j≥n⇒Rsj⧺[]≡[] ≤-refl =
     (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl
+
+  -- Get an agreement from a line
+
+  use-ind□ :  ((Q˙ , n) , line-ind□ i P) ↝□
+                λ(_ :  Q˙ i ≡ P  ×  i < n) →  ((Q˙ , n) , line-ind□ i P)
+  use-ind□ {i = i} Rs˙ Q✓Rs∙iP .proj₀ .proj₀  with Q✓Rs∙iP i
+  … | (Qi≡Rsi⧺[P] , _)  rewrite ≡ᵇ-refl {i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-inj₁ ∈ᴸ-[?])
+  use-ind□ {n = n} {i} Rs˙ Q✓Rs∙iP .proj₀ .proj₁  with i <≥ n
+  … | inj₀ i<n =  i<n
+  … | inj₁ i≥n  with Q✓Rs∙iP _ .proj₁ i≥n
+  …   | Rsi⧺[P]≡?  rewrite ≡ᵇ-refl {i}  with Rs˙ i | Rsi⧺[P]≡?
+  …     | _ ∷ _ | ()
+  …     | [] | ()
+  use-ind□ _ Q✓Rˣ∙iP .proj₁ =  Q✓Rˣ∙iP

@@ -242,8 +242,8 @@ abstract
   -- Eliminate ∃ᵒ under ∗ᵒ
 
   ∃ᵒ∗ᵒ-elim :  (∀ x → Pᵒ˙ x ∗ᵒ Qᵒ ⊨ Rᵒ) →  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ Rᵒ
-  ∃ᵒ∗ᵒ-elim Px∗Q⊨R (-, -, b∙c⊑a , (-, Px) , Q) =
-    Px∗Q⊨R _ (-, -, b∙c⊑a , Px , Q)
+  ∃ᵒ∗ᵒ-elim Px∗Q⊨R (-, -, b∙c⊑a , (-, Pxb) , Qc) =
+    Px∗Q⊨R _ (-, -, b∙c⊑a , Pxb , Qc)
 
   -- Eliminate ⊎ᵒ under ∗ᵒ
 

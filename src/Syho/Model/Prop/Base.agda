@@ -9,18 +9,19 @@ module Syho.Model.Prop.Base where
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; sucᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; const)
 open import Base.Few using (⊤; ⊤₀)
+open import Base.Eq using (_≡_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
   proj₁)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ; injᴳ; injᴳ-↝;
-  updᴱᴳ-injᴳ-↝; injᴳ-ε)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ; injᴳ;
+  injᴳ-cong; injᴳ-ε; injᴳ-⌞⌟; injᴳ-↝; updᴱᴳ-injᴳ-↝)
 
-open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; ⊑-respˡ;
-  ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-resp; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ;
-  ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono; ⌞⌟-decr;
-  ⌞⌟-idem; ⌞⌟-unitˡ; ⌞⌟-∙)
+open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
+  ⊑-respˡ; ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-resp; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ;
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono;
+  ⌞⌟-decr; ⌞⌟-idem; ⌞⌟-unitˡ; ⌞⌟-∙)
 
 private variable
   ł ł' :  Level
@@ -508,8 +509,8 @@ abstract
 
 module _ {i : ℕ} where
 
-  open ERA (Globᴱᴿᴬ˙ i) using () renaming (Res to Resⁱ; Env to Envⁱ; ε to εⁱ;
-    _↝_ to _↝ⁱ_)
+  open ERA (Globᴱᴿᴬ˙ i) using () renaming (Res to Resⁱ; Env to Envⁱ;
+    _≈_ to _≈ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _↝_ to _↝ⁱ_; ≡⇒≈ to ≡⇒≈ⁱ)
 
   private variable
     Fⁱ˙ :  X → Envⁱ
@@ -517,6 +518,14 @@ module _ {i : ℕ} where
     aⁱ˙ bⁱ˙ :  X → Resⁱ
 
   abstract
+
+    -- ● injᴳ i aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
+
+    ●-injᴳ-⌞⌟≈-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≈ⁱ aⁱ →  ● injᴳ i aⁱ ⊨ □ᵒ ● injᴳ i aⁱ
+    ●-injᴳ-⌞⌟≈-□ᵒ ⌞a⌟≈a =  ●-⌞⌟≈-□ᵒ $ injᴳ-⌞⌟ ◇˜ injᴳ-cong ⌞a⌟≈a
+
+    ●-injᴳ-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ● injᴳ i aⁱ ⊨ □ᵒ ● injᴳ i aⁱ
+    ●-injᴳ-⌞⌟≡-□ᵒ ⌞a⌟≡a =  ●-injᴳ-⌞⌟≈-□ᵒ (≡⇒≈ⁱ ⌞a⌟≡a)
 
     -- ↝ⁱ into ⤇ᵒ on ● injᴳ
 

@@ -13,10 +13,11 @@ open import Base.Eq using (_≡_; refl; ◠_)
 open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (inj₁)
-open import Base.Option using (¿_; some)
+open import Base.Option using (¿_; some; none; _$¿_; _»-¿_)
 open import Base.Nat using (ℕ)
-open import Base.List using (List; [])
+open import Base.List using (List)
 open import Base.List.Nat using (_‼_; upd; rep)
+open import Base.Nmap using (updᴺᴹ; Cofin; ∀⇒Cofin; Cofin-updᴺᴹ)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤-val)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;
@@ -26,34 +27,52 @@ open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; �
 --------------------------------------------------------------------------------
 -- Memory
 
--- Re-export
-open import Base.Finmap (List AnyVal) (_≡ []) public using () renaming (
+Mem :  Set₁
+Mem =  ℕ →  ¿ List AnyVal
 
-  -- Memory, consisting of a finite number of memory blocks,
-  -- each of which is a list of memory cells
-  Finmap to Mem;
-  _|ᶠᵐ_ to _|ᴹ_; !ᶠᵐ to bloᴹ; finᶠᵐ to finᴹ;
-
-  -- Memory block update
-  updᶠᵐ to updᴹᴮ)
-
-open import Base.Finmap (List AnyVal) (_≡ []) using (initᶠᵐ)
-
--- Empty memory
-
-empᴹ :  Mem
-empᴹ =  initᶠᵐ [] refl
+private variable
+  M M' :  Mem
+  l :  ℕ
+  av :  AnyVal
+  avs¿ :  ¿ List AnyVal
+  θ :  Addr
 
 -- Memory read
 
 infix 5 _‼ᴹ_
 _‼ᴹ_ :  Mem →  Addr →  ¿ AnyVal
-M ‼ᴹ addr l i =  M .bloᴹ l ‼ i
+M ‼ᴹ addr l i =  M l »-¿ (_‼ i)
+
+-- Empty memory
+
+empᴹ :  Mem
+empᴹ _ =  none
 
 -- Memory update
 
 updᴹ :  Addr →  AnyVal →  Mem →  Mem
-updᴹ (addr l i) av M =  updᴹᴮ l (upd i av $ M .bloᴹ l) M
+updᴹ (addr l i) av M =  updᴺᴹ l (upd i av $¿ M l) M
+
+-- Memory validity
+
+infix 3 ✓ᴹ_
+✓ᴹ_ :  Mem →  Set₁
+✓ᴹ M =  Cofin (_≡ none) M
+
+abstract
+
+  -- ✓ᴹ holds for empᴹ
+
+  ✓ᴹ-empᴹ :  ✓ᴹ empᴹ
+  ✓ᴹ-empᴹ =  ∀⇒Cofin {F = _≡ none} $ λ _ → refl
+
+  -- ✓ᴹ is preserved by updᴺᴹ and updᴹ
+
+  ✓ᴹ-updᴺᴹ :  ✓ᴹ M →  ✓ᴹ (updᴺᴹ l avs¿ M)
+  ✓ᴹ-updᴺᴹ =  Cofin-updᴺᴹ {F = _≡ none}
+
+  ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ av M)
+  ✓ᴹ-updᴹ =  ✓ᴹ-updᴺᴹ
 
 --------------------------------------------------------------------------------
 -- Reduction
@@ -61,16 +80,14 @@ updᴹ (addr l i) av M =  updᴹᴮ l (upd i av $ M .bloᴹ l) M
 private variable
   T U V :  Type
   X :  Set₀
-  M M' :  Mem
   e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
   e˙ :  X → Expr ∞ T
   K :  Ktx U T
   red : Redex T
   x :  X
-  θ :  Addr
   v :  Val V
-  l n :  ℕ
+  n :  ℕ
   kr :  Ktxred T
 
 infix 4 _⇒ᴿ_ _⇒ᴷᴿ_
@@ -84,9 +101,9 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   ⁏-red :  (v ⁏ᴿ e , M) ⇒ᴿ (e , M)
   🞰-red :  M ‼ᴹ θ ≡ some (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
-  alloc-red :  ∀ l →  M .bloᴹ l ≡ [] →
-    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴹᴮ l (rep n ⊤-val) M)
-  free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴹᴮ l [] M)
+  alloc-red :  ∀ l →  M l ≡ none →
+    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴺᴹ l (some $ rep n ⊤-val) M)
+  free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴺᴹ l none M)
 
 -- Reduction on a context-redex pair
 

@@ -10,13 +10,14 @@ open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; sucᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; const)
 open import Base.Few using (⊤; ⊤₀)
 open import Base.Eq using (_≡_)
+open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
   proj₁; uncurry)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ; injᴳ;
-  injᴳ-cong; injᴳ-ε; injᴳ-⌞⌟; injᴳ-↝; updᴱᴳ-injᴳ-↝)
+  updᴱᴳ-self-✓; injᴳ-cong; injᴳ-ε; injᴳ-⌞⌟; injᴳ-↝; updᴱᴳ-injᴳ-↝)
 
 open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
   ⊑-respˡ; ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-resp; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ;
@@ -519,6 +520,11 @@ module _ {i : ℕ} where
     aⁱ˙ bⁱ˙ :  X → Resⁱ
 
   abstract
+
+    -- Introduce ⤇ᴱ with self updᴱᴳ
+
+    ⤇ᴱ-updᴱᴳ-self-intro :  Pᵒ ⊨ E ⤇ᴱ λ (_ : ⊤₀) → updᴱᴳ i (E i) E , Pᵒ
+    ⤇ᴱ-updᴱᴳ-self-intro Pa _ E✓c∙a =  -, -, updᴱᴳ-self-✓ E✓c∙a , Pa
 
     -- ● injᴳ i aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
 

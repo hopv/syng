@@ -16,7 +16,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; suc; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈsuc; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff)
-open import Base.Nmap using (updⁿᵐ)
+open import Base.Nmap using (updᴺᴹ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (add-indˣ; rem-indˣ)
@@ -37,50 +37,50 @@ private variable
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
 
-⸨_⸩ⁿᵐ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
-⸨ P˙ , 0 ⸩ⁿᵐ =  ⊤ᵒ
-⸨ P˙ , suc n ⸩ⁿᵐ =  ⸨ P˙ n ⸩ ∗ᵒ ⸨ P˙ , n ⸩ⁿᵐ
+⸨_⸩ᴺᴹ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
+⸨ P˙ , 0 ⸩ᴺᴹ =  ⊤ᵒ
+⸨ P˙ , suc n ⸩ᴺᴹ =  ⸨ P˙ n ⸩ ∗ᵒ ⸨ P˙ , n ⸩ᴺᴹ
 
 abstract
 
-  -- Monoᵒ for ⸨ ⸩ⁿᵐ
+  -- Monoᵒ for ⸨ ⸩ᴺᴹ
 
-  ⸨⸩ⁿᵐ-Mono :  Monoᵒ ⸨ P˙ , n ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-Mono {n = 0} =  _
-  ⸨⸩ⁿᵐ-Mono {n = suc _} =  ∗ᵒ-Mono
+  ⸨⸩ᴺᴹ-Mono :  Monoᵒ ⸨ P˙ , n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-Mono {n = 0} =  _
+  ⸨⸩ᴺᴹ-Mono {n = suc _} =  ∗ᵒ-Mono
 
   -- Update an element out of the bound
 
-  ⸨⸩ⁿᵐ-⇒upd-≥ :  i ≥ n →  ⸨ Q˙ , n ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ i P Q˙ , n ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-⇒upd-≥ {_} {0} =  _
-  ⸨⸩ⁿᵐ-⇒upd-≥ {i} {suc n'} i>n'  with n' ≡ᵇ i | ᵇ⇒≡ {n'} {i}
+  ⸨⸩ᴺᴹ-⇒upd-≥ :  i ≥ n →  ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ updᴺᴹ i P Q˙ , n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-⇒upd-≥ {_} {0} =  _
+  ⸨⸩ᴺᴹ-⇒upd-≥ {i} {suc n'} i>n'  with n' ≡ᵇ i | ᵇ⇒≡ {n'} {i}
   … | tt | ⇒n'≡i  rewrite ⇒n'≡i _ =  absurd $ <-irrefl i>n'
-  … | ff | _ =  ∗ᵒ-monoʳ $ ⸨⸩ⁿᵐ-⇒upd-≥ $ <⇒≤ i>n'
+  … | ff | _ =  ∗ᵒ-monoʳ $ ⸨⸩ᴺᴹ-⇒upd-≥ $ <⇒≤ i>n'
 
   -- Add a proposition at the bound
 
-  ⸨⸩ⁿᵐ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , n ⸩ⁿᵐ  ⊨ ⸨ updⁿᵐ n P Q˙ , suc n ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-add {n = n}  rewrite ≡ᵇ-refl {n} =  ∗ᵒ-monoʳ $ ⸨⸩ⁿᵐ-⇒upd-≥ $ ≤-refl {n}
+  ⸨⸩ᴺᴹ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ updᴺᴹ n P Q˙ , suc n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-add {n = n}  rewrite ≡ᵇ-refl {n} =  ∗ᵒ-monoʳ $ ⸨⸩ᴺᴹ-⇒upd-≥ $ ≤-refl {n}
 
-  ⸨⸩ⁿᵐ-add⊤ :  ⸨ P˙ , n ⸩ⁿᵐ  ⊨  ⸨ updⁿᵐ n ⊤' P˙ , suc n ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-add⊤ {n = n} =  ?∗ᵒ-intro absurd › ⸨⸩ⁿᵐ-add {n = n}
+  ⸨⸩ᴺᴹ-add⊤ :  ⸨ P˙ , n ⸩ᴺᴹ  ⊨  ⸨ updᴺᴹ n ⊤' P˙ , suc n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-add⊤ {n = n} =  ?∗ᵒ-intro absurd › ⸨⸩ᴺᴹ-add {n = n}
 
   -- Remove an element within the bound to get the element's interpretation
 
-  ⸨⸩ⁿᵐ-rem-<ᵈ :  i <ᵈ n →  ⸨ P˙ , n ⸩ⁿᵐ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updⁿᵐ i ⊤' P˙ , n ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-rem-<ᵈ {i} ≤ᵈ-refl =  ∗ᵒ-monoʳ (⸨⸩ⁿᵐ-add⊤ {n = i})
-  ⸨⸩ⁿᵐ-rem-<ᵈ {i} (≤ᵈsuc {n = n'} i<ᵈn')
+  ⸨⸩ᴺᴹ-rem-<ᵈ :  i <ᵈ n →  ⸨ P˙ , n ⸩ᴺᴹ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updᴺᴹ i ⊤' P˙ , n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-rem-<ᵈ {i} ≤ᵈ-refl =  ∗ᵒ-monoʳ (⸨⸩ᴺᴹ-add⊤ {n = i})
+  ⸨⸩ᴺᴹ-rem-<ᵈ {i} (≤ᵈsuc {n = n'} i<ᵈn')
     rewrite ≢-≡ᵇ-ff {n'} {i} λ{ refl → <-irrefl $ ≤ᵈ⇒≤ i<ᵈn'} =
-    ∗ᵒ-monoʳ (⸨⸩ⁿᵐ-rem-<ᵈ i<ᵈn') › pullʳˡᵒ
+    ∗ᵒ-monoʳ (⸨⸩ᴺᴹ-rem-<ᵈ i<ᵈn') › pullʳˡᵒ
 
-  ⸨⸩ⁿᵐ-rem-< :  i < n →  ⸨ P˙ , n ⸩ⁿᵐ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updⁿᵐ i ⊤' P˙ , n ⸩ⁿᵐ
-  ⸨⸩ⁿᵐ-rem-< =  ⸨⸩ⁿᵐ-rem-<ᵈ ∘ ≤⇒≤ᵈ
+  ⸨⸩ᴺᴹ-rem-< :  i < n →  ⸨ P˙ , n ⸩ᴺᴹ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updᴺᴹ i ⊤' P˙ , n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-rem-< =  ⸨⸩ᴺᴹ-rem-<ᵈ ∘ ≤⇒≤ᵈ
 
 --------------------------------------------------------------------------------
 -- Invariant for the exclusive indirection ERA
 
 inv-indˣ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
-inv-indˣ Eˣ =  ⸨ Eˣ ⸩ⁿᵐ
+inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
 
 abstract
 
@@ -88,17 +88,17 @@ abstract
                 E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Indˣ P ∗ᵒ inv-indˣ Fˣ)
   add-Indˣ {E = E} =  let (_ , n) = E indˣ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ add-indˣ) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ⁿᵐ-add {n = n}) › ⤇ᴱ-param
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᴺᴹ-add {n = n}) › ⤇ᴱ-param
 
   rem-Indˣ :  Indˣ P ∗ᵒ inv-indˣ (E indˣ)  ⊨
                 E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , ⸨ P ⸩ ∗ᵒ inv-indˣ Fˣ)
   rem-Indˣ {E = E} =  let (_ , n) = E indˣ in
     ∃ᵒ∗ᵒ-elim $ λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ rem-indˣ) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ⁿᵐ-Mono {n = n}) › ⸨⸩ⁿᵐ-rem-< i<n })
+    ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
     › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
 -- Invariant for the persistent indirection ERA
 
 inv-ind□ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
-inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ⁿᵐ
+inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ

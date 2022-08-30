@@ -12,7 +12,7 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁; -,_)
 open import Base.Nat using (ℕ; _≡?_; ≡?-refl)
-open import Base.Nmap using (updᵈⁿᵐ)
+open import Base.Nmap using (updᴰᴺᴹ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
@@ -66,10 +66,10 @@ open ERA Globᴱᴿᴬ using () renaming (Env to Envᴳ; Res to Resᴳ; _≈_ to
 -- updᴱᴳ, updᴳ :  Update an element at an index
 
 updᴱᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Env →  Envᴳ →  Envᴳ
-updᴱᴳ =  updᵈⁿᵐ
+updᴱᴳ =  updᴰᴺᴹ
 
 updᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Resᴳ →  Resᴳ
-updᴳ =  updᵈⁿᵐ
+updᴳ =  updᴰᴺᴹ
 
 -- injᴳ :  Inject an element at an index
 

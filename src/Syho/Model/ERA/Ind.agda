@@ -16,7 +16,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (ff; tt)
 open import Base.Nat using (ℕ; suc; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
   ᵇ⇒≡; ≡ᵇ-refl)
-open import Base.Nmap using (updⁿᵐ)
+open import Base.Nmap using (updᴺᴹ)
 open import Base.List using (List; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
   ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
@@ -93,14 +93,14 @@ open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; _✓_ to _✓ˣ_; ε to
 -- Exclusively own a proposition at an index
 
 line-indˣ :  ℕ →  Prop' ∞ →  Resˣ
-line-indˣ i P =  updⁿᵐ i (#ˣ P) εˣ
+line-indˣ i P =  updᴺᴹ i (#ˣ P) εˣ
 
 abstract
 
   -- Add a new proposition and get a line
 
   add-indˣ :
-    ((Q˙ , n) , εˣ) ↝ˣ λ(_ : ⊤₀) → (updⁿᵐ n P Q˙ , suc n) , line-indˣ n P
+    ((Q˙ , n) , εˣ) ↝ˣ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , suc n) , line-indˣ n P
   add-indˣ _ _ .proj₀ =  _
   add-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .proj₁ j  with Q✓Rˣ∙ε j
   … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
@@ -120,7 +120,7 @@ abstract
   -- Remove a proposition consuming a line
 
   rem-indˣ :  ((Q˙ , n) , line-indˣ i P) ↝ˣ
-                λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updⁿᵐ i ⊤' Q˙ , n) , εˣ
+                λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updᴺᴹ i ⊤' Q˙ , n) , εˣ
   rem-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₀  with Q✓Rˣ∙iP i
   … | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
   …   | ?ˣ =  Qi←Rˣi∙#P
@@ -196,14 +196,14 @@ open ERA Ind□ᴱᴿᴬ using () renaming (Res to Res□; ε to ε□; _↝_ to
 -- Persistently own a proposition at an index
 
 line-ind□ :  ℕ →  Prop' ∞ →  Res□
-line-ind□ i P =  updⁿᵐ i [ P ] ε□
+line-ind□ i P =  updᴺᴹ i [ P ] ε□
 
 abstract
 
   -- Add a new proposition and get a line
 
   add-ind□ :
-    ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updⁿᵐ n P Q˙ , suc n) , line-ind□ n P
+    ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , suc n) , line-ind□ n P
   add-ind□ _ _ .proj₀ =  _
   add-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
   … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}

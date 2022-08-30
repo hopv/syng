@@ -13,7 +13,7 @@ open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
 open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; suc; _≥_; _≡ᵇ_; _⊔_; ᵇ⇒≡; <-irrefl; ⊔≤-introˡ;
   ⊔≤-introʳ)
-open import Base.Nmap using (updⁿᵐ)
+open import Base.Nmap using (updᴺᴹ)
 
 --------------------------------------------------------------------------------
 -- Finmap : Finite map over natural numbers
@@ -49,10 +49,10 @@ initᶠᵐ _ nulla .finᶠᵐ =  0 , λ _ → nulla
 -- Update a finmap at an index
 
 updᶠᵐ :  ℕ →  A →  Finmap →  Finmap
-updᶠᵐ i a (f |ᶠᵐ _) .!ᶠᵐ =  updⁿᵐ i a f
+updᶠᵐ i a (f |ᶠᵐ _) .!ᶠᵐ =  updᴺᴹ i a f
 updᶠᵐ i a (f |ᶠᵐ (n , fi)) .finᶠᵐ =  suc i ⊔ n , proof
  where abstract
-  proof :  Finᶠᵐ (updⁿᵐ i a f) (suc i ⊔ n)
+  proof :  Finᶠᵐ (updᴺᴹ i a f) (suc i ⊔ n)
   proof {j} si⊔n≤j  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
   … | ff | _ =  fi $ ⊔≤-introʳ {suc _} si⊔n≤j
   … | tt | ⇒j≡i  rewrite ⇒j≡i _ =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} si⊔n≤j

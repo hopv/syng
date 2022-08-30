@@ -118,7 +118,7 @@ abstract
   use-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₁  with i <≥ n
   … | inj₀ i<n =  i<n
   … | inj₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
-  …   | Rˣ∙iPi≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣ∙iPi≡?
+  …   | Rˣi∙P≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣi∙P≡?
   …     | ?ˣ | ()
   use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j  with Q✓Rˣ∙iP j
   … | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}

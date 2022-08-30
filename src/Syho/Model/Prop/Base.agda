@@ -20,7 +20,7 @@ open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ
 open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; ⊑-respˡ;
   ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-resp; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ;
   ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono; ⌞⌟-decr;
-  ⌞⌟-idem; ⌞⌟-unitˡ)
+  ⌞⌟-idem; ⌞⌟-unitˡ; ⌞⌟-∙)
 
 private variable
   ł ł' :  Level
@@ -431,6 +431,21 @@ abstract
   □ᵒˡ-×ᵒ⇒∗ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ×ᵒ Qᵒ ⊨ □ᵒ Pᵒ ∗ᵒ Qᵒ
   □ᵒˡ-×ᵒ⇒∗ᵒ MonoP (P⌞a⌟ , Qa) =  -, -, ≈⇒⊑ ⌞⌟-unitˡ ,
     MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟ , Qa
+
+  -- Duplicate □ᵒ Pᵒ
+
+  dup-□ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ⊨ □ᵒ Pᵒ ∗ᵒ □ᵒ Pᵒ
+  dup-□ᵒ MonoP =  (λ Pa → Pa , Pa) › □ᵒˡ-×ᵒ⇒∗ᵒ MonoP
+
+  -- □ᵒ commutes with ∗ᵒ
+
+  □ᵒ-∗ᵒ-out :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ → □ᵒ (Pᵒ ∗ᵒ Qᵒ) ⊨ □ᵒ Pᵒ ∗ᵒ □ᵒ Qᵒ
+  □ᵒ-∗ᵒ-out MonoP MonoQ (-, -, b∙c⊑⌞a⌟ , Pb , Qc) =  □ᵒˡ-×ᵒ⇒∗ᵒ MonoP
+    (MonoP (⊑-trans ∙-incrʳ b∙c⊑⌞a⌟) Pb , MonoQ (⊑-trans ∙-incrˡ b∙c⊑⌞a⌟) Qc)
+
+  □ᵒ-∗ᵒ-in :  □ᵒ Pᵒ ∗ᵒ □ᵒ Qᵒ ⊨ □ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  □ᵒ-∗ᵒ-in(-, -, b∙c⊑a , P⌞b⌟ , Q⌞c⌟) =
+    -, -, ⊑-trans ⌞⌟-∙ (⌞⌟-mono b∙c⊑a) , P⌞b⌟ , Q⌞c⌟
 
 --------------------------------------------------------------------------------
 -- ● :  ● a resource

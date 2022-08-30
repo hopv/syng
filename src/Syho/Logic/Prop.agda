@@ -14,8 +14,8 @@ open import Base.Thunk using (Thunk)
 open import Base.Prod using (_×_; _,_; curry)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.Nat using (ℕ)
-open import Base.List using (List; []; _∷_; map)
-open import Base.List.Nat using (mapi)
+open import Base.List using (List; []; _∷_; _$ᴸ_)
+open import Base.List.Nat using (_$ⁱᴸ_)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; AnyVal)
 
@@ -150,9 +150,9 @@ infix 8 [∗]_
 
 infix 8 [∗∈]-syntax [∗ⁱ∈]-syntax
 [∗∈]-syntax :  (X → Prop' ι) →  List X →  Prop' ι
-[∗∈]-syntax P˙ as =  [∗] map P˙ as
+[∗∈]-syntax P˙ as =  [∗] (P˙ $ᴸ as)
 [∗ⁱ∈]-syntax :  (ℕ × X → Prop' ι) →  List X →  Prop' ι
-[∗ⁱ∈]-syntax P˙ as =  [∗] mapi (curry P˙) as
+[∗ⁱ∈]-syntax P˙ as =  [∗] (curry P˙ $ⁱᴸ as)
 syntax [∗∈]-syntax (λ a → P) as =  [∗ a ∈ as ] P
 syntax [∗ⁱ∈]-syntax (λ ia → P) as =  [∗ ia ⁱ∈ as ] P
 -- Currently in Agda, we can't bind two variables in syntax like:

@@ -45,9 +45,11 @@ rep (suc n) a =  a ∷ rep n a
 
 -- Map with an index
 
-mapi' :  ℕ →  (ℕ → A → B) →  List A →  List B
-mapi' _ _ [] =  []
-mapi' i f (a ∷ as) =  f i a ∷ mapi' (suc i) f as
+infixr -1 _$ⁱᴸ⟨_⟩_ _$ⁱᴸ_
 
-mapi :  (ℕ → A → B) →  List A →  List B
-mapi =  mapi' 0
+_$ⁱᴸ⟨_⟩_ :  (ℕ → A → B) →  ℕ →  List A →  List B
+_ $ⁱᴸ⟨ _ ⟩ [] =  []
+f $ⁱᴸ⟨ i ⟩ a ∷ as =  f i a ∷ (f $ⁱᴸ⟨ suc i ⟩ as)
+
+_$ⁱᴸ_ :  (ℕ → A → B) →  List A →  List B
+f $ⁱᴸ as =  f $ⁱᴸ⟨ 0 ⟩ as

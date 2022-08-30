@@ -22,10 +22,12 @@ private variable
 ¿-case f _ (some a) =  f a
 ¿-case _ b none =  b
 
-¿-map :  (A → B) →  ¿ A →  ¿ B
-¿-map f (some a) =  some (f a)
-¿-map f none =  none
+infixr -1 _$¿_
+_$¿_ :  (A → B) →  ¿ A →  ¿ B
+f $¿ some a =  some (f a)
+f $¿ none =  none
 
-¿-bind :  (A → ¿ B) →  ¿ A →  ¿ B
-¿-bind f (some a) =  f a
-¿-bind f none =  none
+infixr -1 _»-¿_
+_»-¿_ :  ¿ A →  (A → ¿ B) →  ¿ B
+some a »-¿ f =  f a
+none »-¿ _ =  none

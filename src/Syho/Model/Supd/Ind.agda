@@ -6,7 +6,7 @@
 
 module Syho.Model.Supd.Ind where
 
-open import Base.Level using (2ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_; _›_; _∘_; id)
 open import Base.Few using (absurd)
@@ -21,14 +21,15 @@ open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; _⤇ᴱ_; □ᵒ_;
-  ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; pullʳˡᵒ;
-  ∃ᵒ∗ᵒ-elim; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-mono; □ᵒ-elim; dup-□ᵒ;
-  □ᵒ-∗ᵒ-in; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ⊤ᵒ; _∗ᵒ_; _⤇ᴱ_;
+  □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro;
+  pullʳˡᵒ; ∃ᵒ∗ᵒ-elim; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-mono; □ᵒ-elim;
+  dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono)
 
 private variable
+  ł ł' :  Level
   i j m n :  ℕ
   P :  Prop' ∞
   P˙ Q˙ :  ℕ → Prop' ∞
@@ -77,52 +78,66 @@ abstract
   ⸨⸩ᴺᴹ-rem-< =  ⸨⸩ᴺᴹ-rem-<ᵈ ∘ ≤⇒≤ᵈ
 
 --------------------------------------------------------------------------------
--- Invariant for the exclusive indirection ERA
+-- On Indˣᴱᴿᴬ
+
+-- Invariant for Indˣᴱᴿᴬ
 
 Inv-indˣ :  Env-indˣ →  Propᵒ 2ᴸ
 Inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
+
+-- Super update entailment on Indˣᴱᴿᴬ
+
+infix 1 _⊨⇛indˣ_
+_⊨⇛indˣ_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+Pᵒ ⊨⇛indˣ Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-indˣ (E indˣ)  ⊨✓
+                         E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Qᵒ ∗ᵒ Inv-indˣ Fˣ)
 
 abstract
 
   -- Allocate P to get Indˣ P
 
-  alloc-Indˣ :  ⸨ P ⸩ ∗ᵒ Inv-indˣ (E indˣ)  ⊨
-                  E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Indˣ P ∗ᵒ Inv-indˣ Fˣ)
-  alloc-Indˣ {E = E} =  let (_ , n) = E indˣ in
+  alloc-Indˣ :  ⸨ P ⸩  ⊨⇛indˣ  Indˣ P
+  alloc-Indˣ E _ =  let (_ , n) = E indˣ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᴺᴹ-add {n = n}) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
-  use-Indˣ :  Indˣ P ∗ᵒ Inv-indˣ (E indˣ)  ⊨
-                E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , ⸨ P ⸩ ∗ᵒ Inv-indˣ Fˣ)
-  use-Indˣ {E = E} =  let (_ , n) = E indˣ in
+  use-Indˣ :  Indˣ P  ⊨⇛indˣ  ⸨ P ⸩
+  use-Indˣ E _ =  let (_ , n) = E indˣ in
     ∃ᵒ∗ᵒ-elim λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
     › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
--- Invariant for the persistent indirection ERA
+-- On Ind□ᴱᴿᴬ
+
+-- Invariant for Ind□ᴱᴿᴬ
 
 Inv-ind□ :  Env-ind□ →  Propᵒ 2ᴸ
 Inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
+
+-- Super update entailment on Ind□ᴱᴿᴬ
+
+infix 1 _⊨⇛ind□_
+_⊨⇛ind□_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+Pᵒ ⊨⇛ind□ Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-ind□ (E ind□)  ⊨✓
+                         E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , Qᵒ ∗ᵒ Inv-ind□ F□)
 
 abstract
 
   -- Allocate □ P to get □ᵒ Ind□ P
 
-  alloc-Ind□ :  □ᵒ ⸨ P ⸩ ∗ᵒ Inv-ind□ (E ind□)  ⊨
-                  E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , □ᵒ Ind□ P ∗ᵒ Inv-ind□ F□)
-  alloc-Ind□ {P} {E} =  let (_ , n) = E ind□ in
+  alloc-Ind□ :  □ᵒ ⸨ P ⸩  ⊨⇛ind□  □ᵒ Ind□ P
+  alloc-Ind□ {P} E _ =  let (_ , n) = E ind□ in
     □ᵒ-∗ᵒ-in › ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (●-injᴳ-⌞⌟≡-□ᵒ refl › (_ ,_)) $
       □ᵒ-mono {Pᵒ = _ ∗ᵒ _} $ ⸨⸩ᴺᴹ-add {P} {n = n}) › ⤇ᴱ-param
 
   -- Use Ind□ P to get P
 
-  use-Ind□ :  Ind□ P ∗ᵒ Inv-ind□ (E ind□)  ⊨
-                E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , ⸨ P ⸩ ∗ᵒ Inv-ind□ F□)
-  use-Ind□ {P} {E} =  let (_ , n) = E ind□ in
+  use-Ind□ :  Ind□ P  ⊨⇛ind□  ⸨ P ⸩
+  use-Ind□ {P} E _ =  let (_ , n) = E ind□ in
     ∃ᵒ∗ᵒ-elim λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ ⸨⸩ᴺᴹ-Mono {n = n}) ›
       dup-□ᵒ (⸨⸩ᴺᴹ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (⸨⸩ᴺᴹ-Mono {n = n}) ›

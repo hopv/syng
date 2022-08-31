@@ -92,7 +92,7 @@ Inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
 infix 1 _⊨⇛indˣ_
 _⊨⇛indˣ_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 Pᵒ ⊨⇛indˣ Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-indˣ (E indˣ)  ⊨✓
-                         E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , Qᵒ ∗ᵒ Inv-indˣ Fˣ)
+                         E ⤇ᴱ λ Fˣ → updᴱᴳ indˣ Fˣ E , Qᵒ ∗ᵒ Inv-indˣ Fˣ
 
 abstract
 
@@ -124,7 +124,7 @@ Inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
 infix 1 _⊨⇛ind□_
 _⊨⇛ind□_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 Pᵒ ⊨⇛ind□ Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-ind□ (E ind□)  ⊨✓
-                         E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , Qᵒ ∗ᵒ Inv-ind□ F□)
+                         E ⤇ᴱ λ F□ → updᴱᴳ ind□ F□ E , Qᵒ ∗ᵒ Inv-ind□ F□
 
 abstract
 
@@ -171,7 +171,7 @@ updᴱ-ind (Fˣ , F□) =  updᴱᴳ indˣ Fˣ › updᴱᴳ ind□ F□
 infix 1 _⊨⇛ind_
 _⊨⇛ind_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 Pᵒ ⊨⇛ind Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-ind (env-ind E)  ⊨✓
-                        E ⤇ᴱ λ F → (updᴱ-ind F E , Qᵒ ∗ᵒ Inv-ind F)
+                        E ⤇ᴱ λ F → updᴱ-ind F E , Qᵒ ∗ᵒ Inv-ind F
 
 abstract
 

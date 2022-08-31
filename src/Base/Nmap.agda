@@ -46,21 +46,21 @@ updᴰᴺᴹ i a f j  with j ≡? i
 -- Cofin F f : F (f i) holds for every i but a finite number of exceptions
 
 Cofin :  (A → Set ł) →  (ℕ → A) →  Set ł
-Cofin F f =  ∑ n ,  ∀{i} → i ≥ n → F (f i)
+Cofin F f =  ∑ n ,  ∀ i →  i ≥ n →  F (f i)
 
 abstract
 
   -- Cofin holds if there is no exception
 
   ∀⇒Cofin :  (∀ i → F (f i)) →  Cofin F f
-  ∀⇒Cofin Ffi =  0 , λ _ → Ffi _
+  ∀⇒Cofin Ffi =  0 , λ _ _ → Ffi _
 
   -- Cofin is preserved by updᴺᴹ
 
   Cofin-updᴺᴹ :  Cofin F f →  Cofin F (updᴺᴹ i a f)
   Cofin-updᴺᴹ {i = i} (n , _) .proj₀ =  suc i ⊔ n
-  Cofin-updᴺᴹ {i = i} (n , i≥n⇒Ffi) .proj₁ {j} suci⊔n≥j
+  Cofin-updᴺᴹ {i = i} (n , i≥n⇒Ffi) .proj₁ j suci⊔n≥j
     with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  … | ff | _ =  i≥n⇒Ffi $ ⊔≤-introʳ {suc _} suci⊔n≥j
+  … | ff | _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {suc _} suci⊔n≥j
   … | tt | ⇒j≡i  rewrite ⇒j≡i _ =
     absurd $ <-irrefl $ ⊔≤-introˡ {m = n} suci⊔n≥j

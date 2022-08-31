@@ -133,11 +133,11 @@ abstract
   alloc-rec-□Ind□ :  □ᵒ Ind□ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind□  □ᵒ Ind□ P
   alloc-rec-□Ind□ {P} E _ =  let (_ , n) = E ind□ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono✓ (λ _ ✓a →
+    ⤇ᴱ-mono✓ (λ _ ✓∙ →
       ∗ᵒ-monoˡ (●-injᴳ-⌞⌟≡-□ᵒ refl › dup-□ᵒ ●-Mono › ∗ᵒ-mono (_ ,_) (_ ,_)) ›
-      ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓b → ∗ᵒ-assocʳ ›
-        ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓b › □ᵒ-∗ᵒ-in ›
-        ⸨⸩ᴺᴹ-add {P} {n = n}) ✓a) › ⤇ᴱ-param
+      ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
+        ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
+        ⸨⸩ᴺᴹ-add {P} {n = n}) ✓∙) › ⤇ᴱ-param
 
   -- Use Ind□ P to get P
 
@@ -178,7 +178,7 @@ abstract
   -- ⊨⇛indˣ into ⊨⇛ind
 
   ⊨⇛indˣ⇒⊨⇛ind :  Pᵒ ⊨⇛indˣ Qᵒ →  Pᵒ ⊨⇛ind Qᵒ
-  ⊨⇛indˣ⇒⊨⇛ind P⊨⇛indˣQ _ ✓a =  ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (P⊨⇛indˣQ _) ✓a › ⤇ᴱ-eatʳ
+  ⊨⇛indˣ⇒⊨⇛ind P⊨⇛indˣQ _ ✓∙ =  ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (P⊨⇛indˣQ _) ✓∙ › ⤇ᴱ-eatʳ
     › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ⤇ᴱ-updᴱᴳ-self-intro) › ⤇ᴱ-join › ⤇ᴱ-param
 
   -- ⊨⇛ind□ into ⊨⇛ind
@@ -191,7 +191,7 @@ abstract
   -- Monotonicity of ⊨⇛ind
 
   ⊨⇛ind-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨⇛ind Pᵒ →  Rᵒ ⊨⇛ind Qᵒ
-  ⊨⇛ind-mono P⊨Q R⊨⇛indP _ ✓a =  R⊨⇛indP _ ✓a › ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ P⊨Q
+  ⊨⇛ind-mono P⊨Q R⊨⇛indP _ ✓∙ =  R⊨⇛indP _ ✓∙ › ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ P⊨Q
 
   -- Allocate P to get Ind P
 
@@ -201,8 +201,8 @@ abstract
   -- Allocate □ P to get □ᵒ Ind P
 
   alloc-rec-□Ind :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
-  alloc-rec-□Ind {P} _ ✓a =  ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) ›
-    ⊨⇛ind-mono inj₁ (⊨⇛ind□⇒⊨⇛ind alloc-rec-□Ind□) _ ✓a
+  alloc-rec-□Ind {P} _ ✓∙ =  ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) ›
+    ⊨⇛ind-mono inj₁ (⊨⇛ind□⇒⊨⇛ind alloc-rec-□Ind□) _ ✓∙
 
   -- Consume Ind P to get P
 

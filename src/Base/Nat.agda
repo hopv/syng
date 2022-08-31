@@ -17,7 +17,7 @@ open import Base.Dec using (Dec²; yes; no; dec-Tt)
 -- ℕ :  Natural number
 
 open import Agda.Builtin.Nat public
-  using () renaming (suc to infix 10 ṡ_; Nat to ℕ)
+  using () renaming (Nat to ℕ; suc to infix 10 ṡ_)
 
 private variable
   k l m n :  ℕ

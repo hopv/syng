@@ -426,6 +426,7 @@ open import Agda.Builtin.Nat public using () renaming (_-_ to _∸_)
 --------------------------------------------------------------------------------
 -- ⊔ :  Maximum
 
+infixr 5 _⊔_
 _⊔_ :  ℕ → ℕ →  ℕ
 0 ⊔ n =  n
 m ⊔ 0 =  m

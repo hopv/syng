@@ -11,10 +11,10 @@ open import Agda.Builtin.Size public using (
   SizeUniv;
   -- Size/ordinal, in SizeUniv
   Size;
-  -- Maximum of Size, in Size → Size → Size
-  _⊔ˢ_;
   -- Inaccessible size/ordinal, in Size
   ∞) renaming (
+  -- Maximum of Size, in Size → Size → Size
+  _⊔ˢ_ to infixr 5 _⊔ˢ_;
   -- Size< ι :  Size smaller than ι, in SizeUniv
   Size<_ to Size<;
   -- Successor size, in Size → Size

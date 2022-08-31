@@ -14,7 +14,7 @@ open import Agda.Primitive public using (
   -- Successor level, in Level → Level
   lsuc to sucᴸ;
   -- Maximum level, in Level → Level → Level
-  _⊔_ to _⊔ᴸ_)
+  _⊔_ to infixl 5 _⊔ᴸ_)
 
 -- Shorthand for Level
 

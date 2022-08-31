@@ -17,7 +17,7 @@ open import Base.Nat using (ℕ; suc; _≡ᵇ_; _≡?_; _≥_; _⊔_; ᵇ⇒≡;
   ⊔≤-introˡ; ⊔≤-introʳ)
 
 private variable
-  ł ł' :  Level
+  ł :  Level
   A :  Set ł
   A˙ :  ℕ → Set ł
   F :  A → Set ł

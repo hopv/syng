@@ -18,11 +18,9 @@ open import Base.Nat using (ℕ; suc; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <�
   ≤ᵈ-refl; ≤ᵈsuc; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff)
 open import Base.Nmap using (updᴺᴹ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
-open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
-  use-ind□)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; updᴱᴳ; indˣ; ind□)
-open ERA Globᴱᴿᴬ using (Env)
+  use-ind□; Env-indˣ; Env-ind□)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊤ᵒ; _∗ᵒ_; _⤇ᴱ_; □ᵒ_;
   ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; pullʳˡᵒ;
   ∃ᵒ∗ᵒ-elim; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-mono; □ᵒ-elim; dup-□ᵒ;
@@ -34,7 +32,7 @@ private variable
   i j m n :  ℕ
   P :  Prop' ∞
   P˙ Q˙ :  ℕ → Prop' ∞
-  E :  Env
+  E :  Envᴳ
 
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
@@ -81,7 +79,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Invariant for the exclusive indirection ERA
 
-Inv-indˣ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
+Inv-indˣ :  Env-indˣ →  Propᵒ 2ᴸ
 Inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
 
 abstract
@@ -106,7 +104,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Invariant for the persistent indirection ERA
 
-Inv-ind□ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
+Inv-ind□ :  Env-ind□ →  Propᵒ 2ᴸ
 Inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
 
 abstract

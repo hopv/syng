@@ -62,9 +62,11 @@ Globᴱᴿᴬ .⌞⌟-add =
 Globᴱᴿᴬ .⌞⌟-unitˡ i =  Globᴱᴿᴬ˙ i .⌞⌟-unitˡ
 Globᴱᴿᴬ .⌞⌟-idem i =  Globᴱᴿᴬ˙ i .⌞⌟-idem
 
-open ERA Globᴱᴿᴬ using () renaming (Env to Envᴳ; Res to Resᴳ; _≈_ to _≈ᴳ_;
-  _⊑_ to _⊑ᴳ_; _✓_ to _✓ᴳ_; _∙_ to _∙ᴳ_; ε to εᴳ; ⌞_⌟ to ⌞_⌟ᴳ; _↝_ to _↝ᴳ_;
-  refl˜ to refl˜ᴳ; _◇˜_ to _◇˜ᴳ_)
+open ERA Globᴱᴿᴬ public using () renaming (Env to Envᴳ)
+
+open ERA Globᴱᴿᴬ using () renaming (Res to Resᴳ; _≈_ to _≈ᴳ_; _⊑_ to _⊑ᴳ_;
+  _✓_ to _✓ᴳ_; _∙_ to _∙ᴳ_; ε to εᴳ; ⌞_⌟ to ⌞_⌟ᴳ; _↝_ to _↝ᴳ_; refl˜ to refl˜ᴳ;
+  _◇˜_ to _◇˜ᴳ_)
 
 --------------------------------------------------------------------------------
 -- Update & inject at an index

@@ -87,6 +87,8 @@ Indˣᴱᴿᴬ .⌞⌟-unitˡ _ =  refl
 
 Indˣᴱᴿᴬ .⌞⌟-idem _ =  refl
 
+open ERA Indˣᴱᴿᴬ public using () renaming (Env to Env-indˣ)
+
 open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; _✓_ to _✓ˣ_; ε to εˣ;
   _↝_ to _↝ˣ_)
 
@@ -182,6 +184,8 @@ Ind□ᴱᴿᴬ .⌞⌟-unitˡ _ =  ⧺-idem
 
 Ind□ᴱᴿᴬ .⌞⌟-idem _ =  ≈ᴸ-refl
 
+open ERA Ind□ᴱᴿᴬ public using () renaming (Env to Env-ind□)
+
 open ERA Ind□ᴱᴿᴬ using () renaming (Res to Res□; ε to ε□; _↝_ to _↝□_)
 
 -- Persistently own a proposition at an index
@@ -215,3 +219,9 @@ abstract
   …     | _ ∷ _ | ()
   …     | [] | ()
   use-ind□ _ Q✓Rˣ∙iP .proj₁ =  Q✓Rˣ∙iP
+
+--------------------------------------------------------------------------------
+-- On both indirection ERAs
+
+Env-ind :  Set₂
+Env-ind =  Env-indˣ × Env-ind□

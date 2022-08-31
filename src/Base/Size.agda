@@ -18,4 +18,4 @@ open import Agda.Builtin.Size public using (
   -- Size< ι :  Size smaller than ι, in SizeUniv
   Size<_ to Size<;
   -- Successor size, in Size → Size
-  ↑_ to ṡˢ)
+  ↑_ to infix 10 ṡˢ_)

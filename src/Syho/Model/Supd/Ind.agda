@@ -201,8 +201,8 @@ abstract
   -- Allocate □ P to get □ᵒ Ind P
 
   alloc-rec-□Ind :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
-  alloc-rec-□Ind {P} E ✓a =  ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) ›
-    ⊨⇛ind-mono inj₁ (⊨⇛ind□⇒⊨⇛ind alloc-rec-□Ind□) E ✓a
+  alloc-rec-□Ind {P} _ ✓a =  ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) ›
+    ⊨⇛ind-mono inj₁ (⊨⇛ind□⇒⊨⇛ind alloc-rec-□Ind□) _ ✓a
 
   -- Consume Ind P to get P
 

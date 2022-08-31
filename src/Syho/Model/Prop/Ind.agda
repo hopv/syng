@@ -46,10 +46,10 @@ Ind P =  Indˣ P ⊎ᵒ Ind□ P
 abstract
 
   Indˣ-Mono :  Monoᵒ (Indˣ P)
-  Indˣ-Mono =  ∃ᵒ-Mono $ λ _ → ●-Mono
+  Indˣ-Mono =  ∃ᵒ-Mono λ _ → ●-Mono
 
   Ind□-Mono :  Monoᵒ (Ind□ P)
-  Ind□-Mono =  ∃ᵒ-Mono $ λ _ → ●-Mono
+  Ind□-Mono =  ∃ᵒ-Mono λ _ → ●-Mono
 
   Ind-Mono :  Monoᵒ (Ind P)
   Ind-Mono =  ⊎ᵒ-Mono Indˣ-Mono Ind□-Mono

@@ -99,7 +99,7 @@ abstract
   use-Indˣ :  Indˣ P ∗ᵒ Inv-indˣ (E indˣ)  ⊨
                 E ⤇ᴱ λ Fˣ → (updᴱᴳ indˣ Fˣ E , ⸨ P ⸩ ∗ᵒ Inv-indˣ Fˣ)
   use-Indˣ {E = E} =  let (_ , n) = E indˣ in
-    ∃ᵒ∗ᵒ-elim $ λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
+    ∃ᵒ∗ᵒ-elim λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
     › ⤇ᴱ-param
 
@@ -125,7 +125,7 @@ abstract
   use-Ind□ :  Ind□ P ∗ᵒ Inv-ind□ (E ind□)  ⊨
                 E ⤇ᴱ λ F□ → (updᴱᴳ ind□ F□ E , ⸨ P ⸩ ∗ᵒ Inv-ind□ F□)
   use-Ind□ {P} {E} =  let (_ , n) = E ind□ in
-    ∃ᵒ∗ᵒ-elim $ λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
+    ∃ᵒ∗ᵒ-elim λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ ⸨⸩ᴺᴹ-Mono {n = n}) ›
       dup-□ᵒ (⸨⸩ᴺᴹ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (⸨⸩ᴺᴹ-Mono {n = n}) ›
       ⸨⸩ᴺᴹ-rem-< i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) › ⤇ᴱ-param

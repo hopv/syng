@@ -226,4 +226,4 @@ abstract
     ---- This can work also for ⌜⌝₀
 
     ⌜⌝-Basic :  Basic ⌜ X ⌝₁
-    ⌜⌝-Basic =  ∃₁-Basic $ λ _ → ⊤-Basic
+    ⌜⌝-Basic =  ∃₁-Basic λ _ → ⊤-Basic

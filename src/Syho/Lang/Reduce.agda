@@ -64,7 +64,7 @@ abstract
   -- ✓ᴹ holds for empᴹ
 
   ✓ᴹ-empᴹ :  ✓ᴹ empᴹ
-  ✓ᴹ-empᴹ =  ∀⇒Cofin {F = _≡ none} $ λ _ → refl
+  ✓ᴹ-empᴹ =  ∀⇒Cofin {F = _≡ none} λ _ → refl
 
   -- ✓ᴹ is preserved by updᴺᴹ and updᴹ
 

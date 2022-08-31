@@ -12,16 +12,16 @@ open import Agda.Primitive public using (
   -- Zero level, in Level
   lzero to 0ᴸ;
   -- Successor level, in Level → Level
-  lsuc to sucᴸ;
+  lsuc to infix 10 ṡᴸ_;
   -- Maximum level, in Level → Level → Level
   _⊔_ to infixl 5 _⊔ᴸ_)
 
 -- Shorthand for Level
 
 1ᴸ 2ᴸ 3ᴸ :  Level
-1ᴸ =  sucᴸ 0ᴸ
-2ᴸ =  sucᴸ 1ᴸ
-3ᴸ =  sucᴸ 2ᴸ
+1ᴸ =  ṡᴸ 0ᴸ
+2ᴸ =  ṡᴸ 1ᴸ
+3ᴸ =  ṡᴸ 2ᴸ
 
 -- Up : Wrapper raising the level
 

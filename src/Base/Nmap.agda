@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁)
 open import Base.Bool using (tt; ff)
-open import Base.Nat using (ℕ; suc; _≡ᵇ_; _≡?_; _≥_; _⊔_; ᵇ⇒≡; <-irrefl;
+open import Base.Nat using (ℕ; ṡ_; _≡ᵇ_; _≡?_; _≥_; _⊔_; ᵇ⇒≡; <-irrefl;
   ⊔≤-introˡ; ⊔≤-introʳ)
 
 private variable
@@ -58,9 +58,9 @@ abstract
   -- Cofin is preserved by updᴺᴹ
 
   Cofin-updᴺᴹ :  Cofin F f →  Cofin F (updᴺᴹ i a f)
-  Cofin-updᴺᴹ {i = i} (n , _) .proj₀ =  suc i ⊔ n
-  Cofin-updᴺᴹ {i = i} (n , i≥n⇒Ffi) .proj₁ j suci⊔n≥j
+  Cofin-updᴺᴹ {i = i} (n , _) .proj₀ =  ṡ i ⊔ n
+  Cofin-updᴺᴹ {i = i} (n , i≥n⇒Ffi) .proj₁ j ṡi⊔n≥j
     with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  … | ff | _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {suc _} suci⊔n≥j
+  … | ff | _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
   … | tt | ⇒j≡i  rewrite ⇒j≡i _ =
-    absurd $ <-irrefl $ ⊔≤-introˡ {m = n} suci⊔n≥j
+    absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j

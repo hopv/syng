@@ -11,14 +11,14 @@ open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
-open import Base.Nat using (ℕ; suc)
+open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; pullʳˡ)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-suc; _ᵘ»ᵘ_; ⇛-frameˡ;
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»ᵘ_; ⇛-frameˡ;
   ⇛-frameʳ)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-suc; _ʰ»ᵘ_;
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-ṡ; _ʰ»ᵘ_;
   _ᵘ»ʰ_; hor-frameˡ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
@@ -87,8 +87,8 @@ abstract
   ↪⇛ᵒ-Mono :  Monoᵒ (P ↪[ i ]⇛ᵒ Q)
   ↪⇛ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
-  ↪⇛ᵒ-suc :  P ↪[ i ]⇛ᵒ Q  ⊨  P ↪[ suc i ]⇛ᵒ Q
-  ↪⇛ᵒ-suc (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =  -, -ᴵ, -, ⇛-suc P∗R∗S⊢⇛Q , R∗IndSa
+  ↪⇛ᵒ-ṡ :  P ↪[ i ]⇛ᵒ Q  ⊨  P ↪[ ṡ i ]⇛ᵒ Q
+  ↪⇛ᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =  -, -ᴵ, -, ⇛-ṡ P∗R∗S⊢⇛Q , R∗IndSa
 
   ↪⇛ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
     R ∗ P' ⊢[ ∞ ][ i ]⇛ P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᵒ Q)  ⊨  P' ↪[ i ]⇛ᵒ Q
@@ -171,9 +171,9 @@ abstract
   ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)
   ↪⟨⟩ᵀᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
-  ↪⟨⟩ᵀᵒ-suc :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ suc i ]ᵒ Qᵛ
-  ↪⟨⟩ᵀᵒ-suc (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, horᵀ-suc P∗R∗S⊢⟨e⟩Q , R∗IndSa
+  ↪⟨⟩ᵀᵒ-ṡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ ṡ i ]ᵒ Qᵛ
+  ↪⟨⟩ᵀᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, horᵀ-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
   ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ

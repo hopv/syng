@@ -6,7 +6,7 @@
 
 module Syho.Model.ERA.Base where
 
-open import Base.Level using (Level; _⊔ᴸ_; sucᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_)
 open import Base.Func using (_$_; id; _▷_; flip; _∘_)
 open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl)
@@ -15,7 +15,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 --------------------------------------------------------------------------------
 -- Environmental resource algebra
 
-record  ERA łᴱ łᴿ ł≈ ł✓ : Set (sucᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł✓))  where
+record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł✓))  where
   ------------------------------------------------------------------------------
   -- Fields
   infix 4 _≈_

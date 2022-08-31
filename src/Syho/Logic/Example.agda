@@ -11,7 +11,7 @@ open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (-,_)
-open import Base.Nat using (ℕ; suc)
+open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Addr; λᵛ-syntax; val; AnyVal)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝₀-intro; ∗-elimˡ; ∗⊤-intro;
@@ -61,7 +61,7 @@ abstract
   decrloop-exec =  ∗⊤-intro » hor-🞰 $ hor-◁ $ ∗-elimˡ » decrloop'-exec
 
   decrloop'-exec {n = 0} =  hor-val ⊢-refl
-  decrloop'-exec {n = suc n} =
+  decrloop'-exec {n = ṡ n} =
     ∗⊤-intro » hor-← $ hor-⁏ $ ∗-elimˡ » horᵀ-▶ decrloop-exec
 
   -- nddecrloop terminates, setting the value at θ to 0

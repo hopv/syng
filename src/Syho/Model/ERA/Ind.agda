@@ -14,7 +14,7 @@ open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Prod using (_×_; proj₀; proj₁; _,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (ff; tt)
-open import Base.Nat using (ℕ; suc; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
+open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
   ᵇ⇒≡; ≡ᵇ-refl)
 open import Base.Nmap using (updᴺᴹ)
 open import Base.List using (List; _∷_; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
@@ -102,7 +102,7 @@ abstract
   -- Add a new proposition and get a line
 
   alloc-indˣ :
-    ((Q˙ , n) , εˣ) ↝ˣ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , suc n) , line-indˣ n P
+    ((Q˙ , n) , εˣ) ↝ˣ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , ṡ n) , line-indˣ n P
   alloc-indˣ _ _ .proj₀ =  _
   alloc-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .proj₁ j  with Q✓Rˣ∙ε j
   … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
@@ -198,7 +198,7 @@ abstract
   -- Add a new proposition and get a line
 
   alloc-ind□ :
-    ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , suc n) , line-ind□ n P
+    ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , ṡ n) , line-ind□ n P
   alloc-ind□ _ _ .proj₀ =  _
   alloc-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
   … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}

@@ -11,12 +11,11 @@ open import Base.Few using (¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
 open import Base.Bool using (Bool; tt; ff; Tt)
-open import Base.Nat using (ℕ; suc; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; _<≡>_; _≤>_;
-  _+_; _*_; suc≤suc; suc<suc; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans;
-  <-asym; <⇒≤; ≤-<-trans; <-≤-trans; ≤⇒¬>; suc≤suc⁻¹; suc<suc⁻¹; suc-sincr; ᵇ⇒≡;
-  ≡⇒ᵇ; ≡ᵇ-refl; ᵇ⇒≤; ≤⇒ᵇ; ≤ᵇ-refl; ᵇ⇒<; <⇒ᵇ; <ᵇ-irrefl; +-comm; +-assocˡ;
-  +-injˡ; +-0; +-incrˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ;
-  *-smonoˡ)
+open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; _<≡>_; _≤>_;
+  _+_; _*_; ṡ≤ṡ; ṡ<ṡ; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym;
+  <⇒≤; ≤-<-trans; <-≤-trans; ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; ᵇ⇒≡; ≡⇒ᵇ; ≡ᵇ-refl;
+  ᵇ⇒≤; ≤⇒ᵇ; ≤ᵇ-refl; ᵇ⇒<; <⇒ᵇ; <ᵇ-irrefl; +-comm; +-assocˡ; +-injˡ; +-0;
+  +-incrˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ; *-smonoˡ)
 
 --------------------------------------------------------------------------------
 -- ℕ⁺ :  Positive natural number
@@ -42,7 +41,7 @@ private variable
 -- ℕ⁺⇒ℕ :  Back to ℕ
 
 ℕ⁺⇒ℕ :  ℕ⁺ →  ℕ
-ℕ⁺⇒ℕ (1+ n⁰) =  suc n⁰
+ℕ⁺⇒ℕ (1+ n⁰) =  ṡ n⁰
 
 abstract
 
@@ -187,20 +186,20 @@ abstract
 
 infixl 6 _+⁺_
 _+⁺_ :  ℕ⁺ → ℕ⁺ → ℕ⁺
-1+ m⁰ +⁺ 1+ n⁰ =  1+ $ m⁰ + (suc n⁰)
--- Defined so because "suc m⁰ + suc n⁰" reduces to "suc (m⁰ + (suc n⁰))"
+1+ m⁰ +⁺ 1+ n⁰ =  1+ $ m⁰ + (ṡ n⁰)
+-- Defined so because "ṡ m⁰ + ṡ n⁰" reduces to "ṡ (m⁰ + (ṡ n⁰))"
 
 abstract
 
   -- +⁺ is commutative
 
   +⁺-comm :  m +⁺ n ≡ n +⁺ m
-  +⁺-comm {1+ m⁰} =  ℕ⁺⇒ℕ-inj $ +-comm {suc m⁰}
+  +⁺-comm {1+ m⁰} =  ℕ⁺⇒ℕ-inj $ +-comm {ṡ m⁰}
 
   -- +⁺ is associative
 
   +⁺-assocˡ :  (l +⁺ m) +⁺ n ≡ l +⁺ (m +⁺ n)
-  +⁺-assocˡ {1+ l⁰} =  ℕ⁺⇒ℕ-inj $ +-assocˡ {suc l⁰}
+  +⁺-assocˡ {1+ l⁰} =  ℕ⁺⇒ℕ-inj $ +-assocˡ {ṡ l⁰}
 
   +⁺-assocʳ :  l +⁺ (m +⁺ n) ≡ (l +⁺ m) +⁺ n
   +⁺-assocʳ =  ◠ +⁺-assocˡ
@@ -216,7 +215,7 @@ abstract
   -- +⁺ strictly increases
 
   +⁺-sincrˡ :  ∀{m n} →  n <⁺ m +⁺ n
-  +⁺-sincrˡ =  ≤-<-trans +-incrˡ (+-smonoʳ suc-sincr)
+  +⁺-sincrˡ =  ≤-<-trans +-incrˡ (+-smonoʳ ṡ-sincr)
 
   +⁺-sincrʳ :  m <⁺ m +⁺ n
   +⁺-sincrʳ {m} =  subst (m <⁺_) +⁺-comm +⁺-sincrˡ
@@ -226,20 +225,20 @@ abstract
 
 infixl 7 _*⁺_
 _*⁺_ :  ℕ⁺ → ℕ⁺ → ℕ⁺
-1+ m⁰ *⁺ 1+ n⁰ =  1+ $ n⁰ + m⁰ * (suc n⁰)
--- Defined so because "suc m⁰ * suc n⁰" reduces to "suc (n⁰ + m⁰ * (suc n⁰))"
+1+ m⁰ *⁺ 1+ n⁰ =  1+ $ n⁰ + m⁰ * (ṡ n⁰)
+-- Defined so because "ṡ m⁰ * ṡ n⁰" reduces to "ṡ (n⁰ + m⁰ * (ṡ n⁰))"
 
 abstract
 
   -- *⁺ is commutative
 
   *⁺-comm :  m *⁺ n ≡ n *⁺ m
-  *⁺-comm {1+ m⁰} =  ℕ⁺⇒ℕ-inj $ *-comm {suc m⁰}
+  *⁺-comm {1+ m⁰} =  ℕ⁺⇒ℕ-inj $ *-comm {ṡ m⁰}
 
   -- *⁺ is associative
 
   *⁺-assocˡ :  (l *⁺ m) *⁺ n ≡ l *⁺ (m *⁺ n)
-  *⁺-assocˡ {1+ l⁰} {1+ m⁰} =  ℕ⁺⇒ℕ-inj $ *-assocˡ {suc l⁰} {suc m⁰}
+  *⁺-assocˡ {1+ l⁰} {1+ m⁰} =  ℕ⁺⇒ℕ-inj $ *-assocˡ {ṡ l⁰} {ṡ m⁰}
 
   *⁺-assocʳ :  l *⁺ (m *⁺ n) ≡ (l *⁺ m) *⁺ n
   *⁺-assocʳ {l} {m} =  ◠ *⁺-assocˡ {l} {m}
@@ -265,7 +264,7 @@ abstract
   -- *⁺ is distributive over +⁺
 
   *⁺-+⁺-distrˡ :  (l +⁺ m) *⁺ n ≡ l *⁺ n +⁺ m *⁺ n
-  *⁺-+⁺-distrˡ {1+ l⁰} =  ℕ⁺⇒ℕ-inj $ *-+-distrˡ {suc l⁰}
+  *⁺-+⁺-distrˡ {1+ l⁰} =  ℕ⁺⇒ℕ-inj $ *-+-distrˡ {ṡ l⁰}
 
   *⁺-+⁺-distrʳ :  l *⁺ (m +⁺ n) ≡ l *⁺ m +⁺ l *⁺ n
   *⁺-+⁺-distrʳ {l} {m} {n} =  *⁺-comm {l} ◇ *⁺-+⁺-distrˡ {m} ◇
@@ -283,7 +282,7 @@ abstract
 
   *⁺-monoˡ :  l ≤⁺ m →  l *⁺ n ≤⁺ m *⁺ n
   *⁺-monoˡ {1+ l⁰} {1+ m⁰} {1+ n⁰} l⁰≤m⁰ =
-    suc≤suc⁻¹ $ *-monoˡ {suc l⁰} {suc m⁰} {suc n⁰} $ suc≤suc l⁰≤m⁰
+    ṡ≤ṡ⁻¹ $ *-monoˡ {ṡ l⁰} {ṡ m⁰} {ṡ n⁰} $ ṡ≤ṡ l⁰≤m⁰
 
   *⁺-monoʳ :  ∀{l m n} →  m ≤⁺ n →  l *⁺ m ≤⁺ l *⁺ n
   *⁺-monoʳ {l} {m} {n} m≤n =  subst₂ _≤⁺_ (*⁺-comm {m} {l}) (*⁺-comm {n} {l})
@@ -296,7 +295,7 @@ abstract
 
   *⁺-smonoˡ :  l <⁺ m →  l *⁺ n <⁺ m *⁺ n
   *⁺-smonoˡ {1+ l⁰} {1+ m⁰} {1+ n⁰} l⁰<m⁰ =
-    suc<suc⁻¹ $ *-smonoˡ {suc l⁰} {suc m⁰} {n⁰} $ suc<suc l⁰<m⁰
+    ṡ<ṡ⁻¹ $ *-smonoˡ {ṡ l⁰} {ṡ m⁰} {n⁰} $ ṡ<ṡ l⁰<m⁰
 
   *⁺-smonoʳ :  ∀{l m n} →  m <⁺ n →  l *⁺ m <⁺ l *⁺ n
   *⁺-smonoʳ {l} {m} {n} m<n =  subst₂ _<⁺_ (*⁺-comm {m} {l}) (*⁺-comm {n} {l})

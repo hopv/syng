@@ -11,7 +11,7 @@ open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁; -,_)
-open import Base.Nat using (ℕ; suc; _≡?_; ≡?-refl)
+open import Base.Nat using (ℕ; ṡ_; _≡?_; ≡?-refl)
 open import Base.Nmap using (updᴰᴺᴹ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
@@ -28,7 +28,7 @@ open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇
 
 pattern indˣ =  0
 pattern ind□ =  1
-pattern elseᴳ =  suc (suc _)
+pattern elseᴳ =  ṡ ṡ _
 
 -- Map of ERAs
 

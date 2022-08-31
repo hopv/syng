@@ -15,7 +15,7 @@ open import Base.Eq using (_≡_)
 open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (inj₀; inj₁)
-open import Base.Nat using (ℕ; suc)
+open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List)
 open import Base.List.Nat using (rep; len)
 open import Base.RatPos using (ℚ⁺)
@@ -263,7 +263,7 @@ data  _⊢[_]*_  where
 
   -- Increment the counter of ⇛ by 1
 
-  ⇛-suc :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ suc i ]⇛ Q
+  ⇛-ṡ :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ ṡ i ]⇛ Q
 
   -- ⊢⇛ is reflexive, with removal of ⤇
 
@@ -308,7 +308,7 @@ data  _⊢[_]*_  where
 
   -- Modify ⇛ proof
 
-  ↪⇛-suc :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]⇛ Q˂
+  ↪⇛-ṡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ ṡ i ]⇛ Q˂
 
   ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .! →
                 R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
@@ -329,7 +329,7 @@ data  _⊢[_]*_  where
   ---- Without that counter increment, we could do any super update
   ---- (⇛/↪⇛-use' in Syho.Logic.Paradox)
 
-  ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ suc i ]⇛  Q˂ .!
+  ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᴾ
@@ -364,7 +364,7 @@ data  _⊢[_]*_  where
 
   -- Modify ⟨ ⟩ᵀ proof
 
-  ↪⟨⟩ᵀ-suc :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
+  ↪⟨⟩ᵀ-ṡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂ᵛ
 
   ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ι ][ j ]⇛ P˂ .!) →
                   R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
@@ -388,7 +388,7 @@ data  _⊢[_]*_  where
   ---- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
 
   ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)
-                ⊢[ ι ]⟨ e ⟩ᵀ[ suc i ]  λ v → Q˂ᵛ v .!
+                ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ]  λ v → Q˂ᵛ v .!
 
   ------------------------------------------------------------------------------
   -- On Hoare triple
@@ -399,7 +399,7 @@ data  _⊢[_]*_  where
 
   -- Counter increment on total Hoare triple
 
-  horᵀ-suc :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Qᵛ  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ suc i ]  Qᵛ
+  horᵀ-ṡ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Qᵛ  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Qᵛ
 
   -- Compose with a super update
 

@@ -10,7 +10,7 @@ open import Base.Level using (Level; ↓_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Func using (_∘_; id; const; _$_)
-open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈsuc; _≤_; ≤⇒≤ᵈ)
+open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∗_; _-∗_; □_; ○_;
   _↪[_]⇛_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
@@ -20,9 +20,9 @@ open import Syho.Logic.Supd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; ⊢
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (○-mono; ○-eatˡ; ○-alloc; □○-alloc-rec;
-  ○-use; ↪⇛-suc; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ; ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛; ↪⇛-use;
+  ○-use; ↪⇛-ṡ; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ; ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛; ↪⇛-use;
   ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾ-eatˡ⁻ʳ; ↪⟨⟩ᴾ-monoʳᵘ; ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᴾ-use;
-  ↪⟨⟩ᵀ-suc; ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀ-eatˡ⁻ʳ; ↪⟨⟩ᵀ-monoʳᵘ; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ;
+  ↪⟨⟩ᵀ-ṡ; ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀ-eatˡ⁻ʳ; ↪⟨⟩ᵀ-monoʳᵘ; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ;
   ↪⟨⟩ᵀ-use)
 
 private variable
@@ -71,15 +71,15 @@ abstract
   -->  ○⇒↪⇛ :  R˂ .! ∗ P˂ .! ⊢[< ι ][ i ]⇛ Q˂ .! →
   -->          ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
 
-  -->  ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ suc i ]⇛  Q˂ .!
+  -->  ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!
 
   -- Modify ⇛ proof
 
-  -->  ↪⇛-suc :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ suc i ]⇛ Q˂
+  -->  ↪⇛-ṡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ ṡ i ]⇛ Q˂
 
   ↪⇛-≤ᵈ :  i ≤ᵈ j →  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ j ]⇛ Q˂
   ↪⇛-≤ᵈ ≤ᵈ-refl =  ⊢-refl
-  ↪⇛-≤ᵈ (≤ᵈsuc i≤ᵈj') =  ↪⇛-≤ᵈ i≤ᵈj' » ↪⇛-suc
+  ↪⇛-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ↪⇛-≤ᵈ i≤ᵈj' » ↪⇛-ṡ
 
   ↪⇛-≤ :  i ≤ j →  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ j ]⇛ Q˂
   ↪⇛-≤ =  ↪⇛-≤ᵈ ∘ ≤⇒≤ᵈ
@@ -165,15 +165,15 @@ abstract
   -->            ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
 
   -->  ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)
-  -->                ⊢[ ι ]⟨ ¡ e ⟩ᵀ[ suc i ]  λ v → Q˂ᵛ v .!
+  -->                ⊢[ ι ]⟨ ¡ e ⟩ᵀ[ ṡ i ]  λ v → Q˂ᵛ v .!
 
   -- Modify ⟨ ⟩ᵀ proof
 
-  -->  ↪⟨⟩ᵀ-suc :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ suc i ] Q˂ᵛ
+  -->  ↪⟨⟩ᵀ-ṡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂ᵛ
 
   ↪⟨⟩ᵀ-≤ᵈ :  i ≤ᵈ j →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂ᵛ
   ↪⟨⟩ᵀ-≤ᵈ ≤ᵈ-refl =  ⊢-refl
-  ↪⟨⟩ᵀ-≤ᵈ (≤ᵈsuc i≤ᵈj') =  ↪⟨⟩ᵀ-≤ᵈ i≤ᵈj' » ↪⟨⟩ᵀ-suc
+  ↪⟨⟩ᵀ-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ↪⟨⟩ᵀ-≤ᵈ i≤ᵈj' » ↪⟨⟩ᵀ-ṡ
 
   ↪⟨⟩ᵀ-≤ :  i ≤ j →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂ᵛ
   ↪⟨⟩ᵀ-≤ =  ↪⟨⟩ᵀ-≤ᵈ ∘ ≤⇒≤ᵈ

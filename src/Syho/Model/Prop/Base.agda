@@ -7,7 +7,7 @@
 module Syho.Model.Prop.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; sucᴸ)
-open import Base.Func using (_$_; _›_; _∘_; flip; const)
+open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀)
 open import Base.Eq using (_≡_)
 open import Base.Dec using (yes; no)
@@ -296,6 +296,9 @@ abstract
   -∗ᵒ-elim :  Monoᵒ Rᵒ →  Qᵒ ⊨✓ Pᵒ -∗ᵒ Rᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ
   -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, -, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $ Q⊨✓P-∗R
     (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) E✓a) Qc _ _ _ ⊑-refl (✓-mono b∙c⊑a E✓a) Pb
+
+  -∗ᵒ-apply :  Monoᵒ Qᵒ →  Pᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨✓ Qᵒ
+  -∗ᵒ-apply MonoQ =  -∗ᵒ-elim MonoQ λ _ → id
 
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Update modality

@@ -404,8 +404,7 @@ abstract
   *-smonoˡ ṡl≤m =  ≤-trans (ṡ≤ṡ +-incrˡ) (*-monoˡ ṡl≤m)
 
   *-smonoʳ :  ∀{l m n} →  m < n →  ṡ l * m < ṡ l * n
-  *-smonoʳ {l} {m} {n}  rewrite *-comm {ṡ l} {m} | *-comm {ṡ l} {n}
-    =  *-smonoˡ
+  *-smonoʳ {l} {m} {n}  rewrite *-comm {ṡ l} {m} | *-comm {ṡ l} {n} =  *-smonoˡ
 
   -- * with a positive argument is injective
 

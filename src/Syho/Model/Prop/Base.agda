@@ -201,6 +201,9 @@ abstract
   ∗ᵒ-mono✓ˡ P⊨✓Q E✓a (-, -, b∙c⊑a , Pb , Rc) =
     -, -, b∙c⊑a , P⊨✓Q (✓-mono (⊑-trans ∙-incrʳ b∙c⊑a) E✓a) Pb , Rc
 
+  ∗ᵒ-mono✓ʳ :  Pᵒ ⊨✓ Qᵒ →  Rᵒ ∗ᵒ Pᵒ ⊨✓ Rᵒ ∗ᵒ Qᵒ
+  ∗ᵒ-mono✓ʳ P⊨✓Q E✓a =  ∗ᵒ-comm › ∗ᵒ-mono✓ˡ P⊨✓Q E✓a › ∗ᵒ-comm
+
   ∗ᵒ-monoˡ :  Pᵒ ⊨ Qᵒ →  Pᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Rᵒ
   ∗ᵒ-monoˡ P⊨Q (-, -, b∙c⊑a , Pb , Rc) =  -, -, b∙c⊑a , P⊨Q Pb , Rc
 

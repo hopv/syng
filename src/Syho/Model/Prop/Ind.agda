@@ -24,8 +24,8 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
-  ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ●_; ∃ᵒ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono; ∗ᵒ-assocʳ;
-  ●-Mono)
+  ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ●_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono;
+  ∗ᵒ-assocʳ; ●-Mono)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -65,8 +65,7 @@ infix 8 ○ᵒ_
 abstract
 
   ○ᵒ-Mono :  Monoᵒ (○ᵒ P)
-  ○ᵒ-Mono a⊑b (-, -ᴵ, -, Q∗R⊢P , Q∗IndRa) =
-    -, -ᴵ, -, Q∗R⊢P , ∗ᵒ-Mono a⊑b Q∗IndRa
+  ○ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   ○ᵒ-mono :  P ⊢[ ∞ ] Q →  ○ᵒ P ⊨ ○ᵒ Q
   ○ᵒ-mono P⊢Q (-, -ᴵ, -, R∗S⊢P , R∗IndSa) =
@@ -87,8 +86,7 @@ P ↪[ i ]⇛ᵒ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P ∗ R
 abstract
 
   ↪⇛ᵒ-Mono :  Monoᵒ (P ↪[ i ]⇛ᵒ Q)
-  ↪⇛ᵒ-Mono a⊑b (-, -ᴵ, -, P∗R∗S⊢Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢Q , ∗ᵒ-Mono a⊑b R∗IndSa
+  ↪⇛ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   ↪⇛ᵒ-suc :  P ↪[ i ]⇛ᵒ Q  ⊨  P ↪[ suc i ]⇛ᵒ Q
   ↪⇛ᵒ-suc (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
@@ -132,8 +130,7 @@ P ↪⟨ e ⟩ᴾᵒ Qᵛ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ 
 abstract
 
   ↪⟨⟩ᴾᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)
-  ↪⟨⟩ᴾᵒ-Mono a⊑b (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , ∗ᵒ-Mono a⊑b R∗IndSa
+  ↪⟨⟩ᴾᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
@@ -174,8 +171,7 @@ P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
 abstract
 
   ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)
-  ↪⟨⟩ᵀᵒ-Mono a⊑b (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , ∗ᵒ-Mono a⊑b R∗IndSa
+  ↪⟨⟩ᵀᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   ↪⟨⟩ᵀᵒ-suc :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ suc i ]ᵒ Qᵛ
   ↪⟨⟩ᵀᵒ-suc (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =

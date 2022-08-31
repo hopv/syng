@@ -248,6 +248,10 @@ abstract
   ∃ᵒ∗ᵒ-elim Px∗Q⊨R (-, -, b∙c⊑a , (-, Pxb) , Qc) =
     Px∗Q⊨R _ (-, -, b∙c⊑a , Pxb , Qc)
 
+  ∃ᵒ∗ᵒ-elim✓ :  (∀ x → Pᵒ˙ x ∗ᵒ Qᵒ ⊨✓ Rᵒ) →  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨✓ Rᵒ
+  ∃ᵒ∗ᵒ-elim✓ Px∗Q⊨✓R ✓a (-, -, b∙c⊑a , (-, Pxb) , Qc) =
+    Px∗Q⊨✓R _ ✓a (-, -, b∙c⊑a , Pxb , Qc)
+
   -- Eliminate ⊎ᵒ under ∗ᵒ
 
   ⊎ᵒ∗ᵒ-elim :  Pᵒ ∗ᵒ Rᵒ ⊨ Sᵒ →  Qᵒ ∗ᵒ Rᵒ ⊨ Sᵒ →  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Sᵒ
@@ -255,6 +259,12 @@ abstract
     P∗R⊨S (-, -, b∙c⊑a , Pb , Rc)
   ⊎ᵒ∗ᵒ-elim _ Q∗R⊨S (-, -, b∙c⊑a , inj₁ Qb , Rc) =
     Q∗R⊨S (-, -, b∙c⊑a , Qb , Rc)
+
+  ⊎ᵒ∗ᵒ-elim✓ :  Pᵒ ∗ᵒ Rᵒ ⊨✓ Sᵒ →  Qᵒ ∗ᵒ Rᵒ ⊨✓ Sᵒ →  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨✓ Sᵒ
+  ⊎ᵒ∗ᵒ-elim✓ P∗R⊨✓S _ ✓a (-, -, b∙c⊑a , inj₀ Pb , Rc) =
+    P∗R⊨✓S ✓a (-, -, b∙c⊑a , Pb , Rc)
+  ⊎ᵒ∗ᵒ-elim✓ _ Q∗R⊨✓S ✓a (-, -, b∙c⊑a , inj₁ Qb , Rc) =
+    Q∗R⊨✓S ✓a (-, -, b∙c⊑a , Qb , Rc)
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand

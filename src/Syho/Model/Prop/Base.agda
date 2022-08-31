@@ -283,9 +283,15 @@ abstract
 
   -- Monotonicity of -∗ᵒ
 
-  -∗ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ -∗ᵒ Qᵒ) ⊨ (P'ᵒ -∗ᵒ Q'ᵒ)
-  -∗ᵒ-mono P⊨P Q⊨Q' P-∗Qa _ _ _ a⊑b E✓c∙b P'c =
-    Q⊨Q' $ P-∗Qa _ _ _ a⊑b E✓c∙b $ P⊨P P'c
+  -∗ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  Pᵒ -∗ᵒ Qᵒ ⊨ P'ᵒ -∗ᵒ Q'ᵒ
+  -∗ᵒ-mono P'⊨P Q⊨Q' P-∗Qa _ _ _ a⊑b E✓c∙b P'c =
+    Q⊨Q' $ P-∗Qa _ _ _ a⊑b E✓c∙b $ P'⊨P P'c
+
+  -∗ᵒ-monoˡ :  P'ᵒ ⊨ Pᵒ →  Pᵒ -∗ᵒ Qᵒ ⊨ P'ᵒ -∗ᵒ Qᵒ
+  -∗ᵒ-monoˡ {Qᵒ = Qᵒ} P'⊨P =  -∗ᵒ-mono {Qᵒ = Qᵒ} P'⊨P id
+
+  -∗ᵒ-monoʳ :  Qᵒ ⊨ Q'ᵒ →  Pᵒ -∗ᵒ Qᵒ ⊨ Pᵒ -∗ᵒ Q'ᵒ
+  -∗ᵒ-monoʳ =  -∗ᵒ-mono id
 
   -- Introduce/eliminate -∗ᵒ
 

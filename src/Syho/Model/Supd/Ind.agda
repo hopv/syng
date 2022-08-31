@@ -25,8 +25,8 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ⊤�
   _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ;
   ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro;
   ∃ᵒ∗ᵒ-elim; ⊎ᵒ∗ᵒ-elim✓; -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param;
-  ⤇ᴱ-join; ⤇ᴱ-eatʳ; ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-mono; □ᵒ-elim; dup-□ᵒ;
-  □ᵒ-∗ᵒ-in; ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
+  ⤇ᴱ-join; ⤇ᴱ-eatʳ; ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in;
+  ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono)
 
@@ -137,7 +137,7 @@ abstract
       ∗ᵒ-monoˡ (●-injᴳ-⌞⌟≡-□ᵒ refl › dup-□ᵒ ●-Mono › ∗ᵒ-mono (_ ,_) (_ ,_)) ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓b → ∗ᵒ-assocʳ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓b › □ᵒ-∗ᵒ-in ›
-        □ᵒ-mono {Pᵒ = _ ∗ᵒ _} $ ⸨⸩ᴺᴹ-add {P} {n = n}) ✓a) › ⤇ᴱ-param
+        ⸨⸩ᴺᴹ-add {P} {n = n}) ✓a) › ⤇ᴱ-param
 
   -- Use Ind□ P to get P
 
@@ -201,8 +201,7 @@ abstract
   -- Allocate □ P to get □ᵒ Ind P
 
   alloc-rec-□Ind :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
-  alloc-rec-□Ind {P} E ✓a =
-    ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} $ □ᵒ-mono {Qᵒ = Ind P} inj₁) ›
+  alloc-rec-□Ind {P} E ✓a =  ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) ›
     ⊨⇛ind-mono inj₁ (⊨⇛ind□⇒⊨⇛ind alloc-rec-□Ind□) E ✓a
 
   -- Consume Ind P to get P

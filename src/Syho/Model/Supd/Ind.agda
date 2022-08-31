@@ -178,8 +178,8 @@ abstract
   -- ⊨⇛indˣ into ⊨⇛ind
 
   ⊨⇛indˣ⇒⊨⇛ind :  Pᵒ ⊨⇛indˣ Qᵒ →  Pᵒ ⊨⇛ind Qᵒ
-  ⊨⇛indˣ⇒⊨⇛ind P⊨⇛indˣQ _ ✓a =  ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (P⊨⇛indˣQ _) ✓a › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ⤇ᴱ-updᴱᴳ-self-intro) › ⤇ᴱ-join › ⤇ᴱ-param
+  ⊨⇛indˣ⇒⊨⇛ind P⊨⇛indˣQ _ ✓a =  ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (P⊨⇛indˣQ _) ✓a › ⤇ᴱ-eatʳ
+    › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ⤇ᴱ-updᴱᴳ-self-intro) › ⤇ᴱ-join › ⤇ᴱ-param
 
   -- ⊨⇛ind□ into ⊨⇛ind
 

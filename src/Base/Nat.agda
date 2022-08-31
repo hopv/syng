@@ -11,8 +11,7 @@ open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
 open import Base.Bool using (Bool; tt; ff; Tt; Tt⇒≡tt; ¬Tt⇒≡ff)
-open import Base.Dec using (Dec²; yes; no)
-open import Base.Dec.Construct using (dec-Tt)
+open import Base.Dec using (Dec²; yes; no; dec-Tt)
 
 --------------------------------------------------------------------------------
 -- ℕ :  Natural number

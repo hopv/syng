@@ -19,13 +19,14 @@ open import Base.Nat using (ℕ; suc; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <�
 open import Base.Nmap using (updᴺᴹ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
-  use-ind□; Env-indˣ; Env-ind□)
+  use-ind□; Env-indˣ; Env-ind□; Env-ind)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ⊤ᵒ; _∗ᵒ_; _⤇ᴱ_;
-  □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro;
-  pullʳˡᵒ; ∃ᵒ∗ᵒ-elim; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-mono; □ᵒ-elim;
-  dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
-open import Syho.Model.Prop.Ind using (Indˣ; Ind□)
+  □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-comm; ∗ᵒ-assocˡ;
+  ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∃ᵒ∗ᵒ-elim; ⊎ᵒ∗ᵒ-elim✓;
+  ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatʳ; ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono;
+  □ᵒ-mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
+open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono)
 
 private variable
@@ -33,7 +34,7 @@ private variable
   i j m n :  ℕ
   P :  Prop' ∞
   P˙ Q˙ :  ℕ → Prop' ∞
-  E :  Envᴳ
+  Pᵒ Qᵒ Rᵒ :  Propᵒ ł
 
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
@@ -142,3 +143,63 @@ abstract
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ ⸨⸩ᴺᴹ-Mono {n = n}) ›
       dup-□ᵒ (⸨⸩ᴺᴹ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (⸨⸩ᴺᴹ-Mono {n = n}) ›
       ⸨⸩ᴺᴹ-rem-< i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) › ⤇ᴱ-param
+
+--------------------------------------------------------------------------------
+-- On Indˣᴱᴿᴬ and Ind□ᴱᴿᴬ
+
+-- Invariant for Indˣᴱᴿᴬ and Ind□ᴱᴿᴬ
+
+Inv-ind :  Env-ind →  Propᵒ 2ᴸ
+Inv-ind (Eˣ , E□) =  Inv-indˣ Eˣ ∗ᵒ Inv-ind□ E□
+
+-- Get Env-ind out of Envᴳ
+
+env-ind :  Envᴳ →  Env-ind
+env-ind E =  E indˣ , E ind□
+
+-- Update Envᴳ with Env-ind
+
+updᴱ-ind :  Env-ind →  Envᴳ →  Envᴳ
+updᴱ-ind (Fˣ , F□) =  updᴱᴳ indˣ Fˣ › updᴱᴳ ind□ F□
+
+-- Super update for Indˣᴱᴿᴬ and Ind□ᴱᴿᴬ
+
+infix 1 _⊨⇛ind_
+_⊨⇛ind_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+Pᵒ ⊨⇛ind Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-ind (env-ind E)  ⊨✓
+                        E ⤇ᴱ λ F → (updᴱ-ind F E , Qᵒ ∗ᵒ Inv-ind F)
+
+abstract
+
+  -- ⊨⇛indˣ into ⊨⇛ind
+
+  ⊨⇛indˣ⇒⊨⇛ind :  Pᵒ ⊨⇛indˣ Qᵒ →  Pᵒ ⊨⇛ind Qᵒ
+  ⊨⇛indˣ⇒⊨⇛ind P⊨⇛indˣQ _ ✓ =  ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (P⊨⇛indˣQ _) ✓ › ⤇ᴱ-eatʳ ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ⤇ᴱ-updᴱᴳ-self-intro) › ⤇ᴱ-join › ⤇ᴱ-param
+
+  -- ⊨⇛ind□ into ⊨⇛ind
+
+  ⊨⇛ind□⇒⊨⇛ind :  Pᵒ ⊨⇛ind□ Qᵒ →  Pᵒ ⊨⇛ind Qᵒ
+  ⊨⇛ind□⇒⊨⇛ind P⊨⇛ind□Q _ _ =  ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
+    ∗ᵒ-monoˡ (⤇ᴱ-updᴱᴳ-self-intro › ⤇ᴱ-mono✓ (λ _ → P⊨⇛ind□Q _) › ⤇ᴱ-join) ›
+    ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-param
+
+  -- Monotonicity of ⊨⇛ind
+
+  ⊨⇛ind-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨⇛ind Pᵒ →  Rᵒ ⊨⇛ind Qᵒ
+  ⊨⇛ind-mono P⊨Q R⊨⇛indP _ ✓a =  R⊨⇛indP _ ✓a › ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ P⊨Q
+
+  -- Allocate P to get Ind P
+
+  alloc-Ind :  ⸨ P ⸩  ⊨⇛ind  Ind P
+  alloc-Ind =  ⊨⇛ind-mono inj₀ $ ⊨⇛indˣ⇒⊨⇛ind alloc-Indˣ
+
+  -- Allocate □ P to get □ᵒ Ind P
+
+  alloc-□Ind :  □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
+  alloc-□Ind =  ⊨⇛ind-mono inj₁ $ ⊨⇛ind□⇒⊨⇛ind alloc-Ind□
+
+  -- Consume Ind P to get P
+
+  use-Ind :  Ind P  ⊨⇛ind  ⸨ P ⸩
+  use-Ind _ =  ⊎ᵒ∗ᵒ-elim✓ (⊨⇛indˣ⇒⊨⇛ind use-Indˣ _) (⊨⇛ind□⇒⊨⇛ind use-Ind□ _)

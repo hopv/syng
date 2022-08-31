@@ -22,15 +22,21 @@ open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇
   ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-ε)
 
 --------------------------------------------------------------------------------
--- Globᴱᴿᴬ :  Global ERA
+-- Global ERA
+
+-- Ids of ERAs
 
 pattern indˣ =  0
 pattern ind□ =  1
+
+-- Map of ERAs
 
 Globᴱᴿᴬ˙ :  ℕ →  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 Globᴱᴿᴬ˙ indˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ ind□ =  Ind□ᴱᴿᴬ
 Globᴱᴿᴬ˙ _ =  ⊤ᴱᴿᴬ
+
+-- Globᴱᴿᴬ :  Global ERA
 
 Globᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 Globᴱᴿᴬ .Env =  ∀ i →  Globᴱᴿᴬ˙ i .Env

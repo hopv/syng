@@ -1,15 +1,27 @@
 # Syho
 
-**Syho** is a **syntactically higher-order** separation logic.
-It supports _higher-order ghost states_ (or _impredicative resources_), whose
-semantics is constructed using the logic's _syntax_.
+**Syho** is a **separation logic** with **syntactically higher-order ghost
+states**.
 
-Unlike Iris, Syho is _not step-indexed_.
-Thanks to this, Syho has intuitive semantics and can flexibly support
-_termination-sensitive_ program reasoning.
+Syho supports **higher-order ghost states** (or **impredicative resources**),
+bringing powerful expressivity, just like an existing separation logic
+[**Iris**](https://iris-project.org/).
 
-Syho is mechanized in [**Agda**](https://agda.readthedocs.io/en/latest/),
-a modern, dependently typed programming language.
+But in contrast to Iris's *fully semantic* approach, Syho models the
+higher-order ghost states simply using the logic's **syntax** (for propositions
+and judgments).
+
+As a result, while Iris suffers from *step indexing* everywhere, Syho is **not
+step-indexed at all**.  
+Thanks to that, Syho has intuitive, easy-to-extend semantics and can flexibly
+support **termination-sensitive** program reasoning.
+
+Syho is mechanized in [**Agda**](https://agda.readthedocs.io/en/latest/), a
+modern, dependently typed programming language.  
+Agda is chosen here rather than [Coq](https://coq.inria.fr/),
+[Lean](https://leanprover.github.io/), etc., because Syho's syntax takes
+advantage of **coinduction** and Agda has a great support of coinduction by
+[**sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html).
 
 ## Installation
 

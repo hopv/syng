@@ -18,11 +18,11 @@ open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _�
   Val/Ktxred)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (WpKind; par; tot; _⊢[_]⁺⟨_⟩[_]_;
-  _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_;
-  _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-ṡ; _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ;
-  hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏; hor-🞰; hor-←;
-  hor-alloc; hor-free)
+open import Syho.Logic.Judg public using (WpKind; par; tot; ⁺⟨_⟩[_]_;
+  _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_;
+  _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-ṡ; _ᵘ»ʰ_; _ʰ»ᵘ_;
+  hor-frameˡ; hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏; hor-🞰;
+  hor-←; hor-alloc; hor-free)
 
 private variable
   ι :  Size

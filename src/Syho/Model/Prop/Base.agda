@@ -40,7 +40,7 @@ Monoᵒ :  Propᵒ ł →  Set (2ᴸ ⊔ᴸ ł)
 Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
-  Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ Sᵒ :  Propᵒ ł
+  Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
   a b :  Res
   b˙ :  X → Res
@@ -165,8 +165,8 @@ abstract
 
   -- Monotonicity of →ᵒ
 
-  →ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  (Pᵒ →ᵒ Qᵒ) ⊨ (P'ᵒ →ᵒ Q'ᵒ)
-  →ᵒ-mono P⊨P Q⊨Q' P→Qa _ _ a⊑b E✓b P'b =  Q⊨Q' $ P→Qa _ _ a⊑b E✓b $ P⊨P P'b
+  →ᵒ-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Qᵒ →ᵒ Rᵒ ⊨ Pᵒ →ᵒ Sᵒ
+  →ᵒ-mono P⊨Q R⊨S Q→Ra _ _ a⊑b E✓b Pb =  R⊨S $ Q→Ra _ _ a⊑b E✓b $ P⊨Q Pb
 
   -- Introduce/eliminate →ᵒ
 
@@ -286,14 +286,14 @@ abstract
 
   -- Monotonicity of -∗ᵒ
 
-  -∗ᵒ-mono :  P'ᵒ ⊨ Pᵒ →  Qᵒ ⊨ Q'ᵒ →  Pᵒ -∗ᵒ Qᵒ ⊨ P'ᵒ -∗ᵒ Q'ᵒ
-  -∗ᵒ-mono P'⊨P Q⊨Q' P-∗Qa _ _ _ a⊑b E✓c∙b P'c =
-    Q⊨Q' $ P-∗Qa _ _ _ a⊑b E✓c∙b $ P'⊨P P'c
+  -∗ᵒ-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Qᵒ -∗ᵒ Rᵒ ⊨ Pᵒ -∗ᵒ Sᵒ
+  -∗ᵒ-mono P⊨Q R⊨S Q-∗Ra _ _ _ a⊑b E✓c∙b Pc =
+    R⊨S $ Q-∗Ra _ _ _ a⊑b E✓c∙b $ P⊨Q Pc
 
-  -∗ᵒ-monoˡ :  P'ᵒ ⊨ Pᵒ →  Pᵒ -∗ᵒ Qᵒ ⊨ P'ᵒ -∗ᵒ Qᵒ
-  -∗ᵒ-monoˡ {Qᵒ = Qᵒ} P'⊨P =  -∗ᵒ-mono {Qᵒ = Qᵒ} P'⊨P id
+  -∗ᵒ-monoˡ :  Pᵒ ⊨ Qᵒ →  Qᵒ -∗ᵒ Rᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
+  -∗ᵒ-monoˡ {Rᵒ = Rᵒ} P⊨Q =  -∗ᵒ-mono {Rᵒ = Rᵒ} P⊨Q id
 
-  -∗ᵒ-monoʳ :  Qᵒ ⊨ Q'ᵒ →  Pᵒ -∗ᵒ Qᵒ ⊨ Pᵒ -∗ᵒ Q'ᵒ
+  -∗ᵒ-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ -∗ᵒ Pᵒ ⊨ Rᵒ -∗ᵒ Qᵒ
   -∗ᵒ-monoʳ =  -∗ᵒ-mono id
 
   -- Introduce/eliminate -∗ᵒ

@@ -209,7 +209,7 @@ abstract
 
   □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
   □ᵒInd-alloc-rec {P} =  ⊨⇛ind□⇒⊨⇛ind □ᵒInd□-alloc-rec ▷
-    ⊨⇛ind-mono (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) inj₁
+    ⊨⇛ind-mono (-∗ᵒ-monoˡ {Rᵒ = □ᵒ ⸨ P ⸩} inj₁) inj₁
 
   -- Consume Ind P to get P
 
@@ -229,4 +229,4 @@ abstract
 
   □ᵒ○ᵒ-alloc-rec :  □ᵒ ○ᵒ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ ○ᵒ P
   □ᵒ○ᵒ-alloc-rec {P} =  □ᵒInd-alloc-rec ▷
-    ⊨⇛ind-mono (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} Ind⇒○ᵒ) Ind⇒○ᵒ
+    ⊨⇛ind-mono (-∗ᵒ-monoˡ {Rᵒ = □ᵒ ⸨ P ⸩} Ind⇒○ᵒ) Ind⇒○ᵒ

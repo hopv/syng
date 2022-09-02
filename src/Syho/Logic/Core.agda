@@ -192,11 +192,11 @@ abstract
 
   -- →' is monotone
 
-  →-mono :  Q ⊢[ ι ] P →  R ⊢[ ι ] S →  P →' R ⊢[ ι ] Q →' S
-  →-mono Q⊢P R⊢S =  →-intro $ ∧-monoˡ Q⊢P » →-apply » R⊢S
+  →-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  Q →' R ⊢[ ι ] P →' S
+  →-mono P⊢Q R⊢S =  →-intro $ ∧-monoˡ P⊢Q » →-apply » R⊢S
 
-  →-monoˡ :  Q ⊢[ ι ] P →  P →' R ⊢[ ι ] Q →' R
-  →-monoˡ Q⊢P =  →-mono Q⊢P ⊢-refl
+  →-monoˡ :  P ⊢[ ι ] Q →  Q →' R ⊢[ ι ] P →' R
+  →-monoˡ P⊢Q =  →-mono P⊢Q ⊢-refl
 
   →-monoʳ :  P ⊢[ ι ] Q →  R →' P ⊢[ ι ] R →' Q
   →-monoʳ P⊢Q =  →-mono ⊢-refl P⊢Q
@@ -524,11 +524,11 @@ abstract
 
   -- -∗ is monotone
 
-  -∗-mono :  Q ⊢[ ι ] P →  R ⊢[ ι ] S →  P -∗ R ⊢[ ι ] Q -∗ S
-  -∗-mono Q⊢P R⊢S =  -∗-intro $ ∗-monoˡ Q⊢P » -∗-apply » R⊢S
+  -∗-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  Q -∗ R ⊢[ ι ] P -∗ S
+  -∗-mono P⊢Q R⊢S =  -∗-intro $ ∗-monoˡ P⊢Q » -∗-apply » R⊢S
 
-  -∗-monoˡ :  Q ⊢[ ι ] P →  P -∗ R ⊢[ ι ] Q -∗ R
-  -∗-monoˡ Q⊢P =  -∗-mono Q⊢P ⊢-refl
+  -∗-monoˡ :  P ⊢[ ι ] Q →  Q -∗ R ⊢[ ι ] P -∗ R
+  -∗-monoˡ P⊢Q =  -∗-mono P⊢Q ⊢-refl
 
   -∗-monoʳ :  P ⊢[ ι ] Q →  R -∗ P ⊢[ ι ] R -∗ Q
   -∗-monoʳ P⊢Q =  -∗-mono ⊢-refl P⊢Q

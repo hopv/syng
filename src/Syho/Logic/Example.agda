@@ -15,7 +15,7 @@ open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Addr; λᵛ-syntax; val; AnyVal)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝₀-intro; ∗-elimˡ; ∗⊤-intro;
-  -∗-intro)
+  -∗-intro; □-dup)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; hor-nd;
@@ -39,7 +39,7 @@ abstract
   -- Get □ ○ □ ○ □ ○ … for free
 
   □○-loop-alloc :  ⊤' ⊢[ ι ][ i ]⇛ □○-loop
-  □○-loop-alloc =  -∗-intro ∗-elimˡ » □○-alloc-rec
+  □○-loop-alloc =  -∗-intro (∗-elimˡ » □-dup) » □○-alloc-rec
 
   -- Get ⊥' after ▶ ▶ ▶ … under partial Hoare triple
 

@@ -19,9 +19,10 @@ support **termination-sensitive** program reasoning.
 Syho is mechanized in [**Agda**](https://agda.readthedocs.io/en/latest/), a
 modern, dependently typed programming language.  
 Agda is chosen here rather than [Coq](https://coq.inria.fr/),
-[Lean](https://leanprover.github.io/), etc., because Syho's syntax takes
-advantage of **coinduction** and Agda has a great support of coinduction by
-[**sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html).
+[Lean](https://leanprover.github.io/), etc., because Agda has excellent support
+of coinduction enabled by
+[**sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html),
+and Syho's approach takes great advantage of that.
 
 ## Getting Started
 

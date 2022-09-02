@@ -221,6 +221,12 @@ abstract
 
 abstract
 
+  Ind⇒○ᵒ :  Ind P ⊨ ○ᵒ P
+  Ind⇒○ᵒ IndPa =  ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
+
   ○ᵒ-alloc :  ⸨ P ⸩ ⊨⇛ind ○ᵒ P
-  ○ᵒ-alloc =  Ind-alloc ▷
-    ⊨⇛ind-monoʳ λ IndPa → ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
+  ○ᵒ-alloc =  ⊨⇛ind-monoʳ Ind⇒○ᵒ Ind-alloc
+
+  □ᵒ○ᵒ-alloc-rec :  □ᵒ ○ᵒ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ ○ᵒ P
+  □ᵒ○ᵒ-alloc-rec {P} =  □ᵒInd-alloc-rec ▷
+    ⊨⇛ind-mono (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} Ind⇒○ᵒ) Ind⇒○ᵒ

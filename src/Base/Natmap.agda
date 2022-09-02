@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Base.Nmap where
+module Base.Natmap where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_)

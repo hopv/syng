@@ -16,7 +16,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff)
-open import Base.Nmap using (updᴺᴹ)
+open import Base.Natmap using (updᴺᴹ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□; Env-ind)

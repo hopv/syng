@@ -16,7 +16,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (ff; tt)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
   ᵇ⇒≡; ≡ᵇ-refl)
-open import Base.Nmap using (updᴺᴹ)
+open import Base.Natmap using (updᴺᴹ)
 open import Base.List using (List; _∷_; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
   ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ∈ᴸ-[?]; ∈ᴸ-⧺-inj₁; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)

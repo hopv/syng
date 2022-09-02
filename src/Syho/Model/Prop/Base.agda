@@ -255,6 +255,16 @@ abstract
   ∃ᵒ∗ᵒ-elim✓ Px∗Q⊨✓R ✓a (-, -, b∙c⊑a , (-, Pxb) , Qc) =
     Px∗Q⊨✓R _ ✓a (-, -, b∙c⊑a , Pxb , Qc)
 
+  -- Eliminate ∃ᴵ under ∗ᵒ
+
+  ∃ᴵ∗ᵒ-elim :  (∀{{x}} → Pᵒ˙ x ∗ᵒ Qᵒ ⊨ Rᵒ) →  ∃ᴵ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ Rᵒ
+  ∃ᴵ∗ᵒ-elim Px∗Q⊨R (-, -, b∙c⊑a , (-ᴵ, Pxb) , Qc) =
+    Px∗Q⊨R (-, -, b∙c⊑a , Pxb , Qc)
+
+  ∃ᴵ∗ᵒ-elim✓ :  (∀{{x}} → Pᵒ˙ x ∗ᵒ Qᵒ ⊨✓ Rᵒ) →  ∃ᴵ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨✓ Rᵒ
+  ∃ᴵ∗ᵒ-elim✓ Px∗Q⊨✓R ✓a (-, -, b∙c⊑a , (-ᴵ, Pxb) , Qc) =
+    Px∗Q⊨✓R ✓a (-, -, b∙c⊑a , Pxb , Qc)
+
   -- Eliminate ⊎ᵒ under ∗ᵒ
 
   ⊎ᵒ∗ᵒ-elim :  Pᵒ ∗ᵒ Rᵒ ⊨ Sᵒ →  Qᵒ ∗ᵒ Rᵒ ⊨ Sᵒ →  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Sᵒ

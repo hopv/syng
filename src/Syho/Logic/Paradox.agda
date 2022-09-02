@@ -28,8 +28,8 @@ private variable
   e :  Expr ∞ T
   P Q :  Prop' ∞
   P˂ Q˂ :  Prop˂ ∞
-  Qᵛ :  Val T → Prop' ∞
-  Q˂ᵛ :  Val T → Prop˂ ∞
+  Q˙ :  Val T → Prop' ∞
+  Q˂˙ :  Val T → Prop˂ ∞
 
 --------------------------------------------------------------------------------
 -- Utility
@@ -65,41 +65,41 @@ module _
 
 module _
   -- ↪⟨⟩ᴾ-use without ▶
-  (↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} {P˂ Q˂ᵛ ι} →
-    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᴾ  λ v → Q˂ᵛ v .!)
+  (↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} {P˂ Q˂˙ ι} →
+    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ  λ v → Q˂˙ v .!)
   where abstract
 
   -- We can strip ○ from ↪⟨⟩ᴾ, using ↪⟨⟩ᴾ-use'
 
   ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} →
-    ○ ¡ (P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂ᵛ
+    ○ ¡ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
   ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' =  ○⇒↪⟨⟩ᴾ λ{ .! → ↪⟨⟩ᴾ-use' }
 
   -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
 
-  horᴾ/↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᴾ Qᵛ
-  horᴾ/↪⟨⟩ᴾ-use' {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
+  horᴾ/↪⟨⟩ᴾ-use' :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᴾ Q˙
+  horᴾ/↪⟨⟩ᴾ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
-    ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}
+    ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᵀ without counter increment, then we get a paradox
 
 module _
   -- ↪⟨⟩ᵀ-use without counter increment
-  (↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} {P˂ Q˂ᵛ i ι} →
-    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  λ v → Q˂ᵛ v .!)
+  (↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} {P˂ Q˂˙ i ι} →
+    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  λ v → Q˂˙ v .!)
   where abstract
 
   -- We can strip ○ from ↪⟨⟩ᵀ, using ↪⟨⟩ᵀ-use'
 
   ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} →
-    ○ ¡ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂ᵛ
+    ○ ¡ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
   ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' =  ○⇒↪⟨⟩ᵀ λ{ .! → ↪⟨⟩ᵀ-use' }
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
-  horᵀ/↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Qᵛ
-  horᵀ/↪⟨⟩ᵀ-use' {P} {Qᵛ = Qᵛ} =  ∗⊤-intro »
+  horᵀ/↪⟨⟩ᵀ-use' :  ∀{e : Expr ∞ T} →  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
+  horᵀ/↪⟨⟩ᵀ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
-    ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Qᵛ v}
+    ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}

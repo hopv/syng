@@ -32,7 +32,7 @@ private variable
   i j :  ℕ
   T :  Type
   P P' Q Q' R :  Prop' ∞
-  Qᵛ Q'ᵛ :  Val T →  Prop' ∞
+  Q˙ Q'˙ :  Val T →  Prop' ∞
   e :  Expr ∞ T
 
 --------------------------------------------------------------------------------
@@ -122,39 +122,39 @@ abstract
 
 infixr 5 _↪⟨_⟩ᴾᵒ_
 _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ 2ᴸ
-P ↪⟨ e ⟩ᴾᵒ Qᵛ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ ,
+P ↪⟨ e ⟩ᴾᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙ ,
   ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
 abstract
 
-  ↪⟨⟩ᴾᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)
+  ↪⟨⟩ᴾᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)
   ↪⟨⟩ᴾᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ P →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Qᵛ
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Q˙
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) =
     -, -ᴵ, -,
-    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᴾ Qᵛ
+    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᴾ Q˙
     ∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
 
   ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
-    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Qᵛ v
+    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)  ⊨  P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) =  -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ᴾ R∗Q
     ∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
 
-  ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Qᵛ v ⊢[ ∞ ][ i ]⇛ Q'ᵛ v) →
-                  P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'ᵛ
+  ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ Q'˙ v) →
+                  P ↪⟨ e ⟩ᴾᵒ Q˙  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'˙
   ↪⟨⟩ᴾᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa
 
-  ↪⟨⟩ᴾᵒ-frameˡ :  P ↪⟨ e ⟩ᴾᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Qᵛ v
+  ↪⟨⟩ᴾᵒ-frameˡ :  P ↪⟨ e ⟩ᴾᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᴾᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocˡ » hor-frameˡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  ○ᵒ⇒↪⟨⟩ᴾᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Qᵛ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩ᴾᵒ Qᵛ
+  ○ᵒ⇒↪⟨⟩ᴾᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩ᴾᵒ Q˙
   ○ᵒ⇒↪⟨⟩ᴾᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q , S∗IndTa
 
@@ -163,42 +163,42 @@ abstract
 
 infixr 5 _↪⟨_⟩ᵀ[_]ᵒ_
 _↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Propᵒ 2ᴸ
-P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
-  ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ ,  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
+P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
+  ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Q˙ ,  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
 abstract
 
-  ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)
+  ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)
   ↪⟨⟩ᵀᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
-  ↪⟨⟩ᵀᵒ-ṡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ ṡ i ]ᵒ Qᵛ
+  ↪⟨⟩ᵀᵒ-ṡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ ṡ i ]ᵒ Q˙
   ↪⟨⟩ᵀᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, horᵀ-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
   ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙
   ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) =
     -, -ᴵ, -,
-    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᵀ Qᵛ
+    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᵀ Q˙
     ∗-monoʳ ∗-assocˡ » pullʳˡ » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
 
   ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
-    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ)  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Qᵛ v
+    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) =  -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ᵀ R∗Q
     ∗-monoʳ ∗-assocˡ » pullʳˡ » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
 
-  ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Qᵛ v ⊢[ ∞ ][ j ]⇛ Q'ᵛ v) →
-                  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'ᵛ
+  ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
+                  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'˙
   ↪⟨⟩ᵀᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa
 
-  ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Qᵛ v
+  ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᵀᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocˡ » hor-frameˡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  ○ᵒ⇒↪⟨⟩ᵀᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Qᵛ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Qᵛ
+  ○ᵒ⇒↪⟨⟩ᵀᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Q˙ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙
   ○ᵒ⇒↪⟨⟩ᵀᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q , S∗IndTa

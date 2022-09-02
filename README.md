@@ -23,34 +23,19 @@ Agda is chosen here rather than [Coq](https://coq.inria.fr/),
 advantage of **coinduction** and Agda has a great support of coinduction by
 [**sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html).
 
-## Installation
+## Getting Started
 
-1. [Install Agda](https://agda.readthedocs.io/en/latest/getting-started/installation.html).
+Just [install Agda](https://agda.readthedocs.io/en/latest/getting-started/installation.html).
+Syho is known to work with Agda 2.6.2.2.  
+Syho has no dependencies on external libraries.
 
-That's all!
+For viewing and editing Agda code, you can use **Agda mode**
+for [Emacs](https://agda.readthedocs.io/en/latest/tools/emacs-mode.html)
+or [VS Code](https://marketplace.visualstudio.com/items?itemName=banacorn.agda-mode).
 
-We have checked that Syho works with Agda 2.6.2.2.
+### Fonts
 
-## Learning Agda
-
-You can learn Agda's language features from
-[the official document](https://agda.readthedocs.io/en/latest/language/index.html).
-Notable features used in Syho are:
-- [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html)
-- [**Copatterns**](https://agda.readthedocs.io/en/latest/language/copatterns.html)
-- [**Record modules**](https://agda.readthedocs.io/en/latest/language/record-types.html#record-modules)
-- [**With-abstraction**](https://agda.readthedocs.io/en/latest/language/with-abstraction.html)
-- [**Pattern-matching lambda**](https://agda.readthedocs.io/en/latest/language/lambda-abstraction.html#pattern-matching-lambda)
-
-## Agda Mode
-
-For viewing and editing Agda code, you can use
-[**Agda mode** for Emacs](https://agda.readthedocs.io/en/latest/tools/emacs-mode.html),
-which is also [ported to VS Code](https://marketplace.visualstudio.com/items?itemName=banacorn.agda-mode).
-
-## Monospace Unicode Fonts
-
-Syho's source code uses a lot of Unicode characters.
+Syho's source code uses a lot of Unicode characters.  
 To render them beautifully, we recommend you use monospace Unicode fonts that
 support these characters, such as the following:
 - [**JuliaMono**](https://juliamono.netlify.app/)
@@ -66,6 +51,25 @@ to use Menlo as the primary font and fill in some gaps with JuliaMono.
 "editor.fontFamily": "Menlo, JuliaMono"
 ```
 
+### Learning Agda
+
+You can learn Agda's language features from
+[the official document](https://agda.readthedocs.io/en/latest/language/index.html).
+
+Notable features used in Syho are:
+- [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html),
+    which enables flexible coinduction, especially in combination with
+    [thunks](src/Base/Thunk.agda)
+- [**With-abstraction**](https://agda.readthedocs.io/en/latest/language/with-abstraction.html),
+    for case analysis
+- [**Copatterns**](https://agda.readthedocs.io/en/latest/language/copatterns.html),
+    for getting access to the components of records
+- [**Record modules**](https://agda.readthedocs.io/en/latest/language/record-types.html#record-modules),
+    for extending record types with derived notions,
+    effectively used by the type [`ERA`](src/Syho/Model/ERA/Base.agda)
+- [**Pattern-matching lambda**](https://agda.readthedocs.io/en/latest/language/lambda-abstraction.html#pattern-matching-lambda),
+    for making anonymous functions with pattern matching on the arguments
+
 ## Source Code
 
 In the folder [`src`](src/) is the Agda source code for Syho.
@@ -77,14 +81,14 @@ Syho).
 Some of them re-export Agda's built-in libraries, possibly with renaming.
 The library consists of the following parts.
 
-* Basics ―
+- Basics ―
     [`Level`](src/Base/Level.agda) for universe levels;
     [`Func`](src/Base/Func.agda) for functions;
     [`Few`](src/Base/Eq.agda) for two-, one- and zero-element sets;
     [`Eq`](src/Base/Eq.agda) for equality;
     [`Size`](src/Base/Size.agda) for sizes (modeling ordinals);
     [`Thunk`](src/Base/Thunk.agda) for thunks.
-* Data types ―
+- Data types ―
     [`Prod`](src/Base/Prod.agda) for sigma and product types;
     [`Sum`](src/Base/Sum.agda) for sum types;
     [`Option`](src/Base/Option.agda) for option types;
@@ -92,7 +96,7 @@ The library consists of the following parts.
     lists;
     [`Bool`](src/Base/Bool.agda) for Booleans;
     [`Dec`](src/Base/Dec.agda) for decidability.
-* Numerics ―
+- Numerics ―
     [`Nat`](src/Base/Nat.agda) for natural numbers;
     [`NatPos`](src/Base/NatPos.agda) for positive natural numbers;
     [`RatPos`](src/Base/RatPos.agda) for positive rational numbers;
@@ -102,34 +106,34 @@ The library consists of the following parts.
 
 In [`Syho`](src/Syho/) is the heart of Syho, which consists of the following
 parts.
-* [`Lang`](src/Syho/Lang/) ― Target language of Syho.
-    * [`Expr`](src/Syho/Lang/Expr.agda) for addresses, types and expressions;
+- [`Lang`](src/Syho/Lang/) ― Target language of Syho.
+    + [`Expr`](src/Syho/Lang/Expr.agda) for addresses, types and expressions;
         [`Ktxred`](src/Syho/Lang/Ktxred.agda) for evaluation contexts and
         redexes;
         [`Reduce`](src/Syho/Lang/Reduce.agda) for the memory model and
         reduction of expressions.
-    * [`Example`](src/Syho/Lang/Example.agda) for examples.
-* [`Logic`](src/Syho/Logic/) ― Syntax of the separation logic Syho.
-    * [`Prop`](src/Syho/Logic/Prop.agda) for propositions;
+    + [`Example`](src/Syho/Lang/Example.agda) for examples.
+- [`Logic`](src/Syho/Logic/) ― Syntax of the separation logic Syho.
+    + [`Prop`](src/Syho/Logic/Prop.agda) for propositions;
         [`Judg`](src/Syho/Logic/Judg.agda) for judgments.
-    * [`Core`](src/Syho/Logic/Core.agda) for core proof rules;
+    + [`Core`](src/Syho/Logic/Core.agda) for core proof rules;
         [`Supd`](src/Syho/Logic/Supd.agda) for super updates;
         [`Ind`](src/Syho/Logic/Ind.agda) for the indirection modality and
         precursors;
         [`Hor`](src/Syho/Logic/Supd.agda) for Hoare triples.
-    * [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof
+    + [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof
         rules.
-    * [`Example`](src/Syho/Logic/Example.agda) for examples.
-* [`Model`](src/Syho/Model/) ― The semantic model and soundness proof of Syho.
-    * [`Lib`](src/Syho/Model/Lib) ― Libraries.
+    + [`Example`](src/Syho/Logic/Example.agda) for examples.
+- [`Model`](src/Syho/Model/) ― The semantic model and soundness proof of Syho.
+    + [`Lib`](src/Syho/Model/Lib) ― Libraries.
         * [`Exc`](src/Syho/Model/Lib/Exc.agda) for exclusivity boxes
-    * [`ERA`](src/Syho/Model/ERA/) ― Environmental resource algebras (ERAs),
+    + [`ERA`](src/Syho/Model/ERA/) ― Environmental resource algebras (ERAs),
         for modeling ghost states of Syho.
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
             [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
-    * [`Prop`](src/Syho/Model/Prop/) ― the semantic model of propositions.
+    + [`Prop`](src/Syho/Model/Prop/) ― the semantic model of propositions.
         * [`Base`](src/Syho/Model/Prop/Base.agda) for core logic connectives;
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
@@ -139,6 +143,6 @@ parts.
             propositions;
             [`Pure`](src/Syho/Model/Prop/Basic.agda) for semantic soundness of
             the pure sequent.
-    * [`Supd`](src/Syho/Model/Supd/) ― the semantic model of the super update.
+    + [`Supd`](src/Syho/Model/Supd/) ― the semantic model of the super update.
         * [`Ind`](src/Syho/Model/Supd/Ind.agda) ― Super update on the
             indirection modality and precursors.

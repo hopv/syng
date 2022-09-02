@@ -33,7 +33,7 @@ We have checked that Syho works with Agda 2.6.2.2.
 
 ## Learning Agda
 
-You can learn Agda's language features by
+You can learn Agda's language features from
 [the official document](https://agda.readthedocs.io/en/latest/language/index.html).
 Notable features used in Syho are:
 - [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html)

@@ -4,8 +4,9 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-open import Base.Level using (Level; 0ᴸ)
 module Base.Few where
+
+open import Base.Level using (Level; 0ᴸ)
 
 private variable
   ł ł' :  Level

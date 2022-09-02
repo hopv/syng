@@ -195,35 +195,34 @@ data  Basic :  Prop' ∞ →  Set₂  where
     ↦⟨⟩-Basic :  Basic (θ ↦⟨ q⁺ ⟩ av)
     Free-Basic :  Basic (Free n θ)
 
-abstract
 
-  -- For ∀/∃₀
+-- For ∀/∃₀
 
-  ∀₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₀˙ P˙)
-  ∀₀-Basic =  ∀₁-Basic ∘ _∘ ↓_
+∀₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₀˙ P˙)
+∀₀-Basic =  ∀₁-Basic ∘ _∘ ↓_
 
-  ∃₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₀˙ P˙)
-  ∃₀-Basic =  ∃₁-Basic ∘ _∘ ↓_
+∃₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₀˙ P˙)
+∃₀-Basic =  ∃₁-Basic ∘ _∘ ↓_
 
-  instance
+instance
 
-    -- For ∧/∨/⊤'/⊥'
+  -- For ∧/∨/⊤'/⊥'
 
-    ∧-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∧ Q)
-    ∧-Basic =  ∀₁-Basic $ binary it it
+  ∧-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∧ Q)
+  ∧-Basic =  ∀₁-Basic $ binary it it
 
-    ∨-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∨ Q)
-    ∨-Basic =  ∃₁-Basic $ binary it it
+  ∨-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∨ Q)
+  ∨-Basic =  ∃₁-Basic $ binary it it
 
-    ⊤-Basic :  Basic ⊤'
-    ⊤-Basic =  ∀₁-Basic absurd
+  ⊤-Basic :  Basic ⊤'
+  ⊤-Basic =  ∀₁-Basic absurd
 
-    ⊥-Basic :  Basic ⊥'
-    ⊥-Basic =  ∃₁-Basic absurd
+  ⊥-Basic :  Basic ⊥'
+  ⊥-Basic =  ∃₁-Basic absurd
 
-    -- For ⌜ ⌝
+  -- For ⌜ ⌝
 
-    ---- This can work also for ⌜⌝₀
+  ---- This can work also for ⌜⌝₀
 
-    ⌜⌝-Basic :  Basic ⌜ X ⌝₁
-    ⌜⌝-Basic =  ∃₁-Basic λ _ → ⊤-Basic
+  ⌜⌝-Basic :  Basic ⌜ X ⌝₁
+  ⌜⌝-Basic =  ∃₁-Basic λ _ → ⊤-Basic

@@ -57,7 +57,7 @@ support these characters, such as the following:
     + It has a very large Unicode cover and supports all the Unicode characters
         used in Syho's source code.
 - [**Menlo**](https://en.wikipedia.org/wiki/Menlo_(typeface))
-    + It is preinstalled in Mac and pretty beautiful. Some characters (e.g., ⊢
+    + It is preinstalled on Mac and pretty beautiful. Some characters (e.g., ⊢
         and ⊨) are not supported.
 
 For example, in VS Code, you can use the following setting (in `settings.json`)

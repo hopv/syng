@@ -30,7 +30,8 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ∃�
   ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono;
   ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_)
-open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono)
+open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
+open import Syho.Model.Prop.Pure using (⊢⇒⊨✓)
 
 private variable
   ł ł' :  Level
@@ -254,3 +255,8 @@ abstract
   □ᵒ○ᵒ-alloc-rec :  □ᵒ ○ᵒ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ ○ᵒ P
   □ᵒ○ᵒ-alloc-rec {P} =  □ᵒInd-alloc-rec ▷
     ⊨⇛ind-mono (-∗ᵒ-monoˡ {Rᵒ = □ᵒ ⸨ P ⸩} Ind⇒○ᵒ) Ind⇒○ᵒ
+
+  ○ᵒ-use :  ○ᵒ P  ⊨⇛ind  ⸨ P ⸩
+  ○ᵒ-use =  ⊨⇛ind-∃ᵒ λ Q → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ Q∗R⊢P →
+    Ind-use ▷ ⊨⇛ind-frameˡ ▷
+    ⊨⇛ind-mono✓ʳ λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢⇒⊨✓ Q∗R⊢P ✓∙

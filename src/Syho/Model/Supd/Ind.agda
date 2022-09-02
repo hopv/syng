@@ -98,15 +98,15 @@ abstract
 
   -- Allocate P to get Indˣ P
 
-  alloc-Indˣ :  ⸨ P ⸩  ⊨⇛indˣ  Indˣ P
-  alloc-Indˣ E _ =  let (_ , n) = E indˣ in
+  Indˣ-alloc :  ⸨ P ⸩  ⊨⇛indˣ  Indˣ P
+  Indˣ-alloc E _ =  let (_ , n) = E indˣ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᴺᴹ-add {n = n}) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
-  use-Indˣ :  Indˣ P  ⊨⇛indˣ  ⸨ P ⸩
-  use-Indˣ E _ =  let (_ , n) = E indˣ in
+  Indˣ-use :  Indˣ P  ⊨⇛indˣ  ⸨ P ⸩
+  Indˣ-use E _ =  let (_ , n) = E indˣ in
     ∃ᵒ∗ᵒ-elim λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
     › ⤇ᴱ-param
@@ -130,8 +130,8 @@ abstract
 
   -- Allocate □ P to get □ᵒ Ind□ P
 
-  alloc-rec-□Ind□ :  □ᵒ Ind□ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind□  □ᵒ Ind□ P
-  alloc-rec-□Ind□ {P} E _ =  let (_ , n) = E ind□ in
+  □ᵒInd□-alloc-rec :  □ᵒ Ind□ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind□  □ᵒ Ind□ P
+  □ᵒInd□-alloc-rec {P} E _ =  let (_ , n) = E ind□ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono✓ (λ _ ✓∙ →
       ∗ᵒ-monoˡ (●-injᴳ-⌞⌟≡-□ᵒ refl › dup-□ᵒ ●-Mono › ∗ᵒ-mono (_ ,_) (_ ,_)) ›
@@ -141,8 +141,8 @@ abstract
 
   -- Use Ind□ P to get P
 
-  use-Ind□ :  Ind□ P  ⊨⇛ind□  ⸨ P ⸩
-  use-Ind□ {P} E _ =  let (_ , n) = E ind□ in
+  Ind□-use :  Ind□ P  ⊨⇛ind□  ⸨ P ⸩
+  Ind□-use {P} E _ =  let (_ , n) = E ind□ in
     ∃ᵒ∗ᵒ-elim λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ ⸨⸩ᴺᴹ-Mono {n = n}) ›
       dup-□ᵒ (⸨⸩ᴺᴹ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (⸨⸩ᴺᴹ-Mono {n = n}) ›
@@ -195,16 +195,16 @@ abstract
 
   -- Allocate P to get Ind P
 
-  alloc-Ind :  ⸨ P ⸩  ⊨⇛ind  Ind P
-  alloc-Ind =  ⊨⇛indˣ⇒⊨⇛ind alloc-Indˣ ▷ ⊨⇛ind-mono inj₀
+  Ind-alloc :  ⸨ P ⸩  ⊨⇛ind  Ind P
+  Ind-alloc =  ⊨⇛indˣ⇒⊨⇛ind Indˣ-alloc ▷ ⊨⇛ind-mono inj₀
 
   -- Allocate □ P to get □ᵒ Ind P
 
-  alloc-rec-□Ind :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
-  alloc-rec-□Ind {P} _ ✓∙ =  ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) ›
-    ⊨⇛ind-mono inj₁ (⊨⇛ind□⇒⊨⇛ind alloc-rec-□Ind□) _ ✓∙
+  □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
+  □ᵒInd-alloc-rec {P} _ ✓∙ =  ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) ›
+    ⊨⇛ind-mono inj₁ (⊨⇛ind□⇒⊨⇛ind □ᵒInd□-alloc-rec) _ ✓∙
 
   -- Consume Ind P to get P
 
-  use-Ind :  Ind P  ⊨⇛ind  ⸨ P ⸩
-  use-Ind _ =  ⊎ᵒ∗ᵒ-elim✓ (⊨⇛indˣ⇒⊨⇛ind use-Indˣ _) (⊨⇛ind□⇒⊨⇛ind use-Ind□ _)
+  Ind-use :  Ind P  ⊨⇛ind  ⸨ P ⸩
+  Ind-use _ =  ⊎ᵒ∗ᵒ-elim✓ (⊨⇛indˣ⇒⊨⇛ind Indˣ-use _) (⊨⇛ind□⇒⊨⇛ind Ind□-use _)

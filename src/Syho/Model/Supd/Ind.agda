@@ -17,30 +17,36 @@ open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff)
 open import Base.Natmap using (updᴺᴹ)
-open import Syho.Logic.Prop using (Prop'; ⊤')
+open import Syho.Lang.Expr using (Type; Expr)
+open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_)
 open import Syho.Logic.Core using (∗-elimʳ)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□; Env-ind)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ∃ᵒ˙; ∃ᴵ˙; ⊤ᵒ;
-  _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ⊨⇒⊨✓; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ;
-  ∗ᵒ-mono✓ʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ;
-  ?∗ᵒ-intro; ∃ᵒ∗ᵒ-elim; ∃ᵒ∗ᵒ-elim✓; ∃ᴵ∗ᵒ-elim✓; ⊎ᵒ∗ᵒ-elim✓; -∗ᵒ-monoˡ;
-  -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ;
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ∃ᵒ˙; ∃ᵒ-syntax;
+  ∃ᵒ∈-syntax; ∃ᴵ˙; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ⊨⇒⊨✓; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ;
+  ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ;
+  ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∃ᵒ∗ᵒ-elim; ∃ᵒ∗ᵒ-elim✓; ∃ᴵ∗ᵒ-elim✓; ⊎ᵒ∗ᵒ-elim✓;
+  -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ;
   ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono;
   ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
-open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_)
+open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
+  _↪⟨_⟩ᵀ[_]ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Pure using (⊢⇒⊨✓)
 
 private variable
   ł ł' :  Level
   i j m n :  ℕ
-  P :  Prop' ∞
-  P˙ Q˙ :  ℕ → Prop' ∞
-  Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
+  P Q :  Prop' ∞
   X :  Set ł
+  P˙ Q˙ :  X → Prop' ∞
+  Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ :  X → Propᵒ ł
+  T :  Type
+  e :  Expr ∞ T
 
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
@@ -260,3 +266,23 @@ abstract
   ○ᵒ-use =  ⊨⇛ind-∃ᵒ λ Q → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ Q∗R⊢P →
     Ind-use ▷ ⊨⇛ind-frameˡ ▷
     ⊨⇛ind-mono✓ʳ λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢⇒⊨✓ Q∗R⊢P ✓∙
+
+--------------------------------------------------------------------------------
+-- On ↪⇛ᵒ, ↪⟨ ⟩ᴾᵒ, and ↪⟨ ⟩ᵀᵒ
+
+  ↪⇛ᵒ-use :  P ↪[ i ]⇛ᵒ Q  ⊨⇛ind  ∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ][ i ]⇛ Q) , ⸨ R ⸩
+  ↪⇛ᵒ-use =  ⊨⇛ind-∃ᵒ λ S → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ P∗S∗T⊢⇛Q →
+    Ind-use ▷ ⊨⇛ind-frameˡ ▷
+    ⊨⇛ind-monoʳ (∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⇛Q ,_) › -,_)
+
+  ↪⟨⟩ᴾᵒ-use :  P ↪⟨ e ⟩ᴾᵒ Q˙  ⊨⇛ind
+                 ∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙) , ⸨ R ⸩
+  ↪⟨⟩ᴾᵒ-use =  ⊨⇛ind-∃ᵒ λ S → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ P∗S∗T⊢⟨e⟩Q →
+    Ind-use ▷ ⊨⇛ind-frameˡ ▷
+    ⊨⇛ind-monoʳ (∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⟨e⟩Q ,_) › -,_)
+
+  ↪⟨⟩ᵀᵒ-use :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨⇛ind
+                 ∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Q˙) , ⸨ R ⸩
+  ↪⟨⟩ᵀᵒ-use =  ⊨⇛ind-∃ᵒ λ S → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ P∗S∗T⊢⟨e⟩Q →
+    Ind-use ▷ ⊨⇛ind-frameˡ ▷
+    ⊨⇛ind-monoʳ (∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⟨e⟩Q ,_) › -,_)

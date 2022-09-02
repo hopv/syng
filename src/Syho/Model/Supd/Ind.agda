@@ -11,13 +11,14 @@ open import Base.Size using (∞)
 open import Base.Func using (_$_; _▷_; _›_; _∘_; id)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl)
-open import Base.Prod using (_×_; _,_)
+open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
 open import Base.Sum using (inj₀; inj₁)
 open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff)
 open import Base.Natmap using (updᴺᴹ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
+open import Syho.Logic.Core using (∗-elimʳ)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□; Env-ind)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□)
@@ -27,7 +28,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ⊤�
   ∃ᵒ∗ᵒ-elim; ⊎ᵒ∗ᵒ-elim✓; -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param;
   ⤇ᴱ-join; ⤇ᴱ-eatʳ; ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in;
   ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
-open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind)
+open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono)
 
 private variable
@@ -208,3 +209,12 @@ abstract
 
   Ind-use :  Ind P  ⊨⇛ind  ⸨ P ⸩
   Ind-use _ =  ⊎ᵒ∗ᵒ-elim✓ (⊨⇛indˣ⇒⊨⇛ind Indˣ-use _) (⊨⇛ind□⇒⊨⇛ind Ind□-use _)
+
+--------------------------------------------------------------------------------
+-- On ○ᵒ
+
+abstract
+
+  ○ᵒ-alloc :  ⸨ P ⸩ ⊨⇛ind ○ᵒ P
+  ○ᵒ-alloc =  Ind-alloc ▷
+    ⊨⇛ind-mono λ IndPa → ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa

@@ -23,11 +23,11 @@ open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□; Env-ind)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ⊤ᵒ; _∗ᵒ_;
-  _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ;
-  ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro;
-  ∃ᵒ∗ᵒ-elim; ⊎ᵒ∗ᵒ-elim✓; -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param;
-  ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ;
-  □ᵒ-∗ᵒ-in; ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
+  _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ⊨⇒⊨✓; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ;
+  ∗ᵒ-mono✓ʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ;
+  ?∗ᵒ-intro; ∃ᵒ∗ᵒ-elim; ⊎ᵒ∗ᵒ-elim✓; -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓;
+  ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim;
+  dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono)
 
@@ -191,11 +191,18 @@ abstract
 
   -- Monotonicity of ⊨⇛ind
 
+  ⊨⇛ind-mono✓ˡ :  Pᵒ ⊨✓ Qᵒ →  Qᵒ ⊨⇛ind Rᵒ →  Pᵒ ⊨⇛ind Rᵒ
+  ⊨⇛ind-mono✓ˡ P⊨✓Q Q⊨⇛indR _ ✓∙ =  ∗ᵒ-mono✓ˡ P⊨✓Q ✓∙ › Q⊨⇛indR _ ✓∙
+
   ⊨⇛ind-monoˡ :  Pᵒ ⊨ Qᵒ →  Qᵒ ⊨⇛ind Rᵒ →  Pᵒ ⊨⇛ind Rᵒ
-  ⊨⇛ind-monoˡ P⊨Q Q⊨⇛indR _ ✓∙ =  ∗ᵒ-monoˡ P⊨Q › Q⊨⇛indR _ ✓∙
+  ⊨⇛ind-monoˡ =  ⊨⇒⊨✓ › ⊨⇛ind-mono✓ˡ
+
+  ⊨⇛ind-mono✓ʳ :  Pᵒ ⊨✓ Qᵒ →  Rᵒ ⊨⇛ind Pᵒ →  Rᵒ ⊨⇛ind Qᵒ
+  ⊨⇛ind-mono✓ʳ P⊨✓Q R⊨⇛indP _ ✓∙ =  R⊨⇛indP _ ✓∙ ›
+    ⤇ᴱ-mono✓ λ _ ✓∙ → ∗ᵒ-mono✓ˡ P⊨✓Q ✓∙
 
   ⊨⇛ind-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨⇛ind Pᵒ →  Rᵒ ⊨⇛ind Qᵒ
-  ⊨⇛ind-monoʳ P⊨Q R⊨⇛indP _ ✓∙ =  R⊨⇛indP _ ✓∙ › ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ P⊨Q
+  ⊨⇛ind-monoʳ =  ⊨⇒⊨✓ › ⊨⇛ind-mono✓ʳ
 
   ⊨⇛ind-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Qᵒ ⊨⇛ind Rᵒ →  Pᵒ ⊨⇛ind Sᵒ
   ⊨⇛ind-mono P⊨Q R⊨S =  ⊨⇛ind-monoˡ P⊨Q › ⊨⇛ind-monoʳ R⊨S

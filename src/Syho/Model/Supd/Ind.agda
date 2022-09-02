@@ -36,7 +36,7 @@ private variable
   i j m n :  ℕ
   P :  Prop' ∞
   P˙ Q˙ :  ℕ → Prop' ∞
-  Pᵒ Qᵒ Rᵒ :  Propᵒ ł
+  Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
 
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
@@ -191,19 +191,25 @@ abstract
 
   -- Monotonicity of ⊨⇛ind
 
-  ⊨⇛ind-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨⇛ind Pᵒ →  Rᵒ ⊨⇛ind Qᵒ
-  ⊨⇛ind-mono P⊨Q R⊨⇛indP _ ✓∙ =  R⊨⇛indP _ ✓∙ › ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ P⊨Q
+  ⊨⇛ind-monoˡ :  Pᵒ ⊨ Qᵒ →  Qᵒ ⊨⇛ind Rᵒ →  Pᵒ ⊨⇛ind Rᵒ
+  ⊨⇛ind-monoˡ P⊨Q Q⊨⇛indR _ ✓∙ =  ∗ᵒ-monoˡ P⊨Q › Q⊨⇛indR _ ✓∙
+
+  ⊨⇛ind-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨⇛ind Pᵒ →  Rᵒ ⊨⇛ind Qᵒ
+  ⊨⇛ind-monoʳ P⊨Q R⊨⇛indP _ ✓∙ =  R⊨⇛indP _ ✓∙ › ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ P⊨Q
+
+  ⊨⇛ind-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Qᵒ ⊨⇛ind Rᵒ →  Pᵒ ⊨⇛ind Sᵒ
+  ⊨⇛ind-mono P⊨Q R⊨S =  ⊨⇛ind-monoˡ P⊨Q › ⊨⇛ind-monoʳ R⊨S
 
   -- Allocate P to get Ind P
 
   Ind-alloc :  ⸨ P ⸩  ⊨⇛ind  Ind P
-  Ind-alloc =  ⊨⇛indˣ⇒⊨⇛ind Indˣ-alloc ▷ ⊨⇛ind-mono inj₀
+  Ind-alloc =  ⊨⇛indˣ⇒⊨⇛ind Indˣ-alloc ▷ ⊨⇛ind-monoʳ inj₀
 
   -- Allocate □ P to get □ᵒ Ind P
 
   □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
-  □ᵒInd-alloc-rec {P} _ ✓∙ =  ∗ᵒ-monoˡ (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) ›
-    ⊨⇛ind-mono inj₁ (⊨⇛ind□⇒⊨⇛ind □ᵒInd□-alloc-rec) _ ✓∙
+  □ᵒInd-alloc-rec {P} =  ⊨⇛ind□⇒⊨⇛ind □ᵒInd□-alloc-rec ▷
+    ⊨⇛ind-mono (-∗ᵒ-monoˡ {Qᵒ = □ᵒ ⸨ P ⸩} inj₁) inj₁
 
   -- Consume Ind P to get P
 
@@ -217,4 +223,4 @@ abstract
 
   ○ᵒ-alloc :  ⸨ P ⸩ ⊨⇛ind ○ᵒ P
   ○ᵒ-alloc =  Ind-alloc ▷
-    ⊨⇛ind-mono λ IndPa → ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
+    ⊨⇛ind-monoʳ λ IndPa → ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa

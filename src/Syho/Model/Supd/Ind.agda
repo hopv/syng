@@ -8,7 +8,7 @@ module Syho.Model.Supd.Ind where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Size using (∞)
-open import Base.Func using (_$_; _›_; _∘_; id)
+open import Base.Func using (_$_; _▷_; _›_; _∘_; id)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_)
@@ -196,7 +196,7 @@ abstract
   -- Allocate P to get Ind P
 
   alloc-Ind :  ⸨ P ⸩  ⊨⇛ind  Ind P
-  alloc-Ind =  ⊨⇛ind-mono inj₀ $ ⊨⇛indˣ⇒⊨⇛ind alloc-Indˣ
+  alloc-Ind =  ⊨⇛indˣ⇒⊨⇛ind alloc-Indˣ ▷ ⊨⇛ind-mono inj₀
 
   -- Allocate □ P to get □ᵒ Ind P
 

@@ -74,9 +74,9 @@ Notable features used in Syho are:
 
 In the folder [`src`](src/) is the Agda source code for Syho.
 
-### [`Base`](src/Base/)
+### [`Base/`](src/Base/)
 
-In [`Base`](src/Base/) is a general-purpose library (though newly developed for
+In [`Base/`](src/Base/) is a general-purpose library (though newly developed for
 Syho).
 Some of them re-export Agda's built-in libraries, possibly with renaming.
 The library consists of the following parts.
@@ -102,18 +102,18 @@ The library consists of the following parts.
     [`RatPos`](src/Base/RatPos.agda) for positive rational numbers;
     [`Natmap`](src/Base/Natmap.agda) for maps over natural numbers.
 
-### [`Syho`](src/Syho/)
+### [`Syho/`](src/Syho/)
 
-In [`Syho`](src/Syho/) is the heart of Syho, which consists of the following
+In [`Syho/`](src/Syho/) is the heart of Syho, which consists of the following
 parts.
-- [`Lang`](src/Syho/Lang/) ― Target language of Syho.
+- [`Lang/`](src/Syho/Lang/) ― Target language of Syho.
     + [`Expr`](src/Syho/Lang/Expr.agda) for addresses, types and expressions;
         [`Ktxred`](src/Syho/Lang/Ktxred.agda) for evaluation contexts and
         redexes;
         [`Reduce`](src/Syho/Lang/Reduce.agda) for the memory model and
         reduction of expressions.
     + [`Example`](src/Syho/Lang/Example.agda) for examples.
-- [`Logic`](src/Syho/Logic/) ― Syntax of the separation logic Syho.
+- [`Logic/`](src/Syho/Logic/) ― Syntax of the separation logic Syho.
     + [`Prop`](src/Syho/Logic/Prop.agda) for propositions;
         [`Judg`](src/Syho/Logic/Judg.agda) for judgments.
     + [`Core`](src/Syho/Logic/Core.agda) for core proof rules;
@@ -124,16 +124,16 @@ parts.
     + [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof
         rules.
     + [`Example`](src/Syho/Logic/Example.agda) for examples.
-- [`Model`](src/Syho/Model/) ― The semantic model and soundness proof of Syho.
-    + [`Lib`](src/Syho/Model/Lib) ― Libraries.
+- [`Model/`](src/Syho/Model/) ― The semantic model and soundness proof of Syho.
+    + [`Lib/`](src/Syho/Model/Lib) ― Libraries.
         * [`Exc`](src/Syho/Model/Lib/Exc.agda) for exclusivity boxes
-    + [`ERA`](src/Syho/Model/ERA/) ― Environmental resource algebras (ERAs),
+    + [`ERA/`](src/Syho/Model/ERA/) ― Environmental resource algebras (ERAs),
         for modeling ghost states of Syho.
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
             [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
-    + [`Prop`](src/Syho/Model/Prop/) ― the semantic model of propositions.
+    + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of propositions.
         * [`Base`](src/Syho/Model/Prop/Base.agda) for core logic connectives;
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
@@ -143,6 +143,6 @@ parts.
             propositions;
             [`Pure`](src/Syho/Model/Prop/Basic.agda) for semantic soundness of
             the pure sequent.
-    + [`Supd`](src/Syho/Model/Supd/) ― the semantic model of the super update.
+    + [`Supd/`](src/Syho/Model/Supd/) ― the semantic model of the super update.
         * [`Ind`](src/Syho/Model/Supd/Ind.agda) ― Super update on the
             indirection modality and precursors.

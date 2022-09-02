@@ -225,7 +225,7 @@ abstract
   Ind⇒○ᵒ IndPa =  ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
 
   ○ᵒ-alloc :  ⸨ P ⸩ ⊨⇛ind ○ᵒ P
-  ○ᵒ-alloc =  ⊨⇛ind-monoʳ Ind⇒○ᵒ Ind-alloc
+  ○ᵒ-alloc =  Ind-alloc ▷ ⊨⇛ind-monoʳ Ind⇒○ᵒ
 
   □ᵒ○ᵒ-alloc-rec :  □ᵒ ○ᵒ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ ○ᵒ P
   □ᵒ○ᵒ-alloc-rec {P} =  □ᵒInd-alloc-rec ▷

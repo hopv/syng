@@ -166,7 +166,7 @@ abstract
   -- Monotonicity of →ᵒ
 
   →ᵒ-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Qᵒ →ᵒ Rᵒ ⊨ Pᵒ →ᵒ Sᵒ
-  →ᵒ-mono P⊨Q R⊨S Q→Ra _ _ a⊑b E✓b Pb =  R⊨S $ Q→Ra _ _ a⊑b E✓b $ P⊨Q Pb
+  →ᵒ-mono P⊨Q R⊨S Q→Ra _ _ a⊑b E✓b =  P⊨Q › Q→Ra _ _ a⊑b E✓b › R⊨S
 
   -- Introduce/eliminate →ᵒ
 
@@ -287,8 +287,8 @@ abstract
   -- Monotonicity of -∗ᵒ
 
   -∗ᵒ-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Qᵒ -∗ᵒ Rᵒ ⊨ Pᵒ -∗ᵒ Sᵒ
-  -∗ᵒ-mono P⊨Q R⊨S Q-∗Ra _ _ _ a⊑b E✓c∙b Pc =
-    R⊨S $ Q-∗Ra _ _ _ a⊑b E✓c∙b $ P⊨Q Pc
+  -∗ᵒ-mono P⊨Q R⊨S Q-∗Ra _ _ _ a⊑b E✓c∙b =
+    P⊨Q › Q-∗Ra _ _ _ a⊑b E✓c∙b › R⊨S
 
   -∗ᵒ-monoˡ :  Pᵒ ⊨ Qᵒ →  Qᵒ -∗ᵒ Rᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
   -∗ᵒ-monoˡ {Rᵒ = Rᵒ} P⊨Q =  -∗ᵒ-mono {Rᵒ = Rᵒ} P⊨Q id

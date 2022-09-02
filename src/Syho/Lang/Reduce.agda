@@ -41,7 +41,7 @@ private variable
 
 infix 5 _‼ᴹ_
 _‼ᴹ_ :  Mem →  Addr →  ¿ AnyVal
-M ‼ᴹ addr l i =  M l »-¿ (_‼ i)
+M ‼ᴹ addr l i =  M l »-¿ _‼ i
 
 -- Empty memory
 

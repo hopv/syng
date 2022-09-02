@@ -22,12 +22,13 @@ open import Syho.Logic.Core using (∗-elimʳ)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□; Env-ind)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ⊤ᵒ; _∗ᵒ_;
-  _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ⊨⇒⊨✓; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ;
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ∃ᵒ˙; ∃ᴵ˙; ⊤ᵒ;
+  _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ⊨⇒⊨✓; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-mono✓ʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ;
-  ?∗ᵒ-intro; ∃ᵒ∗ᵒ-elim; ⊎ᵒ∗ᵒ-elim✓; -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓;
-  ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim;
-  dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
+  ?∗ᵒ-intro; ∃ᵒ∗ᵒ-elim; ∃ᵒ∗ᵒ-elim✓; ∃ᴵ∗ᵒ-elim✓; ⊎ᵒ∗ᵒ-elim✓; -∗ᵒ-monoˡ;
+  -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ;
+  ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono;
+  ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono)
 
@@ -37,6 +38,8 @@ private variable
   P :  Prop' ∞
   P˙ Q˙ :  ℕ → Prop' ∞
   Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
+  X :  Set ł
+  Pᵒ˙ :  X → Propᵒ ł
 
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
@@ -212,6 +215,14 @@ abstract
   ⊨⇛ind-frameˡ :  Pᵒ ⊨⇛ind Qᵒ →  Rᵒ ∗ᵒ Pᵒ ⊨⇛ind Rᵒ ∗ᵒ Qᵒ
   ⊨⇛ind-frameˡ P⊨⇛indQ _ ✓∙ =  ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (P⊨⇛indQ _) ✓∙ › ⤇ᴱ-eatˡ ›
     ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
+
+  -- ∃ᵒ/∃ᴵ on ⊨⇛ind
+
+  ⊨⇛ind-∃ᵒ :  (∀ x → Pᵒ˙ x ⊨⇛ind Qᵒ) →  ∃ᵒ˙ Pᵒ˙ ⊨⇛ind Qᵒ
+  ⊨⇛ind-∃ᵒ Px⊨⇛indQ _ =  ∃ᵒ∗ᵒ-elim✓ λ x → Px⊨⇛indQ x _
+
+  ⊨⇛ind-∃ᴵ :  (∀{{x}} → Pᵒ˙ x ⊨⇛ind Qᵒ) →  ∃ᴵ˙ Pᵒ˙ ⊨⇛ind Qᵒ
+  ⊨⇛ind-∃ᴵ Px⊨⇛indQ _ =  ∃ᴵ∗ᵒ-elim✓ $ Px⊨⇛indQ _
 
   -- Allocate P to get Ind P
 

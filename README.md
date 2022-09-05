@@ -145,5 +145,7 @@ parts.
             [`Pure`](src/Syho/Model/Prop/Basic.agda) for semantic soundness of
             the pure sequent.
     + [`Supd/`](src/Syho/Model/Supd/) ― the semantic model of the super update.
-        * [`Ind`](src/Syho/Model/Supd/Ind.agda) ― Super update on the
+        * [`Base`](src/Syho/Model/Supd/Base.agda) ― General super update
+            modality.
+        * [`Ind`](src/Syho/Model/Supd/Ind.agda) ― Super update modality on the
             indirection modality and precursors.

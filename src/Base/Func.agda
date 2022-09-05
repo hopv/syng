@@ -11,23 +11,24 @@ open import Base.Level using (Level)
 private variable
   ł :  Level
   A B C :  Set ł
-  F :  A → Set ł
+  B˙ :  A →  Set ł
+  C˙˙ :  A →  B →  Set ł
 
 -- Identity
 
-id :  A → A
+id :  A →  A
 id a =  a
 
 -- Constant
 
-const :  A → B → A
+const :  A →  B →  A
 const a _ =  a
 
 -- Composition
 
 infixr 9 _∘_
-_∘_ :  ∀{G : ∀ a → F a → Set ł} →
-  (∀{a} b → G a b) →  (f : ∀ a → F a) →  (a : A) →  G a (f a)
+_∘_ :  ∀{C˙˙ : ∀ a → B˙ a → Set ł} →
+  (∀{a} b → C˙˙ a b) →  (f : ∀ a → B˙ a) →  (a : A) →  C˙˙ a (f a)
 (g ∘ f) a =  g (f a)
 
 -- Flipped non-dependent composition
@@ -39,21 +40,21 @@ _›_ : (A → B) →  (B → C) →  A → C
 -- Function application
 
 infixr -1 _$_
-_$_ :  (∀ a → F a) → ∀ a → F a
+_$_ :  (∀ a → B˙ a) →  ∀ a →  B˙ a
 f $ a =  f a
 
 -- Flipped non-dependent function application
 
 infixl 0 _▷_
-_▷_ :  A → (A → B) → B
+_▷_ :  A →  (A → B) →  B
 a ▷ f =  f a
 
 -- Flip the order of arguments
 
-flip :  ∀{F : A → B → Set ł} → (∀ a b → F a b) → ∀ b a → F a b
+flip :  (∀ a b → C˙˙ a b) →  ∀ b a →  C˙˙ a b
 flip f b a =  f a b
 
 -- Instance search
 
-it :  {{A}} → A
+it :  {{A}} →  A
 it {{a}} =  a

@@ -42,10 +42,10 @@ infixr -1 _$_
 _$_ :  (∀ a → F a) → ∀ a → F a
 f $ a =  f a
 
--- Flipped function application
+-- Flipped non-dependent function application
 
 infixl 0 _▷_
-_▷_ :  ∀ a → (∀ a → F a) → F a
+_▷_ :  A → (A → B) → B
 a ▷ f =  f a
 
 -- Flip the order of arguments

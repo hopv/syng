@@ -8,7 +8,7 @@ module Syho.Model.ERA.Glob where
 
 open import Base.Level using (Level; 2ᴸ)
 open import Base.Func using (_$_)
-open import Base.Eq using (_≡_; refl)
+open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≡?_; ≡?-refl)
@@ -69,6 +69,15 @@ open ERA Globᴱᴿᴬ using () renaming (Res to Resᴳ; _≈_ to _≈ᴳ_; _⊑
   _✓_ to _✓ᴳ_; _∙_ to _∙ᴳ_; ε to εᴳ; ⌞_⌟ to ⌞_⌟ᴳ; _↝_ to _↝ᴳ_; refl˜ to refl˜ᴳ;
   _◇˜_ to _◇˜ᴳ_)
 
+private variable
+  E˙ F˙ G˙ :  Envᴳ
+  a˙ b˙ c˙ d˙ :  Resᴳ
+
+abstract
+
+  ✓ᴳ-respᴱ :  E˙ ≡˙ F˙ →  E˙ ✓ᴳ a˙ →  F˙ ✓ᴳ a˙
+  ✓ᴳ-respᴱ E≡F E✓a i  rewrite ◠ E≡F i =  E✓a i
+
 --------------------------------------------------------------------------------
 -- Update & inject at an index
 
@@ -92,8 +101,6 @@ module _ {i : ℕ} where
     _↝_ to _↝ⁱ_; refl˜ to refl˜ⁱ)
 
   private variable
-    E˙ F˙ G˙ :  Envᴳ
-    a˙ b˙ c˙ d˙ :  Resᴳ
     E F :  Envⁱ
     a b :  Resⁱ
     ł :  Level
@@ -111,12 +118,12 @@ module _ {i : ℕ} where
     ----------------------------------------------------------------------------
     -- On updᴱᴳ
 
-    -- Self updᴱᴳ preserves ✓
+    -- Self updᴱᴳ
 
-    updᴱᴳ-self-✓ :  E˙ ✓ᴳ a˙ →  updᴱᴳ i (E˙ i) E˙ ✓ᴳ a˙
-    updᴱᴳ-self-✓ E✓a j  with j ≡? i
-    … | yes refl =  E✓a i
-    … | no _ =  E✓a j
+    updᴱᴳ-self :  updᴱᴳ i (E˙ i) E˙ ≡˙ E˙
+    updᴱᴳ-self j  with j ≡? i
+    … | yes refl =  refl
+    … | no _ =  refl
 
     ----------------------------------------------------------------------------
     -- On updᴳ

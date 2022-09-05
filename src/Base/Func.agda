@@ -10,7 +10,7 @@ open import Base.Level using (Level)
 
 private variable
   ł :  Level
-  A B :  Set ł
+  A B C :  Set ł
   F :  A → Set ł
 
 -- Identity
@@ -30,11 +30,10 @@ _∘_ :  ∀{G : ∀ a → F a → Set ł} →
   (∀{a} b → G a b) →  (f : ∀ a → F a) →  (a : A) →  G a (f a)
 (g ∘ f) a =  g (f a)
 
--- Flipped composition
+-- Flipped non-dependent composition
 
 infixr -1 _›_
-_›_ :  ∀{G : ∀ a → F a → Set ł} →
-  (f : ∀ a → F a) →  (∀{a} b → G a b) →  (a : A) →  G a (f a)
+_›_ : (A → B) →  (B → C) →  A → C
 (f › g) a =  g (f a)
 
 -- Function application

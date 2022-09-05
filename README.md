@@ -57,19 +57,17 @@ to use Menlo as the primary font and fill in some gaps with JuliaMono.
 You can learn Agda's language features from
 [the official document](https://agda.readthedocs.io/en/latest/language/index.html).
 
-Notable features used in Syho are:
-- [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html),
-    which enables flexible coinduction, especially in combination with
-    [thunks](src/Base/Thunk.agda)
-- [**With-abstraction**](https://agda.readthedocs.io/en/latest/language/with-abstraction.html),
-    for case analysis
-- [**Copatterns**](https://agda.readthedocs.io/en/latest/language/copatterns.html),
-    for getting access to the components of records
-- [**Record modules**](https://agda.readthedocs.io/en/latest/language/record-types.html#record-modules),
-    for extending record types with derived notions,
-    effectively used by the type [`ERA`](src/Syho/Model/ERA/Base.agda)
-- [**Pattern-matching lambda**](https://agda.readthedocs.io/en/latest/language/lambda-abstraction.html#pattern-matching-lambda),
-    for making anonymous functions with pattern matching on the arguments
+Here are notable features used in Syho.
+- [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html) ―
+    Enable flexible coinduction, especially in combination with
+    [thunks](src/Base/Thunk.agda).
+- [**With-abstractions**](https://agda.readthedocs.io/en/latest/language/with-abstraction.html) ―
+    Allow case analysis on calculated values.
+- [**Copatterns**](https://agda.readthedocs.io/en/latest/language/copatterns.html) ―
+    Get access to a component of records like a pattern.
+- [**Record modules**](https://agda.readthedocs.io/en/latest/language/record-types.html#record-modules) ―
+    Extend record types with derived notions, effectively used by the type
+    [`ERA`](src/Syho/Model/ERA/Base.agda).
 
 ## Source Code
 

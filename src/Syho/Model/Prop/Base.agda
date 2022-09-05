@@ -115,6 +115,11 @@ abstract
   ∃ᴵ-mono :  (∀{{x}} → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∃ᴵ˙ Pᵒ˙ ⊨ ∃ᴵ˙ Qᵒ˙
   ∃ᴵ-mono Px⊨Qx (-ᴵ, Pxa) =  -ᴵ, Px⊨Qx Pxa
 
+  -- Introduce ∀ᵒ
+
+  ∀ᵒ-intro :  (∀ x → Pᵒ ⊨ Qᵒ˙ x) →  Pᵒ ⊨ ∀ᵒ˙ Qᵒ˙
+  ∀ᵒ-intro P⊨Qx Pa x =  P⊨Qx x Pa
+
 --------------------------------------------------------------------------------
 -- ⌜⌝ᵒ :  Set embedding
 

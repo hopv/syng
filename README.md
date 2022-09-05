@@ -39,12 +39,10 @@ or [VS Code](https://marketplace.visualstudio.com/items?itemName=banacorn.agda-m
 Syho's source code uses a lot of Unicode characters.  
 To render them beautifully, we recommend you use monospace Unicode fonts that
 support these characters, such as the following:
-- [**JuliaMono**](https://juliamono.netlify.app/)
-    + It has a very large Unicode cover, including all the characters used in
-        Syho's source code.
-- [**Menlo**](https://en.wikipedia.org/wiki/Menlo_(typeface))
-    + It is preinstalled on Mac and pretty beautiful. Some characters (e.g.,
-        `⊢`) are not supported.
+- [**JuliaMono**](https://juliamono.netlify.app/) ― Has a huge Unicode cover,
+    including all the characters used in Syho's source code.
+- [**Menlo**](https://en.wikipedia.org/wiki/Menlo_(typeface)) ― Is preinstalled
+    on Mac and pretty beautiful. Doesn't support some characters (e.g., `⊢`).
 
 For example, in VS Code, you can use the following setting (in `settings.json`)
 to use Menlo as the primary font and fill in some gaps with JuliaMono.

@@ -383,25 +383,25 @@ abstract
 
   -- ∃/∨ can get outside ∗
 
-  ∗-∃-out :  P ∗ ∃₁˙ Q˙ ⊢[ ι ] ∃₁ x , P ∗ Q˙ x
-  ∗-∃-out =  -∗-elim $ ∃₁-elim $ -∗-intro ∘ ∃₁-intro
+  ∗∃-out :  P ∗ ∃₁˙ Q˙ ⊢[ ι ] ∃₁ x , P ∗ Q˙ x
+  ∗∃-out =  -∗-elim $ ∃₁-elim $ -∗-intro ∘ ∃₁-intro
 
-  ∃-∗-out :  ∃₁˙ P˙ ∗ Q ⊢[ ι ] ∃₁ x , P˙ x ∗ Q
-  ∃-∗-out =  ∗-comm » ∗-∃-out » ∃₁-mono $ λ _ → ∗-comm
+  ∃∗-out :  ∃₁˙ P˙ ∗ Q ⊢[ ι ] ∃₁ x , P˙ x ∗ Q
+  ∃∗-out =  ∗-comm » ∗∃-out » ∃₁-mono $ λ _ → ∗-comm
 
-  ∨-∗-out :  (P ∨ P') ∗ Q ⊢[ ι ] (P ∗ Q) ∨ (P' ∗ Q)
-  ∨-∗-out =  ∃-∗-out » ∃₁-mono $ binary ⊢-refl ⊢-refl
+  ∨∗-out :  (P ∨ P') ∗ Q ⊢[ ι ] (P ∗ Q) ∨ (P' ∗ Q)
+  ∨∗-out =  ∃∗-out » ∃₁-mono $ binary ⊢-refl ⊢-refl
 
-  ∗-∨-out :  P ∗ (Q ∨ Q') ⊢[ ι ] (P ∗ Q) ∨ (P ∗ Q')
-  ∗-∨-out =  ∗-comm » ∨-∗-out » ∨-mono ∗-comm ∗-comm
+  ∗∨-out :  P ∗ (Q ∨ Q') ⊢[ ι ] (P ∗ Q) ∨ (P ∗ Q')
+  ∗∨-out =  ∗-comm » ∨∗-out » ∨-mono ∗-comm ∗-comm
 
   -- Eliminate ∃/∨ under ∗
 
   ∃₁∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ∗ Q ⊢[ ι ]* Jr
-  ∃₁∗-elim Px∗⊢ =  ∃-∗-out » ∃₁-elim Px∗⊢
+  ∃₁∗-elim Px∗⊢ =  ∃∗-out » ∃₁-elim Px∗⊢
 
   ∗∃₁-elim :  (∀ x → P ∗ Q˙ x ⊢[ ι ]* Jr) →  P ∗ ∃₁˙ Q˙ ⊢[ ι ]* Jr
-  ∗∃₁-elim ∗Qx⊢ =  ∗-∃-out » ∃₁-elim ∗Qx⊢
+  ∗∃₁-elim ∗Qx⊢ =  ∗∃-out » ∃₁-elim ∗Qx⊢
 
   ∃₀∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ∗ Q ⊢[ ι ]* Jr
   ∃₀∗-elim =  ∃₁∗-elim ∘ _∘ ↓_

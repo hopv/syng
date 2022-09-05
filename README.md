@@ -131,7 +131,7 @@ parts.
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
     + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of propositions.
-        * [`Base`](src/Syho/Model/Prop/Base.agda) for core logic connectives;
+        * [`Base`](src/Syho/Model/Prop/Base.agda) for core logic connectives.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
             [`Ind`](src/Syho/Model/Prop/Ind.agda) for the indirection modality

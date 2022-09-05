@@ -18,7 +18,7 @@ open import Agda.Builtin.Sigma public using () renaming (Σ to ∑˙;
 private variable
   ł ł' :  Level
   A B C :  Set ł
-  B˙ :  A →  Set ł'
+  B˙ :  A →  Set ł
 
 -- Syntax for ∑
 
@@ -31,6 +31,11 @@ syntax ∑-syntax (λ a → B) =  ∑ a , B
 
 infix -2 -,_
 pattern -,_ b =  _ , b
+
+abstract
+
+  ∑-case :  (∀ a →  B˙ a → C) →  (∑˙ A B˙ → C)
+  ∑-case Ba⇒C (a , b) =  Ba⇒C a b
 
 --------------------------------------------------------------------------------
 -- Product
@@ -68,3 +73,8 @@ pattern _ᴵ,_ a b =  -ᴵ,_ {{a}} b
 infix -1 ∑ᴵ∈-syntax ∑ᴵ-syntax
 syntax ∑ᴵ∈-syntax {A = A} (λ a → B) =  ∑ᴵ a ∈ A , B
 syntax ∑ᴵ-syntax (λ a → B) =  ∑ᴵ a , B
+
+abstract
+
+  ∑ᴵ-case :  (∀{{a}} →  B˙ a → C) →  (∑ᴵ˙ A B˙ → C)
+  ∑ᴵ-case Ba⇒C (-ᴵ, b) =  Ba⇒C b

@@ -137,7 +137,7 @@ _⊎ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
 
 abstract
 
-  -- Monoᵒ on ⊎ᵒ
+  -- Monoᵒ for ⊎ᵒ
 
   ⊎ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ (Pᵒ ⊎ᵒ Qᵒ)
   ⊎ᵒ-Mono MonoP _ a⊑b (inj₀ Pa) =  inj₀ $ MonoP a⊑b Pa

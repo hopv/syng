@@ -152,11 +152,11 @@ abstract
 --------------------------------------------------------------------------------
 -- →ᵒ :  Implication
 
-infixr 5 _→ᵒ_
-_→ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-(Pᵒ →ᵒ Qᵒ) a =  ∀ E b →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
-
 abstract
+
+  infixr 5 _→ᵒ_
+  _→ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  (Pᵒ →ᵒ Qᵒ) a =  ∀ E b →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
 
   -- Monoᵒ for →ᵒ
 
@@ -282,11 +282,11 @@ abstract
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand
 
-infixr 5 _-∗ᵒ_
-_-∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-(Pᵒ -∗ᵒ Qᵒ) a =  ∀ E b c →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
-
 abstract
+
+  infixr 5 _-∗ᵒ_
+  _-∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  (Pᵒ -∗ᵒ Qᵒ) a =  ∀ E b c →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c → Qᵒ (c ∙ b)
 
   -- Monoᵒ for -∗ᵒ
 
@@ -322,11 +322,11 @@ abstract
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Update modality
 
-infix 8 ⤇ᵒ_
-⤇ᵒ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
-(⤇ᵒ Pᵒ) a =  ∀ E c →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
-
 abstract
+
+  infix 8 ⤇ᵒ_
+  ⤇ᵒ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+  (⤇ᵒ Pᵒ) a =  ∀ E c →  E ✓ c ∙ a →  ∑ b ,  E ✓ c ∙ b  ×  Pᵒ b
 
   -- Monoᵒ for ⤇ᵒ
 
@@ -372,13 +372,12 @@ abstract
 --------------------------------------------------------------------------------
 -- ⤇ᴱ :  Environmental update modality
 
-infix 8 _⤇ᴱ_
-
-_⤇ᴱ_ :  ∀{X : Set ł'} →  Env →  (X → Env × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-(E ⤇ᴱ FPᵒ˙) a =  ∀ c →  E ✓ c ∙ a →  ∑ x , ∑ b ,
-  let (F , Pᵒ) = FPᵒ˙ x in  F ✓ c ∙ b  ×  Pᵒ b
-
 abstract
+
+  infix 8 _⤇ᴱ_
+  _⤇ᴱ_ :  ∀{X : Set ł'} →  Env →  (X → Env × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  (E ⤇ᴱ FPᵒ˙) a =  ∀ c →  E ✓ c ∙ a →  ∑ x , ∑ b ,
+    let (F , Pᵒ) = FPᵒ˙ x in  F ✓ c ∙ b  ×  Pᵒ b
 
   -- Monoᵒ for ⤇ᴱ
 
@@ -485,11 +484,11 @@ abstract
 --------------------------------------------------------------------------------
 -- ● :  ● a resource
 
-infix 8 ●_
-●_ :  Res →  Propᵒ 2ᴸ
-(● a) b =  a ⊑ b
-
 abstract
+
+  infix 8 ●_
+  ●_ :  Res →  Propᵒ 2ᴸ
+  (● a) b =  a ⊑ b
 
   -- Monoᵒ for ●
 

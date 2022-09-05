@@ -115,20 +115,6 @@ abstract
   ∃ᴵ-mono :  (∀{{x}} → Pᵒ˙ x ⊨ Qᵒ˙ x) →  ∃ᴵ˙ Pᵒ˙ ⊨ ∃ᴵ˙ Qᵒ˙
   ∃ᴵ-mono Px⊨Qx (-ᴵ, Pxa) =  -ᴵ, Px⊨Qx Pxa
 
-  -- Eliminate ∃ᵒ/∃ᴵ
-
-  ∃ᵒ-elim :  (∀ x → Pᵒ˙ x ⊨ Qᵒ) →  ∃ᵒ˙ Pᵒ˙ ⊨ Qᵒ
-  ∃ᵒ-elim Px⊨Q (-, Pxa) =  Px⊨Q _ Pxa
-
-  ∃ᵒ-elim✓ :  (∀ x → Pᵒ˙ x ⊨✓ Qᵒ) →  ∃ᵒ˙ Pᵒ˙ ⊨✓ Qᵒ
-  ∃ᵒ-elim✓ Px⊨✓Q E✓a (-, Pxa) =  Px⊨✓Q _ E✓a Pxa
-
-  ∃ᴵ-elim :  (∀{{x}} → Pᵒ˙ x ⊨ Qᵒ) →  ∃ᴵ˙ Pᵒ˙ ⊨ Qᵒ
-  ∃ᴵ-elim Px⊨Q (-ᴵ, Pxa) =  Px⊨Q Pxa
-
-  ∃ᴵ-elim✓ :  (∀{{x}} → Pᵒ˙ x ⊨✓ Qᵒ) →  ∃ᴵ˙ Pᵒ˙ ⊨✓ Qᵒ
-  ∃ᴵ-elim✓ Px⊨✓Q E✓a (-ᴵ, Pxa) =  Px⊨✓Q E✓a Pxa
-
 --------------------------------------------------------------------------------
 -- ⌜⌝ᵒ :  Set embedding
 

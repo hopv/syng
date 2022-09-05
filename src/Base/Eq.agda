@@ -9,7 +9,7 @@ module Base.Eq where
 open import Base.Level using (Level)
 open import Base.Few using (¬_)
 
-------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 -- ≡ :  Equality
 
 open import Agda.Builtin.Equality public using (_≡_; refl)

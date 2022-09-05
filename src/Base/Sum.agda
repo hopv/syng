@@ -10,7 +10,7 @@ open import Base.Level using (Level; _⊔ᴸ_)
 
 private variable
   ł ł' :  Level
-  A B :  Set ł
+  A B C :  Set ł
 
 --------------------------------------------------------------------------------
 -- Sum
@@ -22,8 +22,7 @@ data  _⊎_ (A : Set ł) (B : Set ł') :  Set (ł ⊔ᴸ ł')  where
 
 -- Pattern matching on ⊎
 
-⊎-case :  ∀{F : A ⊎ B → Set ł} →
-  (∀ a → F (inj₀ a)) →  (∀ b → F (inj₁ b)) →  (a/b : A ⊎ B) →  F a/b
+⊎-case :  (A → C) →  (B → C) →  A ⊎ B →  C
 ⊎-case f _ (inj₀ a) =  f a
 ⊎-case _ g (inj₁ b) =  g b
 

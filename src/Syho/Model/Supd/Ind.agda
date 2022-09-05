@@ -24,14 +24,15 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□; Env-ind)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□;
+  updᴱᴳ-self)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ∃ᵒ˙; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ∃ᴵ˙; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ⊨⇒⊨✓; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ;
   ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∃ᵒ∗ᵒ-out; ∃ᴵ∗ᵒ-out; ⊎ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
-  -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ;
-  ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono;
-  ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
+  -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-respᴱ; ⤇ᴱ-param; ⤇ᴱ-intro; ⤇ᴱ-join; ⤇ᴱ-eatˡ;
+  ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ;
+  ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
@@ -189,14 +190,16 @@ abstract
   -- ⊨⇛indˣ into ⊨⇛ind
 
   ⊨⇛indˣ⇒⊨⇛ind :  Pᵒ ⊨⇛indˣ Qᵒ →  Pᵒ ⊨⇛ind Qᵒ
-  ⊨⇛indˣ⇒⊨⇛ind P⊨⇛indˣQ _ ✓∙ =  ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (P⊨⇛indˣQ _) ✓∙ › ⤇ᴱ-eatʳ
-    › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ⤇ᴱ-updᴱᴳ-self-intro) › ⤇ᴱ-join › ⤇ᴱ-param
+  ⊨⇛indˣ⇒⊨⇛ind P⊨⇛indˣQ _ ✓∙ =  ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (P⊨⇛indˣQ _) ✓∙ ›
+    ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ⤇ᴱ-intro › ⤇ᴱ-respᴱ updᴱᴳ-self) ›
+    ⤇ᴱ-join › ⤇ᴱ-param
 
   -- ⊨⇛ind□ into ⊨⇛ind
 
   ⊨⇛ind□⇒⊨⇛ind :  Pᵒ ⊨⇛ind□ Qᵒ →  Pᵒ ⊨⇛ind Qᵒ
   ⊨⇛ind□⇒⊨⇛ind P⊨⇛ind□Q _ _ =  ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
-    ∗ᵒ-monoˡ (⤇ᴱ-updᴱᴳ-self-intro › ⤇ᴱ-mono✓ (λ _ → P⊨⇛ind□Q _) › ⤇ᴱ-join) ›
+    ∗ᵒ-monoˡ (⤇ᴱ-intro ›
+      ⤇ᴱ-respᴱ updᴱᴳ-self › ⤇ᴱ-mono✓ (λ _ → P⊨⇛ind□Q _) › ⤇ᴱ-join) ›
     ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-param
 
   -- Monotonicity of ⊨⇛ind

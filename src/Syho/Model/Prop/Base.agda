@@ -9,7 +9,7 @@ module Syho.Model.Prop.Base where
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; ṡᴸ_)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀)
-open import Base.Eq using (_≡_; ◠˙_)
+open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
   proj₁; uncurry; ∑-case)
@@ -383,6 +383,11 @@ abstract
              E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
   ⤇ᴱ-mono =  ⤇ᴱ-mono✓ ∘ (⊨⇒⊨✓ ∘_)
 
+  -- Update the environment of ⤇ᴱ
+
+  ⤇ᴱ-respᴱ :  E ≡˙ F →  E ⤇ᴱ FPᵒ˙ ⊨ F ⤇ᴱ FPᵒ˙
+  ⤇ᴱ-respᴱ E≡F E⤇FP _ F✓c∙a =  E⤇FP _ (✓ᴳ-respᴱ (◠˙ E≡F) F✓c∙a)
+
   -- Change parameterization of ⤇ᴱ
 
   ⤇ᴱ-param :  E ⤇ᴱ FPᵒ˙ ∘ f  ⊨  E ⤇ᴱ FPᵒ˙
@@ -539,11 +544,6 @@ module _ {i : ℕ} where
     aⁱ˙ bⁱ˙ :  X → Resⁱ
 
   abstract
-
-    -- Introduce ⤇ᴱ with self updᴱᴳ
-
-    ⤇ᴱ-updᴱᴳ-self-intro :  Pᵒ ⊨ E ⤇ᴱ λ (_ : ⊤₀) → updᴱᴳ i (E i) E , Pᵒ
-    ⤇ᴱ-updᴱᴳ-self-intro Pa _ E✓c∙a =  -, -, ✓ᴳ-respᴱ (◠˙ updᴱᴳ-self) E✓c∙a , Pa
 
     -- ● injᴳ i aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
 

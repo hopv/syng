@@ -12,7 +12,7 @@ open import Base.Few using (⊤; ⊤₀)
 open import Base.Eq using (_≡_)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
-  proj₁; uncurry)
+  proj₁; uncurry; ∑-case)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
@@ -245,39 +245,27 @@ abstract
   ∗ᵒ?-intro :  ⊨ Qᵒ →  Pᵒ ⊨ Pᵒ ∗ᵒ Qᵒ
   ∗ᵒ?-intro ⊨Q =  ?∗ᵒ-intro ⊨Q › ∗ᵒ-comm
 
-  -- Eliminate ∃ᵒ under ∗ᵒ
+  -- ∃ᵒ/ᴵ and ⊎ commute with ∗ᵒ
 
-  ∃ᵒ∗ᵒ-elim :  (∀ x → Pᵒ˙ x ∗ᵒ Qᵒ ⊨ Rᵒ) →  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ Rᵒ
-  ∃ᵒ∗ᵒ-elim Px∗Q⊨R (-, -, b∙c⊑a , (-, Pxb) , Qc) =
-    Px∗Q⊨R _ (-, -, b∙c⊑a , Pxb , Qc)
+  ∃ᵒ∗ᵒ-out :  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ ∃ᵒ x , Pᵒ˙ x ∗ᵒ Qᵒ
+  ∃ᵒ∗ᵒ-out (-, -, b∙c⊑a , (-, Pxb) , Qc) =  -, -, -, b∙c⊑a , Pxb , Qc
 
-  ∃ᵒ∗ᵒ-elim✓ :  (∀ x → Pᵒ˙ x ∗ᵒ Qᵒ ⊨✓ Rᵒ) →  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨✓ Rᵒ
-  ∃ᵒ∗ᵒ-elim✓ Px∗Q⊨✓R ✓a (-, -, b∙c⊑a , (-, Pxb) , Qc) =
-    Px∗Q⊨✓R _ ✓a (-, -, b∙c⊑a , Pxb , Qc)
+  ∗ᵒ∃ᵒ-out :  Pᵒ ∗ᵒ ∃ᵒ˙ Qᵒ˙ ⊨ ∃ᵒ x , Pᵒ ∗ᵒ Qᵒ˙ x
+  ∗ᵒ∃ᵒ-out (-, -, b∙c⊑a , Pb , (-, Qxc)) =  -, -, -, b∙c⊑a , Pb , Qxc
 
-  -- Eliminate ∃ᴵ under ∗ᵒ
+  ∃ᴵ∗ᵒ-out :  ∃ᴵ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ ∃ᴵ x , Pᵒ˙ x ∗ᵒ Qᵒ
+  ∃ᴵ∗ᵒ-out (-, -, b∙c⊑a , (-ᴵ, Pxb) , Qc) =  -ᴵ, -, -, b∙c⊑a , Pxb , Qc
 
-  ∃ᴵ∗ᵒ-elim :  (∀{{x}} → Pᵒ˙ x ∗ᵒ Qᵒ ⊨ Rᵒ) →  ∃ᴵ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ Rᵒ
-  ∃ᴵ∗ᵒ-elim Px∗Q⊨R (-, -, b∙c⊑a , (-ᴵ, Pxb) , Qc) =
-    Px∗Q⊨R (-, -, b∙c⊑a , Pxb , Qc)
+  ∗ᵒ∃ᴵ-out :  Pᵒ ∗ᵒ ∃ᴵ˙ Qᵒ˙ ⊨ ∃ᴵ x , Pᵒ ∗ᵒ Qᵒ˙ x
+  ∗ᵒ∃ᴵ-out (-, -, b∙c⊑a , Pb , (-ᴵ, Qxc)) =  -ᴵ, -, -, b∙c⊑a , Pb , Qxc
 
-  ∃ᴵ∗ᵒ-elim✓ :  (∀{{x}} → Pᵒ˙ x ∗ᵒ Qᵒ ⊨✓ Rᵒ) →  ∃ᴵ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨✓ Rᵒ
-  ∃ᴵ∗ᵒ-elim✓ Px∗Q⊨✓R ✓a (-, -, b∙c⊑a , (-ᴵ, Pxb) , Qc) =
-    Px∗Q⊨✓R ✓a (-, -, b∙c⊑a , Pxb , Qc)
+  ⊎ᵒ∗ᵒ-out :  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ (Pᵒ ∗ᵒ Rᵒ) ⊎ᵒ (Qᵒ ∗ᵒ Rᵒ)
+  ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , inj₀ Pb , Rc) =  inj₀ (-, -, b∙c⊑a , Pb , Rc)
+  ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , inj₁ Qb , Rc) =  inj₁ (-, -, b∙c⊑a , Qb , Rc)
 
-  -- Eliminate ⊎ᵒ under ∗ᵒ
-
-  ⊎ᵒ∗ᵒ-elim :  Pᵒ ∗ᵒ Rᵒ ⊨ Sᵒ →  Qᵒ ∗ᵒ Rᵒ ⊨ Sᵒ →  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Sᵒ
-  ⊎ᵒ∗ᵒ-elim P∗R⊨S _ (-, -, b∙c⊑a , inj₀ Pb , Rc) =
-    P∗R⊨S (-, -, b∙c⊑a , Pb , Rc)
-  ⊎ᵒ∗ᵒ-elim _ Q∗R⊨S (-, -, b∙c⊑a , inj₁ Qb , Rc) =
-    Q∗R⊨S (-, -, b∙c⊑a , Qb , Rc)
-
-  ⊎ᵒ∗ᵒ-elim✓ :  Pᵒ ∗ᵒ Rᵒ ⊨✓ Sᵒ →  Qᵒ ∗ᵒ Rᵒ ⊨✓ Sᵒ →  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨✓ Sᵒ
-  ⊎ᵒ∗ᵒ-elim✓ P∗R⊨✓S _ ✓a (-, -, b∙c⊑a , inj₀ Pb , Rc) =
-    P∗R⊨✓S ✓a (-, -, b∙c⊑a , Pb , Rc)
-  ⊎ᵒ∗ᵒ-elim✓ _ Q∗R⊨✓S ✓a (-, -, b∙c⊑a , inj₁ Qb , Rc) =
-    Q∗R⊨✓S ✓a (-, -, b∙c⊑a , Qb , Rc)
+  ∗ᵒ⊎ᵒ-out :  Pᵒ ∗ᵒ (Qᵒ ⊎ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ⊎ᵒ (Pᵒ ∗ᵒ Rᵒ)
+  ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , inj₀ Qc) =  inj₀ (-, -, b∙c⊑a , Pb , Qc)
+  ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , inj₁ Rc) =  inj₁ (-, -, b∙c⊑a , Pb , Rc)
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand

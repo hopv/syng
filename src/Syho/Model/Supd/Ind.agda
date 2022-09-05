@@ -11,8 +11,8 @@ open import Base.Size using (∞)
 open import Base.Func using (_$_; _▷_; _›_; _∘_; id)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl)
-open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
-open import Base.Sum using (inj₀; inj₁)
+open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
+open import Base.Sum using (inj₀; inj₁; ⊎-case)
 open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff)
@@ -28,8 +28,8 @@ open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; 
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ∃ᵒ˙; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ∃ᴵ˙; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ⊨⇒⊨✓; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ;
-  ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∃ᵒ∗ᵒ-elim; ∃ᵒ∗ᵒ-elim✓; ∃ᴵ∗ᵒ-elim✓; ⊎ᵒ∗ᵒ-elim✓;
-  -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ;
+  ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∃ᵒ∗ᵒ-out; ∃ᴵ∗ᵒ-out; ⊎ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
+  -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ;
   ⤇ᴱ-updᴱᴳ-self-intro; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono;
   ●-injᴳ-⌞⌟≡-□ᵒ; ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
@@ -118,7 +118,7 @@ abstract
 
   Indˣ-use :  Indˣ P  ⊨⇛indˣ  ⸨ P ⸩
   Indˣ-use E _ =  let (_ , n) = E indˣ in
-    ∃ᵒ∗ᵒ-elim λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
+    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
     › ⤇ᴱ-param
 
@@ -154,7 +154,7 @@ abstract
 
   Ind□-use :  Ind□ P  ⊨⇛ind□  ⸨ P ⸩
   Ind□-use {P} E _ =  let (_ , n) = E ind□ in
-    ∃ᵒ∗ᵒ-elim λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
+    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ ⸨⸩ᴺᴹ-Mono {n = n}) ›
       dup-□ᵒ (⸨⸩ᴺᴹ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (⸨⸩ᴺᴹ-Mono {n = n}) ›
       ⸨⸩ᴺᴹ-rem-< i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) › ⤇ᴱ-param
@@ -226,10 +226,10 @@ abstract
   -- ∃ᵒ/∃ᴵ on ⊨⇛ind
 
   ⊨⇛ind-∃ᵒ :  (∀ x → Pᵒ˙ x ⊨⇛ind Qᵒ) →  ∃ᵒ˙ Pᵒ˙ ⊨⇛ind Qᵒ
-  ⊨⇛ind-∃ᵒ Px⊨⇛indQ _ =  ∃ᵒ∗ᵒ-elim✓ λ x → Px⊨⇛indQ x _
+  ⊨⇛ind-∃ᵒ Px⊨⇛indQ _ ✓a =  ∃ᵒ∗ᵒ-out › ∑-case λ _ → Px⊨⇛indQ _ _ ✓a
 
   ⊨⇛ind-∃ᴵ :  (∀{{x}} → Pᵒ˙ x ⊨⇛ind Qᵒ) →  ∃ᴵ˙ Pᵒ˙ ⊨⇛ind Qᵒ
-  ⊨⇛ind-∃ᴵ Px⊨⇛indQ _ =  ∃ᴵ∗ᵒ-elim✓ $ Px⊨⇛indQ _
+  ⊨⇛ind-∃ᴵ Px⊨⇛indQ _ ✓a =  ∃ᴵ∗ᵒ-out › ∑ᴵ-case $ Px⊨⇛indQ _ ✓a
 
   -- Allocate P to get Ind P
 
@@ -245,7 +245,8 @@ abstract
   -- Consume Ind P to get P
 
   Ind-use :  Ind P  ⊨⇛ind  ⸨ P ⸩
-  Ind-use _ =  ⊎ᵒ∗ᵒ-elim✓ (⊨⇛indˣ⇒⊨⇛ind Indˣ-use _) (⊨⇛ind□⇒⊨⇛ind Ind□-use _)
+  Ind-use _ ✓a =  ⊎ᵒ∗ᵒ-out ›
+    ⊎-case (⊨⇛indˣ⇒⊨⇛ind Indˣ-use _ ✓a) (⊨⇛ind□⇒⊨⇛ind Ind□-use _ ✓a)
 
 --------------------------------------------------------------------------------
 -- On ○ᵒ

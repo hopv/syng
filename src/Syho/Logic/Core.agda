@@ -389,10 +389,10 @@ abstract
   ∃∗-out :  ∃₁˙ P˙ ∗ Q ⊢[ ι ] ∃₁ x , P˙ x ∗ Q
   ∃∗-out =  ∗-comm » ∗∃-out » ∃₁-mono $ λ _ → ∗-comm
 
-  ∨∗-out :  (P ∨ P') ∗ Q ⊢[ ι ] (P ∗ Q) ∨ (P' ∗ Q)
+  ∨∗-out :  (P ∨ Q) ∗ R ⊢[ ι ] (P ∗ R) ∨ (Q ∗ R)
   ∨∗-out =  ∃∗-out » ∃₁-mono $ binary ⊢-refl ⊢-refl
 
-  ∗∨-out :  P ∗ (Q ∨ Q') ⊢[ ι ] (P ∗ Q) ∨ (P ∗ Q')
+  ∗∨-out :  P ∗ (Q ∨ R) ⊢[ ι ] (P ∗ Q) ∨ (P ∗ R)
   ∗∨-out =  ∗-comm » ∨∗-out » ∨-mono ∗-comm ∗-comm
 
   -- Eliminate ∃/∨ under ∗
@@ -409,11 +409,11 @@ abstract
   ∗∃₀-elim :  (∀ x → P ∗ Q˙ x ⊢[ ι ]* Jr) →  P ∗ ∃₀˙ Q˙ ⊢[ ι ]* Jr
   ∗∃₀-elim =  ∗∃₁-elim ∘ _∘ ↓_
 
-  ∨∗-elim :  P ∗ Q ⊢[ ι ]* Jr →  P' ∗ Q ⊢[ ι ]* Jr →  (P ∨ P') ∗ Q ⊢[ ι ]* Jr
-  ∨∗-elim P∗⊢ P'∗⊢ =  ∃₁∗-elim $ binary P∗⊢ P'∗⊢
+  ∨∗-elim :  P ∗ R ⊢[ ι ]* Jr →  Q ∗ R ⊢[ ι ]* Jr →  (P ∨ Q) ∗ R ⊢[ ι ]* Jr
+  ∨∗-elim P∗⊢ Q∗⊢ =  ∃₁∗-elim $ binary P∗⊢ Q∗⊢
 
-  ∗∨-elim :  P ∗ Q ⊢[ ι ]* Jr →  P ∗ Q' ⊢[ ι ]* Jr →  P ∗ (Q ∨ Q') ⊢[ ι ]* Jr
-  ∗∨-elim ∗Q⊢ ∗Q'⊢ =  ∗∃₁-elim $ binary ∗Q⊢ ∗Q'⊢
+  ∗∨-elim :  P ∗ Q ⊢[ ι ]* Jr →  P ∗ R ⊢[ ι ]* Jr →  P ∗ (Q ∨ R) ⊢[ ι ]* Jr
+  ∗∨-elim ∗Q⊢ ∗R⊢ =  ∗∃₁-elim $ binary ∗Q⊢ ∗R⊢
 
   ------------------------------------------------------------------------------
   -- Enrich ∗-mono

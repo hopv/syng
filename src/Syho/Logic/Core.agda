@@ -381,27 +381,39 @@ abstract
   ∗⇒∧ :  P ∗ Q ⊢[ ι ] P ∧ Q
   ∗⇒∧ =  ∧-intro ∗-elimˡ ∗-elimʳ
 
-  -- ∃ can get outside ∗
+  -- ∃/∨ can get outside ∗
 
-  ∗-∃₁-out :  P ∗ ∃₁˙ Q˙ ⊢[ ι ] ∃₁ x , P ∗ Q˙ x
-  ∗-∃₁-out =  -∗-elim $ ∃₁-elim $ -∗-intro ∘ ∃₁-intro
+  ∗-∃-out :  P ∗ ∃₁˙ Q˙ ⊢[ ι ] ∃₁ x , P ∗ Q˙ x
+  ∗-∃-out =  -∗-elim $ ∃₁-elim $ -∗-intro ∘ ∃₁-intro
 
-  ∗-∃₀-out :  P ∗ ∃₀˙ Q˙ ⊢[ ι ] ∃₀ x , P ∗ Q˙ x
-  ∗-∃₀-out =  ∗-∃₁-out
+  ∃-∗-out :  ∃₁˙ P˙ ∗ Q ⊢[ ι ] ∃₁ x , P˙ x ∗ Q
+  ∃-∗-out =  ∗-comm » ∗-∃-out » ∃₁-mono $ λ _ → ∗-comm
 
-  -- Eliminate ∃/∨/⊥' with ∗
+  ∨-∗-out :  (P ∨ P') ∗ Q ⊢[ ι ] (P ∗ Q) ∨ (P' ∗ Q)
+  ∨-∗-out =  ∃-∗-out » ∃₁-mono $ binary ⊢-refl ⊢-refl
+
+  ∗-∨-out :  P ∗ (Q ∨ Q') ⊢[ ι ] (P ∗ Q) ∨ (P ∗ Q')
+  ∗-∨-out =  ∗-comm » ∨-∗-out » ∨-mono ∗-comm ∗-comm
+
+  -- Eliminate ∃/∨ under ∗
 
   ∃₁∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ∗ Q ⊢[ ι ]* Jr
-  ∃₁∗-elim ∀P˙∗⊢ =  ∗-comm » ∗-∃₁-out » ∃₁-elim λ x → ∗-comm » ∀P˙∗⊢ x
+  ∃₁∗-elim Px∗⊢ =  ∃-∗-out » ∃₁-elim Px∗⊢
+
+  ∗∃₁-elim :  (∀ x → P ∗ Q˙ x ⊢[ ι ]* Jr) →  P ∗ ∃₁˙ Q˙ ⊢[ ι ]* Jr
+  ∗∃₁-elim ∗Qx⊢ =  ∗-∃-out » ∃₁-elim ∗Qx⊢
 
   ∃₀∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ∗ Q ⊢[ ι ]* Jr
   ∃₀∗-elim =  ∃₁∗-elim ∘ _∘ ↓_
 
-  ∨∗-elim :  P ∗ Q ⊢[ ι ]* Jr →  P' ∗ Q ⊢[ ι ]* Jr →  (P ∨ P') ∗ Q ⊢[ ι ]* Jr
-  ∨∗-elim P∗⊢ P'∗⊢ =  ∃₁∗-elim (binary P∗⊢ P'∗⊢)
+  ∗∃₀-elim :  (∀ x → P ∗ Q˙ x ⊢[ ι ]* Jr) →  P ∗ ∃₀˙ Q˙ ⊢[ ι ]* Jr
+  ∗∃₀-elim =  ∗∃₁-elim ∘ _∘ ↓_
 
-  ⊥∗-elim :  ⊥' ∗ P ⊢[ ι ]* Jr
-  ⊥∗-elim =  ∗-elimˡ » ⊥-elim
+  ∨∗-elim :  P ∗ Q ⊢[ ι ]* Jr →  P' ∗ Q ⊢[ ι ]* Jr →  (P ∨ P') ∗ Q ⊢[ ι ]* Jr
+  ∨∗-elim P∗⊢ P'∗⊢ =  ∃₁∗-elim $ binary P∗⊢ P'∗⊢
+
+  ∗∨-elim :  P ∗ Q ⊢[ ι ]* Jr →  P ∗ Q' ⊢[ ι ]* Jr →  P ∗ (Q ∨ Q') ⊢[ ι ]* Jr
+  ∗∨-elim ∗Q⊢ ∗Q'⊢ =  ∗∃₁-elim $ binary ∗Q⊢ ∗Q'⊢
 
   ------------------------------------------------------------------------------
   -- Enrich ∗-mono

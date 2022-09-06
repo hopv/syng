@@ -13,8 +13,8 @@ open import Base.Prod using (_×_; _,_)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
   _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ;
   ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
-  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-param;
-  ⤇ᴱ-intro; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
+  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ;
+  ⤇ᴱ-param; ⤇ᴱ-intro; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
 open import Syho.Model.ERA.Glob using (Envᴳ)
 
 private variable
@@ -70,6 +70,16 @@ abstract
 
   ⇛ᵍ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ
   ⇛ᵍ-intro setget≡ =  ⇛ᵍ-make λ _ _ → ⤇ᴱ-intro › ⤇ᴱ-respᴱˡ setget≡ › ⤇ᴱ-param
+
+  -- Join the same ⇛ᵍs
+
+  ⇛ᵍ-join :
+    (∀{E x} → get (set x E) ≡ x) →  (∀{E x y} → set y (set x E) ≡˙ set y E) →
+    [ get , set , Inv ]⇛ᵍ [ get , set , Inv ]⇛ᵍ Pᵒ  ⊨  [ get , set , Inv ]⇛ᵍ Pᵒ
+  ⇛ᵍ-join {Inv = Inv} getset≡ setset≡set =
+    ⇛ᵍ-make {Pᵒ = [ _ ]⇛ᵍ _} λ E ✓∙ → ⇛ᵍ-apply ✓∙ ›
+    ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoʳ (subst₂ Inv (◠ getset≡ {E}) refl) › ⇛ᵍ-apply ✓∙)
+    › ⤇ᴱ-join › ⤇ᴱ-respᴱʳ setset≡set › ⤇ᴱ-param
 
   -- Join two different ⇛ᵍs
 

@@ -8,11 +8,12 @@ module Syho.Model.ERA.Glob where
 
 open import Base.Level using (Level; 2ᴸ)
 open import Base.Func using (_$_)
-open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
+open import Base.Eq using (_≡_; _≢_; refl; ◠_; _≡˙_)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≡?_; ≡?-refl)
-open import Base.Natmap using (updᴰᴺᴹ)
+open import Base.Natmap using (updᴰᴺᴹ; updᴰᴺᴹ-cong; updᴰᴺᴹ-self; updᴰᴺᴹ-2;
+  updᴰᴺᴹ-swap)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
@@ -101,7 +102,7 @@ module _ {i : ℕ} where
     _↝_ to _↝ⁱ_; refl˜ to refl˜ⁱ)
 
   private variable
-    E F :  Envⁱ
+    E F G :  Envⁱ
     a b :  Resⁱ
     ł :  Level
     X :  Set ł
@@ -120,10 +121,24 @@ module _ {i : ℕ} where
 
     -- Self updᴱᴳ
 
+    updᴱᴳ-cong :  E˙ ≡˙ F˙ →  updᴱᴳ i G E˙  ≡˙  updᴱᴳ i G F˙
+    updᴱᴳ-cong =  updᴰᴺᴹ-cong
+
+    -- Self updᴱᴳ
+
     updᴱᴳ-self :  updᴱᴳ i (E˙ i) E˙  ≡˙  E˙
-    updᴱᴳ-self j  with j ≡? i
-    … | yes refl =  refl
-    … | no _ =  refl
+    updᴱᴳ-self =  updᴰᴺᴹ-self
+
+    -- Double updᴱᴳ
+
+    updᴱᴳ-2 :  updᴱᴳ i F (updᴱᴳ i G E˙)  ≡˙  updᴱᴳ i F E˙
+    updᴱᴳ-2 =  updᴰᴺᴹ-2
+
+    -- Swap updᴱᴳ on different indices
+
+    updᴱᴳ-swap :  ∀{j} {Gʲ : Globᴱᴿᴬ˙ j .Env} →  i ≢ j →
+      updᴱᴳ i F (updᴱᴳ j Gʲ E˙)  ≡˙  updᴱᴳ j Gʲ (updᴱᴳ i F E˙)
+    updᴱᴳ-swap =  updᴰᴺᴹ-swap
 
     ----------------------------------------------------------------------------
     -- On updᴳ

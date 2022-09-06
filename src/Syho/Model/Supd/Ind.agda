@@ -24,7 +24,7 @@ open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□; Env-ind)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□;
-  updᴱᴳ-self)
+  updᴱᴳ-cong; updᴱᴳ-self; updᴱᴳ-2; updᴱᴳ-swap)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
   ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ;
@@ -195,9 +195,9 @@ abstract
   -- Double updᴱ-ind
 
   updᴱ-ind-2 :  updᴱ-ind Gˣ□ (updᴱ-ind Fˣ□ E)  ≡˙  updᴱ-ind Gˣ□ E
-  updᴱ-ind-2 indˣ =  refl
-  updᴱ-ind-2 ind□ =  refl
-  updᴱ-ind-2 (ṡ ṡ _) =  refl
+  updᴱ-ind-2 =  updᴱᴳ-cong (updᴱᴳ-swap λ ()) ◇˙ updᴱᴳ-2 ◇˙ updᴱᴳ-cong updᴱᴳ-2
+
+  -- □ ˣ □ ˣ = □ ˣ
 
   -- ⇛indˣ into ⇛ind
 

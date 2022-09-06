@@ -340,7 +340,7 @@ abstract
   ⤇ᵒ-intro :  Pᵒ ⊨ ⤇ᵒ Pᵒ
   ⤇ᵒ-intro Pa _ _ E✓c∙a =  -, E✓c∙a , Pa
 
-  -- Join ⤇ᵒ ⤇ᵒ into ⤇ᵒ
+  -- Join ⤇ᵒs
 
   ⤇ᵒ-join :  ⤇ᵒ ⤇ᵒ Pᵒ ⊨ ⤇ᵒ Pᵒ
   ⤇ᵒ-join ⤇⤇Pa _ _ E✓d∙a  with ⤇⤇Pa _ _ E✓d∙a
@@ -408,7 +408,7 @@ abstract
   ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤₀) → E , Pᵒ
   ⤇ᴱ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⤇ᴱ
 
-  -- Join ⤇ᴱ
+  -- Join ⤇ᴱs
 
   ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙˙ x)  ⊨  E ⤇ᴱ uncurry GPᵒ˙˙
   ⤇ᴱ-join E⤇F,F⤇GPx _ E✓d∙a  with E⤇F,F⤇GPx _ E✓d∙a

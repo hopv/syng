@@ -52,7 +52,7 @@ abstract
   ⇛ᵒ-mono :  Pᵒ ⊨ Qᵒ →  [ gsI ]⇛ᵒ Pᵒ ⊨ [ gsI ]⇛ᵒ Qᵒ
   ⇛ᵒ-mono =  ⇛ᵒ-mono✓ ∘ ⊨⇒⊨✓
 
-  -- Join ⇛ᵒ
+  -- Join ⇛ᵒs
 
   ⇛ᵒ-join :  (∀{E x} → get' (set x E) ≡ get' E) →
     [ get , set , Inv ]⇛ᵒ [ get' , set' , Inv' ]⇛ᵒ Pᵒ  ⊨

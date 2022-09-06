@@ -69,8 +69,7 @@ abstract
   -- Introduce ⇛ᵍ
 
   ⇛ᵍ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ
-  ⇛ᵍ-intro {Pᵒ = Pᵒ} setget≡ =  ⇛ᵍ-make λ _ _ →
-    ⤇ᴱ-intro › ⤇ᴱ-respᴱˡ setget≡ › ⤇ᴱ-param
+  ⇛ᵍ-intro setget≡ =  ⇛ᵍ-make λ _ _ → ⤇ᴱ-intro › ⤇ᴱ-respᴱˡ setget≡ › ⤇ᴱ-param
 
   -- Join two different ⇛ᵍs
 

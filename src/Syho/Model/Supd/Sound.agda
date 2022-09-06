@@ -80,6 +80,7 @@ infix 8 ⇛ᵒ_
 ⊢⇛⇒⊨⇛ᵒ ○-use =  ○ᵒ-use
 
 -- ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ][ ṡ i ]⇛  Q˂ .!
+---- The counter increment ṡ i makes the recursive call of ⊢⇛⇒⊨⇛ᵒ inductive
 
 ⊢⇛⇒⊨⇛ᵒ ↪⇛-use =  ∗ᵒ-monoʳ ↪⇛ᵒ-use › ⇛ᵍ-eatˡ ›
   ⇛ᵍ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ → ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛⇒⊨⇛ᵒ P∗R⊢⇛Q) ›

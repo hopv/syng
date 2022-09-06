@@ -58,7 +58,7 @@ abstract
   ⇛ᵒ-make :  (∀ E → Pᵒ ∗ᵒ Inv (get E) ⊨✓ E ⤇ᴱ λ x → set x E , Qᵒ ∗ᵒ Inv x) →
              Pᵒ ⊨ [ get , set , Inv ]⇛ᵒ Qᵒ
   ⇛ᵒ-make {Pᵒ = Pᵒ} Inv∗P⊨✓⤇Inv∗Q =
-    ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro $ λ ✓∙ → ∗ᵒ-comm › Inv∗P⊨✓⤇Inv∗Q _ ✓∙
+    ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro λ ✓∙ → ∗ᵒ-comm › Inv∗P⊨✓⤇Inv∗Q _ ✓∙
 
   -- Apply ⇛ᵒ
 

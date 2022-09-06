@@ -387,7 +387,7 @@ abstract
   ∗∃-out =  -∗-elim $ ∃₁-elim $ -∗-intro ∘ ∃₁-intro
 
   ∃∗-out :  ∃₁˙ P˙ ∗ Q ⊢[ ι ] ∃₁ x , P˙ x ∗ Q
-  ∃∗-out =  ∗-comm » ∗∃-out » ∃₁-mono $ λ _ → ∗-comm
+  ∃∗-out =  ∗-comm » ∗∃-out » ∃₁-mono λ _ → ∗-comm
 
   ∨∗-out :  (P ∨ Q) ∗ R ⊢[ ι ] (P ∗ R) ∨ (Q ∗ R)
   ∨∗-out =  ∃∗-out » ∃₁-mono $ binary ⊢-refl ⊢-refl

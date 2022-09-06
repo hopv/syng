@@ -27,68 +27,68 @@ private variable
   Inv Inv' :  X → Propᵒ ł
   E :  Envᴳ
 --------------------------------------------------------------------------------
--- [ ]⇛ᵒ :  General super update modality
+-- [ ]⇛ᵍ :  General super update modality
 
 -- Parametrized over the getter (get) and setter (set) on the environment and
 -- the invariant predicate (Inv)
 
 abstract
 
-  infix 8 [_]⇛ᵒ_
-  [_]⇛ᵒ_ :  ∀{X : Set ł} →  (Envᴳ → X) × (X → Envᴳ → Envᴳ) × (X → Propᵒ ł') →
+  infix 8 [_]⇛ᵍ_
+  [_]⇛ᵍ_ :  ∀{X : Set ł} →  (Envᴳ → X) × (X → Envᴳ → Envᴳ) × (X → Propᵒ ł') →
                             Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
-  [ get , set , Inv ]⇛ᵒ Pᵒ =
+  [ get , set , Inv ]⇛ᵍ Pᵒ =
     ∀ᵒ E , Inv (get E) -∗ᵒ E ⤇ᴱ λ x → set x E , Pᵒ ∗ᵒ Inv x
 
-  -- Monoᵒ for ⇛ᵒ
+  -- Monoᵒ for ⇛ᵍ
 
-  ⇛ᵒ-Mono :  Monoᵒ ([ gsI ]⇛ᵒ Pᵒ)
-  ⇛ᵒ-Mono =  ∀ᵒ-Mono λ _ → -∗ᵒ-Mono
+  ⇛ᵍ-Mono :  Monoᵒ ([ gsI ]⇛ᵍ Pᵒ)
+  ⇛ᵍ-Mono =  ∀ᵒ-Mono λ _ → -∗ᵒ-Mono
 
-  -- Monotonicity of ⇛ᵒ
+  -- Monotonicity of ⇛ᵍ
 
-  ⇛ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  [ gsI ]⇛ᵒ Pᵒ ⊨ [ gsI ]⇛ᵒ Qᵒ
-  ⇛ᵒ-mono✓ P⊨✓Q gsI⇛P E =  (-∗ᵒ-monoʳ $ ⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ˡ P⊨✓Q) $ gsI⇛P E
+  ⇛ᵍ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  [ gsI ]⇛ᵍ Pᵒ ⊨ [ gsI ]⇛ᵍ Qᵒ
+  ⇛ᵍ-mono✓ P⊨✓Q gsI⇛P E =  (-∗ᵒ-monoʳ $ ⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ˡ P⊨✓Q) $ gsI⇛P E
 
-  ⇛ᵒ-mono :  Pᵒ ⊨ Qᵒ →  [ gsI ]⇛ᵒ Pᵒ ⊨ [ gsI ]⇛ᵒ Qᵒ
-  ⇛ᵒ-mono =  ⇛ᵒ-mono✓ ∘ ⊨⇒⊨✓
+  ⇛ᵍ-mono :  Pᵒ ⊨ Qᵒ →  [ gsI ]⇛ᵍ Pᵒ ⊨ [ gsI ]⇛ᵍ Qᵒ
+  ⇛ᵍ-mono =  ⇛ᵍ-mono✓ ∘ ⊨⇒⊨✓
 
-  -- Utility for making ⇛ᵒ
+  -- Utility for making ⇛ᵍ
 
-  ⇛ᵒ-make :  (∀ E → Pᵒ ∗ᵒ Inv (get E) ⊨✓ E ⤇ᴱ λ x → set x E , Qᵒ ∗ᵒ Inv x) →
-             Pᵒ ⊨ [ get , set , Inv ]⇛ᵒ Qᵒ
-  ⇛ᵒ-make {Pᵒ = Pᵒ} Inv∗P⊨✓⤇Inv∗Q =
+  ⇛ᵍ-make :  (∀ E → Pᵒ ∗ᵒ Inv (get E) ⊨✓ E ⤇ᴱ λ x → set x E , Qᵒ ∗ᵒ Inv x) →
+             Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Qᵒ
+  ⇛ᵍ-make {Pᵒ = Pᵒ} Inv∗P⊨✓⤇Inv∗Q =
     ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro λ ✓∙ → ∗ᵒ-comm › Inv∗P⊨✓⤇Inv∗Q _ ✓∙
 
-  -- Apply ⇛ᵒ
+  -- Apply ⇛ᵍ
 
-  ⇛ᵒ-apply :  [ get , set , Inv ]⇛ᵒ Pᵒ ∗ᵒ Inv (get E) ⊨✓
+  ⇛ᵍ-apply :  [ get , set , Inv ]⇛ᵍ Pᵒ ∗ᵒ Inv (get E) ⊨✓
                 E ⤇ᴱ λ x → set x E , Pᵒ ∗ᵒ Inv x
-  ⇛ᵒ-apply ✓∙ =  ∗ᵒ-monoˡ (_$ _) › ∗ᵒ-comm › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
+  ⇛ᵍ-apply ✓∙ =  ∗ᵒ-monoˡ (_$ _) › ∗ᵒ-comm › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
 
-  -- Introduce ⇛ᵒ
+  -- Introduce ⇛ᵍ
 
-  ⇛ᵒ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵒ Pᵒ
-  ⇛ᵒ-intro {Pᵒ = Pᵒ} setget≡ =  ⇛ᵒ-make λ _ _ →
+  ⇛ᵍ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ
+  ⇛ᵍ-intro {Pᵒ = Pᵒ} setget≡ =  ⇛ᵍ-make λ _ _ →
     ⤇ᴱ-intro › ⤇ᴱ-respᴱ setget≡ › ⤇ᴱ-param
 
-  -- Join ⇛ᵒs
+  -- Join ⇛ᵍs
 
-  ⇛ᵒ-join :  (∀{E x} → get' (set x E) ≡ get' E) →
-    [ get , set , Inv ]⇛ᵒ [ get' , set' , Inv' ]⇛ᵒ Pᵒ  ⊨
+  ⇛ᵍ-join :  (∀{E x} → get' (set x E) ≡ get' E) →
+    [ get , set , Inv ]⇛ᵍ [ get' , set' , Inv' ]⇛ᵍ Pᵒ  ⊨
       [ (λ E → (get E , get' E)) , (λ (x , y) → set' y ∘ set x) ,
-        (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵒ Pᵒ
-  ⇛ᵒ-join {Inv' = Inv'} get'set≡get' =  ⇛ᵒ-make {Pᵒ = [ _ ]⇛ᵒ _} λ _ ✓∙ →
-    ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ ⇛ᵒ-apply ✓∙ › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
+        (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵍ Pᵒ
+  ⇛ᵍ-join {Inv' = Inv'} get'set≡get' =  ⇛ᵍ-make {Pᵒ = [ _ ]⇛ᵍ _} λ _ ✓∙ →
+    ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ ⇛ᵍ-apply ✓∙ › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
       ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ
-        (λ ✓∙ → ∗ᵒ-monoʳ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵒ-apply ✓∙) ✓∙ ›
+        (λ ✓∙ → ∗ᵒ-monoʳ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵍ-apply ✓∙) ✓∙ ›
       ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-join
 
-  -- Let ⇛ᵒ eat a proposition under ∗ᵒ
+  -- Let ⇛ᵍ eat a proposition under ∗ᵒ
 
-  ⇛ᵒ-eatˡ :  Pᵒ ∗ᵒ [ gsI ]⇛ᵒ Qᵒ  ⊨  [ gsI ]⇛ᵒ (Pᵒ ∗ᵒ Qᵒ)
-  ⇛ᵒ-eatˡ =  ⇛ᵒ-make {Pᵒ = _ ∗ᵒ _} λ _ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵒ-apply ✓∙ ›
+  ⇛ᵍ-eatˡ :  Pᵒ ∗ᵒ [ gsI ]⇛ᵍ Qᵒ  ⊨  [ gsI ]⇛ᵍ (Pᵒ ∗ᵒ Qᵒ)
+  ⇛ᵍ-eatˡ =  ⇛ᵍ-make {Pᵒ = _ ∗ᵒ _} λ _ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵍ-apply ✓∙ ›
     ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
 
-  ⇛ᵒ-eatʳ :  [ gsI ]⇛ᵒ Pᵒ ∗ᵒ Qᵒ  ⊨  [ gsI ]⇛ᵒ (Pᵒ ∗ᵒ Qᵒ)
-  ⇛ᵒ-eatʳ =  ∗ᵒ-comm › ⇛ᵒ-eatˡ › ⇛ᵒ-mono ∗ᵒ-comm
+  ⇛ᵍ-eatʳ :  [ gsI ]⇛ᵍ Pᵒ ∗ᵒ Qᵒ  ⊨  [ gsI ]⇛ᵍ (Pᵒ ∗ᵒ Qᵒ)
+  ⇛ᵍ-eatʳ =  ∗ᵒ-comm › ⇛ᵍ-eatˡ › ⇛ᵍ-mono ∗ᵒ-comm

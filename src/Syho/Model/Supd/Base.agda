@@ -53,10 +53,17 @@ abstract
   ⇛ᵒ-mono :  Pᵒ ⊨ Qᵒ →  [ gsI ]⇛ᵒ Pᵒ ⊨ [ gsI ]⇛ᵒ Qᵒ
   ⇛ᵒ-mono =  ⇛ᵒ-mono✓ ∘ ⊨⇒⊨✓
 
+  -- Utility for making ⇛ᵒ
+
+  ⇛ᵒ-make :  (∀ E → Inv (get E) ∗ᵒ Pᵒ ⊨✓ E ⤇ᴱ λ x → set x E , Inv x ∗ᵒ Qᵒ) →
+             Pᵒ ⊨ [ get , set , Inv ]⇛ᵒ Qᵒ
+  ⇛ᵒ-make {Pᵒ = Pᵒ} Inv∗P⊨✓⤇Inv∗Q =
+    ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro $ Inv∗P⊨✓⤇Inv∗Q _
+
   -- Introduce ⇛ᵒ
 
   ⇛ᵒ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵒ Pᵒ
-  ⇛ᵒ-intro {Pᵒ = Pᵒ} setget≡ =  ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro λ _ →
+  ⇛ᵒ-intro {Pᵒ = Pᵒ} setget≡ =  ⇛ᵒ-make λ _ _ →
     ⤇ᴱ-intro › ⤇ᴱ-respᴱ setget≡ › ⤇ᴱ-param
 
   -- Join ⇛ᵒs
@@ -65,8 +72,8 @@ abstract
     [ get , set , Inv ]⇛ᵒ [ get' , set' , Inv' ]⇛ᵒ Pᵒ  ⊨
       [ (λ E → (get E , get' E)) , (λ (x , y) → set' y ∘ set x) ,
         (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵒ Pᵒ
-  ⇛ᵒ-join {Inv' = Inv'} get'set≡get' =  ∀ᵒ-intro {Pᵒ = [ _ ]⇛ᵒ _} λ _ →
-    -∗ᵒ-intro {Qᵒ = [ _ ]⇛ᵒ _} λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
+  ⇛ᵒ-join {Inv' = Inv'} get'set≡get' =  ⇛ᵒ-make {Pᵒ = [ _ ]⇛ᵒ _} λ _ ✓∙ →
+    ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
     ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoʳ (_$ _) › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙) ✓∙ › ⤇ᴱ-eatˡ ›
     ⤇ᴱ-mono✓ (λ x ✓∙ → pullʳˡᵒ ›
       ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoˡ (subst₂ Inv' (◠ get'set≡get') refl) ›

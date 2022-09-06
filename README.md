@@ -138,7 +138,7 @@ parts.
             and precursors.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting all
             propositions;
-            [`Pure`](src/Syho/Model/Prop/Basic.agda) for semantic soundness of
+            [`Sound`](src/Syho/Model/Prop/Sound.agda) for semantic soundness of
             the pure sequent.
     + [`Supd/`](src/Syho/Model/Supd/) ― the semantic model of the super update.
         * [`Base`](src/Syho/Model/Supd/Base.agda) ― General super update

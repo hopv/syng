@@ -34,7 +34,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
-open import Syho.Model.Prop.Pure using (⊢⇒⊨✓)
+open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
 open import Syho.Model.Supd.Base using ([_]⇛ᵒ_; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒ-make;
   ⇛ᵒ-intro; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 

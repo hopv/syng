@@ -80,7 +80,6 @@ abstract
         (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵒ Pᵒ
   ⇛ᵒ-join {Inv' = Inv'} get'set≡get' =  ⇛ᵒ-make {Pᵒ = [ _ ]⇛ᵒ _} λ _ ✓∙ →
     ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵒ-apply ✓∙ › ⤇ᴱ-eatˡ ›
-    ⤇ᴱ-mono✓ (λ x ✓∙ → pullʳˡᵒ › ∗ᵒ-mono✓ʳ
+    ⤇ᴱ-mono✓ (λ _ ✓∙ → pullʳˡᵒ › ∗ᵒ-mono✓ʳ
       (λ ✓∙ → ∗ᵒ-monoˡ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵒ-apply ✓∙) ✓∙ ›
-      ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ) ›
-    ⤇ᴱ-join
+      ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ) › ⤇ᴱ-join

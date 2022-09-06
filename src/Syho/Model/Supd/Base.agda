@@ -83,3 +83,12 @@ abstract
     ⤇ᴱ-mono✓ (λ _ ✓∙ → pullʳˡᵒ › ∗ᵒ-mono✓ʳ
       (λ ✓∙ → ∗ᵒ-monoˡ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵒ-apply ✓∙) ✓∙ ›
       ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ) › ⤇ᴱ-join
+
+  -- Let ⇛ᵒ eat a proposition under ∗ᵒ
+
+  ⇛ᵒ-eatˡ :  Pᵒ ∗ᵒ [ gsI ]⇛ᵒ Qᵒ  ⊨  [ gsI ]⇛ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ⇛ᵒ-eatˡ =  ⇛ᵒ-make {Pᵒ = _ ∗ᵒ _} λ _ ✓∙ → pullʳˡᵒ › ∗ᵒ-mono✓ʳ ⇛ᵒ-apply ✓∙ ›
+    ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → pullʳˡᵒ
+
+  ⇛ᵒ-eatʳ :  [ gsI ]⇛ᵒ Pᵒ ∗ᵒ Qᵒ  ⊨  [ gsI ]⇛ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ⇛ᵒ-eatʳ =  ∗ᵒ-comm › ⇛ᵒ-eatˡ › ⇛ᵒ-mono ∗ᵒ-comm

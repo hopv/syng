@@ -11,8 +11,8 @@ open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Eq using (_≡_; refl; ◠_; subst₂; _≡˙_)
 open import Base.Prod using (_×_; _,_)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
-  _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ;
-  ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
+  _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ;
+  ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
   -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱ; ⤇ᴱ-param;
   ⤇ᴱ-intro; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
 open import Syho.Model.ERA.Glob using (Envᴳ)
@@ -38,7 +38,7 @@ abstract
   [_]⇛ᵒ_ :  ∀{X : Set ł} →  (Envᴳ → X) × (X → Envᴳ → Envᴳ) × (X → Propᵒ ł') →
                             Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
   [ get , set , Inv ]⇛ᵒ Pᵒ =
-    ∀ᵒ E , Inv (get E) -∗ᵒ E ⤇ᴱ λ x → set x E , Inv x ∗ᵒ Pᵒ
+    ∀ᵒ E , Inv (get E) -∗ᵒ E ⤇ᴱ λ x → set x E , Pᵒ ∗ᵒ Inv x
 
   -- Monoᵒ for ⇛ᵒ
 
@@ -48,23 +48,23 @@ abstract
   -- Monotonicity of ⇛ᵒ
 
   ⇛ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  [ gsI ]⇛ᵒ Pᵒ ⊨ [ gsI ]⇛ᵒ Qᵒ
-  ⇛ᵒ-mono✓ P⊨✓Q gsI⇛P E =  (-∗ᵒ-monoʳ $ ⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ʳ P⊨✓Q) $ gsI⇛P E
+  ⇛ᵒ-mono✓ P⊨✓Q gsI⇛P E =  (-∗ᵒ-monoʳ $ ⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ˡ P⊨✓Q) $ gsI⇛P E
 
   ⇛ᵒ-mono :  Pᵒ ⊨ Qᵒ →  [ gsI ]⇛ᵒ Pᵒ ⊨ [ gsI ]⇛ᵒ Qᵒ
   ⇛ᵒ-mono =  ⇛ᵒ-mono✓ ∘ ⊨⇒⊨✓
 
   -- Utility for making ⇛ᵒ
 
-  ⇛ᵒ-make :  (∀ E → Inv (get E) ∗ᵒ Pᵒ ⊨✓ E ⤇ᴱ λ x → set x E , Inv x ∗ᵒ Qᵒ) →
+  ⇛ᵒ-make :  (∀ E → Pᵒ ∗ᵒ Inv (get E) ⊨✓ E ⤇ᴱ λ x → set x E , Qᵒ ∗ᵒ Inv x) →
              Pᵒ ⊨ [ get , set , Inv ]⇛ᵒ Qᵒ
   ⇛ᵒ-make {Pᵒ = Pᵒ} Inv∗P⊨✓⤇Inv∗Q =
-    ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro $ Inv∗P⊨✓⤇Inv∗Q _
+    ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro $ λ ✓∙ → ∗ᵒ-comm › Inv∗P⊨✓⤇Inv∗Q _ ✓∙
 
   -- Apply ⇛ᵒ
 
-  ⇛ᵒ-apply :  Inv (get E) ∗ᵒ [ get , set , Inv ]⇛ᵒ Pᵒ ⊨✓
-                E ⤇ᴱ λ x → set x E , Inv x ∗ᵒ Pᵒ
-  ⇛ᵒ-apply ✓∙ =  ∗ᵒ-monoʳ (_$ _) › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
+  ⇛ᵒ-apply :  [ get , set , Inv ]⇛ᵒ Pᵒ ∗ᵒ Inv (get E) ⊨✓
+                E ⤇ᴱ λ x → set x E , Pᵒ ∗ᵒ Inv x
+  ⇛ᵒ-apply ✓∙ =  ∗ᵒ-monoˡ (_$ _) › ∗ᵒ-comm › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
 
   -- Introduce ⇛ᵒ
 
@@ -79,16 +79,16 @@ abstract
       [ (λ E → (get E , get' E)) , (λ (x , y) → set' y ∘ set x) ,
         (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵒ Pᵒ
   ⇛ᵒ-join {Inv' = Inv'} get'set≡get' =  ⇛ᵒ-make {Pᵒ = [ _ ]⇛ᵒ _} λ _ ✓∙ →
-    ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵒ-apply ✓∙ › ⤇ᴱ-eatˡ ›
-    ⤇ᴱ-mono✓ (λ _ ✓∙ → pullʳˡᵒ › ∗ᵒ-mono✓ʳ
-      (λ ✓∙ → ∗ᵒ-monoˡ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵒ-apply ✓∙) ✓∙ ›
-      ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ) › ⤇ᴱ-join
+    ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ ⇛ᵒ-apply ✓∙ › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
+      ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ
+        (λ ✓∙ → ∗ᵒ-monoʳ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵒ-apply ✓∙) ✓∙ ›
+      ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-join
 
   -- Let ⇛ᵒ eat a proposition under ∗ᵒ
 
   ⇛ᵒ-eatˡ :  Pᵒ ∗ᵒ [ gsI ]⇛ᵒ Qᵒ  ⊨  [ gsI ]⇛ᵒ (Pᵒ ∗ᵒ Qᵒ)
-  ⇛ᵒ-eatˡ =  ⇛ᵒ-make {Pᵒ = _ ∗ᵒ _} λ _ ✓∙ → pullʳˡᵒ › ∗ᵒ-mono✓ʳ ⇛ᵒ-apply ✓∙ ›
-    ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → pullʳˡᵒ
+  ⇛ᵒ-eatˡ =  ⇛ᵒ-make {Pᵒ = _ ∗ᵒ _} λ _ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵒ-apply ✓∙ ›
+    ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
 
   ⇛ᵒ-eatʳ :  [ gsI ]⇛ᵒ Pᵒ ∗ᵒ Qᵒ  ⊨  [ gsI ]⇛ᵒ (Pᵒ ∗ᵒ Qᵒ)
   ⇛ᵒ-eatʳ =  ∗ᵒ-comm › ⇛ᵒ-eatˡ › ⇛ᵒ-mono ∗ᵒ-comm

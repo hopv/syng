@@ -182,12 +182,22 @@ infix 8 ⇛ind_
 ⇛ind_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⇛ind Pᵒ =  [ env-ind , updᴱ-ind , Inv-ind ]⇛ᵍ Pᵒ
 
+private variable
+  Fˣ□ Gˣ□ :  Env-ind
+
 abstract
 
   -- Self updᴱ-ind
 
   updᴱ-ind-self :  updᴱ-ind (env-ind E) E ≡˙ E
   updᴱ-ind-self =  updᴱᴳ-self ◇˙ updᴱᴳ-self
+
+  -- Double updᴱ-ind
+
+  updᴱ-ind-2 :  updᴱ-ind Gˣ□ (updᴱ-ind Fˣ□ E)  ≡˙  updᴱ-ind Gˣ□ E
+  updᴱ-ind-2 indˣ =  refl
+  updᴱ-ind-2 ind□ =  refl
+  updᴱ-ind-2 (ṡ ṡ _) =  refl
 
   -- ⇛indˣ into ⇛ind
 

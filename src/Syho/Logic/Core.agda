@@ -381,13 +381,17 @@ abstract
   ∗⇒∧ :  P ∗ Q ⊢[ ι ] P ∧ Q
   ∗⇒∧ =  ∧-intro ∗-elimˡ ∗-elimʳ
 
-  -- ∃/∨ can get outside ∗
+  -- ∃ can get outside ∗
+
+  ---- These two can work also for ∃₀
 
   ∗∃-out :  P ∗ ∃₁˙ Q˙ ⊢[ ι ] ∃₁ x , P ∗ Q˙ x
   ∗∃-out =  -∗-elim $ ∃₁-elim $ -∗-intro ∘ ∃₁-intro
 
   ∃∗-out :  ∃₁˙ P˙ ∗ Q ⊢[ ι ] ∃₁ x , P˙ x ∗ Q
   ∃∗-out =  ∗-comm » ∗∃-out » ∃₁-mono λ _ → ∗-comm
+
+  -- ∨ can get outside ∗
 
   ∨∗-out :  (P ∨ Q) ∗ R ⊢[ ι ] (P ∗ R) ∨ (Q ∗ R)
   ∨∗-out =  ∃∗-out » ∃₁-mono $ binary ⊢-refl ⊢-refl

@@ -11,10 +11,10 @@ open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Eq using (_≡_; refl; ◠_; subst₂; _≡˙_)
 open import Base.Prod using (_×_; _,_)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
-  _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ;
-  ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
-  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ;
-  ⤇ᴱ-param; ⤇ᴱ-intro; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
+  _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ-mono✓ˡ;
+  ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; -∗ᵒ-Mono;
+  -∗ᵒ-monoʳ; -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᵒ-intro; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono;
+  ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᵒ⇒⤇ᴱ; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
 open import Syho.Model.ERA.Glob using (Envᴳ)
 
 private variable
@@ -68,8 +68,12 @@ abstract
 
   -- Introduce ⇛ᵍ
 
+  ⤇ᵒ⇒⇛ᵍ :  (∀{E} → set (get E) E ≡˙ E) →  ⤇ᵒ Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ
+  ⤇ᵒ⇒⇛ᵍ setget≡ =  ⇛ᵍ-make λ _ _ →
+    ⤇ᵒ-eatʳ › ⤇ᵒ⇒⤇ᴱ › ⤇ᴱ-respᴱˡ setget≡ › ⤇ᴱ-param
+
   ⇛ᵍ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ
-  ⇛ᵍ-intro setget≡ =  ⇛ᵍ-make λ _ _ → ⤇ᴱ-intro › ⤇ᴱ-respᴱˡ setget≡ › ⤇ᴱ-param
+  ⇛ᵍ-intro setget≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵍ setget≡
 
   -- Join the same ⇛ᵍs
 

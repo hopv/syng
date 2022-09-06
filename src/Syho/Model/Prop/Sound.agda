@@ -10,7 +10,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Thunk using (!)
-open import Base.Prod using (_,_; proj₀; proj₁)
+open import Base.Prod using (_,_; proj₀; proj₁; ∑-case)
 open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim;
   ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm;
@@ -54,7 +54,7 @@ abstract
 
   -- ∃₁-elim :  (∀₁ x → P˙ x ⊢[ ∞ ] Q) →  ∃₁˙ P˙ ⊢[ ∞ ] Q
 
-  ⊢⇒⊨✓ (∃₁-elim ∀xPx⊢Q) E✓a (x , Pxa) =  ⊢⇒⊨✓ (∀xPx⊢Q x) E✓a Pxa
+  ⊢⇒⊨✓ (∃₁-elim ∀xPx⊢Q) E✓a =  ∑-case λ x → ⊢⇒⊨✓ (∀xPx⊢Q x) E✓a
 
   -- ∀₁-elim :  ∀ x →  ∀₁˙ P˙ ⊢[ ∞ ] P˙ x
 

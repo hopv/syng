@@ -189,7 +189,7 @@ abstract
 
   -- Self updᴱ-ind
 
-  updᴱ-ind-self :  updᴱ-ind (env-ind E) E ≡˙ E
+  updᴱ-ind-self :  updᴱ-ind (env-ind E) E  ≡˙  E
   updᴱ-ind-self =  updᴱᴳ-self ◇˙ updᴱᴳ-self
 
   -- Double updᴱ-ind

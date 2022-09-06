@@ -120,7 +120,7 @@ module _ {i : ℕ} where
 
     -- Self updᴱᴳ
 
-    updᴱᴳ-self :  updᴱᴳ i (E˙ i) E˙ ≡˙ E˙
+    updᴱᴳ-self :  updᴱᴳ i (E˙ i) E˙  ≡˙  E˙
     updᴱᴳ-self j  with j ≡? i
     … | yes refl =  refl
     … | no _ =  refl

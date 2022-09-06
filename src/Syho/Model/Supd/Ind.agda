@@ -10,7 +10,7 @@ open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_; _∘_; _›_)
 open import Base.Few using (absurd)
-open import Base.Eq using (_≡_; refl)
+open import Base.Eq using (_≡_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (inj₀; inj₁; ⊎-case)
 open import Base.Bool using (tt; ff)
@@ -48,6 +48,7 @@ private variable
   Pᵒ˙ :  X → Propᵒ ł
   T :  Type
   e :  Expr ∞ T
+  E :  Envᴳ
 
 --------------------------------------------------------------------------------
 -- Interpret a map ℕ → Prop' ∞ with a bound
@@ -182,6 +183,11 @@ infix 8 ⇛ind_
 ⇛ind Pᵒ =  [ env-ind , updᴱ-ind , Inv-ind ]⇛ᵍ Pᵒ
 
 abstract
+
+  -- Self updᴱ-ind
+
+  updᴱ-ind-self :  updᴱ-ind (env-ind E) E ≡˙ E
+  updᴱ-ind-self =  updᴱᴳ-self ◇˙ updᴱᴳ-self
 
   -- ⇛indˣ into ⇛ind
 

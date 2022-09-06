@@ -8,12 +8,13 @@ module Syho.Model.Supd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
-open import Base.Eq using (_≡_; refl; ◠_; subst₂)
+open import Base.Eq using (_≡_; refl; ◠_; subst₂; _≡˙_)
 open import Base.Prod using (_×_; _,_)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
   _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
-  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
+  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱ; ⤇ᴱ-param;
+  ⤇ᴱ-intro; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
 open import Syho.Model.ERA.Glob using (Envᴳ)
 
 private variable
@@ -51,6 +52,12 @@ abstract
 
   ⇛ᵒ-mono :  Pᵒ ⊨ Qᵒ →  [ gsI ]⇛ᵒ Pᵒ ⊨ [ gsI ]⇛ᵒ Qᵒ
   ⇛ᵒ-mono =  ⇛ᵒ-mono✓ ∘ ⊨⇒⊨✓
+
+  -- Introduce ⇛ᵒ
+
+  ⇛ᵒ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵒ Pᵒ
+  ⇛ᵒ-intro {Pᵒ = Pᵒ} setget≡ =  ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro λ _ →
+    ⤇ᴱ-intro › ⤇ᴱ-respᴱ setget≡ › ⤇ᴱ-param
 
   -- Join ⇛ᵒs
 

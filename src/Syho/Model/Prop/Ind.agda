@@ -9,13 +9,14 @@ module Syho.Model.Prop.Ind where
 open import Base.Level using (2ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
+open import Base.Few using (absurd)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
-open import Syho.Logic.Prop using (Prop'; _∗_; Basic)
+open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
-  ∗-monoʳ; pullʳˡ)
+  ∗-monoʳ; pullʳˡ; ∗-elimʳ)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»ᵘ_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-ṡ; _ʰ»ᵘ_;
@@ -25,7 +26,7 @@ open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; injᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ●_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono;
-  ∗ᵒ-assocʳ; ●-Mono)
+  ∗ᵒ-assocʳ; ?∗ᵒ-intro; ●-Mono)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -79,6 +80,11 @@ abstract
   ○ᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ ∗ᵒ ○ᵒ P ⊨ ○ᵒ (Q ∗ P)
   ○ᵒ-eatˡ (-, -, b∙c⊑a , Qb , -, -ᴵ, -, R∗S⊢P , R∗IndSc) =
     -, -ᴵ, -, ∗-assocˡ » ∗-monoʳ R∗S⊢P , ∗ᵒ-assocʳ (-, -, b∙c⊑a , Qb , R∗IndSc)
+
+  -- Make ○ᵒ out of Ind
+
+  Ind⇒○ᵒ :  Ind P ⊨ ○ᵒ P
+  Ind⇒○ᵒ IndPa =  ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
 
 --------------------------------------------------------------------------------
 -- ↪⇛ᵒ :  Interpret the super-update precursor ↪⇛

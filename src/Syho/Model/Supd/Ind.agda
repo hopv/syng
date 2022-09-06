@@ -34,7 +34,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ∃�
   ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ;
   ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
-  _↪⟨_⟩ᵀ[_]ᵒ_)
+  _↪⟨_⟩ᵀ[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Pure using (⊢⇒⊨✓)
 
@@ -255,9 +255,6 @@ abstract
 -- On ○ᵒ
 
 abstract
-
-  Ind⇒○ᵒ :  Ind P ⊨ ○ᵒ P
-  Ind⇒○ᵒ IndPa =  ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
 
   ○ᵒ-alloc :  ⸨ P ⸩ ⊨⇛ind ○ᵒ P
   ○ᵒ-alloc =  Ind-alloc ▷ ⊨⇛ind-monoʳ Ind⇒○ᵒ

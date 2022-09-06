@@ -13,7 +13,7 @@ open import Base.Prod using (_×_; _,_)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
   _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ;
   ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
-  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱ; ⤇ᴱ-param;
+  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-param;
   ⤇ᴱ-intro; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
 open import Syho.Model.ERA.Glob using (Envᴳ)
 
@@ -70,7 +70,7 @@ abstract
 
   ⇛ᵍ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ
   ⇛ᵍ-intro {Pᵒ = Pᵒ} setget≡ =  ⇛ᵍ-make λ _ _ →
-    ⤇ᴱ-intro › ⤇ᴱ-respᴱ setget≡ › ⤇ᴱ-param
+    ⤇ᴱ-intro › ⤇ᴱ-respᴱˡ setget≡ › ⤇ᴱ-param
 
   -- Join two different ⇛ᵍs
 

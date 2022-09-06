@@ -44,9 +44,9 @@ private variable
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
   a b :  Res
   b˙ :  X → Res
-  E F :  Env
-  F˙ :  X →  Env
-  FPᵒ˙ FQᵒ˙ :  X →  Env × Propᵒ ł
+  E F G :  Env
+  E˙ F˙ :  X →  Env
+  FPᵒ˙ GPᵒ˙ :  X →  Env × Propᵒ ł
   GPᵒ˙˙ :  X →  Y →  Env × Propᵒ ł
   f :  Y → X
 
@@ -390,8 +390,13 @@ abstract
 
   -- Update the environment of ⤇ᴱ
 
-  ⤇ᴱ-respᴱ :  E ≡˙ F →  E ⤇ᴱ FPᵒ˙ ⊨ F ⤇ᴱ FPᵒ˙
-  ⤇ᴱ-respᴱ E≡F E⤇FP _ F✓c∙a =  E⤇FP _ (✓ᴳ-respᴱ (◠˙ E≡F) F✓c∙a)
+  ⤇ᴱ-respᴱˡ :  E ≡˙ F →  E ⤇ᴱ GPᵒ˙ ⊨ F ⤇ᴱ GPᵒ˙
+  ⤇ᴱ-respᴱˡ E≡F E⤇GP _ F✓c∙a =  E⤇GP _ (✓ᴳ-respᴱ (◠˙ E≡F) F✓c∙a)
+
+  ⤇ᴱ-respᴱʳ :  (∀{x} → E˙ x ≡˙ F˙ x) →
+               G ⤇ᴱ (λ x → E˙ x , Pᵒ˙ x) ⊨ G ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)
+  ⤇ᴱ-respᴱʳ Ex≡Fx G⤇EP _ G✓c∙a  with G⤇EP _ G✓c∙a
+  … | -, -, E✓c∙b , Pb =  -, -, ✓ᴳ-respᴱ Ex≡Fx E✓c∙b , Pb
 
   -- Change parameterization of ⤇ᴱ
 

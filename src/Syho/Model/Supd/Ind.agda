@@ -8,7 +8,7 @@ module Syho.Model.Supd.Ind where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Size using (∞)
-open import Base.Func using (_$_; _▷_; _›_; _∘_; id)
+open import Base.Func using (_$_; _∘_; _›_)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
@@ -19,24 +19,24 @@ open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <
 open import Base.Natmap using (updᴺᴹ)
 open import Syho.Lang.Expr using (Type; Expr)
 open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_)
-open import Syho.Logic.Core using (∗-elimʳ)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
   use-ind□; Env-indˣ; Env-ind□; Env-ind)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; updᴱᴳ; indˣ; ind□;
   updᴱᴳ-self)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; _⊨✓_; ∃ᵒ˙; ∃ᵒ-syntax;
-  ∃ᵒ∈-syntax; ∃ᴵ˙; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; _⤇ᴱ_; □ᵒ_; ⊨⇒⊨✓; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ;
-  ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ;
-  ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∃ᵒ∗ᵒ-out; ∃ᴵ∗ᵒ-out; ⊎ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
-  -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-respᴱ; ⤇ᴱ-param; ⤇ᴱ-intro; ⤇ᴱ-join; ⤇ᴱ-eatˡ;
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
+  ∃ᵒ∈-syntax; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
+  ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ;
+  ?∗ᵒ-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param;
   ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono; ●-injᴳ-⌞⌟≡-□ᵒ;
   ↝-●-injᴳ-⤇ᴱ; ε↝-●-injᴳ-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Pure using (⊢⇒⊨✓)
+open import Syho.Model.Supd.Base using ([_]⇛ᵒ_; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒ-make;
+  ⇛ᵒ-intro; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 
 private variable
   ł ł' :  Level
@@ -99,26 +99,25 @@ abstract
 Inv-indˣ :  Env-indˣ →  Propᵒ 2ᴸ
 Inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
 
--- Super update entailment on Indˣᴱᴿᴬ
+-- Super update on Indˣᴱᴿᴬ
 
-infix 1 _⊨⇛indˣ_
-_⊨⇛indˣ_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-Pᵒ ⊨⇛indˣ Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-indˣ (E indˣ)  ⊨✓
-                         E ⤇ᴱ λ Fˣ → updᴱᴳ indˣ Fˣ E , Qᵒ ∗ᵒ Inv-indˣ Fˣ
+infix 8 ⇛indˣ_
+⇛indˣ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⇛indˣ Pᵒ =  [ (λ E → E indˣ) , updᴱᴳ indˣ , Inv-indˣ ]⇛ᵒ Pᵒ
 
 abstract
 
   -- Allocate P to get Indˣ P
 
-  Indˣ-alloc :  ⸨ P ⸩  ⊨⇛indˣ  Indˣ P
-  Indˣ-alloc E _ =  let (_ , n) = E indˣ in
+  Indˣ-alloc :  ⸨ P ⸩  ⊨  ⇛indˣ  Indˣ P
+  Indˣ-alloc =  ⇛ᵒ-make λ E _ → let (_ , n) = E indˣ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᴺᴹ-add {n = n}) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
-  Indˣ-use :  Indˣ P  ⊨⇛indˣ  ⸨ P ⸩
-  Indˣ-use E _ =  let (_ , n) = E indˣ in
+  Indˣ-use :  Indˣ P  ⊨  ⇛indˣ  ⸨ P ⸩
+  Indˣ-use =  ⇛ᵒ-make λ E _ → let (_ , n) = E indˣ in
     ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
     › ⤇ᴱ-param
@@ -131,19 +130,18 @@ abstract
 Inv-ind□ :  Env-ind□ →  Propᵒ 2ᴸ
 Inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
 
--- Super update entailment on Ind□ᴱᴿᴬ
+-- Super update on Ind□ᴱᴿᴬ
 
-infix 1 _⊨⇛ind□_
-_⊨⇛ind□_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-Pᵒ ⊨⇛ind□ Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-ind□ (E ind□)  ⊨✓
-                         E ⤇ᴱ λ F□ → updᴱᴳ ind□ F□ E , Qᵒ ∗ᵒ Inv-ind□ F□
+infix 8 ⇛ind□_
+⇛ind□_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⇛ind□ Pᵒ =  [ (λ E → E ind□) , updᴱᴳ ind□ , Inv-ind□ ]⇛ᵒ Pᵒ
 
 abstract
 
   -- Allocate □ P to get □ᵒ Ind□ P
 
-  □ᵒInd□-alloc-rec :  □ᵒ Ind□ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind□  □ᵒ Ind□ P
-  □ᵒInd□-alloc-rec {P} E _ =  let (_ , n) = E ind□ in
+  □ᵒInd□-alloc-rec :  □ᵒ Ind□ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⇛ind□  □ᵒ Ind□ P
+  □ᵒInd□-alloc-rec {P} =  ⇛ᵒ-make λ E _ → let (_ , n) = E ind□ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono✓ (λ _ ✓∙ →
       ∗ᵒ-monoˡ (●-injᴳ-⌞⌟≡-□ᵒ refl › dup-□ᵒ ●-Mono › ∗ᵒ-mono (_ ,_) (_ ,_)) ›
@@ -153,8 +151,8 @@ abstract
 
   -- Use Ind□ P to get P
 
-  Ind□-use :  Ind□ P  ⊨⇛ind□  ⸨ P ⸩
-  Ind□-use {P} E _ =  let (_ , n) = E ind□ in
+  Ind□-use :  Ind□ P  ⊨  ⇛ind□  ⸨ P ⸩
+  Ind□-use {P} =  ⇛ᵒ-make λ E _ → let (_ , n) = E ind□ in
     ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ ⸨⸩ᴺᴹ-Mono {n = n}) ›
       dup-□ᵒ (⸨⸩ᴺᴹ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (⸨⸩ᴺᴹ-Mono {n = n}) ›
@@ -180,109 +178,71 @@ updᴱ-ind (Fˣ , F□) =  updᴱᴳ indˣ Fˣ › updᴱᴳ ind□ F□
 
 -- Super update for Indˣᴱᴿᴬ and Ind□ᴱᴿᴬ
 
-infix 1 _⊨⇛ind_
-_⊨⇛ind_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-Pᵒ ⊨⇛ind Qᵒ =  ∀ E →  Pᵒ ∗ᵒ Inv-ind (env-ind E)  ⊨✓
-                        E ⤇ᴱ λ F → updᴱ-ind F E , Qᵒ ∗ᵒ Inv-ind F
+infix 8 ⇛ind_
+⇛ind_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⇛ind Pᵒ =  [ env-ind , updᴱ-ind , Inv-ind ]⇛ᵒ Pᵒ
 
 abstract
 
-  -- ⊨⇛indˣ into ⊨⇛ind
+  -- ⇛indˣ into ⇛ind
 
-  ⊨⇛indˣ⇒⊨⇛ind :  Pᵒ ⊨⇛indˣ Qᵒ →  Pᵒ ⊨⇛ind Qᵒ
-  ⊨⇛indˣ⇒⊨⇛ind P⊨⇛indˣQ _ ✓∙ =  ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (P⊨⇛indˣQ _) ✓∙ ›
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ⤇ᴱ-intro › ⤇ᴱ-respᴱ updᴱᴳ-self) ›
-    ⤇ᴱ-join › ⤇ᴱ-param
+  ⇛indˣ⇒⇛ind :  ⇛indˣ Pᵒ  ⊨  ⇛ind Pᵒ
+  ⇛indˣ⇒⇛ind =  ⇛ᵒ-mono (⇛ᵒ-intro {set = updᴱᴳ ind□} updᴱᴳ-self) › ⇛ᵒ-join refl
 
   -- ⊨⇛ind□ into ⊨⇛ind
 
-  ⊨⇛ind□⇒⊨⇛ind :  Pᵒ ⊨⇛ind□ Qᵒ →  Pᵒ ⊨⇛ind Qᵒ
-  ⊨⇛ind□⇒⊨⇛ind P⊨⇛ind□Q _ _ =  ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
-    ∗ᵒ-monoˡ (⤇ᴱ-intro ›
-      ⤇ᴱ-respᴱ updᴱᴳ-self › ⤇ᴱ-mono✓ (λ _ → P⊨⇛ind□Q _) › ⤇ᴱ-join) ›
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-param
-
-  -- Monotonicity of ⊨⇛ind
-
-  ⊨⇛ind-mono✓ˡ :  Pᵒ ⊨✓ Qᵒ →  Qᵒ ⊨⇛ind Rᵒ →  Pᵒ ⊨⇛ind Rᵒ
-  ⊨⇛ind-mono✓ˡ P⊨✓Q Q⊨⇛indR _ ✓∙ =  ∗ᵒ-mono✓ˡ P⊨✓Q ✓∙ › Q⊨⇛indR _ ✓∙
-
-  ⊨⇛ind-monoˡ :  Pᵒ ⊨ Qᵒ →  Qᵒ ⊨⇛ind Rᵒ →  Pᵒ ⊨⇛ind Rᵒ
-  ⊨⇛ind-monoˡ =  ⊨⇒⊨✓ › ⊨⇛ind-mono✓ˡ
-
-  ⊨⇛ind-mono✓ʳ :  Pᵒ ⊨✓ Qᵒ →  Rᵒ ⊨⇛ind Pᵒ →  Rᵒ ⊨⇛ind Qᵒ
-  ⊨⇛ind-mono✓ʳ P⊨✓Q R⊨⇛indP _ ✓∙ =  R⊨⇛indP _ ✓∙ ›
-    ⤇ᴱ-mono✓ λ _ ✓∙ → ∗ᵒ-mono✓ˡ P⊨✓Q ✓∙
-
-  ⊨⇛ind-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨⇛ind Pᵒ →  Rᵒ ⊨⇛ind Qᵒ
-  ⊨⇛ind-monoʳ =  ⊨⇒⊨✓ › ⊨⇛ind-mono✓ʳ
-
-  ⊨⇛ind-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Qᵒ ⊨⇛ind Rᵒ →  Pᵒ ⊨⇛ind Sᵒ
-  ⊨⇛ind-mono P⊨Q R⊨S =  ⊨⇛ind-monoˡ P⊨Q › ⊨⇛ind-monoʳ R⊨S
-
-  -- Frame on ⊨⇛ind
-
-  ⊨⇛ind-frameˡ :  Pᵒ ⊨⇛ind Qᵒ →  Rᵒ ∗ᵒ Pᵒ ⊨⇛ind Rᵒ ∗ᵒ Qᵒ
-  ⊨⇛ind-frameˡ P⊨⇛indQ _ ✓∙ =  ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (P⊨⇛indQ _) ✓∙ › ⤇ᴱ-eatˡ ›
-    ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
-
-  -- ∃ᵒ/∃ᴵ on ⊨⇛ind
-
-  ⊨⇛ind-∃ᵒ :  (∀ x → Pᵒ˙ x ⊨⇛ind Qᵒ) →  ∃ᵒ˙ Pᵒ˙ ⊨⇛ind Qᵒ
-  ⊨⇛ind-∃ᵒ Px⊨⇛indQ _ ✓a =  ∃ᵒ∗ᵒ-out › ∑-case λ _ → Px⊨⇛indQ _ _ ✓a
-
-  ⊨⇛ind-∃ᴵ :  (∀{{x}} → Pᵒ˙ x ⊨⇛ind Qᵒ) →  ∃ᴵ˙ Pᵒ˙ ⊨⇛ind Qᵒ
-  ⊨⇛ind-∃ᴵ Px⊨⇛indQ _ ✓a =  ∃ᴵ∗ᵒ-out › ∑ᴵ-case $ Px⊨⇛indQ _ ✓a
+  ⇛ind□⇒⇛ind :  ⇛ind□ Pᵒ  ⊨  ⇛ind Pᵒ
+  ⇛ind□⇒⇛ind =  ⇛ᵒ-intro {set = updᴱᴳ indˣ} updᴱᴳ-self › ⇛ᵒ-join refl
 
   -- Allocate P to get Ind P
 
-  Ind-alloc :  ⸨ P ⸩  ⊨⇛ind  Ind P
-  Ind-alloc =  ⊨⇛indˣ⇒⊨⇛ind Indˣ-alloc ▷ ⊨⇛ind-monoʳ inj₀
+  Ind-alloc :  ⸨ P ⸩  ⊨  ⇛ind  Ind P
+  Ind-alloc =  Indˣ-alloc › ⇛indˣ⇒⇛ind › ⇛ᵒ-mono inj₀
 
   -- Allocate □ P to get □ᵒ Ind P
 
-  □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ Ind P
-  □ᵒInd-alloc-rec {P} =  ⊨⇛ind□⇒⊨⇛ind □ᵒInd□-alloc-rec ▷
-    ⊨⇛ind-mono (-∗ᵒ-monoˡ inj₁) inj₁
+  □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⇛ind  □ᵒ Ind P
+  □ᵒInd-alloc-rec =
+    -∗ᵒ-monoˡ inj₁ › □ᵒInd□-alloc-rec › ⇛ind□⇒⇛ind › ⇛ᵒ-mono inj₁
 
   -- Consume Ind P to get P
 
-  Ind-use :  Ind P  ⊨⇛ind  ⸨ P ⸩
-  Ind-use _ ✓a =  ⊎ᵒ∗ᵒ-out ›
-    ⊎-case (⊨⇛indˣ⇒⊨⇛ind Indˣ-use _ ✓a) (⊨⇛ind□⇒⊨⇛ind Ind□-use _ ✓a)
+  Ind-use :  Ind P  ⊨  ⇛ind  ⸨ P ⸩
+  Ind-use =  ⊎-case (Indˣ-use › ⇛indˣ⇒⇛ind) (Ind□-use › ⇛ind□⇒⇛ind)
 
 --------------------------------------------------------------------------------
 -- On ○ᵒ
 
 abstract
 
-  ○ᵒ-alloc :  ⸨ P ⸩ ⊨⇛ind ○ᵒ P
-  ○ᵒ-alloc =  Ind-alloc ▷ ⊨⇛ind-monoʳ Ind⇒○ᵒ
+  ○ᵒ-alloc :  ⸨ P ⸩  ⊨  ⇛ind  ○ᵒ P
+  ○ᵒ-alloc =  Ind-alloc › ⇛ᵒ-mono Ind⇒○ᵒ
 
-  □ᵒ○ᵒ-alloc-rec :  □ᵒ ○ᵒ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨⇛ind  □ᵒ ○ᵒ P
-  □ᵒ○ᵒ-alloc-rec {P} =  □ᵒInd-alloc-rec ▷ ⊨⇛ind-mono (-∗ᵒ-monoˡ Ind⇒○ᵒ) Ind⇒○ᵒ
+  □ᵒ○ᵒ-alloc-rec :  □ᵒ ○ᵒ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⇛ind  □ᵒ ○ᵒ P
+  □ᵒ○ᵒ-alloc-rec =  -∗ᵒ-monoˡ Ind⇒○ᵒ › □ᵒInd-alloc-rec › ⇛ᵒ-mono Ind⇒○ᵒ
 
-  ○ᵒ-use :  ○ᵒ P  ⊨⇛ind  ⸨ P ⸩
-  ○ᵒ-use =  ⊨⇛ind-∃ᵒ λ Q → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ Q∗R⊢P →
-    Ind-use ▷ ⊨⇛ind-frameˡ ▷
-    ⊨⇛ind-mono✓ʳ λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢⇒⊨✓ Q∗R⊢P ✓∙
+  ○ᵒ-use :  ○ᵒ P  ⊨  ⇛ind  ⸨ P ⸩
+  ○ᵒ-use =  ∑-case λ Q → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ Q∗R⊢P →
+    ∗ᵒ-monoʳ Ind-use › ⇛ᵒ-eatˡ › ⇛ᵒ-mono✓ λ ✓∙ →
+    ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢⇒⊨✓ Q∗R⊢P ✓∙
 
 --------------------------------------------------------------------------------
 -- On ↪⇛ᵒ, ↪⟨ ⟩ᴾᵒ, and ↪⟨ ⟩ᵀᵒ
 
-  ↪⇛ᵒ-use :  P ↪[ i ]⇛ᵒ Q  ⊨⇛ind  ∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ][ i ]⇛ Q) , ⸨ R ⸩
-  ↪⇛ᵒ-use =  ⊨⇛ind-∃ᵒ λ S → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ P∗S∗T⊢⇛Q →
-    Ind-use ▷ ⊨⇛ind-frameˡ ▷
-    ⊨⇛ind-monoʳ (∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⇛Q ,_) › -,_)
+  ↪⇛ᵒ-use :  P ↪[ i ]⇛ᵒ Q  ⊨  ⇛ind
+               (∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ][ i ]⇛ Q) , ⸨ R ⸩)
+  ↪⇛ᵒ-use =  ∑-case λ S → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ P∗S∗T⊢⇛Q →
+    ∗ᵒ-monoʳ Ind-use › ⇛ᵒ-eatˡ › ⇛ᵒ-mono $
+    ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⇛Q ,_) › -,_
 
-  ↪⟨⟩ᴾᵒ-use :  P ↪⟨ e ⟩ᴾᵒ Q˙  ⊨⇛ind
-                 ∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙) , ⸨ R ⸩
-  ↪⟨⟩ᴾᵒ-use =  ⊨⇛ind-∃ᵒ λ S → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ P∗S∗T⊢⟨e⟩Q →
-    Ind-use ▷ ⊨⇛ind-frameˡ ▷
-    ⊨⇛ind-monoʳ (∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⟨e⟩Q ,_) › -,_)
+  ↪⟨⟩ᴾᵒ-use :  P ↪⟨ e ⟩ᴾᵒ Q˙  ⊨  ⇛ind
+                 (∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙) , ⸨ R ⸩)
+  ↪⟨⟩ᴾᵒ-use =  ∑-case λ S → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ P∗S∗T⊢⟨e⟩Q →
+    ∗ᵒ-monoʳ Ind-use › ⇛ᵒ-eatˡ › ⇛ᵒ-mono $
+    ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⟨e⟩Q ,_) › -,_
 
-  ↪⟨⟩ᵀᵒ-use :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨⇛ind
-                 ∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Q˙) , ⸨ R ⸩
-  ↪⟨⟩ᵀᵒ-use =  ⊨⇛ind-∃ᵒ λ S → ⊨⇛ind-∃ᴵ $ ⊨⇛ind-∃ᵒ λ _ → ⊨⇛ind-∃ᵒ λ P∗S∗T⊢⟨e⟩Q →
-    Ind-use ▷ ⊨⇛ind-frameˡ ▷
-    ⊨⇛ind-monoʳ (∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⟨e⟩Q ,_) › -,_)
+  ↪⟨⟩ᵀᵒ-use :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙ ⊨  ⇛ind
+                 (∃ᵒ R , ∃ᵒ _ ∈ (P ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Q˙) , ⸨ R ⸩)
+  ↪⟨⟩ᵀᵒ-use =  ∑-case λ S → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ P∗S∗T⊢⟨e⟩Q →
+    ∗ᵒ-monoʳ Ind-use › ⇛ᵒ-eatˡ › ⇛ᵒ-mono $
+    ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⟨e⟩Q ,_) › -,_

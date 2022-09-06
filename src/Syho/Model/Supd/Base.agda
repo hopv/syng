@@ -66,6 +66,12 @@ abstract
                 E ⤇ᴱ λ x → set x E , Pᵒ ∗ᵒ Inv x
   ⇛ᵍ-apply ✓∙ =  ∗ᵒ-monoˡ (_$ _) › ∗ᵒ-comm › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
 
+  -- ⊨✓ ⇛ᵍ into ⊨ ⇛ᵍ
+
+  ⊨✓⇛ᵍ⇒⊨⇛ᵍ :  Pᵒ ⊨✓ [ gsI ]⇛ᵍ Qᵒ →  Pᵒ ⊨ [ gsI ]⇛ᵍ Qᵒ
+  ⊨✓⇛ᵍ⇒⊨⇛ᵍ {Pᵒ = Pᵒ} P⊨✓⇛Q =  ⇛ᵍ-make {Pᵒ = Pᵒ} λ _ ✓∙ →
+    ∗ᵒ-mono✓ˡ P⊨✓⇛Q ✓∙ › ⇛ᵍ-apply ✓∙
+
   -- Introduce ⇛ᵍ
 
   ⤇ᵒ⇒⇛ᵍ :  (∀{E} → set (get E) E ≡˙ E) →  ⤇ᵒ Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ

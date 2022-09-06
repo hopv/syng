@@ -354,6 +354,9 @@ abstract
     with ⤇Qc _ _ $ flip ✓-mono E✓e∙a $ ⊑-respˡ ∙-assocʳ $ ∙-monoʳ b∙c⊑a
   … | -, E✓eb∙d , Qd =  -, ✓-resp ∙-assocˡ E✓eb∙d , -, -, ⊑-refl , Pb , Qd
 
+  ⤇ᵒ-eatʳ :  ⤇ᵒ Pᵒ ∗ᵒ Qᵒ ⊨ ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ⤇ᵒ-eatʳ =  ∗ᵒ-comm › ⤇ᵒ-eatˡ › ⤇ᵒ-mono ∗ᵒ-comm
+
   -- Let ∃₁ _ go out of ⤇ᵒ
 
   ⤇ᵒ-∃ᵒ-out :  ⤇ᵒ (∃ᵒ _ ∈ X , Pᵒ) ⊨✓ ∃ᵒ _ ∈ X , ⤇ᵒ Pᵒ

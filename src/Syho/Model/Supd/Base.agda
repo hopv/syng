@@ -72,13 +72,13 @@ abstract
   ⇛ᵍ-intro {Pᵒ = Pᵒ} setget≡ =  ⇛ᵍ-make λ _ _ →
     ⤇ᴱ-intro › ⤇ᴱ-respᴱ setget≡ › ⤇ᴱ-param
 
-  -- Join ⇛ᵍs
+  -- Join two different ⇛ᵍs
 
-  ⇛ᵍ-join :  (∀{E x} → get' (set x E) ≡ get' E) →
+  ⇛ᵍ-join2 :  (∀{E x} → get' (set x E) ≡ get' E) →
     [ get , set , Inv ]⇛ᵍ [ get' , set' , Inv' ]⇛ᵍ Pᵒ  ⊨
       [ (λ E → (get E , get' E)) , (λ (x , y) → set' y ∘ set x) ,
         (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵍ Pᵒ
-  ⇛ᵍ-join {Inv' = Inv'} get'set≡get' =  ⇛ᵍ-make {Pᵒ = [ _ ]⇛ᵍ _} λ _ ✓∙ →
+  ⇛ᵍ-join2 {Inv' = Inv'} get'set≡get' =  ⇛ᵍ-make {Pᵒ = [ _ ]⇛ᵍ _} λ _ ✓∙ →
     ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ ⇛ᵍ-apply ✓∙ › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
       ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ
         (λ ✓∙ → ∗ᵒ-monoʳ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵍ-apply ✓∙) ✓∙ ›

@@ -36,7 +36,7 @@ open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_; _↪[_]⇛�
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
 open import Syho.Model.Supd.Base using ([_]⇛ᵍ_; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᵍ-make;
-  ⇛ᵍ-intro; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
+  ⇛ᵍ-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ)
 
 private variable
   ł ł' :  Level
@@ -186,12 +186,12 @@ abstract
   -- ⇛indˣ into ⇛ind
 
   ⇛indˣ⇒⇛ind :  ⇛indˣ Pᵒ  ⊨  ⇛ind Pᵒ
-  ⇛indˣ⇒⇛ind =  ⇛ᵍ-mono (⇛ᵍ-intro {set = updᴱᴳ ind□} updᴱᴳ-self) › ⇛ᵍ-join refl
+  ⇛indˣ⇒⇛ind =  ⇛ᵍ-mono (⇛ᵍ-intro {set = updᴱᴳ ind□} updᴱᴳ-self) › ⇛ᵍ-join2 refl
 
   -- ⊨⇛ind□ into ⊨⇛ind
 
   ⇛ind□⇒⇛ind :  ⇛ind□ Pᵒ  ⊨  ⇛ind Pᵒ
-  ⇛ind□⇒⇛ind =  ⇛ᵍ-intro {set = updᴱᴳ indˣ} updᴱᴳ-self › ⇛ᵍ-join refl
+  ⇛ind□⇒⇛ind =  ⇛ᵍ-intro {set = updᴱᴳ indˣ} updᴱᴳ-self › ⇛ᵍ-join2 refl
 
   -- Allocate P to get Ind P
 

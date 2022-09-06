@@ -25,7 +25,7 @@ private variable
   get get' :  Envᴳ → X
   set set' :  X → Envᴳ → Envᴳ
   Inv Inv' :  X → Propᵒ ł
-
+  E :  Envᴳ
 --------------------------------------------------------------------------------
 -- [ ]⇛ᵒ :  General super update modality
 
@@ -60,6 +60,12 @@ abstract
   ⇛ᵒ-make {Pᵒ = Pᵒ} Inv∗P⊨✓⤇Inv∗Q =
     ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro $ Inv∗P⊨✓⤇Inv∗Q _
 
+  -- Apply ⇛ᵒ
+
+  ⇛ᵒ-apply :  Inv (get E) ∗ᵒ [ get , set , Inv ]⇛ᵒ Pᵒ ⊨✓
+                E ⤇ᴱ λ x → set x E , Inv x ∗ᵒ Pᵒ
+  ⇛ᵒ-apply ✓∙ =  ∗ᵒ-monoʳ (_$ _) › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
+
   -- Introduce ⇛ᵒ
 
   ⇛ᵒ-intro :  (∀{E} → set (get E) E ≡˙ E) →  Pᵒ ⊨ [ get , set , Inv ]⇛ᵒ Pᵒ
@@ -73,10 +79,8 @@ abstract
       [ (λ E → (get E , get' E)) , (λ (x , y) → set' y ∘ set x) ,
         (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵒ Pᵒ
   ⇛ᵒ-join {Inv' = Inv'} get'set≡get' =  ⇛ᵒ-make {Pᵒ = [ _ ]⇛ᵒ _} λ _ ✓∙ →
-    ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
-    ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoʳ (_$ _) › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙) ✓∙ › ⤇ᴱ-eatˡ ›
-    ⤇ᴱ-mono✓ (λ x ✓∙ → pullʳˡᵒ ›
-      ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoˡ (subst₂ Inv' (◠ get'set≡get') refl) ›
-        ∗ᵒ-monoʳ (_$ _) › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙) ✓∙ ›
+    ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵒ-apply ✓∙ › ⤇ᴱ-eatˡ ›
+    ⤇ᴱ-mono✓ (λ x ✓∙ → pullʳˡᵒ › ∗ᵒ-mono✓ʳ
+      (λ ✓∙ → ∗ᵒ-monoˡ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵒ-apply ✓∙) ✓∙ ›
       ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ) ›
     ⤇ᴱ-join

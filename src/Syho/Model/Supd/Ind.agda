@@ -197,8 +197,6 @@ abstract
   updᴱ-ind-2 :  updᴱ-ind Gˣ□ (updᴱ-ind Fˣ□ E)  ≡˙  updᴱ-ind Gˣ□ E
   updᴱ-ind-2 =  updᴱᴳ-cong (updᴱᴳ-swap λ ()) ◇˙ updᴱᴳ-2 ◇˙ updᴱᴳ-cong updᴱᴳ-2
 
-  -- □ ˣ □ ˣ = □ ˣ
-
   -- ⇛indˣ into ⇛ind
 
   ⇛indˣ⇒⇛ind :  ⇛indˣ Pᵒ  ⊨  ⇛ind Pᵒ

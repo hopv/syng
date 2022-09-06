@@ -64,11 +64,17 @@ infix 8 ○ᵒ_
 
 abstract
 
+  -- Monoᵒ for ○ᵒ
+
   ○ᵒ-Mono :  Monoᵒ (○ᵒ P)
   ○ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
+  -- Monotonicity of ○ᵒ
+
   ○ᵒ-mono :  P ⊢[ ∞ ] Q →  ○ᵒ P ⊨ ○ᵒ Q
   ○ᵒ-mono P⊢Q (-, -ᴵ, -, R∗S⊢P , R∗IndSa) =  -, -ᴵ, -, R∗S⊢P » P⊢Q , R∗IndSa
+
+  -- Let ○ᵒ eat a proposition under ∗ᵒ
 
   ○ᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ ∗ᵒ ○ᵒ P ⊨ ○ᵒ (Q ∗ P)
   ○ᵒ-eatˡ (-, -, b∙c⊑a , Qb , -, -ᴵ, -, R∗S⊢P , R∗IndSc) =
@@ -84,8 +90,12 @@ P ↪[ i ]⇛ᵒ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P ∗ R
 
 abstract
 
+  -- Monoᵒ for ↪⇛ᵒ
+
   ↪⇛ᵒ-Mono :  Monoᵒ (P ↪[ i ]⇛ᵒ Q)
   ↪⇛ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+
+  -- Modify ⇛ proof
 
   ↪⇛ᵒ-ṡ :  P ↪[ i ]⇛ᵒ Q  ⊨  P ↪[ ṡ i ]⇛ᵒ Q
   ↪⇛ᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =  -, -ᴵ, -, ⇛-ṡ P∗R∗S⊢⇛Q , R∗IndSa
@@ -113,6 +123,8 @@ abstract
   ↪⇛ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocˡ » ⇛-frameˡ P∗R∗S⊢⇛Q , R∗IndSa
 
+  -- Make ↪⇛ᵒ out of ○ᵒ
+
   ○ᵒ⇒↪⇛ᵒ :  P ∗ R ⊢[ ∞ ][ i ]⇛ Q →  ○ᵒ R  ⊨  P ↪[ i ]⇛ᵒ Q
   ○ᵒ⇒↪⇛ᵒ P∗R⊢⇛Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⇛Q , S∗IndTa
@@ -127,8 +139,12 @@ P ↪⟨ e ⟩ᴾᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P
 
 abstract
 
+  -- Monoᵒ for ↪⟨ ⟩ᴾᵒ
+
   ↪⟨⟩ᴾᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)
   ↪⟨⟩ᴾᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+
+  -- Modify ⟨ ⟩ᴾ proof
 
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Q˙
@@ -154,6 +170,8 @@ abstract
   ↪⟨⟩ᴾᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocˡ » hor-frameˡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
+  -- Make ↪⟨ ⟩ᴾᵒ out of ○ᵒ
+
   ○ᵒ⇒↪⟨⟩ᴾᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩ᴾᵒ Q˙
   ○ᵒ⇒↪⟨⟩ᴾᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q , S∗IndTa
@@ -168,8 +186,12 @@ P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
 
 abstract
 
+  -- Monoᵒ for ↪⟨ ⟩ᵀᵒ
+
   ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)
   ↪⟨⟩ᵀᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+
+  -- Modify ⟨ ⟩ᵀ proof
 
   ↪⟨⟩ᵀᵒ-ṡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ ṡ i ]ᵒ Q˙
   ↪⟨⟩ᵀᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
@@ -198,6 +220,8 @@ abstract
   ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᵀᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocˡ » hor-frameˡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
+
+  -- Make ↪⟨ ⟩ᵀᵒ out of ○ᵒ
 
   ○ᵒ⇒↪⟨⟩ᵀᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Q˙ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙
   ○ᵒ⇒↪⟨⟩ᵀᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =

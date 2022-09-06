@@ -25,9 +25,15 @@ private variable
   set set' :  X → Envᴳ → Envᴳ
   Inv Inv' :  X → Propᵒ ł
 
+--------------------------------------------------------------------------------
+-- [ ]⇛ᵒ :  General super update modality
+
+-- Parametrized over the getter (get) and setter (set) on the environment and
+-- the invariant predicate (Inv)
+
 infix 8 [_]⇛ᵒ_
 [_]⇛ᵒ_ :  ∀{X : Set ł} →  (Envᴳ → X) × (X → Envᴳ → Envᴳ) × (X → Propᵒ ł') →
-  Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
+                          Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
 [ get , set , Inv ]⇛ᵒ Pᵒ =
   ∀ᵒ E , Inv (get E) -∗ᵒ E ⤇ᴱ λ x → set x E , Inv x ∗ᵒ Pᵒ
 

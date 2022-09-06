@@ -101,8 +101,8 @@ abstract
 
   -- Add a new proposition and get a line
 
-  alloc-indˣ :
-    ((Q˙ , n) , εˣ) ↝ˣ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , ṡ n) , line-indˣ n P
+  alloc-indˣ :  ((Q˙ , n) , εˣ)  ↝ˣ  λ(_ : ⊤₀) →
+                  (updᴺᴹ n P Q˙ , ṡ n) , line-indˣ n P
   alloc-indˣ _ _ .proj₀ =  _
   alloc-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .proj₁ j  with Q✓Rˣ∙ε j
   … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
@@ -112,7 +112,7 @@ abstract
 
   -- Remove a proposition consuming a line
 
-  use-indˣ :  ((Q˙ , n) , line-indˣ i P) ↝ˣ
+  use-indˣ :  ((Q˙ , n) , line-indˣ i P)  ↝ˣ
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updᴺᴹ i ⊤' Q˙ , n) , εˣ
   use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₀  with Q✓Rˣ∙iP i
   … | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
@@ -197,8 +197,8 @@ abstract
 
   -- Add a new proposition and get a line
 
-  alloc-ind□ :
-    ((Q˙ , n) , ε□) ↝□ λ(_ : ⊤₀) → (updᴺᴹ n P Q˙ , ṡ n) , line-ind□ n P
+  alloc-ind□ :  ((Q˙ , n) , ε□)  ↝□  λ(_ : ⊤₀) →
+                  (updᴺᴹ n P Q˙ , ṡ n) , line-ind□ n P
   alloc-ind□ _ _ .proj₀ =  _
   alloc-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
   … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
@@ -208,7 +208,7 @@ abstract
 
   -- Get an agreement from a line
 
-  use-ind□ :  ((Q˙ , n) , line-ind□ i P) ↝□
+  use-ind□ :  ((Q˙ , n) , line-ind□ i P)  ↝□
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  ((Q˙ , n) , line-ind□ i P)
   use-ind□ {i = i} Rs˙ Q✓Rs∙iP .proj₀ .proj₀  with Q✓Rs∙iP i
   … | (Qi≡Rsi⧺[P] , _)  rewrite ≡ᵇ-refl {i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-inj₁ ∈ᴸ-[?])

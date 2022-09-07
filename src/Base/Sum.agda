@@ -16,19 +16,13 @@ private variable
 -- Sum
 
 infixr 0 _⊎_
+infix 8 ĩ₀_ ĩ₁_
 data  _⊎_ (A : Set ł) (B : Set ł') :  Set (ł ⊔ᴸ ł')  where
-  inj₀ :  A →  A ⊎ B
-  inj₁ :  B →  A ⊎ B
+  ĩ₀_ :  A →  A ⊎ B
+  ĩ₁_ :  B →  A ⊎ B
 
 -- Pattern matching on ⊎
 
 ⊎-case :  (A → C) →  (B → C) →  A ⊎ B →  C
-⊎-case f _ (inj₀ a) =  f a
-⊎-case _ g (inj₁ b) =  g b
-
--- Utility patterns
-
-pattern inj₁₀ a =  inj₁ (inj₀ a)
-pattern inj₁₁ a =  inj₁ (inj₁ a)
-pattern inj₁₁₀ a =  inj₁₁ (inj₀ a)
-pattern inj₁₁₁ a =  inj₁₁ (inj₁ a)
+⊎-case f _ (ĩ₀ a) =  f a
+⊎-case _ g (ĩ₁ b) =  g b

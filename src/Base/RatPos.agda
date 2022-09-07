@@ -9,7 +9,7 @@ module Base.RatPos where
 open import Base.Func using (_$_; flip)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
-open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Bool using (Bool; tt; Tt)
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_;
   _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ;
@@ -171,8 +171,8 @@ abstract
 
   ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
   ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd  with c ≤>⁺ d
-  … | inj₀ c≤d =  c≤d
-  … | inj₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
+  … | ĩ₀ c≤d =  c≤d
+  … | ĩ₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
     <⁺-trans (*⁺-smonoʳ {b} c>d) +⁺-sincrˡ
 
   -- p +ᴿ⁺ 1ᴿ⁺ does not satisfy ≤1ᴿ⁺
@@ -184,8 +184,8 @@ abstract
 
   ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  p ≤1ᴿ⁺ →  q ≤1ᴿ⁺
   ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b  with c ≤>⁺ d
-  … | inj₀ c≤d =  c≤d
-  … | inj₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc ◇ *⁺-comm {b} {c}) $
+  … | ĩ₀ c≤d =  c≤d
+  … | ĩ₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc ◇ *⁺-comm {b} {c}) $
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
 
 --------------------------------------------------------------------------------

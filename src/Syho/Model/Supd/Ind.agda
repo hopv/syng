@@ -12,7 +12,7 @@ open import Base.Func using (_$_; _∘_; _›_)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
-open import Base.Sum using (inj₀; inj₁; ⊎-case)
+open import Base.Sum using (ĩ₀_; ĩ₁_; ⊎-case)
 open import Base.Bool using (tt; ff)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; _≡ᵇ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ᵇ⇒≡; ≡ᵇ-refl; ≢-≡ᵇ-ff)
@@ -210,13 +210,13 @@ abstract
   -- Allocate P to get Ind P
 
   Ind-alloc :  ⸨ P ⸩  ⊨  ⇛ind  Ind P
-  Ind-alloc =  Indˣ-alloc › ⇛indˣ⇒⇛ind › ⇛ᵍ-mono inj₀
+  Ind-alloc =  Indˣ-alloc › ⇛indˣ⇒⇛ind › ⇛ᵍ-mono ĩ₀_
 
   -- Allocate □ P to get □ᵒ Ind P
 
   □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⇛ind  □ᵒ Ind P
   □ᵒInd-alloc-rec =
-    -∗ᵒ-monoˡ inj₁ › □ᵒInd□-alloc-rec › ⇛ind□⇒⇛ind › ⇛ᵍ-mono inj₁
+    -∗ᵒ-monoˡ ĩ₁_ › □ᵒInd□-alloc-rec › ⇛ind□⇒⇛ind › ⇛ᵍ-mono ĩ₁_
 
   -- Consume Ind P to get P
 

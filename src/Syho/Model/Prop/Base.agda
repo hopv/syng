@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
   proj₁; uncurry; ∑-case)
-open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ; injᴳ; ✓ᴳ-respᴱ;
@@ -145,8 +145,8 @@ abstract
   -- Monoᵒ for ⊎ᵒ
 
   ⊎ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ (Pᵒ ⊎ᵒ Qᵒ)
-  ⊎ᵒ-Mono MonoP _ a⊑b (inj₀ Pa) =  inj₀ $ MonoP a⊑b Pa
-  ⊎ᵒ-Mono _ MonoQ a⊑b (inj₁ Qa) =  inj₁ $ MonoQ a⊑b Qa
+  ⊎ᵒ-Mono MonoP _ a⊑b (ĩ₀ Pa) =  ĩ₀ (MonoP a⊑b Pa)
+  ⊎ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ (MonoQ a⊑b Qa)
 
 --------------------------------------------------------------------------------
 -- ⊤ᵒ :  Truthhood
@@ -265,12 +265,12 @@ abstract
   ∗ᵒ∃ᴵ-out (-, -, b∙c⊑a , Pb , (-ᴵ, Qxc)) =  -ᴵ, -, -, b∙c⊑a , Pb , Qxc
 
   ⊎ᵒ∗ᵒ-out :  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ (Pᵒ ∗ᵒ Rᵒ) ⊎ᵒ (Qᵒ ∗ᵒ Rᵒ)
-  ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , inj₀ Pb , Rc) =  inj₀ (-, -, b∙c⊑a , Pb , Rc)
-  ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , inj₁ Qb , Rc) =  inj₁ (-, -, b∙c⊑a , Qb , Rc)
+  ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , ĩ₀ Pb , Rc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Rc)
+  ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , ĩ₁ Qb , Rc) =  ĩ₁ (-, -, b∙c⊑a , Qb , Rc)
 
   ∗ᵒ⊎ᵒ-out :  Pᵒ ∗ᵒ (Qᵒ ⊎ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ⊎ᵒ (Pᵒ ∗ᵒ Rᵒ)
-  ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , inj₀ Qc) =  inj₀ (-, -, b∙c⊑a , Pb , Qc)
-  ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , inj₁ Rc) =  inj₁ (-, -, b∙c⊑a , Pb , Rc)
+  ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₀ Qc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Qc)
+  ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₁ Rc) =  ĩ₁ (-, -, b∙c⊑a , Pb , Rc)
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Magic wand

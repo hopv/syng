@@ -8,7 +8,7 @@ module Base.List.Any where
 
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.List using (List; _∷_; []; _⧺_)
-open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 
@@ -30,20 +30,20 @@ abstract
 
   -- Any and ⧺
 
-  Any-⧺-inj₀ :  Any F as →  Any F (as ⧺ bs)
-  Any-⧺-inj₀ (by-hd Fa) =  by-hd Fa
-  Any-⧺-inj₀ (by-tl Fas) =  by-tl $ Any-⧺-inj₀ Fas
+  Any-⧺-ĩ₀ :  Any F as →  Any F (as ⧺ bs)
+  Any-⧺-ĩ₀ (by-hd Fa) =  by-hd Fa
+  Any-⧺-ĩ₀ (by-tl Fas) =  by-tl $ Any-⧺-ĩ₀ Fas
 
-  Any-⧺-inj₁ :  Any F bs →  Any F (as ⧺ bs)
-  Any-⧺-inj₁ {as = []} Fbs =  Fbs
-  Any-⧺-inj₁ {as = _ ∷ _} Fbs =  by-tl $ Any-⧺-inj₁ Fbs
+  Any-⧺-ĩ₁ :  Any F bs →  Any F (as ⧺ bs)
+  Any-⧺-ĩ₁ {as = []} Fbs =  Fbs
+  Any-⧺-ĩ₁ {as = _ ∷ _} Fbs =  by-tl $ Any-⧺-ĩ₁ Fbs
 
   Any-⧺-case :  Any F (as ⧺ bs) →  Any F as ⊎ Any F bs
-  Any-⧺-case {as = []} Fbs =  inj₁ Fbs
-  Any-⧺-case {as = _ ∷ _} (by-hd Fa) =  inj₀ (by-hd Fa)
+  Any-⧺-case {as = []} Fbs =  ĩ₁ Fbs
+  Any-⧺-case {as = _ ∷ _} (by-hd Fa) =  ĩ₀ (by-hd Fa)
   Any-⧺-case {as = _ ∷ _} (by-tl Fas'⧺bs) with Any-⧺-case Fas'⧺bs
-  … | inj₀ Fas' =  inj₀ $ by-tl Fas'
-  … | inj₁ Fbs =  inj₁ Fbs
+  … | ĩ₀ Fas' =  ĩ₀ by-tl Fas'
+  … | ĩ₁ Fbs =  ĩ₁ Fbs
 
   -- ¬Any
 
@@ -66,11 +66,11 @@ abstract
 
   ¬Any-⧺-intro :  ¬ Any F as →  ¬ Any F bs →  ¬ Any F (as ⧺ bs)
   ¬Any-⧺-intro ¬Fas ¬Fbs Fas⧺bs with Any-⧺-case Fas⧺bs
-  … | inj₀ Fas =  ¬Fas Fas
-  … | inj₁ Fbs =  ¬Fbs Fbs
+  … | ĩ₀ Fas =  ¬Fas Fas
+  … | ĩ₁ Fbs =  ¬Fbs Fbs
 
   ¬Any-⧺-elim₀ :  ¬ Any F (as ⧺ bs) →  ¬ Any F as
-  ¬Any-⧺-elim₀ ¬Fas⧺bs Fas =  ¬Fas⧺bs $ Any-⧺-inj₀ Fas
+  ¬Any-⧺-elim₀ ¬Fas⧺bs Fas =  ¬Fas⧺bs $ Any-⧺-ĩ₀ Fas
 
   ¬Any-⧺-elim₁ :  ¬ Any F (as ⧺ bs) →  ¬ Any F bs
-  ¬Any-⧺-elim₁ ¬Fas⧺bs Fbs =  ¬Fas⧺bs $ Any-⧺-inj₁ Fbs
+  ¬Any-⧺-elim₁ ¬Fas⧺bs Fbs =  ¬Fas⧺bs $ Any-⧺-ĩ₁ Fbs

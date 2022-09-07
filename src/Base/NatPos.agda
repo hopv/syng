@@ -9,7 +9,7 @@ module Base.NatPos where
 open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
-open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
+open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Bool using (Bool; tt; ff; Tt)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; _<≡>_; _≤>_; _+_;
   _*_; ṡ≤ṡ; ṡ<ṡ; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤;
@@ -113,23 +113,23 @@ abstract
 
   _<≡>⁺_ :  ∀ m n →  m <⁺ n  ⊎  m ≡ n  ⊎  m >⁺ n
   ṡ⁺ m⁰ <≡>⁺ ṡ⁺ n⁰  with m⁰ <≡> n⁰
-  … | inj₀ m⁰<n⁰ =  inj₀ m⁰<n⁰
-  … | inj₁₀ refl =  inj₁₀ refl
-  … | inj₁₁ m⁰>n⁰ =  inj₁₁ m⁰>n⁰
+  … | ĩ₀ m⁰<n⁰ =  ĩ₀ m⁰<n⁰
+  … | ĩ₁ ĩ₀ refl =  ĩ₁ ĩ₀ refl
+  … | ĩ₁ ĩ₁ m⁰>n⁰ =  ĩ₁ ĩ₁ m⁰>n⁰
 
   -- Get ≤⁺ or >⁺
 
   _≤>⁺_ :  ∀ m n →  m ≤⁺ n  ⊎  m >⁺ n
   ṡ⁺ m⁰ ≤>⁺ ṡ⁺ n⁰  with m⁰ ≤> n⁰
-  … | inj₀ m⁰≤n⁰ =  inj₀ m⁰≤n⁰
-  … | inj₁ m⁰>n⁰ =  inj₁ m⁰>n⁰
+  … | ĩ₀ m⁰≤n⁰ =  ĩ₀ m⁰≤n⁰
+  … | ĩ₁ m⁰>n⁰ =  ĩ₁ m⁰>n⁰
 
   -- Get <⁺ or ≥⁺
 
   _<≥⁺_ :  ∀ m n →  m <⁺ n  ⊎  m ≥⁺ n
   m <≥⁺ n  with n ≤>⁺ m
-  … | inj₀ n≤m =  inj₁ n≤m
-  … | inj₁ n>m =  inj₀ n>m
+  … | ĩ₀ n≤m =  ĩ₁ n≤m
+  … | ĩ₁ n>m =  ĩ₀ n>m
 
 --------------------------------------------------------------------------------
 -- ≡⁺ᵇ, ≤⁺ᵇ, <⁺ᵇ, ≥⁺ᵇ, >⁺ᵇ :  Boolean order

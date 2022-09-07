@@ -11,7 +11,7 @@ open import Base.Func using (_$_)
 open import Base.Few using (¬_; ⇒¬¬)
 open import Base.Bool using (Bool; tt; ff; Tt)
 open import Base.Prod using (_×_; _,_; -,_)
-open import Base.Sum using (_⊎_; inj₀; inj₁; ⊎-case)
+open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
 
 private variable
   ł ł' ł'' :  Level
@@ -62,6 +62,6 @@ abstract
 
   infixr 0 _⊎?_
   _⊎?_ :  Dec A →  Dec B →  Dec (A ⊎ B)
-  yes a ⊎? _ =  yes $ inj₀ a
-  _ ⊎? yes b =  yes $ inj₁ b
+  yes a ⊎? _ =  yes $ ĩ₀ a
+  _ ⊎? yes b =  yes $ ĩ₁ b
   no ¬a ⊎? no ¬b =  no $ ⊎-case ¬a ¬b

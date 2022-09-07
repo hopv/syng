@@ -9,7 +9,7 @@ module Base.Nat where
 open import Base.Func using (_$_; _∘_)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
-open import Base.Sum using (_⊎_; inj₀; inj₁; inj₁₀; inj₁₁)
+open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Bool using (Bool; tt; ff; Tt; Tt⇒≡tt; ¬Tt⇒≡ff)
 open import Base.Dec using (Dec²; yes; no; dec-Tt)
 
@@ -129,28 +129,28 @@ abstract
   -- Get <, ≡ or >
 
   _<≡>_ :  ∀ m n →  m < n  ⊎  m ≡ n  ⊎  m > n
-  0 <≡> (ṡ _) =  inj₀ 0<ṡ
-  0 <≡> 0 =  inj₁₀ refl
-  ṡ _ <≡> 0 =  inj₁₁ 0<ṡ
+  0 <≡> (ṡ _) =  ĩ₀ 0<ṡ
+  0 <≡> 0 =  ĩ₁ ĩ₀ refl
+  ṡ _ <≡> 0 =  ĩ₁ ĩ₁ 0<ṡ
   ṡ m' <≡> ṡ n'  with m' <≡> n'
-  … | inj₀ m'<n' =  inj₀ $ ṡ<ṡ m'<n'
-  … | inj₁₀ refl =  inj₁₀ refl
-  … | inj₁₁ m'>n' =  inj₁₁ (ṡ<ṡ m'>n')
+  … | ĩ₀ m'<n' =  ĩ₀ ṡ<ṡ m'<n'
+  … | ĩ₁ ĩ₀ refl =  ĩ₁ ĩ₀ refl
+  … | ĩ₁ ĩ₁ m'>n' =  ĩ₁ ĩ₁ ṡ<ṡ m'>n'
 
   -- Get ≤ or >
 
   _≤>_ :  ∀ m n →  m ≤ n  ⊎  m > n
   m ≤> n  with m <≡> n
-  … | inj₀ m<n =  inj₀ $ <⇒≤ m<n
-  … | inj₁₀ refl =  inj₀ ≤-refl
-  … | inj₁₁ m>n =  inj₁ m>n
+  … | ĩ₀ m<n =  ĩ₀ <⇒≤ m<n
+  … | ĩ₁ ĩ₀ refl =  ĩ₀ ≤-refl
+  … | ĩ₁ ĩ₁ m>n =  ĩ₁ m>n
 
   -- Get < or ≥
 
   _<≥_ :  ∀ m n →  m < n  ⊎  m ≥ n
   m <≥ n  with n ≤> m
-  … | inj₀ n≤m =  inj₁ n≤m
-  … | inj₁ n>m =  inj₀ n>m
+  … | ĩ₀ n≤m =  ĩ₁ n≤m
+  … | ĩ₁ n>m =  ĩ₀ n>m
 
   -- Conversion between ≤ and ≤ᵈ
 
@@ -328,9 +328,9 @@ abstract
 
   +-injˡ :  ∀{l m n} →  m + l ≡ n + l →  m ≡ n
   +-injˡ {_} {m} {n} m+l≡n+l  with m <≡> n
-  … | inj₀ m<n =  absurd $ ≡⇒¬< m+l≡n+l (+-smonoˡ m<n)
-  … | inj₁₀ m≡n =  m≡n
-  … | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m+l≡n+l) (+-smonoˡ m>n)
+  … | ĩ₀ m<n =  absurd $ ≡⇒¬< m+l≡n+l (+-smonoˡ m<n)
+  … | ĩ₁ ĩ₀ m≡n =  m≡n
+  … | ĩ₁ ĩ₁ m>n =  absurd $ ≡⇒¬< (◠ m+l≡n+l) (+-smonoˡ m>n)
 
   +-injʳ :  l + m ≡ l + n →  m ≡ n
   +-injʳ {l} {m} {n}  rewrite +-comm {l} {m} | +-comm {l} {n} =  +-injˡ
@@ -410,9 +410,9 @@ abstract
 
   *-injˡ :  ∀{l m n} →  m * ṡ l ≡ n * ṡ l →  m ≡ n
   *-injˡ {_} {m} {n} m*ṡl≡n*ṡl  with m <≡> n
-  … | inj₀ m<n =  absurd $ ≡⇒¬< m*ṡl≡n*ṡl (*-smonoˡ m<n)
-  … | inj₁₀ m≡n =  m≡n
-  … | inj₁₁ m>n =  absurd $ ≡⇒¬< (◠ m*ṡl≡n*ṡl) (*-smonoˡ m>n)
+  … | ĩ₀ m<n =  absurd $ ≡⇒¬< m*ṡl≡n*ṡl (*-smonoˡ m<n)
+  … | ĩ₁ ĩ₀ m≡n =  m≡n
+  … | ĩ₁ ĩ₁ m>n =  absurd $ ≡⇒¬< (◠ m*ṡl≡n*ṡl) (*-smonoˡ m>n)
 
   *-injʳ :  ṡ l * m ≡ ṡ l * n →  m ≡ n
   *-injʳ {l} {m} {n}  rewrite *-comm {ṡ l} {m} | *-comm {ṡ l} {n} =  *-injˡ

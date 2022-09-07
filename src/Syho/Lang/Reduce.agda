@@ -12,7 +12,7 @@ open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl; ◠_)
 open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
-open import Base.Sum using (inj₁)
+open import Base.Sum using (ĩ₁_)
 open import Base.Option using (¿_; some; none; _$¿_; _»-¿_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List)
@@ -113,7 +113,7 @@ data  _⇒ᴷᴿ_ {T} :  (Ktxred T × Mem) →  (Expr ∞ T × Mem) →  Set₁ 
 -- Reduction on an expression
 
 data  _⇒ᴱ_ :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
-  redᴱ :  val/ktxred e ≡ inj₁ kr →  (kr , M) ⇒ᴷᴿ (e' , M') →
+  redᴱ :  val/ktxred e ≡ ĩ₁ kr →  (kr , M) ⇒ᴷᴿ (e' , M') →
           (e , M) ⇒ᴱ (e' , M')
 
 abstract

@@ -12,14 +12,14 @@ open import Base.Func using (_∘_; _$_; id; _▷_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Prod using (_×_; proj₀; proj₁; _,_; -,_)
-open import Base.Sum using (inj₀; inj₁)
+open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Bool using (ff; tt)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
   ᵇ⇒≡; ≡ᵇ-refl)
 open import Base.Natmap using (updᴺᴹ)
 open import Base.List using (List; _∷_; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
-  ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ∈ᴸ-[?]; ∈ᴸ-⧺-inj₁; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
+  ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ∈ᴸ-[?]; ∈ᴸ-⧺-ĩ₁; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm;
@@ -118,8 +118,8 @@ abstract
   … | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
   …   | ?ˣ =  Qi←Rˣi∙#P
   use-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₁  with i <≥ n
-  … | inj₀ i<n =  i<n
-  … | inj₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
+  … | ĩ₀ i<n =  i<n
+  … | ĩ₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
   …   | Rˣi∙P≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣi∙P≡?
   …     | ?ˣ | ()
   use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j  with Q✓Rˣ∙iP j
@@ -211,10 +211,10 @@ abstract
   use-ind□ :  ((Q˙ , n) , line-ind□ i P)  ↝□
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  ((Q˙ , n) , line-ind□ i P)
   use-ind□ {i = i} Rs˙ Q✓Rs∙iP .proj₀ .proj₀  with Q✓Rs∙iP i
-  … | (Qi≡Rsi⧺[P] , _)  rewrite ≡ᵇ-refl {i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-inj₁ ∈ᴸ-[?])
+  … | (Qi≡Rsi⧺[P] , _)  rewrite ≡ᵇ-refl {i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-ĩ₁ ∈ᴸ-[?])
   use-ind□ {n = n} {i} Rs˙ Q✓Rs∙iP .proj₀ .proj₁  with i <≥ n
-  … | inj₀ i<n =  i<n
-  … | inj₁ i≥n  with Q✓Rs∙iP _ .proj₁ i≥n
+  … | ĩ₀ i<n =  i<n
+  … | ĩ₁ i≥n  with Q✓Rs∙iP _ .proj₁ i≥n
   …   | Rsi⧺[P]≡?  rewrite ≡ᵇ-refl {i}  with Rs˙ i | Rsi⧺[P]≡?
   …     | _ ∷ _ | ()
   …     | [] | ()

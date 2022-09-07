@@ -10,11 +10,11 @@ open import Base.Level using (Level)
 open import Base.Eq using (_≡_; refl; _≢_; _◇_; ◠_)
 open import Base.List using (List; _∷_; []; [_]; _⧺_)
 open import Base.List.Any using (by-hd; by-tl) public -- Re-export
-open import Base.List.Any using (Any; Any-⧺-inj₀; Any-⧺-inj₁; Any-⧺-case;
+open import Base.List.Any using (Any; Any-⧺-ĩ₀; Any-⧺-ĩ₁; Any-⧺-case;
   ¬Any-[]; ¬Any-∷-intro; ¬Any-∷-elim₀; ¬Any-∷-elim₁; ¬Any-⧺-intro;
   ¬Any-⧺-elim₀; ¬Any-⧺-elim₁)
 open import Base.Prod using (_×_; _,_)
-open import Base.Sum using (_⊎_; inj₀; inj₁)
+open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Few using (¬_; absurd)
 open import Base.Func using (id; _∘_; _$_)
 
@@ -43,11 +43,11 @@ abstract
 
   -- ∈ᴸ and ⧺
 
-  ∈ᴸ-⧺-inj₀ :  a ∈ᴸ as →  a ∈ᴸ as ⧺ bs
-  ∈ᴸ-⧺-inj₀ =  Any-⧺-inj₀
+  ∈ᴸ-⧺-ĩ₀ :  a ∈ᴸ as →  a ∈ᴸ as ⧺ bs
+  ∈ᴸ-⧺-ĩ₀ =  Any-⧺-ĩ₀
 
-  ∈ᴸ-⧺-inj₁ :  a ∈ᴸ bs →  a ∈ᴸ as ⧺ bs
-  ∈ᴸ-⧺-inj₁ =  Any-⧺-inj₁
+  ∈ᴸ-⧺-ĩ₁ :  a ∈ᴸ bs →  a ∈ᴸ as ⧺ bs
+  ∈ᴸ-⧺-ĩ₁ =  Any-⧺-ĩ₁
 
   ∈ᴸ-⧺-case :  a ∈ᴸ as ⧺ bs →  a ∈ᴸ as ⊎ a ∈ᴸ bs
   ∈ᴸ-⧺-case =  Any-⧺-case
@@ -116,14 +116,14 @@ abstract
 
   ⧺-⊆ᴸ-elim :  ∀{cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ⧺ bs  ⊆ᴸ  cs
   ⧺-⊆ᴸ-elim as⊆cs bs⊆cs a∈as⧺bs with ∈ᴸ-⧺-case a∈as⧺bs
-  … | inj₀ a∈as =  as⊆cs a∈as
-  … | inj₁ a∈bs =  bs⊆cs a∈bs
+  … | ĩ₀ a∈as =  as⊆cs a∈as
+  … | ĩ₁ a∈bs =  bs⊆cs a∈bs
 
   ⧺-⊆ᴸ-introˡ :  as  ⊆ᴸ  as ⧺ bs
-  ⧺-⊆ᴸ-introˡ =  ∈ᴸ-⧺-inj₀
+  ⧺-⊆ᴸ-introˡ =  ∈ᴸ-⧺-ĩ₀
 
   ⧺-⊆ᴸ-introʳ :  as  ⊆ᴸ  bs ⧺ as
-  ⧺-⊆ᴸ-introʳ =  ∈ᴸ-⧺-inj₁
+  ⧺-⊆ᴸ-introʳ =  ∈ᴸ-⧺-ĩ₁
 
   -- More on ⧺ and ⊆ᴸ
 

@@ -14,7 +14,7 @@ open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)
 open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
-open import Base.Sum using (inj₀; inj₁)
+open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List)
 open import Base.List.Nat using (rep; len)
@@ -421,50 +421,50 @@ data  _⊢[_]*_  where
 
   -- Value
 
-  hor-valᵘ :  P  ⊢[ ι ][ i ]⇛  Q˙ v  →   P  ⊢[ ι ]⁺⟨ inj₀ v ⟩[ wκ ]  Q˙
+  hor-valᵘ :  P  ⊢[ ι ][ i ]⇛  Q˙ v  →   P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
 
   -- Non-deterministic value
 
   hor-nd :  (∀ x →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| ndᴿ ⟩[ wκ ]  Q˙
+            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| ndᴿ) ⟩[ wκ ]  Q˙
 
   -- ▶, for partial and total Hoare triples
 
   horᴾ-▶ :  P  ⊢[< ι ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| ▶ᴿ e˂ ⟩ᴾ  Q˙
+            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| ▶ᴿ e˂) ⟩ᴾ  Q˙
 
   horᵀ-▶ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˂ .! ⟩ᵀ[ i ]  Q˙  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| ▶ᴿ e˂ ⟩ᵀ[ i ]  Q˙
+            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| ▶ᴿ e˂) ⟩ᵀ[ i ]  Q˙
 
   -- Application
 
   hor-◁ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ wκ ]  Q˙  →
-           P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| e˙ ◁ᴿ x ⟩[ wκ ]  Q˙
+           P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| e˙ ◁ᴿ x) ⟩[ wκ ]  Q˙
 
   -- Sequential execution
 
   hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
-            P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| v ⁏ᴿ e ⟩[ wκ ]  Q˙
+            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩[ wκ ]  Q˙
 
   -- Memory read
 
   hor-🞰 :  θ ↦⟨ p ⟩ (V , v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  Q˙  →
-           θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| 🞰ᴿ θ ⟩[ wκ ]  Q˙
+           θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| 🞰ᴿ θ) ⟩[ wκ ]  Q˙
 
   -- Memory write
 
   hor-← :  θ ↦ (V , v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
-           θ ↦ av  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| θ ←ᴿ v ⟩[ wκ ]  Q˙
+           θ ↦ av  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| θ ←ᴿ v) ⟩[ wκ ]  Q˙
 
   -- Memory allocation
 
   hor-alloc :
     (∀ θ →  θ ↦ˡ rep n ⊤ṽ  ∗  Free n θ  ∗  P
               ⊢[ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ wκ ]  Q˙)  →
-    P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| allocᴿ n ⟩[ wκ ]  Q˙
+    P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| allocᴿ n) ⟩[ wκ ]  Q˙
 
   -- Memory freeing
 
   hor-free :
     len avs ≡ n →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
-    θ ↦ˡ avs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| freeᴿ θ ⟩[ wκ ]  Q˙
+    θ ↦ˡ avs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| freeᴿ θ) ⟩[ wκ ]  Q˙

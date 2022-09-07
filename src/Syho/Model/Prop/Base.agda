@@ -11,8 +11,8 @@ open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀)
 open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
 open import Base.Dec using (yes; no)
-open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; proj₀;
-  proj₁; uncurry; ∑-case)
+open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
+  uncurry; ∑-case)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
@@ -360,9 +360,9 @@ abstract
   -- Let ∃₁ _ go out of ⤇ᵒ
 
   ⤇ᵒ-∃ᵒ-out :  ⤇ᵒ (∃ᵒ _ ∈ X , Pᵒ) ⊨✓ ∃ᵒ _ ∈ X , ⤇ᵒ Pᵒ
-  ⤇ᵒ-∃ᵒ-out E✓a ⤇∃XP .proj₀ =
+  ⤇ᵒ-∃ᵒ-out E✓a ⤇∃XP .π₀ =
     let -, -, x , _ = ⤇∃XP _ _ $ ✓-resp (◠˜ ∙-unitˡ) E✓a in  x
-  ⤇ᵒ-∃ᵒ-out _ ⤇∃XP .proj₁ _ _ E✓c∙a =
+  ⤇ᵒ-∃ᵒ-out _ ⤇∃XP .π₁ _ _ E✓c∙a =
     let -, E✓c∙b , -, Pb = ⤇∃XP _ _ E✓c∙a in  -, E✓c∙b , Pb
 
 --------------------------------------------------------------------------------
@@ -578,11 +578,11 @@ module _ {i : ℕ} where
 
     ↝-●-injᴳ-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , bⁱ) →
                    ● injᴳ i aⁱ  ⊨  ⤇ᵒ ● injᴳ i bⁱ
-    ↝-●-injᴳ-⤇ᵒ Ea↝Eb =  ↝-●-injᴳ-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono proj₁
+    ↝-●-injᴳ-⤇ᵒ Ea↝Eb =  ↝-●-injᴳ-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono π₁
 
     ε↝-●-injᴳ-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , aⁱ) →
                     ⊨  ⤇ᵒ ● injᴳ i aⁱ
-    ε↝-●-injᴳ-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono proj₁ $ ε↝-●-injᴳ-⤇ᵒ-∃ᵒ Eε↝Ea
+    ε↝-●-injᴳ-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono π₁ $ ε↝-●-injᴳ-⤇ᵒ-∃ᵒ Eε↝Ea
 
     -- ↝ⁱ into ⤇ᴱ on ● injᴳ
 

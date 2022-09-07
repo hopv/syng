@@ -10,7 +10,7 @@ open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Thunk using (!)
-open import Base.Prod using (_,_; proj₀; proj₁; ∑-case)
+open import Base.Prod using (_,_; π₀; π₁; ∑-case)
 open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim;
   ∀₁-elim; ∃₁-intro; choice₁; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm;
@@ -68,8 +68,8 @@ abstract
 
   -- It can be proved axiom-free thanks to the logic's predicativity
 
-  ⊢⇒⊨✓ choice₁ _ ∀x∃₁yPxy .proj₀ x =  ∀x∃₁yPxy x .proj₀
-  ⊢⇒⊨✓ choice₁ _ ∀x∃₁yPxy .proj₁ x =  ∀x∃₁yPxy x .proj₁
+  ⊢⇒⊨✓ choice₁ _ ∀x∃₁yPxy .π₀ x =  ∀x∃₁yPxy x .π₀
+  ⊢⇒⊨✓ choice₁ _ ∀x∃₁yPxy .π₁ x =  ∀x∃₁yPxy x .π₁
 
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
 

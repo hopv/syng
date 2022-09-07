@@ -13,7 +13,7 @@ open import Base.Func using (it)
 -- Sigma type
 
 open import Agda.Builtin.Sigma public using () renaming (Σ to ∑˙;
-  _,_ to infixr -2 _,_; fst to proj₀; snd to proj₁)
+  _,_ to infixr -2 _,_; fst to π₀; snd to π₁)
 
 private variable
   ł ł' :  Level

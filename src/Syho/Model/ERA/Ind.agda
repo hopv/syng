@@ -11,7 +11,7 @@ open import Base.Size using (∞)
 open import Base.Func using (_∘_; _$_; id; _▷_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
-open import Base.Prod using (_×_; proj₀; proj₁; _,_; -,_)
+open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Bool using (ff; tt)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
@@ -103,8 +103,8 @@ abstract
 
   alloc-indˣ :  ((Q˙ , n) , εˣ)  ↝ˣ  λ(_ : ⊤₀) →
                   (updᴺᴹ n P Q˙ , ṡ n) , line-indˣ n P
-  alloc-indˣ _ _ .proj₀ =  _
-  alloc-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .proj₁ j  with Q✓Rˣ∙ε j
+  alloc-indˣ _ _ .π₀ =  _
+  alloc-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .π₁ j  with Q✓Rˣ∙ε j
   … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   …   | ff | _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
   …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl =
@@ -114,15 +114,15 @@ abstract
 
   use-indˣ :  ((Q˙ , n) , line-indˣ i P)  ↝ˣ
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updᴺᴹ i ⊤' Q˙ , n) , εˣ
-  use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₀  with Q✓Rˣ∙iP i
+  use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₀  with Q✓Rˣ∙iP i
   … | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
   …   | ?ˣ =  Qi←Rˣi∙#P
-  use-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .proj₀ .proj₁  with i <≥ n
+  use-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₁  with i <≥ n
   … | ĩ₀ i<n =  i<n
-  … | ĩ₁ i≥n  with Q✓Rˣ∙iP _ .proj₁ i≥n
+  … | ĩ₁ i≥n  with Q✓Rˣ∙iP _ .π₁ i≥n
   …   | Rˣi∙P≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣi∙P≡?
   …     | ?ˣ | ()
-  use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .proj₁ j  with Q✓Rˣ∙iP j
+  use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₁ j  with Q✓Rˣ∙iP j
   … | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
   …   | ff | _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
   …   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
@@ -172,7 +172,7 @@ Ind□ᴱᴿᴬ .✓-resp Rsi≈Ssi P✓R i  with P✓R i | Rsi≈Ssi i
 Ind□ᴱᴿᴬ .✓-rem R✓Ps⧺Qs i  with R✓Ps⧺Qs i
 … | Ri≡Ps⧺Qsi , i≥n⇒Psi⧺Qsi≡[] =
   (λ Q∈Qsi → Ri≡Ps⧺Qsi $ ⧺-⊆ᴸ-introʳ Q∈Qsi) ,
-  λ i≥n →  proj₁ $ ⧺-≡[] $ i≥n⇒Psi⧺Qsi≡[] i≥n
+  λ i≥n →  π₁ $ ⧺-≡[] $ i≥n⇒Psi⧺Qsi≡[] i≥n
 
 Ind□ᴱᴿᴬ .✓-ε _ =  (λ ()) , λ _ → refl
 
@@ -199,8 +199,8 @@ abstract
 
   alloc-ind□ :  ((Q˙ , n) , ε□)  ↝□  λ(_ : ⊤₀) →
                   (updᴺᴹ n P Q˙ , ṡ n) , line-ind□ n P
-  alloc-ind□ _ _ .proj₀ =  _
-  alloc-ind□ {n = n} Rs˙ Q✓Rs∙ε .proj₁ j  with Q✓Rs∙ε j
+  alloc-ind□ _ _ .π₀ =  _
+  alloc-ind□ {n = n} Rs˙ Q✓Rs∙ε .π₁ j  with Q✓Rs∙ε j
   … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
   …   | ff | _ =  Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[] ∘ <⇒≤
   …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ⧺-[] {as = Rs˙ n} | j≥n⇒Rsj⧺[]≡[] ≤-refl =
@@ -210,15 +210,15 @@ abstract
 
   use-ind□ :  ((Q˙ , n) , line-ind□ i P)  ↝□
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  ((Q˙ , n) , line-ind□ i P)
-  use-ind□ {i = i} Rs˙ Q✓Rs∙iP .proj₀ .proj₀  with Q✓Rs∙iP i
+  use-ind□ {i = i} Rs˙ Q✓Rs∙iP .π₀ .π₀  with Q✓Rs∙iP i
   … | (Qi≡Rsi⧺[P] , _)  rewrite ≡ᵇ-refl {i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-ĩ₁ ∈ᴸ-[?])
-  use-ind□ {n = n} {i} Rs˙ Q✓Rs∙iP .proj₀ .proj₁  with i <≥ n
+  use-ind□ {n = n} {i} Rs˙ Q✓Rs∙iP .π₀ .π₁  with i <≥ n
   … | ĩ₀ i<n =  i<n
-  … | ĩ₁ i≥n  with Q✓Rs∙iP _ .proj₁ i≥n
+  … | ĩ₁ i≥n  with Q✓Rs∙iP _ .π₁ i≥n
   …   | Rsi⧺[P]≡?  rewrite ≡ᵇ-refl {i}  with Rs˙ i | Rsi⧺[P]≡?
   …     | _ ∷ _ | ()
   …     | [] | ()
-  use-ind□ _ Q✓Rˣ∙iP .proj₁ =  Q✓Rˣ∙iP
+  use-ind□ _ Q✓Rˣ∙iP .π₁ =  Q✓Rˣ∙iP
 
 --------------------------------------------------------------------------------
 -- On both indirection ERAs

@@ -10,7 +10,7 @@ open import Base.Level using (Level; 2ᴸ)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _≡˙_)
 open import Base.Dec using (yes; no)
-open import Base.Prod using (∑-syntax; _,_; proj₀; proj₁; -,_)
+open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≡?_; ≡?-refl)
 open import Base.Natmap using (updᴰᴺᴹ; updᴰᴺᴹ-cong; updᴰᴺᴹ-self; updᴰᴺᴹ-2;
   updᴰᴺᴹ-swap)
@@ -60,7 +60,7 @@ Globᴱᴿᴬ .✓-rem ✓a∙b i =  Globᴱᴿᴬ˙ i .✓-rem (✓a∙b i)
 Globᴱᴿᴬ .✓-ε i =  Globᴱᴿᴬ˙ i .✓-ε
 Globᴱᴿᴬ .⌞⌟-cong a≈b i =  Globᴱᴿᴬ˙ i .⌞⌟-cong (a≈b i)
 Globᴱᴿᴬ .⌞⌟-add =
-  (λ i → Globᴱᴿᴬ˙ i .⌞⌟-add .proj₀) , λ i → Globᴱᴿᴬ˙ i .⌞⌟-add .proj₁
+  (λ i → Globᴱᴿᴬ˙ i .⌞⌟-add .π₀) , λ i → Globᴱᴿᴬ˙ i .⌞⌟-add .π₁
 Globᴱᴿᴬ .⌞⌟-unitˡ i =  Globᴱᴿᴬ˙ i .⌞⌟-unitˡ
 Globᴱᴿᴬ .⌞⌟-idem i =  Globᴱᴿᴬ˙ i .⌞⌟-idem
 
@@ -151,8 +151,8 @@ module _ {i : ℕ} where
     … | yes refl =  a≈b
 
     updᴳ-mono :  a ⊑ⁱ b →  c˙ ⊑ᴳ d˙ →  updᴳ i a c˙ ⊑ᴳ updᴳ i b d˙
-    updᴳ-mono _ _ .proj₀ =  updᴳ i _ _
-    updᴳ-mono (-, e∙a≈b) (-, f˙∙c˙≈d˙) .proj₁ j  with j ≡? i
+    updᴳ-mono _ _ .π₀ =  updᴳ i _ _
+    updᴳ-mono (-, e∙a≈b) (-, f˙∙c˙≈d˙) .π₁ j  with j ≡? i
     … | no _ =  f˙∙c˙≈d˙ j
     … | yes refl =  e∙a≈b
 
@@ -177,10 +177,10 @@ module _ {i : ℕ} where
     … | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
      where
       body :  ∑ x , E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
-      body .proj₀ =  Eia↝Eib _ Ei✓di∙a .proj₀
-      body .proj₁ j  with j ≡? i | E✓d∙iac j
+      body .π₀ =  Eia↝Eib _ Ei✓di∙a .π₀
+      body .π₁ j  with j ≡? i | E✓d∙iac j
       … | no _ | E✓dj∙cj =  E✓dj∙cj
-      … | yes refl | _ =  Eia↝Eib _ Ei✓di∙a .proj₁
+      … | yes refl | _ =  Eia↝Eib _ Ei✓di∙a .π₁
 
     updᴱᴳ-updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
       (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → updᴱᴳ i (Fˣ x) E˙ , updᴳ i (bˣ x) c˙
@@ -188,10 +188,10 @@ module _ {i : ℕ} where
     … | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
      where
       body :  ∑ x , updᴱᴳ i (Fˣ x) E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
-      body .proj₀ =  Eia↝Fb _ Ei✓di∙a .proj₀
-      body .proj₁ j  with j ≡? i | E✓d∙iac j
+      body .π₀ =  Eia↝Fb _ Ei✓di∙a .π₀
+      body .π₁ j  with j ≡? i | E✓d∙iac j
       … | no _ | E✓dj∙cj =  E✓dj∙cj
-      … | yes refl | _ =  Eia↝Fb _ Ei✓di∙a .proj₁
+      … | yes refl | _ =  Eia↝Fb _ Ei✓di∙a .π₁
 
     ----------------------------------------------------------------------------
     -- On injᴳ

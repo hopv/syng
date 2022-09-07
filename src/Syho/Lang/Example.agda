@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
-open import Syho.Lang.Expr using (Addr; addr; Type; ◸_; _→*_; Expr; ▶_; ∇_; nd;
+open import Syho.Lang.Expr using (Addr; addr; Type; ◸_; _↷_; Expr; ▶_; ∇_; nd;
   λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free)
 open import Syho.Lang.Reduce using (Mem; nd-red; ▶-red; ◁-red; redᴷᴿ; _⇒ᴱ_;
   redᴱ)
@@ -40,7 +40,7 @@ stuck =  free $ ∇ addr 42 42
 
 -- Just add two natural-number arguments
 
-plus :  Expr ι $ (ℕ × ℕ) →* ◸ ℕ
+plus :  Expr ι $ (ℕ × ℕ) ↷ ◸ ℕ
 plus =  λ' (m , n) ,  ∇ (m + n)
 
 -- plus on 3 & 4

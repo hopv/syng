@@ -48,13 +48,13 @@ abstract
 -- Type :   Simple type for expressions
 
 infix 8 ◸_
-infixr 4 _→*_
+infixr 4 _↷_
 
 data  Type :  Set₁  where
   -- Embedding a pure type
   ◸_ :  Set₀ →  Type
   -- Function
-  _→*_ :  Set₀ →  Type →  Type
+  _↷_ :  Set₀ →  Type →  Type
 
 private variable
   ł :  Level
@@ -90,10 +90,10 @@ data  Expr ι  where
   nd :  Expr ι (◸ X)
 
   -- Lambda abstraction over a value
-  λ˙ :  (X → Expr ι T) →  Expr ι (X →* T)
+  λ˙ :  (X → Expr ι T) →  Expr ι (X ↷ T)
 
   -- Application
-  _◁_ :  Expr ι (X →* T) →  Expr ι (◸ X) →  Expr ι T
+  _◁_ :  Expr ι (X ↷ T) →  Expr ι (◸ X) →  Expr ι T
 
   -- Sequential execution
   -- We need this (apart from λ˙ and ◁) to support the case where T is non-pure
@@ -113,7 +113,7 @@ data  Expr ι  where
 
 -- Lambda abstraction
 
-λ∈-syntax λ-syntax :  (X → Expr ι T) →  Expr ι (X →* T)
+λ∈-syntax λ-syntax :  (X → Expr ι T) →  Expr ι (X ↷ T)
 λ∈-syntax =  λ˙
 λ-syntax =  λ˙
 infix 3 λ∈-syntax λ-syntax
@@ -135,7 +135,7 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 
 data  Val :  Type →  Set₁  where
   ṽ :  X →  Val (◸ X)
-  ṽ→* :  (X → Expr ∞ T) →  Val (X →* T)
+  ṽ↷ :  (X → Expr ∞ T) →  Val (X ↷ T)
 
 -- Function on Val
 
@@ -143,19 +143,19 @@ data  Val :  Type →  Set₁  where
 λᵛ˙ f (ṽ x) =  f x
 λᵛ-syntax =  λᵛ˙
 
-λᵛ→*˙ λᵛ→*-syntax :  ((X → Expr ∞ T) →  Y) →  Val (X →* T) →  Y
-λᵛ→*˙ f (ṽ→* e˙) =  f e˙
-λᵛ→*-syntax =  λᵛ→*˙
+λᵛ↷˙ λᵛ↷-syntax :  ((X → Expr ∞ T) →  Y) →  Val (X ↷ T) →  Y
+λᵛ↷˙ f (ṽ↷ e˙) =  f e˙
+λᵛ↷-syntax =  λᵛ↷˙
 
-infix 3 λᵛ-syntax λᵛ→*-syntax
+infix 3 λᵛ-syntax λᵛ↷-syntax
 syntax λᵛ-syntax (λ x → y) =  λᵛ x , y
-syntax λᵛ→*-syntax (λ e˙ → y) =  λᵛ→* e˙ , y
+syntax λᵛ↷-syntax (λ e˙ → y) =  λᵛ↷ e˙ , y
 
 -- Conversion from Val to Expr
 
 V⇒E :  Val T →  Expr ∞ T
 V⇒E (ṽ x) =  ∇ x
-V⇒E (ṽ→* e˙) =  λ˙ e˙
+V⇒E (ṽ↷ e˙) =  λ˙ e˙
 
 -- Value of any type T
 

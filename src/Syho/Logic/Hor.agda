@@ -13,7 +13,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ṽ; ṽ→*)
+open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ṽ; ṽ↷)
 open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _ᴷ|_;
   Val/Ktxred)
 
@@ -114,7 +114,7 @@ abstract
   hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ wκ ]  R˙  →
                 P  ⊢[ ι ]⟨ e ⁏ e' ⟩[ wκ ]  R˙
   hor-⁏-bind P⊢⟨e⟩Q Q⊢⟨e'⟩R =  hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q
-    λ{ (ṽ _) → hor-⁏ Q⊢⟨e'⟩R; (ṽ→* _) → hor-⁏ Q⊢⟨e'⟩R }
+    λ{ (ṽ _) → hor-⁏ Q⊢⟨e'⟩R; (ṽ↷ _) → hor-⁏ Q⊢⟨e'⟩R }
 
   -- Let binding
 

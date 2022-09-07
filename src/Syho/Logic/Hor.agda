@@ -13,7 +13,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ṽ; ṽ↷)
+open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ṽ_; ṽ↷_)
 open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _ᴷ|_;
   Val/Ktxred)
 

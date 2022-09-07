@@ -133,9 +133,10 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 --------------------------------------------------------------------------------
 -- Val :  Value data
 
+infix 8 ṽ_ ṽ↷_
 data  Val :  Type →  Set₁  where
-  ṽ :  X →  Val (◸ X)
-  ṽ↷ :  (X → Expr ∞ T) →  Val (X ↷ T)
+  ṽ_ :  X →  Val (◸ X)
+  ṽ↷_ :  (X → Expr ∞ T) →  Val (X ↷ T)
 
 -- Function on Val
 

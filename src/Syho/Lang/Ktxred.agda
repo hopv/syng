@@ -15,7 +15,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⊎_; inj₀; inj₁)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; ◸_; _↷_; Addr; Expr; Expr˂; ▶_; ∇_; nd;
-  λ˙; _◁_; _⁏_; 🞰_; _←_; alloc; free; Val; V⇒E; ṽ; ṽ↷)
+  λ˙; _◁_; _⁏_; 🞰_; _←_; alloc; free; Val; V⇒E; ṽ_; ṽ↷_)
 
 private variable
   X :  Set₀

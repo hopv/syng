@@ -23,7 +23,7 @@ open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
   ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_;
   _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
-open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; ṽ;
+open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
   V⇒E; AnyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_; allocᴿ;
   freeᴿ; Ktx; _ᴷ◁_; _ᴷ|_; Val/Ktxred; val/ktxred)

@@ -12,7 +12,7 @@ open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
-open import Syho.Lang.Expr using (Addr; λᵛ-syntax; ṽ; AnyVal)
+open import Syho.Lang.Expr using (Addr; λᵛ-syntax; ṽ_; AnyVal)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝₀-intro; ∗-elimˡ; ∗⊤-intro;
   -∗-intro; □-dup)

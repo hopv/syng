@@ -134,17 +134,17 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 -- Val :  Value data
 
 data  Val :  Type →  Set₁  where
-  val :  X →  Val (◸ X)
-  val→* :  (X → Expr ∞ T) →  Val (X →* T)
+  ṽ :  X →  Val (◸ X)
+  ṽ→* :  (X → Expr ∞ T) →  Val (X →* T)
 
 -- Function on Val
 
 λᵛ˙ λᵛ-syntax :  (X →  Y) →  Val (◸ X) →  Y
-λᵛ˙ f (val x) =  f x
+λᵛ˙ f (ṽ x) =  f x
 λᵛ-syntax =  λᵛ˙
 
 λᵛ→*˙ λᵛ→*-syntax :  ((X → Expr ∞ T) →  Y) →  Val (X →* T) →  Y
-λᵛ→*˙ f (val→* e˙) =  f e˙
+λᵛ→*˙ f (ṽ→* e˙) =  f e˙
 λᵛ→*-syntax =  λᵛ→*˙
 
 infix 3 λᵛ-syntax λᵛ→*-syntax
@@ -154,13 +154,13 @@ syntax λᵛ→*-syntax (λ e˙ → y) =  λᵛ→* e˙ , y
 -- Conversion from Val to Expr
 
 V⇒E :  Val T →  Expr ∞ T
-V⇒E (val x) =  ∇ x
-V⇒E (val→* e˙) =  λ˙ e˙
+V⇒E (ṽ x) =  ∇ x
+V⇒E (ṽ→* e˙) =  λ˙ e˙
 
 -- Value of any type T
 
 AnyVal :  Set₁
 AnyVal =  ∑ T , Val T
 
-⊤-val :  AnyVal
-⊤-val =  (◸ ⊤ , val _)
+⊤ṽ :  AnyVal
+⊤ṽ =  (◸ ⊤ , ṽ _)

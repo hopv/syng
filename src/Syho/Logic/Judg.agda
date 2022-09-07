@@ -23,8 +23,8 @@ open import Base.RatPos using (ℚ⁺)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
   ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_;
   _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
-open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; val;
-  V⇒E; AnyVal; ⊤-val)
+open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; ṽ;
+  V⇒E; AnyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_; allocᴿ;
   freeᴿ; Ktx; _ᴷ◁_; _ᴷ|_; Val/Ktxred; val/ktxred)
 
@@ -459,7 +459,7 @@ data  _⊢[_]*_  where
   -- Memory allocation
 
   hor-alloc :
-    (∀ θ →  θ ↦ˡ rep n ⊤-val  ∗  Free n θ  ∗  P
+    (∀ θ →  θ ↦ˡ rep n ⊤ṽ  ∗  Free n θ  ∗  P
               ⊢[ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ wκ ]  Q˙)  →
     P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| allocᴿ n ⟩[ wκ ]  Q˙
 

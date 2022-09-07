@@ -19,7 +19,7 @@ open import Base.List using (List)
 open import Base.List.Nat using (_‼_; upd; rep)
 open import Base.Natmap using (updᴺᴹ; Cofin; ∀⇒Cofin; Cofin-updᴺᴹ)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
-  V⇒E; AnyVal; ⊤-val)
+  V⇒E; AnyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;
   allocᴿ; freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; Ktxred; _ᴷ|_; val/ktxred; nonval;
   val/ktxred-ktx; val/ktxred-ktx-inv)
@@ -102,7 +102,7 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   🞰-red :  M ‼ᴹ θ ≡ some (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
   alloc-red :  ∀ l →  M l ≡ none →
-    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴺᴹ l (some $ rep n ⊤-val) M)
+    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴺᴹ l (some $ rep n ⊤ṽ) M)
   free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴺᴹ l none M)
 
 -- Reduction on a context-redex pair

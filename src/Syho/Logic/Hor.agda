@@ -13,7 +13,7 @@ open import Base.Sum using (inj₀; inj₁)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; val; val→*)
+open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ṽ; ṽ→*)
 open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _ᴷ|_;
   Val/Ktxred)
 
@@ -69,7 +69,7 @@ abstract
   -->           θ ↦ av  ∗  P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| θ ←ᴿ v ⟩[ wκ ]  Q˙
 
   -->  hor-alloc :
-  -->    (∀ θ →  θ ↦ˡ rep n ⊤-val  ∗  Free n θ  ∗  P
+  -->    (∀ θ →  θ ↦ˡ rep n ⊤ṽ  ∗  Free n θ  ∗  P
   -->              ⊢[ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ wκ ]  Q˙)  →
   -->    P  ⊢[ ι ]⁺⟨ inj₁ $ K ᴷ| allocᴿ n ⟩[ wκ ]  Q˙
 
@@ -114,12 +114,12 @@ abstract
   hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ wκ ]  R˙  →
                 P  ⊢[ ι ]⟨ e ⁏ e' ⟩[ wκ ]  R˙
   hor-⁏-bind P⊢⟨e⟩Q Q⊢⟨e'⟩R =  hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q
-    λ{ (val _) → hor-⁏ Q⊢⟨e'⟩R; (val→* _) → hor-⁏ Q⊢⟨e'⟩R }
+    λ{ (ṽ _) → hor-⁏ Q⊢⟨e'⟩R; (ṽ→* _) → hor-⁏ Q⊢⟨e'⟩R }
 
   -- Let binding
 
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ wκ ]  Q˙  →
-                  (∀ x →  Q˙ (val x)  ⊢[ ι ]⟨ e˙ x ⟩[ wκ ]  R˙) →
+                  (∀ x →  Q˙ (ṽ x)  ⊢[ ι ]⟨ e˙ x ⟩[ wκ ]  R˙) →
                   P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ wκ ]  R˙
   hor-let-bind P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
-    hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ{ (val x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }
+    hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ{ (ṽ x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }

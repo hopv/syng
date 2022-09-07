@@ -31,15 +31,15 @@ private variable
 
 -- □ ○ □ ○ □ ○ …
 
-□○-loop :  Prop' ι
-□○-loop =  □ ○ λ{ .! → □○-loop }
+□○Loop :  Prop' ι
+□○Loop =  □ ○ λ{ .! → □○Loop }
 
 abstract
 
   -- Get □ ○ □ ○ □ ○ … for free
 
-  □○-loop-alloc :  ⊤' ⊢[ ι ][ i ]⇛ □○-loop
-  □○-loop-alloc =  -∗-intro (∗-elimˡ » □-dup) » □○-alloc-rec
+  □○Loop-alloc :  ⊤' ⊢[ ι ][ i ]⇛ □○Loop
+  □○Loop-alloc =  -∗-intro (∗-elimˡ » □-dup) » □○-alloc-rec
 
   -- Get ⊥' after ▶ ▶ ▶ … under partial Hoare triple
 

@@ -6,7 +6,7 @@
 
 module Syho.Model.Prop.Base where
 
-open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; ṡᴸ_)
+open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 2ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀)
 open import Base.Eq using (_≡_; _≡˙_; ◠˙_)

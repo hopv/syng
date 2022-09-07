@@ -6,7 +6,7 @@
 
 module Syho.Logic.Core where
 
-open import Base.Level using (Level; ↓_; ↑_)
+open import Base.Level using (Level; ↑_; ↓_)
 open import Base.Size using (Size; ∞)
 open import Base.Thunk using (Thunk; !)
 open import Base.Func using (_$_; _∘_; it)

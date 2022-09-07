@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; refl; ◠_)
 open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
-open import Base.Option using (¿_; some; none; _$¿_; _»-¿_)
+open import Base.Option using (¿_; š_; ň; _$¿_; _»-¿_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List)
 open import Base.List.Nat using (_‼_; upd; rep)
@@ -46,7 +46,7 @@ M ‼ᴹ addr l i =  M l »-¿ _‼ i
 -- Empty memory
 
 empᴹ :  Mem
-empᴹ _ =  none
+empᴹ _ =  ň
 
 -- Memory update
 
@@ -57,19 +57,19 @@ updᴹ (addr l i) av M =  updᴺᴹ l (upd i av $¿ M l) M
 
 infix 3 ✓ᴹ_
 ✓ᴹ_ :  Mem →  Set₁
-✓ᴹ M =  Cofin (_≡ none) M
+✓ᴹ M =  Cofin (_≡ ň) M
 
 abstract
 
   -- ✓ᴹ holds for empᴹ
 
   ✓ᴹ-empᴹ :  ✓ᴹ empᴹ
-  ✓ᴹ-empᴹ =  ∀⇒Cofin {F = _≡ none} λ _ → refl
+  ✓ᴹ-empᴹ =  ∀⇒Cofin {F = _≡ ň} λ _ → refl
 
   -- ✓ᴹ is preserved by updᴺᴹ and updᴹ
 
   ✓ᴹ-updᴺᴹ :  ✓ᴹ M →  ✓ᴹ (updᴺᴹ l avs¿ M)
-  ✓ᴹ-updᴺᴹ =  Cofin-updᴺᴹ {F = _≡ none}
+  ✓ᴹ-updᴺᴹ =  Cofin-updᴺᴹ {F = _≡ ň}
 
   ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ av M)
   ✓ᴹ-updᴹ =  ✓ᴹ-updᴺᴹ
@@ -99,11 +99,11 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   nd-red :  ∀(x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
   ◁-red :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
   ⁏-red :  (v ⁏ᴿ e , M) ⇒ᴿ (e , M)
-  🞰-red :  M ‼ᴹ θ ≡ some (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
+  🞰-red :  M ‼ᴹ θ ≡ š (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
-  alloc-red :  ∀ l →  M l ≡ none →
-    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴺᴹ l (some $ rep n ⊤ṽ) M)
-  free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴺᴹ l none M)
+  alloc-red :  ∀ l →  M l ≡ ň →
+    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴺᴹ l (š rep n ⊤ṽ) M)
+  free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴺᴹ l ň M)
 
 -- Reduction on a context-redex pair
 

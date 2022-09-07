@@ -9,7 +9,7 @@ module Base.List.Nat where
 open import Base.Level using (Level)
 open import Base.Func using (_$_)
 open import Base.Nat using (ℕ; ṡ_)
-open import Base.Option using (¿_; some; none)
+open import Base.Option using (¿_; š_; ň)
 open import Base.List using (List; []; _∷_)
 
 private variable
@@ -26,8 +26,8 @@ len (_ ∷ as) =  ṡ len as
 
 infix 5 _‼_
 _‼_ :  List A →  ℕ →  ¿ A
-[] ‼ _ =  none
-(a ∷ _) ‼ 0 =  some a
+[] ‼ _ =  ň
+(a ∷ _) ‼ 0 =  š a
 (_ ∷ as) ‼ ṡ n =  as ‼ n
 
 -- Index update

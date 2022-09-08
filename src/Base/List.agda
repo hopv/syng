@@ -101,36 +101,6 @@ abstract
   … | ĩ₀ Fas' =  ĩ₀ by-tl Fas'
   … | ĩ₁ Fbs =  ĩ₁ Fbs
 
-  -- ¬Any
-
-  ¬Any-[] :  ¬ Any F []
-  ¬Any-[] ()
-
-  -- ¬Any and ∷
-
-  ¬Any-∷-intro :  ¬ F a →  ¬ Any F as →  ¬ Any F (a ∷ as)
-  ¬Any-∷-intro ¬Fa _ (by-hd Fa) =  ¬Fa Fa
-  ¬Any-∷-intro _ ¬Fas (by-tl Fas) =  ¬Fas Fas
-
-  ¬Any-∷-elim₀ :  ¬ Any F (a ∷ as) →  ¬ F a
-  ¬Any-∷-elim₀ ¬Fa∷as Fa =  ¬Fa∷as (by-hd Fa)
-
-  ¬Any-∷-elim₁ :  ¬ Any F (a ∷ as) →  ¬ Any F as
-  ¬Any-∷-elim₁ ¬Fa∷as Fas =  ¬Fa∷as (by-tl Fas)
-
-  -- ¬Any and ⧺
-
-  ¬Any-⧺-intro :  ¬ Any F as →  ¬ Any F bs →  ¬ Any F (as ⧺ bs)
-  ¬Any-⧺-intro ¬Fas ¬Fbs Fas⧺bs with Any-⧺-case Fas⧺bs
-  … | ĩ₀ Fas =  ¬Fas Fas
-  … | ĩ₁ Fbs =  ¬Fbs Fbs
-
-  ¬Any-⧺-elim₀ :  ¬ Any F (as ⧺ bs) →  ¬ Any F as
-  ¬Any-⧺-elim₀ ¬Fas⧺bs Fas =  ¬Fas⧺bs $ Any-⧺-ĩ₀ Fas
-
-  ¬Any-⧺-elim₁ :  ¬ Any F (as ⧺ bs) →  ¬ Any F bs
-  ¬Any-⧺-elim₁ ¬Fas⧺bs Fbs =  ¬Fas⧺bs $ Any-⧺-ĩ₁ Fbs
-
 --------------------------------------------------------------------------------
 -- ∈ᴸ :  Containment in a list
 
@@ -160,40 +130,6 @@ abstract
   ∈ᴸ-⧺-case =  Any-⧺-case
 
 --------------------------------------------------------------------------------
--- ∉ᴸ :  Non-containment in a list
-
-infix 4 _∉ᴸ_
-_∉ᴸ_ :  ∀{A : Set ł} →  A →  List A →  Set ł
-a ∉ᴸ as =  ¬ a ∈ᴸ as
-
-abstract
-
-  ∉ᴸ-[] :  a ∉ᴸ []
-  ∉ᴸ-[] =  ¬Any-[]
-
-  -- ∉ᴸ and ∷
-
-  ∉ᴸ-∷-intro :  a ≢ b →  a ∉ᴸ bs →  a ∉ᴸ b ∷ bs
-  ∉ᴸ-∷-intro =  ¬Any-∷-intro
-
-  ∉ᴸ-∷-elim₀ :  a ∉ᴸ b ∷ bs →  a ≢ b
-  ∉ᴸ-∷-elim₀ =  ¬Any-∷-elim₀
-
-  ∉ᴸ-∷-elim₁ :  a ∉ᴸ b ∷ bs →  a ∉ᴸ bs
-  ∉ᴸ-∷-elim₁ =  ¬Any-∷-elim₁
-
-  -- ∉ᴸ and ⧺
-
-  ∉ᴸ-⧺-intro :  a ∉ᴸ bs →  a ∉ᴸ cs →  a ∉ᴸ bs ⧺ cs
-  ∉ᴸ-⧺-intro =  ¬Any-⧺-intro
-
-  ∉ᴸ-⧺-elim₀ :  a ∉ᴸ bs ⧺ cs →  a ∉ᴸ bs
-  ∉ᴸ-⧺-elim₀ =  ¬Any-⧺-elim₀
-
-  ∉ᴸ-⧺-elim₁ :  a ∉ᴸ bs ⧺ cs →  a ∉ᴸ cs
-  ∉ᴸ-⧺-elim₁ =  ¬Any-⧺-elim₁
-
---------------------------------------------------------------------------------
 -- ⊆ᴸ :  Inclusion between lists as sets
 
 infix 4 _⊆ᴸ_
@@ -209,7 +145,8 @@ abstract
 
   ⊆ᴸ-[] :  as ⊆ᴸ [] →  as ≡ []
   ⊆ᴸ-[] {as = []} _ =  refl
-  ⊆ᴸ-[] {as = _ ∷ _} as⊆[] =  absurd $ ∉ᴸ-[] $ as⊆[] $ by-hd refl
+  ⊆ᴸ-[] {as = _ ∷ _} as⊆[]  with as⊆[] $ by-hd refl
+  … | ()
 
   -- ⊆ᴸ is reflexive and transitive
 

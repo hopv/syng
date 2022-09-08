@@ -150,7 +150,7 @@ abstract
   ∨-assocʳ =
     ∨-elim (∨-introˡ » ∨-introˡ) $ ∨-elim (∨-introʳ » ∨-introˡ) $ ∨-introʳ
 
-  -- ∧/∨ is unital w.r.t. ⊤'/⊥'
+  -- ∧/∨ is unital with the unit ⊤'/⊥'
 
   ∧⊤-intro :  P ⊢[ ι ] P ∧ ⊤'
   ∧⊤-intro =  ∧-intro ⊢-refl ⊤-intro

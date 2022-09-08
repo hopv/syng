@@ -126,7 +126,7 @@ abstract
   +ᴿ⁺-assocʳ :  p +ᴿ⁺ (q +ᴿ⁺ r) ≡ (p +ᴿ⁺ q) +ᴿ⁺ r
   +ᴿ⁺-assocʳ {p} {q} {r} =  ◠ +ᴿ⁺-assocˡ {p} {q} {r}
 
-  -- +ᴿ⁺ is congruent
+  -- +ᴿ⁺ preserves ≈ᴿ⁺
 
   +ᴿ⁺-congˡ :  p ≈ᴿ⁺ q →  p +ᴿ⁺ r ≈ᴿ⁺ q +ᴿ⁺ r
   +ᴿ⁺-congˡ {a //⁺ b} {c //⁺ d} {e //⁺ f} da≡bc =

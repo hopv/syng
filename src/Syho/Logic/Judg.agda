@@ -190,7 +190,8 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On ∗
 
-  -- ∗ is unital w.r.t. ⊤', commutative, associative, and monotone
+  -- ∗ is unital with the unit ⊤', commutative, associative, and monotone with
+  -- respect to ⊢
 
   ⊤∗-elim :  ⊤' ∗ P ⊢[ ι ] P
 

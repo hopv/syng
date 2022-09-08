@@ -60,7 +60,7 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
     ----------------------------------------------------------------------------
     -- On ∙
 
-    -- ∙ is congruent, unital with ε, commutative, and associative
+    -- ∙ preserves ≈, and is unital with the unit ε, commutative and associative -- with respect to ≈
 
     ∙-congˡ :  ∀{a b c} →  a ≈ b →  a ∙ c ≈ b ∙ c
     ∙-unitˡ :  ∀{a} →  ε ∙ a ≈ a
@@ -129,7 +129,7 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
 
     -->  ∙-comm :  a ∙ b ≈ b ∙ a
 
-    -- ∙ is congruent
+    -- ∙ preserves ≈
 
     -->  ∙-congˡ :  a ≈ b →  a ∙ c ≈ b ∙ c
 

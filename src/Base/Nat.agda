@@ -378,7 +378,7 @@ abstract
   *-assocʳ :  l * (m * n) ≡ (l * m) * n
   *-assocʳ {l} =  ◠ *-assocˡ {l}
 
-  -- * is unital with 1
+  -- * is unital with the unit 1
 
   *-1ˡ :  1 * n ≡ n
   *-1ˡ =  +-0

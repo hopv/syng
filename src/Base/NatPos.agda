@@ -272,7 +272,7 @@ abstract
   *⁺-+⁺-distrʳ {l} {m} {n} =  *⁺-comm {l} ◇ *⁺-+⁺-distrˡ {m} ◇
     cong₂ _+⁺_ (*⁺-comm {m}) (*⁺-comm {n})
 
-  -- *⁺ is unital with 1⁺
+  -- *⁺ is unital with the unit 1⁺
 
   *⁺-1ˡ :  1⁺ *⁺ n ≡ n
   *⁺-1ˡ =  cong ṡ⁺_ +-0

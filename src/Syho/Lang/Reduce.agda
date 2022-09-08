@@ -57,19 +57,19 @@ updᴹ (addr l i) av M =  updᴺᴹ l (upd i av $¿ M l) M
 
 infix 3 ✓ᴹ_
 ✓ᴹ_ :  Mem →  Set₁
-✓ᴹ M =  Cofin (_≡ ň) M
+✓ᴹ M =  Cofin (λ _ → _≡ ň) M
 
 abstract
 
   -- ✓ᴹ holds for empᴹ
 
   ✓ᴹ-empᴹ :  ✓ᴹ empᴹ
-  ✓ᴹ-empᴹ =  ∀⇒Cofin {F = _≡ ň} λ _ → refl
+  ✓ᴹ-empᴹ =  ∀⇒Cofin {F = λ _ → _≡ ň} λ _ → refl
 
   -- ✓ᴹ is preserved by updᴺᴹ and updᴹ
 
   ✓ᴹ-updᴺᴹ :  ✓ᴹ M →  ✓ᴹ (updᴺᴹ l avs¿ M)
-  ✓ᴹ-updᴺᴹ =  Cofin-updᴺᴹ {F = _≡ ň}
+  ✓ᴹ-updᴺᴹ =  Cofin-updᴺᴹ {F = λ _ → _≡ ň}
 
   ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ av M)
   ✓ᴹ-updᴹ =  ✓ᴹ-updᴺᴹ

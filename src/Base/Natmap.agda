@@ -19,7 +19,7 @@ private variable
   ł :  Level
   A :  Set ł
   A˙ :  ℕ → Set ł
-  F :  A → Set ł
+  F :  ∀ i →  A˙ i →  Set ł
   f g :  ∀ i →  A˙ i
   a b :  A
   i j :  ℕ
@@ -78,14 +78,14 @@ abstract
 
 -- Cofin F f : F (f i) holds for every i but a finite number of exceptions
 
-Cofin :  (A → Set ł) →  (ℕ → A) →  Set ł
-Cofin F f =  ∑ n ,  ∀ i →  i ≥ n →  F (f i)
+Cofin :  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
+Cofin F f =  ∑ n ,  ∀ i →  i ≥ n →  F i (f i)
 
 abstract
 
   -- Cofin holds if there is no exception
 
-  ∀⇒Cofin :  (∀ i → F (f i)) →  Cofin F f
+  ∀⇒Cofin :  (∀ i → F i (f i)) →  Cofin F f
   ∀⇒Cofin Ffi =  0 , λ _ _ → Ffi _
 
   -- Cofin is preserved by updᴺᴹ

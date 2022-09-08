@@ -89,12 +89,10 @@ The library consists of the following parts.
     [`Prod`](src/Base/Prod.agda) for sigma and product types;
     [`Sum`](src/Base/Sum.agda) for sum types;
     [`Option`](src/Base/Option.agda) for option types;
-    [`List`](src/Base/List.agda) and [`List/`](src/Base/List/) for singly linked
-    lists;
-    [`Dec`](src/Base/Dec.agda) for decidability.
-- Numerics ―
+    [`Dec`](src/Base/Dec.agda) for decidability;
     [`Nat`](src/Base/Nat.agda) for natural numbers;
     [`NatPos`](src/Base/NatPos.agda) for positive natural numbers;
+    [`List`](src/Base/List.agda) for singly linked lists;
     [`RatPos`](src/Base/RatPos.agda) for positive rational numbers.
 
 ### [`Syho/`](src/Syho/)

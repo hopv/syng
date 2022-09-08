@@ -10,8 +10,10 @@ open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
+open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; _,_)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
+open import Base.Nat using (ℕ; ṡ_)
 
 --------------------------------------------------------------------------------
 -- List
@@ -30,14 +32,6 @@ private variable
 
 [_] :  A →  List A
 [ a ] =  a ∷ []
-
---------------------------------------------------------------------------------
--- Map
-
-infixr -1 _$ᴸ_
-_$ᴸ_ :  (A → B) →  List A →  List B
-_ $ᴸ [] =  []
-f $ᴸ a ∷ as =  f a ∷ (f $ᴸ as)
 
 --------------------------------------------------------------------------------
 -- Append
@@ -63,6 +57,57 @@ abstract
 
   ⧺-≡[] :  as ⧺ bs ≡ [] →  as ≡ [] × bs ≡ []
   ⧺-≡[] {as = []} {bs = []} _ =  refl , refl
+
+--------------------------------------------------------------------------------
+-- Length
+
+len :  List A →  ℕ
+len [] =  0
+len (_ ∷ as) =  ṡ len as
+
+--------------------------------------------------------------------------------
+-- Map
+
+infixr -1 _$ᴸ_
+_$ᴸ_ :  (A → B) →  List A →  List B
+_ $ᴸ [] =  []
+f $ᴸ a ∷ as =  f a ∷ (f $ᴸ as)
+
+--------------------------------------------------------------------------------
+-- Map with an index
+
+infixr -1 _$ⁱᴸ⟨_⟩_ _$ⁱᴸ_
+
+_$ⁱᴸ⟨_⟩_ :  (ℕ → A → B) →  ℕ →  List A →  List B
+_ $ⁱᴸ⟨ _ ⟩ [] =  []
+f $ⁱᴸ⟨ i ⟩ a ∷ as =  f i a ∷ (f $ⁱᴸ⟨ ṡ i ⟩ as)
+
+_$ⁱᴸ_ :  (ℕ → A → B) →  List A →  List B
+f $ⁱᴸ as =  f $ⁱᴸ⟨ 0 ⟩ as
+
+--------------------------------------------------------------------------------
+-- Partial lookup
+
+infix 5 _‼_
+_‼_ :  List A →  ℕ →  ¿ A
+[] ‼ _ =  ň
+(a ∷ _) ‼ 0 =  š a
+(_ ∷ as) ‼ ṡ n =  as ‼ n
+
+--------------------------------------------------------------------------------
+-- Index update
+
+upd :  ℕ →  A →  List A →  List A
+upd _ _ [] =  []
+upd 0 b (_ ∷ as) =  b ∷ as
+upd (ṡ n) b (a ∷ as) =  a ∷ upd n b as
+
+--------------------------------------------------------------------------------
+-- Repeat
+
+rep :  ℕ →  A →  List A
+rep 0 _ =  []
+rep (ṡ n) a =  a ∷ rep n a
 
 --------------------------------------------------------------------------------
 -- All² :  Conjunction over pairs of two lists

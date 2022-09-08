@@ -16,8 +16,7 @@ open import Base.Thunk using (Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_)
-open import Base.List using (List)
-open import Base.List.Nat using (rep; len)
+open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺)
 
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;

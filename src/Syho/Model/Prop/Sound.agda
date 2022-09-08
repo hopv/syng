@@ -6,10 +6,9 @@
 
 module Syho.Model.Prop.Sound where
 
-open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (0₂; 1₂; binary; absurd)
-open import Base.Thunk using (!)
+open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (_,_; π₀; π₁; ∑-case)
 open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀₁-intro; ∃₁-elim;

@@ -7,11 +7,10 @@
 module Syho.Lang.Reduce where
 
 open import Base.Level using (↑_)
-open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl; ◠_)
+open import Base.Size using (∞; !)
 open import Base.Dec using (upd˙)
-open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Option using (¿_; š_; ň; _$¿_; _»-¿_)

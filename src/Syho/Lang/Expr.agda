@@ -7,11 +7,10 @@
 module Syho.Lang.Expr where
 
 open import Base.Level using (Level; Up; ↑_)
-open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; cong)
-open import Base.Thunk using (Thunk; !)
+open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Prod using (∑-syntax; _,_)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 

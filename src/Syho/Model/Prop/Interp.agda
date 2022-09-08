@@ -7,8 +7,7 @@
 module Syho.Model.Prop.Interp where
 
 open import Base.Level using (2ᴸ)
-open import Base.Size using (∞)
-open import Base.Thunk using (!)
+open import Base.Size using (∞; !)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _→'_; _∗_; _-∗_; ⤇_;
   □_; ○_; _↪[_]⇛_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦⟨_⟩_; Free; Basic; ∀₁-Basic; ∃₁-Basic;
   →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic)

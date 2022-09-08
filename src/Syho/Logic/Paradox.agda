@@ -6,10 +6,9 @@
 
 module Syho.Logic.Paradox where
 
-open import Base.Size using (Size; ∞)
-open import Base.Thunk using (¡_; !)
 open import Base.Func using (_$_)
 open import Base.Few using (0⊤)
+open import Base.Size using (Size; ∞; ¡_; !)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]⇛_;

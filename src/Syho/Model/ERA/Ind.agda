@@ -7,10 +7,10 @@
 module Syho.Model.ERA.Ind where
 
 open import Base.Level using (2ᴸ)
-open import Base.Size using (∞)
 open import Base.Func using (_∘_; _$_; id; _▷_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
+open import Base.Size using (∞)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; _≡?_; ≡?-refl)

@@ -7,9 +7,9 @@
 module Syho.Model.Supd.Sound where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
-open import Base.Size using (∞)
 open import Base.Func using (_$_; _›_)
 open import Base.Eq using (refl)
+open import Base.Size using (∞)
 open import Base.Prod using (∑-case)
 open import Base.Dec using (upd˙²-self; upd˙²-2)
 open import Base.Nat using (ℕ)

@@ -6,8 +6,8 @@
 
 module Syho.Logic.Hor where
 
-open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; const)
+open import Base.Size using (Size; ∞)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Syho.Logic.Prop using (Prop'; _∗_)

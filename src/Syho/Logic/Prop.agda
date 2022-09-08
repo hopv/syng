@@ -7,10 +7,9 @@
 module Syho.Logic.Prop where
 
 open import Base.Level using (Level; Up; ↓_)
-open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
-open import Base.Thunk using (Thunk)
+open import Base.Size using (Size; ∞; Thunk)
 open import Base.Prod using (_×_; _,_; curry)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_)

@@ -6,10 +6,9 @@
 
 module Syho.Logic.Example where
 
-open import Base.Size using (Size; ∞)
-open import Base.Thunk using (!)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
+open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Addr; λᵛ-syntax; ṽ_; AnyVal)

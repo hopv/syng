@@ -7,9 +7,9 @@
 module Syho.Model.Prop.Ind where
 
 open import Base.Level using (2ᴸ)
-open import Base.Size using (∞)
 open import Base.Func using (_$_)
 open import Base.Few using (absurd)
+open import Base.Size using (∞)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_)

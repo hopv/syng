@@ -6,8 +6,8 @@
 
 module Syho.Logic.Supd where
 
-open import Base.Size using (Size; ∞)
 open import Base.Func using (_$_; _∘_; id)
+open import Base.Size using (Size; ∞)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Syho.Logic.Prop using (Prop'; _∗_; ⤇_)
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∗-comm; ⤇-intro)

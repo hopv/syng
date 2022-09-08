@@ -10,10 +10,9 @@ open import Base.Level using (Level; 2ᴸ)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _≡˙_)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
-open import Base.Dec using (yes; no; _≡?_; ≡?-refl)
+open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙; upd˙-cong;
+  upd˙-self; upd˙-2; upd˙-swap)
 open import Base.Nat using (ℕ; ṡ_)
-open import Base.Natmap using (updᴺᴹ; updᴺᴹ-cong; updᴺᴹ-self; updᴺᴹ-2;
-  updᴺᴹ-swap)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
@@ -82,18 +81,10 @@ abstract
 --------------------------------------------------------------------------------
 -- Update & inject at an index
 
--- updᴱᴳ, updᴳ :  Update an element at an index
-
-updᴱᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Env →  Envᴳ →  Envᴳ
-updᴱᴳ =  updᴺᴹ
-
-updᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Resᴳ →  Resᴳ
-updᴳ =  updᴺᴹ
-
 -- injᴳ :  Inject an element at an index
 
 injᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Resᴳ
-injᴳ i a =  updᴳ i a εᴳ
+injᴳ i a =  upd˙ i a εᴳ
 
 module _ {i : ℕ} where
 
@@ -117,77 +108,53 @@ module _ {i : ℕ} where
     ⊑ᴳ⇒⊑ (-, c∙a≈b) =  -, c∙a≈b i
 
     ----------------------------------------------------------------------------
-    -- On updᴱᴳ
+    -- On upd˙
 
-    -- Self updᴱᴳ
+    -- upd˙ preserves ≈/⊑/✓/∙/⌞⌟/↝
 
-    updᴱᴳ-cong :  E˙ ≡˙ F˙ →  updᴱᴳ i G E˙  ≡˙  updᴱᴳ i G F˙
-    updᴱᴳ-cong =  updᴺᴹ-cong
-
-    -- Self updᴱᴳ
-
-    updᴱᴳ-self :  updᴱᴳ i (E˙ i) E˙  ≡˙  E˙
-    updᴱᴳ-self =  updᴺᴹ-self
-
-    -- Double updᴱᴳ
-
-    updᴱᴳ-2 :  updᴱᴳ i F (updᴱᴳ i G E˙)  ≡˙  updᴱᴳ i F E˙
-    updᴱᴳ-2 =  updᴺᴹ-2
-
-    -- Swap updᴱᴳ on different indices
-
-    updᴱᴳ-swap :  ∀{j} {Gʲ : Globᴱᴿᴬ˙ j .Env} →  i ≢ j →
-      updᴱᴳ i F (updᴱᴳ j Gʲ E˙)  ≡˙  updᴱᴳ j Gʲ (updᴱᴳ i F E˙)
-    updᴱᴳ-swap =  updᴺᴹ-swap
-
-    ----------------------------------------------------------------------------
-    -- On updᴳ
-
-    -- updᴳ preserves ≈/⊑/✓/∙/⌞⌟/↝
-
-    updᴳ-cong :  a ≈ⁱ b →  c˙ ≈ᴳ d˙ →  updᴳ i a c˙ ≈ᴳ updᴳ i b d˙
-    updᴳ-cong a≈b c˙≈d˙ j  with j ≡? i
+    upd˙-congᴳ :  a ≈ⁱ b →  c˙ ≈ᴳ d˙ →  upd˙ i a c˙ ≈ᴳ upd˙ i b d˙
+    upd˙-congᴳ a≈b c˙≈d˙ j  with j ≡? i
     … | no _ =  c˙≈d˙ j
     … | yes refl =  a≈b
 
-    updᴳ-mono :  a ⊑ⁱ b →  c˙ ⊑ᴳ d˙ →  updᴳ i a c˙ ⊑ᴳ updᴳ i b d˙
-    updᴳ-mono _ _ .π₀ =  updᴳ i _ _
-    updᴳ-mono (-, e∙a≈b) (-, f˙∙c˙≈d˙) .π₁ j  with j ≡? i
+    upd˙-mono :  a ⊑ⁱ b →  c˙ ⊑ᴳ d˙ →  upd˙ i a c˙ ⊑ᴳ upd˙ i b d˙
+    upd˙-mono _ _ .π₀ =  upd˙ i _ _
+    upd˙-mono (-, e∙a≈b) (-, f˙∙c˙≈d˙) .π₁ j  with j ≡? i
     … | no _ =  f˙∙c˙≈d˙ j
     … | yes refl =  e∙a≈b
 
-    updᴳ-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ b˙ →  E˙ ✓ᴳ updᴳ i a b˙
-    updᴳ-✓ Ei✓a E✓b˙ j  with j ≡? i
+    upd˙-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ b˙ →  E˙ ✓ᴳ upd˙ i a b˙
+    upd˙-✓ Ei✓a E✓b˙ j  with j ≡? i
     … | no _ =  E✓b˙ j
     … | yes refl =  Ei✓a
 
-    updᴳ-∙ :  updᴳ i a c˙ ∙ᴳ updᴳ i b d˙  ≈ᴳ  updᴳ i (a ∙ⁱ b) (c˙ ∙ᴳ d˙)
-    updᴳ-∙ j  with j ≡? i
+    upd˙-∙ :  upd˙ i a c˙ ∙ᴳ upd˙ i b d˙  ≈ᴳ  upd˙ i (a ∙ⁱ b) (c˙ ∙ᴳ d˙)
+    upd˙-∙ j  with j ≡? i
     … | no _ =  Globᴱᴿᴬ˙ j .refl˜
     … | yes refl =  refl˜ⁱ
 
-    updᴳ-⌞⌟ :  ⌞ updᴳ i a b˙ ⌟ᴳ  ≈ᴳ  updᴳ i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴳ
-    updᴳ-⌞⌟ j  with j ≡? i
+    upd˙-⌞⌟ :  ⌞ upd˙ i a b˙ ⌟ᴳ  ≈ᴳ  upd˙ i ⌞ a ⌟ⁱ ⌞ b˙ ⌟ᴳ
+    upd˙-⌞⌟ j  with j ≡? i
     … | no _ =  Globᴱᴿᴬ˙ j .refl˜
     … | yes refl =  refl˜ⁱ
 
-    updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x)  →
-              (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → (E˙ , updᴳ i (bˣ x) c˙)
-    updᴳ-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib d˙ E✓d∙iac  with E✓d∙iac i
+    upd˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x)  →
+              (E˙ , upd˙ i a c˙)  ↝ᴳ  λ x → (E˙ , upd˙ i (bˣ x) c˙)
+    upd˙-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib d˙ E✓d∙iac  with E✓d∙iac i
     … | Ei✓di∙a  rewrite ≡?-refl {a = i}  =  body
      where
-      body :  ∑ x , E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
+      body :  ∑ x , E˙ ✓ᴳ d˙ ∙ᴳ upd˙ i (bˣ x) c˙
       body .π₀ =  Eia↝Eib _ Ei✓di∙a .π₀
       body .π₁ j  with j ≡? i | E✓d∙iac j
       … | no _ | E✓dj∙cj =  E✓dj∙cj
       … | yes refl | _ =  Eia↝Eib _ Ei✓di∙a .π₁
 
-    updᴱᴳ-updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
-      (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → updᴱᴳ i (Fˣ x) E˙ , updᴳ i (bˣ x) c˙
-    updᴱᴳ-updᴳ-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb d˙ E✓d∙iac  with E✓d∙iac i
+    upd˙-upd˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
+      (E˙ , upd˙ i a c˙)  ↝ᴳ  λ x → upd˙ i (Fˣ x) E˙ , upd˙ i (bˣ x) c˙
+    upd˙-upd˙-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb d˙ E✓d∙iac  with E✓d∙iac i
     … | Ei✓di∙a  rewrite ≡?-refl {a = i}  =  body
      where
-      body :  ∑ x , updᴱᴳ i (Fˣ x) E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
+      body :  ∑ x , upd˙ i (Fˣ x) E˙ ✓ᴳ d˙ ∙ᴳ upd˙ i (bˣ x) c˙
       body .π₀ =  Eia↝Fb _ Ei✓di∙a .π₀
       body .π₁ j  with j ≡? i | E✓d∙iac j
       … | no _ | E✓dj∙cj =  E✓dj∙cj
@@ -199,16 +166,16 @@ module _ {i : ℕ} where
     -- injᴳ preserves ≈/✓/∙/ε/⌞⌟/↝
 
     injᴳ-cong :  a ≈ⁱ b →  injᴳ i a  ≈ᴳ  injᴳ i b
-    injᴳ-cong a≈b =  updᴳ-cong a≈b refl˜ᴳ
+    injᴳ-cong a≈b =  upd˙-congᴳ a≈b refl˜ᴳ
 
     injᴳ-mono :  a ⊑ⁱ b →  injᴳ i a  ⊑ᴳ  injᴳ i b
-    injᴳ-mono a⊑b =  updᴳ-mono a⊑b $ ⊑-refl Globᴱᴿᴬ
+    injᴳ-mono a⊑b =  upd˙-mono a⊑b $ ⊑-refl Globᴱᴿᴬ
 
     injᴳ-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ injᴳ i a
-    injᴳ-✓ Ei✓a =  updᴳ-✓ Ei✓a $ Globᴱᴿᴬ .✓-ε
+    injᴳ-✓ Ei✓a =  upd˙-✓ Ei✓a $ Globᴱᴿᴬ .✓-ε
 
     injᴳ-∙ :  injᴳ i a ∙ᴳ injᴳ i b  ≈ᴳ  injᴳ i (a ∙ⁱ b)
-    injᴳ-∙ =  updᴳ-∙ ◇˜ᴳ updᴳ-cong refl˜ⁱ $ Globᴱᴿᴬ .∙-unitˡ
+    injᴳ-∙ =  upd˙-∙ ◇˜ᴳ upd˙-congᴳ refl˜ⁱ $ Globᴱᴿᴬ .∙-unitˡ
 
     injᴳ-ε :  injᴳ i εⁱ ≈ᴳ εᴳ
     injᴳ-ε j  with j ≡? i
@@ -216,12 +183,12 @@ module _ {i : ℕ} where
     … | yes refl =  refl˜ⁱ
 
     injᴳ-⌞⌟ :  ⌞ injᴳ i a ⌟ᴳ  ≈ᴳ  injᴳ i ⌞ a ⌟ⁱ
-    injᴳ-⌞⌟ =  updᴳ-⌞⌟ ◇˜ᴳ updᴳ-cong refl˜ⁱ $ ⌞⌟-ε Globᴱᴿᴬ
+    injᴳ-⌞⌟ =  upd˙-⌞⌟ ◇˜ᴳ upd˙-congᴳ refl˜ⁱ $ ⌞⌟-ε Globᴱᴿᴬ
 
     injᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x) →
               (E˙ , injᴳ i a)  ↝ᴳ  λ x → E˙ , injᴳ i $ bˣ x
-    injᴳ-↝ =  updᴳ-↝
+    injᴳ-↝ =  upd˙-↝
 
-    updᴱᴳ-injᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
-                    (E˙ , injᴳ i a)  ↝ᴳ  λ x → updᴱᴳ i (Fˣ x) E˙ , injᴳ i $ bˣ x
-    updᴱᴳ-injᴳ-↝ =  updᴱᴳ-updᴳ-↝
+    upd˙-injᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
+                    (E˙ , injᴳ i a)  ↝ᴳ  λ x → upd˙ i (Fˣ x) E˙ , injᴳ i $ bˣ x
+    upd˙-injᴳ-↝ =  upd˙-upd˙-↝

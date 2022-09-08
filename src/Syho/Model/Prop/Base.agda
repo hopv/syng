@@ -13,11 +13,11 @@ open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   uncurry; ∑-case)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (yes; no)
+open import Base.Dec using (yes; no; upd˙; upd˙-self)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ; injᴳ; ✓ᴳ-respᴱ;
-  updᴱᴳ-self; injᴳ-cong; injᴳ-ε; injᴳ-⌞⌟; injᴳ-↝; updᴱᴳ-injᴳ-↝)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; injᴳ; ✓ᴳ-respᴱ;
+  injᴳ-cong; injᴳ-ε; injᴳ-⌞⌟; injᴳ-↝; upd˙-injᴳ-↝)
 
 open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
   ⊑-respˡ; ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-resp; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ;
@@ -587,9 +587,9 @@ module _ {i : ℕ} where
     -- ↝ⁱ into ⤇ᴱ on ● injᴳ
 
     ↝-●-injᴳ-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , bⁱ˙ x) →
-      ● injᴳ i aⁱ  ⊨  E  ⤇ᴱ  λ x → updᴱᴳ i (Fⁱ˙ x) E , ● injᴳ i (bⁱ˙ x)
-    ↝-●-injᴳ-⤇ᴱ Ea↝Fxbx =  ↝-●-⤇ᴱ $ updᴱᴳ-injᴳ-↝ Ea↝Fxbx
+      ● injᴳ i aⁱ  ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ● injᴳ i (bⁱ˙ x)
+    ↝-●-injᴳ-⤇ᴱ Ea↝Fxbx =  ↝-●-⤇ᴱ $ upd˙-injᴳ-↝ Ea↝Fxbx
 
     ε↝-●-injᴳ-⤇ᴱ :  ((E i , εⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , aⁱ˙ x) →
-                    ⊨  E  ⤇ᴱ  λ x → updᴱᴳ i (Fⁱ˙ x) E , ● injᴳ i (aⁱ˙ x)
+                    ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ● injᴳ i (aⁱ˙ x)
     ε↝-●-injᴳ-⤇ᴱ Eε↝Fax =  ↝-●-injᴳ-⤇ᴱ Eε↝Fax $ ●-≈ε $ injᴳ-ε

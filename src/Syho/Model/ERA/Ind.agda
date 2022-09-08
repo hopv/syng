@@ -13,9 +13,8 @@ open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Dec using (yes; no; _≡?_; ≡?-refl)
+open import Base.Dec using (yes; no; upd˙; _≡?_; ≡?-refl)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_)
-open import Base.Natmap using (updᴺᴹ)
 open import Base.List using (List; _∷_; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
   ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ∈ᴸ-[?]; ∈ᴸ-⧺-ĩ₁; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
@@ -94,14 +93,14 @@ open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; _✓_ to _✓ˣ_; ε to
 -- Exclusively own a proposition at an index
 
 line-indˣ :  ℕ →  Prop' ∞ →  Resˣ
-line-indˣ i P =  updᴺᴹ i (#ˣ P) εˣ
+line-indˣ i P =  upd˙ i (#ˣ P) εˣ
 
 abstract
 
   -- Add a new proposition and get a line
 
   alloc-indˣ :  ((Q˙ , n) , εˣ)  ↝ˣ  λ(_ : ⊤₀) →
-                  (updᴺᴹ n P Q˙ , ṡ n) , line-indˣ n P
+                  (upd˙ n P Q˙ , ṡ n) , line-indˣ n P
   alloc-indˣ _ _ .π₀ =  _
   alloc-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .π₁ j  with Q✓Rˣ∙ε j
   … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡? n
@@ -112,7 +111,7 @@ abstract
   -- Remove a proposition consuming a line
 
   use-indˣ :  ((Q˙ , n) , line-indˣ i P)  ↝ˣ
-                λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updᴺᴹ i ⊤' Q˙ , n) , εˣ
+                λ(_ :  Q˙ i ≡ P  ×  i < n) →  (upd˙ i ⊤' Q˙ , n) , εˣ
   use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₀  with Q✓Rˣ∙iP i
   … | (Qi←Rˣi∙#P , _)  rewrite ≡?-refl {a = i}  with Rˣ˙ i
   …   | ?ˣ =  Qi←Rˣi∙#P
@@ -190,14 +189,14 @@ open ERA Ind□ᴱᴿᴬ using () renaming (Res to Res□; ε to ε□; _↝_ to
 -- Persistently own a proposition at an index
 
 line-ind□ :  ℕ →  Prop' ∞ →  Res□
-line-ind□ i P =  updᴺᴹ i [ P ] ε□
+line-ind□ i P =  upd˙ i [ P ] ε□
 
 abstract
 
   -- Add a new proposition and get a line
 
   alloc-ind□ :  ((Q˙ , n) , ε□)  ↝□  λ(_ : ⊤₀) →
-                  (updᴺᴹ n P Q˙ , ṡ n) , line-ind□ n P
+                  (upd˙ n P Q˙ , ṡ n) , line-ind□ n P
   alloc-ind□ _ _ .π₀ =  _
   alloc-ind□ {n = n} Rs˙ Q✓Rs∙ε .π₁ j  with Q✓Rs∙ε j
   … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡? n

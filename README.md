@@ -95,8 +95,7 @@ The library consists of the following parts.
 - Numerics ―
     [`Nat`](src/Base/Nat.agda) for natural numbers;
     [`NatPos`](src/Base/NatPos.agda) for positive natural numbers;
-    [`RatPos`](src/Base/RatPos.agda) for positive rational numbers;
-    [`Natmap`](src/Base/Natmap.agda) for maps over natural numbers.
+    [`RatPos`](src/Base/RatPos.agda) for positive rational numbers.
 
 ### [`Syho/`](src/Syho/)
 

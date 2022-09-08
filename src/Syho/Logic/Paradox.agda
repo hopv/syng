@@ -7,11 +7,10 @@
 module Syho.Logic.Paradox where
 
 open import Base.Func using (_$_)
-open import Base.Few using (0⊤)
 open import Base.Size using (Size; ∞; ¡_; !)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr; Val)
-open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; ⊥'; □_; _∗_; ○_; _↪[_]⇛_;
+open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
   □-mono; □-elim)

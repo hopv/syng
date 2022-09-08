@@ -10,7 +10,7 @@ open import Base.Func using (_$_; _∘_)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (Dec²; yes; no)
+open import Base.Dec using (Dec²; yes; no; ≡Dec; ≡dec)
 
 --------------------------------------------------------------------------------
 -- ℕ :  Natural number
@@ -170,25 +170,30 @@ abstract
   ≤ᵈ⇒≤ (≤ᵈṡ m≤ᵈn') =  ≤-trans (≤ᵈ⇒≤ m≤ᵈn') ṡ-incr
 
 --------------------------------------------------------------------------------
--- ≡?, ≤?, <? : Order decision
+-- ℕ-≡Dec :  Equality decision
 
-infix 4 _≡?_ _≤?_ _<?_
+instance
 
-_≡?_ :  Dec² {A = ℕ} _≡_
-0 ≡? 0 =  yes refl
-0 ≡? ṡ _ =  no λ ()
-ṡ _ ≡? 0 =  no λ ()
-ṡ m ≡? ṡ n  with m ≡? n
-… | yes refl =  yes refl
-… | no m≢n =  no λ{ refl → m≢n refl }
+  ℕ-≡Dec :  ≡Dec ℕ
+  ℕ-≡Dec =  ≡dec _≡?'_ ≡?'-refl
+   where
+    infix 4 _≡?'_
+    _≡?'_ :  Dec² _≡_
+    0 ≡?' 0 =  yes refl
+    0 ≡?' ṡ _ =  no λ()
+    ṡ _ ≡?' 0 =  no λ()
+    ṡ m' ≡?' ṡ n'  with m' ≡?' n'
+    … | yes refl =  yes refl
+    … | no m'≢n' =  no λ{ refl → m'≢n' refl }
+    abstract
+      ≡?'-refl :  (n ≡?' n) ≡ yes refl
+      ≡?'-refl {0} =  refl
+      ≡?'-refl {ṡ n'}  rewrite ≡?'-refl {n'} =  refl
 
-abstract
+--------------------------------------------------------------------------------
+-- ≤?, <? : Order decision
 
-  -- Reflexivity of ≡?
-
-  ≡?-refl :  (n ≡? n) ≡ yes refl
-  ≡?-refl {n = 0} =  refl
-  ≡?-refl {n = ṡ n}  rewrite ≡?-refl {n = n} =  refl
+infix 4 _≤?_ _<?_
 
 _≤?_ :  Dec² _≤_
 ṡ m ≤? ṡ n  with m ≤? n

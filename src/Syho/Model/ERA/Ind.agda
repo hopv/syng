@@ -13,9 +13,8 @@ open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Dec using (yes; no)
-open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡?_;
-  ≡?-refl)
+open import Base.Dec using (yes; no; _≡?_; ≡?-refl)
+open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_)
 open import Base.Natmap using (updᴺᴹ)
 open import Base.List using (List; _∷_; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
@@ -115,12 +114,12 @@ abstract
   use-indˣ :  ((Q˙ , n) , line-indˣ i P)  ↝ˣ
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updᴺᴹ i ⊤' Q˙ , n) , εˣ
   use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₀  with Q✓Rˣ∙iP i
-  … | (Qi←Rˣi∙#P , _)  rewrite ≡?-refl {i}  with Rˣ˙ i
+  … | (Qi←Rˣi∙#P , _)  rewrite ≡?-refl {a = i}  with Rˣ˙ i
   …   | ?ˣ =  Qi←Rˣi∙#P
   use-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₁  with i <≥ n
   … | ĩ₀ i<n =  i<n
   … | ĩ₁ i≥n  with Q✓Rˣ∙iP _ .π₁ i≥n
-  …   | Rˣi∙P≡?  rewrite ≡?-refl {i}  with Rˣ˙ i | Rˣi∙P≡?
+  …   | Rˣi∙P≡?  rewrite ≡?-refl {a = i}  with Rˣ˙ i | Rˣi∙P≡?
   …     | ?ˣ | ()
   use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₁ j  with Q✓Rˣ∙iP j
   … | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡? i
@@ -211,11 +210,11 @@ abstract
   use-ind□ :  ((Q˙ , n) , line-ind□ i P)  ↝□
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  ((Q˙ , n) , line-ind□ i P)
   use-ind□ {i = i} Rs˙ Q✓Rs∙iP .π₀ .π₀  with Q✓Rs∙iP i
-  … | (Qi≡Rsi⧺[P] , _)  rewrite ≡?-refl {i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-ĩ₁ ∈ᴸ-[?])
+  … | (Qi≡Rsi⧺[P] , _)  rewrite ≡?-refl {a = i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-ĩ₁ ∈ᴸ-[?])
   use-ind□ {n = n} {i} Rs˙ Q✓Rs∙iP .π₀ .π₁  with i <≥ n
   … | ĩ₀ i<n =  i<n
   … | ĩ₁ i≥n  with Q✓Rs∙iP _ .π₁ i≥n
-  …   | Rsi⧺[P]≡?  rewrite ≡?-refl {i}  with Rs˙ i | Rsi⧺[P]≡?
+  …   | Rsi⧺[P]≡?  rewrite ≡?-refl {a = i}  with Rs˙ i | Rsi⧺[P]≡?
   …     | _ ∷ _ | ()
   …     | [] | ()
   use-ind□ _ Q✓Rˣ∙iP .π₁ =  Q✓Rˣ∙iP

@@ -11,8 +11,8 @@ open import Base.Func using (_$_)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁)
-open import Base.Dec using (yes; no)
-open import Base.Nat using (ℕ; ṡ_; _≡?_; _≥_; _⊔_; ≡?-refl; <-irrefl; ⊔≤-introˡ;
+open import Base.Dec using (yes; no; _≡?_; ≡?-refl)
+open import Base.Nat using (ℕ; ṡ_; _≥_; _⊔_; <-irrefl; ⊔≤-introˡ;
   ⊔≤-introʳ)
 
 private variable
@@ -64,7 +64,7 @@ abstract
   updᴺᴹ-swap {i} {j} i≢j k  with k ≡? i
   … | yes refl  with k ≡? j
   …   | yes refl =  absurd $ i≢j refl
-  …   | no _  rewrite ≡?-refl {k} =  refl
+  …   | no _  rewrite ≡?-refl {a = k} =  refl
   updᴺᴹ-swap {i} {j} _ k | no k≢i  with k ≡? j
   …   | yes refl  with k ≡? i
   …     | yes refl =  absurd $ k≢i refl

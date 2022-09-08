@@ -10,8 +10,8 @@ open import Base.Level using (Level; 2ᴸ)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _≡˙_)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
-open import Base.Dec using (yes; no)
-open import Base.Nat using (ℕ; ṡ_; _≡?_; ≡?-refl)
+open import Base.Dec using (yes; no; _≡?_; ≡?-refl)
+open import Base.Nat using (ℕ; ṡ_)
 open import Base.Natmap using (updᴺᴹ; updᴺᴹ-cong; updᴺᴹ-self; updᴺᴹ-2;
   updᴺᴹ-swap)
 open import Syho.Model.ERA.Base using (ERA)
@@ -174,7 +174,7 @@ module _ {i : ℕ} where
     updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x)  →
               (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → (E˙ , updᴳ i (bˣ x) c˙)
     updᴳ-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib d˙ E✓d∙iac  with E✓d∙iac i
-    … | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
+    … | Ei✓di∙a  rewrite ≡?-refl {a = i}  =  body
      where
       body :  ∑ x , E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
       body .π₀ =  Eia↝Eib _ Ei✓di∙a .π₀
@@ -185,7 +185,7 @@ module _ {i : ℕ} where
     updᴱᴳ-updᴳ-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
       (E˙ , updᴳ i a c˙)  ↝ᴳ  λ x → updᴱᴳ i (Fˣ x) E˙ , updᴳ i (bˣ x) c˙
     updᴱᴳ-updᴳ-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb d˙ E✓d∙iac  with E✓d∙iac i
-    … | Ei✓di∙a  rewrite ≡?-refl {i}  =  body
+    … | Ei✓di∙a  rewrite ≡?-refl {a = i}  =  body
      where
       body :  ∑ x , updᴱᴳ i (Fˣ x) E˙ ✓ᴳ d˙ ∙ᴳ updᴳ i (bˣ x) c˙
       body .π₀ =  Eia↝Fb _ Ei✓di∙a .π₀

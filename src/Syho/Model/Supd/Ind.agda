@@ -13,9 +13,9 @@ open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⊎-case)
-open import Base.Dec using (yes; no)
-open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; _≡?_; ≤-refl; <⇒≤; <-irrefl;
-  ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ≡?-refl)
+open import Base.Dec using (yes; no; _≡?_; ≡?-refl)
+open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl;
+  ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
 open import Base.Natmap using (updᴺᴹ)
 open import Syho.Lang.Expr using (Type; Expr)
 open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_)
@@ -75,7 +75,8 @@ abstract
   -- Add a proposition at the bound
 
   ⸨⸩ᴺᴹ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ updᴺᴹ n P Q˙ , ṡ n ⸩ᴺᴹ
-  ⸨⸩ᴺᴹ-add {n = n}  rewrite ≡?-refl {n} =  ∗ᵒ-monoʳ $ ⸨⸩ᴺᴹ-⇒upd-≥ $ ≤-refl {n}
+  ⸨⸩ᴺᴹ-add {n = n}  rewrite ≡?-refl {a = n} =
+    ∗ᵒ-monoʳ $ ⸨⸩ᴺᴹ-⇒upd-≥ $ ≤-refl {n}
 
   ⸨⸩ᴺᴹ-add⊤ :  ⸨ P˙ , n ⸩ᴺᴹ  ⊨  ⸨ updᴺᴹ n ⊤' P˙ , ṡ n ⸩ᴺᴹ
   ⸨⸩ᴺᴹ-add⊤ {n = n} =  ?∗ᵒ-intro absurd › ⸨⸩ᴺᴹ-add {n = n}

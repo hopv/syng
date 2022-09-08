@@ -10,11 +10,11 @@ open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (Dec²; yes; no)
-open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _<≡>_; _≤>_; _≡?_; _≤?_; _<?_; _+_;
-  _*_; ṡ≤ṡ; ṡ<ṡ; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤;
-  ≤-<-trans; <-≤-trans; ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; ≡?-refl; +-comm; +-assocˡ;
-  +-injˡ; +-0; +-incrˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ;
+open import Base.Dec using (Dec²; yes; no; ≡Dec; _≡?_; ≡?-refl)
+open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _<≡>_; _≤>_; _≤?_; _<?_; _+_; _*_;
+  ṡ≤ṡ; ṡ<ṡ; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤;
+  ≤-<-trans; <-≤-trans; ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; +-comm; +-assocˡ; +-injˡ;
+  +-0; +-incrˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ;
   *-smonoˡ)
 
 --------------------------------------------------------------------------------
@@ -132,14 +132,20 @@ abstract
   … | ĩ₁ n>m =  ĩ₀ n>m
 
 --------------------------------------------------------------------------------
--- ≡⁺?, ≤⁺?, <⁺?, ≥⁺?, >⁺? :  Order decision
+-- ℕ⁺-≡Dec :  Equality decision
 
-infix 4 _≡⁺?_ _≤⁺?_ _<⁺?_ _≥⁺?_ _>⁺?_
+instance
 
-_≡⁺?_ :  Dec² {A = ℕ⁺} _≡_
-ṡ⁺ m⁰ ≡⁺? ṡ⁺ n⁰  with m⁰ ≡? n⁰
-… | yes refl =  yes refl
-… | no m⁰≢n⁰ =  no λ{ refl → m⁰≢n⁰ refl }
+  ℕ⁺-≡Dec : ≡Dec ℕ⁺
+  ℕ⁺-≡Dec ._≡?_ (ṡ⁺ m⁰) (ṡ⁺ n⁰)  with m⁰ ≡? n⁰
+  … | yes refl =  yes refl
+  … | no m⁰≢n⁰ =  no λ{ refl → m⁰≢n⁰ refl }
+  ℕ⁺-≡Dec .≡?-refl {ṡ⁺ n⁰}  rewrite ≡?-refl {a = n⁰} =  refl
+
+--------------------------------------------------------------------------------
+-- ≤⁺?, <⁺?, ≥⁺?, >⁺? :  Order decision
+
+infix 4 _≤⁺?_ _<⁺?_ _≥⁺?_ _>⁺?_
 
 _≤⁺?_ :  Dec² _≤⁺_
 ṡ⁺ m⁰ ≤⁺? ṡ⁺ n⁰ =  m⁰ ≤? n⁰
@@ -152,13 +158,6 @@ m ≥⁺? n =  n ≤⁺? m
 
 _>⁺?_ :  Dec² _>⁺_
 m >⁺? n =  n <⁺? m
-
-abstract
-
-  -- Reflexivity of ≡⁺ᵇ
-
-  ≡⁺?-refl :  (n ≡⁺? n) ≡ yes refl
-  ≡⁺?-refl {ṡ⁺ n⁰} rewrite ≡?-refl {n⁰} =  refl
 
 --------------------------------------------------------------------------------
 -- +⁺ :  Addition

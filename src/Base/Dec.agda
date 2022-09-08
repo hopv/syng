@@ -9,6 +9,7 @@ module Base.Dec where
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_)
 open import Base.Few using (¬_; ⇒¬¬)
+open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
 
@@ -57,3 +58,14 @@ abstract
   yes a ⊎? _ =  yes $ ĩ₀ a
   _ ⊎? yes b =  yes $ ĩ₁ b
   no ¬a ⊎? no ¬b =  no $ ⊎-case ¬a ¬b
+
+--------------------------------------------------------------------------------
+-- ≡Dec :  Equality decision
+
+record  ≡Dec (A : Set ł) :  Set ł  where
+  constructor ≡dec
+  infix 4 _≡?_
+  field
+    _≡?_ :  Dec² {A = A} _≡_
+    ≡?-refl :  ∀{a} →  (a ≡? a) ≡ yes refl
+open ≡Dec {{…}} public

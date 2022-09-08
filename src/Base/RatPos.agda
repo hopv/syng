@@ -10,9 +10,9 @@ open import Base.Func using (_$_; flip)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (Dec¹; Dec²; yes)
-open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≡⁺?_; _≤⁺?_; _+⁺_;
-  _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ≡⁺?-refl; +⁺-comm;
+open import Base.Dec using (Dec¹; Dec²; yes; _≡?_; ≡?-refl)
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≤⁺?_; _+⁺_;
+  _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-comm;
   +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
   *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
 
@@ -75,14 +75,14 @@ abstract
 
 infix 4 _≈ᴿ⁺?_
 _≈ᴿ⁺?_ : Dec² _≈ᴿ⁺_
-(a //⁺ b) ≈ᴿ⁺? (c //⁺ d) =  d *⁺ a ≡⁺? b *⁺ c
+(a //⁺ b) ≈ᴿ⁺? (c //⁺ d) =  d *⁺ a ≡? b *⁺ c
 
 abstract
 
   -- Reflexivity of ≈ᴿ⁺ᵇ
 
   ≈ᴿ⁺?-refl :  (p ≈ᴿ⁺? p) ≡ yes refl
-  ≈ᴿ⁺?-refl {a //⁺ b} =  ≡⁺?-refl
+  ≈ᴿ⁺?-refl {a //⁺ b} =  ≡?-refl
 
 --------------------------------------------------------------------------------
 -- +ᴿ⁺ :  Addition over ℚ⁺

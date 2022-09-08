@@ -35,16 +35,14 @@ data  Exc (A : Set ł) :  Set ł  where
 private variable
   x y z :  Exc A
 
---------------------------------------------------------------------------------
--- Validity
+-- ✓ˣ :  Validity of Exc A
 
 infix 3 ✓ˣ_
 ✓ˣ_ :  Exc A →  Set₀
 ✓ˣ ↯ˣ =  ⊥
 ✓ˣ _ =  ⊤
 
---------------------------------------------------------------------------------
--- Product
+-- ∙ˣ :  Product over Exc A
 
 infixl 7 _∙ˣ_
 _∙ˣ_ :  Exc A →  Exc A →  Exc A
@@ -53,8 +51,7 @@ _∙ˣ_ :  Exc A →  Exc A →  Exc A
 x ∙ˣ ?ˣ =  x
 _ ∙ˣ _ =  ↯ˣ
 
---------------------------------------------------------------------------------
--- Agreement
+-- ←ˣ :  Agreement between A and Exc A
 
 infix 4 _←ˣ_
 _←ˣ_ :  ∀{A : Set ł} →  A →  Exc A →  Set ł

@@ -455,9 +455,8 @@ abstract
   ṡ⊔-same =  ṡ⊔-≥ ≤-refl
 
 --------------------------------------------------------------------------------
--- Cofinite property
-
--- Cofin F f : F (f i) holds for every i but a finite number of exceptions
+-- Cofin F f :  { i | F i (f i) } is cofinite, i.e., F i (f i) holds for every i
+--              but a finite number of exceptions
 
 Cofin :  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
 Cofin F f =  ∑ n ,  ∀ i →  i ≥ n →  F i (f i)

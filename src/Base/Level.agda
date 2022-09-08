@@ -23,6 +23,7 @@ open import Agda.Primitive public using (
 2ᴸ =  ṡᴸ 1ᴸ
 3ᴸ =  ṡᴸ 2ᴸ
 
+--------------------------------------------------------------------------------
 -- Up :  Wrapper raising the level
 
 infix 8 ↑_

@@ -24,35 +24,35 @@ private variable
 
 -- Negation
 
-not :  Bool → Bool
+not :  Bool →  Bool
 not tt =  ff
 not ff =  tt
 
 -- Conjunction
 
 infixr 6 _&&_
-_&&_ :  Bool → Bool → Bool
+_&&_ :  Bool →  Bool →  Bool
 tt && b =  b
 ff && b =  ff
 
 -- Disjunction
 
 infixr 5 _||_
-_||_ :  Bool → Bool → Bool
+_||_ :  Bool →  Bool →  Bool
 tt || b =  tt
 ff || b =  b
 
 -- Exclusive Or
 
-infixr 5 _xor_
-_xor_ :  Bool → Bool → Bool
-tt xor b =  not b
-ff xor b =  b
+infixr 5 _^^_
+_^^_ :  Bool →  Bool →  Bool
+tt ^^ b =  not b
+ff ^^ b =  b
 
 -- If then else
 
 infix 0 if_then_else_
-if_then_else_ :  Bool → A → A → A
+if_then_else_ :  Bool →  A →  A →  A
 if tt then aᵗ else aᶠ =  aᵗ
 if ff then aᵗ else aᶠ =  aᶠ
 
@@ -75,10 +75,9 @@ abstract
 -- ≤ᴮ :  Order over Bool
 
 infix 4 _≤ᴮ_
-data  _≤ᴮ_ :  Bool → Bool → Set₀  where
+data  _≤ᴮ_ :  Bool →  Bool →  Set₀  where
   ff≤tt :  ff ≤ᴮ tt
-  ≤ᴮ-refl :  ∀{b} →  b ≤ᴮ b
-open _≤ᴮ_ public
+  ≤ᴮ-refl :  b ≤ᴮ b
 
 abstract
 

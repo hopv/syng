@@ -13,7 +13,16 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 
 --------------------------------------------------------------------------------
--- Environmental resource algebra
+-- ERA :  Environmental resource algebra
+
+-- The ERA is similar to the (unital) resource algebra (RA) used in Iris, but
+-- the ERA has the notion of environment Env, and the ERA's validity predicate ✓
+-- inputs not only the resource but also the environment.
+-- You can view an environment of an ERA as analogous to an authoritative state
+-- ● a of the Auth RA in Iris.
+-- The environment simplifies the proof of various properties (especially
+-- resource updates ↝), thanks to the fact that we always stably have a single
+-- environment separately from resources.
 
 record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł✓))  where
   ------------------------------------------------------------------------------

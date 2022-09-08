@@ -215,8 +215,7 @@ abstract
   -- Allocate □ P to get □ᵒ Ind P
 
   □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⇛ind  □ᵒ Ind P
-  □ᵒInd-alloc-rec =
-    -∗ᵒ-monoˡ ĩ₁_ › □ᵒInd□-alloc-rec › ⇛ind□⇒⇛ind › ⇛ᵍ-mono ĩ₁_
+  □ᵒInd-alloc-rec =  -∗ᵒ-monoˡ ĩ₁_ › □ᵒInd□-alloc-rec › ⇛ind□⇒⇛ind › ⇛ᵍ-mono ĩ₁_
 
   -- Consume Ind P to get P
 

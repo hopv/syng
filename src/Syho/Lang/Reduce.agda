@@ -15,10 +15,9 @@ open import Base.Thunk using (!)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Option using (¿_; š_; ň; _$¿_; _»-¿_)
-open import Base.Nat using (ℕ)
+open import Base.Nat using (ℕ; Cofin; ∀⇒Cofin; Cofin-upd˙)
 open import Base.List using (List)
 open import Base.List.Nat using (_‼_; upd; rep)
-open import Base.Natmap using (Cofin; ∀⇒Cofin; Cofin-upd˙)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;

@@ -18,8 +18,8 @@ open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
-  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add;
-  ⌞⌟-unitˡ; ⌞⌟-idem; ⌞⌟-ε)
+  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
+  ⌞⌟-idem; ⌞⌟-ε)
 
 --------------------------------------------------------------------------------
 -- Global ERA
@@ -56,7 +56,6 @@ Globᴱᴿᴬ .∙-comm i =  Globᴱᴿᴬ˙ i .∙-comm
 Globᴱᴿᴬ .∙-assocˡ i =  Globᴱᴿᴬ˙ i .∙-assocˡ
 Globᴱᴿᴬ .✓-resp a≈b E✓a i =  Globᴱᴿᴬ˙ i .✓-resp (a≈b i) (E✓a i)
 Globᴱᴿᴬ .✓-rem ✓a∙b i =  Globᴱᴿᴬ˙ i .✓-rem (✓a∙b i)
-Globᴱᴿᴬ .✓-ε i =  Globᴱᴿᴬ˙ i .✓-ε
 Globᴱᴿᴬ .⌞⌟-cong a≈b i =  Globᴱᴿᴬ˙ i .⌞⌟-cong (a≈b i)
 Globᴱᴿᴬ .⌞⌟-add =
   (λ i → Globᴱᴿᴬ˙ i .⌞⌟-add .π₀) , λ i → Globᴱᴿᴬ˙ i .⌞⌟-add .π₁
@@ -171,8 +170,8 @@ module _ {i : ℕ} where
     injᴳ-mono :  a ⊑ⁱ b →  injᴳ i a  ⊑ᴳ  injᴳ i b
     injᴳ-mono a⊑b =  upd˙-mono a⊑b $ ⊑-refl Globᴱᴿᴬ
 
-    injᴳ-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ injᴳ i a
-    injᴳ-✓ Ei✓a =  upd˙-✓ Ei✓a $ Globᴱᴿᴬ .✓-ε
+    injᴳ-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ εᴳ →  E˙ ✓ᴳ injᴳ i a
+    injᴳ-✓ Ei✓a E✓ε =  upd˙-✓ Ei✓a E✓ε
 
     injᴳ-∙ :  injᴳ i a ∙ᴳ injᴳ i b  ≈ᴳ  injᴳ i (a ∙ⁱ b)
     injᴳ-∙ =  upd˙-∙ ◇˜ᴳ upd˙-congᴳ refl˜ⁱ $ Globᴱᴿᴬ .∙-unitˡ

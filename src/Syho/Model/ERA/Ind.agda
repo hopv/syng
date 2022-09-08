@@ -24,8 +24,7 @@ open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-co
   ∙ˣ-assocˡ; ∙ˣ-?ˣ)
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
-  ⌞⌟-idem)
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 private variable
   P :  Prop' ∞
@@ -74,8 +73,6 @@ Indˣᴱᴿᴬ .✓-resp Rˣi≡Sˣi P✓Rˣ i  with P✓Rˣ i
 Indˣᴱᴿᴬ .✓-rem {a = Pˣ˙} {b = Qˣ˙} R✓Pˣ∙Qˣ i  with Pˣ˙ i | Qˣ˙ i | R✓Pˣ∙Qˣ i
 … | ?ˣ | _ | R✓Qˣi =  R✓Qˣi
 … | _ | ?ˣ | _ =  -, λ _ → refl
-
-Indˣᴱᴿᴬ .✓-ε _ =  -, λ _ → refl
 
 Indˣᴱᴿᴬ .⌞⌟-cong _ _ =  refl
 
@@ -170,8 +167,6 @@ Ind□ᴱᴿᴬ .✓-rem R✓Ps⧺Qs i  with R✓Ps⧺Qs i
 … | Ri≡Ps⧺Qsi , i≥n⇒Psi⧺Qsi≡[] =
   (λ Q∈Qsi → Ri≡Ps⧺Qsi $ ⧺-⊆ᴸ-introʳ Q∈Qsi) ,
   λ i≥n →  π₁ $ ⧺-≡[] $ i≥n⇒Psi⧺Qsi≡[] i≥n
-
-Ind□ᴱᴿᴬ .✓-ε _ =  (λ ()) , λ _ → refl
 
 Ind□ᴱᴿᴬ .⌞⌟-cong =  id
 

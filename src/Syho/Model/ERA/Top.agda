@@ -11,8 +11,7 @@ open import Base.Few using (⊤)
 open import Syho.Model.ERA.Base using (ERA)
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ✓-ε; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
-  ⌞⌟-idem)
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 private variable
   łᴱ ł ł≈ᴱ ł≈ ł✓ :  Level
@@ -37,7 +36,6 @@ private variable
 ⊤ᴱᴿᴬ .∙-assocˡ =  _
 ⊤ᴱᴿᴬ .✓-resp =  _
 ⊤ᴱᴿᴬ .✓-rem =  _
-⊤ᴱᴿᴬ .✓-ε =  _
 ⊤ᴱᴿᴬ .⌞⌟-cong =  _
 ⊤ᴱᴿᴬ .⌞⌟-add =  _
 ⊤ᴱᴿᴬ .⌞⌟-unitˡ =  _

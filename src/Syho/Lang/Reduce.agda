@@ -32,7 +32,7 @@ private variable
   M M' :  Mem
   l :  ℕ
   av :  AnyVal
-  avs¿ :  ¿ List AnyVal
+  avsˇ :  ¿ List AnyVal
   θ :  Addr
 
 -- Memory read
@@ -66,7 +66,7 @@ abstract
 
   -- ✓ᴹ is preserved by upd˙ and updᴹ
 
-  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ l avs¿ M)
+  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ l avsˇ M)
   ✓ᴹ-upd˙ =  Cofin-upd˙ {F = λ _ → _≡ ň}
 
   ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ av M)

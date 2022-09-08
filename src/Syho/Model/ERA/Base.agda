@@ -275,9 +275,8 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
 
   infix 2 _↝_
 
-  -- (E , a) ↝ Fb˙ :  a with E can be updated into Fb˙ x for some x,
-  --                  regardless the frame c
+  -- (E , a) ↝ Fb˙ :  The environment-resource pair (E , a) can be updated into
+  --                  Fb˙ x for some x, regardless the frame resource c
 
   _↝_ :  ∀{X : Set ł} →  Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
-  (E , a) ↝ Fb˙ =  ∀ c →  E ✓ c ∙ a →
-    ∑ x ,  let (F , b) = Fb˙ x in  F ✓ c ∙ b
+  (E , a) ↝ Fb˙ =  ∀ c →  E ✓ c ∙ a →  ∑ x ,  let (F , b) = Fb˙ x in  F ✓ c ∙ b

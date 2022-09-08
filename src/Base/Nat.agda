@@ -179,7 +179,7 @@ abstract
   ≤ᵈ⇒≤ (≤ᵈṡ m≤ᵈn') =  ≤-trans (≤ᵈ⇒≤ m≤ᵈn') ṡ-incr
 
 --------------------------------------------------------------------------------
--- ℕ-≡Dec :  Equality decision
+-- Equality decision for ℕ
 
 instance
 

@@ -132,7 +132,7 @@ abstract
   … | ĩ₁ n>m =  ĩ₀ n>m
 
 --------------------------------------------------------------------------------
--- ℕ⁺-≡Dec :  Equality decision
+-- Equality decision for ℕ⁺
 
 instance
 

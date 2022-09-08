@@ -12,9 +12,8 @@ open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁)
-open import Base.Bool using (tt; ff)
-open import Base.Nat using (ℕ; ṡ_; _≡ᵇ_; _≡?_; _≥_; _⊔_; ᵇ⇒≡; ≡?-refl; <-irrefl;
-  ⊔≤-introˡ; ⊔≤-introʳ)
+open import Base.Nat using (ℕ; ṡ_; _≡?_; _≥_; _⊔_; ≡?-refl; <-irrefl; ⊔≤-introˡ;
+  ⊔≤-introʳ)
 
 private variable
   ł :  Level
@@ -26,14 +25,7 @@ private variable
   i j :  ℕ
 
 --------------------------------------------------------------------------------
--- updᴺᴹ, updᴰᴺᴹ :  Update a map at an index
-
-updᴺᴹ :  ℕ →  A →  (ℕ → A) →  (ℕ → A)
-updᴺᴹ i a f j  with j ≡ᵇ i
-… | ff =  f j
-… | tt =  a
-
--- Variant with the return type dependent on the index
+-- updᴰᴺᴹ :  Update a map at an index
 
 updᴰᴺᴹ :  ∀ i →  A˙ i →  (∀ j →  A˙ j) →  (∀ j →  A˙ j)
 updᴰᴺᴹ i a f j  with j ≡? i
@@ -96,12 +88,10 @@ abstract
   ∀⇒Cofin :  (∀ i → F (f i)) →  Cofin F f
   ∀⇒Cofin Ffi =  0 , λ _ _ → Ffi _
 
-  -- Cofin is preserved by updᴺᴹ
+  -- Cofin is preserved by updᴰᴺᴹ
 
-  Cofin-updᴺᴹ :  Cofin F f →  Cofin F (updᴺᴹ i a f)
-  Cofin-updᴺᴹ {i = i} (n , _) .π₀ =  ṡ i ⊔ n
-  Cofin-updᴺᴹ {i = i} (n , i≥n⇒Ffi) .π₁ j ṡi⊔n≥j
-    with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  … | ff | _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
-  … | tt | ⇒j≡i  rewrite ⇒j≡i _ =
-    absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j
+  Cofin-updᴰᴺᴹ :  Cofin F f →  Cofin F (updᴰᴺᴹ i a f)
+  Cofin-updᴰᴺᴹ {i = i} (n , _) .π₀ =  ṡ i ⊔ n
+  Cofin-updᴰᴺᴹ {i = i} (n , i≥n⇒Ffi) .π₁ j ṡi⊔n≥j  with j ≡? i
+  … | no _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
+  … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j

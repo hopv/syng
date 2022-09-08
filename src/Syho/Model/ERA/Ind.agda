@@ -11,12 +11,12 @@ open import Base.Size using (∞)
 open import Base.Func using (_∘_; _$_; id; _▷_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
+open import Base.Dec using (yes; no)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Bool using (ff; tt)
-open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡ᵇ_;
-  ᵇ⇒≡; ≡ᵇ-refl)
-open import Base.Natmap using (updᴺᴹ)
+open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; _≡?_;
+  ≡?-refl)
+open import Base.Natmap using (updᴰᴺᴹ)
 open import Base.List using (List; _∷_; []; [_]; _⧺_; ⧺-assocˡ; ⧺-[]; ⧺-≡[])
 open import Base.List.Set using (by-hd; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
   ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ∈ᴸ-[?]; ∈ᴸ-⧺-ĩ₁; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
@@ -95,37 +95,37 @@ open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; _✓_ to _✓ˣ_; ε to
 -- Exclusively own a proposition at an index
 
 line-indˣ :  ℕ →  Prop' ∞ →  Resˣ
-line-indˣ i P =  updᴺᴹ i (#ˣ P) εˣ
+line-indˣ i P =  updᴰᴺᴹ i (#ˣ P) εˣ
 
 abstract
 
   -- Add a new proposition and get a line
 
   alloc-indˣ :  ((Q˙ , n) , εˣ)  ↝ˣ  λ(_ : ⊤₀) →
-                  (updᴺᴹ n P Q˙ , ṡ n) , line-indˣ n P
+                  (updᴰᴺᴹ n P Q˙ , ṡ n) , line-indˣ n P
   alloc-indˣ _ _ .π₀ =  _
   alloc-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .π₁ j  with Q✓Rˣ∙ε j
-  … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  …   | ff | _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
-  …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl =
+  … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡? n
+  …   | no _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
+  …   | yes refl  rewrite ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl =
     refl , absurd ∘ <-irrefl
 
   -- Remove a proposition consuming a line
 
   use-indˣ :  ((Q˙ , n) , line-indˣ i P)  ↝ˣ
-                λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updᴺᴹ i ⊤' Q˙ , n) , εˣ
+                λ(_ :  Q˙ i ≡ P  ×  i < n) →  (updᴰᴺᴹ i ⊤' Q˙ , n) , εˣ
   use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₀  with Q✓Rˣ∙iP i
-  … | (Qi←Rˣi∙#P , _)  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i
+  … | (Qi←Rˣi∙#P , _)  rewrite ≡?-refl {i}  with Rˣ˙ i
   …   | ?ˣ =  Qi←Rˣi∙#P
   use-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₁  with i <≥ n
   … | ĩ₀ i<n =  i<n
   … | ĩ₁ i≥n  with Q✓Rˣ∙iP _ .π₁ i≥n
-  …   | Rˣi∙P≡?  rewrite ≡ᵇ-refl {i}  with Rˣ˙ i | Rˣi∙P≡?
+  …   | Rˣi∙P≡?  rewrite ≡?-refl {i}  with Rˣ˙ i | Rˣi∙P≡?
   …     | ?ˣ | ()
   use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₁ j  with Q✓Rˣ∙iP j
-  … | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡ᵇ i | ᵇ⇒≡ {j} {i}
-  …   | ff | _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
-  …   | tt | ⇒j≡i  rewrite ⇒j≡i _  with Rˣ˙ i
+  … | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡? i
+  …   | no _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
+  …   | yes refl  with Rˣ˙ i
   …     | ?ˣ =  _ , λ _ → refl
 
 --------------------------------------------------------------------------------
@@ -191,19 +191,19 @@ open ERA Ind□ᴱᴿᴬ using () renaming (Res to Res□; ε to ε□; _↝_ to
 -- Persistently own a proposition at an index
 
 line-ind□ :  ℕ →  Prop' ∞ →  Res□
-line-ind□ i P =  updᴺᴹ i [ P ] ε□
+line-ind□ i P =  updᴰᴺᴹ i [ P ] ε□
 
 abstract
 
   -- Add a new proposition and get a line
 
   alloc-ind□ :  ((Q˙ , n) , ε□)  ↝□  λ(_ : ⊤₀) →
-                  (updᴺᴹ n P Q˙ , ṡ n) , line-ind□ n P
+                  (updᴰᴺᴹ n P Q˙ , ṡ n) , line-ind□ n P
   alloc-ind□ _ _ .π₀ =  _
   alloc-ind□ {n = n} Rs˙ Q✓Rs∙ε .π₁ j  with Q✓Rs∙ε j
-  … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡ᵇ n | ᵇ⇒≡ {j} {n}
-  …   | ff | _ =  Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[] ∘ <⇒≤
-  …   | tt | ⇒j≡n  rewrite ⇒j≡n _ | ⧺-[] {as = Rs˙ n} | j≥n⇒Rsj⧺[]≡[] ≤-refl =
+  … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡? n
+  …   | no _ =  Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[] ∘ <⇒≤
+  …   | yes refl  rewrite ⧺-[] {as = Rs˙ n} | j≥n⇒Rsj⧺[]≡[] ≤-refl =
     (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl
 
   -- Get an agreement from a line
@@ -211,11 +211,11 @@ abstract
   use-ind□ :  ((Q˙ , n) , line-ind□ i P)  ↝□
                 λ(_ :  Q˙ i ≡ P  ×  i < n) →  ((Q˙ , n) , line-ind□ i P)
   use-ind□ {i = i} Rs˙ Q✓Rs∙iP .π₀ .π₀  with Q✓Rs∙iP i
-  … | (Qi≡Rsi⧺[P] , _)  rewrite ≡ᵇ-refl {i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-ĩ₁ ∈ᴸ-[?])
+  … | (Qi≡Rsi⧺[P] , _)  rewrite ≡?-refl {i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-ĩ₁ ∈ᴸ-[?])
   use-ind□ {n = n} {i} Rs˙ Q✓Rs∙iP .π₀ .π₁  with i <≥ n
   … | ĩ₀ i<n =  i<n
   … | ĩ₁ i≥n  with Q✓Rs∙iP _ .π₁ i≥n
-  …   | Rsi⧺[P]≡?  rewrite ≡ᵇ-refl {i}  with Rs˙ i | Rsi⧺[P]≡?
+  …   | Rsi⧺[P]≡?  rewrite ≡?-refl {i}  with Rs˙ i | Rsi⧺[P]≡?
   …     | _ ∷ _ | ()
   …     | [] | ()
   use-ind□ _ Q✓Rˣ∙iP .π₁ =  Q✓Rˣ∙iP

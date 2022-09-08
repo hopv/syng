@@ -9,9 +9,8 @@ open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
 open import Base.Prod using (_×_; _,_)
 open import Base.Option using (¿_; š_; ň)
-open import Base.List using (List; _⧺_; ⧺-assocˡ)
-open import Base.List.Set using (_≈ᴸ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ;
-  ⧺-comm)
+open import Base.List using (List; _⧺_; _≈ᴸ_; ⧺-assocˡ; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
+  ≈ᴸ-trans; ⧺-congˡ; ⧺-comm)
 open import Base.RatPos using (ℚ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;
   ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ)
 

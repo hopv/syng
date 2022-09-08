@@ -45,16 +45,16 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
     -- ≈ :  Equivalence on resources
     _≈_ :  Res →  Res →  Set ł≈
 
-    -- ✓ :  Validity
+    -- ✓ :  Validity of a pair of an environment and a resource
     _✓_ :  Env →  Res →  Set ł✓
 
-    -- ∙ :  Product
+    -- ∙ :  Product of resources, used for modeling the separating conjunction ∗
     _∙_ :  Res →  Res →  Res
 
-    -- ε :  Unit
+    -- ε :  Unit resource
     ε :  Res
 
-    -- ⌞ ⌟ :  Core
+    -- ⌞ ⌟ :  Core of a resource, used for modeling the persistence modality □
     ⌞_⌟ :  Res →  Res
 
     ----------------------------------------------------------------------------

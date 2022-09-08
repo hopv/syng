@@ -44,7 +44,7 @@ infix 3 ✓ˣ_
 
 -- ∙ˣ :  Product over Exc A
 
-infixl 7 _∙ˣ_
+infixr 7 _∙ˣ_
 _∙ˣ_ :  Exc A →  Exc A →  Exc A
 ?ˣ ∙ˣ x =  x
 ↯ˣ ∙ˣ x =  ↯ˣ

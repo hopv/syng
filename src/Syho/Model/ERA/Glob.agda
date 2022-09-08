@@ -162,16 +162,13 @@ module _ {i : ℕ} where
     ----------------------------------------------------------------------------
     -- On injᴳ
 
-    -- injᴳ preserves ≈/✓/∙/ε/⌞⌟/↝
+    -- injᴳ preserves ≈/⊑/∙/ε/⌞⌟/↝
 
     injᴳ-cong :  a ≈ⁱ b →  injᴳ i a  ≈ᴳ  injᴳ i b
     injᴳ-cong a≈b =  upd˙-congᴳ a≈b refl˜ᴳ
 
     injᴳ-mono :  a ⊑ⁱ b →  injᴳ i a  ⊑ᴳ  injᴳ i b
     injᴳ-mono a⊑b =  upd˙-mono a⊑b $ ⊑-refl Globᴱᴿᴬ
-
-    injᴳ-✓ :  E˙ i ✓ⁱ a →  E˙ ✓ᴳ εᴳ →  E˙ ✓ᴳ injᴳ i a
-    injᴳ-✓ Ei✓a E✓ε =  upd˙-✓ Ei✓a E✓ε
 
     injᴳ-∙ :  injᴳ i a ∙ᴳ injᴳ i b  ≈ᴳ  injᴳ i (a ∙ⁱ b)
     injᴳ-∙ =  upd˙-∙ ◇˜ᴳ upd˙-congᴳ refl˜ⁱ $ Globᴱᴿᴬ .∙-unitˡ

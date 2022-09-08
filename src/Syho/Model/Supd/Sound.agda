@@ -8,9 +8,10 @@ module Syho.Model.Supd.Sound where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Size using (∞)
-open import Base.Func using (_›_)
+open import Base.Func using (_$_; _›_)
 open import Base.Eq using (refl)
 open import Base.Prod using (∑-case)
+open import Base.Dec using (upd˙²-self; upd˙²-2)
 open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_»_; ∃₁-elim)
@@ -22,8 +23,8 @@ open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
 open import Syho.Model.Supd.Base using (⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⇛ᵍ-mono; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join;
   ⇛ᵍ-eatˡ)
-open import Syho.Model.Supd.Ind using (⇛ind_; updᴱ-ind-self; updᴱ-ind-2;
-  ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use; ↪⇛ᵒ-use)
+open import Syho.Model.Supd.Ind using (⇛ind_; ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
+  ↪⇛ᵒ-use)
 
 private variable
   ł :  Level
@@ -56,12 +57,12 @@ infix 8 ⇛ᵒ_
 
 -- ⇛-refl-⤇ :  ⤇ P ⊢[ ∞ ][ i ]⇛ P
 
-⊢⇛⇒⊨⇛ᵒ ⇛-refl-⤇ =  ⤇ᵒ⇒⇛ᵍ updᴱ-ind-self
+⊢⇛⇒⊨⇛ᵒ ⇛-refl-⤇ =  ⤇ᵒ⇒⇛ᵍ $ upd˙²-self λ ()
 
 -- _ᵘ»ᵘ_ :  P ⊢[ ∞ ][ i ]⇛ Q →  Q ⊢[ ∞ ][ i ]⇛ R →  P ⊢[ ∞ ][ i ]⇛ R
 
 ⊢⇛⇒⊨⇛ᵒ (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =
-  ⊢⇛⇒⊨⇛ᵒ P⊢⇛Q › ⇛ᵍ-mono (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵍ-join refl updᴱ-ind-2
+  ⊢⇛⇒⊨⇛ᵒ P⊢⇛Q › ⇛ᵍ-mono (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵍ-join refl $ upd˙²-2 λ ()
 
 -- ⇛-frameˡ :  Q ⊢[ ∞ ][ i ]⇛ R →  P ∗ Q ⊢[ ∞ ][ i ]⇛ P ∗ R
 
@@ -84,4 +85,4 @@ infix 8 ⇛ᵒ_
 
 ⊢⇛⇒⊨⇛ᵒ ↪⇛-use =  ∗ᵒ-monoʳ ↪⇛ᵒ-use › ⇛ᵍ-eatˡ ›
   ⇛ᵍ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ → ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛⇒⊨⇛ᵒ P∗R⊢⇛Q) ›
-  ⇛ᵍ-join refl updᴱ-ind-2
+  ⇛ᵍ-join refl $ upd˙²-2 λ ()

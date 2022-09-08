@@ -13,8 +13,7 @@ open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⊎-case)
-open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙; upd˙-cong;
-  upd˙-self; upd˙-2; upd˙-swap)
+open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙; upd˙²; upd˙-self)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
 open import Syho.Lang.Expr using (Type; Expr)
@@ -174,7 +173,7 @@ env-ind E =  E indˣ , E ind□
 -- Update Envᴳ with Env-ind
 
 updᴱ-ind :  Env-ind →  Envᴳ →  Envᴳ
-updᴱ-ind (Fˣ , F□) =  upd˙ indˣ Fˣ › upd˙ ind□ F□
+updᴱ-ind (Fˣ , F□) =  upd˙² indˣ Fˣ ind□ F□
 
 -- Super update for Indˣᴱᴿᴬ and Ind□ᴱᴿᴬ
 
@@ -186,16 +185,6 @@ private variable
   Fˣ□ Gˣ□ :  Env-ind
 
 abstract
-
-  -- Self updᴱ-ind
-
-  updᴱ-ind-self :  updᴱ-ind (env-ind E) E  ≡˙  E
-  updᴱ-ind-self =  upd˙-self ◇˙ upd˙-self
-
-  -- Double updᴱ-ind
-
-  updᴱ-ind-2 :  updᴱ-ind Gˣ□ (updᴱ-ind Fˣ□ E)  ≡˙  updᴱ-ind Gˣ□ E
-  updᴱ-ind-2 =  upd˙-cong (upd˙-swap λ ()) ◇˙ upd˙-2 ◇˙ upd˙-cong upd˙-2
 
   -- ⇛indˣ into ⇛ind
 

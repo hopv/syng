@@ -7,9 +7,9 @@
 module Base.Dec where
 
 open import Base.Level using (Level; _⊔ᴸ_)
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; _›_)
 open import Base.Few using (¬_; ⇒¬¬; absurd)
-open import Base.Eq using (_≡_; _≢_; refl; _≡˙_)
+open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
 
@@ -74,7 +74,7 @@ private variable
   I :  Set ł
   A˙ :  I →  Set ł
   f g :  ∀ i →  A˙ i
-  a b :  A
+  a b a' b' :  A
   i j :  I
 
 --------------------------------------------------------------------------------
@@ -125,3 +125,30 @@ abstract
   upd˙-swap {i = i} {j} _ k | no k≢i | no _  with k ≡? i
   …     | yes refl =  absurd $ k≢i refl
   …     | no _ =  refl
+
+--------------------------------------------------------------------------------
+-- upd˙² :  Update a map at two indices
+
+upd˙² :  {{≡Dec I}} →  ∀(i : I) →  A˙ i →  ∀(j : I) →  A˙ j →
+  (∀ k →  A˙ k) →  (∀ k →  A˙ k)
+upd˙² i a j b  =  upd˙ i a › upd˙ j b
+
+abstract
+
+  -- Self upd˙²
+
+  upd˙²-self :  {{_ : ≡Dec I}} →
+    i ≢ j →  upd˙² {I = I} i (f i) j (f j) f  ≡˙  f
+  upd˙²-self {i = i} {j = j} i≢j k  with k ≡? j
+  … | no _  with k ≡? i
+  …   | yes refl =  refl
+  …   | no _ =  refl
+  upd˙²-self {i = i} {j = j} i≢j k | yes refl  with k ≡? i
+  …   | yes refl =  absurd $ i≢j refl
+  …   | no _ =  refl
+
+  -- Double upd˙²
+
+  upd˙²-2 :  {{_ : ≡Dec I}} →
+    i ≢ j →  upd˙² {I = I} i a j b (upd˙² i a' j b' f)  ≡˙  upd˙² i a j b f
+  upd˙²-2 i≢j =  upd˙-cong (upd˙-swap i≢j) ◇˙ upd˙-2 ◇˙ upd˙-cong upd˙-2

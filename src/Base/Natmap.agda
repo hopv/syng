@@ -10,8 +10,8 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_)
-open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁)
+open import Base.Dec using (yes; no)
 open import Base.Nat using (ℕ; ṡ_; _≡?_; _≥_; _⊔_; ≡?-refl; <-irrefl; ⊔≤-introˡ;
   ⊔≤-introʳ)
 

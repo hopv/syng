@@ -10,12 +10,11 @@ open import Base.Func using (_$_; flip)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Bool using (Bool; tt; Tt)
-open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≡⁺ᵇ_; _≤⁺ᵇ_; _+⁺_;
-  _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ⁺ᵇ⇒≡; ≡⇒⁺ᵇ;
-  ≡⁺ᵇ-refl; ᵇ⇒≤⁺; ≤⁺⇒ᵇ; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm;
-  *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ;
-  *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
+open import Base.Dec using (Dec¹; Dec²; yes)
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≡⁺?_; _≤⁺?_; _+⁺_;
+  _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; ≡⁺?-refl; +⁺-comm;
+  +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
+  *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number
@@ -72,26 +71,18 @@ abstract
       cong (b *⁺_) (*⁺-comm {c} {f} ◇ fc≡de) ◇ *⁺-actˡ-comm {b} {d} {e}
 
 --------------------------------------------------------------------------------
--- ≈ᴿ⁺ᵇ :  Boolean equivalence over ℚ⁺
+-- ≈ᴿ⁺? :  Decide ≈ᴿ⁺
 
-infix 4 _≈ᴿ⁺ᵇ_
-_≈ᴿ⁺ᵇ_ : ℚ⁺ → ℚ⁺ → Bool
-(a //⁺ b) ≈ᴿ⁺ᵇ (c //⁺ d) =  d *⁺ a ≡⁺ᵇ b *⁺ c
+infix 4 _≈ᴿ⁺?_
+_≈ᴿ⁺?_ : Dec² _≈ᴿ⁺_
+(a //⁺ b) ≈ᴿ⁺? (c //⁺ d) =  d *⁺ a ≡⁺? b *⁺ c
 
 abstract
 
-  -- Conversion between ≈ᴿ⁺ᵇ and ≈ᴿ⁺
-
-  ᵇ⇒≈ᴿ⁺ :  Tt (p ≈ᴿ⁺ᵇ q) →  p ≈ᴿ⁺ q
-  ᵇ⇒≈ᴿ⁺ *≡⁺ᵇ* =  ⁺ᵇ⇒≡ *≡⁺ᵇ*
-
-  ≈ᴿ⁺⇒ᵇ :  p ≈ᴿ⁺ q →  Tt (p ≈ᴿ⁺ᵇ q)
-  ≈ᴿ⁺⇒ᵇ *≡⁺* =  ≡⇒⁺ᵇ *≡⁺*
-
   -- Reflexivity of ≈ᴿ⁺ᵇ
 
-  ≈ᴿ⁺ᵇ-refl :  (p ≈ᴿ⁺ᵇ p) ≡ tt
-  ≈ᴿ⁺ᵇ-refl {a //⁺ b} =  ≡⁺ᵇ-refl {b *⁺ a}
+  ≈ᴿ⁺?-refl :  (p ≈ᴿ⁺? p) ≡ yes refl
+  ≈ᴿ⁺?-refl {a //⁺ b} =  ≡⁺?-refl
 
 --------------------------------------------------------------------------------
 -- +ᴿ⁺ :  Addition over ℚ⁺
@@ -189,16 +180,8 @@ abstract
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)
 
 --------------------------------------------------------------------------------
--- ≤1ᴿ⁺ᵇ :  Boolean version of ≤1ᴿ⁺
+-- ≤1ᴿ⁺? :  Decide ≤1ᴿ⁺
 
-infix 4 _≤1ᴿ⁺ᵇ
-_≤1ᴿ⁺ᵇ :  ℚ⁺ → Bool
-a //⁺ b ≤1ᴿ⁺ᵇ =  a ≤⁺ᵇ b
-
-abstract
-
-  ᵇ⇒≤1ᴿ⁺ :  Tt (p ≤1ᴿ⁺ᵇ) →  p ≤1ᴿ⁺
-  ᵇ⇒≤1ᴿ⁺ =  ᵇ⇒≤⁺
-
-  ≤1ᴿ⁺⇒ᵇ :  p ≤1ᴿ⁺ →  Tt (p ≤1ᴿ⁺ᵇ)
-  ≤1ᴿ⁺⇒ᵇ =  ≤⁺⇒ᵇ
+infix 4 _≤1ᴿ⁺?
+_≤1ᴿ⁺? :  Dec¹ _≤1ᴿ⁺
+a //⁺ b ≤1ᴿ⁺? =  a ≤⁺? b

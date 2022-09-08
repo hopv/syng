@@ -91,7 +91,6 @@ The library consists of the following parts.
     [`Option`](src/Base/Option.agda) for option types;
     [`List`](src/Base/List.agda) and [`List/`](src/Base/List/) for singly linked
     lists;
-    [`Bool`](src/Base/Bool.agda) for Booleans;
     [`Dec`](src/Base/Dec.agda) for decidability.
 - Numerics ―
     [`Nat`](src/Base/Nat.agda) for natural numbers;

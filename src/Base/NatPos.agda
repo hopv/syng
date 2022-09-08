@@ -10,12 +10,12 @@ open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Bool using (Bool; tt; ff; Tt)
-open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _≡ᵇ_; _≤ᵇ_; _<ᵇ_; _<≡>_; _≤>_; _+_;
+open import Base.Dec using (Dec²; yes; no)
+open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _<≡>_; _≤>_; _≡?_; _≤?_; _<?_; _+_;
   _*_; ṡ≤ṡ; ṡ<ṡ; ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤;
-  ≤-<-trans; <-≤-trans; ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; ᵇ⇒≡; ≡⇒ᵇ; ≡ᵇ-refl; ᵇ⇒≤;
-  ≤⇒ᵇ; ≤ᵇ-refl; ᵇ⇒<; <⇒ᵇ; <ᵇ-irrefl; +-comm; +-assocˡ; +-injˡ; +-0; +-incrˡ;
-  +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ; *-smonoˡ)
+  ≤-<-trans; <-≤-trans; ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; ≡?-refl; +-comm; +-assocˡ;
+  +-injˡ; +-0; +-incrˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ;
+  *-smonoˡ)
 
 --------------------------------------------------------------------------------
 -- ℕ⁺ :  Positive natural number
@@ -132,56 +132,33 @@ abstract
   … | ĩ₁ n>m =  ĩ₀ n>m
 
 --------------------------------------------------------------------------------
--- ≡⁺ᵇ, ≤⁺ᵇ, <⁺ᵇ, ≥⁺ᵇ, >⁺ᵇ :  Boolean order
+-- ≡⁺?, ≤⁺?, <⁺?, ≥⁺?, >⁺? :  Order decision
 
-infix 4 _≡⁺ᵇ_ _≤⁺ᵇ_ _<⁺ᵇ_ _≥⁺ᵇ_ _>⁺ᵇ_
-_≡⁺ᵇ_ _≤⁺ᵇ_ _<⁺ᵇ_ _≥⁺ᵇ_ _>⁺ᵇ_ :  ℕ⁺ → ℕ⁺ → Bool
-ṡ⁺ m⁰ ≡⁺ᵇ ṡ⁺ n⁰ =  m⁰ ≡ᵇ n⁰
-ṡ⁺ m⁰ ≤⁺ᵇ ṡ⁺ n⁰ =  m⁰ ≤ᵇ n⁰
-ṡ⁺ m⁰ <⁺ᵇ ṡ⁺ n⁰ =  m⁰ <ᵇ n⁰
-p ≥⁺ᵇ q =  q ≤⁺ᵇ p
-p >⁺ᵇ q =  q <⁺ᵇ p
+infix 4 _≡⁺?_ _≤⁺?_ _<⁺?_ _≥⁺?_ _>⁺?_
+
+_≡⁺?_ :  Dec² {A = ℕ⁺} _≡_
+ṡ⁺ m⁰ ≡⁺? ṡ⁺ n⁰  with m⁰ ≡? n⁰
+… | yes refl =  yes refl
+… | no m⁰≢n⁰ =  no λ{ refl → m⁰≢n⁰ refl }
+
+_≤⁺?_ :  Dec² _≤⁺_
+ṡ⁺ m⁰ ≤⁺? ṡ⁺ n⁰ =  m⁰ ≤? n⁰
+
+_<⁺?_ :  Dec² _<⁺_
+ṡ⁺ m⁰ <⁺? ṡ⁺ n⁰ =  m⁰ <? n⁰
+
+_≥⁺?_ :  Dec² _≥⁺_
+m ≥⁺? n =  n ≤⁺? m
+
+_>⁺?_ :  Dec² _>⁺_
+m >⁺? n =  n <⁺? m
 
 abstract
 
-  -- Conversion between ≡ᵇ and ≡
-
-  ⁺ᵇ⇒≡ :  Tt (m ≡⁺ᵇ n) →  m ≡ n
-  ⁺ᵇ⇒≡ m⁰≡ᵇn⁰ =  cong ṡ⁺_ $ ᵇ⇒≡ m⁰≡ᵇn⁰
-
-  ≡⇒⁺ᵇ :  m ≡ n →  Tt (m ≡⁺ᵇ n)
-  ≡⇒⁺ᵇ {ṡ⁺ m⁰} {ṡ⁺ n⁰} refl =  ≡⇒ᵇ {m⁰} {n⁰} refl
-
   -- Reflexivity of ≡⁺ᵇ
 
-  ≡⁺ᵇ-refl :  (n ≡⁺ᵇ n) ≡ tt
-  ≡⁺ᵇ-refl {ṡ⁺ n⁰} =  ≡ᵇ-refl {n⁰}
-
-  -- Conversion between ≤ᵇ and ≤
-
-  ᵇ⇒≤⁺ :  Tt (m ≤⁺ᵇ n) →  m ≤⁺ n
-  ᵇ⇒≤⁺ =  ᵇ⇒≤
-
-  ≤⁺⇒ᵇ :  m ≤⁺ n →  Tt (m ≤⁺ᵇ n)
-  ≤⁺⇒ᵇ =  ≤⇒ᵇ
-
-  -- Reflexivity of ≤⁺ᵇ
-
-  ≤⁺ᵇ-refl :  (n ≤⁺ᵇ n) ≡ tt
-  ≤⁺ᵇ-refl {ṡ⁺ n⁰} =  ≤ᵇ-refl {n⁰}
-
-  -- Conversion between <ᵇ and <
-
-  ᵇ⇒<⁺ :  Tt (m <⁺ᵇ n) →  m <⁺ n
-  ᵇ⇒<⁺ =  ᵇ⇒<
-
-  <⁺⇒ᵇ :  m <⁺ n →  Tt (m <⁺ᵇ n)
-  <⁺⇒ᵇ =  <⇒ᵇ
-
-  -- Irreflexivity of <⁺ᵇ
-
-  <⁺ᵇ-irrefl :  (n <⁺ᵇ n) ≡ ff
-  <⁺ᵇ-irrefl {ṡ⁺ n⁰} =  <ᵇ-irrefl {n⁰}
+  ≡⁺?-refl :  (n ≡⁺? n) ≡ yes refl
+  ≡⁺?-refl {ṡ⁺ n⁰} rewrite ≡?-refl {n⁰} =  refl
 
 --------------------------------------------------------------------------------
 -- +⁺ :  Addition

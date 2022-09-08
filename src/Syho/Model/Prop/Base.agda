@@ -10,10 +10,10 @@ open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 2ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀)
 open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
-open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   uncurry; ∑-case)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
+open import Base.Dec using (yes; no)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; updᴱᴳ; injᴳ; ✓ᴳ-respᴱ;

@@ -9,8 +9,8 @@ module Syho.Model.ERA.Glob where
 open import Base.Level using (Level; 2ᴸ)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _≡˙_)
-open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
+open import Base.Dec using (yes; no)
 open import Base.Nat using (ℕ; ṡ_; _≡?_; ≡?-refl)
 open import Base.Natmap using (updᴺᴹ; updᴺᴹ-cong; updᴺᴹ-self; updᴺᴹ-2;
   updᴺᴹ-swap)

@@ -9,13 +9,11 @@ module Base.Dec where
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_)
 open import Base.Few using (¬_; ⇒¬¬)
-open import Base.Bool using (Bool; tt; ff; Tt)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
 
 private variable
   ł ł' ł'' :  Level
-  b :  Bool
   A B :  Set ł
 
 --------------------------------------------------------------------------------
@@ -36,12 +34,6 @@ Dec² :  ∀{A : Set ł} {B : Set ł'} →  (A → B → Set ł'') →  Set (ł 
 Dec² F =  ∀ a b →  Dec (F a b)
 
 abstract
-
-  -- Derive Dec from conversion between Tt
-
-  dec-Tt :  (Tt b → A) →  (A → Tt b) →  Dec A
-  dec-Tt {tt} ⇒X _ =  yes $ ⇒X _
-  dec-Tt {ff} _ X⇒ =  no X⇒
 
   -- Derive Dec on ¬
 

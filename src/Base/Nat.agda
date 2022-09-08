@@ -10,8 +10,7 @@ open import Base.Func using (_$_; _∘_)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Bool using (Bool; tt; ff; Tt; Tt⇒≡tt; ¬Tt⇒≡ff)
-open import Base.Dec using (Dec²; yes; no; dec-Tt)
+open import Base.Dec using (Dec²; yes; no)
 
 --------------------------------------------------------------------------------
 -- ℕ :  Natural number
@@ -171,76 +170,10 @@ abstract
   ≤ᵈ⇒≤ (≤ᵈṡ m≤ᵈn') =  ≤-trans (≤ᵈ⇒≤ m≤ᵈn') ṡ-incr
 
 --------------------------------------------------------------------------------
--- ≡ᵇ, ≤ᵇ, <ᵇ : Boolean order
-
-open import Agda.Builtin.Nat public using () renaming (_==_ to _≡ᵇ_;
-  _<_ to _<ᵇ_)
-
-infix 4 _≤ᵇ_ _≥ᵇ_ _>ᵇ_
-_≤ᵇ_ _≥ᵇ_ _>ᵇ_ :  ℕ → ℕ → Bool
-0 ≤ᵇ n =  tt
-ṡ m ≤ᵇ n =  m <ᵇ n
-m ≥ᵇ n =  n ≤ᵇ m
-m >ᵇ n =  n <ᵇ m
-
-abstract
-
-  -- Conversion between ≡ᵇ and ≡
-
-  ᵇ⇒≡ :  Tt (m ≡ᵇ n) →  m ≡ n
-  ᵇ⇒≡ {0} {0} _ =  refl
-  ᵇ⇒≡ {ṡ m'} {ṡ n'} m'≡ᵇn' =  cong ṡ_ $ ᵇ⇒≡ m'≡ᵇn'
-
-  ≡⇒ᵇ :  m ≡ n →  Tt (m ≡ᵇ n)
-  ≡⇒ᵇ {0} {0} _ =  _
-  ≡⇒ᵇ {ṡ m'} {ṡ n'} refl =  ≡⇒ᵇ {m'} {n'} refl
-
-  -- Reflexivity of ≡ᵇ
-
-  ≡ᵇ-refl :  (n ≡ᵇ n) ≡ tt
-  ≡ᵇ-refl {n} =  Tt⇒≡tt $ ≡⇒ᵇ {n} refl
-
-  -- Use ≢ to reduce ≡ᵇ
-
-  ≢-≡ᵇ-ff :  m ≢ n →  (m ≡ᵇ n) ≡ ff
-  ≢-≡ᵇ-ff m≢n =  ¬Tt⇒≡ff $ m≢n ∘ ᵇ⇒≡
-
-  -- Conversion between <ᵇ and <
-
-  ᵇ⇒< :  Tt (m <ᵇ n) →  m < n
-  ᵇ⇒< {0} {ṡ _} _ =  0<ṡ
-  ᵇ⇒< {ṡ m'} {ṡ n'} m'<ᵇn' =  ṡ<ṡ $ ᵇ⇒< m'<ᵇn'
-
-  <⇒ᵇ :  m < n →  Tt (m <ᵇ n)
-  <⇒ᵇ 0<ṡ =  _
-  <⇒ᵇ (ṡ<ṡ m'<n'@?<?) =  <⇒ᵇ m'<n'
-
-  -- Irreflexivity of <ᵇ
-
-  <ᵇ-irrefl :  (n <ᵇ n) ≡ ff
-  <ᵇ-irrefl {n} =  ¬Tt⇒≡ff (<-irrefl ∘ ᵇ⇒< {n})
-
-  -- Conversion between ≤ᵇ and ≤
-
-  ᵇ⇒≤ :  Tt (m ≤ᵇ n) →  m ≤ n
-  ᵇ⇒≤ {0} _ =  0≤
-  ᵇ⇒≤ {ṡ m} m≤n =  ᵇ⇒< m≤n
-
-  ≤⇒ᵇ :  m ≤ n →  Tt (m ≤ᵇ n)
-  ≤⇒ᵇ 0≤ =  _
-  ≤⇒ᵇ m'<n@?<? =  <⇒ᵇ m'<n
-
-  -- Reflexivity of ≤ᵇ
-
-  ≤ᵇ-refl :  (n ≤ᵇ n) ≡ tt
-  ≤ᵇ-refl {n} =  Tt⇒≡tt $ ≤⇒ᵇ {n} ≤-refl
-
---------------------------------------------------------------------------------
 -- ≡?, ≤?, <? : Order decision
 
 infix 4 _≡?_ _≤?_ _<?_
 
--- Defined directly without abstract for better normalization
 _≡?_ :  Dec² {A = ℕ} _≡_
 0 ≡? 0 =  yes refl
 0 ≡? ṡ _ =  no λ ()
@@ -258,10 +191,14 @@ abstract
   ≡?-refl {n = ṡ n}  rewrite ≡?-refl {n = n} =  refl
 
 _≤?_ :  Dec² _≤_
-_≤?_ _ _ =  dec-Tt ᵇ⇒≤ ≤⇒ᵇ
+ṡ m ≤? ṡ n  with m ≤? n
+… | yes m≤n =  yes $ ṡ≤ṡ m≤n
+… | no ¬m≤n =  no λ{ (ṡ≤ṡ m≤n) → ¬m≤n m≤n }
+0 ≤? _  =  yes 0≤
+ṡ _ ≤? 0  =  no λ ()
 
 _<?_ :  Dec² _<_
-_<?_ _ _ =  dec-Tt ᵇ⇒< <⇒ᵇ
+m <? n =  ṡ m ≤? n
 
 --------------------------------------------------------------------------------
 -- + :  Addition

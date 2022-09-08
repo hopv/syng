@@ -87,8 +87,7 @@ Indˣᴱᴿᴬ .⌞⌟-idem _ =  refl
 
 open ERA Indˣᴱᴿᴬ public using () renaming (Env to Env-indˣ)
 
-open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; _✓_ to _✓ˣ_; ε to εˣ;
-  _↝_ to _↝ˣ_)
+open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; ε to εˣ; _↝_ to _↝ˣ_)
 
 -- Exclusively own a proposition at an index
 

@@ -12,8 +12,8 @@ open import Base.Eq using (_≡_; _≢_; refl; ◠_; _≡˙_)
 open import Base.Dec using (yes; no)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≡?_; ≡?-refl)
-open import Base.Natmap using (updᴰᴺᴹ; updᴰᴺᴹ-cong; updᴰᴺᴹ-self; updᴰᴺᴹ-2;
-  updᴰᴺᴹ-swap)
+open import Base.Natmap using (updᴺᴹ; updᴺᴹ-cong; updᴺᴹ-self; updᴺᴹ-2;
+  updᴺᴹ-swap)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
@@ -85,10 +85,10 @@ abstract
 -- updᴱᴳ, updᴳ :  Update an element at an index
 
 updᴱᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Env →  Envᴳ →  Envᴳ
-updᴱᴳ =  updᴰᴺᴹ
+updᴱᴳ =  updᴺᴹ
 
 updᴳ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Resᴳ →  Resᴳ
-updᴳ =  updᴰᴺᴹ
+updᴳ =  updᴺᴹ
 
 -- injᴳ :  Inject an element at an index
 
@@ -122,23 +122,23 @@ module _ {i : ℕ} where
     -- Self updᴱᴳ
 
     updᴱᴳ-cong :  E˙ ≡˙ F˙ →  updᴱᴳ i G E˙  ≡˙  updᴱᴳ i G F˙
-    updᴱᴳ-cong =  updᴰᴺᴹ-cong
+    updᴱᴳ-cong =  updᴺᴹ-cong
 
     -- Self updᴱᴳ
 
     updᴱᴳ-self :  updᴱᴳ i (E˙ i) E˙  ≡˙  E˙
-    updᴱᴳ-self =  updᴰᴺᴹ-self
+    updᴱᴳ-self =  updᴺᴹ-self
 
     -- Double updᴱᴳ
 
     updᴱᴳ-2 :  updᴱᴳ i F (updᴱᴳ i G E˙)  ≡˙  updᴱᴳ i F E˙
-    updᴱᴳ-2 =  updᴰᴺᴹ-2
+    updᴱᴳ-2 =  updᴺᴹ-2
 
     -- Swap updᴱᴳ on different indices
 
     updᴱᴳ-swap :  ∀{j} {Gʲ : Globᴱᴿᴬ˙ j .Env} →  i ≢ j →
       updᴱᴳ i F (updᴱᴳ j Gʲ E˙)  ≡˙  updᴱᴳ j Gʲ (updᴱᴳ i F E˙)
-    updᴱᴳ-swap =  updᴰᴺᴹ-swap
+    updᴱᴳ-swap =  updᴺᴹ-swap
 
     ----------------------------------------------------------------------------
     -- On updᴳ

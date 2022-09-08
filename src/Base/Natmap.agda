@@ -25,51 +25,51 @@ private variable
   i j :  ℕ
 
 --------------------------------------------------------------------------------
--- updᴰᴺᴹ :  Update a map at an index
+-- updᴺᴹ :  Update a map at an index
 
-updᴰᴺᴹ :  ∀ i →  A˙ i →  (∀ j →  A˙ j) →  (∀ j →  A˙ j)
-updᴰᴺᴹ i a f j  with j ≡? i
+updᴺᴹ :  ∀ i →  A˙ i →  (∀ j →  A˙ j) →  (∀ j →  A˙ j)
+updᴺᴹ i a f j  with j ≡? i
 … | no _ =  f j
 … | yes refl =  a
 
 abstract
 
-  -- Congruence on updᴰᴺᴹ
+  -- Congruence on updᴺᴹ
 
-  updᴰᴺᴹ-cong :  f ≡˙ g →  updᴰᴺᴹ i a f  ≡˙  updᴰᴺᴹ i a g
-  updᴰᴺᴹ-cong {i = i} f≡g j  with j ≡? i
+  updᴺᴹ-cong :  f ≡˙ g →  updᴺᴹ i a f  ≡˙  updᴺᴹ i a g
+  updᴺᴹ-cong {i = i} f≡g j  with j ≡? i
   … | yes refl =  refl
   … | no _ =  f≡g j
 
-  -- Self updᴰᴺᴹ
+  -- Self updᴺᴹ
 
-  updᴰᴺᴹ-self :  updᴰᴺᴹ i (f i) f  ≡˙  f
-  updᴰᴺᴹ-self {i} j  with j ≡? i
+  updᴺᴹ-self :  updᴺᴹ i (f i) f  ≡˙  f
+  updᴺᴹ-self {i} j  with j ≡? i
   … | yes refl =  refl
   … | no _ =  refl
 
-  -- Double updᴰᴺᴹ
+  -- Double updᴺᴹ
 
-  updᴰᴺᴹ-2 :  updᴰᴺᴹ i a (updᴰᴺᴹ i b f)  ≡˙  updᴰᴺᴹ i a f
-  updᴰᴺᴹ-2 {i} j  with j ≡? i
+  updᴺᴹ-2 :  updᴺᴹ i a (updᴺᴹ i b f)  ≡˙  updᴺᴹ i a f
+  updᴺᴹ-2 {i} j  with j ≡? i
   … | yes refl =  refl
   … | no j≢i  with j ≡? i
   …   | yes refl =  absurd $ j≢i refl
   …   | no _ =  refl
 
-  -- Swap updᴰᴺᴹ on different indices
+  -- Swap updᴺᴹ on different indices
 
-  updᴰᴺᴹ-swap :  i ≢ j →
-    updᴰᴺᴹ i a (updᴰᴺᴹ j b f) ≡˙ updᴰᴺᴹ j b (updᴰᴺᴹ i a f)
-  updᴰᴺᴹ-swap {i} {j} i≢j k  with k ≡? i
+  updᴺᴹ-swap :  i ≢ j →
+    updᴺᴹ i a (updᴺᴹ j b f) ≡˙ updᴺᴹ j b (updᴺᴹ i a f)
+  updᴺᴹ-swap {i} {j} i≢j k  with k ≡? i
   … | yes refl  with k ≡? j
   …   | yes refl =  absurd $ i≢j refl
   …   | no _  rewrite ≡?-refl {k} =  refl
-  updᴰᴺᴹ-swap {i} {j} _ k | no k≢i  with k ≡? j
+  updᴺᴹ-swap {i} {j} _ k | no k≢i  with k ≡? j
   …   | yes refl  with k ≡? i
   …     | yes refl =  absurd $ k≢i refl
   …     | no _ =  refl
-  updᴰᴺᴹ-swap {i} _ k | no k≢i | no _  with k ≡? i
+  updᴺᴹ-swap {i} _ k | no k≢i | no _  with k ≡? i
   …     | yes refl =  absurd $ k≢i refl
   …     | no _ =  refl
 
@@ -88,10 +88,10 @@ abstract
   ∀⇒Cofin :  (∀ i → F (f i)) →  Cofin F f
   ∀⇒Cofin Ffi =  0 , λ _ _ → Ffi _
 
-  -- Cofin is preserved by updᴰᴺᴹ
+  -- Cofin is preserved by updᴺᴹ
 
-  Cofin-updᴰᴺᴹ :  Cofin F f →  Cofin F (updᴰᴺᴹ i a f)
-  Cofin-updᴰᴺᴹ {i = i} (n , _) .π₀ =  ṡ i ⊔ n
-  Cofin-updᴰᴺᴹ {i = i} (n , i≥n⇒Ffi) .π₁ j ṡi⊔n≥j  with j ≡? i
+  Cofin-updᴺᴹ :  Cofin F f →  Cofin F (updᴺᴹ i a f)
+  Cofin-updᴺᴹ {i = i} (n , _) .π₀ =  ṡ i ⊔ n
+  Cofin-updᴺᴹ {i = i} (n , i≥n⇒Ffi) .π₁ j ṡi⊔n≥j  with j ≡? i
   … | no _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
   … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j

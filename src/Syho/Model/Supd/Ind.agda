@@ -16,7 +16,7 @@ open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⊎-case)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; _≡?_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ; ≡?-refl)
-open import Base.Natmap using (updᴰᴺᴹ)
+open import Base.Natmap using (updᴺᴹ)
 open import Syho.Lang.Expr using (Type; Expr)
 open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
@@ -66,7 +66,7 @@ abstract
 
   -- Update an element out of the bound
 
-  ⸨⸩ᴺᴹ-⇒upd-≥ :  i ≥ n →  ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ updᴰᴺᴹ i P Q˙ , n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-⇒upd-≥ :  i ≥ n →  ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ updᴺᴹ i P Q˙ , n ⸩ᴺᴹ
   ⸨⸩ᴺᴹ-⇒upd-≥ {_} {0} =  _
   ⸨⸩ᴺᴹ-⇒upd-≥ {i} {ṡ n'} i>n'  with n' ≡? i
   … | yes refl =  absurd $ <-irrefl i>n'
@@ -74,21 +74,21 @@ abstract
 
   -- Add a proposition at the bound
 
-  ⸨⸩ᴺᴹ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ updᴰᴺᴹ n P Q˙ , ṡ n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ updᴺᴹ n P Q˙ , ṡ n ⸩ᴺᴹ
   ⸨⸩ᴺᴹ-add {n = n}  rewrite ≡?-refl {n} =  ∗ᵒ-monoʳ $ ⸨⸩ᴺᴹ-⇒upd-≥ $ ≤-refl {n}
 
-  ⸨⸩ᴺᴹ-add⊤ :  ⸨ P˙ , n ⸩ᴺᴹ  ⊨  ⸨ updᴰᴺᴹ n ⊤' P˙ , ṡ n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-add⊤ :  ⸨ P˙ , n ⸩ᴺᴹ  ⊨  ⸨ updᴺᴹ n ⊤' P˙ , ṡ n ⸩ᴺᴹ
   ⸨⸩ᴺᴹ-add⊤ {n = n} =  ?∗ᵒ-intro absurd › ⸨⸩ᴺᴹ-add {n = n}
 
   -- Remove an element within the bound to get the element's interpretation
 
-  ⸨⸩ᴺᴹ-rem-<ᵈ :  i <ᵈ n →  ⸨ P˙ , n ⸩ᴺᴹ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updᴰᴺᴹ i ⊤' P˙ , n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-rem-<ᵈ :  i <ᵈ n →  ⸨ P˙ , n ⸩ᴺᴹ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updᴺᴹ i ⊤' P˙ , n ⸩ᴺᴹ
   ⸨⸩ᴺᴹ-rem-<ᵈ {i} ≤ᵈ-refl =  ∗ᵒ-monoʳ (⸨⸩ᴺᴹ-add⊤ {n = i})
   ⸨⸩ᴺᴹ-rem-<ᵈ {i} (≤ᵈṡ {n = n'} i<ᵈn')  with n' ≡? i
   … | yes refl =  absurd $ <-irrefl $ ≤ᵈ⇒≤ i<ᵈn'
   … | no _ =  ∗ᵒ-monoʳ (⸨⸩ᴺᴹ-rem-<ᵈ i<ᵈn') › pullʳˡᵒ
 
-  ⸨⸩ᴺᴹ-rem-< :  i < n →  ⸨ P˙ , n ⸩ᴺᴹ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updᴰᴺᴹ i ⊤' P˙ , n ⸩ᴺᴹ
+  ⸨⸩ᴺᴹ-rem-< :  i < n →  ⸨ P˙ , n ⸩ᴺᴹ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ updᴺᴹ i ⊤' P˙ , n ⸩ᴺᴹ
   ⸨⸩ᴺᴹ-rem-< =  ⸨⸩ᴺᴹ-rem-<ᵈ ∘ ≤⇒≤ᵈ
 
 --------------------------------------------------------------------------------

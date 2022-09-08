@@ -17,7 +17,7 @@ open import Base.Option using (¿_; š_; ň; _$¿_; _»-¿_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List)
 open import Base.List.Nat using (_‼_; upd; rep)
-open import Base.Natmap using (updᴰᴺᴹ; Cofin; ∀⇒Cofin; Cofin-updᴰᴺᴹ)
+open import Base.Natmap using (updᴺᴹ; Cofin; ∀⇒Cofin; Cofin-updᴺᴹ)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; AnyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;
@@ -51,7 +51,7 @@ empᴹ _ =  ň
 -- Memory update
 
 updᴹ :  Addr →  AnyVal →  Mem →  Mem
-updᴹ (addr l i) av M =  updᴰᴺᴹ l (upd i av $¿ M l) M
+updᴹ (addr l i) av M =  updᴺᴹ l (upd i av $¿ M l) M
 
 -- Memory validity
 
@@ -66,13 +66,13 @@ abstract
   ✓ᴹ-empᴹ :  ✓ᴹ empᴹ
   ✓ᴹ-empᴹ =  ∀⇒Cofin {F = _≡ ň} λ _ → refl
 
-  -- ✓ᴹ is preserved by updᴰᴺᴹ and updᴹ
+  -- ✓ᴹ is preserved by updᴺᴹ and updᴹ
 
-  ✓ᴹ-updᴰᴺᴹ :  ✓ᴹ M →  ✓ᴹ (updᴰᴺᴹ l avs¿ M)
-  ✓ᴹ-updᴰᴺᴹ =  Cofin-updᴰᴺᴹ {F = _≡ ň}
+  ✓ᴹ-updᴺᴹ :  ✓ᴹ M →  ✓ᴹ (updᴺᴹ l avs¿ M)
+  ✓ᴹ-updᴺᴹ =  Cofin-updᴺᴹ {F = _≡ ň}
 
   ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ av M)
-  ✓ᴹ-updᴹ =  ✓ᴹ-updᴰᴺᴹ
+  ✓ᴹ-updᴹ =  ✓ᴹ-updᴺᴹ
 
 --------------------------------------------------------------------------------
 -- Reduction
@@ -102,8 +102,8 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   🞰-red :  M ‼ᴹ θ ≡ š (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
   alloc-red :  ∀ l →  M l ≡ ň →
-    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴰᴺᴹ l (š rep n ⊤ṽ) M)
-  free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴰᴺᴹ l ň M)
+    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , updᴺᴹ l (š rep n ⊤ṽ) M)
+  free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , updᴺᴹ l ň M)
 
 -- Reduction on a context-redex pair
 

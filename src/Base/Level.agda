@@ -7,13 +7,13 @@
 module Base.Level where
 
 open import Agda.Primitive public using (
-  -- Level, in Set₀
+  -- Level, : Set₀
   Level) renaming (
-  -- Zero level, in Level
+  -- Zero level, : Level
   lzero to 0ᴸ;
-  -- Successor level, in Level → Level
+  -- Successor level, : Level → Level
   lsuc to infix 10 ṡᴸ_;
-  -- Maximum level, in Level → Level → Level
+  -- Maximum level, : Level → Level → Level
   _⊔_ to infixl 5 _⊔ᴸ_)
 
 -- Shorthand for Level
@@ -23,7 +23,7 @@ open import Agda.Primitive public using (
 2ᴸ =  ṡᴸ 1ᴸ
 3ᴸ =  ṡᴸ 2ᴸ
 
--- Up : Wrapper raising the level
+-- Up :  Wrapper raising the level
 
 infix 8 ↑_
 record  Up {ł : Level} (A : Set ł) {ł' : Level} :  Set (ł ⊔ᴸ ł')  where

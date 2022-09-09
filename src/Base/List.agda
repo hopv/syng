@@ -11,9 +11,9 @@ open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
 open import Base.Option using (¿_; š_; ň)
-open import Base.Prod using (_×_; _,_)
+open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ; ṡ_)
+open import Base.Nat using (ℕ; ṡ_; _<_)
 
 --------------------------------------------------------------------------------
 -- List
@@ -26,6 +26,7 @@ private variable
   F :  A → Set ł
   a b :  A
   as bs cs :  List A
+  i j :  ℕ
 
 --------------------------------------------------------------------------------
 -- Singleton list
@@ -101,6 +102,20 @@ upd :  ℕ →  A →  List A →  List A
 upd _ _ [] =  []
 upd 0 b (_ ∷ as) =  b ∷ as
 upd (ṡ i) b (a ∷ as) =  a ∷ upd i b as
+
+abstract
+
+  upd-‼-in :  (∑ a , as ‼ i ≡ š a) →  upd i b as ‼ i  ≡  š b
+  upd-‼-in {as = _ ∷ _} {0} as‼i≡ša =  refl
+  upd-‼-in {as = _ ∷ as'} {ṡ i'} as'‼i'≡ša =  upd-‼-in {as = as'} as'‼i'≡ša
+
+  upd-‼-out :  i ≢ j →  upd i b as ‼ j ≡ as ‼ j
+  upd-‼-out {as = []} _ =  refl
+  upd-‼-out {0} {0} i≢j =  absurd $ i≢j refl
+  upd-‼-out {ṡ _} {0} {as = _ ∷ _} _ =  refl
+  upd-‼-out {0} {ṡ _} {as = _ ∷ _} _ =  refl
+  upd-‼-out {ṡ _} {ṡ _} {as = _ ∷ as'} i≢j =
+    upd-‼-out {as = as'} λ{ refl → i≢j refl }
 
 --------------------------------------------------------------------------------
 -- Repeat

@@ -26,6 +26,7 @@ private variable
   set set' :  X → Envᴳ → Envᴳ
   Inv Inv' :  X → Propᵒ ł
   E :  Envᴳ
+
 --------------------------------------------------------------------------------
 -- [ ]⇛ᵍ :  General super update modality
 

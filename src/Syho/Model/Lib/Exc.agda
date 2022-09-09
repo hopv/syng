@@ -96,15 +96,15 @@ abstract
 
   -- Agreement from ✓ˣ x ∙ˣ #ˣ
 
-  ✓ˣ-agree : aˇ ✓ˣ x ∙ˣ #ˣ b →  aˇ ≡ š b
+  ✓ˣ-agree :  aˇ ✓ˣ x ∙ˣ #ˣ b →  aˇ ≡ š b
   ✓ˣ-agree {aˇ = š _} {?ˣ} refl =  refl
 
   -- Update aˇ into ň and #ˣ b into ?ˣ, preserving ✓ˣ x ∙ˣ
 
-  ✓ˣ-free : aˇ ✓ˣ x ∙ˣ #ˣ b →  ň ✓ˣ x ∙ˣ ?ˣ
+  ✓ˣ-free :  aˇ ✓ˣ x ∙ˣ #ˣ b →  ň ✓ˣ x ∙ˣ ?ˣ
   ✓ˣ-free {x = ?ˣ} _ =  _
 
   -- Update aˇ into š c and #ˣ b into #ˣ c, preserving ✓ˣ x ∙ˣ
 
-  ✓ˣ-update : aˇ ✓ˣ x ∙ˣ #ˣ b →  š c ✓ˣ x ∙ˣ #ˣ c
+  ✓ˣ-update :  aˇ ✓ˣ x ∙ˣ #ˣ b →  š c ✓ˣ x ∙ˣ #ˣ c
   ✓ˣ-update {x = ?ˣ} _ =  refl

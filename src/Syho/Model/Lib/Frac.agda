@@ -137,14 +137,14 @@ abstract
 
   -- Agreement from ✓ᶠʳ x ∙ᶠʳ š (p , [ - ])
 
-  ✓ᶠʳ-agree : aˇ ✓ᶠʳ x ∙ᶠʳ š (p , [ b ]) →  aˇ ≡ š b
+  ✓ᶠʳ-agree :  aˇ ✓ᶠʳ x ∙ᶠʳ š (p , [ b ]) →  aˇ ≡ š b
   ✓ᶠʳ-agree {aˇ = š _} {ň} (-, aˇ✓[b]) =  ✓ᴸ-agree {bs = []} aˇ✓[b]
   ✓ᶠʳ-agree {aˇ = š _} {š _} (-, aˇ✓⧺[b]) =  ✓ᴸ-agree aˇ✓⧺[b]
   ✓ᶠʳ-agree {aˇ = ň} {š _} ()
 
   -- Update aˇ into ň and š (1ᴿ⁺ , bs) into ň, preserving ✓ᶠʳ x ∙ᶠʳ
 
-  ✓ᶠʳ-free : aˇ ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , bs) →  ň ✓ᶠʳ x ∙ᶠʳ ň
+  ✓ᶠʳ-free :  aˇ ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , bs) →  ň ✓ᶠʳ x ∙ᶠʳ ň
   ✓ᶠʳ-free {x = ň} _ =  _
   ✓ᶠʳ-free {aˇ = š _} {š (p , _)} (p+1≤1 , _) =
     absurd $ ¬?+1≤1ᴿ⁺ {p = p} p+1≤1
@@ -152,5 +152,5 @@ abstract
   -- Update aˇ into š c and š (1ᴿ⁺ , bs) into š (1ᴿ⁺ , [ c ]),
   -- preserving ✓ᶠʳ x ∙ᶠʳ
 
-  ✓ᶠʳ-update : aˇ ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , bs) →  š c ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , [ c ])
+  ✓ᶠʳ-update :  aˇ ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , bs) →  š c ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , [ c ])
   ✓ᶠʳ-update {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-alloc {x = x}

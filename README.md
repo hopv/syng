@@ -92,6 +92,7 @@ The library consists of the following parts.
     [`Nat`](src/Base/Nat.agda) for natural numbers;
     [`NatPos`](src/Base/NatPos.agda) for positive natural numbers;
     [`List`](src/Base/List.agda) for singly linked lists;
+    [`Seq`](src/Base/Seq.agda) for infinite sequences;
     [`RatPos`](src/Base/RatPos.agda) for positive rational numbers.
 
 ### [`Syho/`](src/Syho/)

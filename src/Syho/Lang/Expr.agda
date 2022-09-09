@@ -34,7 +34,7 @@ private variable
 
 infixl 10 _ₒ_
 _ₒ_ :  Addr →  ℕ →  Addr
-addr l i ₒ n =  addr l (n + i)
+addr o i ₒ n =  addr o (n + i)
 
 abstract
 

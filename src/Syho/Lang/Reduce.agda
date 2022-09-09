@@ -30,7 +30,7 @@ Mem =  ℕ →  ¿ List TyVal
 
 private variable
   M M' :  Mem
-  l :  ℕ
+  o :  ℕ
   ᵗv :  TyVal
   avsˇ :  ¿ List TyVal
   θ :  Addr
@@ -39,7 +39,7 @@ private variable
 
 infix 5 _‼ᴹ_
 _‼ᴹ_ :  Mem →  Addr →  ¿ TyVal
-M ‼ᴹ addr l i =  M l »-¿ _‼ i
+M ‼ᴹ addr o i =  M o »-¿ _‼ i
 
 -- Empty memory
 
@@ -49,7 +49,7 @@ empᴹ _ =  ň
 -- Memory update
 
 updᴹ :  Addr →  TyVal →  Mem →  Mem
-updᴹ (addr l i) ᵗv M =  upd˙ l (upd i ᵗv $¿ M l) M
+updᴹ (addr o i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
 
 -- Memory validity
 
@@ -66,7 +66,7 @@ abstract
 
   -- ✓ᴹ is preserved by upd˙ and updᴹ
 
-  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ l avsˇ M)
+  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o avsˇ M)
   ✓ᴹ-upd˙ =  Cofin-upd˙ {F = λ _ → _≡ ň}
 
   ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ ᵗv M)
@@ -99,9 +99,9 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
   ⁏-red :  (v ⁏ᴿ e , M) ⇒ᴿ (e , M)
   🞰-red :  M ‼ᴹ θ ≡ š (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←-red :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
-  alloc-red :  ∀ l →  M l ≡ ň →
-    (allocᴿ n , M) ⇒ᴿ (∇ addr l 0 , upd˙ l (š rep n ⊤ṽ) M)
-  free-red :  (freeᴿ (addr l 0) , M) ⇒ᴿ (∇ _ , upd˙ l ň M)
+  alloc-red :  ∀ o →  M o ≡ ň →
+    (allocᴿ n , M) ⇒ᴿ (∇ addr o 0 , upd˙ o (š rep n ⊤ṽ) M)
+  free-red :  (freeᴿ (addr o 0) , M) ⇒ᴿ (∇ _ , upd˙ o ň M)
 
 -- Reduction on a context-redex pair
 

@@ -129,6 +129,7 @@ parts.
             [`Exc`](src/Syho/Model/ERA/Exc.agda) for the exclusive ERA;
             [`Ag`](src/Syho/Model/ERA/Ag.agda) for the agreement ERA;
             [`Frac`](src/Syho/Model/ERA/Frac.agda) for the fractional ERA;
+            [`Mem`](src/Syho/Model/ERA/Mem.agda) for the memory ERA;
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
     + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of propositions.

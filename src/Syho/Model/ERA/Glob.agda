@@ -10,6 +10,7 @@ open import Base.Level using (2ᴸ)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
+open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
 
 --------------------------------------------------------------------------------
@@ -17,13 +18,15 @@ open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
 
 -- Ids of ERAs
 
-pattern indˣ =  0
-pattern ind□ =  1
-pattern elseᴳ =  ṡ ṡ _
+pattern mem =  0
+pattern indˣ =  1
+pattern ind□ =  2
+pattern elseᴳ =  ṡ ṡ ṡ _
 
 -- Map of ERAs
 
 Globᴱᴿᴬ˙ :  ℕ →  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+Globᴱᴿᴬ˙ mem =  Memᴱᴿᴬ
 Globᴱᴿᴬ˙ indˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ ind□ =  Ind□ᴱᴿᴬ
 Globᴱᴿᴬ˙ elseᴳ =  ⊤ᴱᴿᴬ

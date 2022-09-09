@@ -13,7 +13,8 @@ open import Base.Eq using (_≡_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Option using (¿_; š_; ň)
 open import Base.List using (List; _⧺_; []; [_]; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ; ≈ᴸ-refl;
-  ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?]; ✓ᴸ-agree)
+  ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem; ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?];
+  ✓ᴸ-agree)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;
   ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
   1≤1ᴿ⁺; ¬?+1≤1ᴿ⁺)
@@ -24,7 +25,7 @@ private variable
   a b c :  A
   aˇ :  ¿ A
   bs :  List A
-  p :  ℚ⁺
+  p q :  ℚ⁺
 
 --------------------------------------------------------------------------------
 -- Frac A :  Fractional box, which is either empty or a pair of a positive
@@ -107,6 +108,11 @@ abstract
   ∙ᶠʳ-assocˡ {x = ň} =  ≈ᶠʳ-refl
   ∙ᶠʳ-assocˡ {x = š _} {ň} =  ≈ᶠʳ-refl
   ∙ᶠʳ-assocˡ {x = x@(š _)} {y@(š _)} {ň} =  ≈ᶠʳ-refl {x = x ∙ᶠʳ y}
+
+  -- ∙ᶠʳ on š (- , [ - ])
+
+  š[?]-∙ᶠʳ :  š (p , [ a ]) ∙ᶠʳ š (q , [ a ])  ≈ᶠʳ  š (p +ᴿ⁺ q , [ a ])
+  š[?]-∙ᶠʳ {p = p} {q = q} =  ≈ᴿ⁺-refl {p = p +ᴿ⁺ q} , ⧺-idem {as = [ _ ]}
 
   -- ✓ᶠʳ respects ≈ᶠʳ
 

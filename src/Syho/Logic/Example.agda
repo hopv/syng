@@ -11,7 +11,7 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
-open import Syho.Lang.Expr using (Addr; λᵛ-syntax; ṽ_; AnyVal)
+open import Syho.Lang.Expr using (Addr; λᵛ-syntax; ṽ_; TyVal)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝₀; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝₀-intro; ∗-elimˡ; ∗⊤-intro;
   -∗-intro; □-dup)
@@ -26,7 +26,7 @@ private variable
   ι :  Size
   i n :  ℕ
   θ :  Addr
-  av :  AnyVal
+  ᵗv :  TyVal
 
 -- □ ○ □ ○ □ ○ …
 
@@ -67,6 +67,6 @@ abstract
   -- Notably, the number of reduction steps is dynamically determined
 
   nddecrloop-exec :
-    θ ↦ av  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, ṽ 0)
+    θ ↦ ᵗv  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, ṽ 0)
   nddecrloop-exec =
     hor-nd λ _ → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ decrloop-exec

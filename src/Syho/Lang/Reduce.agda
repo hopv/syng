@@ -17,7 +17,7 @@ open import Base.Dec using (upd˙)
 open import Base.Nat using (ℕ; Cofin; ∀⇒Cofin; Cofin-upd˙)
 open import Base.List using (List; _‼_; upd; rep)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
-  V⇒E; AnyVal; ⊤ṽ)
+  V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;
   allocᴿ; freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; Ktxred; _ᴷ|_; val/ktxred; nonval;
   val/ktxred-ktx; val/ktxred-ktx-inv)
@@ -26,19 +26,19 @@ open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; �
 -- Memory
 
 Mem :  Set₁
-Mem =  ℕ →  ¿ List AnyVal
+Mem =  ℕ →  ¿ List TyVal
 
 private variable
   M M' :  Mem
   l :  ℕ
-  av :  AnyVal
-  avsˇ :  ¿ List AnyVal
+  ᵗv :  TyVal
+  avsˇ :  ¿ List TyVal
   θ :  Addr
 
 -- Memory read
 
 infix 5 _‼ᴹ_
-_‼ᴹ_ :  Mem →  Addr →  ¿ AnyVal
+_‼ᴹ_ :  Mem →  Addr →  ¿ TyVal
 M ‼ᴹ addr l i =  M l »-¿ _‼ i
 
 -- Empty memory
@@ -48,8 +48,8 @@ empᴹ _ =  ň
 
 -- Memory update
 
-updᴹ :  Addr →  AnyVal →  Mem →  Mem
-updᴹ (addr l i) av M =  upd˙ l (upd i av $¿ M l) M
+updᴹ :  Addr →  TyVal →  Mem →  Mem
+updᴹ (addr l i) ᵗv M =  upd˙ l (upd i ᵗv $¿ M l) M
 
 -- Memory validity
 
@@ -69,7 +69,7 @@ abstract
   ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ l avsˇ M)
   ✓ᴹ-upd˙ =  Cofin-upd˙ {F = λ _ → _≡ ň}
 
-  ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ av M)
+  ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ ᵗv M)
   ✓ᴹ-updᴹ =  ✓ᴹ-upd˙
 
 --------------------------------------------------------------------------------

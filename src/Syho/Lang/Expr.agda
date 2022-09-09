@@ -159,8 +159,8 @@ V⇒E (ṽ↷ e˙) =  λ˙ e˙
 
 -- Value of any type T
 
-AnyVal :  Set₁
-AnyVal =  ∑ T , Val T
+TyVal :  Set₁
+TyVal =  ∑ T , Val T
 
-⊤ṽ :  AnyVal
+⊤ṽ :  TyVal
 ⊤ṽ =  (◸ ⊤ , ṽ _)

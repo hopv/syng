@@ -30,7 +30,7 @@ private variable
 ⸨ P -∗ Q ⸩ᴮ {{ -∗-Basic}} =  ⸨ P ⸩ᴮ -∗ᵒ ⸨ Q ⸩ᴮ
 ⸨ ⤇ P ⸩ᴮ {{⤇-Basic}} =  ⤇ᵒ ⸨ P ⸩ᴮ
 ⸨ □ P ⸩ᴮ {{□-Basic}} =  □ᵒ ⸨ P ⸩ᴮ
-⸨ θ ↦⟨ q⁺ ⟩ av ⸩ᴮ {{↦⟨⟩-Basic}} =  ⊥ᵒ  -- For now
+⸨ θ ↦⟨ q⁺ ⟩ ᵗv ⸩ᴮ {{↦⟨⟩-Basic}} =  ⊥ᵒ  -- For now
 ⸨ Free n θ ⸩ᴮ {{Free-Basic}} =  ⊥ᵒ  -- For now
 
 abstract

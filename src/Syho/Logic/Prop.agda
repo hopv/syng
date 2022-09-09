@@ -14,7 +14,7 @@ open import Base.Prod using (_×_; _,_; curry)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; AnyVal)
+open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; TyVal)
 
 --------------------------------------------------------------------------------
 -- Prop' :  Proposition
@@ -34,7 +34,7 @@ private variable
   n :  ℕ
   θ :  Addr
   q⁺ :  ℚ⁺
-  av :  AnyVal
+  ᵗv :  TyVal
   T :  Type
 
 infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
@@ -74,7 +74,7 @@ data  Prop' ι  where
   _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr ∞ T →  ℕ →  (Val T → Prop˂ ∞) →  Prop' ι
 
   -- ↦⟨ ⟩ :  Points-to token
-  _↦⟨_⟩_ :  Addr →  ℚ⁺ →  AnyVal →  Prop' ι
+  _↦⟨_⟩_ :  Addr →  ℚ⁺ →  TyVal →  Prop' ι
 
   -- Free :  Freeing token
   Free :  ℕ →  Addr →  Prop' ι
@@ -161,14 +161,14 @@ syntax [∗ⁱ∈]-syntax (λ ia → P) as =  [∗ ia ⁱ∈ as ] P
 infix 9 _↦_ _↦ˡ⟨_⟩_ _↦ˡ_
 
 -- Full points-to token
-_↦_ :  Addr →  AnyVal →  Prop' ι
-θ ↦ av =  θ ↦⟨ 1ᴿ⁺ ⟩ av
+_↦_ :  Addr →  TyVal →  Prop' ι
+θ ↦ ᵗv =  θ ↦⟨ 1ᴿ⁺ ⟩ ᵗv
 
 -- Iterated points-to token
-_↦ˡ⟨_⟩_ :  Addr →  ℚ⁺ →  List AnyVal →  Prop' ι
-θ ↦ˡ⟨ p ⟩ avs =  [∗ (i , av) ⁱ∈ avs ] θ ₒ i ↦⟨ p ⟩ av
-_↦ˡ_ :  Addr →  List AnyVal →  Prop' ι
-θ ↦ˡ avs =  θ ↦ˡ⟨ 1ᴿ⁺ ⟩ avs
+_↦ˡ⟨_⟩_ :  Addr →  ℚ⁺ →  List TyVal →  Prop' ι
+θ ↦ˡ⟨ p ⟩ ᵗvs =  [∗ (i , ᵗv) ⁱ∈ ᵗvs ] θ ₒ i ↦⟨ p ⟩ ᵗv
+_↦ˡ_ :  Addr →  List TyVal →  Prop' ι
+θ ↦ˡ ᵗvs =  θ ↦ˡ⟨ 1ᴿ⁺ ⟩ ᵗvs
 
 --------------------------------------------------------------------------------
 -- Basic P :  P doesn't contain impredicate connectives
@@ -189,7 +189,7 @@ data  Basic :  Prop' ∞ →  Set₂  where
     -∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P -∗ Q)
     ⤇-Basic :  {{Basic P}} →  Basic (⤇ P)
     □-Basic :  {{Basic P}} →  Basic (□ P)
-    ↦⟨⟩-Basic :  Basic (θ ↦⟨ q⁺ ⟩ av)
+    ↦⟨⟩-Basic :  Basic (θ ↦⟨ q⁺ ⟩ ᵗv)
     Free-Basic :  Basic (Free n θ)
 
 

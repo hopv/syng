@@ -278,3 +278,21 @@ abstract
 
   ⧺-idem :  as ⧺ as  ≈ᴸ  as
   ⧺-idem =  ⧺-⊆ᴸ-elim ⊆ᴸ-refl ⊆ᴸ-refl , ⧺-⊆ᴸ-introˡ
+
+--------------------------------------------------------------------------------
+-- Positive-length (i.e., non-empty) list
+
+infixr 5 _∷⁺_
+data  List⁺ (A : Set ł) :  Set ł  where
+  [_]⁺ :  A →  List⁺ A
+  _∷⁺_ :  A →  List⁺ A →  List⁺ A
+
+-- Conversion between List⁺ and List
+
+List⁺⇒List :  List⁺ A →  List A
+List⁺⇒List [ a ]⁺ =  [ a ]
+List⁺⇒List (a ∷⁺ as) =  a ∷ List⁺⇒List as
+
+List⇒List⁺ :  A →  List A →  List⁺ A
+List⇒List⁺ a [] =  [ a ]⁺
+List⇒List⁺ a (b ∷ bs) =  a ∷⁺ List⇒List⁺ b bs

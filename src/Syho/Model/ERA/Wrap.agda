@@ -8,7 +8,7 @@ open import Base.Level using (Level)
 open import Syho.Model.ERA.Base using (ERA)
 open ERA using (Env)
 module Syho.Model.ERA.Wrap {łᴱ łᴿ ł≈ ł✓ : Level} (Era : ERA łᴱ łᴿ ł≈ ł✓)
-  {łᴱ' ł✓' : Level} {Env' : Set łᴱ'} (H : Env' → Era .Env)
+  {łᴱ' ł✓' : Level} (Env' : Set łᴱ') (H : Env' → Era .Env)
   (✓'_ : Env' → Set ł✓') where
 
 open import Base.Level using (_⊔ᴸ_)

@@ -21,8 +21,9 @@ open import Base.List using (List; []; [_]; _⧺_; _∈ᴸ_; _≈ᴸ_; _✓ᴸ_;
   ✓ᴸ-alloc; ✓ᴸ-agree)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _✓ˣ_; ∙ˣ-comm;
-  ∙ˣ-assocˡ; ✓ˣ-rem; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free)
+open import Syho.Model.ERA.Exc using (#ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free; Excᴱᴿᴬ)
+import Syho.Model.ERA.All
+import Syho.Model.ERA.Wrap
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
@@ -35,52 +36,15 @@ private variable
 --------------------------------------------------------------------------------
 -- Indˣᴱᴿᴬ :  Exclusive indirection ERA
 
-Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
-
-Indˣᴱᴿᴬ .Env =  (ℕ →  ¿ Prop' ∞)  ×  ℕ
-
-Indˣᴱᴿᴬ .Res =  ℕ →  Exc (Prop' ∞)
-
-Indˣᴱᴿᴬ ._≈_ Pˣ˙ Qˣ˙ =  ∀ i →  Pˣ˙ i ≡ Qˣ˙ i
-
--- Pˇ˙ i is ň for i in the null range and Qˣ˙ i agrees with Pˇ˙ i for all i
-
-Indˣᴱᴿᴬ ._✓_ (Pˇ˙ , n) Qˣ˙ =
-  (∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)  ×  (∀ i →  Pˇ˙ i ✓ˣ Qˣ˙ i)
-
-Indˣᴱᴿᴬ ._∙_ Pˣ˙ Qˣ˙ i =  Pˣ˙ i ∙ˣ Qˣ˙ i
-
-Indˣᴱᴿᴬ .ε _ =  ?ˣ
-
-Indˣᴱᴿᴬ .⌞_⌟ _ _ =  ?ˣ
-
-Indˣᴱᴿᴬ .refl˜ _ =  refl
-
-Indˣᴱᴿᴬ .◠˜_ Pˣi≡Qˣi _ =  ◠ Pˣi≡Qˣi _
-
-Indˣᴱᴿᴬ ._◇˜_ Pˣi≡Qˣi Qˣi≡Rˣi _ =  Pˣi≡Qˣi _ ◇ Qˣi≡Rˣi _
-
-Indˣᴱᴿᴬ .∙-congˡ Pˣi≡Qˣi i  rewrite Pˣi≡Qˣi i =  refl
-
-Indˣᴱᴿᴬ .∙-unitˡ _ =  refl
-
-Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} _ =  ∙ˣ-comm {x = Pˣ˙ _}
-
-Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} _ =  ∙ˣ-assocˡ {x = Pˣ˙ _}
-
-Indˣᴱᴿᴬ .✓-resp _ (✓Pˇ ,-) .π₀ =  ✓Pˇ
-Indˣᴱᴿᴬ .✓-resp Qˣi≡Rˣi (-, Pˇi✓Qˣi) .π₁ i  rewrite ◠ Qˣi≡Rˣi i =  Pˇi✓Qˣi i
-
-Indˣᴱᴿᴬ .✓-rem (✓Pˇ ,-) .π₀ =  ✓Pˇ
-Indˣᴱᴿᴬ .✓-rem {a = Qˣ˙} (-, Pˇ✓Qˣ∙Rˣ) .π₁ i =  ✓ˣ-rem {x = Qˣ˙ i} $ Pˇ✓Qˣ∙Rˣ i
-
-Indˣᴱᴿᴬ .⌞⌟-cong _ _ =  refl
-
-Indˣᴱᴿᴬ .⌞⌟-add =  (λ _ → ?ˣ) , λ _ → refl
-
-Indˣᴱᴿᴬ .⌞⌟-unitˡ _ =  refl
-
-Indˣᴱᴿᴬ .⌞⌟-idem _ =  refl
+module AllIndˣ =  Syho.Model.ERA.All (λ (_ : ℕ) → Excᴱᴿᴬ (Prop' ∞))
+open AllIndˣ public using () renaming (
+  --  ∀Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ)
+module WrapIndˣ =  Syho.Model.ERA.Wrap ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
+  (λ (Pˇ˙ , n) →  ∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)
+open WrapIndˣ public using () renaming (
+  --  Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  Wrapᴱᴿᴬ to Indˣᴱᴿᴬ)
 
 open ERA Indˣᴱᴿᴬ public using () renaming (Env to Env-indˣ)
 

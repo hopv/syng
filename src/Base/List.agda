@@ -315,6 +315,11 @@ abstract
   ✓ᴸ-rem {aˇ = ň} {[]} {[]} _ =  refl
   ✓ᴸ-rem {aˇ = š _} ∈bs⧺cs⇒≡a _ c∈cs =  ∈bs⧺cs⇒≡a _ $ ⧺-⊆ᴸ-introʳ c∈cs
 
+  -- š a ✓ᴸ [ a ] holds
+
+  ✓ᴸ-š-[?] :  š a ✓ᴸ [ a ]
+  ✓ᴸ-š-[?] _ (by-hd refl) =  refl
+
   -- Update ň into š a and cs into [ a ], preserving ✓ᴸ bs ⧺
 
   ✓ᴸ-alloc :  ň ✓ᴸ bs ⧺ cs →  š a ✓ᴸ bs ⧺ [ a ]

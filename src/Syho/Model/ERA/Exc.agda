@@ -4,13 +4,19 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.Lib.Exc where
+module Syho.Model.ERA.Exc where
 
 open import Base.Level using (Level)
 open import Base.Func using (id)
 open import Base.Few using (⊥; ⊤)
-open import Base.Eq using (_≡_; refl)
+open import Base.Eq using (_≡_; refl; ◠_; _◇_)
+open import Base.Prod using (_,_)
 open import Base.Option using (¿_; š_; ň)
+open import Syho.Model.ERA.Base using (ERA)
+
+open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
+  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
+  ⌞⌟-idem; ⌞⌟-ε)
 
 private variable
   ł :  Level
@@ -108,3 +114,28 @@ abstract
 
   ✓ˣ-update :  aˇ ✓ˣ x ∙ˣ #ˣ b →  š c ✓ˣ x ∙ˣ #ˣ c
   ✓ˣ-update {x = ?ˣ} _ =  refl
+
+--------------------------------------------------------------------------------
+-- Excᴱᴿᴬ A :  Exclusivity ERA
+
+Excᴱᴿᴬ :  Set ł →  ERA ł ł ł ł
+Excᴱᴿᴬ A .Env =  ¿ A
+Excᴱᴿᴬ A .Res =  Exc A
+Excᴱᴿᴬ _ ._≈_ =  _≡_
+Excᴱᴿᴬ _ ._✓_ =  _✓ˣ_
+Excᴱᴿᴬ _ ._∙_ =  _∙ˣ_
+Excᴱᴿᴬ _ .ε =  ?ˣ
+Excᴱᴿᴬ _ .⌞_⌟ _ =  ?ˣ
+Excᴱᴿᴬ _ .refl˜ =  refl
+Excᴱᴿᴬ _ .◠˜_ =  ◠_
+Excᴱᴿᴬ _ ._◇˜_ =  _◇_
+Excᴱᴿᴬ _ .∙-congˡ refl =  refl
+Excᴱᴿᴬ _ .∙-unitˡ =  refl
+Excᴱᴿᴬ _ .∙-comm {a = x} =  ∙ˣ-comm {x = x}
+Excᴱᴿᴬ _ .∙-assocˡ {a = x} =  ∙ˣ-assocˡ {x = x}
+Excᴱᴿᴬ _ .✓-resp refl =  id
+Excᴱᴿᴬ _ .✓-rem {a = x} =  ✓ˣ-rem {x = x}
+Excᴱᴿᴬ _ .⌞⌟-cong _ =  refl
+Excᴱᴿᴬ _ .⌞⌟-add =  ?ˣ , refl
+Excᴱᴿᴬ _ .⌞⌟-unitˡ =  refl
+Excᴱᴿᴬ _ .⌞⌟-idem =  refl

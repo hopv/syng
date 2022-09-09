@@ -21,7 +21,7 @@ open import Base.List using (List; []; [_]; _⧺_; _∈ᴸ_; _≈ᴸ_; _✓ᴸ_;
   ✓ᴸ-alloc; ✓ᴸ-agree)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _✓ˣ_; ∙ˣ-comm;
+open import Syho.Model.ERA.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _✓ˣ_; ∙ˣ-comm;
   ∙ˣ-assocˡ; ✓ˣ-rem; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free)
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;

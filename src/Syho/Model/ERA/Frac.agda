@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Fractional box
+-- Fractional ERA
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.Lib.Frac where
+module Syho.Model.ERA.Frac where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _›_)
@@ -18,6 +18,11 @@ open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; _✓ᴸ_; �
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;
   ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
   1≤1ᴿ⁺; ¬?+1≤1ᴿ⁺)
+open import Syho.Model.ERA.Base using (ERA)
+
+open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
+  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
+  ⌞⌟-idem; ⌞⌟-ε)
 
 private variable
   ł :  Level
@@ -160,3 +165,28 @@ abstract
 
   ✓ᶠʳ-update :  aˇ ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , bs) →  š c ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , [ c ])
   ✓ᶠʳ-update {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-alloc {x = x}
+
+--------------------------------------------------------------------------------
+-- Fracᴱᴿᴬ :  Fractional ERA
+
+Fracᴱᴿᴬ :  Set ł →  ERA ł ł ł ł
+Fracᴱᴿᴬ A .Env =  ¿ A
+Fracᴱᴿᴬ A .Res =  Frac A
+Fracᴱᴿᴬ _ ._≈_ =  _≈ᶠʳ_
+Fracᴱᴿᴬ _ ._✓_ =  _✓ᶠʳ_
+Fracᴱᴿᴬ _ ._∙_ =  _∙ᶠʳ_
+Fracᴱᴿᴬ _ .ε =  ň
+Fracᴱᴿᴬ _ .⌞_⌟ _ =  ň
+Fracᴱᴿᴬ _ .refl˜ =  ≈ᶠʳ-refl
+Fracᴱᴿᴬ _ .◠˜_ =  ≈ᶠʳ-sym
+Fracᴱᴿᴬ _ ._◇˜_ =  ≈ᶠʳ-trans
+Fracᴱᴿᴬ _ .∙-congˡ =  ∙ᶠʳ-congˡ
+Fracᴱᴿᴬ _ .∙-unitˡ =  ≈ᶠʳ-refl
+Fracᴱᴿᴬ _ .∙-comm {a = x} =  ∙ᶠʳ-comm {x = x}
+Fracᴱᴿᴬ _ .∙-assocˡ {a = x} =  ∙ᶠʳ-assocˡ {x = x}
+Fracᴱᴿᴬ _ .✓-resp =  ✓ᶠʳ-resp
+Fracᴱᴿᴬ _ .✓-rem {a = x} =  ✓ᶠʳ-rem {x = x}
+Fracᴱᴿᴬ _ .⌞⌟-cong _ =  _
+Fracᴱᴿᴬ _ .⌞⌟-add =  ň ,-
+Fracᴱᴿᴬ _ .⌞⌟-unitˡ =  ≈ᶠʳ-refl
+Fracᴱᴿᴬ _ .⌞⌟-idem =  _

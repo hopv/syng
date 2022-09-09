@@ -53,7 +53,7 @@ _∙ᶠʳ_ :  Frac A →  Frac A →  Frac A
 x ∙ᶠʳ ň =  x
 š (p , as) ∙ᶠʳ š (q , bs) =  š (p +ᴿ⁺ q , as ⧺ bs)
 
--- _✓ᶠʳ :  Agreement between ¿ A and Frac A
+-- ✓ᶠʳ :  Agreement between ¿ A and Frac A, with validity of the fraction
 
 infix 3 _✓ᶠʳ_
 _✓ᶠʳ_ :  ∀{A : Set ł} →  ¿ A →  Frac A →  Set ł

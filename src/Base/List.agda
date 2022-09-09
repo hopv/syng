@@ -296,7 +296,7 @@ abstract
 infix 4 _✓ᴸ_
 _✓ᴸ_ :  ∀{A : Set ł} →  ¿ A →  List A →  Set ł
 ň ✓ᴸ bs =  bs ≡ []
-š a ✓ᴸ bs =  ∀{b} →  b ∈ᴸ bs →  b ≡ a
+š a ✓ᴸ bs =  ∀ b →  b ∈ᴸ bs →  b ≡ a
 
 abstract
 
@@ -304,7 +304,7 @@ abstract
 
   ✓ᴸ-⊆ᴸ :  cs ⊆ᴸ bs →  aˇ ✓ᴸ bs →  aˇ ✓ᴸ cs
   ✓ᴸ-⊆ᴸ {aˇ = ň} cs⊆[] refl =  ⊆ᴸ-[] cs⊆[]
-  ✓ᴸ-⊆ᴸ {aˇ = š _} cs⊆bs aˇ✓bs c∈cs =  aˇ✓bs $ cs⊆bs c∈cs
+  ✓ᴸ-⊆ᴸ {aˇ = š _} cs⊆bs aˇ✓bs _ c∈cs =  aˇ✓bs _ $ cs⊆bs c∈cs
 
   ✓ᴸ-resp :  bs ≈ᴸ cs →  aˇ ✓ᴸ bs →  aˇ ✓ᴸ cs
   ✓ᴸ-resp (-, cs⊆bs) =  ✓ᴸ-⊆ᴸ cs⊆bs
@@ -313,19 +313,19 @@ abstract
 
   ✓ᴸ-rem :  aˇ ✓ᴸ bs ⧺ cs →  aˇ ✓ᴸ cs
   ✓ᴸ-rem {aˇ = ň} {[]} {[]} _ =  refl
-  ✓ᴸ-rem {aˇ = š _} ∈bs⧺cs⇒≡a c∈cs =  ∈bs⧺cs⇒≡a $ ⧺-⊆ᴸ-introʳ c∈cs
+  ✓ᴸ-rem {aˇ = š _} ∈bs⧺cs⇒≡a _ c∈cs =  ∈bs⧺cs⇒≡a _ $ ⧺-⊆ᴸ-introʳ c∈cs
 
   -- Update ň into š a and cs into [ a ], preserving ✓ᴸ bs ⧺
 
   ✓ᴸ-alloc :  ň ✓ᴸ bs ⧺ cs →  š a ✓ᴸ bs ⧺ [ a ]
-  ✓ᴸ-alloc {bs = []} {cs = []} _ (by-hd refl) =  refl
+  ✓ᴸ-alloc {bs = []} {cs = []} _ _ (by-hd refl) =  refl
 
   -- Agreement from ✓ᴸ bs ⧺ [ c ]
 
   ✓ᴸ-agree : aˇ ✓ᴸ bs ⧺ [ c ] →  aˇ ≡ š c
   ✓ᴸ-agree {aˇ = ň} {[]} ()
   ✓ᴸ-agree {aˇ = š _} ∈bs⧺[c]⇒≡a
-    rewrite ∈bs⧺[c]⇒≡a $ ⧺-⊆ᴸ-introʳ ∈ᴸ-[?] =  refl
+    rewrite ∈bs⧺[c]⇒≡a _ $ ⧺-⊆ᴸ-introʳ ∈ᴸ-[?] =  refl
 
 --------------------------------------------------------------------------------
 -- Positive-length (i.e., non-empty) list

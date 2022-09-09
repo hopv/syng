@@ -127,6 +127,7 @@ parts.
             [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
             [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
             [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA;
+            [`Wrap`](src/Syho/Model/ERA/Wrap.agda) for the wrap ERA;
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
     + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of propositions.

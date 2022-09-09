@@ -13,7 +13,7 @@ open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _→'_; _∗_; _-�
   →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax;
-  ∃ᵒ-syntax; ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono;
+  ∃ᵒ-syntax; ⊥ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono;
   ∃ᵒ-mono; →ᵒ-Mono; →ᵒ-mono; ∗ᵒ-Mono; ∗ᵒ-mono; -∗ᵒ-Mono; -∗ᵒ-mono; ⤇ᵒ-Mono;
   ⤇ᵒ-mono; □ᵒ-Mono; □ᵒ-mono)
 open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_; _↪⟨_⟩ᵀ[_]ᵒ_;
@@ -38,8 +38,8 @@ private variable
 ⸨ P˂ ↪[ i ]⇛ Q˂ ⸩ =  P˂ .! ↪[ i ]⇛ᵒ Q˂ .!
 ⸨ P˂ ↪⟨ e ⟩ᴾ Q˂˙ ⸩ =  P˂ .! ↪⟨ e ⟩ᴾᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙ ⸩ =  P˂ .! ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → Q˂˙ v .!
-⸨ _ ↦⟨ _ ⟩ _ ⸩ =  ⊤ᵒ  -- For now
-⸨ Free _ _ ⸩ =  ⊤ᵒ  -- For now
+⸨ _ ↦⟨ _ ⟩ _ ⸩ =  ⊥ᵒ  -- For now
+⸨ Free _ _ ⸩ =  ⊥ᵒ  -- For now
 
 abstract
 
@@ -56,8 +56,8 @@ abstract
   ⸨⸩-ᴮ⇒ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) (λ{a} → ⸨⸩-ᴮ⇒ {Q} {a})
   ⸨⸩-ᴮ⇒ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-ᴮ⇒ {P})
   ⸨⸩-ᴮ⇒ {{□-Basic {P}}} =  □ᵒ-mono (λ{a} → ⸨⸩-ᴮ⇒ {P} {a})
-  ⸨⸩-ᴮ⇒ {{↦⟨⟩-Basic}} =  _
-  ⸨⸩-ᴮ⇒ {{Free-Basic}} =  _
+  ⸨⸩-ᴮ⇒ {{↦⟨⟩-Basic}} ()  -- For now
+  ⸨⸩-ᴮ⇒ {{Free-Basic}} ()  -- For now
 
   ⸨⸩-⇒ᴮ {{∀₁-Basic BasicP˙}} =  ∀ᵒ-mono (λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a})
   ⸨⸩-⇒ᴮ {{∃₁-Basic BasicP˙}} =  ∃ᵒ-mono (λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a})
@@ -66,8 +66,8 @@ abstract
   ⸨⸩-⇒ᴮ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (λ{a} → ⸨⸩-⇒ᴮ {Q} {a})
   ⸨⸩-⇒ᴮ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-⇒ᴮ {P})
   ⸨⸩-⇒ᴮ {{□-Basic {P}}} =  □ᵒ-mono (λ{a} → ⸨⸩-⇒ᴮ {P} {a})
-  ⸨⸩-⇒ᴮ {{↦⟨⟩-Basic}} =  _
-  ⸨⸩-⇒ᴮ {{Free-Basic}} =  _
+  ⸨⸩-⇒ᴮ {{↦⟨⟩-Basic}} ()  -- For now
+  ⸨⸩-⇒ᴮ {{Free-Basic}} ()  -- For now
 
   --  ⸨ P ⸩ satisfies monotonicity
 
@@ -83,5 +83,5 @@ abstract
   ⸨⸩-Mono {_ ↪[ _ ]⇛ _} =  ↪⇛ᵒ-Mono
   ⸨⸩-Mono {_ ↪⟨ _ ⟩ᴾ _} =  ↪⟨⟩ᴾᵒ-Mono
   ⸨⸩-Mono {_ ↪⟨ _ ⟩ᵀ[ _ ] _} =  ↪⟨⟩ᵀᵒ-Mono
-  ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  _
-  ⸨⸩-Mono {Free _ _} =  _
+  ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} _ ()  -- For now
+  ⸨⸩-Mono {Free _ _} _ ()  -- For now

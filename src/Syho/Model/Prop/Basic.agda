@@ -13,7 +13,7 @@ open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; _→'_; _∗_; _-�
   _↦⟨_⟩_; Free; Basic; ∀₁-Basic; ∃₁-Basic; →-Basic; ∗-Basic; -∗-Basic;
   ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; ∀ᵒ-syntax; ∃ᵒ-syntax;
-  ⊤ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∃ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono;
+  ⊥ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∃ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono;
   -∗ᵒ-Mono; ⤇ᵒ-Mono; □ᵒ-Mono)
 
 private variable
@@ -30,8 +30,8 @@ private variable
 ⸨ P -∗ Q ⸩ᴮ {{ -∗-Basic}} =  ⸨ P ⸩ᴮ -∗ᵒ ⸨ Q ⸩ᴮ
 ⸨ ⤇ P ⸩ᴮ {{⤇-Basic}} =  ⤇ᵒ ⸨ P ⸩ᴮ
 ⸨ □ P ⸩ᴮ {{□-Basic}} =  □ᵒ ⸨ P ⸩ᴮ
-⸨ θ ↦⟨ q⁺ ⟩ av ⸩ᴮ {{↦⟨⟩-Basic}} =  ⊤ᵒ  -- For now
-⸨ Free n θ ⸩ᴮ {{Free-Basic}} =  ⊤ᵒ  -- For now
+⸨ θ ↦⟨ q⁺ ⟩ av ⸩ᴮ {{↦⟨⟩-Basic}} =  ⊥ᵒ  -- For now
+⸨ Free n θ ⸩ᴮ {{Free-Basic}} =  ⊥ᵒ  -- For now
 
 abstract
 
@@ -45,5 +45,5 @@ abstract
   ⸨⸩ᴮ-Mono {{ -∗-Basic {Q = Q}}} =  -∗ᵒ-Mono {Qᵒ = ⸨ Q ⸩ᴮ}
   ⸨⸩ᴮ-Mono {{⤇-Basic}} =  ⤇ᵒ-Mono
   ⸨⸩ᴮ-Mono {{□-Basic {P}}} =  □ᵒ-Mono $ ⸨⸩ᴮ-Mono {P}
-  ⸨⸩ᴮ-Mono {{↦⟨⟩-Basic}} =  _
-  ⸨⸩ᴮ-Mono {{Free-Basic}} =  _
+  ⸨⸩ᴮ-Mono {{↦⟨⟩-Basic}} _ ()  -- For now
+  ⸨⸩ᴮ-Mono {{Free-Basic}} _ ()  -- For now

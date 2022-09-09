@@ -8,7 +8,7 @@ module Syho.Model.Prop.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 2ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
-open import Base.Few using (⊤; ⊤₀)
+open import Base.Few using (⊤; ⊤₀; ⊥)
 open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   uncurry; ∑-case)
@@ -149,10 +149,11 @@ abstract
   ⊎ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ (MonoQ a⊑b Qa)
 
 --------------------------------------------------------------------------------
--- ⊤ᵒ :  Truthhood
+-- ⊤ᵒ ⊥ᵒ :  Truth and falsehood
 
-⊤ᵒ :  Propᵒ ł
+⊤ᵒ ⊥ᵒ :  Propᵒ ł
 ⊤ᵒ _ =  ⊤
+⊥ᵒ _ =  ⊥
 
 --------------------------------------------------------------------------------
 -- →ᵒ :  Implication

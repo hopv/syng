@@ -11,24 +11,25 @@ open import Base.Func using (_∘_; _$_; id; _▷_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Size using (∞)
+open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; _≡?_; ≡?-refl)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_)
-open import Base.List using (List; _∷_; []; [_]; _⧺_; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_;
-  ⧺-assocˡ; ⧺-[]; ⧺-≡[]; by-hd; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ;
-  ⧺-idem; ⧺-comm; ∈ᴸ-[?]; ∈ᴸ-⧺-ĩ₁; ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ)
+open import Base.List using (List; []; [_]; _⧺_; _∈ᴸ_; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ;
+  ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ✓ᴸ-resp; ✓ᴸ-rem;
+  ✓ᴸ-alloc; ✓ᴸ-agree)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _←ˣ_; ∙ˣ-comm;
-  ∙ˣ-assocˡ; ∙ˣ-?ˣ)
+open import Syho.Model.Lib.Exc using (Exc; ?ˣ; #ˣ_; _∙ˣ_; _✓ˣ_; ∙ˣ-comm;
+  ∙ˣ-assocˡ; ✓ˣ-rem; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free)
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 private variable
   P :  Prop' ∞
-  Q˙ :  ℕ → Prop' ∞
+  Qˇ˙ :  ℕ → ¿ Prop' ∞
   i n :  ℕ
 
 --------------------------------------------------------------------------------
@@ -36,16 +37,16 @@ private variable
 
 Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 
-Indˣᴱᴿᴬ .Env =  (ℕ → Prop' ∞) × ℕ
+Indˣᴱᴿᴬ .Env =  (ℕ →  ¿ Prop' ∞)  ×  ℕ
 
 Indˣᴱᴿᴬ .Res =  ℕ →  Exc (Prop' ∞)
 
 Indˣᴱᴿᴬ ._≈_ Pˣ˙ Qˣ˙ =  ∀ i →  Pˣ˙ i ≡ Qˣ˙ i
 
--- Qˣ˙ i agrees with P˙ i and equals ?ˣ if i is in the null range
+-- Pˇ˙ i is ň for i in the null range and Qˣ˙ i agrees with Pˇ˙ i for all i
 
-Indˣᴱᴿᴬ ._✓_ (P˙ , n) Qˣ˙ =
-  ∀ i →  P˙ i ←ˣ Qˣ˙ i  ×  (i ≥ n →  Qˣ˙ i ≡ ?ˣ)
+Indˣᴱᴿᴬ ._✓_ (Pˇ˙ , n) Qˣ˙ =
+  (∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)  ×  (∀ i →  Pˇ˙ i ✓ˣ Qˣ˙ i)
 
 Indˣᴱᴿᴬ ._∙_ Pˣ˙ Qˣ˙ i =  Pˣ˙ i ∙ˣ Qˣ˙ i
 
@@ -67,12 +68,12 @@ Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} _ =  ∙ˣ-comm {x = Pˣ˙ _}
 
 Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} _ =  ∙ˣ-assocˡ {x = Pˣ˙ _}
 
-Indˣᴱᴿᴬ .✓-resp Rˣi≡Sˣi P✓Rˣ i  with P✓Rˣ i
-… | P✓Rˣi  rewrite Rˣi≡Sˣi i =  P✓Rˣi
+Indˣᴱᴿᴬ .✓-resp _ (✓Pˇ , _) .π₀ =  ✓Pˇ
 
-Indˣᴱᴿᴬ .✓-rem {a = Pˣ˙} {b = Qˣ˙} R✓Pˣ∙Qˣ i  with Pˣ˙ i | Qˣ˙ i | R✓Pˣ∙Qˣ i
-… | ?ˣ | _ | R✓Qˣi =  R✓Qˣi
-… | _ | ?ˣ | _ =  -, λ _ → refl
+Indˣᴱᴿᴬ .✓-resp Qˣi≡Rˣi (_ , Pˇi✓Qˣi) .π₁ i  rewrite ◠ Qˣi≡Rˣi i =  Pˇi✓Qˣi i
+
+Indˣᴱᴿᴬ .✓-rem (✓Pˇ , _) .π₀ =  ✓Pˇ
+Indˣᴱᴿᴬ .✓-rem {a = Qˣ˙} (-, Pˇ✓Qˣ∙Rˣ) .π₁ i =  ✓ˣ-rem {x = Qˣ˙ i} $ Pˇ✓Qˣ∙Rˣ i
 
 Indˣᴱᴿᴬ .⌞⌟-cong _ _ =  refl
 
@@ -95,39 +96,39 @@ abstract
 
   -- Add a new proposition and get a line
 
-  alloc-indˣ :  ((Q˙ , n) , εˣ)  ↝ˣ  λ(_ : ⊤₀) →
-                  (upd˙ n P Q˙ , ṡ n) , line-indˣ n P
+  alloc-indˣ :  ((Qˇ˙ , n) , εˣ)  ↝ˣ  λ(_ : ⊤₀) →
+                  (upd˙ n (š P) Qˇ˙ , ṡ n) , line-indˣ n P
   alloc-indˣ _ _ .π₀ =  _
-  alloc-indˣ {n = n} Rˣ˙ Q✓Rˣ∙ε .π₁ j  with Q✓Rˣ∙ε j
-  … | (Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡?)  with j ≡? n
-  …   | no _ =  Qj←Rˣj∙? , j≥n⇒Rˣj∙?≡? ∘ <⇒≤
-  …   | yes refl  rewrite ∙ˣ-?ˣ {x = Rˣ˙ n} | j≥n⇒Rˣj∙?≡? ≤-refl =
-    refl , absurd ∘ <-irrefl
+  alloc-indˣ {n = n} _ (✓Qˇ , _) .π₁ .π₀ {i}  with i ≡? n
+  … | no _ =  ✓Qˇ ∘ <⇒≤
+  … | yes refl =  absurd ∘ <-irrefl
+  alloc-indˣ {n = n} Rˣ˙ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rˣ i
+  … | no _ | Qˇi✓Rˣi =  Qˇi✓Rˣi
+  … | yes refl | Qˇn✓Rˣn  rewrite ✓Qˇ ≤-refl =  ✓ˣ-alloc {x = Rˣ˙ n} Qˇn✓Rˣn
 
   -- Remove a proposition consuming a line
 
-  use-indˣ :  ((Q˙ , n) , line-indˣ i P)  ↝ˣ
-                λ(_ :  Q˙ i ≡ P  ×  i < n) →  (upd˙ i ⊤' Q˙ , n) , εˣ
-  use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₀  with Q✓Rˣ∙iP i
-  … | (Qi←Rˣi∙#P , _)  rewrite ≡?-refl {a = i}  with Rˣ˙ i
-  …   | ?ˣ =  Qi←Rˣi∙#P
-  use-indˣ {n = n} {i} Rˣ˙ Q✓Rˣ∙iP .π₀ .π₁  with i <≥ n
-  … | ĩ₀ i<n =  i<n
-  … | ĩ₁ i≥n  with Q✓Rˣ∙iP _ .π₁ i≥n
-  …   | Rˣi∙P≡?  rewrite ≡?-refl {a = i}  with Rˣ˙ i | Rˣi∙P≡?
-  …     | ?ˣ | ()
-  use-indˣ {i = i} Rˣ˙ Q✓Rˣ∙iP .π₁ j  with Q✓Rˣ∙iP j
-  … | (Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?)  with j ≡? i
-  …   | no _ =  Qj←Rˣj∙iPj , j≥n⇒Rˣj∙iPj≡?
-  …   | yes refl  with Rˣ˙ i
-  …     | ?ˣ =  _ , λ _ → refl
+  use-indˣ :  ((Qˇ˙ , n) , line-indˣ i P)  ↝ˣ
+                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εˣ
+  use-indˣ {n = n} {i} Rˣ˙ (✓Qˇ , Qˇ✓Rˣ∙iP) .π₀  with Qˇ✓Rˣ∙iP i
+  … | Qˇi✓Rˣi∙#P  rewrite ≡?-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓Rˣi∙#P
+  …   | Qˇi≡šP  with i <≥ n
+  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ i≥n  with Qˇi≡šP
+  …       | ()
+  use-indˣ {i = i} Rˣ˙ (✓Qˇ , _) .π₁ .π₀ {j}  with j ≡? i
+  … | no _ =  ✓Qˇ
+  … | yes refl =  λ _ → refl
+  use-indˣ {i = i} Rˣ˙ (-, Qˇ✓Rˣ∙iP) .π₁ .π₁ j  with j ≡? i | Qˇ✓Rˣ∙iP j
+  … | no _ | Qˇj✓Rˣj∙? =  Qˇj✓Rˣj∙?
+  … | yes refl | Qˇi✓Rˣi∙#P =  ✓ˣ-free {x = Rˣ˙ i} Qˇi✓Rˣi∙#P
 
 --------------------------------------------------------------------------------
 -- Ind□ᴱᴿᴬ :  Persistent indirection ERA
 
 Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 
-Ind□ᴱᴿᴬ .Env =  (ℕ → Prop' ∞) × ℕ
+Ind□ᴱᴿᴬ .Env =  (ℕ →  ¿ Prop' ∞)  ×  ℕ
 
 Ind□ᴱᴿᴬ .Res =  ℕ →  List (Prop' ∞)
 
@@ -135,8 +136,8 @@ Ind□ᴱᴿᴬ ._≈_ Ps˙ Qs˙ =  ∀ i →  Ps˙ i ≈ᴸ Qs˙ i
 
 -- Qs˙ i agrees with P˙ i and equals [] if i is in the null range
 
-Ind□ᴱᴿᴬ ._✓_ (P˙ , n) Qs˙ =
-  ∀ i →  (∀{Q} →  Q ∈ᴸ Qs˙ i →  P˙ i ≡ Q)  ×  (i ≥ n →  Qs˙ i ≡ [])
+Ind□ᴱᴿᴬ ._✓_ (Pˇ˙ , n) Qs˙ =
+  (∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)  ×  (∀ i → Pˇ˙ i ✓ᴸ Qs˙ i)
 
 Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ⧺ Qs˙ i
 
@@ -158,15 +159,11 @@ Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} _ =  ⧺-comm {as = Ps˙ _}
 
 Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} _ =  ≡⇒≈ᴸ $ ⧺-assocˡ {as = Ps˙ _}
 
-Ind□ᴱᴿᴬ .✓-resp Rsi≈Ssi P✓R i  with P✓R i | Rsi≈Ssi i
-… | (Pi≡Rsi , i≥n⇒Rsi≡[]) | (Rsi⊆Ssi , Ssi⊆Rsi)  =
-  (λ S∈Ssi → Pi≡Rsi $ Ssi⊆Rsi S∈Ssi) ,
-  λ i≥n →  ⊆ᴸ-[] $ subst (_ ⊆ᴸ_) (i≥n⇒Rsi≡[] i≥n) Ssi⊆Rsi
+Ind□ᴱᴿᴬ .✓-resp _ (✓Pˇ , _) .π₀ =  ✓Pˇ
+Ind□ᴱᴿᴬ .✓-resp Qs≈Rs (-, Pˇ✓Qs) .π₁ i =  ✓ᴸ-resp (Qs≈Rs i) $ Pˇ✓Qs i
 
-Ind□ᴱᴿᴬ .✓-rem R✓Ps⧺Qs i  with R✓Ps⧺Qs i
-… | Ri≡Ps⧺Qsi , i≥n⇒Psi⧺Qsi≡[] =
-  (λ Q∈Qsi → Ri≡Ps⧺Qsi $ ⧺-⊆ᴸ-introʳ Q∈Qsi) ,
-  λ i≥n →  π₁ $ ⧺-≡[] $ i≥n⇒Psi⧺Qsi≡[] i≥n
+Ind□ᴱᴿᴬ .✓-rem (✓Pˇ , _) .π₀ =  ✓Pˇ
+Ind□ᴱᴿᴬ .✓-rem (-, Pˇ✓Qs⧺Rs) .π₁ i =  ✓ᴸ-rem $ Pˇ✓Qs⧺Rs i
 
 Ind□ᴱᴿᴬ .⌞⌟-cong =  id
 
@@ -189,28 +186,27 @@ abstract
 
   -- Add a new proposition and get a line
 
-  alloc-ind□ :  ((Q˙ , n) , ε□)  ↝□  λ(_ : ⊤₀) →
-                  (upd˙ n P Q˙ , ṡ n) , line-ind□ n P
+  alloc-ind□ :  ((Qˇ˙ , n) , ε□)  ↝□  λ(_ : ⊤₀) →
+                  (upd˙ n (š P) Qˇ˙ , ṡ n) , line-ind□ n P
   alloc-ind□ _ _ .π₀ =  _
-  alloc-ind□ {n = n} Rs˙ Q✓Rs∙ε .π₁ j  with Q✓Rs∙ε j
-  … | (Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[])  with j ≡? n
-  …   | no _ =  Qj≡Rsj⧺[] , j≥n⇒Rsj⧺[]≡[] ∘ <⇒≤
-  …   | yes refl  rewrite ⧺-[] {as = Rs˙ n} | j≥n⇒Rsj⧺[]≡[] ≤-refl =
-    (λ{ (by-hd refl) → refl }) , absurd ∘ <-irrefl
+  alloc-ind□ {n = n} _ (✓Qˇ , _) .π₁ .π₀ {i}  with i ≡? n
+  … | no _ =  ✓Qˇ ∘ <⇒≤
+  … | yes refl =  absurd ∘ <-irrefl
+  alloc-ind□ {n = n} Rs˙ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rs i
+  … | no _ | Qˇi✓Rsi =  Qˇi✓Rsi
+  … | yes refl | Qˇn✓Rsn  rewrite ✓Qˇ ≤-refl =  ✓ᴸ-alloc Qˇn✓Rsn
 
   -- Get an agreement from a line
 
-  use-ind□ :  ((Q˙ , n) , line-ind□ i P)  ↝□
-                λ(_ :  Q˙ i ≡ P  ×  i < n) →  ((Q˙ , n) , line-ind□ i P)
-  use-ind□ {i = i} Rs˙ Q✓Rs∙iP .π₀ .π₀  with Q✓Rs∙iP i
-  … | (Qi≡Rsi⧺[P] , _)  rewrite ≡?-refl {a = i} =  Qi≡Rsi⧺[P] (∈ᴸ-⧺-ĩ₁ ∈ᴸ-[?])
-  use-ind□ {n = n} {i} Rs˙ Q✓Rs∙iP .π₀ .π₁  with i <≥ n
-  … | ĩ₀ i<n =  i<n
-  … | ĩ₁ i≥n  with Q✓Rs∙iP _ .π₁ i≥n
-  …   | Rsi⧺[P]≡?  rewrite ≡?-refl {a = i}  with Rs˙ i | Rsi⧺[P]≡?
-  …     | _ ∷ _ | ()
-  …     | [] | ()
-  use-ind□ _ Q✓Rˣ∙iP .π₁ =  Q✓Rˣ∙iP
+  use-ind□ :  ((Qˇ˙ , n) , line-ind□ i P)  ↝□
+                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  ((Qˇ˙ , n) , line-ind□ i P)
+  use-ind□ {n = n} {i} Rs˙ (✓Qˇ , Qˇ✓Rs⧺iP) .π₀  with Qˇ✓Rs⧺iP i
+  … | Qˇi✓Rsi⧺[P]  rewrite ≡?-refl {a = i}  with ✓ᴸ-agree Qˇi✓Rsi⧺[P]
+  …   | Qˇi≡šP  with i <≥ n
+  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ i≥n  with Qˇi≡šP
+  …       | ()
+  use-ind□ _ ✓Qˇ✓Rs⧺iP .π₁ =  ✓Qˇ✓Rs⧺iP
 
 --------------------------------------------------------------------------------
 -- On both indirection ERAs

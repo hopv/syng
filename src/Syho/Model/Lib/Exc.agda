@@ -10,11 +10,11 @@ open import Base.Level using (Level)
 open import Base.Func using (id)
 open import Base.Few using (⊥; ⊤)
 open import Base.Eq using (_≡_; refl)
+open import Base.Option using (¿_; š_; ň)
 
 private variable
   ł :  Level
   A :  Set ł
-  a b :  A
 
 --------------------------------------------------------------------------------
 -- Exc A :  Exclusivity box
@@ -33,14 +33,9 @@ data  Exc (A : Set ł) :  Set ł  where
   ↯ˣ :  Exc A
 
 private variable
+  a b c :  A
+  aˇ :  ¿ A
   x y z :  Exc A
-
--- ✓ˣ :  Validity of Exc A
-
-infix 3 ✓ˣ_
-✓ˣ_ :  Exc A →  Set₀
-✓ˣ ↯ˣ =  ⊥
-✓ˣ _ =  ⊤
 
 -- ∙ˣ :  Product over Exc A
 
@@ -51,13 +46,14 @@ _∙ˣ_ :  Exc A →  Exc A →  Exc A
 x ∙ˣ ?ˣ =  x
 _ ∙ˣ _ =  ↯ˣ
 
--- ←ˣ :  Agreement between A and Exc A
+-- ✓ˣ :  Agreement between ¿ A and Exc A
 
-infix 4 _←ˣ_
-_←ˣ_ :  ∀{A : Set ł} →  A →  Exc A →  Set ł
-a ←ˣ #ˣ b =  a ≡ b
-_ ←ˣ ?ˣ =  ⊤
-_ ←ˣ ↯ˣ =  ⊥
+infix 4 _✓ˣ_
+_✓ˣ_ :  ∀{A : Set ł} →  ¿ A →  Exc A →  Set ł
+_ ✓ˣ ?ˣ =  ⊤
+_ ✓ˣ ↯ˣ =  ⊥
+š a ✓ˣ #ˣ b =  a ≡ b
+ň ✓ˣ #ˣ _ =  ⊥
 
 abstract
 
@@ -92,6 +88,28 @@ abstract
 
   -- ✓ˣ holds after removing an element with respect to ∙ˣ
 
-  ✓ˣ-rem :  ✓ˣ x ∙ˣ y →  ✓ˣ y
+  ✓ˣ-rem :  aˇ ✓ˣ x ∙ˣ y →  aˇ ✓ˣ y
   ✓ˣ-rem {x = ?ˣ} =  id
-  ✓ˣ-rem {x = #ˣ _} {y = ?ˣ} =  _
+  ✓ˣ-rem {aˇ = š _} {#ˣ _} {?ˣ} =  _
+
+  -- Update ň into š a and y into #ˣ a, preserving ✓ˣ x ∙ˣ
+
+  ✓ˣ-alloc :  ň ✓ˣ x ∙ˣ y →  š a ✓ˣ x ∙ˣ #ˣ a
+  ✓ˣ-alloc {x = ?ˣ} {y = ?ˣ} _ =  refl
+  ✓ˣ-alloc {x = ?ˣ} {y = #ˣ _} ()
+  ✓ˣ-alloc {x = ?ˣ} {y = ↯ˣ} ()
+
+  -- Agreement from ✓ˣ x ∙ˣ #ˣ
+
+  ✓ˣ-agree : aˇ ✓ˣ x ∙ˣ #ˣ b →  aˇ ≡ š b
+  ✓ˣ-agree {aˇ = š _} {?ˣ} refl =  refl
+
+  -- Update aˇ into ň and #ˣ b into ?ˣ, preserving ✓ˣ x ∙ˣ
+
+  ✓ˣ-free : aˇ ✓ˣ x ∙ˣ #ˣ b →  ň ✓ˣ x ∙ˣ ?ˣ
+  ✓ˣ-free {x = ?ˣ} _ =  _
+
+  -- Update aˇ into š c and #ˣ b into #ˣ c, preserving ✓ˣ x ∙ˣ
+
+  ✓ˣ-update : aˇ ✓ˣ x ∙ˣ #ˣ b →  š c ✓ˣ x ∙ˣ #ˣ c
+  ✓ˣ-update {x = ?ˣ} _ =  refl

@@ -95,9 +95,9 @@ abstract
   -- Update ň into š a and y into #ˣ a, preserving ✓ˣ x ∙ˣ
 
   ✓ˣ-alloc :  ň ✓ˣ x ∙ˣ y →  š a ✓ˣ x ∙ˣ #ˣ a
-  ✓ˣ-alloc {x = ?ˣ} {y = ?ˣ} _ =  refl
-  ✓ˣ-alloc {x = ?ˣ} {y = #ˣ _} ()
-  ✓ˣ-alloc {x = ?ˣ} {y = ↯ˣ} ()
+  ✓ˣ-alloc {x = ?ˣ} {?ˣ} _ =  refl
+  ✓ˣ-alloc {x = ?ˣ} {#ˣ _} ()
+  ✓ˣ-alloc {x = ?ˣ} {↯ˣ} ()
 
   -- Agreement from ✓ˣ x ∙ˣ #ˣ
 

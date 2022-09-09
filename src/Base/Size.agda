@@ -22,7 +22,7 @@ open import Agda.Builtin.Size public using (
   -- Size< :  Size →  SizeUniv
   Size<_ to Size<;
   -- Successor size
-  -- ṡˢ :  Size →  Size
+  -- ṡˢ_ :  Size →  Size
   ↑_ to infix 10 ṡˢ_;
   -- Maximum of Size
   -- _⊔ˢ_ :  Size →  Size →  Size

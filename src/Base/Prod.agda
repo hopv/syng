@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Sigma type / Product
+-- Sigma and product type
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
@@ -46,11 +46,13 @@ pattern -,_ b =  _ , b
 
 abstract
 
+  -- Case analysis on ∑
+
   ∑-case :  (∀ a →  B˙ a → C) →  (∑˙ A B˙ → C)
   ∑-case Ba⇒C (a , b) =  Ba⇒C a b
 
 --------------------------------------------------------------------------------
--- Product
+-- Product type
 
 infixr 1 _×_
 _×_ :  Set ł →  Set ł' →  Set (ł ⊔ᴸ ł')
@@ -70,7 +72,7 @@ instance
   ,-it =  it , it
 
 --------------------------------------------------------------------------------
--- ∑ᴵ :  Dependent sum with an instance
+-- ∑ᴵ :  Sigma type with an instance
 
 infix -2 -ᴵ,_
 data  ∑ᴵ˙ (A : Set ł) (B˙ : A → Set ł') :  Set (ł ⊔ᴸ ł')  where
@@ -87,6 +89,8 @@ syntax ∑ᴵ∈-syntax {A = A} (λ a → B) =  ∑ᴵ a ∈ A , B
 syntax ∑ᴵ-syntax (λ a → B) =  ∑ᴵ a , B
 
 abstract
+
+  -- Case analysis on ∑ᴵ
 
   ∑ᴵ-case :  (∀{{a}} →  B˙ a → C) →  (∑ᴵ˙ A B˙ → C)
   ∑ᴵ-case Ba⇒C (-ᴵ, b) =  Ba⇒C b

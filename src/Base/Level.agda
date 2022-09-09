@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Level for universe levels
+-- Universe level
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
@@ -8,7 +8,7 @@ module Base.Level where
 
 -- Import and re-export
 open import Agda.Primitive public using (
-  -- Type of universe levels
+  -- Universe level
   -- Level :  Set₀
   Level) renaming (
   -- Zero level

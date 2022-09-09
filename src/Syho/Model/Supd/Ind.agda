@@ -11,13 +11,14 @@ open import Base.Size using (∞)
 open import Base.Func using (_$_; _∘_; _›_)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl; _≡˙_; _◇˙_)
-open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
+open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case; uncurry)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⊎-case)
+open import Base.Option using (¿_; š_; ň)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙; upd˙²; upd˙-self)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
 open import Syho.Lang.Expr using (Type; Expr)
-open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_)
+open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-ind□;
@@ -41,7 +42,9 @@ private variable
   i j m n :  ℕ
   P Q :  Prop' ∞
   X :  Set ł
-  P˙ Q˙ :  X → Prop' ∞
+  Q˙ :  X →  Prop' ∞
+  Pˇ˙ Qˇ˙ :  X →  ¿ Prop' ∞
+  Pˇ :  ¿ Prop' ∞
   Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ :  X → Propᵒ ł
   T :  Type
@@ -49,46 +52,57 @@ private variable
   E :  Envᴳ
 
 --------------------------------------------------------------------------------
--- Interpret a map ℕ → Prop' ∞ with a bound
+-- Interpret a map ℕ → ¿ Prop' ∞ with a bound
 
-⸨_⸩ᴺᴹ :  (ℕ → Prop' ∞) × ℕ →  Propᵒ 2ᴸ
-⸨ P˙ , 0 ⸩ᴺᴹ =  ⊤ᵒ
-⸨ P˙ , ṡ n ⸩ᴺᴹ =  ⸨ P˙ n ⸩ ∗ᵒ ⸨ P˙ , n ⸩ᴺᴹ
+Invᴺᵐ :  (ℕ → ¿ Prop' ∞) →  ℕ →  Propᵒ 2ᴸ
+Invᴺᵐ Pˇ˙ 0 =  ⊤ᵒ
+Invᴺᵐ Pˇ˙ (ṡ n)  with Pˇ˙ n
+… | ň =  Invᴺᵐ Pˇ˙ n
+… | š Q =  ⸨ Q ⸩ ∗ᵒ Invᴺᵐ Pˇ˙ n
 
 abstract
-  -- Monoᵒ for ⸨ ⸩ᴺᴹ
+  -- Monoᵒ for ⸨ ⸩ᴺᵐ
 
-  ⸨⸩ᴺᴹ-Mono :  Monoᵒ ⸨ P˙ , n ⸩ᴺᴹ
-  ⸨⸩ᴺᴹ-Mono {n = 0} =  _
-  ⸨⸩ᴺᴹ-Mono {n = ṡ _} =  ∗ᵒ-Mono
+  Invᴺᵐ-Mono :  Monoᵒ (Invᴺᵐ Pˇ˙ n)
+  Invᴺᵐ-Mono {n = 0} =  _
+  Invᴺᵐ-Mono {Pˇ˙} {n = ṡ n'}  with Pˇ˙ n'
+  … | ň =  Invᴺᵐ-Mono {n = n'}
+  … | š _ =  ∗ᵒ-Mono
 
   -- Update an element out of the bound
 
-  ⸨⸩ᴺᴹ-⇒upd-≥ :  i ≥ n →  ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ upd˙ i P Q˙ , n ⸩ᴺᴹ
-  ⸨⸩ᴺᴹ-⇒upd-≥ {_} {0} =  _
-  ⸨⸩ᴺᴹ-⇒upd-≥ {i} {ṡ n'} i>n'  with n' ≡? i
+  Invᴺᵐ-⇒upd-≥ :  i ≥ n →  Invᴺᵐ Qˇ˙ n  ⊨  Invᴺᵐ (upd˙ i Pˇ Qˇ˙) n
+  Invᴺᵐ-⇒upd-≥ {_} {0} =  _
+  Invᴺᵐ-⇒upd-≥ {i} {ṡ n'} {Qˇ˙} i>n'  with n' ≡? i
   … | yes refl =  absurd $ <-irrefl i>n'
-  … | no _ =  ∗ᵒ-monoʳ $ ⸨⸩ᴺᴹ-⇒upd-≥ $ <⇒≤ i>n'
+  … | no _  with Qˇ˙ n'
+  …   | š _ =  ∗ᵒ-monoʳ $ Invᴺᵐ-⇒upd-≥ $ <⇒≤ i>n'
+  …   | ň =  Invᴺᵐ-⇒upd-≥ $ <⇒≤ i>n'
 
   -- Add a proposition at the bound
 
-  ⸨⸩ᴺᴹ-add :  ⸨ P ⸩ ∗ᵒ ⸨ Q˙ , n ⸩ᴺᴹ  ⊨ ⸨ upd˙ n P Q˙ , ṡ n ⸩ᴺᴹ
-  ⸨⸩ᴺᴹ-add {n = n}  rewrite ≡?-refl {a = n} =
-    ∗ᵒ-monoʳ $ ⸨⸩ᴺᴹ-⇒upd-≥ $ ≤-refl {n}
+  Invᴺᵐ-add-š :  ⸨ P ⸩ ∗ᵒ Invᴺᵐ Qˇ˙ n  ⊨  Invᴺᵐ (upd˙ n (š P) Qˇ˙) (ṡ n)
+  Invᴺᵐ-add-š {n = n}  rewrite ≡?-refl {a = n} =
+    ∗ᵒ-monoʳ $ Invᴺᵐ-⇒upd-≥ $ ≤-refl {n}
 
-  ⸨⸩ᴺᴹ-add⊤ :  ⸨ P˙ , n ⸩ᴺᴹ  ⊨  ⸨ upd˙ n ⊤' P˙ , ṡ n ⸩ᴺᴹ
-  ⸨⸩ᴺᴹ-add⊤ {n = n} =  ?∗ᵒ-intro absurd › ⸨⸩ᴺᴹ-add {n = n}
+  Invᴺᵐ-add-ň :  Invᴺᵐ Pˇ˙ n  ⊨  Invᴺᵐ (upd˙ n ň Pˇ˙) (ṡ n)
+  Invᴺᵐ-add-ň {n = n}  rewrite ≡?-refl {a = n} =  Invᴺᵐ-⇒upd-≥ $ ≤-refl {n}
 
   -- Remove an element within the bound to get the element's interpretation
 
-  ⸨⸩ᴺᴹ-rem-<ᵈ :  i <ᵈ n →  ⸨ P˙ , n ⸩ᴺᴹ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ upd˙ i ⊤' P˙ , n ⸩ᴺᴹ
-  ⸨⸩ᴺᴹ-rem-<ᵈ {i} ≤ᵈ-refl =  ∗ᵒ-monoʳ (⸨⸩ᴺᴹ-add⊤ {n = i})
-  ⸨⸩ᴺᴹ-rem-<ᵈ {i} (≤ᵈṡ {n = n'} i<ᵈn')  with n' ≡? i
+  Invᴺᵐ-rem-<ᵈ :  Pˇ˙ i ≡ š Q →  i <ᵈ n →
+    Invᴺᵐ Pˇ˙ n  ⊨  ⸨ Q ⸩ ∗ᵒ Invᴺᵐ (upd˙ i ň Pˇ˙) n
+  Invᴺᵐ-rem-<ᵈ {i = i} Pˇi≡šQ ≤ᵈ-refl  rewrite Pˇi≡šQ =
+    ∗ᵒ-monoʳ (Invᴺᵐ-add-ň {n = i})
+  Invᴺᵐ-rem-<ᵈ {Pˇ˙} {i} Pˇi≡šQ (≤ᵈṡ {n = n'} i<ᵈn')  with n' ≡? i
   … | yes refl =  absurd $ <-irrefl $ ≤ᵈ⇒≤ i<ᵈn'
-  … | no _ =  ∗ᵒ-monoʳ (⸨⸩ᴺᴹ-rem-<ᵈ i<ᵈn') › pullʳˡᵒ
+  … | no _  with Pˇ˙ n'
+  …   | ň =  Invᴺᵐ-rem-<ᵈ Pˇi≡šQ i<ᵈn'
+  …   | š _ =  ∗ᵒ-monoʳ (Invᴺᵐ-rem-<ᵈ Pˇi≡šQ i<ᵈn') › pullʳˡᵒ
 
-  ⸨⸩ᴺᴹ-rem-< :  i < n →  ⸨ P˙ , n ⸩ᴺᴹ ⊨ ⸨ P˙ i ⸩ ∗ᵒ ⸨ upd˙ i ⊤' P˙ , n ⸩ᴺᴹ
-  ⸨⸩ᴺᴹ-rem-< =  ⸨⸩ᴺᴹ-rem-<ᵈ ∘ ≤⇒≤ᵈ
+  Invᴺᵐ-rem-< :  Pˇ˙ i ≡ š Q →  i < n →
+    Invᴺᵐ Pˇ˙ n  ⊨  ⸨ Q ⸩ ∗ᵒ Invᴺᵐ (upd˙ i ň Pˇ˙) n
+  Invᴺᵐ-rem-< Pˇi≡šQ =  Invᴺᵐ-rem-<ᵈ Pˇi≡šQ ∘ ≤⇒≤ᵈ
 
 --------------------------------------------------------------------------------
 -- On Indˣᴱᴿᴬ
@@ -96,7 +110,7 @@ abstract
 -- Invariant for Indˣᴱᴿᴬ
 
 Inv-indˣ :  Env-indˣ →  Propᵒ 2ᴸ
-Inv-indˣ Eˣ =  ⸨ Eˣ ⸩ᴺᴹ
+Inv-indˣ =  uncurry Invᴺᵐ
 
 -- Super update on Indˣᴱᴿᴬ
 
@@ -111,15 +125,15 @@ abstract
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⇛indˣ  Indˣ P
   Indˣ-alloc =  ⇛ᵍ-make λ E _ → let (_ , n) = E indˣ in
     ?∗ᵒ-intro (ε↝-●-injᴳ-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ ⸨⸩ᴺᴹ-add {n = n}) › ⤇ᴱ-param
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (_ ,_) $ Invᴺᵐ-add-š {n = n}) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
   Indˣ-use :  Indˣ P  ⊨  ⇛indˣ  ⸨ P ⸩
   Indˣ-use =  ⇛ᵍ-make λ E _ → let (_ , n) = E indˣ in
     ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (⸨⸩ᴺᴹ-Mono {n = n}) › ⸨⸩ᴺᴹ-rem-< i<n })
-    › ⤇ᴱ-param
+    ⤇ᴱ-mono (λ{ (≡šP , i<n) →
+      ∗ᵒ-elimʳ (Invᴺᵐ-Mono {n = n}) › Invᴺᵐ-rem-< ≡šP i<n }) › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
 -- On Ind□ᴱᴿᴬ
@@ -127,7 +141,7 @@ abstract
 -- Invariant for Ind□ᴱᴿᴬ
 
 Inv-ind□ :  Env-ind□ →  Propᵒ 2ᴸ
-Inv-ind□ E□ =  □ᵒ ⸨ E□ ⸩ᴺᴹ
+Inv-ind□ =  □ᵒ_ ∘ uncurry Invᴺᵐ
 
 -- Super update on Ind□ᴱᴿᴬ
 
@@ -146,16 +160,16 @@ abstract
       ∗ᵒ-monoˡ (●-injᴳ-⌞⌟≡-□ᵒ refl › dup-□ᵒ ●-Mono › ∗ᵒ-mono (_ ,_) (_ ,_)) ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
-        ⸨⸩ᴺᴹ-add {P} {n = n}) ✓∙) › ⤇ᴱ-param
+        Invᴺᵐ-add-š {P} {n = n}) ✓∙) › ⤇ᴱ-param
 
   -- Use Ind□ P to get P
 
   Ind□-use :  Ind□ P  ⊨  ⇛ind□  ⸨ P ⸩
   Ind□-use {P} =  ⇛ᵍ-make λ E _ → let (_ , n) = E ind□ in
     ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-●-injᴳ-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ{ (refl , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ ⸨⸩ᴺᴹ-Mono {n = n}) ›
-      dup-□ᵒ (⸨⸩ᴺᴹ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (⸨⸩ᴺᴹ-Mono {n = n}) ›
-      ⸨⸩ᴺᴹ-rem-< i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) › ⤇ᴱ-param
+    ⤇ᴱ-mono (λ{ (≡šP , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ Invᴺᵐ-Mono {n = n}) ›
+      dup-□ᵒ (Invᴺᵐ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (Invᴺᵐ-Mono {n = n}) ›
+      Invᴺᵐ-rem-< ≡šP i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
 -- On Indˣᴱᴿᴬ and Ind□ᴱᴿᴬ

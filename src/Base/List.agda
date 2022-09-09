@@ -179,15 +179,15 @@ infix 4 _∈ᴸ_
 _∈ᴸ_ :  ∀{A : Set ł} →  A →  List A →  Set ł
 a ∈ᴸ as =  Any (a ≡_) as
 
+pattern ∈hd =  by-hd refl
+pattern ∈tl a∈as =  by-tl a∈as
+
 abstract
 
   -- ∈ᴸ and [ ]
 
-  ∈ᴸ-[?] :  a ∈ᴸ [ a ]
-  ∈ᴸ-[?] =  by-hd refl
-
   ∈ᴸ-[?]-inv :  a ∈ᴸ [ b ] →  a ≡ b
-  ∈ᴸ-[?]-inv (by-hd a≡b) =  a≡b
+  ∈ᴸ-[?]-inv ∈hd =  refl
 
   -- ∈ᴸ and ⧺
 
@@ -216,7 +216,7 @@ abstract
 
   ⊆ᴸ-[] :  as ⊆ᴸ [] →  as ≡ []
   ⊆ᴸ-[] {as = []} _ =  refl
-  ⊆ᴸ-[] {as = _ ∷ _} as⊆[]  with as⊆[] $ by-hd refl
+  ⊆ᴸ-[] {as = _ ∷ _} as⊆[]  with as⊆[] ∈hd
   … | ()
 
   -- ⊆ᴸ is reflexive and transitive
@@ -318,19 +318,19 @@ abstract
   -- š a ✓ᴸ [ a ] holds
 
   ✓ᴸ-š-[?] :  š a ✓ᴸ [ a ]
-  ✓ᴸ-š-[?] _ (by-hd refl) =  refl
+  ✓ᴸ-š-[?] _ ∈hd =  refl
 
   -- Update ň into š a and cs into [ a ], preserving ✓ᴸ bs ⧺
 
   ✓ᴸ-alloc :  ň ✓ᴸ bs ⧺ cs →  š a ✓ᴸ bs ⧺ [ a ]
-  ✓ᴸ-alloc {bs = []} {cs = []} _ _ (by-hd refl) =  refl
+  ✓ᴸ-alloc {bs = []} {cs = []} _ _ ∈hd =  refl
 
   -- Agreement from ✓ᴸ bs ⧺ [ c ]
 
   ✓ᴸ-agree : aˇ ✓ᴸ bs ⧺ [ c ] →  aˇ ≡ š c
   ✓ᴸ-agree {aˇ = ň} {[]} ()
   ✓ᴸ-agree {aˇ = š _} ∈bs⧺[c]⇒≡a
-    rewrite ∈bs⧺[c]⇒≡a _ $ ⧺-⊆ᴸ-introʳ ∈ᴸ-[?] =  refl
+    rewrite ∈bs⧺[c]⇒≡a _ $ ⧺-⊆ᴸ-introʳ ∈hd =  refl
 
 --------------------------------------------------------------------------------
 -- Positive-length (i.e., non-empty) list

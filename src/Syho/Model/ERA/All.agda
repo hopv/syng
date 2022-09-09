@@ -42,8 +42,7 @@ open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇
 ∀ᴱᴿᴬ .✓-resp a≈b E✓a i =  Era˙ i .✓-resp (a≈b i) (E✓a i)
 ∀ᴱᴿᴬ .✓-rem E✓a∙b i =  Era˙ i .✓-rem (E✓a∙b i)
 ∀ᴱᴿᴬ .⌞⌟-cong a≈b i =  Era˙ i .⌞⌟-cong (a≈b i)
-∀ᴱᴿᴬ .⌞⌟-add =
-  (λ i → Era˙ i .⌞⌟-add .π₀) , λ i → Era˙ i .⌞⌟-add .π₁
+∀ᴱᴿᴬ .⌞⌟-add =  (λ i → Era˙ i .⌞⌟-add .π₀) , λ i → Era˙ i .⌞⌟-add .π₁
 ∀ᴱᴿᴬ .⌞⌟-unitˡ i =  Era˙ i .⌞⌟-unitˡ
 ∀ᴱᴿᴬ .⌞⌟-idem i =  Era˙ i .⌞⌟-idem
 

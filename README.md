@@ -125,6 +125,7 @@ parts.
         for modeling ghost states of Syho.
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
             [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
+            [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
     + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of propositions.

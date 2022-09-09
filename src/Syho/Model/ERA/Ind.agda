@@ -19,8 +19,8 @@ open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; 
 open import Base.List using ([_])
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Exc using (#ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free; Excᴱᴿᴬ)
-open import Syho.Model.ERA.Ag using (✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-alloc; ✓ᴸ-agree; Agᴱᴿᴬ)
+open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free)
+open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-alloc; ✓ᴸ-agree)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Wrap
 

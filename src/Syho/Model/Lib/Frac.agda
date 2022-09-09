@@ -9,12 +9,12 @@ module Syho.Model.Lib.Frac where
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (⊤; ⊥; absurd)
-open import Base.Eq using (_≡_)
+open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Option using (¿_; š_; ň)
-open import Base.List using (List; _⧺_; []; [_]; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ; ≈ᴸ-refl;
-  ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem; ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?];
-  ✓ᴸ-agree)
+open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ;
+  ∈hd; ∈tl; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem;
+  ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;
   ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
   1≤1ᴿ⁺; ¬?+1≤1ᴿ⁺)
@@ -24,7 +24,7 @@ private variable
   A :  Set ł
   a b c :  A
   aˇ :  ¿ A
-  bs :  List A
+  bs ds :  List A
   p q :  ℚ⁺
 
 --------------------------------------------------------------------------------
@@ -141,6 +141,12 @@ abstract
   ✓ᶠʳ-agree {aˇ = š _} {ň} (-, aˇ✓[b]) =  ✓ᴸ-agree {bs = []} aˇ✓[b]
   ✓ᶠʳ-agree {aˇ = š _} {š _} (-, aˇ✓⧺[b]) =  ✓ᴸ-agree aˇ✓⧺[b]
   ✓ᶠʳ-agree {aˇ = ň} {š _} ()
+
+  -- Agreement between the first two elements of a list
+
+  ✓ᶠʳ-agree2 :  aˇ ✓ᶠʳ š (p , b ∷ c ∷ ds) →  b ≡ c
+  ✓ᶠʳ-agree2 {aˇ = š _} (-, aˇ✓b∷c∷ds)
+    rewrite aˇ✓b∷c∷ds _ ∈hd | aˇ✓b∷c∷ds _ (∈tl ∈hd) =  refl
 
   -- Update aˇ into ň and š (1ᴿ⁺ , bs) into ň, preserving ✓ᶠʳ x ∙ᶠʳ
 

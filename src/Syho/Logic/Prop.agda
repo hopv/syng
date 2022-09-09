@@ -6,7 +6,7 @@
 
 module Syho.Logic.Prop where
 
-open import Base.Level using (Level; Up; ↓_)
+open import Base.Level using (Level; Up; ↓)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
 open import Base.Size using (Size; ∞; Thunk)
@@ -91,8 +91,8 @@ data  Prop' ι  where
 
 ∀₀˙ ∃₀˙ ∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax :
   ∀{X : Set₀} →  (X → Prop' ι) →  Prop' ι
-∀₀˙ P˙ =  ∀₁˙ $ P˙ ∘ ↓_
-∃₀˙ P˙ =  ∃₁˙ $ P˙ ∘ ↓_
+∀₀˙ P˙ =  ∀₁˙ $ P˙ ∘ ↓
+∃₀˙ P˙ =  ∃₁˙ $ P˙ ∘ ↓
 ∀₀∈-syntax =  ∀₀˙
 ∃₀∈-syntax =  ∃₀˙
 ∀₀-syntax =  ∀₀˙
@@ -196,10 +196,10 @@ data  Basic :  Prop' ∞ →  Set₂  where
 -- For ∀/∃₀
 
 ∀₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₀˙ P˙)
-∀₀-Basic =  ∀₁-Basic ∘ _∘ ↓_
+∀₀-Basic =  ∀₁-Basic ∘ _∘ ↓
 
 ∃₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₀˙ P˙)
-∃₀-Basic =  ∃₁-Basic ∘ _∘ ↓_
+∃₀-Basic =  ∃₁-Basic ∘ _∘ ↓
 
 instance
 

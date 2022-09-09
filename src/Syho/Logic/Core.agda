@@ -6,7 +6,7 @@
 
 module Syho.Logic.Core where
 
-open import Base.Level using (Level; ↑_; ↓_)
+open import Base.Level using (Level; ↑_; ↓)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.Size using (Size; ∞; Thunk; !)
@@ -49,12 +49,12 @@ abstract
   -->  ∀₁-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₁˙ Q˙
 
   ∀₀-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₀˙ Q˙
-  ∀₀-intro =  ∀₁-intro ∘ _∘ ↓_
+  ∀₀-intro =  ∀₁-intro ∘ _∘ ↓
 
   -->  ∃₁-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ⊢[ ι ]* Jr
 
   ∃₀-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ⊢[ ι ]* Jr
-  ∃₀-elim =  ∃₁-elim ∘ _∘ ↓_
+  ∃₀-elim =  ∃₁-elim ∘ _∘ ↓
 
   ∧-intro :  P ⊢[ ι ] Q →  P ⊢[ ι ] R →  P ⊢[ ι ] Q ∧ R
   ∧-intro P⊢Q P⊢R =  ∀₁-intro $ binary P⊢Q P⊢R
@@ -101,10 +101,10 @@ abstract
   ∃₁-mono P˙⊢Q˙ =  ∃₁-elim λ x →  P˙⊢Q˙ x » ∃₁-intro x
 
   ∀₀-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∀₀˙ P˙ ⊢[ ι ] ∀₀˙ Q˙
-  ∀₀-mono =  ∀₁-mono ∘ _∘ ↓_
+  ∀₀-mono =  ∀₁-mono ∘ _∘ ↓
 
   ∃₀-mono :  (∀ x →  P˙ x ⊢[ ι ] Q˙ x) →  ∃₀˙ P˙ ⊢[ ι ] ∃₀˙ Q˙
-  ∃₀-mono =  ∃₁-mono ∘ _∘ ↓_
+  ∃₀-mono =  ∃₁-mono ∘ _∘ ↓
 
   ∧-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  P ∧ R ⊢[ ι ] Q ∧ S
   ∧-mono P⊢Q R⊢S =  ∧-intro (∧-elimˡ » P⊢Q) (∧-elimʳ » R⊢S)
@@ -214,7 +214,7 @@ abstract
   ⌜⌝₀-intro =  ⌜⌝₁-intro ∘ ↑_
 
   ⌜⌝₀-elim :  (X →  ⊤' ⊢[ ι ]* Jr) →  ⌜ X ⌝₀ ⊢[ ι ]* Jr
-  ⌜⌝₀-elim =  ⌜⌝₁-elim ∘ _∘ ↓_
+  ⌜⌝₀-elim =  ⌜⌝₁-elim ∘ _∘ ↓
 
   -- ⌜⌝ is monotone
 
@@ -222,7 +222,7 @@ abstract
   ⌜⌝₁-mono f =  ⌜⌝₁-elim λ x →  ⌜⌝₁-intro $ f x
 
   ⌜⌝₀-mono :  (X → Y) →  ⌜ X ⌝₀ ⊢[ ι ] ⌜ Y ⌝₀
-  ⌜⌝₀-mono f =  ⌜⌝₁-mono $ ↑_ ∘ f ∘ ↓_
+  ⌜⌝₀-mono f =  ⌜⌝₁-mono $ ↑_ ∘ f ∘ ↓
 
   -- Introduce & eliminate ⌜ ⌝ ∧
 
@@ -237,7 +237,7 @@ abstract
   ⌜⌝₀∧-intro =  ⌜⌝₁∧-intro ∘ ↑_
 
   ⌜⌝₀∧-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₀ ∧ P ⊢[ ι ] Q
-  ⌜⌝₀∧-elim =  ⌜⌝₁∧-elim ∘ _∘ ↓_
+  ⌜⌝₀∧-elim =  ⌜⌝₁∧-elim ∘ _∘ ↓
 
   -- ⌜ X ⌝ →' is the same with ∀ _ ∈ X ,
 
@@ -406,10 +406,10 @@ abstract
   ∗∃₁-elim ∗Qx⊢ =  ∗∃-out » ∃₁-elim ∗Qx⊢
 
   ∃₀∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃₀˙ P˙ ∗ Q ⊢[ ι ]* Jr
-  ∃₀∗-elim =  ∃₁∗-elim ∘ _∘ ↓_
+  ∃₀∗-elim =  ∃₁∗-elim ∘ _∘ ↓
 
   ∗∃₀-elim :  (∀ x → P ∗ Q˙ x ⊢[ ι ]* Jr) →  P ∗ ∃₀˙ Q˙ ⊢[ ι ]* Jr
-  ∗∃₀-elim =  ∗∃₁-elim ∘ _∘ ↓_
+  ∗∃₀-elim =  ∗∃₁-elim ∘ _∘ ↓
 
   ∨∗-elim :  P ∗ R ⊢[ ι ]* Jr →  Q ∗ R ⊢[ ι ]* Jr →  (P ∨ Q) ∗ R ⊢[ ι ]* Jr
   ∨∗-elim P∗⊢ Q∗⊢ =  ∃₁∗-elim $ binary P∗⊢ Q∗⊢
@@ -691,13 +691,13 @@ abstract
   ∀₁-Pers ∀Pers .Pers-⇒□ =  ∀₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀-in
 
   ∀₀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀₀˙ P˙)
-  ∀₀-Pers =  ∀₁-Pers ∘ _∘ ↓_
+  ∀₀-Pers =  ∀₁-Pers ∘ _∘ ↓
 
   ∃₁-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃₁˙ P˙)
   ∃₁-Pers ∀Pers .Pers-⇒□ =  ∃₁-mono (λ x → ∀Pers x .Pers-⇒□) » □-∃-in
 
   ∃₀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃₀˙ P˙)
-  ∃₀-Pers =  ∃₁-Pers ∘ _∘ ↓_
+  ∃₀-Pers =  ∃₁-Pers ∘ _∘ ↓
 
   instance
 
@@ -783,7 +783,7 @@ abstract
   ⌜⌝₁∗-elim X→P⊢Q =  ∗⇒∧ » ⌜⌝₁∧-elim X→P⊢Q
 
   ⌜⌝₀∗-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝₀ ∗ P ⊢[ ι ] Q
-  ⌜⌝₀∗-elim =  ⌜⌝₁∗-elim ∘ _∘ ↓_
+  ⌜⌝₀∗-elim =  ⌜⌝₁∗-elim ∘ _∘ ↓
 
   -- ⌜ ⌝ ∗ can get outside ⤇
 

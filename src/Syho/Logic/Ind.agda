@@ -6,7 +6,7 @@
 
 module Syho.Logic.Ind where
 
-open import Base.Level using (Level; ↓_)
+open import Base.Level using (Level; ↓)
 open import Base.Func using (_∘_; id; const; _$_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)

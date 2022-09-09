@@ -35,6 +35,5 @@ infix 8 ↑_
 record  Up {ł : Level} (A : Set ł) {ł' : Level} :  Set (ł ⊔ᴸ ł')  where
   -- ↑/↓ : Wrap into / unwrap from Up
   constructor ↑_
-  infix 8 ↓_
-  field  ↓_ :  A
+  field  ↓ :  A
 open Up public

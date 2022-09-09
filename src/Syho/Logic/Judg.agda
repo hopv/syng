@@ -16,11 +16,11 @@ open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; len; rep)
-open import Base.RatPos using (ℚ⁺)
+open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_;
-  _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
+  ∃₁∈-syntax; _∧_; ⊤'; ⌜_⌝₁; ⌜_⌝₀; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
+  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ˡ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
   V⇒E; AnyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_; allocᴿ;
@@ -136,8 +136,8 @@ private variable
   K :  Ktx T U
   v :  Val T
   θ :  Addr
-  p :  ℚ⁺
-  av :  AnyVal
+  p q :  ℚ⁺
+  av av' :  AnyVal
   avs :  List AnyVal
 
 infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ʰ_ _ʰ»ᵘ_
@@ -445,6 +445,23 @@ data  _⊢[_]*_  where
   hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩[ wκ ]  Q˙
 
+  ------------------------------------------------------------------------------
+  -- On the memory
+
+  -- Points-to tokens agree with the target value
+
+  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ av ∗ θ ↦⟨ q ⟩ av' ⊢[ ι ]  ⌜ av ≡ av' ⌝₁
+
+  -- The fraction of the points-to token is no more than 1
+
+  ↦⟨⟩-≤1 :  θ ↦⟨ p ⟩ av ⊢[ ι ]  ⌜ p ≤1ᴿ⁺ ⌝₀
+
+  -- Points-to tokens can be merged and split with respect to the fraction
+
+  ↦⟨⟩-merge :  θ ↦⟨ p ⟩ av ∗ θ ↦⟨ q ⟩ av ⊢[ ι ]  θ ↦⟨ p +ᴿ⁺ q ⟩ av
+
+  ↦⟨⟩-split :  θ ↦⟨ p +ᴿ⁺ q ⟩ av ⊢[ ι ]  θ ↦⟨ p ⟩ av ∗ θ ↦⟨ q ⟩ av
+
   -- Memory read
 
   hor-🞰 :  θ ↦⟨ p ⟩ (V , v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  Q˙  →
@@ -464,5 +481,5 @@ data  _⊢[_]*_  where
   -- Memory freeing
 
   hor-free :
-    len avs  ≡  n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
+    len avs ≡ n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
     θ ↦ˡ avs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| freeᴿ θ) ⟩[ wκ ]  Q˙

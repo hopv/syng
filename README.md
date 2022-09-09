@@ -124,8 +124,8 @@ parts.
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
             [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
             [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
-            [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA;
             [`Wrap`](src/Syho/Model/ERA/Wrap.agda) for the wrap ERA;
+            [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA;
             [`Exc`](src/Syho/Model/ERA/Exc.agda) for the exclusive ERA;
             [`Ag`](src/Syho/Model/ERA/Ag.agda) for the agreement ERA;
             [`Frac`](src/Syho/Model/ERA/Frac.agda) for the fractional ERA;

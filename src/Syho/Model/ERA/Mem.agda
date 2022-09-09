@@ -18,8 +18,8 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ)
 open import Syho.Model.ERA.Frac using (Fracᴱᴿᴬ)
 import Syho.Model.ERA.All
-import Syho.Model.ERA.Up
 import Syho.Model.ERA.Wrap
+import Syho.Model.ERA.Up
 
 --------------------------------------------------------------------------------
 -- Memᴱᴿᴬ :  Memory ERA

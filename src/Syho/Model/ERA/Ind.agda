@@ -7,26 +7,22 @@
 module Syho.Model.ERA.Ind where
 
 open import Base.Level using (2ᴸ)
-open import Base.Func using (_∘_; _$_; id; _▷_)
+open import Base.Func using (_∘_; id)
 open import Base.Few using (⊤₀; absurd)
-open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
+open import Base.Eq using (_≡_; refl)
 open import Base.Size using (∞)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; _≡?_; ≡?-refl)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_)
-open import Base.List using (List; []; [_]; _⧺_; _∈ᴸ_; _≈ᴸ_; ⧺-assocˡ; ≈ᴸ-refl;
-  ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm)
+open import Base.List using ([_])
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (#ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free; Excᴱᴿᴬ)
-open import Syho.Model.ERA.Ag using (_✓ᴸ_; ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-alloc; ✓ᴸ-agree)
+open import Syho.Model.ERA.Ag using (✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-alloc; ✓ᴸ-agree; Agᴱᴿᴬ)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Wrap
-
-open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem)
 
 private variable
   P :  Prop' ∞
@@ -89,52 +85,15 @@ abstract
 --------------------------------------------------------------------------------
 -- Ind□ᴱᴿᴬ :  Persistent indirection ERA
 
-Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
-
-Ind□ᴱᴿᴬ .Env =  (ℕ →  ¿ Prop' ∞)  ×  ℕ
-
-Ind□ᴱᴿᴬ .Res =  ℕ →  List (Prop' ∞)
-
-Ind□ᴱᴿᴬ ._≈_ Ps˙ Qs˙ =  ∀ i →  Ps˙ i ≈ᴸ Qs˙ i
-
--- Qs˙ i agrees with P˙ i and equals [] if i is in the null range
-
-Ind□ᴱᴿᴬ ._✓_ (Pˇ˙ , n) Qs˙ =
-  (∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)  ×  (∀ i → Pˇ˙ i ✓ᴸ Qs˙ i)
-
-Ind□ᴱᴿᴬ ._∙_ Ps˙ Qs˙ i =  Ps˙ i ⧺ Qs˙ i
-
-Ind□ᴱᴿᴬ .ε _ =  []
-
-Ind□ᴱᴿᴬ .⌞_⌟ Ps˙ =  Ps˙
-
-Ind□ᴱᴿᴬ .refl˜ _ =  ≈ᴸ-refl
-
-Ind□ᴱᴿᴬ .◠˜_ Psi≈Qsi _ =  ≈ᴸ-sym $ Psi≈Qsi _
-
-Ind□ᴱᴿᴬ ._◇˜_ Psi≈Qsi Qsi≈Rsi _ =  ≈ᴸ-trans (Psi≈Qsi _) (Qsi≈Rsi _)
-
-Ind□ᴱᴿᴬ .∙-congˡ Psi≈Qsi _ =  ⧺-congˡ $ Psi≈Qsi _
-
-Ind□ᴱᴿᴬ .∙-unitˡ _ =  ≈ᴸ-refl
-
-Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} _ =  ⧺-comm {as = Ps˙ _}
-
-Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} _ =  ≡⇒≈ᴸ $ ⧺-assocˡ {as = Ps˙ _}
-
-Ind□ᴱᴿᴬ .✓-resp _ (✓Pˇ ,-) .π₀ =  ✓Pˇ
-Ind□ᴱᴿᴬ .✓-resp Qs≈Rs (-, Pˇ✓Qs) .π₁ i =  ✓ᴸ-resp (Qs≈Rs i) $ Pˇ✓Qs i
-
-Ind□ᴱᴿᴬ .✓-rem (✓Pˇ ,-) .π₀ =  ✓Pˇ
-Ind□ᴱᴿᴬ .✓-rem (-, Pˇ✓Qs⧺Rs) .π₁ i =  ✓ᴸ-rem $ Pˇ✓Qs⧺Rs i
-
-Ind□ᴱᴿᴬ .⌞⌟-cong =  id
-
-Ind□ᴱᴿᴬ .⌞⌟-add =  -, λ _ → ≈ᴸ-refl
-
-Ind□ᴱᴿᴬ .⌞⌟-unitˡ _ =  ⧺-idem
-
-Ind□ᴱᴿᴬ .⌞⌟-idem _ =  ≈ᴸ-refl
+module AllInd□ =  Syho.Model.ERA.All (λ (_ : ℕ) → Agᴱᴿᴬ (Prop' ∞))
+open AllInd□ public using () renaming (
+  --  ∀Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  ∀ᴱᴿᴬ to ∀Ind□ᴱᴿᴬ)
+module WrapInd□ =  Syho.Model.ERA.Wrap ∀Ind□ᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
+  (λ (Pˇ˙ , n) →  ∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)
+open WrapInd□ public using () renaming (
+  --  Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  Wrapᴱᴿᴬ to Ind□ᴱᴿᴬ)
 
 open ERA Ind□ᴱᴿᴬ public using () renaming (Env to Env-ind□)
 

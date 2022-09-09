@@ -69,7 +69,6 @@ Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} _ =  ∙ˣ-comm {x = Pˣ˙ _}
 Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} _ =  ∙ˣ-assocˡ {x = Pˣ˙ _}
 
 Indˣᴱᴿᴬ .✓-resp _ (✓Pˇ , _) .π₀ =  ✓Pˇ
-
 Indˣᴱᴿᴬ .✓-resp Qˣi≡Rˣi (_ , Pˇi✓Qˣi) .π₁ i  rewrite ◠ Qˣi≡Rˣi i =  Pˇi✓Qˣi i
 
 Indˣᴱᴿᴬ .✓-rem (✓Pˇ , _) .π₀ =  ✓Pˇ

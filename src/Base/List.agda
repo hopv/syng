@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
 open import Base.Option using (¿_; š_; ň)
-open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-)
+open import Base.Prod using (∑-syntax; _×_; _,_; _,-)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 
@@ -32,8 +32,7 @@ private variable
   ł ł' ł'' :  Level
   A B :  Set ł
   F :  A → Set ł
-  a b c :  A
-  aˇ :  ¿ A
+  a b :  A
   as bs cs :  List A
   i j :  ℕ
 
@@ -291,48 +290,6 @@ abstract
 
   ⧺-idem :  as ⧺ as  ≈ᴸ  as
   ⧺-idem =  ⧺-⊆ᴸ-elim ⊆ᴸ-refl ⊆ᴸ-refl , ⧺-⊆ᴸ-introˡ
-
---------------------------------------------------------------------------------
--- Agreement between ¿ A and List A
-
-infix 4 _✓ᴸ_
-_✓ᴸ_ :  ∀{A : Set ł} →  ¿ A →  List A →  Set ł
-ň ✓ᴸ bs =  bs ≡ []
-š a ✓ᴸ bs =  ∀ b →  b ∈ᴸ bs →  b ≡ a
-
-abstract
-
-  -- ✓ᴸ respects ⊆ᴸ and ≈ᴸ
-
-  ✓ᴸ-⊆ᴸ :  cs ⊆ᴸ bs →  aˇ ✓ᴸ bs →  aˇ ✓ᴸ cs
-  ✓ᴸ-⊆ᴸ {aˇ = ň} cs⊆[] refl =  ⊆ᴸ-[] cs⊆[]
-  ✓ᴸ-⊆ᴸ {aˇ = š _} cs⊆bs aˇ✓bs _ c∈cs =  aˇ✓bs _ $ cs⊆bs c∈cs
-
-  ✓ᴸ-resp :  bs ≈ᴸ cs →  aˇ ✓ᴸ bs →  aˇ ✓ᴸ cs
-  ✓ᴸ-resp (-, cs⊆bs) =  ✓ᴸ-⊆ᴸ cs⊆bs
-
-  -- ✓ˣ holds after removing a list with respect to ⧺
-
-  ✓ᴸ-rem :  aˇ ✓ᴸ bs ⧺ cs →  aˇ ✓ᴸ cs
-  ✓ᴸ-rem {aˇ = ň} {[]} {[]} _ =  refl
-  ✓ᴸ-rem {aˇ = š _} ∈bs⧺cs⇒≡a _ c∈cs =  ∈bs⧺cs⇒≡a _ $ ⧺-⊆ᴸ-introʳ c∈cs
-
-  -- š a ✓ᴸ [ a ] holds
-
-  ✓ᴸ-š-[?] :  š a ✓ᴸ [ a ]
-  ✓ᴸ-š-[?] _ ∈ʰᵈ =  refl
-
-  -- Update ň into š a and cs into [ a ], preserving ✓ᴸ bs ⧺
-
-  ✓ᴸ-alloc :  ň ✓ᴸ bs ⧺ cs →  š a ✓ᴸ bs ⧺ [ a ]
-  ✓ᴸ-alloc {bs = []} {cs = []} _ _ ∈ʰᵈ =  refl
-
-  -- Agreement from ✓ᴸ bs ⧺ [ c ]
-
-  ✓ᴸ-agree : aˇ ✓ᴸ bs ⧺ [ c ] →  aˇ ≡ š c
-  ✓ᴸ-agree {aˇ = ň} {[]} ()
-  ✓ᴸ-agree {aˇ = š _} ∈bs⧺[c]⇒≡a
-    rewrite ∈bs⧺[c]⇒≡a _ $ ⧺-⊆ᴸ-introʳ ∈ʰᵈ =  refl
 
 --------------------------------------------------------------------------------
 -- Positive-length (i.e., non-empty) list

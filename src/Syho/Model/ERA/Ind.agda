@@ -16,12 +16,12 @@ open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; _≡?_; ≡?-refl)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_)
-open import Base.List using (List; []; [_]; _⧺_; _∈ᴸ_; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ;
-  ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm; ✓ᴸ-resp; ✓ᴸ-rem;
-  ✓ᴸ-alloc; ✓ᴸ-agree)
+open import Base.List using (List; []; [_]; _⧺_; _∈ᴸ_; _≈ᴸ_; ⧺-assocˡ; ≈ᴸ-refl;
+  ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-idem; ⧺-comm)
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (#ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free; Excᴱᴿᴬ)
+open import Syho.Model.ERA.Ag using (_✓ᴸ_; ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-alloc; ✓ᴸ-agree)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Wrap
 

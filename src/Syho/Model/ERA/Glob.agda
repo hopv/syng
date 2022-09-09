@@ -37,5 +37,10 @@ module AllGlob =  Syho.Model.ERA.All Globᴱᴿᴬ˙
 open AllGlob public
 
 -- Aliases
-open AllGlob public using () renaming (∀ᴱᴿᴬ to Globᴱᴿᴬ; Env˙ to Envᴳ;
+open AllGlob public using () renaming (
+  -- Globᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  ∀ᴱᴿᴬ to Globᴱᴿᴬ;
+  -- Envᴳ :  Set 2ᴸ
+  Env˙ to Envᴳ;
+  -- Resᴳ :  Set 2ᴸ
   Res˙ to Resᴳ)

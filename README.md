@@ -119,8 +119,7 @@ parts.
     + [`Example`](src/Syho/Logic/Example.agda) for examples.
 - [`Model/`](src/Syho/Model/) ― The semantic model and soundness proof of Syho.
     + [`Lib/`](src/Syho/Model/Lib) ― Libraries.
-        * [`Exc`](src/Syho/Model/Lib/Exc.agda) for exclusivity boxes,
-            [`Frac`](src/Syho/Model/Lib/Frac.agda) for fractional boxes
+        * [`Frac`](src/Syho/Model/Lib/Frac.agda) for fractional boxes
     + [`ERA/`](src/Syho/Model/ERA/) ― Environmental resource algebras (ERAs),
         for modeling ghost states of Syho.
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
@@ -128,6 +127,7 @@ parts.
             [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
             [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA;
             [`Wrap`](src/Syho/Model/ERA/Wrap.agda) for the wrap ERA;
+            [`Exc`](src/Syho/Model/ERA/Exc.agda) for the exclusive ERA;
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
     + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of propositions.

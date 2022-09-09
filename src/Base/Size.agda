@@ -35,5 +35,9 @@ infix 8 ¡_
 record  Thunk {ł : Level} (F : Size → Set ł) (ι : Size) :  Set ł  where
   coinductive
   constructor ¡_
+
+  -- ! :  Force Thunk F ι into F ι' for any ι' < ι
+  -- It can force Thunk F ∞ into F ∞ (when F satisfies some conditions)
   field  ! :  {ι' : Size< ι} →  F ι'
+
 open Thunk public

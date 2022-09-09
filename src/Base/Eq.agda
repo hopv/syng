@@ -12,7 +12,13 @@ open import Base.Few using (¬_)
 --------------------------------------------------------------------------------
 -- ≡ :  Equality
 
-open import Agda.Builtin.Equality public using (_≡_; refl)
+-- Import and re-export
+open import Agda.Builtin.Equality public using (
+  -- infix 4 _≡_
+  -- _≡_ :  ∀{A : Set ł} →  A →  A →  Set ł
+  _≡_;
+  -- refl :  a ≡ a
+  refl)
 
 private variable
   ł ł' :  Level

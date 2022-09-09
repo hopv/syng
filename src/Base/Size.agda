@@ -8,18 +8,24 @@ module Base.Size where
 
 open import Base.Level using (Level)
 
+-- Import and re-export
 open import Agda.Builtin.Size public using (
   -- Universe of Size
   SizeUniv;
-  -- Size/ordinal, in SizeUniv
+  -- Size or ordinal
+  -- Size :  SizeUniv
   Size;
-  -- Inaccessible size/ordinal, in Size
+  -- Inaccessible size/ordinal
+  -- ∞ :  Size
   ∞) renaming (
-  -- Size< ι :  Size smaller than ι, in SizeUniv
+  -- Subtype of Size, consisting of sizes smaller than the given size
+  -- Size< :  Size →  SizeUniv
   Size<_ to Size<;
-  -- Successor size, in Size → Size
+  -- Successor size
+  -- ṡˢ :  Size →  Size
   ↑_ to infix 10 ṡˢ_;
-  -- Maximum of Size, in Size → Size → Size
+  -- Maximum of Size
+  -- _⊔ˢ_ :  Size →  Size →  Size
   _⊔ˢ_ to infixr 5 _⊔ˢ_)
 
 --------------------------------------------------------------------------------

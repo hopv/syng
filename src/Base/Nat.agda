@@ -17,8 +17,14 @@ open import Base.Dec using (Dec²; yes; no; ≡Dec; ≡dec; _≡?_; upd˙)
 --------------------------------------------------------------------------------
 -- ℕ :  Natural number
 
-open import Agda.Builtin.Nat public
-  using () renaming (Nat to ℕ; suc to infix 10 ṡ_)
+-- Import and re-export
+open import Agda.Builtin.Nat public using () renaming (
+  -- Natural number
+  -- ℕ :  Set₀
+  Nat to ℕ;
+  -- Successor
+  -- š_ :  ℕ →  ℕ
+  suc to infix 10 ṡ_)
 
 private variable
   k l m n :  ℕ
@@ -217,7 +223,10 @@ m <? n =  ṡ m ≤? n
 --------------------------------------------------------------------------------
 -- + :  Addition
 
-open import Agda.Builtin.Nat public using (_+_)
+open import Agda.Builtin.Nat public using (
+  -- infixl 6 _+_
+  -- _+_ :  ℕ →  ℕ →  ℕ
+  _+_)
 
 abstract
 
@@ -289,7 +298,10 @@ abstract
 --------------------------------------------------------------------------------
 -- * :  Multiplication
 
-open import Agda.Builtin.Nat public using (_*_)
+open import Agda.Builtin.Nat public using (
+  -- infixl 7 _*_
+  -- _*_ :  ℕ →  ℕ →  ℕ
+  _*_)
 
 abstract
 
@@ -371,7 +383,10 @@ abstract
 --------------------------------------------------------------------------------
 -- ∸ :  Truncated subtraction
 
-open import Agda.Builtin.Nat public using () renaming (_-_ to _∸_)
+open import Agda.Builtin.Nat public using () renaming (
+  -- infixl 6 _-_
+  -- _-_ :  ℕ →  ℕ →  ℕ
+  _-_ to _∸_)
 
 --------------------------------------------------------------------------------
 -- ⊔ :  Maximum

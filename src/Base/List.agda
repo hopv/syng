@@ -18,7 +18,15 @@ open import Base.Nat using (ℕ; ṡ_; _<_)
 --------------------------------------------------------------------------------
 -- List
 
-open import Agda.Builtin.List public using (List; []; _∷_)
+-- Import and re-export
+open import Agda.Builtin.List public using (
+  -- List :  Set ł →  Set ł
+  List;
+  -- [] :  List A
+  [];
+  -- infixr 5 _∷_
+  -- _∷_ :  A →  List A →  List A
+  _∷_)
 
 private variable
   ł ł' ł'' :  Level

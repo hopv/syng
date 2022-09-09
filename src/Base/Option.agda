@@ -11,8 +11,17 @@ open import Base.Level using (Level)
 --------------------------------------------------------------------------------
 -- ¿ :  Option type
 
-open import Agda.Builtin.Maybe renaming (Maybe to infix 0 ¿_;
-  just to infix 8 š_; nothing to ň) public
+-- Import and re-export
+open import Agda.Builtin.Maybe public using () renaming (
+  -- Option type
+  -- ¿_ :  Set ł →  Set ł
+  Maybe to infix 0 ¿_;
+  -- Some
+  -- š_ :  A →  ¿ A
+  just to infix 8 š_;
+  -- None
+  -- ň :  ¿ A
+  nothing to ň)
 
 private variable
   ł :  Level

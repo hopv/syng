@@ -6,14 +6,19 @@
 
 module Base.Level where
 
+-- Import and re-export
 open import Agda.Primitive public using (
-  -- Level, : Set₀
+  -- Type of universe levels
+  -- Level :  Set₀
   Level) renaming (
-  -- Zero level, : Level
+  -- Zero level
+  -- 0ᴸ :  Level
   lzero to 0ᴸ;
-  -- Successor level, : Level → Level
+  -- Successor level
+  -- ṡᴸ_ :  Level →  Level
   lsuc to infix 10 ṡᴸ_;
-  -- Maximum level, : Level → Level → Level
+  -- Maximum level
+  -- _⊔ᴸ_ :  Level →  Level →  Level
   _⊔_ to infixl 5 _⊔ᴸ_)
 
 -- Shorthand for Level

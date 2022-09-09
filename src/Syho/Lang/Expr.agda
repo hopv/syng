@@ -8,10 +8,11 @@ module Syho.Lang.Expr where
 
 open import Base.Level using (Level; Up; ↑_)
 open import Base.Func using (_$_)
-open import Base.Few using (⊤)
-open import Base.Eq using (_≡_; cong)
+open import Base.Few using (⊤; absurd)
+open import Base.Eq using (_≡_; refl; cong)
 open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Prod using (∑-syntax; _,_)
+open import Base.Dec using (yes; no; ≡Dec; _≡?_; ≡?-refl)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 
 --------------------------------------------------------------------------------
@@ -42,6 +43,16 @@ abstract
 
   ₒ-assoc :  θ ₒ m ₒ n ≡ θ ₒ (n + m)
   ₒ-assoc {n = n} =  cong (addr _) (+-assocʳ {n})
+
+instance
+
+  Addr-≡Dec :  ≡Dec Addr
+  Addr-≡Dec ._≡?_ (addr o i) (addr o' j)  with o ≡? o' | i ≡? j
+  ... | yes refl | yes refl =  yes refl
+  ... | no o≢o' | _ =  no λ{ refl → absurd $ o≢o' refl }
+  ... | _ | no i≢j =  no λ{ refl → absurd $ i≢j refl }
+  Addr-≡Dec .≡?-refl {addr o i}  rewrite ≡?-refl {a = o} | ≡?-refl {a = i} =
+    refl
 
 --------------------------------------------------------------------------------
 -- Type :   Simple type for expressions

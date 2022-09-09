@@ -148,9 +148,10 @@ open All² public
 --------------------------------------------------------------------------------
 -- Any :  Disjunction over list elements
 
+infix 8 ĩʰᵈ_ ĩᵗˡ_
 data  Any {A : Set ł} (F : A → Set ł') :  List A → Set (ł ⊔ᴸ ł')  where
-  by-hd :  ∀{a as} →  F a →  Any F (a ∷ as)
-  by-tl :  ∀{a as} →  Any F as →  Any F (a ∷ as)
+  ĩʰᵈ_ :  ∀{a as} →  F a →  Any F (a ∷ as)
+  ĩᵗˡ_ :  ∀{a as} →  Any F as →  Any F (a ∷ as)
 open Any public
 
 abstract
@@ -158,18 +159,18 @@ abstract
   -- Any and ⧺
 
   Any-⧺-ĩ₀ :  Any F as →  Any F (as ⧺ bs)
-  Any-⧺-ĩ₀ (by-hd Fa) =  by-hd Fa
-  Any-⧺-ĩ₀ (by-tl Fas) =  by-tl $ Any-⧺-ĩ₀ Fas
+  Any-⧺-ĩ₀ (ĩʰᵈ Fa) =  ĩʰᵈ Fa
+  Any-⧺-ĩ₀ (ĩᵗˡ Fas) =  ĩᵗˡ (Any-⧺-ĩ₀ Fas)
 
   Any-⧺-ĩ₁ :  Any F bs →  Any F (as ⧺ bs)
   Any-⧺-ĩ₁ {as = []} Fbs =  Fbs
-  Any-⧺-ĩ₁ {as = _ ∷ _} Fbs =  by-tl $ Any-⧺-ĩ₁ Fbs
+  Any-⧺-ĩ₁ {as = _ ∷ _} Fbs =  ĩᵗˡ (Any-⧺-ĩ₁ Fbs)
 
   Any-⧺-case :  Any F (as ⧺ bs) →  Any F as ⊎ Any F bs
   Any-⧺-case {as = []} Fbs =  ĩ₁ Fbs
-  Any-⧺-case {as = _ ∷ _} (by-hd Fa) =  ĩ₀ (by-hd Fa)
-  Any-⧺-case {as = _ ∷ _} (by-tl Fas'⧺bs) with Any-⧺-case Fas'⧺bs
-  … | ĩ₀ Fas' =  ĩ₀ by-tl Fas'
+  Any-⧺-case {as = _ ∷ _} (ĩʰᵈ Fa) =  ĩ₀ ĩʰᵈ Fa
+  Any-⧺-case {as = _ ∷ _} (ĩᵗˡ Fas'⧺bs) with Any-⧺-case Fas'⧺bs
+  … | ĩ₀ Fas' =  ĩ₀ ĩᵗˡ Fas'
   … | ĩ₁ Fbs =  ĩ₁ Fbs
 
 --------------------------------------------------------------------------------
@@ -179,15 +180,16 @@ infix 4 _∈ᴸ_
 _∈ᴸ_ :  ∀{A : Set ł} →  A →  List A →  Set ł
 a ∈ᴸ as =  Any (a ≡_) as
 
-pattern ∈hd =  by-hd refl
-pattern ∈tl a∈as =  by-tl a∈as
+infix 8 ∈ᵗˡ_
+pattern ∈ʰᵈ =  ĩʰᵈ refl
+pattern ∈ᵗˡ_ a∈as =  ĩᵗˡ a∈as
 
 abstract
 
   -- ∈ᴸ and [ ]
 
   ∈ᴸ-[?]-inv :  a ∈ᴸ [ b ] →  a ≡ b
-  ∈ᴸ-[?]-inv ∈hd =  refl
+  ∈ᴸ-[?]-inv ∈ʰᵈ =  refl
 
   -- ∈ᴸ and ⧺
 
@@ -216,7 +218,7 @@ abstract
 
   ⊆ᴸ-[] :  as ⊆ᴸ [] →  as ≡ []
   ⊆ᴸ-[] {as = []} _ =  refl
-  ⊆ᴸ-[] {as = _ ∷ _} as⊆[]  with as⊆[] ∈hd
+  ⊆ᴸ-[] {as = _ ∷ _} as⊆[]  with as⊆[] ∈ʰᵈ
   … | ()
 
   -- ⊆ᴸ is reflexive and transitive
@@ -318,19 +320,19 @@ abstract
   -- š a ✓ᴸ [ a ] holds
 
   ✓ᴸ-š-[?] :  š a ✓ᴸ [ a ]
-  ✓ᴸ-š-[?] _ ∈hd =  refl
+  ✓ᴸ-š-[?] _ ∈ʰᵈ =  refl
 
   -- Update ň into š a and cs into [ a ], preserving ✓ᴸ bs ⧺
 
   ✓ᴸ-alloc :  ň ✓ᴸ bs ⧺ cs →  š a ✓ᴸ bs ⧺ [ a ]
-  ✓ᴸ-alloc {bs = []} {cs = []} _ _ ∈hd =  refl
+  ✓ᴸ-alloc {bs = []} {cs = []} _ _ ∈ʰᵈ =  refl
 
   -- Agreement from ✓ᴸ bs ⧺ [ c ]
 
   ✓ᴸ-agree : aˇ ✓ᴸ bs ⧺ [ c ] →  aˇ ≡ š c
   ✓ᴸ-agree {aˇ = ň} {[]} ()
   ✓ᴸ-agree {aˇ = š _} ∈bs⧺[c]⇒≡a
-    rewrite ∈bs⧺[c]⇒≡a _ $ ⧺-⊆ᴸ-introʳ ∈hd =  refl
+    rewrite ∈bs⧺[c]⇒≡a _ $ ⧺-⊆ᴸ-introʳ ∈ʰᵈ =  refl
 
 --------------------------------------------------------------------------------
 -- Positive-length (i.e., non-empty) list

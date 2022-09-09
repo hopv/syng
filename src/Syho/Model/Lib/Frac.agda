@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Option using (¿_; š_; ň)
 open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ;
-  ∈hd; ∈tl; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem;
+  ∈ʰᵈ; ∈ᵗˡ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem;
   ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;
   ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
@@ -146,7 +146,7 @@ abstract
 
   ✓ᶠʳ-agree2 :  aˇ ✓ᶠʳ š (p , b ∷ c ∷ ds) →  b ≡ c
   ✓ᶠʳ-agree2 {aˇ = š _} (-, aˇ✓b∷c∷ds)
-    rewrite aˇ✓b∷c∷ds _ ∈hd | aˇ✓b∷c∷ds _ (∈tl ∈hd) =  refl
+    rewrite aˇ✓b∷c∷ds _ ∈ʰᵈ | aˇ✓b∷c∷ds _ (∈ᵗˡ ∈ʰᵈ) =  refl
 
   -- Update aˇ into ň and š (1ᴿ⁺ , bs) into ň, preserving ✓ᶠʳ x ∙ᶠʳ
 

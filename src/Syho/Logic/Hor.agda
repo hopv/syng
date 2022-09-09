@@ -74,7 +74,7 @@ abstract
   -->    P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| allocᴿ n) ⟩[ wκ ]  Q˙
 
   -->  hor-free :
-  -->    len avs ≡ n →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
+  -->    len avs ≡ n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
   -->    θ ↦ˡ avs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| freeᴿ θ) ⟩[ wκ ]  Q˙
 
   -- Compose

@@ -443,7 +443,7 @@ data  _⊢[_]*_  where
   -- Sequential execution
 
   hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
-            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩[ wκ ]  Q˙
+           P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩[ wκ ]  Q˙
 
   -- Memory read
 
@@ -458,12 +458,11 @@ data  _⊢[_]*_  where
   -- Memory allocation
 
   hor-alloc :
-    (∀ θ →  θ ↦ˡ rep n ⊤ṽ  ∗  Free n θ  ∗  P
-              ⊢[ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ wκ ]  Q˙)  →
+    (∀ θ →  θ ↦ˡ rep n ⊤ṽ  ∗  Free n θ  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ wκ ]  Q˙)  →
     P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| allocᴿ n) ⟩[ wκ ]  Q˙
 
   -- Memory freeing
 
   hor-free :
-    len avs ≡ n →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
+    len avs  ≡  n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
     θ ↦ˡ avs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| freeᴿ θ) ⟩[ wκ ]  Q˙

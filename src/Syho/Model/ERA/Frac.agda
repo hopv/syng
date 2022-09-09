@@ -34,7 +34,7 @@ private variable
 
 --------------------------------------------------------------------------------
 -- Frac A :  Fractional box, which is either empty or a pair of a positive
--- fraction ℚ⁺ and a finite set List A
+--           fraction ℚ⁺ and a finite set List A
 
 Frac :  Set ł →  Set ł
 Frac A =  ¿ (ℚ⁺ × List A)

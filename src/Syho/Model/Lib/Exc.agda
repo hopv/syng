@@ -70,11 +70,6 @@ abstract
   ∙ˣ-comm {x = #ˣ _} {↯ˣ} =  refl
   ∙ˣ-comm {x = #ˣ _} {#ˣ _} =  refl
 
-  -- x ∙ˣ ?ˣ is x
-
-  ∙ˣ-?ˣ :  x ∙ˣ ?ˣ ≡ x
-  ∙ˣ-?ˣ {x = x}  rewrite ∙ˣ-comm {x = x} {?ˣ} =  refl
-
   -- ∙ˣ is associative
 
   ∙ˣ-assocˡ :  (x ∙ˣ y) ∙ˣ z  ≡  x ∙ˣ (y ∙ˣ z)

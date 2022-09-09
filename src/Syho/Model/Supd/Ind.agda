@@ -28,8 +28,8 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
   ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ;
   ?∗ᵒ-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ; -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param;
-  ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ●-Mono; ●-inj˙-⌞⌟≡-□ᵒ;
-  ↝-●-inj˙-⤇ᴱ; ε↝-●-inj˙-⤇ᴱ)
+  ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in; ◎-Mono; ◎-inj˙-⌞⌟≡-□ᵒ;
+  ↝-◎-inj˙-⤇ᴱ; ε↝-◎-inj˙-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Ind□; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
@@ -124,14 +124,14 @@ abstract
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⇛indˣ  Indˣ P
   Indˣ-alloc =  ⇛ᵍ-make λ E _ → let (-, n) = E indˣ in
-    ?∗ᵒ-intro (ε↝-●-inj˙-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
+    ?∗ᵒ-intro (ε↝-◎-inj˙-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) $ Invᴺᵐ-add-š {n = n}) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
   Indˣ-use :  Indˣ P  ⊨  ⇛indˣ  ⸨ P ⸩
   Indˣ-use =  ⇛ᵍ-make λ E _ → let (-, n) = E indˣ in
-    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-●-inj˙-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
+    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-◎-inj˙-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (≡šP , i<n) →
       ∗ᵒ-elimʳ (Invᴺᵐ-Mono {n = n}) › Invᴺᵐ-rem-< ≡šP i<n }) › ⤇ᴱ-param
 
@@ -155,9 +155,9 @@ abstract
 
   □ᵒInd□-alloc-rec :  □ᵒ Ind□ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⇛ind□  □ᵒ Ind□ P
   □ᵒInd□-alloc-rec {P} =  ⇛ᵍ-make λ E _ → let (-, n) = E ind□ in
-    ?∗ᵒ-intro (ε↝-●-inj˙-⤇ᴱ alloc-ind□) › ⤇ᴱ-eatʳ ›
+    ?∗ᵒ-intro (ε↝-◎-inj˙-⤇ᴱ alloc-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono✓ (λ _ ✓∙ →
-      ∗ᵒ-monoˡ (●-inj˙-⌞⌟≡-□ᵒ refl › dup-□ᵒ ●-Mono › ∗ᵒ-mono (-,_) (-,_)) ›
+      ∗ᵒ-monoˡ (◎-inj˙-⌞⌟≡-□ᵒ refl › dup-□ᵒ ◎-Mono › ∗ᵒ-mono (-,_) (-,_)) ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
         Invᴺᵐ-add-š {P} {n = n}) ✓∙) › ⤇ᴱ-param
@@ -166,7 +166,7 @@ abstract
 
   Ind□-use :  Ind□ P  ⊨  ⇛ind□  ⸨ P ⸩
   Ind□-use {P} =  ⇛ᵍ-make λ E _ → let (-, n) = E ind□ in
-    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-●-inj˙-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
+    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-◎-inj˙-⤇ᴱ use-ind□) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (≡šP , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ Invᴺᵐ-Mono {n = n}) ›
       dup-□ᵒ (Invᴺᵐ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (Invᴺᵐ-Mono {n = n}) ›
       Invᴺᵐ-rem-< ≡šP i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) › ⤇ᴱ-param

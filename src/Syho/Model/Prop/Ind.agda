@@ -25,8 +25,8 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; inj˙)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
-  ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ●_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono;
-  ∗ᵒ-assocʳ; ?∗ᵒ-intro; ●-Mono)
+  ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ◎_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono;
+  ∗ᵒ-assocʳ; ?∗ᵒ-intro; ◎-Mono)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -40,17 +40,17 @@ private variable
 -- Ind :  Indirection base
 
 Indˣ Ind□ Ind :  Prop' ∞ →  Propᵒ 2ᴸ
-Indˣ P =  ∃ᵒ i , ● inj˙ indˣ (line-indˣ i P)
-Ind□ P =  ∃ᵒ i , ● inj˙ ind□ (line-ind□ i P)
+Indˣ P =  ∃ᵒ i , ◎ inj˙ indˣ (line-indˣ i P)
+Ind□ P =  ∃ᵒ i , ◎ inj˙ ind□ (line-ind□ i P)
 Ind P =  Indˣ P ⊎ᵒ Ind□ P
 
 abstract
 
   Indˣ-Mono :  Monoᵒ (Indˣ P)
-  Indˣ-Mono =  ∃ᵒ-Mono λ _ → ●-Mono
+  Indˣ-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono
 
   Ind□-Mono :  Monoᵒ (Ind□ P)
-  Ind□-Mono =  ∃ᵒ-Mono λ _ → ●-Mono
+  Ind□-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono
 
   Ind-Mono :  Monoᵒ (Ind P)
   Ind-Mono =  ⊎ᵒ-Mono Indˣ-Mono Ind□-Mono

@@ -489,60 +489,60 @@ abstract
     -, -, ⊑-trans ⌞⌟-∙ (⌞⌟-mono b∙c⊑a) , P⌞b⌟ , Q⌞c⌟
 
 --------------------------------------------------------------------------------
--- ● :  Own a resource
+-- ◎ :  Own a resource
 
 abstract
 
-  infix 8 ●_
-  ●_ :  Res →  Propᵒ 2ᴸ
-  (● a) b =  a ⊑ b
+  infix 8 ◎_
+  ◎_ :  Res →  Propᵒ 2ᴸ
+  (◎ a) b =  a ⊑ b
 
-  -- Monoᵒ for ●
+  -- Monoᵒ for ◎
 
-  ●-Mono :  Monoᵒ (● a)
-  ●-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
+  ◎-Mono :  Monoᵒ (◎ a)
+  ◎-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
-  -- Modify the resource of ●
+  -- Modify the resource of ◎
 
-  ●-cong :  a ≈ b →  ● a ⊨ ● b
-  ●-cong a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
+  ◎-cong :  a ≈ b →  ◎ a ⊨ ◎ b
+  ◎-cong a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
 
-  ●-mono :  b ⊑ a →  ● a ⊨ ● b
-  ●-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
+  ◎-mono :  b ⊑ a →  ◎ a ⊨ ◎ b
+  ◎-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
 
-  -- Get ● ε
+  -- Get ◎ ε
 
-  ●-ε :  ⊨ ● ε
-  ●-ε =  ε-min
+  ◎-ε :  ⊨ ◎ ε
+  ◎-ε =  ε-min
 
-  ●-≈ε :  a ≈ ε →  ⊨ ● a
-  ●-≈ε a≈ε =  ●-cong (◠˜ a≈ε) ●-ε
+  ◎-≈ε :  a ≈ ε →  ⊨ ◎ a
+  ◎-≈ε a≈ε =  ◎-cong (◠˜ a≈ε) ◎-ε
 
-  -- ● (a ∙ b) agrees with ● a ∗ᵒ ● b
+  -- ◎ (a ∙ b) agrees with ◎ a ∗ᵒ ◎ b
 
-  ●-∙⇒∗ᵒ :  ● (a ∙ b) ⊨ ● a ∗ᵒ ● b
-  ●-∙⇒∗ᵒ a∙b⊑c =  -, -, a∙b⊑c , ⊑-refl , ⊑-refl
+  ◎-∙⇒∗ᵒ :  ◎ (a ∙ b) ⊨ ◎ a ∗ᵒ ◎ b
+  ◎-∙⇒∗ᵒ a∙b⊑c =  -, -, a∙b⊑c , ⊑-refl , ⊑-refl
 
-  ●-∗ᵒ⇒∙ :  ● a ∗ᵒ ● b ⊨ ● (a ∙ b)
-  ●-∗ᵒ⇒∙ (-, -, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
+  ◎-∗ᵒ⇒∙ :  ◎ a ∗ᵒ ◎ b ⊨ ◎ (a ∙ b)
+  ◎-∗ᵒ⇒∙ (-, -, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
 
-  -- ● a is persistent when ⌞ a ⌟ agrees with a
+  -- ◎ a is persistent when ⌞ a ⌟ agrees with a
 
-  ●-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  ● a ⊨ □ᵒ ● a
-  ●-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
+  ◎-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  ◎ a ⊨ □ᵒ ◎ a
+  ◎-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
 
-  -- ↝ into ⤇ᵒ on ●
+  -- ↝ into ⤇ᵒ on ◎
 
-  ↝-●-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝  λ x → E , b˙ x) →
-               ● a  ⊨  ⤇ᵒ (∃ᵒ x , ● b˙ x)
-  ↝-●-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' _ _ E✓c∙a'  with Ea↝Ebx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
+  ↝-◎-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝  λ x → E , b˙ x) →
+               ◎ a  ⊨  ⤇ᵒ (∃ᵒ x , ◎ b˙ x)
+  ↝-◎-⤇ᵒ-∃ᵒ Ea↝Ebx a⊑a' _ _ E✓c∙a'  with Ea↝Ebx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   … | -, E✓c∙bx =  -, E✓c∙bx , -, ⊑-refl
 
-  -- ↝ into ⤇ᴱ on ●
+  -- ↝ into ⤇ᴱ on ◎
 
-  ↝-●-⤇ᴱ :  ((E , a)  ↝  λ x → F˙ x , b˙ x) →
-            ● a  ⊨  E  ⤇ᴱ  λ x → F˙ x , ● b˙ x
-  ↝-●-⤇ᴱ Ea↝Fxbx a⊑a' _ E✓c∙a'  with Ea↝Fxbx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
+  ↝-◎-⤇ᴱ :  ((E , a)  ↝  λ x → F˙ x , b˙ x) →
+            ◎ a  ⊨  E  ⤇ᴱ  λ x → F˙ x , ◎ b˙ x
+  ↝-◎-⤇ᴱ Ea↝Fxbx a⊑a' _ E✓c∙a'  with Ea↝Fxbx _ $ ✓-mono (∙-monoʳ a⊑a') E✓c∙a'
   … | -, Fx✓c∙bx =  -, -, Fx✓c∙bx , ⊑-refl
 
 -- On an independent ERA
@@ -559,38 +559,38 @@ module _ {i : ℕ} where
 
   abstract
 
-    -- ● inj˙ i aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
+    -- ◎ inj˙ i aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
 
-    ●-inj˙-⌞⌟≈-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≈ⁱ aⁱ →  ● inj˙ i aⁱ ⊨ □ᵒ ● inj˙ i aⁱ
-    ●-inj˙-⌞⌟≈-□ᵒ ⌞a⌟≈a =  ●-⌞⌟≈-□ᵒ $ inj˙-⌞⌟ ◇˜ inj˙-≈ ⌞a⌟≈a
+    ◎-inj˙-⌞⌟≈-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≈ⁱ aⁱ →  ◎ inj˙ i aⁱ ⊨ □ᵒ ◎ inj˙ i aⁱ
+    ◎-inj˙-⌞⌟≈-□ᵒ ⌞a⌟≈a =  ◎-⌞⌟≈-□ᵒ $ inj˙-⌞⌟ ◇˜ inj˙-≈ ⌞a⌟≈a
 
-    ●-inj˙-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ● inj˙ i aⁱ ⊨ □ᵒ ● inj˙ i aⁱ
-    ●-inj˙-⌞⌟≡-□ᵒ ⌞a⌟≡a =  ●-inj˙-⌞⌟≈-□ᵒ (≡⇒≈ⁱ ⌞a⌟≡a)
+    ◎-inj˙-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ◎ inj˙ i aⁱ ⊨ □ᵒ ◎ inj˙ i aⁱ
+    ◎-inj˙-⌞⌟≡-□ᵒ ⌞a⌟≡a =  ◎-inj˙-⌞⌟≈-□ᵒ (≡⇒≈ⁱ ⌞a⌟≡a)
 
-    -- ↝ⁱ into ⤇ᵒ on ● inj˙
+    -- ↝ⁱ into ⤇ᵒ on ◎ inj˙
 
-    ↝-●-inj˙-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ x → Eⁱ , bⁱ˙ x) →
-                      ● inj˙ i aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ● inj˙ i (bⁱ˙ x))
-    ↝-●-inj˙-⤇ᵒ-∃ᵒ Ea↝Ebx =  ↝-●-⤇ᵒ-∃ᵒ $ inj˙-↝ Ea↝Ebx
+    ↝-◎-inj˙-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ x → Eⁱ , bⁱ˙ x) →
+                      ◎ inj˙ i aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ◎ inj˙ i (bⁱ˙ x))
+    ↝-◎-inj˙-⤇ᵒ-∃ᵒ Ea↝Ebx =  ↝-◎-⤇ᵒ-∃ᵒ $ inj˙-↝ Ea↝Ebx
 
-    ε↝-●-inj˙-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ x → Eⁱ , aⁱ˙ x) →
-                       ⊨  ⤇ᵒ (∃ᵒ x , ● inj˙ i (aⁱ˙ x))
-    ε↝-●-inj˙-⤇ᵒ-∃ᵒ Eε↝Eax =  ↝-●-inj˙-⤇ᵒ-∃ᵒ Eε↝Eax $ ●-≈ε $ inj˙-ε
+    ε↝-◎-inj˙-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ x → Eⁱ , aⁱ˙ x) →
+                       ⊨  ⤇ᵒ (∃ᵒ x , ◎ inj˙ i (aⁱ˙ x))
+    ε↝-◎-inj˙-⤇ᵒ-∃ᵒ Eε↝Eax =  ↝-◎-inj˙-⤇ᵒ-∃ᵒ Eε↝Eax $ ◎-≈ε $ inj˙-ε
 
-    ↝-●-inj˙-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , bⁱ) →
-                   ● inj˙ i aⁱ  ⊨  ⤇ᵒ ● inj˙ i bⁱ
-    ↝-●-inj˙-⤇ᵒ Ea↝Eb =  ↝-●-inj˙-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono π₁
+    ↝-◎-inj˙-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , bⁱ) →
+                   ◎ inj˙ i aⁱ  ⊨  ⤇ᵒ ◎ inj˙ i bⁱ
+    ↝-◎-inj˙-⤇ᵒ Ea↝Eb =  ↝-◎-inj˙-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono π₁
 
-    ε↝-●-inj˙-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , aⁱ) →
-                    ⊨  ⤇ᵒ ● inj˙ i aⁱ
-    ε↝-●-inj˙-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono π₁ $ ε↝-●-inj˙-⤇ᵒ-∃ᵒ Eε↝Ea
+    ε↝-◎-inj˙-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , aⁱ) →
+                    ⊨  ⤇ᵒ ◎ inj˙ i aⁱ
+    ε↝-◎-inj˙-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono π₁ $ ε↝-◎-inj˙-⤇ᵒ-∃ᵒ Eε↝Ea
 
-    -- ↝ⁱ into ⤇ᴱ on ● inj˙
+    -- ↝ⁱ into ⤇ᴱ on ◎ inj˙
 
-    ↝-●-inj˙-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , bⁱ˙ x) →
-      ● inj˙ i aⁱ  ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ● inj˙ i (bⁱ˙ x)
-    ↝-●-inj˙-⤇ᴱ Ea↝Fxbx =  ↝-●-⤇ᴱ $ upd˙-inj˙-↝ Ea↝Fxbx
+    ↝-◎-inj˙-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , bⁱ˙ x) →
+      ◎ inj˙ i aⁱ  ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎ inj˙ i (bⁱ˙ x)
+    ↝-◎-inj˙-⤇ᴱ Ea↝Fxbx =  ↝-◎-⤇ᴱ $ upd˙-inj˙-↝ Ea↝Fxbx
 
-    ε↝-●-inj˙-⤇ᴱ :  ((E i , εⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , aⁱ˙ x) →
-                    ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ● inj˙ i (aⁱ˙ x)
-    ε↝-●-inj˙-⤇ᴱ Eε↝Fax =  ↝-●-inj˙-⤇ᴱ Eε↝Fax $ ●-≈ε $ inj˙-ε
+    ε↝-◎-inj˙-⤇ᴱ :  ((E i , εⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , aⁱ˙ x) →
+                    ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎ inj˙ i (aⁱ˙ x)
+    ε↝-◎-inj˙-⤇ᴱ Eε↝Fax =  ↝-◎-inj˙-⤇ᴱ Eε↝Fax $ ◎-≈ε $ inj˙-ε

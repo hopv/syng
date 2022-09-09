@@ -8,7 +8,7 @@ module Base.Dec where
 
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _›_)
-open import Base.Few using (¬_; ⇒¬¬; absurd)
+open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
@@ -76,6 +76,25 @@ private variable
   f g :  ∀ i →  A˙ i
   a b a' b' :  A
   i j :  I
+
+instance
+
+  ⟨2⟩-≡Dec :  ≡Dec {ł} ⟨2⟩
+  ⟨2⟩-≡Dec ._≡?_ 0₂ 0₂ =  yes refl
+  ⟨2⟩-≡Dec ._≡?_ 1₂ 1₂ =  yes refl
+  ⟨2⟩-≡Dec ._≡?_ 0₂ 1₂ =  no λ ()
+  ⟨2⟩-≡Dec ._≡?_ 1₂ 0₂ =  no λ ()
+  ⟨2⟩-≡Dec .≡?-refl {0₂} =  refl
+  ⟨2⟩-≡Dec .≡?-refl {1₂} =  refl
+
+  ⊤-≡Dec :  ≡Dec {ł} ⊤
+  ⊤-≡Dec ._≡?_ _ _ =  yes refl
+  ⊤-≡Dec .≡?-refl =  refl
+
+  ⊥-≡Dec :  ≡Dec {ł} ⊥
+  ⊥-≡Dec ._≡?_ ()
+  ⊥-≡Dec .≡?-refl {a = a}  with a
+  … | ()
 
 --------------------------------------------------------------------------------
 -- upd˙ :  Update a map at an index

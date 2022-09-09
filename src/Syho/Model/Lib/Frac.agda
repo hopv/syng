@@ -12,9 +12,9 @@ open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Option using (¿_; š_; ň)
-open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ;
-  ∈ʰᵈ; ∈ᵗˡ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem;
-  ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?]; ✓ᴸ-agree)
+open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ; ∈ʰᵈ;
+  ∈ᵗˡ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem; ✓ᴸ-resp;
+  ✓ᴸ-rem; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;
   ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
   1≤1ᴿ⁺; ¬?+1≤1ᴿ⁺)

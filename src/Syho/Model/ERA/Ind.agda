@@ -12,7 +12,7 @@ open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; subst)
 open import Base.Size using (∞)
 open import Base.Option using (¿_; š_; ň)
-open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
+open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; _≡?_; ≡?-refl)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_)
@@ -68,10 +68,10 @@ Indˣᴱᴿᴬ .∙-comm {a = Pˣ˙} _ =  ∙ˣ-comm {x = Pˣ˙ _}
 
 Indˣᴱᴿᴬ .∙-assocˡ {a = Pˣ˙} _ =  ∙ˣ-assocˡ {x = Pˣ˙ _}
 
-Indˣᴱᴿᴬ .✓-resp _ (✓Pˇ , _) .π₀ =  ✓Pˇ
+Indˣᴱᴿᴬ .✓-resp _ (✓Pˇ ,-) .π₀ =  ✓Pˇ
 Indˣᴱᴿᴬ .✓-resp Qˣi≡Rˣi (-, Pˇi✓Qˣi) .π₁ i  rewrite ◠ Qˣi≡Rˣi i =  Pˇi✓Qˣi i
 
-Indˣᴱᴿᴬ .✓-rem (✓Pˇ , _) .π₀ =  ✓Pˇ
+Indˣᴱᴿᴬ .✓-rem (✓Pˇ ,-) .π₀ =  ✓Pˇ
 Indˣᴱᴿᴬ .✓-rem {a = Qˣ˙} (-, Pˇ✓Qˣ∙Rˣ) .π₁ i =  ✓ˣ-rem {x = Qˣ˙ i} $ Pˇ✓Qˣ∙Rˣ i
 
 Indˣᴱᴿᴬ .⌞⌟-cong _ _ =  refl
@@ -98,7 +98,7 @@ abstract
   alloc-indˣ :  ((Qˇ˙ , n) , εˣ)  ↝ˣ  λ(_ : ⊤₀) →
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , line-indˣ n P
   alloc-indˣ _ _ .π₀ =  _
-  alloc-indˣ {n = n} _ (✓Qˇ , _) .π₁ .π₀ {i}  with i ≡? n
+  alloc-indˣ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
   … | no _ =  ✓Qˇ ∘ <⇒≤
   … | yes refl =  absurd ∘ <-irrefl
   alloc-indˣ {n = n} Rˣ˙ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rˣ i
@@ -115,7 +115,7 @@ abstract
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
   …     | ĩ₁ i≥n  rewrite ✓Qˇ i≥n  with Qˇi≡šP
   …       | ()
-  use-indˣ {i = i} Rˣ˙ (✓Qˇ , _) .π₁ .π₀ {j}  with j ≡? i
+  use-indˣ {i = i} Rˣ˙ (✓Qˇ ,-) .π₁ .π₀ {j}  with j ≡? i
   … | no _ =  ✓Qˇ
   … | yes refl =  λ _ → refl
   use-indˣ {i = i} Rˣ˙ (-, Qˇ✓Rˣ∙iP) .π₁ .π₁ j  with j ≡? i | Qˇ✓Rˣ∙iP j
@@ -158,10 +158,10 @@ Ind□ᴱᴿᴬ .∙-comm {a = Ps˙} _ =  ⧺-comm {as = Ps˙ _}
 
 Ind□ᴱᴿᴬ .∙-assocˡ {a = Ps˙} _ =  ≡⇒≈ᴸ $ ⧺-assocˡ {as = Ps˙ _}
 
-Ind□ᴱᴿᴬ .✓-resp _ (✓Pˇ , _) .π₀ =  ✓Pˇ
+Ind□ᴱᴿᴬ .✓-resp _ (✓Pˇ ,-) .π₀ =  ✓Pˇ
 Ind□ᴱᴿᴬ .✓-resp Qs≈Rs (-, Pˇ✓Qs) .π₁ i =  ✓ᴸ-resp (Qs≈Rs i) $ Pˇ✓Qs i
 
-Ind□ᴱᴿᴬ .✓-rem (✓Pˇ , _) .π₀ =  ✓Pˇ
+Ind□ᴱᴿᴬ .✓-rem (✓Pˇ ,-) .π₀ =  ✓Pˇ
 Ind□ᴱᴿᴬ .✓-rem (-, Pˇ✓Qs⧺Rs) .π₁ i =  ✓ᴸ-rem $ Pˇ✓Qs⧺Rs i
 
 Ind□ᴱᴿᴬ .⌞⌟-cong =  id
@@ -188,7 +188,7 @@ abstract
   alloc-ind□ :  ((Qˇ˙ , n) , ε□)  ↝□  λ(_ : ⊤₀) →
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , line-ind□ n P
   alloc-ind□ _ _ .π₀ =  _
-  alloc-ind□ {n = n} _ (✓Qˇ , _) .π₁ .π₀ {i}  with i ≡? n
+  alloc-ind□ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
   … | no _ =  ✓Qˇ ∘ <⇒≤
   … | yes refl =  absurd ∘ <-irrefl
   alloc-ind□ {n = n} Rs˙ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rs i

@@ -41,8 +41,9 @@ infix -1 ∑∈-syntax ∑-syntax
 syntax ∑∈-syntax {A = A} (λ a → b) =  ∑ a ∈ A , b
 syntax ∑-syntax (λ a → B) =  ∑ a , B
 
-infix -2 -,_
+infix -2 -,_ _,-
 pattern -,_ b =  _ , b
+pattern _,- a =  a , _
 
 abstract
 

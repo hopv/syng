@@ -10,7 +10,7 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_; _∘_)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
-open import Base.Prod using (∑-syntax; _,_; π₀; π₁)
+open import Base.Prod using (∑-syntax; _,_; _,-; π₀; π₁)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec²; yes; no; ≡Dec; ≡dec; _≡?_; upd˙)
 
@@ -486,7 +486,7 @@ abstract
   -- Cofin is preserved by upd˙
 
   Cofin-upd˙ :  Cofin F f →  Cofin F (upd˙ i a f)
-  Cofin-upd˙ {i = i} (n , _) .π₀ =  ṡ i ⊔ n
+  Cofin-upd˙ {i = i} (n ,-) .π₀ =  ṡ i ⊔ n
   Cofin-upd˙ {i = i} (n , i≥n⇒Ffi) .π₁ j ṡi⊔n≥j  with j ≡? i
   … | no _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
   … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j

@@ -10,7 +10,7 @@ open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (¬_; ⇒¬¬; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_)
-open import Base.Prod using (_×_; _,_; -,_)
+open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
 
 private variable
@@ -48,7 +48,7 @@ abstract
   infixr 1 _×?_
   _×?_ :  Dec A →  Dec B →  Dec (A × B)
   yes a ×? yes b =  yes (a , b)
-  no ¬a ×? _ =  no λ (a , _) → ¬a a
+  no ¬a ×? _ =  no λ (a ,-) → ¬a a
   _ ×? no ¬b =  no λ (-, b) → ¬b b
 
   -- Derive Dec on ⊎

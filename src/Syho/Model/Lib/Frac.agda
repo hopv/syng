@@ -10,7 +10,7 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Eq using (_≡_; refl)
-open import Base.Prod using (_×_; _,_; -,_)
+open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Option using (¿_; š_; ň)
 open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; _✓ᴸ_; ⧺-assocˡ; ∈ʰᵈ;
   ∈ᵗˡ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem; ✓ᴸ-resp;
@@ -66,27 +66,27 @@ abstract
   -- ≈ᶠʳ is reflexive
 
   ≈ᶠʳ-refl :  x ≈ᶠʳ x
-  ≈ᶠʳ-refl {x = š (p , _)} =  ≈ᴿ⁺-refl {p} , ≈ᴸ-refl
+  ≈ᶠʳ-refl {x = š (p ,-)} =  ≈ᴿ⁺-refl {p} , ≈ᴸ-refl
   ≈ᶠʳ-refl {x = ň} =  _
 
   -- ≈ᶠʳ is symmetric
 
   ≈ᶠʳ-sym :  x ≈ᶠʳ y →  y ≈ᶠʳ x
-  ≈ᶠʳ-sym {x = š (p , _)} {š (q , _)} (p≈q , as≈bs) =
+  ≈ᶠʳ-sym {x = š (p ,-)} {š (q ,-)} (p≈q , as≈bs) =
     ≈ᴿ⁺-sym {p} {q} p≈q , ≈ᴸ-sym as≈bs
   ≈ᶠʳ-sym {x = ň} {ň} _ =  _
 
   -- ≈ᶠʳ is transitive
 
   ≈ᶠʳ-trans :  x ≈ᶠʳ y →  y ≈ᶠʳ z →  x ≈ᶠʳ z
-  ≈ᶠʳ-trans {x = š (p , _)} {š (q , _)} {š (r , _)} (p≈q , as≈bs) (q≈r , bs≈cs)
+  ≈ᶠʳ-trans {x = š (p ,-)} {š (q ,-)} {š (r ,-)} (p≈q , as≈bs) (q≈r , bs≈cs)
     = ≈ᴿ⁺-trans {p} {q} {r} p≈q q≈r , ≈ᴸ-trans as≈bs bs≈cs
   ≈ᶠʳ-trans {x = ň} {ň} {ň} _ _ =  _
 
   -- ∙ᶠʳ preserves ≈ᶠʳ
 
   ∙ᶠʳ-congˡ :  x ≈ᶠʳ y →  x ∙ᶠʳ z  ≈ᶠʳ  y ∙ᶠʳ z
-  ∙ᶠʳ-congˡ {x = š (p , _)} {š (q , _)} {š (r , _)} (p≈q , as≈bs) =
+  ∙ᶠʳ-congˡ {x = š (p ,-)} {š (q ,-)} {š (r ,-)} (p≈q , as≈bs) =
     +ᴿ⁺-congˡ {p} {q} {r} p≈q , ⧺-congˡ as≈bs
   ∙ᶠʳ-congˡ {x = š _} {š _} {ň} x≈y =  x≈y
   ∙ᶠʳ-congˡ {x = ň} {ň} _ =  ≈ᶠʳ-refl
@@ -103,7 +103,7 @@ abstract
   -- ∙ᶠʳ is associative with respect to ≈ᶠʳ
 
   ∙ᶠʳ-assocˡ :  (x ∙ᶠʳ y) ∙ᶠʳ z  ≈ᶠʳ  x ∙ᶠʳ (y ∙ᶠʳ z)
-  ∙ᶠʳ-assocˡ {x = š (p , as)} {š (q , _)} {š (r , _)} =
+  ∙ᶠʳ-assocˡ {x = š (p , as)} {š (q ,-)} {š (r ,-)} =
     ≡⇒≈ᴿ⁺ $ +ᴿ⁺-assocˡ {p} {q} {r} , ≡⇒≈ᴸ $ ⧺-assocˡ {as = as}
   ∙ᶠʳ-assocˡ {x = ň} =  ≈ᶠʳ-refl
   ∙ᶠʳ-assocˡ {x = š _} {ň} =  ≈ᶠʳ-refl
@@ -126,7 +126,7 @@ abstract
   ✓ᶠʳ-rem :  aˇ ✓ᶠʳ x ∙ᶠʳ y →  aˇ ✓ᶠʳ y
   ✓ᶠʳ-rem {x = ň} aˇ✓y =  aˇ✓y
   ✓ᶠʳ-rem {x = š _} {ň} _ =  _
-  ✓ᶠʳ-rem {aˇ = š _} {š (p , _)} {š (q , _)} (p+q≤1 , aˇ✓bs⧺cs) =
+  ✓ᶠʳ-rem {aˇ = š _} {š (p ,-)} {š (q ,-)} (p+q≤1 , aˇ✓bs⧺cs) =
     ≤1ᴿ⁺-rem {p} p+q≤1 , ✓ᴸ-rem aˇ✓bs⧺cs
 
   -- Update ň into š a and y into #ᶠʳ a, preserving ✓ᶠʳ x ∙ᶠʳ
@@ -152,7 +152,7 @@ abstract
 
   ✓ᶠʳ-free :  aˇ ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , bs) →  ň ✓ᶠʳ x ∙ᶠʳ ň
   ✓ᶠʳ-free {x = ň} _ =  _
-  ✓ᶠʳ-free {aˇ = š _} {š (p , _)} (p+1≤1 , _) =
+  ✓ᶠʳ-free {aˇ = š _} {š (p ,-)} (p+1≤1 ,-) =
     absurd $ ¬?+1≤1ᴿ⁺ {p = p} p+1≤1
 
   -- Update aˇ into š c and š (1ᴿ⁺ , bs) into š (1ᴿ⁺ , [ c ]),

@@ -18,17 +18,17 @@ open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ)
 
 -- Ids of ERAs
 
-pattern mem =  0
-pattern indˣ =  1
-pattern indᵖ =  2
+pattern iᴹᵉᵐ =  0
+pattern iᴵⁿᵈˣ =  1
+pattern iᴵⁿᵈᵖ =  2
 pattern elseᴳ =  ṡ ṡ ṡ _
 
 -- Map of ERAs
 
 Globᴱᴿᴬ˙ :  ℕ →  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
-Globᴱᴿᴬ˙ mem =  Memᴱᴿᴬ
-Globᴱᴿᴬ˙ indˣ =  Indˣᴱᴿᴬ
-Globᴱᴿᴬ˙ indᵖ =  Indᵖᴱᴿᴬ
+Globᴱᴿᴬ˙ iᴹᵉᵐ =  Memᴱᴿᴬ
+Globᴱᴿᴬ˙ iᴵⁿᵈˣ =  Indˣᴱᴿᴬ
+Globᴱᴿᴬ˙ iᴵⁿᵈᵖ =  Indᵖᴱᴿᴬ
 Globᴱᴿᴬ˙ elseᴳ =  ⊤ᴱᴿᴬ
 
 -- Globᴱᴿᴬ :  Global ERA, defined as ∀ᴱᴿᴬ Globᴱᴿᴬ˙

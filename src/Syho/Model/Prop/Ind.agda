@@ -22,8 +22,8 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»ᵘ_; ⇛-fram
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-ṡ; _ʰ»ᵘ_;
   _ᵘ»ʰ_; hor-frameˡ)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Ind using (lineᴵⁿᵈˣ; lineᴵⁿᵈᵖ)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; indᵖ; inj˙)
+open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ; inj˙)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ◎_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono;
   ∗ᵒ-assocʳ; ?∗ᵒ-intro; ◎-Mono)
@@ -40,8 +40,8 @@ private variable
 -- Ind :  Indirection base
 
 Indˣ Indᵖ Ind :  Prop' ∞ →  Propᵒ 2ᴸ
-Indˣ P =  ∃ᵒ i , ◎ inj˙ indˣ (lineᴵⁿᵈˣ i P)
-Indᵖ P =  ∃ᵒ i , ◎ inj˙ indᵖ (lineᴵⁿᵈᵖ i P)
+Indˣ P =  ∃ᵒ i , ◎ inj˙ iᴵⁿᵈˣ (indˣ i P)
+Indᵖ P =  ∃ᵒ i , ◎ inj˙ iᴵⁿᵈᵖ (indᵖ i P)
 Ind P =  Indˣ P ⊎ᵒ Indᵖ P
 
 abstract

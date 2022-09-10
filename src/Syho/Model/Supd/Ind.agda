@@ -21,9 +21,9 @@ open import Syho.Lang.Expr using (Type; Expr)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
-open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-indᵖ;
-  use-indᵖ; Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; indˣ; indᵖ)
+open import Syho.Model.ERA.Ind using (indˣ-alloc; indˣ-use; indᵖ-alloc;
+  indᵖ-use; Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
   ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ;
@@ -116,22 +116,22 @@ Invᴵⁿᵈˣ =  uncurry Invᴺᵐ
 
 infix 8 ⇛ᴵⁿᵈˣ_
 ⇛ᴵⁿᵈˣ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⇛ᴵⁿᵈˣ Pᵒ =  [ (λ E → E indˣ) , upd˙ indˣ , Invᴵⁿᵈˣ ]⇛ᵍ Pᵒ
+⇛ᴵⁿᵈˣ Pᵒ =  [ (λ E → E iᴵⁿᵈˣ) , upd˙ iᴵⁿᵈˣ , Invᴵⁿᵈˣ ]⇛ᵍ Pᵒ
 
 abstract
 
   -- Allocate P to get Indˣ P
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈˣ  Indˣ P
-  Indˣ-alloc =  ⇛ᵍ-make λ E _ → let (-, n) = E indˣ in
-    ?∗ᵒ-intro (ε↝-◎-inj˙-⤇ᴱ alloc-indˣ) › ⤇ᴱ-eatʳ ›
+  Indˣ-alloc =  ⇛ᵍ-make λ E _ → let (-, n) = E iᴵⁿᵈˣ in
+    ?∗ᵒ-intro (ε↝-◎-inj˙-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) $ Invᴺᵐ-add-š {n = n}) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
   Indˣ-use :  Indˣ P  ⊨  ⇛ᴵⁿᵈˣ  ⸨ P ⸩
-  Indˣ-use =  ⇛ᵍ-make λ E _ → let (-, n) = E indˣ in
-    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-◎-inj˙-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} use-indˣ)
+  Indˣ-use =  ⇛ᵍ-make λ E _ → let (-, n) = E iᴵⁿᵈˣ in
+    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-◎-inj˙-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} indˣ-use)
     › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ{ (≡šP , i<n) →
       ∗ᵒ-elimʳ (Invᴺᵐ-Mono {n = n}) › Invᴺᵐ-rem-< ≡šP i<n }) › ⤇ᴱ-param
 
@@ -147,15 +147,15 @@ Invᴵⁿᵈᵖ =  □ᵒ_ ∘ uncurry Invᴺᵐ
 
 infix 8 ⇛ᴵⁿᵈᵖ_
 ⇛ᴵⁿᵈᵖ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⇛ᴵⁿᵈᵖ Pᵒ =  [ (λ E → E indᵖ) , upd˙ indᵖ , Invᴵⁿᵈᵖ ]⇛ᵍ Pᵒ
+⇛ᴵⁿᵈᵖ Pᵒ =  [ (λ E → E iᴵⁿᵈᵖ) , upd˙ iᴵⁿᵈᵖ , Invᴵⁿᵈᵖ ]⇛ᵍ Pᵒ
 
 abstract
 
   -- Allocate □ P to get □ᵒ Indᵖ P
 
   □ᵒIndᵖ-alloc-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈᵖ  □ᵒ Indᵖ P
-  □ᵒIndᵖ-alloc-rec {P} =  ⇛ᵍ-make λ E _ → let (-, n) = E indᵖ in
-    ?∗ᵒ-intro (ε↝-◎-inj˙-⤇ᴱ alloc-indᵖ) › ⤇ᴱ-eatʳ ›
+  □ᵒIndᵖ-alloc-rec {P} =  ⇛ᵍ-make λ E _ → let (-, n) = E iᴵⁿᵈᵖ in
+    ?∗ᵒ-intro (ε↝-◎-inj˙-⤇ᴱ indᵖ-alloc) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono✓ (λ _ ✓∙ →
       ∗ᵒ-monoˡ (◎-inj˙-⌞⌟≡-□ᵒ refl › dup-□ᵒ ◎-Mono › ∗ᵒ-mono (-,_) (-,_)) ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
@@ -165,8 +165,8 @@ abstract
   -- Use Indᵖ P to get P
 
   Indᵖ-use :  Indᵖ P  ⊨  ⇛ᴵⁿᵈᵖ  ⸨ P ⸩
-  Indᵖ-use {P} =  ⇛ᵍ-make λ E _ → let (-, n) = E indᵖ in
-    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-◎-inj˙-⤇ᴱ use-indᵖ) › ⤇ᴱ-eatʳ ›
+  Indᵖ-use {P} =  ⇛ᵍ-make λ E _ → let (-, n) = E iᴵⁿᵈᵖ in
+    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-◎-inj˙-⤇ᴱ indᵖ-use) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (≡šP , i<n) → ∗ᵒ-elimʳ (□ᵒ-Mono $ Invᴺᵐ-Mono {n = n}) ›
       dup-□ᵒ (Invᴺᵐ-Mono {n = n}) › ∗ᵒ-monoˡ $ □ᵒ-elim (Invᴺᵐ-Mono {n = n}) ›
       Invᴺᵐ-rem-< ≡šP i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) › ⤇ᴱ-param
@@ -182,12 +182,12 @@ Invᴵⁿᵈ (Eᴵⁿᵈˣ , Eᴵⁿᵈᵖ) =  Invᴵⁿᵈˣ Eᴵⁿᵈˣ ∗�
 -- Get Envᴵⁿᵈ out of Envᴳ
 
 envᴵⁿᵈ :  Envᴳ →  Envᴵⁿᵈ
-envᴵⁿᵈ E =  E indˣ , E indᵖ
+envᴵⁿᵈ E =  E iᴵⁿᵈˣ , E iᴵⁿᵈᵖ
 
 -- Update Envᴳ with Envᴵⁿᵈ
 
 updᴱᴵⁿᵈ :  Envᴵⁿᵈ →  Envᴳ →  Envᴳ
-updᴱᴵⁿᵈ (Fᴵⁿᵈˣ , Fᴵⁿᵈᵖ) =  upd˙² indˣ Fᴵⁿᵈˣ indᵖ Fᴵⁿᵈᵖ
+updᴱᴵⁿᵈ (Fᴵⁿᵈˣ , Fᴵⁿᵈᵖ) =  upd˙² iᴵⁿᵈˣ Fᴵⁿᵈˣ iᴵⁿᵈᵖ Fᴵⁿᵈᵖ
 
 -- Super update for Indˣᴱᴿᴬ and Indᵖᴱᴿᴬ
 
@@ -200,12 +200,12 @@ abstract
   -- ⇛ᴵⁿᵈˣ into ⇛ᴵⁿᵈ
 
   ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ :  ⇛ᴵⁿᵈˣ Pᵒ  ⊨  ⇛ᴵⁿᵈ Pᵒ
-  ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ =  ⇛ᵍ-mono (⇛ᵍ-intro {set = upd˙ indᵖ} upd˙-self) › ⇛ᵍ-join2 refl
+  ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ =  ⇛ᵍ-mono (⇛ᵍ-intro {set = upd˙ iᴵⁿᵈᵖ} upd˙-self) › ⇛ᵍ-join2 refl
 
   -- ⊨⇛ᴵⁿᵈᵖ into ⊨⇛ᴵⁿᵈ
 
   ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ :  ⇛ᴵⁿᵈᵖ Pᵒ  ⊨  ⇛ᴵⁿᵈ Pᵒ
-  ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ =  ⇛ᵍ-intro {set = upd˙ indˣ} upd˙-self › ⇛ᵍ-join2 refl
+  ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ =  ⇛ᵍ-intro {set = upd˙ iᴵⁿᵈˣ} upd˙-self › ⇛ᵍ-join2 refl
 
   -- Allocate P to get Ind P
 

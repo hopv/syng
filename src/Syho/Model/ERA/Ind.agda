@@ -37,8 +37,8 @@ module AllIndˣ =  Syho.Model.ERA.All ℕ (λ _ → Excᴱᴿᴬ (Prop' ∞))
 open AllIndˣ public using () renaming (
   --  ∀Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ)
-module WrapIndˣ =  Syho.Model.ERA.Wrap ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
-  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
+module WrapIndˣ =  Syho.Model.ERA.Wrap ∀Indˣᴱᴿᴬ
+  ((ℕ → ¿ Prop' ∞) × ℕ) π₀ (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
 open WrapIndˣ public using () renaming (
   --  Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Wrapᴱᴿᴬ to Indˣᴱᴿᴬ)
@@ -85,8 +85,8 @@ module AllIndᵖ =  Syho.Model.ERA.All ℕ (λ _ → Agᴱᴿᴬ (Prop' ∞))
 open AllIndᵖ public using () renaming (
   --  ∀Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ)
-module WrapIndᵖ =  Syho.Model.ERA.Wrap ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
-  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
+module WrapIndᵖ =  Syho.Model.ERA.Wrap ∀Indᵖᴱᴿᴬ
+  ((ℕ → ¿ Prop' ∞) × ℕ) π₀ (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
 open WrapIndᵖ public using () renaming (
   --  Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Wrapᴱᴿᴬ to Indᵖᴱᴿᴬ)

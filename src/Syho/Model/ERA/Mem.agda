@@ -51,8 +51,8 @@ open ProdMem public using () renaming (
   inj₀ to injᴾⁿᵗˢ;
   --  injᶠʳᵉᵉ :  Freeᴱᴿᴬ .Res → ×Memᴱᴿᴬ .Res
   inj₁ to injᶠʳᵉᵉ)
-module WrapMem =  Syho.Model.ERA.Wrap ×Memᴱᴿᴬ Mem
-  (λ M →  M ‼ᴹ_ , (len $¿_) ∘ M) ✓ᴹ_
+module WrapMem =  Syho.Model.ERA.Wrap ×Memᴱᴿᴬ
+  Mem (λ M → M ‼ᴹ_ , (len $¿_) ∘ M) ✓ᴹ_
 open WrapMem public using () renaming (
   --  WrapMemᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Wrapᴱᴿᴬ to WrapMemᴱᴿᴬ)

@@ -33,7 +33,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Indˣᴱᴿᴬ :  Exclusive indirection ERA
 
-module AllIndˣ =  Syho.Model.ERA.All (λ (_ : ℕ) → Excᴱᴿᴬ (Prop' ∞))
+module AllIndˣ =  Syho.Model.ERA.All ℕ (λ _ → Excᴱᴿᴬ (Prop' ∞))
 open AllIndˣ public using () renaming (
   --  ∀Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ)
@@ -81,7 +81,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Indᵖᴱᴿᴬ :  Persistent indirection ERA
 
-module AllIndᵖ =  Syho.Model.ERA.All (λ (_ : ℕ) → Agᴱᴿᴬ (Prop' ∞))
+module AllIndᵖ =  Syho.Model.ERA.All ℕ (λ _ → Agᴱᴿᴬ (Prop' ∞))
 open AllIndᵖ public using () renaming (
   --  ∀Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ)

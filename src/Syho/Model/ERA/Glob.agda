@@ -34,7 +34,7 @@ Globᴱᴿᴬ˙ elseᴳ =  ⊤ᴱᴿᴬ
 -- Globᴱᴿᴬ :  Global ERA, defined as ∀ᴱᴿᴬ Globᴱᴿᴬ˙
 
 import Syho.Model.ERA.All
-module AllGlob =  Syho.Model.ERA.All Globᴱᴿᴬ˙
+module AllGlob =  Syho.Model.ERA.All ℕ Globᴱᴿᴬ˙
 
 -- Re-export AllGlob
 open AllGlob public

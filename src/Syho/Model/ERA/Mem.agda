@@ -29,14 +29,14 @@ import Syho.Model.ERA.Up
 
 -- For the points-to token
 
-module AllPnts =  Syho.Model.ERA.All (λ (_ : Addr) → Fracᴱᴿᴬ TyVal)
+module AllPnts =  Syho.Model.ERA.All Addr (λ _ → Fracᴱᴿᴬ TyVal)
 open AllPnts public using () renaming (
   --  Pntsᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to Pntsᴱᴿᴬ)
 
 -- For the freeing token
 
-module AllFree =  Syho.Model.ERA.All (λ (_ : ℕ) → Excᴱᴿᴬ ℕ)
+module AllFree =  Syho.Model.ERA.All ℕ (λ _ → Excᴱᴿᴬ ℕ)
 open AllFree public using () renaming (
   --  Freeᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to Freeᴱᴿᴬ)

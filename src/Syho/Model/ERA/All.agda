@@ -7,7 +7,7 @@
 open import Base.Level using (Level)
 open import Base.Dec using (≡Dec)
 open import Syho.Model.ERA.Base using (ERA)
-module Syho.Model.ERA.All {łᴵ łᴱ łᴿ ł≈ ł✓ : Level} {I : Set łᴵ} {{_ : ≡Dec I}}
+module Syho.Model.ERA.All {łᴵ łᴱ łᴿ ł≈ ł✓ : Level} (I : Set łᴵ) {{_ : ≡Dec I}}
   (Era˙ : I → ERA łᴱ łᴿ ł≈ ł✓) where
 
 open import Base.Level using (_⊔ᴸ_)

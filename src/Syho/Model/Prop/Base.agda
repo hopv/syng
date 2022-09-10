@@ -17,7 +17,7 @@ open import Base.Dec using (yes; no; upd˙; upd˙-self)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Envᴳ; Resᴳ; inj˙;
-  ✓˙-respᴱ; inj˙-≈; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝; ✓-inj˙)
+  ✓˙-respᴱ; inj˙-≈; inj˙-∙; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝; ✓-inj˙)
 
 open ERA using (Res)
 open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
@@ -562,7 +562,8 @@ infix 8 ◎⟨_⟩_
 module _ {i : ℕ} where
 
   open ERA (Globᴱᴿᴬ˙ i) using () renaming (Res to Resⁱ; Env to Envⁱ;
-    _≈_ to _≈ⁱ_; _✓_ to _✓ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _↝_ to _↝ⁱ_; ≡⇒≈ to ≡⇒≈ⁱ)
+    _≈_ to _≈ⁱ_; _✓_ to _✓ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _↝_ to _↝ⁱ_;
+    ≡⇒≈ to ≡⇒≈ⁱ)
 
   private variable
     Fⁱ˙ :  X → Envⁱ
@@ -570,6 +571,14 @@ module _ {i : ℕ} where
     aⁱ˙ bⁱ˙ :  X → Resⁱ
 
   abstract
+
+    -- ◎⟨ i ⟩ a ∗ᵒ ◎⟨ i ⟩ b agrees with ◎⟨ i ⟩ (aⁱ ∙ⁱ bⁱ)
+
+    ◎⟨⟩-∗ᵒ⇒∙ :  ◎⟨ i ⟩ aⁱ  ∗ᵒ  ◎⟨ i ⟩ bⁱ  ⊨  ◎⟨ i ⟩ (aⁱ ∙ⁱ bⁱ)
+    ◎⟨⟩-∗ᵒ⇒∙ =  ◎-∗ᵒ⇒∙ › ◎-cong inj˙-∙
+
+    ◎⟨⟩-∙⇒∗ᵒ :  ◎⟨ i ⟩ (aⁱ ∙ⁱ bⁱ)  ⊨  ◎⟨ i ⟩ aⁱ  ∗ᵒ  ◎⟨ i ⟩ bⁱ
+    ◎⟨⟩-∙⇒∗ᵒ =  ◎-cong (◠˜ inj˙-∙) › ◎-∙⇒∗ᵒ
 
     -- ◎⟨ i ⟩ aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
 

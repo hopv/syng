@@ -546,7 +546,13 @@ abstract
   ↝-◎-⤇ᴱ Ea↝Fxbx a⊑a' _ E✓a'∙c  with Ea↝Fxbx _ $ ✓-mono (∙-monoˡ a⊑a') E✓a'∙c
   … | -, Fx✓bx∙c =  -, -, Fx✓bx∙c , ⊑-refl
 
--- On an independent ERA
+-- On an component ERA
+
+-- ◎⟨ ⟩ :  Own a resource of a component ERA
+
+infix 8 ◎⟨_⟩_
+◎⟨_⟩_ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Propᵒ 2ᴸ
+◎⟨ i ⟩ aⁱ =  ◎ inj˙ i aⁱ
 
 module _ {i : ℕ} where
 
@@ -560,38 +566,38 @@ module _ {i : ℕ} where
 
   abstract
 
-    -- ◎ inj˙ i aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
+    -- ◎⟨ i ⟩ aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
 
-    ◎-inj˙-⌞⌟≈-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≈ⁱ aⁱ →  ◎ inj˙ i aⁱ ⊨ □ᵒ ◎ inj˙ i aⁱ
+    ◎-inj˙-⌞⌟≈-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≈ⁱ aⁱ →  ◎⟨ i ⟩ aⁱ ⊨ □ᵒ ◎⟨ i ⟩ aⁱ
     ◎-inj˙-⌞⌟≈-□ᵒ ⌞a⌟≈a =  ◎-⌞⌟≈-□ᵒ $ inj˙-⌞⌟ ◇˜ inj˙-≈ ⌞a⌟≈a
 
-    ◎-inj˙-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ◎ inj˙ i aⁱ ⊨ □ᵒ ◎ inj˙ i aⁱ
+    ◎-inj˙-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ◎⟨ i ⟩ aⁱ ⊨ □ᵒ ◎⟨ i ⟩ aⁱ
     ◎-inj˙-⌞⌟≡-□ᵒ ⌞a⌟≡a =  ◎-inj˙-⌞⌟≈-□ᵒ (≡⇒≈ⁱ ⌞a⌟≡a)
 
     -- ↝ⁱ into ⤇ᵒ on ◎ inj˙
 
     ↝-◎-inj˙-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ x → Eⁱ , bⁱ˙ x) →
-                      ◎ inj˙ i aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ◎ inj˙ i (bⁱ˙ x))
+                      ◎⟨ i ⟩ aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ◎⟨ i ⟩ bⁱ˙ x)
     ↝-◎-inj˙-⤇ᵒ-∃ᵒ Ea↝Ebx =  ↝-◎-⤇ᵒ-∃ᵒ $ inj˙-↝ Ea↝Ebx
 
     ε↝-◎-inj˙-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ x → Eⁱ , aⁱ˙ x) →
-                       ⊨  ⤇ᵒ (∃ᵒ x , ◎ inj˙ i (aⁱ˙ x))
+                       ⊨  ⤇ᵒ (∃ᵒ x , ◎⟨ i ⟩ aⁱ˙ x)
     ε↝-◎-inj˙-⤇ᵒ-∃ᵒ Eε↝Eax =  ↝-◎-inj˙-⤇ᵒ-∃ᵒ Eε↝Eax $ ◎-≈ε $ inj˙-ε
 
     ↝-◎-inj˙-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , bⁱ) →
-                   ◎ inj˙ i aⁱ  ⊨  ⤇ᵒ ◎ inj˙ i bⁱ
+                   ◎⟨ i ⟩ aⁱ  ⊨  ⤇ᵒ ◎⟨ i ⟩ bⁱ
     ↝-◎-inj˙-⤇ᵒ Ea↝Eb =  ↝-◎-inj˙-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono π₁
 
     ε↝-◎-inj˙-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , aⁱ) →
-                    ⊨  ⤇ᵒ ◎ inj˙ i aⁱ
+                    ⊨  ⤇ᵒ ◎⟨ i ⟩ aⁱ
     ε↝-◎-inj˙-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono π₁ $ ε↝-◎-inj˙-⤇ᵒ-∃ᵒ Eε↝Ea
 
     -- ↝ⁱ into ⤇ᴱ on ◎ inj˙
 
     ↝-◎-inj˙-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , bⁱ˙ x) →
-      ◎ inj˙ i aⁱ  ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎ inj˙ i (bⁱ˙ x)
+      ◎⟨ i ⟩ aⁱ  ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ bⁱ˙ x
     ↝-◎-inj˙-⤇ᴱ Ea↝Fxbx =  ↝-◎-⤇ᴱ $ upd˙-inj˙-↝ Ea↝Fxbx
 
     ε↝-◎-inj˙-⤇ᴱ :  ((E i , εⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , aⁱ˙ x) →
-                    ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎ inj˙ i (aⁱ˙ x)
+                    ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ aⁱ˙ x
     ε↝-◎-inj˙-⤇ᴱ Eε↝Fax =  ↝-◎-inj˙-⤇ᴱ Eε↝Fax $ ◎-≈ε $ inj˙-ε

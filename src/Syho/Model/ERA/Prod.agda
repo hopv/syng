@@ -43,11 +43,3 @@ open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇
 ×ᴱᴿᴬ .⌞⌟-add .π₁ =  Era .⌞⌟-add .π₁  ,  Era' .⌞⌟-add .π₁
 ×ᴱᴿᴬ .⌞⌟-unitˡ =  Era .⌞⌟-unitˡ  ,  Era' .⌞⌟-unitˡ
 ×ᴱᴿᴬ .⌞⌟-idem =  Era .⌞⌟-idem  ,  Era' .⌞⌟-idem
-
--- inj₀, inj₁ :  Inject a resource of a component ERA
-
-inj₀ :  Era .Res →  ×ᴱᴿᴬ .Res
-inj₀ a =  a  ,  Era' .ε
-
-inj₁ :  Era' .Res →  ×ᴱᴿᴬ .Res
-inj₁ a' =  Era .ε  ,  a'

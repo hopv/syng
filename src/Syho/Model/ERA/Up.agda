@@ -41,26 +41,3 @@ Upᴱᴿᴬ .⌞⌟-add .π₀ .↓ =  Era .⌞⌟-add .π₀
 Upᴱᴿᴬ .⌞⌟-add .π₁ .↓ =  Era .⌞⌟-add .π₁
 Upᴱᴿᴬ .⌞⌟-unitˡ .↓ =  Era .⌞⌟-unitˡ
 Upᴱᴿᴬ .⌞⌟-idem .↓ =  Era .⌞⌟-idem
-
-open ERA Era using () renaming (Env to Envᵇ; Res to Resᵇ; _⊑_ to _⊑ᵇ_;
-  _↝_ to _↝ᵇ_)
-open ERA Upᴱᴿᴬ using () renaming (_⊑_ to _⊑ᵘ_; _↝_ to _↝ᵘ_)
-
-private variable
-  ł :  Level
-  X :  Set ł
-  E :  Envᵇ
-  a b :  Resᵇ
-  Fb˙ :  X →  Envᵇ × Resᵇ
-
-abstract
-
-  -- ↑ preserves ⊑ and ↝
-
-  ↑-⊑ :  a ⊑ᵇ b →  ↑ a ⊑ᵘ ↑ b
-  ↑-⊑ (c , c∙a≈b) =  ↑ c , ↑ c∙a≈b
-
-  ↑-↝ :  (E , a) ↝ᵇ Fb˙ →
-    (↑ E , ↑ a)  ↝ᵘ  λ x →  let (F , b) = Fb˙ x in  ↑ F , ↑ b
-  ↑-↝ Ea↝Fb _ (↑ E✓c∙a)  with Ea↝Fb _ E✓c∙a
-  … | -, F✓c∙b =  -, ↑ F✓c∙b

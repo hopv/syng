@@ -46,11 +46,7 @@ open AllFree public using () renaming (
 module ProdMem =  Syho.Model.ERA.Prod Pntsᴱᴿᴬ Freeᴱᴿᴬ
 open ProdMem public using () renaming (
   --  ×Memᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  ×ᴱᴿᴬ to ×Memᴱᴿᴬ;
-  --  injᴾⁿᵗˢ :  Pntsᴱᴿᴬ .Res → ×Memᴱᴿᴬ .Res
-  inj₀ to injᴾⁿᵗˢ;
-  --  injᶠʳᵉᵉ :  Freeᴱᴿᴬ .Res → ×Memᴱᴿᴬ .Res
-  inj₁ to injᶠʳᵉᵉ)
+  ×ᴱᴿᴬ to ×Memᴱᴿᴬ)
 module WrapMem =  Syho.Model.ERA.Wrap ×Memᴱᴿᴬ
   Mem (λ M → M ‼ᴹ_ , (len $¿_) ∘ M) ✓ᴹ_
 open WrapMem public using () renaming (

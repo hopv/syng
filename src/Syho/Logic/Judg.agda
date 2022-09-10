@@ -450,17 +450,17 @@ data  _⊢[_]*_  where
 
   -- Points-to tokens agree with the target value
 
-  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu ∗ θ ↦⟨ q ⟩ ᵗv ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝₁
+  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝₁
 
   -- The fraction of the points-to token is no more than 1
 
-  ↦⟨⟩-≤1 :  θ ↦⟨ p ⟩ ᵗv ⊢[ ι ]  ⌜ p ≤1ᴿ⁺ ⌝₀
+  ↦⟨⟩-≤1 :  θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  ⌜ p ≤1ᴿ⁺ ⌝₀
 
   -- Points-to tokens can be merged and split with respect to the fraction
 
-  ↦⟨⟩-merge :  θ ↦⟨ p ⟩ ᵗv ∗ θ ↦⟨ q ⟩ ᵗv ⊢[ ι ]  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv
+  ↦⟨⟩-merge :  θ ↦⟨ p ⟩ ᵗv  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv
 
-  ↦⟨⟩-split :  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv ⊢[ ι ]  θ ↦⟨ p ⟩ ᵗv ∗ θ ↦⟨ q ⟩ ᵗv
+  ↦⟨⟩-split :  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ p ⟩ ᵗv  ∗  θ ↦⟨ q ⟩ ᵗv
 
   -- Memory read
 

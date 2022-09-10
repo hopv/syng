@@ -25,10 +25,9 @@ open import Syho.Logic.Judg public using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦�
   -->           θ ↦ ᵗv  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| θ ←ᴿ v) ⟩[ wκ ]  Q˙
 
   -->  hor-alloc :
-  -->    (∀ θ →  θ ↦ˡ rep n ⊤ṽ  ∗  Free n θ  ∗  P
-  -->              ⊢[ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ wκ ]  Q˙)  →
+  -->    (∀ θ →
+  -->      θ ↦ˡ rep n ⊤ṽ  ∗  Free n θ  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ wκ ]  Q˙)  →
   -->    P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| allocᴿ n) ⟩[ wκ ]  Q˙
 
-  -->  hor-free :
-  -->    len ᵗvs ≡ n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
+  -->  hor-free :  len ᵗvs ≡ n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
   -->    θ ↦ˡ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| freeᴿ θ) ⟩[ wκ ]  Q˙

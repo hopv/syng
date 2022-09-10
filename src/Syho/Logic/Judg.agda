@@ -480,6 +480,5 @@ data  _⊢[_]*_  where
 
   -- Memory freeing
 
-  hor-free :
-    len ᵗvs ≡ n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
+  hor-free :  len ᵗvs ≡ n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
     θ ↦ˡ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| freeᴿ θ) ⟩[ wκ ]  Q˙

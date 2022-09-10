@@ -123,6 +123,7 @@ parts.
         for modeling ghost states of Syho.
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
             [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
+            [`Prod`](src/Syho/Model/ERA/Prod.agda) for the product ERA;
             [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
             [`Wrap`](src/Syho/Model/ERA/Wrap.agda) for the wrap ERA;
             [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA;

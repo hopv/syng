@@ -17,7 +17,7 @@ open import Base.Dec using (yes; no; upd˙; upd˙-self)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Envᴳ; Resᴳ; inj˙;
-  ✓˙-respᴱ; inj˙-≈; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝)
+  ✓˙-respᴱ; inj˙-≈; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝; ✓-inj˙)
 
 open ERA using (Res)
 open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
@@ -532,6 +532,11 @@ abstract
   ◎-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  ◎ a ⊨ □ᵒ ◎ a
   ◎-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
 
+  -- ◎ a into ✓ a
+
+  ◎-✓ :  ◎ a ⊨✓ ⌜ ∑ E , E ✓ a ⌝ᵒ
+  ◎-✓ E✓b a⊑b =  -, ✓-mono a⊑b E✓b
+
   -- ↝ into ⤇ᵒ on ◎
 
   ↝-◎-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝  λ x → E , b˙ x) →
@@ -557,7 +562,7 @@ infix 8 ◎⟨_⟩_
 module _ {i : ℕ} where
 
   open ERA (Globᴱᴿᴬ˙ i) using () renaming (Res to Resⁱ; Env to Envⁱ;
-    _≈_ to _≈ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _↝_ to _↝ⁱ_; ≡⇒≈ to ≡⇒≈ⁱ)
+    _≈_ to _≈ⁱ_; _✓_ to _✓ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _↝_ to _↝ⁱ_; ≡⇒≈ to ≡⇒≈ⁱ)
 
   private variable
     Fⁱ˙ :  X → Envⁱ
@@ -573,6 +578,11 @@ module _ {i : ℕ} where
 
     ◎⟨⟩-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ◎⟨ i ⟩ aⁱ ⊨ □ᵒ ◎⟨ i ⟩ aⁱ
     ◎⟨⟩-⌞⌟≡-□ᵒ ⌞a⌟≡a =  ◎⟨⟩-⌞⌟≈-□ᵒ (≡⇒≈ⁱ ⌞a⌟≡a)
+
+    -- ◎⟨ i ⟩ aⁱ into ✓ⁱ aⁱ
+
+    ◎⟨⟩-✓ :  ◎⟨ i ⟩ aⁱ ⊨✓ ⌜ ∑ Eⁱ , Eⁱ ✓ⁱ aⁱ ⌝ᵒ
+    ◎⟨⟩-✓ E✓◎ia =  ◎-✓ E✓◎ia › λ (-, E✓ia) → -, ✓-inj˙ E✓ia
 
     -- ↝ⁱ into ⤇ᵒ on ◎⟨ i ⟩
 

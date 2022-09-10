@@ -572,6 +572,9 @@ module _ {i : ℕ} where
 
   abstract
 
+    ◎⟨⟩-cong :  aⁱ ≈ⁱ bⁱ →  ◎⟨ i ⟩ aⁱ ⊨ ◎⟨ i ⟩ bⁱ
+    ◎⟨⟩-cong =  inj˙-≈ › ◎-cong
+
     -- ◎⟨ i ⟩ a ∗ᵒ ◎⟨ i ⟩ b agrees with ◎⟨ i ⟩ (aⁱ ∙ⁱ bⁱ)
 
     ◎⟨⟩-∗ᵒ⇒∙ :  ◎⟨ i ⟩ aⁱ  ∗ᵒ  ◎⟨ i ⟩ bⁱ  ⊨  ◎⟨ i ⟩ (aⁱ ∙ⁱ bⁱ)

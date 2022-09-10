@@ -16,10 +16,11 @@ open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; upd˙-self)
 open import Base.Nat using (ℕ)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; inj˙; ✓˙-respᴱ;
-  inj˙-≈; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Envᴳ; Resᴳ; inj˙;
+  ✓˙-respᴱ; inj˙-≈; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝)
 
-open ERA Globᴱᴿᴬ using (Env; Res; _≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
+open ERA using (Res)
+open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
   ⊑-respˡ; ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-resp; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ;
   ∙-unitˡ; ∙-unitʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min;
   ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem; ⌞⌟-unitˡ; ⌞⌟-∙)
@@ -32,7 +33,7 @@ private variable
 -- Propᵒ :  Semantic proposition
 
 Propᵒ :  ∀ ł →  Set (2ᴸ ⊔ᴸ ṡᴸ ł)
-Propᵒ ł =  Res →  Set ł
+Propᵒ ł =  Resᴳ →  Set ł
 
 -- Monoᵒ Pᵒ :  Pᵒ is monotone over the resource
 
@@ -42,12 +43,12 @@ Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 private variable
   Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
-  a b :  Res
-  b˙ :  X → Res
-  E F G :  Env
-  E˙ F˙ :  X →  Env
-  FPᵒ˙ GPᵒ˙ :  X →  Env × Propᵒ ł
-  GPᵒ˙˙ :  X →  Y →  Env × Propᵒ ł
+  a b :  Resᴳ
+  b˙ :  X → Resᴳ
+  E F G :  Envᴳ
+  E˙ F˙ :  X →  Envᴳ
+  FPᵒ˙ GPᵒ˙ :  X →  Envᴳ × Propᵒ ł
+  GPᵒ˙˙ :  X →  Y →  Envᴳ × Propᵒ ł
   f :  Y → X
 
 --------------------------------------------------------------------------------
@@ -372,7 +373,7 @@ abstract
 abstract
 
   infix 8 _⤇ᴱ_
-  _⤇ᴱ_ :  ∀{X : Set ł'} →  Env →  (X → Env × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  _⤇ᴱ_ :  ∀{X : Set ł'} →  Envᴳ →  (X → Envᴳ × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
   (E ⤇ᴱ FPᵒ˙) a =  ∀ c →  E ✓ a ∙ c →  ∑ x , ∑ b ,
     let (F , Pᵒ) = FPᵒ˙ x in  F ✓ b ∙ c  ×  Pᵒ b
 
@@ -494,7 +495,7 @@ abstract
 abstract
 
   infix 8 ◎_
-  ◎_ :  Res →  Propᵒ 2ᴸ
+  ◎_ :  Resᴳ →  Propᵒ 2ᴸ
   (◎ a) b =  a ⊑ b
 
   -- Monoᵒ for ◎

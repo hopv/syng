@@ -45,15 +45,15 @@ abstract
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ] R →  P ⊢[ ∞ ] R
 
-  ⊢⇒⊨✓ (P⊢Q » Q⊢R) E✓a =  ⊢⇒⊨✓ P⊢Q E✓a › ⊢⇒⊨✓ Q⊢R E✓a
+  ⊢⇒⊨✓ (P⊢Q » Q⊢R) ✓a =  ⊢⇒⊨✓ P⊢Q ✓a › ⊢⇒⊨✓ Q⊢R ✓a
 
   -- ∀₁-intro :  (∀₁ x → P ⊢[ ∞ ] Q˙ x) →  P ⊢[ ∞ ] ∀₁˙ Q˙
 
-  ⊢⇒⊨✓ (∀₁-intro ∀xP⊢Qx) E✓a Pa x =  ⊢⇒⊨✓ (∀xP⊢Qx x) E✓a Pa
+  ⊢⇒⊨✓ (∀₁-intro ∀xP⊢Qx) ✓a Pa x =  ⊢⇒⊨✓ (∀xP⊢Qx x) ✓a Pa
 
   -- ∃₁-elim :  (∀₁ x → P˙ x ⊢[ ∞ ] Q) →  ∃₁˙ P˙ ⊢[ ∞ ] Q
 
-  ⊢⇒⊨✓ (∃₁-elim ∀xPx⊢Q) E✓a =  ∑-case λ x → ⊢⇒⊨✓ (∀xPx⊢Q x) E✓a
+  ⊢⇒⊨✓ (∃₁-elim ∀xPx⊢Q) ✓a =  ∑-case λ x → ⊢⇒⊨✓ (∀xPx⊢Q x) ✓a
 
   -- ∀₁-elim :  ∀ x →  ∀₁˙ P˙ ⊢[ ∞ ] P˙ x
 
@@ -73,11 +73,11 @@ abstract
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
 
   ⊢⇒⊨✓ (→-intro {Q = Q} P∧Q⊢R) _ =
-    →ᵒ-intro (⸨⸩-Mono {Q}) (λ E✓a (Pa , Qa) → ⊢⇒⊨✓ P∧Q⊢R E✓a $ binary Pa Qa)
+    →ᵒ-intro (⸨⸩-Mono {Q}) (λ ✓b (Pb , Qb) → ⊢⇒⊨✓ P∧Q⊢R ✓b $ binary Pb Qb)
 
   -- →-elim :  Q ⊢[ ∞ ] P →' R →  P ∧ Q ⊢[ ∞ ] R
 
-  ⊢⇒⊨✓ (→-elim Q⊢P→R) E✓a P∧Qa =  →ᵒ-elim (⊢⇒⊨✓ Q⊢P→R) E✓a (P∧Qa 0₂ , P∧Qa 1₂)
+  ⊢⇒⊨✓ (→-elim Q⊢P→R) ✓a P∧Qa =  →ᵒ-elim (⊢⇒⊨✓ Q⊢P→R) ✓a (P∧Qa 0₂ , P∧Qa 1₂)
 
   -- ⊤∗-elim :  ⊤' ∗ P ⊢[ ∞ ] P
 

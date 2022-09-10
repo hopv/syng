@@ -14,7 +14,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Option using (¿_; š_; ň; _$¿_; _»-¿_)
 open import Base.Dec using (upd˙)
-open import Base.Nat using (ℕ; Cofin; ∀⇒Cofin; Cofin-upd˙)
+open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙)
 open import Base.List using (List; _‼_; upd; rep)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; TyVal; ⊤ṽ)
@@ -55,19 +55,19 @@ updᴹ (addr o i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
 
 infix 3 ✓ᴹ_
 ✓ᴹ_ :  Mem →  Set₁
-✓ᴹ M =  Cofin (λ _ → _≡ ň) M
+✓ᴹ M =  Cofin˙ (λ _ → _≡ ň) M
 
 abstract
 
   -- ✓ᴹ holds for empᴹ
 
   ✓ᴹ-empᴹ :  ✓ᴹ empᴹ
-  ✓ᴹ-empᴹ =  ∀⇒Cofin {F = λ _ → _≡ ň} λ _ → refl
+  ✓ᴹ-empᴹ =  ∀⇒Cofin˙ {F = λ _ → _≡ ň} λ _ → refl
 
   -- ✓ᴹ is preserved by upd˙ and updᴹ
 
   ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o avsˇ M)
-  ✓ᴹ-upd˙ =  Cofin-upd˙ {F = λ _ → _≡ ň}
+  ✓ᴹ-upd˙ =  Cofin˙-upd˙ {F = λ _ → _≡ ň}
 
   ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ ᵗv M)
   ✓ᴹ-updᴹ =  ✓ᴹ-upd˙

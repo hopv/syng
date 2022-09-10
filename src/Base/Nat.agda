@@ -470,23 +470,23 @@ abstract
   ṡ⊔-same =  ṡ⊔-≥ ≤-refl
 
 --------------------------------------------------------------------------------
--- Cofin F f :  { i | F i (f i) } is cofinite, i.e., F i (f i) holds for every i
+-- Cofin˙ F f :  { i | F i (f i) } is cofinite, i.e., F i (f i) holds for every i
 --              but a finite number of exceptions
 
-Cofin :  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
-Cofin F f =  ∑ n ,  ∀ i →  i ≥ n →  F i (f i)
+Cofin˙ :  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
+Cofin˙ F f =  ∑ n ,  ∀ i →  i ≥ n →  F i (f i)
 
 abstract
 
-  -- Cofin holds if there is no exception
+  -- Cofin˙ holds if there is no exception
 
-  ∀⇒Cofin :  (∀ i → F i (f i)) →  Cofin F f
-  ∀⇒Cofin Ffi =  0 , λ _ _ → Ffi _
+  ∀⇒Cofin˙ :  (∀ i → F i (f i)) →  Cofin˙ F f
+  ∀⇒Cofin˙ Ffi =  0 , λ _ _ → Ffi _
 
-  -- Cofin is preserved by upd˙
+  -- Cofin˙ is preserved by upd˙
 
-  Cofin-upd˙ :  Cofin F f →  Cofin F (upd˙ i a f)
-  Cofin-upd˙ {i = i} (n ,-) .π₀ =  ṡ i ⊔ n
-  Cofin-upd˙ {i = i} (n , i≥n⇒Ffi) .π₁ j ṡi⊔n≥j  with j ≡? i
+  Cofin˙-upd˙ :  Cofin˙ F f →  Cofin˙ F (upd˙ i a f)
+  Cofin˙-upd˙ {i = i} (n ,-) .π₀ =  ṡ i ⊔ n
+  Cofin˙-upd˙ {i = i} (n , i≥n⇒Ffi) .π₁ j ṡi⊔n≥j  with j ≡? i
   … | no _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
   … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j

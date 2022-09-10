@@ -42,9 +42,8 @@ open WrapIndˣ public using () renaming (
   --  Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Wrapᴱᴿᴬ to Indˣᴱᴿᴬ)
 
-open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ)
-
-open ERA Indˣᴱᴿᴬ using () renaming (Res to Resᴵⁿᵈˣ; ε to εᴵⁿᵈˣ; _↝_ to _↝ᴵⁿᵈˣ_)
+open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to Resᴵⁿᵈˣ;
+  ε to εᴵⁿᵈˣ; _↝_ to _↝ᴵⁿᵈˣ_)
 
 -- Exclusively own a proposition at an index
 
@@ -61,26 +60,26 @@ abstract
   alloc-indˣ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
   … | no _ =  ✓Qˇ ∘ <⇒≤
   … | yes refl =  absurd ∘ <-irrefl
-  alloc-indˣ {n = n} Rˣ˙ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rˣ i
+  alloc-indˣ {n = n} _ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rˣ i
   … | no _ | Qˇi✓Rˣi =  Qˇi✓Rˣi
-  … | yes refl | Qˇn✓Rˣn  rewrite ✓Qˇ ≤-refl =  ✓ˣ-alloc {x = Rˣ˙ n} Qˇn✓Rˣn
+  … | yes refl | Qˇn✓Rˣn  rewrite ✓Qˇ ≤-refl =  ✓ˣ-alloc Qˇn✓Rˣn
 
   -- Remove a proposition consuming a line
 
   use-indˣ :  ((Qˇ˙ , n) , lineᴵⁿᵈˣ i P)  ↝ᴵⁿᵈˣ
                 λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εᴵⁿᵈˣ
-  use-indˣ {n = n} {i} Rˣ˙ (✓Qˇ , Qˇ✓Rˣ∙iP) .π₀  with Qˇ✓Rˣ∙iP i
-  … | Qˇi✓Rˣi∙#P  rewrite ≡?-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓Rˣi∙#P
+  use-indˣ {n = n} {i} Rˣ˙ (✓Qˇ , Qˇ✓iP∙Rˣ) .π₀  with Qˇ✓iP∙Rˣ i
+  … | Qˇi✓#P∙Rˣi  rewrite ≡?-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓#P∙Rˣi
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
   …     | ĩ₁ i≥n  rewrite ✓Qˇ i≥n  with Qˇi≡šP
   …       | ()
-  use-indˣ {i = i} Rˣ˙ (✓Qˇ ,-) .π₁ .π₀ {j}  with j ≡? i
+  use-indˣ {i = i} _ (✓Qˇ ,-) .π₁ .π₀ {j}  with j ≡? i
   … | no _ =  ✓Qˇ
   … | yes refl =  λ _ → refl
-  use-indˣ {i = i} Rˣ˙ (-, Qˇ✓Rˣ∙iP) .π₁ .π₁ j  with j ≡? i | Qˇ✓Rˣ∙iP j
-  … | no _ | Qˇj✓Rˣj∙? =  Qˇj✓Rˣj∙?
-  … | yes refl | Qˇi✓Rˣi∙#P =  ✓ˣ-free {x = Rˣ˙ i} Qˇi✓Rˣi∙#P
+  use-indˣ {i = i} _ (-, Qˇ✓iP∙Rˣ) .π₁ .π₁ j  with j ≡? i | Qˇ✓iP∙Rˣ j
+  … | no _ | Qˇj✓Rˣj =  Qˇj✓Rˣj
+  … | yes refl | Qˇi✓#P∙Rˣi =  ✓ˣ-free Qˇi✓#P∙Rˣi
 
 --------------------------------------------------------------------------------
 -- Indᵖᴱᴿᴬ :  Persistent indirection ERA
@@ -95,9 +94,8 @@ open WrapIndᵖ public using () renaming (
   --  Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Wrapᴱᴿᴬ to Indᵖᴱᴿᴬ)
 
-open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ)
-
-open ERA Indᵖᴱᴿᴬ using () renaming (Res to Resᴵⁿᵈᵖ; ε to εᴵⁿᵈᵖ; _↝_ to _↝ᴵⁿᵈᵖ_)
+open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ; Res to Resᴵⁿᵈᵖ;
+  ε to εᴵⁿᵈᵖ; _↝_ to _↝ᴵⁿᵈᵖ_)
 
 -- Persistently own a proposition at an index
 
@@ -114,7 +112,7 @@ abstract
   alloc-indᵖ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
   … | no _ =  ✓Qˇ ∘ <⇒≤
   … | yes refl =  absurd ∘ <-irrefl
-  alloc-indᵖ {n = n} Rs˙ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rs i
+  alloc-indᵖ {n = n} _ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rs i
   … | no _ | Qˇi✓Rsi =  Qˇi✓Rsi
   … | yes refl | Qˇn✓Rsn  rewrite ✓Qˇ ≤-refl =  ✓ᴸ-alloc Qˇn✓Rsn
 
@@ -122,13 +120,13 @@ abstract
 
   use-indᵖ :  ((Qˇ˙ , n) , lineᴵⁿᵈᵖ i P)  ↝ᴵⁿᵈᵖ
                 λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  ((Qˇ˙ , n) , lineᴵⁿᵈᵖ i P)
-  use-indᵖ {n = n} {i} Rs˙ (✓Qˇ , Qˇ✓Rs⧺iP) .π₀  with Qˇ✓Rs⧺iP i
-  … | Qˇi✓Rsi⧺[P]  rewrite ≡?-refl {a = i}  with ✓ᴸ-agree Qˇi✓Rsi⧺[P]
+  use-indᵖ {n = n} {i} _ (✓Qˇ , Qˇ✓iP⧺Rs) .π₀  with Qˇ✓iP⧺Rs i
+  … | Qˇi✓P∷Rsi  rewrite ≡?-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷Rsi
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
   …     | ĩ₁ i≥n  rewrite ✓Qˇ i≥n  with Qˇi≡šP
   …       | ()
-  use-indᵖ _ ✓Qˇ✓Rs⧺iP .π₁ =  ✓Qˇ✓Rs⧺iP
+  use-indᵖ _ ✓Qˇ✓iP⧺Rs .π₁ =  ✓Qˇ✓iP⧺Rs
 
 --------------------------------------------------------------------------------
 -- On both indirection ERAs

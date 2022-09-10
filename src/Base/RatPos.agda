@@ -11,9 +11,10 @@ open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec¹; Dec²; yes; _≡?_; ≡?-refl)
-open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; _≤⁺_; _≤>⁺_; _≤⁺?_; _+⁺_;
-  _*⁺_; ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-comm;
-  +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
+open import Base.Nat using (+-0; *-1ʳ)
+open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _≤⁺?_; _+⁺_; _*⁺_;
+  ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-comm; +⁺-assocˡ;
+  +⁺-assocʳ; +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
   *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
 
 --------------------------------------------------------------------------------
@@ -166,10 +167,11 @@ abstract
   … | ĩ₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
     <⁺-trans (*⁺-smonoʳ {b} c>d) +⁺-sincrˡ
 
-  -- p +ᴿ⁺ 1ᴿ⁺ does not satisfy ≤1ᴿ⁺
+  -- 1ᴿ⁺ +ᴿ⁺ p does not satisfy ≤1ᴿ⁺
 
-  ¬?+1≤1ᴿ⁺ :  ¬ p +ᴿ⁺ 1ᴿ⁺ ≤1ᴿ⁺
-  ¬?+1≤1ᴿ⁺ {a //⁺ b} 1a+b1≤b1 =  ≤⁺⇒¬>⁺ 1a+b1≤b1 +⁺-sincrˡ
+  ¬1+?≤1ᴿ⁺ :  ¬ 1ᴿ⁺ +ᴿ⁺ p ≤1ᴿ⁺
+  ¬1+?≤1ᴿ⁺ {a //⁺ ṡ⁺ b⁰} b+1a≤b  rewrite *-1ʳ {b⁰} | +-0 {b⁰} =
+    ≤⁺⇒¬>⁺ b+1a≤b +⁺-sincrʳ
 
   -- ≤1ᴿ⁺ respects ≈ᴿ⁺
 

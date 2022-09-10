@@ -16,7 +16,7 @@ open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; ⧺-assocˡ;
   ∈ᵗˡ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;
   ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
-  1≤1ᴿ⁺; ¬?+1≤1ᴿ⁺)
+  1≤1ᴿ⁺; ¬1+?≤1ᴿ⁺)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ag using (_✓ᴸ_; ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 
@@ -134,18 +134,16 @@ abstract
   ✓ᶠʳ-rem {aˇ = š _} {š (p ,-)} {š (q ,-)} (p+q≤1 , aˇ✓bs⧺cs) =
     ≤1ᴿ⁺-rem {p} p+q≤1 , ✓ᴸ-rem aˇ✓bs⧺cs
 
-  -- Update ň into š a and y into #ᶠʳ a, preserving ✓ᶠʳ x ∙ᶠʳ
+  -- Update ň into š a and ň into š (1ᴿ⁺ , [ a ]), preserving ✓ᶠʳ - ∙ᶠʳ x
 
-  ✓ᶠʳ-alloc :  ň ✓ᶠʳ x ∙ᶠʳ y →  š a ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , [ a ])
-  ✓ᶠʳ-alloc {x = ň} {ň} _ =  1≤1ᴿ⁺ , ✓ᴸ-š-[?]
-  ✓ᶠʳ-alloc {x = š _} {š _} ()
+  ✓ᶠʳ-alloc :  ň ✓ᶠʳ x →  š a ✓ᶠʳ š (1ᴿ⁺ , [ a ]) ∙ᶠʳ x
+  ✓ᶠʳ-alloc {x = ň} _ =  1≤1ᴿ⁺ , ✓ᴸ-š-[?]
 
-  -- Agreement from ✓ᶠʳ x ∙ᶠʳ š (p , [ - ])
+  -- Agreement from ✓ᶠʳ š (p , [ - ]) ∙ᶠʳ x
 
-  ✓ᶠʳ-agree :  aˇ ✓ᶠʳ x ∙ᶠʳ š (p , [ b ]) →  aˇ ≡ š b
-  ✓ᶠʳ-agree {aˇ = š _} {ň} (-, aˇ✓[b]) =  ✓ᴸ-agree {bs = []} aˇ✓[b]
-  ✓ᶠʳ-agree {aˇ = š _} {š _} (-, aˇ✓⧺[b]) =  ✓ᴸ-agree aˇ✓⧺[b]
-  ✓ᶠʳ-agree {aˇ = ň} {š _} ()
+  ✓ᶠʳ-agree :  aˇ ✓ᶠʳ š (p , [ b ]) ∙ᶠʳ x →  aˇ ≡ š b
+  ✓ᶠʳ-agree {aˇ = š _} {x = ň} (-, aˇ✓[b]) =  ✓ᴸ-agree aˇ✓[b]
+  ✓ᶠʳ-agree {aˇ = š _} {x = š _} (-, aˇ✓⧺[b]) =  ✓ᴸ-agree aˇ✓⧺[b]
 
   -- Agreement between the first two elements of a list
 
@@ -153,17 +151,16 @@ abstract
   ✓ᶠʳ-agree2 {aˇ = š _} (-, aˇ✓b∷c∷ds)
     rewrite aˇ✓b∷c∷ds _ ∈ʰᵈ | aˇ✓b∷c∷ds _ (∈ᵗˡ ∈ʰᵈ) =  refl
 
-  -- Update aˇ into ň and š (1ᴿ⁺ , bs) into ň, preserving ✓ᶠʳ x ∙ᶠʳ
+  -- Update aˇ into ň and š (1ᴿ⁺ , bs) into ň, preserving ✓ᶠʳ - ∙ᶠʳ x
 
-  ✓ᶠʳ-free :  aˇ ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , bs) →  ň ✓ᶠʳ x ∙ᶠʳ ň
+  ✓ᶠʳ-free :  aˇ ✓ᶠʳ š (1ᴿ⁺ , bs) ∙ᶠʳ x →  ň ✓ᶠʳ x
   ✓ᶠʳ-free {x = ň} _ =  _
-  ✓ᶠʳ-free {aˇ = š _} {š (p ,-)} (p+1≤1 ,-) =
-    absurd $ ¬?+1≤1ᴿ⁺ {p = p} p+1≤1
+  ✓ᶠʳ-free {aˇ = š _} {x = š _} (1+p≤1 ,-) =  absurd $ ¬1+?≤1ᴿ⁺ 1+p≤1
 
   -- Update aˇ into š c and š (1ᴿ⁺ , bs) into š (1ᴿ⁺ , [ c ]),
   -- preserving ✓ᶠʳ x ∙ᶠʳ
 
-  ✓ᶠʳ-update :  aˇ ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , bs) →  š c ✓ᶠʳ x ∙ᶠʳ š (1ᴿ⁺ , [ c ])
+  ✓ᶠʳ-update :  aˇ ✓ᶠʳ š (1ᴿ⁺ , bs) ∙ᶠʳ x  →  š c ✓ᶠʳ š (1ᴿ⁺ , [ c ]) ∙ᶠʳ x
   ✓ᶠʳ-update {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-alloc {x = x}
 
 --------------------------------------------------------------------------------

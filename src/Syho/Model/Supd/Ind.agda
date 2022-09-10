@@ -22,7 +22,7 @@ open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (alloc-indˣ; use-indˣ; alloc-indᵖ;
-  use-indᵖ; Envᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
+  use-indᵖ; Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴳ; indˣ; indᵖ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ⊤ᵒ; _∗ᵒ_; _-∗ᵒ_; □ᵒ_; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
@@ -131,8 +131,8 @@ abstract
 
   Indˣ-use :  Indˣ P  ⊨  ⇛ᴵⁿᵈˣ  ⸨ P ⸩
   Indˣ-use =  ⇛ᵍ-make λ E _ → let (-, n) = E indˣ in
-    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-◎-inj˙-⤇ᴱ use-indˣ) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ{ (≡šP , i<n) →
+    ∃ᵒ∗ᵒ-out › ∑-case λ _ → ∗ᵒ-monoˡ (↝-◎-inj˙-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} use-indˣ)
+    › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ{ (≡šP , i<n) →
       ∗ᵒ-elimʳ (Invᴺᵐ-Mono {n = n}) › Invᴺᵐ-rem-< ≡šP i<n }) › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------

@@ -11,9 +11,9 @@ open import Base.Func using (_$_; id)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_,_; -,_)
 open import Base.Option using (¿_; š_; ň)
-open import Base.List using (List; []; [_]; _⧺_; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ∈ʰᵈ; ⊆ᴸ-[];
-  ⧺-⊆ᴸ-introʳ; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-assocˡ;
-  ⧺-idem)
+open import Base.List using (List; []; _∷_; [_]; _⧺_; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_; ∈ʰᵈ;
+  ⊆ᴸ-[]; ⧺-⊆ᴸ-introʳ; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm;
+  ⧺-assocˡ; ⧺-idem)
 open import Syho.Model.ERA.Base using (ERA)
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
@@ -23,7 +23,7 @@ open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇
 private variable
   ł :  Level
   A :  Set ł
-  a c :  A
+  a b :  A
   aˇ :  ¿ A
   bs cs :  List A
 
@@ -57,17 +57,16 @@ abstract
   ✓ᴸ-š-[?] :  š a ✓ᴸ [ a ]
   ✓ᴸ-š-[?] _ ∈ʰᵈ =  refl
 
-  -- Update ň into š a and cs into [ a ], preserving ✓ᴸ bs ⧺
+  -- Update ň into š a and [] into [ a ], preserving ✓ᴸ - ⧺ bs
 
-  ✓ᴸ-alloc :  ň ✓ᴸ bs ⧺ cs →  š a ✓ᴸ bs ⧺ [ a ]
-  ✓ᴸ-alloc {bs = []} {cs = []} _ _ ∈ʰᵈ =  refl
+  ✓ᴸ-alloc :  ň ✓ᴸ bs →  š a ✓ᴸ a ∷ bs
+  ✓ᴸ-alloc {bs = []} _ _ ∈ʰᵈ =  refl
 
-  -- Agreement from ✓ᴸ bs ⧺ [ c ]
+  -- Agreement from ✓ᴸ - ∷ -
 
-  ✓ᴸ-agree : aˇ ✓ᴸ bs ⧺ [ c ] →  aˇ ≡ š c
-  ✓ᴸ-agree {aˇ = ň} {[]} ()
-  ✓ᴸ-agree {aˇ = š _} ∈bs⧺[c]⇒≡a
-    rewrite ∈bs⧺[c]⇒≡a _ $ ⧺-⊆ᴸ-introʳ ∈ʰᵈ =  refl
+  ✓ᴸ-agree : aˇ ✓ᴸ b ∷ cs →  aˇ ≡ š b
+  ✓ᴸ-agree {aˇ = ň} ()
+  ✓ᴸ-agree {aˇ = š _} ∈b∷⇒≡a  rewrite ∈b∷⇒≡a _ ∈ʰᵈ =  refl
 
 --------------------------------------------------------------------------------
 -- Agᴱᴿᴬ :  Agreement ERA

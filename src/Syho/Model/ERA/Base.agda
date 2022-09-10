@@ -279,4 +279,4 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
   --                  Fb˙ x for some x, regardless the frame resource c
 
   _↝_ :  ∀{X : Set ł} →  Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
-  (E , a) ↝ Fb˙ =  ∀ c →  E ✓ c ∙ a →  ∑ x ,  let (F , b) = Fb˙ x in  F ✓ c ∙ b
+  (E , a) ↝ Fb˙ =  ∀ c →  E ✓ a ∙ c →  ∑ x ,  let (F , b) = Fb˙ x in  F ✓ b ∙ c

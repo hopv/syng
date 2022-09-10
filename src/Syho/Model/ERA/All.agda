@@ -123,25 +123,25 @@ module _ {i : I} where
 
     upd˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x)  →
               (E˙ , upd˙ i a c˙)  ↝˙  λ x → (E˙ , upd˙ i (bˣ x) c˙)
-    upd˙-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib d˙ E✓d∙iac  with E✓d∙iac i
-    … | Ei✓di∙a  rewrite ≡?-refl {a = i}  =  body
+    upd˙-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib d˙ E✓iac∙d  with E✓iac∙d i
+    … | Ei✓a∙di  rewrite ≡?-refl {a = i}  =  body
      where
-      body :  ∑ x , E˙ ✓˙ d˙ ∙˙ upd˙ i (bˣ x) c˙
-      body .π₀ =  Eia↝Eib _ Ei✓di∙a .π₀
-      body .π₁ j  with j ≡? i | E✓d∙iac j
-      … | no _ | E✓dj∙cj =  E✓dj∙cj
-      … | yes refl | _ =  Eia↝Eib _ Ei✓di∙a .π₁
+      body :  ∑ x , E˙ ✓˙ upd˙ i (bˣ x) c˙ ∙˙ d˙
+      body .π₀ =  Eia↝Eib _ Ei✓a∙di .π₀
+      body .π₁ j  with j ≡? i | E✓iac∙d j
+      … | no _ | E✓cj∙dj =  E✓cj∙dj
+      … | yes refl | _ =  Eia↝Eib _ Ei✓a∙di .π₁
 
     upd˙-upd˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
       (E˙ , upd˙ i a c˙)  ↝˙  λ x → upd˙ i (Fˣ x) E˙ , upd˙ i (bˣ x) c˙
-    upd˙-upd˙-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb d˙ E✓d∙iac  with E✓d∙iac i
-    … | Ei✓di∙a  rewrite ≡?-refl {a = i}  =  body
+    upd˙-upd˙-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb d˙ E✓iac∙d  with E✓iac∙d i
+    … | Ei✓a∙di  rewrite ≡?-refl {a = i}  =  body
      where
-      body :  ∑ x , upd˙ i (Fˣ x) E˙ ✓˙ d˙ ∙˙ upd˙ i (bˣ x) c˙
-      body .π₀ =  Eia↝Fb _ Ei✓di∙a .π₀
-      body .π₁ j  with j ≡? i | E✓d∙iac j
-      … | no _ | E✓dj∙cj =  E✓dj∙cj
-      … | yes refl | _ =  Eia↝Fb _ Ei✓di∙a .π₁
+      body :  ∑ x , upd˙ i (Fˣ x) E˙ ✓˙ upd˙ i (bˣ x) c˙ ∙˙ d˙
+      body .π₀ =  Eia↝Fb _ Ei✓a∙di .π₀
+      body .π₁ j  with j ≡? i | E✓iac∙d j
+      … | no _ | E✓cj∙dj =  E✓cj∙dj
+      … | yes refl | _ =  Eia↝Fb _ Ei✓a∙di .π₁
 
     ----------------------------------------------------------------------------
     -- On inj˙

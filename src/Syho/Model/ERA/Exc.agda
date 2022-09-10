@@ -93,26 +93,24 @@ abstract
   ✓ˣ-rem {x = ?ˣ} =  id
   ✓ˣ-rem {aˇ = š _} {#ˣ _} {?ˣ} =  _
 
-  -- Update ň into š a and y into #ˣ a, preserving ✓ˣ x ∙ˣ
+  -- Update ň into š a and ?ˣ into #ˣ a, preserving ✓ˣ - ∙ˣ x
 
-  ✓ˣ-alloc :  ň ✓ˣ x ∙ˣ y →  š a ✓ˣ x ∙ˣ #ˣ a
-  ✓ˣ-alloc {x = ?ˣ} {?ˣ} _ =  refl
-  ✓ˣ-alloc {x = ?ˣ} {#ˣ _} ()
-  ✓ˣ-alloc {x = ?ˣ} {↯ˣ} ()
+  ✓ˣ-alloc :  ň ✓ˣ x →  š a ✓ˣ #ˣ a ∙ˣ x
+  ✓ˣ-alloc {x = ?ˣ} _ =  refl
 
   -- Agreement from ✓ˣ x ∙ˣ #ˣ
 
-  ✓ˣ-agree :  aˇ ✓ˣ x ∙ˣ #ˣ b →  aˇ ≡ š b
-  ✓ˣ-agree {aˇ = š _} {?ˣ} refl =  refl
+  ✓ˣ-agree :  aˇ ✓ˣ #ˣ b ∙ˣ x →  aˇ ≡ š b
+  ✓ˣ-agree {aˇ = š _} {x = ?ˣ} refl =  refl
 
-  -- Update aˇ into ň and #ˣ b into ?ˣ, preserving ✓ˣ x ∙ˣ
+  -- Update aˇ into ň and #ˣ b into ?ˣ, preserving ✓ˣ - ∙ˣ x
 
-  ✓ˣ-free :  aˇ ✓ˣ x ∙ˣ #ˣ b →  ň ✓ˣ x ∙ˣ ?ˣ
+  ✓ˣ-free :  aˇ ✓ˣ #ˣ b ∙ˣ x →  ň ✓ˣ x
   ✓ˣ-free {x = ?ˣ} _ =  _
 
-  -- Update aˇ into š c and #ˣ b into #ˣ c, preserving ✓ˣ x ∙ˣ
+  -- Update aˇ into š c and #ˣ b into #ˣ c, preserving ✓ˣ - ∙ˣ x
 
-  ✓ˣ-update :  aˇ ✓ˣ x ∙ˣ #ˣ b →  š c ✓ˣ x ∙ˣ #ˣ c
+  ✓ˣ-update :  aˇ ✓ˣ #ˣ b ∙ˣ x →  š c ✓ˣ #ˣ c ∙ˣ x
   ✓ˣ-update {x = ?ˣ} _ =  refl
 
 --------------------------------------------------------------------------------

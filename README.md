@@ -132,23 +132,28 @@ parts.
         * [`Mem`](src/Syho/Model/ERA/Mem.agda) for the memory ERA;
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
-    + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of propositions.
-        * [`Base`](src/Syho/Model/Prop/Base.agda) for core logic connectives;
-            [`Mem`](src/Syho/Model/Prop/Mem.agda) for the points-to and freeing 
-            tokens.
+    + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of the propositions
+        and the semantic soundness of the pure sequent.
+        * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
+            connectives;
+            [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the points-to
+            and freeing tokens.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
-            [`Ind`](src/Syho/Model/Prop/Ind.agda) for the indirection modality
-            and precursors.
-        * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting all
-            propositions;
-            [`Sound`](src/Syho/Model/Prop/Sound.agda) for semantic soundness of
-            the pure sequent.
-    + [`Supd/`](src/Syho/Model/Supd/) ― the semantic model of the super update.
-        * [`Base`](src/Syho/Model/Supd/Base.agda) ― General super update
-            modality.
-        * [`Ind`](src/Syho/Model/Supd/Ind.agda) ― Super update modality on the
+            [`Ind`](src/Syho/Model/Prop/Ind.agda) for interpreting the
             indirection modality and precursors.
+        * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting all the
+            propositions;
+            [`Sound`](src/Syho/Model/Prop/Sound.agda) for the semantic soundness
+            of the logic's pure sequent.
+    + [`Supd/`](src/Syho/Model/Supd/) ― the semantic model and soundness proof
+        of the super update.
+        * [`Base`](src/Syho/Model/Supd/Base.agda) for the semantic general
+            super update;
+            [`Ind`](src/Syho/Model/Supd/Ind.agda) for the semantic super-update
+            on the indirection modality and precursors.
+        * [`Sound`](src/Syho/Model/Supd/Sound.agda) for the semantic soundness
+            of the logic's super-update sequent.
 
 ## Meta-logic 
 

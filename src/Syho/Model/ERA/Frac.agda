@@ -134,6 +134,11 @@ abstract
   ✓ᶠʳ-rem {aˇ = š _} {š (p ,-)} {š (q ,-)} (p+q≤1 , aˇ✓bs⧺cs) =
     ≤1ᴿ⁺-rem {p} p+q≤1 , ✓ᴸ-rem aˇ✓bs⧺cs
 
+  -- ✓ᶠʳ š (p , as) implies p ≤1ᴿ⁺
+
+  ✓ᶠʳ-≤1 :   aˇ ✓ᶠʳ š (p , bs) →  p ≤1ᴿ⁺
+  ✓ᶠʳ-≤1 {aˇ = š _} (p≤1 ,-) =  p≤1
+
   -- Update ň into š a and ň into š (1ᴿ⁺ , [ a ]), preserving ✓ᶠʳ - ∙ᶠʳ x
 
   ✓ᶠʳ-alloc :  ň ✓ᶠʳ x →  š a ✓ᶠʳ š (1ᴿ⁺ , [ a ]) ∙ᶠʳ x

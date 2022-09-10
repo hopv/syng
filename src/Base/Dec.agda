@@ -66,8 +66,14 @@ record  ≡Dec (A : Set ł) :  Set ł  where
   constructor ≡dec
   infix 4 _≡?_
   field
+    -- Equality decision on A
     _≡?_ :  Dec² {A = A} _≡_
+
+    -- a ≡? a returns yes refl
+    -- It's trivial that it returns yes x for some x, but the fact that x is
+    -- refl cannot be derived from ≡?'s type only, under the --without-K flag
     ≡?-refl :  ∀{a} →  (a ≡? a) ≡ yes refl
+
 open ≡Dec {{…}} public
 
 private variable

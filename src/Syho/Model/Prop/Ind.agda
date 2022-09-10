@@ -60,8 +60,8 @@ abstract
 
 infix 8 ○ᵒ_
 ○ᵒ_ :  Prop' ∞ →  Propᵒ 2ᴸ
-○ᵒ P =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R , ∃ᵒ _ ∈ Q ∗ R ⊢[ ∞ ] P ,
-  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
+○ᵒ P =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
+  ∃ᵒ _ ∈ Q ∗ R ⊢[ ∞ ] P ,  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
 
 abstract
 
@@ -91,8 +91,8 @@ abstract
 
 infixr 5 _↪[_]⇛ᵒ_
 _↪[_]⇛ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ 2ᴸ
-P ↪[ i ]⇛ᵒ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q ,
-  ⸨ R ⸩ᴮ {{BasicR}} ∗ᵒ Ind S
+P ↪[ i ]⇛ᵒ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
+  ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q ,  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
 abstract
 
@@ -140,8 +140,8 @@ abstract
 
 infixr 5 _↪⟨_⟩ᴾᵒ_
 _↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ 2ᴸ
-P ↪⟨ e ⟩ᴾᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S , ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙ ,
-  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
+P ↪⟨ e ⟩ᴾᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
+  ∃ᵒ _ ∈ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙ ,  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
 abstract
 

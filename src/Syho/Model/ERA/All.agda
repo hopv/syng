@@ -172,3 +172,9 @@ module _ {i : I} where
     upd˙-inj˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
                     (E˙ , inj˙ i a)  ↝˙  λ x → upd˙ i (Fˣ x) E˙ , inj˙ i $ bˣ x
     upd˙-inj˙-↝ =  upd˙-upd˙-↝
+
+    -- Get ✓ⁱ from ✓˙ inj˙
+
+    ✓-inj˙ :  E˙ ✓˙ inj˙ i a →  E˙ i ✓ⁱ a
+    ✓-inj˙ E✓ia  with E✓ia i
+    … | E✓a  rewrite ≡?-refl {a = i} =  E✓a

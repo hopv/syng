@@ -20,10 +20,10 @@ open import Agda.Builtin.Sigma public using () renaming (
   -- Pair constructor
   -- _,_ :  A →  B˙ A →  ∑˙ A B˙
   _,_ to infixr -2 _,_;
-  -- The zeroth (lefthand) component of a pair
+  -- The zeroth (left-hand) component of a pair
   -- π₀ :  ∑˙ A B˙ →  A
   fst to π₀;
-  -- The first (righthand) component of a pair
+  -- The first (right-hand) component of a pair
   -- π₁ :  ∀(p : ∑˙ A B˙) →  B˙ (π₀ p)
   snd to π₁)
 

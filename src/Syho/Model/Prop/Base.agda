@@ -519,13 +519,13 @@ abstract
   ◎-≈ε :  a ≈ ε →  ⊨ ◎ a
   ◎-≈ε a≈ε =  ◎-cong (◠˜ a≈ε) ◎-ε
 
-  -- ◎ (a ∙ b) agrees with ◎ a ∗ᵒ ◎ b
-
-  ◎-∙⇒∗ᵒ :  ◎ (a ∙ b) ⊨ ◎ a ∗ᵒ ◎ b
-  ◎-∙⇒∗ᵒ a∙b⊑c =  -, -, a∙b⊑c , ⊑-refl , ⊑-refl
+  -- ◎ a ∗ᵒ ◎ b agrees with ◎ (a ∙ b)
 
   ◎-∗ᵒ⇒∙ :  ◎ a ∗ᵒ ◎ b ⊨ ◎ (a ∙ b)
   ◎-∗ᵒ⇒∙ (-, -, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
+
+  ◎-∙⇒∗ᵒ :  ◎ (a ∙ b) ⊨ ◎ a ∗ᵒ ◎ b
+  ◎-∙⇒∗ᵒ a∙b⊑c =  -, -, a∙b⊑c , ⊑-refl , ⊑-refl
 
   -- ◎ a is persistent when ⌞ a ⌟ agrees with a
 

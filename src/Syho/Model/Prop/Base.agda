@@ -574,7 +574,7 @@ module _ {i : ℕ} where
     ◎-inj˙-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ◎⟨ i ⟩ aⁱ ⊨ □ᵒ ◎⟨ i ⟩ aⁱ
     ◎-inj˙-⌞⌟≡-□ᵒ ⌞a⌟≡a =  ◎-inj˙-⌞⌟≈-□ᵒ (≡⇒≈ⁱ ⌞a⌟≡a)
 
-    -- ↝ⁱ into ⤇ᵒ on ◎ inj˙
+    -- ↝ⁱ into ⤇ᵒ on ◎⟨ i ⟩
 
     ↝-◎-inj˙-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ x → Eⁱ , bⁱ˙ x) →
                       ◎⟨ i ⟩ aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ◎⟨ i ⟩ bⁱ˙ x)
@@ -592,7 +592,7 @@ module _ {i : ℕ} where
                     ⊨  ⤇ᵒ ◎⟨ i ⟩ aⁱ
     ε↝-◎-inj˙-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono π₁ $ ε↝-◎-inj˙-⤇ᵒ-∃ᵒ Eε↝Ea
 
-    -- ↝ⁱ into ⤇ᴱ on ◎ inj˙
+    -- ↝ⁱ into ⤇ᴱ on ◎⟨ i ⟩
 
     ↝-◎-inj˙-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , bⁱ˙ x) →
       ◎⟨ i ⟩ aⁱ  ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ bⁱ˙ x

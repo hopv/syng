@@ -84,8 +84,8 @@ _↦⟨_⟩ʳ_ :  Addr →  ℚ⁺ →  TyVal →  Resᴹᵉᵐ
 abstract
 
   ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗw  →  ᵗv ≡ ᵗw
-  ↦⟨⟩ʳ-agree (↑ (-, M✓θpvw , _)) =  M✓θpvw ▷ ✓ᴾⁿᵗˢ-resp inj˙ᴾⁿᵗˢ-∙ ▷ ✓-inj˙ᴾⁿᵗˢ
-    ▷ ✓ᶠʳ-agree2
+  ↦⟨⟩ʳ-agree (↑ (-, M✓θpvw , _)) =
+    M✓θpvw ▷ ✓ᴾⁿᵗˢ-resp inj˙ᴾⁿᵗˢ-∙ ▷ ✓-inj˙ᴾⁿᵗˢ ▷ ✓ᶠʳ-agree2
 
   ↦⟨⟩ʳ-≤1 :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗv →  p ≤1ᴿ⁺
   ↦⟨⟩ʳ-≤1 (↑ (-, M✓θpv , _)) =  M✓θpv ▷ ✓-inj˙ᴾⁿᵗˢ ▷ ✓ᶠʳ-≤1

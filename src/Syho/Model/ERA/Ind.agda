@@ -42,21 +42,21 @@ open WrapIndˣ public using () renaming (
   --  Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Wrapᴱᴿᴬ to Indˣᴱᴿᴬ)
 
-open ERA Indˣᴱᴿᴬ public using () renaming (Env to Env-indˣ)
+open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ)
 
-open ERA Indˣᴱᴿᴬ using () renaming (Res to Resˣ; ε to εˣ; _↝_ to _↝ˣ_)
+open ERA Indˣᴱᴿᴬ using () renaming (Res to Resᴵⁿᵈˣ; ε to εᴵⁿᵈˣ; _↝_ to _↝ᴵⁿᵈˣ_)
 
 -- Exclusively own a proposition at an index
 
-line-indˣ :  ℕ →  Prop' ∞ →  Resˣ
-line-indˣ i P =  upd˙ i (#ˣ P) εˣ
+lineᴵⁿᵈˣ :  ℕ →  Prop' ∞ →  Resᴵⁿᵈˣ
+lineᴵⁿᵈˣ i P =  upd˙ i (#ˣ P) εᴵⁿᵈˣ
 
 abstract
 
   -- Add a new proposition and get a line
 
-  alloc-indˣ :  ((Qˇ˙ , n) , εˣ)  ↝ˣ  λ(_ : ⊤₀) →
-                  (upd˙ n (š P) Qˇ˙ , ṡ n) , line-indˣ n P
+  alloc-indˣ :  ((Qˇ˙ , n) , εᴵⁿᵈˣ)  ↝ᴵⁿᵈˣ  λ(_ : ⊤₀) →
+                  (upd˙ n (š P) Qˇ˙ , ṡ n) , lineᴵⁿᵈˣ n P
   alloc-indˣ _ _ .π₀ =  _
   alloc-indˣ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
   … | no _ =  ✓Qˇ ∘ <⇒≤
@@ -67,8 +67,8 @@ abstract
 
   -- Remove a proposition consuming a line
 
-  use-indˣ :  ((Qˇ˙ , n) , line-indˣ i P)  ↝ˣ
-                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εˣ
+  use-indˣ :  ((Qˇ˙ , n) , lineᴵⁿᵈˣ i P)  ↝ᴵⁿᵈˣ
+                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εᴵⁿᵈˣ
   use-indˣ {n = n} {i} Rˣ˙ (✓Qˇ , Qˇ✓Rˣ∙iP) .π₀  with Qˇ✓Rˣ∙iP i
   … | Qˇi✓Rˣi∙#P  rewrite ≡?-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓Rˣi∙#P
   …   | Qˇi≡šP  with i <≥ n
@@ -83,55 +83,55 @@ abstract
   … | yes refl | Qˇi✓Rˣi∙#P =  ✓ˣ-free {x = Rˣ˙ i} Qˇi✓Rˣi∙#P
 
 --------------------------------------------------------------------------------
--- Ind□ᴱᴿᴬ :  Persistent indirection ERA
+-- Indᵖᴱᴿᴬ :  Persistent indirection ERA
 
-module AllInd□ =  Syho.Model.ERA.All (λ (_ : ℕ) → Agᴱᴿᴬ (Prop' ∞))
-open AllInd□ public using () renaming (
-  --  ∀Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
-  ∀ᴱᴿᴬ to ∀Ind□ᴱᴿᴬ)
-module WrapInd□ =  Syho.Model.ERA.Wrap ∀Ind□ᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
+module AllIndᵖ =  Syho.Model.ERA.All (λ (_ : ℕ) → Agᴱᴿᴬ (Prop' ∞))
+open AllIndᵖ public using () renaming (
+  --  ∀Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ)
+module WrapIndᵖ =  Syho.Model.ERA.Wrap ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
   (λ (Pˇ˙ , n) →  ∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)
-open WrapInd□ public using () renaming (
-  --  Ind□ᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
-  Wrapᴱᴿᴬ to Ind□ᴱᴿᴬ)
+open WrapIndᵖ public using () renaming (
+  --  Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  Wrapᴱᴿᴬ to Indᵖᴱᴿᴬ)
 
-open ERA Ind□ᴱᴿᴬ public using () renaming (Env to Env-ind□)
+open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ)
 
-open ERA Ind□ᴱᴿᴬ using () renaming (Res to Res□; ε to ε□; _↝_ to _↝□_)
+open ERA Indᵖᴱᴿᴬ using () renaming (Res to Resᴵⁿᵈᵖ; ε to εᴵⁿᵈᵖ; _↝_ to _↝ᴵⁿᵈᵖ_)
 
 -- Persistently own a proposition at an index
 
-line-ind□ :  ℕ →  Prop' ∞ →  Res□
-line-ind□ i P =  upd˙ i [ P ] ε□
+lineᴵⁿᵈᵖ :  ℕ →  Prop' ∞ →  Resᴵⁿᵈᵖ
+lineᴵⁿᵈᵖ i P =  upd˙ i [ P ] εᴵⁿᵈᵖ
 
 abstract
 
   -- Add a new proposition and get a line
 
-  alloc-ind□ :  ((Qˇ˙ , n) , ε□)  ↝□  λ(_ : ⊤₀) →
-                  (upd˙ n (š P) Qˇ˙ , ṡ n) , line-ind□ n P
-  alloc-ind□ _ _ .π₀ =  _
-  alloc-ind□ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
+  alloc-indᵖ :  ((Qˇ˙ , n) , εᴵⁿᵈᵖ)  ↝ᴵⁿᵈᵖ  λ(_ : ⊤₀) →
+                  (upd˙ n (š P) Qˇ˙ , ṡ n) , lineᴵⁿᵈᵖ n P
+  alloc-indᵖ _ _ .π₀ =  _
+  alloc-indᵖ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
   … | no _ =  ✓Qˇ ∘ <⇒≤
   … | yes refl =  absurd ∘ <-irrefl
-  alloc-ind□ {n = n} Rs˙ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rs i
+  alloc-indᵖ {n = n} Rs˙ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rs i
   … | no _ | Qˇi✓Rsi =  Qˇi✓Rsi
   … | yes refl | Qˇn✓Rsn  rewrite ✓Qˇ ≤-refl =  ✓ᴸ-alloc Qˇn✓Rsn
 
   -- Get an agreement from a line
 
-  use-ind□ :  ((Qˇ˙ , n) , line-ind□ i P)  ↝□
-                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  ((Qˇ˙ , n) , line-ind□ i P)
-  use-ind□ {n = n} {i} Rs˙ (✓Qˇ , Qˇ✓Rs⧺iP) .π₀  with Qˇ✓Rs⧺iP i
+  use-indᵖ :  ((Qˇ˙ , n) , lineᴵⁿᵈᵖ i P)  ↝ᴵⁿᵈᵖ
+                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  ((Qˇ˙ , n) , lineᴵⁿᵈᵖ i P)
+  use-indᵖ {n = n} {i} Rs˙ (✓Qˇ , Qˇ✓Rs⧺iP) .π₀  with Qˇ✓Rs⧺iP i
   … | Qˇi✓Rsi⧺[P]  rewrite ≡?-refl {a = i}  with ✓ᴸ-agree Qˇi✓Rsi⧺[P]
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
   …     | ĩ₁ i≥n  rewrite ✓Qˇ i≥n  with Qˇi≡šP
   …       | ()
-  use-ind□ _ ✓Qˇ✓Rs⧺iP .π₁ =  ✓Qˇ✓Rs⧺iP
+  use-indᵖ _ ✓Qˇ✓Rs⧺iP .π₁ =  ✓Qˇ✓Rs⧺iP
 
 --------------------------------------------------------------------------------
 -- On both indirection ERAs
 
-Env-ind :  Set₂
-Env-ind =  Env-indˣ × Env-ind□
+Envᴵⁿᵈ :  Set₂
+Envᴵⁿᵈ =  Envᴵⁿᵈˣ × Envᴵⁿᵈᵖ

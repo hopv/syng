@@ -22,7 +22,7 @@ open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
 open import Syho.Model.Supd.Base using (⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⇛ᵍ-mono; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join;
   ⇛ᵍ-eatˡ)
-open import Syho.Model.Supd.Ind using (⇛ind_; ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
+open import Syho.Model.Supd.Ind using (⇛ᴵⁿᵈ_; ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
   ↪⇛ᵒ-use)
 
 private variable
@@ -35,7 +35,7 @@ private variable
 
 infix 8 ⇛ᵒ_
 ⇛ᵒ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⇛ᵒ Pᵒ =  ⇛ind Pᵒ
+⇛ᵒ Pᵒ =  ⇛ᴵⁿᵈ Pᵒ
 
 --------------------------------------------------------------------------------
 -- ⊢⇛⇒⊨⇛ᵒ :  Semantic soundness of the super update

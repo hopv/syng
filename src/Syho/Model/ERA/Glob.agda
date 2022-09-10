@@ -11,7 +11,7 @@ open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ)
-open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
+open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ)
 
 --------------------------------------------------------------------------------
 -- Global ERA
@@ -20,7 +20,7 @@ open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Ind□ᴱᴿᴬ)
 
 pattern mem =  0
 pattern indˣ =  1
-pattern ind□ =  2
+pattern indᵖ =  2
 pattern elseᴳ =  ṡ ṡ ṡ _
 
 -- Map of ERAs
@@ -28,7 +28,7 @@ pattern elseᴳ =  ṡ ṡ ṡ _
 Globᴱᴿᴬ˙ :  ℕ →  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
 Globᴱᴿᴬ˙ mem =  Memᴱᴿᴬ
 Globᴱᴿᴬ˙ indˣ =  Indˣᴱᴿᴬ
-Globᴱᴿᴬ˙ ind□ =  Ind□ᴱᴿᴬ
+Globᴱᴿᴬ˙ indᵖ =  Indᵖᴱᴿᴬ
 Globᴱᴿᴬ˙ elseᴳ =  ⊤ᴱᴿᴬ
 
 -- Globᴱᴿᴬ :  Global ERA, defined as ∀ᴱᴿᴬ Globᴱᴿᴬ˙

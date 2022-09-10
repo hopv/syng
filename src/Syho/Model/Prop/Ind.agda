@@ -22,8 +22,8 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»ᵘ_; ⇛-fram
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-ṡ; _ʰ»ᵘ_;
   _ᵘ»ʰ_; hor-frameˡ)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Ind using (line-indˣ; line-ind□)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; ind□; inj˙)
+open import Syho.Model.ERA.Ind using (lineᴵⁿᵈˣ; lineᴵⁿᵈᵖ)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; indˣ; indᵖ; inj˙)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax;
   ∃ᵒ∈-syntax; ∃ᴵ-syntax; _⊎ᵒ_; _∗ᵒ_; ◎_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono;
   ∗ᵒ-assocʳ; ?∗ᵒ-intro; ◎-Mono)
@@ -39,21 +39,21 @@ private variable
 --------------------------------------------------------------------------------
 -- Ind :  Indirection base
 
-Indˣ Ind□ Ind :  Prop' ∞ →  Propᵒ 2ᴸ
-Indˣ P =  ∃ᵒ i , ◎ inj˙ indˣ (line-indˣ i P)
-Ind□ P =  ∃ᵒ i , ◎ inj˙ ind□ (line-ind□ i P)
-Ind P =  Indˣ P ⊎ᵒ Ind□ P
+Indˣ Indᵖ Ind :  Prop' ∞ →  Propᵒ 2ᴸ
+Indˣ P =  ∃ᵒ i , ◎ inj˙ indˣ (lineᴵⁿᵈˣ i P)
+Indᵖ P =  ∃ᵒ i , ◎ inj˙ indᵖ (lineᴵⁿᵈᵖ i P)
+Ind P =  Indˣ P ⊎ᵒ Indᵖ P
 
 abstract
 
   Indˣ-Mono :  Monoᵒ (Indˣ P)
   Indˣ-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono
 
-  Ind□-Mono :  Monoᵒ (Ind□ P)
-  Ind□-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono
+  Indᵖ-Mono :  Monoᵒ (Indᵖ P)
+  Indᵖ-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono
 
   Ind-Mono :  Monoᵒ (Ind P)
-  Ind-Mono =  ⊎ᵒ-Mono Indˣ-Mono Ind□-Mono
+  Ind-Mono =  ⊎ᵒ-Mono Indˣ-Mono Indᵖ-Mono
 
 --------------------------------------------------------------------------------
 -- ○ᵒ :  Interpret the indirection modality ○

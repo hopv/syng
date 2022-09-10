@@ -39,8 +39,8 @@ data  WpKind :  Set₀  where
 -- JudgRes :  Result of a judgment
 
 private variable
-  T U V :  Type
   ι :  Size
+  T U :  Type
 
 infix 3 [_]⇛_ ⁺⟨_⟩[_]_
 
@@ -130,9 +130,9 @@ private variable
   P˂s :  List (Prop˂ ∞)
   wκ :  WpKind
   vk :  Val/Ktxred T
-  e :  Expr ∞ U
-  e˂ :  Expr˂ ∞ U
-  e˙ :  X → Expr ∞ U
+  e :  Expr ∞ T
+  e˂ :  Expr˂ ∞ T
+  e˙ :  X → Expr ∞ T
   K :  Ktx T U
   v :  Val T
   θ :  Addr
@@ -464,12 +464,12 @@ data  _⊢[_]*_  where
 
   -- Memory read
 
-  hor-🞰 :  θ ↦⟨ p ⟩ (V , v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  Q˙  →
+  hor-🞰 :  θ ↦⟨ p ⟩ (T , v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  Q˙  →
            θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| 🞰ᴿ θ) ⟩[ wκ ]  Q˙
 
   -- Memory write
 
-  hor-← :  θ ↦ (V , v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
+  hor-← :  θ ↦ (T , v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
            θ ↦ ᵗu  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| θ ←ᴿ v) ⟩[ wκ ]  Q˙
 
   -- Memory allocation

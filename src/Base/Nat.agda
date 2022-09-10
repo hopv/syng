@@ -10,7 +10,7 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_; _∘_)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
-open import Base.Prod using (∑-syntax; _,_; _,-; π₀; π₁)
+open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec²; yes; no; ≡Dec; ≡dec; _≡?_; upd˙)
 
@@ -470,23 +470,57 @@ abstract
   ṡ⊔-same =  ṡ⊔-≥ ≤-refl
 
 --------------------------------------------------------------------------------
--- Cofin˙ F f :  { i | F i (f i) } is cofinite, i.e., F i (f i) holds for every i
---              but a finite number of exceptions
+-- ∀≥˙ n F f :  F i (f i) holds for every i ≥ n
+
+∀≥˙ :  ℕ →  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
+∀≥˙ n F f =  ∀ i →  i ≥ n →  F i (f i)
+
+abstract
+
+  -- ∀≥˙ holds if there is no exception
+
+  ∀⇒∀≥˙ :  (∀ i → F i (f i)) →  ∀≥˙ n F f
+  ∀⇒∀≥˙ Ffi i _ =  Ffi i
+
+  -- ∀≥˙ n is preserved by upd˙ if the added element satisfies the condition
+
+  ∀≥˙-upd˙-sat :  F i a →  ∀≥˙ n F f →  ∀≥˙ n F (upd˙ i a f)
+  ∀≥˙-upd˙-sat {i = i} Fia ∀≥Ff j j≥n  with j ≡? i
+  … | no _ =  ∀≥Ff j j≥n
+  … | yes refl =  Fia
+
+  -- ∀≥˙ is preserved by upd˙ i, updating the bound by ṡ i ⊔ -
+
+  ∀≥˙-upd˙ :  ∀≥˙ n F f →  ∀≥˙ (ṡ i ⊔ n) F (upd˙ i a f)
+  ∀≥˙-upd˙ {n = n} {i = i} ∀≥Ff j ṡi⊔n≥j  with j ≡? i
+  … | no _ =  ∀≥Ff j $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
+  … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j
+
+  -- ∀≥˙ is preserved by upd˙ at the bound, updating the bound by ṡ
+
+  ∀≥˙-upd˙-ṡ : ∀≥˙ n F f →  ∀≥˙ (ṡ n) F (upd˙ n a f)
+  ∀≥˙-upd˙-ṡ {n} {F = F} {a = a} ∀≥Ff  with ∀≥˙-upd˙ {F = F} {a = a} ∀≥Ff
+  … | ∀≥Fupdf  rewrite ṡ⊔-same {n} =  ∀≥Fupdf
+
+--------------------------------------------------------------------------------
+-- Cofin˙ F f :  F i (f i) holds for all but finitely many i's
 
 Cofin˙ :  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
-Cofin˙ F f =  ∑ n ,  ∀ i →  i ≥ n →  F i (f i)
+Cofin˙ F f =  ∑ n ,  ∀≥˙ n F f
 
 abstract
 
   -- Cofin˙ holds if there is no exception
 
   ∀⇒Cofin˙ :  (∀ i → F i (f i)) →  Cofin˙ F f
-  ∀⇒Cofin˙ Ffi =  0 , λ _ _ → Ffi _
+  ∀⇒Cofin˙ {F = F} Ffi =  0 , ∀⇒∀≥˙ {F = F} Ffi
 
   -- Cofin˙ is preserved by upd˙
 
   Cofin˙-upd˙ :  Cofin˙ F f →  Cofin˙ F (upd˙ i a f)
-  Cofin˙-upd˙ {i = i} (n ,-) .π₀ =  ṡ i ⊔ n
-  Cofin˙-upd˙ {i = i} (n , i≥n⇒Ffi) .π₁ j ṡi⊔n≥j  with j ≡? i
-  … | no _ =  i≥n⇒Ffi _ $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
-  … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j
+  Cofin˙-upd˙ {F = F} (-, ∀≥Ff) =  -, ∀≥˙-upd˙ {F = F} ∀≥Ff
+
+  -- If Cofin˙ F f holds, then there exists some i such that F i (f i) holds
+
+  Cofin˙-∑ :  Cofin˙ F f →  ∑ i , F i (f i)
+  Cofin˙-∑ {F = F} (n , ∀≥Ff) =  n , ∀≥Ff n ≤-refl

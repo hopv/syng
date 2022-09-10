@@ -15,7 +15,8 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; _≡?_; ≡?-refl)
-open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_)
+open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; ∀≥˙;
+  ∀≥˙-upd˙-sat; ∀≥˙-upd˙-ṡ)
 open import Base.List using ([_])
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
@@ -37,7 +38,7 @@ open AllIndˣ public using () renaming (
   --  ∀Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ)
 module WrapIndˣ =  Syho.Model.ERA.Wrap ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
-  (λ (Pˇ˙ , n) →  ∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)
+  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
 open WrapIndˣ public using () renaming (
   --  Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Wrapᴱᴿᴬ to Indˣᴱᴿᴬ)
@@ -57,12 +58,10 @@ abstract
   alloc-indˣ :  ((Qˇ˙ , n) , εᴵⁿᵈˣ)  ↝ᴵⁿᵈˣ  λ(_ : ⊤₀) →
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , lineᴵⁿᵈˣ n P
   alloc-indˣ _ _ .π₀ =  _
-  alloc-indˣ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
-  … | no _ =  ✓Qˇ ∘ <⇒≤
-  … | yes refl =  absurd ∘ <-irrefl
+  alloc-indˣ _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
   alloc-indˣ {n = n} _ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rˣ i
   … | no _ | Qˇi✓Rˣi =  Qˇi✓Rˣi
-  … | yes refl | Qˇn✓Rˣn  rewrite ✓Qˇ ≤-refl =  ✓ˣ-alloc Qˇn✓Rˣn
+  … | yes refl | Qˇn✓Rˣn  rewrite ✓Qˇ _ ≤-refl =  ✓ˣ-alloc Qˇn✓Rˣn
 
   -- Remove a proposition consuming a line
 
@@ -72,11 +71,9 @@ abstract
   … | Qˇi✓#P∙Rˣi  rewrite ≡?-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓#P∙Rˣi
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ i≥n  with Qˇi≡šP
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
   …       | ()
-  use-indˣ {i = i} _ (✓Qˇ ,-) .π₁ .π₀ {j}  with j ≡? i
-  … | no _ =  ✓Qˇ
-  … | yes refl =  λ _ → refl
+  use-indˣ _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-sat {F = λ _ → _≡ ň} refl ✓Qˇ
   use-indˣ {i = i} _ (-, Qˇ✓iP∙Rˣ) .π₁ .π₁ j  with j ≡? i | Qˇ✓iP∙Rˣ j
   … | no _ | Qˇj✓Rˣj =  Qˇj✓Rˣj
   … | yes refl | Qˇi✓#P∙Rˣi =  ✓ˣ-free Qˇi✓#P∙Rˣi
@@ -89,7 +86,7 @@ open AllIndᵖ public using () renaming (
   --  ∀Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ)
 module WrapIndᵖ =  Syho.Model.ERA.Wrap ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
-  (λ (Pˇ˙ , n) →  ∀{i} →  i ≥ n →  Pˇ˙ i ≡ ň)
+  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
 open WrapIndᵖ public using () renaming (
   --  Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Wrapᴱᴿᴬ to Indᵖᴱᴿᴬ)
@@ -109,12 +106,10 @@ abstract
   alloc-indᵖ :  ((Qˇ˙ , n) , εᴵⁿᵈᵖ)  ↝ᴵⁿᵈᵖ  λ(_ : ⊤₀) →
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , lineᴵⁿᵈᵖ n P
   alloc-indᵖ _ _ .π₀ =  _
-  alloc-indᵖ {n = n} _ (✓Qˇ ,-) .π₁ .π₀ {i}  with i ≡? n
-  … | no _ =  ✓Qˇ ∘ <⇒≤
-  … | yes refl =  absurd ∘ <-irrefl
+  alloc-indᵖ _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
   alloc-indᵖ {n = n} _ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rs i
   … | no _ | Qˇi✓Rsi =  Qˇi✓Rsi
-  … | yes refl | Qˇn✓Rsn  rewrite ✓Qˇ ≤-refl =  ✓ᴸ-alloc Qˇn✓Rsn
+  … | yes refl | Qˇn✓Rsn  rewrite ✓Qˇ _ ≤-refl =  ✓ᴸ-alloc Qˇn✓Rsn
 
   -- Get an agreement from a line
 
@@ -124,7 +119,7 @@ abstract
   … | Qˇi✓P∷Rsi  rewrite ≡?-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷Rsi
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ i≥n  with Qˇi≡šP
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
   …       | ()
   use-indᵖ _ ✓Qˇ✓iP⧺Rs .π₁ =  ✓Qˇ✓iP⧺Rs
 

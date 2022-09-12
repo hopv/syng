@@ -8,7 +8,7 @@ module Syho.Model.ERA.Mem where
 
 open import Base.Level using (0ᴸ; 2ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Eq using (_≡_)
+open import Base.Eq using (_≡_; refl)
 open import Base.Nat using (ℕ)
 open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
 open import Base.Option using (š_; ň; _»-¿_; _$¿_)
@@ -76,7 +76,6 @@ open UpMem public using () renaming (
 
 open ERA Pntsᴱᴿᴬ public using () renaming (_◇˜_ to _◇˜ᴾⁿᵗˢ_;
   ✓-resp to ✓ᴾⁿᵗˢ-resp)
-open ERA Freeᴱᴿᴬ public using () renaming (refl˜ to refl˜ᶠʳᵉᵉ)
 open ERA Mbloᴱᴿᴬ public using () renaming (Res to Resᴹᵇˡᵒ; _≈_ to _≈ᴹᵇˡᵒ_;
   _✓_ to _✓ᴹᵇˡᵒ_; _∙_ to _∙ᴹᵇˡᵒ_)
 open ERA ∀Memᴱᴿᴬ public using () renaming (✓-resp to ✓ᴬᴹᵉᵐ-resp)
@@ -110,7 +109,7 @@ abstract
   ↦⟨⟩ᵇˡᵒ-≤1 =  π₀ › ✓-inj˙ᴾⁿᵗˢ › ✓ᶠʳ-≤1
 
   ↦⟨⟩ᵇˡᵒ-∙ :  i ↦⟨ p ⟩ᵇˡᵒ ᵗv ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗv  ≈ᴹᵇˡᵒ i ↦⟨ p +ᴿ⁺ q ⟩ᵇˡᵒ ᵗv
-  ↦⟨⟩ᵇˡᵒ-∙ .π₁ =  refl˜ᶠʳᵉᵉ
+  ↦⟨⟩ᵇˡᵒ-∙ .π₁ =  refl
   ↦⟨⟩ᵇˡᵒ-∙ {p = p} {q = q} .π₀ =
     inj˙ᴾⁿᵗˢ-∙ ◇˜ᴾⁿᵗˢ inj˙ᴾⁿᵗˢ-≈ $ š[?]-∙ᶠʳ {p} {q = q}
 

@@ -22,7 +22,7 @@ record  Addr :  Set₀  where
   constructor addr
   field
     -- the memory block's id
-    blᵃ :  ℕ
+    bloᵃ :  ℕ
     -- the index in the memory block
     idxᵃ :  ℕ
 open Addr public

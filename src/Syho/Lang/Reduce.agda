@@ -25,16 +25,18 @@ open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; �
 --------------------------------------------------------------------------------
 -- Memory
 
-MemBlo Mem :  Set₁
-MemBlo =  ¿ List TyVal
-Mem =  ℕ →  MemBlo
+-- Mblo :  Memory block state
+-- Mem :  Memory state
+Mblo Mem :  Set₁
+Mblo =  ¿ List TyVal
+Mem =  ℕ →  Mblo
 
 private variable
   M M' :  Mem
+  Mb :  Mblo
   o :  ℕ
-  ᵗv :  TyVal
-  blo :  MemBlo
   θ :  Addr
+  ᵗv :  TyVal
 
 -- Memory read
 
@@ -67,7 +69,7 @@ abstract
 
   -- ✓ᴹ is preserved by upd˙ and updᴹ
 
-  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o blo M)
+  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o Mb M)
   ✓ᴹ-upd˙ =  Cofin˙-upd˙ {F = λ _ → _≡ ň}
 
   ✓ᴹ-updᴹ :  ✓ᴹ M →  ✓ᴹ (updᴹ θ ᵗv M)

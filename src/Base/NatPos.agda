@@ -234,7 +234,7 @@ abstract
   -- *⁺ is injective
 
   *⁺-injˡ :  ∀{l m n} →  m *⁺ l ≡ n *⁺ l →  m ≡ n
-  *⁺-injˡ m*l≡n*l =  ℕ⁺⇒ℕ-inj $ *-injˡ $ cong ℕ⁺⇒ℕ m*l≡n*l
+  *⁺-injˡ m*l≡n*l =  ℕ⁺⇒ℕ-inj $ *-injˡ _ $ cong ℕ⁺⇒ℕ m*l≡n*l
 
   *⁺-injʳ :  l *⁺ m ≡ l *⁺ n →  m ≡ n
   *⁺-injʳ {l} {m} {n}  rewrite *⁺-comm {l} {m} | *⁺-comm {l} {n} =  *⁺-injˡ
@@ -273,7 +273,7 @@ abstract
 
   *⁺-smonoˡ :  l <⁺ m →  l *⁺ n <⁺ m *⁺ n
   *⁺-smonoˡ {ṡ⁺ l⁰} {ṡ⁺ m⁰} {ṡ⁺ n⁰} l⁰<m⁰ =
-    ṡ<ṡ⁻¹ $ *-smonoˡ {ṡ l⁰} {ṡ m⁰} {n⁰} $ ṡ<ṡ l⁰<m⁰
+    ṡ<ṡ⁻¹ $ *-smonoˡ {ṡ n⁰} {ṡ l⁰} {ṡ m⁰} _ $ ṡ<ṡ l⁰<m⁰
 
   *⁺-smonoʳ :  ∀{l m n} →  m <⁺ n →  l *⁺ m <⁺ l *⁺ n
   *⁺-smonoʳ {l} {m} {n} m<n =  subst₂ _<⁺_ (*⁺-comm {m} {l}) (*⁺-comm {n} {l})

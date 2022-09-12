@@ -8,7 +8,7 @@ module Base.Nat where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _∘_)
-open import Base.Few using (¬_; absurd)
+open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
@@ -221,12 +221,25 @@ _<?_ :  Dec² _<_
 m <? n =  ṡ m ≤? n
 
 --------------------------------------------------------------------------------
+-- >0 :  Positivity
+
+infix 4 _>0
+_>0 :  ℕ →  Set₀
+ṡ _ >0 =  ⊤
+0 >0 =  ⊥
+
+--------------------------------------------------------------------------------
 -- + :  Addition
 
 open import Agda.Builtin.Nat public using (
   -- infixl 6 _+_
   -- _+_ :  ℕ →  ℕ →  ℕ
   _+_)
+
+-- + ? preserves >0
+
++?->0 :  m >0 →  m + n >0
++?->0 {m = ṡ _} =  _
 
 abstract
 
@@ -303,6 +316,11 @@ open import Agda.Builtin.Nat public using (
   -- _*_ :  ℕ →  ℕ →  ℕ
   _*_)
 
+-- * preserves >0
+
+*->0 :  m >0 →  n >0 →  m * n >0
+*->0 {m = ṡ _} {n = ṡ _} =  _
+
 abstract
 
   -- Clearing the right-hand side of *
@@ -363,22 +381,22 @@ abstract
 
   -- * is strictly monotone when one argument is positive
 
-  *-smonoˡ :  l < m →  l * ṡ n < m * ṡ n
-  *-smonoˡ ṡl≤m =  ≤-trans (ṡ≤ṡ +-incrˡ) (*-monoˡ ṡl≤m)
+  *-smonoˡ :  l >0 →  m < n →  m * l < n * l
+  *-smonoˡ {l = ṡ _} _ ṡm≤n =  ≤-trans (ṡ≤ṡ +-incrˡ) (*-monoˡ ṡm≤n)
 
-  *-smonoʳ :  ∀{l m n} →  m < n →  ṡ l * m < ṡ l * n
-  *-smonoʳ {l} {m} {n}  rewrite *-comm {ṡ l} {m} | *-comm {ṡ l} {n} =  *-smonoˡ
+  *-smonoʳ :  l >0 →  m < n →  l * m < l * n
+  *-smonoʳ {l} {m} {n}  rewrite *-comm {l} {m} | *-comm {l} {n} =  *-smonoˡ
 
   -- * with a positive argument is injective
 
-  *-injˡ :  ∀{l m n} →  m * ṡ l ≡ n * ṡ l →  m ≡ n
-  *-injˡ {_} {m} {n} m*ṡl≡n*ṡl  with m <≡> n
-  … | ĩ₀ m<n =  absurd $ ≡⇒¬< m*ṡl≡n*ṡl (*-smonoˡ m<n)
+  *-injˡ :  l >0 →  m * l ≡ n * l →  m ≡ n
+  *-injˡ {m = m} {n} l>0 m*l≡n*l  with m <≡> n
+  … | ĩ₀ m<n =  absurd $ ≡⇒¬< m*l≡n*l (*-smonoˡ l>0 m<n)
   … | ĩ₁ ĩ₀ m≡n =  m≡n
-  … | ĩ₁ ĩ₁ m>n =  absurd $ ≡⇒¬< (◠ m*ṡl≡n*ṡl) (*-smonoˡ m>n)
+  … | ĩ₁ ĩ₁ m>n =  absurd $ ≡⇒¬< (◠ m*l≡n*l) (*-smonoˡ l>0 m>n)
 
-  *-injʳ :  ṡ l * m ≡ ṡ l * n →  m ≡ n
-  *-injʳ {l} {m} {n}  rewrite *-comm {ṡ l} {m} | *-comm {ṡ l} {n} =  *-injˡ
+  *-injʳ :  l >0 →  l * m ≡ l * n →  m ≡ n
+  *-injʳ {l} {m} {n}  rewrite *-comm {l} {m} | *-comm {l} {n} =  *-injˡ
 
 --------------------------------------------------------------------------------
 -- ∸ :  Truncated subtraction

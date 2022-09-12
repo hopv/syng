@@ -15,7 +15,7 @@ open import Base.Nat using (+-0; *-1ʳ)
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _≤⁺?_; _+⁺_; _*⁺_;
   ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-comm; +⁺-assocˡ;
   +⁺-assocʳ; +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
-  *⁺-actˡ-comm; *⁺-actʳ-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
+  ?*⁺-comm; *⁺?-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number
@@ -69,7 +69,7 @@ abstract
     eq :  d *⁺ (f *⁺ a) ≡ d *⁺ (b *⁺ e)
     eq =  cong (d *⁺_) (*⁺-comm {f} {a}) ◇ *⁺-assocʳ {d} {a} {f} ◇
       cong (_*⁺ f) da≡bc ◇ *⁺-assocˡ {b} {c} {f} ◇
-      cong (b *⁺_) (*⁺-comm {c} {f} ◇ fc≡de) ◇ *⁺-actˡ-comm {b} {d} {e}
+      cong (b *⁺_) (*⁺-comm {c} {f} ◇ fc≡de) ◇ ?*⁺-comm {b} {d} {e}
 
 --------------------------------------------------------------------------------
 -- ≈ᴿ⁺? :  Decide ≈ᴿ⁺
@@ -111,8 +111,8 @@ abstract
     eq =
       flip (cong₂ _+⁺_) (*⁺-assocˡ {b} {d} {e})
         (*⁺-+⁺-distrʳ {f} {d *⁺ a} {b *⁺ c} ◇ cong₂ _+⁺_
-          (*⁺-actˡ-comm {f} {d} {a} ◇ *⁺-assocʳ {d} {f} {a})
-          (*⁺-actˡ-comm {f} {b} {c})) ◇
+          (?*⁺-comm {f} {d} {a} ◇ *⁺-assocʳ {d} {f} {a})
+          (?*⁺-comm {f} {b} {c})) ◇
       +⁺-assocˡ ◇ cong (d *⁺ f *⁺ a +⁺_) $ ◠ *⁺-+⁺-distrʳ {b}
 
   +ᴿ⁺-assocʳ :  p +ᴿ⁺ (q +ᴿ⁺ r) ≡ (p +ᴿ⁺ q) +ᴿ⁺ r
@@ -122,13 +122,13 @@ abstract
 
   +ᴿ⁺-congˡ :  p ≈ᴿ⁺ q →  p +ᴿ⁺ r ≈ᴿ⁺ q +ᴿ⁺ r
   +ᴿ⁺-congˡ {a //⁺ b} {c //⁺ d} {e //⁺ f} da≡bc =
-    *⁺-actʳ-comm {d} {f} ◇ cong (_*⁺ f) eq ◇ *⁺-actʳ-comm {b} {_} {f}
+    *⁺?-comm {d} {f} ◇ cong (_*⁺ f) eq ◇ *⁺?-comm {b} {_} {f}
     -- (d *⁺ f) *⁺ (f *⁺ a +⁺ b *⁺ e) ≡ (b *⁺ f) *⁺ (f *⁺ c +⁺ d *⁺ e)
    where
     eq :  d *⁺ (f *⁺ a +⁺ b *⁺ e) ≡ b *⁺ (f *⁺ c +⁺ d *⁺ e)
     eq =  *⁺-+⁺-distrʳ {d} ◇
-      flip (cong₂ _+⁺_) (*⁺-actˡ-comm {d} {b})
-        (*⁺-actˡ-comm {d} {f} ◇ cong (f *⁺_) da≡bc ◇ *⁺-actˡ-comm {f} {b}) ◇
+      flip (cong₂ _+⁺_) (?*⁺-comm {d} {b})
+        (?*⁺-comm {d} {f} ◇ cong (f *⁺_) da≡bc ◇ ?*⁺-comm {f} {b}) ◇
       ◠ *⁺-+⁺-distrʳ {b}
 
   +ᴿ⁺-congʳ :  ∀{p q r} →  q ≈ᴿ⁺ r →  p +ᴿ⁺ q ≈ᴿ⁺ p +ᴿ⁺ r

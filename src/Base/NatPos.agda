@@ -221,14 +221,14 @@ abstract
   *⁺-assocʳ :  l *⁺ (m *⁺ n) ≡ (l *⁺ m) *⁺ n
   *⁺-assocʳ {l} {m} =  ◠ *⁺-assocˡ {l} {m}
 
-  -- Commutativity over left/right actions
+  -- Commutativity of *⁺ as an action
 
-  *⁺-actˡ-comm :  l *⁺ (m *⁺ n) ≡ m *⁺ (l *⁺ n)
-  *⁺-actˡ-comm {l} {m} {n} =  *⁺-assocʳ {l} {m} {n} ◇
+  ?*⁺-comm :  l *⁺ (m *⁺ n) ≡ m *⁺ (l *⁺ n)
+  ?*⁺-comm {l} {m} {n} =  *⁺-assocʳ {l} {m} {n} ◇
       cong (_*⁺ n) (*⁺-comm {l} {m}) ◇ *⁺-assocˡ {m} {l} {n}
 
-  *⁺-actʳ-comm :  (l *⁺ m) *⁺ n ≡ (l *⁺ n) *⁺ m
-  *⁺-actʳ-comm {l} {m} {n} =  *⁺-assocˡ {l} {m} {n} ◇
+  *⁺?-comm :  (l *⁺ m) *⁺ n ≡ (l *⁺ n) *⁺ m
+  *⁺?-comm {l} {m} {n} =  *⁺-assocˡ {l} {m} {n} ◇
       cong (l *⁺_) (*⁺-comm {m} {n}) ◇ *⁺-assocʳ {l} {n} {m}
 
   -- *⁺ is injective

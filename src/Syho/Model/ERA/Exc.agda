@@ -58,8 +58,7 @@ infix 4 _✓ˣ_
 _✓ˣ_ :  ∀{A : Set ł} →  ¿ A →  Exc A →  Set ł
 _ ✓ˣ ?ˣ =  ⊤
 _ ✓ˣ ↯ˣ =  ⊥
-š a ✓ˣ #ˣ b =  a ≡ b
-ň ✓ˣ #ˣ _ =  ⊥
+aˇ ✓ˣ #ˣ b =  aˇ ≡ š b
 
 abstract
 
@@ -91,7 +90,7 @@ abstract
 
   ✓ˣ-rem :  aˇ ✓ˣ x ∙ˣ y →  aˇ ✓ˣ y
   ✓ˣ-rem {x = ?ˣ} =  id
-  ✓ˣ-rem {aˇ = š _} {#ˣ _} {?ˣ} =  _
+  ✓ˣ-rem {x = #ˣ _} {?ˣ} =  _
 
   -- Update ň into š a and ?ˣ into #ˣ a, preserving ✓ˣ - ∙ˣ x
 
@@ -101,7 +100,7 @@ abstract
   -- Agreement from ✓ˣ x ∙ˣ #ˣ
 
   ✓ˣ-agree :  aˇ ✓ˣ #ˣ b ∙ˣ x →  aˇ ≡ š b
-  ✓ˣ-agree {aˇ = š _} {x = ?ˣ} refl =  refl
+  ✓ˣ-agree {x = ?ˣ} refl =  refl
 
   -- Update aˇ into ň and #ˣ b into ?ˣ, preserving ✓ˣ - ∙ˣ x
 

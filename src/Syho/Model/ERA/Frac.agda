@@ -153,8 +153,8 @@ abstract
   -- Agreement between the first two elements of a list
 
   ✓ᶠʳ-agree2 :  aˇ ✓ᶠʳ š (p , b ∷ c ∷ ds) →  b ≡ c
-  ✓ᶠʳ-agree2 {aˇ = š _} (-, aˇ✓b∷c∷ds)
-    rewrite aˇ✓b∷c∷ds _ ∈ʰᵈ | aˇ✓b∷c∷ds _ (∈ᵗˡ ∈ʰᵈ) =  refl
+  ✓ᶠʳ-agree2 {aˇ = š _} (-, aˇ✓b∷c∷)  with aˇ✓b∷c∷ _ ∈ʰᵈ | aˇ✓b∷c∷ _ (∈ᵗˡ ∈ʰᵈ)
+  … | refl | refl =  refl
 
   -- Update aˇ into ň and š (1ᴿ⁺ , bs) into ň, preserving ✓ᶠʳ - ∙ᶠʳ x
 

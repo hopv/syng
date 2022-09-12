@@ -124,7 +124,10 @@ parts.
         * [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
             [`Prod`](src/Syho/Model/ERA/Prod.agda) for the product ERA;
             [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
-            [`Wrap`](src/Syho/Model/ERA/Wrap.agda) for the wrap ERA;
+            [`Envm`](src/Syho/Model/ERA/Envm.agda) for the environment
+            modification ERA;
+            [`Envv`](src/Syho/Model/ERA/Envv.agda) for the environment
+            validity ERA;
             [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA.
         * [`Exc`](src/Syho/Model/ERA/Exc.agda) for the exclusive ERA;
             [`Ag`](src/Syho/Model/ERA/Ag.agda) for the agreement ERA;

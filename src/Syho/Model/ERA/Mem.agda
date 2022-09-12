@@ -22,7 +22,8 @@ open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_)
 open import Syho.Model.ERA.Frac using (Fracᴱᴿᴬ; š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree2)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
-import Syho.Model.ERA.Wrap
+import Syho.Model.ERA.Envm
+import Syho.Model.ERA.Envv
 import Syho.Model.ERA.Up
 
 --------------------------------------------------------------------------------
@@ -52,12 +53,16 @@ module ProdMem =  Syho.Model.ERA.Prod Pntsᴱᴿᴬ Freeᴱᴿᴬ
 open ProdMem public using () renaming (
   --  ×Memᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ×ᴱᴿᴬ to ×Memᴱᴿᴬ)
-module WrapMem =  Syho.Model.ERA.Wrap ×Memᴱᴿᴬ
-  Mem (λ M → M ‼ᴹ_ , (len $¿_) ∘ M) ✓ᴹ_
-open WrapMem public using () renaming (
-  --  WrapMemᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Wrapᴱᴿᴬ to WrapMemᴱᴿᴬ)
-module UpMem =  Syho.Model.ERA.Up WrapMemᴱᴿᴬ {2ᴸ} {2ᴸ} {2ᴸ} {2ᴸ}
+module EnvmMem =  Syho.Model.ERA.Envm ×Memᴱᴿᴬ
+  Mem (λ M → M ‼ᴹ_ , (len $¿_) ∘ M)
+open EnvmMem public using () renaming (
+  --  EnvmMemᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+  Envmᴱᴿᴬ to EnvmMemᴱᴿᴬ)
+module EnvvMem =  Syho.Model.ERA.Envv EnvmMemᴱᴿᴬ ✓ᴹ_
+open EnvvMem public using () renaming (
+  --  EnvvMemᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+  Envvᴱᴿᴬ to EnvvMemᴱᴿᴬ)
+module UpMem =  Syho.Model.ERA.Up EnvvMemᴱᴿᴬ {2ᴸ} {2ᴸ} {2ᴸ} {2ᴸ}
 open UpMem public using () renaming (
   --  Memᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Upᴱᴿᴬ to Memᴱᴿᴬ)

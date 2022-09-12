@@ -23,7 +23,8 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free)
 open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-alloc; ✓ᴸ-agree)
 import Syho.Model.ERA.All
-import Syho.Model.ERA.Wrap
+import Syho.Model.ERA.Envm
+import Syho.Model.ERA.Envv
 
 private variable
   P :  Prop' ∞
@@ -37,11 +38,15 @@ module AllIndˣ =  Syho.Model.ERA.All ℕ (λ _ → Excᴱᴿᴬ (Prop' ∞))
 open AllIndˣ public using () renaming (
   --  ∀Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ)
-module WrapIndˣ =  Syho.Model.ERA.Wrap ∀Indˣᴱᴿᴬ
-  ((ℕ → ¿ Prop' ∞) × ℕ) π₀ (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
-open WrapIndˣ public using () renaming (
+module EnvmIndˣ =  Syho.Model.ERA.Envm ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
+open EnvmIndˣ public using () renaming (
+  --  EnvmIndˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  Envmᴱᴿᴬ to EnvmIndˣᴱᴿᴬ)
+module EnvvIndˣ =  Syho.Model.ERA.Envv EnvmIndˣᴱᴿᴬ
+  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
+open EnvvIndˣ public using () renaming (
   --  Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
-  Wrapᴱᴿᴬ to Indˣᴱᴿᴬ)
+  Envvᴱᴿᴬ to Indˣᴱᴿᴬ)
 
 open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to Resᴵⁿᵈˣ;
   ε to εᴵⁿᵈˣ; _↝_ to _↝ᴵⁿᵈˣ_)
@@ -85,11 +90,15 @@ module AllIndᵖ =  Syho.Model.ERA.All ℕ (λ _ → Agᴱᴿᴬ (Prop' ∞))
 open AllIndᵖ public using () renaming (
   --  ∀Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ)
-module WrapIndᵖ =  Syho.Model.ERA.Wrap ∀Indᵖᴱᴿᴬ
-  ((ℕ → ¿ Prop' ∞) × ℕ) π₀ (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
-open WrapIndᵖ public using () renaming (
+module EnvmIndᵖ =  Syho.Model.ERA.Envm ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
+open EnvmIndᵖ public using () renaming (
+  --  EnvmIndᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  Envmᴱᴿᴬ to EnvmIndᵖᴱᴿᴬ)
+module EnvvIndᵖ =  Syho.Model.ERA.Envv EnvmIndᵖᴱᴿᴬ
+  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
+open EnvvIndᵖ public using () renaming (
   --  Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
-  Wrapᴱᴿᴬ to Indᵖᴱᴿᴬ)
+  Envvᴱᴿᴬ to Indᵖᴱᴿᴬ)
 
 open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ; Res to Resᴵⁿᵈᵖ;
   ε to εᴵⁿᵈᵖ; _↝_ to _↝ᴵⁿᵈᵖ_)

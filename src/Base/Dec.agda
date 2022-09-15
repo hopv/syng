@@ -29,6 +29,17 @@ data  Dec (A : Set ł) :  Set ł  where
 dec :  ∀(A : Set ł) →  {{Dec A}} →  Dec A
 dec _ {{a?}} =  a?
 
+-- Yes :  The decision is yes
+
+Yes :  Dec A →  Set₀
+Yes (yes _) =  ⊤
+Yes (no _) =  ⊥
+
+--  Get A from an instance yes-type decision
+
+by-dec :  {{a? : Dec A}} →  {Yes a?} →  A
+by-dec {{yes a}} =  a
+
 instance
 
   -- Dec on ⊤ and ⊥

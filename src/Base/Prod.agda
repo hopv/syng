@@ -15,7 +15,7 @@ open import Base.Func using (it)
 -- Import and re-export
 open import Agda.Builtin.Sigma public using () renaming (
   -- Sigma type, or dependent pair type
-  -- ∑˙ :  ∀ (A : Set ł) →  (A → Set ł') →  Set (ł ⊔ ł')
+  -- ∑˙ :  ∀(A : Set ł) →  (A → Set ł') →  Set (ł ⊔ ł')
   Σ to ∑˙;
   -- Pair constructor
   -- _,_ :  A →  B˙ A →  ∑˙ A B˙
@@ -24,7 +24,7 @@ open import Agda.Builtin.Sigma public using () renaming (
   -- π₀ :  ∑˙ A B˙ →  A
   fst to π₀;
   -- The first (right-hand) component of a pair
-  -- π₁ :  ∀(p : ∑˙ A B˙) →  B˙ (π₀ p)
+  -- π₁ :  ∀(p : ∑˙ A B˙) →  B˙ (p .π₀)
   snd to π₁)
 
 private variable

@@ -6,12 +6,20 @@
 
 module Syho.Model.ERA.Glob where
 
-open import Base.Level using (2ᴸ)
+open import Base.Level using (2ᴸ; ↑_; ↓)
+open import Base.Few using (⊤; ⊥; absurd)
+open import Base.Func using (_$_)
+open import Base.Eq using (refl; _≡˙_)
+open import Base.Prod using (∑∈-syntax; π₀; _,-)
+open import Base.Dec using (yes; no; ≡Dec; _≡?_; ≡?-refl; upd˙)
 open import Base.Nat using (ℕ; ṡ_)
+open import Syho.Lang.Reduce using (Mem)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ)
+
+open ERA using (Env)
 
 --------------------------------------------------------------------------------
 -- Global ERA
@@ -47,3 +55,51 @@ open AllGlob public using () renaming (
   Env˙ to Envᴳ;
   -- Resᴳ :  Set 2ᴸ
   Res˙ to Resᴳ)
+
+--------------------------------------------------------------------------------
+-- The inner part of Globᴱᴿᴬ
+
+-- Convert an inner id into an usual id
+
+pattern outᴳ i =  ṡ i
+
+-- Inner ids of inner ERAs
+
+pattern jᴵⁿᵈˣ =  0
+pattern jᴵⁿᵈᵖ =  1
+
+-- The inner part of the environment
+
+Envᴵⁿᴳ :  Set₂
+Envᴵⁿᴳ =  ∀(j : ℕ) →  Globᴱᴿᴬ˙ (outᴳ j) .Env
+
+-- Conversion between Envᴳ and a pair of Mem and Envᴵⁿᴳ
+
+envᴳ :  Mem →  Envᴵⁿᴳ →  Envᴳ
+envᴳ M _ iᴹᵉᵐ =  ↑ M
+envᴳ _ Eᴵⁿ (outᴳ j) =  Eᴵⁿ j
+
+memᴳ :  Envᴳ →  Mem
+memᴳ E =  E iᴹᵉᵐ .↓
+
+envᴵⁿᴳ :  Envᴳ →  Envᴵⁿᴳ
+envᴵⁿᴳ E j =  E $ outᴳ j
+
+private variable
+  Eᴵⁿ Fᴵⁿ :  Envᴵⁿᴳ
+  M :  Mem
+  j :  ℕ
+  X :  Set₂
+  Fʲ :  X
+
+abstract
+
+  envᴳ-cong :  Eᴵⁿ ≡˙ Fᴵⁿ →  envᴳ M Eᴵⁿ ≡˙ envᴳ M Fᴵⁿ
+  envᴳ-cong _ iᴹᵉᵐ =  refl
+  envᴳ-cong E≡F (outᴳ j) =  E≡F j
+
+  upd˙-envᴳ :  upd˙ (outᴳ j) Fʲ (envᴳ M Eᴵⁿ) ≡˙ envᴳ M (upd˙ j Fʲ Eᴵⁿ)
+  upd˙-envᴳ iᴹᵉᵐ =  refl
+  upd˙-envᴳ {j} (outᴳ k)  with k ≡? j
+  … | yes refl =  refl
+  … | no _ = refl

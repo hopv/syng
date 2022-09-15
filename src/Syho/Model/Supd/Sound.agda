@@ -13,6 +13,7 @@ open import Base.Size using (∞)
 open import Base.Prod using (∑-case)
 open import Base.Dec using (upd˙²-self; upd˙²-2)
 open import Base.Nat using (ℕ)
+open import Syho.Lang.Reduce using (Mem)
 open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_»_; ∃₁-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
@@ -22,25 +23,26 @@ open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
 open import Syho.Model.Supd.Base using (⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⇛ᵍ-mono; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join;
   ⇛ᵍ-eatˡ)
-open import Syho.Model.Supd.Ind using (⇛ᴵⁿᵈ_; ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
-  ↪⇛ᵒ-use)
+open import Syho.Model.Supd.Ind using (⟨_⟩⇛ᴵⁿᵈ⟨_⟩_; ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec;
+  ○ᵒ-use; ↪⇛ᵒ-use)
 
 private variable
   ł :  Level
   P Q :  Prop' ∞
   i :  ℕ
+  M :  Mem
 
 --------------------------------------------------------------------------------
 -- ⇛ᵒ :  Super update on Globᴱᴿᴬ
 
-infix 8 ⇛ᵒ_
-⇛ᵒ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⇛ᵒ Pᵒ =  ⇛ᴵⁿᵈ Pᵒ
+infix 8 ⟨_⟩⇛ᵒ⟨_⟩_
+⟨_⟩⇛ᵒ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M' ⟩ Pᵒ
 
 --------------------------------------------------------------------------------
 -- ⊢⇛⇒⊨⇛ᵒ :  Semantic soundness of the super update
 
-⊢⇛⇒⊨⇛ᵒ :  P ⊢[ ∞ ][ i ]⇛ Q →  ⸨ P ⸩ ⊨ ⇛ᵒ ⸨ Q ⸩
+⊢⇛⇒⊨⇛ᵒ :  P ⊢[ ∞ ][ i ]⇛ Q →  ⸨ P ⸩ ⊨ ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⸨ Q ⸩
 
 -- _»_ :  P ⊢[ ∞ ][ i ] Q →  Q ⊢[ ∞ ][ i ]⇛ R →  P ⊢[ ∞ ][ i ]⇛ R
 

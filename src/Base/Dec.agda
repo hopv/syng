@@ -18,7 +18,7 @@ private variable
   A B :  Set ł
 
 --------------------------------------------------------------------------------
--- Decision on a proposition (or a type)
+-- Dec :  Decision on a proposition
 
 data  Dec (A : Set ł) :  Set ł  where
   yes :  A →  Dec A

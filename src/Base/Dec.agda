@@ -7,7 +7,7 @@
 module Base.Dec where
 
 open import Base.Level using (Level; _⊔ᴸ_)
-open import Base.Func using (_$_; _›_)
+open import Base.Func using (_$_; _›_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
@@ -24,40 +24,32 @@ data  Dec (A : Set ł) :  Set ł  where
   yes :  A →  Dec A
   no :  ¬ A →  Dec A
 
--- Decision on a one-argument predicate
+-- Get Dec A from an instance
 
-Dec¹ :  ∀{A : Set ł} →  (A → Set ł') →  Set (ł ⊔ᴸ ł')
-Dec¹ F =  ∀ a →  Dec (F a)
+dec :  ∀(A : Set ł) →  {{Dec A}} →  Dec A
+dec _ {{a?}} =  a?
 
--- Decision on a two-argument predicate
-
-Dec² :  ∀{A : Set ł} {B : Set ł'} →  (A → B → Set ł'') →  Set (ł ⊔ᴸ ł' ⊔ᴸ ł'')
-Dec² F =  ∀ a b →  Dec (F a b)
-
-abstract
+instance
 
   -- Derive Dec on ¬
 
-  infix 3 ¬?_
-  ¬?_ :  Dec A →  Dec (¬ A)
-  ¬? yes a =  no $ ⇒¬¬ a
-  ¬? no ¬a =  yes ¬a
+  ¬-Dec :  {{Dec A}} →  Dec (¬ A)
+  ¬-Dec {{yes a}} =  no $ ⇒¬¬ a
+  ¬-Dec {{no ¬a}} =  yes ¬a
 
   -- Derive Dec on ×
 
-  infixr 1 _×?_
-  _×?_ :  Dec A →  Dec B →  Dec (A × B)
-  yes a ×? yes b =  yes (a , b)
-  no ¬a ×? _ =  no λ (a ,-) → ¬a a
-  _ ×? no ¬b =  no λ (-, b) → ¬b b
+  ×-Dec :  {{Dec A}} →  {{Dec B}} →  Dec (A × B)
+  ×-Dec {{yes a}} {{yes b}} =  yes (a , b)
+  ×-Dec {{no ¬a}} =  no λ (a ,-) → ¬a a
+  ×-Dec {{_}} {{no ¬b}} =  no λ (-, b) → ¬b b
 
   -- Derive Dec on ⊎
 
-  infixr 0 _⊎?_
-  _⊎?_ :  Dec A →  Dec B →  Dec (A ⊎ B)
-  yes a ⊎? _ =  yes $ ĩ₀ a
-  _ ⊎? yes b =  yes $ ĩ₁ b
-  no ¬a ⊎? no ¬b =  no $ ⊎-case ¬a ¬b
+  ⊎-Dec :  {{Dec A}} →  {{Dec B}} →  Dec (A ⊎ B)
+  ⊎-Dec {{yes a}} =  yes $ ĩ₀ a
+  ⊎-Dec {{_}} {{yes b}} =  yes $ ĩ₁ b
+  ⊎-Dec {{no ¬a}} {{no ¬b}} =  no $ ⊎-case ¬a ¬b
 
 --------------------------------------------------------------------------------
 -- ≡Dec :  Equality decision
@@ -67,14 +59,19 @@ record  ≡Dec (A : Set ł) :  Set ł  where
   infix 4 _≡?_
   field
     -- Equality decision on A
-    _≡?_ :  Dec² {A = A} _≡_
+    _≡?_ :  ∀(a b : A) →  Dec (a ≡ b)
 
     -- a ≡? a returns yes refl
-    -- It's trivial that it returns yes x for some x, but the fact that x is
-    -- refl cannot be derived from ≡?'s type only, under the --without-K flag
+    ---- It's trivial that it returns yes x for some x, but the fact that x is
+    ---- refl cannot be derived from ≡?'s type only, under the --without-K flag
     ≡?-refl :  ∀{a} →  (a ≡? a) ≡ yes refl
 
 open ≡Dec {{…}} public
+
+instance
+
+  ≡-Dec :  {{≡Dec A}} →  {a b : A} →  Dec (a ≡ b)
+  ≡-Dec =  _ ≡? _
 
 private variable
   I :  Set ł

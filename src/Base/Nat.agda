@@ -12,7 +12,7 @@ open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (Dec²; yes; no; ≡Dec; ≡dec; _≡?_; upd˙)
+open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≡?_; upd˙)
 
 --------------------------------------------------------------------------------
 -- ℕ :  Natural number
@@ -193,7 +193,7 @@ instance
   ℕ-≡Dec =  ≡dec _≡?'_ ≡?'-refl
    where
     infix 4 _≡?'_
-    _≡?'_ :  Dec² _≡_
+    _≡?'_ :  ∀ a b →  Dec (a ≡ b)
     0 ≡?' 0 =  yes refl
     0 ≡?' ṡ _ =  no λ()
     ṡ _ ≡?' 0 =  no λ()
@@ -206,19 +206,16 @@ instance
       ≡?'-refl {ṡ n'}  rewrite ≡?'-refl {n'} =  refl
 
 --------------------------------------------------------------------------------
--- ≤?, <? :  Order decision
+-- Order decision
 
-infix 4 _≤?_ _<?_
+instance
 
-_≤?_ :  Dec² _≤_
-ṡ m ≤? ṡ n  with m ≤? n
-… | yes m≤n =  yes $ ṡ≤ṡ m≤n
-… | no ¬m≤n =  no λ{ (ṡ≤ṡ m≤n) → ¬m≤n m≤n }
-0 ≤? _  =  yes 0≤
-ṡ _ ≤? 0  =  no λ ()
-
-_<?_ :  Dec² _<_
-m <? n =  ṡ m ≤? n
+  ≤-Dec :  Dec (m ≤ n)
+  ≤-Dec {ṡ m} {ṡ n}  with ≤-Dec {m} {n}
+  … | yes m≤n =  yes $ ṡ≤ṡ m≤n
+  … | no ¬m≤n =  no λ{ (ṡ≤ṡ m≤n) → ¬m≤n m≤n }
+  ≤-Dec {0} =  yes 0≤
+  ≤-Dec {ṡ _} {0} =  no λ ()
 
 --------------------------------------------------------------------------------
 -- >0 :  Positivity

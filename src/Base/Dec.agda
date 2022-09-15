@@ -31,11 +31,20 @@ dec _ {{a?}} =  a?
 
 instance
 
-  -- Derive Dec on ¬
+  -- Dec on ⊤ and ⊥
 
-  ¬-Dec :  {{Dec A}} →  Dec (¬ A)
-  ¬-Dec {{yes a}} =  no $ ⇒¬¬ a
-  ¬-Dec {{no ¬a}} =  yes ¬a
+  ⊤-Dec :  Dec (⊤ {ł})
+  ⊤-Dec =  yes _
+
+  ⊥-Dec :  Dec (⊥ {ł})
+  ⊥-Dec =  no absurd
+
+  -- Derive Dec on →
+
+  →-Dec :  {{Dec A}} →  {{Dec B}} →  Dec (A → B)
+  →-Dec {{_}} {{yes b}} =  yes λ _ → b
+  →-Dec {{no ¬a}} =  yes λ a → absurd $ ¬a a
+  →-Dec {{yes a}} {{no ¬b}} =  no λ a⇒b → absurd $ ¬b $ a⇒b a
 
   -- Derive Dec on ×
 

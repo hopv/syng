@@ -7,7 +7,7 @@
 module Syho.Model.Supd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
-open import Base.Func using (_$_; _▷_; _∘_; _›_)
+open import Base.Func using (_$_; _›_)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl; ◠_; subst₂; _≡˙_)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
@@ -65,7 +65,7 @@ abstract
   ⇛ᵍ-mono✓ P⊨✓Q gsI⇛P E =  (-∗ᵒ-monoʳ $ ⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ˡ P⊨✓Q) $ gsI⇛P E
 
   ⇛ᵍ-mono :  Pᵒ ⊨ Qᵒ →  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ
-  ⇛ᵍ-mono =  ⇛ᵍ-mono✓ ∘ ⊨⇒⊨✓
+  ⇛ᵍ-mono =  ⊨⇒⊨✓ › ⇛ᵍ-mono✓
 
   -- Utility for making ⇛ᵍ
 
@@ -113,7 +113,7 @@ abstract
 
   ⇛ᵍ-join2 :  (∀{E x} → get' (set x E) ≡ get' E) →
     ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⟨ M' ⟩[ get' , set' , Inv' ]⇛ᵍ⟨ M'' ⟩ Pᵒ  ⊨
-      ⟨ M ⟩[ (λ E → (get E , get' E)) , (λ (x , y) → set' y ∘ set x) ,
+      ⟨ M ⟩[ (λ E → (get E , get' E)) , (λ (x , y) → set x › set' y) ,
              (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵍ⟨ M'' ⟩ Pᵒ
   ⇛ᵍ-join2 {Inv' = Inv'} get'set≡get' =  ⇛ᵍ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᵍ⟨ _ ⟩ _}
     λ _ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ ⇛ᵍ-apply ✓∙ › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
@@ -184,4 +184,4 @@ abstract
 
   Invᵍ-rem-< :  xˇ˙ i ≡ š y →  i < n →
     Invᵍ F xˇ˙ n  ⊨  F y ∗ᵒ Invᵍ F (upd˙ i ň xˇ˙) n
-  Invᵍ-rem-< xˇi≡šy =  Invᵍ-rem-<ᵈ xˇi≡šy ∘ ≤⇒≤ᵈ
+  Invᵍ-rem-< xˇi≡šy =  ≤⇒≤ᵈ › Invᵍ-rem-<ᵈ xˇi≡šy

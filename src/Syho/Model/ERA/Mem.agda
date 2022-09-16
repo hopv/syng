@@ -55,7 +55,7 @@ open ProdMblo public using () renaming (
   --  ×Mbloᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ×ᴱᴿᴬ to ×Mbloᴱᴿᴬ)
 module EnvmMblo =  Syho.Model.ERA.Envm ×Mbloᴱᴿᴬ
-  Mblo (λ Mb → (λ i → Mb »-¿ (_‼ i)) , len $¿ Mb)
+  Mblo (λ Mb → (λ i → Mb »-¿ _‼ i) , len $¿ Mb)
 open EnvmMblo public using () renaming (
   --  Mbloᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to Mbloᴱᴿᴬ)

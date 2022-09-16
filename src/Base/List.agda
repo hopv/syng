@@ -34,7 +34,7 @@ private variable
   F :  A → Set ł
   a b :  A
   as bs cs :  List A
-  i j :  ℕ
+  i j n :  ℕ
 
 --------------------------------------------------------------------------------
 -- Singleton list
@@ -144,6 +144,14 @@ abstract
 rep :  ℕ →  A →  List A
 rep 0 _ =  []
 rep (ṡ n) a =  a ∷ rep n a
+
+abstract
+
+  -- rep n has the length n
+
+  rep-len :  len (rep n a)  ≡  n
+  rep-len {0} =  refl
+  rep-len {ṡ n} =  cong ṡ_ (rep-len {n})
 
 --------------------------------------------------------------------------------
 -- All² :  Conjunction over pairs of two lists

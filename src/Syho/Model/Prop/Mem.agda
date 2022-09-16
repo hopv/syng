@@ -7,7 +7,7 @@
 module Syho.Model.Prop.Mem where
 
 open import Base.Level using (2ᴸ)
-open import Base.Func using (_›_)
+open import Base.Func using (_$_; _›_)
 open import Base.Eq using (_≡_)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ)
@@ -58,5 +58,5 @@ abstract
 
   -- Mono for Freeᵒ
 
-  Freeᵒ-Mono :  Monoᵒ (Freeᵒ n θ)
+  Freeᵒ-Mono :  Monoᵒ $ Freeᵒ n θ
   Freeᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ◎-Mono

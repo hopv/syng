@@ -49,7 +49,7 @@ abstract
 
   -- Case analysis on ∑
 
-  ∑-case :  (∀ a →  B˙ a → C) →  (∑˙ A B˙ → C)
+  ∑-case :  (∀ a →  B˙ a → C) →  ∑˙ A B˙ →  C
   ∑-case Ba⇒C (a , b) =  Ba⇒C a b
 
 --------------------------------------------------------------------------------
@@ -93,5 +93,5 @@ abstract
 
   -- Case analysis on ∑ᴵ
 
-  ∑ᴵ-case :  (∀{{a}} →  B˙ a → C) →  (∑ᴵ˙ A B˙ → C)
+  ∑ᴵ-case :  (∀{{a}} →  B˙ a → C) →  ∑ᴵ˙ A B˙ →  C
   ∑ᴵ-case Ba⇒C (-ᴵ, b) =  Ba⇒C b

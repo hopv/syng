@@ -46,7 +46,7 @@ abstract
 
   -- Monoᵒ for ⇛ᵍ
 
-  ⇛ᵍ-Mono :  Monoᵒ (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ)
+  ⇛ᵍ-Mono :  Monoᵒ $ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ
   ⇛ᵍ-Mono =  ∀ᵒ-Mono λ _ → -∗ᵒ-Mono
 
   -- Monotonicity of ⇛ᵍ

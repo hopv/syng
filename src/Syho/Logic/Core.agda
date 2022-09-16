@@ -286,13 +286,13 @@ abstract
   ⌜⌝₀-∃₀-out =  ⌜⌝₀-elim λ (x , y) →  ⌜⌝₀-intro y » ∃₀-intro x
 
   ⌜⌝₁-∧-in :  ⌜ X ⌝₁ ∧ ⌜ Y ⌝₁ ⊢[ ι ] ⌜ X × Y ⌝₁
-  ⌜⌝₁-∧-in =  ⌜⌝₁∧-elim λ x →  ⌜⌝₁-mono λ y →  (x , y)
+  ⌜⌝₁-∧-in =  ⌜⌝₁∧-elim λ x →  ⌜⌝₁-mono λ y →  x , y
 
   ⌜⌝₁-∧-out :  ⌜ X × Y ⌝₁ ⊢[ ι ] ⌜ X ⌝₁ ∧ ⌜ Y ⌝₁
   ⌜⌝₁-∧-out =  ⌜⌝₁-elim λ (x , y) →  ∧-intro (⌜⌝₁-intro x) (⌜⌝₁-intro y)
 
   ⌜⌝₀-∧-in :  ⌜ X ⌝₀ ∧ ⌜ Y ⌝₀ ⊢[ ι ] ⌜ X × Y ⌝₀
-  ⌜⌝₀-∧-in =  ⌜⌝₀∧-elim λ x →  ⌜⌝₀-mono λ y →  (x , y)
+  ⌜⌝₀-∧-in =  ⌜⌝₀∧-elim λ x →  ⌜⌝₀-mono λ y →  x , y
 
   ⌜⌝₀-∧-out :  ⌜ X × Y ⌝₀ ⊢[ ι ] ⌜ X ⌝₀ ∧ ⌜ Y ⌝₀
   ⌜⌝₀-∧-out =  ⌜⌝₀-elim λ (x , y) →  ∧-intro (⌜⌝₀-intro x) (⌜⌝₀-intro y)

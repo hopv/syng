@@ -96,13 +96,13 @@ abstract
 
   -- Monoᵒ for ∀ᵒ/∃ᵒ/∃ᴵ
 
-  ∀ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∀ᵒ˙ Pᵒ˙)
+  ∀ᵒ-Mono :  (∀ x → Monoᵒ $ Pᵒ˙ x) →  Monoᵒ $ ∀ᵒ˙ Pᵒ˙
   ∀ᵒ-Mono ∀MonoP a⊑b ∀Pa x =  ∀MonoP x a⊑b (∀Pa x)
 
-  ∃ᵒ-Mono :  (∀ x → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃ᵒ˙ Pᵒ˙)
+  ∃ᵒ-Mono :  (∀ x → Monoᵒ $ Pᵒ˙ x) →  Monoᵒ $ ∃ᵒ˙ Pᵒ˙
   ∃ᵒ-Mono ∀MonoP a⊑b (x , Pa) =  x , ∀MonoP x a⊑b Pa
 
-  ∃ᴵ-Mono :  (∀{{x}} → Monoᵒ (Pᵒ˙ x)) →  Monoᵒ (∃ᴵ˙ Pᵒ˙)
+  ∃ᴵ-Mono :  (∀{{x}} → Monoᵒ $ Pᵒ˙ x) →  Monoᵒ $ ∃ᴵ˙ Pᵒ˙
   ∃ᴵ-Mono ∀MonoP a⊑b (-ᴵ, Pa) =  -ᴵ, ∀MonoP a⊑b Pa
 
   -- Monotonicity of ∀ᵒ/∃ᵒ/∃ᴵ
@@ -145,7 +145,7 @@ abstract
 
   -- Monoᵒ for ⊎ᵒ
 
-  ⊎ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ (Pᵒ ⊎ᵒ Qᵒ)
+  ⊎ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ $ Pᵒ ⊎ᵒ Qᵒ
   ⊎ᵒ-Mono MonoP _ a⊑b (ĩ₀ Pa) =  ĩ₀ (MonoP a⊑b Pa)
   ⊎ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ (MonoQ a⊑b Qa)
 
@@ -167,7 +167,7 @@ abstract
 
   -- Monoᵒ for →ᵒ
 
-  →ᵒ-Mono :  Monoᵒ (Pᵒ →ᵒ Qᵒ)
+  →ᵒ-Mono :  Monoᵒ $ Pᵒ →ᵒ Qᵒ
   →ᵒ-Mono a⊑a' P→Qa _ _ a'⊑b E✓b Pᵒb =  P→Qa _ _ (⊑-trans a⊑a' a'⊑b) E✓b Pᵒb
 
   -- Monotonicity of →ᵒ
@@ -194,7 +194,7 @@ abstract
 
   -- Monoᵒ for ∗ᵒ
 
-  ∗ᵒ-Mono :  Monoᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ∗ᵒ-Mono :  Monoᵒ $ Pᵒ ∗ᵒ Qᵒ
   ∗ᵒ-Mono a⊑a' (-, -, b∙c⊑a , PbQc) =  -, -, ⊑-trans b∙c⊑a a⊑a' , PbQc
 
   -- ∗ᵒ is commutative
@@ -254,23 +254,23 @@ abstract
 
   -- ∃ᵒ/ᴵ and ⊎ commute with ∗ᵒ
 
-  ∃ᵒ∗ᵒ-out :  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ ∃ᵒ x , Pᵒ˙ x ∗ᵒ Qᵒ
+  ∃ᵒ∗ᵒ-out :  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ  ⊨  ∃ᵒ x , Pᵒ˙ x ∗ᵒ Qᵒ
   ∃ᵒ∗ᵒ-out (-, -, b∙c⊑a , (-, Pxb) , Qc) =  -, -, -, b∙c⊑a , Pxb , Qc
 
-  ∗ᵒ∃ᵒ-out :  Pᵒ ∗ᵒ ∃ᵒ˙ Qᵒ˙ ⊨ ∃ᵒ x , Pᵒ ∗ᵒ Qᵒ˙ x
+  ∗ᵒ∃ᵒ-out :  Pᵒ ∗ᵒ ∃ᵒ˙ Qᵒ˙  ⊨  ∃ᵒ x , Pᵒ ∗ᵒ Qᵒ˙ x
   ∗ᵒ∃ᵒ-out (-, -, b∙c⊑a , Pb , (-, Qxc)) =  -, -, -, b∙c⊑a , Pb , Qxc
 
-  ∃ᴵ∗ᵒ-out :  ∃ᴵ˙ Pᵒ˙ ∗ᵒ Qᵒ ⊨ ∃ᴵ x , Pᵒ˙ x ∗ᵒ Qᵒ
+  ∃ᴵ∗ᵒ-out :  ∃ᴵ˙ Pᵒ˙ ∗ᵒ Qᵒ  ⊨  ∃ᴵ x , Pᵒ˙ x ∗ᵒ Qᵒ
   ∃ᴵ∗ᵒ-out (-, -, b∙c⊑a , (-ᴵ, Pxb) , Qc) =  -ᴵ, -, -, b∙c⊑a , Pxb , Qc
 
-  ∗ᵒ∃ᴵ-out :  Pᵒ ∗ᵒ ∃ᴵ˙ Qᵒ˙ ⊨ ∃ᴵ x , Pᵒ ∗ᵒ Qᵒ˙ x
+  ∗ᵒ∃ᴵ-out :  Pᵒ ∗ᵒ ∃ᴵ˙ Qᵒ˙  ⊨  ∃ᴵ x , Pᵒ ∗ᵒ Qᵒ˙ x
   ∗ᵒ∃ᴵ-out (-, -, b∙c⊑a , Pb , (-ᴵ, Qxc)) =  -ᴵ, -, -, b∙c⊑a , Pb , Qxc
 
-  ⊎ᵒ∗ᵒ-out :  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ (Pᵒ ∗ᵒ Rᵒ) ⊎ᵒ (Qᵒ ∗ᵒ Rᵒ)
+  ⊎ᵒ∗ᵒ-out :  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ  ⊨  (Pᵒ ∗ᵒ Rᵒ) ⊎ᵒ (Qᵒ ∗ᵒ Rᵒ)
   ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , ĩ₀ Pb , Rc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Rc)
   ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , ĩ₁ Qb , Rc) =  ĩ₁ (-, -, b∙c⊑a , Qb , Rc)
 
-  ∗ᵒ⊎ᵒ-out :  Pᵒ ∗ᵒ (Qᵒ ⊎ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ⊎ᵒ (Pᵒ ∗ᵒ Rᵒ)
+  ∗ᵒ⊎ᵒ-out :  Pᵒ ∗ᵒ (Qᵒ ⊎ᵒ Rᵒ)  ⊨  (Pᵒ ∗ᵒ Qᵒ) ⊎ᵒ (Pᵒ ∗ᵒ Rᵒ)
   ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₀ Qc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Qc)
   ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₁ Rc) =  ĩ₁ (-, -, b∙c⊑a , Pb , Rc)
 
@@ -285,7 +285,7 @@ abstract
 
   -- Monoᵒ for -∗ᵒ
 
-  -∗ᵒ-Mono :  Monoᵒ (Pᵒ -∗ᵒ Qᵒ)
+  -∗ᵒ-Mono :  Monoᵒ $ Pᵒ -∗ᵒ Qᵒ
   -∗ᵒ-Mono a⊑a' P-∗Qa _ _ _ a'⊑b E✓c∙b Pc =
     P-∗Qa _ _ _ (⊑-trans a⊑a' a'⊑b) E✓c∙b Pc
 
@@ -325,7 +325,7 @@ abstract
 
   -- Monoᵒ for ⤇ᵒ
 
-  ⤇ᵒ-Mono :  Monoᵒ (⤇ᵒ Pᵒ)
+  ⤇ᵒ-Mono :  Monoᵒ $ ⤇ᵒ Pᵒ
   ⤇ᵒ-Mono a⊑a' ⤇Pa _ _ E✓a'∙c =  ⤇Pa _ _ $ ✓-mono (∙-monoˡ a⊑a') E✓a'∙c
 
   -- Monotonicity of ⤇ᵒ
@@ -351,17 +351,17 @@ abstract
 
   -- Let ⤇ᵒ eat a proposition under ∗ᵒ
 
-  ⤇ᵒ-eatʳ :  ⤇ᵒ Pᵒ ∗ᵒ Qᵒ ⊨ ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ⤇ᵒ-eatʳ :  ⤇ᵒ Pᵒ ∗ᵒ Qᵒ  ⊨  ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
   ⤇ᵒ-eatʳ (-, -, b∙c⊑a , ⤇Pb , Qc) _ _ E✓a∙e
     with ⤇Pb _ _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocˡ $ ∙-monoˡ b∙c⊑a
   … | -, E✓d∙ce , Pd =  -, ✓-resp ∙-assocʳ E✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
-  ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ ⤇ᵒ Qᵒ ⊨ ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ ⤇ᵒ Qᵒ  ⊨  ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
   ⤇ᵒ-eatˡ =  ∗ᵒ-comm › ⤇ᵒ-eatʳ › ⤇ᵒ-mono ∗ᵒ-comm
 
   -- Let ∃₁ _ go out of ⤇ᵒ
 
-  ⤇ᵒ-∃ᵒ-out :  ⤇ᵒ (∃ᵒ _ ∈ X , Pᵒ) ⊨✓ ∃ᵒ _ ∈ X , ⤇ᵒ Pᵒ
+  ⤇ᵒ-∃ᵒ-out :  ⤇ᵒ (∃ᵒ _ ∈ X , Pᵒ)  ⊨✓  ∃ᵒ _ ∈ X , ⤇ᵒ Pᵒ
   ⤇ᵒ-∃ᵒ-out E✓a ⤇∃XP .π₀ =
     let -, -, x , _ = ⤇∃XP _ _ $ ✓-resp (◠˜ ∙-unitʳ) E✓a in  x
   ⤇ᵒ-∃ᵒ-out _ ⤇∃XP .π₁ _ _ E✓a∙c =
@@ -379,27 +379,27 @@ abstract
 
   -- Monoᵒ for ⤇ᴱ
 
-  ⤇ᴱ-Mono :  Monoᵒ (E ⤇ᴱ FPᵒ˙)
-  ⤇ᴱ-Mono a⊑a' E⤇FPa _ E✓a'∙c =  E⤇FPa _ (✓-mono (∙-monoˡ a⊑a') E✓a'∙c)
+  ⤇ᴱ-Mono :  Monoᵒ $ E ⤇ᴱ FPᵒ˙
+  ⤇ᴱ-Mono a⊑a' E⤇FPa _ E✓a'∙c =  E⤇FPa _ $ ✓-mono (∙-monoˡ a⊑a') E✓a'∙c
 
   -- Monotonicity of ⤇ᴱ
 
-  ⤇ᴱ-mono✓ :  (∀ x →  Pᵒ˙ x ⊨✓ Qᵒ˙ x) →
+  ⤇ᴱ-mono✓ :  (∀ x →  Pᵒ˙ x ⊨✓ Qᵒ˙ x)  →
               E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
   ⤇ᴱ-mono✓ Px⊨✓Qx E⤇FPa _ E✓a∙c  with E⤇FPa _ E✓a∙c
   … | -, -, F✓b∙c , Pb =  -, -, F✓b∙c , Px⊨✓Qx _ (✓-mono ∙-incrʳ F✓b∙c) Pb
 
-  ⤇ᴱ-mono :  (∀ x →  Pᵒ˙ x ⊨ Qᵒ˙ x) →
+  ⤇ᴱ-mono :  (∀ x →  Pᵒ˙ x ⊨ Qᵒ˙ x)  →
              E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x
   ⤇ᴱ-mono =  ⤇ᴱ-mono✓ ∘ (⊨⇒⊨✓ ∘_)
 
   -- Update the environment of ⤇ᴱ
 
   ⤇ᴱ-respᴱˡ :  E ≡˙ F →  E ⤇ᴱ GPᵒ˙ ⊨ F ⤇ᴱ GPᵒ˙
-  ⤇ᴱ-respᴱˡ E≡F E⤇GP _ F✓a∙c =  E⤇GP _ (✓˙-respᴱ (◠˙ E≡F) F✓a∙c)
+  ⤇ᴱ-respᴱˡ E≡F E⤇GP _ F✓a∙c =  E⤇GP _ $ ✓˙-respᴱ (◠˙ E≡F) F✓a∙c
 
   ⤇ᴱ-respᴱʳ :  (∀{x} → E˙ x ≡˙ F˙ x) →
-               G ⤇ᴱ (λ x → E˙ x , Pᵒ˙ x) ⊨ G ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)
+               G ⤇ᴱ (λ x → E˙ x , Pᵒ˙ x)  ⊨  G ⤇ᴱ λ x → F˙ x , Pᵒ˙ x
   ⤇ᴱ-respᴱʳ Ex≡Fx G⤇EP _ G✓a∙c  with G⤇EP _ G✓a∙c
   … | -, -, E✓b∙c , Pb =  -, -, ✓˙-respᴱ Ex≡Fx E✓b∙c , Pb
 
@@ -447,13 +447,13 @@ abstract
 
   -- Monoᵒ for □ᵒ
 
-  □ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ (□ᵒ Pᵒ)
+  □ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ $ □ᵒ Pᵒ
   □ᵒ-Mono MonoP a⊑b P⌞a⌟ =  MonoP (⌞⌟-mono a⊑b) P⌞a⌟
 
   -- Monotonicity of □ᵒ
 
   □ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  □ᵒ Pᵒ ⊨✓ □ᵒ Qᵒ
-  □ᵒ-mono✓ P⊨✓Q E✓a =  P⊨✓Q (✓-mono ⌞⌟-decr E✓a)
+  □ᵒ-mono✓ P⊨✓Q E✓a =  P⊨✓Q $ ✓-mono ⌞⌟-decr E✓a
 
   □ᵒ-mono :  Pᵒ ⊨ Qᵒ →  □ᵒ Pᵒ ⊨ □ᵒ Qᵒ
   □ᵒ-mono P⊨Q =  P⊨Q
@@ -470,22 +470,22 @@ abstract
 
   -- Change ×ᵒ into ∗ᵒ when one argument is under □ᵒ
 
-  □ᵒˡ-×ᵒ⇒∗ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ×ᵒ Qᵒ ⊨ □ᵒ Pᵒ ∗ᵒ Qᵒ
+  □ᵒˡ-×ᵒ⇒∗ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ×ᵒ Qᵒ  ⊨  □ᵒ Pᵒ ∗ᵒ Qᵒ
   □ᵒˡ-×ᵒ⇒∗ᵒ MonoP (P⌞a⌟ , Qa) =  -, -, ≈⇒⊑ ⌞⌟-unitˡ ,
     MonoP (≈⇒⊑ $ ◠˜ ⌞⌟-idem) P⌞a⌟ , Qa
 
   -- Duplicate □ᵒ Pᵒ
 
-  dup-□ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ ⊨ □ᵒ Pᵒ ∗ᵒ □ᵒ Pᵒ
+  dup-□ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ  ⊨  □ᵒ Pᵒ ∗ᵒ □ᵒ Pᵒ
   dup-□ᵒ MonoP =  (λ Pa → Pa , Pa) › □ᵒˡ-×ᵒ⇒∗ᵒ MonoP
 
   -- □ᵒ commutes with ∗ᵒ
 
-  □ᵒ-∗ᵒ-out :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ → □ᵒ (Pᵒ ∗ᵒ Qᵒ) ⊨ □ᵒ Pᵒ ∗ᵒ □ᵒ Qᵒ
+  □ᵒ-∗ᵒ-out :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  □ᵒ (Pᵒ ∗ᵒ Qᵒ)  ⊨  □ᵒ Pᵒ ∗ᵒ □ᵒ Qᵒ
   □ᵒ-∗ᵒ-out MonoP MonoQ (-, -, b∙c⊑⌞a⌟ , Pb , Qc) =  □ᵒˡ-×ᵒ⇒∗ᵒ MonoP
     (MonoP (⊑-trans ∙-incrʳ b∙c⊑⌞a⌟) Pb , MonoQ (⊑-trans ∙-incrˡ b∙c⊑⌞a⌟) Qc)
 
-  □ᵒ-∗ᵒ-in :  □ᵒ Pᵒ ∗ᵒ □ᵒ Qᵒ ⊨ □ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  □ᵒ-∗ᵒ-in :  □ᵒ Pᵒ ∗ᵒ □ᵒ Qᵒ  ⊨  □ᵒ (Pᵒ ∗ᵒ Qᵒ)
   □ᵒ-∗ᵒ-in(-, -, b∙c⊑a , P⌞b⌟ , Q⌞c⌟) =
     -, -, ⊑-trans ⌞⌟-∙ (⌞⌟-mono b∙c⊑a) , P⌞b⌟ , Q⌞c⌟
 
@@ -500,7 +500,7 @@ abstract
 
   -- Monoᵒ for ◎
 
-  ◎-Mono :  Monoᵒ (◎ a)
+  ◎-Mono :  Monoᵒ $ ◎ a
   ◎-Mono b⊑c a⊑b =  ⊑-trans a⊑b b⊑c
 
   -- Modify the resource of ◎
@@ -521,20 +521,20 @@ abstract
 
   -- ◎ a ∗ᵒ ◎ b agrees with ◎ (a ∙ b)
 
-  ◎-∗ᵒ⇒∙ :  ◎ a ∗ᵒ ◎ b ⊨ ◎ (a ∙ b)
+  ◎-∗ᵒ⇒∙ :  ◎ a ∗ᵒ ◎ b  ⊨  ◎ (a ∙ b)
   ◎-∗ᵒ⇒∙ (-, -, a'∙b'⊑c , a⊑a' , b⊑b') =  ⊑-trans (∙-mono a⊑a' b⊑b') a'∙b'⊑c
 
-  ◎-∙⇒∗ᵒ :  ◎ (a ∙ b) ⊨ ◎ a ∗ᵒ ◎ b
+  ◎-∙⇒∗ᵒ :  ◎ (a ∙ b)  ⊨  ◎ a ∗ᵒ ◎ b
   ◎-∙⇒∗ᵒ a∙b⊑c =  -, -, a∙b⊑c , ⊑-refl , ⊑-refl
 
   -- ◎ a is persistent when ⌞ a ⌟ agrees with a
 
-  ◎-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  ◎ a ⊨ □ᵒ ◎ a
+  ◎-⌞⌟≈-□ᵒ :  ⌞ a ⌟ ≈ a →  ◎ a  ⊨  □ᵒ ◎ a
   ◎-⌞⌟≈-□ᵒ ⌞a⌟≈a a⊑b =  ⊑-respˡ ⌞a⌟≈a $ ⌞⌟-mono a⊑b
 
   -- ◎ a into ✓ a
 
-  ◎-✓ :  ◎ a ⊨✓ ⌜ ∑ E , E ✓ a ⌝ᵒ
+  ◎-✓ :  ◎ a  ⊨✓  ⌜ ∑ E , E ✓ a ⌝ᵒ
   ◎-✓ E✓b a⊑b =  -, ✓-mono a⊑b E✓b
 
   -- ↝ into ⤇ᵒ on ◎
@@ -546,7 +546,7 @@ abstract
 
   -- ↝ into ⤇ᴱ on ◎
 
-  ↝-◎-⤇ᴱ :  ((E , a)  ↝  λ x → F˙ x , b˙ x) →
+  ↝-◎-⤇ᴱ :  (E , a)  ↝  (λ x → F˙ x , b˙ x)  →
             ◎ a  ⊨  E  ⤇ᴱ  λ x → F˙ x , ◎ b˙ x
   ↝-◎-⤇ᴱ Ea↝Fxbx a⊑a' _ E✓a'∙c  with Ea↝Fxbx _ $ ✓-mono (∙-monoˡ a⊑a') E✓a'∙c
   … | -, Fx✓bx∙c =  -, -, Fx✓bx∙c , ⊑-refl
@@ -585,41 +585,41 @@ module _ {i : ℕ} where
 
     -- ◎⟨ i ⟩ aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
 
-    ◎⟨⟩-⌞⌟≈-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≈ⁱ aⁱ →  ◎⟨ i ⟩ aⁱ ⊨ □ᵒ ◎⟨ i ⟩ aⁱ
+    ◎⟨⟩-⌞⌟≈-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≈ⁱ aⁱ →  ◎⟨ i ⟩ aⁱ  ⊨  □ᵒ ◎⟨ i ⟩ aⁱ
     ◎⟨⟩-⌞⌟≈-□ᵒ ⌞a⌟≈a =  ◎-⌞⌟≈-□ᵒ $ inj˙-⌞⌟ ◇˜ inj˙-≈ ⌞a⌟≈a
 
-    ◎⟨⟩-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ◎⟨ i ⟩ aⁱ ⊨ □ᵒ ◎⟨ i ⟩ aⁱ
-    ◎⟨⟩-⌞⌟≡-□ᵒ ⌞a⌟≡a =  ◎⟨⟩-⌞⌟≈-□ᵒ (≡⇒≈ⁱ ⌞a⌟≡a)
+    ◎⟨⟩-⌞⌟≡-□ᵒ :  ⌞ aⁱ ⌟ⁱ ≡ aⁱ →  ◎⟨ i ⟩ aⁱ  ⊨  □ᵒ ◎⟨ i ⟩ aⁱ
+    ◎⟨⟩-⌞⌟≡-□ᵒ ⌞a⌟≡a =  ◎⟨⟩-⌞⌟≈-□ᵒ $ ≡⇒≈ⁱ ⌞a⌟≡a
 
     -- ◎⟨ i ⟩ aⁱ into ✓ⁱ aⁱ
 
-    ◎⟨⟩-✓ :  ◎⟨ i ⟩ aⁱ ⊨✓ ⌜ ∑ Eⁱ , Eⁱ ✓ⁱ aⁱ ⌝ᵒ
+    ◎⟨⟩-✓ :  ◎⟨ i ⟩ aⁱ  ⊨✓  ⌜ ∑ Eⁱ , Eⁱ ✓ⁱ aⁱ ⌝ᵒ
     ◎⟨⟩-✓ E✓◎ia =  ◎-✓ E✓◎ia › λ (-, E✓ia) → -, ✓-inj˙ E✓ia
 
     -- ↝ⁱ into ⤇ᵒ on ◎⟨ i ⟩
 
-    ↝-◎⟨⟩-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ x → Eⁱ , bⁱ˙ x) →
-                      ◎⟨ i ⟩ aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ◎⟨ i ⟩ bⁱ˙ x)
+    ↝-◎⟨⟩-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ x → Eⁱ , bⁱ˙ x)  →
+                   ◎⟨ i ⟩ aⁱ  ⊨  ⤇ᵒ (∃ᵒ x , ◎⟨ i ⟩ bⁱ˙ x)
     ↝-◎⟨⟩-⤇ᵒ-∃ᵒ Ea↝Ebx =  ↝-◎-⤇ᵒ-∃ᵒ $ inj˙-↝ Ea↝Ebx
 
-    ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ x → Eⁱ , aⁱ˙ x) →
-                       ⊨  ⤇ᵒ (∃ᵒ x , ◎⟨ i ⟩ aⁱ˙ x)
+    ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ x → Eⁱ , aⁱ˙ x)  →
+                    ⊨  ⤇ᵒ (∃ᵒ x , ◎⟨ i ⟩ aⁱ˙ x)
     ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ Eε↝Eax =  ↝-◎⟨⟩-⤇ᵒ-∃ᵒ Eε↝Eax $ ◎-≈ε $ inj˙-ε
 
-    ↝-◎⟨⟩-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , bⁱ) →
-                   ◎⟨ i ⟩ aⁱ  ⊨  ⤇ᵒ ◎⟨ i ⟩ bⁱ
+    ↝-◎⟨⟩-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , aⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , bⁱ)  →
+                ◎⟨ i ⟩ aⁱ  ⊨  ⤇ᵒ ◎⟨ i ⟩ bⁱ
     ↝-◎⟨⟩-⤇ᵒ Ea↝Eb =  ↝-◎⟨⟩-⤇ᵒ-∃ᵒ Ea↝Eb › ⤇ᵒ-mono π₁
 
-    ε↝-◎⟨⟩-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , aⁱ) →
-                    ⊨  ⤇ᵒ ◎⟨ i ⟩ aⁱ
+    ε↝-◎⟨⟩-⤇ᵒ :  (∀{Eⁱ} →  (Eⁱ , εⁱ)  ↝ⁱ  λ (_ : ⊤₀) → Eⁱ , aⁱ)  →
+                 ⊨  ⤇ᵒ ◎⟨ i ⟩ aⁱ
     ε↝-◎⟨⟩-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono π₁ $ ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ Eε↝Ea
 
     -- ↝ⁱ into ⤇ᴱ on ◎⟨ i ⟩
 
-    ↝-◎⟨⟩-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , bⁱ˙ x) →
+    ↝-◎⟨⟩-⤇ᴱ :  (E i , aⁱ)  ↝ⁱ  (λ x → Fⁱ˙ x , bⁱ˙ x)  →
       ◎⟨ i ⟩ aⁱ  ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ bⁱ˙ x
     ↝-◎⟨⟩-⤇ᴱ Ea↝Fxbx =  ↝-◎-⤇ᴱ $ upd˙-inj˙-↝ Ea↝Fxbx
 
-    ε↝-◎⟨⟩-⤇ᴱ :  ((E i , εⁱ)  ↝ⁱ  λ x → Fⁱ˙ x , aⁱ˙ x) →
-                    ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ aⁱ˙ x
+    ε↝-◎⟨⟩-⤇ᴱ :  (E i , εⁱ)  ↝ⁱ  (λ x → Fⁱ˙ x , aⁱ˙ x)  →
+                 ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ aⁱ˙ x
     ε↝-◎⟨⟩-⤇ᴱ Eε↝Fax =  ↝-◎⟨⟩-⤇ᴱ Eε↝Fax $ ◎-≈ε $ inj˙-ε

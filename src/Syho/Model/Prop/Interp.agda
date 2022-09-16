@@ -55,27 +55,27 @@ abstract
   ⸨⸩-ᴮ⇒ {{∃₁-Basic BasicP˙}} {a} =  ∃ᵒ-mono (λ x → ⸨⸩-ᴮ⇒ {{BasicP˙ x}} {a}) {a}
   ⸨⸩-ᴮ⇒ {{→-Basic {P} {Q}}} =  →ᵒ-mono (⸨⸩-⇒ᴮ {P}) (⸨⸩-ᴮ⇒ {Q})
   ⸨⸩-ᴮ⇒ {{∗-Basic {P} {Q}}} =  ∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (⸨⸩-ᴮ⇒ {Q})
-  ⸨⸩-ᴮ⇒ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) (λ{a} → ⸨⸩-ᴮ⇒ {Q} {a})
+  ⸨⸩-ᴮ⇒ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) λ{a} → ⸨⸩-ᴮ⇒ {Q} {a}
   ⸨⸩-ᴮ⇒ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-ᴮ⇒ {P})
-  ⸨⸩-ᴮ⇒ {{□-Basic {P}}} =  □ᵒ-mono (λ{a} → ⸨⸩-ᴮ⇒ {P} {a})
+  ⸨⸩-ᴮ⇒ {{□-Basic {P}}} =  □ᵒ-mono λ{a} → ⸨⸩-ᴮ⇒ {P} {a}
   ⸨⸩-ᴮ⇒ {{↦⟨⟩-Basic}} =  id
   ⸨⸩-ᴮ⇒ {{Free-Basic}} =  id
 
-  ⸨⸩-⇒ᴮ {{∀₁-Basic BasicP˙}} =  ∀ᵒ-mono (λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a})
-  ⸨⸩-⇒ᴮ {{∃₁-Basic BasicP˙}} =  ∃ᵒ-mono (λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a})
+  ⸨⸩-⇒ᴮ {{∀₁-Basic BasicP˙}} =  ∀ᵒ-mono λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a}
+  ⸨⸩-⇒ᴮ {{∃₁-Basic BasicP˙}} =  ∃ᵒ-mono λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a}
   ⸨⸩-⇒ᴮ {{→-Basic {P} {Q}}} =  →ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (⸨⸩-⇒ᴮ {Q})
   ⸨⸩-⇒ᴮ {{∗-Basic {P} {Q}}} =  ∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) (⸨⸩-⇒ᴮ {Q})
-  ⸨⸩-⇒ᴮ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (λ{a} → ⸨⸩-⇒ᴮ {Q} {a})
+  ⸨⸩-⇒ᴮ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) λ{a} → ⸨⸩-⇒ᴮ {Q} {a}
   ⸨⸩-⇒ᴮ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-⇒ᴮ {P})
-  ⸨⸩-⇒ᴮ {{□-Basic {P}}} =  □ᵒ-mono (λ{a} → ⸨⸩-⇒ᴮ {P} {a})
+  ⸨⸩-⇒ᴮ {{□-Basic {P}}} =  □ᵒ-mono λ{a} → ⸨⸩-⇒ᴮ {P} {a}
   ⸨⸩-⇒ᴮ {{↦⟨⟩-Basic}} =  id
   ⸨⸩-⇒ᴮ {{Free-Basic}} =  id
 
   --  ⸨ P ⸩ satisfies monotonicity
 
   ⸨⸩-Mono :  Monoᵒ ⸨ P ⸩
-  ⸨⸩-Mono {∀₁˙ P˙} =  ∀ᵒ-Mono (λ x → ⸨⸩-Mono {P˙ x})
-  ⸨⸩-Mono {∃₁˙ P˙} =  ∃ᵒ-Mono (λ x → ⸨⸩-Mono {P˙ x})
+  ⸨⸩-Mono {∀₁˙ P˙} =  ∀ᵒ-Mono λ x → ⸨⸩-Mono {P˙ x}
+  ⸨⸩-Mono {∃₁˙ P˙} =  ∃ᵒ-Mono λ x → ⸨⸩-Mono {P˙ x}
   ⸨⸩-Mono {_ →' _} =  →ᵒ-Mono
   ⸨⸩-Mono {_ ∗ _} =  ∗ᵒ-Mono
   ⸨⸩-Mono {_ -∗ Q} =  -∗ᵒ-Mono {Qᵒ = ⸨ Q ⸩}

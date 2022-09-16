@@ -92,7 +92,7 @@ infix 4 _⇒ᴿ_ _⇒ᴷᴿ_
 
 -- Reduction on a redex
 
-data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
+data  _⇒ᴿ_ :  ∀{T} →  Redex T × Mem →  Expr ∞ T × Mem →  Set₁  where
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
   nd-red :  ∀(x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
   ◁-red :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
@@ -105,12 +105,12 @@ data  _⇒ᴿ_ :  ∀{T} →  (Redex T × Mem) →  (Expr ∞ T × Mem) →  Set
 
 -- Reduction on a context-redex pair
 
-data  _⇒ᴷᴿ_ {T} :  (Ktxred T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
+data  _⇒ᴷᴿ_ {T} :  Ktxred T × Mem →  Expr ∞ T × Mem →  Set₁  where
   redᴷᴿ :  (red , M) ⇒ᴿ (e' , M') →  (K ᴷ| red , M) ⇒ᴷᴿ (K ᴷ◁ e' , M')
 
 -- Reduction on an expression
 
-data  _⇒ᴱ_ :  (Expr ∞ T × Mem) →  (Expr ∞ T × Mem) →  Set₁  where
+data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
   redᴱ :  val/ktxred e ≡ ĩ₁ kr →  (kr , M) ⇒ᴷᴿ (e' , M') →
           (e , M) ⇒ᴱ (e' , M')
 

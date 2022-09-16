@@ -123,7 +123,7 @@ abstract
   -- Get an agreement from a line
 
   indᵖ-use :  ((Qˇ˙ , n) , indᵖ i P)  ↝ᴵⁿᵈᵖ
-                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  ((Qˇ˙ , n) , indᵖ i P)
+                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , indᵖ i P
   indᵖ-use {n = n} {i} _ (✓Qˇ , Qˇ✓iP⧺Rs) .π₀  with Qˇ✓iP⧺Rs i
   … | Qˇi✓P∷Rsi  rewrite ≡?-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷Rsi
   …   | Qˇi≡šP  with i <≥ n

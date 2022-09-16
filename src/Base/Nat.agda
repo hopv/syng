@@ -200,7 +200,7 @@ instance
   ℕ-≡Dec =  ≡dec _≡?'_ ≡?'-refl
    where
     infix 4 _≡?'_
-    _≡?'_ :  ∀ a b →  Dec (a ≡ b)
+    _≡?'_ :  ∀ a b →  Dec $ a ≡ b
     0 ≡?' 0 =  yes refl
     0 ≡?' ṡ _ =  no λ()
     ṡ _ ≡?' 0 =  no λ()
@@ -217,7 +217,7 @@ instance
 
 instance
 
-  ≤-Dec :  Dec (m ≤ n)
+  ≤-Dec :  Dec $ m ≤ n
   ≤-Dec {ṡ m} {ṡ n}  with ≤-Dec {m} {n}
   … | yes m≤n =  yes $ ṡ≤ṡ m≤n
   … | no ¬m≤n =  no λ{ (ṡ≤ṡ m≤n) → ¬m≤n m≤n }

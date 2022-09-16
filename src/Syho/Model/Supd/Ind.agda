@@ -65,7 +65,7 @@ Invᴺᵐ Pˇ˙ (ṡ n)  with Pˇ˙ n
 abstract
   -- Monoᵒ for ⸨ ⸩ᴺᵐ
 
-  Invᴺᵐ-Mono :  Monoᵒ (Invᴺᵐ Pˇ˙ n)
+  Invᴺᵐ-Mono :  Monoᵒ $ Invᴺᵐ Pˇ˙ n
   Invᴺᵐ-Mono {n = 0} =  _
   Invᴺᵐ-Mono {Pˇ˙} {n = ṡ n'}  with Pˇ˙ n'
   … | ň =  Invᴺᵐ-Mono {n = n'}

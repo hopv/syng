@@ -44,10 +44,10 @@ instance
 
   -- Dec on ⊤ and ⊥
 
-  ⊤-Dec :  Dec (⊤ {ł})
+  ⊤-Dec :  Dec $ ⊤ {ł}
   ⊤-Dec =  yes _
 
-  ⊥-Dec :  Dec (⊥ {ł})
+  ⊥-Dec :  Dec $ ⊥ {ł}
   ⊥-Dec =  no absurd
 
   -- Derive Dec on →
@@ -59,14 +59,14 @@ instance
 
   -- Derive Dec on ×
 
-  ×-Dec :  {{Dec A}} →  {{Dec B}} →  Dec (A × B)
+  ×-Dec :  {{Dec A}} →  {{Dec B}} →  Dec $ A × B
   ×-Dec {{yes a}} {{yes b}} =  yes (a , b)
   ×-Dec {{no ¬a}} =  no λ (a ,-) → ¬a a
   ×-Dec {{_}} {{no ¬b}} =  no λ (-, b) → ¬b b
 
   -- Derive Dec on ⊎
 
-  ⊎-Dec :  {{Dec A}} →  {{Dec B}} →  Dec (A ⊎ B)
+  ⊎-Dec :  {{Dec A}} →  {{Dec B}} →  Dec $ A ⊎ B
   ⊎-Dec {{yes a}} =  yes $ ĩ₀ a
   ⊎-Dec {{_}} {{yes b}} =  yes $ ĩ₁ b
   ⊎-Dec {{no ¬a}} {{no ¬b}} =  no $ ⊎-case ¬a ¬b
@@ -79,7 +79,7 @@ record  ≡Dec (A : Set ł) :  Set ł  where
   infix 4 _≡?_
   field
     -- Equality decision on A
-    _≡?_ :  ∀(a b : A) →  Dec (a ≡ b)
+    _≡?_ :  ∀(a b : A) →  Dec $ a ≡ b
 
     -- a ≡? a returns yes refl
     ---- It's trivial that it returns yes x for some x, but the fact that x is
@@ -90,7 +90,7 @@ open ≡Dec {{…}} public
 
 instance
 
-  ≡-Dec :  {{≡Dec A}} →  {a b : A} →  Dec (a ≡ b)
+  ≡-Dec :  {{≡Dec A}} →  {a b : A} →  Dec $ a ≡ b
   ≡-Dec =  _ ≡? _
 
 private variable
@@ -122,7 +122,7 @@ instance
 --------------------------------------------------------------------------------
 -- upd˙ :  Update a map at an index
 
-upd˙ :  {{≡Dec I}} →  ∀(i : I) →  A˙ i →  (∀ j →  A˙ j) →  (∀ j →  A˙ j)
+upd˙ :  {{≡Dec I}} →  ∀(i : I) →  A˙ i →  (∀ j →  A˙ j) →  ∀ j →  A˙ j
 upd˙ i a f j  with j ≡? i
 … | no _ =  f j
 … | yes refl =  a
@@ -172,7 +172,7 @@ abstract
 -- upd˙² :  Update a map at two indices
 
 upd˙² :  {{≡Dec I}} →  ∀(i : I) →  A˙ i →  ∀(j : I) →  A˙ j →
-  (∀ k →  A˙ k) →  (∀ k →  A˙ k)
+  (∀ k →  A˙ k) →  ∀ k →  A˙ k
 upd˙² i a j b  =  upd˙ i a › upd˙ j b
 
 abstract

@@ -77,7 +77,7 @@ abstract
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
 
   ⊢⇒⊨✓ (→-intro {Q = Q} P∧Q⊢R) _ =
-    →ᵒ-intro (⸨⸩-Mono {Q}) (λ ✓b (Pb , Qb) → ⊢⇒⊨✓ P∧Q⊢R ✓b $ binary Pb Qb)
+    →ᵒ-intro (⸨⸩-Mono {Q}) λ ✓b (Pb , Qb) → ⊢⇒⊨✓ P∧Q⊢R ✓b $ binary Pb Qb
 
   -- →-elim :  Q ⊢[ ∞ ] P →' R →  P ∧ Q ⊢[ ∞ ] R
 
@@ -190,7 +190,7 @@ abstract
 
   ⊢⇒⊨✓ (○⇒↪⇛ P∗R⊢⇛Q) _ =  ○ᵒ⇒↪⇛ᵒ $ P∗R⊢⇛Q .!
 
-  -- ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ∞ ][ i ]⇛ P˂ .!) →
+  -- ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ∞ ][ i ]⇛ P˂ .! →
   --                 R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ∞ ]  P'˂ ↪⟨ e ⟩ᴾ Q˂˙
 
   ⊢⇒⊨✓ (↪⟨⟩ᴾ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
@@ -220,7 +220,7 @@ abstract
 
   ⊢⇒⊨✓ ↪⟨⟩ᵀ-ṡ _ =  ↪⟨⟩ᵀᵒ-ṡ
 
-  -- ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ :  {{Basic R}} →  (R ∗ P'˂ .! ⊢[< ∞ ][ j ]⇛ P˂ .!) →
+  -- ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ∞ ][ j ]⇛ P˂ .! →
   --                 R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ∞ ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
 
   ⊢⇒⊨✓ (↪⟨⟩ᵀ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =

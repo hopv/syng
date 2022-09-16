@@ -46,13 +46,13 @@ Ind P =  Indˣ P ⊎ᵒ Indᵖ P
 
 abstract
 
-  Indˣ-Mono :  Monoᵒ (Indˣ P)
+  Indˣ-Mono :  Monoᵒ $ Indˣ P
   Indˣ-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono
 
-  Indᵖ-Mono :  Monoᵒ (Indᵖ P)
+  Indᵖ-Mono :  Monoᵒ $ Indᵖ P
   Indᵖ-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono
 
-  Ind-Mono :  Monoᵒ (Ind P)
+  Ind-Mono :  Monoᵒ $ Ind P
   Ind-Mono =  ⊎ᵒ-Mono Indˣ-Mono Indᵖ-Mono
 
 --------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ abstract
 
   -- Monoᵒ for ○ᵒ
 
-  ○ᵒ-Mono :  Monoᵒ (○ᵒ P)
+  ○ᵒ-Mono :  Monoᵒ $ ○ᵒ P
   ○ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Monotonicity of ○ᵒ
@@ -98,7 +98,7 @@ abstract
 
   -- Monoᵒ for ↪⇛ᵒ
 
-  ↪⇛ᵒ-Mono :  Monoᵒ (P ↪[ i ]⇛ᵒ Q)
+  ↪⇛ᵒ-Mono :  Monoᵒ $ P ↪[ i ]⇛ᵒ Q
   ↪⇛ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify ⇛ proof
@@ -147,7 +147,7 @@ abstract
 
   -- Monoᵒ for ↪⟨ ⟩ᴾᵒ
 
-  ↪⟨⟩ᴾᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)
+  ↪⟨⟩ᴾᵒ-Mono :  Monoᵒ $ P ↪⟨ e ⟩ᴾᵒ Q˙
   ↪⟨⟩ᴾᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify ⟨ ⟩ᴾ proof
@@ -194,7 +194,7 @@ abstract
 
   -- Monoᵒ for ↪⟨ ⟩ᵀᵒ
 
-  ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)
+  ↪⟨⟩ᵀᵒ-Mono :  Monoᵒ $ P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙
   ↪⟨⟩ᵀᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify ⟨ ⟩ᵀ proof

@@ -617,9 +617,9 @@ module _ {i : ℕ} where
     -- ↝ⁱ into ⤇ᴱ on ◎⟨ i ⟩
 
     ↝-◎⟨⟩-⤇ᴱ :  (E i , aⁱ)  ↝ⁱ  (λ x → Fⁱ˙ x , bⁱ˙ x)  →
-      ◎⟨ i ⟩ aⁱ  ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ bⁱ˙ x
+                ◎⟨ i ⟩ aⁱ  ⊨  E  ⤇ᴱ  λ x →  upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ bⁱ˙ x
     ↝-◎⟨⟩-⤇ᴱ Ea↝Fxbx =  ↝-◎-⤇ᴱ $ upd˙-inj˙-↝ Ea↝Fxbx
 
     ε↝-◎⟨⟩-⤇ᴱ :  (E i , εⁱ)  ↝ⁱ  (λ x → Fⁱ˙ x , aⁱ˙ x)  →
-                 ⊨  E  ⤇ᴱ  λ x → upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ aⁱ˙ x
+                 ⊨  E  ⤇ᴱ  λ x →  upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ aⁱ˙ x
     ε↝-◎⟨⟩-⤇ᴱ Eε↝Fax =  ↝-◎⟨⟩-⤇ᴱ Eε↝Fax $ ◎-≈ε $ inj˙-ε

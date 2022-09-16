@@ -36,6 +36,13 @@ private variable
   i :  ℕ
   a :  A
 
+abstract
+
+  -- ṡ is injective
+
+  ṡ-inj :  ṡ m ≡ ṡ n →  m ≡ n
+  ṡ-inj refl =  refl
+
 --------------------------------------------------------------------------------
 -- ≤, <, ≤ᵈ, <ᵈ :  Order
 

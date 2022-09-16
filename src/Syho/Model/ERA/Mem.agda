@@ -258,7 +258,7 @@ abstract
   -- Read using ↦⟨⟩ʳ
 
   ↦⟨⟩ʳ-read :  (↑ M , θ ↦⟨ p ⟩ʳ ᵗv)  ↝ᴹᵉᵐ
-                 λ(_ : M ‼ᴹ θ ≡ š ᵗv) →  (↑ M , θ ↦⟨ p ⟩ʳ ᵗv)
+                 λ(_ : M ‼ᴹ θ ≡ š ᵗv) →  ↑ M , θ ↦⟨ p ⟩ʳ ᵗv
   ↦⟨⟩ʳ-read _ ✓M✓θ↦v∙a .π₁ =  ✓M✓θ↦v∙a
   ↦⟨⟩ʳ-read {θ = addr o i} (↑ a) (↑ (-, M✓θ↦v∙a)) .π₀  with M✓θ↦v∙a o .π₀ i
   … | M‼θ✓↦v∙aθ  rewrite  ≡?-refl {a = o} | ≡?-refl {a = i} =
@@ -266,7 +266,7 @@ abstract
 
   -- Write using ↦ʳ
 
-  ↦ʳ-write :  (↑ M , θ ↦ʳ ᵗu)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →  (↑ updᴹ θ ᵗv M , θ ↦ʳ ᵗv)
+  ↦ʳ-write :  (↑ M , θ ↦ʳ ᵗu)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →  ↑ updᴹ θ ᵗv M , θ ↦ʳ ᵗv
   ↦ʳ-write _ _ .π₀ =  _
   ↦ʳ-write _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
   ↦ʳ-write {M} {addr o i} {ᵗv = ᵗv} _ (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₁

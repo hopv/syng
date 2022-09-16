@@ -286,20 +286,22 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
   ------------------------------------------------------------------------------
   -- [∙] :  Iterated resource product
 
-  infix 8 [∙]_
-  [∙]_ :  List Res →  Res
+  [∙] :  List Res →  Res
   [∙] [] =  ε
   [∙] (a ∷ as) =  a ∙ [∙] as
 
   -- Syntax for [∙] $ᴸ / $ⁱᴸ
 
-  infix 8 [∙∈]-syntax [∙ⁱ∈]-syntax [∙ⁱ⟨⟩∈]-syntax
-  [∙∈]-syntax :  (X → Res) →  List X →  Res
-  [∙∈]-syntax a˙ xs =  [∙] (a˙ $ᴸ xs)
-  [∙ⁱ∈]-syntax :  (ℕ × X → Res) →  List X →  Res
-  [∙ⁱ∈]-syntax a˙ xs =  [∙] (curry a˙ $ⁱᴸ xs)
-  [∙ⁱ⟨⟩∈]-syntax :  (ℕ × X → Res) →  ℕ →  List X →  Res
-  [∙ⁱ⟨⟩∈]-syntax a˙ n xs =  [∙] (curry a˙ $ⁱᴸ⟨ n ⟩ xs)
+  infix 8 [∙∈]-syntax [∙∈ⁱ]-syntax [∙∈ⁱ⟨⟩]-syntax
+  [∙∈] [∙∈]-syntax :  (X → Res) →  List X →  Res
+  [∙∈] a˙ xs =  [∙] (a˙ $ᴸ xs)
+  [∙∈]-syntax =  [∙∈]
+  [∙∈ⁱ] [∙∈ⁱ]-syntax :  (ℕ × X → Res) →  List X →  Res
+  [∙∈ⁱ] a˙ xs =  [∙] (curry a˙ $ⁱᴸ xs)
+  [∙∈ⁱ]-syntax =  [∙∈ⁱ]
+  [∙∈ⁱ⟨⟩] [∙∈ⁱ⟨⟩]-syntax :  (ℕ × X → Res) →  ℕ →  List X →  Res
+  [∙∈ⁱ⟨⟩] a˙ k xs =  [∙] (curry a˙ $ⁱᴸ⟨ k ⟩ xs)
+  [∙∈ⁱ⟨⟩]-syntax =  [∙∈ⁱ⟨⟩]
   syntax [∙∈]-syntax (λ x → a) xs =  [∙ x ∈ xs ] a
-  syntax [∙ⁱ∈]-syntax (λ ix → a) xs =  [∙ ix ⁱ∈ xs ] a
-  syntax [∙ⁱ⟨⟩∈]-syntax (λ ix → a) n xs =  [∙ ix ⁱ⟨ n ⟩∈ xs ] a
+  syntax [∙∈ⁱ]-syntax (λ ix → a) xs =  [∙ ix ∈ⁱ xs ] a
+  syntax [∙∈ⁱ⟨⟩]-syntax (λ ix → a) k xs =  [∙ ix ∈ⁱ⟨ k ⟩ xs ] a

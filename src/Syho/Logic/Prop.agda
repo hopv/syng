@@ -138,23 +138,25 @@ P ∨ Q =  ∃₁˙ (binary P Q)
 --------------------------------------------------------------------------------
 -- [∗] :  Iterated separating conjunction
 
-infix 8 [∗]_
-[∗]_ :  List (Prop' ι) →  Prop' ι
+[∗] :  List (Prop' ι) →  Prop' ι
 [∗] [] =  ⊤'
 [∗] (P ∷ Ps) =  P ∗ [∗] Ps
 
 -- Syntax for [∗] $ᴸ / $ⁱᴸ
 
-infix 8 [∗∈]-syntax [∗ⁱ∈]-syntax [∗ⁱ⟨⟩∈]-syntax
-[∗∈]-syntax :  (X → Prop' ι) →  List X →  Prop' ι
-[∗∈]-syntax P˙ xs =  [∗] (P˙ $ᴸ xs)
-[∗ⁱ∈]-syntax :  (ℕ × X → Prop' ι) →  List X →  Prop' ι
-[∗ⁱ∈]-syntax P˙ xs =  [∗] (curry P˙ $ⁱᴸ xs)
-[∗ⁱ⟨⟩∈]-syntax :  (ℕ × X → Prop' ι) →  ℕ →  List X →  Prop' ι
-[∗ⁱ⟨⟩∈]-syntax P˙ n xs =  [∗] (curry P˙ $ⁱᴸ⟨ n ⟩ xs)
+infix 8 [∗∈]-syntax [∗∈ⁱ]-syntax [∗∈ⁱ⟨⟩]-syntax
+[∗∈] [∗∈]-syntax :  (X → Prop' ι) →  List X →  Prop' ι
+[∗∈] P˙ xs =  [∗] (P˙ $ᴸ xs)
+[∗∈]-syntax =  [∗∈]
+[∗∈ⁱ] [∗∈ⁱ]-syntax :  (ℕ × X → Prop' ι) →  List X →  Prop' ι
+[∗∈ⁱ] P˙ xs =  [∗] (curry P˙ $ⁱᴸ xs)
+[∗∈ⁱ]-syntax =  [∗∈ⁱ]
+[∗∈ⁱ⟨⟩] [∗∈ⁱ⟨⟩]-syntax :  (ℕ × X → Prop' ι) →  ℕ →  List X →  Prop' ι
+[∗∈ⁱ⟨⟩] P˙ k xs =  [∗] (curry P˙ $ⁱᴸ⟨ k ⟩ xs)
+[∗∈ⁱ⟨⟩]-syntax =  [∗∈ⁱ⟨⟩]
 syntax [∗∈]-syntax (λ x → P) xs =  [∗ x ∈ xs ] P
-syntax [∗ⁱ∈]-syntax (λ ix → P) xs =  [∗ ix ⁱ∈ xs ] P
-syntax [∗ⁱ⟨⟩∈]-syntax (λ ix → P) n xs =  [∗ ix ⁱ⟨ n ⟩∈ xs ] P
+syntax [∗∈ⁱ]-syntax (λ ix → P) xs =  [∗ ix ∈ⁱ xs ] P
+syntax [∗∈ⁱ⟨⟩]-syntax (λ ix → P) k xs =  [∗ ix ∈ⁱ⟨ k ⟩ xs ] P
 
 --------------------------------------------------------------------------------
 -- Extending _↦⟨_⟩_
@@ -167,7 +169,7 @@ _↦_ :  Addr →  TyVal →  Prop' ι
 
 -- Iterated points-to token
 _↦ᴸ⟨_⟩_ :  Addr →  ℚ⁺ →  List TyVal →  Prop' ι
-θ ↦ᴸ⟨ p ⟩ ᵗvs =  [∗ (i , ᵗv) ⁱ∈ ᵗvs ] θ ₒ i ↦⟨ p ⟩ ᵗv
+θ ↦ᴸ⟨ p ⟩ ᵗvs =  [∗ (i , ᵗv) ∈ⁱ ᵗvs ] θ ₒ i ↦⟨ p ⟩ ᵗv
 _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
 

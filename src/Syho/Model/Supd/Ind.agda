@@ -71,7 +71,7 @@ abstract
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M ⟩  Indˣ P
   Indˣ-alloc =  ⇛ᵍ-make λ _ _ → ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) $ Invᵍ-add-š) › ⤇ᴱ-respᴱʳ upd˙-envᴳ › ⤇ᴱ-param
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) Invᵍ-add-š) › ⤇ᴱ-respᴱʳ upd˙-envᴳ › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 

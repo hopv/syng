@@ -102,11 +102,17 @@ freeᵇˡᵒ n =  (λ _ → ň) , #ˣ n
 
 abstract
 
+  -- Agreement of ↦⟨ ⟩ᵇˡᵒ
+
   ↦⟨⟩ᵇˡᵒ-agree :  Mb ✓ᴹᵇˡᵒ i ↦⟨ p ⟩ᵇˡᵒ ᵗv ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗw  →  ᵗv ≡ ᵗw
   ↦⟨⟩ᵇˡᵒ-agree =  π₀ › ✓ᴾⁿᵗˢ-resp inj˙ᴾⁿᵗˢ-∙ › ✓-inj˙ᴾⁿᵗˢ › ✓ᶠʳ-agree2
 
+  -- The fraction of ↦⟨ ⟩ᵇˡᵒ is no more than 1
+
   ↦⟨⟩ᵇˡᵒ-≤1 :  Mb ✓ᴹᵇˡᵒ i ↦⟨ p ⟩ᵇˡᵒ ᵗv →  p ≤1ᴿ⁺
   ↦⟨⟩ᵇˡᵒ-≤1 =  π₀ › ✓-inj˙ᴾⁿᵗˢ › ✓ᶠʳ-≤1
+
+  -- Merge ↦⟨ ⟩ᵇˡᵒ with ∙ᴹᵇˡᵒ
 
   ↦⟨⟩ᵇˡᵒ-∙ :  i ↦⟨ p ⟩ᵇˡᵒ ᵗv ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗv  ≈ᴹᵇˡᵒ i ↦⟨ p +ᴿ⁺ q ⟩ᵇˡᵒ ᵗv
   ↦⟨⟩ᵇˡᵒ-∙ .π₁ =  refl
@@ -125,12 +131,18 @@ freeʳ n o .↓ =  inj˙ᴬᴹᵉᵐ o $ freeᵇˡᵒ n
 
 abstract
 
+  -- Agreement of ↦⟨ ⟩ʳ
+
   ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗw  →  ᵗv ≡ ᵗw
   ↦⟨⟩ʳ-agree {M} =  ↓ › π₁ ›
     ✓ᴬᴹᵉᵐ-resp inj˙ᴬᴹᵉᵐ-∙ › ✓-inj˙ᴬᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-agree {M _}
 
+  -- The fraction of ↦⟨ ⟩ʳ is no more than 1
+
   ↦⟨⟩ʳ-≤1 :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗv →  p ≤1ᴿ⁺
   ↦⟨⟩ʳ-≤1 {M} =  ↓ › π₁ › ✓-inj˙ᴬᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-≤1 {M _}
+
+  -- Merge ↦⟨ ⟩ʳ with ∙ʳ
 
   ↦⟨⟩ʳ-∙ :  θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  ≈ᴹᵉᵐ  θ ↦⟨ p +ᴿ⁺ q ⟩ʳ ᵗv
   ↦⟨⟩ʳ-∙ =  ↑ inj˙ᴬᴹᵉᵐ-∙ ◇˜ᴹᵉᵐ ↑ inj˙ᴬᴹᵉᵐ-≈ ↦⟨⟩ᵇˡᵒ-∙

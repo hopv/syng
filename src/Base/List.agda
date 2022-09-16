@@ -115,6 +115,13 @@ upd (ṡ i) b (a ∷ as) =  a ∷ upd i b as
 
 abstract
 
+  -- upd preserves the length
+
+  upd-len :  len (upd i b as) ≡ len as
+  upd-len {as = []} =  refl
+  upd-len {0} {as = _ ∷ _} =  refl
+  upd-len {ṡ _} {as = _ ∷ as'} =  cong ṡ_ (upd-len {as = as'})
+
   -- ‼ i on upd i
 
   upd-‼-in :  (∑ a , as ‼ i ≡ š a) →  upd i b as ‼ i  ≡  š b

@@ -13,17 +13,18 @@ open import Base.Eq using (_≡_; _≢_; refl; ◠_; subst)
 open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡⇒¬<;
   <-trans; +-0; +-ṡ; +-smonoʳ)
 open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
-open import Base.Option using (¿_; š_; ň; _»-¿_; _$¿_; ¿-case)
+open import Base.Option using (¿_; š_; ň; _»-¿_; _$¿_; ¿-case; š-inj)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
 open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
-  upd-len; upd-‼-out; upd-‼-in; rep-len)
+  ‼-len≡-ň; ‼-len≡-š; upd-len; upd-‼-out; upd-‼-in; rep-len)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; addr; TyVal; ⊤ṽ)
 open import Syho.Lang.Reduce using (Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_; ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ; ✓ˣ-alloc)
-open import Syho.Model.ERA.Frac using (Frac; _≈ᶠʳ_; Fracᴱᴿᴬ;š[?]-∙ᶠʳ; ✓ᶠʳ-≤1;
-  ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-alloc)
+open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ; ✓ˣ-agree; ✓ˣ-alloc;
+  ✓ˣ-free)
+open import Syho.Model.ERA.Frac using (Frac; _≈ᶠʳ_; _∙ᶠʳ_; Fracᴱᴿᴬ;š[?]-∙ᶠʳ;
+  ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-alloc; ✓ᶠʳ-free)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
 import Syho.Model.ERA.Envm
@@ -297,9 +298,31 @@ abstract
     with o' ≡? o | M✓a o' .π₁
   … | no _ | lenMo'✓ao' =  lenMo'✓ao'
   … | yes refl | ň✓ao  rewrite Mo≡ň | rep-len {n} {a = ⊤ṽ} =  ✓ˣ-alloc ň✓ao
-  ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₀ j
-    with o' ≡? o | M✓a o' .π₀ j
-  … | no _ | Mo'‼j✓ao'j =  Mo'‼j✓ao'j
-  … | yes refl | Mo‼j✓aoj  rewrite Mo≡ň  with rep n ⊤ṽ ‼ j
-  …   | ň =  Mo‼j✓aoj
-  …   | š _ =  ✓ᶠʳ-alloc Mo‼j✓aoj
+  ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₀ i
+    with o' ≡? o | M✓a o' .π₀ i
+  … | no _ | Mo'‼i✓ao'i =  Mo'‼i✓ao'i
+  … | yes refl | Mo‼i✓aoi  rewrite Mo≡ň  with rep n ⊤ṽ ‼ i
+  …   | ň =  Mo‼i✓aoi
+  …   | š _ =  ✓ᶠʳ-alloc Mo‼i✓aoi
+
+  -- Free using ↦ʳ and freeʳ
+
+  ↦ᴸʳ-free :  len ᵗvs ≡ n →
+    (↑ M , o ↦ᴸʳ ᵗvs ∙ᴹᵉᵐ freeʳ n o)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →  ↑ upd˙ o ň M , εᴹᵉᵐ
+  ↦ᴸʳ-free _ _ _ .π₀ =  _
+  ↦ᴸʳ-free _ _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
+  ↦ᴸʳ-free {o = o} _ _ (↑ (-, M✓o↦vs∙fno∙a)) .π₁ .↓ .π₁ o' .π₁
+    with o' ≡? o | M✓o↦vs∙fno∙a o' .π₁
+  … | no _ | lenMo'✓ao' =  lenMo'✓ao'
+  … | yes refl | lenMo✓↦#n∙ao =  ✓ˣ-free lenMo✓↦#n∙ao
+  ↦ᴸʳ-free {M = M} {o = o} refl (↑ a) (↑ (-, M✓o↦vs∙fno∙a)) .π₁ .↓ .π₁ o' .π₀ i
+    with o' ≡? o | M✓o↦vs∙fno∙a o' .π₀ i | M✓o↦vs∙fno∙a o' .π₁
+  … | no _ | Mo'‼i✓ao'i | _ =  Mo'‼i✓ao'i
+  … | yes refl | Mo‼i✓↦vs∙aoi | lenMo✓#n∙ao
+    with M o | ✓ˣ-agree {x = a o .π₁} lenMo✓#n∙ao
+  …   | š ᵗus | šlenus≡šn  with š-inj šlenus≡šn
+  …     | lenus≡n  with ᵗus ‼ i | ‼-len≡-ň {i = i} lenus≡n |
+    (λ{ᵗv} → ‼-len≡-š {i = i} {a = ᵗv} lenus≡n)
+  …     | ň | ⇒vs‼i≡ň | _  rewrite ⇒vs‼i≡ň refl =  Mo‼i✓↦vs∙aoi
+  …     | š _ | _ | ⇒vs‼i≡š  with ⇒vs‼i≡š refl
+  …       | -, vs‼i≡šv  rewrite vs‼i≡šv =  ✓ᶠʳ-free Mo‼i✓↦vs∙aoi

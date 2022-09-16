@@ -101,7 +101,7 @@ private variable
   θ :  Addr
   i k o o' :  ℕ
   p q :  ℚ⁺
-  ᵗv ᵗw :  TyVal
+  ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
   Mb :  Mblo
   M :  Mem
@@ -142,7 +142,7 @@ abstract
 
   -- Agreement of ↦⟨ ⟩ᵇˡᵒ
 
-  ↦⟨⟩ᵇˡᵒ-agree :  Mb ✓ᴹᵇˡᵒ i ↦⟨ p ⟩ᵇˡᵒ ᵗv ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗw  →  ᵗv ≡ ᵗw
+  ↦⟨⟩ᵇˡᵒ-agree :  Mb ✓ᴹᵇˡᵒ i ↦⟨ p ⟩ᵇˡᵒ ᵗu ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗv  →  ᵗu ≡ ᵗv
   ↦⟨⟩ᵇˡᵒ-agree =  π₀ › ✓ᴾⁿᵗˢ-resp inj˙ᴾⁿᵗˢ-∙ › ✓-inj˙ᴾⁿᵗˢ › ✓ᶠʳ-agree2
 
   -- The fraction of ↦⟨ ⟩ᵇˡᵒ is no more than 1
@@ -218,7 +218,7 @@ abstract
 
   -- Agreement of ↦⟨ ⟩ʳ
 
-  ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗw  →  ᵗv ≡ ᵗw
+  ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗu ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  →  ᵗu ≡ ᵗv
   ↦⟨⟩ʳ-agree {M} =  ↓ › π₁ ›
     ✓ᴬᴹᵉᵐ-resp inj˙ᴬᴹᵉᵐ-∙ › ✓-inj˙ᴬᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-agree {M _}
 

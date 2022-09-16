@@ -159,17 +159,17 @@ syntax [∗ⁱ⟨⟩∈]-syntax (λ ix → P) n xs =  [∗ ix ⁱ⟨ n ⟩∈ xs
 --------------------------------------------------------------------------------
 -- Extending _↦⟨_⟩_
 
-infix 9 _↦_ _↦ˡ⟨_⟩_ _↦ˡ_
+infix 9 _↦_ _↦ᴸ⟨_⟩_ _↦ᴸ_
 
 -- Full points-to token
 _↦_ :  Addr →  TyVal →  Prop' ι
 θ ↦ ᵗv =  θ ↦⟨ 1ᴿ⁺ ⟩ ᵗv
 
 -- Iterated points-to token
-_↦ˡ⟨_⟩_ :  Addr →  ℚ⁺ →  List TyVal →  Prop' ι
-θ ↦ˡ⟨ p ⟩ ᵗvs =  [∗ (i , ᵗv) ⁱ∈ ᵗvs ] θ ₒ i ↦⟨ p ⟩ ᵗv
-_↦ˡ_ :  Addr →  List TyVal →  Prop' ι
-θ ↦ˡ ᵗvs =  θ ↦ˡ⟨ 1ᴿ⁺ ⟩ ᵗvs
+_↦ᴸ⟨_⟩_ :  Addr →  ℚ⁺ →  List TyVal →  Prop' ι
+θ ↦ᴸ⟨ p ⟩ ᵗvs =  [∗ (i , ᵗv) ⁱ∈ ᵗvs ] θ ₒ i ↦⟨ p ⟩ ᵗv
+_↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
+θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
 
 --------------------------------------------------------------------------------
 -- Basic P :  P doesn't contain impredicate connectives

@@ -264,7 +264,7 @@ abstract
                  λ(_ : M ‼ᴹ θ ≡ š ᵗv) →  ↑ M , θ ↦⟨ p ⟩ʳ ᵗv
   ↦⟨⟩ʳ-read _ ✓M✓θ↦v∙a .π₁ =  ✓M✓θ↦v∙a
   ↦⟨⟩ʳ-read {θ = addr o i} (↑ a) (↑ (-, M✓θ↦v∙a)) .π₀  with M✓θ↦v∙a o .π₀ i
-  … | M‼θ✓↦v∙aθ  rewrite  ≡?-refl {a = o} | ≡?-refl {a = i} =
+  … | M‼θ✓↦v∙aθ  rewrite ≡?-refl {a = o} | ≡?-refl {a = i} =
     ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦v∙aθ
 
   -- Write using ↦ʳ

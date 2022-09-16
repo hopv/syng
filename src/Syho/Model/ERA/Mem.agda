@@ -8,18 +8,21 @@ module Syho.Model.ERA.Mem where
 
 open import Base.Level using (0ᴸ; 2ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Eq using (_≡_; refl)
-open import Base.Nat using (ℕ)
+open import Base.Few using (absurd)
+open import Base.Eq using (_≡_; _≢_; refl; ◠_; subst)
+open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡⇒¬<;
+  <-trans; +-0; +-ṡ; +-smonoʳ)
 open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
-open import Base.Option using (š_; ň; _»-¿_; _$¿_)
-open import Base.Dec using (upd˙)
-open import Base.List using ([_]; len; _‼_)
-open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.Option using (¿_; š_; ň; _»-¿_; _$¿_; ¿-case)
+open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
+open import Base.List using (List; []; _∷_; [_]; len; _‼_; ≈ᴸ-refl)
+open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; addr; TyVal)
 open import Syho.Lang.Reduce using (Mblo; Mem; _‼ᴹ_; ✓ᴹ_)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ)
-open import Syho.Model.ERA.Frac using (Fracᴱᴿᴬ; š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree2)
+open import Syho.Model.ERA.Frac using (Frac; _≈ᶠʳ_; Fracᴱᴿᴬ;š[?]-∙ᶠʳ; ✓ᶠʳ-≤1;
+  ✓ᶠʳ-agree2)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
 import Syho.Model.ERA.Envm
@@ -74,31 +77,66 @@ open UpMem public using () renaming (
   --  Memᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
   Upᴱᴿᴬ to Memᴱᴿᴬ)
 
-open ERA Pntsᴱᴿᴬ public using () renaming (_◇˜_ to _◇˜ᴾⁿᵗˢ_;
-  ✓-resp to ✓ᴾⁿᵗˢ-resp)
+open ERA Pntsᴱᴿᴬ public using () renaming (Res to Resᴾⁿᵗˢ; _≈_ to _≈ᴾⁿᵗˢ_;
+  _◇˜_ to _◇˜ᴾⁿᵗˢ_; ✓-resp to ✓ᴾⁿᵗˢ-resp)
 open ERA Mbloᴱᴿᴬ public using () renaming (Res to Resᴹᵇˡᵒ; _≈_ to _≈ᴹᵇˡᵒ_;
-  _✓_ to _✓ᴹᵇˡᵒ_; _∙_ to _∙ᴹᵇˡᵒ_)
+  _✓_ to _✓ᴹᵇˡᵒ_; _∙_ to _∙ᴹᵇˡᵒ_; [∙∈ⁱ] to [∙ᴹᵇˡᵒ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵇˡᵒ∈ⁱ⟨⟩];
+  _◇˜_ to _◇˜ᴹᵇˡᵒ_; ∙-congʳ to ∙ᴹᵇˡᵒ-congʳ)
 open ERA ∀Memᴱᴿᴬ public using () renaming (✓-resp to ✓ᴬᴹᵉᵐ-resp)
 open ERA Memᴱᴿᴬ public using () renaming (Res to Resᴹᵉᵐ; _≈_ to _≈ᴹᵉᵐ_;
-  _✓_ to _✓ᴹᵉᵐ_; _∙_ to _∙ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_; _◇˜_ to _◇˜ᴹᵉᵐ_)
+  _✓_ to _✓ᴹᵉᵐ_; _∙_ to _∙ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_; _◇˜_ to _◇˜ᴹᵉᵐ_;
+  [∙∈ⁱ] to [∙ᴹᵉᵐ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵉᵐ∈ⁱ⟨⟩])
+
+[∙ᴹᵇˡᵒ∈ⁱ]-syntax =  [∙ᴹᵇˡᵒ∈ⁱ]
+[∙ᴹᵇˡᵒ∈ⁱ⟨⟩]-syntax =  [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]
+[∙ᴹᵉᵐ∈ⁱ]-syntax =  [∙ᴹᵉᵐ∈ⁱ]
+[∙ᴹᵉᵐ∈ⁱ⟨⟩]-syntax =  [∙ᴹᵉᵐ∈ⁱ⟨⟩]
+infix 8 [∙ᴹᵇˡᵒ∈ⁱ]-syntax [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]-syntax [∙ᴹᵉᵐ∈ⁱ]-syntax [∙ᴹᵉᵐ∈ⁱ⟨⟩]-syntax
+syntax [∙ᴹᵇˡᵒ∈ⁱ]-syntax (λ ix → a) xs =  [∙ᴹᵇˡᵒ ix ∈ⁱ xs ] a
+syntax [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]-syntax (λ ix → a) k xs =  [∙ᴹᵇˡᵒ ix ∈ⁱ⟨ k ⟩ xs ] a
+syntax [∙ᴹᵉᵐ∈ⁱ]-syntax (λ ix → a) xs =  [∙ᴹᵉᵐ ix ∈ⁱ xs ] a
+syntax [∙ᴹᵉᵐ∈ⁱ⟨⟩]-syntax (λ ix → a) k xs =  [∙ᴹᵉᵐ ix ∈ⁱ⟨ k ⟩ xs ] a
 
 private variable
   θ :  Addr
-  i :  ℕ
+  i k o o' :  ℕ
   p q :  ℚ⁺
   ᵗv ᵗw :  TyVal
+  ᵗvs :  List TyVal
   Mb :  Mblo
   M :  Mem
 
 --------------------------------------------------------------------------------
--- ↦⟨ ⟩ᵇˡᵒ, freeᵇˡᵒ :  Block-level resource for the points-to / freeing token
+-- Block-level resource
 
-infix 9 _↦⟨_⟩ᵇˡᵒ_
+infix 9 _↦⟨_⟩ᵇˡᵒ_ _↦ᵇˡᵒ_
+
+-- ↦⟨ ⟩ᵇˡᵒ :  Block-level resource for the points-to token
+
 _↦⟨_⟩ᵇˡᵒ_ :  ℕ →  ℚ⁺ →  TyVal →  Resᴹᵇˡᵒ
 i ↦⟨ p ⟩ᵇˡᵒ ᵗv =  inj˙ᴾⁿᵗˢ i (š (p , [ ᵗv ])) , ?ˣ
 
+-- ↦ᵇˡᵒ :  ↦⟨ ⟩ᵇˡᵒ with the fraction 1
+
+_↦ᵇˡᵒ_ :  ℕ →  TyVal →  Resᴹᵇˡᵒ
+i ↦ᵇˡᵒ ᵗv =  i ↦⟨ 1ᴿ⁺ ⟩ᵇˡᵒ ᵗv
+
+-- freeᵇˡᵒ :  Block-level resource for the freeing token
+
 freeᵇˡᵒ :  ℕ →  Resᴹᵇˡᵒ
 freeᵇˡᵒ n =  (λ _ → ň) , #ˣ n
+
+-- pnts :  Resource for the points-to token over an optional value
+
+pnts :  ¿ TyVal →  Frac TyVal
+pnts ᵗvˇ =  ¿-case (λ ᵗv → š (1ᴿ⁺ , [ ᵗv ])) ň ᵗvˇ
+
+-- ↦ᴸᵇˡᵒ :  Block-level resource for the points-to token over a list of values
+
+infix 9 ↦ᴸᵇˡᵒ_
+↦ᴸᵇˡᵒ_ :  List TyVal →  Resᴹᵇˡᵒ
+(↦ᴸᵇˡᵒ ᵗvs) .π₁ =  ?ˣ
+(↦ᴸᵇˡᵒ ᵗvs) .π₀ i =  pnts $ ᵗvs ‼ i
 
 abstract
 
@@ -119,15 +157,62 @@ abstract
   ↦⟨⟩ᵇˡᵒ-∙ {p = p} {q = q} .π₀ =
     inj˙ᴾⁿᵗˢ-∙ ◇˜ᴾⁿᵗˢ inj˙ᴾⁿᵗˢ-≈ $ š[?]-∙ᶠʳ {p} {q = q}
 
---------------------------------------------------------------------------------
--- ↦⟨ ⟩ʳ, freeʳ :  Resource for the points-to / freeing token
+  -- Lemmas on [∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv
 
-infix 9 _↦⟨_⟩ʳ_
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away :
+    i < k →  ([∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv) .π₀ i  ≡  ň
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {ᵗvs = []} _ =  refl
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {i} {k} {ᵗvs = _ ∷ ᵗvs'} i<k  with i ≡? k
+  … | yes refl =  absurd $ <-irrefl i<k
+  … | no _ =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {ᵗvs = ᵗvs'} (<-trans i<k ṡ-sincr)
+
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx :
+    ([∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv) .π₀ (k + i)  ≈ᶠʳ  pnts (ᵗvs ‼ i)
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {ᵗvs = []} =  _
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {k} {_ ∷ ᵗvs'} {0}  rewrite +-0 {k} |
+    ≡?-refl {a = k} | [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {ᵗvs = ᵗvs'} (ṡ-sincr {k}) =
+    refl , ≈ᴸ-refl
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {k} {_ ∷ ᵗvs'} {ṡ i'}  with k + ṡ i' ≡? k
+  … | no _  rewrite +-ṡ {k} {i'} =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {ṡ k} {ᵗvs'} {i'}
+  … | yes k+ṡi'≡k
+    with ≡⇒¬< (◠ k+ṡi'≡k) $ subst (_< k + ṡ i') (+-0 {k}) $ +-smonoʳ 0<ṡ
+  …   | ()
+
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ :  ([∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv) .π₁  ≡  ?ˣ
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ {ᵗvs = []} =  refl
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ {ᵗvs = _ ∷ ᵗvs'} =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ {ᵗvs = ᵗvs'}
+
+  -- [∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ ᵗvs ] i ↦ᵇˡᵒ ᵗv is equivalent to ↦ᴸᵇˡᵒ ᵗvs
+
+  [∙∈ⁱ]↦≈↦ᴸᵇˡᵒ :  [∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ ᵗvs ] i ↦ᵇˡᵒ ᵗv  ≈ᴹᵇˡᵒ  ↦ᴸᵇˡᵒ ᵗvs
+  [∙∈ⁱ]↦≈↦ᴸᵇˡᵒ {ᵗvs} .π₁ =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ {ᵗvs = ᵗvs}
+  [∙∈ⁱ]↦≈↦ᴸᵇˡᵒ {ᵗvs} .π₀ _ =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {ᵗvs = ᵗvs}
+
+--------------------------------------------------------------------------------
+-- Memory-level resource
+
+infix 9 _↦⟨_⟩ʳ_ _↦ʳ_
+
+-- ↦⟨ ⟩ᵇˡᵒ :  Resource for the points-to token
+
 _↦⟨_⟩ʳ_ :  Addr →  ℚ⁺ →  TyVal →  Resᴹᵉᵐ
 (addr o i ↦⟨ p ⟩ʳ ᵗv) .↓ =  inj˙ᴬᴹᵉᵐ o $ i ↦⟨ p ⟩ᵇˡᵒ ᵗv
 
+-- ↦ᵇˡᵒ :  ↦⟨ ⟩ᵇˡᵒ with the fraction 1
+
+_↦ʳ_ :  Addr →  TyVal →  Resᴹᵉᵐ
+θ ↦ʳ ᵗv =  θ ↦⟨ 1ᴿ⁺ ⟩ʳ ᵗv
+
+-- freeʳ :  Resource for the freeing token
+
 freeʳ :  ℕ →  ℕ →  Resᴹᵉᵐ
 freeʳ n o .↓ =  inj˙ᴬᴹᵉᵐ o $ freeᵇˡᵒ n
+
+-- ↦ᴸʳ :  Resource for the points-to token over a list of values
+
+infix 9 _↦ᴸʳ_
+_↦ᴸʳ_ :  ℕ →  List TyVal →  Resᴹᵉᵐ
+(o ↦ᴸʳ ᵗvs) .↓ =  inj˙ᴬᴹᵉᵐ o $ ↦ᴸᵇˡᵒ ᵗvs
 
 abstract
 
@@ -146,3 +231,25 @@ abstract
 
   ↦⟨⟩ʳ-∙ :  θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  ≈ᴹᵉᵐ  θ ↦⟨ p +ᴿ⁺ q ⟩ʳ ᵗv
   ↦⟨⟩ʳ-∙ =  ↑ inj˙ᴬᴹᵉᵐ-∙ ◇˜ᴹᵉᵐ ↑ inj˙ᴬᴹᵉᵐ-≈ ↦⟨⟩ᵇˡᵒ-∙
+
+  -- Lemmas on [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv
+
+  [∙∈ⁱ⟨⟩]↦ʳ-out :  o' ≢ o →
+    ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv) .↓ o'  ≈ᴹᵇˡᵒ  ((λ _ → ň) , ?ˣ)
+  [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = []} _ =  _ , refl
+  [∙∈ⁱ⟨⟩]↦ʳ-out {o'} {o} {ᵗvs = _ ∷ ᵗvs'} o'≢o  with o' ≡? o
+  … | yes refl =  absurd $ o'≢o refl
+  … | no _ =  [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = ᵗvs'} o'≢o
+
+  [∙∈ⁱ⟨⟩]↦ʳ-in :  ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv) .↓ o  ≈ᴹᵇˡᵒ
+                    [∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv
+  [∙∈ⁱ⟨⟩]↦ʳ-in {ᵗvs = []} =  _ , refl
+  [∙∈ⁱ⟨⟩]↦ʳ-in {k} {_ ∷ ᵗvs'} {o}  rewrite ≡?-refl {a = o} =
+    ∙ᴹᵇˡᵒ-congʳ {c = k ↦ᵇˡᵒ _} $ [∙∈ⁱ⟨⟩]↦ʳ-in {ṡ k} {ᵗvs'} {o}
+
+  -- [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] addr o i ↦ʳ ᵗv is equivalent to o ↦ᴸʳ ᵗvs
+
+  [∙∈ⁱ]↦≈↦ᴸʳ :  [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] addr o i ↦ʳ ᵗv  ≈ᴹᵉᵐ  o ↦ᴸʳ ᵗvs
+  [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs} {o} .↓ o'  with o' ≡? o
+  …   | no o'≢o =  [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = ᵗvs} o'≢o
+  …   | yes refl =  [∙∈ⁱ⟨⟩]↦ʳ-in {ᵗvs = ᵗvs} ◇˜ᴹᵇˡᵒ [∙∈ⁱ]↦≈↦ᴸᵇˡᵒ {ᵗvs = ᵗvs}

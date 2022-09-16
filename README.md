@@ -119,8 +119,8 @@ following parts.
     + [`Example`](src/Syho/Logic/Example.agda) for examples.
 - [`Model/`](src/Syho/Model/) ― **The semantic model and soundness proof of
     Syho.**
-    + [`ERA/`](src/Syho/Model/ERA/) ― Environmental resource algebras (ERAs),
-        for modeling ghost states of Syho.
+    + [`ERA/`](src/Syho/Model/ERA/) ― **Environmental resource algebras (ERAs),
+        for modeling ghost states of Syho.**
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA.
         * [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
             [`Prod`](src/Syho/Model/ERA/Prod.agda) for the product ERA;
@@ -136,8 +136,8 @@ following parts.
         * [`Mem`](src/Syho/Model/ERA/Mem.agda) for the memory ERA;
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
-    + [`Prop/`](src/Syho/Model/Prop/) ― the semantic model of the propositions
-        and the semantic soundness of the pure sequent.
+    + [`Prop/`](src/Syho/Model/Prop/) ― **The semantic model of the propositions
+        and the semantic soundness of the pure sequent.**
         * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
             connectives;
             [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the points-to
@@ -150,8 +150,8 @@ following parts.
             propositions;
             [`Sound`](src/Syho/Model/Prop/Sound.agda) for the semantic soundness
             of the logic's pure sequent.
-    + [`Supd/`](src/Syho/Model/Supd/) ― the semantic model and soundness proof
-        of the super update.
+    + [`Supd/`](src/Syho/Model/Supd/) ― **The semantic model and soundness proof
+        of the super update.**
         * [`Base`](src/Syho/Model/Supd/Base.agda) for the semantic general
             super update;
             [`Ind`](src/Syho/Model/Supd/Ind.agda) for the semantic super-update

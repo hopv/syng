@@ -11,9 +11,9 @@ open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
 open import Base.Option using (¿_; š_; ň)
-open import Base.Prod using (_×_; _,_; _,-)
+open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ; ṡ_; _<_)
+open import Base.Nat using (ℕ; ṡ_; _<_; ṡ-inj)
 
 --------------------------------------------------------------------------------
 -- List
@@ -114,6 +114,18 @@ upd 0 b (_ ∷ as) =  b ∷ as
 upd (ṡ i) b (a ∷ as) =  a ∷ upd i b as
 
 abstract
+
+  -- ‼ has the same partiality on lists of the same length
+
+  ‼-len≡-š :  len as ≡ len bs →  as ‼ i ≡ š a →  ∑ b , bs ‼ i ≡ š b
+  ‼-len≡-š {as = _ ∷ _} {bs = _ ∷ _} {0} _ _ =  -, refl
+  ‼-len≡-š {as = _ ∷ _} {bs = _ ∷ _} {ṡ _} lenas'≡lenbs' as'‼i'≡š =
+    ‼-len≡-š (ṡ-inj lenas'≡lenbs') as'‼i'≡š
+
+  ‼-len≡-ň :  len as ≡ len bs →  as ‼ i ≡ ň →  bs ‼ i ≡ ň
+  ‼-len≡-ň {as = []} {bs = []} _ _ =  refl
+  ‼-len≡-ň {as = _ ∷ _} {bs = _ ∷ _} {ṡ _} lenas'≡lenbs' as'‼i'≡ň =
+    ‼-len≡-ň (ṡ-inj lenas'≡lenbs') as'‼i'≡ň
 
   -- upd preserves the length
 

@@ -8,21 +8,22 @@ module Syho.Model.ERA.Mem where
 
 open import Base.Level using (0ᴸ; 2ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Few using (absurd)
+open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; subst)
 open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡⇒¬<;
   <-trans; +-0; +-ṡ; +-smonoʳ)
 open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
 open import Base.Option using (¿_; š_; ň; _»-¿_; _$¿_; ¿-case)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
-open import Base.List using (List; []; _∷_; [_]; len; _‼_; ≈ᴸ-refl)
+open import Base.List using (List; []; _∷_; [_]; len; _‼_; ≈ᴸ-refl; upd-len;
+  upd-‼-out; upd-‼-in)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; addr; TyVal)
-open import Syho.Lang.Reduce using (Mblo; Mem; _‼ᴹ_; ✓ᴹ_)
+open import Syho.Lang.Reduce using (Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_; ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ)
 open import Syho.Model.ERA.Frac using (Frac; _≈ᶠʳ_; Fracᴱᴿᴬ;š[?]-∙ᶠʳ; ✓ᶠʳ-≤1;
-  ✓ᶠʳ-agree2)
+  ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
 import Syho.Model.ERA.Envm
@@ -81,10 +82,10 @@ open ERA Pntsᴱᴿᴬ public using () renaming (Res to Resᴾⁿᵗˢ; _≈_ to
   _◇˜_ to _◇˜ᴾⁿᵗˢ_; ✓-resp to ✓ᴾⁿᵗˢ-resp)
 open ERA Mbloᴱᴿᴬ public using () renaming (Res to Resᴹᵇˡᵒ; _≈_ to _≈ᴹᵇˡᵒ_;
   _✓_ to _✓ᴹᵇˡᵒ_; _∙_ to _∙ᴹᵇˡᵒ_; [∙∈ⁱ] to [∙ᴹᵇˡᵒ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵇˡᵒ∈ⁱ⟨⟩];
-  _◇˜_ to _◇˜ᴹᵇˡᵒ_; ∙-congʳ to ∙ᴹᵇˡᵒ-congʳ)
+  _↝_ to _↝ᴹᵇˡᵒ_; _◇˜_ to _◇˜ᴹᵇˡᵒ_; ∙-congʳ to ∙ᴹᵇˡᵒ-congʳ)
 open ERA ∀Memᴱᴿᴬ public using () renaming (✓-resp to ✓ᴬᴹᵉᵐ-resp)
 open ERA Memᴱᴿᴬ public using () renaming (Res to Resᴹᵉᵐ; _≈_ to _≈ᴹᵉᵐ_;
-  _✓_ to _✓ᴹᵉᵐ_; _∙_ to _∙ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_; _◇˜_ to _◇˜ᴹᵉᵐ_;
+  _✓_ to _✓ᴹᵉᵐ_; _∙_ to _∙ᴹᵉᵐ_; _↝_ to _↝ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_; _◇˜_ to _◇˜ᴹᵉᵐ_;
   [∙∈ⁱ] to [∙ᴹᵉᵐ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵉᵐ∈ⁱ⟨⟩])
 
 [∙ᴹᵇˡᵒ∈ⁱ]-syntax =  [∙ᴹᵇˡᵒ∈ⁱ]
@@ -253,3 +254,34 @@ abstract
   [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs} {o} .↓ o'  with o' ≡? o
   …   | no o'≢o =  [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = ᵗvs} o'≢o
   …   | yes refl =  [∙∈ⁱ⟨⟩]↦ʳ-in {ᵗvs = ᵗvs} ◇˜ᴹᵇˡᵒ [∙∈ⁱ]↦≈↦ᴸᵇˡᵒ {ᵗvs = ᵗvs}
+
+  -- Read using ↦⟨⟩ʳ
+
+  ↦⟨⟩ʳ-read :  (↑ M , θ ↦⟨ p ⟩ʳ ᵗv)  ↝ᴹᵉᵐ
+                 λ(_ : M ‼ᴹ θ ≡ š ᵗv) →  (↑ M , θ ↦⟨ p ⟩ʳ ᵗv)
+  ↦⟨⟩ʳ-read _ ✓M✓θ↦v∙a .π₁ =  ✓M✓θ↦v∙a
+  ↦⟨⟩ʳ-read {θ = addr o i} (↑ a) (↑ (-, M✓θ↦v∙a)) .π₀  with M✓θ↦v∙a o .π₀ i
+  … | M‼θ✓↦v∙aθ  rewrite  ≡?-refl {a = o} | ≡?-refl {a = i} =
+    ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦v∙aθ
+
+  -- Write using ↦ʳ
+
+  ↦ʳ-write :  (↑ M , θ ↦ʳ ᵗu)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →  (↑ updᴹ θ ᵗv M , θ ↦ʳ ᵗv)
+  ↦ʳ-write _ _ .π₀ =  _
+  ↦ʳ-write _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
+  ↦ʳ-write {M} {addr o i} {ᵗv = ᵗv} _ (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₁
+    with o' ≡? o | M✓θ↦u∙a o' .π₁
+  … | no _ | Mo'✓ao' =  Mo'✓ao'
+  … | yes refl | Mo✓i↦u∙ao  with M o
+  …   | ň =  Mo✓i↦u∙ao
+  …   | š ᵗus  rewrite upd-len {i} {b = ᵗv} {ᵗus} =  Mo✓i↦u∙ao
+  ↦ʳ-write {M} {addr o i} {ᵗv = ᵗv} (↑ a) (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₀ j
+    with o' ≡? o | M✓θ↦u∙a o' .π₀ j
+  … | no _ | Mo'‼j✓ao'j =  Mo'‼j✓ao'j
+  … | yes refl | Mo‼j✓i↦uj∙aoj  with j ≡? i | M o | Mo‼j✓i↦uj∙aoj
+  …   | no j≢i | ň | Mo‼j✓aoj =  Mo‼j✓aoj
+  …   | no j≢i | š ᵗus | Mo‼j✓aoj  rewrite upd-‼-out {b = ᵗv} {ᵗus} j≢i =
+    Mo‼j✓aoj
+  …   | yes refl | Mo | M‼θ✓↦u∙aθ  with Mo | ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦u∙aθ
+  …     | š ᵗus | us‼i≡šu  rewrite upd-‼-in {as = ᵗus} {b = ᵗv} (-, us‼i≡šu) =
+    ✓ᶠʳ-update {x = a o .π₀ i} M‼θ✓↦u∙aθ

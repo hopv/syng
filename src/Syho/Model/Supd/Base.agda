@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- General super update modality
+-- General super update
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -30,7 +30,7 @@ private variable
   Inv Inv' :  X → Propᵒ ł
 
 --------------------------------------------------------------------------------
--- [ ]⇛ᵍ :  General super update modality
+-- [ ]⇛ᵍ :  General super-update modality
 
 -- Parametrized over the getter (get) and setter (set) on the environment and
 -- the invariant predicate (Inv)

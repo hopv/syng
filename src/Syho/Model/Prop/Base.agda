@@ -71,7 +71,7 @@ abstract
   ⊨⇒⊨✓ P⊨Q _ =  P⊨Q
 
 --------------------------------------------------------------------------------
--- ∀ᵒ, ∃ᵒ, ∃ᴵ :  Universal/existential quantification
+-- ∀ᵒ, ∃ᵒ, ∃ᴵ :  Semantic universal/existential quantification
 
 ∀ᵒ˙ ∃ᵒ˙ ∃ᴵ˙ ∀ᵒ∈-syntax ∃ᵒ∈-syntax ∃ᴵ∈-syntax ∀ᵒ-syntax ∃ᵒ-syntax ∃ᴵ-syntax :
   ∀{X : Set ł} →  (X → Propᵒ ł') →  Propᵒ (ł ⊔ᴸ ł')
@@ -122,20 +122,20 @@ abstract
   ∀ᵒ-intro P⊨Qx Pa x =  P⊨Qx x Pa
 
 --------------------------------------------------------------------------------
--- ⌜⌝ᵒ :  Set embedding
+-- ⌜⌝ᵒ :  Semantic set embedding
 
 ⌜_⌝ᵒ :  Set ł →  Propᵒ ł
 ⌜ X ⌝ᵒ _ =  X
 
 --------------------------------------------------------------------------------
--- ×ᵒ :  Conjunction
+-- ×ᵒ :  Semantic conjunction
 
 infixr 7 _×ᵒ_
 _×ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
 (Pᵒ ×ᵒ Qᵒ) a =  Pᵒ a × Qᵒ a
 
 --------------------------------------------------------------------------------
--- ⊎ᵒ :  Disjunction
+-- ⊎ᵒ :  Semantic disjunction
 
 infix 7 _⊎ᵒ_
 _⊎ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
@@ -150,14 +150,14 @@ abstract
   ⊎ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ (MonoQ a⊑b Qa)
 
 --------------------------------------------------------------------------------
--- ⊤ᵒ ⊥ᵒ :  Truth and falsehood
+-- ⊤ᵒ ⊥ᵒ :  Semantic truth and falsehood
 
 ⊤ᵒ ⊥ᵒ :  Propᵒ ł
 ⊤ᵒ _ =  ⊤
 ⊥ᵒ _ =  ⊥
 
 --------------------------------------------------------------------------------
--- →ᵒ :  Implication
+-- →ᵒ :  Semantic implication
 
 abstract
 
@@ -184,7 +184,7 @@ abstract
   →ᵒ-elim Q⊨✓P→R E✓a (Pa , Qa) =  Q⊨✓P→R E✓a Qa _ _ ⊑-refl E✓a Pa
 
 --------------------------------------------------------------------------------
--- ∗ᵒ :  Separating conjunction
+-- ∗ᵒ :  Semantic separating conjunction
 
 infixr 7 _∗ᵒ_
 _∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
@@ -275,7 +275,7 @@ abstract
   ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₁ Rc) =  ĩ₁ (-, -, b∙c⊑a , Pb , Rc)
 
 --------------------------------------------------------------------------------
--- -∗ᵒ :  Magic wand
+-- -∗ᵒ :  Semantic magic wand
 
 abstract
 
@@ -315,7 +315,7 @@ abstract
   -∗ᵒ-apply MonoQ =  -∗ᵒ-elim MonoQ λ _ → id
 
 --------------------------------------------------------------------------------
--- ⤇ᵒ :  Update modality
+-- ⤇ᵒ :  Semantic update modality
 
 abstract
 
@@ -437,7 +437,7 @@ abstract
   ⤇ᴱ-eatˡ =  ∗ᵒ-comm › ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-comm
 
 --------------------------------------------------------------------------------
--- □ᵒ :  Persistence modality
+-- □ᵒ :  Semantic persistence modality
 
 infix 8 □ᵒ_
 □ᵒ_ :  Propᵒ ł →  Propᵒ ł
@@ -490,7 +490,7 @@ abstract
     -, -, ⊑-trans ⌞⌟-∙ (⌞⌟-mono b∙c⊑a) , P⌞b⌟ , Q⌞c⌟
 
 --------------------------------------------------------------------------------
--- ◎ :  Own a resource
+-- ◎ :  Semantically own a resource
 
 abstract
 
@@ -553,7 +553,7 @@ abstract
 
 -- On an component ERA
 
--- ◎⟨ ⟩ :  Own a resource of a component ERA
+-- ◎⟨ ⟩ :  Semantically own a resource of a component ERA
 
 infix 8 ◎⟨_⟩_
 ◎⟨_⟩_ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Propᵒ 2ᴸ

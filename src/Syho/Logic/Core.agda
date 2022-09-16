@@ -374,6 +374,11 @@ abstract
   ∗-assocʳ :  P ∗ (Q ∗ R) ⊢[ ι ] (P ∗ Q) ∗ R
   ∗-assocʳ =  ∗-comm » ∗-monoˡ ∗-comm » ∗-assocˡ » ∗-comm » ∗-monoˡ ∗-comm
 
+  -- - ∗ is commutative
+
+  ?∗-comm :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ P ∗ R
+  ?∗-comm =  ∗-assocʳ » ∗-monoˡ ∗-comm » ∗-assocˡ
+
   -- ∗ can turn into ∧
 
   ∗⇒∧ :  P ∗ Q ⊢[ ι ] P ∧ Q
@@ -458,67 +463,61 @@ abstract
 
   -- Move a separating conjunct to the head
 
-  pullʳˡ :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ P ∗ R
-  pullʳˡ =  ∗-assocʳ » ∗-monoˡ ∗-comm » ∗-assocˡ
-
   pullʳ² :  P ∗ Q ∗ R ⊢[ ι ] R ∗ P ∗ Q
-  pullʳ² =  ∗-monoʳ ∗-comm » pullʳˡ
+  pullʳ² =  ∗-monoʳ ∗-comm » ?∗-comm
 
   pullʳ²ˡ :  P ∗ Q ∗ R ∗ S ⊢[ ι ] R ∗ P ∗ Q ∗ S
-  pullʳ²ˡ =  ∗-monoʳ pullʳˡ » pullʳˡ
+  pullʳ²ˡ =  ∗-monoʳ ?∗-comm » ?∗-comm
 
   pullʳ³ :  P ∗ Q ∗ R ∗ S ⊢[ ι ] S ∗ P ∗ Q ∗ R
-  pullʳ³ =  ∗-monoʳ pullʳ² » pullʳˡ
+  pullʳ³ =  ∗-monoʳ pullʳ² » ?∗-comm
 
   pullʳ³ˡ :  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] S ∗ P ∗ Q ∗ R ∗ T
-  pullʳ³ˡ =  ∗-monoʳ pullʳ²ˡ » pullʳˡ
+  pullʳ³ˡ =  ∗-monoʳ pullʳ²ˡ » ?∗-comm
 
   pullʳ⁴ :  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] T ∗ P ∗ Q ∗ R ∗ S
-  pullʳ⁴ =  ∗-monoʳ pullʳ³ » pullʳˡ
+  pullʳ⁴ =  ∗-monoʳ pullʳ³ » ?∗-comm
 
   pullʳ⁴ˡ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] T ∗ P ∗ Q ∗ R ∗ S ∗ U
-  pullʳ⁴ˡ =  ∗-monoʳ pullʳ³ˡ » pullʳˡ
+  pullʳ⁴ˡ =  ∗-monoʳ pullʳ³ˡ » ?∗-comm
 
   pullʳ⁵ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] U ∗ P ∗ Q ∗ R ∗ S ∗ T
-  pullʳ⁵ =  ∗-monoʳ pullʳ⁴ » pullʳˡ
+  pullʳ⁵ =  ∗-monoʳ pullʳ⁴ » ?∗-comm
 
   pullʳ⁵ˡ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] U ∗ P ∗ Q ∗ R ∗ S ∗ T ∗ V
-  pullʳ⁵ˡ =  ∗-monoʳ pullʳ⁴ˡ » pullʳˡ
+  pullʳ⁵ˡ =  ∗-monoʳ pullʳ⁴ˡ » ?∗-comm
 
   pullʳ⁶ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] V ∗ P ∗ Q ∗ R ∗ S ∗ T ∗ U
-  pullʳ⁶ =  ∗-monoʳ pullʳ⁵ » pullʳˡ
+  pullʳ⁶ =  ∗-monoʳ pullʳ⁵ » ?∗-comm
 
   -- Move the head separating conjunct to somewhere deeper
 
-  pushʳˡ :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ P ∗ R
-  pushʳˡ =  pullʳˡ
-
   pushʳ² :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ R ∗ P
-  pushʳ² =  pushʳˡ » ∗-monoʳ ∗-comm
+  pushʳ² =  ?∗-comm » ∗-monoʳ ∗-comm
 
   pushʳ²ˡ :  P ∗ Q ∗ R ∗ S ⊢[ ι ] Q ∗ R ∗ P ∗ S
-  pushʳ²ˡ =  pushʳˡ » ∗-monoʳ pushʳˡ
+  pushʳ²ˡ =  ?∗-comm » ∗-monoʳ ?∗-comm
 
   pushʳ³ :  P ∗ Q ∗ R ∗ S ⊢[ ι ] Q ∗ R ∗ S ∗ P
-  pushʳ³ =  pushʳˡ » ∗-monoʳ pushʳ²
+  pushʳ³ =  ?∗-comm » ∗-monoʳ pushʳ²
 
   pushʳ³ˡ :  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] Q ∗ R ∗ S ∗ P ∗ T
-  pushʳ³ˡ =  pushʳˡ » ∗-monoʳ pushʳ²ˡ
+  pushʳ³ˡ =  ?∗-comm » ∗-monoʳ pushʳ²ˡ
 
   pushʳ⁴ :  P ∗ Q ∗ R ∗ S ∗ T ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ P
-  pushʳ⁴ =  pushʳˡ » ∗-monoʳ pushʳ³
+  pushʳ⁴ =  ?∗-comm » ∗-monoʳ pushʳ³
 
   pushʳ⁴ˡ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ P ∗ U
-  pushʳ⁴ˡ =  pushʳˡ » ∗-monoʳ pushʳ³ˡ
+  pushʳ⁴ˡ =  ?∗-comm » ∗-monoʳ pushʳ³ˡ
 
   pushʳ⁵ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ U ∗ P
-  pushʳ⁵ =  pushʳˡ » ∗-monoʳ pushʳ⁴
+  pushʳ⁵ =  ?∗-comm » ∗-monoʳ pushʳ⁴
 
   pushʳ⁵ˡ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ U ∗ P ∗ V
-  pushʳ⁵ˡ =  pushʳˡ » ∗-monoʳ pushʳ⁴ˡ
+  pushʳ⁵ˡ =  ?∗-comm » ∗-monoʳ pushʳ⁴ˡ
 
   pushʳ⁶ :  P ∗ Q ∗ R ∗ S ∗ T ∗ U ∗ V ⊢[ ι ] Q ∗ R ∗ S ∗ T ∗ U ∗ V ∗ P
-  pushʳ⁶ =  pushʳˡ » ∗-monoʳ pushʳ⁵
+  pushʳ⁶ =  ?∗-comm » ∗-monoʳ pushʳ⁵
 
   ------------------------------------------------------------------------------
   -- On -∗

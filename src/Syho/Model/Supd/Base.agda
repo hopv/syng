@@ -18,7 +18,7 @@ open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-
 open import Syho.Lang.Reduce using (Mem)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax; ⊤ᵒ;
   _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ-Mono; ∗ᵒ-mono✓ˡ;
-  ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; pullʳˡᵒ;
+  ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm;
   -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᵒ-intro; ⤇ᴱ-Mono; ⤇ᴱ-mono✓;
   ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᵒ⇒⤇ᴱ; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ;
   ⤇ᴱ-eatʳ)
@@ -180,7 +180,7 @@ abstract
   … | yes refl =  absurd $ <-irrefl $ ≤ᵈ⇒≤ i<ᵈn'
   … | no _  with xˇ˙ n'
   …   | ň =  Invᵍ-rem-<ᵈ xˇi≡šy i<ᵈn'
-  …   | š _ =  ∗ᵒ-monoʳ (Invᵍ-rem-<ᵈ xˇi≡šy i<ᵈn') › pullʳˡᵒ
+  …   | š _ =  ∗ᵒ-monoʳ (Invᵍ-rem-<ᵈ xˇi≡šy i<ᵈn') › ?∗ᵒ-comm
 
   Invᵍ-rem-< :  xˇ˙ i ≡ š y →  i < n →
     Invᵍ F xˇ˙ n  ⊨  F y ∗ᵒ Invᵍ F (upd˙ i ň xˇ˙) n

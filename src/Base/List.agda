@@ -54,17 +54,17 @@ abstract
 
   -- ⧺ is associative
 
-  ⧺-assocˡ :  (as ⧺ bs) ⧺ cs ≡ as ⧺ (bs ⧺ cs)
+  ⧺-assocˡ :  (as ⧺ bs) ⧺ cs  ≡  as ⧺ (bs ⧺ cs)
   ⧺-assocˡ {as = []} =  refl
   ⧺-assocˡ {as = _ ∷ as} =  cong (_ ∷_) (⧺-assocˡ {as = as})
 
   -- ⧺ and []
 
-  ⧺-[] :  as ⧺ [] ≡ as
+  ⧺-[] :  as ⧺ []  ≡  as
   ⧺-[] {as = []} =  refl
   ⧺-[] {as = _ ∷ as}  rewrite ⧺-[] {as = as} =  refl
 
-  ⧺-≡[] :  as ⧺ bs ≡ [] →  as ≡ [] × bs ≡ []
+  ⧺-≡[] :  as ⧺ bs ≡ [] →  as ≡ []  ×  bs ≡ []
   ⧺-≡[] {as = []} {bs = []} _ =  refl , refl
 
 --------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ abstract
 
   -- upd preserves the length
 
-  upd-len :  len (upd i b as) ≡ len as
+  upd-len :  len (upd i b as)  ≡  len as
   upd-len {as = []} =  refl
   upd-len {0} {as = _ ∷ _} =  refl
   upd-len {ṡ _} {as = _ ∷ as'} =  cong ṡ_ (upd-len {as = as'})
@@ -130,7 +130,7 @@ abstract
 
   -- ‼ j on upd i for j distinct from i
 
-  upd-‼-out :  j ≢ i →  upd i b as ‼ j ≡ as ‼ j
+  upd-‼-out :  j ≢ i →  upd i b as ‼ j  ≡  as ‼ j
   upd-‼-out {as = []} _ =  refl
   upd-‼-out {0} {0} j≢i =  absurd $ j≢i refl
   upd-‼-out {ṡ _} {0} {as = _ ∷ _} _ =  refl

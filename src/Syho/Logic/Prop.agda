@@ -12,7 +12,7 @@ open import Base.Few using (binary; absurd)
 open import Base.Size using (Size; ∞; Thunk)
 open import Base.Prod using (_×_; _,_; curry)
 open import Base.Nat using (ℕ)
-open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_)
+open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; TyVal)
 
@@ -143,17 +143,18 @@ infix 8 [∗]_
 [∗] [] =  ⊤'
 [∗] (P ∷ Ps) =  P ∗ [∗] Ps
 
--- Syntax for [∧] / [∗] map / mapi
+-- Syntax for [∗] $ᴸ / $ⁱᴸ
 
-infix 8 [∗∈]-syntax [∗ⁱ∈]-syntax
+infix 8 [∗∈]-syntax [∗ⁱ∈]-syntax [∗ⁱ⟨⟩∈]-syntax
 [∗∈]-syntax :  (X → Prop' ι) →  List X →  Prop' ι
-[∗∈]-syntax P˙ as =  [∗] (P˙ $ᴸ as)
+[∗∈]-syntax P˙ xs =  [∗] (P˙ $ᴸ xs)
 [∗ⁱ∈]-syntax :  (ℕ × X → Prop' ι) →  List X →  Prop' ι
-[∗ⁱ∈]-syntax P˙ as =  [∗] (curry P˙ $ⁱᴸ as)
-syntax [∗∈]-syntax (λ a → P) as =  [∗ a ∈ as ] P
-syntax [∗ⁱ∈]-syntax (λ ia → P) as =  [∗ ia ⁱ∈ as ] P
--- Currently in Agda, we can't bind two variables in syntax like:
---   syntax [∗ⁱ∈]-syntax (λ i a → P) as =  [∗ i ⁱ a ∈ as ] P
+[∗ⁱ∈]-syntax P˙ xs =  [∗] (curry P˙ $ⁱᴸ xs)
+[∗ⁱ⟨⟩∈]-syntax :  (ℕ × X → Prop' ι) →  ℕ →  List X →  Prop' ι
+[∗ⁱ⟨⟩∈]-syntax P˙ n xs =  [∗] (curry P˙ $ⁱᴸ⟨ n ⟩ xs)
+syntax [∗∈]-syntax (λ x → P) xs =  [∗ x ∈ xs ] P
+syntax [∗ⁱ∈]-syntax (λ ix → P) xs =  [∗ ix ⁱ∈ xs ] P
+syntax [∗ⁱ⟨⟩∈]-syntax (λ ix → P) n xs =  [∗ ix ⁱ⟨ n ⟩∈ xs ] P
 
 --------------------------------------------------------------------------------
 -- Extending _↦⟨_⟩_

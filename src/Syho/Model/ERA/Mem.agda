@@ -15,15 +15,15 @@ open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡
 open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
 open import Base.Option using (¿_; š_; ň; _»-¿_; _$¿_; ¿-case)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
-open import Base.List using (List; []; _∷_; [_]; len; _‼_; ≈ᴸ-refl; upd-len;
-  upd-‼-out; upd-‼-in)
+open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
+  upd-len; upd-‼-out; upd-‼-in; rep-len)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; addr; TyVal)
+open import Syho.Lang.Expr using (Addr; addr; TyVal; ⊤ṽ)
 open import Syho.Lang.Reduce using (Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_; ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ)
+open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ; ✓ˣ-alloc)
 open import Syho.Model.ERA.Frac using (Frac; _≈ᶠʳ_; Fracᴱᴿᴬ;š[?]-∙ᶠʳ; ✓ᶠʳ-≤1;
-  ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update)
+  ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-alloc)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
 import Syho.Model.ERA.Envm
@@ -85,8 +85,8 @@ open ERA Mbloᴱᴿᴬ public using () renaming (Res to Resᴹᵇˡᵒ; _≈_ to
   _↝_ to _↝ᴹᵇˡᵒ_; _◇˜_ to _◇˜ᴹᵇˡᵒ_; ∙-congʳ to ∙ᴹᵇˡᵒ-congʳ)
 open ERA ∀Memᴱᴿᴬ public using () renaming (✓-resp to ✓ᴬᴹᵉᵐ-resp)
 open ERA Memᴱᴿᴬ public using () renaming (Res to Resᴹᵉᵐ; _≈_ to _≈ᴹᵉᵐ_;
-  _✓_ to _✓ᴹᵉᵐ_; _∙_ to _∙ᴹᵉᵐ_; _↝_ to _↝ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_; _◇˜_ to _◇˜ᴹᵉᵐ_;
-  [∙∈ⁱ] to [∙ᴹᵉᵐ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵉᵐ∈ⁱ⟨⟩])
+  _✓_ to _✓ᴹᵉᵐ_; ε to εᴹᵉᵐ; _∙_ to _∙ᴹᵉᵐ_; _↝_ to _↝ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_;
+  _◇˜_ to _◇˜ᴹᵉᵐ_; [∙∈ⁱ] to [∙ᴹᵉᵐ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵉᵐ∈ⁱ⟨⟩])
 
 [∙ᴹᵇˡᵒ∈ⁱ]-syntax =  [∙ᴹᵇˡᵒ∈ⁱ]
 [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]-syntax =  [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]
@@ -100,7 +100,7 @@ syntax [∙ᴹᵉᵐ∈ⁱ⟨⟩]-syntax (λ ix → a) k xs =  [∙ᴹᵉᵐ ix 
 
 private variable
   θ :  Addr
-  i k o o' :  ℕ
+  i k n o o' :  ℕ
   p q :  ℚ⁺
   ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
@@ -285,3 +285,21 @@ abstract
   …   | yes refl | Mo | M‼θ✓↦u∙aθ  with Mo | ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦u∙aθ
   …     | š ᵗus | us‼i≡šu  rewrite upd-‼-in {as = ᵗus} {b = ᵗv} (-, us‼i≡šu) =
     ✓ᶠʳ-update {x = a o .π₀ i} M‼θ✓↦u∙aθ
+
+  -- Allocate getting ↦ᴸʳ and freeʳ
+
+  ↦ᴸʳ-alloc :  M o ≡ ň →
+    (↑ M , εᴹᵉᵐ)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →
+      ↑ upd˙ o (š rep n ⊤ṽ) M  ,  o ↦ᴸʳ rep n ⊤ṽ ∙ᴹᵉᵐ freeʳ n o
+  ↦ᴸʳ-alloc _ _ _ .π₀ =  _
+  ↦ᴸʳ-alloc _ _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
+  ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₁
+    with o' ≡? o | M✓a o' .π₁
+  … | no _ | lenMo'✓ao' =  lenMo'✓ao'
+  … | yes refl | ň✓ao  rewrite Mo≡ň | rep-len {n} {a = ⊤ṽ} =  ✓ˣ-alloc ň✓ao
+  ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₀ j
+    with o' ≡? o | M✓a o' .π₀ j
+  … | no _ | Mo'‼j✓ao'j =  Mo'‼j✓ao'j
+  … | yes refl | Mo‼j✓aoj  rewrite Mo≡ň  with rep n ⊤ṽ ‼ j
+  …   | ň =  Mo‼j✓aoj
+  …   | š _ =  ✓ᶠʳ-alloc Mo‼j✓aoj

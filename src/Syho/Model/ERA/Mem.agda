@@ -7,7 +7,7 @@
 module Syho.Model.ERA.Mem where
 
 open import Base.Level using (0ᴸ; 2ᴸ; ↑_; ↓)
-open import Base.Func using (_$_; _▷_; _›_)
+open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; subst)
 open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡⇒¬<;
@@ -116,7 +116,8 @@ infix 9 _↦⟨_⟩ᵇˡᵒ_ _↦ᵇˡᵒ_
 -- ↦⟨ ⟩ᵇˡᵒ :  Block-level resource for the points-to token
 
 _↦⟨_⟩ᵇˡᵒ_ :  ℕ →  ℚ⁺ →  TyVal →  Resᴹᵇˡᵒ
-i ↦⟨ p ⟩ᵇˡᵒ ᵗv =  inj˙ᴾⁿᵗˢ i (š (p , [ ᵗv ])) , ?ˣ
+(i ↦⟨ p ⟩ᵇˡᵒ ᵗv) .π₀ =  inj˙ᴾⁿᵗˢ i $ š (p , [ ᵗv ])
+(_ ↦⟨ _ ⟩ᵇˡᵒ _) .π₁ =  ?ˣ
 
 -- ↦ᵇˡᵒ :  ↦⟨ ⟩ᵇˡᵒ with the fraction 1
 
@@ -126,7 +127,8 @@ i ↦ᵇˡᵒ ᵗv =  i ↦⟨ 1ᴿ⁺ ⟩ᵇˡᵒ ᵗv
 -- freeᵇˡᵒ :  Block-level resource for the freeing token
 
 freeᵇˡᵒ :  ℕ →  Resᴹᵇˡᵒ
-freeᵇˡᵒ n =  (λ _ → ň) , #ˣ n
+freeᵇˡᵒ n .π₁ =  #ˣ n
+freeᵇˡᵒ _ .π₀ _ =  ň
 
 -- pnts :  Resource for the points-to token over an optional value
 
@@ -137,8 +139,8 @@ pnts ᵗvˇ =  ¿-case (λ ᵗv → š (1ᴿ⁺ , [ ᵗv ])) ň ᵗvˇ
 
 infix 9 ↦ᴸᵇˡᵒ_
 ↦ᴸᵇˡᵒ_ :  List TyVal →  Resᴹᵇˡᵒ
-(↦ᴸᵇˡᵒ ᵗvs) .π₁ =  ?ˣ
 (↦ᴸᵇˡᵒ ᵗvs) .π₀ i =  pnts $ ᵗvs ‼ i
+(↦ᴸᵇˡᵒ _) .π₁ =  ?ˣ
 
 abstract
 

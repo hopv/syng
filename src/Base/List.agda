@@ -119,13 +119,13 @@ abstract
   upd-‼-in {as = _ ∷ _} {0} as‼i≡ša =  refl
   upd-‼-in {as = _ ∷ as'} {ṡ i'} as'‼i'≡ša =  upd-‼-in {as = as'} as'‼i'≡ša
 
-  upd-‼-out :  i ≢ j →  upd i b as ‼ j ≡ as ‼ j
+  upd-‼-out :  j ≢ i →  upd i b as ‼ j ≡ as ‼ j
   upd-‼-out {as = []} _ =  refl
-  upd-‼-out {0} {0} i≢j =  absurd $ i≢j refl
+  upd-‼-out {0} {0} j≢i =  absurd $ j≢i refl
   upd-‼-out {ṡ _} {0} {as = _ ∷ _} _ =  refl
   upd-‼-out {0} {ṡ _} {as = _ ∷ _} _ =  refl
-  upd-‼-out {ṡ _} {ṡ _} {as = _ ∷ as'} i≢j =
-    upd-‼-out {as = as'} λ{ refl → i≢j refl }
+  upd-‼-out {ṡ _} {ṡ _} {as = _ ∷ as'} j≢i =
+    upd-‼-out {as = as'} λ{ refl → j≢i refl }
 
 --------------------------------------------------------------------------------
 -- rep :  Repeat

@@ -152,7 +152,8 @@ following parts.
             of the logic's pure sequent.
     + [`Supd/`](src/Syho/Model/Supd/) ― **The semantic model and soundness proof
         of the super update.**
-        * [`Base`](src/Syho/Model/Supd/Base.agda) for the general super update;
+        * [`Base`](src/Syho/Model/Supd/Base.agda) for the general super update
+            and invariant builder;
             [`Ind`](src/Syho/Model/Supd/Ind.agda) for the super update on the
             indirection modality and precursors.
         * [`Sound`](src/Syho/Model/Supd/Sound.agda) for the semantic soundness

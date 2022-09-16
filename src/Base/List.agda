@@ -115,9 +115,13 @@ upd (ṡ i) b (a ∷ as) =  a ∷ upd i b as
 
 abstract
 
+  -- ‼ i on upd i
+
   upd-‼-in :  (∑ a , as ‼ i ≡ š a) →  upd i b as ‼ i  ≡  š b
   upd-‼-in {as = _ ∷ _} {0} as‼i≡ša =  refl
   upd-‼-in {as = _ ∷ as'} {ṡ i'} as'‼i'≡ša =  upd-‼-in {as = as'} as'‼i'≡ša
+
+  -- ‼ j on upd i for j distinct from i
 
   upd-‼-out :  j ≢ i →  upd i b as ‼ j ≡ as ‼ j
   upd-‼-out {as = []} _ =  refl

@@ -7,6 +7,7 @@
 module Base.Option where
 
 open import Base.Level using (Level)
+open import Base.Eq using (_≡_; refl)
 
 --------------------------------------------------------------------------------
 -- ¿ :  Option type
@@ -26,6 +27,7 @@ open import Agda.Builtin.Maybe public using () renaming (
 private variable
   ł :  Level
   A B :  Set ł
+  a b :  A
 
 ¿-case :  (A → B) →  B →  ¿ A →  B
 ¿-case f _ (š a) =  f a
@@ -40,3 +42,10 @@ infixr -1 _»-¿_
 _»-¿_ :  ¿ A →  (A → ¿ B) →  ¿ B
 š a »-¿ f =  f a
 ň »-¿ _ =  ň
+
+abstract
+
+  -- š is injective
+
+  š-inj :  š a ≡ š b →  a ≡ b
+  š-inj refl =  refl

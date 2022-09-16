@@ -283,7 +283,7 @@ abstract
   …   | no j≢i | š ᵗus | Mo‼j✓aoj  rewrite upd-‼-out {b = ᵗv} {ᵗus} j≢i =
     Mo‼j✓aoj
   …   | yes refl | Mo | M‼θ✓↦u∙aθ  with Mo | ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦u∙aθ
-  …     | š ᵗus | us‼i≡šu  rewrite upd-‼-in {as = ᵗus} {b = ᵗv} (-, us‼i≡šu) =
+  …     | š ᵗus | us‼i≡šu  rewrite upd-‼-in {as = ᵗus} {b = ᵗv} us‼i≡šu =
     ✓ᶠʳ-update {x = a o .π₀ i} M‼θ✓↦u∙aθ
 
   -- Allocate getting ↦ᴸʳ and freeʳ

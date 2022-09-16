@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
 open import Base.Option using (¿_; š_; ň)
-open import Base.Prod using (∑-syntax; _×_; _,_; _,-)
+open import Base.Prod using (_×_; _,_; _,-)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 
@@ -124,7 +124,7 @@ abstract
 
   -- ‼ i on upd i
 
-  upd-‼-in :  (∑ a , as ‼ i ≡ š a) →  upd i b as ‼ i  ≡  š b
+  upd-‼-in :  as ‼ i ≡ š a →  upd i b as ‼ i  ≡  š b
   upd-‼-in {as = _ ∷ _} {0} as‼i≡ša =  refl
   upd-‼-in {as = _ ∷ as'} {ṡ i'} as'‼i'≡ša =  upd-‼-in {as = as'} as'‼i'≡ša
 

@@ -6,7 +6,7 @@
 
 module Syho.Model.Prop.Base where
 
-open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 2ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 2ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
 open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
@@ -156,6 +156,11 @@ abstract
 ⊤ᵒ ⊥ᵒ :  Propᵒ ł
 ⊤ᵒ _ =  ⊤
 ⊥ᵒ _ =  ⊥
+
+-- ⊤ᵒ of level 0
+
+⊤ᵒ₀ :  Propᵒ 0ᴸ
+⊤ᵒ₀ =  ⊤ᵒ
 
 --------------------------------------------------------------------------------
 -- →ᵒ :  Semantic implication

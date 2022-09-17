@@ -29,7 +29,7 @@ private variable
   X :  Set ł
   Pᵒ Qᵒ :  Propᵒ ł
   M M' M'' :  Mem
-  E :  Envᴵⁿᴳ
+  Eᴵⁿ :  Envᴵⁿᴳ
   gsI :  (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł)
   get get' :  Envᴵⁿᴳ → X
   set set' :  X → Envᴵⁿᴳ → Envᴵⁿᴳ
@@ -51,8 +51,8 @@ abstract
   ⟨_⟩[_]⇛ᵍ⟨_⟩_ :  ∀{X : Set ł} →
     Mem →  (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł') →
     Mem →  Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
-  ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ =  ∀ᵒ E ,
-    Inv (get E) -∗ᵒ envᴳ M E ⤇ᴱ λ x → envᴳ M' $ set x E , Pᵒ ∗ᵒ Inv x
+  ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ =  ∀ᵒ Eᴵⁿ ,
+    Inv (get Eᴵⁿ) -∗ᵒ envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x
 
   -- Monoᵒ for ⇛ᵍ
 
@@ -62,23 +62,24 @@ abstract
   -- Monotonicity of ⇛ᵍ
 
   ⇛ᵍ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ
-  ⇛ᵍ-mono✓ P⊨✓Q gsI⇛P E =  (-∗ᵒ-monoʳ $ ⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ˡ P⊨✓Q) $ gsI⇛P E
+  ⇛ᵍ-mono✓ P⊨✓Q gsI⇛P Eᴵⁿ =
+    (-∗ᵒ-monoʳ $ ⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ˡ P⊨✓Q) $ gsI⇛P Eᴵⁿ
 
   ⇛ᵍ-mono :  Pᵒ ⊨ Qᵒ →  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ
   ⇛ᵍ-mono =  ⊨⇒⊨✓ › ⇛ᵍ-mono✓
 
   -- Utility for making ⇛ᵍ
 
-  ⇛ᵍ-make :  (∀{E} →  Pᵒ ∗ᵒ Inv (get E)  ⊨✓
-               envᴳ M E ⤇ᴱ λ x → envᴳ M' $ set x E , Qᵒ ∗ᵒ Inv x) →
+  ⇛ᵍ-make :  (∀{Eᴵⁿ} →  Pᵒ ∗ᵒ Inv (get Eᴵⁿ)  ⊨✓
+               envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ , Qᵒ ∗ᵒ Inv x) →
              Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Qᵒ
   ⇛ᵍ-make {Pᵒ = Pᵒ} P∗Inv⊨✓⤇Q∗Inv =
     ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro λ ✓∙ → ∗ᵒ-comm › P∗Inv⊨✓⤇Q∗Inv ✓∙
 
   -- Apply ⇛ᵍ
 
-  ⇛ᵍ-apply :  ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ ∗ᵒ Inv (get E) ⊨✓
-                envᴳ M E ⤇ᴱ λ x → envᴳ M' $ set x E , Pᵒ ∗ᵒ Inv x
+  ⇛ᵍ-apply :  ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ ∗ᵒ Inv (get Eᴵⁿ) ⊨✓
+                envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x
   ⇛ᵍ-apply ✓∙ =  ∗ᵒ-monoˡ (_$ _) › ∗ᵒ-comm › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
 
   -- ⊨✓ ⇛ᵍ into ⊨ ⇛ᵍ
@@ -89,19 +90,20 @@ abstract
 
   -- Introduce ⇛ᵍ
 
-  ⤇ᵒ⇒⇛ᵍ :  (∀{E} → set (get E) E ≡˙ E) →
+  ⤇ᵒ⇒⇛ᵍ :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
            ⤇ᵒ Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M ⟩ Pᵒ
   ⤇ᵒ⇒⇛ᵍ setget≡ =  ⇛ᵍ-make λ _ →
     ⤇ᵒ-eatʳ › ⤇ᵒ⇒⤇ᴱ › ⤇ᴱ-respᴱˡ (envᴳ-cong setget≡) › ⤇ᴱ-param
 
-  ⇛ᵍ-intro :  (∀{E} → set (get E) E ≡˙ E) →
+  ⇛ᵍ-intro :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
               Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M ⟩ Pᵒ
   ⇛ᵍ-intro setget≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵍ setget≡
 
   -- Join the same ⇛ᵍs
 
   ⇛ᵍ-join :
-    (∀{E x} → get (set x E) ≡ x) →  (∀{E x y} → set y (set x E) ≡˙ set y E) →
+    (∀{Eᴵⁿ x} → get (set x Eᴵⁿ) ≡ x) →
+    (∀{Eᴵⁿ x y} → set y (set x Eᴵⁿ) ≡˙ set y Eᴵⁿ) →
     ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⟨ M' ⟩[ get , set , Inv ]⇛ᵍ⟨ M'' ⟩ Pᵒ  ⊨
       ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M'' ⟩ Pᵒ
   ⇛ᵍ-join {Inv = Inv} getset≡ setset≡set =
@@ -111,9 +113,9 @@ abstract
 
   -- Join two different ⇛ᵍs
 
-  ⇛ᵍ-join2 :  (∀{E x} → get' (set x E) ≡ get' E) →
+  ⇛ᵍ-join2 :  (∀{Eᴵⁿ x} → get' (set x Eᴵⁿ) ≡ get' Eᴵⁿ) →
     ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⟨ M' ⟩[ get' , set' , Inv' ]⇛ᵍ⟨ M'' ⟩ Pᵒ  ⊨
-      ⟨ M ⟩[ (λ E → (get E , get' E)) , (λ (x , y) → set x › set' y) ,
+      ⟨ M ⟩[ (λ Eᴵⁿ → (get Eᴵⁿ , get' Eᴵⁿ)) , (λ (x , y) → set x › set' y) ,
              (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵍ⟨ M'' ⟩ Pᵒ
   ⇛ᵍ-join2 {Inv' = Inv'} get'set≡get' =  ⇛ᵍ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᵍ⟨ _ ⟩ _}
     λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ ⇛ᵍ-apply ✓∙ › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →

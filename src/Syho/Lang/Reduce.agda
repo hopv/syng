@@ -114,6 +114,12 @@ data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
   redᴱ :  val/ktxred e ≡ ĩ₁ kr →  (kr , M) ⇒ᴷᴿ (e' , M') →
           (e , M) ⇒ᴱ (e' , M')
 
+-- ⇒ᴷᴿ∑ :  A contex-redex pair is reducible
+
+infix 4 _⇒ᴷᴿ∑
+_⇒ᴷᴿ∑ :  ∀{T} →  Ktxred T × Mem →  Set₁
+redM ⇒ᴷᴿ∑ =  ∑ e'M' , redM ⇒ᴷᴿ e'M'
+
 abstract
 
   -- Enrich a reduction with an evaluation context

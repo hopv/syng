@@ -18,7 +18,7 @@ open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_»_; ∃₁-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
+open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⤇ᵒ_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⊨✓⇛ᵍ⇒⊨⇛ᵍ;
@@ -30,7 +30,7 @@ private variable
   ł :  Level
   P Q :  Prop' ∞
   i :  ℕ
-  M M' :  Mem
+  M M' M'' :  Mem
   Pᵒ :  Propᵒ ł
 
 --------------------------------------------------------------------------------
@@ -55,6 +55,16 @@ abstract
   ⇛ᵒ≡⇛ᵒ' :  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ ≡ ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ
   ⇛ᵒ≡⇛ᵒ' =  ⇛ᵍ≡⇛ᵍ'
 
+  -- ⤇ᵒ into ⇛ᵍ
+
+  ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
+  ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍ $ upd˙²-self λ ()
+
+  -- Join ⇛ᵒ
+
+  ⇛ᵒ-join :  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ M' ⟩⇛ᵒ⟨ M'' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M'' ⟩ Pᵒ
+  ⇛ᵒ-join =  ⇛ᵍ-join refl $ upd˙²-2 λ ()
+
 --------------------------------------------------------------------------------
 -- ⊢⇛⇒⊨⇛ᵒ :  Semantic soundness of the super update
 
@@ -74,12 +84,11 @@ abstract
 
 -- ⇛-refl-⤇ :  ⤇ P ⊢[ ∞ ][ i ]⇛ P
 
-⊢⇛⇒⊨⇛ᵒ ⇛-refl-⤇ =  ⤇ᵒ⇒⇛ᵍ $ upd˙²-self λ ()
+⊢⇛⇒⊨⇛ᵒ ⇛-refl-⤇ =  ⤇ᵒ⇒⇛ᵒ
 
 -- _ᵘ»ᵘ_ :  P ⊢[ ∞ ][ i ]⇛ Q →  Q ⊢[ ∞ ][ i ]⇛ R →  P ⊢[ ∞ ][ i ]⇛ R
 
-⊢⇛⇒⊨⇛ᵒ (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =
-  ⊢⇛⇒⊨⇛ᵒ P⊢⇛Q › ⇛ᵍ-mono (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵍ-join refl $ upd˙²-2 λ ()
+⊢⇛⇒⊨⇛ᵒ (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =  ⊢⇛⇒⊨⇛ᵒ P⊢⇛Q › ⇛ᵍ-mono (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵒ-join
 
 -- ⇛-frameˡ :  Q ⊢[ ∞ ][ i ]⇛ R →  P ∗ Q ⊢[ ∞ ][ i ]⇛ P ∗ R
 
@@ -102,4 +111,4 @@ abstract
 
 ⊢⇛⇒⊨⇛ᵒ ↪⇛-use =  ∗ᵒ-monoʳ ↪⇛ᵒ-use › ⇛ᵍ-eatˡ ›
   ⇛ᵍ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ → ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛⇒⊨⇛ᵒ P∗R⊢⇛Q) ›
-  ⇛ᵍ-join refl $ upd˙²-2 λ ()
+  ⇛ᵒ-join

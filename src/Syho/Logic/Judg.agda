@@ -14,6 +14,7 @@ open import Base.Eq using (_≡_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
+open import Base.Inh using (Inh)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
@@ -424,7 +425,7 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
 
-  hor-nd :  (∀ x →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
+  hor-nd :  {{Inh X}} →  (∀(x : X) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
             P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| ndᴿ) ⟩[ wκ ]  Q˙
 
   -- ▶, for partial and total Hoare triples

@@ -87,7 +87,7 @@ envᴵⁿᴳ E j =  E $ outᴳ j
 
 private variable
   Eᴵⁿ Fᴵⁿ :  Envᴵⁿᴳ
-  M :  Mem
+  M M' :  Mem
   j :  ℕ
   X :  Set₂
   Fʲ :  X
@@ -97,6 +97,10 @@ abstract
   envᴳ-cong :  Eᴵⁿ ≡˙ Fᴵⁿ →  envᴳ M Eᴵⁿ ≡˙ envᴳ M Fᴵⁿ
   envᴳ-cong _ iᴹᵉᵐ =  refl
   envᴳ-cong E≡F (outᴳ j) =  E≡F j
+
+  upd˙-mem-envᴳ :  upd˙ iᴹᵉᵐ (↑ M') (envᴳ M Eᴵⁿ) ≡˙ envᴳ M' Eᴵⁿ
+  upd˙-mem-envᴳ iᴹᵉᵐ =  refl
+  upd˙-mem-envᴳ (outᴳ _) =  refl
 
   upd˙-out-envᴳ :  upd˙ (outᴳ j) Fʲ (envᴳ M Eᴵⁿ)  ≡˙  envᴳ M (upd˙ j Fʲ Eᴵⁿ)
   upd˙-out-envᴳ iᴹᵉᵐ =  refl

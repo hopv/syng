@@ -20,7 +20,7 @@ open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ◠˜ᴹᵉᵐ_; [∙ᴹᵉ�
   [∙∈ⁱ]↦≈↦ᴸʳ)
 open import Syho.Model.ERA.Glob using (iᴹᵉᵐ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
-  ∃ᵒ∈-syntax; ⌜_⌝ᵒ; _∗ᵒ_; [∗ᵒ∈ⁱ]-syntax; [∗ᵒ∈ⁱ⟨⟩]-syntax; ◎⟨_⟩_; ∃ᵒ-Mono;
+  ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; [∗ᵒ∈ⁱ]-syntax; [∗ᵒ∈ⁱ⟨⟩]-syntax; ◎⟨_⟩_; ∃ᵒ-Mono;
   ∗ᵒ-monoʳ; ◎-Mono; ◎⟨⟩-cong; ◎⟨⟩-ε; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓)
 
 private variable
@@ -53,7 +53,7 @@ Freeᵒ' n o =  ◎⟨ iᴹᵉᵐ ⟩ freeʳ n o
 -- Freeᵒ : Interpret the freeing token
 
 Freeᵒ :  ℕ →  Addr →  Propᵒ 2ᴸ
-Freeᵒ n θ =  ∃ᵒ o , ∃ᵒ _ ∈ θ ≡ addr o 0 , Freeᵒ' n o
+Freeᵒ n θ =  ∃ᵒ o ,  ⌜ θ ≡ addr o 0 ⌝ᵒ×  Freeᵒ' n o
 
 -- ↦ᴸᵒ, ↦ᴸᵒ' :  Interpret the points-to token over a list of values
 

@@ -21,7 +21,7 @@ open import Syho.Lang.Reduce using (Mem; _‼ᴹ_; updᴹ)
 open import Syho.Model.ERA.Glob using (iᴹᵉᵐ; envᴳ; envᴳ-cong; upd˙-mem-envᴳ)
 open import Syho.Model.ERA.Mem using (εᴹᵉᵐ; ↦⟨⟩ʳ-read; ↦ʳ-write; ↦ᴸʳ-alloc;
   ↦ᴸʳ-free)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ∈-syntax; ⊤ᵒ₀; _∗ᵒ_;
+open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_;
   [∗ᵒ∈ⁱ]-syntax; _⤇ᴱ_; ∗ᵒ-monoˡ; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param;
   ⤇ᴱ-eatʳ; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; _↦ᵒ_; Freeᵒ'; _↦ᴸᵒ'_)
@@ -55,7 +55,7 @@ private variable
 -- Read using ↦⟨⟩ᵒ
 
 ↦⟨⟩ᵒ-read :  θ ↦⟨ p ⟩ᵒ ᵗv  ⊨
-               ⟨ M ⟩⇛ᵒ⟨ M ⟩  (∃ᵒ _ ∈ (M ‼ᴹ θ ≡ š ᵗv) , θ ↦⟨ p ⟩ᵒ ᵗv)
+               ⟨ M ⟩⇛ᵒ⟨ M ⟩  ⌜ M ‼ᴹ θ ≡ š ᵗv ⌝ᵒ×  θ ↦⟨ p ⟩ᵒ ᵗv
 ↦⟨⟩ᵒ-read =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ $ ↝-◎⟨⟩-⤇ᴱ ↦⟨⟩ʳ-read ›
   ⤇ᴱ-respᴱʳ upd˙-mem-envᴳ › ⤇ᴱ-mono (λ M‼θ≡v →  M‼θ≡v ,_) › ⤇ᴱ-param
 

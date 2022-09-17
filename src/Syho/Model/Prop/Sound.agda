@@ -23,7 +23,7 @@ open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-ṡ; ↪⇛-eatˡ�
 open import Syho.Logic.Mem using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦⟨⟩-merge; ↦⟨⟩-split)
 open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-monoˡ;
   ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-intro; -∗ᵒ-elim;
-  ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-∃ᵒ-out;  □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
+  ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-⌜⌝ᵒ×-out; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
   □ᵒˡ-×ᵒ⇒∗ᵒ)
 open import Syho.Model.Prop.Mem using (↦⟨⟩ᵒ-agree; ↦⟨⟩ᵒ-≤1; ↦⟨⟩ᵒ-merge;
   ↦⟨⟩ᵒ-split)
@@ -129,7 +129,7 @@ abstract
 
   -- ⤇-∃-out :  ⤇ (∃₁ _ ∈ X , P) ⊢[ ∞ ] ∃₁ _ ∈ X , ⤇ P
 
-  ⊢⇒⊨✓ ⤇-∃-out =  ⤇ᵒ-∃ᵒ-out
+  ⊢⇒⊨✓ ⤇-∃-out =  ⤇ᵒ-⌜⌝ᵒ×-out
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
 

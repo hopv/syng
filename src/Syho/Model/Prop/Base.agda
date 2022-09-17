@@ -9,7 +9,7 @@ module Syho.Model.Prop.Base where
 open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 2ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
-open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
+open import Base.Eq using (_≡_; refl; _≡˙_; ◠˙_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   curry; uncurry; ∑-case)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
@@ -311,11 +311,24 @@ syntax [∗ᵒ∈ⁱ⟨⟩]-syntax (λ ix → Pᵒ) k xs =  [∗ᵒ ix ∈ⁱ⟨
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Semantic magic wand
 
+infixr 5 _-∗ᵒ'_ _-∗ᵒ_
+
+-- -∗ᵒ' :  Non-abstract version of -∗ᵒ
+
+_-∗ᵒ'_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+(Pᵒ -∗ᵒ' Qᵒ) a =  ∀ E b c →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c →  Qᵒ (c ∙ b)
+
 abstract
 
-  infixr 5 _-∗ᵒ_
+  -- -∗ᵒ :  Semantic magic wand
+
   _-∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-  (Pᵒ -∗ᵒ Qᵒ) a =  ∀ E b c →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c →  Qᵒ (c ∙ b)
+  _-∗ᵒ_ =  _-∗ᵒ'_
+
+  -- -∗ᵒ equals -∗ᵒ'
+
+  -∗ᵒ≡-∗ᵒ' :  _-∗ᵒ_ {ł} {ł'} ≡ _-∗ᵒ'_
+  -∗ᵒ≡-∗ᵒ' =  refl
 
   -- Monoᵒ for -∗ᵒ
 
@@ -404,12 +417,25 @@ abstract
 --------------------------------------------------------------------------------
 -- ⤇ᴱ :  Environmental update modality
 
+infix 8 _⤇ᴱ'_ _⤇ᴱ_
+
+-- ⤇ᴱ' :  Non-abstract version of ⤇ᴱ
+
+_⤇ᴱ'_ :  ∀{X : Set ł'} →  Envᴳ →  (X → Envᴳ × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+(E ⤇ᴱ' FPᵒ˙) a =  ∀ c →  E ✓ a ∙ c →  ∑ x , ∑ b ,
+  let (F , Pᵒ) = FPᵒ˙ x in  F ✓ b ∙ c  ×  Pᵒ b
+
 abstract
 
-  infix 8 _⤇ᴱ_
+  -- ⤇ᴱ :  Environmental update modality
+
   _⤇ᴱ_ :  ∀{X : Set ł'} →  Envᴳ →  (X → Envᴳ × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-  (E ⤇ᴱ FPᵒ˙) a =  ∀ c →  E ✓ a ∙ c →  ∑ x , ∑ b ,
-    let (F , Pᵒ) = FPᵒ˙ x in  F ✓ b ∙ c  ×  Pᵒ b
+  _⤇ᴱ_ =  _⤇ᴱ'_
+
+  -- ⤇ᴱ equals ⤇ᴱ'
+
+  ⤇ᴱ≡⤇ᴱ' :  _⤇ᴱ_ {ł} {ł'} {X} ≡ _⤇ᴱ'_
+  ⤇ᴱ≡⤇ᴱ' =  refl
 
   -- Monoᵒ for ⤇ᴱ
 

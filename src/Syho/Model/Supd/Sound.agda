@@ -8,9 +8,9 @@ module Syho.Model.Supd.Sound where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Func using (_$_; _›_)
-open import Base.Eq using (refl)
+open import Base.Eq using (_≡_; refl)
 open import Base.Size using (∞)
-open import Base.Prod using (∑-case)
+open import Base.Prod using (∑-case; _,_)
 open import Base.Dec using (upd˙²-self; upd˙²-2)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Reduce using (Mem)
@@ -21,23 +21,39 @@ open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-u
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
-open import Syho.Model.Supd.Base using (⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⇛ᵍ-mono; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join;
-  ⇛ᵍ-eatˡ)
-open import Syho.Model.Supd.Ind using (⟨_⟩⇛ᴵⁿᵈ⟨_⟩_; ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec;
-  ○ᵒ-use; ↪⇛ᵒ-use)
+open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⊨✓⇛ᵍ⇒⊨⇛ᵍ;
+  ⇛ᵍ-mono; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
+open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; updᴱᴵⁿᵈ; Invᴵⁿᵈ; ⟨_⟩⇛ᴵⁿᵈ⟨_⟩_;
+  ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use; ↪⇛ᵒ-use)
 
 private variable
   ł :  Level
   P Q :  Prop' ∞
   i :  ℕ
-  M :  Mem
+  M M' :  Mem
+  Pᵒ :  Propᵒ ł
 
 --------------------------------------------------------------------------------
--- ⇛ᵒ :  Super update on Globᴱᴿᴬ
+-- Super update
 
-infix 8 ⟨_⟩⇛ᵒ⟨_⟩_
+infix 8 ⟨_⟩⇛ᵒ⟨_⟩_ ⟨_⟩⇛ᵒ'⟨_⟩_
+
+-- ⇛ᵒ :  Super update
+
 ⟨_⟩⇛ᵒ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M' ⟩ Pᵒ
+
+-- ⇛ᵒ' :  Non-abstract version of ⇛ᵒ
+
+⟨_⟩⇛ᵒ'⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ envᴵⁿᵈ , updᴱᴵⁿᵈ , Invᴵⁿᵈ ]⇛ᵍ'⟨ M' ⟩ Pᵒ
+
+abstract
+
+  -- ⇛ᵒ equals ⇛ᵒ'
+
+  ⇛ᵒ≡⇛ᵒ' :  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ ≡ ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ
+  ⇛ᵒ≡⇛ᵒ' =  ⇛ᵍ≡⇛ᵍ'
 
 --------------------------------------------------------------------------------
 -- ⊢⇛⇒⊨⇛ᵒ :  Semantic soundness of the super update

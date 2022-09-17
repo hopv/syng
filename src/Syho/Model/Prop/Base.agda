@@ -11,10 +11,11 @@ open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
 open import Base.Eq using (_≡_; _≡˙_; ◠˙_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
-  uncurry; ∑-case)
+  curry; uncurry; ∑-case)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; upd˙-self)
 open import Base.Nat using (ℕ)
+open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Envᴳ; Resᴳ; inj˙;
   ✓˙-respᴱ; inj˙-≈; inj˙-∙; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝; ✓-inj˙)
@@ -273,6 +274,29 @@ abstract
   ∗ᵒ⊎ᵒ-out :  Pᵒ ∗ᵒ (Qᵒ ⊎ᵒ Rᵒ)  ⊨  (Pᵒ ∗ᵒ Qᵒ) ⊎ᵒ (Pᵒ ∗ᵒ Rᵒ)
   ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₀ Qc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Qc)
   ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₁ Rc) =  ĩ₁ (-, -, b∙c⊑a , Pb , Rc)
+
+--------------------------------------------------------------------------------
+-- [∗ᵒ] :  Iterated semantic separating conjunction
+
+[∗ᵒ] :  List (Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ] [] =  ⊤ᵒ
+[∗ᵒ] (Pᵒ ∷ Psᵒ) =  Pᵒ ∗ᵒ [∗ᵒ] Psᵒ
+
+-- Syntax for [∗ᵒ] $ᴸ / $ⁱᴸ
+
+infix 8 [∗ᵒ∈]-syntax [∗ᵒ∈ⁱ]-syntax [∗ᵒ∈ⁱ⟨⟩]-syntax
+[∗ᵒ∈] [∗ᵒ∈]-syntax :  (X → Propᵒ ł) →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ∈] P˙ xs =  [∗ᵒ] $ P˙ $ᴸ xs
+[∗ᵒ∈]-syntax =  [∗ᵒ∈]
+[∗ᵒ∈ⁱ] [∗ᵒ∈ⁱ]-syntax :  (ℕ × X → Propᵒ ł) →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ∈ⁱ] P˙ xs =  [∗ᵒ] $ curry P˙ $ⁱᴸ xs
+[∗ᵒ∈ⁱ]-syntax =  [∗ᵒ∈ⁱ]
+[∗ᵒ∈ⁱ⟨⟩] [∗ᵒ∈ⁱ⟨⟩]-syntax :  (ℕ × X → Propᵒ ł) →  ℕ →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ∈ⁱ⟨⟩] P˙ k xs =  [∗ᵒ] $ curry P˙ $ⁱᴸ⟨ k ⟩ xs
+[∗ᵒ∈ⁱ⟨⟩]-syntax =  [∗ᵒ∈ⁱ⟨⟩]
+syntax [∗ᵒ∈]-syntax (λ x → Pᵒ) xs =  [∗ᵒ x ∈ xs ] Pᵒ
+syntax [∗ᵒ∈ⁱ]-syntax (λ ix → Pᵒ) xs =  [∗ᵒ ix ∈ⁱ xs ] Pᵒ
+syntax [∗ᵒ∈ⁱ⟨⟩]-syntax (λ ix → Pᵒ) k xs =  [∗ᵒ ix ∈ⁱ⟨ k ⟩ xs ] Pᵒ
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Semantic magic wand

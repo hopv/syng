@@ -37,13 +37,13 @@ private variable
   i j n :  ℕ
 
 --------------------------------------------------------------------------------
--- Singleton list
+-- [  ] :  Singleton list
 
 [_] :  A →  List A
 [ a ] =  a ∷ []
 
 --------------------------------------------------------------------------------
--- Append
+-- ⧺ :  Concatenate lists
 
 infixr 5 _⧺_
 _⧺_ :  List A →  List A →  List A
@@ -68,7 +68,7 @@ abstract
   ⧺-≡[] {as = []} {bs = []} _ =  refl , refl
 
 --------------------------------------------------------------------------------
--- Length
+-- len :  Length of a list
 
 len :  List A →  ℕ
 len [] =  0
@@ -77,7 +77,7 @@ len (_ ∷ as) =  ṡ len as
 --------------------------------------------------------------------------------
 -- Map
 
--- $ⁱᴸ :  Map
+-- $ᴸ :  Map
 
 infixr -1 _$ᴸ_
 _$ᴸ_ :  (A → B) →  List A →  List B
@@ -151,7 +151,7 @@ abstract
     upd-‼-out {as = as'} λ{ refl → j≢i refl }
 
 --------------------------------------------------------------------------------
--- rep :  Repeat
+-- rep :  List made by repeating an element n times
 
 rep :  ℕ →  A →  List A
 rep 0 _ =  []
@@ -327,7 +327,9 @@ abstract
 
 infixr 5 _∷⁺_
 data  List⁺ (A : Set ł) :  Set ł  where
+  -- Singleton
   [_]⁺ :  A →  List⁺ A
+  -- Cons
   _∷⁺_ :  A →  List⁺ A →  List⁺ A
 
 -- Conversion between List⁺ and List

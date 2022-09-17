@@ -29,14 +29,20 @@ private variable
   A B :  Set ł
   a b :  A
 
+-- ¿-case :  Case analysis of ¿
+
 ¿-case :  (A → B) →  B →  ¿ A →  B
 ¿-case f _ (š a) =  f a
 ¿-case _ b ň =  b
+
+-- $¿ :  Map over an option
 
 infixr -1 _$¿_
 _$¿_ :  (A → B) →  ¿ A →  ¿ B
 f $¿ š a =  š f a
 f $¿ ň =  ň
+
+-- »-¿ :  Bind over an option
 
 infixr -1 _»-¿_
 _»-¿_ :  ¿ A →  (A → ¿ B) →  ¿ B

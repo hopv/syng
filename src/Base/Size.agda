@@ -34,6 +34,8 @@ open import Agda.Builtin.Size public using (
 infix 8 ¡_
 record  Thunk {ł : Level} (F : Size → Set ł) (ι : Size) :  Set ł  where
   coinductive
+
+  -- ¡ :  Construct a thunk
   constructor ¡_
 
   -- ! :  Force Thunk F ι into F ι' for any ι' < ι

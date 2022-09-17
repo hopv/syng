@@ -163,7 +163,7 @@ abstract
   ✓ᶠʳ-free {aˇ = š _} {x = š _} (1+p≤1 ,-) =  absurd $ ¬1+?≤1ᴿ⁺ 1+p≤1
 
   -- Update aˇ into š c and š (1ᴿ⁺ , bs) into š (1ᴿ⁺ , [ c ]),
-  -- preserving ✓ᶠʳ x ∙ᶠʳ
+  -- preserving ✓ᶠʳ - ∙ᶠʳ x
 
   ✓ᶠʳ-update :  aˇ ✓ᶠʳ š (1ᴿ⁺ , bs) ∙ᶠʳ x  →  š c ✓ᶠʳ š (1ᴿ⁺ , [ c ]) ∙ᶠʳ x
   ✓ᶠʳ-update {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-alloc {x = x}

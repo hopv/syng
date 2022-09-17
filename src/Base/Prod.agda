@@ -47,7 +47,7 @@ pattern _,- a =  a , _
 
 abstract
 
-  -- Case analysis on ∑
+  -- Case analysis of ∑
 
   ∑-case :  (∀ a →  B˙ a → C) →  ∑˙ A B˙ →  C
   ∑-case Ba⇒C (a , b) =  Ba⇒C a b
@@ -59,7 +59,7 @@ infixr 1 _×_
 _×_ :  Set ł →  Set ł' →  Set (ł ⊔ᴸ ł')
 A × B =  ∑ _ ∈ A , B
 
--- Curry and uncurry
+-- curry/uncurry :  Curry and uncurry
 
 curry :  (A × B → C) →  (A → B → C)
 curry f a b =  f (a , b)
@@ -68,6 +68,8 @@ uncurry :  (A → B → C) →  (A × B → C)
 uncurry f (a , b) =  f a b
 
 instance
+
+  -- Instance search for ×
 
   ,-it :  {{A}} →  {{B}} →  A × B
   ,-it =  it , it
@@ -91,7 +93,7 @@ syntax ∑ᴵ-syntax (λ a → B) =  ∑ᴵ a , B
 
 abstract
 
-  -- Case analysis on ∑ᴵ
+  -- Case analysis of ∑ᴵ
 
   ∑ᴵ-case :  (∀{{a}} →  B˙ a → C) →  ∑ᴵ˙ A B˙ →  C
   ∑ᴵ-case Ba⇒C (-ᴵ, b) =  Ba⇒C b

@@ -28,6 +28,7 @@ private variable
   f g h :  ∀ a → B˙ a
 
 -- Negation of _≡_
+
 infix 4 _≢_
 _≢_ :  ∀{A : Set ł} →  A →  A →  Set ł
 x ≢ y =  ¬  x ≡ y

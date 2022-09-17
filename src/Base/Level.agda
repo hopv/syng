@@ -33,7 +33,8 @@ open import Agda.Primitive public using (
 
 infix 8 ↑_
 record  Up {ł : Level} (A : Set ł) {ł' : Level} :  Set (ł ⊔ᴸ ł')  where
-  -- ↑/↓ : Wrap into / unwrap from Up
+  -- ↑ :  Wrap into Up
   constructor ↑_
+  -- ↓ :  Unwrap from Up
   field  ↓ :  A
 open Up public

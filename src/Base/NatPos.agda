@@ -93,7 +93,7 @@ abstract
   <⁺⇒≤⁺ :  m <⁺ n →  m ≤⁺ n
   <⁺⇒≤⁺ =  <⇒≤
 
-  -- Composing ≤⁺ and <⁺
+  -- Compose ≤⁺ and <⁺
 
   ≤⁺-<⁺-trans :  l ≤⁺ m →  m <⁺ n →  l <⁺ n
   ≤⁺-<⁺-trans =   ≤-<-trans

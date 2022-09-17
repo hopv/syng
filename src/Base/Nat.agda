@@ -247,7 +247,7 @@ open import Agda.Builtin.Nat public using (
 
 abstract
 
-  -- Clearing the right-hand side of +
+  -- Clear the right-hand side of +
 
   +-0 :  n + 0 ≡ n
   +-0 {0} =  refl

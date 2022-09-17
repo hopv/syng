@@ -61,9 +61,9 @@ infix 8 ◸_
 infixr 4 _↷_
 
 data  Type :  Set₁  where
-  -- Embedding a pure type
+  -- Pure type
   ◸_ :  Set₀ →  Type
-  -- Function
+  -- Function type
   _↷_ :  Set₀ →  Type →  Type
 
 private variable

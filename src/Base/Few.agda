@@ -30,6 +30,8 @@ binary _ b 1₂ =  b
 record  ⊤ {ł} :  Set ł  where
   instance constructor 0⊤
 
+-- ⊤ of level 0
+
 ⊤₀ :  Set₀
 ⊤₀ =  ⊤
 
@@ -37,6 +39,8 @@ record  ⊤ {ł} :  Set ł  where
 -- ⊥ :  0-element set / empty set / falsehood
 
 data  ⊥ {ł} :  Set ł  where
+
+-- ⊥ of level 0
 
 ⊥₀ :  Set₀
 ⊥₀ =  ⊥
@@ -53,12 +57,12 @@ infix 3 ¬_
 ¬_ :  Set ł → Set ł
 ¬ A =  A →  ⊥₀
 
--- Introducing ¬¬
+-- Introduce ¬¬
 
 ⇒¬¬ :  A →  ¬ ¬ A
 ⇒¬¬ a ¬a =  ¬a a
 
--- Squashing ¬¬¬ into ¬
+-- Squash ¬¬¬ into ¬
 
 ¬¬¬⇒¬ :  ¬ ¬ ¬ A →  ¬ A
 ¬¬¬⇒¬ ¬¬¬a a =  ¬¬¬a (⇒¬¬ a)

@@ -161,10 +161,10 @@ following parts.
             of the logic's super-update sequent.
     + [`Hor/`](src/Syho/Model/Hor/) ― **The semantic model and soundness proof
         of the Hoare triple.**
-        * [`Mem`](src/Syho/Model/Hor/Mem.agda) for the super update on the 
+        * [`Mem`](src/Syho/Model/Hor/Mem.agda) for the super update on the
             memory.
 
-## Meta-logic 
+## Meta-logic
 
 As the meta-logic of Syho, we use **Agda**, under the options
 **`--without-K --sized-types`**, **without any extra axioms**.

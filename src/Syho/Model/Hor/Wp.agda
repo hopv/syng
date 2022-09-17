@@ -58,8 +58,12 @@ data  ⁺⟨_⟩[_]ᴾᵒ_  where
 
 abstract
 
+  -- Invert ⁺⟨⟩ᴾᵒ-val
+
   ⁺⟨⟩ᴾᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩[ ι ]ᴾᵒ Pᵒ˙  ⊨  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v
   ⁺⟨⟩ᴾᵒ-val⁻¹ (⁺⟨⟩ᴾᵒ-val M⇛MPv) =  M⇛MPv
+
+  -- Invert ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᴾᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩[ ι ]ᴾᵒ Pᵒ˙  ⊨
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
@@ -67,11 +71,15 @@ abstract
                     ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙)
   ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr big) =  big
 
+  -- ⁺⟨⟩ᴾᵒ absorbs ⇛ᵒ outside itself
+
   ⇛ᵒ-⁺⟨⟩ᴾᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙  ⊨  ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙
   ⇛ᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} ⇛⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ M →
     ⇛⟨v⟩P M ▷ ⇛ᵍ-mono (⁺⟨⟩ᴾᵒ-val⁻¹ › _$ M) ▷ ⇛ᵒ-join
   ⇛ᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} {a = a} ⇛⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M →
     ⇛⟨kr⟩P M ▷ ⇛ᵍ-mono (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ M) › ⇛ᵒ'⇒⇛ᵒ) ▷ ⇛ᵒ-join ▷ ⇛ᵒ⇒⇛ᵒ'
+
+  -- ⁺⟨⟩ᴾᵒ absorbs ⇛ᵒ inside itself
 
   ⁺⟨⟩ᴾᵒ-⇛ᵒ :  ⁺⟨ vk ⟩[ ι ]ᴾᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
                 ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙
@@ -82,6 +90,8 @@ abstract
    where
     go :  ⟨ e ⟩[< ι ]ᴾᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙
     go big .! =  ⁺⟨⟩ᴾᵒ-⇛ᵒ (big .!)
+
+  -- ⁺⟨⟩ᴾᵒ can eat a proposition
 
   ⁺⟨⟩ᴾᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙)  ⊨  ⁺⟨ vk ⟩[ ι ]ᴾᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₀ _} Q∗⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ M → Q∗⟨v⟩P ▷
@@ -122,14 +132,20 @@ data  ⁺⟨_⟩[_]ᵀᵒ_  where
 
 abstract
 
+  -- Invert ⁺⟨⟩ᵀᵒ-val
+
   ⁺⟨⟩ᵀᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩[ ι ]ᵀᵒ Pᵒ˙  ⊨  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v
   ⁺⟨⟩ᵀᵒ-val⁻¹ (⁺⟨⟩ᵀᵒ-val M⇛MPv) =  M⇛MPv
+
+  -- Invert ⁺⟨⟩ᵀᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩[ ι ]ᵀᵒ Pᵒ˙  ⊨
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                   (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
                     ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙)
   ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr big) =  big
+
+  -- Convert ⁺⟨⟩ᵀᵒ into ⁺⟨⟩ᴾᵒ
 
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ :  ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙  ⊨  ⁺⟨ vk ⟩[ ι' ]ᴾᵒ Pᵒ˙
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ (⁺⟨⟩ᵀᵒ-val M⇛MPv) =  ⁺⟨⟩ᴾᵒ-val M⇛MPv
@@ -140,11 +156,15 @@ abstract
     go :  ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙  ⊨  ⟨ e ⟩[< ι' ]ᴾᵒ Pᵒ˙
     go (§ big) .! =  ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ big
 
+  -- ⁺⟨⟩ᵀᵒ absorbs ⇛ᵒ outside itself
+
   ⇛ᵒ-⁺⟨⟩ᵀᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙  ⊨  ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙
   ⇛ᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} ⇛⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ M →
     ⇛⟨v⟩P M ▷ ⇛ᵍ-mono (⁺⟨⟩ᵀᵒ-val⁻¹ › _$ M) ▷ ⇛ᵒ-join
   ⇛ᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} {a = a} ⇛⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ M →
     ⇛⟨kr⟩P M ▷ ⇛ᵍ-mono (⁺⟨⟩ᵀᵒ-kr⁻¹ › (_$ M) › ⇛ᵒ'⇒⇛ᵒ) ▷ ⇛ᵒ-join ▷ ⇛ᵒ⇒⇛ᵒ'
+
+  -- ⁺⟨⟩ᵀᵒ absorbs ⇛ᵒ inside itself
 
   ⁺⟨⟩ᵀᵒ-⇛ᵒ :  ⁺⟨ vk ⟩[ ι ]ᵀᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
                 ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙
@@ -155,6 +175,8 @@ abstract
    where
     go :  ⟨ e ⟩[< ι ]ᵀᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙
     go (§ big) =  § ⁺⟨⟩ᵀᵒ-⇛ᵒ big
+
+  -- ⁺⟨⟩ᵀᵒ can eat a proposition
 
   ⁺⟨⟩ᵀᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙)  ⊨  ⁺⟨ vk ⟩[ ι ]ᵀᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
   ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₀ _} Q∗⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ M → Q∗⟨v⟩P ▷

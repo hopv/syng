@@ -7,7 +7,7 @@
 module Syho.Model.Supd.Sound where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
-open import Base.Func using (_$_; _›_)
+open import Base.Func using (_$_; _›_; id)
 open import Base.Eq using (_≡_; refl)
 open import Base.Size using (∞)
 open import Base.Prod using (∑-case; _,_)
@@ -54,6 +54,12 @@ abstract
 
   ⇛ᵒ≡⇛ᵒ' :  (⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ)  ≡  (⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ)
   ⇛ᵒ≡⇛ᵒ' =  ⇛ᵍ≡⇛ᵍ'
+
+  ⇛ᵒ⇒⇛ᵒ' :  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ
+  ⇛ᵒ⇒⇛ᵒ' {M} {M'} {Pᵒ = Pᵒ}  rewrite ⇛ᵒ≡⇛ᵒ' {M} {M'} {Pᵒ = Pᵒ} =  id
+
+  ⇛ᵒ'⇒⇛ᵒ :  ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ
+  ⇛ᵒ'⇒⇛ᵒ {M} {M'} {Pᵒ = Pᵒ}  rewrite ⇛ᵒ≡⇛ᵒ' {M} {M'} {Pᵒ = Pᵒ} =  id
 
   -- ⤇ᵒ into ⇛ᵍ
 

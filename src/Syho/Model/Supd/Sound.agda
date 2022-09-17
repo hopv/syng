@@ -18,7 +18,8 @@ open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_»_; ∃₁-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⤇ᵒ_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
+open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⤇ᵒ_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out;
+  ⤇ᵒ-intro)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⊨✓⇛ᵍ⇒⊨⇛ᵍ;
@@ -65,6 +66,11 @@ abstract
 
   ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
   ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍ $ upd˙²-self λ ()
+
+  -- Introduce ⇛ᵍ
+
+  ⇛ᵒ-intro :  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
+  ⇛ᵒ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵒ
 
   -- Join ⇛ᵒ
 

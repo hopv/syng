@@ -146,13 +146,13 @@ P ∨ Q =  ∃₁˙ (binary P Q)
 
 infix 8 [∗∈]-syntax [∗∈ⁱ]-syntax [∗∈ⁱ⟨⟩]-syntax
 [∗∈] [∗∈]-syntax :  (X → Prop' ι) →  List X →  Prop' ι
-[∗∈] P˙ xs =  [∗] (P˙ $ᴸ xs)
+[∗∈] P˙ xs =  [∗] $ P˙ $ᴸ xs
 [∗∈]-syntax =  [∗∈]
 [∗∈ⁱ] [∗∈ⁱ]-syntax :  (ℕ × X → Prop' ι) →  List X →  Prop' ι
-[∗∈ⁱ] P˙ xs =  [∗] (curry P˙ $ⁱᴸ xs)
+[∗∈ⁱ] P˙ xs =  [∗] $ curry P˙ $ⁱᴸ xs
 [∗∈ⁱ]-syntax =  [∗∈ⁱ]
 [∗∈ⁱ⟨⟩] [∗∈ⁱ⟨⟩]-syntax :  (ℕ × X → Prop' ι) →  ℕ →  List X →  Prop' ι
-[∗∈ⁱ⟨⟩] P˙ k xs =  [∗] (curry P˙ $ⁱᴸ⟨ k ⟩ xs)
+[∗∈ⁱ⟨⟩] P˙ k xs =  [∗] $ curry P˙ $ⁱᴸ⟨ k ⟩ xs
 [∗∈ⁱ⟨⟩]-syntax =  [∗∈ⁱ⟨⟩]
 syntax [∗∈]-syntax (λ x → P) xs =  [∗ x ∈ xs ] P
 syntax [∗∈ⁱ]-syntax (λ ix → P) xs =  [∗ ix ∈ⁱ xs ] P

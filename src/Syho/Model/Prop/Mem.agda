@@ -9,24 +9,26 @@ module Syho.Model.Prop.Mem where
 open import Base.Level using (2ᴸ)
 open import Base.Func using (_$_; _›_)
 open import Base.Eq using (_≡_)
-open import Base.Prod using (-,_)
-open import Base.Nat using (ℕ)
-open import Base.List using (List)
+open import Base.Prod using (_,_; -,_)
+open import Base.Nat using (ℕ; +-0)
+open import Base.List using (List; []; _∷_)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; addr; TyVal)
+open import Syho.Lang.Expr using (Addr; addr; _ₒ_; TyVal)
 open import Syho.Model.ERA.Exc using (?ˣ)
-open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ◠˜ᴹᵉᵐ_; _↦⟨_⟩ʳ_; freeʳ; _↦ᴸʳ_;
-  ↦⟨⟩ʳ-agree; ↦⟨⟩ʳ-≤1; ↦⟨⟩ʳ-∙)
+open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ◠˜ᴹᵉᵐ_; [∙ᴹᵉᵐ∈ⁱ]-syntax;
+  [∙ᴹᵉᵐ∈ⁱ⟨⟩]-syntax; _↦⟨_⟩ʳ_; _↦ʳ_; freeʳ; _↦ᴸʳ_; ↦⟨⟩ʳ-agree; ↦⟨⟩ʳ-≤1; ↦⟨⟩ʳ-∙;
+  [∙∈ⁱ]↦≈↦ᴸʳ)
 open import Syho.Model.ERA.Glob using (iᴹᵉᵐ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
-  ∃ᵒ∈-syntax; ⌜_⌝ᵒ; _∗ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ◎-Mono; ◎⟨⟩-cong; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ;
-  ◎⟨⟩-✓)
+  ∃ᵒ∈-syntax; ⌜_⌝ᵒ; _∗ᵒ_; [∗ᵒ∈ⁱ]-syntax; [∗ᵒ∈ⁱ⟨⟩]-syntax; ◎⟨_⟩_; ∃ᵒ-Mono;
+  ∗ᵒ-monoʳ; ◎-Mono; ◎⟨⟩-cong; ◎⟨⟩-ε; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓)
 
 private variable
-  n :  ℕ
+  i k n o :  ℕ
   θ :  Addr
   p q :  ℚ⁺
   ᵗu ᵗv :  TyVal
+  ᵗvs :  List TyVal
 
 --------------------------------------------------------------------------------
 -- Interpret the points-to and freeing tokens
@@ -78,3 +80,30 @@ abstract
 
   ↦⟨⟩ᵒ-split :  θ ↦⟨ p +ᴿ⁺ q ⟩ᵒ ᵗv  ⊨  θ ↦⟨ p ⟩ᵒ ᵗv  ∗ᵒ  θ ↦⟨ q ⟩ᵒ ᵗv
   ↦⟨⟩ᵒ-split =  ◎⟨⟩-cong (◠˜ᴹᵉᵐ ↦⟨⟩ʳ-∙) › ◎⟨⟩-∙⇒∗ᵒ
+
+  -- [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv  agrees with
+  -- ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] addr o i ↦ʳ ᵗv
+
+  [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ :
+    [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv  ⊨
+      ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv
+  [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {ᵗvs = []} _ =  ◎⟨⟩-ε
+  [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {k} {_ ∷ ᵗvs'}  rewrite +-0 {k} =
+    ∗ᵒ-monoʳ ([∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {ᵗvs = ᵗvs'}) › ◎⟨⟩-∗ᵒ⇒∙
+
+  ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ :
+    ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv  ⊨
+      [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv
+  ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {ᵗvs = []} _ =  _
+  ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {k} {_ ∷ ᵗvs'}  rewrite +-0 {k} =
+    ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoʳ $ ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {ᵗvs = ᵗvs'}
+
+  -- [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv  agrees with  o ↦ᴸᵒ ᵗvs
+
+  [∗ᵒ∈ⁱ]ₒ↦ᵒ⇒↦ᴸᵒ :  [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv  ⊨  o ↦ᴸᵒ ᵗvs
+  [∗ᵒ∈ⁱ]ₒ↦ᵒ⇒↦ᴸᵒ {ᵗvs = ᵗvs} =  [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {ᵗvs = ᵗvs} ›
+    ◎⟨⟩-cong $ [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs = ᵗvs}
+
+  ↦ᴸᵒ⇒[∗ᵒ∈ⁱ]ₒ↦ᵒ :  o ↦ᴸᵒ ᵗvs  ⊨  [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv
+  ↦ᴸᵒ⇒[∗ᵒ∈ⁱ]ₒ↦ᵒ {ᵗvs = ᵗvs} =  ◎⟨⟩-cong (◠˜ᴹᵉᵐ [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs = ᵗvs}) ›
+    ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {ᵗvs = ᵗvs}

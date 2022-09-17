@@ -69,11 +69,11 @@ abstract
 
   -- Utility for making ⇛ᵍ
 
-  ⇛ᵍ-make :  (∀ E →  Pᵒ ∗ᵒ Inv (get E) ⊨✓
+  ⇛ᵍ-make :  (∀{E} →  Pᵒ ∗ᵒ Inv (get E)  ⊨✓
                envᴳ M E ⤇ᴱ λ x → envᴳ M' $ set x E , Qᵒ ∗ᵒ Inv x) →
              Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Qᵒ
-  ⇛ᵍ-make {Pᵒ = Pᵒ} Inv∗P⊨✓⤇Inv∗Q =
-    ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro λ ✓∙ → ∗ᵒ-comm › Inv∗P⊨✓⤇Inv∗Q _ ✓∙
+  ⇛ᵍ-make {Pᵒ = Pᵒ} P∗Inv⊨✓⤇Q∗Inv =
+    ∀ᵒ-intro {Pᵒ = Pᵒ} λ _ → -∗ᵒ-intro λ ✓∙ → ∗ᵒ-comm › P∗Inv⊨✓⤇Q∗Inv ✓∙
 
   -- Apply ⇛ᵍ
 
@@ -84,14 +84,14 @@ abstract
   -- ⊨✓ ⇛ᵍ into ⊨ ⇛ᵍ
 
   ⊨✓⇛ᵍ⇒⊨⇛ᵍ :  Pᵒ ⊨✓ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ
-  ⊨✓⇛ᵍ⇒⊨⇛ᵍ {Pᵒ = Pᵒ} P⊨✓⇛Q =  ⇛ᵍ-make {Pᵒ = Pᵒ} λ _ ✓∙ →
+  ⊨✓⇛ᵍ⇒⊨⇛ᵍ {Pᵒ = Pᵒ} P⊨✓⇛Q =  ⇛ᵍ-make {Pᵒ = Pᵒ} λ ✓∙ →
     ∗ᵒ-mono✓ˡ P⊨✓⇛Q ✓∙ › ⇛ᵍ-apply ✓∙
 
   -- Introduce ⇛ᵍ
 
   ⤇ᵒ⇒⇛ᵍ :  (∀{E} → set (get E) E ≡˙ E) →
            ⤇ᵒ Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M ⟩ Pᵒ
-  ⤇ᵒ⇒⇛ᵍ setget≡ =  ⇛ᵍ-make λ _ _ →
+  ⤇ᵒ⇒⇛ᵍ setget≡ =  ⇛ᵍ-make λ _ →
     ⤇ᵒ-eatʳ › ⤇ᵒ⇒⤇ᴱ › ⤇ᴱ-respᴱˡ (envᴳ-cong setget≡) › ⤇ᴱ-param
 
   ⇛ᵍ-intro :  (∀{E} → set (get E) E ≡˙ E) →
@@ -105,8 +105,8 @@ abstract
     ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⟨ M' ⟩[ get , set , Inv ]⇛ᵍ⟨ M'' ⟩ Pᵒ  ⊨
       ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M'' ⟩ Pᵒ
   ⇛ᵍ-join {Inv = Inv} getset≡ setset≡set =
-    ⇛ᵍ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᵍ⟨ _ ⟩ _} λ E ✓∙ → ⇛ᵍ-apply ✓∙ ›
-    ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoʳ (subst₂ Inv (◠ getset≡ {E}) refl) › ⇛ᵍ-apply ✓∙)
+    ⇛ᵍ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᵍ⟨ _ ⟩ _} λ ✓∙ → ⇛ᵍ-apply ✓∙ ›
+    ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoʳ (subst₂ Inv (◠ getset≡) refl) › ⇛ᵍ-apply ✓∙)
     › ⤇ᴱ-join › ⤇ᴱ-respᴱʳ (envᴳ-cong setset≡set) › ⤇ᴱ-param
 
   -- Join two different ⇛ᵍs
@@ -116,7 +116,7 @@ abstract
       ⟨ M ⟩[ (λ E → (get E , get' E)) , (λ (x , y) → set x › set' y) ,
              (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵍ⟨ M'' ⟩ Pᵒ
   ⇛ᵍ-join2 {Inv' = Inv'} get'set≡get' =  ⇛ᵍ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᵍ⟨ _ ⟩ _}
-    λ _ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ ⇛ᵍ-apply ✓∙ › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
+    λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ ⇛ᵍ-apply ✓∙ › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
       ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ
         (λ ✓∙ → ∗ᵒ-monoʳ (subst₂ Inv' (◠ get'set≡get') refl) › ⇛ᵍ-apply ✓∙) ✓∙ ›
       ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-join
@@ -124,7 +124,7 @@ abstract
   -- Let ⇛ᵍ eat a proposition under ∗ᵒ
 
   ⇛ᵍ-eatˡ :  Pᵒ ∗ᵒ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ (Pᵒ ∗ᵒ Qᵒ)
-  ⇛ᵍ-eatˡ =  ⇛ᵍ-make {Pᵒ = _ ∗ᵒ _} λ _ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵍ-apply ✓∙ ›
+  ⇛ᵍ-eatˡ =  ⇛ᵍ-make {Pᵒ = _ ∗ᵒ _} λ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵍ-apply ✓∙ ›
     ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
 
   ⇛ᵍ-eatʳ :  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ ∗ᵒ Qᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ (Pᵒ ∗ᵒ Qᵒ)

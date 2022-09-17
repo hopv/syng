@@ -13,6 +13,7 @@ open import Base.Eq using (_≡_; _≢_; refl; cong)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
+open import Base.Inh using (Inh; any)
 open import Base.Nat using (ℕ; ṡ_; _<_; ṡ-inj)
 
 --------------------------------------------------------------------------------
@@ -35,6 +36,13 @@ private variable
   a b :  A
   as bs cs :  List A
   i j n :  ℕ
+
+instance
+
+  -- List A is inhabited
+
+  List-Inh :  Inh $ List A
+  List-Inh .any =  []
 
 --------------------------------------------------------------------------------
 -- [  ] :  Singleton list

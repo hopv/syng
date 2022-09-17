@@ -89,6 +89,7 @@ The library consists of the following parts.
     [`Sum`](src/Base/Sum.agda) for sum types;
     [`Option`](src/Base/Option.agda) for option types;
     [`Dec`](src/Base/Dec.agda) for decidability;
+    [`Inh`](src/Base/Inh.agda) for inhabitance;
     [`Nat`](src/Base/Nat.agda) for natural numbers;
     [`NatPos`](src/Base/NatPos.agda) for positive natural numbers;
     [`List`](src/Base/List.agda) for singly linked lists;

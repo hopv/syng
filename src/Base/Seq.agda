@@ -8,6 +8,8 @@ module Base.Seq where
 
 open import Base.Level using (Level)
 open import Base.Size using (Size; ∞; Thunk; !)
+open import Base.Func using (_$_)
+open import Base.Inh using (Inh; any)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List⁺; [_]⁺; _∷⁺_)
 
@@ -40,6 +42,13 @@ hdˢ (a ∷ˢ _) =  a
 
 tlˢ :  Seq A ι →  Seq˂ A ι
 tlˢ (_ ∷ˢ as) =  as
+
+instance
+
+  -- Seq A is inhabited if A is inhabited
+
+  Seq-Inh :  {{Inh A}} →  Inh $ Seq A ι
+  Seq-Inh .any =  any ∷ˢ λ{ .! → any }
 
 --------------------------------------------------------------------------------
 -- ‼ˢ :  Index read

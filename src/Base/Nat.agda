@@ -13,6 +13,7 @@ open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≡?_; upd˙)
+open import Base.Inh using (Inh; any)
 
 --------------------------------------------------------------------------------
 -- ℕ :  Natural number
@@ -42,6 +43,13 @@ abstract
 
   ṡ-inj :  ṡ m ≡ ṡ n →  m ≡ n
   ṡ-inj refl =  refl
+
+instance
+
+  -- ℕ is inhabited
+
+  ℕ-Inh :  Inh ℕ
+  ℕ-Inh .any =  0
 
 --------------------------------------------------------------------------------
 -- ≤, <, ≤ᵈ, <ᵈ :  Order

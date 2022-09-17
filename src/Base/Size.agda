@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Size and thunk
+-- Size, thunk and shrunk
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -43,3 +43,11 @@ record  Thunk {ł : Level} (F : Size → Set ł) (ι : Size) :  Set ł  where
   field  ! :  {ι' : Size< ι} →  F ι'
 
 open Thunk public
+
+--------------------------------------------------------------------------------
+-- Shrunk, for inductive data types
+
+infix 8 §_
+data  Shrunk {ł : Level} (F : Size → Set ł) (ι : Size) :  Set ł  where
+  -- Construct a shrunk
+  §_ :  {ι' : Size< ι} →  F ι' →  Shrunk F ι

@@ -83,7 +83,8 @@ The library consists of the following parts.
     [`Func`](src/Base/Func.agda) for functions;
     [`Few`](src/Base/Eq.agda) for two-, one- and zero-element sets;
     [`Eq`](src/Base/Eq.agda) for equality;
-    [`Size`](src/Base/Size.agda) for sizes (modeling ordinals) and thunks.
+    [`Size`](src/Base/Size.agda) for sizes (modeling ordinals), thunks and
+        shrunks.
 - **Data types** ―
     [`Prod`](src/Base/Prod.agda) for sigma and product types;
     [`Sum`](src/Base/Sum.agda) for sum types;

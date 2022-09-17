@@ -82,7 +82,7 @@ abstract
   -- ⁺⟨⟩ᴾᵒ absorbs ⇛ᵒ inside itself
 
   ⁺⟨⟩ᴾᵒ-⇛ᵒ :  ⁺⟨ vk ⟩[ ι ]ᴾᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
-                ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙
+              ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙
   ⁺⟨⟩ᴾᵒ-⇛ᵒ (⁺⟨⟩ᴾᵒ-val big) =  ⁺⟨⟩ᴾᵒ-val λ M → big M ▷ ⇛ᵍ-mono (_$ M) ▷ ⇛ᵒ-join
   ⁺⟨⟩ᴾᵒ-⇛ᵒ (⁺⟨⟩ᴾᵒ-kr big) =  ⁺⟨⟩ᴾᵒ-kr λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵍ-mono
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ ▷
@@ -167,7 +167,7 @@ abstract
   -- ⁺⟨⟩ᵀᵒ absorbs ⇛ᵒ inside itself
 
   ⁺⟨⟩ᵀᵒ-⇛ᵒ :  ⁺⟨ vk ⟩[ ι ]ᵀᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
-                ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙
+              ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙
   ⁺⟨⟩ᵀᵒ-⇛ᵒ (⁺⟨⟩ᵀᵒ-val big) =  ⁺⟨⟩ᵀᵒ-val λ M → big M ▷ ⇛ᵍ-mono (_$ M) ▷ ⇛ᵒ-join
   ⁺⟨⟩ᵀᵒ-⇛ᵒ (⁺⟨⟩ᵀᵒ-kr big) =  ⁺⟨⟩ᵀᵒ-kr λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵍ-mono
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ ▷

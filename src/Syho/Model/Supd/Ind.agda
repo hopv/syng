@@ -22,7 +22,7 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (indˣ-alloc; indˣ-use; indᵖ-alloc;
   indᵖ-use; Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; upd˙-envᴳ)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; upd˙-out-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ∃ᵒ-syntax; ∃ᵒ∈-syntax; _∗ᵒ_;
   _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ;
   ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ; -∗ᵒ-apply;
@@ -71,7 +71,8 @@ abstract
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M ⟩  Indˣ P
   Indˣ-alloc =  ⇛ᵍ-make λ _ → ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) Invᵍ-add-š) › ⤇ᴱ-respᴱʳ upd˙-envᴳ › ⤇ᴱ-param
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) Invᵍ-add-š) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ ›
+    ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
@@ -79,7 +80,7 @@ abstract
   Indˣ-use =  ⇛ᵍ-make λ _ → ∃ᵒ∗ᵒ-out › ∑-case λ _ →
     ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} indˣ-use) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (≡šP , i<n) → ∗ᵒ-elimʳ Invᵍ-Mono › Invᵍ-rem-< ≡šP i<n }) ›
-    ⤇ᴱ-respᴱʳ upd˙-envᴳ › ⤇ᴱ-param
+    ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
 -- On Indᵖᴱᴿᴬ
@@ -106,7 +107,7 @@ abstract
       ∗ᵒ-monoˡ (◎⟨⟩-⌞⌟≡-□ᵒ refl › dup-□ᵒ ◎-Mono › ∗ᵒ-mono (-,_) (-,_)) ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
-        Invᵍ-add-š) ✓∙) › ⤇ᴱ-respᴱʳ upd˙-envᴳ › ⤇ᴱ-param
+        Invᵍ-add-š) ✓∙) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param
 
   -- Use Indᵖ P to get P
 
@@ -115,7 +116,7 @@ abstract
     ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ indᵖ-use) › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ{ (≡šP , i<n) →
       ∗ᵒ-elimʳ (□ᵒ-Mono Invᵍ-Mono) › dup-□ᵒ Invᵍ-Mono › ∗ᵒ-monoˡ $
       □ᵒ-elim Invᵍ-Mono › Invᵍ-rem-< ≡šP i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) ›
-    ⤇ᴱ-respᴱʳ upd˙-envᴳ › ⤇ᴱ-param
+    ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
 -- On Indˣᴱᴿᴬ and Indᵖᴱᴿᴬ

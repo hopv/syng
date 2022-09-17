@@ -98,8 +98,8 @@ abstract
   envᴳ-cong _ iᴹᵉᵐ =  refl
   envᴳ-cong E≡F (outᴳ j) =  E≡F j
 
-  upd˙-envᴳ :  upd˙ (outᴳ j) Fʲ (envᴳ M Eᴵⁿ) ≡˙ envᴳ M (upd˙ j Fʲ Eᴵⁿ)
-  upd˙-envᴳ iᴹᵉᵐ =  refl
-  upd˙-envᴳ {j} (outᴳ k)  with k ≡? j
+  upd˙-out-envᴳ :  upd˙ (outᴳ j) Fʲ (envᴳ M Eᴵⁿ)  ≡˙  envᴳ M (upd˙ j Fʲ Eᴵⁿ)
+  upd˙-out-envᴳ iᴹᵉᵐ =  refl
+  upd˙-out-envᴳ {j} (outᴳ k)  with k ≡? j
   … | yes refl =  refl
   … | no _ = refl

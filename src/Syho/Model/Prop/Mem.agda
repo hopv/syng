@@ -50,11 +50,15 @@ _↦ᵒ_ :  Addr →  TyVal →  Propᵒ 2ᴸ
 Freeᵒ :  ℕ →  Addr →  Propᵒ 2ᴸ
 Freeᵒ n θ =  ∃ᵒ o , ∃ᵒ _ ∈ θ ≡ addr o 0 , ◎⟨ iᴹᵉᵐ ⟩ freeʳ n o
 
--- ↦ᴸᵒ :  Interpret the points-to token over a list of values
+-- ↦ᴸᵒ, ↦ᴸᵒ' :  Interpret the points-to token over a list of values
 
-infix 9 _↦ᴸᵒ_
-_↦ᴸᵒ_ :  ℕ →  List TyVal →  Propᵒ 2ᴸ
-o ↦ᴸᵒ ᵗvs =  ◎⟨ iᴹᵉᵐ ⟩ o ↦ᴸʳ ᵗvs
+infix 9 _↦ᴸᵒ_ _↦ᴸᵒ'_
+
+_↦ᴸᵒ_ :  Addr →  List TyVal →  Propᵒ 2ᴸ
+θ ↦ᴸᵒ ᵗvs =  [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] θ ₒ i ↦ᵒ ᵗv
+
+_↦ᴸᵒ'_ :  ℕ →  List TyVal →  Propᵒ 2ᴸ
+o ↦ᴸᵒ' ᵗvs =  ◎⟨ iᴹᵉᵐ ⟩ o ↦ᴸʳ ᵗvs
 
 abstract
 
@@ -98,12 +102,12 @@ abstract
   ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {k} {_ ∷ ᵗvs'}  rewrite +-0 {k} =
     ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoʳ $ ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {ᵗvs = ᵗvs'}
 
-  -- [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv  agrees with  o ↦ᴸᵒ ᵗvs
+  -- addr o 0 ↦ᴸᵒ ᵗvs  agrees with  o ↦ᴸᵒ' ᵗvs
 
-  [∗ᵒ∈ⁱ]ₒ↦ᵒ⇒↦ᴸᵒ :  [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv  ⊨  o ↦ᴸᵒ ᵗvs
-  [∗ᵒ∈ⁱ]ₒ↦ᵒ⇒↦ᴸᵒ {ᵗvs = ᵗvs} =  [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {ᵗvs = ᵗvs} ›
+  ↦ᴸᵒ⇒↦ᴸᵒ' :  addr o 0 ↦ᴸᵒ ᵗvs  ⊨  o ↦ᴸᵒ' ᵗvs
+  ↦ᴸᵒ⇒↦ᴸᵒ' {ᵗvs = ᵗvs} =  [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {ᵗvs = ᵗvs} ›
     ◎⟨⟩-cong $ [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs = ᵗvs}
 
-  ↦ᴸᵒ⇒[∗ᵒ∈ⁱ]ₒ↦ᵒ :  o ↦ᴸᵒ ᵗvs  ⊨  [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv
-  ↦ᴸᵒ⇒[∗ᵒ∈ⁱ]ₒ↦ᵒ {ᵗvs = ᵗvs} =  ◎⟨⟩-cong (◠˜ᴹᵉᵐ [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs = ᵗvs}) ›
+  ↦ᴸᵒ'⇒↦ᴸᵒ :  o ↦ᴸᵒ' ᵗvs  ⊨  addr o 0 ↦ᴸᵒ ᵗvs
+  ↦ᴸᵒ'⇒↦ᴸᵒ {ᵗvs = ᵗvs} =  ◎⟨⟩-cong (◠˜ᴹᵉᵐ [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs = ᵗvs}) ›
     ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {ᵗvs = ᵗvs}

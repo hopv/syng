@@ -88,9 +88,9 @@ private variable
   n :  ℕ
   kr :  Ktxred T
 
-infix 4 _⇒ᴿ_ _⇒ᴷᴿ_
+infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_
 
--- Reduction on a redex
+-- ⇒ᴿ :  Reduction of a redex
 
 data  _⇒ᴿ_ :  ∀{T} →  Redex T × Mem →  Expr ∞ T × Mem →  Set₁  where
   ▶-red :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
@@ -103,12 +103,12 @@ data  _⇒ᴿ_ :  ∀{T} →  Redex T × Mem →  Expr ∞ T × Mem →  Set₁ 
     (allocᴿ n , M) ⇒ᴿ (∇ addr o 0 , upd˙ o (š rep n ⊤ṽ) M)
   free-red :  (freeᴿ (addr o 0) , M) ⇒ᴿ (∇ _ , upd˙ o ň M)
 
--- Reduction on a context-redex pair
+-- ⇒ᴷᴿ :  Reduction of a context-redex pair
 
 data  _⇒ᴷᴿ_ {T} :  Ktxred T × Mem →  Expr ∞ T × Mem →  Set₁  where
   redᴷᴿ :  (red , M) ⇒ᴿ (e' , M') →  (K ᴷ| red , M) ⇒ᴷᴿ (K ᴷ◁ e' , M')
 
--- Reduction on an expression
+-- ⇒ᴱ :  Reduction of an expression
 
 data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
   redᴱ :  val/ktxred e ≡ ĩ₁ kr →  (kr , M) ⇒ᴷᴿ (e' , M') →

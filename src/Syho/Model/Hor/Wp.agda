@@ -14,9 +14,9 @@ open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Lang.Ktxred using (Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (Mem; _⇒ᴷᴿ_; _⇒ᴷᴿ∑)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ∀ᵒ-syntax; ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_;
-  _∗ᵒ_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
-open import Syho.Model.Supd.Base using (⇛ᵍ-mono; ⇛ᵍ-eatˡ)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ⌜_⌝ᵒ×_;
+  ⌜_⌝ᵒ→_; _∗ᵒ_; ∀ᵒ-Mono; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
+open import Syho.Model.Supd.Base using (⇛ᵍ-Mono; ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
 open import Syho.Model.Supd.Sound using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'⟨_⟩_; ⇛ᵒ⇒⇛ᵒ'; ⇛ᵒ'⇒⇛ᵒ;
   ⇛ᵒ-join)
 
@@ -80,6 +80,14 @@ abstract
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙)
   ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵍ-mono λ (krM⇒ , big) →
     krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ)
+
+  -- Monoᵒ for ⁺⟨⟩ᴾᵒ
+
+  ⁺⟨⟩ᴾᵒ-Mono :  Monoᵒ $ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-Mono {vk = ĩ₀ _} a⊑b =
+    ⁺⟨⟩ᴾᵒ-val⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵍ-Mono) a⊑b › ⁺⟨⟩ᴾᵒ-val
+  ⁺⟨⟩ᴾᵒ-Mono {vk = ĩ₁ _} a⊑b =
+    ⁺⟨⟩ᴾᵒ-kr⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵍ-Mono) a⊑b › ⁺⟨⟩ᴾᵒ-kr
 
   -- ⁺⟨⟩ᴾᵒ absorbs ⇛ᵒ outside itself
 
@@ -163,6 +171,14 @@ abstract
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙)
   ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵍ-mono λ (krM⇒ , big) →
     krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ)
+
+  -- Monoᵒ for ⁺⟨⟩ᵀᵒ
+
+  ⁺⟨⟩ᵀᵒ-Mono :  Monoᵒ $ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-Mono {vk = ĩ₀ _} a⊑b =
+    ⁺⟨⟩ᵀᵒ-val⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵍ-Mono) a⊑b › ⁺⟨⟩ᵀᵒ-val
+  ⁺⟨⟩ᵀᵒ-Mono {vk = ĩ₁ _} a⊑b =
+    ⁺⟨⟩ᵀᵒ-kr⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵍ-Mono) a⊑b › ⁺⟨⟩ᵀᵒ-kr
 
   -- Convert ⁺⟨⟩ᵀᵒ into ⁺⟨⟩ᴾᵒ
 

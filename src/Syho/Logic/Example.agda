@@ -18,7 +18,8 @@ open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝₀-intro; ∗-elimˡ; 
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; hor-nd;
-  horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏; hor-🞰; hor-←)
+  horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏)
+open import Syho.Logic.Mem using (hor-🞰; hor-←)
 open import Syho.Lang.Example using (loop; plus◁3,4; decrloop; decrloop';
   nddecrloop)
 

@@ -42,7 +42,7 @@ private variable
 --------------------------------------------------------------------------------
 -- ⇛ᵍ :  General super-update modality
 
-infix 8 ⟨_⟩[_]⇛ᵍ'⟨_⟩_ ⟨_⟩[_]⇛ᵍ⟨_⟩_
+infix 3 ⟨_⟩[_]⇛ᵍ'⟨_⟩_ ⟨_⟩[_]⇛ᵍ⟨_⟩_
 
 -- ⇛ᵍ' :  Non-abstract version of ⇛ᵍ
 
@@ -70,7 +70,7 @@ abstract
   ⇛ᵍ≡⇛ᵍ' :  ∀{X : Set ł}
     {gsI : (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł')}
     {M M' : Mem} {Pᵒ : Propᵒ ł''}  →
-    ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ  ≡  ⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ
+    (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ)  ≡  (⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ)
   ⇛ᵍ≡⇛ᵍ' {ł} {ł'} {ł''} {X}  rewrite -∗ᵒ≡-∗ᵒ' {ł'} {2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł''} |
     ⤇ᴱ≡⤇ᴱ' {ł} {2ᴸ ⊔ᴸ ł' ⊔ᴸ ł''} {X} =  refl
 
@@ -98,7 +98,7 @@ abstract
 
   -- Apply ⇛ᵍ
 
-  ⇛ᵍ-apply :  ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ ∗ᵒ Inv (get Eᴵⁿ) ⊨✓
+  ⇛ᵍ-apply :  (⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ) ∗ᵒ Inv (get Eᴵⁿ) ⊨✓
                 envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x
   ⇛ᵍ-apply ✓∙ =  ∗ᵒ-monoˡ (_$ _) › ∗ᵒ-comm › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
 
@@ -145,11 +145,11 @@ abstract
 
   -- Let ⇛ᵍ eat a proposition under ∗ᵒ
 
-  ⇛ᵍ-eatˡ :  Pᵒ ∗ᵒ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ (Pᵒ ∗ᵒ Qᵒ)
+  ⇛ᵍ-eatˡ :  Pᵒ ∗ᵒ (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ)  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ ∗ᵒ Qᵒ
   ⇛ᵍ-eatˡ =  ⇛ᵍ-make {Pᵒ = _ ∗ᵒ _} λ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ ⇛ᵍ-apply ✓∙ ›
     ⤇ᴱ-eatˡ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
 
-  ⇛ᵍ-eatʳ :  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ ∗ᵒ Qᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ (Pᵒ ∗ᵒ Qᵒ)
+  ⇛ᵍ-eatʳ :  (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ ∗ᵒ Qᵒ
   ⇛ᵍ-eatʳ =  ∗ᵒ-comm › ⇛ᵍ-eatˡ › ⇛ᵍ-mono ∗ᵒ-comm
 
 --------------------------------------------------------------------------------

@@ -60,7 +60,7 @@ Invᴵⁿᵈˣ (P˙ , n) =  Invᵍ ⸨_⸩ P˙ n
 
 -- Super update on Indˣᴱᴿᴬ
 
-infix 8 ⟨_⟩⇛ᴵⁿᵈˣ⟨_⟩_
+infix 3 ⟨_⟩⇛ᴵⁿᵈˣ⟨_⟩_
 ⟨_⟩⇛ᴵⁿᵈˣ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M' ⟩ Pᵒ =
   ⟨ M ⟩[ (_$ jᴵⁿᵈˣ) , upd˙ jᴵⁿᵈˣ , Invᴵⁿᵈˣ ]⇛ᵍ⟨ M' ⟩ Pᵒ
@@ -92,7 +92,7 @@ Invᴵⁿᵈᵖ (P˙ , n) =  □ᵒ Invᵍ ⸨_⸩ P˙ n
 
 -- Super update on Indᵖᴱᴿᴬ
 
-infix 8 ⟨_⟩⇛ᴵⁿᵈᵖ⟨_⟩_
+infix 3 ⟨_⟩⇛ᴵⁿᵈᵖ⟨_⟩_
 ⟨_⟩⇛ᴵⁿᵈᵖ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⟨ M ⟩⇛ᴵⁿᵈᵖ⟨ M' ⟩ Pᵒ =
   ⟨ M ⟩[ (_$ jᴵⁿᵈᵖ) , upd˙ jᴵⁿᵈᵖ , Invᴵⁿᵈᵖ ]⇛ᵍ⟨ M' ⟩ Pᵒ

@@ -69,11 +69,11 @@ private variable
 ↦ᴸᵒ'-alloc :  M o ≡ ň  →
   ⊨  ⟨ M ⟩⇛ᵒ⟨ upd˙ o (š rep n ⊤ṽ) M ⟩  (o ↦ᴸᵒ' rep n ⊤ṽ  ∗ᵒ  Freeᵒ' n o)
 ↦ᴸᵒ'-alloc Mo≡ň =  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ $ ε↝-◎⟨⟩-⤇ᴱ (↦ᴸʳ-alloc Mo≡ň) ▷
-  ⤇ᴱ-respᴱʳ upd˙-mem-envᴳ ▷ ⤇ᴱ-mono (λ _ → ◎⟨⟩-∙⇒∗ᵒ)
+  ⤇ᴱ-respᴱʳ upd˙-mem-envᴳ ▷ ⤇ᴱ-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ
 
 -- Free using ↦ᴸᵒ' and Freeᵒ'
 
-↦ᴸᵒ'-free :  len ᵗvs ≡ n →
+↦ᴸᵒ'-free :  len ᵗvs ≡ n  →
   o ↦ᴸᵒ' ᵗvs  ∗ᵒ  Freeᵒ' n o  ⊨  ⟨ M ⟩⇛ᵒ⟨ upd˙ o ň M ⟩  ⊤ᵒ₀
 ↦ᴸᵒ'-free lenvs≡n =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ $ ◎⟨⟩-∗ᵒ⇒∙ ›
   ↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴹᵉᵐ} (↦ᴸʳ-free lenvs≡n) › ⤇ᴱ-respᴱʳ upd˙-mem-envᴳ ›

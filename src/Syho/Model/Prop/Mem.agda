@@ -45,10 +45,15 @@ _↦⟨_⟩ᵒ_ :  Addr →  ℚ⁺ →  TyVal →  Propᵒ 2ᴸ
 _↦ᵒ_ :  Addr →  TyVal →  Propᵒ 2ᴸ
 θ ↦ᵒ ᵗv =  θ ↦⟨ 1ᴿ⁺ ⟩ᵒ ᵗv
 
+-- Freeᵒ' : The freeing token over a block id
+
+Freeᵒ' :  ℕ →  ℕ →  Propᵒ 2ᴸ
+Freeᵒ' n o =  ◎⟨ iᴹᵉᵐ ⟩ freeʳ n o
+
 -- Freeᵒ : Interpret the freeing token
 
 Freeᵒ :  ℕ →  Addr →  Propᵒ 2ᴸ
-Freeᵒ n θ =  ∃ᵒ o , ∃ᵒ _ ∈ θ ≡ addr o 0 , ◎⟨ iᴹᵉᵐ ⟩ freeʳ n o
+Freeᵒ n θ =  ∃ᵒ o , ∃ᵒ _ ∈ θ ≡ addr o 0 , Freeᵒ' n o
 
 -- ↦ᴸᵒ, ↦ᴸᵒ' :  Interpret the points-to token over a list of values
 

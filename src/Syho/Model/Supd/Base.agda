@@ -165,7 +165,7 @@ abstract
   … | ň =  Invᵍ F xˇ˙ n
   … | š y =  F y ∗ᵒ Invᵍ F xˇ˙ n
 
-  -- Monoᵒ for ⸨ ⸩ᴺᵐ
+  -- Monoᵒ for Invᵍ
 
   Invᵍ-Mono :  Monoᵒ $ Invᵍ F xˇ˙ n
   Invᵍ-Mono {n = 0} =  _
@@ -173,7 +173,7 @@ abstract
   … | ň =  Invᵍ-Mono {n = n'}
   … | š _ =  ∗ᵒ-Mono
 
-  -- Update an element out of the bound
+  -- Update an element for Invᵍ out of the bound
 
   Invᵍ-⇒upd-≥ :  i ≥ n →  Invᵍ F yˇ˙ n  ⊨  Invᵍ F (upd˙ i xˇ yˇ˙) n
   Invᵍ-⇒upd-≥ {_} {0} =  _
@@ -183,7 +183,7 @@ abstract
   …   | š _ =  ∗ᵒ-monoʳ $ Invᵍ-⇒upd-≥ $ <⇒≤ i>n'
   …   | ň =  Invᵍ-⇒upd-≥ $ <⇒≤ i>n'
 
-  -- Add a proposition at the bound
+  -- Add a new element to Invᵍ at the bound
 
   Invᵍ-add-š :  F x ∗ᵒ Invᵍ F yˇ˙ n  ⊨  Invᵍ F (upd˙ n (š x) yˇ˙) (ṡ n)
   Invᵍ-add-š {n = n}  rewrite ≡?-refl {a = n} =
@@ -192,7 +192,7 @@ abstract
   Invᵍ-add-ň :  Invᵍ F xˇ˙ n  ⊨  Invᵍ F (upd˙ n ň xˇ˙) (ṡ n)
   Invᵍ-add-ň {n = n}  rewrite ≡?-refl {a = n} =  Invᵍ-⇒upd-≥ $ ≤-refl {n}
 
-  -- Remove an element within the bound to get the element's interpretation
+  -- Take out an element within the bound from Invᵍ
 
   Invᵍ-rem-<ᵈ :  xˇ˙ i ≡ š y →  i <ᵈ n →
     Invᵍ F xˇ˙ n  ⊨  F y ∗ᵒ Invᵍ F (upd˙ i ň xˇ˙) n

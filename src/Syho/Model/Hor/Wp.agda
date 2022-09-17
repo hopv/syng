@@ -8,15 +8,15 @@ module Syho.Model.Hor.Wp where
 
 open import Base.Level using (2ᴸ; 3ᴸ)
 open import Base.Size using (Size; ∞; Thunk; !; Shrunk; §_)
-open import Base.Func using (_$_; _▷_; _›_)
+open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Prod using (π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Lang.Ktxred using (Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (Mem; _⇒ᴷᴿ_; _⇒ᴷᴿ∑)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ⌜_⌝ᵒ×_;
-  ⌜_⌝ᵒ→_; _∗ᵒ_; ∀ᵒ-Mono; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
-open import Syho.Model.Supd.Base using (⇛ᵍ-Mono; ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
+  ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
+open import Syho.Model.Supd.Base using (⇛ᵍ-Mono; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
 open import Syho.Model.Supd.Sound using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'⟨_⟩_; ⇛ᵒ⇒⇛ᵒ'; ⇛ᵒ'⇒⇛ᵒ;
   ⇛ᵒ-join)
 
@@ -24,7 +24,7 @@ private variable
   ι ι' :  Size
   M :  Mem
   T U :  Type
-  Pᵒ˙ :  Val T →  Propᵒ 2ᴸ
+  Pᵒ˙ Qᵒ˙ :  Val T →  Propᵒ 2ᴸ
   Qᵒ :  Propᵒ 2ᴸ
   v :  Val T
   kr :  Ktxred T
@@ -88,6 +88,22 @@ abstract
     ⁺⟨⟩ᴾᵒ-val⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵍ-Mono) a⊑b › ⁺⟨⟩ᴾᵒ-val
   ⁺⟨⟩ᴾᵒ-Mono {vk = ĩ₁ _} a⊑b =
     ⁺⟨⟩ᴾᵒ-kr⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵍ-Mono) a⊑b › ⁺⟨⟩ᴾᵒ-kr
+
+  -- Monotonicity of ⁺⟨⟩ᴾᵒ
+
+  ⁺⟨⟩ᴾᵒ-mono✓ :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →
+                 ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Qᵒ˙
+  ⁺⟨⟩ᴾᵒ-mono✓ {vk = ĩ₀ _} Pv⊨✓Qv ⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ M → ⁺⟨⟩ᴾᵒ-val⁻¹ ⟨v⟩P M ▷
+    ⇛ᵍ-mono✓ (Pv⊨✓Qv _)
+  ⁺⟨⟩ᴾᵒ-mono✓ {Pᵒ˙ = Pᵒ˙} {Qᵒ˙} {vk = ĩ₁ _} Pv⊨✓Qv ⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M →
+    ⁺⟨⟩ᴾᵒ-kr⁻¹ ⟨kr⟩P M ▷ ⇛ᵍ-mono λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' →
+    big e M' krM⇒eM' ▷ ⇛ᵍ-mono go
+   where
+    go :  ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᴾᵒ Qᵒ˙
+    go big .! =  ⁺⟨⟩ᴾᵒ-mono✓ Pv⊨✓Qv (big .!)
+
+  ⁺⟨⟩ᴾᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Qᵒ˙
+  ⁺⟨⟩ᴾᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᴾᵒ-mono✓
 
   -- ⁺⟨⟩ᴾᵒ absorbs ⇛ᵒ outside itself
 
@@ -179,6 +195,22 @@ abstract
     ⁺⟨⟩ᵀᵒ-val⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵍ-Mono) a⊑b › ⁺⟨⟩ᵀᵒ-val
   ⁺⟨⟩ᵀᵒ-Mono {vk = ĩ₁ _} a⊑b =
     ⁺⟨⟩ᵀᵒ-kr⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵍ-Mono) a⊑b › ⁺⟨⟩ᵀᵒ-kr
+
+  -- Monotonicity of ⁺⟨⟩ᵀᵒ
+
+  ⁺⟨⟩ᵀᵒ-mono✓ :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →
+                 ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Qᵒ˙
+  ⁺⟨⟩ᵀᵒ-mono✓ {vk = ĩ₀ _} Pv⊨✓Qv ⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ M → ⁺⟨⟩ᵀᵒ-val⁻¹ ⟨v⟩P M ▷
+    ⇛ᵍ-mono✓ (Pv⊨✓Qv _)
+  ⁺⟨⟩ᵀᵒ-mono✓ {Pᵒ˙ = Pᵒ˙} {Qᵒ˙} {vk = ĩ₁ _} Pv⊨✓Qv ⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ M →
+    ⁺⟨⟩ᵀᵒ-kr⁻¹ ⟨kr⟩P M ▷ ⇛ᵍ-mono λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' →
+    big e M' krM⇒eM' ▷ ⇛ᵍ-mono go
+   where
+    go :  ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᵀᵒ Qᵒ˙
+    go (§ big) =  § ⁺⟨⟩ᵀᵒ-mono✓ Pv⊨✓Qv big
+
+  ⁺⟨⟩ᵀᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Qᵒ˙
+  ⁺⟨⟩ᵀᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᵀᵒ-mono✓
 
   -- Convert ⁺⟨⟩ᵀᵒ into ⁺⟨⟩ᴾᵒ
 

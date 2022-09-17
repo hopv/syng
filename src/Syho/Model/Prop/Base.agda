@@ -366,7 +366,7 @@ abstract
 
 abstract
 
-  infix 8 ⤇ᵒ_
+  infix 3 ⤇ᵒ_
   ⤇ᵒ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
   (⤇ᵒ Pᵒ) a =  ∀ E c →  E ✓ a ∙ c →  ∑ b ,  E ✓ b ∙ c  ×  Pᵒ b
 
@@ -398,17 +398,17 @@ abstract
 
   -- Let ⤇ᵒ eat a proposition under ∗ᵒ
 
-  ⤇ᵒ-eatʳ :  ⤇ᵒ Pᵒ ∗ᵒ Qᵒ  ⊨  ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ⤇ᵒ-eatʳ :  (⤇ᵒ Pᵒ) ∗ᵒ Qᵒ  ⊨  ⤇ᵒ Pᵒ ∗ᵒ Qᵒ
   ⤇ᵒ-eatʳ (-, -, b∙c⊑a , ⤇Pb , Qc) _ _ E✓a∙e
     with ⤇Pb _ _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocˡ $ ∙-monoˡ b∙c⊑a
   … | -, E✓d∙ce , Pd =  -, ✓-resp ∙-assocʳ E✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
-  ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ ⤇ᵒ Qᵒ  ⊨  ⤇ᵒ (Pᵒ ∗ᵒ Qᵒ)
+  ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ (⤇ᵒ Qᵒ)  ⊨  ⤇ᵒ Pᵒ ∗ᵒ Qᵒ
   ⤇ᵒ-eatˡ =  ∗ᵒ-comm › ⤇ᵒ-eatʳ › ⤇ᵒ-mono ∗ᵒ-comm
 
   -- Let ⌜ ⌝ᵒ× go out of ⤇ᵒ
 
-  ⤇ᵒ-⌜⌝ᵒ×-out :  ⤇ᵒ (⌜ X ⌝ᵒ× Pᵒ)  ⊨✓  ⌜ X ⌝ᵒ× ⤇ᵒ Pᵒ
+  ⤇ᵒ-⌜⌝ᵒ×-out :  ⤇ᵒ ⌜ X ⌝ᵒ× Pᵒ  ⊨✓  ⌜ X ⌝ᵒ× ⤇ᵒ Pᵒ
   ⤇ᵒ-⌜⌝ᵒ×-out E✓a ⤇∃XP .π₀ =
     let -, -, x , _ = ⤇∃XP _ _ $ ✓-resp (◠˜ ∙-unitʳ) E✓a in  x
   ⤇ᵒ-⌜⌝ᵒ×-out _ ⤇∃XP .π₁ _ _ E✓a∙c =
@@ -417,7 +417,7 @@ abstract
 --------------------------------------------------------------------------------
 -- ⤇ᴱ :  Environmental update modality
 
-infix 8 _⤇ᴱ'_ _⤇ᴱ_
+infix 3 _⤇ᴱ'_ _⤇ᴱ_
 
 -- ⤇ᴱ' :  Non-abstract version of ⤇ᴱ
 
@@ -487,13 +487,13 @@ abstract
 
   -- Let ⤇ᴱ eat a proposition under ∗ᵒ
 
-  ⤇ᴱ-eatʳ :  E ⤇ᴱ (λ x → F˙ x , Pᵒ˙ x)  ∗ᵒ  Qᵒ  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x ∗ᵒ Qᵒ
+  ⤇ᴱ-eatʳ :  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ∗ᵒ  Qᵒ  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x ∗ᵒ Qᵒ
   ⤇ᴱ-eatʳ (-, -, b∙c⊑a , E⤇FPb , Qc) _ E✓a∙e
     with E⤇FPb _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocˡ $ ∙-monoˡ b∙c⊑a
   … | -, -, F✓d∙ce , Pd =
     -, -, ✓-resp ∙-assocʳ F✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
-  ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  E ⤇ᴱ (λ x → F˙ x , Qᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
+  ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
   ⤇ᴱ-eatˡ =  ∗ᵒ-comm › ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-comm
 
 --------------------------------------------------------------------------------

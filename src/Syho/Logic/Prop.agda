@@ -37,9 +37,10 @@ private variable
   ᵗv :  TyVal
   T :  Type
 
+infix 3 ⤇_
 infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
 infixr 7 _∗_
-infix 8 ⤇_ □_ ○_
+infix 8 □_ ○_
 infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where

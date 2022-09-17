@@ -576,19 +576,19 @@ abstract
 
   ---- This can work also for ⌜⌝₀
 
-  ⤇-⌜⌝∧-out :  ⤇ (⌜ X ⌝₁ ∧ P) ⊢[ ι ] ⌜ X ⌝₁ ∧ ⤇ P
+  ⤇-⌜⌝∧-out :  ⤇ ⌜ X ⌝₁ ∧ P ⊢[ ι ] ⌜ X ⌝₁ ∧ (⤇ P)
   ⤇-⌜⌝∧-out =  ⤇-mono ⌜⌝∧⇒∃ » ⤇-∃-out » ∃⇒⌜⌝∧
 
   -- ∗ can get inside ⤇
 
-  -->  ⤇-eatˡ :  P ∗ ⤇ Q ⊢[ ι ] ⤇ (P ∗ Q)
+  -->  ⤇-eatˡ :  P ∗ (⤇ Q) ⊢[ ι ] ⤇ P ∗ Q
 
-  ⤇-eatʳ :  ⤇ P ∗ Q ⊢[ ι ] ⤇ (P ∗ Q)
+  ⤇-eatʳ :  (⤇ P) ∗ Q ⊢[ ι ] ⤇ P ∗ Q
   ⤇-eatʳ =  ∗-comm » ⤇-eatˡ » ⤇-mono ∗-comm
 
   -- Updates ⤇ can be merged
 
-  ⤇-merge :  ⤇ P ∗ ⤇ Q ⊢[ ι ] ⤇ (P ∗ Q)
+  ⤇-merge :  (⤇ P) ∗ (⤇ Q) ⊢[ ι ] ⤇ P ∗ Q
   ⤇-merge =  ⤇-eatˡ » ⤇-mono ⤇-eatʳ » ⤇-join
 
   ------------------------------------------------------------------------------
@@ -788,7 +788,7 @@ abstract
 
   ---- This can work also for ⌜⌝₀
 
-  ⤇-⌜⌝∗-out :  ⤇ (⌜ X ⌝₁ ∗ P) ⊢[ ι ] ⌜ X ⌝₁ ∗ ⤇ P
+  ⤇-⌜⌝∗-out :  ⤇ ⌜ X ⌝₁ ∗ P ⊢[ ι ] ⌜ X ⌝₁ ∗ (⤇ P)
   ⤇-⌜⌝∗-out =  ⤇-mono ∗⇒∧ » ⤇-⌜⌝∧-out » Persˡ-∧⇒∗
 
   ------------------------------------------------------------------------------

@@ -50,7 +50,7 @@ infix 3 ⟨_⟩[_]⇛ᵍ'⟨_⟩_ ⟨_⟩[_]⇛ᵍ⟨_⟩_
   Mem →  (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł') →
   Mem →  Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
 ⟨ M ⟩[ get , set , Inv ]⇛ᵍ'⟨ M' ⟩ Pᵒ =  ∀ᵒ Eᴵⁿ ,
-  Inv (get Eᴵⁿ) -∗ᵒ' envᴳ M Eᴵⁿ ⤇ᴱ' λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x
+  Inv (get Eᴵⁿ) -∗ᵒ' (envᴳ M Eᴵⁿ ⤇ᴱ' λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x)
 
 abstract
 
@@ -63,7 +63,7 @@ abstract
     Mem →  (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł') →
     Mem →  Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
   ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ =  ∀ᵒ Eᴵⁿ ,
-    Inv (get Eᴵⁿ) -∗ᵒ envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x
+    Inv (get Eᴵⁿ) -∗ᵒ (envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x)
 
   -- ⇛ᵍ equals ⇛ᵍ'
 

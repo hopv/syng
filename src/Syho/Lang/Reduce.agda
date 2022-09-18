@@ -75,15 +75,15 @@ abstract
 -- Reduction
 
 private variable
-  T U V :  Type
+  T U :  Type
   X :  Set₀
   e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
   e˙ :  X → Expr ∞ T
-  K :  Ktx U T
+  K :  Ktx T U
   red : Redex T
   x :  X
-  v :  Val V
+  v :  Val T
   n :  ℕ
   kr :  Ktxred T
 
@@ -96,8 +96,8 @@ data  _⇒ᴿ_ :  ∀{T} →  Redex T × Mem →  Expr ∞ T × Mem →  Set₁ 
   nd⇒ :  ∀(x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
   ◁⇒ :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
   ⁏⇒ :  (v ⁏ᴿ e , M) ⇒ᴿ (e , M)
-  🞰⇒ :  M ‼ᴹ θ ≡ š (V , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
-  ←⇒ :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (V , v) M)
+  🞰⇒ :  M ‼ᴹ θ ≡ š (-, v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
+  ←⇒ :  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (-, v) M)
   alloc⇒ :  ∀ o →  M o ≡ ň →
     (allocᴿ n , M) ⇒ᴿ (∇ addr o 0 , upd˙ o (š rep n ⊤ṽ) M)
   free⇒ :  (freeᴿ (addr o 0) , M) ⇒ᴿ (∇ _ , upd˙ o ň M)

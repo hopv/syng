@@ -31,7 +31,7 @@ private variable
   P P' Q R :  Prop' ∞
   Q˙ Q'˙ R˙ :  Val T → Prop' ∞
   vk :  Val/Ktxred T
-  K :  Ktx U T
+  K :  Ktx T U
   e e' e₀ :  Expr ∞ T
   e˙ :  A → Expr ∞ T
   v :  Val T

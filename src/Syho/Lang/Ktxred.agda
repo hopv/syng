@@ -78,10 +78,10 @@ _ᴷ◁_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
 allocᴷ K ᴷ◁ e =  alloc $ K ᴷ◁ e
 freeᴷ K ᴷ◁ e =  free $ K ᴷ◁ e
 
--- Compose Ktx U T and Ktx V U
+-- Compose Ktx
 
 infix 5 _ᴷ∘ᴷ_
-_ᴷ∘ᴷ_ :  Ktx U T →  Ktx V U →  Ktx V T
+_ᴷ∘ᴷ_ :  Ktx U V →  Ktx T U →  Ktx T V
 •ᴷ ᴷ∘ᴷ K =  K
 (e ◁ᴷʳ K) ᴷ∘ᴷ K' =  e ◁ᴷʳ (K ᴷ∘ᴷ K')
 (K ◁ᴷˡ x) ᴷ∘ᴷ K' =  (K ᴷ∘ᴷ K') ◁ᴷˡ x
@@ -108,7 +108,7 @@ Val/Ktxred :  Type →  Set₁
 Val/Ktxred T =  Val T ⊎ Ktxred T
 
 private variable
-  K K' :  Ktx U T
+  K K' :  Ktx T U
   kr :  Ktxred T
   v :  Val T
 

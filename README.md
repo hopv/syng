@@ -166,6 +166,8 @@ following parts.
         of the Hoare triple.**
         * [`Wp`](src/Syho/Model/Hor/Wp.agda) for the semantic partial and total
             weakest preconditions;
+          [`Lang`](src/Syho/Model/Hor/Lang.agda) for language-specific lemmas on
+            the weakest preconditions;
           [`Mem`](src/Syho/Model/Hor/Mem.agda) for memory-related lemmas on the
             weakest preconditions.
 

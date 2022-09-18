@@ -50,7 +50,7 @@ open ERA ∀ᴱᴿᴬ public using () renaming (Env to Env˙; Res to Res˙)
 
 open ERA ∀ᴱᴿᴬ using () renaming (_≈_ to _≈˙_; _⊑_ to _⊑˙_; _✓_ to _✓˙_;
   _∙_ to _∙˙_; ε to ε˙; ⌞_⌟ to ⌞_⌟˙; _↝_ to _↝˙_; refl˜ to refl˜˙;
-  _◇˜_ to _◇˜˙_)
+  _◇˜_ to _◇˜˙_; ⊑≡ to ⊑˙≡)
 
 private variable
   E˙ F˙ G˙ :  Env˙
@@ -73,7 +73,7 @@ module _ {i : I} where
 
   open ERA (Era˙ i) using () renaming (Env to Envⁱ; Res to Resⁱ;
     _≈_ to _≈ⁱ_; _⊑_ to _⊑ⁱ_; _✓_ to _✓ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ;
-    _↝_ to _↝ⁱ_; refl˜ to refl˜ⁱ)
+    _↝_ to _↝ⁱ_; refl˜ to refl˜ⁱ; ⊑≡ to ⊑ⁱ≡)
 
   private variable
     E F G :  Envⁱ
@@ -88,7 +88,7 @@ module _ {i : I} where
     -- ⊑˙ distributes
 
     ⊑˙⇒⊑ :  a˙ ⊑˙ b˙ →  a˙ i ⊑ⁱ b˙ i
-    ⊑˙⇒⊑ (-, c∙a≈b) =  -, c∙a≈b i
+    ⊑˙⇒⊑ a⊑b rewrite ⊑˙≡ | ⊑ⁱ≡ =  let (-, c∙a≈b) = a⊑b in  -, c∙a≈b i
 
     ----------------------------------------------------------------------------
     -- On upd˙
@@ -100,11 +100,15 @@ module _ {i : I} where
     … | no _ =  c˙≈d˙ j
     … | yes refl =  a≈b
 
-    upd˙-⊑ :  a ⊑ⁱ b →  c˙ ⊑˙ d˙ →  upd˙ i a c˙ ⊑˙ upd˙ i b d˙
-    upd˙-⊑ _ _ .π₀ =  upd˙ i _ _
-    upd˙-⊑ (-, e∙a≈b) (-, f˙∙c˙≈d˙) .π₁ j  with j ≡? i
+    upd˙-⊑' :  ∑ e , e ∙ⁱ a ≈ⁱ b →  ∑ f˙ , f˙ ∙˙ c˙ ≈˙ d˙ →
+               ∑ g˙ , g˙ ∙˙ upd˙ i a c˙ ≈˙ upd˙ i b d˙
+    upd˙-⊑' _ _ .π₀ =  upd˙ i _ _
+    upd˙-⊑' (-, e∙a≈b) (-, f˙∙c˙≈d˙) .π₁ j  with j ≡? i
     … | no _ =  f˙∙c˙≈d˙ j
     … | yes refl =  e∙a≈b
+
+    upd˙-⊑ :  a ⊑ⁱ b →  c˙ ⊑˙ d˙ →  upd˙ i a c˙ ⊑˙ upd˙ i b d˙
+    upd˙-⊑  rewrite ⊑ⁱ≡ | ⊑˙≡ =  upd˙-⊑'
 
     upd˙-✓ :  E˙ i ✓ⁱ a →  E˙ ✓˙ b˙ →  E˙ ✓˙ upd˙ i a b˙
     upd˙-✓ Ei✓a E✓b˙ j  with j ≡? i

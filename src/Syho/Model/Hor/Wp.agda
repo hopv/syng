@@ -16,9 +16,9 @@ open import Syho.Lang.Ktxred using (Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (Mem; _⇒ᴷᴿ_; _⇒ᴷᴿ∑)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
   ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
-open import Syho.Model.Supd.Base using (⇛ᵍ-Mono; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
-open import Syho.Model.Supd.Sound using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'⟨_⟩_; ⇛ᵒ⇒⇛ᵒ'; ⇛ᵒ'⇒⇛ᵒ;
-  ⇛ᵒ-join)
+open import Syho.Model.Supd.Base using (⇛ᵍ⇒⇛ᵍ'; ⇛ᵍ'⇒⇛ᵍ; ⇛ᵍ-Mono; ⇛ᵍ-mono✓;
+  ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
+open import Syho.Model.Supd.Sound using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'⟨_⟩_; ⇛ᵒ-join)
 
 private variable
   ι ι' :  Size
@@ -70,7 +70,7 @@ abstract
                   ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙  ⊨
               ⁺⟨ ĩ₁ kr ⟩[ ι ]ᴾᵒ Pᵒ˙
   ⁺⟨⟩ᴾᵒ-kr big =  ⁺⟨⟩ᴾᵒ-kr' λ M → big M ▷ (⇛ᵍ-mono λ (krM⇒ , big) → krM⇒ ,
-    λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ⇒⇛ᵒ') ▷ ⇛ᵒ⇒⇛ᵒ'
+    λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵍ⇒⇛ᵍ') ▷ ⇛ᵍ⇒⇛ᵍ'
 
   -- Invert ⁺⟨⟩ᴾᵒ-kr
 
@@ -78,8 +78,8 @@ abstract
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                   (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙)
-  ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵍ-mono λ (krM⇒ , big) →
-    krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ)
+  ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr' big) =  λ M → big M ▷ ⇛ᵍ'⇒⇛ᵍ ▷ (⇛ᵍ-mono λ (krM⇒ , big) →
+    krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵍ'⇒⇛ᵍ)
 
   -- Monoᵒ for ⁺⟨⟩ᴾᵒ
 
@@ -177,7 +177,7 @@ abstract
                   ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙  ⊨
               ⁺⟨ ĩ₁ kr ⟩[ ι ]ᵀᵒ Pᵒ˙
   ⁺⟨⟩ᵀᵒ-kr big =  ⁺⟨⟩ᵀᵒ-kr' λ M → big M ▷ (⇛ᵍ-mono λ (krM⇒ , big) → krM⇒ ,
-    λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ⇒⇛ᵒ') ▷ ⇛ᵒ⇒⇛ᵒ'
+    λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵍ⇒⇛ᵍ') ▷ ⇛ᵍ⇒⇛ᵍ'
 
   -- Invert ⁺⟨⟩ᵀᵒ-kr
 
@@ -185,8 +185,8 @@ abstract
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                   (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙)
-  ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵍ-mono λ (krM⇒ , big) →
-    krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ)
+  ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  λ M → big M ▷ ⇛ᵍ'⇒⇛ᵍ ▷ (⇛ᵍ-mono λ (krM⇒ , big) →
+    krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵍ'⇒⇛ᵍ)
 
   -- Monoᵒ for ⁺⟨⟩ᵀᵒ
 

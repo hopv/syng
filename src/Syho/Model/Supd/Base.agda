@@ -7,7 +7,7 @@
 module Syho.Model.Supd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
-open import Base.Func using (_$_; _›_)
+open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
@@ -73,6 +73,12 @@ abstract
     (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ)  ≡  (⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ)
   ⇛ᵍ≡⇛ᵍ' {ł} {ł'} {ł''} {X}  rewrite -∗ᵒ≡-∗ᵒ' {ł'} {2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł''} |
     ⤇ᴱ≡⤇ᴱ' {ł} {2ᴸ ⊔ᴸ ł' ⊔ᴸ ł''} {X} =  refl
+
+  ⇛ᵍ⇒⇛ᵍ' :  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ
+  ⇛ᵍ⇒⇛ᵍ' =  substᵒ id ⇛ᵍ≡⇛ᵍ'
+
+  ⇛ᵍ'⇒⇛ᵍ :  ⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ
+  ⇛ᵍ'⇒⇛ᵍ =  substᵒ id $ ◠ ⇛ᵍ≡⇛ᵍ'
 
   -- Monoᵒ for ⇛ᵍ
 

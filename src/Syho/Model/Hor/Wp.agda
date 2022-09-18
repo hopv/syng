@@ -141,15 +141,15 @@ abstract
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                   (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙)
-  ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵒ-mono λ (krM⇒ , big) →
-    krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ)
+  ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ ⇛ᵒ-mono λ (krM⇒ , big) →
+    krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ
 
   ⁺⟨⟩ᵀᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                   (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙)
-  ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵒ-mono λ (krM⇒ , big) →
-    krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ)
+  ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ ⇛ᵒ-mono λ (krM⇒ , big) →
+    krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ
 
   -- Monoᵒ for ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
 
@@ -247,9 +247,9 @@ abstract
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₀ _} Q∗⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ M → Q∗⟨v⟩P ▷
     ∗ᵒ-monoʳ (⁺⟨⟩ᴾᵒ-val⁻¹ › _$ M) ▷ ⇛ᵒ-eatˡ
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₁ _} Q∗⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M → Q∗⟨kr⟩P ▷
-    ∗ᵒ-monoʳ (⁺⟨⟩ᴾᵒ-kr⁻¹ › _$ M) ▷ ⇛ᵒ-eatˡ ▷ (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out ›
+    ∗ᵒ-monoʳ (⁺⟨⟩ᴾᵒ-kr⁻¹ › _$ M) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out ›
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big ▷
-    ∗ᵒ-monoʳ (λ big → big e M' krM⇒eM') ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono go)
+    ∗ᵒ-monoʳ (λ big → big e M' krM⇒eM') ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono go
    where
     go :  Qᵒ ∗ᵒ (⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙)  ⊨  ⟨ e ⟩ᴾᵒ[< ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v
     go =  ∗ᵒThunkᵒ-out › λ{ big .! → big .! ▷ ⁺⟨⟩ᴾᵒ-eatˡ }
@@ -258,9 +258,9 @@ abstract
   ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₀ _} Q∗⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ M → Q∗⟨v⟩P ▷
     ∗ᵒ-monoʳ (⁺⟨⟩ᵀᵒ-val⁻¹ › _$ M) ▷ ⇛ᵒ-eatˡ
   ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₁ _} Q∗⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ M → Q∗⟨kr⟩P ▷
-    ∗ᵒ-monoʳ (⁺⟨⟩ᵀᵒ-kr⁻¹ › _$ M) ▷ ⇛ᵒ-eatˡ ▷ (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out ›
+    ∗ᵒ-monoʳ (⁺⟨⟩ᵀᵒ-kr⁻¹ › _$ M) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out ›
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big ▷
-    ∗ᵒ-monoʳ (λ big → big e M' krM⇒eM') ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono go)
+    ∗ᵒ-monoʳ (λ big → big e M' krM⇒eM') ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono go
    where
     go :  Qᵒ ∗ᵒ (⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙)  ⊨  ⟨ e ⟩ᵀᵒ[< ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v
     go =  ∗ᵒShrunkᵒ-out › λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-eatˡ big }

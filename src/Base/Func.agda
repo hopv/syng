@@ -45,7 +45,7 @@ f $ a =  f a
 
 -- ▷ :  Flipped non-dependent function application
 
-infixl 0 _▷_
+infixl -2 _▷_
 _▷_ :  A →  (A → B) →  B
 a ▷ f =  f a
 

@@ -18,10 +18,10 @@ open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-u
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
-open import Syho.Model.Supd.Base using (⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
 open import Syho.Model.Supd.Ind using (○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
   ↪⇛ᵒ-use)
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join)
+open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⊨✓⇛ᵒ⇒⊨⇛ᵒ;
+  ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 
 private variable
   P Q :  Prop' ∞
@@ -35,7 +35,7 @@ private variable
 
 -- _»_ :  P ⊢[ ∞ ][ i ] Q →  Q ⊢[ ∞ ][ i ]⇛ R →  P ⊢[ ∞ ][ i ]⇛ R
 
-⊢⇛⇒⊨⇛ᵒ (P⊢Q » Q⊢⇛R) =  ⊨✓⇛ᵍ⇒⊨⇛ᵍ λ ✓∙ → ⊢⇒⊨✓ P⊢Q ✓∙ › ⊢⇛⇒⊨⇛ᵒ Q⊢⇛R
+⊢⇛⇒⊨⇛ᵒ (P⊢Q » Q⊢⇛R) =  ⊨✓⇛ᵒ⇒⊨⇛ᵒ λ ✓∙ → ⊢⇒⊨✓ P⊢Q ✓∙ › ⊢⇛⇒⊨⇛ᵒ Q⊢⇛R
 
 -- ∃₁-elim :  (∀ x →  P˙ x ⊢[ ∞ ][ i ]⇛ Q) →  ∃₁˙ P˙ ⊢[ ∞ ][ i ]⇛ Q
 
@@ -51,27 +51,27 @@ private variable
 
 -- _ᵘ»ᵘ_ :  P ⊢[ ∞ ][ i ]⇛ Q →  Q ⊢[ ∞ ][ i ]⇛ R →  P ⊢[ ∞ ][ i ]⇛ R
 
-⊢⇛⇒⊨⇛ᵒ (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =  ⊢⇛⇒⊨⇛ᵒ P⊢⇛Q › ⇛ᵍ-mono (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵒ-join
+⊢⇛⇒⊨⇛ᵒ (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =  ⊢⇛⇒⊨⇛ᵒ P⊢⇛Q › ⇛ᵒ-mono (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵒ-join
 
 -- ⇛-frameˡ :  Q ⊢[ ∞ ][ i ]⇛ R →  P ∗ Q ⊢[ ∞ ][ i ]⇛ P ∗ R
 
-⊢⇛⇒⊨⇛ᵒ (⇛-frameˡ Q⊢⇛R) =  ∗ᵒ-monoʳ (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵍ-eatˡ
+⊢⇛⇒⊨⇛ᵒ (⇛-frameˡ Q⊢⇛R) =  ∗ᵒ-monoʳ (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵒ-eatˡ
 
 -- ○-alloc :  P˂ .! ⊢[ ∞ ][ i ]⇛ ○ P˂
 
-⊢⇛⇒⊨⇛ᵒ ○-alloc =  ○ᵒ-alloc
+⊢⇛⇒⊨⇛ᵒ ○-alloc =  ○ᵒ-alloc › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
 -- □○-alloc-rec :  □ ○ P˂ -∗ □ P˂ .! ⊢[ ∞ ][ i ]⇛ □ ○ P˂
 
-⊢⇛⇒⊨⇛ᵒ □○-alloc-rec =  □ᵒ○ᵒ-alloc-rec
+⊢⇛⇒⊨⇛ᵒ □○-alloc-rec =  □ᵒ○ᵒ-alloc-rec › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
 -- ○-use :  ○ P˂ ⊢[ ∞ ][ i ]⇛ P˂ .!
 
-⊢⇛⇒⊨⇛ᵒ ○-use =  ○ᵒ-use
+⊢⇛⇒⊨⇛ᵒ ○-use =  ○ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
 -- ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ][ ṡ i ]⇛  Q˂ .!
 ---- The counter increment ṡ i makes the recursive call of ⊢⇛⇒⊨⇛ᵒ inductive
 
-⊢⇛⇒⊨⇛ᵒ ↪⇛-use =  ∗ᵒ-monoʳ ↪⇛ᵒ-use › ⇛ᵍ-eatˡ ›
-  ⇛ᵍ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ → ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛⇒⊨⇛ᵒ P∗R⊢⇛Q) ›
+⊢⇛⇒⊨⇛ᵒ ↪⇛-use =  ∗ᵒ-monoʳ (↪⇛ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
+  ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ → ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛⇒⊨⇛ᵒ P∗R⊢⇛Q) ›
   ⇛ᵒ-join

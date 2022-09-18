@@ -31,7 +31,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ∃ᵒ-syntax; ⌜_⌝�
 open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
-open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
+open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ⟨_⟩_; Invᵍ; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
   ⇛ᵍ-make; ⇛ᵍ-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ; Invᵍ-Mono; Invᵍ-add-š; Invᵍ-rem-<)
 
@@ -183,7 +183,7 @@ abstract
   ○ᵒ-use :  ○ᵒ P  ⊨  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M ⟩  ⸨ P ⸩
   ○ᵒ-use =  ∑-case λ Q → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ Q∗R⊢P →
     ∗ᵒ-monoʳ Ind-use › ⇛ᵍ-eatˡ › ⇛ᵍ-mono✓ λ ✓∙ →
-    ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢⇒⊨✓ Q∗R⊢P ✓∙
+    ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗R⊢P ✓∙
 
 --------------------------------------------------------------------------------
 -- On ↪⇛ᵒ, ↪⟨ ⟩ᴾᵒ, and ↪⟨ ⟩ᵀᵒ

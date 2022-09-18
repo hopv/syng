@@ -37,228 +37,228 @@ private variable
   P Q R S T :  Prop' ∞
 
 --------------------------------------------------------------------------------
--- ⊢⇒⊨✓ :  Semantic soundness of the pure sequent
+-- ⊢-sem :  Semantic soundness of the pure sequent
 
 abstract
 
-  ⊢⇒⊨✓ :  P ⊢[ ∞ ] Q →  ⸨ P ⸩ ⊨✓ ⸨ Q ⸩
+  ⊢-sem :  P ⊢[ ∞ ] Q →  ⸨ P ⸩ ⊨✓ ⸨ Q ⸩
 
   -- ⊢-refl :  P ⊢[ ∞ ] P
 
-  ⊢⇒⊨✓ ⊢-refl _ =  id
+  ⊢-sem ⊢-refl _ =  id
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ] R →  P ⊢[ ∞ ] R
 
-  ⊢⇒⊨✓ (P⊢Q » Q⊢R) ✓a =  ⊢⇒⊨✓ P⊢Q ✓a › ⊢⇒⊨✓ Q⊢R ✓a
+  ⊢-sem (P⊢Q » Q⊢R) ✓a =  ⊢-sem P⊢Q ✓a › ⊢-sem Q⊢R ✓a
 
   -- ∀₁-intro :  (∀₁ x → P ⊢[ ∞ ] Q˙ x) →  P ⊢[ ∞ ] ∀₁˙ Q˙
 
-  ⊢⇒⊨✓ (∀₁-intro ∀xP⊢Qx) ✓a Pa x =  ⊢⇒⊨✓ (∀xP⊢Qx x) ✓a Pa
+  ⊢-sem (∀₁-intro ∀xP⊢Qx) ✓a Pa x =  ⊢-sem (∀xP⊢Qx x) ✓a Pa
 
   -- ∃₁-elim :  (∀₁ x → P˙ x ⊢[ ∞ ] Q) →  ∃₁˙ P˙ ⊢[ ∞ ] Q
 
-  ⊢⇒⊨✓ (∃₁-elim ∀xPx⊢Q) ✓a =  ∑-case λ x → ⊢⇒⊨✓ (∀xPx⊢Q x) ✓a
+  ⊢-sem (∃₁-elim ∀xPx⊢Q) ✓a =  ∑-case λ x → ⊢-sem (∀xPx⊢Q x) ✓a
 
   -- ∀₁-elim :  ∀ x →  ∀₁˙ P˙ ⊢[ ∞ ] P˙ x
 
-  ⊢⇒⊨✓ (∀₁-elim x) _ ∀Pa =  ∀Pa x
+  ⊢-sem (∀₁-elim x) _ ∀Pa =  ∀Pa x
 
   -- ∃₁-intro :  ∀ x →  P˙ x ⊢[ ∞ ] ∃₁˙ P˙
 
-  ⊢⇒⊨✓ (∃₁-intro x) _ Px =  x , Px
+  ⊢-sem (∃₁-intro x) _ Px =  x , Px
 
   -- choice₁ :  ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ∞ ] ∃₁ y˙ , ∀₁ x , P˙˙ x (y˙ x)
 
   -- It can be proved axiom-free thanks to the logic's predicativity
 
-  ⊢⇒⊨✓ choice₁ _ ∀x∃₁yPxy .π₀ x =  ∀x∃₁yPxy x .π₀
-  ⊢⇒⊨✓ choice₁ _ ∀x∃₁yPxy .π₁ x =  ∀x∃₁yPxy x .π₁
+  ⊢-sem choice₁ _ ∀x∃₁yPxy .π₀ x =  ∀x∃₁yPxy x .π₀
+  ⊢-sem choice₁ _ ∀x∃₁yPxy .π₁ x =  ∀x∃₁yPxy x .π₁
 
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
 
-  ⊢⇒⊨✓ (→-intro {Q = Q} P∧Q⊢R) _ =
-    →ᵒ-intro (⸨⸩-Mono {Q}) λ ✓b (Pb , Qb) → ⊢⇒⊨✓ P∧Q⊢R ✓b $ binary Pb Qb
+  ⊢-sem (→-intro {Q = Q} P∧Q⊢R) _ =
+    →ᵒ-intro (⸨⸩-Mono {Q}) λ ✓b (Pb , Qb) → ⊢-sem P∧Q⊢R ✓b $ binary Pb Qb
 
   -- →-elim :  Q ⊢[ ∞ ] P →' R →  P ∧ Q ⊢[ ∞ ] R
 
-  ⊢⇒⊨✓ (→-elim Q⊢P→R) ✓a P∧Qa =  →ᵒ-elim (⊢⇒⊨✓ Q⊢P→R) ✓a (P∧Qa 0₂ , P∧Qa 1₂)
+  ⊢-sem (→-elim Q⊢P→R) ✓a P∧Qa =  →ᵒ-elim (⊢-sem Q⊢P→R) ✓a (P∧Qa 0₂ , P∧Qa 1₂)
 
   -- ⊤∗-elim :  ⊤' ∗ P ⊢[ ∞ ] P
 
-  ⊢⇒⊨✓ (⊤∗-elim {P}) _ =  ∗ᵒ-elimʳ $ ⸨⸩-Mono {P}
+  ⊢-sem (⊤∗-elim {P}) _ =  ∗ᵒ-elimʳ $ ⸨⸩-Mono {P}
 
   -- ⊤∗-intro :  P ⊢[ ∞ ] ⊤' ∗ P
 
-  ⊢⇒⊨✓ ⊤∗-intro _ =  ?∗ᵒ-intro absurd
+  ⊢-sem ⊤∗-intro _ =  ?∗ᵒ-intro absurd
 
   -- ∗-comm :  P ∗ Q ⊢[ ∞ ] Q ∗ P
 
-  ⊢⇒⊨✓ ∗-comm _ =  ∗ᵒ-comm
+  ⊢-sem ∗-comm _ =  ∗ᵒ-comm
 
   -- ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ∞ ] P ∗ (Q ∗ R)
 
-  ⊢⇒⊨✓ ∗-assocˡ _ =  ∗ᵒ-assocˡ
+  ⊢-sem ∗-assocˡ _ =  ∗ᵒ-assocˡ
 
   -- ∗-monoˡ :  P ⊢[ ∞ ] Q →  P ∗ R ⊢[ ∞ ] Q ∗ R
 
-  ⊢⇒⊨✓ (∗-monoˡ P⊢Q) =  ∗ᵒ-mono✓ˡ (⊢⇒⊨✓ P⊢Q)
+  ⊢-sem (∗-monoˡ P⊢Q) =  ∗ᵒ-mono✓ˡ (⊢-sem P⊢Q)
 
   -- -∗-intro :  P ∗ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P -∗ R
 
-  ⊢⇒⊨✓ (-∗-intro P∗Q⊢R) _ =  -∗ᵒ-intro $ ⊢⇒⊨✓ P∗Q⊢R
+  ⊢-sem (-∗-intro P∗Q⊢R) _ =  -∗ᵒ-intro $ ⊢-sem P∗Q⊢R
 
   -- -∗-elim :  Q ⊢[ ∞ ] P -∗ R →  P ∗ Q ⊢[ ∞ ] R
 
-  ⊢⇒⊨✓ (-∗-elim {R = R} Q⊢P-∗R) =  -∗ᵒ-elim (⸨⸩-Mono {R}) $ ⊢⇒⊨✓ Q⊢P-∗R
+  ⊢-sem (-∗-elim {R = R} Q⊢P-∗R) =  -∗ᵒ-elim (⸨⸩-Mono {R}) $ ⊢-sem Q⊢P-∗R
 
   -- ⤇-mono :  P ⊢[ ∞ ] Q →  ⤇ P ⊢[ ∞ ] ⤇ Q
 
-  ⊢⇒⊨✓ (⤇-mono P⊢Q) _ =  ⤇ᵒ-mono✓ $ ⊢⇒⊨✓ P⊢Q
+  ⊢-sem (⤇-mono P⊢Q) _ =  ⤇ᵒ-mono✓ $ ⊢-sem P⊢Q
 
   -- ⤇-intro :  P ⊢[ ∞ ] ⤇ P
 
-  ⊢⇒⊨✓ ⤇-intro _ =  ⤇ᵒ-intro
+  ⊢-sem ⤇-intro _ =  ⤇ᵒ-intro
 
   -- ⤇-join :  ⤇ ⤇ P ⊢[ ∞ ] ⤇ P
 
-  ⊢⇒⊨✓ ⤇-join _ =  ⤇ᵒ-join
+  ⊢-sem ⤇-join _ =  ⤇ᵒ-join
 
   -- ⤇-eatˡ :  P ∗ ⤇ Q ⊢[ ∞ ] ⤇ (P ∗ Q)
 
-  ⊢⇒⊨✓ ⤇-eatˡ _ =  ⤇ᵒ-eatˡ
+  ⊢-sem ⤇-eatˡ _ =  ⤇ᵒ-eatˡ
 
   -- ⤇-∃-out :  ⤇ (∃₁ _ ∈ X , P) ⊢[ ∞ ] ∃₁ _ ∈ X , ⤇ P
 
-  ⊢⇒⊨✓ ⤇-∃-out =  ⤇ᵒ-⌜⌝ᵒ×-out
+  ⊢-sem ⤇-∃-out =  ⤇ᵒ-⌜⌝ᵒ×-out
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
 
-  ⊢⇒⊨✓ (□-mono P⊢Q) =  □ᵒ-mono✓ $ ⊢⇒⊨✓ P⊢Q
+  ⊢-sem (□-mono P⊢Q) =  □ᵒ-mono✓ $ ⊢-sem P⊢Q
 
   -- □-elim :  □ P ⊢[ ∞ ] P
 
-  ⊢⇒⊨✓ (□-elim {P}) _ =  □ᵒ-elim $ ⸨⸩-Mono {P}
+  ⊢-sem (□-elim {P}) _ =  □ᵒ-elim $ ⸨⸩-Mono {P}
 
   -- □-dup :  □ P ⊢[ ∞ ] □ □ P
 
-  ⊢⇒⊨✓ (□-dup {P}) _ =   □ᵒ-dup $ ⸨⸩-Mono {P}
+  ⊢-sem (□-dup {P}) _ =   □ᵒ-dup $ ⸨⸩-Mono {P}
 
   -- □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ∞ ] □ P ∗ Q
 
-  ⊢⇒⊨✓ (□ˡ-∧⇒∗ {P}) _ □P∧Qa =  □ᵒˡ-×ᵒ⇒∗ᵒ (⸨⸩-Mono {P}) (□P∧Qa 0₂ , □P∧Qa 1₂)
+  ⊢-sem (□ˡ-∧⇒∗ {P}) _ □P∧Qa =  □ᵒˡ-×ᵒ⇒∗ᵒ (⸨⸩-Mono {P}) (□P∧Qa 0₂ , □P∧Qa 1₂)
 
   -- □-∀-in :  ∀₁˙ (□_ ∘ P˙) ⊢[ ∞ ] □ ∀₁˙ P˙
 
-  ⊢⇒⊨✓ □-∀-in _ =  id
+  ⊢-sem □-∀-in _ =  id
 
   -- □-∃-out :  □ ∃₁˙ P˙ ⊢[ ∞ ] ∃₁˙ (□_ ∘ P˙)
 
-  ⊢⇒⊨✓ □-∃-out _ =  id
+  ⊢-sem □-∃-out _ =  id
 
   -- ○-mono :  P˂ .! ⊢[< ∞ ] Q˂ .! →  ○ P˂ ⊢[ ∞ ] ○ Q˂
 
-  ⊢⇒⊨✓ (○-mono P⊢Q) _ =  ○ᵒ-mono $ P⊢Q .!
+  ⊢-sem (○-mono P⊢Q) _ =  ○ᵒ-mono $ P⊢Q .!
 
   -- ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ∞ ] ○ ¡ (Q ∗ P˂ .!)
 
-  ⊢⇒⊨✓ (○-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › ○ᵒ-eatˡ
+  ⊢-sem (○-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › ○ᵒ-eatˡ
 
   -- ↪⇛-ṡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  P˂ ↪[ ṡ i ]⇛ Q˂
 
-  ⊢⇒⊨✓ ↪⇛-ṡ _ =  ↪⇛ᵒ-ṡ
+  ⊢-sem ↪⇛-ṡ _ =  ↪⇛ᵒ-ṡ
 
   -- ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ∞ ][ i ]⇛ P˂ .! →
   --               R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P'˂ ↪[ i ]⇛ Q˂
 
-  ⊢⇒⊨✓ (↪⇛-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+  ⊢-sem (↪⇛-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
   -- ↪⇛-eatˡ⁻ʳ :  {{Basic R}} →
   --   R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
-  ⊢⇒⊨✓ (↪⇛-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ʳ
+  ⊢-sem (↪⇛-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ʳ
 
   -- ↪⇛-monoʳᵘ :  Q˂ .! ⊢[< ∞ ][ i ]⇛ Q'˂ .! →
   --              P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ Q'˂
 
-  ⊢⇒⊨✓ (↪⇛-monoʳᵘ Q⊢⇛Q') _ =  ↪⇛ᵒ-monoʳᵘ $ Q⊢⇛Q' .!
+  ⊢-sem (↪⇛-monoʳᵘ Q⊢⇛Q') _ =  ↪⇛ᵒ-monoʳᵘ $ Q⊢⇛Q' .!
 
   -- ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
-  ⊢⇒⊨✓ ↪⇛-frameˡ _ =  ↪⇛ᵒ-frameˡ
+  ⊢-sem ↪⇛-frameˡ _ =  ↪⇛ᵒ-frameˡ
 
   -- ○⇒↪⇛ :  P˂ .! ∗ R˂ .! ⊢[< ∞ ][ i ]⇛ Q˂ .! →  ○ R˂  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ Q˂
 
-  ⊢⇒⊨✓ (○⇒↪⇛ P∗R⊢⇛Q) _ =  ○ᵒ⇒↪⇛ᵒ $ P∗R⊢⇛Q .!
+  ⊢-sem (○⇒↪⇛ P∗R⊢⇛Q) _ =  ○ᵒ⇒↪⇛ᵒ $ P∗R⊢⇛Q .!
 
   -- ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ∞ ][ i ]⇛ P˂ .! →
   --                 R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ∞ ]  P'˂ ↪⟨ e ⟩ᴾ Q˂˙
 
-  ⊢⇒⊨✓ (↪⟨⟩ᴾ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+  ⊢-sem (↪⟨⟩ᴾ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
   -- ↪⟨⟩ᴾ-eatˡ⁻ʳ :  {{Basic R}} →
   --   R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂˙ v .!)
 
-  ⊢⇒⊨✓ (↪⟨⟩ᴾ-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ
+  ⊢-sem (↪⟨⟩ᴾ-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ
 
   -- ↪⟨⟩ᴾ-monoʳᵘ :  (∀ v →  Q˂˙ v .! ⊢[< ∞ ][ i ]⇛ Q'˂˙ v .!) →
   --                P˂ ↪⟨ e ⟩ᴾ Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᴾ Q'˂˙
 
-  ⊢⇒⊨✓ (↪⟨⟩ᴾ-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᴾᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
+  ⊢-sem (↪⟨⟩ᴾ-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᴾᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
 
   -- ↪⟨⟩ᴾ-frameˡ :  P˂ ↪⟨ e ⟩ᴾ Q˂˙  ⊢[ ∞ ]
   --                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂˙ v .!)
 
-  ⊢⇒⊨✓ ↪⟨⟩ᴾ-frameˡ _ =  ↪⟨⟩ᴾᵒ-frameˡ
+  ⊢-sem ↪⟨⟩ᴾ-frameˡ _ =  ↪⟨⟩ᴾᵒ-frameˡ
 
   -- ○⇒↪⟨⟩ᴾ :  P˂ .! ∗ R˂ .! ⊢[< ∞ ]⟨ e ⟩ᴾ (λ v → Q˂˙ v .!) →
   --           ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
 
-  ⊢⇒⊨✓ (○⇒↪⟨⟩ᴾ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᴾᵒ $ P∗R⊢⟨e⟩Q .!
+  ⊢-sem (○⇒↪⟨⟩ᴾ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᴾᵒ $ P∗R⊢⟨e⟩Q .!
 
   -- ↪⟨⟩ᵀ-ṡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂˙
 
-  ⊢⇒⊨✓ ↪⟨⟩ᵀ-ṡ _ =  ↪⟨⟩ᵀᵒ-ṡ
+  ⊢-sem ↪⟨⟩ᵀ-ṡ _ =  ↪⟨⟩ᵀᵒ-ṡ
 
   -- ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ∞ ][ j ]⇛ P˂ .! →
   --                 R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ∞ ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
 
-  ⊢⇒⊨✓ (↪⟨⟩ᵀ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+  ⊢-sem (↪⟨⟩ᵀ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
   -- ↪⟨⟩ᵀ-eatˡ⁻ʳ :  {{Basic R}} →
   --   R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
-  ⊢⇒⊨✓ (↪⟨⟩ᵀ-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ
+  ⊢-sem (↪⟨⟩ᵀ-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ
 
   -- ↪⟨⟩ᵀ-monoʳᵘ :  (∀ v →  Q˂˙ v .! ⊢[< ∞ ][ j ]⇛ Q'˂˙ v .!) →
   --                P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂˙
 
-  ⊢⇒⊨✓ (↪⟨⟩ᵀ-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᵀᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
+  ⊢-sem (↪⟨⟩ᵀ-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᵀᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
 
   -- ↪⟨⟩ᵀ-frameˡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]
   --                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
-  ⊢⇒⊨✓ ↪⟨⟩ᵀ-frameˡ _ =  ↪⟨⟩ᵀᵒ-frameˡ
+  ⊢-sem ↪⟨⟩ᵀ-frameˡ _ =  ↪⟨⟩ᵀᵒ-frameˡ
 
   -- ○⇒↪⟨⟩ᵀ :  P˂ .! ∗ R˂ .! ⊢[< ∞ ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂˙ v .!) →
   --           ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
 
-  ⊢⇒⊨✓ (○⇒↪⟨⟩ᵀ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᵀᵒ $ P∗R⊢⟨e⟩Q .!
+  ⊢-sem (○⇒↪⟨⟩ᵀ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᵀᵒ $ P∗R⊢⟨e⟩Q .!
 
   -- ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ∞ ]  ⌜ ᵗu ≡ ᵗv ⌝₁
 
-  ⊢⇒⊨✓ ↦⟨⟩-agree ✓a =  ↦⟨⟩ᵒ-agree ✓a › (_, absurd)
+  ⊢-sem ↦⟨⟩-agree ✓a =  ↦⟨⟩ᵒ-agree ✓a › (_, absurd)
 
   -- ↦⟨⟩-≤1 :  θ ↦⟨ p ⟩ ᵗv  ⊢[ ∞ ]  ⌜ p ≤1ᴿ⁺ ⌝₀
 
-  ⊢⇒⊨✓ ↦⟨⟩-≤1 ✓a =  ↦⟨⟩ᵒ-≤1 ✓a › ↑_ › (_, absurd)
+  ⊢-sem ↦⟨⟩-≤1 ✓a =  ↦⟨⟩ᵒ-≤1 ✓a › ↑_ › (_, absurd)
 
   -- ↦⟨⟩-merge :  θ ↦⟨ p ⟩ ᵗv  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ∞ ]  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv
 
-  ⊢⇒⊨✓ ↦⟨⟩-merge _ =  ↦⟨⟩ᵒ-merge
+  ⊢-sem ↦⟨⟩-merge _ =  ↦⟨⟩ᵒ-merge
 
   -- ↦⟨⟩-split :  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv  ⊢[ ∞ ]  θ ↦⟨ p ⟩ ᵗv  ∗  θ ↦⟨ q ⟩ ᵗv
 
-  ⊢⇒⊨✓ ↦⟨⟩-split _ =  ↦⟨⟩ᵒ-split
+  ⊢-sem ↦⟨⟩-split _ =  ↦⟨⟩ᵒ-split

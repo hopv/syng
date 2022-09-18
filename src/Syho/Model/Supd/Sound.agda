@@ -17,7 +17,7 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»
 open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
-open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
+open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Ind using (○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
   ↪⇛ᵒ-use)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ;
@@ -29,49 +29,49 @@ private variable
   M :  Mem
 
 --------------------------------------------------------------------------------
--- ⊢⇛⇒⊨⇛ᵒ :  Semantic soundness of the super update
+-- ⊢⇛-sem :  Semantic soundness of the super update
 
-⊢⇛⇒⊨⇛ᵒ :  P ⊢[ ∞ ][ i ]⇛ Q →  ⸨ P ⸩ ⊨ ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⸨ Q ⸩
+⊢⇛-sem :  P ⊢[ ∞ ][ i ]⇛ Q →  ⸨ P ⸩ ⊨ ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⸨ Q ⸩
 
 -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ][ i ]⇛ R →  P ⊢[ ∞ ][ i ]⇛ R
 
-⊢⇛⇒⊨⇛ᵒ (P⊢Q » Q⊢⇛R) =  ⊨✓⇒⊨-⇛ᵒ λ ✓∙ → ⊢⇒⊨✓ P⊢Q ✓∙ › ⊢⇛⇒⊨⇛ᵒ Q⊢⇛R
+⊢⇛-sem (P⊢Q » Q⊢⇛R) =  ⊨✓⇒⊨-⇛ᵒ λ ✓∙ → ⊢-sem P⊢Q ✓∙ › ⊢⇛-sem Q⊢⇛R
 
 -- ∃₁-elim :  (∀ x →  P˙ x ⊢[ ∞ ][ i ]⇛ Q) →  ∃₁˙ P˙ ⊢[ ∞ ][ i ]⇛ Q
 
-⊢⇛⇒⊨⇛ᵒ (∃₁-elim Px⊢⇛Q) =   ∑-case λ x → ⊢⇛⇒⊨⇛ᵒ (Px⊢⇛Q x)
+⊢⇛-sem (∃₁-elim Px⊢⇛Q) =   ∑-case λ x → ⊢⇛-sem (Px⊢⇛Q x)
 
 -- ⇛-ṡ :  P ⊢[ ∞ ][ i ]⇛ Q →  P ⊢[ ∞ ][ ṡ i ]⇛ Q
 
-⊢⇛⇒⊨⇛ᵒ (⇛-ṡ P⊢⇛Q) =  ⊢⇛⇒⊨⇛ᵒ P⊢⇛Q
+⊢⇛-sem (⇛-ṡ P⊢⇛Q) =  ⊢⇛-sem P⊢⇛Q
 
 -- ⇛-refl-⤇ :  ⤇ P ⊢[ ∞ ][ i ]⇛ P
 
-⊢⇛⇒⊨⇛ᵒ ⇛-refl-⤇ =  ⤇ᵒ⇒⇛ᵒ
+⊢⇛-sem ⇛-refl-⤇ =  ⤇ᵒ⇒⇛ᵒ
 
 -- _ᵘ»ᵘ_ :  P ⊢[ ∞ ][ i ]⇛ Q →  Q ⊢[ ∞ ][ i ]⇛ R →  P ⊢[ ∞ ][ i ]⇛ R
 
-⊢⇛⇒⊨⇛ᵒ (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =  ⊢⇛⇒⊨⇛ᵒ P⊢⇛Q › ⇛ᵒ-mono (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵒ-join
+⊢⇛-sem (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =  ⊢⇛-sem P⊢⇛Q › ⇛ᵒ-mono (⊢⇛-sem Q⊢⇛R) › ⇛ᵒ-join
 
 -- ⇛-frameˡ :  Q ⊢[ ∞ ][ i ]⇛ R →  P ∗ Q ⊢[ ∞ ][ i ]⇛ P ∗ R
 
-⊢⇛⇒⊨⇛ᵒ (⇛-frameˡ Q⊢⇛R) =  ∗ᵒ-monoʳ (⊢⇛⇒⊨⇛ᵒ Q⊢⇛R) › ⇛ᵒ-eatˡ
+⊢⇛-sem (⇛-frameˡ Q⊢⇛R) =  ∗ᵒ-monoʳ (⊢⇛-sem Q⊢⇛R) › ⇛ᵒ-eatˡ
 
 -- ○-alloc :  P˂ .! ⊢[ ∞ ][ i ]⇛ ○ P˂
 
-⊢⇛⇒⊨⇛ᵒ ○-alloc =  ○ᵒ-alloc › ⇛ᴵⁿᵈ⇒⇛ᵒ
+⊢⇛-sem ○-alloc =  ○ᵒ-alloc › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
 -- □○-alloc-rec :  □ ○ P˂ -∗ □ P˂ .! ⊢[ ∞ ][ i ]⇛ □ ○ P˂
 
-⊢⇛⇒⊨⇛ᵒ □○-alloc-rec =  □ᵒ○ᵒ-alloc-rec › ⇛ᴵⁿᵈ⇒⇛ᵒ
+⊢⇛-sem □○-alloc-rec =  □ᵒ○ᵒ-alloc-rec › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
 -- ○-use :  ○ P˂ ⊢[ ∞ ][ i ]⇛ P˂ .!
 
-⊢⇛⇒⊨⇛ᵒ ○-use =  ○ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ
+⊢⇛-sem ○-use =  ○ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
 -- ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ][ ṡ i ]⇛  Q˂ .!
----- The counter increment ṡ i makes the recursive call of ⊢⇛⇒⊨⇛ᵒ inductive
+---- The counter increment ṡ i makes the recursive call of ⊢⇛-sem inductive
 
-⊢⇛⇒⊨⇛ᵒ ↪⇛-use =  ∗ᵒ-monoʳ (↪⇛ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
-  ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ → ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛⇒⊨⇛ᵒ P∗R⊢⇛Q) ›
+⊢⇛-sem ↪⇛-use =  ∗ᵒ-monoʳ (↪⇛ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
+  ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ → ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛-sem P∗R⊢⇛Q) ›
   ⇛ᵒ-join

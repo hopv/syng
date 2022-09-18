@@ -170,6 +170,8 @@ following parts.
             the weakest preconditions;
           [`Mem`](src/Syho/Model/Hor/Mem.agda) for semantic super update and
             weakest precondition lemmas for the memory.
+        * [`Sound`](src/Syho/Model/Hor/Sound.agda) for the semantic soundness of
+            the logic's Hoare triple.
 
 ## Meta-logic
 

@@ -163,8 +163,8 @@ abstract
   -- Monoᵒ for ⊎ᵒ
 
   ⊎ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ $ Pᵒ ⊎ᵒ Qᵒ
-  ⊎ᵒ-Mono MonoP _ a⊑b (ĩ₀ Pa) =  ĩ₀ (MonoP a⊑b Pa)
-  ⊎ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ (MonoQ a⊑b Qa)
+  ⊎ᵒ-Mono MonoP _ a⊑b (ĩ₀ Pa) =  ĩ₀ MonoP a⊑b Pa
+  ⊎ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ MonoQ a⊑b Qa
 
 --------------------------------------------------------------------------------
 -- ⊤ᵒ ⊥ᵒ :  Semantic truth and falsehood

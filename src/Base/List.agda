@@ -198,11 +198,11 @@ abstract
 
   Any-⧺-ĩ₀ :  Any F as →  Any F (as ⧺ bs)
   Any-⧺-ĩ₀ (ĩʰᵈ Fa) =  ĩʰᵈ Fa
-  Any-⧺-ĩ₀ (ĩᵗˡ Fas) =  ĩᵗˡ (Any-⧺-ĩ₀ Fas)
+  Any-⧺-ĩ₀ (ĩᵗˡ Fas) =  ĩᵗˡ Any-⧺-ĩ₀ Fas
 
   Any-⧺-ĩ₁ :  Any F bs →  Any F (as ⧺ bs)
   Any-⧺-ĩ₁ {as = []} Fbs =  Fbs
-  Any-⧺-ĩ₁ {as = _ ∷ _} Fbs =  ĩᵗˡ (Any-⧺-ĩ₁ Fbs)
+  Any-⧺-ĩ₁ {as = _ ∷ _} Fbs =  ĩᵗˡ Any-⧺-ĩ₁ Fbs
 
   Any-⧺-case :  Any F (as ⧺ bs) →  Any F as ⊎ Any F bs
   Any-⧺-case {as = []} Fbs =  ĩ₁ Fbs

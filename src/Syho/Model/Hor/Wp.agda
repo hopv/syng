@@ -34,22 +34,22 @@ private variable
 --------------------------------------------------------------------------------
 -- Semantic partial weakest precondition
 
-infix 3 ⁺⟨_⟩[_]ᴾᵒ_ ⟨_⟩[_]ᴾᵒ_ ⟨_⟩[<_]ᴾᵒ_
+infix 3 ⁺⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[<_]_
 
--- Wpᴾ :  ⁺⟨ ⟩[ ]ᴾᵒ with the arguments re-ordered
+-- Wpᴾ :  ⁺⟨ ⟩ᴾᵒ[ ] with the arguments re-ordered
 
 data  Wpᴾ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Propᵒ (2ᴸ ⊔ᴸ ł)
 
--- ⁺⟨ ⟩[ ]ᴾᵒ :  Semantic partial weakest precondition on Val/Ktxred
--- ⟨ ⟩[ ]ᴾᵒ :  Semantic partial weakest precondition on Expr
--- ⟨ ⟩[< ]ᴾᵒ :  ⟨ ⟩[ ]ᴾᵒ under Thunk
+-- ⁺⟨ ⟩ᴾᵒ[ ] :  Semantic partial weakest precondition on Val/Ktxred
+-- ⟨ ⟩ᴾᵒ[ ] :  Semantic partial weakest precondition on Expr
+-- ⟨ ⟩ᴾᵒ[< ] :  ⟨ ⟩ᴾᵒ[ ] under Thunk
 
-⁺⟨_⟩[_]ᴾᵒ_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⁺⟨ kr ⟩[ ι ]ᴾᵒ Pᵒ˙ =  Wpᴾ Pᵒ˙ ι kr
+⁺⟨_⟩ᴾᵒ[_]_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⁺⟨ kr ⟩ᴾᵒ[ ι ] Pᵒ˙ =  Wpᴾ Pᵒ˙ ι kr
 
-⟨_⟩[_]ᴾᵒ_ ⟨_⟩[<_]ᴾᵒ_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⟨ e ⟩[ ι ]ᴾᵒ Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩[ ι ]ᴾᵒ Pᵒ˙
-⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙ =  Thunkᵒ (⟨ e ⟩[_]ᴾᵒ Pᵒ˙) ι
+⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[<_]_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⟨ e ⟩ᴾᵒ[ ι ] Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩ᴾᵒ[ ι ] Pᵒ˙
+⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙ =  Thunkᵒ (⟨ e ⟩ᴾᵒ[_] Pᵒ˙) ι
 
 -- Define Wpᴾ
 
@@ -57,38 +57,38 @@ data  Wpᴾ Pᵒ˙ ι  where
 
   -- For a value, having the postcondition under ⇛ᵒ
 
-  ⁺⟨⟩ᴾᵒ-val :  (∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⁺⟨ ĩ₀ v ⟩[ ι ]ᴾᵒ Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-val :  (∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⁺⟨ ĩ₀ v ⟩ᴾᵒ[ ι ] Pᵒ˙
 
   -- For a context-redex pair, stating that the reduction is not stuck
   -- and for every next state the weakest precondition coinductively holds
 
   ⁺⟨⟩ᴾᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                  ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
-                   ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙  ⊨
-               ⁺⟨ ĩ₁ kr ⟩[ ι ]ᴾᵒ Pᵒ˙
+                   ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙  ⊨
+               ⁺⟨ ĩ₁ kr ⟩ᴾᵒ[ ι ] Pᵒ˙
 
 --------------------------------------------------------------------------------
 -- Semantic total weakest precondition
 
-infix 3 ⁺⟨_⟩[_]ᵀᵒ_ ⟨_⟩[_]ᵀᵒ_ ⟨_⟩[<_]ᵀᵒ_
+infix 3 ⁺⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[<_]_
 
--- Wpᵀ :  ⁺⟨ ⟩[ ]ᵀᵒ with the arguments re-ordered
+-- Wpᵀ :  ⁺⟨ ⟩ᵀᵒ[ ] with the arguments re-ordered
 
 data  Wpᵀ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Propᵒ (2ᴸ ⊔ᴸ ł)
 
--- ⁺⟨ ⟩[ ]ᵀᵒ :  Semantic partial weakest precondition on Val/Ktxred
--- ⟨ ⟩[ ]ᵀᵒ :  Semantic total weakest precondition on Expr
--- ⟨ ⟩[< ]ᵀᵒ :  ⟨ ⟩[ ]ᵀᵒ under Thunk
+-- ⁺⟨ ⟩ᵀᵒ[ ] :  Semantic partial weakest precondition on Val/Ktxred
+-- ⟨ ⟩ᵀᵒ[ ] :  Semantic total weakest precondition on Expr
+-- ⟨ ⟩[< ]ᵀᵒ :  ⟨ ⟩ᵀᵒ[ ] under Thunk
 
-⁺⟨_⟩[_]ᵀᵒ_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⁺⟨ kr ⟩[ ι ]ᵀᵒ Pᵒ˙ =  Wpᵀ Pᵒ˙ ι kr
+⁺⟨_⟩ᵀᵒ[_]_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⁺⟨ kr ⟩ᵀᵒ[ ι ] Pᵒ˙ =  Wpᵀ Pᵒ˙ ι kr
 
 -- We use Shrunk for defining Wpᵀ, which enables induction based semantically on
 -- the size rather than on the syntactic structure.
 
-⟨_⟩[_]ᵀᵒ_ ⟨_⟩[<_]ᵀᵒ_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⟨ e ⟩[ ι ]ᵀᵒ Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩[ ι ]ᵀᵒ Pᵒ˙
-⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙ =  Shrunkᵒ (⟨ e ⟩[_]ᵀᵒ Pᵒ˙) ι
+⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[<_]_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩ᵀᵒ[ ι ] Pᵒ˙
+⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙ =  Shrunkᵒ (⟨ e ⟩ᵀᵒ[_] Pᵒ˙) ι
 
 -- Define Wpᵀ
 
@@ -96,15 +96,15 @@ data  Wpᵀ Pᵒ˙ ι  where
 
   -- For a value, having the postcondition under ⇛ᵒ
 
-  ⁺⟨⟩ᵀᵒ-val :  (∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⁺⟨ ĩ₀ v ⟩[ ι ]ᵀᵒ Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-val :  (∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⁺⟨ ĩ₀ v ⟩ᵀᵒ[ ι ] Pᵒ˙
 
   -- For a context-redex pair, stating that the reduction is not stuck
   -- and for every next state the weakest precondition inductively holds
 
   ⁺⟨⟩ᵀᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                  ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
-                   ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙  ⊨
-               ⁺⟨ ĩ₁ kr ⟩[ ι ]ᵀᵒ Pᵒ˙
+                   ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙  ⊨
+               ⁺⟨ ĩ₁ kr ⟩ᵀᵒ[ ι ] Pᵒ˙
 
 --------------------------------------------------------------------------------
 -- Lemmas on the partial and total weakest preconditions
@@ -113,53 +113,53 @@ abstract
 
   -- Invert ⁺⟨⟩ᴾᵒ-val / ⁺⟨⟩ᵀᵒ-val
 
-  ⁺⟨⟩ᴾᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩[ ι ]ᴾᵒ Pᵒ˙  ⊨  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v
+  ⁺⟨⟩ᴾᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v
   ⁺⟨⟩ᴾᵒ-val⁻¹ (⁺⟨⟩ᴾᵒ-val M⇛MPv) =  M⇛MPv
 
-  ⁺⟨⟩ᵀᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩[ ι ]ᵀᵒ Pᵒ˙  ⊨  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v
+  ⁺⟨⟩ᵀᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v
   ⁺⟨⟩ᵀᵒ-val⁻¹ (⁺⟨⟩ᵀᵒ-val M⇛MPv) =  M⇛MPv
 
   -- Modified ⁺⟨⟩ᴾᵒ-kr' / ⁺⟨⟩ᵀᵒ-kr
 
   ⁺⟨⟩ᴾᵒ-kr :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                 ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
-                  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙  ⊨
-              ⁺⟨ ĩ₁ kr ⟩[ ι ]ᴾᵒ Pᵒ˙
+                  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙  ⊨
+              ⁺⟨ ĩ₁ kr ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-kr big =  ⁺⟨⟩ᴾᵒ-kr' λ M → big M ▷ (⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ ,
     λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ⇒⇛ᵒ') ▷ ⇛ᵒ⇒⇛ᵒ'
 
   ⁺⟨⟩ᵀᵒ-kr :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                 ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
-                  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙  ⊨
-              ⁺⟨ ĩ₁ kr ⟩[ ι ]ᵀᵒ Pᵒ˙
+                  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙  ⊨
+              ⁺⟨ ĩ₁ kr ⟩ᵀᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᵀᵒ-kr big =  ⁺⟨⟩ᵀᵒ-kr' λ M → big M ▷ (⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ ,
     λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ⇒⇛ᵒ') ▷ ⇛ᵒ⇒⇛ᵒ'
 
   -- Invert ⁺⟨⟩ᴾᵒ-kr / ⁺⟨⟩ᵀᵒ-kr
 
-  ⁺⟨⟩ᴾᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩[ ι ]ᴾᵒ Pᵒ˙  ⊨
+  ⁺⟨⟩ᴾᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                   (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
-                    ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙)
+                    ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙)
   ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵒ-mono λ (krM⇒ , big) →
     krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ)
 
-  ⁺⟨⟩ᵀᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩[ ι ]ᵀᵒ Pᵒ˙  ⊨
+  ⁺⟨⟩ᵀᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                   (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
-                    ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙)
+                    ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙)
   ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ (⇛ᵒ-mono λ (krM⇒ , big) →
     krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ)
 
   -- Monoᵒ for ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
 
-  ⁺⟨⟩ᴾᵒ-Mono :  Monoᵒ $ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-Mono :  Monoᵒ $ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-Mono {vk = ĩ₀ _} a⊑b =
     ⁺⟨⟩ᴾᵒ-val⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵒ-Mono) a⊑b › ⁺⟨⟩ᴾᵒ-val
   ⁺⟨⟩ᴾᵒ-Mono {vk = ĩ₁ _} a⊑b =
     ⁺⟨⟩ᴾᵒ-kr⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵒ-Mono) a⊑b › ⁺⟨⟩ᴾᵒ-kr
 
-  ⁺⟨⟩ᵀᵒ-Mono :  Monoᵒ $ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-Mono :  Monoᵒ $ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᵀᵒ-Mono {vk = ĩ₀ _} a⊑b =
     ⁺⟨⟩ᵀᵒ-val⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵒ-Mono) a⊑b › ⁺⟨⟩ᵀᵒ-val
   ⁺⟨⟩ᵀᵒ-Mono {vk = ĩ₁ _} a⊑b =
@@ -168,52 +168,52 @@ abstract
   -- Monotonicity of ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-mono✓ :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →
-                 ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Qᵒ˙
+                 ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙
   ⁺⟨⟩ᴾᵒ-mono✓ {vk = ĩ₀ _} Pv⊨✓Qv ⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ M → ⁺⟨⟩ᴾᵒ-val⁻¹ ⟨v⟩P M ▷
     ⇛ᵒ-mono✓ (Pv⊨✓Qv _)
   ⁺⟨⟩ᴾᵒ-mono✓ {vk = ĩ₁ _} Pv⊨✓Qv ⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M → ⁺⟨⟩ᴾᵒ-kr⁻¹ ⟨kr⟩P M ▷
     ⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷
     ⇛ᵒ-mono (go Pv⊨✓Qv)
    where
-    go :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →  ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᴾᵒ Qᵒ˙
+    go :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →  ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙ ⊨ ⟨ e ⟩ᴾᵒ[< ι ] Qᵒ˙
     go Pv⊨✓Qv big .! =  ⁺⟨⟩ᴾᵒ-mono✓ Pv⊨✓Qv $ big .!
 
-  ⁺⟨⟩ᴾᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Qᵒ˙
+  ⁺⟨⟩ᴾᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙
   ⁺⟨⟩ᴾᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᴾᵒ-mono✓
 
   ⁺⟨⟩ᵀᵒ-mono✓ :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →
-                 ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Qᵒ˙
+                 ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙
   ⁺⟨⟩ᵀᵒ-mono✓ {vk = ĩ₀ _} Pv⊨✓Qv ⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ M → ⁺⟨⟩ᵀᵒ-val⁻¹ ⟨v⟩P M ▷
     ⇛ᵒ-mono✓ (Pv⊨✓Qv _)
   ⁺⟨⟩ᵀᵒ-mono✓ {vk = ĩ₁ _} Pv⊨✓Qv ⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ M → ⁺⟨⟩ᵀᵒ-kr⁻¹ ⟨kr⟩P M ▷
     ⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷
     ⇛ᵒ-mono (go Pv⊨✓Qv)
    where
-    go :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →  ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᵀᵒ Qᵒ˙
+    go :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →  ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙ ⊨ ⟨ e ⟩ᵀᵒ[< ι ] Qᵒ˙
     go Pv⊨✓Qv (§ big) =  § ⁺⟨⟩ᵀᵒ-mono✓ Pv⊨✓Qv big
 
-  ⁺⟨⟩ᵀᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Qᵒ˙
+  ⁺⟨⟩ᵀᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙
   ⁺⟨⟩ᵀᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᵀᵒ-mono✓
 
   -- Convert ⁺⟨⟩ᵀᵒ into ⁺⟨⟩ᴾᵒ
 
-  ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ :  ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙  ⊨  ⁺⟨ vk ⟩[ ι' ]ᴾᵒ Pᵒ˙
+  ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ :  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι' ] Pᵒ˙
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} ⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val $ ⁺⟨⟩ᵀᵒ-val⁻¹ ⟨v⟩P
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} ⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M → ⁺⟨⟩ᵀᵒ-kr⁻¹ ⟨kr⟩P M ▷ ⇛ᵒ-mono
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ-mono go
    where
-    go :  ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙  ⊨  ⟨ e ⟩[< ι' ]ᴾᵒ Pᵒ˙
+    go :  ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙  ⊨  ⟨ e ⟩ᴾᵒ[< ι' ] Pᵒ˙
     go (§ big) .! =  ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ big
 
   -- ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ absorbs ⇛ᵒ outside itself
 
-  ⇛ᵒ-⁺⟨⟩ᴾᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙  ⊨  ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙
+  ⇛ᵒ-⁺⟨⟩ᴾᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⇛ᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} ⇛⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ M → ⇛⟨v⟩P M ▷
     ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-val⁻¹ › _$ M) ▷ ⇛ᵒ-join
   ⇛ᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} ⇛⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛⟨kr⟩P M ▷
     ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-kr⁻¹ › _$ M) ▷ ⇛ᵒ-join
 
-  ⇛ᵒ-⁺⟨⟩ᵀᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙  ⊨  ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙
+  ⇛ᵒ-⁺⟨⟩ᵀᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
   ⇛ᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} ⇛⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ M → ⇛⟨v⟩P M ▷
     ⇛ᵒ-mono (⁺⟨⟩ᵀᵒ-val⁻¹ › _$ M) ▷ ⇛ᵒ-join
   ⇛ᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} ⇛⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛⟨kr⟩P M ▷
@@ -221,29 +221,29 @@ abstract
 
   -- ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ absorbs ⇛ᵒ inside itself
 
-  ⁺⟨⟩ᴾᵒ-⇛ᵒ :  ⁺⟨ vk ⟩[ ι ]ᴾᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
-              ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-⇛ᵒ :  ⁺⟨ vk ⟩ᴾᵒ[ ι ] (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
+              ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-⇛ᵒ {vk = ĩ₀ _} ⟨v⟩⇛P =  ⁺⟨⟩ᴾᵒ-val λ M → ⁺⟨⟩ᴾᵒ-val⁻¹ ⟨v⟩⇛P M ▷
     ⇛ᵒ-mono (_$ M) ▷ ⇛ᵒ-join
   ⁺⟨⟩ᴾᵒ-⇛ᵒ {vk = ĩ₁ _} ⟨kr⟩⇛P =  ⁺⟨⟩ᴾᵒ-kr λ M → ⁺⟨⟩ᴾᵒ-kr⁻¹ ⟨kr⟩⇛P M ▷ ⇛ᵒ-mono
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ-mono go
    where
-    go :  ⟨ e ⟩[< ι ]ᴾᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙
+    go :  ⟨ e ⟩ᴾᵒ[< ι ] (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙
     go big .! =  ⁺⟨⟩ᴾᵒ-⇛ᵒ $ big .!
 
-  ⁺⟨⟩ᵀᵒ-⇛ᵒ :  ⁺⟨ vk ⟩[ ι ]ᵀᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
-              ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-⇛ᵒ :  ⁺⟨ vk ⟩ᵀᵒ[ ι ] (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
+              ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᵀᵒ-⇛ᵒ {vk = ĩ₀ _} ⟨v⟩⇛P =  ⁺⟨⟩ᵀᵒ-val λ M → ⁺⟨⟩ᵀᵒ-val⁻¹ ⟨v⟩⇛P M ▷
     ⇛ᵒ-mono (_$ M) ▷ ⇛ᵒ-join
   ⁺⟨⟩ᵀᵒ-⇛ᵒ {vk = ĩ₁ _} ⟨kr⟩⇛P =  ⁺⟨⟩ᵀᵒ-kr λ M → ⁺⟨⟩ᵀᵒ-kr⁻¹ ⟨kr⟩⇛P M ▷ ⇛ᵒ-mono
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ-mono go
    where
-    go :  ⟨ e ⟩[< ι ]ᵀᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙
+    go :  ⟨ e ⟩ᵀᵒ[< ι ] (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙
     go (§ big) =  § ⁺⟨⟩ᵀᵒ-⇛ᵒ big
 
   -- ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ can eat a proposition
 
-  ⁺⟨⟩ᴾᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙)  ⊨  ⁺⟨ vk ⟩[ ι ]ᴾᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
+  ⁺⟨⟩ᴾᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙)  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₀ _} Q∗⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ M → Q∗⟨v⟩P ▷
     ∗ᵒ-monoʳ (⁺⟨⟩ᴾᵒ-val⁻¹ › _$ M) ▷ ⇛ᵒ-eatˡ
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₁ _} Q∗⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M → Q∗⟨kr⟩P ▷
@@ -251,10 +251,10 @@ abstract
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big ▷
     ∗ᵒ-monoʳ (λ big → big e M' krM⇒eM') ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono go)
    where
-    go :  Qᵒ ∗ᵒ (⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙)  ⊨  ⟨ e ⟩[< ι ]ᴾᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
+    go :  Qᵒ ∗ᵒ (⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙)  ⊨  ⟨ e ⟩ᴾᵒ[< ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v
     go =  ∗ᵒThunkᵒ-out › λ{ big .! → big .! ▷ ⁺⟨⟩ᴾᵒ-eatˡ }
 
-  ⁺⟨⟩ᵀᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙)  ⊨  ⁺⟨ vk ⟩[ ι ]ᵀᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
+  ⁺⟨⟩ᵀᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙)  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v
   ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₀ _} Q∗⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ M → Q∗⟨v⟩P ▷
     ∗ᵒ-monoʳ (⁺⟨⟩ᵀᵒ-val⁻¹ › _$ M) ▷ ⇛ᵒ-eatˡ
   ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₁ _} Q∗⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ M → Q∗⟨kr⟩P ▷
@@ -262,5 +262,5 @@ abstract
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big ▷
     ∗ᵒ-monoʳ (λ big → big e M' krM⇒eM') ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono go)
    where
-    go :  Qᵒ ∗ᵒ (⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙)  ⊨  ⟨ e ⟩[< ι ]ᵀᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
+    go :  Qᵒ ∗ᵒ (⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙)  ⊨  ⟨ e ⟩ᵀᵒ[< ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v
     go =  ∗ᵒShrunkᵒ-out › λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-eatˡ big }

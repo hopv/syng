@@ -7,8 +7,8 @@
 module Syho.Model.Hor.Wp where
 
 open import Base.Level using (2ᴸ; 3ᴸ)
-open import Base.Size using (Size; ∞; Thunk; !; Shrunk; §_)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
+open import Base.Size using (Size; ∞; Thunk; !; Shrunk; §_)
 open import Base.Prod using (π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Syho.Lang.Expr using (Type; Expr; Val)

@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Prove semantic soundness of the super update
+-- Prove the semantic soundness of the super update
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

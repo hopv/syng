@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Prove semantic soundness of the pure sequent
+-- Prove the semantic soundness of the pure sequent
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

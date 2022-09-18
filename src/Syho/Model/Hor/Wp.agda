@@ -24,8 +24,7 @@ open import Syho.Model.Supd.Sound using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'�
 private variable
   ł :  Level
   ι ι' :  Size
-  M :  Mem
-  T U :  Type
+  T :  Type
   Pᵒ˙ Qᵒ˙ :  Val T → Propᵒ ł
   Qᵒ :  Propᵒ ł
   v :  Val T

@@ -14,7 +14,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Option using (¿_; š_; ň; _$¿_; _»-¿_)
 open import Base.Dec using (upd˙)
-open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙)
+open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
 open import Base.List using (List; _‼_; upd; rep)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; TyVal; ⊤ṽ)
@@ -70,6 +70,11 @@ abstract
 
   ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o Mb M)
   ✓ᴹ-upd˙ =  Cofin˙-upd˙ {F = λ _ → _≡ ň}
+
+  -- If ✓ᴹ M holds, then M o ≡ ň for some o
+
+  ✓ᴹ-∑ň :  ✓ᴹ M →  ∑ o , M o ≡ ň
+  ✓ᴹ-∑ň =  Cofin˙-∑ {F = λ _ → _≡ ň}
 
 --------------------------------------------------------------------------------
 -- Reduction

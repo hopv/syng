@@ -14,8 +14,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
 open import Syho.Lang.Expr using (Addr; addr; Type; ◸_; _↷_; Expr; ▶_; ∇_; nd;
   λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free)
-open import Syho.Lang.Reduce using (Mem; nd-red; ▶-red; ◁-red; redᴷᴿ; _⇒ᴱ_;
-  redᴱ)
+open import Syho.Lang.Reduce using (Mem; nd⇒; ▶⇒; ◁⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
 
 private variable
   ι :  Size
@@ -75,17 +74,17 @@ abstract
   -- Reduce loop
 
   loop-red :  (loop , M) ⇒ᴱ (loop , M)
-  loop-red =  redᴱ refl $ redᴷᴿ ▶-red
+  loop-red =  redᴱ refl $ redᴷᴿ ▶⇒
 
   -- Reduce plus◁3,4
 
   plus◁3,4-red :  (plus◁3,4 , M) ⇒ᴱ (∇ 7 , M)
-  plus◁3,4-red =  redᴱ refl $ redᴷᴿ ◁-red
+  plus◁3,4-red =  redᴱ refl $ redᴷᴿ ◁⇒
 
   -- Reduce ndnat
 
   ndnat-red :  (ndnat , M) ⇒ᴱ (∇ n , M)
-  ndnat-red =  redᴱ refl $ redᴷᴿ $ nd-red _
+  ndnat-red =  redᴱ refl $ redᴷᴿ $ nd⇒ _
 
 --------------------------------------------------------------------------------
 -- Destructing Red
@@ -95,7 +94,7 @@ abstract
   -- Invert reduction on loop
 
   loop-red-inv :  (loop , M) ⇒ᴱ (e , M') →  (e , M') ≡ (loop , M)
-  loop-red-inv (redᴱ refl (redᴷᴿ ▶-red)) =  refl
+  loop-red-inv (redᴱ refl (redᴷᴿ ▶⇒)) =  refl
 
   -- stuck can't be reduced (it's stuck!)
 
@@ -106,9 +105,9 @@ abstract
   -- Invert reduction on plus◁3,4
 
   plus◁3,4-red-inv :  (plus◁3,4 , M) ⇒ᴱ (e , M') →  (e , M') ≡ (∇ 7 , M)
-  plus◁3,4-red-inv (redᴱ refl (redᴷᴿ ◁-red)) =  refl
+  plus◁3,4-red-inv (redᴱ refl (redᴷᴿ ◁⇒)) =  refl
 
   -- Invert reduction on ndnat
 
   ndnat-red-inv :  (ndnat , M) ⇒ᴱ (e , M') →  ∑ n , (e , M') ≡ (∇ n , M)
-  ndnat-red-inv (redᴱ refl (redᴷᴿ (nd-red _))) =  -, refl
+  ndnat-red-inv (redᴱ refl (redᴷᴿ (nd⇒ _))) =  -, refl

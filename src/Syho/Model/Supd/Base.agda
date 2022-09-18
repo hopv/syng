@@ -6,22 +6,23 @@
 
 module Syho.Model.Supd.Base where
 
-open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; ↓)
 open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
-open import Base.Prod using (_×_; _,_)
+open import Base.Prod using (π₀; _×_; _,_; -,_)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
-open import Syho.Lang.Reduce using (Mem)
+open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
+open import Syho.Model.ERA.Glob using (iᴹᵉᵐ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax; ⊤ᵒ;
-  _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∀ᵒ-Mono; ∀ᵒ-mono;
-  ∀ᵒ-intro; ∗ᵒ≡∗ᵒ'; ∗ᵒ-Mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm;
-  ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-intro;
-  -∗ᵒ-apply; ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ'; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ;
-  ⤇ᴱ-param; ⤇ᵒ⇒⤇ᴱ; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
+  ⌜_⌝ᵒ×_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∀ᵒ-Mono;
+  ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ≡∗ᵒ'; ∗ᵒ-Mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
+  ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
+  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ'; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ;
+  ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᵒ⇒⤇ᴱ; ⤇ᴱ-intro-✓; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
 open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; envᴳ; envᴳ-cong)
 
 private variable
@@ -124,6 +125,14 @@ abstract
   ⇛ᵍ-intro :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
               Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M ⟩ Pᵒ
   ⇛ᵍ-intro setget≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵍ setget≡
+
+  -- Introduce ⇛ᵍ with ✓ᴹ
+
+  ⇛ᵍ-intro-✓ᴹ :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
+                 Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M ⟩ ⌜ ✓ᴹ M ⌝ᵒ× Pᵒ
+  ⇛ᵍ-intro-✓ᴹ setget≡ =  ⇛ᵍ-make λ _ →
+    ⤇ᴱ-intro-✓ › ⤇ᴱ-respᴱˡ (envᴳ-cong setget≡) ›
+    ⤇ᴱ-mono (λ (-, E✓) → ∗ᵒ-monoˡ (E✓ iᴹᵉᵐ .↓ .π₀ ,_)) › ⤇ᴱ-param
 
   -- Join the same ⇛ᵍs
 

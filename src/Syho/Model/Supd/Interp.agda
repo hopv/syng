@@ -14,13 +14,13 @@ open import Base.Size using (∞)
 open import Base.Prod using (_,_)
 open import Base.Dec using (upd˙-self; upd˙²-self; upd˙²-2)
 open import Base.Nat using ()
-open import Syho.Lang.Reduce using (Mem)
+open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Glob using (envᴳ; envᴳ-cong)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊤ᵒ₀; _∗ᵒ_;
-  ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ; ⤇ᴱ-param;
-  ⤇ᴱ-eatʳ)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊤ᵒ₀;
+  ⌜_⌝ᵒ×_; _∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ;
+  ⤇ᴱ-param; ⤇ᴱ-eatʳ)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⇛ᵍ-Mono;
-  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⊨✓⇒⊨-⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
+  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⊨✓⇒⊨-⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro-✓ᴹ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
 open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; updᴱᴵⁿᵈ; Invᴵⁿᵈ; ⟨_⟩⇛ᴵⁿᵈ⟨_⟩_)
 
 private variable
@@ -97,6 +97,11 @@ abstract
 
   ⇛ᵒ-intro :  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
   ⇛ᵒ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵒ
+
+  -- Introduce ⇛ᵒ with ✓ᴹ
+
+  ⇛ᵒ-intro-✓ᴹ :  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩  ⌜ ✓ᴹ M ⌝ᵒ×  Pᵒ
+  ⇛ᵒ-intro-✓ᴹ =  ⇛ᵍ-intro-✓ᴹ $ upd˙²-self λ ()
 
   -- Join ⇛ᵒ
 

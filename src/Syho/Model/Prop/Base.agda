@@ -511,6 +511,11 @@ abstract
   ⤇ᴱ-intro :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ⊤₀) → E , Pᵒ
   ⤇ᴱ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⤇ᴱ
 
+  -- Introduce ⤇ᴱ with the validity of E
+
+  ⤇ᴱ-intro-✓ :  Pᵒ  ⊨  E ⤇ᴱ λ(_ : ∑ a , E ✓ a) → E , Pᵒ
+  ⤇ᴱ-intro-✓ Pa _ E✓a∙c =  (-, E✓a∙c) , -, E✓a∙c , Pa
+
   -- Join ⤇ᴱs
 
   ⤇ᴱ-join :  E ⤇ᴱ (λ x → F˙ x , F˙ x ⤇ᴱ GPᵒ˙˙ x)  ⊨  E ⤇ᴱ uncurry GPᵒ˙˙

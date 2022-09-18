@@ -200,8 +200,7 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (P⊢⇛Q ᵘ»ʰ Q⊢⟨vk⟩R) Pa =  ⇛ᵒ-⁺⟨⟩ᴾᵒ λ _ → Pa ▷ ⊢⇛-sem P⊢⇛Q ▷
     ⇛ᵒ-mono $ ⊢⁺⟨⟩ᴾ-sem Q⊢⟨vk⟩R
 
-  -- _ʰ»ᵘ_ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →
-  --          (∀ v →  Q˙ v  ⊢[ ∞ ][ i ]⇛  R˙ v)  →
+  -- _ʰ»ᵘ_ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   (∀ v →  Q˙ v  ⊢[ ∞ ][ i ]⇛  R˙ v)  →
   --          P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  R˙
 
   ⊢⁺⟨⟩ᴾ-sem (P⊢⟨vk⟩Q ʰ»ᵘ Qv⊢⇛Rv) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q ›

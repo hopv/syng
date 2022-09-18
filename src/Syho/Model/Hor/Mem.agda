@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Super update on the memory
+-- Memory-related lemmas on the weakest preconditions
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

@@ -162,9 +162,9 @@ following parts.
             of the logic's super-update sequent.
     + [`Hor/`](src/Syho/Model/Hor/) ― **The semantic model and soundness proof
         of the Hoare triple.**
-        * [`Mem`](src/Syho/Model/Hor/Mem.agda) for the super update on the
-            memory.
         * [`Wp`](src/Syho/Model/Hor/Wp.agda) for the semantic partial and total
+            weakest preconditions;
+          [`Mem`](src/Syho/Model/Hor/Mem.agda) for memory-related lemmas on the
             weakest preconditions.
 
 ## Meta-logic

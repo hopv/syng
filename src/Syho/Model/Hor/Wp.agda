@@ -101,7 +101,7 @@ abstract
     big e M' krM⇒eM' ▷ ⇛ᵍ-mono go
    where
     go :  ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᴾᵒ Qᵒ˙
-    go big .! =  ⁺⟨⟩ᴾᵒ-mono✓ Pv⊨✓Qv (big .!)
+    go big .! =  ⁺⟨⟩ᴾᵒ-mono✓ Pv⊨✓Qv $ big .!
 
   ⁺⟨⟩ᴾᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Qᵒ˙
   ⁺⟨⟩ᴾᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᴾᵒ-mono✓
@@ -124,7 +124,7 @@ abstract
     λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵍ-mono go
    where
     go :  ⟨ e ⟩[< ι ]ᴾᵒ (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙
-    go big .! =  ⁺⟨⟩ᴾᵒ-⇛ᵒ (big .!)
+    go big .! =  ⁺⟨⟩ᴾᵒ-⇛ᵒ $ big .!
 
   -- ⁺⟨⟩ᴾᵒ can eat a proposition
 

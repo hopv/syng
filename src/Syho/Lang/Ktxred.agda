@@ -184,13 +184,6 @@ val/ktxred (free e) =  ĩ₁ body
   … | ĩ₁ (K ᴷ| red) =  freeᴷ K ᴷ| red
   … | ĩ₀ ṽ θ =  •ᴷ ᴷ| freeᴿ θ
 
--- Judge if the expression is non-value
-
-nonval :  Expr ∞ T →  Set₀
-nonval e  with val/ktxred e
-… | ĩ₀ _ =  ⊥
-… | ĩ₁ _ =  ⊤
-
 abstract
 
   -- If val/ktxred e equlas ĩ₀ v, then e equals V⇒E v
@@ -204,19 +197,6 @@ abstract
   val/ktxred-V⇒E :  val/ktxred (V⇒E v) ≡ ĩ₀ v
   val/ktxred-V⇒E {v = ṽ _} =  refl
   val/ktxred-V⇒E {v = ṽ↷ _} =  refl
-
-  -- Nonval enriched with an evaluation context
-
-  nonval-ktx :  nonval e →  nonval (K ᴷ◁ e)
-  nonval-ktx {K = •ᴷ} n'e =  n'e
-  nonval-ktx {K = _ ◁ᴷʳ _} =  _
-  nonval-ktx {K = _ ◁ᴷˡ _} =  _
-  nonval-ktx {K = _ ⁏ᴷ _} =  _
-  nonval-ktx {K = 🞰ᴷ _} =  _
-  nonval-ktx {K = _ ←ᴷʳ _} =  _
-  nonval-ktx {K = _ ←ᴷˡ _} =  _
-  nonval-ktx {K = allocᴷ _} =  _
-  nonval-ktx {K = freeᴷ _} =  _
 
   -- Calculate val/ktxred (K ᴷ◁ e)
 
@@ -239,55 +219,3 @@ abstract
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = freeᴷ K} eq
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
-
-  -- Invert from val/ktxred (K ᴷ◁ e)
-
-  val/ktxred-ktx-inv :  nonval e →
-    val/ktxred (K ᴷ◁ e) ≡ ĩ₁ kr →  let K'' ᴷ| red = kr in
-    ∑ K' ,  K'' ≡ K ᴷ∘ᴷ K'  ×  val/ktxred e ≡ ĩ₁ (K' ᴷ| red)
-  val/ktxred-ktx-inv {K = •ᴷ} _ eq =  -, refl , eq
-  val/ktxred-ktx-inv {e = e} {K = _ ◁ᴷʳ K} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  …   | ĩ₁ _ | _ | refl | ind  with ind refl
-  …     | K' , refl , eq' =  K' , refl , eq'
-  val/ktxred-ktx-inv {e = e} {K = K ◁ᴷˡ _} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  … | ĩ₁ _ | _ | refl | ind  with ind refl
-  …   | K , refl , eq' =  K , refl , eq'
-  val/ktxred-ktx-inv {e = e} {K = K ⁏ᴷ _} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  … | ĩ₁ _ | _ | refl | ind  with ind refl
-  …   | K , refl , eq' =  K , refl , eq'
-  val/ktxred-ktx-inv {e = e} {K = 🞰ᴷ K} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  … | ĩ₁ _ | _ | refl | ind  with ind refl
-  …   | K , refl , eq' =  K , refl , eq'
-  val/ktxred-ktx-inv {e = e} {K = _ ←ᴷʳ K} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  … | ĩ₁ _ | _ | refl | ind  with ind refl
-  …   | K , refl , eq' =  K , refl , eq'
-  val/ktxred-ktx-inv {e = e} {K = K ←ᴷˡ ṽ _} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  … | ĩ₁ _ | _ | refl | ind  with ind refl
-  …   | K , refl , eq' =  K , refl , eq'
-  val/ktxred-ktx-inv {e = e} {K = K ←ᴷˡ ṽ↷ _} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  … | ĩ₁ _ | _ | refl | ind  with ind refl
-  …   | K , refl , eq' =  K , refl , eq'
-  val/ktxred-ktx-inv {e = e} {K = allocᴷ K} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  … | ĩ₁ _ | _ | refl | ind  with ind refl
-  …   | K , refl , eq' =  K , refl , eq'
-  val/ktxred-ktx-inv {e = e} {K = freeᴷ K} nv'e eq
-    with val/ktxred (K ᴷ◁ e) | nonval-ktx {K = K} nv'e | eq |
-      (λ{kr} → val/ktxred-ktx-inv {K = K} {kr} nv'e)
-  … | ĩ₁ _ | _ | refl | ind  with ind refl
-  …   | K , refl , eq' =  K , refl , eq'

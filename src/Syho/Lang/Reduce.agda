@@ -19,8 +19,7 @@ open import Base.List using (List; _‼_; upd; rep)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
   V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;
-  allocᴿ; freeᴿ; Ktx; _ᴷ◁_; ᴷ∘ᴷ-ᴷ◁; Ktxred; _ᴷ|_; val/ktxred; nonval;
-  val/ktxred-ktx; val/ktxred-ktx-inv)
+  allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; _ᴷ|_; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- Memory
@@ -119,19 +118,3 @@ data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
 infix 4 _⇒ᴷᴿ∑
 _⇒ᴷᴿ∑ :  ∀{T} →  Ktxred T × Mem →  Set₁
 redM ⇒ᴷᴿ∑ =  ∑ e'M' , redM ⇒ᴷᴿ e'M'
-
-abstract
-
-  -- Enrich a reduction with an evaluation context
-
-  red-ktx :  (e , M) ⇒ᴱ (e' , M') →  (K ᴷ◁ e , M) ⇒ᴱ (K ᴷ◁ e' , M')
-  red-ktx {K = K} (redᴱ eq (redᴷᴿ {e' = e'} {K = K'} r⇒))
-    rewrite ◠ ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e'}
-    =  redᴱ (val/ktxred-ktx eq) (redᴷᴿ r⇒)
-
-  -- Unwrap an evaluation context from a reduction
-
-  red-ktx-inv :  nonval e →  (K ᴷ◁ e , M) ⇒ᴱ (e'' , M') →
-                 ∑ e' ,  e'' ≡ K ᴷ◁ e'  ×  (e , M) ⇒ᴱ (e' , M')
-  red-ktx-inv {K = K} nv'e (redᴱ eq (redᴷᴿ r⇒))  with val/ktxred-ktx-inv nv'e eq
-  … | -, refl , eq' =  -, ᴷ∘ᴷ-ᴷ◁ {K = K} , redᴱ eq' $ redᴷᴿ r⇒

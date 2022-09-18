@@ -220,12 +220,8 @@ abstract
   --             (∀ v →  Q˙ v  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  R˙)  →
   --             P  ⊢[ ∞ ]⟨ K ᴷ◁ e ⟩ᴾ  R˙
 
-  -- Termination check fails if we include this, probably because hor-bind takes
-  -- two partial Hoare triples as arguments
-{-
   ⊢⁺⟨⟩ᴾ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᴾᵒ-mono (λ v → ⊢⁺⟨⟩ᴾ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᴾᵒ-bind
--}
 
   -- hor-nd :  {{Inh X}} →  (∀(x : X) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᴾ  Q˙)  →
   --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| ndᴿ) ⟩ᴾ  Q˙

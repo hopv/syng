@@ -21,7 +21,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ∀ᵒ∈-syntax)
 open import Syho.Model.Supd.Interp using (⇛ᵒ-mono; ⇛ᵒ-intro; ⇛ᵒ-join)
 open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[_]_;
   ⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[<_]_; ⟨_⟩ᵀᵒ[<_]_; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr;
-  ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⇛ᵒ-⁺⟨⟩ᴾᵒ; ⇛ᵒ-⁺⟨⟩ᵀᵒ)
+  ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⇛ᵒ-⁺⟨⟩ᴾᵒ; ⇛ᵒ-⁺⟨⟩ᵀᵒ)
 
 private variable
   ł :  Level
@@ -43,7 +43,7 @@ abstract
 
   -- Bind for ⟨⟩ᴾᵒ / ⟨⟩ᵀᵒ
 
-  ⟨⟩ᴾᵒ-bind :  ⟨ e ⟩ᴾᵒ[ ι ] (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ[ ∞ ] Pᵒ˙)  ⊨
+  ⟨⟩ᴾᵒ-bind :  ⟨ e ⟩ᴾᵒ[ ι ] (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ[ ι ] Pᵒ˙)  ⊨
                ⟨ K ᴷ◁ e ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⟨⟩ᴾᵒ-bind {e = e} {K = K} big  with val/ktxred e | val/ktxred-ĩ₀ {e = e} |
     val/ktxred-ktx {e = e}
@@ -53,9 +53,10 @@ abstract
     (-, redᴷᴿ redM⇒) , λ{ _ M' (redᴷᴿ redM⇒e'M') → big _ M' (redᴷᴿ redM⇒e'M') ▷
     ⇛ᵒ-mono go }}
    where
-    go :  ⟨ K' ᴷ◁ e' ⟩ᴾᵒ[< ι ] (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ[ ∞ ] Pᵒ˙)  ⊨
+    go :  ⟨ K' ᴷ◁ e' ⟩ᴾᵒ[< ι ] (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ[ ι ] Pᵒ˙)  ⊨
           ⟨ (K ᴷ∘ᴷ K') ᴷ◁ e' ⟩ᴾᵒ[< ι ] Pᵒ˙
-    go {e'} big .!  rewrite ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e'} =  big .! ▷ ⟨⟩ᴾᵒ-bind
+    go {e'} big .! {ι'}  rewrite ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e'} = big .! ▷
+      ⁺⟨⟩ᴾᵒ-mono (λ _ → ⁺⟨⟩ᴾᵒ-size) ▷ ⟨⟩ᴾᵒ-bind
 
   ⟨⟩ᵀᵒ-bind :  ⟨ e ⟩ᵀᵒ[ ι ] (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ[ ι' ] Pᵒ˙)  ⊨
                ⟨ K ᴷ◁ e ⟩ᵀᵒ[ ∞ ] Pᵒ˙

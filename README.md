@@ -168,8 +168,8 @@ following parts.
             weakest preconditions;
           [`Lang`](src/Syho/Model/Hor/Lang.agda) for language-specific lemmas on
             the weakest preconditions;
-          [`Mem`](src/Syho/Model/Hor/Mem.agda) for memory-related lemmas on the
-            weakest preconditions.
+          [`Mem`](src/Syho/Model/Hor/Mem.agda) for semantic super update and
+            weakest precondition lemmas for the memory.
 
 ## Meta-logic
 

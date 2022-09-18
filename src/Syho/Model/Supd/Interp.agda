@@ -8,16 +8,19 @@ module Syho.Model.Supd.Interp where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Func using (_$_; _›_; id)
-open import Base.Eq using (_≡_; refl; ◠_)
+open import Base.Few using (⊤₀)
+open import Base.Eq using (_≡_; refl; ◠_; _◇˙_)
 open import Base.Size using (∞)
 open import Base.Prod using (_,_)
-open import Base.Dec using (upd˙²-self; upd˙²-2)
+open import Base.Dec using (upd˙-self; upd˙²-self; upd˙²-2)
 open import Base.Nat using ()
 open import Syho.Lang.Reduce using (Mem)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; _∗ᵒ_; ⤇ᵒ_;
-  ⊨⇒⊨✓; substᵒ; ∗ᵒ-comm; ⤇ᵒ-intro)
+open import Syho.Model.ERA.Glob using (envᴳ; envᴳ-cong)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊤ᵒ₀; _∗ᵒ_;
+  ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ; ⤇ᴱ-param;
+  ⤇ᴱ-eatʳ)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⇛ᵍ-Mono;
-  ⇛ᵍ-mono✓; ⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
+  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
 open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; updᴱᴵⁿᵈ; Invᴵⁿᵈ; ⟨_⟩⇛ᴵⁿᵈ⟨_⟩_)
 
 private variable
@@ -57,6 +60,17 @@ abstract
 
   ⇛ᴵⁿᵈ⇒⇛ᵒ :  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ
   ⇛ᴵⁿᵈ⇒⇛ᵒ =  id
+
+  -- ⤇ᴱ on the memory into ⇛ᵒ
+
+  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ :  (∀{Eᴵⁿ} →  Pᵒ ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ(_ : ⊤₀) → envᴳ M' Eᴵⁿ , Qᵒ) →
+                  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ
+  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ P⊨ME⤇M'EQ =  ⇛ᵍ-make λ _ → ∗ᵒ-monoˡ P⊨ME⤇M'EQ › ⤇ᴱ-eatʳ ›
+    ⤇ᴱ-param › ⤇ᴱ-respᴱˡ $ envᴳ-cong $ upd˙-self ◇˙ upd˙-self
+
+  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ :  (∀{Eᴵⁿ} →  ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ(_ : ⊤₀) → envᴳ M' Eᴵⁿ , Pᵒ) →
+                ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ
+  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ ⊨ME⤇M'EP =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ {Pᵒ = ⊤ᵒ₀} (λ _ → ⊨ME⤇M'EP) _
 
   -- Monoᵒ for ⇛ᵒ
 

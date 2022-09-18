@@ -8,7 +8,7 @@ module Syho.Model.Supd.Sound where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Func using (_$_; _›_; id)
-open import Base.Eq using (_≡_; refl)
+open import Base.Eq using (_≡_; refl; ◠_)
 open import Base.Size using (∞)
 open import Base.Prod using (∑-case; _,_)
 open import Base.Dec using (upd˙²-self; upd˙²-2)
@@ -18,8 +18,8 @@ open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_»_; ∃₁-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⤇ᵒ_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out;
-  ⤇ᵒ-intro)
+open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⤇ᵒ_; substᵒ; ∗ᵒ-monoʳ;
+  ∗ᵒ∃ᵒ-out; ⤇ᵒ-intro)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⊨✓⇛ᵍ⇒⊨⇛ᵍ;
@@ -57,10 +57,10 @@ abstract
   ⇛ᵒ≡⇛ᵒ' =  ⇛ᵍ≡⇛ᵍ'
 
   ⇛ᵒ⇒⇛ᵒ' :  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ
-  ⇛ᵒ⇒⇛ᵒ' {M} {M'} {Pᵒ = Pᵒ}  rewrite ⇛ᵒ≡⇛ᵒ' {M} {M'} {Pᵒ = Pᵒ} =  id
+  ⇛ᵒ⇒⇛ᵒ' =  substᵒ id ⇛ᵒ≡⇛ᵒ'
 
   ⇛ᵒ'⇒⇛ᵒ :  ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ
-  ⇛ᵒ'⇒⇛ᵒ {M} {M'} {Pᵒ = Pᵒ}  rewrite ⇛ᵒ≡⇛ᵒ' {M} {M'} {Pᵒ = Pᵒ} =  id
+  ⇛ᵒ'⇒⇛ᵒ =  substᵒ id $ ◠ ⇛ᵒ≡⇛ᵒ'
 
   -- ⤇ᵒ into ⇛ᵍ
 

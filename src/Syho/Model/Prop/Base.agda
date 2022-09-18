@@ -9,7 +9,7 @@ module Syho.Model.Prop.Base where
 open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 2ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
-open import Base.Eq using (_≡_; refl; _≡˙_; ◠˙_)
+open import Base.Eq using (_≡_; refl; subst; _≡˙_; ◠˙_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   curry; uncurry; ∑-case)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
@@ -51,6 +51,7 @@ private variable
   FPᵒ˙ GPᵒ˙ :  X →  Envᴳ × Propᵒ ł
   GPᵒ˙˙ :  X →  Y →  Envᴳ × Propᵒ ł
   f :  Y → X
+  x y :  X
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment
@@ -75,6 +76,11 @@ abstract
 
   ⊨⇒⊨✓ :  Pᵒ ⊨ Qᵒ →  Pᵒ ⊨✓ Qᵒ
   ⊨⇒⊨✓ P⊨Q _ =  P⊨Q
+
+  -- Substitute a proposition
+
+  substᵒ :  ∀(Pᵒ˙ : X → Propᵒ ł) →  x ≡ y →  Pᵒ˙ x ⊨ Pᵒ˙ y
+  substᵒ Pᵒ˙ refl =  id
 
 --------------------------------------------------------------------------------
 -- ∀ᵒ, ∃ᵒ, ∃ᴵ :  Semantic universal/existential quantification

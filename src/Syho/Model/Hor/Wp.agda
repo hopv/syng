@@ -8,7 +8,7 @@ module Syho.Model.Hor.Wp where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; 3ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
-open import Base.Size using (Size; ∞; !; §_)
+open import Base.Size using (Size; Size<; ∞; !; §_)
 open import Base.Prod using (π₀; π₁; _,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
@@ -194,6 +194,14 @@ abstract
 
   ⁺⟨⟩ᵀᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙
   ⁺⟨⟩ᵀᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᵀᵒ-mono✓
+
+  -- Modify the size of ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+
+  ⁺⟨⟩ᴾᵒ-size :  ∀{ι' : Size< ι} →  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι' ] Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-size ⟨vk⟩P =  ⟨vk⟩P
+
+  ⁺⟨⟩ᵀᵒ-size :  ∀{ι' : Size< ι} →  ⁺⟨ vk ⟩ᵀᵒ[ ι' ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-size ⟨vk⟩P =  ⟨vk⟩P
 
   -- Convert ⁺⟨⟩ᵀᵒ into ⁺⟨⟩ᴾᵒ
 

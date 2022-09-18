@@ -163,7 +163,7 @@ following parts.
           [`Sound`](src/Syho/Model/Supd/Sound.agda) for the semantic soundness
             of the logic's super-update sequent.
     + [`Hor/`](src/Syho/Model/Hor/) ― **The semantic model and soundness proof
-        of the Hoare triple.**
+        of the partial and total Hoare triples.**
         * [`Wp`](src/Syho/Model/Hor/Wp.agda) for the semantic partial and total
             weakest preconditions;
           [`Lang`](src/Syho/Model/Hor/Lang.agda) for language-specific lemmas on

@@ -53,20 +53,25 @@ private variable
   f :  Y → X
 
 --------------------------------------------------------------------------------
--- ⊨✓, ⊨ :  Entailment, with or without a validity input
+-- ⊨✓, ⊨ :  Entailment
 
 infix 1 _⊨✓_ _⊨_ ⊨_
+
+-- Pᵒ ⊨✓ Qᵒ :  Entailment with a validity input
+-- Pᵒ ⊨ Qᵒ :  Entailment
 
 _⊨✓_ _⊨_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 Pᵒ ⊨✓ Qᵒ =  ∀{E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
 Pᵒ ⊨ Qᵒ =  ∀{a} →  Pᵒ a →  Qᵒ a
 
--- Tautology
+-- ⊨ Pᵒ :  Tautology
 
 ⊨_ :  Propᵒ ł →  Set (2ᴸ ⊔ᴸ ł)
 ⊨ Pᵒ =  ∀{a} →  Pᵒ a
 
 abstract
+
+  -- ⊨ into ⊨✓
 
   ⊨⇒⊨✓ :  Pᵒ ⊨ Qᵒ →  Pᵒ ⊨✓ Qᵒ
   ⊨⇒⊨✓ P⊨Q _ =  P⊨Q

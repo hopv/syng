@@ -10,6 +10,7 @@ open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 2ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
 open import Base.Eq using (_≡_; refl; subst; _≡˙_; ◠˙_)
+open import Base.Size using (Size; Size<; Thunk; !; Shrunk; §_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   curry; uncurry; ∑-case)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
@@ -52,6 +53,8 @@ private variable
   GPᵒ˙˙ :  X →  Y →  Envᴳ × Propᵒ ł
   f :  Y → X
   x y :  X
+  ι :  Size
+  Pᵒᶥ Qᵒᶥ :  Size →  Propᵒ ł
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment
@@ -699,3 +702,26 @@ module _ {i : ℕ} where
     ε↝-◎⟨⟩-⤇ᴱ :  (E i , εⁱ)  ↝ⁱ  (λ x → Fⁱ˙ x , aⁱ˙ x)  →
                  ⊨  E  ⤇ᴱ  λ x →  upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ aⁱ˙ x
     ε↝-◎⟨⟩-⤇ᴱ Eε↝Fax =  ↝-◎⟨⟩-⤇ᴱ Eε↝Fax ◎⟨⟩-ε
+
+--------------------------------------------------------------------------------
+-- Thunkᵒ, Shrunkᵒ :  Sized proposition under Thunk / Shrunk
+
+Thunkᵒ Shrunkᵒ :  (Size →  Propᵒ ł) →  Size →  Propᵒ ł
+Thunkᵒ Pᵒᶥ ι a =  Thunk (λ ι' → Pᵒᶥ ι' a) ι
+Shrunkᵒ Pᵒᶥ ι a =  Shrunk (λ ι' → Pᵒᶥ ι' a) ι
+
+abstract
+
+  -- Pull Thunkᵒ/Shrunkᵒ out of ∗ᵒ
+
+  ∗ᵒThunkᵒ-out :  Pᵒ ∗ᵒ Thunkᵒ Qᵒᶥ ι  ⊨  Thunkᵒ (λ ι → Pᵒ ∗ᵒ Qᵒᶥ ι) ι
+  ∗ᵒThunkᵒ-out (-, -, b∙c⊑a , Pa , TQa) .! =  -, -, b∙c⊑a , Pa , TQa .!
+
+  Thunkᵒ∗ᵒ-out :  Thunkᵒ Pᵒᶥ ι ∗ᵒ Qᵒ  ⊨  Thunkᵒ (λ ι → Pᵒᶥ ι ∗ᵒ Qᵒ) ι
+  Thunkᵒ∗ᵒ-out =  ∗ᵒ-comm › ∗ᵒThunkᵒ-out › λ{ TPQa .! → ∗ᵒ-comm $ TPQa .! }
+
+  ∗ᵒShrunkᵒ-out :  Pᵒ ∗ᵒ Shrunkᵒ Qᵒᶥ ι  ⊨  Shrunkᵒ (λ ι → Pᵒ ∗ᵒ Qᵒᶥ ι) ι
+  ∗ᵒShrunkᵒ-out (-, -, b∙c⊑a , Pa , § Qa) =  § (-, -, b∙c⊑a , Pa , Qa)
+
+  Shrunkᵒ∗ᵒ-out :  Shrunkᵒ Pᵒᶥ ι ∗ᵒ Qᵒ  ⊨  Shrunkᵒ (λ ι → Pᵒᶥ ι ∗ᵒ Qᵒ) ι
+  Shrunkᵒ∗ᵒ-out =  ∗ᵒ-comm › ∗ᵒShrunkᵒ-out › λ{ (§ PQa) → § ∗ᵒ-comm PQa }

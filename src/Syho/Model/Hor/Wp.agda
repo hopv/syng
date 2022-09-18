@@ -8,14 +8,15 @@ module Syho.Model.Hor.Wp where
 
 open import Base.Level using (2ᴸ; 3ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
-open import Base.Size using (Size; ∞; Thunk; !; Shrunk; §_)
-open import Base.Prod using (π₀; π₁; _,_; -,_)
+open import Base.Size using (Size; ∞; !; §_)
+open import Base.Prod using (π₀; π₁; _,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Lang.Ktxred using (Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (Mem; _⇒ᴷᴿ_; _⇒ᴷᴿ∑)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
-  ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ_; ⊨⇒⊨✓; ∀ᵒ-Mono; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
+  ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ_; Thunkᵒ; Shrunkᵒ; ⊨⇒⊨✓; ∀ᵒ-Mono; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out;
+  ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Supd.Base using (⇛ᵍ⇒⇛ᵍ'; ⇛ᵍ'⇒⇛ᵍ; ⇛ᵍ-Mono; ⇛ᵍ-mono✓;
   ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
 open import Syho.Model.Supd.Sound using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'⟨_⟩_; ⇛ᵒ-join)
@@ -45,7 +46,7 @@ data  ⁺⟨_⟩[_]ᴾᵒ_ :  Val/Ktxred T →  Size →  (Val T →  Propᵒ 2�
 
 ⟨_⟩[_]ᴾᵒ_ ⟨_⟩[<_]ᴾᵒ_ :  Expr ∞ T →  Size →  (Val T →  Propᵒ 2ᴸ) →  Propᵒ 3ᴸ
 ⟨ e ⟩[ ι ]ᴾᵒ Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩[ ι ]ᴾᵒ Pᵒ˙
-(⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙) a =  Thunk (λ ι → (⟨ e ⟩[ ι ]ᴾᵒ Pᵒ˙) a) ι
+⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙ =  Thunkᵒ (⟨ e ⟩[_]ᴾᵒ Pᵒ˙) ι
 
 -- ⁺⟨ ⟩[ ]ᴾᵒ :  Semantic partial weakest precondition on Val/Ktxred
 
@@ -136,7 +137,7 @@ abstract
     ∗ᵒ-monoʳ (λ big → big e M' krM⇒eM') ▷ ⇛ᵍ-eatˡ ▷ ⇛ᵍ-mono go)
    where
     go :  Qᵒ ∗ᵒ (⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙)  ⊨  ⟨ e ⟩[< ι ]ᴾᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
-    go (-, -, ∙⊑ , Q , big) .! =  ⁺⟨⟩ᴾᵒ-eatˡ (-, -, ∙⊑ , Q , big .!)
+    go =  ∗ᵒThunkᵒ-out › λ{ big .! → big .! ▷ ⁺⟨⟩ᴾᵒ-eatˡ }
 
 --------------------------------------------------------------------------------
 -- Semantic total weakest precondition
@@ -152,7 +153,7 @@ data  ⁺⟨_⟩[_]ᵀᵒ_ :  Val/Ktxred T →  Size →  (Val T →  Propᵒ 2�
 
 ⟨_⟩[_]ᵀᵒ_ ⟨_⟩[<_]ᵀᵒ_ :  Expr ∞ T →  Size →  (Val T →  Propᵒ 2ᴸ) →  Propᵒ 3ᴸ
 ⟨ e ⟩[ ι ]ᵀᵒ Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩[ ι ]ᵀᵒ Pᵒ˙
-(⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙) a =  Shrunk (λ ι → (⟨ e ⟩[ ι ]ᵀᵒ Pᵒ˙) a) ι
+⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙ =  Shrunkᵒ (⟨ e ⟩[_]ᵀᵒ Pᵒ˙) ι
 
 -- ⁺⟨ ⟩[ ]ᵀᵒ :  Semantic total weakest precondition on Val/Ktxred
 
@@ -253,4 +254,4 @@ abstract
     ∗ᵒ-monoʳ (λ big → big e M' krM⇒eM') ▷ ⇛ᵍ-eatˡ ▷ ⇛ᵍ-mono go)
    where
     go :  Qᵒ ∗ᵒ (⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙)  ⊨  ⟨ e ⟩[< ι ]ᵀᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
-    go (-, -, ∙⊑ , Q , § big) =  § ⁺⟨⟩ᵀᵒ-eatˡ (-, -, ∙⊑ , Q , big)
+    go =  ∗ᵒShrunkᵒ-out › λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-eatˡ big }

@@ -158,7 +158,9 @@ following parts.
             and invariant builder;
             [`Ind`](src/Syho/Model/Supd/Ind.agda) for the super update on the
             indirection modality and precursors.
-        * [`Sound`](src/Syho/Model/Supd/Sound.agda) for the semantic soundness
+        * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting the super
+            update;
+          [`Sound`](src/Syho/Model/Supd/Sound.agda) for the semantic soundness
             of the logic's super-update sequent.
     + [`Hor/`](src/Syho/Model/Hor/) ― **The semantic model and soundness proof
         of the Hoare triple.**

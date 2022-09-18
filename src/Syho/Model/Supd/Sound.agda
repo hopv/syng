@@ -6,65 +6,27 @@
 
 module Syho.Model.Supd.Sound where
 
-open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
-open import Base.Func using (_$_; _›_)
-open import Base.Eq using (_≡_; refl; ◠_)
+open import Base.Func using (_›_)
 open import Base.Size using (∞)
 open import Base.Prod using (∑-case; _,_)
-open import Base.Dec using (upd˙²-self; upd˙²-2)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Reduce using (Mem)
 open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_»_; ∃₁-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⤇ᵒ_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out;
-  ⤇ᵒ-intro)
+open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢⇒⊨✓)
-open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⊨✓⇛ᵍ⇒⊨⇛ᵍ;
-  ⇛ᵍ-mono; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
-open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; updᴱᴵⁿᵈ; Invᴵⁿᵈ; ⟨_⟩⇛ᴵⁿᵈ⟨_⟩_;
-  ○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use; ↪⇛ᵒ-use)
+open import Syho.Model.Supd.Base using (⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
+open import Syho.Model.Supd.Ind using (○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
+  ↪⇛ᵒ-use)
+open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join)
 
 private variable
-  ł :  Level
   P Q :  Prop' ∞
   i :  ℕ
-  M M' M'' :  Mem
-  Pᵒ :  Propᵒ ł
-
---------------------------------------------------------------------------------
--- Super update
-
-infix 3 ⟨_⟩⇛ᵒ⟨_⟩_ ⟨_⟩⇛ᵒ'⟨_⟩_
-
--- ⇛ᵒ :  Super update
-
-⟨_⟩⇛ᵒ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M' ⟩ Pᵒ
-
--- ⇛ᵒ' :  Non-abstract version of ⇛ᵒ
-
-⟨_⟩⇛ᵒ'⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
-⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ envᴵⁿᵈ , updᴱᴵⁿᵈ , Invᴵⁿᵈ ]⇛ᵍ'⟨ M' ⟩ Pᵒ
-
-abstract
-
-  -- ⤇ᵒ into ⇛ᵒ
-
-  ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
-  ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍ $ upd˙²-self λ ()
-
-  -- Introduce ⇛ᵒ
-
-  ⇛ᵒ-intro :  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
-  ⇛ᵒ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵒ
-
-  -- Join ⇛ᵒ
-
-  ⇛ᵒ-join :  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ M' ⟩⇛ᵒ⟨ M'' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M'' ⟩ Pᵒ
-  ⇛ᵒ-join =  ⇛ᵍ-join refl $ upd˙²-2 λ ()
+  M :  Mem
 
 --------------------------------------------------------------------------------
 -- ⊢⇛⇒⊨⇛ᵒ :  Semantic soundness of the super update

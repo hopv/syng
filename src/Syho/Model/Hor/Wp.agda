@@ -19,7 +19,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀�
   ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Supd.Base using (⇛ᵍ⇒⇛ᵍ'; ⇛ᵍ'⇒⇛ᵍ; ⇛ᵍ-Mono; ⇛ᵍ-mono✓;
   ⇛ᵍ-mono; ⇛ᵍ-eatˡ)
-open import Syho.Model.Supd.Sound using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'⟨_⟩_; ⇛ᵒ-join)
+open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'⟨_⟩_; ⇛ᵒ-join)
 
 private variable
   ł :  Level

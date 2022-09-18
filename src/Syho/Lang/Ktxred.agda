@@ -193,6 +193,12 @@ nonval e  with val/ktxred e
 
 abstract
 
+  -- If val/ktxred e equlas ĩ₀ v, then e equals V⇒E v
+
+  val/ktxred-ĩ₀ :  val/ktxred e ≡ ĩ₀ v →  e ≡ V⇒E v
+  val/ktxred-ĩ₀ {e = ∇ _} refl =  refl
+  val/ktxred-ĩ₀ {e = λ˙ _} refl =  refl
+
   -- val/ktxred (V⇒E v) returns ĩ₀ v
 
   val/ktxred-V⇒E :  val/ktxred (V⇒E v) ≡ ĩ₀ v

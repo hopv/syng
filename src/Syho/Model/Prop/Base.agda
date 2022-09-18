@@ -28,7 +28,6 @@ open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; �
 
 private variable
   ł ł' :  Level
-  X Y :  Set ł
 
 --------------------------------------------------------------------------------
 -- Propᵒ :  Semantic proposition
@@ -42,6 +41,7 @@ Monoᵒ :  Propᵒ ł →  Set (2ᴸ ⊔ᴸ ł)
 Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
+  X Y :  Set ł
   Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
   a b :  Resᴳ

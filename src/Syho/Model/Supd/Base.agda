@@ -17,8 +17,8 @@ open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
 open import Syho.Lang.Reduce using (Mem)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax; ⊤ᵒ;
-  _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∀ᵒ-Mono; ∀ᵒ-mono;
-  ∀ᵒ-intro; ∗ᵒ-Mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm;
+  _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∀ᵒ-Mono; ∀ᵒ-mono;
+  ∀ᵒ-intro; ∗ᵒ≡∗ᵒ'; ∗ᵒ-Mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm;
   ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-intro;
   -∗ᵒ-apply; ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ'; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ;
   ⤇ᴱ-param; ⤇ᵒ⇒⤇ᴱ; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ)
@@ -50,7 +50,7 @@ infix 3 ⟨_⟩[_]⇛ᵍ'⟨_⟩_ ⟨_⟩[_]⇛ᵍ⟨_⟩_
   Mem →  (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł') →
   Mem →  Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
 ⟨ M ⟩[ get , set , Inv ]⇛ᵍ'⟨ M' ⟩ Pᵒ =  ∀ᵒ Eᴵⁿ ,
-  Inv (get Eᴵⁿ) -∗ᵒ' (envᴳ M Eᴵⁿ ⤇ᴱ' λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x)
+  Inv (get Eᴵⁿ) -∗ᵒ' (envᴳ M Eᴵⁿ ⤇ᴱ' λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ' Inv x)
 
 abstract
 
@@ -72,7 +72,7 @@ abstract
     {M M' : Mem} {Pᵒ : Propᵒ ł''}  →
     (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ)  ≡  (⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ)
   ⇛ᵍ≡⇛ᵍ' {ł} {ł'} {ł''} {X}  rewrite -∗ᵒ≡-∗ᵒ' {ł'} {2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł''} |
-    ⤇ᴱ≡⤇ᴱ' {ł} {2ᴸ ⊔ᴸ ł' ⊔ᴸ ł''} {X} =  refl
+    ⤇ᴱ≡⤇ᴱ' {ł} {2ᴸ ⊔ᴸ ł' ⊔ᴸ ł''} {X} | ∗ᵒ≡∗ᵒ' {ł''} {ł'} =  refl
 
   ⇛ᵍ⇒⇛ᵍ' :  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ
   ⇛ᵍ⇒⇛ᵍ' =  substᵒ id ⇛ᵍ≡⇛ᵍ'

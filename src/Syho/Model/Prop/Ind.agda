@@ -7,7 +7,7 @@
 module Syho.Model.Prop.Ind where
 
 open import Base.Level using (2ᴸ)
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; _›_)
 open import Base.Few using (absurd)
 open import Base.Size using (∞)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
@@ -24,8 +24,8 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax; ∃ᴵ-syntax;
-  ⌜_⌝ᵒ×_; _⊎ᵒ_; _∗ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ-Mono; ∗ᵒ-assocʳ;
-  ?∗ᵒ-intro; ◎-Mono)
+  ⌜_⌝ᵒ×_; _⊎ᵒ_; _∗ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono;
+  ∗ᵒ-assocʳ; ?∗ᵒ-intro; ◎-Mono)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -77,8 +77,9 @@ abstract
   -- Let ○ᵒ eat a proposition under ∗ᵒ
 
   ○ᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ ∗ᵒ ○ᵒ P ⊨ ○ᵒ (Q ∗ P)
-  ○ᵒ-eatˡ (-, -, b∙c⊑a , Qb , -, -ᴵ, -, R∗S⊢P , R∗IndSc) =
-    -, -ᴵ, -, ∗-assocˡ » ∗-monoʳ R∗S⊢P , ∗ᵒ-assocʳ (-, -, b∙c⊑a , Qb , R∗IndSc)
+  ○ᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Qb , -, -ᴵ, -, R∗S⊢P , R∗IndSc) →
+    -, -ᴵ, -, ∗-assocˡ » ∗-monoʳ R∗S⊢P ,
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗IndSc) }
 
   -- Make ○ᵒ out of Ind
 
@@ -107,18 +108,19 @@ abstract
 
   ↪⇛ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
     R ∗ P' ⊢[ ∞ ][ i ]⇛ P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᵒ Q)  ⊨  P' ↪[ i ]⇛ᵒ Q
-  ↪⇛ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) =
-    -, -ᴵ, -,
+  ↪⇛ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⇛ Q
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵘ P∗S∗T⊢⇛Q ,
-    ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⇛ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
     ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᵒ Q)  ⊨  P ↪[ i ]⇛ᵒ R ∗ Q
-  ↪⇛ᵒ-eatˡ⁻ʳ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) =  -, -ᴵ, -,
+  ↪⇛ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) →
+    -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢⇛ R∗P∗S∗T ⊢⇛ R∗Q
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ⇛-frameˡ P∗S∗T⊢⇛Q ,
-    ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⇛ᵒ-monoʳᵘ :  Q ⊢[ ∞ ][ i ]⇛ Q' →  P ↪[ i ]⇛ᵒ Q  ⊨  P ↪[ i ]⇛ᵒ Q'
   ↪⇛ᵒ-monoʳᵘ Q⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
@@ -153,18 +155,19 @@ abstract
 
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Q˙
-  ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) =
-    -, -ᴵ, -,
+  ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᴾ Q˙
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
-    ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
     ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)  ⊨  P ↪⟨ e ⟩ᴾᵒ λ v → R ∗ Q˙ v
-  ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) =  -, -ᴵ, -,
+  ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ᴾ R∗Q
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
-    ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ Q'˙ v) →
                   P ↪⟨ e ⟩ᴾᵒ Q˙  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'˙
@@ -204,18 +207,19 @@ abstract
 
   ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙
-  ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) =
-    -, -ᴵ, -,
+  ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᵀ Q˙
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
-    ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
     ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Q˙ v
-  ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) =  -, -ᴵ, -,
+  ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ᵀ R∗Q
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
-    ∗ᵒ-assocʳ (-, -, b∙c⊑a , Rb , S∗IndTc)
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
                   P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'˙

@@ -9,7 +9,7 @@ module Syho.Model.Prop.Base where
 open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 2ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
-open import Base.Eq using (_≡_; refl; _≡˙_; ◠˙_)
+open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; ◠˙_)
 open import Base.Size using (Size; Size<; Thunk; !; Shrunk; §_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   curry; uncurry; ∑-case)
@@ -212,10 +212,29 @@ abstract
 -- ∗ᵒ :  Semantic separating conjunction
 
 infixr 7 _∗ᵒ_
-_∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
-(Pᵒ ∗ᵒ Qᵒ) a =  ∑ b , ∑ c ,  b ∙ c ⊑ a  ×  Pᵒ b  ×  Qᵒ c
+
+-- ∗ᵒ' :  Non-abstract version of ∗ᵒ
+
+_∗ᵒ'_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+(Pᵒ ∗ᵒ' Qᵒ) a =  ∑ b , ∑ c ,  b ∙ c ⊑ a  ×  Pᵒ b  ×  Qᵒ c
 
 abstract
+
+  -- ∗ᵒ :  Semantic separating conjunction
+
+  _∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  _∗ᵒ_ =  _∗ᵒ'_
+
+  -- ∗ᵒ equals ∗ᵒ'
+
+  ∗ᵒ≡∗ᵒ' :  _∗ᵒ_ {ł} {ł'} ≡ _∗ᵒ'_
+  ∗ᵒ≡∗ᵒ' =  refl
+
+  ∗ᵒ⇒∗ᵒ' :  Pᵒ ∗ᵒ Qᵒ  ⊨  Pᵒ ∗ᵒ' Qᵒ
+  ∗ᵒ⇒∗ᵒ' {Pᵒ = Pᵒ} {Qᵒ = Qᵒ} =  substᵒ (λ F → F Pᵒ Qᵒ) ∗ᵒ≡∗ᵒ'
+
+  ∗ᵒ'⇒∗ᵒ :  Pᵒ ∗ᵒ' Qᵒ  ⊨  Pᵒ ∗ᵒ Qᵒ
+  ∗ᵒ'⇒∗ᵒ {Pᵒ = Pᵒ} {Qᵒ = Qᵒ} =  substᵒ (λ F → F Pᵒ Qᵒ) $ ◠ ∗ᵒ≡∗ᵒ'
 
   -- Monoᵒ for ∗ᵒ
 

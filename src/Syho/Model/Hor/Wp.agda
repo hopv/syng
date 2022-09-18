@@ -54,7 +54,14 @@ data  Wpᴾ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Pro
 -- Define Wpᴾ
 
 data  Wpᴾ Pᵒ˙ ι  where
+
+  -- For a value, having the postcondition under ⇛ᵒ
+
   ⁺⟨⟩ᴾᵒ-val :  (∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⁺⟨ ĩ₀ v ⟩[ ι ]ᴾᵒ Pᵒ˙
+
+  -- For a context-redex pair, stating that the reduction is not stuck
+  -- and for every next state the weakest precondition coinductively holds
+
   ⁺⟨⟩ᴾᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                  ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
                    ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙  ⊨
@@ -158,6 +165,9 @@ data  Wpᵀ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Pro
 ⁺⟨_⟩[_]ᵀᵒ_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⁺⟨ kr ⟩[ ι ]ᵀᵒ Pᵒ˙ =  Wpᵀ Pᵒ˙ ι kr
 
+-- We use Shrunk for defining Wpᵀ, which enables induction based semantically on
+-- the size rather than on the syntactic structure.
+
 ⟨_⟩[_]ᵀᵒ_ ⟨_⟩[<_]ᵀᵒ_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⟨ e ⟩[ ι ]ᵀᵒ Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩[ ι ]ᵀᵒ Pᵒ˙
 ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙ =  Shrunkᵒ (⟨ e ⟩[_]ᵀᵒ Pᵒ˙) ι
@@ -165,7 +175,14 @@ data  Wpᵀ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Pro
 -- Define Wpᵀ
 
 data  Wpᵀ Pᵒ˙ ι  where
+
+  -- For a value, having the postcondition under ⇛ᵒ
+
   ⁺⟨⟩ᵀᵒ-val :  (∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⁺⟨ ĩ₀ v ⟩[ ι ]ᵀᵒ Pᵒ˙
+
+  -- For a context-redex pair, stating that the reduction is not stuck
+  -- and for every next state the weakest precondition inductively holds
+
   ⁺⟨⟩ᵀᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                  ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
                    ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙  ⊨

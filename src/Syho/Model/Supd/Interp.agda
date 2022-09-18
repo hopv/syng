@@ -20,7 +20,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_;
   ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ; ⤇ᴱ-param;
   ⤇ᴱ-eatʳ)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⇛ᵍ-Mono;
-  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⊨✓⇛ᵍ⇒⊨⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
+  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⊨✓⇒⊨-⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
 open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; updᴱᴵⁿᵈ; Invᴵⁿᵈ; ⟨_⟩⇛ᴵⁿᵈ⟨_⟩_)
 
 private variable
@@ -87,8 +87,8 @@ abstract
 
   -- ⊨✓ ⇛ᵒ into ⊨ ⇛ᵒ
 
-  ⊨✓⇛ᵒ⇒⊨⇛ᵒ :  Pᵒ ⊨✓ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ
-  ⊨✓⇛ᵒ⇒⊨⇛ᵒ =  ⊨✓⇛ᵍ⇒⊨⇛ᵍ
+  ⊨✓⇒⊨-⇛ᵒ :  Pᵒ ⊨✓ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ
+  ⊨✓⇒⊨-⇛ᵒ =  ⊨✓⇒⊨-⇛ᵍ
 
   -- Introduce ⇛ᵒ
 

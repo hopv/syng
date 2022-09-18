@@ -6,7 +6,7 @@
 
 module Syho.Model.Hor.Wp where
 
-open import Base.Level using (2ᴸ; 3ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; 3ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Size using (Size; ∞; !; §_)
 open import Base.Prod using (π₀; π₁; _,_)
@@ -22,11 +22,12 @@ open import Syho.Model.Supd.Base using (⇛ᵍ⇒⇛ᵍ'; ⇛ᵍ'⇒⇛ᵍ; ⇛�
 open import Syho.Model.Supd.Sound using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'⟨_⟩_; ⇛ᵒ-join)
 
 private variable
+  ł :  Level
   ι ι' :  Size
   M :  Mem
   T U :  Type
-  Pᵒ˙ Qᵒ˙ :  Val T →  Propᵒ 2ᴸ
-  Qᵒ :  Propᵒ 2ᴸ
+  Pᵒ˙ Qᵒ˙ :  Val T → Propᵒ ł
+  Qᵒ :  Propᵒ ł
   v :  Val T
   kr :  Ktxred T
   vk :  Val/Ktxred T
@@ -37,20 +38,24 @@ private variable
 
 infix 3 ⁺⟨_⟩[_]ᴾᵒ_ ⟨_⟩[_]ᴾᵒ_ ⟨_⟩[<_]ᴾᵒ_
 
--- Declare ⁺⟨ ⟩[ ]ᴾᵒ
+-- Wpᴾ :  ⁺⟨ ⟩[ ]ᴾᵒ with the arguments re-ordered
 
-data  ⁺⟨_⟩[_]ᴾᵒ_ :  Val/Ktxred T →  Size →  (Val T →  Propᵒ 2ᴸ) →  Propᵒ 3ᴸ
+data  Wpᴾ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Propᵒ (2ᴸ ⊔ᴸ ł)
 
+-- ⁺⟨ ⟩[ ]ᴾᵒ :  Semantic partial weakest precondition on Val/Ktxred
 -- ⟨ ⟩[ ]ᴾᵒ :  Semantic partial weakest precondition on Expr
 -- ⟨ ⟩[< ]ᴾᵒ :  ⟨ ⟩[ ]ᴾᵒ under Thunk
 
-⟨_⟩[_]ᴾᵒ_ ⟨_⟩[<_]ᴾᵒ_ :  Expr ∞ T →  Size →  (Val T →  Propᵒ 2ᴸ) →  Propᵒ 3ᴸ
+⁺⟨_⟩[_]ᴾᵒ_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⁺⟨ kr ⟩[ ι ]ᴾᵒ Pᵒ˙ =  Wpᴾ Pᵒ˙ ι kr
+
+⟨_⟩[_]ᴾᵒ_ ⟨_⟩[<_]ᴾᵒ_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⟨ e ⟩[ ι ]ᴾᵒ Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩[ ι ]ᴾᵒ Pᵒ˙
 ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙ =  Thunkᵒ (⟨ e ⟩[_]ᴾᵒ Pᵒ˙) ι
 
--- ⁺⟨ ⟩[ ]ᴾᵒ :  Semantic partial weakest precondition on Val/Ktxred
+-- Define Wpᴾ
 
-data  ⁺⟨_⟩[_]ᴾᵒ_  where
+data  Wpᴾ Pᵒ˙ ι  where
   ⁺⟨⟩ᴾᵒ-val :  (∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⁺⟨ ĩ₀ v ⟩[ ι ]ᴾᵒ Pᵒ˙
   ⁺⟨⟩ᴾᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                  ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
@@ -96,12 +101,12 @@ abstract
                  ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Qᵒ˙
   ⁺⟨⟩ᴾᵒ-mono✓ {vk = ĩ₀ _} Pv⊨✓Qv ⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ M → ⁺⟨⟩ᴾᵒ-val⁻¹ ⟨v⟩P M ▷
     ⇛ᵍ-mono✓ (Pv⊨✓Qv _)
-  ⁺⟨⟩ᴾᵒ-mono✓ {Pᵒ˙ = Pᵒ˙} {Qᵒ˙} {vk = ĩ₁ _} Pv⊨✓Qv ⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M →
-    ⁺⟨⟩ᴾᵒ-kr⁻¹ ⟨kr⟩P M ▷ ⇛ᵍ-mono λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' →
-    big e M' krM⇒eM' ▷ ⇛ᵍ-mono go
+  ⁺⟨⟩ᴾᵒ-mono✓ {vk = ĩ₁ _} Pv⊨✓Qv ⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ M → ⁺⟨⟩ᴾᵒ-kr⁻¹ ⟨kr⟩P M ▷
+    ⇛ᵍ-mono λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷
+    ⇛ᵍ-mono (go Pv⊨✓Qv)
    where
-    go :  ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᴾᵒ Qᵒ˙
-    go big .! =  ⁺⟨⟩ᴾᵒ-mono✓ Pv⊨✓Qv $ big .!
+    go :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →  ⟨ e ⟩[< ι ]ᴾᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᴾᵒ Qᵒ˙
+    go Pv⊨✓Qv big .! =  ⁺⟨⟩ᴾᵒ-mono✓ Pv⊨✓Qv $ big .!
 
   ⁺⟨⟩ᴾᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩[ ι ]ᴾᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᴾᵒ Qᵒ˙
   ⁺⟨⟩ᴾᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᴾᵒ-mono✓
@@ -144,20 +149,24 @@ abstract
 
 infix 3 ⁺⟨_⟩[_]ᵀᵒ_ ⟨_⟩[_]ᵀᵒ_ ⟨_⟩[<_]ᵀᵒ_
 
--- Declare ⁺⟨ ⟩[ ]ᵀᵒ
+-- Wpᵀ :  ⁺⟨ ⟩[ ]ᵀᵒ with the arguments re-ordered
 
-data  ⁺⟨_⟩[_]ᵀᵒ_ :  Val/Ktxred T →  Size →  (Val T →  Propᵒ 2ᴸ) →  Propᵒ 3ᴸ
+data  Wpᵀ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Propᵒ (2ᴸ ⊔ᴸ ł)
 
+-- ⁺⟨ ⟩[ ]ᵀᵒ :  Semantic partial weakest precondition on Val/Ktxred
 -- ⟨ ⟩[ ]ᵀᵒ :  Semantic total weakest precondition on Expr
 -- ⟨ ⟩[< ]ᵀᵒ :  ⟨ ⟩[ ]ᵀᵒ under Thunk
 
-⟨_⟩[_]ᵀᵒ_ ⟨_⟩[<_]ᵀᵒ_ :  Expr ∞ T →  Size →  (Val T →  Propᵒ 2ᴸ) →  Propᵒ 3ᴸ
+⁺⟨_⟩[_]ᵀᵒ_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⁺⟨ kr ⟩[ ι ]ᵀᵒ Pᵒ˙ =  Wpᵀ Pᵒ˙ ι kr
+
+⟨_⟩[_]ᵀᵒ_ ⟨_⟩[<_]ᵀᵒ_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⟨ e ⟩[ ι ]ᵀᵒ Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩[ ι ]ᵀᵒ Pᵒ˙
 ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙ =  Shrunkᵒ (⟨ e ⟩[_]ᵀᵒ Pᵒ˙) ι
 
--- ⁺⟨ ⟩[ ]ᵀᵒ :  Semantic total weakest precondition on Val/Ktxred
+-- Define Wpᵀ
 
-data  ⁺⟨_⟩[_]ᵀᵒ_  where
+data  Wpᵀ Pᵒ˙ ι  where
   ⁺⟨⟩ᵀᵒ-val :  (∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨  ⁺⟨ ĩ₀ v ⟩[ ι ]ᵀᵒ Pᵒ˙
   ⁺⟨⟩ᵀᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                  ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
@@ -203,12 +212,12 @@ abstract
                  ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Qᵒ˙
   ⁺⟨⟩ᵀᵒ-mono✓ {vk = ĩ₀ _} Pv⊨✓Qv ⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ M → ⁺⟨⟩ᵀᵒ-val⁻¹ ⟨v⟩P M ▷
     ⇛ᵍ-mono✓ (Pv⊨✓Qv _)
-  ⁺⟨⟩ᵀᵒ-mono✓ {Pᵒ˙ = Pᵒ˙} {Qᵒ˙} {vk = ĩ₁ _} Pv⊨✓Qv ⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ M →
-    ⁺⟨⟩ᵀᵒ-kr⁻¹ ⟨kr⟩P M ▷ ⇛ᵍ-mono λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' →
-    big e M' krM⇒eM' ▷ ⇛ᵍ-mono go
+  ⁺⟨⟩ᵀᵒ-mono✓ {vk = ĩ₁ _} Pv⊨✓Qv ⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ M → ⁺⟨⟩ᵀᵒ-kr⁻¹ ⟨kr⟩P M ▷
+    ⇛ᵍ-mono λ (krM⇒ , big) → krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷
+    ⇛ᵍ-mono (go Pv⊨✓Qv)
    where
-    go :  ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᵀᵒ Qᵒ˙
-    go (§ big) =  § ⁺⟨⟩ᵀᵒ-mono✓ Pv⊨✓Qv big
+    go :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →  ⟨ e ⟩[< ι ]ᵀᵒ Pᵒ˙ ⊨ ⟨ e ⟩[< ι ]ᵀᵒ Qᵒ˙
+    go Pv⊨✓Qv (§ big) =  § ⁺⟨⟩ᵀᵒ-mono✓ Pv⊨✓Qv big
 
   ⁺⟨⟩ᵀᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩[ ι ]ᵀᵒ Pᵒ˙ ⊨ ⁺⟨ vk ⟩[ ι ]ᵀᵒ Qᵒ˙
   ⁺⟨⟩ᵀᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᵀᵒ-mono✓

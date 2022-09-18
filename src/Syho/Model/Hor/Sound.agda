@@ -172,6 +172,10 @@ abstract
 
 abstract
 
+  -- The metric of termination is the pair of the size ι and the structure of
+  -- the proof ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ; for ↪⟨⟩ᴾ-use and horᴾ-▶, the proof structure does
+  -- not decrease but the size ι does, which is the key trick.
+
   ⊢⁺⟨⟩ᴾ-sem :
     P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ]  λ v → ⸨ Q˙ v ⸩
 

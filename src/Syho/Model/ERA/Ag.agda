@@ -44,6 +44,11 @@ abstract
   ✓ᴸ-resp :  bs ≈ᴸ cs →  aˇ ✓ᴸ bs →  aˇ ✓ᴸ cs
   ✓ᴸ-resp (-, cs⊆bs) =  ✓ᴸ-⊆ᴸ cs⊆bs
 
+  -- aˇ ✓ᴸ [] holds
+
+  ✓ᴸ-[] :  aˇ ✓ᴸ []
+  ✓ᴸ-[] _ ()
+
   -- ✓ˣ holds after removing a list with respect to ⧺
 
   ✓ᴸ-rem :  aˇ ✓ᴸ bs ⧺ cs →  aˇ ✓ᴸ cs

@@ -356,7 +356,7 @@ data  _⊢[_]*_  where
   ---- Without that ▶, we could have any partial Hoare triple
   ---- (horᴾ/↪⟨⟩ᴾ-use' in Syho.Logic.Paradox)
 
-  ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ ¡ e ⟩ᴾ  λ v → Q˂˙ v .!
+  ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ  λ v → Q˂˙ v .!
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᵀ

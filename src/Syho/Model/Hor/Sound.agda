@@ -188,7 +188,7 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (∃₁-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᴾ-sem (Px⊢⟨vk⟩Q x)
 
-  -- ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ∞ ]⟨ ▶ ¡ e ⟩ᴾ  λ v → Q˂˙ v .!
+  -- ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ  λ v → Q˂˙ v .!
 
   ⊢⁺⟨⟩ᴾ-sem ↪⟨⟩ᴾ-use big =  ⁺⟨⟩ᴾᵒ-▶ λ{ .! → ⇛ᵒ-⁺⟨⟩ᴾᵒ λ _ → big ▷
     ∗ᵒ-monoʳ (↪⟨⟩ᴾᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) →

@@ -7,7 +7,7 @@
 module Syho.Model.Supd.Interp where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
-open import Base.Func using (_$_; _▷_; _›_; id)
+open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
 open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; _◇˙_)
 open import Base.Size using (∞)
@@ -43,6 +43,11 @@ infix 3 ⟨_⟩⇛ᵒ'⟨_⟩_ ⟨_⟩⇛ᵒ⟨_⟩_
 
 ⟨_⟩⇛ᵒ'⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
 ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ envᴵⁿᵈ , updᴱᴵⁿᵈ , Invᴵⁿᵈ ]⇛ᵍ'⟨ M' ⟩ Pᵒ
+
+-- The global invariant
+
+Invᴳ :  Envᴵⁿᴳ →  Propᵒ 2ᴸ
+Invᴳ =  Invᴵⁿᵈ ∘ envᴵⁿᵈ
 
 abstract
 
@@ -130,8 +135,7 @@ abstract
 
   -- Perform a step using ⇛ᵒ
 
-  ⇛ᵒ-step :
-    envᴳ M Eᴵⁿ ✓ᴳ a  ×  ((⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ) ∗ᵒ Invᴵⁿᵈ (envᴵⁿᵈ Eᴵⁿ)) a  →
-    ∑ Fᴵⁿ , ∑ b ,  envᴳ M' Fᴵⁿ ✓ᴳ b  ×  (Pᵒ ∗ᵒ Invᴵⁿᵈ (envᴵⁿᵈ Fᴵⁿ)) b
+  ⇛ᵒ-step :  envᴳ M Eᴵⁿ ✓ᴳ a  ×  ((⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
+             ∑ Fᴵⁿ , ∑ b ,  envᴳ M' Fᴵⁿ ✓ᴳ b  ×  (Pᵒ ∗ᵒ Invᴳ Fᴵⁿ) b
   ⇛ᵒ-step (ME✓a , ⇛P∗InvEa)  with ⤇ᴱ-step (ME✓a , ⇛ᵍ-apply ⇛P∗InvEa)
   … | -, -, M'F✓b , P∗InvFb =  -, -, M'F✓b , P∗InvFb

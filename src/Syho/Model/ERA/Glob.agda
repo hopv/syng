@@ -102,13 +102,19 @@ private variable
 
 abstract
 
+  -- ≡˙ is congruent with respect to envᴳ M
+
   envᴳ-cong :  Eᴵⁿ ≡˙ Fᴵⁿ →  envᴳ M Eᴵⁿ ≡˙ envᴳ M Fᴵⁿ
   envᴳ-cong _ iᴹᵉᵐ =  refl
   envᴳ-cong E≡F (outᴳ j) =  E≡F j
 
+  -- upd˙ iᴹᵉᵐ on envᴳ is the same as just updating the memory
+
   upd˙-mem-envᴳ :  upd˙ iᴹᵉᵐ (↑ M') (envᴳ M Eᴵⁿ) ≡˙ envᴳ M' Eᴵⁿ
   upd˙-mem-envᴳ iᴹᵉᵐ =  refl
   upd˙-mem-envᴳ (outᴳ _) =  refl
+
+  -- upd˙ (outᴳ j) on envᴳ is the same as upd˙ j on the inner environment
 
   upd˙-out-envᴳ :  upd˙ (outᴳ j) Fʲ (envᴳ M Eᴵⁿ)  ≡˙  envᴳ M (upd˙ j Fʲ Eᴵⁿ)
   upd˙-out-envᴳ iᴹᵉᵐ =  refl

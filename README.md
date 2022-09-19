@@ -257,5 +257,5 @@ demanding task and formally requires classical and choice axioms.
 
 Syho simply provides the **total** Hoare triple with **inductive** deduction,
 thanks to Syho being **non-step-indexed**.  
-Remarkably, we can **piggyback Agda's termination checker** for termination
-verification in Syho, which is handy, flexible and expressive.
+Remarkably, we can **take advantage of Agda's termination checker** for
+termination verification in Syho, which is handy, flexible and expressive.

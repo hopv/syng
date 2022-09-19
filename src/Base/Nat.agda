@@ -418,6 +418,26 @@ open import Agda.Builtin.Nat public using () renaming (
   -- _-_ :  ℕ →  ℕ →  ℕ
   _-_ to _∸_)
 
+abstract
+
+  -- m + n ∸ m equals n
+
+  ?+-∸? :  m + n ∸ m ≡ n
+  ?+-∸? {0} =  refl
+  ?+-∸? {ṡ m'} =  ?+-∸? {m'}
+
+  +?-∸? :  m + n ∸ n ≡ m
+  +?-∸? {m} {n} rewrite +-comm {m} {n} =  ?+-∸? {n}
+
+  -- m plus n ∸ m equals n if m ≤ n
+
+  ≤⇒∸?-?+ :  m ≤ n →  m + (n ∸ m) ≡ n
+  ≤⇒∸?-?+ 0≤ =  refl
+  ≤⇒∸?-?+ (ṡ≤ṡ m'≤n') =  cong ṡ_ $ ≤⇒∸?-?+ m'≤n'
+
+  ≤⇒∸?-+? :  m ≤ n →  n ∸ m + m ≡ n
+  ≤⇒∸?-+? {m} m≤n =  +-comm {n = m} ◇ ≤⇒∸?-?+ m≤n
+
 --------------------------------------------------------------------------------
 -- ⊔ :  Maximum
 

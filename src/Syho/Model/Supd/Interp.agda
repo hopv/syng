@@ -15,8 +15,8 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Dec using (upd˙-self; upd˙²-self; upd˙²-2)
 open import Base.Nat using ()
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓;
-  envᴳ-cong)
+open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ;
+  empᴵⁿᴳ-✓; envᴳ-cong)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊤ᵒ₀; ⌜_⌝ᵒ;
   ⌜_⌝ᵒ×_; _∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ;
   ⤇ᴱ-param; ⤇ᴱ-eatʳ; ⤇ᴱ-step)
@@ -55,6 +55,11 @@ abstract
 
   ⟨_⟩⇛ᵒ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
   ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M' ⟩ Pᵒ
+
+  -- Get Invᴳ empᴵⁿᴳ for free
+
+  Invᴳ-emp :  ⊨ Invᴳ empᴵⁿᴳ
+  Invᴳ-emp =  Invᴵⁿᵈ-emp
 
   -- ⇛ᵒ equals ⇛ᵒ'
 
@@ -131,7 +136,7 @@ abstract
   -- If we have X under ⟨ M ⟩⇛ᵒ⟨ M' ⟩ for valid M, then X holds purely
 
   ⇛ᵒ-adeq :  ✓ᴹ M →  ⊨ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
-  ⇛ᵒ-adeq =  ⇛ᵍ-adeq Invᴵⁿᵈ-emp
+  ⇛ᵒ-adeq =  ⇛ᵍ-adeq Invᴳ-emp
 
   -- Perform a step using ⇛ᵒ
 

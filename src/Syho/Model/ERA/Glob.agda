@@ -17,7 +17,7 @@ open import Syho.Lang.Reduce using (Mem)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ)
-open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ)
+open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿᵈˣ; empᴵⁿᵈᵖ)
 
 open ERA using (Env)
 
@@ -85,6 +85,13 @@ memᴳ E =  E iᴹᵉᵐ .↓
 
 envᴵⁿᴳ :  Envᴳ →  Envᴵⁿᴳ
 envᴵⁿᴳ E j =  E $ outᴳ j
+
+-- Empty inner environment
+
+empᴵⁿᴳ :  Envᴵⁿᴳ
+empᴵⁿᴳ jᴵⁿᵈˣ =  empᴵⁿᵈˣ
+empᴵⁿᴳ jᴵⁿᵈᵖ =  empᴵⁿᵈᵖ
+empᴵⁿᴳ elseᴵⁿᴳ =  _
 
 private variable
   Eᴵⁿ Fᴵⁿ :  Envᴵⁿᴳ

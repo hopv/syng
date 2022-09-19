@@ -51,6 +51,11 @@ open EnvvIndˣ public using () renaming (
 open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to Resᴵⁿᵈˣ;
   ε to εᴵⁿᵈˣ; _↝_ to _↝ᴵⁿᵈˣ_)
 
+-- Empty environment of Indˣᴱᴿᴬ
+
+empᴵⁿᵈˣ :  Envᴵⁿᵈˣ
+empᴵⁿᵈˣ =  (λ _ → ň) , 0
+
 -- Exclusively own a proposition at an index
 
 indˣ :  ℕ →  Prop' ∞ →  Resᴵⁿᵈˣ
@@ -102,6 +107,11 @@ open EnvvIndᵖ public using () renaming (
 
 open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ; Res to Resᴵⁿᵈᵖ;
   ε to εᴵⁿᵈᵖ; _↝_ to _↝ᴵⁿᵈᵖ_)
+
+-- Empty environment of Indᵖᴱᴿᴬ
+
+empᴵⁿᵈᵖ :  Envᴵⁿᵈᵖ
+empᴵⁿᵈᵖ =  (λ _ → ň) , 0
 
 -- Persistently own a proposition at an index
 

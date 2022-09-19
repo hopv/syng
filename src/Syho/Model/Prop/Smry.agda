@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop.Inv where
+module Syho.Model.Prop.Smry where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Func using (_$_; _›_)

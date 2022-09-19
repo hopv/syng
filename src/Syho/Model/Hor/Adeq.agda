@@ -8,17 +8,20 @@ module Syho.Model.Hor.Adeq where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _▷_; _›_)
+open import Base.Few using (¬_)
 open import Base.Eq using (_≡_)
 open import Base.Size using (Size; ∞; !; §_)
-open import Base.Prod using (π₀; π₁; _,_)
+open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Syho.Lang.Expr using (Type; Expr; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-V⇒E)
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_; _⇒ᴷᴿ∑; redᴱ; _⇒ᴱ*_; ⇒ᴱ*-refl;
-  ⇒ᴱ*-step)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ⌜_⌝ᵒ)
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒ-mono; ⇛ᵒ-intro; ⇛ᵒ-join;
-  ⇛ᵒ-adeq)
+  ⇒ᴱ*-step; _⇒ᴱ∞[_]; ⇒ᴱ∞-step)
+open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓)
+open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ⌜_⌝ᵒ; _∗ᵒ_; ∗ᵒ-monoˡ;
+  ∗ᵒ?-intro; Shrunkᵒ∗ᵒ-out)
+open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; Invᴳ; Invᴳ-emp; ⇛ᵒ-mono;
+  ⇛ᵒ-intro; ⇛ᵒ-join; ⇛ᵒ-adeq; ⇛ᵒ-step)
 open import Syho.Model.Hor.Wp using (⟨_⟩ᴾᵒ[_]_; ⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᵀᵒ[<_]_;
   ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹)
 
@@ -32,6 +35,8 @@ private variable
   kr' :  Ktxred T
   Pᵒ˙ :  Val T → Propᵒ ł
   X˙ :  Val T → Set ł
+  Eᴵⁿ :  Envᴵⁿᴳ
+  a :  Resᴳ
 
 --------------------------------------------------------------------------------
 -- Adequacy of the semantic partial and total weakest preconditions
@@ -92,3 +97,21 @@ abstract
     with ⇛ᵒ⟨⟩ᵀᵒ-⇒ᴱ* (⇛ᵒ-intro $ § ⊨⟨e⟩P) eM⇒*e'M'
   … | ⊨M⁻⇛M'⟨e'⟩P  rewrite val/ktxred-V⇒E {v = v} =  ⇛ᵒ-adeq ✓M (⊨M⁻⇛M'⟨e'⟩P ▷
     ⇛ᵒ-mono (λ{ (§ big) → big ▷ ⁺⟨⟩ᵀᵒ-val⁻¹ ▷ (_$ _) }) ▷ ⇛ᵒ-join)
+
+  -- If envᴳ M Eᴵⁿ ✓ᴳ a and ((⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ Invᴳ Eᴵⁿ) a holds for some
+  -- resouce a and inner environment Eᴵⁿ, then there exists no infinite,
+  -- non-terminating reduction sequence from (e , M)
+
+  ✓ᴳ⟨⟩ᵀ∗Inv⇒¬⇒ᴱ∞ :  envᴳ M Eᴵⁿ ✓ᴳ a  ×  ((⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ Invᴳ Eᴵⁿ) a  →
+                    ¬ (e , M) ⇒ᴱ∞[ ∞ ]
+  ✓ᴳ⟨⟩ᵀ∗Inv⇒¬⇒ᴱ∞ (ME✓a , ⟨e⟩P∗InvEa) (⇒ᴱ∞-step (redᴱ e≡kr krM⇒e'M') e'M'⇒∞)
+    rewrite e≡kr  with ⇛ᵒ-step (ME✓a , ⟨e⟩P∗InvEa ▷ ∗ᵒ-monoˡ
+      (⁺⟨⟩ᵀᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono (λ big → big .π₁ _ _ krM⇒e'M') › ⇛ᵒ-join))
+  …  | -, -, M'E'✓b , ⟨e'⟩<P∗InvE'b  with Shrunkᵒ∗ᵒ-out ⟨e'⟩<P∗InvE'b
+  …    | § ⟨e'⟩P∗InvE'b =  ✓ᴳ⟨⟩ᵀ∗Inv⇒¬⇒ᴱ∞ (M'E'✓b , ⟨e'⟩P∗InvE'b) $ e'M'⇒∞ .!
+
+  -- ⊨ ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ ensures that there exists no infinite, non-terminating
+  -- reduction sequence from (e , M) for valid M
+
+  ⟨⟩ᵀ⇒¬⇒ᴱ∞ :  ✓ᴹ M →  ⊨ ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ →  ¬ (e , M) ⇒ᴱ∞[ ∞ ]
+  ⟨⟩ᵀ⇒¬⇒ᴱ∞ ✓M ⊨⟨e⟩P =  ✓ᴳ⟨⟩ᵀ∗Inv⇒¬⇒ᴱ∞ (empᴵⁿᴳ-✓ ✓M , ⊨⟨e⟩P ▷ ∗ᵒ?-intro Invᴳ-emp)

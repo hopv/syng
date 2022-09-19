@@ -9,7 +9,7 @@ module Syho.Lang.Reduce where
 open import Base.Level using (↑_)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl; ◠_)
-open import Base.Size using (∞; !)
+open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Option using (¿_; š_; ň; _$¿_; _»-¿_)
@@ -31,7 +31,7 @@ Mblo =  ¿ List TyVal
 Mem =  ℕ →  Mblo
 
 private variable
-  M M' :  Mem
+  M M' M'' :  Mem
   Mb :  Mblo
   o :  ℕ
   θ :  Addr
@@ -91,6 +91,7 @@ private variable
   v :  Val T
   n :  ℕ
   kr :  Ktxred T
+  ι :  Size
 
 infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_
 
@@ -123,3 +124,34 @@ data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
 infix 4 _⇒ᴷᴿ∑
 _⇒ᴷᴿ∑ :  ∀{T} →  Ktxred T × Mem →  Set₁
 redM ⇒ᴷᴿ∑ =  ∑ e'M' , redM ⇒ᴷᴿ e'M'
+
+--------------------------------------------------------------------------------
+-- ⇒ᴱ* :  Finite reduction sequence
+
+infix 4 _⇒ᴱ*_
+
+data  _⇒ᴱ*_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
+
+  -- End reduction
+  ⇒ᴱ*-refl :  (e , M) ⇒ᴱ* (e , M)
+
+  -- Continue reduction
+  ⇒ᴱ*-step :  (e , M) ⇒ᴱ (e' , M') →  (e' , M') ⇒ᴱ* (e'' , M'') →
+              (e , M) ⇒ᴱ* (e'' , M'')
+
+--------------------------------------------------------------------------------
+-- ⇒ᴱ∞ :  Infinite (non-terminating) reduction sequence
+
+infix 4 _⇒ᴱ∞[_]
+
+data  _⇒ᴱ∞[_] :  Expr ∞ T × Mem →  Size →  Set₁
+
+-- ⇒ᴱ∞ under thunk
+
+_⇒ᴱ∞[<_] :  Expr ∞ T × Mem →  Size →  Set₁
+(e , M) ⇒ᴱ∞[< ι ] =  Thunk ((e , M) ⇒ᴱ∞[_]) ι
+
+data  _⇒ᴱ∞[_]  where
+
+  -- Continue reduction
+  ⇒ᴱ∞-step :  (e , M) ⇒ᴱ (e' , M') →  (e' , M') ⇒ᴱ∞[< ι ] →  (e , M) ⇒ᴱ∞[ ι ]

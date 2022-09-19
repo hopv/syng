@@ -29,13 +29,14 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜
   ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
   -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim;
   dup-□ᵒ; □ᵒ-∗ᵒ-in; ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
+open import Syho.Model.Prop.Inv using (Invᵍ; Invᵍ-Mono; Invᵍ-0; Invᵍ-add-š;
+  Invᵍ-rem-<)
 open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ⟨_⟩_; Invᵍ; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
-  ⇛ᵍ-make; ⇛ᵍ-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ; Invᵍ-Mono; Invᵍ-0; Invᵍ-add-š;
-  Invᵍ-rem-<)
+open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ⟨_⟩_; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
+  ⇛ᵍ-make; ⇛ᵍ-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ)
 
 private variable
   ł ł' :  Level

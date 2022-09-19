@@ -147,6 +147,8 @@ following parts.
         and the semantic soundness of the pure sequent.**
         * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
             connectives;
+            [`Inv`](src/Syho/Model/Prop/Inv.agda) for the general invariant
+            builder;
             [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the points-to
             and freeing tokens.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
@@ -159,8 +161,7 @@ following parts.
             of the logic's pure sequent.
     + [`Supd/`](src/Syho/Model/Supd/) ― **The semantic model and soundness proof
         of the super update.**
-        * [`Base`](src/Syho/Model/Supd/Base.agda) for the general super update
-            and invariant builder;
+        * [`Base`](src/Syho/Model/Supd/Base.agda) for the general super update;
             [`Ind`](src/Syho/Model/Supd/Ind.agda) for the super update on the
             indirection modality and precursors.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting the super

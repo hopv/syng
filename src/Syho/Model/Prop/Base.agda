@@ -170,7 +170,7 @@ abstract
   ⊎ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ MonoQ a⊑b Qa
 
 --------------------------------------------------------------------------------
--- ⊤ᵒ ⊥ᵒ :  Semantic truth and falsehood
+-- ⊤ᵒ, ⊥ᵒ :  Semantic truth and falsehood
 
 ⊤ᵒ ⊥ᵒ :  Propᵒ ł
 ⊤ᵒ _ =  ⊤

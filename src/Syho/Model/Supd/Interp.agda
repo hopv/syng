@@ -7,26 +7,28 @@
 module Syho.Model.Supd.Interp where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
-open import Base.Func using (_$_; _›_; id)
+open import Base.Func using (_$_; _▷_; _›_; id)
 open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; _◇˙_)
 open import Base.Size using (∞)
-open import Base.Prod using (_,_)
+open import Base.Prod using (π₀; _,_; _,-)
 open import Base.Dec using (upd˙-self; upd˙²-self; upd˙²-2)
 open import Base.Nat using ()
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Glob using (envᴳ; envᴳ-cong)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊤ᵒ₀;
-  ⌜_⌝ᵒ×_; _∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ;
-  ⤇ᴱ-param; ⤇ᴱ-eatʳ)
+open import Syho.Model.ERA.Glob using (envᴳ; empᴵⁿᴳ-✓; envᴳ-cong)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊤ᵒ₀; ⌜_⌝ᵒ;
+  ⌜_⌝ᵒ×_; _∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out;
+  ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatʳ; ⤇ᴱ-adeq)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⇛ᵍ-Mono;
-  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⊨✓⇒⊨-⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro-✓ᴹ; ⇛ᵍ-join; ⇛ᵍ-eatˡ)
+  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⇛ᵍ-apply; ⊨✓⇒⊨-⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro-✓ᴹ; ⇛ᵍ-join; ⇛ᵍ-eatˡ;
+  Invᵍ-0)
 open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; updᴱᴵⁿᵈ; Invᴵⁿᵈ; ⟨_⟩⇛ᴵⁿᵈ⟨_⟩_)
 
 private variable
   ł :  Level
   M M' M'' :  Mem
   Pᵒ Qᵒ :  Propᵒ ł
+  X :  Set ł
 
 --------------------------------------------------------------------------------
 -- Interpret the super update
@@ -115,3 +117,11 @@ abstract
 
   ⇛ᵒ-eatʳ :  (⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ)  ∗ᵒ  Qᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
   ⇛ᵒ-eatʳ =  ∗ᵒ-comm › ⇛ᵒ-eatˡ › ⇛ᵒ-mono ∗ᵒ-comm
+
+  -- Adequacy of ⇛ᵒ
+  -- If we have X under ⟨ M ⟩⇛ᵒ⟨ M' ⟩ for valid M, then X holds purely
+
+  ⇛ᵒ-adeq :  ✓ᴹ M →  ⊨ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
+  ⇛ᵒ-adeq ✓M M⇛M'X =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓ ✓M) (M⇛M'X ▷
+    ∗ᵒ?-intro (Invᵍ-0 ▷ ∗ᵒ?-intro Invᵍ-0) ▷ ⇛ᵍ-apply ▷
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-monoˡ {Qᵒ = ⌜ _ ⌝ᵒ× ⊤ᵒ₀} (_,-) › ∃ᵒ∗ᵒ-out › π₀))

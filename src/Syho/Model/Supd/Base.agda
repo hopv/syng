@@ -7,28 +7,28 @@
 module Syho.Model.Supd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; ↓)
-open import Base.Func using (_$_; _›_; id)
+open import Base.Func using (_$_; _▷_; _›_; id)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
-open import Base.Prod using (π₀; _×_; _,_; -,_)
+open import Base.Prod using (π₀; _×_; _,_; -,_; _,-)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Glob using (iᴹᵉᵐ)
+open import Syho.Model.ERA.Glob using (iᴹᵉᵐ; empᴵⁿᴳ; empᴵⁿᴳ-✓)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
-  ⊤ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ;
-  ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ≡∗ᵒ'; ∗ᵒ-Mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
-  ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
-  -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ'; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ;
-  ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᵒ⇒⤇ᴱ; ⤇ᴱ-intro-✓; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ;
-  ⊨✓⇒⊨-⤇ᴱ)
+  ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⊨⇒⊨✓;
+  substᵒ; ∀ᵒ-Mono; ∀ᵒ-mono; ∀ᵒ-intro; ∗ᵒ≡∗ᵒ'; ∗ᵒ-Mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ;
+  ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out;
+  -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-intro; -∗ᵒ-apply; ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ';
+  ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᵒ⇒⤇ᴱ; ⤇ᴱ-intro-✓;
+  ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; ⊨✓⇒⊨-⤇ᴱ; ⤇ᴱ-adeq)
 open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; envᴳ; envᴳ-cong)
 
 private variable
   ł ł' ł'' :  Level
-  X :  Set ł
+  X Y :  Set ł
   Pᵒ Qᵒ :  Propᵒ ł
   M M' M'' :  Mem
   Eᴵⁿ :  Envᴵⁿᴳ
@@ -165,6 +165,16 @@ abstract
 
   ⇛ᵍ-eatʳ :  (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
   ⇛ᵍ-eatʳ =  ∗ᵒ-comm › ⇛ᵍ-eatˡ › ⇛ᵍ-mono ∗ᵒ-comm
+
+  -- Adequacy of ⇛ᵍ
+  -- If we have Y under ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ for valid M and
+  -- Inv (get empᴵⁿᴳ) is a tautology, then Y holds purely
+
+  ⇛ᵍ-adeq :  ⊨ Inv (get empᴵⁿᴳ) →  ✓ᴹ M →
+             ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⌜ Y ⌝ᵒ →  Y
+  ⇛ᵍ-adeq ⊨Invgetemp ✓M M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓ ✓M) (M⇛M'Y ▷
+    ∗ᵒ?-intro ⊨Invgetemp ▷ ⇛ᵍ-apply ▷
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-monoˡ {Qᵒ = ⌜ _ ⌝ᵒ× ⊤ᵒ₀} (_,-) › ∃ᵒ∗ᵒ-out › π₀))
 
 --------------------------------------------------------------------------------
 -- Invᵍ :  General invariant bulder

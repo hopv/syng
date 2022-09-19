@@ -8,7 +8,7 @@ module Syho.Model.Supd.Ind where
 
 open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
 open import Base.Size using (∞)
-open import Base.Func using (_$_; _›_)
+open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Eq using (_≡_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⊎-case)
@@ -22,18 +22,20 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (indˣ-alloc; indˣ-use; indᵖ-alloc;
   indᵖ-use; Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
-open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; upd˙-out-envᴳ)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
+open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; upd˙-out-envᴳ;
+  empᴵⁿᴳ)
+open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
   _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ;
-  ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ; -∗ᵒ-apply;
-  ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ;
-  □ᵒ-∗ᵒ-in; ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
+  ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
+  -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim;
+  dup-□ᵒ; □ᵒ-∗ᵒ-in; ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ⟨_⟩_; Invᵍ; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
-  ⇛ᵍ-make; ⇛ᵍ-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ; Invᵍ-Mono; Invᵍ-add-š; Invᵍ-rem-<)
+  ⇛ᵍ-make; ⇛ᵍ-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ; Invᵍ-Mono; Invᵍ-0; Invᵍ-add-š;
+  Invᵍ-rem-<)
 
 private variable
   ł ł' :  Level
@@ -67,6 +69,11 @@ infix 3 ⟨_⟩⇛ᴵⁿᵈˣ⟨_⟩_
 
 abstract
 
+  -- Get Invᴵⁿᵈˣ (empᴵⁿᴳ jᴵⁿᵈˣ) for free
+
+  Invᴵⁿᵈˣ-emp :  ⊨ Invᴵⁿᵈˣ (empᴵⁿᴳ jᴵⁿᵈˣ)
+  Invᴵⁿᵈˣ-emp =  Invᵍ-0
+
   -- Allocate P to get Indˣ P
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M ⟩  Indˣ P
@@ -98,6 +105,11 @@ infix 3 ⟨_⟩⇛ᴵⁿᵈᵖ⟨_⟩_
   ⟨ M ⟩[ (_$ jᴵⁿᵈᵖ) , upd˙ jᴵⁿᵈᵖ , Invᴵⁿᵈᵖ ]⇛ᵍ⟨ M' ⟩ Pᵒ
 
 abstract
+
+  -- Get Invᴵⁿᵈᵖ (empᴵⁿᴳ jᴵⁿᵈᵖ) for free
+
+  Invᴵⁿᵈᵖ-emp :  ⊨ Invᴵⁿᵈᵖ (empᴵⁿᴳ jᴵⁿᵈᵖ)
+  Invᴵⁿᵈᵖ-emp =  Invᵍ-0
 
   -- Allocate □ P to get □ᵒ Indᵖ P
 
@@ -143,6 +155,11 @@ infix 8 ⟨_⟩⇛ᴵⁿᵈ⟨_⟩_
 ⟨ M ⟩⇛ᴵⁿᵈ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ envᴵⁿᵈ , updᴱᴵⁿᵈ , Invᴵⁿᵈ ]⇛ᵍ⟨ M' ⟩ Pᵒ
 
 abstract
+
+  -- Get Invᴵⁿᵈ (envᴵⁿᵈ empᴵⁿᴳ) for free
+
+  Invᴵⁿᵈ-emp :  ⊨ Invᴵⁿᵈ (envᴵⁿᵈ empᴵⁿᴳ)
+  Invᴵⁿᵈ-emp =  Invᴵⁿᵈˣ-emp ▷ ∗ᵒ?-intro Invᴵⁿᵈᵖ-emp
 
   -- ⇛ᴵⁿᵈˣ into ⇛ᴵⁿᵈ
 

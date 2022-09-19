@@ -555,6 +555,13 @@ abstract
   ⊨✓⇒⊨-⤇ᴱ :  Pᵒ ⊨✓ E ⤇ᴱ FQᵒ˙ →  Pᵒ ⊨ E ⤇ᴱ FQᵒ˙
   ⊨✓⇒⊨-⤇ᴱ P⊨✓E⤇FQ Pa _ E✓a∙c =  P⊨✓E⤇FQ (✓-mono ∙-incrʳ E✓a∙c) Pa _ E✓a∙c
 
+  -- Adequacy of ⤇ᴱ
+  -- If we have Y under E ⤇ᴱ and E is valid, then we have Y
+
+  ⤇ᴱ-adeq :  E ✓ ε →  ⊨ E ⤇ᴱ (λ x → F˙ x , ⌜ Y ⌝ᵒ) →  Y
+  ⤇ᴱ-adeq E✓ε ⊨E⤇FxY =
+    let (-, -, -, y) = ⊨E⤇FxY _ (✓-resp (◠˜ ∙-unitʳ) E✓ε) in y
+
 --------------------------------------------------------------------------------
 -- □ᵒ :  Semantic persistence modality
 

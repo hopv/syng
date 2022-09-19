@@ -11,16 +11,18 @@ open import Base.Func using (_$_; _▷_; _›_; id)
 open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; _◇˙_)
 open import Base.Size using (∞)
-open import Base.Prod using (_,_)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Dec using (upd˙-self; upd˙²-self; upd˙²-2)
 open import Base.Nat using ()
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Glob using (envᴳ; empᴵⁿᴳ-✓; envᴳ-cong)
+open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓;
+  envᴳ-cong)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊤ᵒ₀; ⌜_⌝ᵒ;
   ⌜_⌝ᵒ×_; _∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⊨⇒⊨✓; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ;
-  ⤇ᴱ-param; ⤇ᴱ-eatʳ)
+  ⤇ᴱ-param; ⤇ᴱ-eatʳ; ⤇ᴱ-step)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⇛ᵍ≡⇛ᵍ'; ⇛ᵍ-Mono;
-  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⊨✓⇒⊨-⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro-✓ᴹ; ⇛ᵍ-join; ⇛ᵍ-eatˡ; ⇛ᵍ-adeq)
+  ⇛ᵍ-mono✓; ⇛ᵍ-make; ⇛ᵍ-apply; ⊨✓⇒⊨-⇛ᵍ; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro-✓ᴹ; ⇛ᵍ-join; ⇛ᵍ-eatˡ;
+  ⇛ᵍ-adeq)
 open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; updᴱᴵⁿᵈ; Invᴵⁿᵈ; ⟨_⟩⇛ᴵⁿᵈ⟨_⟩_;
   Invᴵⁿᵈ-emp)
 
@@ -29,6 +31,8 @@ private variable
   M M' M'' :  Mem
   Pᵒ Qᵒ :  Propᵒ ł
   X :  Set ł
+  Eᴵⁿ :  Envᴵⁿᴳ
+  a :  Resᴳ
 
 --------------------------------------------------------------------------------
 -- Interpret the super update
@@ -123,3 +127,11 @@ abstract
 
   ⇛ᵒ-adeq :  ✓ᴹ M →  ⊨ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
   ⇛ᵒ-adeq =  ⇛ᵍ-adeq Invᴵⁿᵈ-emp
+
+  -- Perform a step using ⇛ᵒ
+
+  ⇛ᵒ-step :
+    envᴳ M Eᴵⁿ ✓ᴳ a  ×  ((⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ) ∗ᵒ Invᴵⁿᵈ (envᴵⁿᵈ Eᴵⁿ)) a  →
+    ∑ Fᴵⁿ , ∑ b ,  envᴳ M' Fᴵⁿ ✓ᴳ b  ×  (Pᵒ ∗ᵒ Invᴵⁿᵈ (envᴵⁿᵈ Fᴵⁿ)) b
+  ⇛ᵒ-step (ME✓a , ⇛P∗InvEa)  with ⤇ᴱ-step (ME✓a , ⇛ᵍ-apply ⇛P∗InvEa)
+  … | -, -, M'F✓b , P∗InvFb =  -, -, M'F✓b , P∗InvFb

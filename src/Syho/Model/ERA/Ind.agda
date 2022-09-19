@@ -21,7 +21,7 @@ open import Base.List using ([_])
 open import Syho.Logic.Prop using (Prop'; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free)
-open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-alloc; ✓ᴸ-agree)
+open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-alloc; ✓ᴸ-agree)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Envm
 import Syho.Model.ERA.Envv
@@ -49,7 +49,7 @@ open EnvvIndˣ public using () renaming (
   Envvᴱᴿᴬ to Indˣᴱᴿᴬ)
 
 open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to Resᴵⁿᵈˣ;
-  ε to εᴵⁿᵈˣ; _↝_ to _↝ᴵⁿᵈˣ_)
+  _✓_ to _✓ᴵⁿᵈˣ_; ε to εᴵⁿᵈˣ; _↝_ to _↝ᴵⁿᵈˣ_)
 
 -- Empty environment of Indˣᴱᴿᴬ
 
@@ -62,6 +62,11 @@ indˣ :  ℕ →  Prop' ∞ →  Resᴵⁿᵈˣ
 indˣ i P =  upd˙ i (#ˣ P) εᴵⁿᵈˣ
 
 abstract
+
+  -- empᴵⁿᵈˣ is valid
+
+  empᴵⁿᵈˣ-✓ :  empᴵⁿᵈˣ ✓ᴵⁿᵈˣ εᴵⁿᵈˣ
+  empᴵⁿᵈˣ-✓ =  (λ _ _ → refl) , _
 
   -- Add a new proposition and get a line
 
@@ -106,7 +111,7 @@ open EnvvIndᵖ public using () renaming (
   Envvᴱᴿᴬ to Indᵖᴱᴿᴬ)
 
 open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ; Res to Resᴵⁿᵈᵖ;
-  ε to εᴵⁿᵈᵖ; _↝_ to _↝ᴵⁿᵈᵖ_)
+  _✓_ to _✓ᴵⁿᵈᵖ_; ε to εᴵⁿᵈᵖ; _↝_ to _↝ᴵⁿᵈᵖ_)
 
 -- Empty environment of Indᵖᴱᴿᴬ
 
@@ -119,6 +124,11 @@ indᵖ :  ℕ →  Prop' ∞ →  Resᴵⁿᵈᵖ
 indᵖ i P =  upd˙ i [ P ] εᴵⁿᵈᵖ
 
 abstract
+
+  -- empᴵⁿᵈᵖ is valid
+
+  empᴵⁿᵈᵖ-✓ :  empᴵⁿᵈᵖ ✓ᴵⁿᵈᵖ εᴵⁿᵈᵖ
+  empᴵⁿᵈᵖ-✓ =  (λ _ _ → refl) , λ _ → ✓ᴸ-[]
 
   -- Add a new proposition and get a line
 

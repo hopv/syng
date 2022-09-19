@@ -13,11 +13,12 @@ open import Base.Eq using (refl; _≡˙_)
 open import Base.Prod using (∑∈-syntax; π₀; _,-)
 open import Base.Dec using (yes; no; ≡Dec; _≡?_; ≡?-refl; upd˙)
 open import Base.Nat using (ℕ; ṡ_)
-open import Syho.Lang.Reduce using (Mem)
+open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
-open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ)
-open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿᵈˣ; empᴵⁿᵈᵖ)
+open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
+open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿᵈˣ; empᴵⁿᵈᵖ;
+  empᴵⁿᵈˣ-✓; empᴵⁿᵈᵖ-✓)
 
 open ERA using (Env)
 
@@ -55,6 +56,8 @@ open AllGlob public using () renaming (
   Env˙ to Envᴳ;
   -- Resᴳ :  Set 2ᴸ
   Res˙ to Resᴳ)
+
+open ERA Globᴱᴿᴬ using () renaming (ε to εᴳ; _✓_ to _✓ᴳ_)
 
 --------------------------------------------------------------------------------
 -- The inner part of Globᴱᴿᴬ
@@ -101,6 +104,14 @@ private variable
   Fʲ :  X
 
 abstract
+
+  -- envᴳ M empᴵⁿᴳ is valid for valid M
+
+  empᴵⁿᴳ-✓ :  ✓ᴹ M →  envᴳ M empᴵⁿᴳ ✓ᴳ εᴳ
+  empᴵⁿᴳ-✓ ✓M iᴹᵉᵐ =  ✓ᴹ⇒✓ᴹᵉᵐ ✓M
+  empᴵⁿᴳ-✓ _ iᴵⁿᵈˣ =  empᴵⁿᵈˣ-✓
+  empᴵⁿᴳ-✓ _ iᴵⁿᵈᵖ =  empᴵⁿᵈᵖ-✓
+  empᴵⁿᴳ-✓ _ elseᴳ =  _
 
   -- ≡˙ is congruent with respect to envᴳ M
 

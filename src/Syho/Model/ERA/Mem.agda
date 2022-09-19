@@ -220,6 +220,11 @@ _↦ᴸʳ_ :  ℕ →  List TyVal →  Resᴹᵉᵐ
 
 abstract
 
+  -- ↑ M ✓ᴹᵉᵐ εᴹᵉᵐ holds for valid M
+
+  ✓ᴹ⇒✓ᴹᵉᵐ :  ✓ᴹ M →  ↑ M ✓ᴹᵉᵐ εᴹᵉᵐ
+  ✓ᴹ⇒✓ᴹᵉᵐ ✓M .↓ =  ✓M , _
+
   -- Agreement of ↦⟨ ⟩ʳ
 
   ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗu ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  →  ᵗu ≡ ᵗv

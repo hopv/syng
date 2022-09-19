@@ -149,8 +149,7 @@ following parts.
         and the semantic soundness of the pure sequent.**
         * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
             connectives;
-            [`Inv`](src/Syho/Model/Prop/Inv.agda) for the general invariant
-            builder;
+            [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;
             [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the points-to
             and freeing tokens.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic

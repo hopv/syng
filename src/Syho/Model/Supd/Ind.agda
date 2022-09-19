@@ -29,8 +29,8 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜
   ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
   -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim;
   dup-□ᵒ; □ᵒ-∗ᵒ-in; ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
-open import Syho.Model.Prop.Inv using (Invᵍ; Invᵍ-Mono; Invᵍ-0; Invᵍ-add-š;
-  Invᵍ-rem-<)
+open import Syho.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
+  Smry-rem-<)
 open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
@@ -59,7 +59,7 @@ private variable
 -- Invariant for Indˣᴱᴿᴬ
 
 Invᴵⁿᵈˣ :  Envᴵⁿᵈˣ →  Propᵒ 2ᴸ
-Invᴵⁿᵈˣ (P˙ , n) =  Invᵍ ⸨_⸩ P˙ n
+Invᴵⁿᵈˣ (P˙ , n) =  Smry ⸨_⸩ P˙ n
 
 -- Super update on Indˣᴱᴿᴬ
 
@@ -73,13 +73,13 @@ abstract
   -- Get Invᴵⁿᵈˣ (empᴵⁿᴳ jᴵⁿᵈˣ) for free
 
   Invᴵⁿᵈˣ-emp :  ⊨ Invᴵⁿᵈˣ (empᴵⁿᴳ jᴵⁿᵈˣ)
-  Invᴵⁿᵈˣ-emp =  Invᵍ-0
+  Invᴵⁿᵈˣ-emp =  Smry-0
 
   -- Allocate P to get Indˣ P
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M ⟩  Indˣ P
   Indˣ-alloc =  ⇛ᵍ-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) Invᵍ-add-š) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) Smry-add-š) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ ›
     ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
@@ -87,7 +87,7 @@ abstract
   Indˣ-use :  Indˣ P  ⊨  ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M ⟩  ⸨ P ⸩
   Indˣ-use =  ⇛ᵍ-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
     ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} indˣ-use) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ{ (≡šP , i<n) → ∗ᵒ-elimʳ Invᵍ-Mono › Invᵍ-rem-< ≡šP i<n }) ›
+    ⤇ᴱ-mono (λ{ (≡šP , i<n) → ∗ᵒ-elimʳ Smry-Mono › Smry-rem-< ≡šP i<n }) ›
     ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ abstract
 -- Invariant for Indᵖᴱᴿᴬ
 
 Invᴵⁿᵈᵖ :  Envᴵⁿᵈᵖ →  Propᵒ 2ᴸ
-Invᴵⁿᵈᵖ (P˙ , n) =  □ᵒ Invᵍ ⸨_⸩ P˙ n
+Invᴵⁿᵈᵖ (P˙ , n) =  □ᵒ Smry ⸨_⸩ P˙ n
 
 -- Super update on Indᵖᴱᴿᴬ
 
@@ -110,7 +110,7 @@ abstract
   -- Get Invᴵⁿᵈᵖ (empᴵⁿᴳ jᴵⁿᵈᵖ) for free
 
   Invᴵⁿᵈᵖ-emp :  ⊨ Invᴵⁿᵈᵖ (empᴵⁿᴳ jᴵⁿᵈᵖ)
-  Invᴵⁿᵈᵖ-emp =  Invᵍ-0
+  Invᴵⁿᵈᵖ-emp =  Smry-0
 
   -- Allocate □ P to get □ᵒ Indᵖ P
 
@@ -120,15 +120,15 @@ abstract
       ∗ᵒ-monoˡ (◎⟨⟩-⌞⌟≡-□ᵒ refl › dup-□ᵒ ◎-Mono › ∗ᵒ-mono (-,_) (-,_)) ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
-        Invᵍ-add-š) ✓∙) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param
+        Smry-add-š) ✓∙) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param
 
   -- Use Indᵖ P to get P
 
   Indᵖ-use :  Indᵖ P  ⊨  ⟨ M ⟩⇛ᴵⁿᵈᵖ⟨ M ⟩  ⸨ P ⸩
   Indᵖ-use {P} =  ⇛ᵍ-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
     ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ indᵖ-use) › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ{ (≡šP , i<n) →
-      ∗ᵒ-elimʳ (□ᵒ-Mono Invᵍ-Mono) › dup-□ᵒ Invᵍ-Mono › ∗ᵒ-monoˡ $
-      □ᵒ-elim Invᵍ-Mono › Invᵍ-rem-< ≡šP i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) ›
+      ∗ᵒ-elimʳ (□ᵒ-Mono Smry-Mono) › dup-□ᵒ Smry-Mono › ∗ᵒ-monoˡ $
+      □ᵒ-elim Smry-Mono › Smry-rem-< ≡šP i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) ›
     ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------

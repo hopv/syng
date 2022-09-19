@@ -140,6 +140,11 @@ infix 3 let∈-syntax let-syntax
 syntax let∈-syntax {X = X} e₀ (λ x → e) =  let' x ∈ X := e₀ in' e
 syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 
+-- ▶ ▶ ▶ …
+
+loop :  Expr ι (◸ ⊤)
+loop =  ▶ λ{ .! → loop }
+
 --------------------------------------------------------------------------------
 -- Val :  Value data
 

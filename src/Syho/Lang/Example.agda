@@ -13,7 +13,7 @@ open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
 open import Syho.Lang.Expr using (Addr; addr; Type; ◸_; _↷_; Expr; ▶_; ∇_; nd;
-  λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free)
+  λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free; loop)
 open import Syho.Lang.Reduce using (Mem; nd⇒; ▶⇒; ◁⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
 
 private variable
@@ -25,11 +25,6 @@ private variable
 
 --------------------------------------------------------------------------------
 -- Constructing Expr
-
--- ▶ ▶ ▶ …
-
-loop :  Expr ι (◸ ⊤)
-loop =  ▶ λ{ .! → loop }
 
 -- Some stuck expression
 

@@ -57,7 +57,7 @@ open AllGlob public using () renaming (
   -- Resᴳ :  Set 2ᴸ
   Res˙ to Resᴳ)
 
-open ERA Globᴱᴿᴬ using () renaming (ε to εᴳ; _✓_ to _✓ᴳ_)
+open ERA Globᴱᴿᴬ public using () renaming (ε to εᴳ; _✓_ to _✓ᴳ_)
 
 --------------------------------------------------------------------------------
 -- The inner part of Globᴱᴿᴬ

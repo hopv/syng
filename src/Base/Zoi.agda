@@ -163,7 +163,7 @@ abstract
   ✓ᶻ˙-resp :  m˙ ≡˙ n˙ →  ✓ᶻ˙ m˙ →  ✓ᶻ˙ n˙
   ✓ᶻ˙-resp m≡n ✓m a  rewrite ◠ m≡n a =  ✓m a
 
-  -- If m˙ ≤ᶻ˙ n˙ holds, then there exists l˙ s.t. l˙ +ᶻ˙ m˙ ≡ n˙
+  -- If m˙ ≤ᶻ˙ n˙ holds, then there exists l˙ s.t. l˙ +ᶻ˙ m˙ ≡˙ n˙
 
   ≤ᶻ˙⇒∑+ᶻ˙ :  m˙ ≤ᶻ˙ n˙ →  ∑ l˙ , l˙ +ᶻ˙ m˙ ≡˙ n˙
   ≤ᶻ˙⇒∑+ᶻ˙ m≤n .π₀ a =  ≤ᶻ⇒∑+ᶻ (m≤n a) .π₀

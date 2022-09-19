@@ -208,6 +208,11 @@ abstract
   →ᵒ-elim :  Qᵒ ⊨✓ Pᵒ →ᵒ Rᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ
   →ᵒ-elim Q⊨✓P→R E✓a (Pa , Qa) =  Q⊨✓P→R E✓a Qa _ _ ⊑-refl E✓a Pa
 
+  -- ⊨✓ →ᵒ into ⊨ →ᵒ
+
+  ⊨✓⇒⊨-→ᵒ :  Pᵒ ⊨✓ Qᵒ →ᵒ Rᵒ →  Pᵒ ⊨ Qᵒ →ᵒ Rᵒ
+  ⊨✓⇒⊨-→ᵒ P⊨✓Q→R Pa _ _ a⊑b E✓b =  P⊨✓Q→R (✓-mono a⊑b E✓b) Pa _ _ a⊑b E✓b
+
 --------------------------------------------------------------------------------
 -- ∗ᵒ :  Semantic separating conjunction
 
@@ -393,6 +398,12 @@ abstract
 
   -∗ᵒ-apply :  Monoᵒ Qᵒ →  Pᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨✓ Qᵒ
   -∗ᵒ-apply MonoQ =  -∗ᵒ-elim MonoQ λ _ → id
+
+  -- ⊨✓ -∗ᵒ into ⊨ -∗ᵒ
+
+  ⊨✓⇒⊨--∗ᵒ :  Pᵒ ⊨✓ Qᵒ -∗ᵒ Rᵒ →  Pᵒ ⊨ Qᵒ -∗ᵒ Rᵒ
+  ⊨✓⇒⊨--∗ᵒ P⊨✓Q-∗R Pa _ _ _ a⊑b E✓c∙b =
+    P⊨✓Q-∗R (✓-mono (⊑-trans a⊑b ∙-incrˡ) E✓c∙b) Pa _ _ _ a⊑b E✓c∙b
 
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Semantic update modality

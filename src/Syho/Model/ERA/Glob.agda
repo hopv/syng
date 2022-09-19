@@ -67,6 +67,7 @@ pattern outᴳ i =  ṡ i
 
 pattern jᴵⁿᵈˣ =  0
 pattern jᴵⁿᵈᵖ =  1
+pattern elseᴵⁿᴳ =  ṡ ṡ _
 
 -- The inner part of the environment
 

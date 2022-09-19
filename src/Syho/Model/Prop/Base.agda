@@ -442,10 +442,10 @@ abstract
   -- Let ⌜ ⌝ᵒ× go out of ⤇ᵒ
 
   ⤇ᵒ-⌜⌝ᵒ×-out :  ⤇ᵒ ⌜ X ⌝ᵒ× Pᵒ  ⊨✓  ⌜ X ⌝ᵒ× ⤇ᵒ Pᵒ
-  ⤇ᵒ-⌜⌝ᵒ×-out E✓a ⤇∃XP .π₀ =
-    let -, -, x , _ = ⤇∃XP _ _ $ ✓-resp (◠˜ ∙-unitʳ) E✓a in  x
-  ⤇ᵒ-⌜⌝ᵒ×-out _ ⤇∃XP .π₁ _ _ E✓a∙c =
-    let -, E✓b∙c , -, Pb = ⤇∃XP _ _ E✓a∙c in  -, E✓b∙c , Pb
+  ⤇ᵒ-⌜⌝ᵒ×-out E✓a ⤇XP .π₀ =
+    let -, -, x , _ = ⤇XP _ _ $ ✓-resp (◠˜ ∙-unitʳ) E✓a in  x
+  ⤇ᵒ-⌜⌝ᵒ×-out _ ⤇XP .π₁ _ _ E✓a∙c =
+    let -, E✓b∙c , -, Pb = ⤇XP _ _ E✓a∙c in  -, E✓b∙c , Pb
 
 --------------------------------------------------------------------------------
 -- ⤇ᴱ :  Environmental update modality

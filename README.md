@@ -177,6 +177,8 @@ following parts.
             weakest precondition lemmas for the memory.
         * [`Sound`](src/Syho/Model/Hor/Sound.agda) for the semantic soundness of
             the logic's Hoare triple.
+        * [`Adeq`](src/Syho/Model/Hor/Adeq.agda) for the adequacy of the
+            semantic partial and total weakest preconditions.
 
 ## Meta-logic
 

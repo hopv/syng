@@ -197,3 +197,65 @@ Our meta-logic has the following properties.
     `∞`**.
     + Despite some concerns about Agda's soundness around sized types, we
         believe our usage of sized types in Syho's mechanization is safe.
+
+## Termination verification
+
+Syho has two types of Hoare triples, **partial** and **total**.  
+The partial Hoare triple allows coinductive reasoning but does not ensure
+termination.  
+The total Hoare triple allows only inductive reasoning and thus ensures
+termination.
+
+### Comparison with step-indexed logics
+
+This is in contrast to step-indexed logics like Iris:  
+A Hoare triple can only be *partial*, because one *later modality* `▷` should be
+stripped off per program step, and the later modality introduces coinductive
+reasoning by Löb induction.
+
+To see this, let's suppose that the target language has a constructor `▶` on an
+expression, such that `▶ e` reduces to `e` in one program step.  
+In such a step-indexed logic, because **one later modality is stripped off per
+program step**, we have the following rule.
+```
+▷ { P } e { Q }  ⊢  { P } ▶ e { Q }
+```
+Intuitively, `▷ P`, `P` under the *later modality* `▷`, means that `P` holds
+after one *logical* step.
+
+Also, suppose that we can make a vacuous loop `▶ ▶ ▶ …` of `▶`s. Now we have the
+following lemma.
+```
+▷ { P } ▶ ▶ ▶ … { Q }  ⊢  { P } ▶ ▶ ▶ … { Q }
+```
+
+On the other hand, a step-indexed logic has the following rule called **Löb
+induction**.
+```
+▷ P → P  ⊢  P
+```
+If we can get `P` assuming `▷ P` (or intuitively, `P` after one logical step),
+then we get `P` itself.
+
+Combining this Löb induction with the previous lemma, we can have a Hoare triple
+on `▶ ▶ ▶ …` without any premise.
+```
+⊢  { P } ▶ ▶ ▶ … { Q }
+```
+Because the loop `▶ ▶ ▶ …` does not terminate, this means that the Hoare triple
+is partial, not total.  
+Ultimately, this is due to the coinduction introduced by the later modality.
+
+For this reason, Iris does not generally support termination verification (other
+than by actually bounding the number of program steps).
+
+Transfinite Iris (Spies et al., 2021), a variant of Iris with step-indexing over
+ordinal numbers, supports *time credits with ordinals* for termination
+verification.  
+However, to use this, one should do careful math of ordinals, which is a
+demanding task and formally requires classical and choice axioms.
+
+Syho simply provides the **total** Hoare triple with **inductive** deduction,
+thanks to Syho being **non-step-indexed**.  
+Remarkably, we can **piggyback Agda's termination checker** for termination
+verification in Syho, which is handy, flexible and expressive.

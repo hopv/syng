@@ -556,7 +556,7 @@ abstract
   ⊨✓⇒⊨-⤇ᴱ P⊨✓E⤇FQ Pa _ E✓a∙c =  P⊨✓E⤇FQ (✓-mono ∙-incrʳ E✓a∙c) Pa _ E✓a∙c
 
   -- Adequacy of ⤇ᴱ
-  -- If we have Y under E ⤇ᴱ and E is valid, then we have Y
+  -- If we have Y under E ⤇ᴱ for valid E, then Y holds purely
 
   ⤇ᴱ-adeq :  E ✓ ε →  ⊨ E ⤇ᴱ (λ x → F˙ x , ⌜ Y ⌝ᵒ) →  Y
   ⤇ᴱ-adeq E✓ε ⊨E⤇FxY =

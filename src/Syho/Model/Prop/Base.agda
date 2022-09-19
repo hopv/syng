@@ -49,7 +49,7 @@ private variable
   b˙ :  X → Resᴳ
   E F G :  Envᴳ
   E˙ F˙ :  X →  Envᴳ
-  FPᵒ˙ GPᵒ˙ :  X →  Envᴳ × Propᵒ ł
+  FPᵒ˙ GPᵒ˙ FQᵒ˙ :  X →  Envᴳ × Propᵒ ł
   GPᵒ˙˙ :  X →  Y →  Envᴳ × Propᵒ ł
   f :  Y → X
   x y :  X
@@ -447,6 +447,11 @@ abstract
   ⤇ᵒ-⌜⌝ᵒ×-out _ ⤇XP .π₁ _ _ E✓a∙c =
     let -, E✓b∙c , -, Pb = ⤇XP _ _ E✓a∙c in  -, E✓b∙c , Pb
 
+  -- ⊨✓ ⤇ᵒ into ⊨ ⤇ᵒ
+
+  ⊨✓⇒⊨-⤇ᵒ :  Pᵒ ⊨✓ ⤇ᵒ Qᵒ →  Pᵒ ⊨ ⤇ᵒ Qᵒ
+  ⊨✓⇒⊨-⤇ᵒ P⊨✓⤇Q Pa _ _ E✓a∙c =  P⊨✓⤇Q (✓-mono ∙-incrʳ E✓a∙c) Pa _ _ E✓a∙c
+
 --------------------------------------------------------------------------------
 -- ⤇ᴱ :  Environmental update modality
 
@@ -533,6 +538,11 @@ abstract
 
   ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
   ⤇ᴱ-eatˡ =  ∗ᵒ-comm › ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-comm
+
+  -- ⊨✓ ⤇ᴱ into ⊨ ⤇ᴱ
+
+  ⊨✓⇒⊨-⤇ᴱ :  Pᵒ ⊨✓ E ⤇ᴱ FQᵒ˙ →  Pᵒ ⊨ E ⤇ᴱ FQᵒ˙
+  ⊨✓⇒⊨-⤇ᴱ P⊨✓E⤇FQ Pa _ E✓a∙c =  P⊨✓E⤇FQ (✓-mono ∙-incrʳ E✓a∙c) Pa _ E✓a∙c
 
 --------------------------------------------------------------------------------
 -- □ᵒ :  Semantic persistence modality

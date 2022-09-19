@@ -57,8 +57,8 @@ You can learn Agda's language features from
 
 Here are notable features used in Syho.
 - [**Sized types**](https://agda.readthedocs.io/en/latest/language/sized-types.html) ―
-    Enable flexible coinduction, especially in combination with
-    [thunks](src/Base/Thunk.agda).
+    Enable flexible coinduction and induction, especially in combination with
+    [thunks and shrunks](src/Base/Size.agda).
 - [**With-abstractions**](https://agda.readthedocs.io/en/latest/language/with-abstraction.html) ―
     Allow case analysis on calculated values.
 - [**Copatterns**](https://agda.readthedocs.io/en/latest/language/copatterns.html) ―

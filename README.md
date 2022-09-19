@@ -91,6 +91,7 @@ The library consists of the following parts.
     [`Option`](src/Base/Option.agda) for option types;
     [`Dec`](src/Base/Dec.agda) for decidability;
     [`Inh`](src/Base/Inh.agda) for inhabitance;
+    [`Zoi`](src/Base/Zoi.agda) for zoi (zero, one, or infinity) numbers;
     [`Nat`](src/Base/Nat.agda) for natural numbers;
     [`NatPos`](src/Base/NatPos.agda) for positive natural numbers;
     [`List`](src/Base/List.agda) for singly linked lists;
@@ -134,6 +135,7 @@ following parts.
             validity ERA;
             [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA.
         * Basic ERAs ―
+            [`Zoi`](src/Base/Zoi.agda) for the zoi ERA;
             [`Exc`](src/Syho/Model/ERA/Exc.agda) for the exclusive ERA;
             [`Ag`](src/Syho/Model/ERA/Ag.agda) for the agreement ERA;
             [`Frac`](src/Syho/Model/ERA/Frac.agda) for the fractional ERA.

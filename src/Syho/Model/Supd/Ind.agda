@@ -70,14 +70,14 @@ abstract
   -- Allocate P to get Indˣ P
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M ⟩  Indˣ P
-  Indˣ-alloc =  ⇛ᵍ-make λ _ → ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
+  Indˣ-alloc =  ⇛ᵍ-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) Invᵍ-add-š) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ ›
     ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 
   Indˣ-use :  Indˣ P  ⊨  ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M ⟩  ⸨ P ⸩
-  Indˣ-use =  ⇛ᵍ-make λ _ → ∃ᵒ∗ᵒ-out › ∑-case λ _ →
+  Indˣ-use =  ⇛ᵍ-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
     ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} indˣ-use) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ{ (≡šP , i<n) → ∗ᵒ-elimʳ Invᵍ-Mono › Invᵍ-rem-< ≡šP i<n }) ›
     ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param
@@ -102,7 +102,7 @@ abstract
   -- Allocate □ P to get □ᵒ Indᵖ P
 
   □ᵒIndᵖ-alloc-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⟨ M ⟩⇛ᴵⁿᵈᵖ⟨ M ⟩  □ᵒ Indᵖ P
-  □ᵒIndᵖ-alloc-rec {P} =  ⇛ᵍ-make λ _ → ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-alloc) ›
+  □ᵒIndᵖ-alloc-rec {P} =  ⇛ᵍ-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-alloc) ›
     ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
       ∗ᵒ-monoˡ (◎⟨⟩-⌞⌟≡-□ᵒ refl › dup-□ᵒ ◎-Mono › ∗ᵒ-mono (-,_) (-,_)) ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
@@ -112,7 +112,7 @@ abstract
   -- Use Indᵖ P to get P
 
   Indᵖ-use :  Indᵖ P  ⊨  ⟨ M ⟩⇛ᴵⁿᵈᵖ⟨ M ⟩  ⸨ P ⸩
-  Indᵖ-use {P} =  ⇛ᵍ-make λ _ → ∃ᵒ∗ᵒ-out › ∑-case λ _ →
+  Indᵖ-use {P} =  ⇛ᵍ-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
     ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ indᵖ-use) › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ{ (≡šP , i<n) →
       ∗ᵒ-elimʳ (□ᵒ-Mono Invᵍ-Mono) › dup-□ᵒ Invᵍ-Mono › ∗ᵒ-monoˡ $
       □ᵒ-elim Invᵍ-Mono › Invᵍ-rem-< ≡šP i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) ›

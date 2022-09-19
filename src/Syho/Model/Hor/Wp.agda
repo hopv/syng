@@ -62,6 +62,9 @@ data  Wpᴾ Pᵒ˙ ι  where
   -- For a context-redex pair, stating that the reduction is not stuck
   -- and for every next state the weakest precondition coinductively holds
 
+  -- We should use ⇛ᵒ' (the concrete version) instead of ⇛ᵒ (the abstract
+  -- version) here to pass the strict positivity check
+
   ⁺⟨⟩ᴾᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                  ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
                    ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙  ⊨

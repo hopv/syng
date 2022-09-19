@@ -9,7 +9,7 @@ module Syho.Logic.Paradox where
 open import Base.Func using (_$_)
 open import Base.Size using (Size; ∞; ¡_; !)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Type; Expr; Val)
+open import Syho.Lang.Expr using (Type; Expr; Expr˂; ▶_; loop; Val)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
@@ -98,3 +98,27 @@ module _
   horᵀ/↪⟨⟩ᵀ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
     ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
+
+--------------------------------------------------------------------------------
+-- If we can use ↪⟨ ⟩ᵀ with ▶, not counter increment, then we get a paradox
+
+module _
+  -- ↪⟨⟩ᵀ-use with ▶, not counter increment
+  (↪⟨⟩ᵀ-use▶ :  ∀{T} {e˂ : Expr˂ ∞ T} {P˂ Q˂˙ i ι} →
+    P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᵀ[ i ]  λ v → Q˂˙ v .!)
+  where abstract
+
+  -- We can strip ○ from ↪⟨ loop ⟩ᵀ, using ↪⟨⟩ᵀ-use▶
+
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶ :
+    ○ ¡ (P˂ ↪⟨ loop ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop ⟩ᵀ[ i ] Q˂˙
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶ =  ○⇒↪⟨⟩ᵀ λ{ .! → ↪⟨⟩ᵀ-use▶ }
+
+  -- Therefore, by ○-rec, we have any total Hoare triple for the expression
+  -- loop, which is a paradox: Although the total Hoare triple should ensure
+  -- termination, loop does not terminate!
+
+  horᵀ-loop/↪⟨⟩ᵀ-use▶ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
+  horᵀ-loop/↪⟨⟩ᵀ-use▶ {P} {Q˙ = Q˙} =  ∗⊤-intro »
+    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶) ᵘ»ʰ
+    ↪⟨⟩ᵀ-use▶ {P˂ = ¡ P} {λ v → ¡ Q˙ v}

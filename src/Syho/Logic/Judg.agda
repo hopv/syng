@@ -385,6 +385,9 @@ data  _⊢[_]*_  where
   -- Use ↪⟨⟩ᵀ, with counter increment
   ---- Without that counter increment, we could have any total Hoare triple
   ---- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
+  ---- If we use ▶ (just like ↪⟨⟩ᴾ-use) instead of counter increment, the total
+  ---- Hoare triple does not ensure termination (horᵀ-loop/↪⟨⟩ᵀ-use▶ in
+  ---- Syho.Logic.Paradox)
 
   ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
                 ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ]  λ v → Q˂˙ v .!

@@ -78,7 +78,7 @@ record  ≡Dec (A : Set ł) :  Set ł  where
   constructor ≡dec
   infix 4 _≡?_
   field
-    -- Equality decision on A
+    -- Equality decision for A
     _≡?_ :  ∀(a b : A) →  Dec $ a ≡ b
 
     -- a ≡? a returns yes refl
@@ -101,6 +101,8 @@ private variable
   i j :  I
 
 instance
+
+  -- Equality decision for ⟨2⟩, ⊤ and ⊥
 
   ⟨2⟩-≡Dec :  ≡Dec {ł} ⟨2⟩
   ⟨2⟩-≡Dec ._≡?_ 0₂ 0₂ =  yes refl

@@ -9,7 +9,7 @@ module Base.Dec where
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _›_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
-open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; UIP; UIP-const)
+open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; UIP; const⇒UIP)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
 open import Base.Option using (¿_; ň; š_)
@@ -143,15 +143,15 @@ abstract
 
   -- ≡Dec implies UIP
 
-  UIP-≡Dec :  {{≡Dec A}} →  UIP A
-  UIP-≡Dec {A = A} =  UIP-const k-const
+  ≡Dec⇒UIP :  {{≡Dec A}} →  UIP A
+  ≡Dec⇒UIP {A = A} =  const⇒UIP k-const
    where
     k :  ∀{a b : A} →  a ≡ b →  a ≡ b
     k {a} {b} eq  with a ≡? b
     … | yes eq' =  eq'
     … | no a≢b =  absurd $ a≢b eq
     k-const :  ∀{a b : A} (eq eq' : a ≡ b) →  k eq ≡ k eq'
-    k-const {a} {b} eq eq'  with a ≡? b
+    k-const {a} {b} eq _  with a ≡? b
     … | yes _ =  refl
     … | no a≢b  with a≢b eq
     …   | ()
@@ -160,7 +160,7 @@ abstract
 
   ≡-≡? :  ∀{{_ : ≡Dec A}} {a b : A} (eq : a ≡ b) →  (a ≡? b) ≡ yes eq
   ≡-≡? {a = a} {b} eq  with a ≡? b
-  … | yes eq'  rewrite UIP-≡Dec eq' eq =  refl
+  … | yes eq'  rewrite ≡Dec⇒UIP eq' eq =  refl
   … | no a≢b  with a≢b eq
   …   | ()
 

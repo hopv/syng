@@ -53,7 +53,7 @@ abstract
   _◇_ :  a ≡ a' →  a' ≡ a'' →  a ≡ a''
   refl ◇ eq =  eq
 
-  -- Clever lemma used later for UIP-const
+  -- Clever lemma used later for const⇒UIP
 
   ◠◇-refl :  ∀{a a' : A} (eq : a ≡ a') →  (◠ eq ◇ eq) ≡ refl
   ◠◇-refl refl =  refl
@@ -106,10 +106,10 @@ abstract
   -- If there is a constant function k from a ≡ a' to a ≡ a' for any a, a': A,
   -- then A satisfies UIP
 
-  UIP-const :  ∀{k : ∀{a a' : A} → a ≡ a' → a ≡ a'} →
+  const⇒UIP :  ∀{k : ∀{a a' : A} → a ≡ a' → a ≡ a'} →
     (∀{a a'} (eq eq' : a ≡ a') → k eq ≡ k eq') →  UIP A
-  UIP-const {k = k} k-const eq eq' =
-    ◠ ≡-canonical eq ◇ cong (◠ k refl ◇_) (k-const eq eq') ◇ ≡-canonical eq'
+  const⇒UIP {k = k} k-const _ _ =
+    ◠ ◠kr◇k≡ ◇ cong (◠ k _ ◇_) (k-const _ _) ◇ ◠kr◇k≡
    where
-    ≡-canonical :  ∀(eq : a ≡ a') →  (◠ k refl ◇ k eq) ≡ eq
-    ≡-canonical refl =  ◠◇-refl (k refl)
+    ◠kr◇k≡ :  ∀{eq : a ≡ a'} →  (◠ k refl ◇ k eq) ≡ eq
+    ◠kr◇k≡ {eq = refl} =  ◠◇-refl (k refl)

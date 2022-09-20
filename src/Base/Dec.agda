@@ -133,9 +133,9 @@ instance
 
 -- Derive ≡Dec by a injection
 
-≡Dec-inj :  {{≡Dec B}} →
-  ∀(f : A → B) (f-inj : ∀{a a'} → f a ≡ f a' → a ≡ a') →  ≡Dec A
-≡Dec-inj f f-inj ._≡?_ a a'  with f a ≡? f a'
+inj⇒≡Dec :  {{≡Dec B}} →
+  ∀{f : A → B} (f-inj : ∀{a a'} → f a ≡ f a' → a ≡ a') →  ≡Dec A
+inj⇒≡Dec {f = f} f-inj ._≡?_ a a'  with f a ≡? f a'
 … | yes fa≡fa' =  yes $ f-inj fa≡fa'
 … | no fa≢fa' =  no λ{ refl → fa≢fa' refl }
 

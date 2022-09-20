@@ -7,7 +7,7 @@
 module Base.Str where
 
 open import Base.Eq using (_≡_; refl)
-open import Base.Dec using (≡Dec; ≡Dec-inj)
+open import Base.Dec using (≡Dec; inj⇒≡Dec)
 open import Base.Nat using ()
 open import Base.List using (List)
 
@@ -56,7 +56,7 @@ instance
   -- Equality decision on Char and Str
 
   Char-≡Dec :  ≡Dec Char
-  Char-≡Dec =  ≡Dec-inj unchar unchar-inj
+  Char-≡Dec =  inj⇒≡Dec unchar-inj
 
   Str-≡Dec :  ≡Dec Str
-  Str-≡Dec =  ≡Dec-inj unstr unstr-inj
+  Str-≡Dec =  inj⇒≡Dec unstr-inj

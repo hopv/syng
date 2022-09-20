@@ -12,7 +12,7 @@ open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; subst)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_; -,_; _,-)
 open import Base.Option using (¿_; š_; ň; _»-¿_; _$¿_; ¿-case; š-inj)
-open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
+open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
 open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡⇒¬<;
   <-trans; +-0; +-ṡ; +-smonoʳ)
 open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
@@ -166,7 +166,7 @@ abstract
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away :
     i < k →  ([∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv) .π₀ i  ≡  ň
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {ᵗvs = []} _ =  refl
-  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {i} {k} {ᵗvs = _ ∷ ᵗvs'} i<k  with i ≡? k
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {i} {k} {ᵗvs = _ ∷ ᵗvs'} i<k  with i ≟ k
   … | yes refl =  absurd $ <-irrefl i<k
   … | no _ =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {ᵗvs = ᵗvs'} (<-trans i<k ṡ-sincr)
 
@@ -174,9 +174,9 @@ abstract
     ([∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv) .π₀ (k + i)  ≈ᶠʳ  pnts (ᵗvs ‼ i)
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {ᵗvs = []} =  _
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {k} {_ ∷ ᵗvs'} {0}  rewrite +-0 {k} |
-    ≡?-refl {a = k} | [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {ᵗvs = ᵗvs'} (ṡ-sincr {k}) =
+    ≟-refl {a = k} | [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-away {ᵗvs = ᵗvs'} (ṡ-sincr {k}) =
     refl , ≈ᴸ-refl
-  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {k} {_ ∷ ᵗvs'} {ṡ i'}  with k + ṡ i' ≡? k
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {k} {_ ∷ ᵗvs'} {ṡ i'}  with k + ṡ i' ≟ k
   … | no _  rewrite +-ṡ {k} {i'} =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {ṡ k} {ᵗvs'} {i'}
   … | yes k+ṡi'≡k
     with ≡⇒¬< (◠ k+ṡi'≡k) $ subst (_< k + ṡ i') (+-0 {k}) $ +-smonoʳ 0<ṡ
@@ -246,20 +246,20 @@ abstract
   [∙∈ⁱ⟨⟩]↦ʳ-out :  o' ≢ o →
     ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o i ↦ʳ ᵗv) .↓ o'  ≈ᴹᵇˡᵒ  ((λ _ → ň) , ?ˣ)
   [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = []} _ =  _ , refl
-  [∙∈ⁱ⟨⟩]↦ʳ-out {o'} {o} {ᵗvs = _ ∷ ᵗvs'} o'≢o  with o' ≡? o
+  [∙∈ⁱ⟨⟩]↦ʳ-out {o'} {o} {ᵗvs = _ ∷ ᵗvs'} o'≢o  with o' ≟ o
   … | yes refl =  absurd $ o'≢o refl
   … | no _ =  [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = ᵗvs'} o'≢o
 
   [∙∈ⁱ⟨⟩]↦ʳ-in :  ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o i ↦ʳ ᵗv) .↓ o  ≈ᴹᵇˡᵒ
                     [∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv
   [∙∈ⁱ⟨⟩]↦ʳ-in {ᵗvs = []} =  _ , refl
-  [∙∈ⁱ⟨⟩]↦ʳ-in {k} {_ ∷ ᵗvs'} {o}  rewrite ≡?-refl {a = o} =
+  [∙∈ⁱ⟨⟩]↦ʳ-in {k} {_ ∷ ᵗvs'} {o}  rewrite ≟-refl {a = o} =
     ∙ᴹᵇˡᵒ-congʳ {c = k ↦ᵇˡᵒ _} $ [∙∈ⁱ⟨⟩]↦ʳ-in {ṡ k} {ᵗvs'} {o}
 
   -- [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] ad o i ↦ʳ ᵗv is equivalent to o ↦ᴸʳ ᵗvs
 
   [∙∈ⁱ]↦≈↦ᴸʳ :  [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] ad o i ↦ʳ ᵗv  ≈ᴹᵉᵐ  o ↦ᴸʳ ᵗvs
-  [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs} {o} .↓ o'  with o' ≡? o
+  [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs} {o} .↓ o'  with o' ≟ o
   …   | no o'≢o =  [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = ᵗvs} o'≢o
   …   | yes refl =  [∙∈ⁱ⟨⟩]↦ʳ-in {ᵗvs = ᵗvs} ◇˜ᴹᵇˡᵒ [∙∈ⁱ]↦≈↦ᴸᵇˡᵒ {ᵗvs = ᵗvs}
 
@@ -269,7 +269,7 @@ abstract
                  λ(_ : M ‼ᴹ θ ≡ š ᵗv) →  ↑ M , θ ↦⟨ p ⟩ʳ ᵗv
   ↦⟨⟩ʳ-read _ ✓M✓θ↦v∙a .π₁ =  ✓M✓θ↦v∙a
   ↦⟨⟩ʳ-read {θ = ad o i} (↑ a) (↑ (-, M✓θ↦v∙a)) .π₀  with M✓θ↦v∙a o .π₀ i
-  … | M‼θ✓↦v∙aθ  rewrite ≡?-refl {a = o} | ≡?-refl {a = i} =
+  … | M‼θ✓↦v∙aθ  rewrite ≟-refl {a = o} | ≟-refl {a = i} =
     ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦v∙aθ
 
   -- Write using ↦ʳ
@@ -278,15 +278,15 @@ abstract
   ↦ʳ-write _ _ .π₀ =  _
   ↦ʳ-write _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
   ↦ʳ-write {M} {ad o i} {ᵗv = ᵗv} _ (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₁
-    with o' ≡? o | M✓θ↦u∙a o' .π₁
+    with o' ≟ o | M✓θ↦u∙a o' .π₁
   … | no _ | Mo'✓ao' =  Mo'✓ao'
   … | yes refl | Mo✓i↦u∙ao  with M o
   …   | ň =  Mo✓i↦u∙ao
   …   | š ᵗus  rewrite upd-len {i} {b = ᵗv} {ᵗus} =  Mo✓i↦u∙ao
   ↦ʳ-write {M} {ad o i} {ᵗv = ᵗv} (↑ a) (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₀ j
-    with o' ≡? o | M✓θ↦u∙a o' .π₀ j
+    with o' ≟ o | M✓θ↦u∙a o' .π₀ j
   … | no _ | Mo'‼j✓ao'j =  Mo'‼j✓ao'j
-  … | yes refl | Mo‼j✓i↦uj∙aoj  with j ≡? i | M o | Mo‼j✓i↦uj∙aoj
+  … | yes refl | Mo‼j✓i↦uj∙aoj  with j ≟ i | M o | Mo‼j✓i↦uj∙aoj
   …   | no j≢i | ň | Mo‼j✓aoj =  Mo‼j✓aoj
   …   | no j≢i | š ᵗus | Mo‼j✓aoj  rewrite upd-‼-out {b = ᵗv} {ᵗus} j≢i =
     Mo‼j✓aoj
@@ -302,11 +302,11 @@ abstract
   ↦ᴸʳ-alloc _ _ _ .π₀ =  _
   ↦ᴸʳ-alloc _ _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
   ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₁
-    with o' ≡? o | M✓a o' .π₁
+    with o' ≟ o | M✓a o' .π₁
   … | no _ | lenMo'✓ao' =  lenMo'✓ao'
   … | yes refl | ň✓ao  rewrite Mo≡ň | rep-len {n} {a = ⊤ṽ} =  ✓ˣ-alloc ň✓ao
   ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₀ i
-    with o' ≡? o | M✓a o' .π₀ i
+    with o' ≟ o | M✓a o' .π₀ i
   … | no _ | Mo'‼i✓ao'i =  Mo'‼i✓ao'i
   … | yes refl | Mo‼i✓aoi  rewrite Mo≡ň  with rep n ⊤ṽ ‼ i
   …   | ň =  Mo‼i✓aoi
@@ -318,7 +318,7 @@ abstract
                λ(_ : ∑ ᵗvs , M o ≡ š ᵗvs) →  ↑ M , freeʳ n o
   freeʳ-š _ ✓M✓freeno∙ .π₁ =  ✓M✓freeno∙
   freeʳ-š {M} {o = o} (↑ a) (↑ (-, M✓freeno∙)) .π₀  with M✓freeno∙ o .π₁
-  … | lenMo✓#n∙  rewrite ≡?-refl {a = o}
+  … | lenMo✓#n∙  rewrite ≟-refl {a = o}
     with M o | ✓ˣ-agree {x = a o .π₁} lenMo✓#n∙
   …   | š _ | _ =  -, refl
 
@@ -329,11 +329,11 @@ abstract
   ↦ᴸʳ-free _ _ _ .π₀ =  _
   ↦ᴸʳ-free _ _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
   ↦ᴸʳ-free {o = o} _ _ (↑ (-, M✓o↦vs∙fno∙a)) .π₁ .↓ .π₁ o' .π₁
-    with o' ≡? o | M✓o↦vs∙fno∙a o' .π₁
+    with o' ≟ o | M✓o↦vs∙fno∙a o' .π₁
   … | no _ | lenMo'✓ao' =  lenMo'✓ao'
   … | yes refl | lenMo✓↦#n∙ao =  ✓ˣ-free lenMo✓↦#n∙ao
   ↦ᴸʳ-free {M = M} {o = o} refl (↑ a) (↑ (-, M✓o↦vs∙fno∙a)) .π₁ .↓ .π₁ o' .π₀ i
-    with o' ≡? o | M✓o↦vs∙fno∙a o' .π₀ i | M✓o↦vs∙fno∙a o' .π₁
+    with o' ≟ o | M✓o↦vs∙fno∙a o' .π₀ i | M✓o↦vs∙fno∙a o' .π₁
   … | no _ | Mo'‼i✓ao'i | _ =  Mo'‼i✓ao'i
   … | yes refl | Mo‼i✓↦vs∙aoi | lenMo✓#n∙ao
     with M o | ✓ˣ-agree {x = a o .π₁} lenMo✓#n∙ao

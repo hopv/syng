@@ -77,10 +77,10 @@ instance
 
 record  ≡Dec (A : Set ł) :  Set ł  where
   constructor ≡dec
-  infix 4 _≡?_
+  infix 4 _≟_
   field
     -- Equality decision for A
-    _≡?_ :  ∀(a b : A) →  Dec $ a ≡ b
+    _≟_ :  ∀(a b : A) →  Dec $ a ≡ b
 
 open ≡Dec {{…}} public
 
@@ -89,53 +89,53 @@ instance
   -- Get Dec $ a ≡ b out of ≡Dec
 
   ≡-Dec :  {{≡Dec A}} →  {a b : A} →  Dec $ a ≡ b
-  ≡-Dec =  _ ≡? _
+  ≡-Dec =  _ ≟ _
 
   -- Equality decision for ⟨2⟩, ⊤ and ⊥
 
   ⟨2⟩-≡Dec :  ≡Dec {ł} ⟨2⟩
-  ⟨2⟩-≡Dec ._≡?_ 0₂ 0₂ =  yes refl
-  ⟨2⟩-≡Dec ._≡?_ 1₂ 1₂ =  yes refl
-  ⟨2⟩-≡Dec ._≡?_ 0₂ 1₂ =  no λ ()
-  ⟨2⟩-≡Dec ._≡?_ 1₂ 0₂ =  no λ ()
+  ⟨2⟩-≡Dec ._≟_ 0₂ 0₂ =  yes refl
+  ⟨2⟩-≡Dec ._≟_ 1₂ 1₂ =  yes refl
+  ⟨2⟩-≡Dec ._≟_ 0₂ 1₂ =  no λ ()
+  ⟨2⟩-≡Dec ._≟_ 1₂ 0₂ =  no λ ()
 
   ⊤-≡Dec :  ≡Dec {ł} ⊤
-  ⊤-≡Dec ._≡?_ _ _ =  yes refl
+  ⊤-≡Dec ._≟_ _ _ =  yes refl
 
   ⊥-≡Dec :  ≡Dec {ł} ⊥
-  ⊥-≡Dec ._≡?_ ()
+  ⊥-≡Dec ._≟_ ()
 
   -- Equality decision for ×, ⊎ and ¿
 
   ×-≡Dec :  {{≡Dec A}} →  {{≡Dec B}} →  ≡Dec $ A × B
-  ×-≡Dec ._≡?_ (a , b) (a' , b')  with a ≡? a' | b ≡? b'
+  ×-≡Dec ._≟_ (a , b) (a' , b')  with a ≟ a' | b ≟ b'
   … | yes refl | yes refl =  yes refl
   … | no a≢a' | _ =  no λ{ refl → a≢a' refl }
   … | _ | no b≢b' =  no λ{ refl → b≢b' refl }
 
   ⊎-≡Dec :  {{≡Dec A}} →  {{≡Dec B}} →  ≡Dec $ A ⊎ B
-  ⊎-≡Dec ._≡?_ (ĩ₀ a) (ĩ₀ a')  with a ≡? a'
+  ⊎-≡Dec ._≟_ (ĩ₀ a) (ĩ₀ a')  with a ≟ a'
   … | yes refl =  yes refl
   … | no a≢a' =  no λ{ refl → a≢a' refl }
-  ⊎-≡Dec ._≡?_ (ĩ₁ b) (ĩ₁ b')  with b ≡? b'
+  ⊎-≡Dec ._≟_ (ĩ₁ b) (ĩ₁ b')  with b ≟ b'
   … | yes refl =  yes refl
   … | no b≢b' =  no λ{ refl → b≢b' refl }
-  ⊎-≡Dec ._≡?_ (ĩ₀ _) (ĩ₁ _) =  no λ ()
-  ⊎-≡Dec ._≡?_ (ĩ₁ _) (ĩ₀ _) =  no λ ()
+  ⊎-≡Dec ._≟_ (ĩ₀ _) (ĩ₁ _) =  no λ ()
+  ⊎-≡Dec ._≟_ (ĩ₁ _) (ĩ₀ _) =  no λ ()
 
   ¿-≡Dec :  {{≡Dec A}} →  ≡Dec $ ¿ A
-  ¿-≡Dec ._≡?_ ň ň =  yes refl
-  ¿-≡Dec ._≡?_ (š a) (š a')  with a ≡? a'
+  ¿-≡Dec ._≟_ ň ň =  yes refl
+  ¿-≡Dec ._≟_ (š a) (š a')  with a ≟ a'
   … | yes refl =  yes refl
   … | no a≢a' =  no λ{ refl → a≢a' refl }
-  ¿-≡Dec ._≡?_ ň (š _) =  no λ ()
-  ¿-≡Dec ._≡?_ (š _) ň =  no λ ()
+  ¿-≡Dec ._≟_ ň (š _) =  no λ ()
+  ¿-≡Dec ._≟_ (š _) ň =  no λ ()
 
 -- Derive ≡Dec by a injection
 
 inj⇒≡Dec :  {{≡Dec B}} →
   ∀{f : A → B} (f-inj : ∀{a a'} → f a ≡ f a' → a ≡ a') →  ≡Dec A
-inj⇒≡Dec {f = f} f-inj ._≡?_ a a'  with f a ≡? f a'
+inj⇒≡Dec {f = f} f-inj ._≟_ a a'  with f a ≟ f a'
 … | yes fa≡fa' =  yes $ f-inj fa≡fa'
 … | no fa≢fa' =  no λ{ refl → fa≢fa' refl }
 
@@ -147,25 +147,25 @@ abstract
   ≡Dec⇒UIP {A = A} =  const⇒UIP k-const
    where
     k :  ∀{a b : A} →  a ≡ b →  a ≡ b
-    k {a} {b} eq  with a ≡? b
+    k {a} {b} eq  with a ≟ b
     … | yes eq' =  eq'
     … | no a≢b =  absurd $ a≢b eq
     k-const :  ∀{a b : A} (eq eq' : a ≡ b) →  k eq ≡ k eq'
-    k-const {a} {b} eq _  with a ≡? b
+    k-const {a} {b} eq _  with a ≟ b
     … | yes _ =  refl
     … | no a≢b  with a≢b eq
     …   | ()
 
-  -- On the yes result of ≡?
+  -- On the yes result of ≟
 
-  ≡-≡? :  ∀{{_ : ≡Dec A}} {a b : A} (eq : a ≡ b) →  (a ≡? b) ≡ yes eq
-  ≡-≡? {a = a} {b} eq  with a ≡? b
+  ≡-≟ :  ∀{{_ : ≡Dec A}} {a b : A} (eq : a ≡ b) →  (a ≟ b) ≡ yes eq
+  ≡-≟ {a = a} {b} eq  with a ≟ b
   … | yes eq'  rewrite ≡Dec⇒UIP eq' eq =  refl
   … | no a≢b  with a≢b eq
   …   | ()
 
-  ≡?-refl :  ∀{{_ : ≡Dec A}} {a : A} →  (a ≡? a) ≡ yes refl
-  ≡?-refl =  ≡-≡? refl
+  ≟-refl :  ∀{{_ : ≡Dec A}} {a : A} →  (a ≟ a) ≡ yes refl
+  ≟-refl =  ≡-≟ refl
 
 private variable
   I :  Set ł
@@ -178,7 +178,7 @@ private variable
 -- upd˙ :  Update a map at an index
 
 upd˙ :  {{≡Dec I}} →  ∀(i : I) →  A˙ i →  (∀ j →  A˙ j) →  ∀ j →  A˙ j
-upd˙ i a f j  with j ≡? i
+upd˙ i a f j  with j ≟ i
 … | no _ =  f j
 … | yes refl =  a
 
@@ -187,23 +187,23 @@ abstract
   -- Congruence on upd˙
 
   upd˙-cong :  {{_ : ≡Dec I}} →  f ≡˙ g →  upd˙ {I = I} i a f  ≡˙  upd˙ i a g
-  upd˙-cong {i = i} f≡g j  with j ≡? i
+  upd˙-cong {i = i} f≡g j  with j ≟ i
   … | yes refl =  refl
   … | no _ =  f≡g j
 
   -- Self upd˙
 
   upd˙-self :  {{_ : ≡Dec I}} →  upd˙ {I = I} i (f i) f  ≡˙  f
-  upd˙-self {i = i} j  with j ≡? i
+  upd˙-self {i = i} j  with j ≟ i
   … | yes refl =  refl
   … | no _ =  refl
 
   -- Double upd˙
 
   upd˙-2 :  {{_ : ≡Dec I}} →  upd˙ {I = I} i a (upd˙ i b f)  ≡˙  upd˙ i a f
-  upd˙-2 {i = i} j  with j ≡? i
+  upd˙-2 {i = i} j  with j ≟ i
   … | yes refl =  refl
-  … | no j≢i  with j ≡? i
+  … | no j≢i  with j ≟ i
   …   | yes refl =  absurd $ j≢i refl
   …   | no _ =  refl
 
@@ -211,15 +211,15 @@ abstract
 
   upd˙-swap :  {{_ : ≡Dec I}} →  i ≢ j →
     upd˙ {I = I} i a (upd˙ j b f) ≡˙ upd˙ j b (upd˙ i a f)
-  upd˙-swap {i = i} {j} i≢j k  with k ≡? i
-  … | yes refl  with k ≡? j
+  upd˙-swap {i = i} {j} i≢j k  with k ≟ i
+  … | yes refl  with k ≟ j
   …   | yes refl =  absurd $ i≢j refl
-  …   | no _  rewrite ≡?-refl {a = k} =  refl
-  upd˙-swap {i = i} {j} _ k | no k≢i  with k ≡? j
-  …   | yes refl  with k ≡? i
+  …   | no _  rewrite ≟-refl {a = k} =  refl
+  upd˙-swap {i = i} {j} _ k | no k≢i  with k ≟ j
+  …   | yes refl  with k ≟ i
   …     | yes refl =  absurd $ k≢i refl
   …     | no _ =  refl
-  upd˙-swap {i = i} {j} _ k | no k≢i | no _  with k ≡? i
+  upd˙-swap {i = i} {j} _ k | no k≢i | no _  with k ≟ i
   …     | yes refl =  absurd $ k≢i refl
   …     | no _ =  refl
 
@@ -236,11 +236,11 @@ abstract
 
   upd˙²-self :  {{_ : ≡Dec I}} →
     i ≢ j →  upd˙² {I = I} i (f i) j (f j) f  ≡˙  f
-  upd˙²-self {i = i} {j = j} i≢j k  with k ≡? j
-  … | no _  with k ≡? i
+  upd˙²-self {i = i} {j = j} i≢j k  with k ≟ j
+  … | no _  with k ≟ i
   …   | yes refl =  refl
   …   | no _ =  refl
-  upd˙²-self {i = i} {j = j} i≢j k | yes refl  with k ≡? i
+  upd˙²-self {i = i} {j = j} i≢j k | yes refl  with k ≟ i
   …   | yes refl =  absurd $ i≢j refl
   …   | no _ =  refl
 

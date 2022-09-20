@@ -11,7 +11,7 @@ open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Func using (_$_)
 open import Base.Eq using (refl; _≡˙_)
 open import Base.Prod using (∑∈-syntax; π₀; _,-)
-open import Base.Dec using (yes; no; ≡Dec; _≡?_; ≡?-refl; upd˙)
+open import Base.Dec using (yes; no; ≡Dec; _≟_; ≟-refl; upd˙)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Base using (ERA)
@@ -129,6 +129,6 @@ abstract
 
   upd˙-out-envᴳ :  upd˙ (outᴳ j) Fʲ (envᴳ M Eᴵⁿ)  ≡˙  envᴳ M (upd˙ j Fʲ Eᴵⁿ)
   upd˙-out-envᴳ iᴹᵉᵐ =  refl
-  upd˙-out-envᴳ {j} (outᴳ k)  with k ≡? j
+  upd˙-out-envᴳ {j} (outᴳ k)  with k ≟ j
   … | yes refl =  refl
   … | no _ = refl

@@ -11,7 +11,7 @@ open import Base.Func using (id)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; refl˙)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_)
-open import Base.Dec using (yes; no; ≡Dec; _≡?_)
+open import Base.Dec using (yes; no; ≡Dec; _≟_)
 
 --------------------------------------------------------------------------------
 -- Zoi :  Zoi (zero, one, or infinity) number
@@ -52,15 +52,15 @@ instance
   -- Equality decision for Zoi
 
   Zoi-≡Dec :  ≡Dec Zoi
-  Zoi-≡Dec ._≡?_ 0ᶻ 0ᶻ =  yes refl
-  Zoi-≡Dec ._≡?_ 1ᶻ 1ᶻ =  yes refl
-  Zoi-≡Dec ._≡?_ ∞ᶻ ∞ᶻ =  yes refl
-  Zoi-≡Dec ._≡?_ 0ᶻ 1ᶻ =  no λ ()
-  Zoi-≡Dec ._≡?_ 0ᶻ ∞ᶻ =  no λ ()
-  Zoi-≡Dec ._≡?_ 1ᶻ 0ᶻ =  no λ ()
-  Zoi-≡Dec ._≡?_ 1ᶻ ∞ᶻ =  no λ ()
-  Zoi-≡Dec ._≡?_ ∞ᶻ 0ᶻ =  no λ ()
-  Zoi-≡Dec ._≡?_ ∞ᶻ 1ᶻ =  no λ ()
+  Zoi-≡Dec ._≟_ 0ᶻ 0ᶻ =  yes refl
+  Zoi-≡Dec ._≟_ 1ᶻ 1ᶻ =  yes refl
+  Zoi-≡Dec ._≟_ ∞ᶻ ∞ᶻ =  yes refl
+  Zoi-≡Dec ._≟_ 0ᶻ 1ᶻ =  no λ ()
+  Zoi-≡Dec ._≟_ 0ᶻ ∞ᶻ =  no λ ()
+  Zoi-≡Dec ._≟_ 1ᶻ 0ᶻ =  no λ ()
+  Zoi-≡Dec ._≟_ 1ᶻ ∞ᶻ =  no λ ()
+  Zoi-≡Dec ._≟_ ∞ᶻ 0ᶻ =  no λ ()
+  Zoi-≡Dec ._≟_ ∞ᶻ 1ᶻ =  no λ ()
 
 abstract
 

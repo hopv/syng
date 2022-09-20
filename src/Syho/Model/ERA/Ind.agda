@@ -14,7 +14,7 @@ open import Base.Size using (∞)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Dec using (yes; no; upd˙; _≡?_; ≡?-refl)
+open import Base.Dec using (yes; no; upd˙; _≟_; ≟-refl)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; ∀≥˙;
   ∀≥˙-upd˙-sat; ∀≥˙-upd˙-ṡ)
 open import Base.List using ([_])
@@ -74,7 +74,7 @@ abstract
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , indˣ n P
   indˣ-alloc _ _ .π₀ =  _
   indˣ-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
-  indˣ-alloc {n = n} _ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rˣ i
+  indˣ-alloc {n = n} _ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≟ n | Qˇ✓Rˣ i
   … | no _ | Qˇi✓Rˣi =  Qˇi✓Rˣi
   … | yes refl | Qˇn✓Rˣn  rewrite ✓Qˇ _ ≤-refl =  ✓ˣ-alloc Qˇn✓Rˣn
 
@@ -83,13 +83,13 @@ abstract
   indˣ-use :  ((Qˇ˙ , n) , indˣ i P)  ↝ᴵⁿᵈˣ
                 λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εᴵⁿᵈˣ
   indˣ-use {n = n} {i} Rˣ˙ (✓Qˇ , Qˇ✓iP∙Rˣ) .π₀  with Qˇ✓iP∙Rˣ i
-  … | Qˇi✓#P∙Rˣi  rewrite ≡?-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓#P∙Rˣi
+  … | Qˇi✓#P∙Rˣi  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓#P∙Rˣi
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
   …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
   …       | ()
   indˣ-use _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-sat {F = λ _ → _≡ ň} refl ✓Qˇ
-  indˣ-use {i = i} _ (-, Qˇ✓iP∙Rˣ) .π₁ .π₁ j  with j ≡? i | Qˇ✓iP∙Rˣ j
+  indˣ-use {i = i} _ (-, Qˇ✓iP∙Rˣ) .π₁ .π₁ j  with j ≟ i | Qˇ✓iP∙Rˣ j
   … | no _ | Qˇj✓Rˣj =  Qˇj✓Rˣj
   … | yes refl | Qˇi✓#P∙Rˣi =  ✓ˣ-free Qˇi✓#P∙Rˣi
 
@@ -136,7 +136,7 @@ abstract
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , indᵖ n P
   indᵖ-alloc _ _ .π₀ =  _
   indᵖ-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
-  indᵖ-alloc {n = n} _ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≡? n | Qˇ✓Rs i
+  indᵖ-alloc {n = n} _ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≟ n | Qˇ✓Rs i
   … | no _ | Qˇi✓Rsi =  Qˇi✓Rsi
   … | yes refl | Qˇn✓Rsn  rewrite ✓Qˇ _ ≤-refl =  ✓ᴸ-alloc Qˇn✓Rsn
 
@@ -145,7 +145,7 @@ abstract
   indᵖ-use :  ((Qˇ˙ , n) , indᵖ i P)  ↝ᴵⁿᵈᵖ
                 λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , indᵖ i P
   indᵖ-use {n = n} {i} _ (✓Qˇ , Qˇ✓iP⧺Rs) .π₀  with Qˇ✓iP⧺Rs i
-  … | Qˇi✓P∷Rsi  rewrite ≡?-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷Rsi
+  … | Qˇi✓P∷Rsi  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷Rsi
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
   …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP

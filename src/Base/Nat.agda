@@ -12,7 +12,7 @@ open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≡?_; upd˙)
+open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; upd˙)
 open import Base.Inh using (Inh; any)
 
 --------------------------------------------------------------------------------
@@ -205,14 +205,14 @@ abstract
 instance
 
   ℕ-≡Dec :  ≡Dec ℕ
-  ℕ-≡Dec =  ≡dec _≡?'_
+  ℕ-≡Dec =  ≡dec _≟'_
    where
-    infix 4 _≡?'_
-    _≡?'_ :  ∀ a b →  Dec $ a ≡ b
-    0 ≡?' 0 =  yes refl
-    0 ≡?' ṡ _ =  no λ()
-    ṡ _ ≡?' 0 =  no λ()
-    ṡ m' ≡?' ṡ n'  with m' ≡?' n'
+    infix 4 _≟'_
+    _≟'_ :  ∀ a b →  Dec $ a ≡ b
+    0 ≟' 0 =  yes refl
+    0 ≟' ṡ _ =  no λ()
+    ṡ _ ≟' 0 =  no λ()
+    ṡ m' ≟' ṡ n'  with m' ≟' n'
     … | yes refl =  yes refl
     … | no m'≢n' =  no λ{ refl → m'≢n' refl }
 
@@ -531,14 +531,14 @@ abstract
   -- ∀≥˙ n is preserved by upd˙ if the added element satisfies the condition
 
   ∀≥˙-upd˙-sat :  F i a →  ∀≥˙ n F f →  ∀≥˙ n F (upd˙ i a f)
-  ∀≥˙-upd˙-sat {i = i} Fia ∀≥Ff j j≥n  with j ≡? i
+  ∀≥˙-upd˙-sat {i = i} Fia ∀≥Ff j j≥n  with j ≟ i
   … | no _ =  ∀≥Ff j j≥n
   … | yes refl =  Fia
 
   -- ∀≥˙ is preserved by upd˙ i, updating the bound by ṡ i ⊔ -
 
   ∀≥˙-upd˙ :  ∀≥˙ n F f →  ∀≥˙ (ṡ i ⊔ n) F (upd˙ i a f)
-  ∀≥˙-upd˙ {n = n} {i = i} ∀≥Ff j ṡi⊔n≥j  with j ≡? i
+  ∀≥˙-upd˙ {n = n} {i = i} ∀≥Ff j ṡi⊔n≥j  with j ≟ i
   … | no _ =  ∀≥Ff j $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
   … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j
 

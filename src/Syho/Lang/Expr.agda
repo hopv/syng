@@ -12,7 +12,7 @@ open import Base.Few using (⊤; absurd)
 open import Base.Eq using (_≡_; refl; cong)
 open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Prod using (∑-syntax; _,_)
-open import Base.Dec using (yes; no; ≡Dec; _≡?_)
+open import Base.Dec using (yes; no; ≡Dec; _≟_)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 
 --------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ abstract
 instance
 
   Addr-≡Dec :  ≡Dec Addr
-  Addr-≡Dec ._≡?_ (ad o i) (ad o' j)  with o ≡? o' | i ≡? j
+  Addr-≡Dec ._≟_ (ad o i) (ad o' j)  with o ≟ o' | i ≟ j
   ... | yes refl | yes refl =  yes refl
   ... | no o≢o' | _ =  no λ{ refl → absurd $ o≢o' refl }
   ... | _ | no i≢j =  no λ{ refl → absurd $ i≢j refl }

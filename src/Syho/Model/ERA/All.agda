@@ -14,7 +14,7 @@ open import Base.Level using (_⊔ᴸ_)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _≡˙_)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
-open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙; upd˙-cong; upd˙-self;
+open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙; upd˙-cong; upd˙-self;
   upd˙-2; upd˙-swap)
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
@@ -96,14 +96,14 @@ module _ {i : I} where
     -- upd˙ preserves ≈/⊑/✓/∙/⌞⌟/↝
 
     upd˙-≈ :  a ≈ⁱ b →  c˙ ≈˙ d˙ →  upd˙ i a c˙ ≈˙ upd˙ i b d˙
-    upd˙-≈ a≈b c˙≈d˙ j  with j ≡? i
+    upd˙-≈ a≈b c˙≈d˙ j  with j ≟ i
     … | no _ =  c˙≈d˙ j
     … | yes refl =  a≈b
 
     upd˙-⊑' :  ∑ e , e ∙ⁱ a ≈ⁱ b →  ∑ f˙ , f˙ ∙˙ c˙ ≈˙ d˙ →
                ∑ g˙ , g˙ ∙˙ upd˙ i a c˙ ≈˙ upd˙ i b d˙
     upd˙-⊑' _ _ .π₀ =  upd˙ i _ _
-    upd˙-⊑' (-, e∙a≈b) (-, f˙∙c˙≈d˙) .π₁ j  with j ≡? i
+    upd˙-⊑' (-, e∙a≈b) (-, f˙∙c˙≈d˙) .π₁ j  with j ≟ i
     … | no _ =  f˙∙c˙≈d˙ j
     … | yes refl =  e∙a≈b
 
@@ -111,39 +111,39 @@ module _ {i : I} where
     upd˙-⊑  rewrite ⊑ⁱ≡ | ⊑˙≡ =  upd˙-⊑'
 
     upd˙-✓ :  E˙ i ✓ⁱ a →  E˙ ✓˙ b˙ →  E˙ ✓˙ upd˙ i a b˙
-    upd˙-✓ Ei✓a E✓b˙ j  with j ≡? i
+    upd˙-✓ Ei✓a E✓b˙ j  with j ≟ i
     … | no _ =  E✓b˙ j
     … | yes refl =  Ei✓a
 
     upd˙-∙ :  upd˙ i a c˙ ∙˙ upd˙ i b d˙  ≈˙  upd˙ i (a ∙ⁱ b) (c˙ ∙˙ d˙)
-    upd˙-∙ j  with j ≡? i
+    upd˙-∙ j  with j ≟ i
     … | no _ =  Era˙ j .refl˜
     … | yes refl =  refl˜ⁱ
 
     upd˙-⌞⌟ :  ⌞ upd˙ i a b˙ ⌟˙  ≈˙  upd˙ i ⌞ a ⌟ⁱ ⌞ b˙ ⌟˙
-    upd˙-⌞⌟ j  with j ≡? i
+    upd˙-⌞⌟ j  with j ≟ i
     … | no _ =  Era˙ j .refl˜
     … | yes refl =  refl˜ⁱ
 
     upd˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x)  →
               (E˙ , upd˙ i a c˙)  ↝˙  λ x → (E˙ , upd˙ i (bˣ x) c˙)
     upd˙-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib d˙ E✓iac∙d  with E✓iac∙d i
-    … | Ei✓a∙di  rewrite ≡?-refl {a = i}  =  body
+    … | Ei✓a∙di  rewrite ≟-refl {a = i}  =  body
      where
       body :  ∑ x , E˙ ✓˙ upd˙ i (bˣ x) c˙ ∙˙ d˙
       body .π₀ =  Eia↝Eib _ Ei✓a∙di .π₀
-      body .π₁ j  with j ≡? i | E✓iac∙d j
+      body .π₁ j  with j ≟ i | E✓iac∙d j
       … | no _ | E✓cj∙dj =  E✓cj∙dj
       … | yes refl | _ =  Eia↝Eib _ Ei✓a∙di .π₁
 
     upd˙-upd˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
       (E˙ , upd˙ i a c˙)  ↝˙  λ x → upd˙ i (Fˣ x) E˙ , upd˙ i (bˣ x) c˙
     upd˙-upd˙-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb d˙ E✓iac∙d  with E✓iac∙d i
-    … | Ei✓a∙di  rewrite ≡?-refl {a = i}  =  body
+    … | Ei✓a∙di  rewrite ≟-refl {a = i}  =  body
      where
       body :  ∑ x , upd˙ i (Fˣ x) E˙ ✓˙ upd˙ i (bˣ x) c˙ ∙˙ d˙
       body .π₀ =  Eia↝Fb _ Ei✓a∙di .π₀
-      body .π₁ j  with j ≡? i | E✓iac∙d j
+      body .π₁ j  with j ≟ i | E✓iac∙d j
       … | no _ | E✓cj∙dj =  E✓cj∙dj
       … | yes refl | _ =  Eia↝Fb _ Ei✓a∙di .π₁
 
@@ -162,7 +162,7 @@ module _ {i : I} where
     inj˙-∙ =  upd˙-∙ ◇˜˙ upd˙-≈ refl˜ⁱ $ ∀ᴱᴿᴬ .∙-unitˡ
 
     inj˙-ε :  inj˙ i εⁱ ≈˙ ε˙
-    inj˙-ε j  with j ≡? i
+    inj˙-ε j  with j ≟ i
     … | no _ =  Era˙ j .refl˜
     … | yes refl =  refl˜ⁱ
 
@@ -181,4 +181,4 @@ module _ {i : I} where
 
     ✓-inj˙ :  E˙ ✓˙ inj˙ i a →  E˙ i ✓ⁱ a
     ✓-inj˙ E✓ia  with E✓ia i
-    … | E✓a  rewrite ≡?-refl {a = i} =  E✓a
+    … | E✓a  rewrite ≟-refl {a = i} =  E✓a

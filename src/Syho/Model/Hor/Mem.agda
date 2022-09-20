@@ -109,15 +109,18 @@ abstract
 
   ⁺⟨⟩ᴾᵒ-← :  θ ↦ᵒ (-, v)  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ[ ι ]  Qᵒ˙ →
              θ ↦ᵒ (-, u)  ∗ᵒ  Pᵒ  ⊨  ⁺⟨ ĩ₁ (K ᴷ| θ ←ᴿ v) ⟩ᴾᵒ[ ι ]  Qᵒ˙
-  ⁺⟨⟩ᴾᵒ-← θ↦v∗P⊨⟨K∇⟩Q θ↦u∗Pa =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ←⇒) ,
-    λ{ _ _ (redᴷᴿ ←⇒) → θ↦u∗Pa ▷ ∗ᵒ-monoˡ ↦ᵒ-write ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono
-    λ θ↦u∗Pb → λ{ .! → θ↦v∗P⊨⟨K∇⟩Q θ↦u∗Pb }})
+  ⁺⟨⟩ᴾᵒ-← θ↦v∗P⊨⟨K∇⟩Q θ↦u∗Pa =  ⁺⟨⟩ᴾᵒ-kr λ M → θ↦u∗Pa ▷ ∗ᵒ-monoˡ ↦⟨⟩ᵒ-read ▷
+    ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ (M‼θ≡u , θ↦u∗Pb) →
+    (-, redᴷᴿ $ ←⇒ (-, M‼θ≡u)) , λ{ _ _ (redᴷᴿ (←⇒ _)) → θ↦u∗Pb ▷
+    ∗ᵒ-monoˡ ↦ᵒ-write ▷ ⇛ᵒ-eatʳ ▷
+    ⇛ᵒ-mono λ θ↦u∗Pb → λ{ .! → θ↦v∗P⊨⟨K∇⟩Q θ↦u∗Pb }}
 
   ⁺⟨⟩ᵀᵒ-← :  θ ↦ᵒ (-, v)  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ _ ⟩ᵀᵒ[ ι ]  Qᵒ˙ →
              θ ↦ᵒ (-, u)  ∗ᵒ  Pᵒ  ⊨  ⁺⟨ ĩ₁ (K ᴷ| θ ←ᴿ v) ⟩ᵀᵒ[ ∞ ]  Qᵒ˙
-  ⁺⟨⟩ᵀᵒ-← θ↦v∗P⊨⟨K⟩Q θ↦u∗Pa =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ←⇒) ,
-    λ{ _ _ (redᴷᴿ ←⇒) → θ↦u∗Pa ▷ ∗ᵒ-monoˡ ↦ᵒ-write ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono
-    λ θ↦u∗Pb → § θ↦v∗P⊨⟨K⟩Q θ↦u∗Pb })
+  ⁺⟨⟩ᵀᵒ-← θ↦v∗P⊨⟨K∇⟩Q θ↦u∗Pa =  ⁺⟨⟩ᵀᵒ-kr λ M → θ↦u∗Pa ▷ ∗ᵒ-monoˡ ↦⟨⟩ᵒ-read ▷
+    ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ (M‼θ≡u , θ↦u∗Pb) →
+    (-, redᴷᴿ $ ←⇒ (-, M‼θ≡u)) , λ{ _ _ (redᴷᴿ (←⇒ _)) → θ↦u∗Pb ▷
+    ∗ᵒ-monoˡ ↦ᵒ-write ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono λ θ↦u∗Pb → § θ↦v∗P⊨⟨K∇⟩Q θ↦u∗Pb }
 
   -- alloc and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
 

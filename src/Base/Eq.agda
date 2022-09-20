@@ -53,6 +53,11 @@ abstract
   _◇_ :  a ≡ a' →  a' ≡ a'' →  a ≡ a''
   refl ◇ eq =  eq
 
+  -- Clever lemma used later for UIP-const
+
+  ◠◇-refl :  ∀{a a' : A} (eq : a ≡ a') →  (◠ eq ◇ eq) ≡ refl
+  ◠◇-refl refl =  refl
+
   -- Substitution
 
   subst :  ∀(F : A → Set ł) {a a'} →  a ≡ a' →  F a →  F a'
@@ -87,3 +92,24 @@ abstract
   infixr -1 _◇˙_
   _◇˙_ :  f ≡˙ g →  g ≡˙ h →  f ≡˙ h
   (f≡˙g ◇˙ g≡˙h) a  rewrite f≡˙g a | g≡˙h a =  refl
+
+--------------------------------------------------------------------------------
+-- Uniqueness of identity proofs
+
+-- UIP A :  a ≡ a' has a unique element for any a, a': A
+
+UIP :  Set ł →  Set ł
+UIP A =  ∀{a a' : A} (eq eq' : a ≡ a') →  eq ≡ eq'
+
+abstract
+
+  -- If there is a constant function k from a ≡ a' to a ≡ a' for any a, a': A,
+  -- then A satisfies UIP
+
+  UIP-const :  ∀{k : ∀{a a' : A} → a ≡ a' → a ≡ a'} →
+    (∀{a a'} (eq eq' : a ≡ a') → k eq ≡ k eq') →  UIP A
+  UIP-const {k = k} k-const eq eq' =
+    ◠ ≡-canonical eq ◇ cong (◠ k refl ◇_) (k-const eq eq') ◇ ≡-canonical eq'
+   where
+    ≡-canonical :  ∀(eq : a ≡ a') →  (◠ k refl ◇ k eq) ≡ eq
+    ≡-canonical refl =  ◠◇-refl (k refl)

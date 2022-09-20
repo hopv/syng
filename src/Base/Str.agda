@@ -38,20 +38,18 @@ open import Agda.Builtin.Char.Properties using (primCharToNatInjective)
 open import Agda.Builtin.String.Properties using (primStringToListInjective;
   primStringFromListInjective)
 
-abstract
+-- unchar is injective
 
-  -- unchar is injective
+unchar-inj :  unchar c ≡ unchar d →  c ≡ d
+unchar-inj =  primCharToNatInjective _ _
 
-  unchar-inj :  unchar c ≡ unchar d →  c ≡ d
-  unchar-inj =  primCharToNatInjective _ _
+-- str and unstr are injective
 
-  -- str and unstr are injective
+str-inj :  str cs ≡ str ds →  cs ≡ ds
+str-inj =  primStringFromListInjective _ _
 
-  str-inj :  str cs ≡ str ds →  cs ≡ ds
-  str-inj =  primStringFromListInjective _ _
-
-  unstr-inj :  unstr s ≡ unstr t →  s ≡ t
-  unstr-inj =  primStringToListInjective _ _
+unstr-inj :  unstr s ≡ unstr t →  s ≡ t
+unstr-inj =  primStringToListInjective _ _
 
 instance
 

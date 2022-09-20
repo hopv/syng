@@ -18,7 +18,7 @@ open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡
 open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
   ‼-len≡-ň; ‼-len≡-š; upd-len; upd-‼-out; upd-‼-in; rep-len)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; addr; TyVal; ⊤ṽ)
+open import Syho.Lang.Expr using (Addr; ad; TyVal; ⊤ṽ)
 open import Syho.Lang.Reduce using (Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_; ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ; ✓ˣ-agree; ✓ˣ-alloc;
@@ -200,7 +200,7 @@ infix 9 _↦⟨_⟩ʳ_ _↦ʳ_
 -- ↦⟨ ⟩ᵇˡᵒ :  Resource for the points-to token
 
 _↦⟨_⟩ʳ_ :  Addr →  ℚ⁺ →  TyVal →  Resᴹᵉᵐ
-(addr o i ↦⟨ p ⟩ʳ ᵗv) .↓ =  inj˙ᴬᴹᵉᵐ o $ i ↦⟨ p ⟩ᵇˡᵒ ᵗv
+(ad o i ↦⟨ p ⟩ʳ ᵗv) .↓ =  inj˙ᴬᴹᵉᵐ o $ i ↦⟨ p ⟩ᵇˡᵒ ᵗv
 
 -- ↦ᵇˡᵒ :  ↦⟨ ⟩ᵇˡᵒ with the fraction 1
 
@@ -241,24 +241,24 @@ abstract
   ↦⟨⟩ʳ-∙ :  θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  ≈ᴹᵉᵐ  θ ↦⟨ p +ᴿ⁺ q ⟩ʳ ᵗv
   ↦⟨⟩ʳ-∙ =  ↑ inj˙ᴬᴹᵉᵐ-∙ ◇˜ᴹᵉᵐ ↑ inj˙ᴬᴹᵉᵐ-≈ ↦⟨⟩ᵇˡᵒ-∙
 
-  -- Lemmas on [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv
+  -- Lemmas on [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o i ↦ʳ ᵗv
 
   [∙∈ⁱ⟨⟩]↦ʳ-out :  o' ≢ o →
-    ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv) .↓ o'  ≈ᴹᵇˡᵒ  ((λ _ → ň) , ?ˣ)
+    ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o i ↦ʳ ᵗv) .↓ o'  ≈ᴹᵇˡᵒ  ((λ _ → ň) , ?ˣ)
   [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = []} _ =  _ , refl
   [∙∈ⁱ⟨⟩]↦ʳ-out {o'} {o} {ᵗvs = _ ∷ ᵗvs'} o'≢o  with o' ≡? o
   … | yes refl =  absurd $ o'≢o refl
   … | no _ =  [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = ᵗvs'} o'≢o
 
-  [∙∈ⁱ⟨⟩]↦ʳ-in :  ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv) .↓ o  ≈ᴹᵇˡᵒ
+  [∙∈ⁱ⟨⟩]↦ʳ-in :  ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o i ↦ʳ ᵗv) .↓ o  ≈ᴹᵇˡᵒ
                     [∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv
   [∙∈ⁱ⟨⟩]↦ʳ-in {ᵗvs = []} =  _ , refl
   [∙∈ⁱ⟨⟩]↦ʳ-in {k} {_ ∷ ᵗvs'} {o}  rewrite ≡?-refl {a = o} =
     ∙ᴹᵇˡᵒ-congʳ {c = k ↦ᵇˡᵒ _} $ [∙∈ⁱ⟨⟩]↦ʳ-in {ṡ k} {ᵗvs'} {o}
 
-  -- [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] addr o i ↦ʳ ᵗv is equivalent to o ↦ᴸʳ ᵗvs
+  -- [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] ad o i ↦ʳ ᵗv is equivalent to o ↦ᴸʳ ᵗvs
 
-  [∙∈ⁱ]↦≈↦ᴸʳ :  [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] addr o i ↦ʳ ᵗv  ≈ᴹᵉᵐ  o ↦ᴸʳ ᵗvs
+  [∙∈ⁱ]↦≈↦ᴸʳ :  [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] ad o i ↦ʳ ᵗv  ≈ᴹᵉᵐ  o ↦ᴸʳ ᵗvs
   [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs} {o} .↓ o'  with o' ≡? o
   …   | no o'≢o =  [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = ᵗvs} o'≢o
   …   | yes refl =  [∙∈ⁱ⟨⟩]↦ʳ-in {ᵗvs = ᵗvs} ◇˜ᴹᵇˡᵒ [∙∈ⁱ]↦≈↦ᴸᵇˡᵒ {ᵗvs = ᵗvs}
@@ -268,7 +268,7 @@ abstract
   ↦⟨⟩ʳ-read :  (↑ M , θ ↦⟨ p ⟩ʳ ᵗv)  ↝ᴹᵉᵐ
                  λ(_ : M ‼ᴹ θ ≡ š ᵗv) →  ↑ M , θ ↦⟨ p ⟩ʳ ᵗv
   ↦⟨⟩ʳ-read _ ✓M✓θ↦v∙a .π₁ =  ✓M✓θ↦v∙a
-  ↦⟨⟩ʳ-read {θ = addr o i} (↑ a) (↑ (-, M✓θ↦v∙a)) .π₀  with M✓θ↦v∙a o .π₀ i
+  ↦⟨⟩ʳ-read {θ = ad o i} (↑ a) (↑ (-, M✓θ↦v∙a)) .π₀  with M✓θ↦v∙a o .π₀ i
   … | M‼θ✓↦v∙aθ  rewrite ≡?-refl {a = o} | ≡?-refl {a = i} =
     ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦v∙aθ
 
@@ -277,13 +277,13 @@ abstract
   ↦ʳ-write :  (↑ M , θ ↦ʳ ᵗu)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →  ↑ updᴹ θ ᵗv M , θ ↦ʳ ᵗv
   ↦ʳ-write _ _ .π₀ =  _
   ↦ʳ-write _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
-  ↦ʳ-write {M} {addr o i} {ᵗv = ᵗv} _ (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₁
+  ↦ʳ-write {M} {ad o i} {ᵗv = ᵗv} _ (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₁
     with o' ≡? o | M✓θ↦u∙a o' .π₁
   … | no _ | Mo'✓ao' =  Mo'✓ao'
   … | yes refl | Mo✓i↦u∙ao  with M o
   …   | ň =  Mo✓i↦u∙ao
   …   | š ᵗus  rewrite upd-len {i} {b = ᵗv} {ᵗus} =  Mo✓i↦u∙ao
-  ↦ʳ-write {M} {addr o i} {ᵗv = ᵗv} (↑ a) (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₀ j
+  ↦ʳ-write {M} {ad o i} {ᵗv = ᵗv} (↑ a) (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₀ j
     with o' ≡? o | M✓θ↦u∙a o' .π₀ j
   … | no _ | Mo'‼j✓ao'j =  Mo'‼j✓ao'j
   … | yes refl | Mo‼j✓i↦uj∙aoj  with j ≡? i | M o | Mo‼j✓i↦uj∙aoj

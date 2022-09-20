@@ -13,7 +13,7 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Nat using (ℕ; +-0)
 open import Base.List using (List; []; _∷_)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; addr; _ₒ_; TyVal)
+open import Syho.Lang.Expr using (Addr; ad; _ₒ_; TyVal)
 open import Syho.Model.ERA.Exc using (?ˣ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ◠˜ᴹᵉᵐ_; [∙ᴹᵉᵐ∈ⁱ]-syntax;
   [∙ᴹᵉᵐ∈ⁱ⟨⟩]-syntax; _↦⟨_⟩ʳ_; _↦ʳ_; freeʳ; _↦ᴸʳ_; ↦⟨⟩ʳ-agree; ↦⟨⟩ʳ-≤1; ↦⟨⟩ʳ-∙;
@@ -53,7 +53,7 @@ Freeᵒ' n o =  ◎⟨ iᴹᵉᵐ ⟩ freeʳ n o
 -- Freeᵒ : Interpret the freeing token
 
 Freeᵒ :  ℕ →  Addr →  Propᵒ 2ᴸ
-Freeᵒ n θ =  ∃ᵒ o ,  ⌜ θ ≡ addr o 0 ⌝ᵒ×  Freeᵒ' n o
+Freeᵒ n θ =  ∃ᵒ o ,  ⌜ θ ≡ ad o 0 ⌝ᵒ×  Freeᵒ' n o
 
 -- ↦ᴸᵒ, ↦ᴸᵒ' :  Interpret the points-to token over a list of values
 
@@ -90,29 +90,29 @@ abstract
   ↦⟨⟩ᵒ-split :  θ ↦⟨ p +ᴿ⁺ q ⟩ᵒ ᵗv  ⊨  θ ↦⟨ p ⟩ᵒ ᵗv  ∗ᵒ  θ ↦⟨ q ⟩ᵒ ᵗv
   ↦⟨⟩ᵒ-split =  ◎⟨⟩-cong (◠˜ᴹᵉᵐ ↦⟨⟩ʳ-∙) › ◎⟨⟩-∙⇒∗ᵒ
 
-  -- [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv  agrees with
-  -- ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] addr o i ↦ʳ ᵗv
+  -- [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o 0 ₒ i ↦ᵒ ᵗv  agrees with
+  -- ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ ᵗvs ] ad o i ↦ʳ ᵗv
 
   [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ :
-    [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv  ⊨
-      ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv
+    [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o 0 ₒ i ↦ᵒ ᵗv  ⊨
+      ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o i ↦ʳ ᵗv
   [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {ᵗvs = []} _ =  ◎⟨⟩-ε
   [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {k} {_ ∷ ᵗvs'}  rewrite +-0 {k} =
     ∗ᵒ-monoʳ ([∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {ᵗvs = ᵗvs'}) › ◎⟨⟩-∗ᵒ⇒∙
 
   ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ :
-    ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o i ↦ʳ ᵗv  ⊨
-      [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] addr o 0 ₒ i ↦ᵒ ᵗv
+    ◎⟨ iᴹᵉᵐ ⟩ [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o i ↦ʳ ᵗv  ⊨
+      [∗ᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] ad o 0 ₒ i ↦ᵒ ᵗv
   ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {ᵗvs = []} _ =  _
   ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {k} {_ ∷ ᵗvs'}  rewrite +-0 {k} =
     ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoʳ $ ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {ᵗvs = ᵗvs'}
 
-  -- addr o 0 ↦ᴸᵒ ᵗvs  agrees with  o ↦ᴸᵒ' ᵗvs
+  -- ad o 0 ↦ᴸᵒ ᵗvs  agrees with  o ↦ᴸᵒ' ᵗvs
 
-  ↦ᴸᵒ⇒↦ᴸᵒ' :  addr o 0 ↦ᴸᵒ ᵗvs  ⊨  o ↦ᴸᵒ' ᵗvs
+  ↦ᴸᵒ⇒↦ᴸᵒ' :  ad o 0 ↦ᴸᵒ ᵗvs  ⊨  o ↦ᴸᵒ' ᵗvs
   ↦ᴸᵒ⇒↦ᴸᵒ' {ᵗvs = ᵗvs} =  [∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ⇒◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ {ᵗvs = ᵗvs} ›
     ◎⟨⟩-cong $ [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs = ᵗvs}
 
-  ↦ᴸᵒ'⇒↦ᴸᵒ :  o ↦ᴸᵒ' ᵗvs  ⊨  addr o 0 ↦ᴸᵒ ᵗvs
+  ↦ᴸᵒ'⇒↦ᴸᵒ :  o ↦ᴸᵒ' ᵗvs  ⊨  ad o 0 ↦ᴸᵒ ᵗvs
   ↦ᴸᵒ'⇒↦ᴸᵒ {ᵗvs = ᵗvs} =  ◎⟨⟩-cong (◠˜ᴹᵉᵐ [∙∈ⁱ]↦≈↦ᴸʳ {ᵗvs = ᵗvs}) ›
     ◎⟨⟩[∙∈ⁱ⟨⟩]↦ʳ⇒[∗ᵒ∈ⁱ⟨⟩]ₒ↦ᵒ {ᵗvs = ᵗvs}

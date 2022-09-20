@@ -16,7 +16,7 @@ open import Base.Option using (¿_; š_; ň; _$¿_; _»-¿_)
 open import Base.Dec using (upd˙)
 open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
 open import Base.List using (List; _‼_; upd; rep)
-open import Syho.Lang.Expr using (Type; ◸_; Addr; addr; Expr; Expr˂; ∇_; Val;
+open import Syho.Lang.Expr using (Type; ◸_; Addr; ad; Expr; Expr˂; ∇_; Val;
   V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_;
   allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; _ᴷ|_; val/ktxred)
@@ -41,7 +41,7 @@ private variable
 
 infix 5 _‼ᴹ_
 _‼ᴹ_ :  Mem →  Addr →  ¿ TyVal
-M ‼ᴹ addr o i =  M o »-¿ _‼ i
+M ‼ᴹ ad o i =  M o »-¿ _‼ i
 
 -- Empty memory
 
@@ -51,7 +51,7 @@ empᴹ _ =  ň
 -- Memory update
 
 updᴹ :  Addr →  TyVal →  Mem →  Mem
-updᴹ (addr o i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
+updᴹ (ad o i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
 
 -- Memory validity
 
@@ -105,8 +105,8 @@ data  _⇒ᴿ_ :  ∀{T} →  Redex T × Mem →  Expr ∞ T × Mem →  Set₁ 
   🞰⇒ :  M ‼ᴹ θ ≡ š (-, v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
   ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (-, v) M)
   alloc⇒ :  ∀ o →  M o ≡ ň →
-    (allocᴿ n , M) ⇒ᴿ (∇ addr o 0 , upd˙ o (š rep n ⊤ṽ) M)
-  free⇒ :  ∑ ᵗvs , M o ≡ š ᵗvs →  (freeᴿ (addr o 0) , M) ⇒ᴿ (∇ _ , upd˙ o ň M)
+    (allocᴿ n , M) ⇒ᴿ (∇ ad o 0 , upd˙ o (š rep n ⊤ṽ) M)
+  free⇒ :  ∑ ᵗvs , M o ≡ š ᵗvs →  (freeᴿ (ad o 0) , M) ⇒ᴿ (∇ _ , upd˙ o ň M)
 
 -- ⇒ᴷᴿ :  Reduction of a context-redex pair
 

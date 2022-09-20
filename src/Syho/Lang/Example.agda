@@ -12,7 +12,7 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
-open import Syho.Lang.Expr using (Addr; addr; Type; ◸_; _↷_; Expr; ▶_; ∇_; nd;
+open import Syho.Lang.Expr using (Addr; ad; Type; ◸_; _↷_; Expr; ▶_; ∇_; nd;
   λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free; loop)
 open import Syho.Lang.Reduce using (Mem; nd⇒; ▶⇒; ◁⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
 
@@ -29,7 +29,7 @@ private variable
 -- Some stuck expression
 
 stuck :  Expr ι (◸ ⊤)
-stuck =  free $ ∇ addr 42 42
+stuck =  free $ ∇ ad 42 42
 
 -- Just add two natural-number arguments
 

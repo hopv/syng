@@ -19,7 +19,7 @@ open import Base.Nat using (ℕ; _+_; +-assocʳ)
 -- Addr :  Address, pointing at a memory cell
 
 record  Addr :  Set₀  where
-  constructor addr
+  constructor ad
   field
     -- the memory block's id
     bloᵃ :  ℕ
@@ -35,24 +35,23 @@ private variable
 
 infixl 10 _ₒ_
 _ₒ_ :  Addr →  ℕ →  Addr
-addr o i ₒ n =  addr o (n + i)
+ad o i ₒ n =  ad o (n + i)
 
 abstract
 
   -- Associativity of ₒ
 
   ₒ-assoc :  θ ₒ m ₒ n ≡ θ ₒ (n + m)
-  ₒ-assoc {n = n} =  cong (addr _) (+-assocʳ {n})
+  ₒ-assoc {n = n} =  cong (ad _) (+-assocʳ {n})
 
 instance
 
   Addr-≡Dec :  ≡Dec Addr
-  Addr-≡Dec ._≡?_ (addr o i) (addr o' j)  with o ≡? o' | i ≡? j
+  Addr-≡Dec ._≡?_ (ad o i) (ad o' j)  with o ≡? o' | i ≡? j
   ... | yes refl | yes refl =  yes refl
   ... | no o≢o' | _ =  no λ{ refl → absurd $ o≢o' refl }
   ... | _ | no i≢j =  no λ{ refl → absurd $ i≢j refl }
-  Addr-≡Dec .≡?-refl {addr o i}  rewrite ≡?-refl {a = o} | ≡?-refl {a = i} =
-    refl
+  Addr-≡Dec .≡?-refl {ad o i}  rewrite ≡?-refl {a = o} | ≡?-refl {a = i} =  refl
 
 --------------------------------------------------------------------------------
 -- Type :   Simple type for expressions

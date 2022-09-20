@@ -12,6 +12,7 @@ open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
+open import Base.Option using (¿_; ň; š_)
 
 private variable
   ł ł' ł'' :  Level
@@ -120,6 +121,37 @@ instance
   ⊥-≡Dec ._≡?_ ()
   ⊥-≡Dec .≡?-refl {a = a}  with a
   … | ()
+
+  -- Equality decision for ×, ⊎ and ¿
+
+  ×-≡Dec :  {{≡Dec A}} →  {{≡Dec B}} →  ≡Dec $ A × B
+  ×-≡Dec ._≡?_ (a , b) (a' , b')  with a ≡? a' | b ≡? b'
+  … | yes refl | yes refl =  yes refl
+  … | no a≢a' | _ =  no λ{ refl → a≢a' refl }
+  … | _ | no b≢b' =  no λ{ refl → b≢b' refl }
+  ×-≡Dec .≡?-refl {a , b}  rewrite ≡?-refl {a = a} | ≡?-refl {a = b} =  refl
+
+  ⊎-≡Dec :  {{≡Dec A}} →  {{≡Dec B}} →  ≡Dec $ A ⊎ B
+  ⊎-≡Dec ._≡?_ (ĩ₀ a) (ĩ₀ a')  with a ≡? a'
+  … | yes refl =  yes refl
+  … | no a≢a' =  no λ{ refl → a≢a' refl }
+  ⊎-≡Dec ._≡?_ (ĩ₁ b) (ĩ₁ b')  with b ≡? b'
+  … | yes refl =  yes refl
+  … | no b≢b' =  no λ{ refl → b≢b' refl }
+  ⊎-≡Dec ._≡?_ (ĩ₀ _) (ĩ₁ _) =  no λ ()
+  ⊎-≡Dec ._≡?_ (ĩ₁ _) (ĩ₀ _) =  no λ ()
+  ⊎-≡Dec .≡?-refl {ĩ₀ a}  rewrite ≡?-refl {a = a} =  refl
+  ⊎-≡Dec .≡?-refl {ĩ₁ b}  rewrite ≡?-refl {a = b} =  refl
+
+  ¿-≡Dec :  {{≡Dec A}} →  ≡Dec $ ¿ A
+  ¿-≡Dec ._≡?_ ň ň =  yes refl
+  ¿-≡Dec ._≡?_ (š a) (š a')  with a ≡? a'
+  … | yes refl =  yes refl
+  … | no a≢a' =  no λ{ refl → a≢a' refl }
+  ¿-≡Dec ._≡?_ ň (š _) =  no λ ()
+  ¿-≡Dec ._≡?_ (š _) ň =  no λ ()
+  ¿-≡Dec .≡?-refl {ň} =  refl
+  ¿-≡Dec .≡?-refl {š a}  rewrite ≡?-refl {a = a} =  refl
 
 --------------------------------------------------------------------------------
 -- upd˙ :  Update a map at an index

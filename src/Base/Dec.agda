@@ -91,17 +91,10 @@ open ≡Dec {{…}} public
 
 instance
 
+  -- Get Dec $ a ≡ b out of ≡Dec
+
   ≡-Dec :  {{≡Dec A}} →  {a b : A} →  Dec $ a ≡ b
   ≡-Dec =  _ ≡? _
-
-private variable
-  I :  Set ł
-  A˙ :  I →  Set ł
-  f g :  ∀ i →  A˙ i
-  a b a' b' :  A
-  i j :  I
-
-instance
 
   -- Equality decision for ⟨2⟩, ⊤ and ⊥
 
@@ -162,6 +155,13 @@ instance
 … | no fa≢fa' =  no λ{ refl → fa≢fa' refl }
 ≡Dec-inj f _ f-inj-refl .≡?-refl {a}
   rewrite ≡?-refl {a = f a} | f-inj-refl {a} =  refl
+
+private variable
+  I :  Set ł
+  A˙ :  I →  Set ł
+  f g :  ∀ i →  A˙ i
+  a b a' b' :  A
+  i j :  I
 
 --------------------------------------------------------------------------------
 -- upd˙ :  Update a map at an index

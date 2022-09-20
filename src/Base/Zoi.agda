@@ -117,70 +117,70 @@ abstract
 private variable
   ł :  Level
   A :  Set ł
-  l˙ m˙ m'˙ n˙ n'˙ :  A → Zoi
+  Aᶻ A'ᶻ Bᶻ B'ᶻ Cᶻ :  A → Zoi
 
--- 0ᶻ˙, 1ᶻ˙ :  Empty and universal set
+-- ∅ᶻ, ⊤ᶻ :  Empty and universal sets
 
-0ᶻ˙ 1ᶻ˙ :  A → Zoi
-0ᶻ˙ _ =  0ᶻ
-1ᶻ˙ _ =  1ᶻ
+∅ᶻ ⊤ᶻ :  A → Zoi
+∅ᶻ _ =  0ᶻ
+⊤ᶻ _ =  1ᶻ
 
--- +ᶻ˙ :  Set addition
+-- ⊎ᶻ :  Set addition
 
-infixl 6 _+ᶻ˙_
-_+ᶻ˙_ :  (A → Zoi) →  (A → Zoi) →  (A → Zoi)
-(m˙ +ᶻ˙ n˙) a =  m˙ a +ᶻ n˙ a
+infixl 6 _⊎ᶻ_
+_⊎ᶻ_ :  (A → Zoi) →  (A → Zoi) →  (A → Zoi)
+(Aᶻ ⊎ᶻ Bᶻ) a =  Aᶻ a +ᶻ Bᶻ a
 
--- ✓ᶻ˙ :  Set validity
+-- ✔ᶻ :  Set validity
 
-infix 4 ✓ᶻ˙_
-✓ᶻ˙_ :  ∀{A : Set ł} →  (A → Zoi) →  Set ł
-✓ᶻ˙ n˙ =  ∀ a →  ✓ᶻ (n˙ a)
+infix 4 ✔ᶻ_
+✔ᶻ_ :  ∀{A : Set ł} →  (A → Zoi) →  Set ł
+✔ᶻ Aᶻ =  ∀ a →  ✓ᶻ (Aᶻ a)
 
--- ≤ᶻ˙ :  Set inclusion
+-- ⊆ᶻ :  Set inclusion
 
-infix 4 _≤ᶻ˙_
-_≤ᶻ˙_ :  ∀{A : Set ł} →  (A → Zoi) →  (A → Zoi) →  Set ł
-m˙ ≤ᶻ˙ n˙ =  ∀ a →  m˙ a ≤ᶻ n˙ a
+infix 4 _⊆ᶻ_
+_⊆ᶻ_ :  ∀{A : Set ł} →  (A → Zoi) →  (A → Zoi) →  Set ł
+Aᶻ ⊆ᶻ Bᶻ =  ∀ a →  Aᶻ a ≤ᶻ Bᶻ a
 
 abstract
 
-  -- +ᶻ˙ and ≡˙
+  -- ⊎ᶻ and ≡˙
 
-  +ᶻ˙-cong :  m˙ ≡˙ m'˙ →  n˙ ≡˙ n'˙ →  m˙ +ᶻ˙ n˙ ≡˙ m'˙ +ᶻ˙ n'˙
-  +ᶻ˙-cong m≡m' n≡n' a  rewrite m≡m' a | n≡n' a =  refl
+  ⊎ᶻ-cong :  Aᶻ ≡˙ A'ᶻ →  Bᶻ ≡˙ B'ᶻ →  Aᶻ ⊎ᶻ Bᶻ ≡˙ A'ᶻ ⊎ᶻ B'ᶻ
+  ⊎ᶻ-cong A≡A' C≡C' a  rewrite A≡A' a | C≡C' a =  refl
 
-  +ᶻ˙-congˡ :  m˙ ≡˙ m'˙ →  m˙ +ᶻ˙ n˙ ≡˙ m'˙ +ᶻ˙ n˙
-  +ᶻ˙-congˡ m≡m' =  +ᶻ˙-cong m≡m' refl˙
+  ⊎ᶻ-congˡ :  Aᶻ ≡˙ A'ᶻ →  Aᶻ ⊎ᶻ Bᶻ ≡˙ A'ᶻ ⊎ᶻ Bᶻ
+  ⊎ᶻ-congˡ A≡A' =  ⊎ᶻ-cong A≡A' refl˙
 
-  +ᶻ˙-congʳ :  n˙ ≡˙ n'˙ →  m˙ +ᶻ˙ n˙ ≡˙ m˙ +ᶻ˙ n'˙
-  +ᶻ˙-congʳ {m˙ = m˙} =  +ᶻ˙-cong {m˙ = m˙} refl˙
+  ⊎ᶻ-congʳ :  Bᶻ ≡˙ B'ᶻ →  Aᶻ ⊎ᶻ Bᶻ ≡˙ Aᶻ ⊎ᶻ B'ᶻ
+  ⊎ᶻ-congʳ {Aᶻ = Aᶻ} =  ⊎ᶻ-cong {Aᶻ = Aᶻ} refl˙
 
-  -- n˙ +ᶻ˙ 0ᶻ˙ equals n˙
+  -- Aᶻ ⊎ᶻ ∅ᶻ equals Aᶻ
 
-  +ᶻ˙-0ᶻ˙ :  n˙ +ᶻ˙ 0ᶻ˙ ≡˙ n˙
-  +ᶻ˙-0ᶻ˙ {n˙ = n˙} a =  +ᶻ-0ᶻ {n˙ a}
+  ⊎ᶻ-∅ᶻ :  Aᶻ ⊎ᶻ ∅ᶻ ≡˙ Aᶻ
+  ⊎ᶻ-∅ᶻ {Aᶻ = Aᶻ} a =  +ᶻ-0ᶻ {Aᶻ a}
 
-  -- +ᶻ˙ is commutative
+  -- ⊎ᶻ is commutative
 
-  +ᶻ˙-comm :  m˙ +ᶻ˙ n˙ ≡˙ n˙ +ᶻ˙ m˙
-  +ᶻ˙-comm {m˙ = m˙} a =  +ᶻ-comm {m˙ a}
+  ⊎ᶻ-comm :  Aᶻ ⊎ᶻ Bᶻ ≡˙ Bᶻ ⊎ᶻ Aᶻ
+  ⊎ᶻ-comm {Aᶻ = Aᶻ} a =  +ᶻ-comm {Aᶻ a}
 
-  -- +ᶻ˙ is associative
+  -- ⊎ᶻ is associative
 
-  +ᶻ˙-assocˡ :  (l˙ +ᶻ˙ m˙) +ᶻ˙ n˙ ≡˙ l˙ +ᶻ˙ (m˙ +ᶻ˙ n˙)
-  +ᶻ˙-assocˡ {l˙ = l˙} a =  +ᶻ-assocˡ {l˙ a}
+  ⊎ᶻ-assocˡ :  (Aᶻ ⊎ᶻ Bᶻ) ⊎ᶻ Cᶻ ≡˙ Aᶻ ⊎ᶻ (Bᶻ ⊎ᶻ Cᶻ)
+  ⊎ᶻ-assocˡ {Aᶻ = Aᶻ} a =  +ᶻ-assocˡ {Aᶻ a}
 
-  +ᶻ˙-assocʳ :  l˙ +ᶻ˙ (m˙ +ᶻ˙ n˙) ≡˙ (l˙ +ᶻ˙ m˙) +ᶻ˙ n˙
-  +ᶻ˙-assocʳ {l˙ = l˙} a =  +ᶻ-assocʳ {l˙ a}
+  ⊎ᶻ-assocʳ :  Aᶻ ⊎ᶻ (Bᶻ ⊎ᶻ Cᶻ) ≡˙ (Aᶻ ⊎ᶻ Bᶻ) ⊎ᶻ Cᶻ
+  ⊎ᶻ-assocʳ {Aᶻ = Aᶻ} a =  +ᶻ-assocʳ {Aᶻ a}
 
-  -- ✓ᶻ˙ and ≡˙
+  -- ✔ᶻ and ≡˙
 
-  ✓ᶻ˙-resp :  m˙ ≡˙ n˙ →  ✓ᶻ˙ m˙ →  ✓ᶻ˙ n˙
-  ✓ᶻ˙-resp m≡n ✓m a  rewrite ◠ m≡n a =  ✓m a
+  ✔ᶻ-resp :  Aᶻ ≡˙ Bᶻ →  ✔ᶻ Aᶻ →  ✔ᶻ Bᶻ
+  ✔ᶻ-resp A≡B ✓A a  rewrite ◠ A≡B a =  ✓A a
 
-  -- If m˙ ≤ᶻ˙ n˙ holds, then there exists l˙ s.t. l˙ +ᶻ˙ m˙ ≡˙ n˙
+  -- If Aᶻ ⊆ᶻ Bᶻ holds, then there exists Cᶻ s.t. Cᶻ ⊎ᶻ Aᶻ ≡˙ Bᶻ
 
-  ≤ᶻ˙⇒∑+ᶻ˙ :  m˙ ≤ᶻ˙ n˙ →  ∑ l˙ , l˙ +ᶻ˙ m˙ ≡˙ n˙
-  ≤ᶻ˙⇒∑+ᶻ˙ m≤n .π₀ a =  ≤ᶻ⇒∑+ᶻ (m≤n a) .π₀
-  ≤ᶻ˙⇒∑+ᶻ˙ m≤n .π₁ a =  ≤ᶻ⇒∑+ᶻ (m≤n a) .π₁
+  ⊆ᶻ⇒∑⊎ᶻ :  Aᶻ ⊆ᶻ Bᶻ →  ∑ Cᶻ , Cᶻ ⊎ᶻ Aᶻ ≡˙ Bᶻ
+  ⊆ᶻ⇒∑⊎ᶻ A⊆B .π₀ a =  ≤ᶻ⇒∑+ᶻ (A⊆B a) .π₀
+  ⊆ᶻ⇒∑⊎ᶻ A⊆B .π₁ a =  ≤ᶻ⇒∑+ᶻ (A⊆B a) .π₁

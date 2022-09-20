@@ -153,6 +153,16 @@ instance
   ¿-≡Dec .≡?-refl {ň} =  refl
   ¿-≡Dec .≡?-refl {š a}  rewrite ≡?-refl {a = a} =  refl
 
+-- Derive ≡Dec by a injection
+
+≡Dec-inj :  {{≡Dec B}} →  ∀(f : A → B) (f-inj : ∀{a a'} → f a ≡ f a' → a ≡ a') →
+  (∀{a} → f-inj {a} refl ≡ refl) →  ≡Dec A
+≡Dec-inj f f-inj _ ._≡?_ a a'  with f a ≡? f a'
+… | yes fa≡fa' =  yes $ f-inj fa≡fa'
+… | no fa≢fa' =  no λ{ refl → fa≢fa' refl }
+≡Dec-inj f _ f-inj-refl .≡?-refl {a}
+  rewrite ≡?-refl {a = f a} | f-inj-refl {a} =  refl
+
 --------------------------------------------------------------------------------
 -- upd˙ :  Update a map at an index
 

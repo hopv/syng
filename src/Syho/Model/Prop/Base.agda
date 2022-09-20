@@ -563,7 +563,7 @@ abstract
   ⤇ᴱ-adeq E✓ε ⊨E⤇FxY =
     let (-, -, -, y) = ⊨E⤇FxY _ (✓-resp (◠˜ ∙-unitʳ) E✓ε) in y
 
-  -- Perform a step using ⤇ᴱ
+  -- Perform a step by ⤇ᴱ
 
   ⤇ᴱ-step :  E ✓ a  ×  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x) a →
              ∑ x , ∑ b ,  F˙ x ✓ b  ×  Pᵒ˙ x b

@@ -138,7 +138,7 @@ abstract
   ⇛ᵒ-adeq :  ✓ᴹ M →  ⊨ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
   ⇛ᵒ-adeq =  ⇛ᵍ-adeq Invᴳ-emp
 
-  -- Perform a step using ⇛ᵒ
+  -- Perform a step by ⇛ᵒ
 
   ⇛ᵒ-step :  envᴳ M Eᴵⁿ ✓ᴳ a  ×  ((⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
              ∑ Fᴵⁿ , ∑ b ,  envᴳ M' Fᴵⁿ ✓ᴳ b  ×  (Pᵒ ∗ᵒ Invᴳ Fᴵⁿ) b

@@ -12,7 +12,7 @@ open import Base.Few using (⊤; absurd)
 open import Base.Eq using (_≡_; refl; cong)
 open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Prod using (∑-syntax; _,_)
-open import Base.Dec using (yes; no; ≡Dec; _≡?_; ≡?-refl)
+open import Base.Dec using (yes; no; ≡Dec; _≡?_)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 
 --------------------------------------------------------------------------------
@@ -51,7 +51,6 @@ instance
   ... | yes refl | yes refl =  yes refl
   ... | no o≢o' | _ =  no λ{ refl → absurd $ o≢o' refl }
   ... | _ | no i≢j =  no λ{ refl → absurd $ i≢j refl }
-  Addr-≡Dec .≡?-refl {ad o i}  rewrite ≡?-refl {a = o} | ≡?-refl {a = i} =  refl
 
 --------------------------------------------------------------------------------
 -- Type :   Simple type for expressions

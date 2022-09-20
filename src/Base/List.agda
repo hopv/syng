@@ -51,7 +51,7 @@ instance
 instance
 
   List-≡Dec :  {{≡Dec A}} →  ≡Dec $ List A
-  List-≡Dec {A = A} =  ≡dec _≡?'_ ≡?'-refl
+  List-≡Dec {A = A} =  ≡dec _≡?'_
    where
     infix 4 _≡?'_
     _≡?'_ :  ∀ (as bs : List A) →  Dec $ as ≡ bs
@@ -62,10 +62,6 @@ instance
     … | yes refl | yes refl =  yes refl
     … | no a≢b | _ =  no λ{ refl → a≢b refl }
     … | _ | no as'≢bs' =  no λ{ refl → as'≢bs' refl }
-    abstract
-      ≡?'-refl :  (as ≡?' as) ≡ yes refl
-      ≡?'-refl {[]} =  refl
-      ≡?'-refl {a ∷ as'}  rewrite ≡?-refl {a = a} | ≡?'-refl {as'} =  refl
 
 --------------------------------------------------------------------------------
 -- [  ] :  Singleton list

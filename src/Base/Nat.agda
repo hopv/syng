@@ -205,7 +205,7 @@ abstract
 instance
 
   ℕ-≡Dec :  ≡Dec ℕ
-  ℕ-≡Dec =  ≡dec _≡?'_ ≡?'-refl
+  ℕ-≡Dec =  ≡dec _≡?'_
    where
     infix 4 _≡?'_
     _≡?'_ :  ∀ a b →  Dec $ a ≡ b
@@ -215,10 +215,6 @@ instance
     ṡ m' ≡?' ṡ n'  with m' ≡?' n'
     … | yes refl =  yes refl
     … | no m'≢n' =  no λ{ refl → m'≢n' refl }
-    abstract
-      ≡?'-refl :  (n ≡?' n) ≡ yes refl
-      ≡?'-refl {0} =  refl
-      ≡?'-refl {ṡ n'}  rewrite ≡?'-refl {n'} =  refl
 
 --------------------------------------------------------------------------------
 -- Order decision

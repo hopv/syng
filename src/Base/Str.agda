@@ -2,7 +2,7 @@
 -- Charactre and string
 --------------------------------------------------------------------------------
 
-{-# OPTIONS --safe #-}
+{-# OPTIONS --without-K --safe #-}
 
 module Base.Str where
 
@@ -55,20 +55,10 @@ abstract
 
 instance
 
-  -- We need the axiom K for unchar-inj-refl and str-inj-refl
-
   -- Equality decision on Char and Str
 
   Char-≡Dec :  ≡Dec Char
-  Char-≡Dec =  ≡Dec-inj unchar unchar-inj unchar-inj-refl
-   where
-    unchar-inj-refl :  unchar-inj {c} refl ≡ refl
-    unchar-inj-refl {c}  with unchar-inj {c} {c} refl
-    … | refl =  refl
+  Char-≡Dec =  ≡Dec-inj unchar unchar-inj
 
   Str-≡Dec :  ≡Dec Str
-  Str-≡Dec =  ≡Dec-inj unstr unstr-inj unstr-inj-refl
-   where
-    unstr-inj-refl :  unstr-inj {s} refl ≡ refl
-    unstr-inj-refl {s}  with unstr-inj {s} {s} refl
-    … | refl =  refl
+  Str-≡Dec =  ≡Dec-inj unstr unstr-inj

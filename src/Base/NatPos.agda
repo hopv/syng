@@ -10,7 +10,7 @@ open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (yes; no; ≡Dec; _≡?_; ≡?-refl)
+open import Base.Dec using (yes; no; ≡Dec; _≡?_)
 open import Base.Inh using (Inh; any)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _<≡>_; _≤>_; _+_; _*_; ṡ≤ṡ; ṡ<ṡ;
   ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤; ≤-<-trans;
@@ -147,7 +147,6 @@ instance
   ℕ⁺-≡Dec ._≡?_ (ṡ⁺ m⁰) (ṡ⁺ n⁰)  with m⁰ ≡? n⁰
   … | yes refl =  yes refl
   … | no m⁰≢n⁰ =  no λ{ refl → m⁰≢n⁰ refl }
-  ℕ⁺-≡Dec .≡?-refl {ṡ⁺ n⁰}  rewrite ≡?-refl {a = n⁰} =  refl
 
 --------------------------------------------------------------------------------
 -- +⁺ :  Addition

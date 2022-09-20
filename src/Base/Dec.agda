@@ -9,7 +9,7 @@ module Base.Dec where
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _›_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
-open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_)
+open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; UIP; UIP-const)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
 open import Base.Option using (¿_; ň; š_)
@@ -82,11 +82,6 @@ record  ≡Dec (A : Set ł) :  Set ł  where
     -- Equality decision for A
     _≡?_ :  ∀(a b : A) →  Dec $ a ≡ b
 
-    -- a ≡? a returns yes refl
-    ---- It's trivial that it returns yes x for some x, but the fact that x is
-    ---- refl cannot be derived from ≡?'s type only, under the --without-K flag
-    ≡?-refl :  ∀{a} →  (a ≡? a) ≡ yes refl
-
 open ≡Dec {{…}} public
 
 instance
@@ -103,17 +98,12 @@ instance
   ⟨2⟩-≡Dec ._≡?_ 1₂ 1₂ =  yes refl
   ⟨2⟩-≡Dec ._≡?_ 0₂ 1₂ =  no λ ()
   ⟨2⟩-≡Dec ._≡?_ 1₂ 0₂ =  no λ ()
-  ⟨2⟩-≡Dec .≡?-refl {0₂} =  refl
-  ⟨2⟩-≡Dec .≡?-refl {1₂} =  refl
 
   ⊤-≡Dec :  ≡Dec {ł} ⊤
   ⊤-≡Dec ._≡?_ _ _ =  yes refl
-  ⊤-≡Dec .≡?-refl =  refl
 
   ⊥-≡Dec :  ≡Dec {ł} ⊥
   ⊥-≡Dec ._≡?_ ()
-  ⊥-≡Dec .≡?-refl {a = a}  with a
-  … | ()
 
   -- Equality decision for ×, ⊎ and ¿
 
@@ -122,7 +112,6 @@ instance
   … | yes refl | yes refl =  yes refl
   … | no a≢a' | _ =  no λ{ refl → a≢a' refl }
   … | _ | no b≢b' =  no λ{ refl → b≢b' refl }
-  ×-≡Dec .≡?-refl {a , b}  rewrite ≡?-refl {a = a} | ≡?-refl {a = b} =  refl
 
   ⊎-≡Dec :  {{≡Dec A}} →  {{≡Dec B}} →  ≡Dec $ A ⊎ B
   ⊎-≡Dec ._≡?_ (ĩ₀ a) (ĩ₀ a')  with a ≡? a'
@@ -133,8 +122,6 @@ instance
   … | no b≢b' =  no λ{ refl → b≢b' refl }
   ⊎-≡Dec ._≡?_ (ĩ₀ _) (ĩ₁ _) =  no λ ()
   ⊎-≡Dec ._≡?_ (ĩ₁ _) (ĩ₀ _) =  no λ ()
-  ⊎-≡Dec .≡?-refl {ĩ₀ a}  rewrite ≡?-refl {a = a} =  refl
-  ⊎-≡Dec .≡?-refl {ĩ₁ b}  rewrite ≡?-refl {a = b} =  refl
 
   ¿-≡Dec :  {{≡Dec A}} →  ≡Dec $ ¿ A
   ¿-≡Dec ._≡?_ ň ň =  yes refl
@@ -143,18 +130,42 @@ instance
   … | no a≢a' =  no λ{ refl → a≢a' refl }
   ¿-≡Dec ._≡?_ ň (š _) =  no λ ()
   ¿-≡Dec ._≡?_ (š _) ň =  no λ ()
-  ¿-≡Dec .≡?-refl {ň} =  refl
-  ¿-≡Dec .≡?-refl {š a}  rewrite ≡?-refl {a = a} =  refl
 
 -- Derive ≡Dec by a injection
 
-≡Dec-inj :  {{≡Dec B}} →  ∀(f : A → B) (f-inj : ∀{a a'} → f a ≡ f a' → a ≡ a') →
-  (∀{a} → f-inj {a} refl ≡ refl) →  ≡Dec A
-≡Dec-inj f f-inj _ ._≡?_ a a'  with f a ≡? f a'
+≡Dec-inj :  {{≡Dec B}} →
+  ∀(f : A → B) (f-inj : ∀{a a'} → f a ≡ f a' → a ≡ a') →  ≡Dec A
+≡Dec-inj f f-inj ._≡?_ a a'  with f a ≡? f a'
 … | yes fa≡fa' =  yes $ f-inj fa≡fa'
 … | no fa≢fa' =  no λ{ refl → fa≢fa' refl }
-≡Dec-inj f _ f-inj-refl .≡?-refl {a}
-  rewrite ≡?-refl {a = f a} | f-inj-refl {a} =  refl
+
+abstract
+
+  -- ≡Dec implies UIP
+
+  UIP-≡Dec :  {{≡Dec A}} →  UIP A
+  UIP-≡Dec {A = A} =  UIP-const k-const
+   where
+    k :  ∀{a b : A} →  a ≡ b →  a ≡ b
+    k {a} {b} eq  with a ≡? b
+    … | yes eq' =  eq'
+    … | no a≢b =  absurd $ a≢b eq
+    k-const :  ∀{a b : A} (eq eq' : a ≡ b) →  k eq ≡ k eq'
+    k-const {a} {b} eq eq'  with a ≡? b
+    … | yes _ =  refl
+    … | no a≢b  with a≢b eq
+    …   | ()
+
+  -- On the yes result of ≡?
+
+  ≡-≡? :  ∀{{_ : ≡Dec A}} {a b : A} (eq : a ≡ b) →  (a ≡? b) ≡ yes eq
+  ≡-≡? {a = a} {b} eq  with a ≡? b
+  … | yes eq'  rewrite UIP-≡Dec eq' eq =  refl
+  … | no a≢b  with a≢b eq
+  …   | ()
+
+  ≡?-refl :  ∀{{_ : ≡Dec A}} {a : A} →  (a ≡? a) ≡ yes refl
+  ≡?-refl =  ≡-≡? refl
 
 private variable
   I :  Set ł

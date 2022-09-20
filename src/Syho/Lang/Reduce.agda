@@ -106,7 +106,7 @@ data  _⇒ᴿ_ :  ∀{T} →  Redex T × Mem →  Expr ∞ T × Mem →  Set₁ 
   ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (-, v) M)
   alloc⇒ :  ∀ o →  M o ≡ ň →
     (allocᴿ n , M) ⇒ᴿ (∇ addr o 0 , upd˙ o (š rep n ⊤ṽ) M)
-  free⇒ :  (freeᴿ (addr o 0) , M) ⇒ᴿ (∇ _ , upd˙ o ň M)
+  free⇒ :  ∑ ᵗvs , M o ≡ š ᵗvs →  (freeᴿ (addr o 0) , M) ⇒ᴿ (∇ _ , upd˙ o ň M)
 
 -- ⇒ᴷᴿ :  Reduction of a context-redex pair
 

@@ -10,7 +10,7 @@ open import Base.Level using (0ᴸ; 2ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; subst)
-open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
+open import Base.Prod using (∑-syntax; π₀; π₁; _,_; -,_; _,-)
 open import Base.Option using (¿_; š_; ň; _»-¿_; _$¿_; ¿-case; š-inj)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
 open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡⇒¬<;
@@ -311,6 +311,16 @@ abstract
   … | yes refl | Mo‼i✓aoi  rewrite Mo≡ň  with rep n ⊤ṽ ‼ i
   …   | ň =  Mo‼i✓aoi
   …   | š _ =  ✓ᶠʳ-alloc Mo‼i✓aoi
+
+  -- Bounds check using freeʳ
+
+  freeʳ-š :  (↑ M , freeʳ n o)  ↝ᴹᵉᵐ
+               λ(_ : ∑ ᵗvs , M o ≡ š ᵗvs) →  ↑ M , freeʳ n o
+  freeʳ-š _ ✓M✓freeno∙ .π₁ =  ✓M✓freeno∙
+  freeʳ-š {M} {o = o} (↑ a) (↑ (-, M✓freeno∙)) .π₀  with M✓freeno∙ o .π₁
+  … | lenMo✓#n∙  rewrite ≡?-refl {a = o}
+    with M o | ✓ˣ-agree {x = a o .π₁} lenMo✓#n∙
+  …   | š _ | _ =  -, refl
 
   -- Free using ↦ʳ and freeʳ
 

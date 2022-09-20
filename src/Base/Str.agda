@@ -26,7 +26,7 @@ open import Agda.Builtin.String public using () renaming (
   -- Conversion between Str and List Char
   -- unstr :  Str →  List Char
   primStringToList to unstr;
-  -- str :  Str →  List Char
+  -- str :  List Char →  Char
   primStringFromList to str)
 
 private variable
@@ -43,13 +43,13 @@ open import Agda.Builtin.String.Properties using (primStringToListInjective;
 unchar-inj :  unchar c ≡ unchar d →  c ≡ d
 unchar-inj =  primCharToNatInjective _ _
 
--- str and unstr are injective
-
-str-inj :  str cs ≡ str ds →  cs ≡ ds
-str-inj =  primStringFromListInjective _ _
+-- unstr and str are injective
 
 unstr-inj :  unstr s ≡ unstr t →  s ≡ t
 unstr-inj =  primStringToListInjective _ _
+
+str-inj :  str cs ≡ str ds →  cs ≡ ds
+str-inj =  primStringFromListInjective _ _
 
 instance
 

@@ -148,7 +148,7 @@ abstract
 
   -- ‼ has the same partiality on lists of the same length
 
-  ‼-len≡-š :  len as ≡ len bs →  as ‼ i ≡ š a →  ∑ b , bs ‼ i ≡ š b
+  ‼-len≡-š :  len as ≡ len bs →  ∑ a , as ‼ i ≡ š a →  ∑ b , bs ‼ i ≡ š b
   ‼-len≡-š {as = _ ∷ _} {bs = _ ∷ _} {0} _ _ =  -, refl
   ‼-len≡-š {as = _ ∷ _} {bs = _ ∷ _} {ṡ _} lenas'≡lenbs' as'‼i'≡š =
     ‼-len≡-š (ṡ-inj lenas'≡lenbs') as'‼i'≡š
@@ -167,9 +167,9 @@ abstract
 
   -- ‼ i on upd i
 
-  upd-‼-in :  as ‼ i ≡ š a →  upd i b as ‼ i  ≡  š b
-  upd-‼-in {as = _ ∷ _} {0} as‼i≡ša =  refl
-  upd-‼-in {as = _ ∷ as'} {ṡ i'} as'‼i'≡ša =  upd-‼-in {as = as'} as'‼i'≡ša
+  upd-‼-in :  ∑ a , as ‼ i ≡ š a →  upd i b as ‼ i  ≡  š b
+  upd-‼-in {as = _ ∷ _} {0} as‼i≡š =  refl
+  upd-‼-in {as = _ ∷ as'} {ṡ i'} as'‼i'≡š =  upd-‼-in {as = as'} as'‼i'≡š
 
   -- ‼ j on upd i for j distinct from i
 

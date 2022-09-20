@@ -291,7 +291,7 @@ abstract
   …   | no j≢i | š ᵗus | Mo‼j✓aoj  rewrite upd-‼-out {b = ᵗv} {ᵗus} j≢i =
     Mo‼j✓aoj
   …   | yes refl | Mo | M‼θ✓↦u∙aθ  with Mo | ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦u∙aθ
-  …     | š ᵗus | us‼i≡šu  rewrite upd-‼-in {as = ᵗus} {b = ᵗv} us‼i≡šu =
+  …     | š ᵗus | us‼i≡šu  rewrite upd-‼-in {as = ᵗus} {b = ᵗv} (-, us‼i≡šu) =
     ✓ᶠʳ-update {x = a o .π₀ i} M‼θ✓↦u∙aθ
 
   -- Allocate getting ↦ᴸʳ and freeʳ
@@ -328,8 +328,8 @@ abstract
   … | yes refl | Mo‼i✓↦vs∙aoi | lenMo✓#n∙ao
     with M o | ✓ˣ-agree {x = a o .π₁} lenMo✓#n∙ao
   …   | š ᵗus | šlenus≡šn  with š-inj šlenus≡šn
-  …     | lenus≡n  with ᵗus ‼ i | ‼-len≡-ň {i = i} lenus≡n |
-    (λ{ᵗv} → ‼-len≡-š {i = i} {a = ᵗv} lenus≡n)
+  …     | lenus≡n  with ᵗus ‼ i |
+    ‼-len≡-ň {i = i} lenus≡n | ‼-len≡-š {i = i} lenus≡n
   …     | ň | ⇒vs‼i≡ň | _  rewrite ⇒vs‼i≡ň refl =  Mo‼i✓↦vs∙aoi
-  …     | š _ | _ | ⇒vs‼i≡š  with ⇒vs‼i≡š refl
+  …     | š _ | _ | ⇒vs‼i≡š  with ⇒vs‼i≡š (-, refl)
   …       | -, vs‼i≡šv  rewrite vs‼i≡šv =  ✓ᶠʳ-free Mo‼i✓↦vs∙aoi

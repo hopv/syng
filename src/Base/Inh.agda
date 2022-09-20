@@ -10,7 +10,7 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_; it)
 open import Base.Few using (⟨2⟩; 0₂; ⊤)
 open import Base.Prod using (_×_; _,_)
-open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
+open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Option using (¿_; ň)
 
 private variable
@@ -51,13 +51,13 @@ instance
   ¿-Inh :  {{Inh A}} →  Inh $ ¿ A
   ¿-Inh .any =  ň
 
--- A ⊎ B is inhabited if either A or B is inhabited
+-- A ⨿ B is inhabited if either A or B is inhabited
 
-⊎-Inh₀ :  {{Inh A}} →  Inh $ A ⊎ B
-⊎-Inh₀ .any =  ĩ₀ any
+⨿-Inh₀ :  {{Inh A}} →  Inh $ A ⨿ B
+⨿-Inh₀ .any =  ĩ₀ any
 
-⊎-Inh₁ :  {{Inh B}} →  Inh $ A ⊎ B
-⊎-Inh₁ .any =  ĩ₁ any
+⨿-Inh₁ :  {{Inh B}} →  Inh $ A ⨿ B
+⨿-Inh₁ .any =  ĩ₁ any
 
 -- A → B is inhabited if B is inhabited
 

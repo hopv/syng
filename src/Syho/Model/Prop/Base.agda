@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; ◠˙_)
 open import Base.Size using (Size; Size<; Thunk; !; Shrunk; §_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   curry; uncurry; ∑-case)
-open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
+open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (yes; no; upd˙; upd˙-self)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
@@ -155,19 +155,19 @@ _×ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
 (Pᵒ ×ᵒ Qᵒ) a =  Pᵒ a × Qᵒ a
 
 --------------------------------------------------------------------------------
--- ⊎ᵒ :  Semantic disjunction
+-- ⨿ᵒ :  Semantic disjunction
 
-infix 7 _⊎ᵒ_
-_⊎ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
-(Pᵒ ⊎ᵒ Qᵒ) a =  Pᵒ a ⊎ Qᵒ a
+infix 7 _⨿ᵒ_
+_⨿ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
+(Pᵒ ⨿ᵒ Qᵒ) a =  Pᵒ a ⨿ Qᵒ a
 
 abstract
 
-  -- Monoᵒ for ⊎ᵒ
+  -- Monoᵒ for ⨿ᵒ
 
-  ⊎ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ $ Pᵒ ⊎ᵒ Qᵒ
-  ⊎ᵒ-Mono MonoP _ a⊑b (ĩ₀ Pa) =  ĩ₀ MonoP a⊑b Pa
-  ⊎ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ MonoQ a⊑b Qa
+  ⨿ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ $ Pᵒ ⨿ᵒ Qᵒ
+  ⨿ᵒ-Mono MonoP _ a⊑b (ĩ₀ Pa) =  ĩ₀ MonoP a⊑b Pa
+  ⨿ᵒ-Mono _ MonoQ a⊑b (ĩ₁ Qa) =  ĩ₁ MonoQ a⊑b Qa
 
 --------------------------------------------------------------------------------
 -- ⊤ᵒ, ⊥ᵒ :  Semantic truth and falsehood
@@ -302,7 +302,7 @@ abstract
   ∗ᵒ?-intro :  ⊨ Qᵒ →  Pᵒ ⊨ Pᵒ ∗ᵒ Qᵒ
   ∗ᵒ?-intro ⊨Q =  ?∗ᵒ-intro ⊨Q › ∗ᵒ-comm
 
-  -- ∃ᵒ/ᴵ and ⊎ commute with ∗ᵒ
+  -- ∃ᵒ/ᴵ and ⨿ commute with ∗ᵒ
 
   ∃ᵒ∗ᵒ-out :  ∃ᵒ˙ Pᵒ˙ ∗ᵒ Qᵒ  ⊨  ∃ᵒ x , Pᵒ˙ x ∗ᵒ Qᵒ
   ∃ᵒ∗ᵒ-out (-, -, b∙c⊑a , (-, Pxb) , Qc) =  -, -, -, b∙c⊑a , Pxb , Qc
@@ -316,13 +316,13 @@ abstract
   ∗ᵒ∃ᴵ-out :  Pᵒ ∗ᵒ ∃ᴵ˙ Qᵒ˙  ⊨  ∃ᴵ x , Pᵒ ∗ᵒ Qᵒ˙ x
   ∗ᵒ∃ᴵ-out (-, -, b∙c⊑a , Pb , (-ᴵ, Qxc)) =  -ᴵ, -, -, b∙c⊑a , Pb , Qxc
 
-  ⊎ᵒ∗ᵒ-out :  (Pᵒ ⊎ᵒ Qᵒ) ∗ᵒ Rᵒ  ⊨  (Pᵒ ∗ᵒ Rᵒ) ⊎ᵒ (Qᵒ ∗ᵒ Rᵒ)
-  ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , ĩ₀ Pb , Rc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Rc)
-  ⊎ᵒ∗ᵒ-out (-, -, b∙c⊑a , ĩ₁ Qb , Rc) =  ĩ₁ (-, -, b∙c⊑a , Qb , Rc)
+  ⨿ᵒ∗ᵒ-out :  (Pᵒ ⨿ᵒ Qᵒ) ∗ᵒ Rᵒ  ⊨  (Pᵒ ∗ᵒ Rᵒ) ⨿ᵒ (Qᵒ ∗ᵒ Rᵒ)
+  ⨿ᵒ∗ᵒ-out (-, -, b∙c⊑a , ĩ₀ Pb , Rc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Rc)
+  ⨿ᵒ∗ᵒ-out (-, -, b∙c⊑a , ĩ₁ Qb , Rc) =  ĩ₁ (-, -, b∙c⊑a , Qb , Rc)
 
-  ∗ᵒ⊎ᵒ-out :  Pᵒ ∗ᵒ (Qᵒ ⊎ᵒ Rᵒ)  ⊨  (Pᵒ ∗ᵒ Qᵒ) ⊎ᵒ (Pᵒ ∗ᵒ Rᵒ)
-  ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₀ Qc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Qc)
-  ∗ᵒ⊎ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₁ Rc) =  ĩ₁ (-, -, b∙c⊑a , Pb , Rc)
+  ∗ᵒ⨿ᵒ-out :  Pᵒ ∗ᵒ (Qᵒ ⨿ᵒ Rᵒ)  ⊨  (Pᵒ ∗ᵒ Qᵒ) ⨿ᵒ (Pᵒ ∗ᵒ Rᵒ)
+  ∗ᵒ⨿ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₀ Qc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Qc)
+  ∗ᵒ⨿ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₁ Rc) =  ĩ₁ (-, -, b∙c⊑a , Pb , Rc)
 
 --------------------------------------------------------------------------------
 -- [∗ᵒ] :  Iterated semantic separating conjunction

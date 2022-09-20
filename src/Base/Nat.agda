@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _∘_)
 open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
-open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
+open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; upd˙)
 open import Base.Inh using (Inh; any)
 
@@ -157,7 +157,7 @@ abstract
 
   -- Get <, ≡ or >
 
-  _<≡>_ :  ∀ m n →  m < n  ⊎  m ≡ n  ⊎  m > n
+  _<≡>_ :  ∀ m n →  m < n  ⨿  m ≡ n  ⨿  m > n
   0 <≡> (ṡ _) =  ĩ₀ 0<ṡ
   0 <≡> 0 =  ĩ₁ ĩ₀ refl
   ṡ _ <≡> 0 =  ĩ₁ ĩ₁ 0<ṡ
@@ -168,7 +168,7 @@ abstract
 
   -- Get ≤ or >
 
-  _≤>_ :  ∀ m n →  m ≤ n  ⊎  m > n
+  _≤>_ :  ∀ m n →  m ≤ n  ⨿  m > n
   m ≤> n  with m <≡> n
   … | ĩ₀ m<n =  ĩ₀ <⇒≤ m<n
   … | ĩ₁ ĩ₀ refl =  ĩ₀ ≤-refl
@@ -176,7 +176,7 @@ abstract
 
   -- Get < or ≥
 
-  _<≥_ :  ∀ m n →  m < n  ⊎  m ≥ n
+  _<≥_ :  ∀ m n →  m < n  ⨿  m ≥ n
   m <≥ n  with n ≤> m
   … | ĩ₀ n≤m =  ĩ₁ n≤m
   … | ĩ₁ n>m =  ĩ₀ n>m

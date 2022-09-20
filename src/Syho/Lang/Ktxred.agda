@@ -12,7 +12,7 @@ open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl)
 open import Base.Size using (∞)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
-open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
+open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; ◸_; _↷_; Addr; Expr; Expr˂; ▶_; ∇_; nd;
   λ˙; _◁_; _⁏_; 🞰_; _←_; alloc; free; Val; V⇒E; ṽ_; ṽ↷_)
@@ -105,7 +105,7 @@ pattern _ᴷ|_ K red =  -, K , red
 -- Type for either a value or a context-redex pair
 
 Val/Ktxred :  Type →  Set₁
-Val/Ktxred T =  Val T ⊎ Ktxred T
+Val/Ktxred T =  Val T ⨿ Ktxred T
 
 private variable
   K K' :  Ktx T U

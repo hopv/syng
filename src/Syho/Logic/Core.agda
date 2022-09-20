@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
-open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_; ⊎-case)
+open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.List using (List; []; _∷_; _⧺_; All²; []ᴬ²; _∷ᴬ²_)
 open import Syho.Logic.Prop using (Prop'; ∀₁˙; ∃₁˙; ∀₀˙; ∃₀˙; ∀₁∈-syntax;
   ∃₁∈-syntax; ∀₁-syntax;∃₁-syntax; ∀₀∈-syntax; ∃₀∈-syntax; ∀₀-syntax; ∃₀-syntax;
@@ -297,18 +297,18 @@ abstract
   ⌜⌝₀-∧-out :  ⌜ X × Y ⌝₀ ⊢[ ι ] ⌜ X ⌝₀ ∧ ⌜ Y ⌝₀
   ⌜⌝₀-∧-out =  ⌜⌝₀-elim λ (x , y) →  ∧-intro (⌜⌝₀-intro x) (⌜⌝₀-intro y)
 
-  ⌜⌝₁-∨-in :  ⌜ X ⌝₁ ∨ ⌜ Y ⌝₁ ⊢[ ι ] ⌜ X ⊎ Y ⌝₁
+  ⌜⌝₁-∨-in :  ⌜ X ⌝₁ ∨ ⌜ Y ⌝₁ ⊢[ ι ] ⌜ X ⨿ Y ⌝₁
   ⌜⌝₁-∨-in =  ∨-elim (⌜⌝₁-mono ĩ₀_) (⌜⌝₁-mono ĩ₁_)
 
-  ⌜⌝₁-∨-out :  ⌜ X ⊎ Y ⌝₁ ⊢[ ι ] ⌜ X ⌝₁ ∨ ⌜ Y ⌝₁
-  ⌜⌝₁-∨-out =  ⌜⌝₁-elim $ ⊎-case
+  ⌜⌝₁-∨-out :  ⌜ X ⨿ Y ⌝₁ ⊢[ ι ] ⌜ X ⌝₁ ∨ ⌜ Y ⌝₁
+  ⌜⌝₁-∨-out =  ⌜⌝₁-elim $ ⨿-case
     (λ x → ⌜⌝₁-intro x » ∨-introˡ) (λ y → ⌜⌝₁-intro y » ∨-introʳ)
 
-  ⌜⌝₀-∨-in :  ⌜ X ⌝₀ ∨ ⌜ Y ⌝₀ ⊢[ ι ] ⌜ X ⊎ Y ⌝₀
+  ⌜⌝₀-∨-in :  ⌜ X ⌝₀ ∨ ⌜ Y ⌝₀ ⊢[ ι ] ⌜ X ⨿ Y ⌝₀
   ⌜⌝₀-∨-in =  ∨-elim (⌜⌝₀-mono ĩ₀_) (⌜⌝₀-mono ĩ₁_)
 
-  ⌜⌝₀-∨-out :  ⌜ X ⊎ Y ⌝₀ ⊢[ ι ] ⌜ X ⌝₀ ∨ ⌜ Y ⌝₀
-  ⌜⌝₀-∨-out =  ⌜⌝₀-elim $ ⊎-case
+  ⌜⌝₀-∨-out :  ⌜ X ⨿ Y ⌝₀ ⊢[ ι ] ⌜ X ⌝₀ ∨ ⌜ Y ⌝₀
+  ⌜⌝₀-∨-out =  ⌜⌝₀-elim $ ⨿-case
     (λ x → ⌜⌝₀-intro x » ∨-introˡ) (λ y → ⌜⌝₀-intro y » ∨-introʳ)
 
   ⌜⊤⌝₁-intro :  P ⊢[ ι ] ⌜ ⊤ ⌝₁

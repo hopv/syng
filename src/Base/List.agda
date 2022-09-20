@@ -12,7 +12,7 @@ open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_)
-open import Base.Sum using (_⊎_; ĩ₀_; ĩ₁_)
+open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; ≟-refl)
 open import Base.Inh using (Inh; any)
 open import Base.Nat using (ℕ; ṡ_; _<_; ṡ-inj)
@@ -223,7 +223,7 @@ abstract
   Any-⧺-ĩ₁ {as = []} Fbs =  Fbs
   Any-⧺-ĩ₁ {as = _ ∷ _} Fbs =  ĩᵗˡ Any-⧺-ĩ₁ Fbs
 
-  Any-⧺-case :  Any F (as ⧺ bs) →  Any F as ⊎ Any F bs
+  Any-⧺-case :  Any F (as ⧺ bs) →  Any F as ⨿ Any F bs
   Any-⧺-case {as = []} Fbs =  ĩ₁ Fbs
   Any-⧺-case {as = _ ∷ _} (ĩʰᵈ Fa) =  ĩ₀ ĩʰᵈ Fa
   Any-⧺-case {as = _ ∷ _} (ĩᵗˡ Fas'⧺bs) with Any-⧺-case Fas'⧺bs
@@ -256,7 +256,7 @@ abstract
   ∈ᴸ-⧺-ĩ₁ :  a ∈ᴸ bs →  a ∈ᴸ as ⧺ bs
   ∈ᴸ-⧺-ĩ₁ =  Any-⧺-ĩ₁
 
-  ∈ᴸ-⧺-case :  a ∈ᴸ as ⧺ bs →  a ∈ᴸ as ⊎ a ∈ᴸ bs
+  ∈ᴸ-⧺-case :  a ∈ᴸ as ⧺ bs →  a ∈ᴸ as ⨿ a ∈ᴸ bs
   ∈ᴸ-⧺-case =  Any-⧺-case
 
 --------------------------------------------------------------------------------

@@ -11,7 +11,7 @@ open import Base.Size using (∞)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Eq using (_≡_; refl; _≡˙_; _◇˙_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
-open import Base.Sum using (ĩ₀_; ĩ₁_; ⊎-case)
+open import Base.Sum using (ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.Option using (¿_)
 open import Base.Dec using (upd˙; upd˙²; upd˙-self)
 open import Base.Nat using (ℕ)
@@ -185,7 +185,7 @@ abstract
   -- Consume Ind P to get P
 
   Ind-use :  Ind P  ⊨  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M ⟩  ⸨ P ⸩
-  Ind-use =  ⊎-case (Indˣ-use › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ) (Indᵖ-use › ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ)
+  Ind-use =  ⨿-case (Indˣ-use › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ) (Indᵖ-use › ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ)
 
 --------------------------------------------------------------------------------
 -- On ○ᵒ

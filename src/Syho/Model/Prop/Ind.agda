@@ -24,7 +24,7 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax; ∃ᴵ-syntax;
-  ⌜_⌝ᵒ×_; _⊎ᵒ_; _∗ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⊎ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono;
+  ⌜_⌝ᵒ×_; _⨿ᵒ_; _∗ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⨿ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono;
   ∗ᵒ-assocʳ; ?∗ᵒ-intro; ◎-Mono)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
@@ -41,7 +41,7 @@ private variable
 Indˣ Indᵖ Ind :  Prop' ∞ →  Propᵒ 2ᴸ
 Indˣ P =  ∃ᵒ i , ◎⟨ iᴵⁿᵈˣ ⟩ indˣ i P
 Indᵖ P =  ∃ᵒ i , ◎⟨ iᴵⁿᵈᵖ ⟩ indᵖ i P
-Ind P =  Indˣ P ⊎ᵒ Indᵖ P
+Ind P =  Indˣ P ⨿ᵒ Indᵖ P
 
 abstract
 
@@ -52,7 +52,7 @@ abstract
   Indᵖ-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono
 
   Ind-Mono :  Monoᵒ $ Ind P
-  Ind-Mono =  ⊎ᵒ-Mono Indˣ-Mono Indᵖ-Mono
+  Ind-Mono =  ⨿ᵒ-Mono Indˣ-Mono Indᵖ-Mono
 
 --------------------------------------------------------------------------------
 -- ○ᵒ :  Interpret the indirection modality ○

@@ -10,11 +10,11 @@ open import Base.Level using (0ᴸ; 2ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; subst)
-open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡⇒¬<;
-  <-trans; +-0; +-ṡ; +-smonoʳ)
 open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
 open import Base.Option using (¿_; š_; ň; _»-¿_; _$¿_; ¿-case; š-inj)
 open import Base.Dec using (yes; no; _≡?_; ≡?-refl; upd˙)
+open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡⇒¬<;
+  <-trans; +-0; +-ṡ; +-smonoʳ)
 open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
   ‼-len≡-ň; ‼-len≡-š; upd-len; upd-‼-out; upd-‼-in; rep-len)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)

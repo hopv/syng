@@ -83,6 +83,7 @@ The library consists of the following parts.
     [`Func`](src/Base/Func.agda) for functions;
     [`Few`](src/Base/Eq.agda) for two-, one- and zero-element sets;
     [`Eq`](src/Base/Eq.agda) for equality;
+    [`Acc`](src/Base/Acc.agda) for accessibility;
     [`Size`](src/Base/Size.agda) for sizes (modeling ordinals), thunks and
         shrunks.
 - **Data types** ―

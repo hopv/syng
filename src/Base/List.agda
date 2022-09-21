@@ -373,7 +373,7 @@ List⇒List⁺ a [] =  [ a ]⁺
 List⇒List⁺ a (b ∷ bs) =  a ∷⁺ List⇒List⁺ b bs
 
 --------------------------------------------------------------------------------
--- DM :  Dershowitz–Manna ordering on List A
+-- ≺ᴰᴹ⟨ ⟩ :  Dershowitz–Manna relation on List A
 
 -- Aug F as bs :  bs is obtained by adding to as elements satisfying F
 
@@ -382,22 +382,24 @@ data  Aug {A : Set ł} (F : A → Set ł') :  List A →  List A →  Set (ł �
   aug-refl :  Aug F as as
   aug-∷ :  F a →  Aug F as bs →  Aug F as (a ∷ bs)
 
--- <ᴰᴹ⟨ ⟩ :  Dershowitz–Manna ordering on List A
+-- ≺ᴰᴹ⟨ ⟩ :  Dershowitz–Manna relation on List A
+--           Its congruence closure is the standard Dershowitz–Manna ordering on
+--           multisets
 
--- <ᴰᴹ⟨ ⟩ with the order argument coming first
+-- ≺ᴰᴹ⟨ ⟩ with the order argument coming first
 data  DM {A : Set ł} (_≺_ : A → A → Set ł') :  List A →  List A →  Set (ł ⊔ᴸ ł')
 
-infix 4 _<ᴰᴹ⟨_⟩_
-_<ᴰᴹ⟨_⟩_ :  {A : Set ł} →  List A →  (A → A → Set ł') →  List A →  Set (ł ⊔ᴸ ł')
-as <ᴰᴹ⟨ _≺_ ⟩ bs =  DM _≺_ as bs
+infix 4 _≺ᴰᴹ⟨_⟩_
+_≺ᴰᴹ⟨_⟩_ :  {A : Set ł} →  List A →  (A → A → Set ł') →  List A →  Set (ł ⊔ᴸ ł')
+as ≺ᴰᴹ⟨ _≺_ ⟩ bs =  DM _≺_ as bs
 
 data  DM _≺_  where
 
   -- Add elements less than the head to the tail
-  <ᴰᴹ-head :  Aug (λ b → b ≺ a) as bs →  bs <ᴰᴹ⟨ _≺_ ⟩ a ∷ as
+  ≺ᴰᴹ-head :  Aug (λ b → b ≺ a) as bs →  bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
 
   -- Keep the head and continue to the tail
-  <ᴰᴹ-tail :  bs <ᴰᴹ⟨ _≺_ ⟩ as →  a ∷ bs <ᴰᴹ⟨ _≺_ ⟩ a ∷ as
+  ≺ᴰᴹ-tail :  bs ≺ᴰᴹ⟨ _≺_ ⟩ as →  a ∷ bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
 
 abstract
 
@@ -406,28 +408,28 @@ abstract
 
   -- If a and as are accessible, then a ∷ as is accessible
 
-  <ᴰᴹ-∷-acc :  Acc _≺_ a →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
-  <ᴰᴹ-∷-acc {_≺_ = _≺_} (acc ≺a⇒acc) =  go (λ b≺a → <ᴰᴹ-∷-acc (≺a⇒acc b≺a))
+  ≺ᴰᴹ-∷-acc :  Acc _≺_ a →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
+  ≺ᴰᴹ-∷-acc {_≺_ = _≺_} (acc ≺a⇒acc) =  go (λ b≺a → ≺ᴰᴹ-∷-acc (≺a⇒acc b≺a))
    where
     fo :  (∀{b bs} →  b ≺ a →
-            Acc _<ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
-          Acc _<ᴰᴹ⟨ _≺_ ⟩_ as →
-          (∀{bs} →  bs <ᴰᴹ⟨ _≺_ ⟩ as →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ bs)) →
-          Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
+            Acc _≺ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
+          Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →
+          (∀{bs} →  bs ≺ᴰᴹ⟨ _≺_ ⟩ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ bs)) →
+          Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
     fo {a = a} {as} big accas <as⇒acca∷ =  acc λ{
-      (<ᴰᴹ-tail bs'<as) →  <as⇒acca∷ bs'<as;
-      (<ᴰᴹ-head augbs) →  eo augbs }
+      (≺ᴰᴹ-tail bs'<as) →  <as⇒acca∷ bs'<as;
+      (≺ᴰᴹ-head augbs) →  eo augbs }
      where
-      eo :  Aug (_≺ a) as bs →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ bs
+      eo :  Aug (_≺ a) as bs →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ bs
       eo aug-refl =  accas
       eo (aug-∷ b≺a augbs') =  big b≺a (eo augbs')
     go :  (∀{b bs} →  b ≺ a →
-            Acc _<ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
-          Acc _<ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
+            Acc _≺ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
+          Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
     go big accas@(acc <as⇒acc) =  fo big accas λ bs<as → go big (<as⇒acc bs<as)
 
-  -- If ≺ is well-founded, then so is <ᴰᴹ⟨ _≺_ ⟩
+  -- If ≺ is well-founded, then so is ≺ᴰᴹ⟨ _≺_ ⟩
 
-  <ᴰᴹ-wf :  (∀{a} → Acc _≺_ a) →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ as
-  <ᴰᴹ-wf {as = []} _ =  acc λ ()
-  <ᴰᴹ-wf {as = _ ∷ as'} wf =  <ᴰᴹ-∷-acc wf $ <ᴰᴹ-wf {as = as'} wf
+  ≺ᴰᴹ-wf :  (∀{a} → Acc _≺_ a) →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as
+  ≺ᴰᴹ-wf {as = []} _ =  acc λ ()
+  ≺ᴰᴹ-wf {as = _ ∷ as'} wf =  ≺ᴰᴹ-∷-acc wf $ ≺ᴰᴹ-wf {as = as'} wf

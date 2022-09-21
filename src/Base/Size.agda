@@ -8,6 +8,8 @@ module Base.Size where
 
 open import Base.Level using (Level)
 
+open import Base.Acc using (Acc; acc)
+
 -- Import and re-export
 open import Agda.Builtin.Size public using (
   -- Universe of Size
@@ -30,6 +32,7 @@ open import Agda.Builtin.Size public using (
 
 private variable
   ł :  Level
+  ι :  Size
 
 --------------------------------------------------------------------------------
 -- Thunk :  For flexibly coinductive or coinductive-inductive data types
@@ -55,3 +58,24 @@ data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where
 
   -- Construct a shrunk
   §_ :  {ι' : Size< ι} →  F ι' →  Shrunk F ι
+
+--------------------------------------------------------------------------------
+-- Size₀ :  Set₀ wrapper for Size₀
+
+data  Size₀ :  Set₀  where
+  sz :  Size →  Size₀
+
+--------------------------------------------------------------------------------
+-- <ˢ :  Well-founded order on Size₀
+
+infix 4 _<ˢ_
+
+data  _<ˢ_ :  Size₀ →  Size₀ →  Set₀  where
+  size< :  ∀{ι' : Size< ι} →  sz ι' <ˢ sz ι
+
+abstract
+
+  -- <ˢ is well-founded
+
+  <ˢ-wf :  Acc _<ˢ_ (sz ι)
+  <ˢ-wf =  acc λ{ size< → <ˢ-wf }

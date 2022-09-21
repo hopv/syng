@@ -60,10 +60,12 @@ data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where
   §_ :  {ι' : Size< ι} →  F ι' →  Shrunk F ι
 
 --------------------------------------------------------------------------------
--- Size₀ :  Set₀ wrapper for Size₀
+-- Size₀ :  Set₀ wrapper for Size
 
-data  Size₀ :  Set₀  where
-  sz :  Size →  Size₀
+record  Size₀ :  Set₀  where
+  constructor sz
+  field
+    sz⁻¹ :  Size
 
 --------------------------------------------------------------------------------
 -- <ˢ :  Well-founded order on Size₀

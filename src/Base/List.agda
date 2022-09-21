@@ -426,7 +426,7 @@ abstract
           Acc _<ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
     go big accas@(acc <as⇒acc) =  fo big accas λ bs<as → go big (<as⇒acc bs<as)
 
-  -- If every a : A is accessible, then every as : List A is accessible
+  -- If ≺ is well-founded, then so is <ᴰᴹ⟨ _≺_ ⟩
 
   <ᴰᴹ-wf :  (∀{a} → Acc _≺_ a) →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ as
   <ᴰᴹ-wf {as = []} _ =  acc λ ()

@@ -401,6 +401,9 @@ data  DM _≺_  where
 
 abstract
 
+  -- The proof here is based on "An inductive proof of the well-foundedness of
+  -- the multiset order" by Tobias Nipkow (due to Wilfried Buchholz), 1998
+
   -- If a and as are accessible, then a ∷ as is accessible
 
   <ᴰᴹ-∷-acc :  Acc _≺_ a →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)

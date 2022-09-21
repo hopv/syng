@@ -409,20 +409,20 @@ abstract
   <ᴰᴹ-∷-acc :  Acc _≺_ a →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
   <ᴰᴹ-∷-acc {_≺_ = _≺_} (acc ≺a⇒acc) =  go (λ b≺a → <ᴰᴹ-∷-acc (≺a⇒acc b≺a))
    where
-    fo :  (∀{b bs} →
-            b ≺ a →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
+    fo :  (∀{b bs} →  b ≺ a →
+            Acc _<ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
           Acc _<ᴰᴹ⟨ _≺_ ⟩_ as →
           (∀{bs} →  bs <ᴰᴹ⟨ _≺_ ⟩ as →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ bs)) →
           Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
-    fo {a = a} {as = as} big accas <as⇒acca∷ =  acc λ{
+    fo {a = a} {as} big accas <as⇒acca∷ =  acc λ{
       (<ᴰᴹ-tail bs'<as) →  <as⇒acca∷ bs'<as;
-      (<ᴰᴹ-head aug) →  eo aug }
+      (<ᴰᴹ-head augbs) →  eo augbs }
      where
       eo :  Aug (_≺ a) as bs →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ bs
       eo aug-refl =  accas
       eo (aug-∷ b≺a augbs') =  big b≺a (eo augbs')
-    go :  (∀{b bs} →
-            b ≺ a →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
+    go :  (∀{b bs} →  b ≺ a →
+            Acc _<ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
           Acc _<ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _<ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
     go big accas@(acc <as⇒acc) =  fo big accas λ bs<as → go big (<as⇒acc bs<as)
 

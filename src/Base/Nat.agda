@@ -76,9 +76,16 @@ m <ᵈ n =  ṡ m ≤ᵈ n
 m ≥ᵈ n =  n ≤ᵈ m
 m >ᵈ n =  n <ᵈ m
 
+-- 0<ṡ :  0 < ṡ n
 pattern 0<ṡ =  ṡ≤ṡ 0≤
+-- ṡ<ṡ :  m < n →  ṡ m < ṡ n
 pattern ṡ<ṡ m<n =  ṡ≤ṡ m<n
+-- ?<? :  m < ṡ n
 pattern ?<? =  ṡ≤ṡ _
+-- <ᵈ-ṡrefl :  m <ᵈ ṡ m
+pattern <ᵈ-ṡrefl =  ≤ᵈ-refl
+-- <ᵈṡ :  m <ᵈ n →  m <ᵈ ṡ n
+pattern <ᵈṡ m<n =  ≤ᵈṡ m<n
 
 abstract
 

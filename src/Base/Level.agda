@@ -21,6 +21,9 @@ open import Agda.Primitive public using (
   -- _⊔ᴸ_ :  Level →  Level →  Level
   _⊔_ to infixl 5 _⊔ᴸ_)
 
+private variable
+  ł :  Level
+
 -- Shorthand for Level
 
 1ᴸ 2ᴸ 3ᴸ :  Level
@@ -32,9 +35,12 @@ open import Agda.Primitive public using (
 -- Up :  Wrapper raising the level
 
 infix 8 ↑_
-record  Up {ł : Level} (A : Set ł) {ł' : Level} :  Set (ł ⊔ᴸ ł')  where
+record  Up (A : Set ł) {ł' : Level} :  Set (ł ⊔ᴸ ł')  where
+
   -- ↑ :  Wrap into Up
   constructor ↑_
+
   -- ↓ :  Unwrap from Up
   field  ↓ :  A
+
 open Up public

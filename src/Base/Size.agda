@@ -28,11 +28,14 @@ open import Agda.Builtin.Size public using (
   -- _⊔ˢ_ :  Size →  Size →  Size
   _⊔ˢ_ to infixr 5 _⊔ˢ_)
 
+private variable
+  ł :  Level
+
 --------------------------------------------------------------------------------
 -- Thunk :  For flexibly coinductive or coinductive-inductive data types
 
 infix 8 ¡_
-record  Thunk {ł : Level} (F : Size → Set ł) (ι : Size) :  Set ł  where
+record  Thunk (F : Size → Set ł) (ι : Size) :  Set ł  where
   coinductive
 
   -- ¡ :  Construct a thunk
@@ -48,7 +51,7 @@ open Thunk public
 -- Shrunk :  For flexibly inductive data types
 
 infix 8 §_
-data  Shrunk {ł : Level} (F : Size → Set ł) (ι : Size) :  Set ł  where
+data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where
 
   -- Construct a shrunk
   §_ :  {ι' : Size< ι} →  F ι' →  Shrunk F ι

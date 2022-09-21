@@ -2,8 +2,7 @@
 -- List
 --------------------------------------------------------------------------------
 
-{-# OPTIONS --safe #-}
--- {-# OPTIONS --without-K --safe #-}
+{-# OPTIONS --without-K --safe #-}
 
 module Base.List where
 

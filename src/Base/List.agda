@@ -385,7 +385,7 @@ data  Aug {A : Set ł} (F : A → Set ł') :  List A →  List A →  Set (ł �
 --           Its congruence closure is the standard Dershowitz–Manna ordering on
 --           multisets
 
--- ≺ᴰᴹ⟨ ⟩ with the order argument coming first
+-- ≺ᴰᴹ⟨ ⟩ with the relation argument coming first
 data  DM {A : Set ł} (_≺_ : A → A → Set ł') :  List A →  List A →  Set (ł ⊔ᴸ ł')
 
 infix 4 _≺ᴰᴹ⟨_⟩_

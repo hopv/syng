@@ -10,6 +10,7 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_; _∘_)
 open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
+open import Base.Acc using (Acc; acc)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; upd˙)
@@ -205,6 +206,21 @@ abstract
   ≤ᵈ⇒≤ :  m ≤ᵈ n →  m ≤ n
   ≤ᵈ⇒≤ ≤ᵈ-refl =  ≤-refl
   ≤ᵈ⇒≤ (≤ᵈṡ m≤ᵈn') =  ≤-trans (≤ᵈ⇒≤ m≤ᵈn') ṡ-incr
+
+  -- <ᵈ/< is well-founded
+
+  <ᵈ-wf :  Acc _<ᵈ_ n
+  <ᵈ-wf =  acc go
+   where
+    go :  m <ᵈ n →  Acc _<ᵈ_ m
+    go <ᵈ-ṡrefl =  <ᵈ-wf
+    go (<ᵈṡ m'<n') =  go m'<n'
+
+  <-wf :  Acc _<_ n
+  <-wf =  go <ᵈ-wf
+   where
+    go :  Acc _<ᵈ_ n →  Acc _<_ n
+    go (acc <ᵈn⇒acc) =  acc λ m<n → go (<ᵈn⇒acc (≤⇒≤ᵈ m<n))
 
 --------------------------------------------------------------------------------
 -- Equality decision for ℕ

@@ -14,8 +14,8 @@ private variable
   a :  A
 
 --------------------------------------------------------------------------------
--- Acc _<_ a :  a is accessible with respect to <, or every descending chain
+-- Acc _≺_ a :  a is accessible with respect to ≺, or every descending chain
 --              from a terminates
 
-data  Acc {A : Set ł} (_<_ : A → A → Set ł') :  A →  Set (ł ⊔ᴸ ł')  where
-  acc :  ∀{a} →  (∀{b : A} →  b < a →  Acc _<_ b) →  Acc _<_ a
+data  Acc {A : Set ł} (_≺_ : A → A → Set ł') :  A →  Set (ł ⊔ᴸ ł')  where
+  acc :  ∀{a} →  (∀{b : A} →  b ≺ a →  Acc _≺_ b) →  Acc _≺_ a

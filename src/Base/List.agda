@@ -427,8 +427,14 @@ abstract
           Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
     go big accas@(acc <as⇒acc) =  fo big accas λ bs<as → go big (<as⇒acc bs<as)
 
+  -- as is accessible if every element of as is accessible
+
+  ≺ᴰᴹ-acc :  (∀{a} →  a ∈ᴸ as →  Acc _≺_ a) →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as
+  ≺ᴰᴹ-acc {as = []} _ =  acc λ ()
+  ≺ᴰᴹ-acc {as = _ ∷ _} ∈as⇒acc =
+    ≺ᴰᴹ-∷-acc (∈as⇒acc ∈ʰᵈ) $ ≺ᴰᴹ-acc (∈as⇒acc ∘ ∈ᵗˡ_)
+
   -- If ≺ is well-founded, then so is ≺ᴰᴹ⟨ _≺_ ⟩
 
   ≺ᴰᴹ-wf :  (∀{a} → Acc _≺_ a) →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as
-  ≺ᴰᴹ-wf {as = []} _ =  acc λ ()
-  ≺ᴰᴹ-wf {as = _ ∷ as'} wf =  ≺ᴰᴹ-∷-acc wf $ ≺ᴰᴹ-wf {as = as'} wf
+  ≺ᴰᴹ-wf wf =  ≺ᴰᴹ-acc λ _ → wf

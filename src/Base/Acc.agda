@@ -18,4 +18,4 @@ private variable
 --              from a terminates
 
 data  Acc {A : Set ł} (_≺_ : A → A → Set ł') :  A →  Set (ł ⊔ᴸ ł')  where
-  acc :  ∀{a} →  (∀{b : A} →  b ≺ a →  Acc _≺_ b) →  Acc _≺_ a
+  acc :  (∀{b} →  b ≺ a →  Acc _≺_ b) →  Acc _≺_ a

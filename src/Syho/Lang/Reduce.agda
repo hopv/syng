@@ -146,20 +146,3 @@ data  _⇒ᴱ*_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
   -- Continue reduction
   ⇒ᴱ*-step :  (e , M) ⇒ᴱ (e' , M') →  (e' , M') ⇒ᴱ* (e'' , M'') →
               (e , M) ⇒ᴱ* (e'' , M'')
-
---------------------------------------------------------------------------------
--- ⇒ᴱ∞ :  Infinite (non-terminating) reduction sequence
-
-infix 4 _⇒ᴱ∞[_]
-
-data  _⇒ᴱ∞[_] :  Expr ∞ T × Mem →  Size →  Set₁
-
--- ⇒ᴱ∞ under thunk
-
-_⇒ᴱ∞[<_] :  Expr ∞ T × Mem →  Size →  Set₁
-(e , M) ⇒ᴱ∞[< ι ] =  Thunk ((e , M) ⇒ᴱ∞[_]) ι
-
-data  _⇒ᴱ∞[_]  where
-
-  -- Continue reduction
-  ⇒ᴱ∞-step :  (e , M) ⇒ᴱ (e' , M') →  (e' , M') ⇒ᴱ∞[< ι ] →  (e , M) ⇒ᴱ∞[ ι ]

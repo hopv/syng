@@ -140,7 +140,7 @@ abstract
 
   -- Perform a step by ⇛ᵒ
 
-  ⇛ᵒ-step :  envᴳ M Eᴵⁿ ✓ᴳ a  ×  ((⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
+  ⇛ᵒ-step :  envᴳ M Eᴵⁿ ✓ᴳ a  →  ((⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
              ∑ Fᴵⁿ , ∑ b ,  envᴳ M' Fᴵⁿ ✓ᴳ b  ×  (Pᵒ ∗ᵒ Invᴳ Fᴵⁿ) b
-  ⇛ᵒ-step (ME✓a , ⇛P∗InvEa)  with ⤇ᴱ-step (ME✓a , ⇛ᵍ-apply ⇛P∗InvEa)
+  ⇛ᵒ-step ME✓a ⇛P∗InvEa  with ⤇ᴱ-step ME✓a (⇛ᵍ-apply ⇛P∗InvEa)
   … | -, -, M'F✓b , P∗InvFb =  -, -, M'F✓b , P∗InvFb

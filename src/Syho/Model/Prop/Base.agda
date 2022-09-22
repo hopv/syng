@@ -565,9 +565,9 @@ abstract
 
   -- Perform a step by ⤇ᴱ
 
-  ⤇ᴱ-step :  E ✓ a  ×  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x) a →
+  ⤇ᴱ-step :  E ✓ a  →  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x) a →
              ∑ x , ∑ b ,  F˙ x ✓ b  ×  Pᵒ˙ x b
-  ⤇ᴱ-step (E✓a , E⤇FxPxa)  with E⤇FxPxa _ $ ✓-resp (◠˜ ∙-unitʳ) E✓a
+  ⤇ᴱ-step E✓a E⤇FxPxa  with E⤇FxPxa _ $ ✓-resp (◠˜ ∙-unitʳ) E✓a
   … | -, -, Fx✓b∙ε , Pxb =  -, -, ✓-resp ∙-unitʳ Fx✓b∙ε , Pxb
 
 --------------------------------------------------------------------------------

@@ -111,7 +111,7 @@ abstract
      where
       fo :  (e' , M') ⇐ᴱ (e , M) →  Acc _⇐ᴱ_ (e' , M')
       fo (redᴱ e≡kr krM⇒e'M')  rewrite e≡kr
-        with ⇛ᵒ-step (ME✓a , ⟨e⟩P∗InvEa ▷ ∗ᵒ-monoˡ (⁺⟨⟩ᵀᵒ-kr⁻¹ ›
-          (_$ _) › ⇛ᵒ-mono (λ big → big .π₁ _ _ krM⇒e'M') › ⇛ᵒ-join))
+        with ⇛ᵒ-step ME✓a (⟨e⟩P∗InvEa ▷ ∗ᵒ-monoˡ $ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
+          (_$ _) › ⇛ᵒ-mono (λ big → big .π₁ _ _ krM⇒e'M') › ⇛ᵒ-join)
       … | -, -, M'E'✓b , ⟨e'⟩<P∗InvE'b  with Shrunkᵒ∗ᵒ-out ⟨e'⟩<P∗InvE'b
       …   | § ⟨e'⟩P∗InvE'b =  go M'E'✓b ⟨e'⟩P∗InvE'b

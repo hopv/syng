@@ -10,7 +10,7 @@ open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
-open import Base.Acc using (Acc; acc)
+open import Base.Acc using (Acc; acc; acc-sub)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
@@ -440,3 +440,11 @@ abstract
 
   ≺ᴰᴹ-wf :  (∀{a} → Acc _≺_ a) →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as
   ≺ᴰᴹ-wf wf =  ≺ᴰᴹ-acc λ _ → wf
+
+  -- Converse of ≺ᴰᴹ-acc :  If as is accessible w.r.t. ≺ᴰᴹ⟨ _≺_ ⟩,
+  -- then every element of as is accessible w.r.t. ≺
+
+  ≺ᴰᴹ-acc-inv :  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  a ∈ᴸ as →  Acc _≺_ a
+  ≺ᴰᴹ-acc-inv accas ∈ʰᵈ =  acc-sub (λ a≺b → ≺ᴰᴹ-head $ aug-∷ a≺b aug-refl) accas
+  ≺ᴰᴹ-acc-inv (acc ≺as⇒acc) (∈ᵗˡ a∈as') =
+    ≺ᴰᴹ-acc-inv (≺as⇒acc $ ≺ᴰᴹ-head aug-refl) a∈as'

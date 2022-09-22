@@ -93,7 +93,7 @@ private variable
   kr :  Ktxred T
   ι :  Size
 
-infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_
+infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇐ᴷᴿ_ _⇐ᴱ_
 
 -- ⇒ᴿ :  Reduction of a redex
 
@@ -118,6 +118,14 @@ data  _⇒ᴷᴿ_ {T} :  Ktxred T × Mem →  Expr ∞ T × Mem →  Set₁  whe
 data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
   redᴱ :  val/ktxred e ≡ ĩ₁ kr →  (kr , M) ⇒ᴷᴿ (e' , M') →
           (e , M) ⇒ᴱ (e' , M')
+
+-- ⇐ᴷᴿ, ⇐ᴱ :  Flipped ⇒ᴷᴿ, ⇒ᴱ
+
+_⇐ᴷᴿ_ :  Expr ∞ T × Mem →  Ktxred T × Mem →  Set₁
+(e , M) ⇐ᴷᴿ (kr , M') =  (kr , M') ⇒ᴷᴿ (e , M)
+
+_⇐ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁
+(e' , M') ⇐ᴱ (e , M) =  (e , M) ⇒ᴱ (e' , M')
 
 -- ⇒ᴷᴿ∑ :  A contex-redex pair is reducible
 

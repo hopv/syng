@@ -13,7 +13,7 @@ open import Base.Prod using (π₀; π₁; _,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Lang.Ktxred using (Ktxred; Val/Ktxred; val/ktxred)
-open import Syho.Lang.Reduce using (Mem; _⇒ᴷᴿ_; _⇒ᴷᴿ∑)
+open import Syho.Lang.Reduce using (Mem; _⇒ᴷᴿ∑; _⇐ᴷᴿ_)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∀ᵒ-syntax;
   ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ_; Thunkᵒ; Shrunkᵒ; ⊨⇒⊨✓; ∀ᵒ-Mono; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out;
   ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
@@ -66,7 +66,7 @@ data  Wpᴾ Pᵒ˙ ι  where
   -- version) here to pass the strict positivity check
 
   ⁺⟨⟩ᴾᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
-                 ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
+                 ∀ᵒ e , ∀ᵒ M' , ⌜ (e , M') ⇐ᴷᴿ (kr , M) ⌝ᵒ→
                    ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙  ⊨
                ⁺⟨ ĩ₁ kr ⟩ᴾᵒ[ ι ] Pᵒ˙
 
@@ -105,7 +105,7 @@ data  Wpᵀ Pᵒ˙ ι  where
   -- and for every next state the weakest precondition inductively holds
 
   ⁺⟨⟩ᵀᵒ-kr' :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
-                 ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
+                 ∀ᵒ e , ∀ᵒ M' , ⌜ (e , M') ⇐ᴷᴿ (kr , M) ⌝ᵒ→
                    ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙  ⊨
                ⁺⟨ ĩ₁ kr ⟩ᵀᵒ[ ι ] Pᵒ˙
 
@@ -125,14 +125,14 @@ abstract
   -- Modified ⁺⟨⟩ᴾᵒ-kr' / ⁺⟨⟩ᵀᵒ-kr'
 
   ⁺⟨⟩ᴾᵒ-kr :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
-                ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
+                ∀ᵒ e , ∀ᵒ M' , ⌜ (e , M') ⇐ᴷᴿ (kr , M) ⌝ᵒ→
                   ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙  ⊨
               ⁺⟨ ĩ₁ kr ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-kr big =  ⁺⟨⟩ᴾᵒ-kr' λ M → big M ▷ (⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ ,
     λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ⇒⇛ᵒ') ▷ ⇛ᵒ⇒⇛ᵒ'
 
   ⁺⟨⟩ᵀᵒ-kr :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
-                ∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
+                ∀ᵒ e , ∀ᵒ M' , ⌜ (e , M') ⇐ᴷᴿ (kr , M) ⌝ᵒ→
                   ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙  ⊨
               ⁺⟨ ĩ₁ kr ⟩ᵀᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᵀᵒ-kr big =  ⁺⟨⟩ᵀᵒ-kr' λ M → big M ▷ (⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ ,
@@ -142,14 +142,14 @@ abstract
 
   ⁺⟨⟩ᴾᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
-                  (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
+                  (∀ᵒ e , ∀ᵒ M' , ⌜ (e , M') ⇐ᴷᴿ (kr , M) ⌝ᵒ→
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙)
   ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ ⇛ᵒ-mono λ (krM⇒ , big) →
     krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ
 
   ⁺⟨⟩ᵀᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨
                 ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
-                  (∀ᵒ e , ∀ᵒ M' , ⌜ (kr , M) ⇒ᴷᴿ (e , M') ⌝ᵒ→
+                  (∀ᵒ e , ∀ᵒ M' , ⌜ (e , M') ⇐ᴷᴿ (kr , M) ⌝ᵒ→
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙)
   ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  λ M → big M ▷ ⇛ᵒ'⇒⇛ᵒ ▷ ⇛ᵒ-mono λ (krM⇒ , big) →
     krM⇒ , λ e M' krM⇒eM' → big e M' krM⇒eM' ▷ ⇛ᵒ'⇒⇛ᵒ

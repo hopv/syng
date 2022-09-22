@@ -30,13 +30,21 @@ infixl 5 _◁ᴿ_
 infixr 4 _⁏ᴿ_
 
 data  Redex :  Type →  Set₁  where
+  -- For ▶
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
+  -- For nd
   ndᴿ :  Redex (◸ X)
+  -- For ◁
   _◁ᴿ_ :  (X → Expr ∞ T) →  X →  Redex T
+  -- For ⁏
   _⁏ᴿ_ :  Val T →  Expr ∞ U →  Redex U
+  -- For 🞰
   🞰ᴿ_ :  Addr →  Redex T
+  -- For ←
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
+  -- For alloc
   allocᴿ :  ℕ →  Redex (◸ Addr)
+  -- For free
   freeᴿ :  Addr →  Redex (◸ ⊤)
 
 --------------------------------------------------------------------------------
@@ -49,19 +57,19 @@ infixr 4 _⁏ᴷ_
 data  Ktx :  Type →  Type →  Set₁  where
   -- Hole
   •ᴷ :  Ktx T T
-  -- On ◁
+  -- For ◁
   _◁ᴷʳ_ :  Expr ∞ (X ↷ T) →  Ktx U (◸ X) →  Ktx U T
   _◁ᴷˡ_ :  Ktx U (X ↷ T) →  X →  Ktx U T
-  -- On ⁏
+  -- For ⁏
   _⁏ᴷ_ :  Ktx V T →  Expr ∞ U →  Ktx V U
-  -- On 🞰
+  -- For 🞰
   🞰ᴷ_ :  Ktx U (◸ Addr) →  Ktx U T
-  -- On ←
+  -- For ←
   _←ᴷʳ_ :  Expr ∞ (◸ Addr) →  Ktx U T →  Ktx U (◸ ⊤)
   _←ᴷˡ_ :  Ktx U (◸ Addr) →  Val T →  Ktx U (◸ ⊤)
-  -- On alloc
+  -- For alloc
   allocᴷ :  Ktx T (◸ ℕ) →  Ktx T (◸ Addr)
-  -- On free
+  -- For free
   freeᴷ :  Ktx T (◸ Addr) →  Ktx T (◸ ⊤)
 
 -- Fill in the hole of Ktx U T with Expr ∞ U to get Expr ∞ T

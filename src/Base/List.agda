@@ -395,7 +395,7 @@ as ≺ᴰᴹ⟨ _≺_ ⟩ bs =  DM _≺_ as bs
 data  DM _≺_  where
 
   -- Add elements less than the head to the tail
-  ≺ᴰᴹ-head :  Aug (λ b → b ≺ a) as bs →  bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
+  ≺ᴰᴹ-head :  Aug (_≺ a) as bs →  bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
 
   -- Keep the head and continue to the tail
   ≺ᴰᴹ-tail :  bs ≺ᴰᴹ⟨ _≺_ ⟩ as →  a ∷ bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as

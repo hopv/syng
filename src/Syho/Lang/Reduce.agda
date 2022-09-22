@@ -7,7 +7,7 @@
 module Syho.Lang.Reduce where
 
 open import Base.Level using (↑_)
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; flip)
 open import Base.Eq using (_≡_; refl; ◠_)
 open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
@@ -138,10 +138,10 @@ data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁  where
 -- ⇐ᴷᴿ, ⇐ᴱ :  Flipped ⇒ᴷᴿ, ⇒ᴱ
 
 _⇐ᴷᴿ_ :  Expr ∞ T × Mem →  Ktxred T × Mem →  Set₁
-(e , M) ⇐ᴷᴿ (kr , M') =  (kr , M') ⇒ᴷᴿ (e , M)
+_⇐ᴷᴿ_ =  flip _⇒ᴷᴿ_
 
 _⇐ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × Mem →  Set₁
-(e' , M') ⇐ᴱ (e , M) =  (e , M) ⇒ᴱ (e' , M')
+_⇐ᴱ_ =  flip _⇒ᴱ_
 
 -- ⇒ᴷᴿ∑ :  A contex-redex pair is reducible
 

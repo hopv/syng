@@ -98,14 +98,30 @@ infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇐ᴷᴿ_ _⇐ᴱ_
 -- ⇒ᴿ :  Reduction of a redex
 
 data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × Mem →  Set₁  where
+
+  -- For ▶
   ▶⇒ :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , M)
+
+  -- For nd
   nd⇒ :  ∀(x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , M)
+
+  -- For ◁
   ◁⇒ :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , M)
+
+  -- For ⁏
   ⁏⇒ :  (v ⁏ᴿ e , M) ⇒ᴿ (e , M)
+
+  -- For 🞰
   🞰⇒ :  M ‼ᴹ θ ≡ š (-, v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , M)
+
+  -- For ←, with a check that θ is in the domain of M
   ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , updᴹ θ (-, v) M)
+
+  -- For alloc, for any o out of the domain of M
   alloc⇒ :  ∀ o →  M o ≡ ň →
     (allocᴿ n , M) ⇒ᴿ (∇ ad o 0 , upd˙ o (š rep n ⊤ṽ) M)
+
+  -- For free, with a check that o is in the domain of M
   free⇒ :  ∑ ᵗvs , M o ≡ š ᵗvs →  (freeᴿ (ad o 0) , M) ⇒ᴿ (∇ _ , upd˙ o ň M)
 
 -- ⇒ᴷᴿ :  Reduction of a context-redex pair

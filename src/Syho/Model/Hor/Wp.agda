@@ -41,7 +41,7 @@ infix 3 ⁺⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[<_]_
 data  Wpᴾ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Propᵒ (2ᴸ ⊔ᴸ ł)
 
 -- ⁺⟨ ⟩ᴾᵒ[ ] :  Semantic partial weakest precondition on Val/Ktxred
--- ⟨ ⟩ᴾᵒ[ ] :  Semantic partial weakest precondition on Expr
+-- ⟨ ⟩ᴾᵒ[ ] :  ⁺⟨ ⟩ᴾᵒ[ ] on Expr
 -- ⟨ ⟩ᴾᵒ[< ] :  ⟨ ⟩ᴾᵒ[ ] under Thunk
 
 ⁺⟨_⟩ᴾᵒ[_]_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
@@ -80,7 +80,7 @@ infix 3 ⁺⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[<_]_
 data  Wpᵀ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Propᵒ (2ᴸ ⊔ᴸ ł)
 
 -- ⁺⟨ ⟩ᵀᵒ[ ] :  Semantic partial weakest precondition on Val/Ktxred
--- ⟨ ⟩ᵀᵒ[ ] :  Semantic total weakest precondition on Expr
+-- ⟨ ⟩ᵀᵒ[ ] :  ⁺⟨ ⟩ᵀᵒ[ ] on Expr
 -- ⟨ ⟩[< ]ᵀᵒ :  ⟨ ⟩ᵀᵒ[ ] under Thunk
 
 ⁺⟨_⟩ᵀᵒ[_]_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)

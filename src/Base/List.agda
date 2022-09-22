@@ -405,7 +405,8 @@ abstract
   -- The proof here is based on "An inductive proof of the well-foundedness of
   -- the multiset order" by Tobias Nipkow (due to Wilfried Buchholz), 1998
 
-  -- If a and as are accessible, then a ∷ as is accessible
+  -- If a is accessible w.r.t. ≺ and as is accessible w.r.t. ≺ᴰᴹ⟨ _≺_ ⟩,
+  -- then a ∷ as is accessible w.r.t. ≺ᴰᴹ⟨ _≺_ ⟩
 
   ≺ᴰᴹ-∷-acc :  Acc _≺_ a →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
   ≺ᴰᴹ-∷-acc {_≺_ = _≺_} (acc ≺a⇒acc) =  go (λ b≺a → ≺ᴰᴹ-∷-acc (≺a⇒acc b≺a))
@@ -427,14 +428,15 @@ abstract
           Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
     go big accas@(acc <as⇒acc) =  fo big accas λ bs<as → go big (<as⇒acc bs<as)
 
-  -- as is accessible if every element of as is accessible
+  -- If every element of as is accessible w.r.t. ≺,
+  -- then as is accessible w.r.t. ≺ᴰᴹ⟨ _≺_ ⟩
 
   ≺ᴰᴹ-acc :  (∀{a} →  a ∈ᴸ as →  Acc _≺_ a) →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as
   ≺ᴰᴹ-acc {as = []} _ =  acc λ ()
   ≺ᴰᴹ-acc {as = _ ∷ _} ∈as⇒acc =
     ≺ᴰᴹ-∷-acc (∈as⇒acc ∈ʰᵈ) $ ≺ᴰᴹ-acc (∈as⇒acc ∘ ∈ᵗˡ_)
 
-  -- If ≺ is well-founded, then so is ≺ᴰᴹ⟨ _≺_ ⟩
+  -- If ≺ is well-founded, then ≺ᴰᴹ⟨ _≺_ ⟩ is well-founded
 
   ≺ᴰᴹ-wf :  (∀{a} → Acc _≺_ a) →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as
   ≺ᴰᴹ-wf wf =  ≺ᴰᴹ-acc λ _ → wf

@@ -39,7 +39,7 @@ data  Redex :  Type →  Set₁  where
   -- For ⁏
   _⁏ᴿ_ :  Val T →  Expr ∞ U →  Redex U
   -- For fork
-  forkᴿ :  Expr ∞ T →  Redex (◸ ⊤)
+  forkᴿ :  Expr ∞ (◸ ⊤) →  Redex (◸ ⊤)
   -- For 🞰
   🞰ᴿ_ :  Addr →  Redex T
   -- For ←

@@ -15,7 +15,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; ◸_; _↷_; Addr; Expr; Expr˂; ▶_; ∇_; nd;
-  λ˙; _◁_; _⁏_; 🞰_; _←_; alloc; free; Val; V⇒E; ṽ_; ṽ↷_)
+  λ˙; _◁_; _⁏_; fork; 🞰_; _←_; alloc; free; Val; V⇒E; ṽ_; ṽ↷_)
 
 private variable
   X :  Set₀
@@ -38,6 +38,8 @@ data  Redex :  Type →  Set₁  where
   _◁ᴿ_ :  (X → Expr ∞ T) →  X →  Redex T
   -- For ⁏
   _⁏ᴿ_ :  Val T →  Expr ∞ U →  Redex U
+  -- For fork
+  forkᴿ :  Expr ∞ T →  Redex (◸ ⊤)
   -- For 🞰
   🞰ᴿ_ :  Addr →  Redex T
   -- For ←
@@ -165,6 +167,7 @@ val/ktxred (e ⁏ e') =  ĩ₁ body
   body  with val/ktxred e
   … | ĩ₀ v =  •ᴷ ᴷ| v ⁏ᴿ e'
   … | ĩ₁ (K ᴷ| red) =  K ⁏ᴷ e' ᴷ| red
+val/ktxred (fork e) =  ĩ₁ (•ᴷ ᴷ| forkᴿ e)
 val/ktxred (🞰 e) =  ĩ₁ body
  where
   body :  Ktxred _

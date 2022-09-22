@@ -24,8 +24,8 @@ open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syn
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ᴸ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
   V⇒E; TyVal; ⊤ṽ)
-open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; 🞰ᴿ_; _←ᴿ_; allocᴿ;
-  freeᴿ; Ktx; _ᴷ◁_; _ᴷ|_; Val/Ktxred; val/ktxred)
+open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_; _←ᴿ_;
+  allocᴿ; freeᴿ; Ktx; _ᴷ◁_; _ᴷ|_; Val/Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- WpKind :  Weakest precondion kind
@@ -448,6 +448,12 @@ data  _⊢[_]*_  where
 
   hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩[ wκ ]  Q˙
+
+  -- Thread forking
+
+  hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
+              P  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
+              P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| forkᴿ e) ⟩[ wκ ]  Q˙
 
   ------------------------------------------------------------------------------
   -- On the memory

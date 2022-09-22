@@ -107,6 +107,9 @@ data  Expr ι  where
   -- We need this (apart from λ˙ and ◁) to support the case where T is non-pure
   _⁏_ :  Expr ι T →  Expr ι U →  Expr ι U
 
+  -- Fork a new thread
+  fork :  Expr ι (◸ ⊤) →  Expr ι (◸ ⊤)
+
   -- Read from the memory
   🞰_ :  Expr ι (◸ Addr) →  Expr ι T
 

@@ -16,7 +16,7 @@ open import Base.Eq using (_≡_; refl)
 open import Agda.Builtin.Maybe public using () renaming (
   -- Option type
   -- ¿_ :  Set ł →  Set ł
-  Maybe to infix 0 ¿_;
+  Maybe to infix 8 ¿_;
   -- Some
   -- š_ :  A →  ¿ A
   just to infix 8 š_;

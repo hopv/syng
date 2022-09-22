@@ -1,7 +1,7 @@
 # Syho
 
-**Syho** is a **separation logic** with **syntactically higher-order ghost
-states**.
+**Syho** is a **concurrent separation logic** with **syntactically higher-order
+ghost states**.
 
 Syho supports **higher-order ghost states** (or **impredicative resources**),
 bringing powerful expressivity, just like an existing separation logic

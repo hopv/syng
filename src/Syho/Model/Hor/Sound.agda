@@ -19,10 +19,10 @@ open import Syho.Logic.Core using (_»_; ∃₁-elim)
 open import Syho.Logic.Ind using (↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use)
 open import Syho.Logic.Hor using (_⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-ṡ;
   _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ; hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶; hor-◁;
-  hor-⁏)
+  hor-⁏; hor-fork)
 open import Syho.Logic.Mem using (hor-🞰; hor-←; hor-alloc; hor-free)
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out;
-  [∗ᵒ∈ⁱ⟨⟩]-syntax)
+  [∗ᵒ∈ⁱ⟨⟩]-syntax; ∗ᵒ-mono)
 open import Syho.Model.Prop.Mem using (_↦ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
@@ -30,10 +30,11 @@ open import Syho.Model.Supd.Ind using (↪⟨⟩ᴾᵒ-use; ↪⟨⟩ᵀᵒ-use)
 open import Syho.Model.Supd.Interp using (⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⇛ᵒ-eatˡ)
 open import Syho.Model.Supd.Sound using (⊢⇛-sem)
 open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⁺⟨⟩ᴾᵒ-val;
-  ⁺⟨⟩ᵀᵒ-val; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᵀᵒ-mono; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ; ⇛ᵒ-⁺⟨⟩ᴾᵒ; ⇛ᵒ-⁺⟨⟩ᵀᵒ;
-  ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ; ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ-⇛ᵒ; ⁺⟨⟩ᵀᵒ-⇛ᵒ; ⁺⟨⟩ᴾᵒ-eatˡ; ⁺⟨⟩ᵀᵒ-eatˡ)
+  ⁺⟨⟩ᵀᵒ-val; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᵀᵒ-mono; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ;
+  ⇛ᵒ-⁺⟨⟩ᴾᵒ; ⇛ᵒ-⁺⟨⟩ᵀᵒ; ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ; ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ-⇛ᵒ; ⁺⟨⟩ᵀᵒ-⇛ᵒ; ⁺⟨⟩ᴾᵒ-eatˡ;
+  ⁺⟨⟩ᵀᵒ-eatˡ)
 open import Syho.Model.Hor.Lang using (⟨⟩ᴾᵒ-bind; ⟨⟩ᵀᵒ-bind; ⁺⟨⟩ᴾᵒ-nd; ⁺⟨⟩ᵀᵒ-nd;
-  ⁺⟨⟩ᴾᵒ-▶; ⁺⟨⟩ᵀᵒ-▶; ⁺⟨⟩ᴾᵒ-◁; ⁺⟨⟩ᵀᵒ-◁; ⁺⟨⟩ᴾᵒ-⁏; ⁺⟨⟩ᵀᵒ-⁏)
+  ⁺⟨⟩ᴾᵒ-▶; ⁺⟨⟩ᵀᵒ-▶; ⁺⟨⟩ᴾᵒ-◁; ⁺⟨⟩ᵀᵒ-◁; ⁺⟨⟩ᴾᵒ-⁏; ⁺⟨⟩ᵀᵒ-⁏; ⁺⟨⟩ᴾᵒ-fork; ⁺⟨⟩ᵀᵒ-fork)
 open import Syho.Model.Hor.Mem using (⁺⟨⟩ᴾᵒ-🞰; ⁺⟨⟩ᵀᵒ-🞰; ⁺⟨⟩ᴾᵒ-←; ⁺⟨⟩ᵀᵒ-←;
   ⁺⟨⟩ᴾᵒ-alloc; ⁺⟨⟩ᵀᵒ-alloc; ⁺⟨⟩ᴾᵒ-free; ⁺⟨⟩ᵀᵒ-free)
 
@@ -143,6 +144,13 @@ abstract
 
   ⊢⁺⟨⟩ᵀ-sem (hor-⁏ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-⁏
 
+  -- hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  R˙  →
+  --             Q  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
+  --             P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| forkᴿ e) ⟩[ wκ ]  R˙
+
+  ⊢⁺⟨⟩ᵀ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
+    ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) › ⁺⟨⟩ᵀᵒ-fork
+
   -- hor-🞰 :  θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ i ]  Q˙  →
   --          θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| 🞰ᴿ θ) ⟩ᵀ[ i ]  Q˙
 
@@ -245,6 +253,13 @@ abstract
   --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-⁏ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᴾᵒ-⁏
+
+  -- hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  R˙  →
+  --             Q  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
+  --             P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| forkᴿ e) ⟩[ wκ ]  R˙
+
+  ⊢⁺⟨⟩ᴾ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
+    ∗ᵒ-mono (⊢⁺⟨⟩ᴾ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᴾ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤) › ⁺⟨⟩ᴾᵒ-fork
 
   -- hor-🞰 :  θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  Q˙  →
   --          θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| 🞰ᴿ θ) ⟩ᴾ  Q˙

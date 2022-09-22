@@ -12,7 +12,7 @@ open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
 open import Base.Acc using (Acc; acc; acc-sub)
 open import Base.Option using (¿_; š_; ň)
-open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_)
+open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_; uncurry)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; ≟-refl)
 open import Base.Inh using (Inh; any)
@@ -361,15 +361,15 @@ data  List⁺ (A : Set ł) :  Set ł  where
   -- Cons
   _∷⁺_ :  A →  List⁺ A →  List⁺ A
 
--- Conversion between List⁺ and List
+-- Conversion between List⁺ A and A × List A
 
-List⁺⇒List :  List⁺ A →  List A
-List⁺⇒List [ a ]⁺ =  [ a ]
-List⁺⇒List (a ∷⁺ as) =  a ∷ List⁺⇒List as
+List⁺⇒×List :  List⁺ A →  A × List A
+List⁺⇒×List [ a ]⁺ =  a , []
+List⁺⇒×List (a ∷⁺ as) =  a , uncurry _∷_ $ List⁺⇒×List as
 
-List⇒List⁺ :  A →  List A →  List⁺ A
-List⇒List⁺ a [] =  [ a ]⁺
-List⇒List⁺ a (b ∷ bs) =  a ∷⁺ List⇒List⁺ b bs
+⇒List⇒List⁺ :  A →  List A →  List⁺ A
+⇒List⇒List⁺ a [] =  [ a ]⁺
+⇒List⇒List⁺ a (b ∷ bs) =  a ∷⁺ ⇒List⇒List⁺ b bs
 
 --------------------------------------------------------------------------------
 -- ≺ᴰᴹ⟨ ⟩ :  Dershowitz–Manna relation on List A

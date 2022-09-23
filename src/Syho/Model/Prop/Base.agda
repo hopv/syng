@@ -348,6 +348,19 @@ syntax [∗ᵒ∈ⁱ]-syntax (λ ix → Pᵒ) xs =  [∗ᵒ ix ∈ⁱ xs ] Pᵒ
 syntax [∗ᵒ∈ⁱ⟨⟩]-syntax (λ ix → Pᵒ) k xs =  [∗ᵒ ix ∈ⁱ⟨ k ⟩ xs ] Pᵒ
 
 --------------------------------------------------------------------------------
+-- [∗ᵒ∈²] :  Iterated separating conjunction over two lists
+
+infix 8 [∗ᵒ∈²]-syntax
+[∗ᵒ∈²] [∗ᵒ∈²]-syntax :
+  (X × Y →  Propᵒ ł) →  List X →  List Y →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ∈²] P˙ (x ∷ xs) (y ∷ ys) =  P˙ (x , y) ∗ᵒ [∗ᵒ∈²] P˙ xs ys
+[∗ᵒ∈²] _ [] [] =  ⊤ᵒ
+[∗ᵒ∈²] _ _ _ =  ⊥ᵒ
+[∗ᵒ∈²]-syntax =  [∗ᵒ∈²]
+
+syntax [∗ᵒ∈²]-syntax (λ xy → Pᵒ) xs ys =  [∗ᵒ xy ∈² xs , ys ] Pᵒ
+
+--------------------------------------------------------------------------------
 -- -∗ᵒ :  Semantic magic wand
 
 infixr 5 _-∗ᵒ'_ _-∗ᵒ_

@@ -89,14 +89,14 @@ abstract
 --------------------------------------------------------------------------------
 -- Uniqueness of identity proofs
 
--- UIP A :  a ≡ a' has a unique element for any a, a': A
+-- UIP A :  Uniqueness of identity proofs for A
 
 record  UIP (A : Set ł) :  Set ł  where
-  -- Construct UIP
+  -- Construct UIP A
   constructor uip
 
   field
-    -- Any two elements of a ≡ a' are equal
+    -- Any two elements of a ≡ a' are equal for a, a' : A
     eq≡ :  ∀{a a' : A} (eq eq' : a ≡ a') →  eq ≡ eq'
 
 open UIP {{…}} public

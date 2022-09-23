@@ -80,21 +80,14 @@ abstract
 --------------------------------------------------------------------------------
 -- Reduction
 
--- Thrpool T :  Thread pool, consisting of the head thread Expr ∞ T and
---              the tail threads List (Expr ∞ (◸ ⊤))
-
-Thrpool :  Type →  Set₁
-Thrpool T =  Expr ∞ T  ×  List (Expr ∞ (◸ ⊤))
-
 private variable
   T U :  Type
   X :  Set₀
-  e e' e'' :  Expr ∞ T
+  e₀ e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
   e˙ :  X → Expr ∞ T
   eˇ :  ¿ Expr ∞ (◸ ⊤)
-  es es' :  List (Expr ∞ (◸ ⊤))
-  tp tp' tp'' :  Thrpool T
+  es es' es'' :  List (Expr ∞ (◸ ⊤))
   K :  Ktx T U
   red : Redex T
   x :  X
@@ -151,14 +144,15 @@ data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × 
 
 -- ⇒ᵀ :  Reduction of a thread list
 
-data  _⇒ᵀ_ :  Thrpool T × Mem →  Thrpool T × Mem →  Set₁  where
+data  _⇒ᵀ_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
+              Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₁  where
   -- Reduce the head thread
   redᵀ-hd :  (e , M) ⇒ᴱ (e' , eˇ , M') →
-             ((e , es) , M) ⇒ᵀ ((e' , ¿-case (_∷ es) es eˇ) , M')
+             (e , es , M) ⇒ᵀ (e' , ¿-case (_∷ es) es eˇ , M')
 
   -- Continue to the tail threads
-  redᵀ-tl :  ((e' , es) , M) ⇒ᵀ ((e'' , es') , M') →
-             ((e , e' ∷ es) , M) ⇒ᵀ ((e , e'' ∷ es') , M')
+  redᵀ-tl :  (e , es , M) ⇒ᵀ (e' , es' , M') →
+             (e₀ , e ∷ es , M) ⇒ᵀ (e₀ , e' ∷ es' , M')
 
 -- ⇐ᴷᴿ, ⇐ᴱ, ⇐ᵀ :  Flipped ⇒ᴷᴿ, ⇒ᴱ, ⇒ᵀ
 
@@ -168,7 +162,8 @@ _⇐ᴷᴿ_ =  flip _⇒ᴷᴿ_
 _⇐ᴱ_ :  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Expr ∞ T × Mem →  Set₁
 _⇐ᴱ_ =  flip _⇒ᴱ_
 
-_⇐ᵀ_ :  Thrpool T × Mem →  Thrpool T × Mem →  Set₁
+_⇐ᵀ_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
+        Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₁
 _⇐ᵀ_ =  flip _⇒ᵀ_
 
 -- ⇒ᴷᴿ∑ :  A contex-redex pair is reducible
@@ -182,11 +177,13 @@ redM ⇒ᴷᴿ∑ =  ∑ e'M' , redM ⇒ᴷᴿ e'M'
 
 infix 4 _⇒ᵀ*_
 
-data  _⇒ᵀ*_ :  Thrpool T × Mem →  Thrpool T × Mem →  Set₁  where
+data  _⇒ᵀ*_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
+               Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₁  where
 
   -- End reduction
-  ⇒ᵀ*-refl :  (tp , M) ⇒ᵀ* (tp , M)
+  ⇒ᵀ*-refl :  (e , es , M) ⇒ᵀ* (e , es , M)
 
   -- Continue reduction
-  ⇒ᵀ*-step :  (tp , M) ⇒ᵀ (tp' , M') →  (tp' , M') ⇒ᵀ* (tp'' , M'') →
-              (tp , M) ⇒ᵀ* (tp'' , M'')
+  ⇒ᵀ*-step :  (e , es , M) ⇒ᵀ (e' , es' , M') →
+              (e' , es' , M') ⇒ᵀ* (e'' , es'' , M'') →
+              (e , es , M) ⇒ᵀ* (e'' , es'' , M'')

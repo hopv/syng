@@ -13,8 +13,8 @@ open import Syho.Logic.Prop using (Prop'; _∗_; ⤇_)
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∗-comm; ⤇-intro)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_;
-  ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
+open import Syho.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; ⇛-ṡ;
+  ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
 
 private variable
   ι :  Size

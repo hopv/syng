@@ -113,10 +113,10 @@ abstract
 
   const⇒UIP :  ∀{k : ∀{a a' : A} → a ≡ a' → a ≡ a'} →
     (∀{a a'} (eq eq' : a ≡ a') → k eq ≡ k eq') →  UIP A
-  const⇒UIP {k = k} k-const .eq≡ _ _ =
-    ◠ ◠kr◇k≡ ◇ cong (◠ k _ ◇_) (k-const _ _) ◇ ◠kr◇k≡
+  const⇒UIP {k = k} k-const .eq≡ eq eq' =
+    ◠ ◠kr◇k≡ eq ◇ cong (◠ k refl ◇_) (k-const eq eq') ◇ ◠kr◇k≡ eq'
    where
     ◠◇-refl :  (eq : a ≡ a') →  (◠ eq ◇ eq) ≡ refl
     ◠◇-refl refl =  refl
-    ◠kr◇k≡ :  ∀{eq : a ≡ a'} →  (◠ k refl ◇ k eq) ≡ eq
-    ◠kr◇k≡ {eq = refl} =  ◠◇-refl (k refl)
+    ◠kr◇k≡ :  (eq : a ≡ a') →  (◠ k refl ◇ k eq) ≡ eq
+    ◠kr◇k≡ refl =  ◠◇-refl (k refl)

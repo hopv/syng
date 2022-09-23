@@ -67,6 +67,8 @@ record  Size₀ :  Set₀  where
   field
     sz⁻¹ :  Size
 
+open Size₀ public
+
 --------------------------------------------------------------------------------
 -- <ˢ :  Well-founded order on Size₀
 

@@ -33,39 +33,32 @@ infix 4 _≢_
 _≢_ :  ∀{A : Set ł} →  A →  A →  Set ł
 x ≢ y =  ¬  x ≡ y
 
-abstract
+-- Congruence
 
-  -- Congruence
+cong :  ∀(f : A → B) {a a'} →  a ≡ a' →  f a ≡ f a'
+cong f refl =  refl
 
-  cong :  ∀(f : A → B) {a a'} →  a ≡ a' →  f a ≡ f a'
-  cong f refl =  refl
+cong₂ :  ∀(f : A → B → C) {a a' b b'} →  a ≡ a' →  b ≡ b' →  f a b ≡ f a' b'
+cong₂ f refl refl =  refl
 
-  cong₂ :  ∀(f : A → B → C) {a a' b b'} →  a ≡ a' →  b ≡ b' →  f a b ≡ f a' b'
-  cong₂ f refl refl =  refl
+-- ≡ is symmetric and transitive
 
-  -- ≡ is symmetric and transitive
+infix 0 ◠_
+◠_ :  a ≡ a' →  a' ≡ a
+◠ refl =  refl
 
-  infix 0 ◠_
-  ◠_ :  a ≡ a' →  a' ≡ a
-  ◠ refl =  refl
+infixr -1 _◇_
+_◇_ :  a ≡ a' →  a' ≡ a'' →  a ≡ a''
+refl ◇ eq =  eq
 
-  infixr -1 _◇_
-  _◇_ :  a ≡ a' →  a' ≡ a'' →  a ≡ a''
-  refl ◇ eq =  eq
+-- Substitution
 
-  -- Clever lemma used later for const⇒UIP
+subst :  ∀(F : A → Set ł) {a a'} →  a ≡ a' →  F a →  F a'
+subst _ refl Fa =  Fa
 
-  ◠◇-refl :  ∀{a a' : A} (eq : a ≡ a') →  (◠ eq ◇ eq) ≡ refl
-  ◠◇-refl refl =  refl
-
-  -- Substitution
-
-  subst :  ∀(F : A → Set ł) {a a'} →  a ≡ a' →  F a →  F a'
-  subst _ refl Fa =  Fa
-
-  subst₂ :  ∀(F : A → B → Set ł) {a a' b b'} →
-    a ≡ a' →  b ≡ b' →  F a b →  F a' b'
-  subst₂ _ refl refl Fab =  Fab
+subst₂ :  ∀(F : A → B → Set ł) {a a' b b'} →
+  a ≡ a' →  b ≡ b' →  F a b →  F a' b'
+subst₂ _ refl refl Fab =  Fab
 
 --------------------------------------------------------------------------------
 -- ≡˙ :  Extentional equality of functions
@@ -111,5 +104,7 @@ abstract
   const⇒UIP {k = k} k-const _ _ =
     ◠ ◠kr◇k≡ ◇ cong (◠ k _ ◇_) (k-const _ _) ◇ ◠kr◇k≡
    where
+    ◠◇-refl :  (eq : a ≡ a') →  (◠ eq ◇ eq) ≡ refl
+    ◠◇-refl refl =  refl
     ◠kr◇k≡ :  ∀{eq : a ≡ a'} →  (◠ k refl ◇ k eq) ≡ eq
     ◠kr◇k≡ {eq = refl} =  ◠◇-refl (k refl)

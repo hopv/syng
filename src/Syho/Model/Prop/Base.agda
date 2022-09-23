@@ -811,6 +811,20 @@ abstract
   Shrunkᵒ-Mono :  (∀{ι} → Monoᵒ $ Pᵒᶥ ι) →  Monoᵒ $ Shrunkᵒ Pᵒᶥ ι
   Shrunkᵒ-Mono MonoP a⊑b (§ Pa) =  § MonoP a⊑b Pa
 
+  -- Monotonicity of Thunkᵒ/Shrunkᵒ
+
+  Thunkᵒ-mono :  (∀{ι} → Pᵒᶥ ι ⊨ Qᵒᶥ ι) →  Thunkᵒ Pᵒᶥ ι ⊨ Thunkᵒ Qᵒᶥ ι
+  Thunkᵒ-mono Pι⊨Qι TPa .! =  Pι⊨Qι $ TPa .!
+
+  Thunkᵒ-mono✓ :  (∀{ι} → Pᵒᶥ ι ⊨✓ Qᵒᶥ ι) →  Thunkᵒ Pᵒᶥ ι ⊨✓ Thunkᵒ Qᵒᶥ ι
+  Thunkᵒ-mono✓ Pι⊨✓Qι E✓a TPa .! =  Pι⊨✓Qι E✓a $ TPa .!
+
+  Shrunkᵒ-mono :  (∀{ι} → Pᵒᶥ ι ⊨ Qᵒᶥ ι) →  Shrunkᵒ Pᵒᶥ ι ⊨ Shrunkᵒ Qᵒᶥ ι
+  Shrunkᵒ-mono Pι⊨Qι (§ Pa) =  § Pι⊨Qι Pa
+
+  Shrunkᵒ-mono✓ :  (∀{ι} → Pᵒᶥ ι ⊨✓ Qᵒᶥ ι) →  Shrunkᵒ Pᵒᶥ ι ⊨✓ Shrunkᵒ Qᵒᶥ ι
+  Shrunkᵒ-mono✓ Pι⊨✓Qι E✓a (§ Pa) =  § Pι⊨✓Qι E✓a Pa
+
   -- Pull Thunkᵒ/Shrunkᵒ out of ∗ᵒ
 
   ∗ᵒThunkᵒ-out :  Pᵒ ∗ᵒ Thunkᵒ Qᵒᶥ ι  ⊨  Thunkᵒ (λ ι → Pᵒ ∗ᵒ Qᵒᶥ ι) ι

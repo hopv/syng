@@ -103,6 +103,11 @@ open UIP {{…}} public
 
 abstract
 
+  -- An element of a ≡ a for a : A is only refl if A satisfies UIP
+
+  ≡refl :  {{UIP A}} →  ∀{a : A} (eq : a ≡ a) →  eq ≡ refl
+  ≡refl eq =  eq≡ eq refl
+
   -- If there is a constant function k from a ≡ a' to a ≡ a' for any a, a': A,
   -- then A satisfies UIP
 

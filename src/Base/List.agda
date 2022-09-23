@@ -395,10 +395,10 @@ as ≺ᴰᴹ⟨ _≺_ ⟩ bs =  DM _≺_ as bs
 data  DM _≺_  where
 
   -- Add elements less than the head to the tail
-  ≺ᴰᴹ-head :  Aug (_≺ a) as bs →  bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
+  ≺ᴰᴹ-hd :  Aug (_≺ a) as bs →  bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
 
   -- Keep the head and continue to the tail
-  ≺ᴰᴹ-tail :  bs ≺ᴰᴹ⟨ _≺_ ⟩ as →  a ∷ bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
+  ≺ᴰᴹ-tl :  bs ≺ᴰᴹ⟨ _≺_ ⟩ as →  a ∷ bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
 
 abstract
 
@@ -416,9 +416,8 @@ abstract
           Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →
           (∀{bs} →  bs ≺ᴰᴹ⟨ _≺_ ⟩ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ bs)) →
           Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
-    fo {a = a} {as} big accas <as⇒acca∷ =  acc λ{
-      (≺ᴰᴹ-tail bs'<as) →  <as⇒acca∷ bs'<as;
-      (≺ᴰᴹ-head augbs) →  eo augbs }
+    fo {a = a} {as} big accas <as⇒acca∷ =  acc
+      λ{ (≺ᴰᴹ-tl bs'<as) → <as⇒acca∷ bs'<as; (≺ᴰᴹ-hd augbs) → eo augbs }
      where
       eo :  Aug (_≺ a) as bs →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ bs
       eo aug-refl =  accas
@@ -445,6 +444,6 @@ abstract
   -- then every element of as is accessible w.r.t. ≺
 
   ≺ᴰᴹ-acc-inv :  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  a ∈ᴸ as →  Acc _≺_ a
-  ≺ᴰᴹ-acc-inv accas ∈ʰᵈ =  acc-sub (λ a≺b → ≺ᴰᴹ-head $ aug-∷ a≺b aug-refl) accas
+  ≺ᴰᴹ-acc-inv accas ∈ʰᵈ =  acc-sub (λ a≺b → ≺ᴰᴹ-hd $ aug-∷ a≺b aug-refl) accas
   ≺ᴰᴹ-acc-inv (acc ≺as⇒acc) (∈ᵗˡ a∈as') =
-    ≺ᴰᴹ-acc-inv (≺as⇒acc $ ≺ᴰᴹ-head aug-refl) a∈as'
+    ≺ᴰᴹ-acc-inv (≺as⇒acc $ ≺ᴰᴹ-hd aug-refl) a∈as'

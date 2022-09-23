@@ -125,52 +125,52 @@ abstract
     ⁺⟨⟩ᵀᵒ-mono (λ v → ⊢⁺⟨⟩ᵀ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᵀᵒ-bind
 
   -- hor-nd :  {{Inh X}} →  (∀(x : X) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᵀ[ i ]  Q˙)  →
-  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| ndᴿ) ⟩ᵀ[ i ]  Q˙
+  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-nd P⊢⟨Kx⟩Q) Pa =  ⁺⟨⟩ᵀᵒ-nd λ x → Pa ▷ ⊢⁺⟨⟩ᵀ-sem (P⊢⟨Kx⟩Q x)
 
   -- horᵀ-▶ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e˂ .! ⟩ᵀ[ i ]  Q˙  →
-  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| ▶ᴿ e˂) ⟩ᵀ[ i ]  Q˙
+  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (horᵀ-▶ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-▶
 
   -- hor-◁ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e˙ x ⟩ᵀ[ i ]  Q˙  →
-  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| e˙ ◁ᴿ x) ⟩ᵀ[ i ]  Q˙
+  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-◁ P⊢⟨Kex⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Kex⟩Q › ⁺⟨⟩ᵀᵒ-◁
 
   -- hor-⁏ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e ⟩ᵀ[ i ]  Q˙  →
-  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩ᵀ[ i ]  Q˙
+  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-⁏ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-⁏
 
   -- hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  R˙  →
   --             Q  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
-  --             P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| forkᴿ e) ⟩[ wκ ]  R˙
+  --             P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ wκ ]  R˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
     ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) › ⁺⟨⟩ᵀᵒ-fork
 
   -- hor-🞰 :  θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ i ]  Q˙  →
-  --          θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| 🞰ᴿ θ) ⟩ᵀ[ i ]  Q˙
+  --          θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , 🞰ᴿ θ) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-🞰 θ↦v∗P⊢⟨Kv⟩Q) =  ⁺⟨⟩ᵀᵒ-🞰 $ ⊢⁺⟨⟩ᵀ-sem θ↦v∗P⊢⟨Kv⟩Q
 
   -- hor-← :  θ ↦ (-, v)  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᵀ[ i ]  Q˙  →
-  --          θ ↦ ᵗu  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| θ ←ᴿ v) ⟩ᵀ[ i ]  Q˙
+  --          θ ↦ ᵗu  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , θ ←ᴿ v) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-← θ↦v∗P⊢⟨K⟩Q) =  ⁺⟨⟩ᵀᵒ-← $ ⊢⁺⟨⟩ᵀ-sem θ↦v∗P⊢⟨K⟩Q
 
   -- hor-alloc :
   --   (∀ θ →
   --     θ ↦ᴸ rep n ⊤ṽ  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ θ ⟩ᵀ[ i ]  Q˙)  →
-  --   P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| allocᴿ n) ⟩ᵀ[ i ]  Q˙
+  --   P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-alloc {n = n} θ↦∗Free∗P⊢⟨Kθ⟩Q) =  ⁺⟨⟩ᵀᵒ-alloc λ θ →
     ∗ᵒ-monoˡ (↦ᴸᵒ⇒↦ᴸ {ᵗvs = rep n _}) › ⊢⁺⟨⟩ᵀ-sem (θ↦∗Free∗P⊢⟨Kθ⟩Q θ)
 
   -- hor-free :  len ᵗvs ≡ n  →   P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᵀ[ i ]  Q˙  →
-  --   θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| freeᴿ θ) ⟩ᵀ[ i ]  Q˙
+  --   θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-free {ᵗvs} lenvs≡n P⊢⟨K⟩Q) =
     ∗ᵒ-monoˡ (↦ᴸ⇒↦ᴸᵒ {ᵗvs = ᵗvs}) › ⁺⟨⟩ᵀᵒ-free lenvs≡n (⊢⁺⟨⟩ᵀ-sem P⊢⟨K⟩Q)
@@ -235,51 +235,51 @@ abstract
     ⁺⟨⟩ᴾᵒ-mono (λ v → ⊢⁺⟨⟩ᴾ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᴾᵒ-bind
 
   -- hor-nd :  {{Inh X}} →  (∀(x : X) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᴾ  Q˙)  →
-  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| ndᴿ) ⟩ᴾ  Q˙
+  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-nd P⊢⟨Kx⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-nd λ x → Pa ▷ ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Kx⟩Q x)
 
   -- horᴾ-▶ :  P  ⊢[< ∞ ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
-  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| ▶ᴿ e˂) ⟩ᴾ  Q˙
+  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (horᴾ-▶ P⊢⟨Ke⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-▶ λ{ .! → ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Ke⟩Q .!) Pa }
 
   -- hor-◁ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e˙ x ⟩ᴾ  Q˙  →
-  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| e˙ ◁ᴿ x) ⟩ᴾ  Q˙
+  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-◁ P⊢⟨Kex⟩Q) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨Kex⟩Q › ⁺⟨⟩ᴾᵒ-◁
 
   -- hor-⁏ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e ⟩ᴾ  Q˙  →
-  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩ᴾ  Q˙
+  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-⁏ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᴾᵒ-⁏
 
   -- hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  R˙  →
   --             Q  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
-  --             P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| forkᴿ e) ⟩[ wκ ]  R˙
+  --             P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ wκ ]  R˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
     ∗ᵒ-mono (⊢⁺⟨⟩ᴾ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᴾ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤) › ⁺⟨⟩ᴾᵒ-fork
 
   -- hor-🞰 :  θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  Q˙  →
-  --          θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| 🞰ᴿ θ) ⟩ᴾ  Q˙
+  --          θ ↦⟨ p ⟩ (-, -, v)  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K , 🞰ᴿ θ) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-🞰 θ↦v∗P⊢⟨Kv⟩Q) =  ⁺⟨⟩ᴾᵒ-🞰 $ ⊢⁺⟨⟩ᴾ-sem θ↦v∗P⊢⟨Kv⟩Q
 
   -- hor-← :  θ ↦ (-, v)  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  Q˙  →
-  --          θ ↦ ᵗu  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| θ ←ᴿ v) ⟩ᴾ  Q˙
+  --          θ ↦ ᵗu  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , θ ←ᴿ v) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-← θ↦v∗P⊢⟨K⟩Q) =  ⁺⟨⟩ᴾᵒ-← $ ⊢⁺⟨⟩ᴾ-sem θ↦v∗P⊢⟨K⟩Q
 
   -- hor-alloc :
   --   (∀ θ →  θ ↦ᴸ rep n ⊤ṽ  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ θ ⟩ᴾ  Q˙)  →
-  --   P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| allocᴿ n) ⟩ᴾ  Q˙
+  --   P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-alloc {n = n} θ↦∗Free∗P⊢⟨Kθ⟩Q) =  ⁺⟨⟩ᴾᵒ-alloc λ θ →
     ∗ᵒ-monoˡ (↦ᴸᵒ⇒↦ᴸ {ᵗvs = rep n _}) › ⊢⁺⟨⟩ᴾ-sem (θ↦∗Free∗P⊢⟨Kθ⟩Q θ)
 
   -- hor-free :  len ᵗvs ≡ n  →   P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  Q˙  →
-  --   θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (K ᴷ| freeᴿ θ) ⟩ᴾ  Q˙
+  --   θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-free {ᵗvs} lenvs≡n P⊢⟨K⟩Q) =
     ∗ᵒ-monoˡ (↦ᴸ⇒↦ᴸᵒ {ᵗvs = ᵗvs}) › ⁺⟨⟩ᴾᵒ-free lenvs≡n (⊢⁺⟨⟩ᴾ-sem P⊢⟨K⟩Q)

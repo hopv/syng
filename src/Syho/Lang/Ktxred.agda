@@ -107,11 +107,6 @@ freeᴷ K ᴷ∘ᴷ K' =  freeᴷ $ K ᴷ∘ᴷ K'
 Ktxred :  Type →  Set₁
 Ktxred T =  ∑ U , Ktx U T × Redex U
 
--- Pattern for Ktxred
-
-infix 0 _ᴷ|_
-pattern _ᴷ|_ K red =  -, K , red
-
 -- Type for either a value or a context-redex pair
 
 Val/Ktxred :  Type →  Set₁
@@ -151,49 +146,49 @@ abstract
 val/ktxred :  Expr ∞ T →  Val/Ktxred T
 val/ktxred (∇ x) =  ĩ₀ ṽ x
 val/ktxred (λ˙ e˙) =  ĩ₀ ṽ↷ e˙
-val/ktxred (▶ e˂) =  ĩ₁ (•ᴷ ᴷ| ▶ᴿ e˂)
-val/ktxred nd =  ĩ₁ (•ᴷ ᴷ| ndᴿ)
+val/ktxred (▶ e˂) =  ĩ₁ (-, •ᴷ , ▶ᴿ e˂)
+val/ktxred nd =  ĩ₁ (-, •ᴷ , ndᴿ)
 val/ktxred (e' ◁ e) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₁ (K ᴷ| red) =  e' ◁ᴷʳ K ᴷ| red
+  … | ĩ₁ (-, K , red) =  -, e' ◁ᴷʳ K , red
   … | ĩ₀ ṽ x  with val/ktxred e'
-  …   | ĩ₁ (K ᴷ| red) =  K ◁ᴷˡ x ᴷ| red
-  …   | ĩ₀ ṽ↷ v =  •ᴷ ᴷ| v ◁ᴿ x
+  …   | ĩ₁ (-, K , red) =  -, K ◁ᴷˡ x , red
+  …   | ĩ₀ ṽ↷ v =  -, •ᴷ , v ◁ᴿ x
 val/ktxred (e ⁏ e') =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₀ v =  •ᴷ ᴷ| v ⁏ᴿ e'
-  … | ĩ₁ (K ᴷ| red) =  K ⁏ᴷ e' ᴷ| red
-val/ktxred (fork e) =  ĩ₁ (•ᴷ ᴷ| forkᴿ e)
+  … | ĩ₀ v =  -, •ᴷ , v ⁏ᴿ e'
+  … | ĩ₁ (-, K , red) =  -, K ⁏ᴷ e' , red
+val/ktxred (fork e) =  ĩ₁ (-, •ᴷ , forkᴿ e)
 val/ktxred (🞰 e) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₁ (K ᴷ| red) =  🞰ᴷ K ᴷ| red
-  … | ĩ₀ ṽ θ =  •ᴷ ᴷ| 🞰ᴿ θ
+  … | ĩ₁ (-, K , red) =  -, 🞰ᴷ K , red
+  … | ĩ₀ ṽ θ =  -, •ᴷ , 🞰ᴿ θ
 val/ktxred (e' ← e) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₁ (K ᴷ| red) =  e' ←ᴷʳ K ᴷ| red
+  … | ĩ₁ (-, K , red) =  -, e' ←ᴷʳ K , red
   … | ĩ₀ v  with val/ktxred e'
-  …   | ĩ₁ (K ᴷ| red) =  K ←ᴷˡ v ᴷ| red
-  …   | ĩ₀ ṽ θ =  •ᴷ ᴷ| θ ←ᴿ v
+  …   | ĩ₁ (-, K , red) =  -, K ←ᴷˡ v , red
+  …   | ĩ₀ ṽ θ =  -, •ᴷ , θ ←ᴿ v
 val/ktxred (alloc e) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₁ (K ᴷ| red) =  allocᴷ K ᴷ| red
-  … | ĩ₀ ṽ n =  •ᴷ ᴷ| allocᴿ n
+  … | ĩ₁ (-, K , red) =  -, allocᴷ K , red
+  … | ĩ₀ ṽ n =  -, •ᴷ , allocᴿ n
 val/ktxred (free e) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₁ (K ᴷ| red) =  freeᴷ K ᴷ| red
-  … | ĩ₀ ṽ θ =  •ᴷ ᴷ| freeᴿ θ
+  … | ĩ₁ (-, K , red) =  -, freeᴷ K , red
+  … | ĩ₀ ṽ θ =  -, •ᴷ , freeᴿ θ
 
 abstract
 
@@ -211,8 +206,8 @@ abstract
 
   -- Calculate val/ktxred (K ᴷ◁ e)
 
-  val/ktxred-ktx :  val/ktxred e ≡ ĩ₁ kr →  let K' ᴷ| red = kr in
-                    val/ktxred (K ᴷ◁ e) ≡ ĩ₁ (K ᴷ∘ᴷ K' ᴷ| red)
+  val/ktxred-ktx :  val/ktxred e ≡ ĩ₁ kr →  let (-, K' , red) = kr in
+                    val/ktxred (K ᴷ◁ e) ≡ ĩ₁ (-, K ᴷ∘ᴷ K' , red)
   val/ktxred-ktx {K = •ᴷ} eq =  eq
   val/ktxred-ktx {e = e} {K = _ ◁ᴷʳ K} eq
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl

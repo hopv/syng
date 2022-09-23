@@ -14,8 +14,7 @@ open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
 open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ṽ_; ṽ↷_)
-open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _ᴷ|_;
-  Val/Ktxred)
+open import Syho.Lang.Ktxred using (ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; Val/Ktxred)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (WpKind; par; tot; ⁺⟨_⟩[_]_;
@@ -50,20 +49,20 @@ abstract
   -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  R˙
 
   -->  hor-nd :  {{Inh X}} →  (∀(x : X) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
-  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| ndᴿ) ⟩[ wκ ]  Q˙
+  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩[ wκ ]  Q˙
 
   -->  horᴾ-▶ :  P  ⊢[< ι ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
-  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| ▶ᴿ e˂) ⟩ᴾ  Q˙
+  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾ  Q˙
 
   -->  horᵀ-▶ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˂ .! ⟩ᵀ[ i ]  Q˙  →
-  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| ▶ᴿ e˂) ⟩ᵀ[ i ]  Q˙
+  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᵀ[ i ]  Q˙
 
   -->  hor-◁ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ wκ ]  Q˙  →
-  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| e˙ ◁ᴿ x) ⟩[ wκ ]  Q˙
+  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩[ wκ ]  Q˙
 
   -->  hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  R˙  →
   -->              Q  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
-  -->              P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| forkᴿ e) ⟩[ wκ ]  R˙
+  -->              P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ wκ ]  R˙
 
   -- Compose
 
@@ -97,7 +96,7 @@ abstract
   -- Sequential execution
 
   -->  hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
-  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (K ᴷ| v ⁏ᴿ e) ⟩[ wκ ]  Q˙
+  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩[ wκ ]  Q˙
 
   hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ wκ ]  R˙  →
                 P  ⊢[ ι ]⟨ e ⁏ e' ⟩[ wκ ]  R˙

@@ -20,7 +20,7 @@ open import Base.List using (List; _∷_; _‼_; upd; rep)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; ad; Expr; Expr˂; ∇_; Val;
   V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
-  _←ᴿ_; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; _ᴷ|_; val/ktxred)
+  _←ᴿ_; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- Memory
@@ -134,7 +134,8 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem
 -- ⇒ᴷᴿ :  Reduction of a context-redex pair
 
 data  _⇒ᴷᴿ_ :  Ktxred T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₁  where
-  redᴷᴿ :  (red , M) ⇒ᴿ (e' , eˇ , M') →  (K ᴷ| red , M) ⇒ᴷᴿ (K ᴷ◁ e' , eˇ , M')
+  redᴷᴿ :  (red , M) ⇒ᴿ (e' , eˇ , M') →
+           ((-, K , red) , M) ⇒ᴷᴿ (K ᴷ◁ e' , eˇ , M')
 
 -- ⇒ᴱ :  Reduction of an expression
 

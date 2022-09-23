@@ -45,6 +45,7 @@ private variable
   X Y :  Set ł
   Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
+  Psᵒ :  List (Propᵒ ł)
   a b :  Resᴳ
   b˙ :  X → Resᴳ
   E F G :  Envᴳ
@@ -53,6 +54,7 @@ private variable
   GPᵒ˙˙ :  X →  Y →  Envᴳ × Propᵒ ł
   f :  Y → X
   x y :  X
+  xs ys :  List X
   ι :  Size
   Pᵒᶥ Qᵒᶥ :  Size →  Propᵒ ł
 
@@ -347,6 +349,14 @@ syntax [∗ᵒ∈]-syntax (λ x → Pᵒ) xs =  [∗ᵒ x ∈ xs ] Pᵒ
 syntax [∗ᵒ∈ⁱ]-syntax (λ ix → Pᵒ) xs =  [∗ᵒ ix ∈ⁱ xs ] Pᵒ
 syntax [∗ᵒ∈ⁱ⟨⟩]-syntax (λ ix → Pᵒ) k xs =  [∗ᵒ ix ∈ⁱ⟨ k ⟩ xs ] Pᵒ
 
+abstract
+
+  -- Monoᵒ for [∗ᵒ]
+
+  [∗ᵒ]-Mono :  Monoᵒ $ [∗ᵒ] Psᵒ
+  [∗ᵒ]-Mono {Psᵒ = []} =  _
+  [∗ᵒ]-Mono {Psᵒ = _ ∷ _} =  ∗ᵒ-Mono
+
 --------------------------------------------------------------------------------
 -- [∗ᵒ∈²] :  Iterated separating conjunction over two lists
 
@@ -359,6 +369,14 @@ infix 8 [∗ᵒ∈²]-syntax
 [∗ᵒ∈²]-syntax =  [∗ᵒ∈²]
 
 syntax [∗ᵒ∈²]-syntax (λ xy → Pᵒ) xs ys =  [∗ᵒ xy ∈² xs , ys ] Pᵒ
+
+abstract
+
+  -- Monoᵒ for [∗ᵒ∈²]
+
+  [∗ᵒ∈²]-Mono :  Monoᵒ $ [∗ᵒ∈²] Pᵒ˙ xs ys
+  [∗ᵒ∈²]-Mono {xs = []} {[]} =  _
+  [∗ᵒ∈²]-Mono {xs = _ ∷ _} {_ ∷ _} =  ∗ᵒ-Mono
 
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Semantic magic wand

@@ -91,8 +91,15 @@ abstract
 
 -- UIP A :  a ≡ a' has a unique element for any a, a': A
 
-UIP :  Set ł →  Set ł
-UIP A =  ∀{a a' : A} (eq eq' : a ≡ a') →  eq ≡ eq'
+record  UIP (A : Set ł) :  Set ł  where
+  -- Construct UIP
+  constructor uip
+
+  field
+    -- Any two elements of a ≡ a' are equal
+    eq≡ :  ∀{a a' : A} (eq eq' : a ≡ a') →  eq ≡ eq'
+
+open UIP {{…}} public
 
 abstract
 
@@ -101,7 +108,7 @@ abstract
 
   const⇒UIP :  ∀{k : ∀{a a' : A} → a ≡ a' → a ≡ a'} →
     (∀{a a'} (eq eq' : a ≡ a') → k eq ≡ k eq') →  UIP A
-  const⇒UIP {k = k} k-const _ _ =
+  const⇒UIP {k = k} k-const .eq≡ _ _ =
     ◠ ◠kr◇k≡ ◇ cong (◠ k _ ◇_) (k-const _ _) ◇ ◠kr◇k≡
    where
     ◠◇-refl :  (eq : a ≡ a') →  (◠ eq ◇ eq) ≡ refl

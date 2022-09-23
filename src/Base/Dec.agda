@@ -9,7 +9,7 @@ module Base.Dec where
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _›_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
-open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; UIP; const⇒UIP)
+open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; UIP; eq≡; const⇒UIP)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.Option using (¿_; ň; š_)
@@ -139,7 +139,7 @@ inj⇒≡Dec {f = f} f-inj ._≟_ a a'  with f a ≟ f a'
 … | yes fa≡fa' =  yes $ f-inj fa≡fa'
 … | no fa≢fa' =  no λ{ refl → fa≢fa' refl }
 
-abstract
+instance abstract
 
   -- ≡Dec implies UIP
 
@@ -156,11 +156,13 @@ abstract
     … | no a≢b  with a≢b eq
     …   | ()
 
+abstract
+
   -- On the yes result of ≟
 
   ≡-≟ :  ∀{{_ : ≡Dec A}} {a b : A} (eq : a ≡ b) →  (a ≟ b) ≡ yes eq
   ≡-≟ {a = a} {b} eq  with a ≟ b
-  … | yes eq'  rewrite ≡Dec⇒UIP eq' eq =  refl
+  … | yes eq'  rewrite eq≡ eq' eq =  refl
   … | no a≢b  with a≢b eq
   …   | ()
 

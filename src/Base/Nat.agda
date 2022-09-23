@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
 open import Base.Acc using (Acc; acc; acc-sub)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; upd˙)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
 open import Base.Inh using (Inh; any)
 
 --------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ abstract
 instance
 
   ℕ-≡Dec :  ≡Dec ℕ
-  ℕ-≡Dec =  ≡dec _≟'_
+  ℕ-≡Dec ._≟_ =  _≟'_
    where
     infix 4 _≟'_
     _≟'_ :  ∀ a b →  Dec $ a ≡ b

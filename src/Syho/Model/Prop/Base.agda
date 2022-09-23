@@ -335,13 +335,13 @@ abstract
 
 infix 8 [∗ᵒ∈]-syntax [∗ᵒ∈ⁱ]-syntax [∗ᵒ∈ⁱ⟨⟩]-syntax
 [∗ᵒ∈] [∗ᵒ∈]-syntax :  (X → Propᵒ ł) →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
-[∗ᵒ∈] P˙ xs =  [∗ᵒ] $ P˙ $ᴸ xs
+[∗ᵒ∈] Pᵒ˙ xs =  [∗ᵒ] $ Pᵒ˙ $ᴸ xs
 [∗ᵒ∈]-syntax =  [∗ᵒ∈]
 [∗ᵒ∈ⁱ] [∗ᵒ∈ⁱ]-syntax :  (ℕ × X → Propᵒ ł) →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
-[∗ᵒ∈ⁱ] P˙ xs =  [∗ᵒ] $ curry P˙ $ⁱᴸ xs
+[∗ᵒ∈ⁱ] Pᵒ˙ xs =  [∗ᵒ] $ curry Pᵒ˙ $ⁱᴸ xs
 [∗ᵒ∈ⁱ]-syntax =  [∗ᵒ∈ⁱ]
 [∗ᵒ∈ⁱ⟨⟩] [∗ᵒ∈ⁱ⟨⟩]-syntax :  (ℕ × X → Propᵒ ł) →  ℕ →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
-[∗ᵒ∈ⁱ⟨⟩] P˙ k xs =  [∗ᵒ] $ curry P˙ $ⁱᴸ⟨ k ⟩ xs
+[∗ᵒ∈ⁱ⟨⟩] Pᵒ˙ k xs =  [∗ᵒ] $ curry Pᵒ˙ $ⁱᴸ⟨ k ⟩ xs
 [∗ᵒ∈ⁱ⟨⟩]-syntax =  [∗ᵒ∈ⁱ⟨⟩]
 syntax [∗ᵒ∈]-syntax (λ x → Pᵒ) xs =  [∗ᵒ x ∈ xs ] Pᵒ
 syntax [∗ᵒ∈ⁱ]-syntax (λ ix → Pᵒ) xs =  [∗ᵒ ix ∈ⁱ xs ] Pᵒ
@@ -353,7 +353,7 @@ syntax [∗ᵒ∈ⁱ⟨⟩]-syntax (λ ix → Pᵒ) k xs =  [∗ᵒ ix ∈ⁱ⟨
 infix 8 [∗ᵒ∈²]-syntax
 [∗ᵒ∈²] [∗ᵒ∈²]-syntax :
   (X × Y →  Propᵒ ł) →  List X →  List Y →  Propᵒ (2ᴸ ⊔ᴸ ł)
-[∗ᵒ∈²] P˙ (x ∷ xs) (y ∷ ys) =  P˙ (x , y) ∗ᵒ [∗ᵒ∈²] P˙ xs ys
+[∗ᵒ∈²] Pᵒ˙ (x ∷ xs) (y ∷ ys) =  Pᵒ˙ (x , y) ∗ᵒ [∗ᵒ∈²] Pᵒ˙ xs ys
 [∗ᵒ∈²] _ [] [] =  ⊤ᵒ
 [∗ᵒ∈²] _ _ _ =  ⊥ᵒ
 [∗ᵒ∈²]-syntax =  [∗ᵒ∈²]

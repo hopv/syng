@@ -8,6 +8,7 @@ module Base.Prod where
 
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (it)
+open import Base.Eq using (_≡_; refl; subst; UIP; ≡refl)
 
 --------------------------------------------------------------------------------
 -- Sigma type
@@ -31,6 +32,7 @@ private variable
   ł ł' :  Level
   A B C :  Set ł
   B˙ :  A →  Set ł
+  a  a' b b' :  A
 
 -- Syntax for ∑
 
@@ -51,6 +53,19 @@ abstract
 
   ∑-case :  (∀ a →  B˙ a → C) →  ∑˙ A B˙ →  C
   ∑-case Ba⇒C (a , b) =  Ba⇒C a b
+
+  -- Destruct equality on a dependent pair
+
+  ≡∑⇒π₀≡π₁≡ :  _≡_ {A = ∑˙ A B˙} (a , b) (a' , b') →
+               ∑ eq ∈ a ≡ a' , subst B˙ eq b ≡ b'
+  ≡∑⇒π₀≡π₁≡ refl =  refl , refl
+
+  -- Destruct equality on a dependent pair of the same π₀,
+  -- assuming that π₀'s type satisfies UIP
+
+  ≡∑⇒π₁≡ :  {{UIP A}} →  _≡_ {A = ∑˙ A B˙} (a , b) (a , b') →  b ≡ b'
+  ≡∑⇒π₁≡ ab≡ab'  with ≡∑⇒π₀≡π₁≡ ab≡ab'
+  … | a≡a , b≡b'  rewrite ≡refl a≡a =  b≡b'
 
 --------------------------------------------------------------------------------
 -- Product type

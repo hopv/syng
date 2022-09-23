@@ -785,6 +785,14 @@ Shrunkᵒ Pᵒᶥ ι a =  Shrunk (λ ι' → Pᵒᶥ ι' a) ι
 
 abstract
 
+  -- Monoᵒ for Thunkᵒ/Shrunkᵒ
+
+  Thunkᵒ-Mono :  (∀{ι} → Monoᵒ $ Pᵒᶥ ι) →  Monoᵒ $ Thunkᵒ Pᵒᶥ ι
+  Thunkᵒ-Mono MonoP a⊑b TPa .! =  MonoP a⊑b $ TPa .!
+
+  Shrunkᵒ-Mono :  (∀{ι} → Monoᵒ $ Pᵒᶥ ι) →  Monoᵒ $ Shrunkᵒ Pᵒᶥ ι
+  Shrunkᵒ-Mono MonoP a⊑b (§ Pa) =  § MonoP a⊑b Pa
+
   -- Pull Thunkᵒ/Shrunkᵒ out of ∗ᵒ
 
   ∗ᵒThunkᵒ-out :  Pᵒ ∗ᵒ Thunkᵒ Qᵒᶥ ι  ⊨  Thunkᵒ (λ ι → Pᵒ ∗ᵒ Qᵒᶥ ι) ι

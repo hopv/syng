@@ -45,7 +45,7 @@ private variable
   X Y :  Set ł
   Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
-  Psᵒ :  List (Propᵒ ł)
+  Pᵒs :  List (Propᵒ ł)
   a b :  Resᴳ
   b˙ :  X → Resᴳ
   E F G :  Envᴳ
@@ -331,7 +331,7 @@ abstract
 
 [∗ᵒ] :  List (Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
 [∗ᵒ] [] =  ⊤ᵒ
-[∗ᵒ] (Pᵒ ∷ Psᵒ) =  Pᵒ ∗ᵒ [∗ᵒ] Psᵒ
+[∗ᵒ] (Pᵒ ∷ Pᵒs) =  Pᵒ ∗ᵒ [∗ᵒ] Pᵒs
 
 -- Syntax for [∗ᵒ] $ᴸ / $ⁱᴸ
 
@@ -353,9 +353,9 @@ abstract
 
   -- Monoᵒ for [∗ᵒ]
 
-  [∗ᵒ]-Mono :  Monoᵒ $ [∗ᵒ] Psᵒ
-  [∗ᵒ]-Mono {Psᵒ = []} =  _
-  [∗ᵒ]-Mono {Psᵒ = _ ∷ _} =  ∗ᵒ-Mono
+  [∗ᵒ]-Mono :  Monoᵒ $ [∗ᵒ] Pᵒs
+  [∗ᵒ]-Mono {Pᵒs = []} =  _
+  [∗ᵒ]-Mono {Pᵒs = _ ∷ _} =  ∗ᵒ-Mono
 
 --------------------------------------------------------------------------------
 -- [∗ᵒ∈²] :  Iterated separating conjunction over two lists

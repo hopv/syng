@@ -11,21 +11,15 @@ open import Base.Func using (_$_)
 open import Base.Few using (⊤; absurd)
 open import Base.Eq using (_≡_; refl; cong)
 open import Base.Size using (Size; ∞; Thunk; !)
-open import Base.Prod using (∑-syntax; _,_)
+open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Dec using (yes; no; ≡Dec; _≟_)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 
 --------------------------------------------------------------------------------
 -- Addr :  Address, pointing at a memory cell
 
-record  Addr :  Set₀  where
-  constructor ad
-  field
-    -- the memory block's id
-    bloᵃ :  ℕ
-    -- the index in the memory block
-    idxᵃ :  ℕ
-open Addr public
+Addr :  Set₀
+Addr =  ℕ × ℕ
 
 private variable
   θ :  Addr
@@ -35,22 +29,14 @@ private variable
 
 infixl 10 _ₒ_
 _ₒ_ :  Addr →  ℕ →  Addr
-ad o i ₒ n =  ad o (n + i)
+(o , i) ₒ n =  (o , n + i)
 
 abstract
 
   -- Associativity of ₒ
 
   ₒ-assoc :  θ ₒ m ₒ n ≡ θ ₒ (n + m)
-  ₒ-assoc {n = n} =  cong (ad _) (+-assocʳ {n})
-
-instance
-
-  Addr-≡Dec :  ≡Dec Addr
-  Addr-≡Dec ._≟_ (ad o i) (ad o' j)  with o ≟ o' | i ≟ j
-  ... | yes refl | yes refl =  yes refl
-  ... | no o≢o' | _ =  no λ{ refl → absurd $ o≢o' refl }
-  ... | _ | no i≢j =  no λ{ refl → absurd $ i≢j refl }
+  ₒ-assoc {o , _} {n = n} =  cong (o ,_) (+-assocʳ {n})
 
 --------------------------------------------------------------------------------
 -- Type :   Simple type for expressions

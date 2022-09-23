@@ -17,7 +17,7 @@ open import Base.Dec using (upd˙)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺)
-open import Syho.Lang.Expr using (Addr; ad; Type; ∇_; Val; V⇒E; TyVal; ⊤ṽ)
+open import Syho.Lang.Expr using (Addr; Type; ∇_; Val; V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Ktx; _ᴷ◁_; 🞰ᴿ_; _←ᴿ_; allocᴿ; freeᴿ)
 open import Syho.Lang.Reduce using (Mem; _‼ᴹ_; updᴹ; 🞰⇒; ←⇒; alloc⇒; free⇒;
   redᴷᴿ; ✓ᴹ-∑ň)

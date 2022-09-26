@@ -48,7 +48,7 @@ instance
 
   -- ¿ A is inhabited
 
-  ¿-Inh :  {{Inh A}} →  Inh $ ¿ A
+  ¿-Inh :  Inh $ ¿ A
   ¿-Inh .any =  ň
 
 -- A ⨿ B is inhabited if either A or B is inhabited

@@ -371,6 +371,13 @@ List⁺⇒×List (a ∷⁺ as) =  a , uncurry _∷_ $ List⁺⇒×List as
 ⇒List⇒List⁺ a [] =  [ a ]⁺
 ⇒List⇒List⁺ a (b ∷ bs) =  a ∷⁺ ⇒List⇒List⁺ b bs
 
+instance
+
+  -- List⁺ A is inhabited if A is inhabited
+
+  List⁺-Inh :  {{Inh A}} →  Inh $ List⁺ A
+  List⁺-Inh .any =  [ any ]⁺
+
 --------------------------------------------------------------------------------
 -- ≺ᴰᴹ⟨ ⟩ :  Dershowitz–Manna relation on List A
 

@@ -12,6 +12,7 @@ open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; refl˙)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_)
 open import Base.Dec using (yes; no; ≡Dec; _≟_)
+open import Base.Inh using (Inh; any)
 
 --------------------------------------------------------------------------------
 -- Zoi :  Zoi (zero, one, or infinity) number
@@ -61,6 +62,11 @@ instance
   Zoi-≡Dec ._≟_ 1ᶻ ∞ᶻ =  no λ ()
   Zoi-≡Dec ._≟_ ∞ᶻ 0ᶻ =  no λ ()
   Zoi-≡Dec ._≟_ ∞ᶻ 1ᶻ =  no λ ()
+
+  -- Zoi is inhabited
+
+  Zoi-Inh :  Inh Zoi
+  Zoi-Inh .any =  0ᶻ
 
 abstract
 

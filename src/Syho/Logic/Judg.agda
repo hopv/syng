@@ -247,13 +247,9 @@ data  _⊢[_]*_  where
 
   -- ∀ can get inside □
 
-  ---- This can work also for ∀₀
-
   □-∀-in :  ∀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀˙ P˙
 
   -- ∃ can get outside □
-
-  ---- This can work also for ∃₀
 
   □-∃-out :  □ ∃˙ P˙ ⊢[ ι ] ∃˙ (□_ ∘ P˙)
 

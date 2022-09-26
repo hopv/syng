@@ -199,7 +199,5 @@ instance
 
   -- For ⌜ ⌝
 
-  ---- This can work also for ⌜⌝
-
   ⌜⌝-Basic :  Basic ⌜ X ⌝
   ⌜⌝-Basic =  ∃-Basic λ _ → ⊤-Basic

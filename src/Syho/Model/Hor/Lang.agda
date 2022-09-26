@@ -50,8 +50,8 @@ abstract
   ⟨⟩ᴾᵒ-bind {e = e} {K = K} big  with val/ktxred e | val/ktxred-ĩ₀ {e = e} |
     val/ktxred-ktx {e = e}
   … | ĩ₀ _ | ⇒e≡v | _  rewrite ⇒e≡v refl =  big ▷ ⁺⟨⟩ᴾᵒ-val⁻¹ ▷ ⇛ᵒ-⁺⟨⟩ᴾᵒ
-  … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =  ⁺⟨⟩ᴾᵒ-kr
-    λ _ → ⁺⟨⟩ᴾᵒ-kr⁻¹ big _ ▷ ⇛ᵒ-mono λ{ ((-, redᴷᴿ redM⇒) , big) →
+  … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
+    ⁺⟨⟩ᴾᵒ-kr λ _ → ⁺⟨⟩ᴾᵒ-kr⁻¹ big _ ▷ ⇛ᵒ-mono λ{ ((-, redᴷᴿ redM⇒) , big) →
     (-, redᴷᴿ redM⇒) , λ{ _ _ _ (redᴷᴿ e'M'⇐redM) → big _ _ _ (redᴷᴿ e'M'⇐redM)
     ▷ ⇛ᵒ-mono $ ∗ᵒ-monoˡ λ big →
     λ{ .! {ι'} → big .! ▷ ⁺⟨⟩ᴾᵒ-mono (λ _ → ⁺⟨⟩ᴾᵒ-size) ▷
@@ -62,8 +62,8 @@ abstract
   ⟨⟩ᵀᵒ-bind {e = e} {K = K} big  with val/ktxred e | val/ktxred-ĩ₀ {e = e} |
     val/ktxred-ktx {e = e}
   … | ĩ₀ _ | ⇒e≡v | _  rewrite ⇒e≡v refl =  big ▷ ⁺⟨⟩ᵀᵒ-val⁻¹ ▷ ⇛ᵒ-⁺⟨⟩ᵀᵒ
-  … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =  ⁺⟨⟩ᵀᵒ-kr
-    λ _ → ⁺⟨⟩ᵀᵒ-kr⁻¹ big _ ▷ ⇛ᵒ-mono λ{ ((-, redᴷᴿ redM⇒) , big) →
+  … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
+    ⁺⟨⟩ᵀᵒ-kr λ _ → ⁺⟨⟩ᵀᵒ-kr⁻¹ big _ ▷ ⇛ᵒ-mono λ{ ((-, redᴷᴿ redM⇒) , big) →
     (-, redᴷᴿ redM⇒) , λ{ _ eˇ _ (redᴷᴿ e'M'⇐redM) → big _ _ _ (redᴷᴿ e'M'⇐redM)
     ▷ ⇛ᵒ-mono $ ∗ᵒ-monoʳ (¿⁺⟨⟩ᵀᵒ⊤<-size {ι = ∞} {eˇ = eˇ}) › ∗ᵒ-monoˡ
     λ{ (§ big) → § ⟨⟩ᵀᵒ-bind big ▷ substᵒ (⟨_⟩ᵀᵒ[< ∞ ] _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }}}

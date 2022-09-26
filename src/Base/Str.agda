@@ -53,7 +53,7 @@ str-inj =  primStringFromListInjective _ _
 
 instance
 
-  -- Equality decision on Char and Str
+  -- Equality decision for Char and Str
 
   Char-≡Dec :  ≡Dec Char
   Char-≡Dec =  inj⇒≡Dec unchar-inj

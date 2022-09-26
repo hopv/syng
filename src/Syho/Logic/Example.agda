@@ -52,19 +52,20 @@ abstract
 
   -- decrloop θ terminates, setting the value at θ to 0
 
-  decrloop-exec :  θ ↦ (-, ṽ n)  ⊢[ ∞ ]⟨ decrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, ṽ 0)
+  decrloop-exec :
+    ∀ (n : ℕ) →  θ ↦ (-, ṽ n)  ⊢[ ∞ ]⟨ decrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, ṽ 0)
   decrloop'-exec :
-    θ ↦ (-, ṽ n)  ⊢[ ∞ ]⟨ decrloop' θ n ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, ṽ 0)
+    ∀ n →  θ ↦ (-, ṽ n)  ⊢[ ∞ ]⟨ decrloop' θ n ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, ṽ 0)
 
-  decrloop-exec =  ∗⊤-intro » hor-🞰 $ hor-◁ $ ∗-elimˡ » decrloop'-exec
+  decrloop-exec n =  ∗⊤-intro » hor-🞰 $ hor-◁ $ ∗-elimˡ » decrloop'-exec n
 
-  decrloop'-exec {n = 0} =  hor-val ⊢-refl
-  decrloop'-exec {n = ṡ n} =
-    ∗⊤-intro » hor-← $ hor-⁏ $ ∗-elimˡ » horᵀ-▶ decrloop-exec
+  decrloop'-exec 0 =  hor-val ⊢-refl
+  decrloop'-exec (ṡ n) =
+    ∗⊤-intro » hor-← $ hor-⁏ $ ∗-elimˡ » horᵀ-▶ $ decrloop-exec n
 
   -- nddecrloop terminates, setting the value at θ to 0
   -- Notably, the number of reduction steps is dynamically determined
 
   nddecrloop-exec :  θ ↦ ᵗv  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, ṽ 0)
   nddecrloop-exec =
-    hor-nd λ _ → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ decrloop-exec
+    hor-nd λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ $ decrloop-exec n

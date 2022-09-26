@@ -18,6 +18,7 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Option using (¿_; ň; š_)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _∈ᴸ_; ∈ʰᵈ; ∈ᵗˡ_; aug-refl;
   aug-∷; _≺ᴰᴹ⟨_⟩_; ≺ᴰᴹ-hd; ≺ᴰᴹ-tl; ≺ᴰᴹ-wf)
+open import Base.Sety using ()
 open import Syho.Lang.Expr using (Type; ◸_; Expr; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-V⇒E)
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇐ᵀ_; redᵀ-hd;

@@ -17,6 +17,7 @@ open import Base.Option using (¿_; š_; ň; ¿-case; _$¿_; _»-¿_)
 open import Base.Dec using (upd˙)
 open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
 open import Base.List using (List; _∷_; _‼_; upd; rep)
+open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; Expr; Expr˂; ∇_; Val; V⇒E;
   TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
@@ -27,7 +28,7 @@ open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; f
 
 -- Mblo :  Memory block state
 -- Mem :  Memory state
-Mblo Mem :  Set₁
+Mblo Mem :  Set₀
 Mblo =  ¿ List TyVal
 Mem =  ℕ →  Mblo
 
@@ -57,7 +58,7 @@ updᴹ (o , i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
 -- Memory validity
 
 infix 3 ✓ᴹ_
-✓ᴹ_ :  Mem →  Set₁
+✓ᴹ_ :  Mem →  Set₀
 ✓ᴹ M =  Cofin˙ (λ _ → _≡ ň) M
 
 abstract
@@ -82,15 +83,14 @@ abstract
 
 private variable
   T U :  Type
-  X :  Set₀
+  Xʸ :  Setʸ
   e₀ e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
-  e˙ :  X → Expr ∞ T
+  e˙ :  ⸨ Xʸ ⸩ʸ → Expr ∞ T
   eˇ :  ¿ Expr ∞ (◸ ⊤)
   es es' es'' :  List (Expr ∞ (◸ ⊤))
   K :  Ktx T U
   red : Redex T
-  x :  X
   v :  Val T
   n :  ℕ
   kr :  Ktxred T
@@ -101,16 +101,16 @@ infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_
 -- ⇒ᴿ :  Reduction of a redex
 --       The ¿ Expr ∞ (◸ ⊤) part is a possibly forked thread
 
-data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₁  where
+data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₀  where
 
   -- For ▶
   ▶⇒ :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , ň , M)
 
   -- For nd
-  nd⇒ :  ∀(x : X) →  (ndᴿ , M) ⇒ᴿ (∇ x , ň , M)
+  nd⇒ :  ∀(x : ⸨ Xʸ ⸩ʸ) →  (ndᴿ , M) ⇒ᴿ (∇ x , ň , M)
 
   -- For ◁
-  ◁⇒ :  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , ň , M)
+  ◁⇒ :  ∀{x : ⸨ Xʸ ⸩ʸ} →  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , ň , M)
 
   -- For ⁏
   ⁏⇒ :  (v ⁏ᴿ e , M) ⇒ᴿ (e , ň , M)
@@ -133,20 +133,20 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem
 
 -- ⇒ᴷᴿ :  Reduction of a context-redex pair
 
-data  _⇒ᴷᴿ_ :  Ktxred T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₁  where
+data  _⇒ᴷᴿ_ :  Ktxred T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₀  where
   redᴷᴿ :  (red , M) ⇒ᴿ (e' , eˇ , M') →
            ((-, K , red) , M) ⇒ᴷᴿ (K ᴷ◁ e' , eˇ , M')
 
 -- ⇒ᴱ :  Reduction of an expression
 
-data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₁  where
+data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₀  where
   redᴱ :  val/ktxred e ≡ ĩ₁ kr →  (kr , M) ⇒ᴷᴿ (e' , eˇ , M') →
           (e , M) ⇒ᴱ (e' , eˇ , M')
 
 -- ⇒ᵀ :  Reduction of a thread list
 
 data  _⇒ᵀ_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
-              Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₁  where
+              Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₀  where
   -- Reduce the head thread
   redᵀ-hd :  (e , M) ⇒ᴱ (e' , eˇ , M') →
              (e , es , M) ⇒ᵀ (e' , ¿-case (_∷ es) es eˇ , M')
@@ -157,20 +157,20 @@ data  _⇒ᵀ_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
 
 -- ⇐ᴷᴿ, ⇐ᴱ, ⇐ᵀ :  Flipped ⇒ᴷᴿ, ⇒ᴱ, ⇒ᵀ
 
-_⇐ᴷᴿ_ :  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Ktxred T × Mem →  Set₁
+_⇐ᴷᴿ_ :  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Ktxred T × Mem →  Set₀
 _⇐ᴷᴿ_ =  flip _⇒ᴷᴿ_
 
-_⇐ᴱ_ :  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Expr ∞ T × Mem →  Set₁
+_⇐ᴱ_ :  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Expr ∞ T × Mem →  Set₀
 _⇐ᴱ_ =  flip _⇒ᴱ_
 
 _⇐ᵀ_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
-        Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₁
+        Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₀
 _⇐ᵀ_ =  flip _⇒ᵀ_
 
 -- ⇒ᴷᴿ∑ :  A contex-redex pair is reducible
 
 infix 4 _⇒ᴷᴿ∑
-_⇒ᴷᴿ∑ :  ∀{T} →  Ktxred T × Mem →  Set₁
+_⇒ᴷᴿ∑ :  ∀{T} →  Ktxred T × Mem →  Set₀
 redM ⇒ᴷᴿ∑ =  ∑ e'M' , redM ⇒ᴷᴿ e'M'
 
 --------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ redM ⇒ᴷᴿ∑ =  ∑ e'M' , redM ⇒ᴷᴿ e'M'
 infix 4 _⇒ᵀ*_
 
 data  _⇒ᵀ*_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
-               Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₁  where
+               Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₀  where
 
   -- End reduction
   ⇒ᵀ*-refl :  (e , es , M) ⇒ᵀ* (e , es , M)

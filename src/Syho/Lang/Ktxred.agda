@@ -14,11 +14,12 @@ open import Base.Size using (∞)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Type; ◸_; _↷_; Addr; Expr; Expr˂; ▶_; ∇_; nd;
-  λ˙; _◁_; _⁏_; fork; 🞰_; _←_; alloc; free; Val; V⇒E; ṽ_; ṽ↷_)
+open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr; Expr˂; ▶_;
+  ∇_; nd; λ˙; _◁_; _⁏_; fork; 🞰_; _←_; alloc; free; Val; V⇒E; ṽ_; ṽ↷_)
 
 private variable
-  X :  Set₀
+  Xʸ :  Setʸ
   T U V :  Type
   e :  Expr ∞ T
 
@@ -29,13 +30,13 @@ infix 6 ▶ᴿ_ 🞰ᴿ_ _←ᴿ_
 infixl 5 _◁ᴿ_
 infixr 4 _⁏ᴿ_
 
-data  Redex :  Type →  Set₁  where
+data  Redex :  Type →  Set₀  where
   -- For ▶
   ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
   -- For nd
-  ndᴿ :  Redex (◸ X)
+  ndᴿ :  Redex (◸ʸ Xʸ)
   -- For ◁
-  _◁ᴿ_ :  (X → Expr ∞ T) →  X →  Redex T
+  _◁ᴿ_ :  (⸨ Xʸ ⸩ʸ → Expr ∞ T) →  ⸨ Xʸ ⸩ʸ →  Redex T
   -- For ⁏
   _⁏ᴿ_ :  Val T →  Expr ∞ U →  Redex U
   -- For fork
@@ -56,12 +57,12 @@ infix 6 🞰ᴷ_ _←ᴷʳ_ _←ᴷˡ_
 infixl 5 _◁ᴷʳ_ _◁ᴷˡ_
 infixr 4 _⁏ᴷ_
 
-data  Ktx :  Type →  Type →  Set₁  where
+data  Ktx :  Type →  Type →  Set₀  where
   -- Hole
   •ᴷ :  Ktx T T
   -- For ◁
-  _◁ᴷʳ_ :  Expr ∞ (X ↷ T) →  Ktx U (◸ X) →  Ktx U T
-  _◁ᴷˡ_ :  Ktx U (X ↷ T) →  X →  Ktx U T
+  _◁ᴷʳ_ :  Expr ∞ (Xʸ ʸ↷ T) →  Ktx U (◸ʸ Xʸ) →  Ktx U T
+  _◁ᴷˡ_ :  Ktx U (Xʸ ʸ↷ T) →  ⸨ Xʸ ⸩ʸ →  Ktx U T
   -- For ⁏
   _⁏ᴷ_ :  Ktx V T →  Expr ∞ U →  Ktx V U
   -- For 🞰
@@ -104,12 +105,12 @@ freeᴷ K ᴷ∘ᴷ K' =  freeᴷ $ K ᴷ∘ᴷ K'
 
 -- Type for a context-redex pair
 
-Ktxred :  Type →  Set₁
+Ktxred :  Type →  Set₀
 Ktxred T =  ∑ U , Ktx U T × Redex U
 
 -- Type for either a value or a context-redex pair
 
-Val/Ktxred :  Type →  Set₁
+Val/Ktxred :  Type →  Set₀
 Val/Ktxred T =  Val T ⨿ Ktxred T
 
 private variable

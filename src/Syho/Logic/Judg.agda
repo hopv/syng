@@ -14,16 +14,15 @@ open import Base.Eq using (_≡_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Inh using (Inh)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
-
+open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Inhʸ)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; ⌜_⌝₁; ⌜_⌝₀; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
+  ∃₁∈-syntax; _∧_; ⊤'; ⌜_⌝₀; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ᴸ_; Free; Basic)
-open import Syho.Lang.Expr using (Addr; Type; ◸_; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
-  V⇒E; TyVal; ⊤ṽ)
+open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_; V⇒E;
+  TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_; _←ᴿ_;
   allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 
@@ -120,6 +119,7 @@ open Pers {{…}} public
 private variable
   ł :  Level
   i j n :  ℕ
+  Xʸ :  Setʸ
   X :  Set ł
   x :  X
   Y˙ :  X → Set ł
@@ -428,7 +428,7 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
 
-  hor-nd :  {{Inh X}} →  (∀(x : X) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
+  hor-nd :  Inhʸ Xʸ →  (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩[ wκ ]  Q˙
 
   -- ▶, for partial and total Hoare triples
@@ -441,7 +441,7 @@ data  _⊢[_]*_  where
 
   -- Application
 
-  hor-◁ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ wκ ]  Q˙  →
+  hor-◁ :  ∀{x : ⸨ Xʸ ⸩ʸ} →  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ wκ ]  Q˙  →
            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩[ wκ ]  Q˙
 
   -- Sequential execution
@@ -460,7 +460,7 @@ data  _⊢[_]*_  where
 
   -- Points-to tokens agree with the target value
 
-  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝₁
+  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝₀
 
   -- The fraction of the points-to token is no more than 1
 

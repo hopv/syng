@@ -10,9 +10,10 @@ open import Base.Func using (_$_)
 open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Size using (Size; ∞; !)
-open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
+open import Base.Prod using (∑∈-syntax; _×_; _,_; -,_)
 open import Base.Option using (¿_; ň)
 open import Base.Nat using (ℕ; ṡ_; _+_)
+open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; ▶_; ∇_; nd;
   λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free; loop)
 open import Syho.Lang.Reduce using (Mem; nd⇒; ▶⇒; ◁⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
@@ -108,5 +109,5 @@ abstract
   -- Invert reduction on ndnat
 
   ndnat-red-inv :  (ndnat , M) ⇒ᴱ (e , eˇ , M') →
-                   ∑ n , (e , eˇ , M') ≡ (∇ n , ň , M)
+                   ∑ n ∈ ℕ , (e , eˇ , M') ≡ (∇ n , ň , M)
   ndnat-red-inv (redᴱ refl (redᴷᴿ (nd⇒ _))) =  -, refl

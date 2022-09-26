@@ -124,10 +124,11 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᵀᵒ-mono (λ v → ⊢⁺⟨⟩ᵀ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᵀᵒ-bind
 
-  -- hor-nd :  {{Inh X}} →  (∀(x : X) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᵀ[ i ]  Q˙)  →
+  -- hor-nd :  Inhʸ Xʸ →  (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
   --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᵀ[ i ]  Q˙
 
-  ⊢⁺⟨⟩ᵀ-sem (hor-nd P⊢⟨Kx⟩Q) Pa =  ⁺⟨⟩ᵀᵒ-nd λ x → Pa ▷ ⊢⁺⟨⟩ᵀ-sem (P⊢⟨Kx⟩Q x)
+  ⊢⁺⟨⟩ᵀ-sem (hor-nd InhX P⊢⟨Kx⟩Q) Pa =
+    ⁺⟨⟩ᵀᵒ-nd InhX λ x → Pa ▷ ⊢⁺⟨⟩ᵀ-sem (P⊢⟨Kx⟩Q x)
 
   -- horᵀ-▶ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e˂ .! ⟩ᵀ[ i ]  Q˙  →
   --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᵀ[ i ]  Q˙
@@ -234,10 +235,11 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᴾᵒ-mono (λ v → ⊢⁺⟨⟩ᴾ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᴾᵒ-bind
 
-  -- hor-nd :  {{Inh X}} →  (∀(x : X) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᴾ  Q˙)  →
+  -- hor-nd :  Inhʸ Xʸ →  (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
   --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᴾ  Q˙
 
-  ⊢⁺⟨⟩ᴾ-sem (hor-nd P⊢⟨Kx⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-nd λ x → Pa ▷ ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Kx⟩Q x)
+  ⊢⁺⟨⟩ᴾ-sem (hor-nd InhX P⊢⟨Kx⟩Q) Pa =
+    ⁺⟨⟩ᴾᵒ-nd InhX λ x → Pa ▷ ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Kx⟩Q x)
 
   -- horᴾ-▶ :  P  ⊢[< ∞ ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
   --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾ  Q˙

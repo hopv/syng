@@ -189,7 +189,7 @@ abstract
     ⇛ᵒ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , ⟨es'⟩) → -, -,
     ≺ᴰᴹ-tl ι'∷ιs'≺ , ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ ⟨es'⟩)
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (redᵀ-tl _) =  ∗ᵒ⇒∗ᵒ' › λ ()
-λ ()
+
   -- ⊨ ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ ensures that (e , [] , M) is accessible with respect to
   -- ⇐ᵀ, i.e., any reduction sequence starting with (e , M) eventually
   -- terminates, for valid M

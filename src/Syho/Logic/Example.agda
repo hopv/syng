@@ -68,4 +68,4 @@ abstract
 
   nddecrloop-exec :  θ ↦ ᵗv  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ]  λ _ → θ ↦ (-, ṽ 0)
   nddecrloop-exec =
-    hor-nd λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ $ decrloop-exec n
+    hor-nd _ λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ $ decrloop-exec n

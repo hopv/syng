@@ -2,7 +2,7 @@
 -- Semantic super update and weakest precondition lemmas for the memory
 --------------------------------------------------------------------------------
 
-{-# OPTIONS --sized-types #-}
+{-# OPTIONS --without-K --sized-types #-}
 
 module Syho.Model.Hor.Mem where
 
@@ -10,9 +10,9 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong)
 open import Base.Size using (Size; ∞; !; §_)
-open import Base.Prod using (∑-syntax; π₁; _,_; -,_)
+open import Base.Prod using (∑-syntax; π₁; _,_; -,_; ≡∑⇒π₁≡)
 open import Base.Sum using (ĩ₁_)
-open import Base.Option using (š_; ň)
+open import Base.Option using (š_; ň; š-inj)
 open import Base.Dec using (upd˙)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; len; rep)
@@ -94,21 +94,19 @@ abstract
 abstract
 
   -- 🞰 and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
-  ---- We need the axiom K to get v ≡ v' out of M‼θ≡v and M‼θ≡v', or more
-  ---- specifically, out of the equality (T , v) ≡ (T , v') over TyVal
 
   ⁺⟨⟩ᴾᵒ-🞰 :  θ ↦⟨ p ⟩ᵒ (-, v)  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ[ ι ]  Qᵒ˙ →
              θ ↦⟨ p ⟩ᵒ (-, v)  ∗ᵒ  Pᵒ  ⊨  ⁺⟨ ĩ₁ (-, K , 🞰ᴿ θ) ⟩ᴾᵒ[ ι ]  Qᵒ˙
   ⁺⟨⟩ᴾᵒ-🞰 θ↦v∗P⊨⟨Kv⟩Q θ↦v∗Pa =  ⁺⟨⟩ᴾᵒ-kr λ M → θ↦v∗Pa ▷ ∗ᵒ-monoˡ ↦⟨⟩ᵒ-read ▷
     ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ (M‼θ≡v , θ↦v∗Pb) → (-, redᴷᴿ $ 🞰⇒ M‼θ≡v) ,
-    λ{ _ _ _ (redᴷᴿ (🞰⇒ M‼θ≡v')) → ◠ M‼θ≡v ◇ M‼θ≡v' ▷
+    λ{ _ _ _ (redᴷᴿ (🞰⇒ M‼θ≡v')) → ◠ M‼θ≡v ◇ M‼θ≡v' ▷ š-inj ▷ ≡∑⇒π₁≡ ▷
     λ{ refl → ⇛ᵒ-intro $ ∗ᵒ?-intro _ λ{ .! → θ↦v∗P⊨⟨Kv⟩Q θ↦v∗Pb }}}
 
   ⁺⟨⟩ᵀᵒ-🞰 :  θ ↦⟨ p ⟩ᵒ (-, v)  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ[ ι ]  Qᵒ˙ →
              θ ↦⟨ p ⟩ᵒ (-, v)  ∗ᵒ  Pᵒ  ⊨  ⁺⟨ ĩ₁ (-, K , 🞰ᴿ θ) ⟩ᵀᵒ[ ∞ ]  Qᵒ˙
   ⁺⟨⟩ᵀᵒ-🞰 θ↦v∗P⊨⟨Kv⟩Q θ↦v∗Pa =  ⁺⟨⟩ᵀᵒ-kr λ M → θ↦v∗Pa ▷ ∗ᵒ-monoˡ ↦⟨⟩ᵒ-read ▷
     ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ (M‼θ≡v , θ↦v∗Pb) → (-, redᴷᴿ $ 🞰⇒ M‼θ≡v) ,
-    λ{ _ _ _ (redᴷᴿ (🞰⇒ M‼θ≡v')) → ◠ M‼θ≡v ◇ M‼θ≡v' ▷
+    λ{ _ _ _ (redᴷᴿ (🞰⇒ M‼θ≡v')) → ◠ M‼θ≡v ◇ M‼θ≡v' ▷ š-inj ▷ ≡∑⇒π₁≡ ▷
     λ{ refl → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § θ↦v∗P⊨⟨Kv⟩Q θ↦v∗Pb }}
 
   -- ← and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ

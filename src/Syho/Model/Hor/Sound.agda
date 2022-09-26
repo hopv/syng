@@ -2,7 +2,7 @@
 -- Prove the semantic soundness of the partial and total Hoare triples
 --------------------------------------------------------------------------------
 
-{-# OPTIONS --sized-types #-}
+{-# OPTIONS --without-K --sized-types #-}
 
 module Syho.Model.Hor.Sound where
 

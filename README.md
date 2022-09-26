@@ -188,14 +188,15 @@ following parts.
 ## Meta-logic
 
 As the meta-logic of Syho, we use **Agda**, under the option
-**`--sized-types`**, **without any extra axioms**.
+**`--without-K --sized-types`**, **without any extra axioms**.
 
 Our meta-logic has the following properties.
 - We **use only predicative universes** and don't use any *impredicative
     universes* like Coq's `Prop`.
 - We **don't use any classical or choice axioms**.
+- We **don't use the axiom K**, an axiom incompatible with the **univalence**
+    axiom.
 - We don't use any proof-irrelevant types like types in Coq's `Prop`.
-- We use the axiom K in some parts.
 - We use **sized types** for coinduction, including the **inaccessible ordinal
     `∞`**.
     + Despite some concerns about Agda's soundness around sized types, we

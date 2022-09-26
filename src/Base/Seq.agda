@@ -43,12 +43,17 @@ hdˢ (a ∷ˢ _) =  a
 tlˢ :  Seq A ι →  Seq˂ A ι
 tlˢ (_ ∷ˢ as) =  as
 
+-- repˢ :  Just repeat an element
+
+repˢ :  A →  Seq A ι
+repˢ a =  a ∷ˢ λ{ .! → repˢ a }
+
 instance
 
   -- Seq A is inhabited if A is inhabited
 
   Seq-Inh :  {{Inh A}} →  Inh $ Seq A ι
-  Seq-Inh .any =  any ∷ˢ λ{ .! → any }
+  Seq-Inh .any =  repˢ any
 
 --------------------------------------------------------------------------------
 -- ‼ˢ :  Index read

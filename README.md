@@ -99,7 +99,7 @@ The library consists of the following parts.
     [`Seq`](src/Base/Seq.agda) for infinite sequences;
     [`Str`](src/Base/Str.agda) for characters and strings;
     [`RatPos`](src/Base/RatPos.agda) for positive rational numbers.
-- **Misc** ― [`Sety`](src/Syho/Sety.agda) for syntactic sets.
+- **Misc** ― [`Sety`](src/Base/Sety.agda) for syntactic sets.
 
 ### [`Syho/`](src/Syho/)
 

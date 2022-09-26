@@ -15,7 +15,7 @@ open import Base.List using (List; []; _∷_; rep)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Val; TyVal)
 open import Syho.Lang.Ktxred using (Val/Ktxred)
 open import Syho.Logic.Prop using (Prop'; _↦_; [∗∈ⁱ⟨⟩]-syntax)
-open import Syho.Logic.Core using (_»_; ∃₁-elim)
+open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Ind using (↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use)
 open import Syho.Logic.Hor using (_⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-ṡ;
   _ᵘ»ʰ_; _ʰ»ᵘ_; hor-frameˡ; hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶; hor-◁;
@@ -79,9 +79,9 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (P⊢Q » Q⊢⟨vk⟩R) =
     ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ λ ✓∙ → ⊢-sem P⊢Q ✓∙ › ⊢⁺⟨⟩ᵀ-sem Q⊢⟨vk⟩R
 
-  -- ∃₁-elim :  (∀ x →  P˙ x ⊢[ ∞ ][ i ]⇛ Q) →  ∃₁˙ P˙ ⊢[ ∞ ][ i ]⇛ Q
+  -- ∃-elim :  (∀ x →  P˙ x ⊢[ ∞ ][ i ]⇛ Q) →  ∃˙ P˙ ⊢[ ∞ ][ i ]⇛ Q
 
-  ⊢⁺⟨⟩ᵀ-sem (∃₁-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᵀ-sem (Px⊢⟨vk⟩Q x)
+  ⊢⁺⟨⟩ᵀ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᵀ-sem (Px⊢⟨vk⟩Q x)
 
   -- ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
   --               ⊢[ ∞ ]⟨ ¡ e ⟩ᵀ[ ṡ i ]  λ v → Q˂˙ v .!
@@ -193,9 +193,9 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (P⊢Q » Q⊢⟨vk⟩R) =
     ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ λ ✓∙ → ⊢-sem P⊢Q ✓∙ › ⊢⁺⟨⟩ᴾ-sem Q⊢⟨vk⟩R
 
-  -- ∃₁-elim :  (∀ x →  P˙ x ⊢[ ∞ ][ i ]⇛ Q) →  ∃₁˙ P˙ ⊢[ ∞ ][ i ]⇛ Q
+  -- ∃-elim :  (∀ x →  P˙ x ⊢[ ∞ ][ i ]⇛ Q) →  ∃˙ P˙ ⊢[ ∞ ][ i ]⇛ Q
 
-  ⊢⁺⟨⟩ᴾ-sem (∃₁-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᴾ-sem (Px⊢⟨vk⟩Q x)
+  ⊢⁺⟨⟩ᴾ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᴾ-sem (Px⊢⟨vk⟩Q x)
 
   -- ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ  λ v → Q˂˙ v .!
 

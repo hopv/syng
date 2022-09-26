@@ -6,7 +6,7 @@
 
 module Syho.Model.ERA.Glob where
 
-open import Base.Level using (2ᴸ; ↑_; ↓)
+open import Base.Level using (1ᴸ; ↑_; ↓)
 open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Func using (_$_)
 open import Base.Eq using (refl; _≡˙_)
@@ -34,7 +34,7 @@ pattern elseᴳ =  ṡ ṡ ṡ _
 
 -- Map of ERAs
 
-Globᴱᴿᴬ˙ :  ℕ →  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+Globᴱᴿᴬ˙ :  ℕ →  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Globᴱᴿᴬ˙ iᴹᵉᵐ =  Memᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈᵖ =  Indᵖᴱᴿᴬ
@@ -50,11 +50,11 @@ open AllGlob public
 
 -- Aliases
 open AllGlob public using () renaming (
-  -- Globᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  -- Globᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to Globᴱᴿᴬ;
-  -- Envᴳ :  Set 2ᴸ
+  -- Envᴳ :  Set 1ᴸ
   Env˙ to Envᴳ;
-  -- Resᴳ :  Set 2ᴸ
+  -- Resᴳ :  Set 1ᴸ
   Res˙ to Resᴳ)
 
 open ERA Globᴱᴿᴬ public using () renaming (ε to εᴳ; _✓_ to _✓ᴳ_)
@@ -74,7 +74,7 @@ pattern elseᴵⁿᴳ =  ṡ ṡ _
 
 -- The inner part of the environment
 
-Envᴵⁿᴳ :  Set₂
+Envᴵⁿᴳ :  Set₁
 Envᴵⁿᴳ =  ∀(j : ℕ) →  Globᴱᴿᴬ˙ (outᴳ j) .Env
 
 -- Conversion between Envᴳ and a pair of Mem and Envᴵⁿᴳ
@@ -100,7 +100,7 @@ private variable
   Eᴵⁿ Fᴵⁿ :  Envᴵⁿᴳ
   M M' :  Mem
   j :  ℕ
-  X :  Set₂
+  X :  Set₁
   Fʲ :  X
 
 abstract

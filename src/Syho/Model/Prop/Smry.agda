@@ -6,7 +6,7 @@
 
 module Syho.Model.Prop.Smry where
 
-open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl)
@@ -33,7 +33,7 @@ abstract
 
   -- Smry F xˇ˙ n :  xˇ˙ i interpreted with F, over all i < n
 
-  Smry :  (X → Propᵒ ł) →  (ℕ → ¿ X) →  ℕ →  Propᵒ (2ᴸ ⊔ᴸ ł)
+  Smry :  (X → Propᵒ ł) →  (ℕ → ¿ X) →  ℕ →  Propᵒ (1ᴸ ⊔ᴸ ł)
   Smry F xˇ˙ 0 =  ⊤ᵒ
   Smry F xˇ˙ (ṡ n)  with xˇ˙ n
   … | ň =  Smry F xˇ˙ n

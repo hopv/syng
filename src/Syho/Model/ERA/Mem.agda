@@ -6,7 +6,7 @@
 
 module Syho.Model.ERA.Mem where
 
-open import Base.Level using (0ᴸ; 2ᴸ; ↑_; ↓)
+open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; subst)
@@ -74,9 +74,9 @@ module EnvvMem =  Syho.Model.ERA.Envv ∀Memᴱᴿᴬ ✓ᴹ_
 open EnvvMem public using () renaming (
   --  EnvvMemᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envvᴱᴿᴬ to EnvvMemᴱᴿᴬ)
-module UpMem =  Syho.Model.ERA.Up EnvvMemᴱᴿᴬ {2ᴸ} {2ᴸ} {2ᴸ} {2ᴸ}
+module UpMem =  Syho.Model.ERA.Up EnvvMemᴱᴿᴬ {1ᴸ} {1ᴸ} {1ᴸ} {1ᴸ}
 open UpMem public using () renaming (
-  --  Memᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  --  Memᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Upᴱᴿᴬ to Memᴱᴿᴬ)
 
 open ERA Pntsᴱᴿᴬ public using () renaming (Res to Resᴾⁿᵗˢ; _≈_ to _≈ᴾⁿᵗˢ_;

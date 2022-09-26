@@ -6,7 +6,7 @@
 
 module Syho.Model.Prop.Base where
 
-open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 2ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 1ᴸ)
 open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; ◠˙_)
@@ -33,12 +33,12 @@ private variable
 --------------------------------------------------------------------------------
 -- Propᵒ :  Semantic proposition
 
-Propᵒ :  ∀ ł →  Set (2ᴸ ⊔ᴸ ṡᴸ ł)
+Propᵒ :  ∀ ł →  Set (1ᴸ ⊔ᴸ ṡᴸ ł)
 Propᵒ ł =  Resᴳ →  Set ł
 
 -- Monoᵒ Pᵒ :  Pᵒ is monotone over the resource
 
-Monoᵒ :  Propᵒ ł →  Set (2ᴸ ⊔ᴸ ł)
+Monoᵒ :  Propᵒ ł →  Set (1ᴸ ⊔ᴸ ł)
 Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
@@ -66,13 +66,13 @@ infix 1 _⊨✓_ _⊨_ ⊨_
 -- Pᵒ ⊨✓ Qᵒ :  Entailment with a validity input
 -- Pᵒ ⊨ Qᵒ :  Entailment
 
-_⊨✓_ _⊨_ :  Propᵒ ł →  Propᵒ ł' →  Set (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+_⊨✓_ _⊨_ :  Propᵒ ł →  Propᵒ ł' →  Set (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 Pᵒ ⊨✓ Qᵒ =  ∀{E a} →  E ✓ a →  Pᵒ a →  Qᵒ a
 Pᵒ ⊨ Qᵒ =  ∀{a} →  Pᵒ a →  Qᵒ a
 
 -- ⊨ Pᵒ :  Tautology
 
-⊨_ :  Propᵒ ł →  Set (2ᴸ ⊔ᴸ ł)
+⊨_ :  Propᵒ ł →  Set (1ᴸ ⊔ᴸ ł)
 ⊨ Pᵒ =  ∀{a} →  Pᵒ a
 
 abstract
@@ -190,7 +190,7 @@ abstract
 abstract
 
   infixr 5 _→ᵒ_
-  _→ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  _→ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
   (Pᵒ →ᵒ Qᵒ) a =  ∀ E b →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
 
   -- Monoᵒ for →ᵒ
@@ -223,14 +223,14 @@ infixr 7 _∗ᵒ_
 
 -- ∗ᵒ' :  Non-abstract version of ∗ᵒ
 
-_∗ᵒ'_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+_∗ᵒ'_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 (Pᵒ ∗ᵒ' Qᵒ) a =  ∑ b , ∑ c ,  b ∙ c ⊑ a  ×  Pᵒ b  ×  Qᵒ c
 
 abstract
 
   -- ∗ᵒ :  Semantic separating conjunction
 
-  _∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  _∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
   _∗ᵒ_ =  _∗ᵒ'_
 
   -- ∗ᵒ equals ∗ᵒ'
@@ -329,20 +329,20 @@ abstract
 --------------------------------------------------------------------------------
 -- [∗ᵒ] :  Iterated semantic separating conjunction
 
-[∗ᵒ] :  List (Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ] :  List (Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
 [∗ᵒ] [] =  ⊤ᵒ
 [∗ᵒ] (Pᵒ ∷ Pᵒs) =  Pᵒ ∗ᵒ [∗ᵒ] Pᵒs
 
 -- Syntax for [∗ᵒ] $ᴸ / $ⁱᴸ
 
 infix 8 [∗ᵒ∈]-syntax [∗ᵒ∈ⁱ]-syntax [∗ᵒ∈ⁱ⟨⟩]-syntax
-[∗ᵒ∈] [∗ᵒ∈]-syntax :  (X → Propᵒ ł) →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ∈] [∗ᵒ∈]-syntax :  (X → Propᵒ ł) →  List X →  Propᵒ (1ᴸ ⊔ᴸ ł)
 [∗ᵒ∈] Pᵒ˙ xs =  [∗ᵒ] $ Pᵒ˙ $ᴸ xs
 [∗ᵒ∈]-syntax =  [∗ᵒ∈]
-[∗ᵒ∈ⁱ] [∗ᵒ∈ⁱ]-syntax :  (ℕ × X → Propᵒ ł) →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ∈ⁱ] [∗ᵒ∈ⁱ]-syntax :  (ℕ × X → Propᵒ ł) →  List X →  Propᵒ (1ᴸ ⊔ᴸ ł)
 [∗ᵒ∈ⁱ] Pᵒ˙ xs =  [∗ᵒ] $ curry Pᵒ˙ $ⁱᴸ xs
 [∗ᵒ∈ⁱ]-syntax =  [∗ᵒ∈ⁱ]
-[∗ᵒ∈ⁱ⟨⟩] [∗ᵒ∈ⁱ⟨⟩]-syntax :  (ℕ × X → Propᵒ ł) →  ℕ →  List X →  Propᵒ (2ᴸ ⊔ᴸ ł)
+[∗ᵒ∈ⁱ⟨⟩] [∗ᵒ∈ⁱ⟨⟩]-syntax :  (ℕ × X → Propᵒ ł) →  ℕ →  List X →  Propᵒ (1ᴸ ⊔ᴸ ł)
 [∗ᵒ∈ⁱ⟨⟩] Pᵒ˙ k xs =  [∗ᵒ] $ curry Pᵒ˙ $ⁱᴸ⟨ k ⟩ xs
 [∗ᵒ∈ⁱ⟨⟩]-syntax =  [∗ᵒ∈ⁱ⟨⟩]
 syntax [∗ᵒ∈]-syntax (λ x → Pᵒ) xs =  [∗ᵒ x ∈ xs ] Pᵒ
@@ -362,7 +362,7 @@ abstract
 
 infix 8 [∗ᵒ∈²]-syntax
 [∗ᵒ∈²] [∗ᵒ∈²]-syntax :
-  (X × Y →  Propᵒ ł) →  List X →  List Y →  Propᵒ (2ᴸ ⊔ᴸ ł)
+  (X × Y →  Propᵒ ł) →  List X →  List Y →  Propᵒ (1ᴸ ⊔ᴸ ł)
 [∗ᵒ∈²] Pᵒ˙ (x ∷ xs) (y ∷ ys) =  Pᵒ˙ (x , y) ∗ᵒ [∗ᵒ∈²] Pᵒ˙ xs ys
 [∗ᵒ∈²] _ [] [] =  ⊤ᵒ
 [∗ᵒ∈²] _ _ _ =  ⊥ᵒ
@@ -385,14 +385,14 @@ infixr 5 _-∗ᵒ'_ _-∗ᵒ_
 
 -- -∗ᵒ' :  Non-abstract version of -∗ᵒ
 
-_-∗ᵒ'_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+_-∗ᵒ'_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 (Pᵒ -∗ᵒ' Qᵒ) a =  ∀ E b c →  a ⊑ b →  E ✓ c ∙ b →  Pᵒ c →  Qᵒ (c ∙ b)
 
 abstract
 
   -- -∗ᵒ :  Semantic magic wand
 
-  _-∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  _-∗ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
   _-∗ᵒ_ =  _-∗ᵒ'_
 
   -- -∗ᵒ equals -∗ᵒ'
@@ -443,7 +443,7 @@ abstract
 abstract
 
   infix 3 ⤇ᵒ_
-  ⤇ᵒ_ :  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+  ⤇ᵒ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
   (⤇ᵒ Pᵒ) a =  ∀ E c →  E ✓ a ∙ c →  ∑ b ,  E ✓ b ∙ c  ×  Pᵒ b
 
   -- Monoᵒ for ⤇ᵒ
@@ -502,7 +502,7 @@ infix 3 _⤇ᴱ'_ _⤇ᴱ_
 
 -- ⤇ᴱ' :  Non-abstract version of ⤇ᴱ
 
-_⤇ᴱ'_ :  ∀{X : Set ł'} →  Envᴳ →  (X → Envᴳ × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+_⤇ᴱ'_ :  ∀{X : Set ł'} →  Envᴳ →  (X → Envᴳ × Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
 (E ⤇ᴱ' FPᵒ˙) a =  ∀ c →  E ✓ a ∙ c →  ∑ x , ∑ b ,
   let (F , Pᵒ) = FPᵒ˙ x in  F ✓ b ∙ c  ×  Pᵒ b
 
@@ -510,7 +510,7 @@ abstract
 
   -- ⤇ᴱ :  Environmental update modality
 
-  _⤇ᴱ_ :  ∀{X : Set ł'} →  Envᴳ →  (X → Envᴳ × Propᵒ ł) →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+  _⤇ᴱ_ :  ∀{X : Set ł'} →  Envᴳ →  (X → Envᴳ × Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
   _⤇ᴱ_ =  _⤇ᴱ'_
 
   -- ⤇ᴱ equals ⤇ᴱ'
@@ -660,7 +660,7 @@ abstract
 abstract
 
   infix 8 ◎_
-  ◎_ :  Resᴳ →  Propᵒ 2ᴸ
+  ◎_ :  Resᴳ →  Propᵒ 1ᴸ
   (◎ a) b =  a ⊑ b
 
   -- Monoᵒ for ◎
@@ -721,7 +721,7 @@ abstract
 -- ◎⟨ ⟩ :  Semantically own a resource of a component ERA
 
 infix 8 ◎⟨_⟩_
-◎⟨_⟩_ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Propᵒ 2ᴸ
+◎⟨_⟩_ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Propᵒ 1ᴸ
 ◎⟨ i ⟩ aⁱ =  ◎ inj˙ i aⁱ
 
 module _ {i : ℕ} where

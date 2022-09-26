@@ -6,7 +6,7 @@
 
 module Syho.Model.Prop.Mem where
 
-open import Base.Level using (2ᴸ)
+open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _›_)
 open import Base.Eq using (_≡_)
 open import Base.Prod using (_,_; -,_)
@@ -37,32 +37,32 @@ infix 9 _↦⟨_⟩ᵒ_ _↦ᵒ_
 
 -- ↦⟨ ⟩ᵒ : Interpret the points-to token
 
-_↦⟨_⟩ᵒ_ :  Addr →  ℚ⁺ →  TyVal →  Propᵒ 2ᴸ
+_↦⟨_⟩ᵒ_ :  Addr →  ℚ⁺ →  TyVal →  Propᵒ 1ᴸ
 θ ↦⟨ p ⟩ᵒ ᵗv =  ◎⟨ iᴹᵉᵐ ⟩ θ ↦⟨ p ⟩ʳ ᵗv
 
 -- ↦ᵒ : ↦⟨ ⟩ᵒ with the fraction 1
 
-_↦ᵒ_ :  Addr →  TyVal →  Propᵒ 2ᴸ
+_↦ᵒ_ :  Addr →  TyVal →  Propᵒ 1ᴸ
 θ ↦ᵒ ᵗv =  θ ↦⟨ 1ᴿ⁺ ⟩ᵒ ᵗv
 
 -- Freeᵒ' : The freeing token over a block id
 
-Freeᵒ' :  ℕ →  ℕ →  Propᵒ 2ᴸ
+Freeᵒ' :  ℕ →  ℕ →  Propᵒ 1ᴸ
 Freeᵒ' n o =  ◎⟨ iᴹᵉᵐ ⟩ freeʳ n o
 
 -- Freeᵒ : Interpret the freeing token
 
-Freeᵒ :  ℕ →  Addr →  Propᵒ 2ᴸ
+Freeᵒ :  ℕ →  Addr →  Propᵒ 1ᴸ
 Freeᵒ n θ =  ∃ᵒ o ,  ⌜ θ ≡ (o , 0) ⌝ᵒ×  Freeᵒ' n o
 
 -- ↦ᴸᵒ, ↦ᴸᵒ' :  Interpret the points-to token over a list of values
 
 infix 9 _↦ᴸᵒ_ _↦ᴸᵒ'_
 
-_↦ᴸᵒ_ :  Addr →  List TyVal →  Propᵒ 2ᴸ
+_↦ᴸᵒ_ :  Addr →  List TyVal →  Propᵒ 1ᴸ
 θ ↦ᴸᵒ ᵗvs =  [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] θ ₒ i ↦ᵒ ᵗv
 
-_↦ᴸᵒ'_ :  ℕ →  List TyVal →  Propᵒ 2ᴸ
+_↦ᴸᵒ'_ :  ℕ →  List TyVal →  Propᵒ 1ᴸ
 o ↦ᴸᵒ' ᵗvs =  ◎⟨ iᴹᵉᵐ ⟩ o ↦ᴸʳ ᵗvs
 
 abstract

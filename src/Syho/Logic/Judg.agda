@@ -18,8 +18,8 @@ open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Inhʸ)
-open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₁˙; ∃₁˙; ∀₁-syntax; ∃₁-syntax;
-  ∃₁∈-syntax; _∧_; ⊤'; ⌜_⌝₀; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
+open import Syho.Logic.Prop using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
+  ∃∈-syntax; _∧_; ⊤'; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ᴸ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_; V⇒E;
   TyVal; ⊤ṽ)
@@ -44,7 +44,7 @@ private variable
 
 infix 3 [_]⇛_ ⁺⟨_⟩[_]_
 
-data  JudgRes :  Set₂  where
+data  JudgRes :  Set₁  where
   -- Just a proposition
   Pure :  Prop' ∞ →  JudgRes
   -- Under the super update
@@ -61,56 +61,56 @@ infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _⊢[_]⁺�
 
 -- Declare _⊢[_]*_
 
-data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set₂
+data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set₁
 
 -- ⊢[ ] :  Pure sequent
 
-_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
+_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₁
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 
 -- ⊢[< ] :  Pure sequent under thunk
 
-_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₂
+_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₁
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ][ ]⇛ etc. :  Super update
 
-_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop' ∞ →  Size →  ℕ →  Prop' ∞ →  Set₂
+_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop' ∞ →  Size →  ℕ →  Prop' ∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
 P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 
 -- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Hoare triple over Val/Ktxred
 
 _⊢[_]⁺⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₂
+  Prop' ∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Q˙ =  P ⊢[ ι ]* ⁺⟨ vk ⟩[ wκ ] Q˙
 
-_⊢[_]⁺⟨_⟩ᴾ_ :  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set₂
+_⊢[_]⁺⟨_⟩ᴾ_ :  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ par ] Q˙
 
 _⊢[_]⁺⟨_⟩ᵀ[_]_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  ℕ →  (Val T → Prop' ∞) →  Set₂
+  Prop' ∞ →  Size →  Val/Ktxred T →  ℕ →  (Val T → Prop' ∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot i ] Q˙
 
 -- ⊢[ ]⟨ ⟩[ ] etc. :  Hoare triple over Expr
 
 _⊢[_]⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  WpKind →  (Val T → Prop' ∞) →  Set₂
+  Prop' ∞ →  Size →  Expr ∞ T →  WpKind →  (Val T → Prop' ∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩[ wκ ] Q˙ =  P ⊢[ ι ]⁺⟨ val/ktxred e ⟩[ wκ ] Q˙
 
 _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set₂
+  Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᴾ Q˙ =  P ⊢[ ι ]⟨ e ⟩[ par ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᴾ Q˙ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Q˙) ι
 
 _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Set₂
+  Prop' ∞ →  Size →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩[ tot i ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  Thunk (P ⊢[_]⟨ e ⟩ᵀ[ i ] Q˙) ι
 
 -- Pers :  Persistence of a proposition
 
-record  Pers (P : Prop' ∞) :  Set₂  where
+record  Pers (P : Prop' ∞) :  Set₁  where
   inductive
   -- Pers-⇒□ :  P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
@@ -162,20 +162,20 @@ data  _⊢[_]*_  where
 
   -- Introducing ∀ / Eliminating ∃
 
-  ∀₁-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀₁˙ Q˙
+  ∀-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀˙ Q˙
 
-  ∃₁-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃₁˙ P˙ ⊢[ ι ]* Jr
+  ∃-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃˙ P˙ ⊢[ ι ]* Jr
 
   -- Eliminating ∀ / Introducing ∃
 
-  ∀₁-elim :  ∀ x →  ∀₁˙ P˙ ⊢[ ι ] P˙ x
+  ∀-elim :  ∀ x →  ∀˙ P˙ ⊢[ ι ] P˙ x
 
-  ∃₁-intro :  ∀ x →  P˙ x ⊢[ ι ] ∃₁˙ P˙
+  ∃-intro :  ∀ x →  P˙ x ⊢[ ι ] ∃˙ P˙
 
   -- Choice, which is safe to have thanks to the logic's predicativity
 
-  choice₁ :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop' ∞} →
-    ∀₁ x , ∃₁ y , P˙˙ x y ⊢[ ι ] ∃₁ y˙ ∈ (∀ x → Y˙ x) , ∀₁ x , P˙˙ x (y˙ x)
+  choice :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop' ∞} →
+    ∀' x , ∃ y , P˙˙ x y ⊢[ ι ] ∃ y˙ ∈ (∀ x → Y˙ x) , ∀' x , P˙˙ x (y˙ x)
 
   ------------------------------------------------------------------------------
   -- On →
@@ -228,7 +228,7 @@ data  _⊢[_]*_  where
 
   -- ∃ -, can get outside ⤇
 
-  ⤇-∃-out :  ⤇ (∃₁ _ ∈ X , P) ⊢[ ι ] ∃₁ _ ∈ X , ⤇ P
+  ⤇-∃-out :  ⤇ (∃ _ ∈ X , P) ⊢[ ι ] ∃ _ ∈ X , ⤇ P
 
   ------------------------------------------------------------------------------
   -- On □
@@ -249,13 +249,13 @@ data  _⊢[_]*_  where
 
   ---- This can work also for ∀₀
 
-  □-∀-in :  ∀₁˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀₁˙ P˙
+  □-∀-in :  ∀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀˙ P˙
 
   -- ∃ can get outside □
 
   ---- This can work also for ∃₀
 
-  □-∃-out :  □ ∃₁˙ P˙ ⊢[ ι ] ∃₁˙ (□_ ∘ P˙)
+  □-∃-out :  □ ∃˙ P˙ ⊢[ ι ] ∃˙ (□_ ∘ P˙)
 
   ------------------------------------------------------------------------------
   -- On ⇛
@@ -460,11 +460,11 @@ data  _⊢[_]*_  where
 
   -- Points-to tokens agree with the target value
 
-  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝₀
+  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝
 
   -- The fraction of the points-to token is no more than 1
 
-  ↦⟨⟩-≤1 :  θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  ⌜ p ≤1ᴿ⁺ ⌝₀
+  ↦⟨⟩-≤1 :  θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  ⌜ p ≤1ᴿ⁺ ⌝
 
   -- Points-to tokens can be merged and split with respect to the fraction
 

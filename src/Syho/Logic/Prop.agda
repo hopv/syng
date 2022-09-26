@@ -6,7 +6,7 @@
 
 module Syho.Logic.Prop where
 
-open import Base.Level using (Level; Up; ↓)
+open import Base.Level using (Level)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
 open import Base.Size using (Size; ∞; Thunk)
@@ -19,10 +19,10 @@ open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; TyVal)
 --------------------------------------------------------------------------------
 -- Prop' :  Proposition
 
-data  Prop' (ι : Size) :  Set₂
+data  Prop' (ι : Size) :  Set₁
 
 -- Prop˂ :  Prop' under Thunk
-Prop˂ :  Size →  Set₂
+Prop˂ :  Size →  Set₁
 Prop˂ ι =  Thunk Prop' ι
 
 private variable
@@ -45,9 +45,9 @@ infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
 
-  -- ∀₁˙, ∃₁˙ :  Universal/existential quantification over any type X in Set₁,
-  --             which does not include Prop' ι itself (predicativity)
-  ∀₁˙ ∃₁˙ :  ∀{X : Set₁} →  (X → Prop' ι) →  Prop' ι
+  -- ∀˙, ∃˙ :  Universal/existential quantification over any type X in Set₁,
+  --           which does not include Prop' ι itself (predicativity)
+  ∀˙ ∃˙ :  ∀{X : Set₀} →  (X → Prop' ι) →  Prop' ι
 
   -- →' :  Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
@@ -83,31 +83,18 @@ data  Prop' ι  where
 --------------------------------------------------------------------------------
 -- Utility for ∀/∃
 
-∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax :
-  ∀{X : Set₁} →  (X → Prop' ι) →  Prop' ι
-∀₁∈-syntax =  ∀₁˙
-∃₁∈-syntax =  ∃₁˙
-∀₁-syntax =  ∀₁˙
-∃₁-syntax =  ∃₁˙
+∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  ∀{X : Set₀} →  (X → Prop' ι) →  Prop' ι
+∀∈-syntax =  ∀˙
+∃∈-syntax =  ∃˙
+∀-syntax =  ∀˙
+∃-syntax =  ∃˙
 
-∀₀˙ ∃₀˙ ∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax :
-  ∀{X : Set₀} →  (X → Prop' ι) →  Prop' ι
-∀₀˙ P˙ =  ∀₁˙ $ P˙ ∘ ↓
-∃₀˙ P˙ =  ∃₁˙ $ P˙ ∘ ↓
-∀₀∈-syntax =  ∀₀˙
-∃₀∈-syntax =  ∃₀˙
-∀₀-syntax =  ∀₀˙
-∃₀-syntax =  ∃₀˙
-infix 3 ∀₁∈-syntax ∃₁∈-syntax ∀₁-syntax ∃₁-syntax
-  ∀₀∈-syntax ∃₀∈-syntax ∀₀-syntax ∃₀-syntax
-syntax ∀₁∈-syntax {X = X} (λ x → P) =  ∀₁ x ∈ X , P
-syntax ∃₁∈-syntax {X = X} (λ x → P) =  ∃₁ x ∈ X , P
-syntax ∀₁-syntax (λ x → P) =  ∀₁ x , P
-syntax ∃₁-syntax (λ x → P) =  ∃₁ x , P
-syntax ∀₀∈-syntax {X = X} (λ x → P) =  ∀₀ x ∈ X , P
-syntax ∃₀∈-syntax {X = X} (λ x → P) =  ∃₀ x ∈ X , P
-syntax ∀₀-syntax (λ x → P) =  ∀₀ x , P
-syntax ∃₀-syntax (λ x → P) =  ∃₀ x , P
+infix 3 ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
+  ∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax
+syntax ∀∈-syntax {X = X} (λ x → P) =  ∀' x ∈ X , P
+syntax ∃∈-syntax {X = X} (λ x → P) =  ∃ x ∈ X , P
+syntax ∀-syntax (λ x → P) =  ∀' x , P
+syntax ∃-syntax (λ x → P) =  ∃ x , P
 
 --------------------------------------------------------------------------------
 -- ∧ :  Conjunction
@@ -117,24 +104,22 @@ infixr 7 _∧_
 infixr 6 _∨_
 
 _∧_ _∨_ :  Prop' ι →  Prop' ι →  Prop' ι
-P ∧ Q =  ∀₁˙ (binary P Q)
-P ∨ Q =  ∃₁˙ (binary P Q)
+P ∧ Q =  ∀˙ (binary P Q)
+P ∨ Q =  ∃˙ (binary P Q)
 
 --------------------------------------------------------------------------------
 -- ⊤' :  Truth
 -- ⊥' :  Falsehood
 
 ⊤' ⊥' :  Prop' ι
-⊤' =  ∀₁˙ absurd
-⊥' =  ∃₁˙ absurd
+⊤' =  ∀˙ absurd
+⊥' =  ∃˙ absurd
 
 --------------------------------------------------------------------------------
 -- ⌜ ⌝ :  Set embedding
 
-⌜_⌝₁ :  Set₁ →  Prop' ι
-⌜ X ⌝₁ =  ∃₁ _ ∈ X , ⊤'
-⌜_⌝₀ :  Set₀ →  Prop' ι
-⌜ X ⌝₀ =  ⌜ Up X ⌝₁
+⌜_⌝ :  Set₀ →  Prop' ι
+⌜ X ⌝ =  ∃ _ ∈ X , ⊤'
 
 --------------------------------------------------------------------------------
 -- [∗] :  Iterated separating conjunction
@@ -177,13 +162,13 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 --------------------------------------------------------------------------------
 -- Basic P :  P doesn't contain impredicate connectives
 
-data  Basic :  Prop' ∞ →  Set₂  where
+data  Basic :  Prop' ∞ →  Set₁  where
 
   -- They are not instances, because unfortunately Agda can't search a
   -- universally quantified instance (∀ x → …)
 
-  ∀₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₁˙ P˙)
-  ∃₁-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₁˙ P˙)
+  ∀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀˙ P˙)
+  ∃-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃˙ P˙)
 
   -- Instance data constructors
   instance
@@ -196,34 +181,25 @@ data  Basic :  Prop' ∞ →  Set₂  where
     ↦⟨⟩-Basic :  Basic (θ ↦⟨ q⁺ ⟩ ᵗv)
     Free-Basic :  Basic (Free n θ)
 
-
--- For ∀/∃₀
-
-∀₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀₀˙ P˙)
-∀₀-Basic =  ∀₁-Basic ∘ _∘ ↓
-
-∃₀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃₀˙ P˙)
-∃₀-Basic =  ∃₁-Basic ∘ _∘ ↓
-
 instance
 
   -- For ∧/∨/⊤'/⊥'
 
   ∧-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∧ Q)
-  ∧-Basic =  ∀₁-Basic $ binary it it
+  ∧-Basic =  ∀-Basic $ binary it it
 
   ∨-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∨ Q)
-  ∨-Basic =  ∃₁-Basic $ binary it it
+  ∨-Basic =  ∃-Basic $ binary it it
 
   ⊤-Basic :  Basic ⊤'
-  ⊤-Basic =  ∀₁-Basic absurd
+  ⊤-Basic =  ∀-Basic absurd
 
   ⊥-Basic :  Basic ⊥'
-  ⊥-Basic =  ∃₁-Basic absurd
+  ⊥-Basic =  ∃-Basic absurd
 
   -- For ⌜ ⌝
 
-  ---- This can work also for ⌜⌝₀
+  ---- This can work also for ⌜⌝
 
-  ⌜⌝-Basic :  Basic ⌜ X ⌝₁
-  ⌜⌝-Basic =  ∃₁-Basic λ _ → ⊤-Basic
+  ⌜⌝-Basic :  Basic ⌜ X ⌝
+  ⌜⌝-Basic =  ∃-Basic λ _ → ⊤-Basic

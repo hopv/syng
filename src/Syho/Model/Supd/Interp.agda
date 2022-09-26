@@ -6,7 +6,7 @@
 
 module Syho.Model.Supd.Interp where
 
-open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
 open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; _◇˙_)
@@ -41,19 +41,19 @@ infix 3 ⟨_⟩⇛ᵒ'⟨_⟩_ ⟨_⟩⇛ᵒ⟨_⟩_
 
 -- ⇛ᵒ' :  Non-abstract version of ⇛ᵒ
 
-⟨_⟩⇛ᵒ'⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+⟨_⟩⇛ᵒ'⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ envᴵⁿᵈ , updᴱᴵⁿᵈ , Invᴵⁿᵈ ]⇛ᵍ'⟨ M' ⟩ Pᵒ
 
 -- The global invariant
 
-Invᴳ :  Envᴵⁿᴳ →  Propᵒ 2ᴸ
+Invᴳ :  Envᴵⁿᴳ →  Propᵒ 1ᴸ
 Invᴳ =  Invᴵⁿᵈ ∘ envᴵⁿᵈ
 
 abstract
 
   -- ⇛ᵒ :  Interpret the super update
 
-  ⟨_⟩⇛ᵒ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (2ᴸ ⊔ᴸ ł)
+  ⟨_⟩⇛ᵒ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
   ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M' ⟩ Pᵒ
 
   -- Get Invᴳ empᴵⁿᴳ for free

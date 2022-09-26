@@ -11,7 +11,7 @@ open import Base.Func using (_∘_; id; const; _$_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Syho.Lang.Expr using (Type; Expr; Val)
-open import Syho.Logic.Prop using (Prop'; Prop˂; ∀₀-syntax; _∗_; _-∗_; □_; ○_;
+open import Syho.Logic.Prop using (Prop'; Prop˂; ∀-syntax; _∗_; _-∗_; □_; ○_;
   _↪[_]⇛_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∗-comm;
   ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)

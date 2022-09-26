@@ -6,7 +6,7 @@
 
 module Syho.Model.ERA.Ind where
 
-open import Base.Level using (2ᴸ)
+open import Base.Level using (1ᴸ)
 open import Base.Func using (_∘_; id)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl)
@@ -36,16 +36,16 @@ private variable
 
 module AllIndˣ =  Syho.Model.ERA.All ℕ (λ _ → Excᴱᴿᴬ (Prop' ∞))
 open AllIndˣ public using () renaming (
-  --  ∀Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  --  ∀Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ)
 module EnvmIndˣ =  Syho.Model.ERA.Envm ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
 open EnvmIndˣ public using () renaming (
-  --  EnvmIndˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  --  EnvmIndˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to EnvmIndˣᴱᴿᴬ)
 module EnvvIndˣ =  Syho.Model.ERA.Envv EnvmIndˣᴱᴿᴬ
   (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
 open EnvvIndˣ public using () renaming (
-  --  Indˣᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  --  Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envvᴱᴿᴬ to Indˣᴱᴿᴬ)
 
 open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to Resᴵⁿᵈˣ;
@@ -98,16 +98,16 @@ abstract
 
 module AllIndᵖ =  Syho.Model.ERA.All ℕ (λ _ → Agᴱᴿᴬ (Prop' ∞))
 open AllIndᵖ public using () renaming (
-  --  ∀Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  --  ∀Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ)
 module EnvmIndᵖ =  Syho.Model.ERA.Envm ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
 open EnvmIndᵖ public using () renaming (
-  --  EnvmIndᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  --  EnvmIndᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to EnvmIndᵖᴱᴿᴬ)
 module EnvvIndᵖ =  Syho.Model.ERA.Envv EnvmIndᵖᴱᴿᴬ
   (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
 open EnvvIndᵖ public using () renaming (
-  --  Indᵖᴱᴿᴬ :  ERA 2ᴸ 2ᴸ 2ᴸ 2ᴸ
+  --  Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envvᴱᴿᴬ to Indᵖᴱᴿᴬ)
 
 open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ; Res to Resᴵⁿᵈᵖ;
@@ -155,5 +155,5 @@ abstract
 --------------------------------------------------------------------------------
 -- On both indirection ERAs
 
-Envᴵⁿᵈ :  Set₂
+Envᴵⁿᵈ :  Set₁
 Envᴵⁿᵈ =  Envᴵⁿᵈˣ × Envᴵⁿᵈᵖ

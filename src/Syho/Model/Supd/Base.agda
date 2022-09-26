@@ -6,7 +6,7 @@
 
 module Syho.Model.Supd.Base where
 
-open import Base.Level using (Level; _⊔ᴸ_; 2ᴸ; ↓)
+open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↓)
 open import Base.Func using (_$_; _▷_; _›_; id)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
 open import Base.Prod using (π₀; _×_; _,_; -,_; _,-)
@@ -41,7 +41,7 @@ infix 3 ⟨_⟩[_]⇛ᵍ'⟨_⟩_ ⟨_⟩[_]⇛ᵍ⟨_⟩_
 
 ⟨_⟩[_]⇛ᵍ'⟨_⟩_ :  ∀{X : Set ł} →
   Mem →  (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł') →
-  Mem →  Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
+  Mem →  Propᵒ ł'' →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
 ⟨ M ⟩[ get , set , Inv ]⇛ᵍ'⟨ M' ⟩ Pᵒ =  ∀ᵒ Eᴵⁿ ,
   Inv (get Eᴵⁿ) -∗ᵒ' (envᴳ M Eᴵⁿ ⤇ᴱ' λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ' Inv x)
 
@@ -54,7 +54,7 @@ abstract
 
   ⟨_⟩[_]⇛ᵍ⟨_⟩_ :  ∀{X : Set ł} →
     Mem →  (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł') →
-    Mem →  Propᵒ ł'' →  Propᵒ (2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
+    Mem →  Propᵒ ł'' →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł'')
   ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ =  ∀ᵒ Eᴵⁿ ,
     Inv (get Eᴵⁿ) -∗ᵒ (envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ , Pᵒ ∗ᵒ Inv x)
 
@@ -64,8 +64,8 @@ abstract
     {gsI : (Envᴵⁿᴳ → X) × (X → Envᴵⁿᴳ → Envᴵⁿᴳ) × (X → Propᵒ ł')}
     {M M' : Mem} {Pᵒ : Propᵒ ł''}  →
     (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ)  ≡  (⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ)
-  ⇛ᵍ≡⇛ᵍ' {ł} {ł'} {ł''} {X}  rewrite -∗ᵒ≡-∗ᵒ' {ł'} {2ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł''} |
-    ⤇ᴱ≡⤇ᴱ' {ł} {2ᴸ ⊔ᴸ ł' ⊔ᴸ ł''} {X} | ∗ᵒ≡∗ᵒ' {ł''} {ł'} =  refl
+  ⇛ᵍ≡⇛ᵍ' {ł} {ł'} {ł''} {X}  rewrite -∗ᵒ≡-∗ᵒ' {ł'} {1ᴸ ⊔ᴸ ł ⊔ᴸ ł' ⊔ᴸ ł''} |
+    ⤇ᴱ≡⤇ᴱ' {ł} {1ᴸ ⊔ᴸ ł' ⊔ᴸ ł''} {X} | ∗ᵒ≡∗ᵒ' {ł''} {ł'} =  refl
 
   ⇛ᵍ⇒⇛ᵍ' :  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ'⟨ M' ⟩ Pᵒ
   ⇛ᵍ⇒⇛ᵍ' =  substᵒ id ⇛ᵍ≡⇛ᵍ'

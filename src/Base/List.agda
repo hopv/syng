@@ -371,6 +371,16 @@ List⁺⇒×List (a ∷⁺ as) =  a , uncurry _∷_ $ List⁺⇒×List as
 ⇒List⇒List⁺ a [] =  [ a ]⁺
 ⇒List⇒List⁺ a (b ∷ bs) =  a ∷⁺ ⇒List⇒List⁺ b bs
 
+-- hd⁺, tl⁺ :  Head and tail of List⁺
+
+hd⁺ :  List⁺ A →  A
+hd⁺ [ a ]⁺ =  a
+hd⁺ (a ∷⁺ _) =  a
+
+tl⁺ :  List⁺ A →  List A
+tl⁺ [ _ ]⁺ =  []
+tl⁺ (_ ∷⁺ as) =  uncurry _∷_ $ List⁺⇒×List as
+
 instance
 
   -- List⁺ A is inhabited if A is inhabited

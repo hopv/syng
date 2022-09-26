@@ -58,8 +58,8 @@ instance
     infix 4 _≟'_
     _≟'_ :  ∀ (as bs : List A) →  Dec $ as ≡ bs
     [] ≟' [] =  yes refl
-    [] ≟' _ ∷ _ =  no λ()
-    _ ∷ _ ≟' [] =  no λ()
+    [] ≟' _ ∷ _ =  no λ ()
+    _ ∷ _ ≟' [] =  no λ ()
     a ∷ as' ≟' b ∷ bs'  with a ≟ b | as' ≟' bs'
     … | yes refl | yes refl =  yes refl
     … | no a≢b | _ =  no λ{ refl → a≢b refl }

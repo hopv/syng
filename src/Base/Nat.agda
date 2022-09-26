@@ -230,8 +230,8 @@ instance
     infix 4 _≟'_
     _≟'_ :  ∀ a b →  Dec $ a ≡ b
     0 ≟' 0 =  yes refl
-    0 ≟' ṡ _ =  no λ()
-    ṡ _ ≟' 0 =  no λ()
+    0 ≟' ṡ _ =  no λ ()
+    ṡ _ ≟' 0 =  no λ ()
     ṡ m' ≟' ṡ n'  with m' ≟' n'
     … | yes refl =  yes refl
     … | no m'≢n' =  no λ{ refl → m'≢n' refl }

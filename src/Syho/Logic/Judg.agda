@@ -357,7 +357,7 @@ data  _⊢[_]*_  where
   -- Without that ▶, we could have any partial Hoare triple (horᴾ/↪⟨⟩ᴾ-use' in
   -- Syho.Logic.Paradox)
 
-  ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ  λ v → Q˂˙ v .!
+  ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᵀ
@@ -392,7 +392,7 @@ data  _⊢[_]*_  where
   -- Syho.Logic.Paradox)
 
   ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
-                ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ]  λ v → Q˂˙ v .!
+                ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
 
   ------------------------------------------------------------------------------
   -- On the impredicative invariant
@@ -466,7 +466,7 @@ data  _⊢[_]*_  where
   -- Frame
 
   hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
-                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v →  R  ∗  Q˙ v
+                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v →  R  ∗  Q˙ v
 
   -- Bind by a context
 

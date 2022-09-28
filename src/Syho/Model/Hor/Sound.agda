@@ -72,7 +72,7 @@ abstract
 abstract
 
   ⊢⁺⟨⟩ᵀ-sem :
-    P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ∞ ]  λ v → ⸨ Q˙ v ⸩
+    P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ∞ ] λ v → ⸨ Q˙ v ⸩
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] R˙ →  P ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] R˙
 
@@ -84,7 +84,7 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᵀ-sem (Px⊢⟨vk⟩Q x)
 
   -- ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
-  --               ⊢[ ∞ ]⟨ ¡ e ⟩ᵀ[ ṡ i ]  λ v → Q˂˙ v .!
+  --               ⊢[ ∞ ]⟨ ¡ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
   -- The counter increment ṡ i makes the recursive call of ⊢⁺⟨⟩ᵀ-sem inductive
 
   ⊢⁺⟨⟩ᵀ-sem ↪⟨⟩ᵀ-use big =  ⇛ᵒ-⁺⟨⟩ᵀᵒ λ _ → big ▷
@@ -109,7 +109,7 @@ abstract
     ⁺⟨⟩ᵀᵒ-mono (λ v Qva _ → ⊢⇛-sem (Qv⊢⇛Rv v) Qva) › ⁺⟨⟩ᵀᵒ-⇛ᵒ
 
   -- hor-frameˡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
-  --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  λ v →  R  ∗  Q˙ v
+  --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] λ v →  R  ∗  Q˙ v
 
   ⊢⁺⟨⟩ᵀ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q ) › ⁺⟨⟩ᵀᵒ-eatˡ
 
@@ -186,7 +186,7 @@ abstract
   -- not decrease but the size ι does, which is the key trick.
 
   ⊢⁺⟨⟩ᴾ-sem :
-    P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ]  λ v → ⸨ Q˙ v ⸩
+    P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ v → ⸨ Q˙ v ⸩
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ R˙ →  P ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ R˙
 
@@ -197,7 +197,7 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᴾ-sem (Px⊢⟨vk⟩Q x)
 
-  -- ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ  λ v → Q˂˙ v .!
+  -- ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
 
   ⊢⁺⟨⟩ᴾ-sem ↪⟨⟩ᴾ-use big =  ⁺⟨⟩ᴾᵒ-▶ λ{ .! → ⇛ᵒ-⁺⟨⟩ᴾᵒ λ _ → big ▷
     ∗ᵒ-monoʳ (↪⟨⟩ᴾᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) →
@@ -220,7 +220,7 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (hor-ᵀ⇒ᴾ P⊢⟨vk⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
   -- hor-frameˡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →
-  --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  λ v →  R  ∗  Q˙ v
+  --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ λ v →  R  ∗  Q˙ v
 
   ⊢⁺⟨⟩ᴾ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q ) › ⁺⟨⟩ᴾᵒ-eatˡ
 

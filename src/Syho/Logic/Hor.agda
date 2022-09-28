@@ -81,10 +81,10 @@ abstract
   -- Frame
 
   -->  hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
-  -->                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v →  R  ∗  Q˙ v
+  -->                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v →  R  ∗  Q˙ v
 
   hor-frameʳ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
-                P  ∗  R  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  λ v →  Q˙ v  ∗  R
+                P  ∗  R  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v →  Q˙ v  ∗  R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
   -- Value

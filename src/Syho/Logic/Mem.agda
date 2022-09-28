@@ -51,6 +51,8 @@ abstract
 
   -->  ↦⟨⟩-split :  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ p ⟩ ᵗv  ∗  θ ↦⟨ q ⟩ ᵗv
 
+  -- Memory read
+
   -->  ahor-🞰 :  θ ↦⟨ p ⟩ (-, v)  ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ θ ⟩ λ u →
   -->              ⌜ u ≡ v ⌝∧  θ ↦⟨ p ⟩ (-, v)
 
@@ -59,12 +61,16 @@ abstract
   hor-🞰 θ↦v∗P⊢⟨Kv⟩Q =  ahor-hor (ahor-frameʳ $ ahor-frameʳ $ ahor-🞰 {i = 0})
     λ v →  ∃∗-elim λ{ refl → θ↦v∗P⊢⟨Kv⟩Q }
 
+  -- Memory write
+
   -->  ahor-← :  θ ↦ ᵗu  ⊢[ ι ][ i ]ᵃ⟨ θ ←ᴿ v ⟩ λ _ →  θ ↦ (-, v)
 
   hor-← :  θ ↦ (-, v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
            θ ↦ ᵗu  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , θ ←ᴿ v) ⟩[ wκ ]  Q˙
   hor-← θ↦v∗P⊢⟨K⟩Q =  ahor-hor (ahor-frameʳ $ ahor-frameʳ $ ahor-← {i = 0})
     λ{ (ṽ _) → θ↦v∗P⊢⟨K⟩Q }
+
+  -- Memory allocation
 
   -->  ahor-alloc :  ⊤'  ⊢[ ι ][ i ]ᵃ⟨ allocᴿ n ⟩ λᵛ θ ,
   -->                  θ ↦ᴸ rep n ⊤ṽ  ∗  Free n θ
@@ -75,6 +81,8 @@ abstract
   hor-alloc θ↦∗Freeθ∗P⊢⟨Kθ⟩Q =  ahor-hor
     (ahor-frameʳ $ ⊤∗-intro » ahor-frameʳ $ ahor-alloc {i = 0})
     λ{ (ṽ θ) → ∗-assocˡ » θ↦∗Freeθ∗P⊢⟨Kθ⟩Q θ }
+
+  -- Memory freeing
 
   -->  ahor-free :  len ᵗvs ≡ n  →
   -->    θ ↦ᴸ ᵗvs  ∗  Free n θ  ⊢[ ι ][ i ]ᵃ⟨ freeᴿ θ ⟩ λ _ →  ⊤'

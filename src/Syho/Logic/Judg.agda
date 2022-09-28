@@ -19,7 +19,7 @@ open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Inhʸ)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
-  ∃∈-syntax; _∧_; ⊤'; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
+  ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ᴸ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_; V⇒E;
   TyVal; ⊤ṽ)
@@ -226,9 +226,9 @@ data  _⊢[_]*_  where
 
   ⤇-eatˡ :  P ∗ (⤇ Q) ⊢[ ι ] ⤇ P ∗ Q
 
-  -- ∃ -, can get outside ⤇
+  -- ⌜ ⌝∧ can get outside ⤇
 
-  ⤇-∃-out :  ⤇ (∃ _ ∈ X , P) ⊢[ ι ] ∃ _ ∈ X , ⤇ P
+  ⤇-⌜⌝∧-out :  ⤇ (⌜ X ⌝∧ P) ⊢[ ι ] ⌜ X ⌝∧ ⤇ P
 
   ------------------------------------------------------------------------------
   -- On □

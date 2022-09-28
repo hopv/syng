@@ -13,13 +13,14 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.List using (List; []; _∷_; _⧺_; All²; []ᴬ²; _∷ᴬ²_)
 open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
-  ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; [∗])
+  ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝→_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
+  □_; [∗])
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (JudgRes; Pure; _⊢[_]*_; _⊢[_]_;
   _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro;
   choice; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ;
-  -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-∃-out; □-mono; □-elim;
+  -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out; □-mono; □-elim;
   □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 
 private variable
@@ -189,30 +190,26 @@ abstract
   ⌜⌝-mono :  (X → Y) →  ⌜ X ⌝ ⊢[ ι ] ⌜ Y ⌝
   ⌜⌝-mono f =  ⌜⌝-elim λ x →  ⌜⌝-intro $ f x
 
-  -- Introduce & eliminate ⌜ ⌝ ∧
+  -- ⌜ X ⌝ ∧ is the same with ⌜ X ⌝∧
 
-  ⌜⌝∧-intro :  X →  P ⊢[ ι ] ⌜ X ⌝ ∧ P
-  ⌜⌝∧-intro x =  ∧-intro (⌜⌝-intro x) ⊢-refl
+  ⌜⌝'∧⇒⌜⌝∧ :  ⌜ X ⌝ ∧ P ⊢[ ι ] ⌜ X ⌝∧ P
+  ⌜⌝'∧⇒⌜⌝∧ =  ∧-comm » →-elim $ ∃-elim λ x → →-intro $ ∧-elimˡ » ∃-intro x
 
-  ⌜⌝∧-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝ ∧ P ⊢[ ι ] Q
-  ⌜⌝∧-elim X→P⊢Q =  ∧-comm » →-elim $ ⌜⌝-elim $
-    λ x →  →-intro $ ∧-elimˡ » X→P⊢Q x
+  ⌜⌝∧⇒⌜⌝'∧ :  ⌜ X ⌝∧ P ⊢[ ι ] ⌜ X ⌝ ∧ P
+  ⌜⌝∧⇒⌜⌝'∧ =  ∃-elim λ x → ∧-intro (⌜⌝-intro x) ⊢-refl
 
-  -- ⌜ X ⌝ →' is the same with ∀ _ ∈ X ,
+  -- ⌜ X ⌝ →' is the same with ⌜ X ⌝→
 
-  ⌜⌝→⇒∀ :  ⌜ X ⌝ →' P ⊢[ ι ] ∀' _ ∈ X , P
-  ⌜⌝→⇒∀ =  ∀-intro λ x →  ⌜⌝∧-intro x » →-apply
+  ⌜⌝'→⇒⌜⌝→ :  ⌜ X ⌝ →' P ⊢[ ι ] ⌜ X ⌝→ P
+  ⌜⌝'→⇒⌜⌝→ =  ∀-intro λ x → ∧-intro (⌜⌝-intro x) ⊢-refl » →-apply
 
-  ∀⇒⌜⌝→ :  ∀' _ ∈ X , P ⊢[ ι ] ⌜ X ⌝ →' P
-  ∀⇒⌜⌝→ =  →-intro $ ⌜⌝∧-elim λ x →  ∀-elim x
+  ⌜⌝→⇒⌜⌝'→ :  ⌜ X ⌝→ P ⊢[ ι ] ⌜ X ⌝ →' P
+  ⌜⌝→⇒⌜⌝'→ =  →-intro $ ⌜⌝'∧⇒⌜⌝∧ » ∃-elim λ x → ∀-elim x
 
-  -- ⌜ X ⌝ ∧ is the same with ∃ _ ∈ X ,
+  -- Turn P ⊢ ⌜ X ⌝ into P ⊢ ⌜ X ⌝∧ P
 
-  ⌜⌝∧⇒∃ :  ⌜ X ⌝ ∧ P ⊢[ ι ] ∃ _ ∈ X , P
-  ⌜⌝∧⇒∃ =  ⌜⌝∧-elim λ x →  ⊢-refl » ∃-intro x
-
-  ∃⇒⌜⌝∧ :  ∃ _ ∈ X , P ⊢[ ι ] ⌜ X ⌝ ∧ P
-  ∃⇒⌜⌝∧ =  ∃-elim λ x →  ⌜⌝∧-intro x
+  retain-⌜⌝ :  P ⊢[ ι ] ⌜ X ⌝ →  P ⊢[ ι ] ⌜ X ⌝∧ P
+  retain-⌜⌝ P⊢X =  ∧-intro P⊢X ⊢-refl » ⌜⌝'∧⇒⌜⌝∧
 
   -- ⌜⌝ commutes with ∀/∃/∧/∨/⊤'/⊥'/→
 
@@ -229,7 +226,7 @@ abstract
   ⌜⌝-∃-out =  ⌜⌝-elim λ (x , y) →  ⌜⌝-intro y » ∃-intro x
 
   ⌜⌝-∧-in :  ⌜ X ⌝ ∧ ⌜ Y ⌝ ⊢[ ι ] ⌜ X × Y ⌝
-  ⌜⌝-∧-in =  ⌜⌝∧-elim λ x →  ⌜⌝-mono λ y →  x , y
+  ⌜⌝-∧-in =  ⌜⌝'∧⇒⌜⌝∧ » ∃-elim λ x → ⌜⌝-mono λ y → x , y
 
   ⌜⌝-∧-out :  ⌜ X × Y ⌝ ⊢[ ι ] ⌜ X ⌝ ∧ ⌜ Y ⌝
   ⌜⌝-∧-out =  ⌜⌝-elim λ (x , y) →  ∧-intro (⌜⌝-intro x) (⌜⌝-intro y)
@@ -248,10 +245,10 @@ abstract
   ⌜⊥⌝-elim =  ⌜⌝-elim absurd
 
   ⌜⌝-→-in :  ⌜ X ⌝ →' ⌜ Y ⌝ ⊢[ ι ] ⌜ (X → Y) ⌝
-  ⌜⌝-→-in =  ⌜⌝→⇒∀ » ⌜⌝-∀-in
+  ⌜⌝-→-in =  ⌜⌝'→⇒⌜⌝→ » ⌜⌝-∀-in
 
   ⌜⌝-→-out :  ⌜ (X → Y) ⌝ ⊢[ ι ] ⌜ X ⌝ →' ⌜ Y ⌝
-  ⌜⌝-→-out =  →-intro $ ⌜⌝∧-elim λ x → ⌜⌝-mono λ f → f x
+  ⌜⌝-→-out =  →-intro $ ⌜⌝'∧⇒⌜⌝∧ » ∃-elim λ x → ⌜⌝-mono λ f → f x
 
   ------------------------------------------------------------------------------
   -- On ∗
@@ -475,17 +472,12 @@ abstract
 
   -->  ⤇-join :  ⤇ ⤇ P ⊢[ ι ] ⤇ P
 
-  -->  ⤇-∃-out :  ⤇ (∃ _ ∈ X , P) ⊢[ ι ] ∃ _ ∈ X , ⤇ P
+  -->  ⤇-⌜⌝∧-out :  ⤇ (⌜ X ⌝∧ P) ⊢[ ι ] ⌜ X ⌝∧ ⤇ P
 
   -- Eliminate ⤇ from the antecedent
 
   ⤇-elim :  P ⊢[ ι ] ⤇ Q →  ⤇ P ⊢[ ι ] ⤇ Q
   ⤇-elim P⊢⤇Q =  ⤇-mono P⊢⤇Q » ⤇-join
-
-  -- ⌜ ⌝ ∧ can get outside ⤇
-
-  ⤇-⌜⌝∧-out :  ⤇ ⌜ X ⌝ ∧ P ⊢[ ι ] ⌜ X ⌝ ∧ (⤇ P)
-  ⤇-⌜⌝∧-out =  ⤇-mono ⌜⌝∧⇒∃ » ⤇-∃-out » ∃⇒⌜⌝∧
 
   -- ∗ can get inside ⤇
 
@@ -666,18 +658,18 @@ abstract
   □-eatʳ-Pers :  {{Pers Q}} →  □ P ∗ Q ⊢[ ι ] □ (P ∗ Q)
   □-eatʳ-Pers =  ∗-monoʳ Pers-⇒□ » □-∗-in
 
-  -- Introduce & eliminate ⌜ ⌝ ∗
+  -- ⌜ ⌝ ∗ is the same thing with ⌜ ⌝∧
 
-  ⌜⌝∗-intro :  X →  P ⊢[ ι ] ⌜ X ⌝ ∗ P
-  ⌜⌝∗-intro x =  ⌜⌝∧-intro x » Persˡ-∧⇒∗
+  ⌜⌝∗⇒⌜⌝∧ :  ⌜ X ⌝ ∗ P ⊢[ ι ] ⌜ X ⌝∧ P
+  ⌜⌝∗⇒⌜⌝∧ =  ∗⇒∧ » ⌜⌝'∧⇒⌜⌝∧
 
-  ⌜⌝∗-elim :  (X →  P ⊢[ ι ] Q) →  ⌜ X ⌝ ∗ P ⊢[ ι ] Q
-  ⌜⌝∗-elim X→P⊢Q =  ∗⇒∧ » ⌜⌝∧-elim X→P⊢Q
+  ⌜⌝∧⇒⌜⌝∗ :  ⌜ X ⌝∧ P ⊢[ ι ] ⌜ X ⌝ ∗ P
+  ⌜⌝∧⇒⌜⌝∗ =  ⌜⌝∧⇒⌜⌝'∧ » Persˡ-∧⇒∗
 
   -- ⌜ ⌝ ∗ can get outside ⤇
 
   ⤇-⌜⌝∗-out :  ⤇ ⌜ X ⌝ ∗ P ⊢[ ι ] ⌜ X ⌝ ∗ (⤇ P)
-  ⤇-⌜⌝∗-out =  ⤇-mono ∗⇒∧ » ⤇-⌜⌝∧-out » Persˡ-∧⇒∗
+  ⤇-⌜⌝∗-out =  ⤇-mono ⌜⌝∗⇒⌜⌝∧ » ⤇-⌜⌝∧-out » ⌜⌝∧⇒⌜⌝∗
 
   ------------------------------------------------------------------------------
   -- On [∗]

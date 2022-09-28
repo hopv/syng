@@ -13,7 +13,7 @@ open import Base.Prod using (_,_; π₀; π₁; ∑-case)
 open import Syho.Logic.Prop using (Prop')
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
   ∃-intro; choice; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ;
-  ∗-monoˡ; -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-∃-out; □-mono;
+  ∗-monoˡ; -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out; □-mono;
   □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-ṡ; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ;
   ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛; ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾ-eatˡ⁻ʳ; ↪⟨⟩ᴾ-monoʳᵘ;
@@ -126,9 +126,9 @@ abstract
 
   ⊢-sem ⤇-eatˡ _ =  ⤇ᵒ-eatˡ
 
-  -- ⤇-∃-out :  ⤇ (∃ _ ∈ X , P) ⊢[ ∞ ] ∃ _ ∈ X , ⤇ P
+  -- ⤇-⌜⌝∧-out :  ⤇ (⌜ X ⌝∧ P) ⊢[ ι ] ⌜ X ⌝∧ ⤇ P
 
-  ⊢-sem ⤇-∃-out =  ⤇ᵒ-⌜⌝ᵒ×-out
+  ⊢-sem ⤇-⌜⌝∧-out =  ⤇ᵒ-⌜⌝ᵒ×-out
 
   -- □-mono :  P ⊢[ ∞ ] Q →  □ P ⊢[ ∞ ] □ Q
 

@@ -23,7 +23,8 @@ open import Syho.Logic.Judg public using (○-mono; ○-eatˡ; ○-alloc; □○
   ○-use; ↪⇛-ṡ; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ; ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛; ↪⇛-use;
   ↪ᵃ⟨⟩-ṡ; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪ᵃ⟨⟩-use;
   ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾ-eatˡ⁻ʳ; ↪⟨⟩ᴾ-monoʳᵘ; ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-ṡ;
-  ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀ-eatˡ⁻ʳ; ↪⟨⟩ᵀ-monoʳᵘ; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ; ↪⟨⟩ᵀ-use)
+  ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀ-eatˡ⁻ʳ; ↪⟨⟩ᵀ-monoʳᵘ; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ;
+  ↪⟨⟩ᵀ-use)
 
 private variable
   ł :  Level
@@ -218,6 +219,8 @@ abstract
 
   -->  ○⇒↪⟨⟩ᵀ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)  →
   -->            ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
+
+  -->  ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
 
   -->  ↪⟨⟩ᵀ-use :  P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
   -->                ⊢[ ι ]⟨ ¡ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!

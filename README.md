@@ -119,7 +119,8 @@ following parts.
         [`Supd`](src/Syho/Logic/Supd.agda) for super updates;
         [`Ind`](src/Syho/Logic/Ind.agda) for the indirection modality and the
         precursors;
-        [`Hor`](src/Syho/Logic/Supd.agda) for Hoare triples.
+        [`Hor`](src/Syho/Logic/Supd.agda) for Hoare triples;
+        [`Mem`](src/Syho/Logic/Mem.agda) for the memory.
     + [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof
         rules.
     + [`Example`](src/Syho/Logic/Example.agda) for examples.
@@ -152,11 +153,11 @@ following parts.
         and the semantic soundness of the pure sequent.**
         * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
             connectives;
-            [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;
             [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the points-to
             and freeing tokens.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
+            [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;
             [`Ind`](src/Syho/Model/Prop/Ind.agda) for interpreting the
             indirection modality and precursors.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting all the

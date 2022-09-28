@@ -160,7 +160,7 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
 
 --------------------------------------------------------------------------------
--- Basic P :  P doesn't contain impredicate connectives
+-- Basic P :  P doesn't contain impredicative connectives
 
 data  Basic :  Prop' ∞ →  Set₁  where
 

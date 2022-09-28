@@ -289,10 +289,13 @@ abstract
   ∗-assocʳ :  P ∗ (Q ∗ R) ⊢[ ι ] (P ∗ Q) ∗ R
   ∗-assocʳ =  ∗-comm » ∗-monoˡ ∗-comm » ∗-assocˡ » ∗-comm » ∗-monoˡ ∗-comm
 
-  -- - ∗ is commutative
+  -- - ∗ / ∗ - is commutative
 
   ?∗-comm :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ P ∗ R
   ?∗-comm =  ∗-assocʳ » ∗-monoˡ ∗-comm » ∗-assocˡ
+
+  ∗?-comm :  (P ∗ Q) ∗ R ⊢[ ι ] (P ∗ R) ∗ Q
+  ∗?-comm =  ∗-assocˡ » ∗-monoʳ ∗-comm » ∗-assocʳ
 
   -- ∗ can turn into ∧
 

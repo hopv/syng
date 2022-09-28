@@ -283,10 +283,13 @@ abstract
   ∗ᵒ-assocʳ =
     ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm
 
-  -- - ∗ᵒ is commutative
+  -- - ∗ᵒ / ∗ᵒ - is commutative
 
   ?∗ᵒ-comm :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Pᵒ ∗ᵒ Rᵒ
   ?∗ᵒ-comm =  ∗ᵒ-assocʳ › ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ
+
+  ∗ᵒ?-comm :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ (Pᵒ ∗ᵒ Rᵒ) ∗ᵒ Qᵒ
+  ∗ᵒ?-comm =  ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ
 
   -- Eliminate ∗ᵒ
 

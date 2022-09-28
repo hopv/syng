@@ -124,7 +124,7 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᵀᵒ-mono (λ v → ⊢⁺⟨⟩ᵀ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᵀᵒ-bind
 
-  -- hor-nd :  Inhʸ Xʸ →  (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
+  -- hor-nd :  Inhʸ Xʸ →  (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᵀ[ i ]  Q˙)  →
   --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-nd InhX P⊢⟨Kx⟩Q) Pa =
@@ -145,9 +145,9 @@ abstract
 
   ⊢⁺⟨⟩ᵀ-sem (hor-⁏ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-⁏
 
-  -- hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  R˙  →
-  --             Q  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
-  --             P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ wκ ]  R˙
+  -- hor-fork :  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᵀ[ i ]  R˙  →
+  --             Q  ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ]  (λ _ → ⊤')  →
+  --             P  ∗  Q  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᵀ[ i ]  R˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
     ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) › ⁺⟨⟩ᵀᵒ-fork
@@ -185,8 +185,7 @@ abstract
   -- the proof ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ; for ↪⟨⟩ᴾ-use and horᴾ-▶, the proof structure does
   -- not decrease but the size ι does, which is the key trick.
 
-  ⊢⁺⟨⟩ᴾ-sem :
-    P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ v → ⸨ Q˙ v ⸩
+  ⊢⁺⟨⟩ᴾ-sem : P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ v → ⸨ Q˙ v ⸩
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ R˙ →  P ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ R˙
 
@@ -197,7 +196,7 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᴾ-sem (Px⊢⟨vk⟩Q x)
 
-  -- ↪⟨⟩ᴾ-use :  P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
+  -- ↪⟨⟩ᴾ-use :  P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ∞ ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
 
   ⊢⁺⟨⟩ᴾ-sem ↪⟨⟩ᴾ-use big =  ⁺⟨⟩ᴾᵒ-▶ λ{ .! → ⇛ᵒ-⁺⟨⟩ᴾᵒ λ _ → big ▷
     ∗ᵒ-monoʳ (↪⟨⟩ᴾᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) →
@@ -215,7 +214,7 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (P⊢⟨vk⟩Q ʰ»ᵘ Qv⊢⇛Rv) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q ›
     ⁺⟨⟩ᴾᵒ-mono (λ v Qva _ → ⊢⇛-sem (Qv⊢⇛Rv v) Qva) › ⁺⟨⟩ᴾᵒ-⇛ᵒ
 
-  -- hor-ᵀ⇒ᴾ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
+  -- hor-ᵀ⇒ᴾ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ  Q˙  →   P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-ᵀ⇒ᴾ P⊢⟨vk⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
@@ -235,7 +234,7 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᴾᵒ-mono (λ v → ⊢⁺⟨⟩ᴾ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᴾᵒ-bind
 
-  -- hor-nd :  Inhʸ Xʸ →  (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
+  -- hor-nd :  Inhʸ Xʸ →  (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᴾ  Q˙)  →
   --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-nd InhX P⊢⟨Kx⟩Q) Pa =
@@ -256,9 +255,9 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (hor-⁏ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᴾᵒ-⁏
 
-  -- hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  R˙  →
-  --             Q  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
-  --             P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ wκ ]  R˙
+  -- hor-fork :  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  R˙  →
+  --             Q  ⊢[ ∞ ]⟨ e ⟩ᴾ  (λ _ → ⊤')  →
+  --             P  ∗  Q  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾ  R˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
     ∗ᵒ-mono (⊢⁺⟨⟩ᴾ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᴾ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤) › ⁺⟨⟩ᴾᵒ-fork

@@ -89,31 +89,31 @@ abstract
 --------------------------------------------------------------------------------
 -- Uniqueness of identity proofs
 
--- UIP A :  Uniqueness of identity proofs for A
+-- Uip A :  Uniqueness of identity proofs for A
 
-record  UIP (A : Set ł) :  Set ł  where
-  -- Construct UIP A
+record  Uip (A : Set ł) :  Set ł  where
+  -- Construct Uip A
   constructor uip
 
   field
     -- Any two elements of a ≡ a' are equal for a, a' : A
     eq≡ :  ∀{a a' : A} (eq eq' : a ≡ a') →  eq ≡ eq'
 
-open UIP {{…}} public
+open Uip {{…}} public
 
 abstract
 
-  -- An element of a ≡ a for a : A is only refl if A satisfies UIP
+  -- An element of a ≡ a for a : A is only refl if A satisfies Uip
 
-  ≡refl :  {{UIP A}} →  ∀{a : A} (eq : a ≡ a) →  eq ≡ refl
+  ≡refl :  {{Uip A}} →  ∀{a : A} (eq : a ≡ a) →  eq ≡ refl
   ≡refl eq =  eq≡ eq refl
 
   -- If there is a constant function k from a ≡ a' to a ≡ a' for any a, a': A,
-  -- then A satisfies UIP
+  -- then A satisfies Uip
 
-  const⇒UIP :  ∀{k : ∀{a a' : A} → a ≡ a' → a ≡ a'} →
-    (∀{a a'} (eq eq' : a ≡ a') → k eq ≡ k eq') →  UIP A
-  const⇒UIP {k = k} k-const .eq≡ eq eq' =
+  const⇒Uip :  ∀{k : ∀{a a' : A} → a ≡ a' → a ≡ a'} →
+    (∀{a a'} (eq eq' : a ≡ a') → k eq ≡ k eq') →  Uip A
+  const⇒Uip {k = k} k-const .eq≡ eq eq' =
     ◠ ◠kr◇k≡ eq ◇ cong (◠ k refl ◇_) (k-const eq eq') ◇ ◠kr◇k≡ eq'
    where
     ◠◇-refl :  (eq : a ≡ a') →  (◠ eq ◇ eq) ≡ refl

@@ -8,7 +8,7 @@ module Base.Prod where
 
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; it)
-open import Base.Eq using (_≡_; refl; subst; UIP; ≡refl)
+open import Base.Eq using (_≡_; refl; subst; Uip; ≡refl)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 
 --------------------------------------------------------------------------------
@@ -62,9 +62,9 @@ abstract
   ≡∑⇒π₀≡π₁≡ refl =  refl , refl
 
   -- Destruct equality on a dependent pair of the same π₀,
-  -- assuming that π₀'s type satisfies UIP
+  -- assuming that π₀'s type satisfies Uip
 
-  ≡∑⇒π₁≡ :  {{UIP A}} →  _≡_ {A = ∑˙ A B˙} (a , b) (a , b') →  b ≡ b'
+  ≡∑⇒π₁≡ :  {{Uip A}} →  _≡_ {A = ∑˙ A B˙} (a , b) (a , b') →  b ≡ b'
   ≡∑⇒π₁≡ {{UipA}} ab≡ab'  with ≡∑⇒π₀≡π₁≡ ab≡ab'
   … | a≡a , b≡b'  rewrite ≡refl {{UipA}} a≡a =  b≡b'
 

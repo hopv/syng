@@ -9,7 +9,7 @@ module Base.Dec where
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _›_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
-open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; UIP; eq≡; const⇒UIP)
+open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; Uip; eq≡; const⇒Uip)
 
 private variable
   ł ł' ł'' :  Level
@@ -117,10 +117,10 @@ inj⇒≡Dec {f = f} f-inj ._≟_ a a'  with f a ≟ f a'
 
 instance abstract
 
-  -- ≡Dec implies UIP
+  -- ≡Dec implies Uip
 
-  ≡Dec⇒UIP :  {{≡Dec A}} →  UIP A
-  ≡Dec⇒UIP {A = A} =  const⇒UIP k-const
+  ≡Dec⇒Uip :  {{≡Dec A}} →  Uip A
+  ≡Dec⇒Uip {A = A} =  const⇒Uip k-const
    where
     k :  ∀{a b : A} →  a ≡ b →  a ≡ b
     k {a} {b} eq  with a ≟ b

@@ -38,8 +38,8 @@ Yes (no _) =  ⊥
 
 --  Get A from an instance yes-type decision
 
-by-dec :  {{a? : Dec A}} →  {Yes a?} →  A
-by-dec {{yes a}} =  a
+auto :  {{a? : Dec A}} →  {Yes a?} →  A
+auto {{yes a}} =  a
 
 instance
 

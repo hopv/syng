@@ -35,31 +35,6 @@ private variable
   ι :  Size
 
 --------------------------------------------------------------------------------
--- Thunk :  For flexibly coinductive or coinductive-inductive data types
-
-infix 8 ¡_
-record  Thunk (F : Size → Set ł) (ι : Size) :  Set ł  where
-  coinductive
-
-  -- ¡ :  Construct a thunk
-  constructor ¡_
-
-  -- ! :  Force Thunk F ι into F ι' for any ι' < ι
-  -- It can force Thunk F ∞ into F ∞ (when F satisfies some conditions)
-  field  ! :  {ι' : Size< ι} →  F ι'
-
-open Thunk public
-
---------------------------------------------------------------------------------
--- Shrunk :  For flexibly inductive data types
-
-infix 8 §_
-data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where
-
-  -- Construct a shrunk
-  §_ :  {ι' : Size< ι} →  F ι' →  Shrunk F ι
-
---------------------------------------------------------------------------------
 -- Size₀ :  Set₀ wrapper for Size
 
 record  Size₀ :  Set₀  where
@@ -83,3 +58,28 @@ abstract
 
   <ˢ-wf :  Acc _<ˢ_ (sz ι)
   <ˢ-wf =  acc λ{ size< → <ˢ-wf }
+
+--------------------------------------------------------------------------------
+-- Thunk :  For flexibly coinductive or coinductive-inductive data types
+
+infix 8 ¡_
+record  Thunk (F : Size → Set ł) (ι : Size) :  Set ł  where
+  coinductive
+
+  -- ¡ :  Construct a thunk
+  constructor ¡_
+
+  -- ! :  Force Thunk F ι into F ι' for any ι' < ι
+  -- It can force Thunk F ∞ into F ∞ (when F satisfies some conditions)
+  field  ! :  {ι' : Size< ι} →  F ι'
+
+open Thunk public
+
+--------------------------------------------------------------------------------
+-- Shrunk :  For flexibly inductive data types
+
+infix 8 §_
+data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where
+
+  -- Construct a shrunk
+  §_ :  {ι' : Size< ι} →  F ι' →  Shrunk F ι

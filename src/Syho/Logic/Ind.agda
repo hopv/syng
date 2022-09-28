@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Proof rules on ○, ↪⇛, ↪⟨ ⟩ᴾ, and ↪⟨ ⟩ᵀ
+-- Proof rules on the indirection modality and the precursors
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

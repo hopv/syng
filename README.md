@@ -117,7 +117,7 @@ following parts.
         [`Judg`](src/Syho/Logic/Judg.agda) for judgments.
     + [`Core`](src/Syho/Logic/Core.agda) for core proof rules;
         [`Supd`](src/Syho/Logic/Supd.agda) for super updates;
-        [`Ind`](src/Syho/Logic/Ind.agda) for the indirection modality and
+        [`Ind`](src/Syho/Logic/Ind.agda) for the indirection modality and the
         precursors;
         [`Hor`](src/Syho/Logic/Supd.agda) for Hoare triples.
     + [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof

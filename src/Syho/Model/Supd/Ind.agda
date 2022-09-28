@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Super update on Ind, ○ᵒ, ↪⇛ᵒ, ↪⟨ ⟩ᴾᵒ, and ↪⟨ ⟩ᵀᵒ
+-- Super update on the indirection modality and the precursors
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

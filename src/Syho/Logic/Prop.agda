@@ -11,10 +11,21 @@ open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
 open import Base.Size using (Size; ∞; Thunk)
 open import Base.Prod using (_×_; _,_; curry)
+open import Base.Sum using (_⨿_)
+open import Base.Zoi using (Zoi)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
+open import Base.Str using (Str)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; TyVal)
+
+--------------------------------------------------------------------------------
+-- InvName :  Invariant name
+--            We can choose any type with decidable equality;
+--            we choose here List (Str ⨿ ℕ) for good expressivity
+
+InvName :  Set₀
+InvName =  List (Str ⨿ ℕ)
 
 --------------------------------------------------------------------------------
 -- Prop' :  Proposition
@@ -36,6 +47,7 @@ private variable
   q⁺ :  ℚ⁺
   ᵗv :  TyVal
   T :  Type
+  Nm :  InvName → Zoi
 
 infix 3 ⤇_
 infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
@@ -73,6 +85,15 @@ data  Prop' ι  where
   -- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare-triple precursor
   _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr ∞ T →  (Val T → Prop˂ ∞) →  Prop' ι
   _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr ∞ T →  ℕ →  (Val T → Prop˂ ∞) →  Prop' ι
+
+  -- [ ]ᴵ :  Invariant name set token
+  [_]ᴵ :  (InvName → Zoi) →  Prop' ι
+
+  -- Inv :  Invariant token
+  Inv :  InvName →  Prop˂ ι →  Prop' ι
+
+  -- OInv :  Open invariant token
+  OInv :  InvName →  Prop˂ ι →  Prop' ι
 
   -- ↦⟨ ⟩ :  Points-to token
   _↦⟨_⟩_ :  Addr →  ℚ⁺ →  TyVal →  Prop' ι
@@ -185,6 +206,7 @@ data  Basic :  Prop' ∞ →  Set₁  where
     □-Basic :  {{Basic P}} →  Basic $ □ P
     ↦⟨⟩-Basic :  Basic $ θ ↦⟨ q⁺ ⟩ ᵗv
     Free-Basic :  Basic $ Free n θ
+    []ᴵ-Basic :  Basic [ Nm ]ᴵ
 
 instance
 

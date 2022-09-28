@@ -5,7 +5,8 @@ ghost states**.
 
 Syho supports **higher-order ghost states** (or **impredicative resources**),
 bringing powerful expressivity, just like an existing separation logic
-[**Iris**](https://iris-project.org/).
+[**Iris**](https://iris-project.org/).  
+Notably, Syho supports **impredicative invariants**.
 
 But in contrast to Iris's *fully semantic* approach, Syho models the
 higher-order ghost states simply using the logic's **syntax** (for propositions
@@ -119,6 +120,7 @@ following parts.
         [`Supd`](src/Syho/Logic/Supd.agda) for super updates;
         [`Ind`](src/Syho/Logic/Ind.agda) for the indirection modality and the
         precursors;
+        [`Inv`](src/Syho/Logic/Inv.agda) for the impredicative invariant.
         [`Hor`](src/Syho/Logic/Supd.agda) for Hoare triples;
         [`Mem`](src/Syho/Logic/Mem.agda) for the memory.
     + [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof

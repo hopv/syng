@@ -14,13 +14,16 @@ open import Base.Eq using (_≡_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
+open import Base.Dec using ()
+open import Base.Zoi using (Zoi; _⊎ᶻ_; ✔ᶻ_; ^ᶻ_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; len; rep)
+open import Base.Str using ()
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Inhʸ)
-open import Syho.Logic.Prop using (Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax; ∃-syntax;
-  ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_;
-  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦_; _↦ᴸ_; Free; Basic)
+open import Syho.Logic.Prop using (InvName; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
+  ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_;
+  ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴵ; Inv; OInv; _↦_; _↦ᴸ_; Free; Basic)
 open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_; V⇒E;
   TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_; _←ᴿ_;
@@ -140,6 +143,8 @@ private variable
   p q :  ℚ⁺
   ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
+  nm :  InvName
+  Nm Nm' :  InvName → Zoi
 
 infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ʰ_ _ʰ»ᵘ_
 
@@ -388,6 +393,56 @@ data  _⊢[_]*_  where
 
   ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
                 ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ]  λ v → Q˂˙ v .!
+
+  ------------------------------------------------------------------------------
+  -- On the impredicative invariant
+
+  -- Invariant name set tokens can be merged and split w.r.t. the set sum
+
+  []ᴵ-merge :  [ Nm ]ᴵ  ∗  [ Nm' ]ᴵ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴵ
+
+  []ᴵ-split :  [ Nm ⊎ᶻ Nm' ]ᴵ  ⊢[ ι ]  [ Nm ]ᴵ  ∗  [ Nm' ]ᴵ
+
+  -- The set of an invariant name set token is valid
+
+  []ᴵ-✔ :  [ Nm ]ᴵ  ⊢[ ι ]  ⌜ ✔ᶻ Nm ⌝
+
+  -- An invariant token is persistent
+
+  Inv-⇒□ :  Inv nm P˂  ⊢[ ι ]  □ Inv nm P˂
+
+  -- Change the proposition of an invariant token assuming a persistent basic
+  -- proposition
+
+  Inv-resp-∗ :  {{Pers R}} →  {{Basic R}} →
+    R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+    R  ∗  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+
+  -- Monotonicity of an open invariant token
+
+  OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm P˂  ⊢[ ι ]  OInv nm Q˂
+
+  -- Let an open invariant token eat a basic proposition
+
+  OInv-eatˡ :  {{Basic Q}} →  Q  ∗  OInv nm P˂  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
+
+  -- Allocate a proposition minus the invariant token itself to get an
+  -- invariant token
+
+  Inv-alloc-rec :  Inv nm P˂ -∗ P  ⊢[ ι ][ i ]⇛  Inv nm P˂
+
+  -- Open an invariant with a token for the invariant name, getting an open
+  -- invariant token
+
+  -- Notably, the proposition P˂ .! is directly obtained, without any guard like
+  -- the later modality as in Iris
+
+  Inv-open :  Inv nm P˂  ∗  [ ^ᶻ nm ]ᴵ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
+
+  -- Retrieve a token for the invariant name out of an open invariant token and
+  -- its proposition
+
+  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [ ^ᶻ nm ]ᴵ
 
   ------------------------------------------------------------------------------
   -- On the Hoare triples

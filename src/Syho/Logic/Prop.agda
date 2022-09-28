@@ -172,28 +172,28 @@ data  Basic :  Prop' ∞ →  Set₁  where
   -- They are not instances, because unfortunately Agda can't search a
   -- universally quantified instance (∀ x → …)
 
-  ∀-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∀˙ P˙)
-  ∃-Basic :  (∀ x → Basic (P˙ x)) →  Basic (∃˙ P˙)
+  ∀-Basic :  (∀ x → Basic $ P˙ x) →  Basic $ ∀˙ P˙
+  ∃-Basic :  (∀ x → Basic $ P˙ x) →  Basic $ ∃˙ P˙
 
   -- Instance data constructors
   instance
 
-    →-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P →' Q)
-    ∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∗ Q)
-    -∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P -∗ Q)
-    ⤇-Basic :  {{Basic P}} →  Basic (⤇ P)
-    □-Basic :  {{Basic P}} →  Basic (□ P)
-    ↦⟨⟩-Basic :  Basic (θ ↦⟨ q⁺ ⟩ ᵗv)
-    Free-Basic :  Basic (Free n θ)
+    →-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic $ P →' Q
+    ∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic $ P ∗ Q
+    -∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic $ P -∗ Q
+    ⤇-Basic :  {{Basic P}} →  Basic $ ⤇ P
+    □-Basic :  {{Basic P}} →  Basic $ □ P
+    ↦⟨⟩-Basic :  Basic $ θ ↦⟨ q⁺ ⟩ ᵗv
+    Free-Basic :  Basic $ Free n θ
 
 instance
 
   -- For ∧/∨/⊤'/⊥'
 
-  ∧-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∧ Q)
+  ∧-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic $ P ∧ Q
   ∧-Basic =  ∀-Basic $ binary it it
 
-  ∨-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic (P ∨ Q)
+  ∨-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic $ P ∨ Q
   ∨-Basic =  ∃-Basic $ binary it it
 
   ⊤-Basic :  Basic ⊤'

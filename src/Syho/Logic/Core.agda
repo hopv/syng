@@ -582,20 +582,20 @@ abstract
   -- They are not instances, because unfortunately Agda can't search a
   -- universally quantified instance (∀ x → …)
 
-  ∀-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∀˙ P˙)
+  ∀-Pers :  (∀ x → Pers $ P˙ x) →  Pers $ ∀˙ P˙
   ∀-Pers ∀Pers .Pers-⇒□ =  ∀-mono (λ x → ∀Pers x .Pers-⇒□) » □-∀-in
 
-  ∃-Pers :  (∀ x → Pers (P˙ x)) →  Pers (∃˙ P˙)
+  ∃-Pers :  (∀ x → Pers $ P˙ x) →  Pers $ ∃˙ P˙
   ∃-Pers ∀Pers .Pers-⇒□ =  ∃-mono (λ x → ∀Pers x .Pers-⇒□) » □-∃-in
 
   instance
 
     -- For ∧/∨/⊤'/⊥'
 
-    ∧-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∧ Q)
+    ∧-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers $ P ∧ Q
     ∧-Pers =  ∀-Pers $ binary it it
 
-    ∨-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∨ Q)
+    ∨-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers $ P ∨ Q
     ∨-Pers =  ∃-Pers $ binary it it
 
     ⊤-Pers :  Pers ⊤'
@@ -606,7 +606,7 @@ abstract
 
     -- For ∗
 
-    ∗-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers (P ∗ Q)
+    ∗-Pers :  {{Pers P}} →  {{Pers Q}} →  Pers $ P ∗ Q
     ∗-Pers .Pers-⇒□ =  ∗⇒∧ » Pers-⇒□ » in□-∧⇒∗
 
     -- For ⌜ ⌝ᵒ
@@ -616,7 +616,7 @@ abstract
 
     -- For □
 
-    □-Pers :  Pers (□ P)
+    □-Pers :  Pers $ □ P
     □-Pers .Pers-⇒□ =  □-dup
 
   ------------------------------------------------------------------------------

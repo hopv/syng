@@ -14,7 +14,6 @@ open import Base.Acc using (Acc; acc; acc-sub)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
-open import Base.Inh using (Inh; any)
 
 --------------------------------------------------------------------------------
 -- ℕ :  Natural number
@@ -49,8 +48,8 @@ instance
 
   -- ℕ is inhabited
 
-  ℕ-Inh :  Inh ℕ
-  ℕ-Inh .any =  0
+  ℕ-Dec :  Dec ℕ
+  ℕ-Dec =  yes 0
 
 --------------------------------------------------------------------------------
 -- ≤, <, ≤ᵈ, <ᵈ :  Order

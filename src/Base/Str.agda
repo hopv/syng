@@ -7,8 +7,7 @@
 module Base.Str where
 
 open import Base.Eq using (_≡_; refl)
-open import Base.Dec using (≡Dec; inj⇒≡Dec)
-open import Base.Inh using (Inh; any)
+open import Base.Dec using (Dec; yes; ≡Dec; inj⇒≡Dec)
 open import Base.Nat using ()
 open import Base.List using (List)
 
@@ -54,6 +53,14 @@ str-inj =  primStringFromListInjective _ _
 
 instance
 
+  -- Char and Str are inhabited
+
+  Char-Dec :  Dec Char
+  Char-Dec =  yes 'a'
+
+  Str-Dec :  Dec Str
+  Str-Dec =  yes ""
+
   -- Equality decision for Char and Str
 
   Char-≡Dec :  ≡Dec Char
@@ -61,11 +68,3 @@ instance
 
   Str-≡Dec :  ≡Dec Str
   Str-≡Dec =  inj⇒≡Dec unstr-inj
-
-  -- Char and Str are inhabited
-
-  Char-Inh :  Inh Char
-  Char-Inh .any =  'a'
-
-  Str-Inh :  Inh Str
-  Str-Inh .any =  ""

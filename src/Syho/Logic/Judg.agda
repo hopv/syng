@@ -14,13 +14,13 @@ open import Base.Eq using (_≡_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Dec using ()
+open import Base.Dec using (Inh)
 open import Base.Zoi using (Zoi; ⊤ᶻ; _⊎ᶻ_; ✔ᶻ_; ^ᶻ_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; len; rep)
 open import Base.Str using ()
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
-open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Inhʸ)
+open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
   λᵛ-syntax; V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
@@ -551,8 +551,9 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
 
-  hor-nd :  Inhʸ Xʸ →  (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
-            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩[ wκ ]  Q˙
+  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →
+    (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
+    P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩[ wκ ]  Q˙
 
   -- ▶, for partial and total Hoare triples
 

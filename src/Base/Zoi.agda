@@ -11,8 +11,7 @@ open import Base.Func using (id)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; refl˙)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_)
-open import Base.Dec using (yes; no; ≡Dec; _≟_; upd˙)
-open import Base.Inh using (Inh; any)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
 
 --------------------------------------------------------------------------------
 -- Zoi :  Zoi (zero, one, or infinity) number
@@ -50,6 +49,11 @@ _ ≤ᶻ _ =  ⊥
 
 instance
 
+  -- Zoi is inhabited
+
+  Zoi-Dec :  Dec Zoi
+  Zoi-Dec =  yes 0ᶻ
+
   -- Equality decision for Zoi
 
   Zoi-≡Dec :  ≡Dec Zoi
@@ -62,11 +66,6 @@ instance
   Zoi-≡Dec ._≟_ 1ᶻ ∞ᶻ =  no λ ()
   Zoi-≡Dec ._≟_ ∞ᶻ 0ᶻ =  no λ ()
   Zoi-≡Dec ._≟_ ∞ᶻ 1ᶻ =  no λ ()
-
-  -- Zoi is inhabited
-
-  Zoi-Inh :  Inh Zoi
-  Zoi-Inh .any =  0ᶻ
 
 abstract
 

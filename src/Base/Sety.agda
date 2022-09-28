@@ -14,7 +14,6 @@ open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Option using (¿_)
 open import Base.Dec using (Dec; yes; no; Yes; ≡Dec; _≟_)
-open import Base.Inh using (any)
 open import Base.Zoi using (Zoi)
 open import Base.Nat using (ℕ)
 open import Base.NatPos using (ℕ⁺)
@@ -216,48 +215,3 @@ instance
     … | yes refl | yes refl =  yes refl
     … | no A≢C | _ =  no λ{ refl → A≢C refl }
     … | _ | no B≢D =  no λ{ refl → B≢D refl }
-
---------------------------------------------------------------------------------
--- ⸨⸩ʸ-Dec :  Inhibitance decision for ⸨ ⸩ʸ
-
-⸨⸩ʸ-Dec :  ∀ Aʸ →  Dec ⸨ Aʸ ⸩ʸ
-⸨⸩ʸ-Dec ⟨2⟩ʸ =  yes any
-⸨⸩ʸ-Dec ⊤ʸ =  yes any
-⸨⸩ʸ-Dec ⊥ʸ =  no λ ()
-⸨⸩ʸ-Dec Zoiʸ =  yes any
-⸨⸩ʸ-Dec ℕʸ =  yes any
-⸨⸩ʸ-Dec ℕ⁺ʸ =  yes any
-⸨⸩ʸ-Dec Charʸ =  yes any
-⸨⸩ʸ-Dec Strʸ =  yes any
-⸨⸩ʸ-Dec ℚ⁺ʸ =  yes any
-⸨⸩ʸ-Dec (¿ʸ _) =  yes any
-⸨⸩ʸ-Dec (Listʸ _) =  yes any
-⸨⸩ʸ-Dec (List⁺ʸ Aʸ)  with ⸨⸩ʸ-Dec Aʸ
-… | yes a =  yes [ a ]⁺
-… | no ¬a =  no $ ¬a ∘ hd⁺
-⸨⸩ʸ-Dec (Seq∞ʸ Aʸ)  with ⸨⸩ʸ-Dec Aʸ
-… | yes a =  yes $ repˢ a
-… | no ¬a =  no $ ¬a ∘ hdˢ
-⸨⸩ʸ-Dec (Aʸ →ʸ Bʸ)  with ⸨⸩ʸ-Dec Aʸ | ⸨⸩ʸ-Dec Bʸ
-… | _ | yes b =  yes λ _ → b
-… | no ¬a | _ =  yes λ a → absurd $ ¬a a
-… | yes a | no ¬b =  no λ f → ¬b $ f a
-⸨⸩ʸ-Dec (Aʸ ×ʸ Bʸ)  with ⸨⸩ʸ-Dec Aʸ | ⸨⸩ʸ-Dec Bʸ
-… | yes a | yes b =  yes (a , b)
-… | no ¬a | _ =  no λ (a ,-) → ¬a a
-… | _ | no ¬b =  no λ (-, b) → ¬b b
-⸨⸩ʸ-Dec (Aʸ ⨿ʸ Bʸ)  with ⸨⸩ʸ-Dec Aʸ | ⸨⸩ʸ-Dec Bʸ
-… | yes a | _ =  yes $ ĩ₀ a
-… | _ | yes b =  yes $ ĩ₁ b
-… | no ¬a | no ¬b =  no λ{ (ĩ₀ a) → ¬a a ; (ĩ₁ b) → ¬b b }
-
--- Inhʸ Aʸ :  ⸨ Aʸ ⸩ʸ is inhabited
-
-Inhʸ :  ∀ Aʸ →  Set₀
-Inhʸ Aʸ =  Yes $ ⸨⸩ʸ-Dec Aʸ
-
--- Get ⸨ Aʸ ⸩ʸ out of Inhʸ Aʸ
-
-anyʸ :  Inhʸ Aʸ →  ⸨ Aʸ ⸩ʸ
-anyʸ {Aʸ} _  with ⸨⸩ʸ-Dec Aʸ
-… | yes a =  a

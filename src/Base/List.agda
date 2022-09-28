@@ -15,7 +15,6 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_; uncurry)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; ≟-refl)
-open import Base.Inh using (Inh; any)
 open import Base.Nat using (ℕ; ṡ_; _<_; ṡ-inj)
 
 --------------------------------------------------------------------------------
@@ -44,8 +43,8 @@ instance
 
   -- List A is inhabited
 
-  List-Inh :  Inh $ List A
-  List-Inh .any =  []
+  List-Dec :  Dec $ List A
+  List-Dec =  yes []
 
 --------------------------------------------------------------------------------
 -- Equality decision for List A
@@ -383,10 +382,11 @@ tl⁺ (_ ∷⁺ as) =  uncurry _∷_ $ List⁺⇒×List as
 
 instance
 
-  -- List⁺ A is inhabited if A is inhabited
+  -- Decide List⁺ A
 
-  List⁺-Inh :  {{Inh A}} →  Inh $ List⁺ A
-  List⁺-Inh .any =  [ any ]⁺
+  List⁺-Dec :  {{Dec A}} →  Dec $ List⁺ A
+  List⁺-Dec {{yes a}} =  yes [ a ]⁺
+  List⁺-Dec {{no ¬a}} =  no λ{ as → ¬a $ hd⁺ as }
 
 --------------------------------------------------------------------------------
 -- ≺ᴰᴹ⟨ ⟩ :  Dershowitz–Manna relation on List A

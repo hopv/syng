@@ -10,8 +10,7 @@ open import Base.Func using (_$_)
 open import Base.Few using (¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (yes; no; ≡Dec; _≟_)
-open import Base.Inh using (Inh; any)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _<≡>_; _≤>_; _+_; _*_; ṡ≤ṡ; ṡ<ṡ;
   ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤; ≤-<-trans;
   <-≤-trans; ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; +-comm; +-assocˡ; +-injˡ; +-0;
@@ -29,13 +28,6 @@ record  ℕ⁺ :  Set₀  where
 private variable
   k l m n :  ℕ⁺
 
-instance
-
-  -- ℕ⁺ is inhabited
-
-  ℕ⁺-Inh :  Inh ℕ⁺
-  ℕ⁺-Inh .any =  ṡ⁺ any
-
 --------------------------------------------------------------------------------
 -- 1⁺, 2⁺, 3⁺, 4⁺, 5⁺ :  Numbers in ℕ⁺
 
@@ -45,6 +37,13 @@ instance
 3⁺ =  ṡ⁺ 2
 4⁺ =  ṡ⁺ 3
 5⁺ =  ṡ⁺ 4
+
+instance
+
+  -- ℕ⁺ is inhabited
+
+  ℕ⁺-Dec :  Dec ℕ⁺
+  ℕ⁺-Dec =  yes 1⁺
 
 --------------------------------------------------------------------------------
 -- ℕ⁺⇒ℕ :  Back to ℕ

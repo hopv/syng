@@ -12,7 +12,8 @@ open import Base.Eq using (refl; ◠_)
 open import Base.Size using (Size; ∞; !; §_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Inhʸ; anyʸ)
+open import Base.Dec using (Inh; auto)
+open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; Expr; Expr˂; ∇_; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Ktx; _ᴷ◁_; _ᴷ∘ᴷ_; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_;
   forkᴿ; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
@@ -71,16 +72,16 @@ abstract
 
   -- nd and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
 
-  ⁺⟨⟩ᴾᵒ-nd :  Inhʸ Xʸ →
+  ⁺⟨⟩ᴾᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →
     ∀ᵒ x ∈ ⸨ Xʸ ⸩ʸ , ⟨ K ᴷ◁ ∇ x ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨
       ⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-nd InhX big =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ $ anyʸ InhX) ,
+  ⁺⟨⟩ᴾᵒ-nd InhX big =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ auto) ,
     λ{ _ _ _ (redᴷᴿ (nd⇒ x)) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ λ{ .! → big x }})
 
-  ⁺⟨⟩ᵀᵒ-nd :  Inhʸ Xʸ →
+  ⁺⟨⟩ᵀᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →
     ∀ᵒ x ∈ ⸨ Xʸ ⸩ʸ , ⟨ K ᴷ◁ ∇ x ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨
       ⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-nd InhX big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ $ anyʸ InhX) ,
+  ⁺⟨⟩ᵀᵒ-nd InhX big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ auto) ,
     λ{ _ _ _ (redᴷᴿ (nd⇒ x)) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § big x })
 
   -- ▶ and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ

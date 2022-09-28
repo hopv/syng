@@ -36,14 +36,12 @@ Yes :  Dec A →  Set₀
 Yes (yes _) =  ⊤
 Yes (no _) =  ⊥
 
---  Get A from an instance yes-type decision
-
-auto :  {{a? : Dec A}} →  {Yes a?} →  A
-auto {{yes a}} =  a
-
 instance
 
-  -- Dec on ⊤ and ⊥
+  -- Dec on ⟨2⟩, ⊤ and ⊥
+
+  ⟨2⟩-Dec :  Dec $ ⟨2⟩ {ł}
+  ⟨2⟩-Dec =  yes 0₂
 
   ⊤-Dec :  Dec $ ⊤ {ł}
   ⊤-Dec =  yes _
@@ -71,6 +69,27 @@ instance
   ⨿-Dec {{yes a}} =  yes $ ĩ₀ a
   ⨿-Dec {{_}} {{yes b}} =  yes $ ĩ₁ b
   ⨿-Dec {{no ¬a}} {{no ¬b}} =  no $ ⨿-case ¬a ¬b
+
+--------------------------------------------------------------------------------
+-- Inhabitance
+
+-- Inh A :  A is inhabited
+
+record  Inh (A : Set ł) :  Set ł  where
+  -- inh :  Construct Inh
+  constructor inh
+  field
+    -- auto :  Arbitrarily taken inhabitant of A
+    auto :  A
+
+open Inh {{…}} public
+
+instance
+
+  -- Derive Inh from Dec
+
+  Dec-Inh :  {{a? : Dec A}} →  {Yes a?} →  Inh A
+  Dec-Inh {{yes a}} .auto =  a
 
 --------------------------------------------------------------------------------
 -- ≡Dec :  Equality decision

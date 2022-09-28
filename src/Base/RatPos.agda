@@ -11,7 +11,6 @@ open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Dec using (Dec; yes; _≟_; ≟-refl)
-open import Base.Inh using (Inh; any)
 open import Base.Nat using (+-0; *-1ʳ)
 open import Base.NatPos using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _+⁺_; _*⁺_;
   ≤⁺-refl; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-comm; +⁺-assocˡ;
@@ -33,19 +32,19 @@ record  ℚ⁺ : Set where
 private variable
   p q r s :  ℚ⁺
 
-instance
-
-  -- ℚ⁺ is inhabited
-
-  ℚ⁺-Inh :  Inh ℚ⁺
-  ℚ⁺-Inh .any =  any //⁺ any
-
 --------------------------------------------------------------------------------
 -- 1ᴿ⁺, ½ᴿ⁺ :  Numbers in ℚ⁺
 
 1ᴿ⁺ ½⁺ :  ℚ⁺
 1ᴿ⁺ =  1⁺ //⁺ 1⁺
 ½⁺ =  1⁺ //⁺ 2⁺
+
+instance
+
+  -- ℚ⁺ is inhabited
+
+  ℚ⁺-Dec :  Dec ℚ⁺
+  ℚ⁺-Dec =  yes 1ᴿ⁺
 
 --------------------------------------------------------------------------------
 -- ≈ᴿ⁺ :  Equivalence over ℚ⁺

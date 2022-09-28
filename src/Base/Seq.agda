@@ -9,7 +9,7 @@ module Base.Seq where
 open import Base.Level using (Level)
 open import Base.Func using (_$_)
 open import Base.Size using (Size; ∞; Thunk; !)
-open import Base.Inh using (Inh; any)
+open import Base.Dec using (Dec; yes; no)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List⁺; [_]⁺; _∷⁺_)
 
@@ -50,10 +50,11 @@ repˢ a =  a ∷ˢ λ{ .! → repˢ a }
 
 instance
 
-  -- Seq A is inhabited if A is inhabited
+  -- Decide Seq A
 
-  Seq-Inh :  {{Inh A}} →  Inh $ Seq A ι
-  Seq-Inh .any =  repˢ any
+  Seq-Dec :  {{Dec A}} →  Dec $ Seq A ι
+  Seq-Dec {{yes a}} =  yes $ repˢ a
+  Seq-Dec {{no ¬a}} =  no λ{ as → ¬a $ hdˢ as }
 
 --------------------------------------------------------------------------------
 -- ‼ˢ :  Index read

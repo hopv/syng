@@ -321,8 +321,8 @@ data  _⊢[_]*_  where
   ○⇒↪⇛ :  P˂ .! ∗ R˂ .! ⊢[< ι ][ i ]⇛ Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
 
   -- Use ↪⇛, with counter increment
-  ---- Without that counter increment, we could do any super update
-  ---- (⇛/↪⇛-use' in Syho.Logic.Paradox)
+  -- Without that counter increment, we could do any super update (⇛/↪⇛-use' in
+  -- Syho.Logic.Paradox)
 
   ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!
 
@@ -349,8 +349,8 @@ data  _⊢[_]*_  where
             ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
 
   -- Use ↪⟨⟩ᴾ, with ▶ on the expression
-  ---- Without that ▶, we could have any partial Hoare triple
-  ---- (horᴾ/↪⟨⟩ᴾ-use' in Syho.Logic.Paradox)
+  -- Without that ▶, we could have any partial Hoare triple (horᴾ/↪⟨⟩ᴾ-use' in
+  -- Syho.Logic.Paradox)
 
   ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ  λ v → Q˂˙ v .!
 
@@ -379,11 +379,12 @@ data  _⊢[_]*_  where
             ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
 
   -- Use ↪⟨⟩ᵀ, with counter increment
-  ---- Without that counter increment, we could have any total Hoare triple
-  ---- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
-  ---- If we use ▶ (just like ↪⟨⟩ᴾ-use) instead of counter increment, the total
-  ---- Hoare triple does not ensure termination (horᵀ-loop/↪⟨⟩ᵀ-use▶ in
-  ---- Syho.Logic.Paradox)
+
+  -- Without that counter increment, we could have any total Hoare triple
+  -- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
+  -- If we use ▶ (just like ↪⟨⟩ᴾ-use) instead of counter increment, the total
+  -- Hoare triple does not ensure termination (horᵀ-loop/↪⟨⟩ᵀ-use▶ in
+  -- Syho.Logic.Paradox)
 
   ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
                 ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ]  λ v → Q˂˙ v .!

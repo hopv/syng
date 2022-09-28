@@ -13,8 +13,8 @@ open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; _→'_; _∗_; _-∗_; �
   _↦⟨_⟩_; Free; Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic;
   □-Basic; []ᴵ-Basic; ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; ∀ᵒ-syntax; ∃ᵒ-syntax;
-  ⊥ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∃ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono;
-  -∗ᵒ-Mono; ⤇ᵒ-Mono; □ᵒ-Mono; ◎-Mono)
+  _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∃ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono; -∗ᵒ-Mono;
+  ⤇ᵒ-Mono; □ᵒ-Mono; ◎-Mono; ⊥ᵒ {- For now -})
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 
 private variable

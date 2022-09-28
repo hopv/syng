@@ -14,10 +14,10 @@ open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; _→'_; _∗_; _-∗_; �
   Free; Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic;
   ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax;
-  ∃ᵒ-syntax; ⊥ᵒ; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono;
-  ∃ᵒ-mono; →ᵒ-Mono; →ᵒ-mono; ∗ᵒ-Mono; ∗ᵒ-mono; -∗ᵒ-Mono; -∗ᵒ-mono; ⤇ᵒ-Mono;
-  ⤇ᵒ-mono; □ᵒ-Mono; □ᵒ-mono; ◎-Mono)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
+  _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono; ∃ᵒ-mono; →ᵒ-Mono;
+  →ᵒ-mono; ∗ᵒ-Mono; ∗ᵒ-mono; -∗ᵒ-Mono; -∗ᵒ-mono; ⤇ᵒ-Mono; ⤇ᵒ-mono; □ᵒ-Mono;
+  □ᵒ-mono; ◎-Mono; ⊥ᵒ {- For now -})
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩ᴾᵒ_;
   _↪⟨_⟩ᵀ[_]ᵒ_; ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᴾᵒ-Mono; ↪⟨⟩ᵀᵒ-Mono)

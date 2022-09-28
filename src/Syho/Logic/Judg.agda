@@ -383,6 +383,10 @@ data  _⊢[_]*_  where
   ○⇒↪⟨⟩ᵀ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)  →
             ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
 
+  -- Turn ↪⟨ ⟩ᵀ into ↪⟨ ⟩ᴾ
+
+  ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
+
   -- Use ↪⟨⟩ᵀ, with counter increment
 
   -- Without that counter increment, we could have any total Hoare triple

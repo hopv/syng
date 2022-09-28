@@ -18,8 +18,8 @@ open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗
   ∗-monoʳ; ?∗-comm; ∗-elimʳ)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»ᵘ_; ⇛-frameˡ;
   ⇛-frameʳ)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; horᵀ-ṡ; _ʰ»ᵘ_;
-  _ᵘ»ʰ_; hor-frameˡ)
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-ṡ;
+  _ʰ»ᵘ_; _ᵘ»ʰ_; hor-frameˡ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
@@ -229,6 +229,12 @@ abstract
   ↪⟨⟩ᵀᵒ-frameˡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᵀᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocˡ » hor-frameˡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
+
+  -- Turn ↪⟨ ⟩ᵀᵒ into ↪⟨ ⟩ᴾᵒ
+
+  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ :  P˂ ↪⟨ e ⟩ᵀᵒ Q˂˙  ⊨  P˂ ↪⟨ e ⟩ᴾᵒ Q˂˙
+  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, hor-ᵀ⇒ᴾ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
   -- Make ↪⟨ ⟩ᵀᵒ out of ○ᵒ
 

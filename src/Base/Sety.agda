@@ -11,6 +11,7 @@ open import Base.Few using (⟨2⟩; ⊤; ⊥; absurd)
 open import Base.Eq using (_≡_; refl; cong; cong₂)
 open import Base.Dec using (Dec; yes; no; Yes; ≡Dec; _≟_)
 open import Base.Size using (Size; ∞)
+open import Base.Bool using (Bool)
 open import Base.Zoi using (Zoi)
 open import Base.Option using (¿_)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
@@ -31,7 +32,7 @@ infixr 1 _×ʸ_
 infix 8 ¿ʸ_
 
 data  Setʸ :  Set₀  where
-  ⟨2⟩ʸ ⊤ʸ ⊥ʸ Zoiʸ ℕʸ ℕ⁺ʸ Charʸ Strʸ ℚ⁺ʸ :  Setʸ
+  ⟨2⟩ʸ ⊤ʸ ⊥ʸ Boolʸ Zoiʸ ℕʸ ℕ⁺ʸ Charʸ Strʸ ℚ⁺ʸ :  Setʸ
   ¿ʸ_ Listʸ List⁺ʸ Seq∞ʸ :  Setʸ →  Setʸ
   _→ʸ_ _×ʸ_ _⨿ʸ_ :  Setʸ →  Setʸ →  Setʸ
 
@@ -41,6 +42,7 @@ data  Setʸ :  Set₀  where
 ⸨ ⟨2⟩ʸ ⸩ʸ =  ⟨2⟩
 ⸨ ⊤ʸ ⸩ʸ =  ⊤
 ⸨ ⊥ʸ ⸩ʸ =  ⊥
+⸨ Boolʸ ⸩ʸ =  Bool
 ⸨ Zoiʸ ⸩ʸ =  Zoi
 ⸨ ℕʸ ⸩ʸ =  ℕ
 ⸨ ℕ⁺ʸ ⸩ʸ =  ℕ⁺
@@ -97,6 +99,10 @@ instance
   ⊥-Syn :  Syn ⊥
   ⊥-Syn .setʸ =  ⊥ʸ
   ⊥-Syn .⸨⸩ʸ≡ =  refl
+
+  Bool-Syn :  Syn Bool
+  Bool-Syn .setʸ =  Boolʸ
+  Bool-Syn .⸨⸩ʸ≡ =  refl
 
   Zoi-Syn :  Syn Zoi
   Zoi-Syn .setʸ =  Zoiʸ
@@ -159,6 +165,7 @@ roughʸ :  Setʸ →  ℕ
 roughʸ ⟨2⟩ʸ =  0
 roughʸ ⊤ʸ =  1
 roughʸ ⊥ʸ =  2
+roughʸ Boolʸ =  3
 roughʸ Zoiʸ =  4
 roughʸ ℕʸ =  5
 roughʸ ℕ⁺ʸ =  6
@@ -185,6 +192,7 @@ instance
     ⟨2⟩ʸ ≟' ⟨2⟩ʸ | yes _ =  yes refl
     ⊤ʸ ≟' ⊤ʸ | yes _ =  yes refl
     ⊥ʸ ≟' ⊥ʸ | yes _ =  yes refl
+    Boolʸ ≟' Boolʸ | yes _ =  yes refl
     Zoiʸ ≟' Zoiʸ | yes _ =  yes refl
     ℕʸ ≟' ℕʸ | yes _ =  yes refl
     ℕ⁺ʸ ≟' ℕ⁺ʸ | yes _ =  yes refl

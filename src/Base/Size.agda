@@ -33,6 +33,7 @@ open import Agda.Builtin.Size public using (
 private variable
   ł :  Level
   ι :  Size
+  F G :  Size → Set ł
 
 --------------------------------------------------------------------------------
 -- Size₀ :  Set₀ wrapper for Size
@@ -75,6 +76,12 @@ record  Thunk (F : Size → Set ł) (ι : Size) :  Set ł  where
 
 open Thunk public
 
+-- Map over a thunk
+
+infixr -1 _$ᵀʰ_
+_$ᵀʰ_ : (∀{ι} → F ι → G ι) →  Thunk F ι →  Thunk G ι
+(f $ᵀʰ ThF) .! =  f (ThF .!)
+
 --------------------------------------------------------------------------------
 -- Shrunk :  For flexibly inductive data types
 
@@ -83,3 +90,9 @@ data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where
 
   -- Construct a shrunk
   §_ :  {ι' : Size< ι} →  F ι' →  Shrunk F ι
+
+-- Map over a shrunk
+
+infixr -1 _$ˢʰʳ_
+_$ˢʰʳ_ : (∀{ι} → F ι → G ι) →  Shrunk F ι →  Shrunk G ι
+f $ˢʰʳ § ShrF =  § f ShrF

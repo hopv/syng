@@ -70,8 +70,8 @@ abstract
 
   -- It can be proved axiom-free thanks to the logic's predicativity
 
-  ⊢-sem choice _ ∀x∃₁yPxy .π₀ x =  ∀x∃₁yPxy x .π₀
-  ⊢-sem choice _ ∀x∃₁yPxy .π₁ x =  ∀x∃₁yPxy x .π₁
+  ⊢-sem choice _ ∀x∃yPxy .π₀ x =  ∀x∃yPxy x .π₀
+  ⊢-sem choice _ ∀x∃yPxy .π₁ x =  ∀x∃yPxy x .π₁
 
   -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
 

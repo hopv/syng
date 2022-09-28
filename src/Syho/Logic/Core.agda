@@ -317,14 +317,14 @@ abstract
 
   -- Eliminate ∃/∨ under ∗
 
-  ∃₁∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃˙ P˙ ∗ Q ⊢[ ι ]* Jr
-  ∃₁∗-elim Px∗⊢ =  ∃∗-out » ∃-elim Px∗⊢
+  ∃∗-elim :  (∀ x → P˙ x ∗ Q ⊢[ ι ]* Jr) →  ∃˙ P˙ ∗ Q ⊢[ ι ]* Jr
+  ∃∗-elim Px∗⊢ =  ∃∗-out » ∃-elim Px∗⊢
 
   ∗∃-elim :  (∀ x → P ∗ Q˙ x ⊢[ ι ]* Jr) →  P ∗ ∃˙ Q˙ ⊢[ ι ]* Jr
   ∗∃-elim ∗Qx⊢ =  ∗∃-out » ∃-elim ∗Qx⊢
 
   ∨∗-elim :  P ∗ R ⊢[ ι ]* Jr →  Q ∗ R ⊢[ ι ]* Jr →  (P ∨ Q) ∗ R ⊢[ ι ]* Jr
-  ∨∗-elim P∗⊢ Q∗⊢ =  ∃₁∗-elim $ binary P∗⊢ Q∗⊢
+  ∨∗-elim P∗⊢ Q∗⊢ =  ∃∗-elim $ binary P∗⊢ Q∗⊢
 
   ∗∨-elim :  P ∗ Q ⊢[ ι ]* Jr →  P ∗ R ⊢[ ι ]* Jr →  P ∗ (Q ∨ R) ⊢[ ι ]* Jr
   ∗∨-elim ∗Q⊢ ∗R⊢ =  ∗∃-elim $ binary ∗Q⊢ ∗R⊢

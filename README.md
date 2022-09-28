@@ -89,6 +89,7 @@ The library consists of the following parts.
     [`Size`](src/Base/Size.agda) for sizes (modeling ordinals), thunks and
         shrunks.
 - **Data types** ―
+    [`Bool`](src/Base/Bool.agda) for Booleans;
     [`Zoi`](src/Base/Zoi.agda) for zoi (zero, one, or infinity) numbers;
     [`Option`](src/Base/Option.agda) for option types;
     [`Prod`](src/Base/Prod.agda) for sigma and product types;

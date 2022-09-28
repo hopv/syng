@@ -11,7 +11,7 @@ open import Base.Func using (id)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; refl˙)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_)
-open import Base.Dec using (yes; no; ≡Dec; _≟_)
+open import Base.Dec using (yes; no; ≡Dec; _≟_; upd˙)
 open import Base.Inh using (Inh; any)
 
 --------------------------------------------------------------------------------
@@ -130,6 +130,12 @@ private variable
 ∅ᶻ ⊤ᶻ :  A → Zoi
 ∅ᶻ _ =  0ᶻ
 ⊤ᶻ _ =  1ᶻ
+
+-- ^ᶻ :  Singleton set
+
+infix 8 ^ᶻ_
+^ᶻ_ :  {{≡Dec A}} →  A →  (A → Zoi)
+^ᶻ a =  upd˙ a 1ᶻ ∅ᶻ
 
 -- ⊎ᶻ :  Set addition
 

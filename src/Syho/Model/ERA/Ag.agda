@@ -9,8 +9,8 @@ module Syho.Model.ERA.Ag where
 open import Base.Level using (Level)
 open import Base.Func using (_$_; id)
 open import Base.Eq using (_≡_; refl)
-open import Base.Prod using (_,_; -,_)
 open import Base.Option using (¿_; š_; ň)
+open import Base.Prod using (_,_; -,_)
 open import Base.List using (List; []; _∷_; [_]; _⧺_; ∈ʰᵈ; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_;
   ⧺-congˡ; ⧺-comm; ⧺-assocˡ; ⧺-idem; ⧺-⊆ᴸ-introʳ; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
   ≈ᴸ-trans)

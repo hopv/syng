@@ -10,8 +10,8 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Eq using (_≡_; refl)
-open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Option using (¿_; š_; ň)
+open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; ⧺-assocˡ; ∈ʰᵈ;
   ∈ᵗˡ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;

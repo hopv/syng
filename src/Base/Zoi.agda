@@ -10,8 +10,8 @@ open import Base.Level using (Level)
 open import Base.Func using (id)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; refl˙)
-open import Base.Prod using (∑-syntax; π₀; π₁; _,_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
+open import Base.Prod using (∑-syntax; π₀; π₁; _,_)
 
 --------------------------------------------------------------------------------
 -- Zoi :  Zoi (zero, one, or infinity) number

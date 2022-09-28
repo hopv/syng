@@ -7,7 +7,9 @@
 module Base.Option where
 
 open import Base.Level using (Level)
+open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 
 --------------------------------------------------------------------------------
 -- ¿ :  Option type
@@ -55,3 +57,20 @@ abstract
 
   š-inj :  š a ≡ š b →  a ≡ b
   š-inj refl =  refl
+
+instance
+
+  -- ¿ is inhabited
+
+  ¿-Dec :  Dec $ ¿ A
+  ¿-Dec =  yes ň
+
+  -- Equality decision for ¿
+
+  ¿-≡Dec :  {{≡Dec A}} →  ≡Dec $ ¿ A
+  ¿-≡Dec ._≟_ ň ň =  yes refl
+  ¿-≡Dec ._≟_ (š a) (š a')  with a ≟ a'
+  … | yes refl =  yes refl
+  … | no a≢a' =  no λ{ refl → a≢a' refl }
+  ¿-≡Dec ._≟_ ň (š _) =  no λ ()
+  ¿-≡Dec ._≟_ (š _) ň =  no λ ()

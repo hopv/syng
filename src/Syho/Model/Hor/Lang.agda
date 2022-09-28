@@ -9,10 +9,10 @@ module Syho.Model.Hor.Lang where
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Eq using (refl; ◠_)
+open import Base.Dec using (Inh; auto)
 open import Base.Size using (Size; ∞; !; §_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Dec using (Inh; auto)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; Expr; Expr˂; ∇_; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Ktx; _ᴷ◁_; _ᴷ∘ᴷ_; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_;

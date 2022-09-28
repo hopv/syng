@@ -10,8 +10,8 @@ open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (absurd)
 open import Base.Eq using (_≡_; refl)
-open import Base.Option using (¿_; š_; ň)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
+open import Base.Option using (¿_; š_; ň)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ⊤ᵒ; _∗ᵒ_;

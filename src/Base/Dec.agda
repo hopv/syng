@@ -10,9 +10,6 @@ open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _›_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; UIP; eq≡; const⇒UIP)
-open import Base.Prod using (_×_; _,_; -,_; _,-)
-open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_; ⨿-case)
-open import Base.Option using (¿_; ň; š_)
 
 private variable
   ł ł' ł'' :  Level
@@ -55,20 +52,6 @@ instance
   →-Dec {{_}} {{yes b}} =  yes λ _ → b
   →-Dec {{no ¬a}} =  yes λ a → absurd $ ¬a a
   →-Dec {{yes a}} {{no ¬b}} =  no λ a⇒b → absurd $ ¬b $ a⇒b a
-
-  -- Derive Dec on ×
-
-  ×-Dec :  {{Dec A}} →  {{Dec B}} →  Dec $ A × B
-  ×-Dec {{yes a}} {{yes b}} =  yes (a , b)
-  ×-Dec {{no ¬a}} =  no λ (a ,-) → ¬a a
-  ×-Dec {{_}} {{no ¬b}} =  no λ (-, b) → ¬b b
-
-  -- Derive Dec on ⨿
-
-  ⨿-Dec :  {{Dec A}} →  {{Dec B}} →  Dec $ A ⨿ B
-  ⨿-Dec {{yes a}} =  yes $ ĩ₀ a
-  ⨿-Dec {{_}} {{yes b}} =  yes $ ĩ₁ b
-  ⨿-Dec {{no ¬a}} {{no ¬b}} =  no $ ⨿-case ¬a ¬b
 
 --------------------------------------------------------------------------------
 -- Inhabitance
@@ -123,32 +106,6 @@ instance
 
   ⊥-≡Dec :  ≡Dec {ł} ⊥
   ⊥-≡Dec ._≟_ ()
-
-  -- Equality decision for ×, ⨿ and ¿
-
-  ×-≡Dec :  {{≡Dec A}} →  {{≡Dec B}} →  ≡Dec $ A × B
-  ×-≡Dec ._≟_ (a , b) (a' , b')  with a ≟ a' | b ≟ b'
-  … | yes refl | yes refl =  yes refl
-  … | no a≢a' | _ =  no λ{ refl → a≢a' refl }
-  … | _ | no b≢b' =  no λ{ refl → b≢b' refl }
-
-  ⨿-≡Dec :  {{≡Dec A}} →  {{≡Dec B}} →  ≡Dec $ A ⨿ B
-  ⨿-≡Dec ._≟_ (ĩ₀ a) (ĩ₀ a')  with a ≟ a'
-  … | yes refl =  yes refl
-  … | no a≢a' =  no λ{ refl → a≢a' refl }
-  ⨿-≡Dec ._≟_ (ĩ₁ b) (ĩ₁ b')  with b ≟ b'
-  … | yes refl =  yes refl
-  … | no b≢b' =  no λ{ refl → b≢b' refl }
-  ⨿-≡Dec ._≟_ (ĩ₀ _) (ĩ₁ _) =  no λ ()
-  ⨿-≡Dec ._≟_ (ĩ₁ _) (ĩ₀ _) =  no λ ()
-
-  ¿-≡Dec :  {{≡Dec A}} →  ≡Dec $ ¿ A
-  ¿-≡Dec ._≟_ ň ň =  yes refl
-  ¿-≡Dec ._≟_ (š a) (š a')  with a ≟ a'
-  … | yes refl =  yes refl
-  … | no a≢a' =  no λ{ refl → a≢a' refl }
-  ¿-≡Dec ._≟_ ň (š _) =  no λ ()
-  ¿-≡Dec ._≟_ (š _) ň =  no λ ()
 
 -- Derive ≡Dec by a injection
 

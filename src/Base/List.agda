@@ -10,11 +10,11 @@ open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
+open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; ≟-refl)
 open import Base.Acc using (Acc; acc; acc-sub)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_; uncurry)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; ≟-refl)
 open import Base.Nat using (ℕ; ṡ_; _<_; ṡ-inj)
 
 --------------------------------------------------------------------------------

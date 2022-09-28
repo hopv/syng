@@ -7,8 +7,9 @@
 module Base.Prod where
 
 open import Base.Level using (Level; _⊔ᴸ_)
-open import Base.Func using (it)
+open import Base.Func using (_$_; it)
 open import Base.Eq using (_≡_; refl; subst; UIP; ≡refl)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 
 --------------------------------------------------------------------------------
 -- Sigma type
@@ -64,8 +65,8 @@ abstract
   -- assuming that π₀'s type satisfies UIP
 
   ≡∑⇒π₁≡ :  {{UIP A}} →  _≡_ {A = ∑˙ A B˙} (a , b) (a , b') →  b ≡ b'
-  ≡∑⇒π₁≡ ab≡ab'  with ≡∑⇒π₀≡π₁≡ ab≡ab'
-  … | a≡a , b≡b'  rewrite ≡refl a≡a =  b≡b'
+  ≡∑⇒π₁≡ {{UipA}} ab≡ab'  with ≡∑⇒π₀≡π₁≡ ab≡ab'
+  … | a≡a , b≡b'  rewrite ≡refl {{UipA}} a≡a =  b≡b'
 
 --------------------------------------------------------------------------------
 -- Product type
@@ -88,6 +89,21 @@ instance
 
   ,-it :  {{A}} →  {{B}} →  A × B
   ,-it =  it , it
+
+  -- Derive Dec on ×
+
+  ×-Dec :  {{Dec A}} →  {{Dec B}} →  Dec $ A × B
+  ×-Dec {{yes a}} {{yes b}} =  yes (a , b)
+  ×-Dec {{no ¬a}} =  no λ (a ,-) → ¬a a
+  ×-Dec {{_}} {{no ¬b}} =  no λ (-, b) → ¬b b
+
+  -- Equality decision for ×
+
+  ×-≡Dec :  {{≡Dec A}} →  {{≡Dec B}} →  ≡Dec $ A × B
+  ×-≡Dec ._≟_ (a , b) (a' , b')  with a ≟ a' | b ≟ b'
+  … | yes refl | yes refl =  yes refl
+  … | no a≢a' | _ =  no λ{ refl → a≢a' refl }
+  … | _ | no b≢b' =  no λ{ refl → b≢b' refl }
 
 --------------------------------------------------------------------------------
 -- ∑ᴵ :  Sigma type with an instance

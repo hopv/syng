@@ -10,10 +10,10 @@ open import Base.Level using (Level)
 open import Base.Func using (_$_; _∘_)
 open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
 open import Base.Acc using (Acc; acc; acc-sub)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
-open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
 
 --------------------------------------------------------------------------------
 -- ℕ :  Natural number

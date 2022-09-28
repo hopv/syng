@@ -8,8 +8,8 @@ module Base.Seq where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_)
-open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Dec using (Dec; yes; no)
+open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List⁺; [_]⁺; _∷⁺_)
 

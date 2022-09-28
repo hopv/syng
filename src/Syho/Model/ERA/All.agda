@@ -13,9 +13,9 @@ module Syho.Model.ERA.All {łᴵ łᴱ łᴿ ł≈ ł✓ : Level} (I : Set łᴵ
 open import Base.Level using (_⊔ᴸ_)
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _≡˙_)
-open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙; upd˙-cong; upd˙-self;
   upd˙-2; upd˙-swap)
+open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
 
 open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
   ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;

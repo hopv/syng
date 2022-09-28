@@ -7,6 +7,8 @@
 module Base.Sum where
 
 open import Base.Level using (Level; _⊔ᴸ_)
+open import Base.Func using (_$_)
+open import Base.Eq using (refl)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 
 private variable

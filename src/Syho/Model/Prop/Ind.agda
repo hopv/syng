@@ -13,13 +13,15 @@ open import Base.Size using (∞)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
+open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗-elimʳ)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»ᵘ_; ⇛-frameˡ;
   ⇛-frameʳ)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-ṡ;
-  _ʰ»ᵘ_; _ᵘ»ʰ_; hor-frameˡ)
+open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
+  hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵃʰ»ᵘ_; _ʰ»ᵘ_; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; ahor-frameˡ;
+  hor-frameˡ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
@@ -33,6 +35,7 @@ private variable
   T :  Type
   P P' Q Q' R :  Prop' ∞
   Q˙ Q'˙ :  Val T →  Prop' ∞
+  red :  Redex T
   e :  Expr ∞ T
 
 --------------------------------------------------------------------------------
@@ -135,6 +138,58 @@ abstract
   ○ᵒ⇒↪⇛ᵒ :  P ∗ R ⊢[ ∞ ][ i ]⇛ Q →  ○ᵒ R  ⊨  P ↪[ i ]⇛ᵒ Q
   ○ᵒ⇒↪⇛ᵒ P∗R⊢⇛Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⇛Q , S∗IndTa
+
+--------------------------------------------------------------------------------
+-- ↪ᵃ⟨ ⟩ᵒ :  Interpret the partial Hoare-triple precursor ↪ᵃ⟨ ⟩
+
+infixr 5 _↪[_]ᵃ⟨_⟩ᵒ_
+_↪[_]ᵃ⟨_⟩ᵒ_ :  Prop' ∞ →  ℕ →  Redex T →  (Val T → Prop' ∞) →  Propᵒ 1ᴸ
+P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
+  ⌜ P ∗ R ∗ S ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
+
+abstract
+
+  -- Monoᵒ for ↪ᵃ⟨ ⟩ᵒ
+
+  ↪ᵃ⟨⟩ᵒ-Mono :  Monoᵒ $ P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
+  ↪ᵃ⟨⟩ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+
+  -- Modify ᵃ⟨ ⟩ proof
+
+  ↪ᵃ⟨⟩ᵒ-ṡ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ ṡ i ]ᵃ⟨ red ⟩ᵒ Q˙
+  ↪ᵃ⟨⟩ᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, ahor-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
+
+  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P' ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
+  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
+    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᵀ Q˙
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵃʰ P∗S∗T⊢⟨e⟩Q ,
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
+
+  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
+    ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
+  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
+    -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ᵀ R∗Q
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ahor-frameˡ P∗S∗T⊢⟨e⟩Q ,
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
+
+  ↪ᵃ⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
+                  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q'˙
+  ↪ᵃ⟨⟩ᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ᵃʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa
+
+  ↪ᵃ⟨⟩ᵒ-frameˡ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  R ∗ P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
+  ↪ᵃ⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, ∗-assocˡ » ahor-frameˡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
+
+  -- Make ↪⟨ ⟩ᵀᵒ out of ○ᵒ
+
+  ○ᵒ⇒↪ᵃ⟨⟩ᵒ :  P ∗ R ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ →  ○ᵒ R  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
+  ○ᵒ⇒↪ᵃ⟨⟩ᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
+    -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q , S∗IndTa
 
 --------------------------------------------------------------------------------
 -- ↪⟨ ⟩ᴾᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᴾ

@@ -43,7 +43,7 @@ private variable
 
 module _
   -- ↪⇛-use without counter increment
-  (↪⇛-use' :  ∀{P˂ Q˂ ι i} →  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ i ]⇛  Q˂ .!)
+  (↪⇛-use' :  ∀{P˂ Q˂ ι i} →  P˂ .!  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ i ]⇛  Q˂ .!)
   where abstract
 
   -- We can strip ○ from ↪⇛, using ↪⇛-use'
@@ -63,7 +63,7 @@ module _
 module _
   -- ↪⟨⟩ᴾ-use without ▶
   (↪⟨⟩ᴾ-use' :  ∀{T} {e : Expr ∞ T} {P˂ Q˂˙ ι} →
-    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!)
+    P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!)
   where abstract
 
   -- We can strip ○ from ↪⟨⟩ᴾ, using ↪⟨⟩ᴾ-use'
@@ -84,7 +84,7 @@ module _
 module _
   -- ↪⟨⟩ᵀ-use without counter increment
   (↪⟨⟩ᵀ-use' :  ∀{T} {e : Expr ∞ T} {P˂ Q˂˙ i ι} →
-    P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
+    P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
   where abstract
 
   -- We can strip ○ from ↪⟨⟩ᵀ, using ↪⟨⟩ᵀ-use'
@@ -105,7 +105,7 @@ module _
 module _
   -- ↪⟨⟩ᵀ-use with ▶, not counter increment
   (↪⟨⟩ᵀ-use▶ :  ∀{T} {e˂ : Expr˂ ∞ T} {P˂ Q˂˙ i ι} →
-    P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
+    P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
   where abstract
 
   -- We can strip ○ from ↪⟨ loop ⟩ᵀ, using ↪⟨⟩ᵀ-use▶

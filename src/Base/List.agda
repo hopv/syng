@@ -56,7 +56,7 @@ instance
   List-≡Dec {A = A} =  ≡dec _≟'_
    where
     infix 4 _≟'_
-    _≟'_ :  ∀ (as bs : List A) →  Dec $ as ≡ bs
+    _≟'_ :  ∀(as bs : List A) →  Dec $ as ≡ bs
     [] ≟' [] =  yes refl
     [] ≟' _ ∷ _ =  no λ ()
     _ ∷ _ ≟' [] =  no λ ()

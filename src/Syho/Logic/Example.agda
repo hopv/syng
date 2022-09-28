@@ -53,7 +53,7 @@ abstract
   -- decrloop θ terminates, setting the value at θ to 0
 
   decrloop-exec :
-    ∀ (n : ℕ) →  θ ↦ (-, ṽ n)  ⊢[ ∞ ]⟨ decrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, ṽ 0)
+    ∀(n : ℕ) →  θ ↦ (-, ṽ n)  ⊢[ ∞ ]⟨ decrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, ṽ 0)
   decrloop'-exec :
     ∀ n →  θ ↦ (-, ṽ n)  ⊢[ ∞ ]⟨ decrloop' θ n ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, ṽ 0)
 

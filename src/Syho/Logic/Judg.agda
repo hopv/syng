@@ -310,39 +310,39 @@ data  _⊢[_]*_  where
 
   ↪⇛-ṡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ ṡ i ]⇛ Q˂
 
-  ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .! →
-                R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
+  ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}} →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .! →
+                R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
 
   ↪⇛-eatˡ⁻ʳ :  {{Basic R}} →
-    R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+    R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
-  ↪⇛-monoʳᵘ :  Q˂ .! ⊢[< ι ][ i ]⇛ Q'˂ .! →
+  ↪⇛-monoʳᵘ :  Q˂ .!  ⊢[< ι ][ i ]⇛  Q'˂ .! →
                P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
 
   ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
   -- Make ↪⇛ out of ○
 
-  ○⇒↪⇛ :  P˂ .! ∗ R˂ .! ⊢[< ι ][ i ]⇛ Q˂ .! →  ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
+  ○⇒↪⇛ :  P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]⇛  Q˂ .!  →   ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
 
   -- Use ↪⇛, with counter increment
   -- Without that counter increment, we could do any super update (⇛/↪⇛-use' in
   -- Syho.Logic.Paradox)
 
-  ↪⇛-use :  P˂ .! ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!
+  ↪⇛-use :  P˂ .!  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᴾ
 
   -- Modify ⟨ ⟩ᴾ proof
 
-  ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .! →
+  ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ :  {{Basic R}} →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .!  →
                   R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂˙
 
   ↪⟨⟩ᴾ-eatˡ⁻ʳ :  {{Basic R}} →
-    R ∗ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂˙ v .!)
+    R  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂˙ v .!)
 
-  ↪⟨⟩ᴾ-monoʳᵘ :  (∀ v →  Q˂˙ v .! ⊢[< ι ][ i ]⇛ Q'˂˙ v .!) →
+  ↪⟨⟩ᴾ-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!)  →
                  P˂ ↪⟨ e ⟩ᴾ Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂˙
 
   ↪⟨⟩ᴾ-frameˡ :  P˂ ↪⟨ e ⟩ᴾ Q˂˙  ⊢[ ι ]
@@ -350,14 +350,14 @@ data  _⊢[_]*_  where
 
   -- Make ↪⟨ ⟩ᴾ out of ○
 
-  ○⇒↪⟨⟩ᴾ :  P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ (λ v → Q˂˙ v .!) →
+  ○⇒↪⟨⟩ᴾ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!)  →
             ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
 
   -- Use ↪⟨⟩ᴾ, with ▶ on the expression
   -- Without that ▶, we could have any partial Hoare triple (horᴾ/↪⟨⟩ᴾ-use' in
   -- Syho.Logic.Paradox)
 
-  ↪⟨⟩ᴾ-use :  P˂ .! ∗ (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
+  ↪⟨⟩ᴾ-use :  P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᵀ
@@ -370,9 +370,9 @@ data  _⊢[_]*_  where
                   R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
 
   ↪⟨⟩ᵀ-eatˡ⁻ʳ :  {{Basic R}} →
-    R ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂˙ v .!)
+    R  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
-  ↪⟨⟩ᵀ-monoʳᵘ :  (∀ v →  Q˂˙ v .! ⊢[< ι ][ j ]⇛ Q'˂˙ v .!) →
+  ↪⟨⟩ᵀ-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ][ j ]⇛  Q'˂˙ v .!)  →
                  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂˙
 
   ↪⟨⟩ᵀ-frameˡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]
@@ -380,7 +380,7 @@ data  _⊢[_]*_  where
 
   -- Make ↪⟨ ⟩ᵀ out of ○
 
-  ○⇒↪⟨⟩ᵀ :  P˂ .! ∗ R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] (λ v → Q˂˙ v .!) →
+  ○⇒↪⟨⟩ᵀ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)  →
             ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
 
   -- Use ↪⟨⟩ᵀ, with counter increment
@@ -391,7 +391,7 @@ data  _⊢[_]*_  where
   -- Hoare triple does not ensure termination (horᵀ-loop/↪⟨⟩ᵀ-use▶ in
   -- Syho.Logic.Paradox)
 
-  ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
+  ↪⟨⟩ᵀ-use :  P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
                 ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
 
   ------------------------------------------------------------------------------

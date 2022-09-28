@@ -8,6 +8,7 @@ module Syho.Logic.Example where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
+open import Base.Dec using ()
 open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
@@ -68,4 +69,4 @@ abstract
 
   nddecrloop-exec :  θ ↦ ᵗv  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, ṽ 0)
   nddecrloop-exec =
-    hor-nd _ λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ $ decrloop-exec n
+    hor-nd λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ $ decrloop-exec n

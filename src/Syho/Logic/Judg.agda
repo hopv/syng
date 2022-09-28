@@ -389,7 +389,7 @@ data  _⊢[_]*_  where
                 ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ]  λ v → Q˂˙ v .!
 
   ------------------------------------------------------------------------------
-  -- On Hoare triple
+  -- On the Hoare triples
 
   -- Weaken a Hoare triple from total to partial
 

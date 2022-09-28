@@ -53,7 +53,7 @@ private variable
 
 ⊢⇛-sem (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =  ⊢⇛-sem P⊢⇛Q › ⇛ᵒ-mono (⊢⇛-sem Q⊢⇛R) › ⇛ᵒ-join
 
--- ⇛-frameˡ :  Q ⊢[ ∞ ][ i ]⇛ R →  P ∗ Q ⊢[ ∞ ][ i ]⇛ P ∗ R
+-- ⇛-frameˡ :  P ⊢[ ∞ ][ i ]⇛ Q →  R ∗ P ⊢[ ∞ ][ i ]⇛ R ∗ Q
 
 ⊢⇛-sem (⇛-frameˡ Q⊢⇛R) =  ∗ᵒ-monoʳ (⊢⇛-sem Q⊢⇛R) › ⇛ᵒ-eatˡ
 

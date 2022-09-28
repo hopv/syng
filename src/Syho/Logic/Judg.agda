@@ -224,7 +224,7 @@ data  _⊢[_]*_  where
 
   -- ∗ can get inside ⤇
 
-  ⤇-eatˡ :  P ∗ (⤇ Q) ⊢[ ι ] ⤇ P ∗ Q
+  ⤇-eatˡ :  Q ∗ (⤇ P) ⊢[ ι ] ⤇ Q ∗ P
 
   -- ⌜ ⌝∧ can get outside ⤇
 
@@ -270,7 +270,7 @@ data  _⊢[_]*_  where
 
   -- ⊢⇛ can frame
 
-  ⇛-frameˡ :  Q ⊢[ ι ][ i ]⇛ R →  P ∗ Q ⊢[ ι ][ i ]⇛ P ∗ R
+  ⇛-frameˡ :  P ⊢[ ι ][ i ]⇛ Q →  R ∗ P ⊢[ ι ][ i ]⇛ R ∗ Q
 
   ------------------------------------------------------------------------------
   -- On ○

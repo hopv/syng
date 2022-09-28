@@ -150,7 +150,7 @@ abstract
 
   -- Let ⇛ᵍ eat a proposition under ∗ᵒ
 
-  ⇛ᵍ-eatˡ :  Pᵒ ∗ᵒ (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ)  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
+  ⇛ᵍ-eatˡ :  Qᵒ ∗ᵒ (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ)  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
   ⇛ᵍ-eatˡ =  ⇛ᵍ-make {Pᵒ = _ ∗ᵒ _} $ ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ⇛ᵍ-apply › ⤇ᴱ-eatˡ ›
     ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
 

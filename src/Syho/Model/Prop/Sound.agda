@@ -122,7 +122,7 @@ abstract
 
   ⊢-sem ⤇-join _ =  ⤇ᵒ-join
 
-  -- ⤇-eatˡ :  P ∗ ⤇ Q ⊢[ ∞ ] ⤇ (P ∗ Q)
+  -- ⤇-eatˡ :  Q ∗ ⤇ P ⊢[ ∞ ] ⤇ (Q ∗ P)
 
   ⊢-sem ⤇-eatˡ _ =  ⤇ᵒ-eatˡ
 

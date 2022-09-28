@@ -57,7 +57,7 @@ abstract
 
   -- Framing of ⇛
 
-  -->  ⇛-frameˡ :  Q ⊢[ ι ][ i ]⇛ R →  P ∗ Q ⊢[ ι ][ i ]⇛ P ∗ R
+  -->  ⇛-frameˡ :  P ⊢[ ι ][ i ]⇛ Q →  R ∗ P ⊢[ ι ][ i ]⇛ R ∗ Q
 
   ⇛-frameʳ :  P ⊢[ ι ][ i ]⇛ Q →  P ∗ R ⊢[ ι ][ i ]⇛ Q ∗ R
   ⇛-frameʳ P⊢⇛Q =  ∗-comm » ⇛-frameˡ P⊢⇛Q ᵘ» ∗-comm

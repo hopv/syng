@@ -479,7 +479,7 @@ abstract
     with ⤇Pb _ _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocˡ $ ∙-monoˡ b∙c⊑a
   … | -, E✓d∙ce , Pd =  -, ✓-resp ∙-assocʳ E✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
-  ⤇ᵒ-eatˡ :  Pᵒ ∗ᵒ (⤇ᵒ Qᵒ)  ⊨  ⤇ᵒ Pᵒ ∗ᵒ Qᵒ
+  ⤇ᵒ-eatˡ :  Qᵒ ∗ᵒ (⤇ᵒ Pᵒ)  ⊨  ⤇ᵒ Qᵒ ∗ᵒ Pᵒ
   ⤇ᵒ-eatˡ =  ∗ᵒ-comm › ⤇ᵒ-eatʳ › ⤇ᵒ-mono ∗ᵒ-comm
 
   -- Let ⌜ ⌝ᵒ× go out of ⤇ᵒ
@@ -579,7 +579,7 @@ abstract
   … | -, -, F✓d∙ce , Pd =
     -, -, ✓-resp ∙-assocʳ F✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
-  ⤇ᴱ-eatˡ :  Pᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Qᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ ∗ᵒ Qᵒ˙ x
+  ⤇ᴱ-eatˡ :  Qᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ ∗ᵒ Pᵒ˙ x
   ⤇ᴱ-eatˡ =  ∗ᵒ-comm › ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-comm
 
   -- ⊨✓ ⤇ᴱ into ⊨ ⤇ᴱ

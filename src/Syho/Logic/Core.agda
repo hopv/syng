@@ -481,7 +481,7 @@ abstract
 
   -- ∗ can get inside ⤇
 
-  -->  ⤇-eatˡ :  P ∗ (⤇ Q) ⊢[ ι ] ⤇ P ∗ Q
+  -->  ⤇-eatˡ :  Q ∗ (⤇ P) ⊢[ ι ] ⤇ Q ∗ P
 
   ⤇-eatʳ :  (⤇ P) ∗ Q ⊢[ ι ] ⤇ P ∗ Q
   ⤇-eatʳ =  ∗-comm » ⤇-eatˡ » ⤇-mono ∗-comm
@@ -652,7 +652,7 @@ abstract
 
   -- □ can eat persistent propositions
 
-  □-eatˡ-Pers :  {{Pers P}} →  P ∗ □ Q ⊢[ ι ] □ (P ∗ Q)
+  □-eatˡ-Pers :  {{Pers Q}} →  Q ∗ □ P ⊢[ ι ] □ (Q ∗ P)
   □-eatˡ-Pers =  ∗-monoˡ Pers-⇒□ » □-∗-in
 
   □-eatʳ-Pers :  {{Pers Q}} →  □ P ∗ Q ⊢[ ι ] □ (P ∗ Q)

@@ -126,7 +126,7 @@ abstract
 
   -- Let ⇛ᵒ eat a proposition under ∗ᵒ
 
-  ⇛ᵒ-eatˡ :  Pᵒ  ∗ᵒ  (⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ)  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
+  ⇛ᵒ-eatˡ :  Qᵒ  ∗ᵒ  (⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ)  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
   ⇛ᵒ-eatˡ =  ⇛ᵍ-eatˡ
 
   ⇛ᵒ-eatʳ :  (⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ)  ∗ᵒ  Qᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ

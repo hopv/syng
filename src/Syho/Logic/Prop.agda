@@ -18,6 +18,7 @@ open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩
 open import Base.Str using (Str)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; TyVal)
+open import Syho.Lang.Ktxred using (Redex)
 
 --------------------------------------------------------------------------------
 -- InvName :  Invariant name
@@ -50,7 +51,7 @@ private variable
   Nm :  InvName → Zoi
 
 infix 3 ⤇_
-infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
+infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
 infixr 7 _∗_
 infix 8 □_ ○_
 infix 9 _↦⟨_⟩_
@@ -82,7 +83,8 @@ data  Prop' ι  where
   -- ↪[ ]⇛ :  Super-update precursor
   _↪[_]⇛_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
 
-  -- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare-triple precursor
+  -- ↪[ ]ᵃ⟨ ⟩, ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Atomic/partial/total Hoare-triple precursor
+  _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂ ∞) →  Prop' ι
   _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr ∞ T →  (Val T → Prop˂ ∞) →  Prop' ι
   _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr ∞ T →  ℕ →  (Val T → Prop˂ ∞) →  Prop' ι
 

@@ -15,19 +15,20 @@ open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Dec using ()
-open import Base.Zoi using (Zoi; _⊎ᶻ_; ✔ᶻ_; ^ᶻ_)
+open import Base.Zoi using (Zoi; ⊤ᶻ; _⊎ᶻ_; ✔ᶻ_; ^ᶻ_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; len; rep)
 open import Base.Str using ()
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Inhʸ)
-open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_; V⇒E;
-  TyVal; ⊤ṽ)
-open import Syho.Lang.Ktxred using (▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_; _←ᴿ_;
-  allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
+open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
+  λᵛ-syntax; V⇒E; TyVal; ⊤ṽ)
+open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
+  _←ᴿ_; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Logic.Prop using (InvName; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
   ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_;
-  ○_; _↦⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴵ; Inv; OInv; _↦_; _↦ᴸ_; Free; Basic)
+  ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴵ; Inv; OInv; _↦_; _↦ᴸ_; Free;
+  Basic)
 
 --------------------------------------------------------------------------------
 -- WpKind :  Weakest precondion kind
@@ -45,22 +46,24 @@ private variable
   ι :  Size
   T U :  Type
 
-infix 3 [_]⇛_ ⁺⟨_⟩[_]_
+infix 3 [_]⇛_ [_]ᵃ⟨_⟩_ ⁺⟨_⟩[_]_
 
 data  JudgRes :  Set₁  where
   -- Just a proposition
   Pure :  Prop' ∞ →  JudgRes
   -- Under the super update
   [_]⇛_ :  ℕ →  Prop' ∞ →  JudgRes
+  -- Atomic weakest precondition
+  [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → Prop' ∞) →  JudgRes
   -- Weakest precondion, over Val/Ktxred
   ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  JudgRes
 
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
 
-infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _⊢[_]⁺⟨_⟩[_]_
-  _⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ[_]_
-  _⊢[<_]⟨_⟩ᵀ[_]_
+infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _⊢[_][_]ᵃ⟨_⟩_
+  _⊢[<_][_]ᵃ⟨_⟩_ _⊢[_]⁺⟨_⟩[_]_ _⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[_]⟨_⟩[_]_
+  _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_
 
 -- Declare _⊢[_]*_
 
@@ -81,6 +84,13 @@ P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 _⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop' ∞ →  Size →  ℕ →  Prop' ∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
 P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
+
+-- ⊢[ ][ ]ᵃ⟨ ⟩ etc. :  Atomic Hoare triple
+
+_⊢[_][_]ᵃ⟨_⟩_ _⊢[<_][_]ᵃ⟨_⟩_ :
+  Prop' ∞ →  Size →  ℕ →  Redex T →  (Val T → Prop' ∞) →  Set₁
+P ⊢[ ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  P ⊢[ ι ]* [ i ]ᵃ⟨ red ⟩ Q˙
+P ⊢[< ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  Thunk (P ⊢[_][ i ]ᵃ⟨ red ⟩ Q˙) ι
 
 -- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Hoare triple over Val/Ktxred
 
@@ -133,6 +143,7 @@ private variable
   Q˂˙ Q'˂˙ :  X → Prop˂ ∞
   P˂s :  List (Prop˂ ∞)
   wκ :  WpKind
+  red :  Redex T
   vk :  Val/Ktxred T
   e :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
@@ -146,7 +157,7 @@ private variable
   nm :  InvName
   Nm Nm' :  InvName → Zoi
 
-infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ʰ_ _ʰ»ᵘ_
+infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ᵃʰ_ _ᵘ»ʰ_ _ᵃʰ»ᵘ_ _ʰ»ᵘ_
 
 -- Define _⊢[_]*_
 
@@ -332,6 +343,38 @@ data  _⊢[_]*_  where
   ↪⇛-use :  P˂ .!  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!
 
   ------------------------------------------------------------------------------
+  -- On ↪ᵃ⟨ ⟩
+
+  -- Modify ᵃ⟨ ⟩ proof
+
+  ↪ᵃ⟨⟩-ṡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ ṡ i ]ᵃ⟨ red ⟩ Q˂˙
+
+  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ j ]⇛ P˂ .! →
+                  R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+
+  ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+    R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
+      P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+
+  ↪ᵃ⟨⟩-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ][ j ]⇛  Q'˂˙ v .!)  →
+                 P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q'˂˙
+
+  ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
+                   ¡ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+
+  -- Make ↪⟨ ⟩ᵀ out of ○
+
+  ○⇒↪ᵃ⟨⟩ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!)  →
+            ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+
+  -- Use ↪ᵃ⟨⟩, with counter increment
+  -- Without that counter increment, we could have any atomic Hoare triple
+  -- (ahor/↪ᵃ⟨⟩-use' in Syho.Logic.Paradox)
+
+  ↪ᵃ⟨⟩-use :  P˂ .!  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)
+                ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
+
+  ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᴾ
 
   -- Modify ⟨ ⟩ᴾ proof
@@ -455,22 +498,40 @@ data  _⊢[_]*_  where
 
   hor-ᵀ⇒ᴾ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
 
-  -- Counter increment on total Hoare triple
+  -- Counter increment on the atomic / total Hoare triple
+
+  ahor-ṡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
 
   horᵀ-ṡ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
 
   -- Compose with a super update
 
+  _ᵘ»ᵃʰ_ :  P  ⊢[ ι ][ j ]⇛  Q  →   Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙  →
+            P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
+
   _ᵘ»ʰ_ :  P  ⊢[ ι ][ i ]⇛  Q  →   Q  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
+
+  _ᵃʰ»ᵘ_ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛  R˙ v)  →
+            P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
 
   _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ][ i ]⇛  R˙ v)  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
 
   -- Frame
 
+  ahor-frameˡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
+                 R  ∗  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  R  ∗  Q˙ v
+
   hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
                 R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v →  R  ∗  Q˙ v
+
+  -- Get a Hoare triple out of an atomic Hoare triple and a Hoare triple on
+  -- the context
+
+  ahor-hor :  (P  ∗  [ ⊤ᶻ ]ᴵ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴵ)  →
+              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  R˙)  →
+              P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ wκ ]  R˙
 
   -- Bind by a context
 
@@ -530,21 +591,19 @@ data  _⊢[_]*_  where
 
   -- Memory read
 
-  hor-🞰 :  θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  Q˙  →
-           θ ↦⟨ p ⟩ (-, v)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , 🞰ᴿ θ) ⟩[ wκ ]  Q˙
+  ahor-🞰 :  θ ↦⟨ p ⟩ (-, v)  ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ θ ⟩ λ w →
+              ⌜ w ≡ v ⌝∧  θ ↦⟨ p ⟩ (-, v)
 
   -- Memory write
 
-  hor-← :  θ ↦ (-, v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
-           θ ↦ ᵗu  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , θ ←ᴿ v) ⟩[ wκ ]  Q˙
+  ahor-← :  θ ↦ ᵗu  ⊢[ ι ][ i ]ᵃ⟨ θ ←ᴿ v ⟩ λ _ →  θ ↦ (-, v)
 
   -- Memory allocation
 
-  hor-alloc :
-    (∀ θ →  θ ↦ᴸ rep n ⊤ṽ  ∗  Free n θ  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ wκ ]  Q˙)  →
-    P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩[ wκ ]  Q˙
+  ahor-alloc :  ⊤'  ⊢[ ι ][ i ]ᵃ⟨ allocᴿ n ⟩ λᵛ θ ,
+                  θ ↦ᴸ rep n ⊤ṽ  ∗  Free n θ
 
   -- Memory freeing
 
-  hor-free :  len ᵗvs ≡ n  →   P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  Q˙  →
-    θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩[ wκ ]  Q˙
+  ahor-free :  len ᵗvs ≡ n  →
+    θ ↦ᴸ ᵗvs  ∗  Free n θ  ⊢[ ι ][ i ]ᵃ⟨ freeᴿ θ ⟩ λ _ →  ⊤'

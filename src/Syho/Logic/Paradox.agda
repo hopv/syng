@@ -10,19 +10,22 @@ open import Base.Func using (_$_)
 open import Base.Size using (Size; ∞; ¡_; !)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr; Expr˂; ▶_; loop; Val)
+open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
-  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
+  _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
   □-mono; □-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _ᵘ»ʰ_)
-open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪⇛; ○⇒↪⟨⟩ᴾ;
-  ○⇒↪⟨⟩ᵀ)
+open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
+  _ᵘ»ᵃʰ_; _ᵘ»ʰ_)
+open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
+  ○⇒↪⟨⟩ᴾ; ○⇒↪⟨⟩ᵀ)
 
 private variable
   ι :  Size
   i :  ℕ
   T :  Type
+  red :  Redex T
   e :  Expr ∞ T
   P Q :  Prop' ∞
   P˂ Q˂ :  Prop˂ ∞
@@ -56,6 +59,28 @@ module _
   ⇛/↪⇛-use' :  P  ⊢[ ι ][ i ]⇛  Q
   ⇛/↪⇛-use' {P} {Q = Q} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec ○⇒-↪⇛/↪⇛-use') ᵘ»ᵘ ↪⇛-use' {¡ P} {¡ Q}
+
+--------------------------------------------------------------------------------
+-- If we can use ↪ᵃ⟨ ⟩ without counter increment, then we get a paradox
+
+module _
+  -- ↪ᵃ⟨⟩-use without counter increment
+  (↪ᵃ⟨⟩-use' :  ∀{T} {red : Redex T} {P˂ Q˂˙ i ι} →
+    P˂ .!  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!)
+  where abstract
+
+  -- We can strip ○ from ↪ᵃ⟨⟩, using ↪ᵃ⟨⟩-use'
+
+  ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use' :
+    ○ ¡ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+  ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use' =  ○⇒↪ᵃ⟨⟩ λ{ .! → ↪ᵃ⟨⟩-use' }
+
+  -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
+
+  ahor/↪ᵃ⟨⟩-use' :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙
+  ahor/↪ᵃ⟨⟩-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
+    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use') ᵘ»ᵃʰ
+    ↪ᵃ⟨⟩-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᴾ without ▶, then we get a paradox

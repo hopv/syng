@@ -11,8 +11,9 @@ open import Base.Func using (_∘_; id; const; _$_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Syho.Lang.Expr using (Type; Expr; Val)
+open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀-syntax; _∗_; _-∗_; □_; ○_;
-  _↪[_]⇛_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
+  _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∗-comm;
   ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)
 open import Syho.Logic.Supd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; ⊢⇒⊢⇛; _ᵘ»_)
@@ -20,6 +21,7 @@ open import Syho.Logic.Supd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; ⊢
 -- Import and re-export
 open import Syho.Logic.Judg public using (○-mono; ○-eatˡ; ○-alloc; □○-alloc-rec;
   ○-use; ↪⇛-ṡ; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ; ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛; ↪⇛-use;
+  ↪ᵃ⟨⟩-ṡ; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪ᵃ⟨⟩-use;
   ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾ-eatˡ⁻ʳ; ↪⟨⟩ᴾ-monoʳᵘ; ↪⟨⟩ᴾ-frameˡ; ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-ṡ;
   ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀ-eatˡ⁻ʳ; ↪⟨⟩ᵀ-monoʳᵘ; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ; ↪⟨⟩ᵀ-use)
 
@@ -35,6 +37,7 @@ private variable
   Q˙ :  X → Prop' ∞
   P˂˙ Q˂˙ Q'˂˙ :  X → Prop˂ ∞
   Q˂˙˙ :  X → Y → Prop˂ ∞
+  red :  Redex T
   e :  Expr ∞ T
 
 abstract
@@ -111,6 +114,60 @@ abstract
 
   ↪⇛-frameʳ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ (P˂ .! ∗ R) ↪[ i ]⇛ ¡ (Q˂ .! ∗ R)
   ↪⇛-frameʳ =  ↪⇛-frameˡ » ↪⇛-monoˡ (¡ ∗-comm) » ↪⇛-monoʳ (¡ ∗-comm)
+
+  ------------------------------------------------------------------------------
+  -- On ↪ᵃ⟨ ⟩
+
+  -->  ○⇒↪ᵃ⟨⟩ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!)  →
+  -->            ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+
+  -->  ↪ᵃ⟨⟩-use :  P˂ .!  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)
+  -->                ⊢[ ι ]⟨ ¡ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
+
+  -- Modify ⟨ ⟩ᵀ proof
+
+  -->  ↪ᵃ⟨⟩-ṡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂˙
+
+  ↪ᵃ⟨⟩-≤ᵈ :  i ≤ᵈ j →  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙
+  ↪ᵃ⟨⟩-≤ᵈ ≤ᵈ-refl =  ⊢-refl
+  ↪ᵃ⟨⟩-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ↪ᵃ⟨⟩-≤ᵈ i≤ᵈj' » ↪ᵃ⟨⟩-ṡ
+
+  ↪ᵃ⟨⟩-≤ :  i ≤ j →  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙
+  ↪ᵃ⟨⟩-≤ =  ↪ᵃ⟨⟩-≤ᵈ ∘ ≤⇒≤ᵈ
+
+  -->  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ j ]⇛ P˂ .! →
+  -->    R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+
+  ↪ᵃ⟨⟩-monoˡᵘ :  P'˂ .! ⊢[< ι ][ j ]⇛ P˂ .! →
+                 P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+  ↪ᵃ⟨⟩-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ λ{ .! → ∗-elimʳ » P'⊢⇛P .! }
+
+  ↪ᵃ⟨⟩-eatˡ⁻ˡ :  {{Basic R}} →
+    R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+  ↪ᵃ⟨⟩-eatˡ⁻ˡ =  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ {j = 0} λ{ .! → ⊢⇒⊢⇛ $ -∗-elim ⊢-refl }
+
+  ↪ᵃ⟨⟩-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
+                P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+  ↪ᵃ⟨⟩-monoˡ ⊢< =  ↪ᵃ⟨⟩-monoˡᵘ {j = 0} λ{ .! → ⊢⇒⊢⇛ $ ⊢< .! }
+
+  -->  ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+  -->    R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
+  -->      P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+
+  -->  ↪ᵃ⟨⟩-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ][ j ]⇛  Q'˂˙ v .!)  →
+  -->                 P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q'˂˙
+
+  ↪ᵃ⟨⟩-monoʳ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ]  Q'˂˙ v .!)  →
+                P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q'˂˙
+  ↪ᵃ⟨⟩-monoʳ ⊢< =  ↪ᵃ⟨⟩-monoʳᵘ {j = 0} λ{ v .! → ⊢⇒⊢⇛ $ ⊢< v .! }
+
+  -->  ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
+  -->                  ¡ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+
+  ↪ᵃ⟨⟩-frameʳ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
+                   ¡ (P˂ .! ∗ R) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (Q˂˙ v .! ∗ R)
+  ↪ᵃ⟨⟩-frameʳ =  ↪ᵃ⟨⟩-frameˡ »
+    ↪ᵃ⟨⟩-monoˡ (¡ ∗-comm) » ↪ᵃ⟨⟩-monoʳ (λ _ → ¡ ∗-comm)
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩ᴾ

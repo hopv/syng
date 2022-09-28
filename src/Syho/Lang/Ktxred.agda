@@ -11,12 +11,13 @@ open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl)
 open import Base.Size using (∞)
+open import Base.Bool using (Bool)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr; Expr˂; ▶_;
-  ∇_; nd; λ˙; _◁_; _⁏_; fork; 🞰_; _←_; alloc; free; Val; V⇒E; ṽ_; ṽ↷_)
+  ∇_; nd; λ˙; _◁_; _⁏_; fork; 🞰_; _←_; cas; alloc; free; Val; V⇒E; ṽ_; ṽ↷_)
 
 private variable
   Xʸ :  Setʸ
@@ -45,6 +46,8 @@ data  Redex :  Type →  Set₀  where
   🞰ᴿ_ :  Addr →  Redex T
   -- For ←
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
+  -- For cas
+  casᴿ :  Addr →  Val T →  Val T →  Redex (◸ Bool)
   -- For alloc
   allocᴿ :  ℕ →  Redex (◸ Addr)
   -- For free
@@ -70,6 +73,10 @@ data  Ktx :  Type →  Type →  Set₀  where
   -- For ←
   _←ᴷʳ_ :  Expr ∞ (◸ Addr) →  Ktx U T →  Ktx U (◸ ⊤)
   _←ᴷˡ_ :  Ktx U (◸ Addr) →  Val T →  Ktx U (◸ ⊤)
+  -- For cas
+  casᴷ⁰ :  Ktx U (◸ Addr) →  Expr ∞ T →  Expr ∞ T →  Ktx U (◸ Bool)
+  casᴷ¹ :  Addr →  Ktx U T →  Expr ∞ T →  Ktx U (◸ Bool)
+  casᴷ² :  Addr →  Val T →  Ktx U T →  Ktx U (◸ Bool)
   -- For alloc
   allocᴷ :  Ktx T (◸ ℕ) →  Ktx T (◸ Addr)
   -- For free
@@ -86,6 +93,9 @@ _ᴷ◁_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
 🞰ᴷ K ᴷ◁ e =  🞰 (K ᴷ◁ e)
 (e' ←ᴷʳ K) ᴷ◁ e =  e' ← (K ᴷ◁ e)
 (K ←ᴷˡ v) ᴷ◁ e =  (K ᴷ◁ e) ← V⇒E v
+casᴷ⁰ K e' e'' ᴷ◁ e =  cas (K ᴷ◁ e) e' e''
+casᴷ¹ θ K e' ᴷ◁ e =  cas (∇ θ) (K ᴷ◁ e) e'
+casᴷ² θ v K ᴷ◁ e =  cas (∇ θ) (V⇒E v) (K ᴷ◁ e)
 allocᴷ K ᴷ◁ e =  alloc $ K ᴷ◁ e
 freeᴷ K ᴷ◁ e =  free $ K ᴷ◁ e
 
@@ -100,6 +110,9 @@ _ᴷ∘ᴷ_ :  Ktx U V →  Ktx T U →  Ktx T V
 🞰ᴷ K ᴷ∘ᴷ K' =  🞰ᴷ (K ᴷ∘ᴷ K')
 (e ←ᴷʳ K) ᴷ∘ᴷ K' =  e ←ᴷʳ (K ᴷ∘ᴷ K')
 (K ←ᴷˡ v) ᴷ∘ᴷ K' =  (K ᴷ∘ᴷ K') ←ᴷˡ v
+casᴷ⁰ K e' e'' ᴷ∘ᴷ K' =  casᴷ⁰ (K ᴷ∘ᴷ K') e' e''
+casᴷ¹ θ K e' ᴷ∘ᴷ K' =  casᴷ¹ θ (K ᴷ∘ᴷ K') e'
+casᴷ² θ v K ᴷ∘ᴷ K' =  casᴷ² θ v (K ᴷ∘ᴷ K')
 allocᴷ K ᴷ∘ᴷ K' =  allocᴷ $ K ᴷ∘ᴷ K'
 freeᴷ K ᴷ∘ᴷ K' =  freeᴷ $ K ᴷ∘ᴷ K'
 
@@ -135,6 +148,12 @@ abstract
   ᴷ∘ᴷ-ᴷ◁ {K = _ ←ᴷʳ K} {K' = K'} {e}
     rewrite ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e} =  refl
   ᴷ∘ᴷ-ᴷ◁ {K = K ←ᴷˡ _} {K' = K'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {K = casᴷ⁰ K _ _} {K' = K'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {K = casᴷ¹ _ K _} {K' = K'} {e}
+    rewrite ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e} =  refl
+  ᴷ∘ᴷ-ᴷ◁ {K = casᴷ² _ _ K} {K' = K'} {e}
     rewrite ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e} =  refl
   ᴷ∘ᴷ-ᴷ◁ {K = allocᴷ K} {K' = K'} {e}
     rewrite ᴷ∘ᴷ-ᴷ◁ {K = K} {K' = K'} {e} =  refl
@@ -178,6 +197,16 @@ val/ktxred (e' ← e) =  ĩ₁ body
   … | ĩ₀ v  with val/ktxred e'
   …   | ĩ₁ (-, K , red) =  -, K ←ᴷˡ v , red
   …   | ĩ₀ ṽ θ =  -, •ᴷ , θ ←ᴿ v
+val/ktxred (cas e e' e'') =  ĩ₁ body
+ where
+  body :  Ktxred _
+  body  with val/ktxred e
+  … | ĩ₁ (-, K , red) =  -, casᴷ⁰ K e' e'' , red
+  … | ĩ₀ ṽ θ  with val/ktxred e'
+  …   | ĩ₁ (-, K , red) =  -, casᴷ¹ θ K e'' , red
+  …   | ĩ₀ u  with val/ktxred e''
+  …     | ĩ₁ (-, K , red) =  -, casᴷ² θ u K , red
+  …     | ĩ₀ v =  -, •ᴷ , casᴿ θ u v
 val/ktxred (alloc e) =  ĩ₁ body
  where
   body :  Ktxred _
@@ -221,6 +250,12 @@ abstract
   val/ktxred-ktx {e = e} {K = _ ←ᴷʳ K} eq
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = K ←ᴷˡ v} eq
+    rewrite val/ktxred-V⇒E {v = v} | val/ktxred-ktx {e = e} {K = K} eq =  refl
+  val/ktxred-ktx {e = e} {K = casᴷ⁰ K _ _} eq
+    rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
+  val/ktxred-ktx {e = e} {K = casᴷ¹ _ K _} eq
+    rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
+  val/ktxred-ktx {e = e} {K = casᴷ² _ v K} eq
     rewrite val/ktxred-V⇒E {v = v} | val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = allocᴷ K} eq
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl

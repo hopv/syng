@@ -9,9 +9,10 @@ module Syho.Lang.Reduce where
 open import Base.Level using (↑_)
 open import Base.Func using (_$_; flip)
 open import Base.Few using (⊤)
-open import Base.Eq using (_≡_; refl; ◠_)
+open import Base.Eq using (_≡_; _≢_; refl; ◠_)
 open import Base.Dec using (upd˙)
 open import Base.Size using (Size; ∞; Thunk; !)
+open import Base.Bool using (tt; ff)
 open import Base.Option using (¿_; š_; ň; ¿-case; _$¿_; _»-¿_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
@@ -21,7 +22,7 @@ open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸_; Addr; Expr; Expr˂; ∇_; Val; V⇒E;
   TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
-  _←ᴿ_; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
+  _←ᴿ_; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- Memory
@@ -91,7 +92,7 @@ private variable
   es es' es'' :  List (Expr ∞ (◸ ⊤))
   K :  Ktx T U
   red : Redex T
-  v :  Val T
+  u v :  Val T
   n :  ℕ
   kr :  Ktxred T
   ι :  Size
@@ -123,6 +124,12 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem
 
   -- For ←, with a check that θ is in the domain of M
   ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , ň , updᴹ θ (-, v) M)
+
+  -- For cas, the success and failure cases
+  cas⇒-tt :  M ‼ᴹ θ ≡ š (-, u) →
+             (casᴿ θ u v , M) ⇒ᴿ (∇ tt , ň , updᴹ θ (-, v) M)
+  cas⇒-ff :  ∑ u' , M ‼ᴹ θ ≡ š (-, u') × u' ≢ u →
+             (casᴿ θ u v , M) ⇒ᴿ (∇ ff , ň , M)
 
   -- For alloc, for any o out of the domain of M
   alloc⇒ :  ∀ o →  M o ≡ ň →

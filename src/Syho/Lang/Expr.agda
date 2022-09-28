@@ -12,6 +12,7 @@ open import Base.Few using (⊤; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; cong; subst)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 open import Base.Size using (Size; ∞; Thunk; !)
+open import Base.Bool using (Bool)
 open import Base.Prod using (∑-syntax; _×_; _,_)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Syn; setʸ)
@@ -129,6 +130,9 @@ data  Expr ι  where
 
   -- Write to the memory
   _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
+
+  -- Compare and swap
+  cas :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι T →  Expr ι (◸ Bool)
 
   -- Allocating a new memory block
   alloc :  Expr ι (◸ ℕ) →  Expr ι (◸ Addr)

@@ -10,9 +10,10 @@ module Syho.Logic.Judg where
 open import Base.Level using (Level; ↑_)
 open import Base.Func using (_∘_; _$_)
 open import Base.Few using (⊤)
-open import Base.Eq using (_≡_)
+open import Base.Eq using (_≡_; _≢_)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
+open import Base.Bool using (tt; ff)
 open import Base.Zoi using (Zoi; ⊤ᶻ; _⊎ᶻ_; ✔ᶻ_; ^ᶻ_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
@@ -24,7 +25,7 @@ open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
   λᵛ-syntax; V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
-  _←ᴿ_; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
+  _←ᴿ_; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Logic.Prop using (InvName; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
   ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_;
   ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴵ; Inv; OInv; _↦_; _↦ᴸ_; Free;
@@ -149,7 +150,7 @@ private variable
   e˂ :  Expr˂ ∞ T
   e˙ :  X → Expr ∞ T
   K :  Ktx T U
-  v :  Val T
+  u u' v :  Val T
   θ :  Addr
   p q :  ℚ⁺
   ᵗu ᵗv :  TyVal
@@ -604,6 +605,15 @@ data  _⊢[_]*_  where
   -- Memory write
 
   ahor-← :  θ ↦ ᵗu  ⊢[ ι ][ i ]ᵃ⟨ θ ←ᴿ v ⟩ λ _ →  θ ↦ (-, v)
+
+  -- Compare and swap, the success and failure cases
+
+  ahor-cas-tt :  θ ↦ (-, u)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ u v ⟩ λᵛ b ,
+                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, v)
+
+  ahor-cas-ff :  u' ≢ u  →
+    θ ↦⟨ p ⟩ (-, u')  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ u v ⟩ λᵛ b ,
+      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, u')
 
   -- Memory allocation
 

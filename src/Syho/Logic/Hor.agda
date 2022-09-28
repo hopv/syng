@@ -12,7 +12,7 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Prop'; _∗_)
-open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
+open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
 open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ṽ_; ṽ↷_)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
@@ -79,7 +79,8 @@ abstract
   -->  _ᵘ»ᵃʰ_ :  P  ⊢[ ι ][ j ]⇛  Q  →   Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙  →
   -->            P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
 
-  -->  _ᵘ»ʰ_ :  P  ⊢[ ι ][ i ]⇛  Q  →   Q  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙  →
+  -->  _ᵘ»ʰ_ :  P  ∗  [ ⊤ᶻ ]ᴵ  ⊢[ ι ][ i ]⇛  Q  ∗  [ ⊤ᶻ ]ᴵ  →
+  -->           Q  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙  →
   -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
 
   -->  _ᵃʰ»ᵘ_ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
@@ -91,12 +92,12 @@ abstract
   P⊢⟨red⟩Q ᵃʰ» ∀vQ⊢R =  P⊢⟨red⟩Q ᵃʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀vQ⊢R _
 
   -->  _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
-  -->           (∀ v →  Q˙ v  ⊢[ ι ][ i ]⇛  R˙ v)  →
+  -->          (∀ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴵ  ⊢[ ι ][ j ]⇛  R˙ v  ∗  [ ⊤ᶻ ]ᴵ)  →
   -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
 
   _ʰ»_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ]  R˙ v)  →
           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
-  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀vQ⊢R _
+  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∗-monoˡ $ ∀vQ⊢R _
 
   -- Frame
 

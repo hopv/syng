@@ -11,13 +11,14 @@ open import Base.Func using (_$_; _›_)
 open import Base.Few using (absurd)
 open import Base.Size using (∞)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
+open import Base.Zoi using (⊤ᶻ)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_; Basic)
+open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_; [_]ᴵ; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
-  ∗-monoʳ; ?∗-comm; ∗-elimʳ)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»ᵘ_; ⇛-frameˡ;
+  ∗-monoʳ; ?∗-comm; ∗?-comm; ∗-elimʳ)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»_; _ᵘ»ᵘ_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵃʰ»ᵘ_; _ʰ»ᵘ_; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; ahor-frameˡ;
@@ -208,12 +209,14 @@ abstract
 
   -- Modify ⟨ ⟩ᴾ proof
 
-  ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ P →
+  ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
+                   (R ∗ P') ∗ [ ⊤ᶻ ]ᴵ ⊢[ ∞ ][ i ]⇛ P ∗ [ ⊤ᶻ ]ᴵ →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Q˙
-  ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+  ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
-    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᴾ Q˙
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
+    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛[⊤] P∗S∗T ⊢⟨e⟩ᴾ Q˙
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ »
+      (∗?-comm » ⇛-frameʳ R∗P'⊢⇛[⊤]P ᵘ» ∗?-comm) ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
@@ -224,7 +227,7 @@ abstract
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ Q'˙ v) →
+  ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [ ⊤ᶻ ]ᴵ ⊢[ ∞ ][ i ]⇛ Q'˙ v ∗ [ ⊤ᶻ ]ᴵ) →
                   P ↪⟨ e ⟩ᴾᵒ Q˙  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'˙
   ↪⟨⟩ᴾᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa
@@ -260,12 +263,14 @@ abstract
   ↪⟨⟩ᵀᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, horᵀ-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
+  ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
+                   (R ∗ P') ∗ [ ⊤ᶻ ]ᴵ ⊢[ ∞ ][ j ]⇛ P ∗ [ ⊤ᶻ ]ᴵ →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙
-  ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+  ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
-    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᵀ Q˙
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
+    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛[⊤] P∗S∗T ⊢⟨e⟩ᵀ Q˙
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ »
+      (∗?-comm » ⇛-frameʳ R∗P'⊢⇛[⊤]P ᵘ» ∗?-comm) ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
@@ -276,7 +281,7 @@ abstract
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
+  ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [ ⊤ᶻ ]ᴵ ⊢[ ∞ ][ j ]⇛ Q'˙ v ∗ [ ⊤ᶻ ]ᴵ) →
                   P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'˙
   ↪⟨⟩ᵀᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa

@@ -12,7 +12,7 @@ open import Base.Dec using ()
 open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
-open import Syho.Lang.Expr using (Addr; λᵛ-syntax; TyVal; loop)
+open import Syho.Lang.Expr using (Addr; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗⊤-intro;
@@ -48,7 +48,7 @@ abstract
 
   -- Execute plus ◁ ∇ (3 , 4)
 
-  plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ[ 0 ] λᵛ n , ⌜ n ≡ 7 ⌝
+  plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ[ 0 ] λ n → ⌜ n ≡ 7 ⌝
   plus◁3,4-7 =  hor-◁ $ hor-val $ ⌜⌝-intro refl
 
   -- decrloop θ terminates, setting the value at θ to 0

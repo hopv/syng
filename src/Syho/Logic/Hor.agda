@@ -31,7 +31,7 @@ private variable
   i :  ℕ
   X :  Set₀
   T U :  Type
-  wκ :  WpKind
+  κ :  WpKind
   P P' Q R :  Prop∞
   Q˙ Q'˙ R˙ :  X → Prop∞
   red :  Redex T
@@ -51,16 +51,16 @@ abstract
 
   -->  ahor-hor :
   -->    (P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ)  →
-  -->    (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  R˙)  →
-  -->    P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ wκ ]  R˙
+  -->    (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
+  -->    P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 
-  -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  Q˙  →
-  -->              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  R˙)  →
-  -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  R˙
+  -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
+  -->              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
+  -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  R˙
 
   -->  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →
-  -->    (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙)  →
-  -->    P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩[ wκ ]  Q˙
+  -->    (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ]  Q˙)  →
+  -->    P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩[ κ ]  Q˙
 
   -->  horᴾ-▶ :  P  ⊢[< ι ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
   -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾ  Q˙
@@ -68,12 +68,12 @@ abstract
   -->  horᵀ-▶ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˂ .! ⟩ᵀ[ i ]  Q˙  →
   -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᵀ[ i ]  Q˙
 
-  -->  hor-◁ :  ∀{x : ⸨ Xʸ ⸩ʸ} →  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ wκ ]  Q˙  →
-  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩[ wκ ]  Q˙
+  -->  hor-◁ :  ∀{x : ⸨ Xʸ ⸩ʸ} →  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ κ ]  Q˙  →
+  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩[ κ ]  Q˙
 
-  -->  hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ wκ ]  R˙  →
-  -->              Q  ⊢[ ι ]⟨ e ⟩[ wκ ]  (λ _ → ⊤')  →
-  -->              P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ wκ ]  R˙
+  -->  hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
+  -->              Q  ⊢[ ι ]⟨ e ⟩[ κ ]  (λ _ → ⊤')  →
+  -->              P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ κ ]  R˙
 
   -- Compose
 
@@ -81,8 +81,8 @@ abstract
   -->            P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
 
   -->  _ᵘ»ʰ_ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ ⊤ᶻ ]ᴺ  →
-  -->           Q  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙  →
-  -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
+  -->           Q  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙  →
+  -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
 
   -->  _ᵃʰ»ᵘ_ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
   -->            (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛  R˙ v)  →
@@ -92,12 +92,12 @@ abstract
            P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
   P⊢⟨red⟩Q ᵃʰ» ∀vQ⊢R =  P⊢⟨red⟩Q ᵃʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀vQ⊢R _
 
-  -->  _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
+  -->  _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
   -->          (∀ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ j ]⇛  R˙ v  ∗  [ ⊤ᶻ ]ᴺ)  →
-  -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
+  -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
 
-  _ʰ»_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ]  R˙ v)  →
-          P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
+  _ʰ»_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ]  R˙ v)  →
+          P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
   P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∗-monoˡ $ ∀vQ⊢R _
 
   -- Frame
@@ -109,28 +109,28 @@ abstract
                  P  ∗  R  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  R
   ahor-frameʳ P⊢⟨red⟩Q =  ∗-comm » ahor-frameˡ P⊢⟨red⟩Q ᵃʰ» λ _ → ∗-comm
 
-  -->  hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
-  -->                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v →  R  ∗  Q˙ v
+  -->  hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
+  -->                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  R  ∗  Q˙ v
 
-  hor-frameʳ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
-                P  ∗  R  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] λ v →  Q˙ v  ∗  R
+  hor-frameʳ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
+                P  ∗  R  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  Q˙ v  ∗  R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
   -- Value
 
   -->  hor-valᵘ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  →
-  -->              P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ wκ ]  Q˙
+  -->              P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
 
-  hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ wκ ]  Q˙
+  hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
   hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} $ ∗-monoˡ P⊢Q
 
   -- Sequential execution
 
-  -->  hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
-  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _⁏ᴿ_ {T} v e) ⟩[ wκ ]  Q˙
+  -->  hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
+  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _⁏ᴿ_ {T} v e) ⟩[ κ ]  Q˙
 
-  hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ wκ ]  R˙  →
-                P  ⊢[ ι ]⟨ _⁏_ {T = T} e e' ⟩[ wκ ]  R˙
+  hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ κ ]  R˙  →
+                P  ⊢[ ι ]⟨ _⁏_ {T = T} e e' ⟩[ κ ]  R˙
   hor-⁏-bind {T = ◸ʸ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
     hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ _ → hor-⁏ Q⊢⟨e'⟩R
   hor-⁏-bind {T = _ ʸ↷ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
@@ -138,8 +138,8 @@ abstract
 
   -- Let binding
 
-  hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ wκ ]  Q˙  →
-                  (∀ x →  Q˙ x  ⊢[ ι ]⟨ e˙ x ⟩[ wκ ]  R˙) →
-                  P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ wκ ]  R˙
+  hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ κ ]  Q˙  →
+                  (∀ x →  Q˙ x  ⊢[ ι ]⟨ e˙ x ⟩[ κ ]  R˙) →
+                  P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ]  R˙
   hor-let-bind P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
     hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ x → hor-◁ $ ∀xQ⊢⟨e˙⟩R x

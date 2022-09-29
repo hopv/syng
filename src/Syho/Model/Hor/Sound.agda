@@ -40,9 +40,10 @@ open import Syho.Model.Hor.Mem using (⁺⟨⟩ᴾᵒ-🞰; ⁺⟨⟩ᵀᵒ-🞰
 
 private variable
   ι :  Size
+  X :  Set₀
   T :  Type
   P :  Prop∞
-  Q˙ :  Val T →  Prop∞
+  Q˙ :  X →  Prop∞
   vk :  Val/Ktxred T
   i k :  ℕ
   θ :  Addr

@@ -40,7 +40,7 @@ private variable
   ι :  Size
   T U :  Type
   Pᵒ Qᵒ :  Propᵒ ł
-  Qᵒ˙ :  Val T → Propᵒ ł
+  Qᵒ˙ :  X → Propᵒ ł
   M M' :  Mem
   θ :  Addr
   p :  ℚ⁺
@@ -48,7 +48,7 @@ private variable
   ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
   K :  Ktx T U
-  u v :  Val T
+  u v :  X
 
 --------------------------------------------------------------------------------
 -- Semantic super update for the memory

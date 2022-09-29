@@ -6,7 +6,6 @@
 
 module Syho.Model.Hor.Lang where
 
-open import Base.Level using (Level)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Eq using (refl; ◠_)
 open import Base.Dec using (Inh; auto)
@@ -30,15 +29,14 @@ private variable
   ł :  Level
   ι ι' :  Size
   Xʸ :  Setʸ
-  X :  Set ł
-  x :  X
+  X :  Set₀
+  v x :  X
   T U :  Type
-  Pᵒ˙ :  Val T →  Propᵒ ł
+  Pᵒ˙ :  X →  Propᵒ ł
   e :  Expr∞ T
   e˂ :  Expr˂∞ T
   e˙ :  X →  Expr∞ T
   K :  Ktx T U
-  v :  Val T
 
 --------------------------------------------------------------------------------
 -- Language-specific lemmas on the weakest preconditions

@@ -39,14 +39,15 @@ private variable
   ι :  Size
   ιs :  List Size₀
   M M' :  Mem
+  X :  Set₀
   T :  Type
   e⁺ e e' :  Expr∞ T
   eˇ :  ¿ Expr∞ (◸ ⊤)
   es es' :  List (Expr∞ (◸ ⊤))
-  v :  Val T
+  v :  X
   kr' :  Ktxred T
-  Pᵒ˙ :  Val T → Propᵒ ł
-  X˙ :  Val T → Set ł
+  Pᵒ˙ :  X → Propᵒ ł
+  X˙ :  X → Set ł
   Eᴵⁿ :  Envᴵⁿᴳ
   a :  Resᴳ
 

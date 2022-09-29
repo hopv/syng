@@ -27,10 +27,11 @@ open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⟨_⟩⇛ᵒ'�
 private variable
   ł :  Level
   ι ι' :  Size
+  X :  Set₀
   T :  Type
   Pᵒ Qᵒ :  Propᵒ ł
-  Pᵒ˙ Qᵒ˙ :  Val T → Propᵒ ł
-  v :  Val T
+  Pᵒ˙ Qᵒ˙ :  X → Propᵒ ł
+  v :  X
   kr :  Ktxred T
   vk :  Val/Ktxred T
   e :  Expr∞ T

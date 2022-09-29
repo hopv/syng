@@ -122,7 +122,7 @@ abstract
   -->            ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
 
   -->  ↪ᵃ⟨⟩-use :  P˂ .!  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)
-  -->                ⊢[ ι ]⟨ ¡ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
+  -->                ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!
 
   -- Modify ⟨ ⟩ᵀ proof
 

@@ -38,7 +38,7 @@ import Syho.Model.ERA.Up
 
 module AllPnts =  Syho.Model.ERA.All ℕ (λ _ → Fracᴱᴿᴬ TyVal)
 open AllPnts public using () renaming (
-  --  Pntsᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+  --  Pntsᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to Pntsᴱᴿᴬ;
   --  inj˙ᴾⁿᵗˢ :  ℕ →  Fracᴱᴿᴬ TyVal →  Pntsᴱᴿᴬ .Res
   inj˙ to inj˙ᴾⁿᵗˢ;
@@ -53,26 +53,26 @@ Freeᴱᴿᴬ =  Excᴱᴿᴬ ℕ
 
 module ProdMblo =  Syho.Model.ERA.Prod Pntsᴱᴿᴬ Freeᴱᴿᴬ
 open ProdMblo public using () renaming (
-  --  ×Mbloᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+  --  ×Mbloᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ×ᴱᴿᴬ to ×Mbloᴱᴿᴬ)
 module EnvmMblo =  Syho.Model.ERA.Envm ×Mbloᴱᴿᴬ
   Mblo (λ Mb → (λ i → Mb »-¿ _‼ i) , len $¿ Mb)
 open EnvmMblo public using () renaming (
-  --  Mbloᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+  --  Mbloᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   Envmᴱᴿᴬ to Mbloᴱᴿᴬ)
 
 -- For the memory
 
 module AllMem =  Syho.Model.ERA.All ℕ (λ _ → Mbloᴱᴿᴬ)
 open AllMem public using () renaming (
-  --  ∀Memᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+  --  ∀Memᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to ∀Memᴱᴿᴬ;
   --  inj˙ᴬᴹᵉᵐ :  ℕ →  Mbloᴱᴿᴬ .Res →  ∀Memᴱᴿᴬ .Res
   inj˙ to inj˙ᴬᴹᵉᵐ;
   inj˙-∙ to inj˙ᴬᴹᵉᵐ-∙; inj˙-≈ to inj˙ᴬᴹᵉᵐ-≈; ✓-inj˙ to ✓-inj˙ᴬᴹᵉᵐ)
 module EnvvMem =  Syho.Model.ERA.Envv ∀Memᴱᴿᴬ ✓ᴹ_
 open EnvvMem public using () renaming (
-  --  EnvvMemᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+  --  EnvvMemᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   Envvᴱᴿᴬ to EnvvMemᴱᴿᴬ)
 module UpMem =  Syho.Model.ERA.Up EnvvMemᴱᴿᴬ {1ᴸ} {1ᴸ} {1ᴸ} {1ᴸ}
 open UpMem public using () renaming (

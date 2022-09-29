@@ -41,6 +41,7 @@ module EnvmIndˣ =  Syho.Model.ERA.Envm ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop∞) 
 open EnvmIndˣ public using () renaming (
   --  EnvmIndˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to EnvmIndˣᴱᴿᴬ)
+-- The domain of Pˇ˙ consists of indices less than n
 module EnvvIndˣ =  Syho.Model.ERA.Envv EnvmIndˣᴱᴿᴬ
   (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
 open EnvvIndˣ public using () renaming (
@@ -103,6 +104,7 @@ module EnvmIndᵖ =  Syho.Model.ERA.Envm ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop∞
 open EnvmIndᵖ public using () renaming (
   --  EnvmIndᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to EnvmIndᵖᴱᴿᴬ)
+-- The domain of Pˇ˙ consists of indices less than n
 module EnvvIndᵖ =  Syho.Model.ERA.Envv EnvmIndᵖᴱᴿᴬ
   (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
 open EnvvIndᵖ public using () renaming (

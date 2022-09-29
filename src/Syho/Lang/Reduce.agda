@@ -55,7 +55,7 @@ empᴹ _ =  ň
 updᴹ :  Addr →  TyVal →  Mem →  Mem
 updᴹ (o , i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
 
--- Memory validity
+-- Memory validity, saying that the domain of the memory is a finite set
 
 infix 3 ✓ᴹ_
 ✓ᴹ_ :  Mem →  Set₀

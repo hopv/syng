@@ -6,7 +6,6 @@
 
 module Syho.Lang.Reduce where
 
-open import Base.Level using (↑_)
 open import Base.Func using (_$_; flip)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_)

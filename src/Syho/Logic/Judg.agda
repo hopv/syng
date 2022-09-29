@@ -7,7 +7,6 @@
 
 module Syho.Logic.Judg where
 
-open import Base.Level using (Level; ↑_)
 open import Base.Func using (_∘_; _$_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_)
@@ -131,12 +130,11 @@ record  Pers (P : Prop' ∞) :  Set₁  where
 open Pers {{…}} public
 
 private variable
-  ł :  Level
   i j n :  ℕ
   Xʸ :  Setʸ
-  X :  Set ł
+  X :  Set₀
   x y z :  X
-  Y˙ :  X → Set ł
+  Y˙ :  X → Set₀
   Jr :  JudgRes
   P P' Q R :  Prop' ∞
   P˙ Q˙ R˙ :  X → Prop' ∞

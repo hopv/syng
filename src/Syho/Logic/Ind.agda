@@ -6,7 +6,6 @@
 
 module Syho.Logic.Ind where
 
-open import Base.Level using (Level; ↓)
 open import Base.Func using (_∘_; id; const; _$_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Zoi using (⊤ᶻ)
@@ -28,13 +27,12 @@ open import Syho.Logic.Judg public using (○-mono; ○-eatˡ; ○-alloc; □○
   ↪⟨⟩ᵀ-use)
 
 private variable
-  ł :  Level
   ι :  Size
   i j :  ℕ
   T :  Type
   P Q R :  Prop' ∞
   P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
-  X Y :  Set ł
+  X Y :  Set₀
   x :  X
   Q˙ :  X → Prop' ∞
   P˂˙ Q˂˙ Q'˂˙ :  X → Prop˂ ∞

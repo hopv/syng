@@ -6,7 +6,6 @@
 
 module Syho.Logic.Prop where
 
-open import Base.Level using (Level)
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
 open import Base.Size using (Size; ∞; Thunk)
@@ -39,8 +38,7 @@ Prop˂ ι =  Thunk Prop' ι
 
 private variable
   ι :  Size
-  ł :  Level
-  X :  Set ł
+  X :  Set₀
   P˙ :  X → Prop' ∞
   P Q :  Prop' ∞
   n :  ℕ
@@ -58,9 +56,9 @@ infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
 
-  -- ∀˙, ∃˙ :  Universal/existential quantification over any type X in Set₁,
+  -- ∀˙, ∃˙ :  Universal/existential quantification over any type X in Set₀,
   --           which does not include Prop' ι itself (predicativity)
-  ∀˙ ∃˙ :  ∀{X : Set₀} →  (X → Prop' ι) →  Prop' ι
+  ∀˙ ∃˙ :  (X → Prop' ι) →  Prop' ι
 
   -- →' :  Implication
   _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
@@ -106,7 +104,7 @@ data  Prop' ι  where
 --------------------------------------------------------------------------------
 -- Utility for ∀/∃
 
-∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  ∀{X : Set₀} →  (X → Prop' ι) →  Prop' ι
+∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  (X → Prop' ι) →  Prop' ι
 ∀∈-syntax =  ∀˙
 ∃∈-syntax =  ∃˙
 ∀-syntax =  ∀˙

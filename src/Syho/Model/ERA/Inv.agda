@@ -118,14 +118,14 @@ abstract
 
   -- invk i P cannot overlap
 
-  invk-no2 :  ¬ (Pˇ˙ , n) ✓ᴵⁿᵛ invk i P ∙ᴵⁿᵛ invk i P
+  invk-no2 :  ¬ (Qˇ˙ , n) ✓ᴵⁿᵛ invk i P ∙ᴵⁿᵛ invk i P
   invk-no2 {i = i} (-, ✓iPP , _)  with ✓iPP i .π₁
   … | ✓↯  rewrite ≟-refl {a = i} =  absurd ✓↯
 
   -- Allocate inv and invk
 
   inv-invk-alloc :  ((Qˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ  λ(_ : ⊤₀) →
-    (upd˙ n (š P) Qˇ˙ , ṡ n) , inv n P ∙ᴵⁿᵛ invk n P
+                      (upd˙ n (š P) Qˇ˙ , ṡ n) , inv n P ∙ᴵⁿᵛ invk n P
   inv-invk-alloc _ _ .π₀ =  _
   inv-invk-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
   inv-invk-alloc _ (-, -, ✓c) .π₁ .π₁ .π₁ =  ✓c

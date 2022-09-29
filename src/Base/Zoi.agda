@@ -8,9 +8,9 @@ module Base.Zoi where
 
 open import Base.Level using (Level)
 open import Base.Func using (id)
-open import Base.Few using (⊤; ⊥)
+open import Base.Few using (⊤; ⊥; ¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; refl˙)
-open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; ≟-refl; upd˙)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_)
 
 --------------------------------------------------------------------------------
@@ -195,3 +195,9 @@ abstract
   ⊆ᶻ⇒∑⊎ᶻ :  Aᶻ ⊆ᶻ Bᶻ →  ∑ Cᶻ , Cᶻ ⊎ᶻ Aᶻ ≡˙ Bᶻ
   ⊆ᶻ⇒∑⊎ᶻ A⊆B .π₀ a =  ≤ᶻ⇒∑+ᶻ (A⊆B a) .π₀
   ⊆ᶻ⇒∑⊎ᶻ A⊆B .π₁ a =  ≤ᶻ⇒∑+ᶻ (A⊆B a) .π₁
+
+  -- ^ᶻ a ⊎ᶻ ^ᶻ a is invalid
+
+  ^ᶻ-no2 :  ∀{{_ : ≡Dec A}} {a : A} →  ¬ ✔ᶻ ^ᶻ a ⊎ᶻ ^ᶻ a
+  ^ᶻ-no2 {a = a} ✔^a⊎^a  with ✔^a⊎^a a
+  … | ✓∞  rewrite ≟-refl {a = a} =  ✓∞

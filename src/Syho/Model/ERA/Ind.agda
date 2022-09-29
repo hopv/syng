@@ -10,7 +10,7 @@ open import Base.Level using (1ᴸ)
 open import Base.Func using (_∘_; id)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl)
-open import Base.Dec using (yes; no; upd˙; _≟_; ≟-refl)
+open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
@@ -36,7 +36,8 @@ private variable
 module AllIndˣ =  Syho.Model.ERA.All ℕ (λ _ → Excᴱᴿᴬ Prop∞)
 open AllIndˣ public using () renaming (
   --  ∀Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ)
+  ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ;
+  inj˙ to inj˙ᴵⁿᵈˣ)
 module EnvmIndˣ =  Syho.Model.ERA.Envm ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ) π₀
 open EnvmIndˣ public using () renaming (
   --  EnvmIndˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
@@ -59,7 +60,7 @@ empᴵⁿᵈˣ =  (λ _ → ň) , 0
 -- Exclusively own a proposition at an index
 
 indˣ :  ℕ →  Prop∞ →  Resᴵⁿᵈˣ
-indˣ i P =  upd˙ i (#ˣ P) εᴵⁿᵈˣ
+indˣ i P =  inj˙ᴵⁿᵈˣ i (#ˣ P)
 
 abstract
 
@@ -99,7 +100,8 @@ abstract
 module AllIndᵖ =  Syho.Model.ERA.All ℕ (λ _ → Agᴱᴿᴬ Prop∞)
 open AllIndᵖ public using () renaming (
   --  ∀Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ)
+  ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ;
+  inj˙ to inj˙ᴵⁿᵈᵖ)
 module EnvmIndᵖ =  Syho.Model.ERA.Envm ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ) π₀
 open EnvmIndᵖ public using () renaming (
   --  EnvmIndᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
@@ -122,7 +124,7 @@ empᴵⁿᵈᵖ =  (λ _ → ň) , 0
 -- Persistently own a proposition at an index
 
 indᵖ :  ℕ →  Prop∞ →  Resᴵⁿᵈᵖ
-indᵖ i P =  upd˙ i [ P ] εᴵⁿᵈᵖ
+indᵖ i P =  inj˙ᴵⁿᵈᵖ i [ P ]
 
 abstract
 

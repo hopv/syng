@@ -25,7 +25,7 @@ open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr; Expr˂; ▶_; ∇_; 
   λᵛ-syntax; V⇒E; TyVal; ⊤▾)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
-open import Syho.Logic.Prop using (InvName; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
+open import Syho.Logic.Prop using (Name; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
   ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_;
   ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴵ; Inv; OInv; _↦_; _↦ᴸ_; Free;
   Basic)
@@ -154,8 +154,8 @@ private variable
   p q :  ℚ⁺
   ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
-  nm :  InvName
-  Nm Nm' :  InvName → Zoi
+  nm :  Name
+  Nm Nm' :  Name → Zoi
 
 infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ᵃʰ_ _ᵘ»ʰ_ _ᵃʰ»ᵘ_ _ʰ»ᵘ_
 
@@ -448,17 +448,17 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On the impredicative invariant
 
-  -- Update the set part of an invariant name set token
+  -- Update the set part of an name set token
 
   []ᴵ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴵ ⊢[ ι ] [ Nm' ]ᴵ
 
-  -- Invariant name set tokens can be merged and split w.r.t. the set sum
+  -- name set tokens can be merged and split w.r.t. the set sum
 
   []ᴵ-merge :  [ Nm ]ᴵ  ∗  [ Nm' ]ᴵ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴵ
 
   []ᴵ-split :  [ Nm ⊎ᶻ Nm' ]ᴵ  ⊢[ ι ]  [ Nm ]ᴵ  ∗  [ Nm' ]ᴵ
 
-  -- The set of an invariant name set token is valid
+  -- The set of an name set token is valid
 
   []ᴵ-✔ :  [ Nm ]ᴵ  ⊢[ ι ]  ⌜ ✔ᶻ Nm ⌝
 
@@ -486,16 +486,14 @@ data  _⊢[_]*_  where
 
   Inv-alloc-rec :  Inv nm P˂ -∗ P  ⊢[ ι ][ i ]⇛  Inv nm P˂
 
-  -- Open an invariant with a token for the invariant name, getting an open
-  -- invariant token
+  -- Open an invariant with a name token, getting an open invariant token
 
   -- Notably, the proposition P˂ .! is directly obtained, without any guard like
   -- the later modality as in Iris
 
   Inv-open :  Inv nm P˂  ∗  [ ^ᶻ nm ]ᴵ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
 
-  -- Retrieve a token for the invariant name out of an open invariant token and
-  -- its proposition
+  -- Retrieve a name token out of an open invariant token and its proposition
 
   OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [ ^ᶻ nm ]ᴵ
 

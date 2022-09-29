@@ -20,12 +20,12 @@ open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; TyVal)
 open import Syho.Lang.Ktxred using (Redex)
 
 --------------------------------------------------------------------------------
--- InvName :  Invariant name
---            We can choose any type with decidable equality;
---            we choose here List (Str ⨿ ℕ) for good expressivity
+-- Name :  Name of invariants
+--         We can choose any type with decidable equality;
+--         we choose here List (Str ⨿ ℕ) for good expressivity
 
-InvName :  Set₀
-InvName =  List (Str ⨿ ℕ)
+Name :  Set₀
+Name =  List (Str ⨿ ℕ)
 
 --------------------------------------------------------------------------------
 -- Prop' :  Proposition
@@ -46,7 +46,7 @@ private variable
   q⁺ :  ℚ⁺
   ᵗv :  TyVal
   T :  Type
-  Nm :  InvName → Zoi
+  Nm :  Name → Zoi
 
 infix 3 ⤇_
 infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
@@ -86,14 +86,14 @@ data  Prop' ι  where
   _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr ∞ T →  (Val T → Prop˂ ∞) →  Prop' ι
   _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr ∞ T →  ℕ →  (Val T → Prop˂ ∞) →  Prop' ι
 
-  -- [ ]ᴵ :  Invariant name set token
-  [_]ᴵ :  (InvName → Zoi) →  Prop' ι
+  -- [ ]ᴵ :  Name set token
+  [_]ᴵ :  (Name → Zoi) →  Prop' ι
 
   -- Inv :  Invariant token
-  Inv :  InvName →  Prop˂ ι →  Prop' ι
+  Inv :  Name →  Prop˂ ι →  Prop' ι
 
   -- OInv :  Open invariant token
-  OInv :  InvName →  Prop˂ ι →  Prop' ι
+  OInv :  Name →  Prop˂ ι →  Prop' ι
 
   -- ↦⟨ ⟩ :  Points-to token
   _↦⟨_⟩_ :  Addr →  ℚ⁺ →  TyVal →  Prop' ι

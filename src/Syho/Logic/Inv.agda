@@ -9,7 +9,7 @@ module Syho.Logic.Inv where
 open import Base.Func using (_$_)
 open import Base.Size using (Size; ∞; !; ¡_; _$ᵀʰ_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (InvName; Prop'; Prop˂; _∗_; _-∗_; Inv; OInv;
+open import Syho.Logic.Prop using (Name; Prop'; Prop˂; _∗_; _-∗_; Inv; OInv;
   Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∗-comm;
   ⊤∗-intro; ∗-elimʳ; -∗-const)
@@ -23,7 +23,7 @@ private variable
   ι :  Size
   P Q R :  Prop' ∞
   P˂ Q˂ :  Prop˂ ∞
-  nm :  InvName
+  nm :  Name
   i :  ℕ
 
 abstract

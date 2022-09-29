@@ -125,8 +125,8 @@ module _ {i : I} where
     … | no _ =  Era˙ j .refl˜
     … | yes refl =  refl˜ⁱ
 
-    upd˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x)  →
-              (E˙ , upd˙ i a c˙)  ↝˙  λ x → (E˙ , upd˙ i (bˣ x) c˙)
+    upd˙-↝ :  ((E˙ i , a)  ↝ⁱ λ x →  E˙ i , bˣ x)  →
+              (E˙ , upd˙ i a c˙)  ↝˙ λ x →  E˙ , upd˙ i (bˣ x) c˙
     upd˙-↝ {E˙} {bˣ = bˣ} {c˙} Eia↝Eib d˙ E✓iac∙d  with E✓iac∙d i
     … | Ei✓a∙di  rewrite ≟-refl {a = i}  =  body
      where
@@ -136,8 +136,8 @@ module _ {i : I} where
       … | no _ | E✓cj∙dj =  E✓cj∙dj
       … | yes refl | _ =  Eia↝Eib _ Ei✓a∙di .π₁
 
-    upd˙-upd˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
-      (E˙ , upd˙ i a c˙)  ↝˙  λ x → upd˙ i (Fˣ x) E˙ , upd˙ i (bˣ x) c˙
+    upd˙-upd˙-↝ :  ((E˙ i , a)  ↝ⁱ λ x →  Fˣ x , bˣ x)  →
+      (E˙ , upd˙ i a c˙)  ↝˙ λ x →  upd˙ i (Fˣ x) E˙ , upd˙ i (bˣ x) c˙
     upd˙-upd˙-↝ {E˙} {Fˣ = Fˣ} {bˣ} {c˙} Eia↝Fb d˙ E✓iac∙d  with E✓iac∙d i
     … | Ei✓a∙di  rewrite ≟-refl {a = i}  =  body
      where
@@ -169,12 +169,12 @@ module _ {i : I} where
     inj˙-⌞⌟ :  ⌞ inj˙ i a ⌟˙  ≈˙  inj˙ i ⌞ a ⌟ⁱ
     inj˙-⌞⌟ =  upd˙-⌞⌟ ◇˜˙ upd˙-≈ refl˜ⁱ $ ⌞⌟-ε ∀ᴱᴿᴬ
 
-    inj˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → E˙ i , bˣ x) →
-              (E˙ , inj˙ i a)  ↝˙  λ x → E˙ , inj˙ i $ bˣ x
+    inj˙-↝ :  ((E˙ i , a)  ↝ⁱ λ x →  E˙ i , bˣ x) →
+              (E˙ , inj˙ i a)  ↝˙ λ x →  E˙ , inj˙ i $ bˣ x
     inj˙-↝ =  upd˙-↝
 
-    upd˙-inj˙-↝ :  (E˙ i , a)  ↝ⁱ  (λ x → Fˣ x , bˣ x)  →
-                    (E˙ , inj˙ i a)  ↝˙  λ x → upd˙ i (Fˣ x) E˙ , inj˙ i $ bˣ x
+    upd˙-inj˙-↝ :  ((E˙ i , a)  ↝ⁱ λ x →  Fˣ x , bˣ x)  →
+                   (E˙ , inj˙ i a)  ↝˙ λ x →  upd˙ i (Fˣ x) E˙ , inj˙ i $ bˣ x
     upd˙-inj˙-↝ =  upd˙-upd˙-↝
 
     -- Get ✓ⁱ from ✓˙ inj˙

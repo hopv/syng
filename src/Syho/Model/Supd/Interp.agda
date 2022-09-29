@@ -78,12 +78,12 @@ abstract
 
   -- ⤇ᴱ on the memory into ⇛ᵒ
 
-  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ :  (∀{Eᴵⁿ} →  Pᵒ ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ(_ : ⊤₀) → envᴳ M' Eᴵⁿ , Qᵒ) →
+  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ :  (∀{Eᴵⁿ} →  Pᵒ ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ (_ : ⊤₀) → envᴳ M' Eᴵⁿ , Qᵒ) →
                   Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ
   ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ P⊨ME⤇M'EQ =  ⇛ᵍ-make $ ∗ᵒ-monoˡ P⊨ME⤇M'EQ › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-param › ⤇ᴱ-respᴱˡ $ envᴳ-cong $ upd˙-self ◇˙ upd˙-self
 
-  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ :  (∀{Eᴵⁿ} →  ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ(_ : ⊤₀) → envᴳ M' Eᴵⁿ , Pᵒ) →
+  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ :  (∀{Eᴵⁿ} →  ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ (_ : ⊤₀) → envᴳ M' Eᴵⁿ , Pᵒ) →
                 ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ
   ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ ⊨ME⤇M'EP =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ {Pᵒ = ⊤ᵒ₀} (λ _ → ⊨ME⤇M'EP) _
 

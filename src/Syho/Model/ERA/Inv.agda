@@ -124,7 +124,7 @@ abstract
 
   -- Allocate inv and invk
 
-  inv-invk-alloc :  ((Qˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ  λ(_ : ⊤₀) →
+  inv-invk-alloc :  ((Qˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
                       (upd˙ n (š P) Qˇ˙ , ṡ n) , inv n P ∙ᴵⁿᵛ invk n P
   inv-invk-alloc _ _ .π₀ =  _
   inv-invk-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
@@ -137,7 +137,7 @@ abstract
   -- Get agreement from inv
 
   inv-agree :  ((Qˇ˙ , n) , inv i P)  ↝ᴵⁿᵛ
-                 λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , inv i P
+                 λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , inv i P
   inv-agree _ ✓Qˇ✓iP∙ .π₁ =  ✓Qˇ✓iP∙
   inv-agree {n = n} {i} _ (✓Qˇ , Qˇ✓iP∙ , _) .π₀  with Qˇ✓iP∙ i .π₀
   … | Qˇi✓P∷  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷
@@ -149,7 +149,7 @@ abstract
   -- Get agreement from invk
 
   invk-agree :  ((Qˇ˙ , n) , invk i P)  ↝ᴵⁿᵛ
-                  λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , invk i P
+                  λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , invk i P
   invk-agree _ ✓Qˇ✓iP∙ .π₁ =  ✓Qˇ✓iP∙
   invk-agree {n = n} {i} (a ,-) (✓Qˇ , Qˇ✓iP∙ , _) .π₀  with Qˇ✓iP∙ i .π₁
   … | Qˇi✓#P∙  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = a i .π₁} Qˇi✓#P∙

@@ -158,7 +158,7 @@ abstract
   ⁺⟨⟩ᴾᵒ-free {ᵗvs} lenvs≡n P⊨⟨K⟩Q θ↦vs∗Free∗Pa
     with θ↦vs∗Free∗Pa ▷ ?∗ᵒ-comm ▷ ∃ᵒ∗ᵒ-out ▷ (λ (o , big) → o , ∃ᵒ∗ᵒ-out big)
   … | o , refl , Free'∗θ↦vs∗Pa =  ⁺⟨⟩ᴾᵒ-kr λ M → Free'∗θ↦vs∗Pa ▷
-    ∗ᵒ-monoˡ Freeᵒ'-š ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ(Mo≡š , Free'∗θ↦vs∗Pb) →
+    ∗ᵒ-monoˡ Freeᵒ'-š ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ (Mo≡š , Free'∗θ↦vs∗Pb) →
     (-, redᴷᴿ $ free⇒ Mo≡š) , λ{ _ _ _ (redᴷᴿ (free⇒ _)) → Free'∗θ↦vs∗Pb ▷
     ?∗ᵒ-comm ▷ ∗ᵒ-monoˡ (↦ᴸᵒ⇒↦ᴸᵒ' {ᵗvs = ᵗvs}) ▷ ∗ᵒ-assocʳ ▷
     ∗ᵒ-monoˡ (↦ᴸᵒ'-free lenvs≡n) ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∗ᵒ-monoʳ P⊨⟨K⟩Q ›
@@ -169,7 +169,7 @@ abstract
   ⁺⟨⟩ᵀᵒ-free {ᵗvs} lenvs≡n P⊨⟨K⟩Q θ↦vs∗Free∗Pa
     with θ↦vs∗Free∗Pa ▷ ?∗ᵒ-comm ▷ ∃ᵒ∗ᵒ-out ▷ (λ (o , big) → o , ∃ᵒ∗ᵒ-out big)
   … | o , refl , Free'∗θ↦vs∗Pa =  ⁺⟨⟩ᵀᵒ-kr λ M → Free'∗θ↦vs∗Pa ▷
-    ∗ᵒ-monoˡ Freeᵒ'-š ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ(Mo≡š , Free'∗θ↦vs∗Pb) →
+    ∗ᵒ-monoˡ Freeᵒ'-š ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ (Mo≡š , Free'∗θ↦vs∗Pb) →
     (-, redᴷᴿ $ free⇒ Mo≡š) , λ{ _ _ _ (redᴷᴿ (free⇒ _)) → Free'∗θ↦vs∗Pb ▷
     ?∗ᵒ-comm ▷ ∗ᵒ-monoˡ (↦ᴸᵒ⇒↦ᴸᵒ' {ᵗvs = ᵗvs}) ▷ ∗ᵒ-assocʳ ▷
     ∗ᵒ-monoˡ (↦ᴸᵒ'-free lenvs≡n) ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∗ᵒ-monoʳ P⊨⟨K⟩Q ›

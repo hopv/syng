@@ -266,7 +266,7 @@ abstract
   -- Read using ↦⟨⟩ʳ
 
   ↦⟨⟩ʳ-read :  (↑ M , θ ↦⟨ p ⟩ʳ ᵗv)  ↝ᴹᵉᵐ
-                 λ(_ : M ‼ᴹ θ ≡ š ᵗv) →  ↑ M , θ ↦⟨ p ⟩ʳ ᵗv
+                 λ (_ : M ‼ᴹ θ ≡ š ᵗv) →  ↑ M , θ ↦⟨ p ⟩ʳ ᵗv
   ↦⟨⟩ʳ-read _ ✓M✓θ↦v∙a .π₁ =  ✓M✓θ↦v∙a
   ↦⟨⟩ʳ-read {θ = o , i} (↑ a) (↑ (-, M✓θ↦v∙a)) .π₀  with M✓θ↦v∙a o .π₀ i
   … | M‼θ✓↦v∙aθ  rewrite ≟-refl {a = o} | ≟-refl {a = i} =
@@ -274,7 +274,7 @@ abstract
 
   -- Write using ↦ʳ
 
-  ↦ʳ-write :  (↑ M , θ ↦ʳ ᵗu)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →  ↑ updᴹ θ ᵗv M , θ ↦ʳ ᵗv
+  ↦ʳ-write :  (↑ M , θ ↦ʳ ᵗu)  ↝ᴹᵉᵐ λ (_ : ⊤₀) →  ↑ updᴹ θ ᵗv M , θ ↦ʳ ᵗv
   ↦ʳ-write _ _ .π₀ =  _
   ↦ʳ-write _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
   ↦ʳ-write {M} {o , i} {ᵗv = ᵗv} _ (↑ (-, M✓θ↦u∙a)) .π₁ .↓ .π₁ o' .π₁
@@ -297,7 +297,7 @@ abstract
   -- Allocate getting ↦ᴸʳ and freeʳ
 
   ↦ᴸʳ-alloc :  M o ≡ ň →
-    (↑ M , εᴹᵉᵐ)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →
+    (↑ M , εᴹᵉᵐ)  ↝ᴹᵉᵐ λ (_ : ⊤₀) →
       ↑ upd˙ o (š rep n ⊤-) M  ,  o ↦ᴸʳ rep n ⊤- ∙ᴹᵉᵐ freeʳ n o
   ↦ᴸʳ-alloc _ _ _ .π₀ =  _
   ↦ᴸʳ-alloc _ _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
@@ -315,7 +315,7 @@ abstract
   -- Bounds check using freeʳ
 
   freeʳ-š :  (↑ M , freeʳ n o)  ↝ᴹᵉᵐ
-               λ(_ : ∑ ᵗvs , M o ≡ š ᵗvs) →  ↑ M , freeʳ n o
+               λ (_ : ∑ ᵗvs , M o ≡ š ᵗvs) →  ↑ M , freeʳ n o
   freeʳ-š _ ✓M✓freeno∙ .π₁ =  ✓M✓freeno∙
   freeʳ-š {M} {o = o} (↑ a) (↑ (-, M✓freeno∙)) .π₀  with M✓freeno∙ o .π₁
   … | lenMo✓#n∙  rewrite ≟-refl {a = o}
@@ -325,7 +325,7 @@ abstract
   -- Free using ↦ʳ and freeʳ
 
   ↦ᴸʳ-free :  len ᵗvs ≡ n →
-    (↑ M , o ↦ᴸʳ ᵗvs ∙ᴹᵉᵐ freeʳ n o)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →  ↑ upd˙ o ň M , εᴹᵉᵐ
+    (↑ M , o ↦ᴸʳ ᵗvs ∙ᴹᵉᵐ freeʳ n o)  ↝ᴹᵉᵐ λ (_ : ⊤₀) →  ↑ upd˙ o ň M , εᴹᵉᵐ
   ↦ᴸʳ-free _ _ _ .π₀ =  _
   ↦ᴸʳ-free _ _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
   ↦ᴸʳ-free {o = o} _ _ (↑ (-, M✓o↦vs∙fno∙a)) .π₁ .↓ .π₁ o' .π₁

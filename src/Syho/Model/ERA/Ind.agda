@@ -71,7 +71,7 @@ abstract
 
   -- Add a new proposition and get a line
 
-  indˣ-alloc :  ((Qˇ˙ , n) , εᴵⁿᵈˣ)  ↝ᴵⁿᵈˣ  λ(_ : ⊤₀) →
+  indˣ-alloc :  ((Qˇ˙ , n) , εᴵⁿᵈˣ)  ↝ᴵⁿᵈˣ λ (_ : ⊤₀) →
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , indˣ n P
   indˣ-alloc _ _ .π₀ =  _
   indˣ-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
@@ -82,7 +82,7 @@ abstract
   -- Remove a proposition consuming a line
 
   indˣ-use :  ((Qˇ˙ , n) , indˣ i P)  ↝ᴵⁿᵈˣ
-                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εᴵⁿᵈˣ
+                λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εᴵⁿᵈˣ
   indˣ-use {n = n} {i} Rˣ˙ (✓Qˇ , Qˇ✓iP∙Rˣ) .π₀  with Qˇ✓iP∙Rˣ i
   … | Qˇi✓#P∙Rˣi  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓#P∙Rˣi
   …   | Qˇi≡šP  with i <≥ n
@@ -135,7 +135,7 @@ abstract
 
   -- Add a new proposition and get a line
 
-  indᵖ-alloc :  ((Qˇ˙ , n) , εᴵⁿᵈᵖ)  ↝ᴵⁿᵈᵖ  λ(_ : ⊤₀) →
+  indᵖ-alloc :  ((Qˇ˙ , n) , εᴵⁿᵈᵖ)  ↝ᴵⁿᵈᵖ λ (_ : ⊤₀) →
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , indᵖ n P
   indᵖ-alloc _ _ .π₀ =  _
   indᵖ-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
@@ -146,7 +146,7 @@ abstract
   -- Get an agreement from a line
 
   indᵖ-use :  ((Qˇ˙ , n) , indᵖ i P)  ↝ᴵⁿᵈᵖ
-                λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , indᵖ i P
+                λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , indᵖ i P
   indᵖ-use _ ✓Qˇ✓iP⧺Rs .π₁ =  ✓Qˇ✓iP⧺Rs
   indᵖ-use {n = n} {i} _ (✓Qˇ , Qˇ✓iP⧺Rs) .π₀  with Qˇ✓iP⧺Rs i
   … | Qˇi✓P∷Rsi  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷Rsi

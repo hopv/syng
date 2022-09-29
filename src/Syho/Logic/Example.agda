@@ -8,12 +8,13 @@ module Syho.Logic.Example where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
-open import Base.Size using (Size; !)
+open import Base.Dec using ()
+open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Addr; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop)
-open import Syho.Logic.Prop using (Prop∞; ⊤'; ⊥'; ⌜_⌝; □_; ○_; _↦_)
+open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗⊤-intro;
   -∗-intro; □-dup)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)

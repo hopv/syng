@@ -92,9 +92,6 @@ abstract
 -- Uip A :  Uniqueness of identity proofs for A
 
 record  Uip (A : Set ł) :  Set ł  where
-  -- Construct Uip A
-  constructor uip
-
   field
     -- Any two elements of a ≡ a' are equal for a, a' : A
     eq≡ :  ∀{a a' : A} (eq eq' : a ≡ a') →  eq ≡ eq'

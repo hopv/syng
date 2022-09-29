@@ -59,8 +59,6 @@ instance
 -- Inh A :  A is inhabited
 
 record  Inh (A : Set ł) :  Set ł  where
-  -- inh :  Construct Inh
-  constructor inh
   field
     -- auto :  Arbitrarily taken inhabitant of A
     auto :  A
@@ -78,7 +76,6 @@ instance
 -- ≡Dec :  Equality decision
 
 record  ≡Dec (A : Set ł) :  Set ł  where
-  constructor ≡dec
   infix 4 _≟_
   field
     -- Equality decision for A

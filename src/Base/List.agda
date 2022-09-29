@@ -10,7 +10,7 @@ open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
-open import Base.Dec using (Dec; yes; no; ≡Dec; ≡dec; _≟_; ≟-refl)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; ≟-refl)
 open import Base.Acc using (Acc; acc; acc-sub)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-; -,_; uncurry)
@@ -52,7 +52,7 @@ instance
 instance
 
   List-≡Dec :  {{≡Dec A}} →  ≡Dec $ List A
-  List-≡Dec {A = A} =  ≡dec _≟'_
+  List-≡Dec {A = A} ._≟_ =  _≟'_
    where
     infix 4 _≟'_
     _≟'_ :  ∀(as bs : List A) →  Dec $ as ≡ bs

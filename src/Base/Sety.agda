@@ -6,9 +6,9 @@
 
 module Base.Sety where
 
-open import Base.Func using (_$_; _∘_)
+open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (⟨2⟩; ⊤; ⊥; absurd)
-open import Base.Eq using (_≡_; refl; cong; cong₂)
+open import Base.Eq using (_≡_; refl; ◠_; cong; cong₂; subst)
 open import Base.Dec using (Dec; yes; no; Yes; ≡Dec; _≟_)
 open import Base.Size using (Size; ∞)
 open import Base.Bool using (Bool)
@@ -65,9 +65,6 @@ private variable
 -- Syn A :  A has a syntactic representation
 
 record  Syn (A : Set₀) :  Set₁  where
-  -- Construct Syn
-  constructor syn
-
   field
     -- Syntactic representation of A
     setʸ :  Setʸ
@@ -79,10 +76,10 @@ open Syn {{…}} public
 -- Conversion between ⸨ setʸ ⸩ʸ and A
 
 ⸨⸩ʸ⇒ :  {{_ : Syn A}} →  ⸨ setʸ {A} ⸩ʸ →  A
-⸨⸩ʸ⇒ {{syn _ refl}} a =  a
+⸨⸩ʸ⇒ a =  subst id ⸨⸩ʸ≡ a
 
 ⇒⸨⸩ʸ :  {{_ : Syn A}} →  A →  ⸨ setʸ {A} ⸩ʸ
-⇒⸨⸩ʸ {{syn _ refl}} a =  a
+⇒⸨⸩ʸ a =  subst id (◠ ⸨⸩ʸ≡) a
 
 instance
 

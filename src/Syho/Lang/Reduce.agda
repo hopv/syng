@@ -18,8 +18,8 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
 open import Base.List using (List; _∷_; _‼_; upd; rep)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr; Expr˂; ∇_; Val; ṽ_;
-  V⇒E; TyVal; ⊤ṽ)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr; Expr˂; ∇_; Val; ▾_;
+  V⇒E; TyVal; ⊤▾)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
 
@@ -127,18 +127,18 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem
   ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , ň , updᴹ θ (-, v) M)
 
   -- For fau
-  fau⇒ :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ṽ x) →
-          (fauᴿ f θ , M) ⇒ᴿ (∇ x , ň , updᴹ θ (-, ṽ f x) M)
+  fau⇒ :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ▾ x) →
+          (fauᴿ f θ , M) ⇒ᴿ (∇ x , ň , updᴹ θ (-, ▾ f x) M)
 
   -- For cas, the success and failure cases
-  cas⇒-tt :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ṽ x) →
-             (casᴿ θ x y , M) ⇒ᴿ (∇ tt , ň , updᴹ θ (-, ṽ y) M)
-  cas⇒-ff :  ∑ z , M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ṽ z) × z ≢ x →
+  cas⇒-tt :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ▾ x) →
+             (casᴿ θ x y , M) ⇒ᴿ (∇ tt , ň , updᴹ θ (-, ▾ y) M)
+  cas⇒-ff :  ∑ z , M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ▾ z) × z ≢ x →
              (casᴿ θ x y , M) ⇒ᴿ (∇ ff , ň , M)
 
   -- For alloc, for any o out of the domain of M
   alloc⇒ :  ∀ o →  M o ≡ ň →
-    (allocᴿ n , M) ⇒ᴿ (∇ (o , 0) , ň , upd˙ o (š rep n ⊤ṽ) M)
+    (allocᴿ n , M) ⇒ᴿ (∇ (o , 0) , ň , upd˙ o (š rep n ⊤▾) M)
 
   -- For free, with a check that o is in the domain of M
   free⇒ :  ∑ ᵗvs , M o ≡ š ᵗvs →  (freeᴿ (o , 0) , M) ⇒ᴿ (∇ _ , ň , upd˙ o ň M)

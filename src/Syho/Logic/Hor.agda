@@ -14,7 +14,7 @@ open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ṽ_; ṽ↷_)
+open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ▾_; ▾↷_)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   Val/Ktxred)
 
@@ -130,12 +130,12 @@ abstract
   hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ wκ ]  R˙  →
                 P  ⊢[ ι ]⟨ e ⁏ e' ⟩[ wκ ]  R˙
   hor-⁏-bind P⊢⟨e⟩Q Q⊢⟨e'⟩R =  hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q
-    λ{ (ṽ _) → hor-⁏ Q⊢⟨e'⟩R; (ṽ↷ _) → hor-⁏ Q⊢⟨e'⟩R }
+    λ{ (▾ _) → hor-⁏ Q⊢⟨e'⟩R; (▾↷ _) → hor-⁏ Q⊢⟨e'⟩R }
 
   -- Let binding
 
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ wκ ]  Q˙  →
-                  (∀ x →  Q˙ (ṽ x)  ⊢[ ι ]⟨ e˙ x ⟩[ wκ ]  R˙) →
+                  (∀ x →  Q˙ (▾ x)  ⊢[ ι ]⟨ e˙ x ⟩[ wκ ]  R˙) →
                   P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ wκ ]  R˙
   hor-let-bind P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
-    hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ{ (ṽ x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }
+    hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ{ (▾ x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }

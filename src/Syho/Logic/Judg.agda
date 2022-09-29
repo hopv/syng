@@ -21,8 +21,8 @@ open import Base.List using (List; len; rep)
 open import Base.Str using ()
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
-  λᵛ-syntax; V⇒E; TyVal; ⊤ṽ)
+open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr; Expr˂; ▶_; ∇_; Val; ▾_;
+  λᵛ-syntax; V⇒E; TyVal; ⊤▾)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Logic.Prop using (InvName; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
@@ -607,22 +607,22 @@ data  _⊢[_]*_  where
 
   -- Fetch and update
 
-  ahor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , ṽ x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λᵛ y ,
-                ⌜ y ≡ x ⌝∧  θ ↦⟨ p ⟩ (-, ṽ f x)
+  ahor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , ▾ x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λᵛ y ,
+                ⌜ y ≡ x ⌝∧  θ ↦⟨ p ⟩ (-, ▾ f x)
 
   -- Compare and swap, the success and failure cases
 
-  ahor-cas-tt :  θ ↦ (◸ʸ Xʸ , ṽ x)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
-                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, ṽ y)
+  ahor-cas-tt :  θ ↦ (◸ʸ Xʸ , ▾ x)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
+                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, ▾ y)
 
   ahor-cas-ff :  z ≢ x  →
-    θ ↦⟨ p ⟩ (◸ʸ Xʸ , ṽ z)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
-      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, ṽ z)
+    θ ↦⟨ p ⟩ (◸ʸ Xʸ , ▾ z)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
+      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, ▾ z)
 
   -- Memory allocation
 
   ahor-alloc :  ⊤'  ⊢[ ι ][ i ]ᵃ⟨ allocᴿ n ⟩ λᵛ θ ,
-                  θ ↦ᴸ rep n ⊤ṽ  ∗  Free n θ
+                  θ ↦ᴸ rep n ⊤▾  ∗  Free n θ
 
   -- Memory freeing
 

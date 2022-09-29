@@ -171,19 +171,19 @@ loop =  ▶ λ{ .! → loop }
 --------------------------------------------------------------------------------
 -- Val :  Value data
 
-infix 8 ṽ_ ṽ↷_
+infix 8 ▾_ ▾↷_
 data  Val :  Type →  Set₀  where
-  ṽ_ :  ⸨ Xʸ ⸩ʸ →  Val (◸ʸ Xʸ)
-  ṽ↷_ :  (⸨ Xʸ ⸩ʸ →  Expr ∞ T) →  Val (Xʸ ʸ↷ T)
+  ▾_ :  ⸨ Xʸ ⸩ʸ →  Val (◸ʸ Xʸ)
+  ▾↷_ :  (⸨ Xʸ ⸩ʸ →  Expr ∞ T) →  Val (Xʸ ʸ↷ T)
 
 -- Function on Val
 
 λᵛ˙ λᵛ-syntax :  (⸨ Xʸ ⸩ʸ →  Y) →  Val (◸ʸ Xʸ) →  Y
-λᵛ˙ f (ṽ x) =  f x
+λᵛ˙ f (▾ x) =  f x
 λᵛ-syntax =  λᵛ˙
 
 λᵛ↷˙ λᵛ↷-syntax :  ((⸨ Xʸ ⸩ʸ → Expr ∞ T) →  Y) →  Val (Xʸ ʸ↷ T) →  Y
-λᵛ↷˙ f (ṽ↷ e˙) =  f e˙
+λᵛ↷˙ f (▾↷ e˙) =  f e˙
 λᵛ↷-syntax =  λᵛ↷˙
 
 infix 3 λᵛ-syntax λᵛ↷-syntax
@@ -193,13 +193,13 @@ syntax λᵛ↷-syntax (λ e˙ → y) =  λᵛ↷ e˙ , y
 -- Conversion from Val to Expr
 
 V⇒E :  Val T →  Expr ∞ T
-V⇒E (ṽ x) =  ∇ x
-V⇒E (ṽ↷ e˙) =  λ˙ e˙
+V⇒E (▾ x) =  ∇ x
+V⇒E (▾↷ e˙) =  λ˙ e˙
 
 -- Value of any type T
 
 TyVal :  Set₀
 TyVal =  ∑ T , Val T
 
-⊤ṽ :  TyVal
-⊤ṽ =  (◸ ⊤ , ṽ _)
+⊤▾ :  TyVal
+⊤▾ =  (◸ ⊤ , ▾ _)

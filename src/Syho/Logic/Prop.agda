@@ -86,8 +86,8 @@ data  Prop' ι  where
   _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr ∞ T →  (Val T → Prop˂ ∞) →  Prop' ι
   _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr ∞ T →  ℕ →  (Val T → Prop˂ ∞) →  Prop' ι
 
-  -- [ ]ᴵ :  Name set token
-  [_]ᴵ :  (Name → Zoi) →  Prop' ι
+  -- [ ]ᴺ :  Name set token
+  [_]ᴺ :  (Name → Zoi) →  Prop' ι
 
   -- Inv :  Invariant token
   Inv :  Name →  Prop˂ ι →  Prop' ι
@@ -186,10 +186,10 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
 
 --------------------------------------------------------------------------------
--- [^ ]ᴵ :  Name token
+-- [^ ]ᴺ :  Name token
 
-[^_]ᴵ :  Name →  Prop' ι
-[^ nm ]ᴵ =  [ ^ᶻ nm ]ᴵ
+[^_]ᴺ :  Name →  Prop' ι
+[^ nm ]ᴺ =  [ ^ᶻ nm ]ᴺ
 
 --------------------------------------------------------------------------------
 -- Basic P :  P doesn't contain impredicative connectives
@@ -212,7 +212,7 @@ data  Basic :  Prop' ∞ →  Set₁  where
     □-Basic :  {{Basic P}} →  Basic $ □ P
     ↦⟨⟩-Basic :  Basic $ θ ↦⟨ q⁺ ⟩ ᵗv
     Free-Basic :  Basic $ Free n θ
-    []ᴵ-Basic :  Basic [ Nm ]ᴵ
+    []ᴺ-Basic :  Basic [ Nm ]ᴺ
 
 instance
 

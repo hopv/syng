@@ -9,9 +9,9 @@ module Syho.Model.Prop.Basic where
 open import Base.Level using (1ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_)
-open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴵ;
+open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
   _↦⟨_⟩_; Free; Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic;
-  □-Basic; []ᴵ-Basic; ↦⟨⟩-Basic; Free-Basic)
+  □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; ∀ᵒ-syntax; ∃ᵒ-syntax;
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∃ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono; -∗ᵒ-Mono;
   ⤇ᵒ-Mono; □ᵒ-Mono; ◎-Mono; ⊥ᵒ {- For now -})
@@ -31,7 +31,7 @@ private variable
 ⸨ P -∗ Q ⸩ᴮ {{ -∗-Basic}} =  ⸨ P ⸩ᴮ -∗ᵒ ⸨ Q ⸩ᴮ
 ⸨ ⤇ P ⸩ᴮ {{⤇-Basic}} =  ⤇ᵒ ⸨ P ⸩ᴮ
 ⸨ □ P ⸩ᴮ {{□-Basic}} =  □ᵒ ⸨ P ⸩ᴮ
-⸨ [ Nm ]ᴵ ⸩ᴮ {{[]ᴵ-Basic}} =  ⊥ᵒ  -- For now
+⸨ [ Nm ]ᴺ ⸩ᴮ {{[]ᴺ-Basic}} =  ⊥ᵒ  -- For now
 ⸨ θ ↦⟨ p ⟩ ᵗv ⸩ᴮ {{↦⟨⟩-Basic}} =  θ ↦⟨ p ⟩ᵒ ᵗv
 ⸨ Free n θ ⸩ᴮ {{Free-Basic}} =  Freeᵒ n θ
 

@@ -15,7 +15,7 @@ open import Base.Zoi using (⊤ᶻ)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Type; Expr; Val)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_; [_]ᴵ; Basic)
+open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_; [_]ᴺ; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗?-comm; ∗-elimʳ)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»_; _ᵘ»ᵘ_; ⇛-frameˡ;
@@ -210,7 +210,7 @@ abstract
   -- Modify ⟨ ⟩ᴾ proof
 
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
-                   (R ∗ P') ∗ [ ⊤ᶻ ]ᴵ ⊢[ ∞ ][ i ]⇛ P ∗ [ ⊤ᶻ ]ᴵ →
+                   (R ∗ P') ∗ [ ⊤ᶻ ]ᴺ ⊢[ ∞ ][ i ]⇛ P ∗ [ ⊤ᶻ ]ᴺ →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᴾᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᴾᵒ Q˙
   ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
@@ -227,7 +227,7 @@ abstract
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [ ⊤ᶻ ]ᴵ ⊢[ ∞ ][ i ]⇛ Q'˙ v ∗ [ ⊤ᶻ ]ᴵ) →
+  ↪⟨⟩ᴾᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [ ⊤ᶻ ]ᴺ ⊢[ ∞ ][ i ]⇛ Q'˙ v ∗ [ ⊤ᶻ ]ᴺ) →
                   P ↪⟨ e ⟩ᴾᵒ Q˙  ⊨  P ↪⟨ e ⟩ᴾᵒ Q'˙
   ↪⟨⟩ᴾᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa
@@ -264,7 +264,7 @@ abstract
     -, -ᴵ, -, horᵀ-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
   ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
-                   (R ∗ P') ∗ [ ⊤ᶻ ]ᴵ ⊢[ ∞ ][ j ]⇛ P ∗ [ ⊤ᶻ ]ᴵ →
+                   (R ∗ P') ∗ [ ⊤ᶻ ]ᴺ ⊢[ ∞ ][ j ]⇛ P ∗ [ ⊤ᶻ ]ᴺ →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙
   ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
@@ -281,7 +281,7 @@ abstract
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [ ⊤ᶻ ]ᴵ ⊢[ ∞ ][ j ]⇛ Q'˙ v ∗ [ ⊤ᶻ ]ᴵ) →
+  ↪⟨⟩ᵀᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [ ⊤ᶻ ]ᴺ ⊢[ ∞ ][ j ]⇛ Q'˙ v ∗ [ ⊤ᶻ ]ᴺ) →
                   P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q'˙
   ↪⟨⟩ᵀᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa

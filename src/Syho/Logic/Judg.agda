@@ -27,7 +27,7 @@ open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; f
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Logic.Prop using (Name; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
   ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_;
-  ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴵ; [^_]ᴵ; Inv; OInv; _↦_;
+  ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴺ; [^_]ᴺ; Inv; OInv; _↦_;
   _↦ᴸ_; Free; Basic)
 
 --------------------------------------------------------------------------------
@@ -380,14 +380,14 @@ data  _⊢[_]*_  where
   -- Modify ⟨ ⟩ᴾ proof
 
   ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ :  {{Basic R}} →
-    (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴵ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴵ  →
+    (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴺ  →
     R  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂˙
 
   ↪⟨⟩ᴾ-eatˡ⁻ʳ :  {{Basic R}} →
     R  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂˙ v .!)
 
   ↪⟨⟩ᴾ-monoʳᵘ :
-    (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴵ  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴵ)  →
+    (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ)  →
     P˂ ↪⟨ e ⟩ᴾ Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂˙
 
   ↪⟨⟩ᴾ-frameˡ :  P˂ ↪⟨ e ⟩ᴾ Q˂˙  ⊢[ ι ]
@@ -412,14 +412,14 @@ data  _⊢[_]*_  where
   ↪⟨⟩ᵀ-ṡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂˙
 
   ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ :  {{Basic R}} →
-    (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴵ  ⊢[< ι ][ j ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴵ  →
+    (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ j ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴺ  →
     R  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
 
   ↪⟨⟩ᵀ-eatˡ⁻ʳ :  {{Basic R}} →
     R  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
   ↪⟨⟩ᵀ-monoʳᵘ :
-    (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴵ  ⊢[< ι ][ j ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴵ)  →
+    (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ j ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ)  →
     P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂˙
 
   ↪⟨⟩ᵀ-frameˡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]
@@ -450,17 +450,17 @@ data  _⊢[_]*_  where
 
   -- Update the set part of an name set token
 
-  []ᴵ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴵ ⊢[ ι ] [ Nm' ]ᴵ
+  []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ι ] [ Nm' ]ᴺ
 
   -- name set tokens can be merged and split w.r.t. the set sum
 
-  []ᴵ-merge :  [ Nm ]ᴵ  ∗  [ Nm' ]ᴵ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴵ
+  []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴺ
 
-  []ᴵ-split :  [ Nm ⊎ᶻ Nm' ]ᴵ  ⊢[ ι ]  [ Nm ]ᴵ  ∗  [ Nm' ]ᴵ
+  []ᴺ-split :  [ Nm ⊎ᶻ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ
 
   -- The set of an name set token is valid
 
-  []ᴵ-✔ :  [ Nm ]ᴵ  ⊢[ ι ]  ⌜ ✔ᶻ Nm ⌝
+  []ᴺ-✔ :  [ Nm ]ᴺ  ⊢[ ι ]  ⌜ ✔ᶻ Nm ⌝
 
   -- An invariant token is persistent
 
@@ -491,11 +491,11 @@ data  _⊢[_]*_  where
   -- Notably, the proposition P˂ .! is directly obtained, without any guard like
   -- the later modality as in Iris
 
-  Inv-open :  Inv nm P˂  ∗  [^ nm ]ᴵ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
+  Inv-open :  Inv nm P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
 
   -- Retrieve a name token out of an open invariant token and its proposition
 
-  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴵ
+  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
 
   ------------------------------------------------------------------------------
   -- On the Hoare triples
@@ -515,7 +515,7 @@ data  _⊢[_]*_  where
   _ᵘ»ᵃʰ_ :  P  ⊢[ ι ][ j ]⇛  Q  →   Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙  →
             P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
 
-  _ᵘ»ʰ_ :  P  ∗  [ ⊤ᶻ ]ᴵ  ⊢[ ι ][ i ]⇛  Q  ∗  [ ⊤ᶻ ]ᴵ  →
+  _ᵘ»ʰ_ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ ⊤ᶻ ]ᴺ  →
            Q  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
 
@@ -523,7 +523,7 @@ data  _⊢[_]*_  where
             P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
 
   _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  Q˙  →
-          (∀ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴵ  ⊢[ ι ][ j ]⇛  R˙ v  ∗  [ ⊤ᶻ ]ᴵ)  →
+          (∀ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ j ]⇛  R˙ v  ∗  [ ⊤ᶻ ]ᴺ)  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ wκ ]  R˙
 
   -- Frame
@@ -537,7 +537,7 @@ data  _⊢[_]*_  where
   -- Get a Hoare triple out of an atomic Hoare triple and a Hoare triple on
   -- the context
 
-  ahor-hor :  (P  ∗  [ ⊤ᶻ ]ᴵ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴵ)  →
+  ahor-hor :  (P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ)  →
               (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ wκ ]  R˙)  →
               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ wκ ]  R˙
 

@@ -10,7 +10,7 @@ open import Base.Level using (1ᴸ)
 open import Base.Func using (id)
 open import Base.Size using (∞; !)
 open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; ○_;
-  [_]ᴵ; Inv; OInv; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦⟨_⟩_; Free;
+  [_]ᴺ; Inv; OInv; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦⟨_⟩_; Free;
   Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic;
   ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
@@ -42,7 +42,7 @@ private variable
 ⸨ P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙ ⸩ =  P˂ .! ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ↪⟨ e ⟩ᴾ Q˂˙ ⸩ =  P˂ .! ↪⟨ e ⟩ᴾᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙ ⸩ =  P˂ .! ↪⟨ e ⟩ᵀ[ i ]ᵒ λ v → Q˂˙ v .!
-⸨ [ Nm ]ᴵ ⸩ =  ⊥ᵒ -- For now
+⸨ [ Nm ]ᴺ ⸩ =  ⊥ᵒ -- For now
 ⸨ Inv nm P˂ ⸩ =  ⊥ᵒ -- For now
 ⸨ OInv nm P˂ ⸩ =  ⊥ᵒ -- For now
 ⸨ θ ↦⟨ p ⟩ ᵗv ⸩ =  θ ↦⟨ p ⟩ᵒ ᵗv

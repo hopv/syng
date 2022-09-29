@@ -24,7 +24,7 @@ open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
   λᵛ-syntax; V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
-  _←ᴿ_; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
+  _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Logic.Prop using (InvName; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
   ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_;
   ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴵ; Inv; OInv; _↦_; _↦ᴸ_; Free;
@@ -134,6 +134,7 @@ private variable
   Xʸ :  Setʸ
   X :  Set₀
   x y z :  X
+  f :  X → X
   Y˙ :  X → Set₀
   Jr :  JudgRes
   P P' Q R :  Prop' ∞
@@ -603,6 +604,11 @@ data  _⊢[_]*_  where
   -- Memory write
 
   ahor-← :  θ ↦ ᵗu  ⊢[ ι ][ i ]ᵃ⟨ θ ←ᴿ v ⟩ λ _ →  θ ↦ (-, v)
+
+  -- Fetch and update
+
+  ahor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , ṽ x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λᵛ y ,
+                ⌜ y ≡ x ⌝∧  θ ↦⟨ p ⟩ (-, ṽ f x)
 
   -- Compare and swap, the success and failure cases
 

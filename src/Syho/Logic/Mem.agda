@@ -17,7 +17,8 @@ open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺)
 open import Base.Sety using (Setʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; Val; ṽ_; V⇒E; TyVal; ⊤ṽ)
-open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_)
+open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx;
+  _ᴷ◁_)
 open import Syho.Logic.Prop using (Prop'; _∗_; _↦⟨_⟩_; _↦_; _↦ᴸ_; Free)
 open import Syho.Logic.Core using (_»_; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro; ∗-elimʳ;
   ∃∗-elim)
@@ -26,7 +27,8 @@ open import Syho.Logic.Hor using (WpKind; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⟨_⟩[
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦⟨⟩-merge;
-  ↦⟨⟩-split; ahor-🞰; ahor-←; ahor-cas-tt; ahor-cas-ff; ahor-alloc; ahor-free)
+  ↦⟨⟩-split; ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt; ahor-cas-ff; ahor-alloc;
+  ahor-free)
 
 private variable
   ι :  Size
@@ -39,6 +41,7 @@ private variable
   p :  ℚ⁺
   θ :  Addr
   x y z :  X
+  f :  X → X
   v :  Val T
   ᵗu :  TyVal
   ᵗvs :  List TyVal
@@ -73,6 +76,17 @@ abstract
            θ ↦ ᵗu  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , θ ←ᴿ v) ⟩[ wκ ]  Q˙
   hor-← θ↦v∗P⊢⟨K⟩Q =  ahor-hor (ahor-frameʳ $ ahor-frameʳ $ ahor-← {i = 0})
     λ{ (ṽ _) → θ↦v∗P⊢⟨K⟩Q }
+
+  -- Fetch and update
+
+  -->  ahor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , ṽ x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λᵛ y ,
+  -->                ⌜ y ≡ x ⌝∧  θ ↦⟨ p ⟩ (-, ṽ f x)
+
+  hor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , ṽ f x)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ wκ ]  Q˙  →
+             θ ↦⟨ p ⟩ (-, ṽ x)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , fauᴿ f θ) ⟩[ wκ ]  Q˙
+  hor-fau θ↦fx∗P⊢⟨Kx⟩Q =  ahor-hor
+    (ahor-frameʳ $ ahor-frameʳ $ ahor-fau {i = 0})
+    λ{ (ṽ _) → ∃∗-elim λ{ refl → θ↦fx∗P⊢⟨Kx⟩Q }}
 
   -- Compare and swap, the success and failure cases
 

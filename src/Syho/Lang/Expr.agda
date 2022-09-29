@@ -131,6 +131,9 @@ data  Expr ι  where
   -- Write to the memory
   _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
 
+  -- Fetch and update
+  fau :  (⸨ Xʸ ⸩ʸ → ⸨ Xʸ ⸩ʸ) →  Expr ι (◸ Addr) →  Expr ι (◸ʸ Xʸ)
+
   -- Compare and swap
   cas :  Expr ι (◸ Addr) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ Bool)
 

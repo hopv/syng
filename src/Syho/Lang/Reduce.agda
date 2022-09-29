@@ -21,7 +21,7 @@ open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr; Expr˂; ∇_; Val; ṽ_;
   V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
-  _←ᴿ_; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
+  _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- Memory
@@ -93,6 +93,7 @@ private variable
   red : Redex T
   v :  Val T
   x y :  ⸨ Xʸ ⸩ʸ
+  f :  ⸨ Xʸ ⸩ʸ → ⸨ Xʸ ⸩ʸ
   n :  ℕ
   kr :  Ktxred T
   ι :  Size
@@ -124,6 +125,10 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem
 
   -- For ←, with a check that θ is in the domain of M
   ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , ň , updᴹ θ (-, v) M)
+
+  -- For fau
+  fau⇒ :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ṽ x) →
+          (fauᴿ f θ , M) ⇒ᴿ (∇ x , ň , updᴹ θ (-, ṽ f x) M)
 
   -- For cas, the success and failure cases
   cas⇒-tt :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ṽ x) →

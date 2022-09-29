@@ -9,7 +9,7 @@ module Syho.Logic.Judg where
 
 open import Base.Func using (_∘_; _$_)
 open import Base.Few using (⊤)
-open import Base.Eq using (_≡_; _≢_)
+open import Base.Eq using (_≡_; _≢_; _≡˙_)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Bool using (tt; ff)
@@ -447,6 +447,10 @@ data  _⊢[_]*_  where
 
   ------------------------------------------------------------------------------
   -- On the impredicative invariant
+
+  -- Update the set part of an invariant name set token
+
+  []ᴵ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴵ ⊢[ ι ] [ Nm' ]ᴵ
 
   -- Invariant name set tokens can be merged and split w.r.t. the set sum
 

@@ -16,8 +16,8 @@ open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_;
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using ([]ᴵ-merge; []ᴵ-split; []ᴵ-✔; Inv-⇒□;
-  Inv-resp-∗; OInv-mono; OInv-eatˡ; Inv-alloc-rec; Inv-open; OInv-close)
+open import Syho.Logic.Judg public using ([]ᴵ-resp; []ᴵ-merge; []ᴵ-split; []ᴵ-✔;
+  Inv-⇒□; Inv-resp-∗; OInv-mono; OInv-eatˡ; Inv-alloc-rec; Inv-open; OInv-close)
 
 private variable
   ι :  Size
@@ -27,6 +27,8 @@ private variable
   i :  ℕ
 
 abstract
+
+  -->  []ᴵ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴵ ⊢[ ι ] [ Nm' ]ᴵ
 
   -->  []ᴵ-merge :  [ Nm ]ᴵ  ∗  [ Nm' ]ᴵ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴵ
 

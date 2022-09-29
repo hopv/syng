@@ -18,7 +18,7 @@ open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡
 open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
   ‼-len≡-ň; ‼-len≡-š; upd-len; upd-‼-out; upd-‼-in; rep-len)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; TyVal; ⊤▾)
+open import Syho.Lang.Expr using (Addr; TyVal; ⊤-)
 open import Syho.Lang.Reduce using (Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_; ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ; ✓ˣ-agree; ✓ˣ-alloc;
@@ -298,17 +298,17 @@ abstract
 
   ↦ᴸʳ-alloc :  M o ≡ ň →
     (↑ M , εᴹᵉᵐ)  ↝ᴹᵉᵐ  λ(_ : ⊤₀) →
-      ↑ upd˙ o (š rep n ⊤▾) M  ,  o ↦ᴸʳ rep n ⊤▾ ∙ᴹᵉᵐ freeʳ n o
+      ↑ upd˙ o (š rep n ⊤-) M  ,  o ↦ᴸʳ rep n ⊤- ∙ᴹᵉᵐ freeʳ n o
   ↦ᴸʳ-alloc _ _ _ .π₀ =  _
   ↦ᴸʳ-alloc _ _ (↑ (✓M ,-)) .π₁ .↓ .π₀ =  ✓ᴹ-upd˙ ✓M
   ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₁
     with o' ≟ o | M✓a o' .π₁
   … | no _ | lenMo'✓ao' =  lenMo'✓ao'
-  … | yes refl | ň✓ao  rewrite Mo≡ň | rep-len {n} {a = ⊤▾} =  ✓ˣ-alloc ň✓ao
+  … | yes refl | ň✓ao  rewrite Mo≡ň | rep-len {n} {a = ⊤- } =  ✓ˣ-alloc ň✓ao
   ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₀ i
     with o' ≟ o | M✓a o' .π₀ i
   … | no _ | Mo'‼i✓ao'i =  Mo'‼i✓ao'i
-  … | yes refl | Mo‼i✓aoi  rewrite Mo≡ň  with rep n ⊤▾ ‼ i
+  … | yes refl | Mo‼i✓aoi  rewrite Mo≡ň  with rep n ⊤- ‼ i
   …   | ň =  Mo‼i✓aoi
   …   | š _ =  ✓ᶠʳ-alloc Mo‼i✓aoi
 

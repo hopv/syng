@@ -12,7 +12,7 @@ open import Base.Dec using ()
 open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
-open import Syho.Lang.Expr using (Addr; λᵛ-syntax; ▾_; TyVal; loop)
+open import Syho.Lang.Expr using (Addr; λᵛ-syntax; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop)
 open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗⊤-intro;
@@ -54,9 +54,9 @@ abstract
   -- decrloop θ terminates, setting the value at θ to 0
 
   decrloop-exec :
-    ∀(n : ℕ) →  θ ↦ (-, ▾ n)  ⊢[ ∞ ]⟨ decrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, ▾ 0)
+    ∀(n : ℕ) →  θ ↦ (-, n)  ⊢[ ∞ ]⟨ decrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, 0)
   decrloop'-exec :
-    ∀ n →  θ ↦ (-, ▾ n)  ⊢[ ∞ ]⟨ decrloop' θ n ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, ▾ 0)
+    ∀ n →  θ ↦ (-, n)  ⊢[ ∞ ]⟨ decrloop' θ n ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, 0)
 
   decrloop-exec n =  ∗⊤-intro » hor-🞰 $ hor-◁ $ ∗-elimˡ » decrloop'-exec n
 
@@ -67,6 +67,6 @@ abstract
   -- nddecrloop terminates, setting the value at θ to 0
   -- Notably, the number of reduction steps is dynamically determined
 
-  nddecrloop-exec :  θ ↦ ᵗv  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, ▾ 0)
+  nddecrloop-exec :  θ ↦ ᵗv  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, 0)
   nddecrloop-exec =
     hor-nd λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ $ decrloop-exec n

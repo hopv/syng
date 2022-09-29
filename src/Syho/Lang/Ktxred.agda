@@ -16,7 +16,7 @@ open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr; Expr˂; ▶_;
-  ∇_; nd; λ˙; _◁_; _⁏_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E; ▾_; ▾↷_)
+  ∇_; nd; λ˙; _◁_; _⁏_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
 
 private variable
   Xʸ :  Setʸ
@@ -95,7 +95,7 @@ _ᴷ◁_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
 (K ⁏ᴷ e') ᴷ◁ e =  (K ᴷ◁ e) ⁏ e'
 🞰ᴷ K ᴷ◁ e =  🞰 (K ᴷ◁ e)
 (e' ←ᴷʳ K) ᴷ◁ e =  e' ← (K ᴷ◁ e)
-(K ←ᴷˡ v) ᴷ◁ e =  (K ᴷ◁ e) ← V⇒E v
+(_←ᴷˡ_ {T = T} K v) ᴷ◁ e =  (K ᴷ◁ e) ← V⇒E {T} v
 fauᴷ f K ᴷ◁ e =  fau f (K ᴷ◁ e)
 casᴷ⁰ K e' e'' ᴷ◁ e =  cas (K ᴷ◁ e) e' e''
 casᴷ¹ θ K e' ᴷ◁ e =  cas (∇ θ) (K ᴷ◁ e) e'
@@ -113,7 +113,7 @@ _ᴷ∘ᴷ_ :  Ktx U V →  Ktx T U →  Ktx T V
 (K ⁏ᴷ e) ᴷ∘ᴷ K' =  (K ᴷ∘ᴷ K') ⁏ᴷ e
 🞰ᴷ K ᴷ∘ᴷ K' =  🞰ᴷ (K ᴷ∘ᴷ K')
 (e ←ᴷʳ K) ᴷ∘ᴷ K' =  e ←ᴷʳ (K ᴷ∘ᴷ K')
-(K ←ᴷˡ v) ᴷ∘ᴷ K' =  (K ᴷ∘ᴷ K') ←ᴷˡ v
+(_←ᴷˡ_ {T = T} K v) ᴷ∘ᴷ K' =  _←ᴷˡ_ {T = T} (K ᴷ∘ᴷ K') v
 fauᴷ f K ᴷ∘ᴷ K' =  fauᴷ f (K ᴷ∘ᴷ K')
 casᴷ⁰ K e' e'' ᴷ∘ᴷ K' =  casᴷ⁰ (K ᴷ∘ᴷ K') e' e''
 casᴷ¹ θ K e' ᴷ∘ᴷ K' =  casᴷ¹ θ (K ᴷ∘ᴷ K') e'
@@ -133,8 +133,9 @@ Val/Ktxred T =  Val T ⨿ Ktxred T
 
 private variable
   K K' :  Ktx T U
+  X :  Set₀
   kr :  Ktxred T
-  v :  Val T
+  v :  X
 
 abstract
 
@@ -171,8 +172,8 @@ abstract
 -- Calculate the value or context-redex pair of the expression
 
 val/ktxred :  Expr ∞ T →  Val/Ktxred T
-val/ktxred (∇ x) =  ĩ₀ ▾ x
-val/ktxred (λ˙ e˙) =  ĩ₀ ▾↷ e˙
+val/ktxred (∇ x) =  ĩ₀ x
+val/ktxred (λ˙ e˙) =  ĩ₀ e˙
 val/ktxred (▶ e˂) =  ĩ₁ (-, •ᴷ , ▶ᴿ e˂)
 val/ktxred nd =  ĩ₁ (-, •ᴷ , ndᴿ)
 val/ktxred (e' ◁ e) =  ĩ₁ body
@@ -180,14 +181,14 @@ val/ktxred (e' ◁ e) =  ĩ₁ body
   body :  Ktxred _
   body  with val/ktxred e
   … | ĩ₁ (-, K , red) =  -, e' ◁ᴷʳ K , red
-  … | ĩ₀ ▾ x  with val/ktxred e'
+  … | ĩ₀ x  with val/ktxred e'
   …   | ĩ₁ (-, K , red) =  -, K ◁ᴷˡ x , red
-  …   | ĩ₀ ▾↷ v =  -, •ᴷ , v ◁ᴿ x
-val/ktxred (e ⁏ e') =  ĩ₁ body
+  …   | ĩ₀ v =  -, •ᴷ , v ◁ᴿ x
+val/ktxred (_⁏_ {T} e e') =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₀ v =  -, •ᴷ , v ⁏ᴿ e'
+  … | ĩ₀ v =  -, •ᴷ , _⁏ᴿ_ {T} v e'
   … | ĩ₁ (-, K , red) =  -, K ⁏ᴷ e' , red
 val/ktxred (fork e) =  ĩ₁ (-, •ᴷ , forkᴿ e)
 val/ktxred (🞰 e) =  ĩ₁ body
@@ -195,43 +196,43 @@ val/ktxred (🞰 e) =  ĩ₁ body
   body :  Ktxred _
   body  with val/ktxred e
   … | ĩ₁ (-, K , red) =  -, 🞰ᴷ K , red
-  … | ĩ₀ ▾ θ =  -, •ᴷ , 🞰ᴿ θ
-val/ktxred (e' ← e) =  ĩ₁ body
+  … | ĩ₀ θ =  -, •ᴷ , 🞰ᴿ θ
+val/ktxred (_←_ {T} e' e) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   … | ĩ₁ (-, K , red) =  -, e' ←ᴷʳ K , red
   … | ĩ₀ v  with val/ktxred e'
-  …   | ĩ₁ (-, K , red) =  -, K ←ᴷˡ v , red
-  …   | ĩ₀ ▾ θ =  -, •ᴷ , θ ←ᴿ v
+  …   | ĩ₁ (-, K , red) =  -, _←ᴷˡ_ {T = T} K v , red
+  …   | ĩ₀ θ =  -, •ᴷ , _←ᴿ_ {T} θ v
 val/ktxred (fau f e) =  ĩ₁ body
   where
     body :  Ktxred _
     body  with val/ktxred e
     … | ĩ₁ (-, K , red) =  -, fauᴷ f K , red
-    … | ĩ₀ ▾ θ =  -, •ᴷ , fauᴿ f θ
+    … | ĩ₀ θ =  -, •ᴷ , fauᴿ f θ
 val/ktxred (cas e e' e'') =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   … | ĩ₁ (-, K , red) =  -, casᴷ⁰ K e' e'' , red
-  … | ĩ₀ ▾ θ  with val/ktxred e'
+  … | ĩ₀ θ  with val/ktxred e'
   …   | ĩ₁ (-, K , red) =  -, casᴷ¹ θ K e'' , red
-  …   | ĩ₀ ▾ x  with val/ktxred e''
+  …   | ĩ₀ x  with val/ktxred e''
   …     | ĩ₁ (-, K , red) =  -, casᴷ² θ x K , red
-  …     | ĩ₀ ▾ y =  -, •ᴷ , casᴿ θ x y
+  …     | ĩ₀ y =  -, •ᴷ , casᴿ θ x y
 val/ktxred (alloc e) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   … | ĩ₁ (-, K , red) =  -, allocᴷ K , red
-  … | ĩ₀ ▾ n =  -, •ᴷ , allocᴿ n
+  … | ĩ₀ n =  -, •ᴷ , allocᴿ n
 val/ktxred (free e) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
   … | ĩ₁ (-, K , red) =  -, freeᴷ K , red
-  … | ĩ₀ ▾ θ =  -, •ᴷ , freeᴿ θ
+  … | ĩ₀ θ =  -, •ᴷ , freeᴿ θ
 
 abstract
 
@@ -240,12 +241,6 @@ abstract
   val/ktxred-ĩ₀ :  val/ktxred e ≡ ĩ₀ v →  e ≡ V⇒E v
   val/ktxred-ĩ₀ {e = ∇ _} refl =  refl
   val/ktxred-ĩ₀ {e = λ˙ _} refl =  refl
-
-  -- val/ktxred (V⇒E v) returns ĩ₀ v
-
-  val/ktxred-V⇒E :  val/ktxred (V⇒E v) ≡ ĩ₀ v
-  val/ktxred-V⇒E {v = ▾ _} =  refl
-  val/ktxred-V⇒E {v = ▾↷ _} =  refl
 
   -- Calculate val/ktxred (K ᴷ◁ e)
 
@@ -262,8 +257,10 @@ abstract
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = _ ←ᴷʳ K} eq
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
-  val/ktxred-ktx {e = e} {K = K ←ᴷˡ v} eq
-    rewrite val/ktxred-V⇒E {v = v} | val/ktxred-ktx {e = e} {K = K} eq =  refl
+  val/ktxred-ktx {e = e} {K = _←ᴷˡ_ {T = ◸ʸ _} K v} eq
+    rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
+  val/ktxred-ktx {e = e} {K = _←ᴷˡ_ {T = _ ʸ↷ _} K v} eq
+    rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = casᴷ⁰ K _ _} eq
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = casᴷ¹ _ K _} eq

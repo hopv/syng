@@ -33,9 +33,10 @@ open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
   i j :  ℕ
+  X :  Set₀
   T :  Type
   P P' Q Q' R :  Prop' ∞
-  Q˙ Q'˙ :  Val T →  Prop' ∞
+  Q˙ Q'˙ :  X →  Prop' ∞
   red :  Redex T
   e :  Expr ∞ T
 

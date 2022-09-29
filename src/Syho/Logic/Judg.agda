@@ -21,8 +21,8 @@ open import Base.List using (List; len; rep)
 open import Base.Str using ()
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr; Expr˂; ▶_; ∇_; Val; ▾_;
-  λᵛ-syntax; V⇒E; TyVal; ⊤▾)
+open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr; Expr˂; ▶_; ∇_; Val;
+  V⇒E; TyVal; ⊤-)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Logic.Prop using (Name; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
@@ -98,6 +98,10 @@ _⊢[_]⁺⟨_⟩[_]_ :
   Prop' ∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Q˙ =  P ⊢[ ι ]* ⁺⟨ vk ⟩[ wκ ] Q˙
 
+_⊢[_]⁺⟨_/_⟩[_]_ :
+  Prop' ∞ →  Size →  ∀ T →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₁
+P ⊢[ ι ]⁺⟨ _ / vk ⟩[ wκ ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Q˙
+
 _⊢[_]⁺⟨_⟩ᴾ_ :  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ par ] Q˙
 
@@ -133,7 +137,7 @@ private variable
   i j n :  ℕ
   Xʸ :  Setʸ
   X :  Set₀
-  x y z :  X
+  v x y z :  X
   f :  X → X
   Y˙ :  X → Set₀
   Jr :  JudgRes
@@ -149,7 +153,6 @@ private variable
   e˂ :  Expr˂ ∞ T
   e˙ :  X → Expr ∞ T
   K :  Ktx T U
-  v :  Val T
   θ :  Addr
   p q :  ℚ⁺
   ᵗu ᵗv :  TyVal
@@ -550,7 +553,7 @@ data  _⊢[_]*_  where
   -- Value
 
   hor-valᵘ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  →
-              P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
+              P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ wκ ]  Q˙
 
   -- Non-deterministic value
 
@@ -574,7 +577,7 @@ data  _⊢[_]*_  where
   -- Sequential execution
 
   hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
-           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩[ wκ ]  Q˙
+           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _⁏ᴿ_ {T} v e) ⟩[ wκ ]  Q˙
 
   -- Thread forking
 
@@ -601,31 +604,31 @@ data  _⊢[_]*_  where
 
   -- Memory read
 
-  ahor-🞰 :  θ ↦⟨ p ⟩ (-, v)  ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ θ ⟩ λ u →
-              ⌜ u ≡ v ⌝∧  θ ↦⟨ p ⟩ (-, v)
+  ahor-🞰 :  θ ↦⟨ p ⟩ (T , v)  ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ_ {T} θ ⟩ λ u →
+              ⌜ u ≡ v ⌝∧  θ ↦⟨ p ⟩ (T , v)
 
   -- Memory write
 
-  ahor-← :  θ ↦ ᵗu  ⊢[ ι ][ i ]ᵃ⟨ θ ←ᴿ v ⟩ λ _ →  θ ↦ (-, v)
+  ahor-← :  θ ↦ ᵗu  ⊢[ ι ][ i ]ᵃ⟨ _←ᴿ_ {T} θ v ⟩ λ _ →  θ ↦ (T , v)
 
   -- Fetch and update
 
-  ahor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , ▾ x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λᵛ y ,
-                ⌜ y ≡ x ⌝∧  θ ↦⟨ p ⟩ (-, ▾ f x)
+  ahor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λ y →
+                ⌜ y ≡ x ⌝∧  θ ↦⟨ p ⟩ (-, f x)
 
   -- Compare and swap, the success and failure cases
 
-  ahor-cas-tt :  θ ↦ (◸ʸ Xʸ , ▾ x)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
-                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, ▾ y)
+  ahor-cas-tt :  θ ↦ (◸ʸ Xʸ , x)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λ b →
+                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, y)
 
   ahor-cas-ff :  z ≢ x  →
-    θ ↦⟨ p ⟩ (◸ʸ Xʸ , ▾ z)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
-      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, ▾ z)
+    θ ↦⟨ p ⟩ (◸ʸ Xʸ , z)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λ b →
+      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, z)
 
   -- Memory allocation
 
-  ahor-alloc :  ⊤'  ⊢[ ι ][ i ]ᵃ⟨ allocᴿ n ⟩ λᵛ θ ,
-                  θ ↦ᴸ rep n ⊤▾  ∗  Free n θ
+  ahor-alloc :  ⊤'  ⊢[ ι ][ i ]ᵃ⟨ allocᴿ n ⟩ λ θ →
+                  θ ↦ᴸ rep n ⊤-  ∗  Free n θ
 
   -- Memory freeing
 

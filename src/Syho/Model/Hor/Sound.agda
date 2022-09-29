@@ -142,8 +142,8 @@ abstract
 
   ⊢⁺⟨⟩ᵀ-sem (hor-◁ P⊢⟨Kex⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Kex⟩Q › ⁺⟨⟩ᵀᵒ-◁
 
-  -- hor-⁏ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e ⟩ᵀ[ i ]  Q˙  →
-  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩ᵀ[ i ]  Q˙
+  -- hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
+  --          P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _⁏ᴿ_ {T} v e) ⟩[ wκ ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-⁏ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-⁏
 
@@ -166,7 +166,7 @@ abstract
 
   -- hor-alloc :
   --   (∀ θ →
-  --     θ ↦ᴸ rep n ⊤▾  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ θ ⟩ᵀ[ i ]  Q˙)  →
+  --     θ ↦ᴸ rep n ⊤-  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ θ ⟩ᵀ[ i ]  Q˙)  →
   --   P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-alloc {n = n} θ↦∗Free∗P⊢⟨Kθ⟩Q) =  ⁺⟨⟩ᵀᵒ-alloc λ θ →
@@ -277,7 +277,7 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (hor-← θ↦v∗P⊢⟨K⟩Q) =  ⁺⟨⟩ᴾᵒ-← $ ⊢⁺⟨⟩ᴾ-sem θ↦v∗P⊢⟨K⟩Q
 
   -- hor-alloc :
-  --   (∀ θ →  θ ↦ᴸ rep n ⊤▾  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ θ ⟩ᴾ  Q˙)  →
+  --   (∀ θ →  θ ↦ᴸ rep n ⊤-  ∗  Free n θ  ∗  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ θ ⟩ᴾ  Q˙)  →
   --   P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-alloc {n = n} θ↦∗Free∗P⊢⟨Kθ⟩Q) =  ⁺⟨⟩ᴾᵒ-alloc λ θ →

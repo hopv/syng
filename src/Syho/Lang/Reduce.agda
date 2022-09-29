@@ -18,8 +18,8 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
 open import Base.List using (List; _∷_; _‼_; upd; rep)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr; Expr˂; ∇_; Val; ▾_;
-  V⇒E; TyVal; ⊤▾)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr; Expr˂; ∇_; Val;
+  V⇒E; TyVal; ⊤-)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
 
@@ -84,6 +84,7 @@ abstract
 private variable
   T U :  Type
   Xʸ :  Setʸ
+  X :  Set₀
   e₀ e e' e'' :  Expr ∞ T
   e˂ :  Expr˂ ∞ T
   e˙ :  ⸨ Xʸ ⸩ʸ → Expr ∞ T
@@ -91,9 +92,8 @@ private variable
   es es' es'' :  List (Expr ∞ (◸ ⊤))
   K :  Ktx T U
   red : Redex T
-  v :  Val T
-  x y :  ⸨ Xʸ ⸩ʸ
-  f :  ⸨ Xʸ ⸩ʸ → ⸨ Xʸ ⸩ʸ
+  v x y :  X
+  f :  X → X
   n :  ℕ
   kr :  Ktxred T
   ι :  Size
@@ -115,30 +115,31 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem
   ◁⇒ :  ∀{x : ⸨ Xʸ ⸩ʸ} →  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , ň , M)
 
   -- For ⁏
-  ⁏⇒ :  (v ⁏ᴿ e , M) ⇒ᴿ (e , ň , M)
+  ⁏⇒ :  (_⁏ᴿ_ {T} v e , M) ⇒ᴿ (e , ň , M)
 
   -- For fork
   fork⇒ :  (forkᴿ e , M) ⇒ᴿ (∇ _ , š e , M)
 
   -- For 🞰
-  🞰⇒ :  M ‼ᴹ θ ≡ š (-, v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E v , ň , M)
+  🞰⇒ :  M ‼ᴹ θ ≡ š (T , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E {T} v , ň , M)
 
   -- For ←, with a check that θ is in the domain of M
-  ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , ň , updᴹ θ (-, v) M)
+  ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →
+        (_←ᴿ_ {T} θ v , M) ⇒ᴿ (∇ _ , ň , updᴹ θ (T , v) M)
 
   -- For fau
-  fau⇒ :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ▾ x) →
-          (fauᴿ f θ , M) ⇒ᴿ (∇ x , ň , updᴹ θ (-, ▾ f x) M)
+  fau⇒ :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , x) →
+          (fauᴿ f θ , M) ⇒ᴿ (∇ x , ň , updᴹ θ (-, f x) M)
 
   -- For cas, the success and failure cases
-  cas⇒-tt :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ▾ x) →
-             (casᴿ θ x y , M) ⇒ᴿ (∇ tt , ň , updᴹ θ (-, ▾ y) M)
-  cas⇒-ff :  ∑ z , M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ▾ z) × z ≢ x →
+  cas⇒-tt :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , x) →
+             (casᴿ θ x y , M) ⇒ᴿ (∇ tt , ň , updᴹ θ (-, y) M)
+  cas⇒-ff :  ∑ z , M ‼ᴹ θ ≡ š (◸ʸ Xʸ , z) × z ≢ x →
              (casᴿ θ x y , M) ⇒ᴿ (∇ ff , ň , M)
 
   -- For alloc, for any o out of the domain of M
   alloc⇒ :  ∀ o →  M o ≡ ň →
-    (allocᴿ n , M) ⇒ᴿ (∇ (o , 0) , ň , upd˙ o (š rep n ⊤▾) M)
+    (allocᴿ n , M) ⇒ᴿ (∇ (o , 0) , ň , upd˙ o (š rep n ⊤-) M)
 
   -- For free, with a check that o is in the domain of M
   free⇒ :  ∑ ᵗvs , M o ≡ š ᵗvs →  (freeᴿ (o , 0) , M) ⇒ᴿ (∇ _ , ň , upd˙ o ň M)

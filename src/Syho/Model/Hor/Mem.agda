@@ -17,7 +17,7 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺)
-open import Syho.Lang.Expr using (Addr; Type; ∇_; Val; V⇒E; TyVal; ⊤▾)
+open import Syho.Lang.Expr using (Addr; Type; ∇_; Val; V⇒E; TyVal; ⊤-)
 open import Syho.Lang.Ktxred using (Ktx; _ᴷ◁_; 🞰ᴿ_; _←ᴿ_; allocᴿ; freeᴿ)
 open import Syho.Lang.Reduce using (Mem; _‼ᴹ_; updᴹ; 🞰⇒; ←⇒; alloc⇒; free⇒;
   redᴷᴿ; ✓ᴹ-∑ň)
@@ -70,7 +70,7 @@ abstract
   -- Allocate getting ↦ᴸᵒ' and Freeᵒ'
 
   ↦ᴸᵒ'-alloc :  M o ≡ ň  →
-    ⊨  ⟨ M ⟩⇛ᵒ⟨ upd˙ o (š rep n ⊤▾) M ⟩  o ↦ᴸᵒ' rep n ⊤▾  ∗ᵒ  Freeᵒ' n o
+    ⊨  ⟨ M ⟩⇛ᵒ⟨ upd˙ o (š rep n ⊤-) M ⟩  o ↦ᴸᵒ' rep n ⊤-  ∗ᵒ  Freeᵒ' n o
   ↦ᴸᵒ'-alloc Mo≡ň =  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ (ε↝-◎⟨⟩-⤇ᴱ (↦ᴸʳ-alloc Mo≡ň) ▷
     ⤇ᴱ-respᴱʳ upd˙-mem-envᴳ ▷ ⤇ᴱ-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ)
 
@@ -131,7 +131,7 @@ abstract
 
   ⁺⟨⟩ᴾᵒ-alloc :
     (∀ θ →
-      θ ↦ᴸᵒ rep n ⊤▾  ∗ᵒ  Freeᵒ n θ  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ θ ⟩ᴾᵒ[ ι ]  Qᵒ˙)  →
+      θ ↦ᴸᵒ rep n ⊤-  ∗ᵒ  Freeᵒ n θ  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ θ ⟩ᴾᵒ[ ι ]  Qᵒ˙)  →
     Pᵒ  ⊨  ⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩ᴾᵒ[ ι ]  Qᵒ˙
   ⁺⟨⟩ᴾᵒ-alloc {n = n} θ↦∗Free∗P⊨⟨Kθ⟩Q Pa =  ⁺⟨⟩ᴾᵒ-kr λ M →
     ⇛ᵒ-mono (λ (✓M , big) → (-, redᴷᴿ (alloc⇒ _ $ ✓ᴹ-∑ň ✓M .π₁)) , big) $
@@ -142,7 +142,7 @@ abstract
 
   ⁺⟨⟩ᵀᵒ-alloc :
     (∀ θ →
-      θ ↦ᴸᵒ rep n ⊤▾  ∗ᵒ  Freeᵒ n θ  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ θ ⟩ᵀᵒ[ ι ]  Qᵒ˙)  →
+      θ ↦ᴸᵒ rep n ⊤-  ∗ᵒ  Freeᵒ n θ  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ θ ⟩ᵀᵒ[ ι ]  Qᵒ˙)  →
     Pᵒ  ⊨  ⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩ᵀᵒ[ ∞ ] Qᵒ˙
   ⁺⟨⟩ᵀᵒ-alloc {n} θ↦∗Free∗P⊨⟨Kθ⟩Q Pa =  ⁺⟨⟩ᵀᵒ-kr λ M →
     ⇛ᵒ-mono (λ (✓M , big) → (-, redᴷᴿ (alloc⇒ _ $ ✓ᴹ-∑ň ✓M .π₁)) , big) $

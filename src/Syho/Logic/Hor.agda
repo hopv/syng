@@ -14,31 +14,32 @@ open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; Expr; Val; _⁏_; let˙; ▾_; ▾↷_)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr; Val; _⁏_; let˙)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   Val/Ktxred)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (WpKind; par; tot; [_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_;
-  _⊢[_][_]ᵃ⟨_⟩_; _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
-  _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ;
-  ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘ_; ahor-frameˡ; hor-frameˡ;
-  ahor-hor; hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏; hor-fork)
+  _⊢[_][_]ᵃ⟨_⟩_; _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_;
+  _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
+  _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘ_;
+  ahor-frameˡ; hor-frameˡ; ahor-hor; hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶;
+  hor-◁; hor-⁏; hor-fork)
 
 private variable
   ι :  Size
   i :  ℕ
-  A :  Set₀
+  X :  Set₀
   T U :  Type
   wκ :  WpKind
   P P' Q R :  Prop' ∞
-  Q˙ Q'˙ R˙ :  Val T → Prop' ∞
+  Q˙ Q'˙ R˙ :  X → Prop' ∞
   red :  Redex T
   vk :  Val/Ktxred T
   K :  Ktx T U
   e e' e₀ :  Expr ∞ T
-  e˙ :  A → Expr ∞ T
-  v :  Val T
+  e˙ :  X → Expr ∞ T
+  v :  X
 
 infixr -1 _ᵃʰ»_ _ʰ»_
 
@@ -118,25 +119,27 @@ abstract
   -- Value
 
   -->  hor-valᵘ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  →
-  -->              P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
+  -->              P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ wκ ]  Q˙
 
-  hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
+  hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ wκ ]  Q˙
   hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} $ ∗-monoˡ P⊢Q
 
   -- Sequential execution
 
   -->  hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ wκ ]  Q˙  →
-  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩[ wκ ]  Q˙
+  -->           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _⁏ᴿ_ {T} v e) ⟩[ wκ ]  Q˙
 
   hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ wκ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ wκ ]  R˙  →
-                P  ⊢[ ι ]⟨ e ⁏ e' ⟩[ wκ ]  R˙
-  hor-⁏-bind P⊢⟨e⟩Q Q⊢⟨e'⟩R =  hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q
-    λ{ (▾ _) → hor-⁏ Q⊢⟨e'⟩R; (▾↷ _) → hor-⁏ Q⊢⟨e'⟩R }
+                P  ⊢[ ι ]⟨ _⁏_ {T = T} e e' ⟩[ wκ ]  R˙
+  hor-⁏-bind {T = ◸ʸ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
+    hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ _ → hor-⁏ Q⊢⟨e'⟩R
+  hor-⁏-bind {T = _ ʸ↷ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
+    hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ _ → hor-⁏ Q⊢⟨e'⟩R
 
   -- Let binding
 
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ wκ ]  Q˙  →
-                  (∀ x →  Q˙ (▾ x)  ⊢[ ι ]⟨ e˙ x ⟩[ wκ ]  R˙) →
+                  (∀ x →  Q˙ x  ⊢[ ι ]⟨ e˙ x ⟩[ wκ ]  R˙) →
                   P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ wκ ]  R˙
   hor-let-bind P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
-    hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ{ (▾ x) → hor-◁ $ ∀xQ⊢⟨e˙⟩R x }
+    hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ x → hor-◁ $ ∀xQ⊢⟨e˙⟩R x

@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; refl; ◠_; cong; subst)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Bool using (Bool)
-open import Base.Prod using (∑-syntax; _×_; _,_)
+open import Base.Prod using (∑-syntax; _×_; _,_; _,-)
 open import Base.Nat using (ℕ; _+_; +-assocʳ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Syn; setʸ)
 
@@ -171,35 +171,20 @@ loop =  ▶ λ{ .! → loop }
 --------------------------------------------------------------------------------
 -- Val :  Value data
 
-infix 8 ▾_ ▾↷_
-data  Val :  Type →  Set₀  where
-  ▾_ :  ⸨ Xʸ ⸩ʸ →  Val (◸ʸ Xʸ)
-  ▾↷_ :  (⸨ Xʸ ⸩ʸ →  Expr ∞ T) →  Val (Xʸ ʸ↷ T)
-
--- Function on Val
-
-λᵛ˙ λᵛ-syntax :  (⸨ Xʸ ⸩ʸ →  Y) →  Val (◸ʸ Xʸ) →  Y
-λᵛ˙ f (▾ x) =  f x
-λᵛ-syntax =  λᵛ˙
-
-λᵛ↷˙ λᵛ↷-syntax :  ((⸨ Xʸ ⸩ʸ → Expr ∞ T) →  Y) →  Val (Xʸ ʸ↷ T) →  Y
-λᵛ↷˙ f (▾↷ e˙) =  f e˙
-λᵛ↷-syntax =  λᵛ↷˙
-
-infix 3 λᵛ-syntax λᵛ↷-syntax
-syntax λᵛ-syntax (λ x → y) =  λᵛ x , y
-syntax λᵛ↷-syntax (λ e˙ → y) =  λᵛ↷ e˙ , y
+Val :  Type →  Set₀
+Val (◸ʸ Xʸ) =  ⸨ Xʸ ⸩ʸ
+Val (Xʸ ʸ↷ T) =  ⸨ Xʸ ⸩ʸ →  Expr ∞ T
 
 -- Conversion from Val to Expr
 
 V⇒E :  Val T →  Expr ∞ T
-V⇒E (▾ x) =  ∇ x
-V⇒E (▾↷ e˙) =  λ˙ e˙
+V⇒E {◸ʸ _} =  ∇_
+V⇒E {_ ʸ↷ _} =  λ˙
 
 -- Value of any type T
 
 TyVal :  Set₀
 TyVal =  ∑ T , Val T
 
-⊤▾ :  TyVal
-⊤▾ =  (◸ ⊤ , ▾ _)
+⊤- :  TyVal
+⊤- =  ◸ ⊤ ,-

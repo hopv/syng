@@ -15,7 +15,7 @@ open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; □_; _∗_; ○_; _↪[
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
   □-mono; □-elim)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _ᵘ»ᵃʰ_; _ᵘ»ʰ_)
 open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
@@ -24,13 +24,14 @@ open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪
 private variable
   ι :  Size
   i :  ℕ
+  X :  Set₀
   T :  Type
   red :  Redex T
   e :  Expr ∞ T
   P Q :  Prop' ∞
   P˂ Q˂ :  Prop˂ ∞
-  Q˙ :  Val T →  Prop' ∞
-  Q˂˙ :  Val T →  Prop˂ ∞
+  Q˙ :  X →  Prop' ∞
+  Q˂˙ :  X →  Prop˂ ∞
 
 --------------------------------------------------------------------------------
 -- Utility
@@ -100,7 +101,7 @@ module _
 
   horᴾ/↪⟨⟩ᴾ-use' :  P  ⊢[ ι ]⟨ e ⟩ᴾ  Q˙
   horᴾ/↪⟨⟩ᴾ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
+    ⇛-frameʳ (⇛-frameˡ $ ○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
     ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
 
 --------------------------------------------------------------------------------
@@ -121,7 +122,7 @@ module _
 
   horᵀ/↪⟨⟩ᵀ-use' :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  Q˙
   horᵀ/↪⟨⟩ᵀ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
+    ⇛-frameʳ (⇛-frameˡ $ ○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
     ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
 
 --------------------------------------------------------------------------------
@@ -145,5 +146,5 @@ module _
 
   horᵀ-loop/↪⟨⟩ᵀ-use▶ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
   horᵀ-loop/↪⟨⟩ᵀ-use▶ {P} {Q˙ = Q˙} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶) ᵘ»ʰ
+    ⇛-frameʳ (⇛-frameˡ $ ○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶) ᵘ»ʰ
     ↪⟨⟩ᵀ-use▶ {P˂ = ¡ P} {λ v → ¡ Q˙ v}

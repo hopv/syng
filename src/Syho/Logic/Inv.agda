@@ -7,13 +7,16 @@
 module Syho.Logic.Inv where
 
 open import Base.Func using (_$_)
+open import Base.Eq using (◠˙_)
 open import Base.Size using (Size; ∞; !; ¡_; _$ᵀʰ_)
+open import Base.Zoi using (Zoi; _⊆ᶻ_; ⊆ᶻ⇒∑⊎ᶻ)
+open import Base.Prod using (_,_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (Name; Prop'; Prop˂; _∗_; _-∗_; Inv; OInv;
-  Basic)
-open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∗-comm;
-  ⊤∗-intro; ∗-elimʳ; -∗-const)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
+open import Syho.Logic.Prop using (Name; Prop'; Prop˂; _∗_; _-∗_; [_]ᴺ; Inv;
+  OInv; Basic)
+open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∗-monoʳ;
+  ∗-comm; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro; ∗-elimʳ; -∗-intro; -∗-apply; -∗-const)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»_; ⇛-frameʳ)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔;
@@ -23,6 +26,7 @@ private variable
   ι :  Size
   P Q R :  Prop' ∞
   P˂ Q˂ :  Prop˂ ∞
+  Nm Nm' :  Name → Zoi
   nm :  Name
   i :  ℕ
 
@@ -76,3 +80,17 @@ abstract
 
   Inv-alloc :  P  ⊢[ ι ][ i ]⇛  Inv nm P˂
   Inv-alloc =  -∗-const » Inv-alloc-rec
+
+  -- Take out a name set token of a subset
+
+  []ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  ([ Nm' ]ᴺ -∗ [ Nm ]ᴺ)
+  []ᴺ-⊆ Nm'⊆Nm  with ⊆ᶻ⇒∑⊎ᶻ Nm'⊆Nm
+  … | Nm'' , Nm''⊎Nm'≡Nm =  []ᴺ-resp (◠˙ Nm''⊎Nm'≡Nm) » []ᴺ-split {Nm = Nm''} »
+    ∗-comm » ∗-monoʳ $ -∗-intro $ ∗-comm » []ᴺ-merge » []ᴺ-resp Nm''⊎Nm'≡Nm
+
+  -- Use only a part of a name set token for super update
+
+  ⇛-[]ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   P  ∗  [ Nm' ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm' ]ᴺ  →
+             P  ∗  [ Nm ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm ]ᴺ
+  ⇛-[]ᴺ-⊆ Nm'⊆Nm P⊢⇛[Nm']Q =  ∗-monoʳ ([]ᴺ-⊆ Nm'⊆Nm) » ∗-assocʳ »
+    ⇛-frameʳ P⊢⇛[Nm']Q ᵘ» ∗-assocˡ » ∗-monoʳ -∗-apply

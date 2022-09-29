@@ -126,9 +126,8 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᵀᵒ-mono (λ v → ⊢⁺⟨⟩ᵀ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᵀᵒ-bind
 
-  -- hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →
-  --   (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᵀ[ i ]  Q˙)  →
-  --   P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᵀ[ i ]  Q˙
+  -- hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  (∀ x →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᵀ[ i ]  Q˙)  →
+  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ Xʸ) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-nd InhX P⊢⟨Kx⟩Q) Pa =
     ⁺⟨⟩ᵀᵒ-nd InhX λ x → Pa ▷ ⊢⁺⟨⟩ᵀ-sem (P⊢⟨Kx⟩Q x)
@@ -139,7 +138,7 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (horᵀ-▶ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-▶
 
   -- hor-◁ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e˙ x ⟩ᵀ[ i ]  Q˙  →
-  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩ᵀ[ i ]  Q˙
+  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , _◁ᴿ_ {Xʸ} e˙ x) ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-◁ P⊢⟨Kex⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Kex⟩Q › ⁺⟨⟩ᵀᵒ-◁
 
@@ -238,9 +237,8 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᴾᵒ-mono (λ v → ⊢⁺⟨⟩ᴾ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᴾᵒ-bind
 
-  -- hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →
-  --   (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᴾ  Q˙)  →
-  --   P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᴾ  Q˙
+  -- hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  (∀ x →  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ x ⟩ᴾ  Q˙)  →
+  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , ndᴿ {Xʸ}) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-nd InhX P⊢⟨Kx⟩Q) Pa =
     ⁺⟨⟩ᴾᵒ-nd InhX λ x → Pa ▷ ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Kx⟩Q x)
@@ -251,12 +249,12 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (horᴾ-▶ P⊢⟨Ke⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-▶ λ{ .! → ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Ke⟩Q .!) Pa }
 
   -- hor-◁ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e˙ x ⟩ᴾ  Q˙  →
-  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩ᴾ  Q˙
+  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , _◁ᴿ_ {Xʸ} e˙ x) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-◁ P⊢⟨Kex⟩Q) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨Kex⟩Q › ⁺⟨⟩ᴾᵒ-◁
 
   -- hor-⁏ :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e ⟩ᴾ  Q˙  →
-  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩ᴾ  Q˙
+  --          P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , _⁏ᴿ_ {T} v e) ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-⁏ P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᴾᵒ-⁏
 

@@ -556,9 +556,8 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
 
-  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →
-    (∀(x : ⸨ Xʸ ⸩ʸ) →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ]  Q˙)  →
-    P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩[ κ ]  Q˙
+  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  (∀ x →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ]  Q˙)  →
+            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ {Xʸ}) ⟩[ κ ]  Q˙
 
   -- ▶, for partial and total Hoare triples
 
@@ -570,8 +569,8 @@ data  _⊢[_]*_  where
 
   -- Application
 
-  hor-◁ :  ∀{x : ⸨ Xʸ ⸩ʸ} →  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ κ ]  Q˙  →
-           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩[ κ ]  Q˙
+  hor-◁ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ κ ]  Q˙  →
+           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _◁ᴿ_ {Xʸ} e˙ x) ⟩[ κ ]  Q˙
 
   -- Sequential execution
 

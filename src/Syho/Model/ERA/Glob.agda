@@ -19,6 +19,7 @@ open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿᵈˣ; empᴵⁿᵈᵖ;
   empᴵⁿᵈˣ-✓; empᴵⁿᵈᵖ-✓)
+open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; empᴵⁿᵛ-✓)
 
 open ERA using (Env)
 
@@ -30,7 +31,8 @@ open ERA using (Env)
 pattern iᴹᵉᵐ =  0
 pattern iᴵⁿᵈˣ =  1
 pattern iᴵⁿᵈᵖ =  2
-pattern elseᴳ =  ṡ ṡ ṡ _
+pattern iᴵⁿᵛ =  3
+pattern elseᴳ =  ṡ ṡ ṡ ṡ _
 
 -- Map of ERAs
 
@@ -38,6 +40,7 @@ Globᴱᴿᴬ˙ :  ℕ →  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Globᴱᴿᴬ˙ iᴹᵉᵐ =  Memᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈᵖ =  Indᵖᴱᴿᴬ
+Globᴱᴿᴬ˙ iᴵⁿᵛ =  Invᴱᴿᴬ
 Globᴱᴿᴬ˙ elseᴳ =  ⊤ᴱᴿᴬ
 
 -- Globᴱᴿᴬ :  Global ERA, defined as ∀ᴱᴿᴬ Globᴱᴿᴬ˙
@@ -70,7 +73,8 @@ pattern outᴳ i =  ṡ i
 
 pattern jᴵⁿᵈˣ =  0
 pattern jᴵⁿᵈᵖ =  1
-pattern elseᴵⁿᴳ =  ṡ ṡ _
+pattern jᴵⁿᵛ =  2
+pattern elseᴵⁿᴳ =  ṡ ṡ ṡ _
 
 -- The inner part of the environment
 
@@ -94,6 +98,7 @@ envᴵⁿᴳ E j =  E $ outᴳ j
 empᴵⁿᴳ :  Envᴵⁿᴳ
 empᴵⁿᴳ jᴵⁿᵈˣ =  empᴵⁿᵈˣ
 empᴵⁿᴳ jᴵⁿᵈᵖ =  empᴵⁿᵈᵖ
+empᴵⁿᴳ jᴵⁿᵛ =  empᴵⁿᵛ
 empᴵⁿᴳ elseᴵⁿᴳ =  _
 
 private variable
@@ -111,6 +116,7 @@ abstract
   empᴵⁿᴳ-✓ ✓M iᴹᵉᵐ =  ✓ᴹ⇒✓ᴹᵉᵐ ✓M
   empᴵⁿᴳ-✓ _ iᴵⁿᵈˣ =  empᴵⁿᵈˣ-✓
   empᴵⁿᴳ-✓ _ iᴵⁿᵈᵖ =  empᴵⁿᵈᵖ-✓
+  empᴵⁿᴳ-✓ _ iᴵⁿᵛ =  empᴵⁿᵛ-✓
   empᴵⁿᴳ-✓ _ elseᴳ =  _
 
   -- ≡˙ is congruent with respect to envᴳ M

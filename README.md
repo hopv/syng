@@ -148,7 +148,8 @@ following parts.
         * Language-specific ERA ―
             [`Mem`](src/Syho/Model/ERA/Mem.agda) for the memory ERA.
         * Logic-dependent ERAs ―
-            [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs.
+            [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
+            [`Inv`](src/Syho/Model/ERA/Inv.agda) for the invariant ERA.
         * Global ERA ―
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.
     + [`Prop/`](src/Syho/Model/Prop/) ― **The semantic model of the propositions

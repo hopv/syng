@@ -318,7 +318,7 @@ abstract
   ⊢-sem (OInv-mono P⊢Q) _ ()
 
   -- OInv-eatˡ :  {{Basic Q}} →
-  --              Q  ∗  OInv nm P˂  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
+  --   Q  ∗  OInv nm P˂  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
 
   ⊢-sem OInv-eatˡ _ =  ∗ᵒ⇒∗ᵒ' › λ ()
 

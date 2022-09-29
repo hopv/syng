@@ -7,20 +7,21 @@
 module Syho.Model.ERA.Inv where
 
 open import Base.Level using (1ᴸ)
+open import Base.Few using (⊤₀; ¬_; absurd)
 open import Base.Eq using (_≡_; refl; _≡˙_)
-open import Base.Dec using (upd˙)
-open import Base.Zoi using (Zoi; ⊤ᶻ; _⊎ᶻ_; ✔ᶻ_)
-open import Base.Option using (¿_; ň)
+open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
+open import Base.Zoi using (Zoi; ⊤ᶻ; ^ᶻ_; _⊎ᶻ_; ✔ᶻ_)
+open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
-open import Base.Sum using ()
-open import Base.Nat using (ℕ; ∀≥˙)
+open import Base.Sum using (ĩ₀_; ĩ₁_)
+open import Base.Nat using (ℕ; ṡ_; _<_; ∀≥˙; ≤-refl; _<≥_; ∀≥˙-upd˙-ṡ)
 open import Base.List using ([]; [_])
 open import Base.Str using ()
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Zoi using (Zoiᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (?ˣ; #ˣ_; Excᴱᴿᴬ)
-open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[])
+open import Syho.Model.ERA.Exc using (?ˣ; #ˣ_; Excᴱᴿᴬ; ✓ˣ-alloc; ✓ˣ-agree)
+open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-alloc; ✓ᴸ-agree)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
 import Syho.Model.ERA.Envm
@@ -93,8 +94,9 @@ invk i P =  inj˙ᴵⁿᵛᵗᵏ i ([] , #ˣ P) , εᴺᵃᵐᵉˢ
 [ Nm ]ᴺʳ =  εᴵⁿᵛᵗᵏ , Nm
 
 private variable
-  Pˇ˙ :  ℕ → ¿ Prop∞
-  n :  ℕ
+  P :  Prop∞
+  Pˇ˙ Qˇ˙ :  ℕ → ¿ Prop∞
+  i n :  ℕ
   Nm Nm' :  Name → Zoi
 
 abstract
@@ -113,3 +115,45 @@ abstract
 
   []ᴺʳ-cong :  Nm ≡˙ Nm' →  [ Nm ]ᴺʳ ≈ᴵⁿᵛ [ Nm' ]ᴺʳ
   []ᴺʳ-cong Nm≡Nm' =  (refl˜ᴵⁿᵛᵗᵏ , Nm≡Nm')
+
+  -- invk i P cannot overlap
+
+  invk-no2 :  ¬ (Pˇ˙ , n) ✓ᴵⁿᵛ invk i P ∙ᴵⁿᵛ invk i P
+  invk-no2 {i = i} (-, ✓iPP , _)  with ✓iPP i .π₁
+  … | ✓↯  rewrite ≟-refl {a = i} =  absurd ✓↯
+
+  -- Allocate inv and invk
+
+  inv-invk-alloc :  ((Qˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ  λ(_ : ⊤₀) →
+    (upd˙ n (š P) Qˇ˙ , ṡ n) , inv n P ∙ᴵⁿᵛ invk n P
+  inv-invk-alloc _ _ .π₀ =  _
+  inv-invk-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
+  inv-invk-alloc _ (-, -, ✓c) .π₁ .π₁ .π₁ =  ✓c
+  inv-invk-alloc {n = n} _ (✓Qˇ , Qˇ✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | Qˇ✓ab i
+  … | no _ | Qˇi✓abi =  Qˇi✓abi
+  … | yes refl | (Qˇn✓an , Qˇn✓bn)  rewrite ✓Qˇ _ ≤-refl =
+    ✓ᴸ-alloc Qˇn✓an , ✓ˣ-alloc Qˇn✓bn
+
+  -- Get agreement from inv
+
+  inv-agree :  ((Qˇ˙ , n) , inv i P)  ↝ᴵⁿᵛ
+                 λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , inv i P
+  inv-agree _ ✓Qˇ✓iP∙ .π₁ =  ✓Qˇ✓iP∙
+  inv-agree {n = n} {i} _ (✓Qˇ , Qˇ✓iP∙ , _) .π₀  with Qˇ✓iP∙ i .π₀
+  … | Qˇi✓P∷  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷
+  …   | Qˇi≡šP  with i <≥ n
+  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
+  …       | ()
+
+  -- Get agreement from invk
+
+  invk-agree :  ((Qˇ˙ , n) , invk i P)  ↝ᴵⁿᵛ
+                  λ(_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , invk i P
+  invk-agree _ ✓Qˇ✓iP∙ .π₁ =  ✓Qˇ✓iP∙
+  invk-agree {n = n} {i} (a ,-) (✓Qˇ , Qˇ✓iP∙ , _) .π₀  with Qˇ✓iP∙ i .π₁
+  … | Qˇi✓#P∙  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = a i .π₁} Qˇi✓#P∙
+  …   | Qˇi≡šP  with i <≥ n
+  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
+  …       | ()

@@ -10,7 +10,7 @@ open import Base.Func using (_∘_; id; const; _$_)
 open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Zoi using (⊤ᶻ)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
-open import Syho.Lang.Expr using (Type; Expr; Val)
+open import Syho.Lang.Expr using (Type; Expr)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (Prop'; Prop˂; ∀-syntax; _∗_; _-∗_; □_; ○_;
   _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴺ; Basic)

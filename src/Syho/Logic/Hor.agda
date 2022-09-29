@@ -14,7 +14,7 @@ open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Prop'; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr; Val; _⁏_; let˙)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr; _⁏_; let˙)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   Val/Ktxred)
 

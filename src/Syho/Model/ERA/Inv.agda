@@ -7,17 +7,19 @@
 module Syho.Model.ERA.Inv where
 
 open import Base.Level using (1ᴸ)
-open import Base.Eq using (_≡_; refl)
+open import Base.Eq using (_≡_; refl; _≡˙_)
+open import Base.Dec using (upd˙)
+open import Base.Zoi using (Zoi; ⊤ᶻ; _⊎ᶻ_; ✔ᶻ_)
 open import Base.Option using (¿_; ň)
-open import Base.Prod using (_×_; _,_; _,-)
+open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using ()
 open import Base.Nat using (ℕ; ∀≥˙)
-open import Base.List using ()
+open import Base.List using ([]; [_])
 open import Base.Str using ()
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Zoi using (Zoiᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ)
+open import Syho.Model.ERA.Exc using (?ˣ; #ˣ_; Excᴱᴿᴬ)
 open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[])
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
@@ -37,7 +39,8 @@ open ProdInvtk public using () renaming (
 module AllInvtk =  Syho.Model.ERA.All ℕ (λ _ → ×Invtkᴱᴿᴬ)
 open AllInvtk public using () renaming (
   --  Invtkᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  ∀ᴱᴿᴬ to Invtkᴱᴿᴬ)
+  ∀ᴱᴿᴬ to Invtkᴱᴿᴬ;
+  inj˙ to inj˙ᴵⁿᵛᵗᵏ)
 
 -- For the name set token
 
@@ -64,17 +67,49 @@ open EnvvInv public using () renaming (
   --  Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envvᴱᴿᴬ to Invᴱᴿᴬ)
 
+open ERA Invtkᴱᴿᴬ public using () renaming (ε to εᴵⁿᵛᵗᵏ; refl˜ to refl˜ᴵⁿᵛᵗᵏ)
+open ERA Namesᴱᴿᴬ public using () renaming (ε to εᴺᵃᵐᵉˢ)
 open ERA Invᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵛ; Res to Resᴵⁿᵛ;
-  _✓_ to _✓ᴵⁿᵛ_; ε to εᴵⁿᵛ; _↝_ to _↝ᴵⁿᵛ_)
+  _≈_ to _≈ᴵⁿᵛ_; _✓_ to _✓ᴵⁿᵛ_; _∙_ to _∙ᴵⁿᵛ_; ε to εᴵⁿᵛ; _↝_ to _↝ᴵⁿᵛ_)
 
 -- Empty environment of Invᴱᴿᴬ
 
 empᴵⁿᵛ :  Envᴵⁿᵛ
 empᴵⁿᵛ =  (λ _ → ň) , 0
 
+-- Persistently observe a proposition at an index
+
+inv :  ℕ →  Prop∞ →  Resᴵⁿᵛ
+inv i P =  inj˙ᴵⁿᵛᵗᵏ i ([ P ] , ?ˣ) , εᴺᵃᵐᵉˢ
+
+-- Exclusively own a key of an index
+
+invk :  ℕ →  Prop∞ →  Resᴵⁿᵛ
+invk i P =  inj˙ᴵⁿᵛᵗᵏ i ([] , #ˣ P) , εᴺᵃᵐᵉˢ
+
+-- Own a name set
+
+[_]ᴺʳ :  (Name → Zoi) →  Resᴵⁿᵛ
+[ Nm ]ᴺʳ =  εᴵⁿᵛᵗᵏ , Nm
+
+private variable
+  Pˇ˙ :  ℕ → ¿ Prop∞
+  n :  ℕ
+  Nm Nm' :  Name → Zoi
+
 abstract
 
-  -- empᴵⁿᵛ is valid
+  -- empᴵⁿᵛ with [ ⊤ᶻ ]ᴺʳ is valid
 
-  empᴵⁿᵛ-✓ :  empᴵⁿᵛ ✓ᴵⁿᵛ εᴵⁿᵛ
+  empᴵⁿᵛ-✓ :  empᴵⁿᵛ ✓ᴵⁿᵛ [ ⊤ᶻ ]ᴺʳ
   empᴵⁿᵛ-✓ =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _) , _
+
+  -- The set of [ ]ᴺʳ is valid
+
+  []ᴺʳ-✔ :  (Pˇ˙ , n) ✓ᴵⁿᵛ [ Nm ]ᴺʳ →  ✔ᶻ Nm
+  []ᴺʳ-✔ (-, -, ✔Nm) =  ✔Nm
+
+  -- Update the set part of [ ]ᴺʳ
+
+  []ᴺʳ-cong :  Nm ≡˙ Nm' →  [ Nm ]ᴺʳ ≈ᴵⁿᵛ [ Nm' ]ᴺʳ
+  []ᴺʳ-cong Nm≡Nm' =  (refl˜ᴵⁿᵛᵗᵏ , Nm≡Nm')

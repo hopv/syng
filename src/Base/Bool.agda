@@ -29,3 +29,17 @@ instance
   Bool-≡Dec ._≟_ ff ff =  yes refl
   Bool-≡Dec ._≟_ tt ff =  no λ ()
   Bool-≡Dec ._≟_ ff tt =  no λ ()
+
+-- And
+
+infixr 7 _∧ᴮ_
+_∧ᴮ_ :  Bool →  Bool →  Bool
+tt ∧ᴮ b =  b
+ff ∧ᴮ _ =  ff
+
+-- Or
+
+infixr 6 _∨ᴮ_
+_∨ᴮ_ :  Bool →  Bool →  Bool
+tt ∨ᴮ _ =  tt
+ff ∨ᴮ b =  b

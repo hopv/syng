@@ -38,9 +38,9 @@ abstract
 
   -->  OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm P˂  ⊢[ ι ]  OInv nm Q˂
 
-  -->  Inv-open :  Inv nm P˂  ∗  [ ^ᶻ nm ]ᴵ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
+  -->  Inv-open :  Inv nm P˂  ∗  [^ nm ]ᴵ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
 
-  -->  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [ ^ᶻ nm ]ᴵ
+  -->  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴵ
 
   instance
 

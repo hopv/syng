@@ -11,7 +11,7 @@ open import Base.Few using (binary; absurd)
 open import Base.Size using (Size; ∞; Thunk)
 open import Base.Prod using (_×_; _,_; curry)
 open import Base.Sum using (_⨿_)
-open import Base.Zoi using (Zoi)
+open import Base.Zoi using (Zoi; ^ᶻ_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Base.Str using (Str)
@@ -184,6 +184,12 @@ _↦ᴸ⟨_⟩_ :  Addr →  ℚ⁺ →  List TyVal →  Prop' ι
 θ ↦ᴸ⟨ p ⟩ ᵗvs =  [∗ (i , ᵗv) ∈ⁱ ᵗvs ] θ ₒ i ↦⟨ p ⟩ ᵗv
 _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
+
+--------------------------------------------------------------------------------
+-- [^ ]ᴵ :  Name token
+
+[^_]ᴵ :  Name →  Prop' ι
+[^ nm ]ᴵ =  [ ^ᶻ nm ]ᴵ
 
 --------------------------------------------------------------------------------
 -- Basic P :  P doesn't contain impredicative connectives

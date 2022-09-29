@@ -71,18 +71,18 @@ abstract
 
   -- Reduce loop
 
-  loop-red :  (loop , M) ⇒ᴱ (loop , ň , M)
-  loop-red =  redᴱ refl $ redᴷᴿ ▶⇒
+  loop⇒ :  (loop , M) ⇒ᴱ (loop , ň , M)
+  loop⇒ =  redᴱ refl $ redᴷᴿ ▶⇒
 
   -- Reduce plus◁3,4
 
-  plus◁3,4-red :  (plus◁3,4 , M) ⇒ᴱ (∇ 7 , ň , M)
-  plus◁3,4-red =  redᴱ refl $ redᴷᴿ ◁⇒
+  plus◁3,4⇒ :  (plus◁3,4 , M) ⇒ᴱ (∇ 7 , ň , M)
+  plus◁3,4⇒ =  redᴱ refl $ redᴷᴿ ◁⇒
 
   -- Reduce ndnat
 
-  ndnat-red :  (ndnat , M) ⇒ᴱ (∇ n , ň , M)
-  ndnat-red =  redᴱ refl $ redᴷᴿ $ nd⇒ _
+  ndnat⇒ :  (ndnat , M) ⇒ᴱ (∇ n , ň , M)
+  ndnat⇒ =  redᴱ refl $ redᴷᴿ $ nd⇒ _
 
 --------------------------------------------------------------------------------
 -- Destructing Red
@@ -91,23 +91,23 @@ abstract
 
   -- Invert reduction on loop
 
-  loop-red-inv :  (loop , M) ⇒ᴱ (e , eˇ , M') →  (e , eˇ , M') ≡ (loop , ň , M)
-  loop-red-inv (redᴱ refl (redᴷᴿ ▶⇒)) =  refl
+  loop⇒-inv :  (loop , M) ⇒ᴱ (e , eˇ , M') →  (e , eˇ , M') ≡ (loop , ň , M)
+  loop⇒-inv (redᴱ refl (redᴷᴿ ▶⇒)) =  refl
 
   -- stuck can't be reduced (it's stuck!)
 
-  stuck-no-red :  ¬ (stuck , M) ⇒ᴱ (e , eˇ , M')
-  stuck-no-red (redᴱ refl (redᴷᴿ r⇒))  with r⇒
+  stuck-no⇒ :  ¬ (stuck , M) ⇒ᴱ (e , eˇ , M')
+  stuck-no⇒ (redᴱ refl (redᴷᴿ r⇒))  with r⇒
   … | ()
 
   -- Invert reduction on plus◁3,4
 
-  plus◁3,4-red-inv :  (plus◁3,4 , M) ⇒ᴱ (e , eˇ , M') →
-                      (e , eˇ , M') ≡ (∇ 7 , ň , M)
-  plus◁3,4-red-inv (redᴱ refl (redᴷᴿ ◁⇒)) =  refl
+  plus◁3,4⇒-inv :  (plus◁3,4 , M) ⇒ᴱ (e , eˇ , M') →
+                   (e , eˇ , M') ≡ (∇ 7 , ň , M)
+  plus◁3,4⇒-inv (redᴱ refl (redᴷᴿ ◁⇒)) =  refl
 
   -- Invert reduction on ndnat
 
-  ndnat-red-inv :  (ndnat , M) ⇒ᴱ (e , eˇ , M') →
-                   ∑ n ∈ ℕ , (e , eˇ , M') ≡ (∇ n , ň , M)
-  ndnat-red-inv (redᴱ refl (redᴷᴿ (nd⇒ _))) =  -, refl
+  ndnat⇒-inv :  (ndnat , M) ⇒ᴱ (e , eˇ , M') →
+                ∑ n ∈ ℕ , (e , eˇ , M') ≡ (∇ n , ň , M)
+  ndnat⇒-inv (redᴱ refl (redᴷᴿ (nd⇒ _))) =  -, refl

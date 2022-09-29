@@ -47,7 +47,7 @@ data  Redex :  Type →  Set₀  where
   -- For ←
   _←ᴿ_ :  Addr →  Val T →  Redex (◸ ⊤)
   -- For cas
-  casᴿ :  Addr →  Val T →  Val T →  Redex (◸ Bool)
+  casᴿ :  Addr →  ⸨ Xʸ ⸩ʸ →  ⸨ Xʸ ⸩ʸ →  Redex (◸ Bool)
   -- For alloc
   allocᴿ :  ℕ →  Redex (◸ Addr)
   -- For free
@@ -74,9 +74,9 @@ data  Ktx :  Type →  Type →  Set₀  where
   _←ᴷʳ_ :  Expr ∞ (◸ Addr) →  Ktx U T →  Ktx U (◸ ⊤)
   _←ᴷˡ_ :  Ktx U (◸ Addr) →  Val T →  Ktx U (◸ ⊤)
   -- For cas
-  casᴷ⁰ :  Ktx U (◸ Addr) →  Expr ∞ T →  Expr ∞ T →  Ktx U (◸ Bool)
-  casᴷ¹ :  Addr →  Ktx U T →  Expr ∞ T →  Ktx U (◸ Bool)
-  casᴷ² :  Addr →  Val T →  Ktx U T →  Ktx U (◸ Bool)
+  casᴷ⁰ :  Ktx T (◸ Addr) →  Expr ∞ (◸ʸ Xʸ) →  Expr ∞ (◸ʸ Xʸ) →  Ktx T (◸ Bool)
+  casᴷ¹ :  Addr →  Ktx T (◸ʸ Xʸ) →  Expr ∞ (◸ʸ Xʸ) →  Ktx T (◸ Bool)
+  casᴷ² :  Addr →  ⸨ Xʸ ⸩ʸ →  Ktx T (◸ʸ Xʸ) →  Ktx T (◸ Bool)
   -- For alloc
   allocᴷ :  Ktx T (◸ ℕ) →  Ktx T (◸ Addr)
   -- For free
@@ -95,7 +95,7 @@ _ᴷ◁_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
 (K ←ᴷˡ v) ᴷ◁ e =  (K ᴷ◁ e) ← V⇒E v
 casᴷ⁰ K e' e'' ᴷ◁ e =  cas (K ᴷ◁ e) e' e''
 casᴷ¹ θ K e' ᴷ◁ e =  cas (∇ θ) (K ᴷ◁ e) e'
-casᴷ² θ v K ᴷ◁ e =  cas (∇ θ) (V⇒E v) (K ᴷ◁ e)
+casᴷ² θ x K ᴷ◁ e =  cas (∇ θ) (∇ x) (K ᴷ◁ e)
 allocᴷ K ᴷ◁ e =  alloc $ K ᴷ◁ e
 freeᴷ K ᴷ◁ e =  free $ K ᴷ◁ e
 
@@ -112,7 +112,7 @@ _ᴷ∘ᴷ_ :  Ktx U V →  Ktx T U →  Ktx T V
 (K ←ᴷˡ v) ᴷ∘ᴷ K' =  (K ᴷ∘ᴷ K') ←ᴷˡ v
 casᴷ⁰ K e' e'' ᴷ∘ᴷ K' =  casᴷ⁰ (K ᴷ∘ᴷ K') e' e''
 casᴷ¹ θ K e' ᴷ∘ᴷ K' =  casᴷ¹ θ (K ᴷ∘ᴷ K') e'
-casᴷ² θ v K ᴷ∘ᴷ K' =  casᴷ² θ v (K ᴷ∘ᴷ K')
+casᴷ² θ x K ᴷ∘ᴷ K' =  casᴷ² θ x (K ᴷ∘ᴷ K')
 allocᴷ K ᴷ∘ᴷ K' =  allocᴷ $ K ᴷ∘ᴷ K'
 freeᴷ K ᴷ∘ᴷ K' =  freeᴷ $ K ᴷ∘ᴷ K'
 
@@ -204,9 +204,9 @@ val/ktxred (cas e e' e'') =  ĩ₁ body
   … | ĩ₁ (-, K , red) =  -, casᴷ⁰ K e' e'' , red
   … | ĩ₀ ṽ θ  with val/ktxred e'
   …   | ĩ₁ (-, K , red) =  -, casᴷ¹ θ K e'' , red
-  …   | ĩ₀ u  with val/ktxred e''
-  …     | ĩ₁ (-, K , red) =  -, casᴷ² θ u K , red
-  …     | ĩ₀ v =  -, •ᴷ , casᴿ θ u v
+  …   | ĩ₀ ṽ x  with val/ktxred e''
+  …     | ĩ₁ (-, K , red) =  -, casᴷ² θ x K , red
+  …     | ĩ₀ ṽ y =  -, •ᴷ , casᴿ θ x y
 val/ktxred (alloc e) =  ĩ₁ body
  where
   body :  Ktxred _
@@ -255,8 +255,8 @@ abstract
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = casᴷ¹ _ K _} eq
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
-  val/ktxred-ktx {e = e} {K = casᴷ² _ v K} eq
-    rewrite val/ktxred-V⇒E {v = v} | val/ktxred-ktx {e = e} {K = K} eq =  refl
+  val/ktxred-ktx {e = e} {K = casᴷ² _ _ K} eq
+    rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = allocᴷ K} eq
     rewrite val/ktxred-ktx {e = e} {K = K} eq =  refl
   val/ktxred-ktx {e = e} {K = freeᴷ K} eq

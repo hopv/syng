@@ -132,7 +132,7 @@ data  Expr ι  where
   _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
 
   -- Compare and swap
-  cas :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι T →  Expr ι (◸ Bool)
+  cas :  Expr ι (◸ Addr) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ Bool)
 
   -- Allocating a new memory block
   alloc :  Expr ι (◸ ℕ) →  Expr ι (◸ Addr)

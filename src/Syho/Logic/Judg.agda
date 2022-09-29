@@ -22,7 +22,7 @@ open import Base.List using (List; len; rep)
 open import Base.Str using ()
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Addr; Type; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
+open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr; Expr˂; ▶_; ∇_; Val; ṽ_;
   λᵛ-syntax; V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
@@ -135,7 +135,7 @@ private variable
   i j n :  ℕ
   Xʸ :  Setʸ
   X :  Set ł
-  x :  X
+  x y z :  X
   Y˙ :  X → Set ł
   Jr :  JudgRes
   P P' Q R :  Prop' ∞
@@ -150,7 +150,7 @@ private variable
   e˂ :  Expr˂ ∞ T
   e˙ :  X → Expr ∞ T
   K :  Ktx T U
-  u u' v :  Val T
+  v :  Val T
   θ :  Addr
   p q :  ℚ⁺
   ᵗu ᵗv :  TyVal
@@ -608,12 +608,12 @@ data  _⊢[_]*_  where
 
   -- Compare and swap, the success and failure cases
 
-  ahor-cas-tt :  θ ↦ (-, u)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ u v ⟩ λᵛ b ,
-                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, v)
+  ahor-cas-tt :  θ ↦ (◸ʸ Xʸ , ṽ x)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
+                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, ṽ y)
 
-  ahor-cas-ff :  u' ≢ u  →
-    θ ↦⟨ p ⟩ (-, u')  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ u v ⟩ λᵛ b ,
-      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, u')
+  ahor-cas-ff :  z ≢ x  →
+    θ ↦⟨ p ⟩ (◸ʸ Xʸ , ṽ z)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
+      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, ṽ z)
 
   -- Memory allocation
 

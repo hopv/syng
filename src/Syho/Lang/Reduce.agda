@@ -19,8 +19,8 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
 open import Base.List using (List; _∷_; _‼_; upd; rep)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸_; Addr; Expr; Expr˂; ∇_; Val; V⇒E;
-  TyVal; ⊤ṽ)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr; Expr˂; ∇_; Val; ṽ_;
+  V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
 
@@ -92,7 +92,8 @@ private variable
   es es' es'' :  List (Expr ∞ (◸ ⊤))
   K :  Ktx T U
   red : Redex T
-  u v :  Val T
+  v :  Val T
+  x y :  ⸨ Xʸ ⸩ʸ
   n :  ℕ
   kr :  Ktxred T
   ι :  Size
@@ -126,10 +127,10 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem
   ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →  (θ ←ᴿ v , M) ⇒ᴿ (∇ _ , ň , updᴹ θ (-, v) M)
 
   -- For cas, the success and failure cases
-  cas⇒-tt :  M ‼ᴹ θ ≡ š (-, u) →
-             (casᴿ θ u v , M) ⇒ᴿ (∇ tt , ň , updᴹ θ (-, v) M)
-  cas⇒-ff :  ∑ u' , M ‼ᴹ θ ≡ š (-, u') × u' ≢ u →
-             (casᴿ θ u v , M) ⇒ᴿ (∇ ff , ň , M)
+  cas⇒-tt :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ṽ x) →
+             (casᴿ θ x y , M) ⇒ᴿ (∇ tt , ň , updᴹ θ (-, ṽ y) M)
+  cas⇒-ff :  ∑ z , M ‼ᴹ θ ≡ š (◸ʸ Xʸ , ṽ z) × z ≢ x →
+             (casᴿ θ x y , M) ⇒ᴿ (∇ ff , ň , M)
 
   -- For alloc, for any o out of the domain of M
   alloc⇒ :  ∀ o →  M o ≡ ň →

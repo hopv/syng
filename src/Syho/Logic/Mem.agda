@@ -15,8 +15,8 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺)
-open import Syho.Lang.Expr using (Addr; Type; ∇_; Val; ṽ_; V⇒E; TyVal;
-  ⊤ṽ)
+open import Base.Sety using (Setʸ)
+open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; Val; ṽ_; V⇒E; TyVal; ⊤ṽ)
 open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_)
 open import Syho.Logic.Prop using (Prop'; _∗_; _↦⟨_⟩_; _↦_; _↦ᴸ_; Free)
 open import Syho.Logic.Core using (_»_; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro; ∗-elimʳ;
@@ -31,12 +31,15 @@ open import Syho.Logic.Judg public using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦�
 private variable
   ι :  Size
   T U :  Type
+  Xʸ :  Setʸ
+  X :  Set₀
   wκ :  WpKind
   K :  Ktx T U
   n :  ℕ
   p :  ℚ⁺
   θ :  Addr
-  u u' v :  Val T
+  x y z :  X
+  v :  Val T
   ᵗu :  TyVal
   ᵗvs :  List TyVal
   P :  Prop' ∞
@@ -73,25 +76,25 @@ abstract
 
   -- Compare and swap, the success and failure cases
 
-  -->  ahor-cas-tt :  θ ↦ (-, u)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ u v ⟩ λᵛ b ,
-  -->                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, v)
+  -->  ahor-cas-tt :  θ ↦ (◸ʸ Xʸ , ṽ x)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
+  -->                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, ṽ y)
 
-  hor-cas-tt :  θ ↦ (-, v)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ tt ⟩[ wκ ]  Q˙  →
-                θ ↦ (-, u)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , casᴿ θ u v) ⟩[ wκ ]  Q˙
-  hor-cas-tt θ↦v∗P⊢⟨Ktt⟩Q =  ahor-hor
+  hor-cas-tt :  θ ↦ (◸ʸ Xʸ , ṽ y)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ tt ⟩[ wκ ]  Q˙  →
+                θ ↦ (-, ṽ x)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , casᴿ θ x y) ⟩[ wκ ]  Q˙
+  hor-cas-tt θ↦x∗P⊢⟨Ktt⟩Q =  ahor-hor
     (ahor-frameʳ $ ahor-frameʳ $ ahor-cas-tt {i = 0})
-    λ{ (ṽ _) → ∃∗-elim λ{ refl → θ↦v∗P⊢⟨Ktt⟩Q }}
+    λ{ (ṽ _) → ∃∗-elim λ{ refl → θ↦x∗P⊢⟨Ktt⟩Q }}
 
-  -->  ahor-cas-ff :  u' ≢ u  →
-  -->    θ ↦⟨ p ⟩ (-, u')  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ u v ⟩ λᵛ b ,
-  -->      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, u')
+  -->  ahor-cas-ff :  z ≢ x  →
+  -->    θ ↦⟨ p ⟩ (◸ʸ Xʸ , ṽ z)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
+  -->      ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, ṽ z)
 
-  hor-cas-ff :  u' ≢ u  →
-    θ ↦⟨ p ⟩ (-, u')  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ ff ⟩[ wκ ]  Q˙  →
-    θ ↦⟨ p ⟩ (-, u')  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , casᴿ θ u v) ⟩[ wκ ]  Q˙
-  hor-cas-ff u'≢u θ↦u'∗P⊢⟨Kff⟩Q =  ahor-hor
-    (ahor-frameʳ $ ahor-frameʳ $ ahor-cas-ff {i = 0} u'≢u)
-    λ{ (ṽ _) → ∃∗-elim λ{ refl → θ↦u'∗P⊢⟨Kff⟩Q }}
+  hor-cas-ff :  z ≢ x  →
+    θ ↦⟨ p ⟩ (◸ʸ Xʸ , ṽ z)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ ff ⟩[ wκ ]  Q˙  →
+    θ ↦⟨ p ⟩ (-, ṽ z)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , casᴿ θ x y) ⟩[ wκ ]  Q˙
+  hor-cas-ff z≢x θ↦z∗P⊢⟨Kff⟩Q =  ahor-hor
+    (ahor-frameʳ $ ahor-frameʳ $ ahor-cas-ff {i = 0} z≢x)
+    λ{ (ṽ _) → ∃∗-elim λ{ refl → θ↦z∗P⊢⟨Kff⟩Q }}
 
   -- Memory allocation
 

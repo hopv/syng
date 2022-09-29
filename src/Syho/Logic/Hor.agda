@@ -117,10 +117,11 @@ abstract
 
   -- Value
 
-  -->  hor-valᵘ :  P  ⊢[ ι ]⇛  Q˙ v  →   P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
+  -->  hor-valᵘ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  →
+  -->              P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
 
   hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
-  hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} P⊢Q
+  hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} $ ∗-monoˡ P⊢Q
 
   -- Sequential execution
 

@@ -549,7 +549,8 @@ data  _⊢[_]*_  where
 
   -- Value
 
-  hor-valᵘ :  P  ⊢[ ι ][ i ]⇛  Q˙ v  →   P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
+  hor-valᵘ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  →
+              P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩[ wκ ]  Q˙
 
   -- Non-deterministic value
 

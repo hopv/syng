@@ -19,7 +19,7 @@ open import Base.Option using (¿_; ň; š_)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _∈ᴸ_; ∈ʰᵈ; ∈ᵗˡ_; aug-refl;
   aug-∷; _≺ᴰᴹ⟨_⟩_; ≺ᴰᴹ-hd; ≺ᴰᴹ-tl; ≺ᴰᴹ-wf)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Type; ◸_; Expr; Val; V⇒E)
+open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-V⇒E)
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇐ᵀ_; redᵀ-hd;
   redᵀ-tl; _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step)
@@ -40,9 +40,9 @@ private variable
   ιs :  List Size₀
   M M' :  Mem
   T :  Type
-  e⁺ e e' :  Expr ∞ T
-  eˇ :  ¿ Expr ∞ (◸ ⊤)
-  es es' :  List (Expr ∞ (◸ ⊤))
+  e⁺ e e' :  Expr∞ T
+  eˇ :  ¿ Expr∞ (◸ ⊤)
+  es es' :  List (Expr∞ (◸ ⊤))
   v :  Val T
   kr' :  Ktxred T
   Pᵒ˙ :  Val T → Propᵒ ł
@@ -55,7 +55,7 @@ private variable
 
 -- Separating conjunction of ⟨ ⟩ᴾᵒ⊤[ ∞ ] over expressions of type ◸ ⊤
 
-[∗ᵒ]⟨_⟩ᴾᵒ⊤[∞] :  List (Expr ∞ (◸ ⊤)) →  Propᵒ 1ᴸ
+[∗ᵒ]⟨_⟩ᴾᵒ⊤[∞] :  List (Expr∞ (◸ ⊤)) →  Propᵒ 1ᴸ
 [∗ᵒ]⟨ es ⟩ᴾᵒ⊤[∞] =  [∗ᵒ e ∈ es ] ⟨ e ⟩ᴾᵒ⊤[ ∞ ]
 
 abstract
@@ -143,7 +143,7 @@ abstract
 
 -- Separating conjunction of ⟨ ⟩ᵀᵒ⊤[ ] over expressions of type ◸ ⊤ and sizes
 
-[∗ᵒ]⟨_⟩ᵀᵒ⊤[_] :  List (Expr ∞ (◸ ⊤)) →  List Size₀ →  Propᵒ 1ᴸ
+[∗ᵒ]⟨_⟩ᵀᵒ⊤[_] :  List (Expr∞ (◸ ⊤)) →  List Size₀ →  Propᵒ 1ᴸ
 [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ] =  [∗ᵒ (e , sz ι) ∈² es , ιs ] ⟨ e ⟩ᵀᵒ⊤[ ι ]
 
 abstract

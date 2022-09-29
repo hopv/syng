@@ -7,12 +7,12 @@
 module Syho.Logic.Ind where
 
 open import Base.Func using (_∘_; id; const; _$_)
-open import Base.Size using (Size; ∞; Thunk; ¡_; !)
+open import Base.Size using (Size; Thunk; ¡_; !)
 open import Base.Zoi using (⊤ᶻ)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
-open import Syho.Lang.Expr using (Type; Expr)
+open import Syho.Lang.Expr using (Type; Expr∞)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (Prop'; Prop˂; ∀-syntax; _∗_; _-∗_; □_; ○_;
+open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ∀-syntax; _∗_; _-∗_; □_; ○_;
   _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴺ; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∗-monoˡ;
   ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)
@@ -30,15 +30,15 @@ private variable
   ι :  Size
   i j :  ℕ
   T :  Type
-  P Q R :  Prop' ∞
-  P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
+  P Q R :  Prop∞
+  P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂∞
   X Y :  Set₀
   x :  X
-  Q˙ :  X → Prop' ∞
-  P˂˙ Q˂˙ Q'˂˙ :  X → Prop˂ ∞
-  Q˂˙˙ :  X → Y → Prop˂ ∞
+  Q˙ :  X → Prop∞
+  P˂˙ Q˂˙ Q'˂˙ :  X → Prop˂∞
+  Q˂˙˙ :  X → Y → Prop˂∞
   red :  Redex T
-  e :  Expr ∞ T
+  e :  Expr∞ T
 
 abstract
 

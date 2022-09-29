@@ -11,7 +11,7 @@ open import Base.Func using (_∘_; _$_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_; _≡˙_)
 open import Base.Dec using (Inh)
-open import Base.Size using (Size; ∞; Thunk; ¡_; !)
+open import Base.Size using (Size; Thunk; ¡_; !)
 open import Base.Bool using (tt; ff)
 open import Base.Zoi using (Zoi; ⊤ᶻ; _⊎ᶻ_; ✔ᶻ_)
 open import Base.Prod using (_×_; _,_; -,_)
@@ -21,11 +21,11 @@ open import Base.List using (List; len; rep)
 open import Base.Str using ()
 open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr; Expr˂; ▶_; ∇_; Val;
+open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ▶_; ∇_; Val;
   V⇒E; TyVal; ⊤-)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
-open import Syho.Logic.Prop using (Name; Prop'; Prop˂; ∀˙; ∃˙; ∀-syntax;
+open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; ∀˙; ∃˙; ∀-syntax;
   ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_; □_; _↪[_]⇛_;
   ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴺ; [^_]ᴺ; Inv; OInv; _↦_;
   _↦ᴸ_; Free; Basic)
@@ -50,13 +50,13 @@ infix 3 [_]⇛_ [_]ᵃ⟨_⟩_ ⁺⟨_⟩[_]_
 
 data  JudgRes :  Set₁  where
   -- Just a proposition
-  Pure :  Prop' ∞ →  JudgRes
+  Pure :  Prop∞ →  JudgRes
   -- Under the super update
-  [_]⇛_ :  ℕ →  Prop' ∞ →  JudgRes
+  [_]⇛_ :  ℕ →  Prop∞ →  JudgRes
   -- Atomic weakest precondition
-  [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → Prop' ∞) →  JudgRes
+  [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → Prop∞) →  JudgRes
   -- Weakest precondion, over Val/Ktxred
-  ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  JudgRes
+  ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  JudgRes
 
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
@@ -67,67 +67,67 @@ infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _⊢[_][_]�
 
 -- Declare _⊢[_]*_
 
-data  _⊢[_]*_ :  Prop' ∞ →  Size →  JudgRes →  Set₁
+data  _⊢[_]*_ :  Prop∞ →  Size →  JudgRes →  Set₁
 
 -- ⊢[ ] :  Pure sequent
 
-_⊢[_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₁
+_⊢[_]_ :  Prop∞ →  Size →  Prop∞ →  Set₁
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 
 -- ⊢[< ] :  Pure sequent under thunk
 
-_⊢[<_]_ :  Prop' ∞ →  Size →  Prop' ∞ →  Set₁
+_⊢[<_]_ :  Prop∞ →  Size →  Prop∞ →  Set₁
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ][ ]⇛ etc. :  Super update
 
-_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop' ∞ →  Size →  ℕ →  Prop' ∞ →  Set₁
+_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop∞ →  Size →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
 P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 
 -- ⊢[ ][ ]ᵃ⟨ ⟩ etc. :  Atomic Hoare triple
 
 _⊢[_][_]ᵃ⟨_⟩_ _⊢[<_][_]ᵃ⟨_⟩_ :
-  Prop' ∞ →  Size →  ℕ →  Redex T →  (Val T → Prop' ∞) →  Set₁
+  Prop∞ →  Size →  ℕ →  Redex T →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  P ⊢[ ι ]* [ i ]ᵃ⟨ red ⟩ Q˙
 P ⊢[< ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  Thunk (P ⊢[_][ i ]ᵃ⟨ red ⟩ Q˙) ι
 
 -- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Hoare triple over Val/Ktxred
 
 _⊢[_]⁺⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₁
+  Prop∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Q˙ =  P ⊢[ ι ]* ⁺⟨ vk ⟩[ wκ ] Q˙
 
 _⊢[_]⁺⟨_/_⟩[_]_ :
-  Prop' ∞ →  Size →  ∀ T →  Val/Ktxred T →  WpKind →  (Val T → Prop' ∞) →  Set₁
+  Prop∞ →  Size →  ∀ T →  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ _ / vk ⟩[ wκ ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ wκ ] Q˙
 
-_⊢[_]⁺⟨_⟩ᴾ_ :  Prop' ∞ →  Size →  Val/Ktxred T →  (Val T → Prop' ∞) →  Set₁
+_⊢[_]⁺⟨_⟩ᴾ_ :  Prop∞ →  Size →  Val/Ktxred T →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ par ] Q˙
 
 _⊢[_]⁺⟨_⟩ᵀ[_]_ :
-  Prop' ∞ →  Size →  Val/Ktxred T →  ℕ →  (Val T → Prop' ∞) →  Set₁
+  Prop∞ →  Size →  Val/Ktxred T →  ℕ →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot i ] Q˙
 
 -- ⊢[ ]⟨ ⟩[ ] etc. :  Hoare triple over Expr
 
 _⊢[_]⟨_⟩[_]_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  WpKind →  (Val T → Prop' ∞) →  Set₁
+  Prop∞ →  Size →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩[ wκ ] Q˙ =  P ⊢[ ι ]⁺⟨ val/ktxred e ⟩[ wκ ] Q˙
 
 _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  (Val T → Prop' ∞) →  Set₁
+  Prop∞ →  Size →  Expr∞ T →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᴾ Q˙ =  P ⊢[ ι ]⟨ e ⟩[ par ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᴾ Q˙ =  Thunk (P ⊢[_]⟨ e ⟩[ par ] Q˙) ι
 
 _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_ :
-  Prop' ∞ →  Size →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Set₁
+  Prop∞ →  Size →  Expr∞ T →  ℕ →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩[ tot i ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  Thunk (P ⊢[_]⟨ e ⟩ᵀ[ i ] Q˙) ι
 
 -- Pers :  Persistence of a proposition
 
-record  Pers (P : Prop' ∞) :  Set₁  where
+record  Pers (P : Prop∞) :  Set₁  where
   inductive
   -- Pers-⇒□ :  P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
@@ -141,17 +141,16 @@ private variable
   f :  X → X
   Y˙ :  X → Set₀
   Jr :  JudgRes
-  P P' Q R :  Prop' ∞
-  P˙ Q˙ R˙ :  X → Prop' ∞
-  P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂ ∞
-  Q˂˙ Q'˂˙ :  X → Prop˂ ∞
-  P˂s :  List (Prop˂ ∞)
+  P P' Q R :  Prop∞
+  P˙ Q˙ R˙ :  X → Prop∞
+  P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂∞
+  Q˂˙ Q'˂˙ :  X → Prop˂∞
   wκ :  WpKind
   red :  Redex T
   vk :  Val/Ktxred T
-  e :  Expr ∞ T
-  e˂ :  Expr˂ ∞ T
-  e˙ :  X → Expr ∞ T
+  e :  Expr∞ T
+  e˂ :  Expr˂∞ T
+  e˙ :  X → Expr∞ T
   K :  Ktx T U
   θ :  Addr
   p q :  ℚ⁺
@@ -193,7 +192,7 @@ data  _⊢[_]*_  where
 
   -- Choice, which is safe to have thanks to the logic's predicativity
 
-  choice :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop' ∞} →
+  choice :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop∞} →
     ∀' x , ∃ y , P˙˙ x y ⊢[ ι ] ∃ y˙ ∈ (∀ x → Y˙ x) , ∀' x , P˙˙ x (y˙ x)
 
   ------------------------------------------------------------------------------

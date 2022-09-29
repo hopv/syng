@@ -9,12 +9,12 @@ module Syho.Model.Hor.Wp where
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; 3ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
 open import Base.Few using (⊤)
-open import Base.Size using (Size; Size<; ∞; !; §_)
+open import Base.Size using (Size; Size<; !; §_)
 open import Base.Option using (¿_; ň; š_; ¿-case)
 open import Base.Prod using (π₀; π₁; _,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Type; Expr; Val; ◸_)
+open import Syho.Lang.Expr using (Type; Expr∞; Val; ◸_)
 open import Syho.Lang.Ktxred using (Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (Mem; _⇒ᴷᴿ∑; _⇐ᴷᴿ_)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
@@ -33,8 +33,8 @@ private variable
   v :  Val T
   kr :  Ktxred T
   vk :  Val/Ktxred T
-  e :  Expr ∞ T
-  eˇ :  ¿ Expr ∞ T
+  e :  Expr∞ T
+  eˇ :  ¿ Expr∞ T
 
 --------------------------------------------------------------------------------
 -- Semantic partial weakest precondition
@@ -52,7 +52,7 @@ data  Wpᴾ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Pro
 ⁺⟨_⟩ᴾᵒ[_]_ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ⁺⟨ kr ⟩ᴾᵒ[ ι ] Pᵒ˙ =  Wpᴾ Pᵒ˙ ι kr
 
-⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[<_]_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[<_]_ :  Expr∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ⟨ e ⟩ᴾᵒ[ ι ] Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩ᴾᵒ[ ι ] Pᵒ˙
 ⟨ e ⟩ᴾᵒ[< ι ] Pᵒ˙ =  Thunkᵒ (⟨ e ⟩ᴾᵒ[_] Pᵒ˙) ι
 
@@ -69,7 +69,7 @@ data  Wpᴾ⊤ (ι : Size) :  Val/Ktxred (◸ ⊤) →  Propᵒ 1ᴸ
 -- ⟨ ⟩ᴾᵒ⊤[ ] :  ⁺⟨ ⟩ᴾᵒ⊤[ ] on Expr
 -- ⟨ ⟩ᴾᵒ⊤[< ] :  ⟨ ⟩ᴾᵒ⊤[ ] under Thunk
 
-⟨_⟩ᴾᵒ⊤[_] ⟨_⟩ᴾᵒ⊤[<_] :  Expr ∞ (◸ ⊤) →  Size →  Propᵒ 1ᴸ
+⟨_⟩ᴾᵒ⊤[_] ⟨_⟩ᴾᵒ⊤[<_] :  Expr∞ (◸ ⊤) →  Size →  Propᵒ 1ᴸ
 ⟨ e ⟩ᴾᵒ⊤[ ι ] =  ⁺⟨ val/ktxred e ⟩ᴾᵒ⊤[ ι ]
 ⟨ e ⟩ᴾᵒ⊤[< ι ] =  Thunkᵒ (⟨ e ⟩ᴾᵒ⊤[_]) ι
 
@@ -126,7 +126,7 @@ data  Wpᵀ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Pro
 -- We use Shrunk for defining Wpᵀ, which enables induction based semantically on
 -- the size rather than on the syntactic structure.
 
-⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[<_]_ :  Expr ∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[<_]_ :  Expr∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩ᵀᵒ[ ι ] Pᵒ˙
 ⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙ =  Shrunkᵒ (⟨ e ⟩ᵀᵒ[_] Pᵒ˙) ι
 
@@ -143,7 +143,7 @@ data  Wpᵀ⊤ (ι : Size) :  Val/Ktxred (◸ ⊤) →  Propᵒ 1ᴸ
 -- ⟨ ⟩ᵀᵒ⊤[ ] :  ⁺⟨ ⟩ᵀᵒ⊤[ ] on Expr
 -- ⟨ ⟩ᵀᵒ⊤[< ] :  ⟨ ⟩ᵀᵒ⊤[ ] under Shrunk
 
-⟨_⟩ᵀᵒ⊤[_] ⟨_⟩ᵀᵒ⊤[<_] :  Expr ∞ (◸ ⊤) →  Size →  Propᵒ 1ᴸ
+⟨_⟩ᵀᵒ⊤[_] ⟨_⟩ᵀᵒ⊤[<_] :  Expr∞ (◸ ⊤) →  Size →  Propᵒ 1ᴸ
 ⟨ e ⟩ᵀᵒ⊤[ ι ] =  ⁺⟨ val/ktxred e ⟩ᵀᵒ⊤[ ι ]
 ⟨ e ⟩ᵀᵒ⊤[< ι ] =  Shrunkᵒ (⟨ e ⟩ᵀᵒ⊤[_]) ι
 

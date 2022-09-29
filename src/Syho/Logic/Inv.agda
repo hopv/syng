@@ -8,11 +8,11 @@ module Syho.Logic.Inv where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (◠˙_)
-open import Base.Size using (Size; ∞; !; ¡_; _$ᵀʰ_)
+open import Base.Size using (Size; !; ¡_; _$ᵀʰ_)
 open import Base.Zoi using (Zoi; _⊆ᶻ_; ⊆ᶻ⇒∑⊎ᶻ)
 open import Base.Prod using (_,_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (Name; Prop'; Prop˂; _∗_; _-∗_; [_]ᴺ; Inv;
+open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; _∗_; _-∗_; [_]ᴺ; Inv;
   OInv; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∗-monoʳ;
   ∗-comm; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro; ∗-elimʳ; -∗-intro; -∗-apply; -∗-const)
@@ -24,8 +24,8 @@ open import Syho.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; 
 
 private variable
   ι :  Size
-  P Q R :  Prop' ∞
-  P˂ Q˂ :  Prop˂ ∞
+  P Q R :  Prop∞
+  P˂ Q˂ :  Prop˂∞
   Nm Nm' :  Name → Zoi
   nm :  Name
   i :  ℕ

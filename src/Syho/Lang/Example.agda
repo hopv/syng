@@ -9,20 +9,20 @@ module Syho.Lang.Example where
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
-open import Base.Size using (Size; ∞; !)
+open import Base.Size using (Size; !)
 open import Base.Option using (¿_; ň)
 open import Base.Prod using (∑∈-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; ▶_; ∇_; nd;
+open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; ▶_; ∇_; nd;
   λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free; loop)
 open import Syho.Lang.Reduce using (Mem; nd⇒; ▶⇒; ◁⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
 
 private variable
   ι :  Size
   T :  Type
-  e :  Expr ∞ T
-  eˇ :  ¿ Expr ∞ T
+  e :  Expr∞ T
+  eˇ :  ¿ Expr∞ T
   M M' :  Mem
   n :  ℕ
 
@@ -31,22 +31,22 @@ private variable
 
 -- Some stuck expression
 
-stuck :  Expr ι (◸ ⊤)
+stuck :  Expr∞ (◸ ⊤)
 stuck =  free $ ∇ (0 , 42)
 
 -- Just add two natural-number arguments
 
-plus :  Expr ι $ (ℕ × ℕ) ↷ ◸ ℕ
+plus :  Expr∞ $ (ℕ × ℕ) ↷ ◸ ℕ
 plus =  λ' (m , n) ,  ∇ (m + n)
 
 -- plus on 3 & 4
 
-plus◁3,4 :  Expr ι $ ◸ ℕ
+plus◁3,4 :  Expr∞ $ ◸ ℕ
 plus◁3,4 =  plus ◁ ∇ (3 , 4)
 
 -- Non-deterministic natural number
 
-ndnat :  Expr ι $ ◸ ℕ
+ndnat :  Expr∞ $ ◸ ℕ
 ndnat =  nd
 
 -- Decrement the natural number at the address until it becomes zero
@@ -61,7 +61,7 @@ decrloop' θ (ṡ n) =  ∇ θ ← ∇ n ⁏ ▶ λ{ .! → decrloop θ }
 
 -- decrloop with initialization with ndnat
 
-nddecrloop :  Addr →  Expr ι $ ◸ ⊤
+nddecrloop :  Addr →  Expr∞ $ ◸ ⊤
 nddecrloop θ =  ∇ θ ← ndnat ⁏ decrloop θ
 
 --------------------------------------------------------------------------------

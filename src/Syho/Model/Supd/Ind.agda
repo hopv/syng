@@ -15,9 +15,9 @@ open import Base.Option using (¿_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Type; Expr)
+open import Syho.Lang.Expr using (Type; Expr∞)
 open import Syho.Lang.Reduce using (Mem)
-open import Syho.Logic.Prop using (Prop'; _∗_)
+open import Syho.Logic.Prop using (Prop∞; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_)
 open import Syho.Model.ERA.Ind using (indˣ-alloc; indˣ-use; indᵖ-alloc;
@@ -41,15 +41,15 @@ open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ⟨_⟩_; ⇛ᵍ-mono✓
 private variable
   ł ł' :  Level
   i j m n :  ℕ
-  P Q :  Prop' ∞
+  P Q :  Prop∞
   X :  Set ł
-  Q˙ :  X →  Prop' ∞
-  Pˇ˙ Qˇ˙ :  X →  ¿ Prop' ∞
-  Pˇ :  ¿ Prop' ∞
+  Q˙ :  X →  Prop∞
+  Pˇ˙ Qˇ˙ :  X →  ¿ Prop∞
+  Pˇ :  ¿ Prop∞
   Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
   Pᵒ˙ :  X → Propᵒ ł
   T :  Type
-  e :  Expr ∞ T
+  e :  Expr∞ T
   E :  Envᴵⁿᴳ
   M M' :  Mem
 

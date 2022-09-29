@@ -14,7 +14,7 @@ open import Base.Size using (Size; ∞; !; §_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; Expr; Expr˂; ∇_; Val; V⇒E)
+open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; ∇_; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Ktx; _ᴷ◁_; _ᴷ∘ᴷ_; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_;
   forkᴿ; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
 open import Syho.Lang.Reduce using (nd⇒; ▶⇒; ◁⇒; ⁏⇒; fork⇒; redᴷᴿ)
@@ -34,9 +34,9 @@ private variable
   x :  X
   T U :  Type
   Pᵒ˙ :  Val T →  Propᵒ ł
-  e :  Expr ∞ T
-  e˂ :  Expr˂ ∞ T
-  e˙ :  X →  Expr ∞ T
+  e :  Expr∞ T
+  e˂ :  Expr˂∞ T
+  e˙ :  X →  Expr∞ T
   K :  Ktx T U
   v :  Val T
 

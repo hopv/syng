@@ -10,7 +10,6 @@ open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (⟨2⟩; ⊤; ⊥; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; cong; cong₂; subst)
 open import Base.Dec using (Dec; yes; no; Yes; ≡Dec; _≟_)
-open import Base.Size using (Size; ∞)
 open import Base.Bool using (Bool)
 open import Base.Zoi using (Zoi)
 open import Base.Option using (¿_)
@@ -19,7 +18,7 @@ open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.NatPos using (ℕ⁺)
 open import Base.List using (List; List⁺; [_]⁺; hd⁺)
-open import Base.Seq using (Seq; hdˢ; repˢ)
+open import Base.Seq using (Seq∞; hdˢ; repˢ)
 open import Base.Str using (Char; Str)
 open import Base.RatPos using (ℚ⁺)
 
@@ -52,7 +51,7 @@ data  Setʸ :  Set₀  where
 ⸨ ¿ʸ Aʸ ⸩ʸ =  ¿ ⸨ Aʸ ⸩ʸ
 ⸨ Listʸ Aʸ ⸩ʸ =  List ⸨ Aʸ ⸩ʸ
 ⸨ List⁺ʸ Aʸ ⸩ʸ =  List⁺ ⸨ Aʸ ⸩ʸ
-⸨ Seq∞ʸ Aʸ ⸩ʸ =  Seq ⸨ Aʸ ⸩ʸ ∞
+⸨ Seq∞ʸ Aʸ ⸩ʸ =  Seq∞ ⸨ Aʸ ⸩ʸ
 ⸨ Aʸ →ʸ Bʸ ⸩ʸ =  ⸨ Aʸ ⸩ʸ → ⸨ Bʸ ⸩ʸ
 ⸨ Aʸ ×ʸ Bʸ ⸩ʸ =  ⸨ Aʸ ⸩ʸ × ⸨ Bʸ ⸩ʸ
 ⸨ Aʸ ⨿ʸ Bʸ ⸩ʸ =  ⸨ Aʸ ⸩ʸ ⨿ ⸨ Bʸ ⸩ʸ
@@ -137,9 +136,9 @@ instance
   List⁺-Syn {A} .setʸ =  List⁺ʸ $ setʸ {A}
   List⁺-Syn {A} .⸨⸩ʸ≡ =  cong List⁺ $ ⸨⸩ʸ≡ {A}
 
-  Seq∞-Syn :  {{Syn A}} →  Syn (Seq A ∞)
+  Seq∞-Syn :  {{Syn A}} →  Syn (Seq∞ A)
   Seq∞-Syn {A} .setʸ =  Seq∞ʸ $ setʸ {A}
-  Seq∞-Syn {A} .⸨⸩ʸ≡ =  cong (λ A → Seq A ∞) $ ⸨⸩ʸ≡ {A}
+  Seq∞-Syn {A} .⸨⸩ʸ≡ =  cong Seq∞ $ ⸨⸩ʸ≡ {A}
 
   →-Syn :  {{Syn A}} →  {{Syn B}} →  Syn (A → B)
   →-Syn {A} {B} .setʸ =  setʸ {A} →ʸ setʸ {B}

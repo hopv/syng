@@ -10,7 +10,7 @@ open import Base.Func using (_$_; flip)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_)
 open import Base.Dec using (upd˙)
-open import Base.Size using (Size; ∞; Thunk; !)
+open import Base.Size using (Size; Thunk; !)
 open import Base.Bool using (tt; ff)
 open import Base.Option using (¿_; š_; ň; ¿-case; _$¿_; _»-¿_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
@@ -18,7 +18,7 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
 open import Base.List using (List; _∷_; _‼_; upd; rep)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr; Expr˂; ∇_; V⇒E;
+open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr∞; Expr˂∞; ∇_; V⇒E;
   TyVal; ⊤-)
 open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
@@ -85,11 +85,11 @@ private variable
   T U :  Type
   Xʸ :  Setʸ
   X :  Set₀
-  e₀ e e' e'' :  Expr ∞ T
-  e˂ :  Expr˂ ∞ T
-  e˙ :  ⸨ Xʸ ⸩ʸ → Expr ∞ T
-  eˇ :  ¿ Expr ∞ (◸ ⊤)
-  es es' es'' :  List (Expr ∞ (◸ ⊤))
+  e₀ e e' e'' :  Expr∞ T
+  e˂ :  Expr˂∞ T
+  e˙ :  ⸨ Xʸ ⸩ʸ → Expr∞ T
+  eˇ :  ¿ Expr∞ (◸ ⊤)
+  es es' es'' :  List (Expr∞ (◸ ⊤))
   K :  Ktx T U
   red : Redex T
   v x y :  X
@@ -101,9 +101,9 @@ private variable
 infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_
 
 -- ⇒ᴿ :  Reduction of a redex
---       The ¿ Expr ∞ (◸ ⊤) part is a possibly forked thread
+--       The ¿ Expr∞ (◸ ⊤) part is a possibly forked thread
 
-data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₀  where
+data  _⇒ᴿ_ :  Redex T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀  where
 
   -- For ▶
   ▶⇒ :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , ň , M)
@@ -146,20 +146,20 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem
 
 -- ⇒ᴷᴿ :  Reduction of a context-redex pair
 
-data  _⇒ᴷᴿ_ :  Ktxred T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₀  where
+data  _⇒ᴷᴿ_ :  Ktxred T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀  where
   redᴷᴿ :  (red , M) ⇒ᴿ (e' , eˇ , M') →
            ((-, K , red) , M) ⇒ᴷᴿ (K ᴷ◁ e' , eˇ , M')
 
 -- ⇒ᴱ :  Reduction of an expression
 
-data  _⇒ᴱ_ :  Expr ∞ T × Mem →  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Set₀  where
+data  _⇒ᴱ_ :  Expr∞ T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀  where
   redᴱ :  val/ktxred e ≡ ĩ₁ kr →  (kr , M) ⇒ᴷᴿ (e' , eˇ , M') →
           (e , M) ⇒ᴱ (e' , eˇ , M')
 
 -- ⇒ᵀ :  Reduction of a thread list
 
-data  _⇒ᵀ_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
-              Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₀  where
+data  _⇒ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
+              Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀  where
   -- Reduce the head thread
   redᵀ-hd :  (e , M) ⇒ᴱ (e' , eˇ , M') →
              (e , es , M) ⇒ᵀ (e' , ¿-case (_∷ es) es eˇ , M')
@@ -170,14 +170,14 @@ data  _⇒ᵀ_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
 
 -- ⇐ᴷᴿ, ⇐ᴱ, ⇐ᵀ :  Flipped ⇒ᴷᴿ, ⇒ᴱ, ⇒ᵀ
 
-_⇐ᴷᴿ_ :  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Ktxred T × Mem →  Set₀
+_⇐ᴷᴿ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Ktxred T × Mem →  Set₀
 _⇐ᴷᴿ_ =  flip _⇒ᴷᴿ_
 
-_⇐ᴱ_ :  Expr ∞ T × ¿ Expr ∞ (◸ ⊤) × Mem →  Expr ∞ T × Mem →  Set₀
+_⇐ᴱ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Expr∞ T × Mem →  Set₀
 _⇐ᴱ_ =  flip _⇒ᴱ_
 
-_⇐ᵀ_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
-        Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₀
+_⇐ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
+        Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 _⇐ᵀ_ =  flip _⇒ᵀ_
 
 -- ⇒ᴷᴿ∑ :  A contex-redex pair is reducible
@@ -191,8 +191,8 @@ redM ⇒ᴷᴿ∑ =  ∑ e'M' , redM ⇒ᴷᴿ e'M'
 
 infix 4 _⇒ᵀ*_
 
-data  _⇒ᵀ*_ :  Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →
-               Expr ∞ T × List (Expr ∞ (◸ ⊤)) × Mem →  Set₀  where
+data  _⇒ᵀ*_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
+               Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀  where
 
   -- End reduction
   ⇒ᵀ*-refl :  (e , es , M) ⇒ᵀ* (e , es , M)

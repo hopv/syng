@@ -8,8 +8,8 @@ module Syho.Model.Prop.Interp where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (id)
-open import Base.Size using (∞; !)
-open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; ○_;
+open import Base.Size using (!)
+open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; ○_;
   [_]ᴺ; Inv; OInv; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↦⟨_⟩_; Free;
   Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic;
   ↦⟨⟩-Basic; Free-Basic)
@@ -24,12 +24,12 @@ open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪[_]ᵃ⟨_�
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
-  P :  Prop' ∞
+  P :  Prop∞
 
 --------------------------------------------------------------------------------
 -- ⸨ ⸩ :  Interpret syntactic propositions
 
-⸨_⸩ :  Prop' ∞ →  Propᵒ 1ᴸ
+⸨_⸩ :  Prop∞ →  Propᵒ 1ᴸ
 ⸨ ∀˙ P˙ ⸩ =  ∀ᵒ x , ⸨ P˙ x ⸩
 ⸨ ∃˙ P˙ ⸩ =  ∃ᵒ x , ⸨ P˙ x ⸩
 ⸨ P →' Q ⸩ =  ⸨ P ⸩ →ᵒ ⸨ Q ⸩

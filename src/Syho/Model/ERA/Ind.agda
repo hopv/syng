@@ -11,14 +11,13 @@ open import Base.Func using (_∘_; id)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no; upd˙; _≟_; ≟-refl)
-open import Base.Size using (∞)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; _<≥_; ∀≥˙;
   ∀≥˙-upd˙-sat; ∀≥˙-upd˙-ṡ)
 open import Base.List using ([_])
-open import Syho.Logic.Prop using (Prop'; ⊤')
+open import Syho.Logic.Prop using (Prop∞; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free)
 open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-alloc; ✓ᴸ-agree)
@@ -27,18 +26,18 @@ import Syho.Model.ERA.Envm
 import Syho.Model.ERA.Envv
 
 private variable
-  P :  Prop' ∞
-  Qˇ˙ :  ℕ → ¿ Prop' ∞
+  P :  Prop∞
+  Qˇ˙ :  ℕ → ¿ Prop∞
   i n :  ℕ
 
 --------------------------------------------------------------------------------
 -- Indˣᴱᴿᴬ :  Exclusive indirection ERA
 
-module AllIndˣ =  Syho.Model.ERA.All ℕ (λ _ → Excᴱᴿᴬ (Prop' ∞))
+module AllIndˣ =  Syho.Model.ERA.All ℕ (λ _ → Excᴱᴿᴬ Prop∞)
 open AllIndˣ public using () renaming (
   --  ∀Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ)
-module EnvmIndˣ =  Syho.Model.ERA.Envm ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
+module EnvmIndˣ =  Syho.Model.ERA.Envm ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ) π₀
 open EnvmIndˣ public using () renaming (
   --  EnvmIndˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to EnvmIndˣᴱᴿᴬ)
@@ -58,7 +57,7 @@ empᴵⁿᵈˣ =  (λ _ → ň) , 0
 
 -- Exclusively own a proposition at an index
 
-indˣ :  ℕ →  Prop' ∞ →  Resᴵⁿᵈˣ
+indˣ :  ℕ →  Prop∞ →  Resᴵⁿᵈˣ
 indˣ i P =  upd˙ i (#ˣ P) εᴵⁿᵈˣ
 
 abstract
@@ -96,11 +95,11 @@ abstract
 --------------------------------------------------------------------------------
 -- Indᵖᴱᴿᴬ :  Persistent indirection ERA
 
-module AllIndᵖ =  Syho.Model.ERA.All ℕ (λ _ → Agᴱᴿᴬ (Prop' ∞))
+module AllIndᵖ =  Syho.Model.ERA.All ℕ (λ _ → Agᴱᴿᴬ Prop∞)
 open AllIndᵖ public using () renaming (
   --  ∀Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ)
-module EnvmIndᵖ =  Syho.Model.ERA.Envm ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop' ∞) × ℕ) π₀
+module EnvmIndᵖ =  Syho.Model.ERA.Envm ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ) π₀
 open EnvmIndᵖ public using () renaming (
   --  EnvmIndᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to EnvmIndᵖᴱᴿᴬ)
@@ -120,7 +119,7 @@ empᴵⁿᵈᵖ =  (λ _ → ň) , 0
 
 -- Persistently own a proposition at an index
 
-indᵖ :  ℕ →  Prop' ∞ →  Resᴵⁿᵈᵖ
+indᵖ :  ℕ →  Prop∞ →  Resᴵⁿᵈᵖ
 indᵖ i P =  upd˙ i [ P ] εᴵⁿᵈᵖ
 
 abstract

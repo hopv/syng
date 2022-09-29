@@ -7,11 +7,11 @@
 module Syho.Logic.Paradox where
 
 open import Base.Func using (_$_)
-open import Base.Size using (Size; ∞; ¡_; !)
+open import Base.Size using (Size; ¡_; !)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Type; Expr; Expr˂; ▶_; loop; Val)
+open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; ▶_; loop; Val)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (Prop'; Prop˂; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
+open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
   □-mono; □-elim)
@@ -27,11 +27,11 @@ private variable
   X :  Set₀
   T :  Type
   red :  Redex T
-  e :  Expr ∞ T
-  P Q :  Prop' ∞
-  P˂ Q˂ :  Prop˂ ∞
-  Q˙ :  X →  Prop' ∞
-  Q˂˙ :  X →  Prop˂ ∞
+  e :  Expr∞ T
+  P Q :  Prop∞
+  P˂ Q˂ :  Prop˂∞
+  Q˙ :  X →  Prop∞
+  Q˂˙ :  X →  Prop˂∞
 
 --------------------------------------------------------------------------------
 -- Utility
@@ -88,7 +88,7 @@ module _
 
 module _
   -- ↪⟨⟩ᴾ-use without ▶
-  (↪⟨⟩ᴾ-use' :  ∀{T} {e : Expr ∞ T} {P˂ Q˂˙ ι} →
+  (↪⟨⟩ᴾ-use' :  ∀{T} {e : Expr∞ T} {P˂ Q˂˙ ι} →
     P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!)
   where abstract
 
@@ -109,7 +109,7 @@ module _
 
 module _
   -- ↪⟨⟩ᵀ-use without counter increment
-  (↪⟨⟩ᵀ-use' :  ∀{T} {e : Expr ∞ T} {P˂ Q˂˙ i ι} →
+  (↪⟨⟩ᵀ-use' :  ∀{T} {e : Expr∞ T} {P˂ Q˂˙ i ι} →
     P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
   where abstract
 
@@ -130,7 +130,7 @@ module _
 
 module _
   -- ↪⟨⟩ᵀ-use with ▶, not counter increment
-  (↪⟨⟩ᵀ-use▶ :  ∀{T} {e˂ : Expr˂ ∞ T} {P˂ Q˂˙ i ι} →
+  (↪⟨⟩ᵀ-use▶ :  ∀{T} {e˂ : Expr˂∞ T} {P˂ Q˂˙ i ι} →
     P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
   where abstract
 

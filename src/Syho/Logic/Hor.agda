@@ -7,14 +7,14 @@
 module Syho.Logic.Hor where
 
 open import Base.Func using (_$_; const)
-open import Base.Size using (Size; ∞)
+open import Base.Size using (Size)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (Prop'; _∗_)
+open import Syho.Logic.Prop using (Prop∞; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr; _⁏_; let˙)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; _⁏_; let˙)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   Val/Ktxred)
 
@@ -32,13 +32,13 @@ private variable
   X :  Set₀
   T U :  Type
   wκ :  WpKind
-  P P' Q R :  Prop' ∞
-  Q˙ Q'˙ R˙ :  X → Prop' ∞
+  P P' Q R :  Prop∞
+  Q˙ Q'˙ R˙ :  X → Prop∞
   red :  Redex T
   vk :  Val/Ktxred T
   K :  Ktx T U
-  e e' e₀ :  Expr ∞ T
-  e˙ :  X → Expr ∞ T
+  e e' e₀ :  Expr∞ T
+  e˙ :  X → Expr∞ T
   v :  X
 
 infixr -1 _ᵃʰ»_ _ʰ»_

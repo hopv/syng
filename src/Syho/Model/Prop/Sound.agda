@@ -10,7 +10,7 @@ open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (_,_; π₀; π₁; ∑-case)
-open import Syho.Logic.Prop using (Prop')
+open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
   ∃-intro; choice; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ;
   ∗-monoˡ; -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out; □-mono;
@@ -38,7 +38,7 @@ open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾ�
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-⇒ᴮ; ⸨⸩-Mono)
 
 private variable
-  P Q R S T :  Prop' ∞
+  P Q R S T :  Prop∞
 
 --------------------------------------------------------------------------------
 -- ⊢-sem :  Semantic soundness of the pure sequent

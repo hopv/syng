@@ -8,7 +8,7 @@ module Syho.Logic.Mem where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; _≢_; refl)
-open import Base.Size using (Size; ∞)
+open import Base.Size using (Size)
 open import Base.Bool using (tt; ff)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₁_)
@@ -19,7 +19,7 @@ open import Base.Sety using (Setʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; V⇒E; TyVal; ⊤-)
 open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx;
   _ᴷ◁_)
-open import Syho.Logic.Prop using (Prop'; _∗_; _↦⟨_⟩_; _↦_; _↦ᴸ_; Free)
+open import Syho.Logic.Prop using (Prop∞; _∗_; _↦⟨_⟩_; _↦_; _↦ᴸ_; Free)
 open import Syho.Logic.Core using (_»_; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro; ∗-elimʳ;
   ∃∗-elim)
 open import Syho.Logic.Hor using (WpKind; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⟨_⟩[_]_;
@@ -44,8 +44,8 @@ private variable
   f :  X → X
   ᵗu :  TyVal
   ᵗvs :  List TyVal
-  P :  Prop' ∞
-  Q˙ :  X → Prop' ∞
+  P :  Prop∞
+  Q˙ :  X → Prop∞
 
 abstract
 

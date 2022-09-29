@@ -13,9 +13,9 @@ open import Base.Size using (∞)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
 open import Base.Zoi using (⊤ᶻ)
 open import Base.Nat using (ℕ; ṡ_)
-open import Syho.Lang.Expr using (Type; Expr; Val)
+open import Syho.Lang.Expr using (Type; Expr∞; Val)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (Prop'; ⊤'; _∗_; [_]ᴺ; Basic)
+open import Syho.Logic.Prop using (Prop∞; ⊤'; _∗_; [_]ᴺ; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗?-comm; ∗-elimʳ)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»_; _ᵘ»ᵘ_; ⇛-frameˡ;
@@ -35,15 +35,15 @@ private variable
   i j :  ℕ
   X :  Set₀
   T :  Type
-  P P' Q Q' R :  Prop' ∞
-  Q˙ Q'˙ :  X →  Prop' ∞
+  P P' Q Q' R :  Prop∞
+  Q˙ Q'˙ :  X →  Prop∞
   red :  Redex T
-  e :  Expr ∞ T
+  e :  Expr∞ T
 
 --------------------------------------------------------------------------------
 -- Ind :  Indirection base
 
-Indˣ Indᵖ Ind :  Prop' ∞ →  Propᵒ 1ᴸ
+Indˣ Indᵖ Ind :  Prop∞ →  Propᵒ 1ᴸ
 Indˣ P =  ∃ᵒ i , ◎⟨ iᴵⁿᵈˣ ⟩ indˣ i P
 Indᵖ P =  ∃ᵒ i , ◎⟨ iᴵⁿᵈᵖ ⟩ indᵖ i P
 Ind P =  Indˣ P ⨿ᵒ Indᵖ P
@@ -63,7 +63,7 @@ abstract
 -- ○ᵒ :  Interpret the indirection modality ○
 
 infix 8 ○ᵒ_
-○ᵒ_ :  Prop' ∞ →  Propᵒ 1ᴸ
+○ᵒ_ :  Prop∞ →  Propᵒ 1ᴸ
 ○ᵒ P =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ R ⊢[ ∞ ] P ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
 
@@ -95,7 +95,7 @@ abstract
 -- ↪⇛ᵒ :  Interpret the super-update precursor ↪⇛
 
 infixr 5 _↪[_]⇛ᵒ_
-_↪[_]⇛ᵒ_ :  Prop' ∞ →  ℕ →  Prop' ∞ →  Propᵒ 1ᴸ
+_↪[_]⇛ᵒ_ :  Prop∞ →  ℕ →  Prop∞ →  Propᵒ 1ᴸ
 P ↪[ i ]⇛ᵒ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
@@ -145,7 +145,7 @@ abstract
 -- ↪ᵃ⟨ ⟩ᵒ :  Interpret the partial Hoare-triple precursor ↪ᵃ⟨ ⟩
 
 infixr 5 _↪[_]ᵃ⟨_⟩ᵒ_
-_↪[_]ᵃ⟨_⟩ᵒ_ :  Prop' ∞ →  ℕ →  Redex T →  (Val T → Prop' ∞) →  Propᵒ 1ᴸ
+_↪[_]ᵃ⟨_⟩ᵒ_ :  Prop∞ →  ℕ →  Redex T →  (Val T → Prop∞) →  Propᵒ 1ᴸ
 P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
@@ -197,7 +197,7 @@ abstract
 -- ↪⟨ ⟩ᴾᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᴾ
 
 infixr 5 _↪⟨_⟩ᴾᵒ_
-_↪⟨_⟩ᴾᵒ_ :  Prop' ∞ →  Expr ∞ T →  (Val T → Prop' ∞) →  Propᵒ 1ᴸ
+_↪⟨_⟩ᴾᵒ_ :  Prop∞ →  Expr∞ T →  (Val T → Prop∞) →  Propᵒ 1ᴸ
 P ↪⟨ e ⟩ᴾᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᴾ Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
@@ -247,7 +247,7 @@ abstract
 -- ↪⟨ ⟩ᵀᵒ :  Interpret the partial Hoare-triple precursor ↪⟨ ⟩ᵀ
 
 infixr 5 _↪⟨_⟩ᵀ[_]ᵒ_
-_↪⟨_⟩ᵀ[_]ᵒ_ :  Prop' ∞ →  Expr ∞ T →  ℕ →  (Val T → Prop' ∞) →  Propᵒ 1ᴸ
+_↪⟨_⟩ᵀ[_]ᵒ_ :  Prop∞ →  Expr∞ T →  ℕ →  (Val T → Prop∞) →  Propᵒ 1ᴸ
 P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 

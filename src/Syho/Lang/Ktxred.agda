@@ -9,19 +9,18 @@ module Syho.Lang.Ktxred where
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl)
-open import Base.Size using (∞)
 open import Base.Bool using (Bool)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr; Expr˂; ▶_;
+open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr∞; Expr˂∞; ▶_;
   ∇_; nd; λ˙; _◁_; _⁏_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
 
 private variable
   Xʸ :  Setʸ
   T U V :  Type
-  e :  Expr ∞ T
+  e :  Expr∞ T
 
 -------------------------------------------------------------------------------
 -- Redex
@@ -32,15 +31,15 @@ infixr 4 _⁏ᴿ_
 
 data  Redex :  Type →  Set₀  where
   -- For ▶
-  ▶ᴿ_ :  Expr˂ ∞ T →  Redex T
+  ▶ᴿ_ :  Expr˂∞ T →  Redex T
   -- For nd
   ndᴿ :  Redex (◸ʸ Xʸ)
   -- For ◁
-  _◁ᴿ_ :  (⸨ Xʸ ⸩ʸ → Expr ∞ T) →  ⸨ Xʸ ⸩ʸ →  Redex T
+  _◁ᴿ_ :  (⸨ Xʸ ⸩ʸ → Expr∞ T) →  ⸨ Xʸ ⸩ʸ →  Redex T
   -- For ⁏
-  _⁏ᴿ_ :  Val T →  Expr ∞ U →  Redex U
+  _⁏ᴿ_ :  Val T →  Expr∞ U →  Redex U
   -- For fork
-  forkᴿ :  Expr ∞ (◸ ⊤) →  Redex (◸ ⊤)
+  forkᴿ :  Expr∞ (◸ ⊤) →  Redex (◸ ⊤)
   -- For 🞰
   🞰ᴿ_ :  Addr →  Redex T
   -- For ←
@@ -65,30 +64,30 @@ data  Ktx :  Type →  Type →  Set₀  where
   -- Hole
   •ᴷ :  Ktx T T
   -- For ◁
-  _◁ᴷʳ_ :  Expr ∞ (Xʸ ʸ↷ T) →  Ktx U (◸ʸ Xʸ) →  Ktx U T
+  _◁ᴷʳ_ :  Expr∞ (Xʸ ʸ↷ T) →  Ktx U (◸ʸ Xʸ) →  Ktx U T
   _◁ᴷˡ_ :  Ktx U (Xʸ ʸ↷ T) →  ⸨ Xʸ ⸩ʸ →  Ktx U T
   -- For ⁏
-  _⁏ᴷ_ :  Ktx V T →  Expr ∞ U →  Ktx V U
+  _⁏ᴷ_ :  Ktx V T →  Expr∞ U →  Ktx V U
   -- For 🞰
   🞰ᴷ_ :  Ktx U (◸ Addr) →  Ktx U T
   -- For ←
-  _←ᴷʳ_ :  Expr ∞ (◸ Addr) →  Ktx U T →  Ktx U (◸ ⊤)
+  _←ᴷʳ_ :  Expr∞ (◸ Addr) →  Ktx U T →  Ktx U (◸ ⊤)
   _←ᴷˡ_ :  Ktx U (◸ Addr) →  Val T →  Ktx U (◸ ⊤)
   -- For fau
   fauᴷ :  (⸨ Xʸ ⸩ʸ → ⸨ Xʸ ⸩ʸ) →  Ktx T (◸ Addr) →  Ktx T (◸ʸ Xʸ)
   -- For cas
-  casᴷ⁰ :  Ktx T (◸ Addr) →  Expr ∞ (◸ʸ Xʸ) →  Expr ∞ (◸ʸ Xʸ) →  Ktx T (◸ Bool)
-  casᴷ¹ :  Addr →  Ktx T (◸ʸ Xʸ) →  Expr ∞ (◸ʸ Xʸ) →  Ktx T (◸ Bool)
+  casᴷ⁰ :  Ktx T (◸ Addr) →  Expr∞ (◸ʸ Xʸ) →  Expr∞ (◸ʸ Xʸ) →  Ktx T (◸ Bool)
+  casᴷ¹ :  Addr →  Ktx T (◸ʸ Xʸ) →  Expr∞ (◸ʸ Xʸ) →  Ktx T (◸ Bool)
   casᴷ² :  Addr →  ⸨ Xʸ ⸩ʸ →  Ktx T (◸ʸ Xʸ) →  Ktx T (◸ Bool)
   -- For alloc
   allocᴷ :  Ktx T (◸ ℕ) →  Ktx T (◸ Addr)
   -- For free
   freeᴷ :  Ktx T (◸ Addr) →  Ktx T (◸ ⊤)
 
--- Fill in the hole of Ktx U T with Expr ∞ U to get Expr ∞ T
+-- Fill in the hole of Ktx U T with Expr∞ U to get Expr∞ T
 
 infix 5 _ᴷ◁_
-_ᴷ◁_ :  Ktx U T →  Expr ∞ U →  Expr ∞ T
+_ᴷ◁_ :  Ktx U T →  Expr∞ U →  Expr∞ T
 •ᴷ ᴷ◁ e =  e
 (e' ◁ᴷʳ K) ᴷ◁ e =  e' ◁ (K ᴷ◁ e)
 (K ◁ᴷˡ x) ᴷ◁ e =  (K ᴷ◁ e) ◁ ∇ x
@@ -171,7 +170,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Calculate the value or context-redex pair of the expression
 
-val/ktxred :  Expr ∞ T →  Val/Ktxred T
+val/ktxred :  Expr∞ T →  Val/Ktxred T
 val/ktxred (∇ x) =  ĩ₀ x
 val/ktxred (λ˙ e˙) =  ĩ₀ e˙
 val/ktxred (▶ e˂) =  ĩ₁ (-, •ᴷ , ▶ᴿ e˂)

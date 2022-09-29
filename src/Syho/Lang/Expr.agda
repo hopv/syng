@@ -168,16 +168,22 @@ syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
 loop :  Expr ι (◸ ⊤)
 loop =  ▶ λ{ .! → loop }
 
+-- Utility
+
+Expr∞ Expr˂∞ :  Type →  Set₀
+Expr∞ T =  Expr ∞ T
+Expr˂∞ T =  Expr˂ ∞ T
+
 --------------------------------------------------------------------------------
 -- Val :  Value data
 
 Val :  Type →  Set₀
 Val (◸ʸ Xʸ) =  ⸨ Xʸ ⸩ʸ
-Val (Xʸ ʸ↷ T) =  ⸨ Xʸ ⸩ʸ →  Expr ∞ T
+Val (Xʸ ʸ↷ T) =  ⸨ Xʸ ⸩ʸ →  Expr∞ T
 
 -- Conversion from Val to Expr
 
-V⇒E :  Val T →  Expr ∞ T
+V⇒E :  Val T →  Expr∞ T
 V⇒E {◸ʸ _} =  ∇_
 V⇒E {_ ʸ↷ _} =  λ˙
 

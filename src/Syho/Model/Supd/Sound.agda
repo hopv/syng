@@ -11,7 +11,7 @@ open import Base.Size using (∞)
 open import Base.Prod using (∑-case; _,_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Reduce using (Mem)
-open import Syho.Logic.Prop using (Prop')
+open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
@@ -24,7 +24,7 @@ open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᴵⁿᵈ⇒
   ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 
 private variable
-  P Q :  Prop' ∞
+  P Q :  Prop∞
   i :  ℕ
   M :  Mem
 

@@ -7,9 +7,8 @@
 module Syho.Model.Prop.Basic where
 
 open import Base.Level using (1ᴸ)
-open import Base.Size using (∞)
 open import Base.Func using (_$_)
-open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
+open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
   _↦⟨_⟩_; Free; Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic;
   □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; ∀ᵒ-syntax; ∃ᵒ-syntax;
@@ -18,12 +17,12 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; ∀ᵒ-syntax; ∃ᵒ-
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 
 private variable
-  P :  Prop' ∞
+  P :  Prop∞
 
 --------------------------------------------------------------------------------
 -- ⸨ ⸩ᴮ :  Interpret Basic propositions
 
-⸨_⸩ᴮ :  (P : Prop' ∞) →  {{Basic P}} →  Propᵒ 1ᴸ
+⸨_⸩ᴮ :  (P : Prop∞) →  {{Basic P}} →  Propᵒ 1ᴸ
 ⸨ ∀˙ P˙ ⸩ᴮ {{∀-Basic BasicP˙}} =  ∀ᵒ x , ⸨ P˙ x ⸩ᴮ {{BasicP˙ x}}
 ⸨ ∃˙ P˙ ⸩ᴮ {{∃-Basic BasicP˙}} =  ∃ᵒ x , ⸨ P˙ x ⸩ᴮ {{BasicP˙ x}}
 ⸨ P →' Q ⸩ᴮ {{→-Basic}} =  ⸨ P ⸩ᴮ →ᵒ ⸨ Q ⸩ᴮ

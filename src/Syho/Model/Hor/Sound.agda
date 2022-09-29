@@ -14,7 +14,7 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; rep)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Val; TyVal)
 open import Syho.Lang.Ktxred using (Val/Ktxred)
-open import Syho.Logic.Prop using (Prop'; _↦_; [∗∈ⁱ⟨⟩]-syntax)
+open import Syho.Logic.Prop using (Prop∞; _↦_; [∗∈ⁱ⟨⟩]-syntax)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Ind using (↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use)
 open import Syho.Logic.Hor using (_⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; horᵀ-ṡ;
@@ -41,8 +41,8 @@ open import Syho.Model.Hor.Mem using (⁺⟨⟩ᴾᵒ-🞰; ⁺⟨⟩ᵀᵒ-🞰
 private variable
   ι :  Size
   T :  Type
-  P :  Prop' ∞
-  Q˙ :  Val T →  Prop' ∞
+  P :  Prop∞
+  Q˙ :  Val T →  Prop∞
   vk :  Val/Ktxred T
   i k :  ℕ
   θ :  Addr

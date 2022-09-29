@@ -8,11 +8,11 @@ module Syho.Logic.Core where
 
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
-open import Base.Size using (Size; ∞; Thunk; !)
+open import Base.Size using (Size; Thunk; !)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.List using (List; []; _∷_; _⧺_; All²; []ᴬ²; _∷ᴬ²_)
-open import Syho.Logic.Prop using (Prop'; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
+open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
   ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝→_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
   □_; [∗])
 
@@ -25,13 +25,13 @@ open import Syho.Logic.Judg public using (JudgRes; Pure; _⊢[_]*_; _⊢[_]_;
 
 private variable
   ι :  Size
-  P P' Q Q' R R' S S' T T' U U' V V' :  Prop' ∞
+  P P' Q Q' R R' S S' T T' U U' V V' :  Prop∞
   Jr :  JudgRes
   X Y :  Set₀
   x :  X
   Y˙ :  X → Set₀
-  P˙ Q˙ :  X → Prop' ∞
-  Ps Qs :  List (Prop' ∞)
+  P˙ Q˙ :  X → Prop∞
+  Ps Qs :  List Prop∞
 
 abstract
 
@@ -143,7 +143,7 @@ abstract
 
   -- Choice
 
-  -->  choice :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop' ∞} →
+  -->  choice :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop∞} →
   -->    ∀' x , ∃ y , P˙˙ x y ⊢[ ι ] ∃ y˙ ∈ (∀ x → Y˙ x) , ∀' x , P˙˙ x (y˙ x)
 
   ------------------------------------------------------------------------------

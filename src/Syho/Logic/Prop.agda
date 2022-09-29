@@ -16,7 +16,7 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Base.Str using (Str)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr; Val; TyVal)
+open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr∞; Val; TyVal)
 open import Syho.Lang.Ktxred using (Redex)
 
 --------------------------------------------------------------------------------
@@ -36,11 +36,17 @@ data  Prop' (ι : Size) :  Set₁
 Prop˂ :  Size →  Set₁
 Prop˂ ι =  Thunk Prop' ι
 
+-- Utility
+
+Prop∞ Prop˂∞ :  Set₁
+Prop∞ =  Prop' ∞
+Prop˂∞ =  Prop˂ ∞
+
 private variable
   ι :  Size
   X :  Set₀
-  P˙ :  X → Prop' ∞
-  P Q :  Prop' ∞
+  P˙ :  X → Prop∞
+  P Q :  Prop∞
   n :  ℕ
   θ :  Addr
   q⁺ :  ℚ⁺
@@ -82,9 +88,9 @@ data  Prop' ι  where
   _↪[_]⇛_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
 
   -- ↪[ ]ᵃ⟨ ⟩, ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Atomic/partial/total Hoare-triple precursor
-  _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂ ∞) →  Prop' ι
-  _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr ∞ T →  (Val T → Prop˂ ∞) →  Prop' ι
-  _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr ∞ T →  ℕ →  (Val T → Prop˂ ∞) →  Prop' ι
+  _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂∞) →  Prop' ι
+  _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr∞ T →  (Val T → Prop˂∞) →  Prop' ι
+  _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂∞) →  Prop' ι
 
   -- [ ]ᴺ :  Name set token
   [_]ᴺ :  (Name → Zoi) →  Prop' ι
@@ -194,7 +200,7 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 --------------------------------------------------------------------------------
 -- Basic P :  P doesn't contain impredicative connectives
 
-data  Basic :  Prop' ∞ →  Set₁  where
+data  Basic :  Prop∞ →  Set₁  where
 
   -- They are not instances, because unfortunately Agda can't search a
   -- universally quantified instance (∀ x → …)

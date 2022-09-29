@@ -33,6 +33,11 @@ data  Seq A ι  where
   -- Cons, of A and Seq˂ A ι
   _∷ˢ_ :  A →  Seq˂ A ι →  Seq A ι
 
+-- Utility
+Seq∞ Seq˂∞ :  Set ł →  Set ł
+Seq∞ A =  Seq A ∞
+Seq˂∞ A =  Seq˂ A ∞
+
 -- hdˢ :  Head of Seq
 
 hdˢ :  Seq A ι →  A

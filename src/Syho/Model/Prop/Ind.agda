@@ -43,7 +43,7 @@ private variable
   e :  Expr∞ T
 
 --------------------------------------------------------------------------------
--- Ind :  Indirection base
+-- Indˣ, Indᵖ, Ind :  Indirection base
 
 Indˣ Indᵖ Ind :  Prop∞ →  Propᵒ 1ᴸ
 Indˣ P =  ∃ᵒ i , ◎⟨ iᴵⁿᵈˣ ⟩ indˣ i P
@@ -51,6 +51,8 @@ Indᵖ P =  ∃ᵒ i , ◎⟨ iᴵⁿᵈᵖ ⟩ indᵖ i P
 Ind P =  Indˣ P ⨿ᵒ Indᵖ P
 
 abstract
+
+  -- Monoᵒ for Indˣ, Indᵖ, Ind
 
   Indˣ-Mono :  Monoᵒ $ Indˣ P
   Indˣ-Mono =  ∃ᵒ-Mono λ _ → ◎-Mono

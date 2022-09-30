@@ -287,7 +287,7 @@ abstract
   --   R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
   --   □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
 
-  ⊢-sem (Inv-resp-□∧ {R = R} R∧P⊢Q R∧Q⊢P) ✓a =
+  ⊢-sem (Inv-resp-□∧ {R} R∧P⊢Q R∧Q⊢P) ✓a =
     (λ □R∧InvPa → ⸨⸩-⇒ᴮ {R} $ □R∧InvPa 0₂ , □R∧InvPa 1₂) ›
     Invᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!) ✓a
 

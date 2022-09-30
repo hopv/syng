@@ -19,11 +19,11 @@ open import Base.Sety using (Setʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; V⇒E; TyVal; ⊤-)
 open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx;
   _ᴷ◁_)
-open import Syho.Logic.Prop using (Prop∞; _∗_; _↦⟨_⟩_; _↦_; _↦ᴸ_; Free)
+open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_; _↦⟨_⟩_; _↦_; _↦ᴸ_; Free)
 open import Syho.Logic.Core using (_»_; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro; ∗-elimʳ;
   ∃∗-elim)
-open import Syho.Logic.Hor using (WpKind; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⟨_⟩[_]_;
-  ahor-frameʳ; ahor-hor)
+open import Syho.Logic.Hor using (_⊢[_]⁺⟨_⟩[_]_; _⊢[_]⟨_⟩[_]_; ahor-frameʳ;
+  ahor-hor)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦⟨⟩-merge;

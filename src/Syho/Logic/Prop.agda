@@ -28,6 +28,15 @@ Name :  Set₀
 Name =  List (Str ⨿ ℕ)
 
 --------------------------------------------------------------------------------
+-- WpKind :  Weakest precondion kind
+
+data  WpKind :  Set₀  where
+  -- Partial
+  par :  WpKind
+  -- Total, with a counter
+  tot :  ℕ →  WpKind
+
+--------------------------------------------------------------------------------
 -- Prop' :  Proposition
 
 data  Prop' (ι : Size) :  Set₁
@@ -55,7 +64,7 @@ private variable
   Nm :  Name → Zoi
 
 infix 3 ⤇_
-infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
+infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_
 infixr 7 _∗_
 infix 8 □_ ○_
 infix 9 _↦⟨_⟩_
@@ -87,10 +96,11 @@ data  Prop' ι  where
   -- ↪[ ]⇛ :  Super-update precursor
   _↪[_]⇛_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
 
-  -- ↪[ ]ᵃ⟨ ⟩, ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Atomic/partial/total Hoare-triple precursor
+  -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare-triple precursor
   _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂∞) →  Prop' ι
-  _↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr∞ T →  (Val T → Prop˂∞) →  Prop' ι
-  _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂∞) →  Prop' ι
+
+  -- ↪⟨ ⟩[ ] :  Hoare-triple precursor
+  _↪⟨_⟩[_]_ :  Prop˂ ι →  Expr∞ T →  WpKind →  (Val T → Prop˂∞) →  Prop' ι
 
   -- [ ]ᴺ :  Name set token
   [_]ᴺ :  (Name → Zoi) →  Prop' ι
@@ -175,6 +185,17 @@ infix 8 [∗∈]-syntax [∗∈ⁱ]-syntax [∗∈ⁱ⟨⟩]-syntax
 syntax [∗∈]-syntax (λ x → P) xs =  [∗ x ∈ xs ] P
 syntax [∗∈ⁱ]-syntax (λ ix → P) xs =  [∗ ix ∈ⁱ xs ] P
 syntax [∗∈ⁱ⟨⟩]-syntax (λ ix → P) k xs =  [∗ ix ∈ⁱ⟨ k ⟩ xs ] P
+
+--------------------------------------------------------------------------------
+-- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare-triple precursor
+
+infixr 5 _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
+
+_↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr∞ T →  (Val T → Prop˂∞) →  Prop' ι
+P ↪⟨ e ⟩ᴾ Q˙ =  P ↪⟨ e ⟩[ par ] Q˙
+
+_↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂∞) →  Prop' ι
+P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
 
 --------------------------------------------------------------------------------
 -- Extend _↦⟨_⟩_

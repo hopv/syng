@@ -11,7 +11,7 @@ open import Base.Size using (Size)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (Prop∞; _∗_)
+open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; _⁏_; let˙)
@@ -19,9 +19,9 @@ open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏�
   Val/Ktxred)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (WpKind; par; tot; [_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_;
-  _⊢[_][_]ᵃ⟨_⟩_; _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_;
-  _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
+open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
+  _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
+  _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘ_;
   ahor-frameˡ; hor-frameˡ; ahor-hor; hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶;
   hor-◁; hor-⁏; hor-fork)

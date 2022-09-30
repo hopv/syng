@@ -17,9 +17,8 @@ open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim
   □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-ṡ; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ;
   ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛;  ↪ᵃ⟨⟩-ṡ; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ; ↪ᵃ⟨⟩-monoʳᵘ;
-  ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾ-eatˡ⁻ʳ; ↪⟨⟩ᴾ-monoʳᵘ; ↪⟨⟩ᴾ-frameˡ;
-  ○⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-ṡ; ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀ-eatˡ⁻ʳ; ↪⟨⟩ᵀ-monoʳᵘ; ↪⟨⟩ᵀ-frameˡ; ○⇒↪⟨⟩ᵀ;
-  ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ)
+  ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-ṡ; ↪⟨⟩-eatˡ⁻ˡᵘ; ↪⟨⟩-eatˡ⁻ʳ; ↪⟨⟩-monoʳᵘ;
+  ↪⟨⟩-frameˡ; ○⇒↪⟨⟩)
 open import Syho.Logic.Inv using ([]ᴺ-merge; []ᴺ-split; []ᴺ-✔; Inv-⇒□;
   Inv-resp-∗; OInv-mono; OInv-eatˡ)
 open import Syho.Logic.Mem using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦⟨⟩-merge; ↦⟨⟩-split)
@@ -29,12 +28,10 @@ open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-intro; →ᵒ-elim; ∗
   □ᵒˡ-×ᵒ⇒∗ᵒ; ∗ᵒ⇒∗ᵒ' {- for now -})
 open import Syho.Model.Prop.Mem using (↦⟨⟩ᵒ-agree; ↦⟨⟩ᵒ-≤1; ↦⟨⟩ᵒ-merge;
   ↦⟨⟩ᵒ-split)
-open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪⟨_⟩ᴾᵒ_; _↪⟨_⟩ᵀ[_]ᵒ_;
-  ○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-ṡ; ↪⇛ᵒ-eatˡ⁻ˡᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-frameˡ;
-  ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-ṡ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-frameˡ;
-  ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ; ↪⟨⟩ᴾᵒ-monoʳᵘ; ↪⟨⟩ᴾᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᴾᵒ;
-  ↪⟨⟩ᵀᵒ-ṡ; ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵀᵒ-monoʳᵘ; ↪⟨⟩ᵀᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵀᵒ;
-  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ)
+open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-ṡ; ↪⇛ᵒ-eatˡ⁻ˡᵘ;
+  ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-ṡ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
+  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-ṡ;
+  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-monoʳᵘ; ↪⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-⇒ᴮ; ⸨⸩-Mono)
 
 private variable
@@ -226,70 +223,41 @@ abstract
 
   ⊢-sem (○⇒↪ᵃ⟨⟩ P∗R⊢⟨red⟩Q) _ =  ○ᵒ⇒↪ᵃ⟨⟩ᵒ $ P∗R⊢⟨red⟩Q .!
 
-  -- ↪⟨⟩ᴾ-eatˡ⁻ˡᵘ :  {{Basic R}} →
-  --   (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴺ  →
-  --   R  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂˙
+  -- ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
 
-  ⊢-sem (↪⟨⟩ᴾ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
-    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᴾᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
-
-  -- ↪⟨⟩ᴾ-eatˡ⁻ʳ :  {{Basic R}} →
-  --   R  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂˙ v .!)
-
-  ⊢-sem (↪⟨⟩ᴾ-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᴾᵒ-eatˡ⁻ʳ
-
-  -- ↪⟨⟩ᴾ-monoʳᵘ :
-  --   (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ)  →
-  --   P˂ ↪⟨ e ⟩ᴾ Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q'˂˙
-
-  ⊢-sem (↪⟨⟩ᴾ-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᴾᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
-
-  -- ↪⟨⟩ᴾ-frameˡ :  P˂ ↪⟨ e ⟩ᴾ Q˂˙  ⊢[ ∞ ]
-  --                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩ᴾ λ v → ¡ (R ∗ Q˂˙ v .!)
-
-  ⊢-sem ↪⟨⟩ᴾ-frameˡ _ =  ↪⟨⟩ᴾᵒ-frameˡ
-
-  -- ○⇒↪⟨⟩ᴾ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!)  →
-  --           ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
-
-  ⊢-sem (○⇒↪⟨⟩ᴾ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᴾᵒ $ P∗R⊢⟨e⟩Q .!
+  ⊢-sem ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ _ =  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ
 
   -- ↪⟨⟩ᵀ-ṡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂˙
 
   ⊢-sem ↪⟨⟩ᵀ-ṡ _ =  ↪⟨⟩ᵀᵒ-ṡ
 
-  -- ↪⟨⟩ᵀ-eatˡ⁻ˡᵘ :  {{Basic R}} →
-  --   (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ j ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴺ  →
-  --   R  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
+  -- ↪⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}} →
+  --   (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴺ  →
+  --   R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
-  ⊢-sem (↪⟨⟩ᵀ-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
-    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵀᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
+  ⊢-sem (↪⟨⟩-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
-  -- ↪⟨⟩ᵀ-eatˡ⁻ʳ :  {{Basic R}} →
-  --   R  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]
-  --     P˂ ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂˙ v .!)
+  -- ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+  --   R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
-  ⊢-sem (↪⟨⟩ᵀ-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵀᵒ-eatˡ⁻ʳ
+  ⊢-sem (↪⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ʳ
 
-  -- ↪⟨⟩ᵀ-monoʳᵘ :
-  --   (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ j ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ)  →
-  --   P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q'˂˙
+  -- ↪⟨⟩-monoʳᵘ :
+  --   (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ)  →
+  --   P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
 
-  ⊢-sem (↪⟨⟩ᵀ-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᵀᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
+  ⊢-sem (↪⟨⟩-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
 
-  -- ↪⟨⟩ᵀ-frameˡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]
-  --                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩ᵀ[ i ] λ v → ¡ (R ∗ Q˂˙ v .!)
+  -- ↪⟨⟩-frameˡ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]
+  --                 ¡ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
-  ⊢-sem ↪⟨⟩ᵀ-frameˡ _ =  ↪⟨⟩ᵀᵒ-frameˡ
+  ⊢-sem ↪⟨⟩-frameˡ _ =  ↪⟨⟩ᵒ-frameˡ
 
-  -- ○⇒↪⟨⟩ᵀ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)  →
-  --           ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
+  -- ○⇒↪⟨⟩ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ]⟨ e ⟩[ κ ] λ v →  Q˂˙ v .!)  →
+  --          ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
-  ⊢-sem (○⇒↪⟨⟩ᵀ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᵀᵒ $ P∗R⊢⟨e⟩Q .!
-
-  -- ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
-
-  ⊢-sem ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ _ =  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ
+  ⊢-sem (○⇒↪⟨⟩ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᵒ $ P∗R⊢⟨e⟩Q .!
 
   -- []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴺ
 

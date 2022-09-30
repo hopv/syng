@@ -33,7 +33,8 @@ import Syho.Model.ERA.Up
 
 -- For the invariant token and key
 
-module ProdInvtk =  Syho.Model.ERA.Prod (Agᴱᴿᴬ Prop∞) (Excᴱᴿᴬ Prop∞)
+module ProdInvtk =  Syho.Model.ERA.Prod
+  (Agᴱᴿᴬ (Name × Prop∞)) (Excᴱᴿᴬ (Name × Prop∞))
 open ProdInvtk public using () renaming (
   --  Invtkᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ×ᴱᴿᴬ to ×Invtkᴱᴿᴬ)
@@ -56,14 +57,14 @@ module ProdInv =  Syho.Model.ERA.Prod Invtkᴱᴿᴬ Namesᴱᴿᴬ
 open ProdInv public using () renaming (
   --  ×Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ×ᴱᴿᴬ to ×Invᴱᴿᴬ)
-module EnvmInv =  Syho.Model.ERA.Envm ×Invᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ)
-  (λ (Pˇ˙ ,-) → (λ i → Pˇ˙ i , Pˇ˙ i) , _)
+module EnvmInv =  Syho.Model.ERA.Envm ×Invᴱᴿᴬ ((ℕ → ¿ (Name × Prop∞)) × ℕ)
+  (λ (E ,-) → (λ i → E i , E i) , _)
 open EnvmInv public using () renaming (
   --  EnvmInvᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to EnvmInvᴱᴿᴬ)
--- The domain of Pˇ˙ consists of indices less than n
+-- The domain of E consists of indices less than n
 module EnvvInv =  Syho.Model.ERA.Envv EnvmInvᴱᴿᴬ
-  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
+  (λ (E , n) → ∀≥˙ n (λ _ → _≡ ň) E)
 open EnvvInv public using () renaming (
   --  Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envvᴱᴿᴬ to Invᴱᴿᴬ)
@@ -80,13 +81,13 @@ empᴵⁿᵛ =  (λ _ → ň) , 0
 
 -- Persistently observe a proposition at an index
 
-inv :  ℕ →  Prop∞ →  Resᴵⁿᵛ
-inv i P =  inj˙ᴵⁿᵛᵗᵏ i ([ P ] , ?ˣ) , εᴺᵃᵐᵉˢ
+inv :  ℕ →  Name →  Prop∞ →  Resᴵⁿᵛ
+inv i nm P =  inj˙ᴵⁿᵛᵗᵏ i ([ nm , P ] , ?ˣ) , εᴺᵃᵐᵉˢ
 
 -- Exclusively own a key of an index
 
-invk :  ℕ →  Prop∞ →  Resᴵⁿᵛ
-invk i P =  inj˙ᴵⁿᵛᵗᵏ i ([] , #ˣ P) , εᴺᵃᵐᵉˢ
+invk :  ℕ →  Name →  Prop∞ →  Resᴵⁿᵛ
+invk i nm P =  inj˙ᴵⁿᵛᵗᵏ i ([] , #ˣ (nm , P)) , εᴺᵃᵐᵉˢ
 
 -- Own a name set
 
@@ -95,8 +96,9 @@ invk i P =  inj˙ᴵⁿᵛᵗᵏ i ([] , #ˣ P) , εᴺᵃᵐᵉˢ
 
 private variable
   P :  Prop∞
-  Pˇ˙ Qˇ˙ :  ℕ → ¿ Prop∞
+  E :  ℕ →  ¿ (Name × Prop∞)
   i n :  ℕ
+  nm :  Name
   Nm Nm' :  Name → Zoi
 
 abstract
@@ -113,47 +115,47 @@ abstract
 
   -- The set of [ ]ᴺʳ is valid
 
-  []ᴺʳ-✔ :  (Pˇ˙ , n) ✓ᴵⁿᵛ [ Nm ]ᴺʳ →  ✔ᶻ Nm
+  []ᴺʳ-✔ :  (E , n) ✓ᴵⁿᵛ [ Nm ]ᴺʳ →  ✔ᶻ Nm
   []ᴺʳ-✔ (-, -, ✔Nm) =  ✔Nm
 
-  -- invk i P cannot overlap
+  -- invk i nm P cannot overlap
 
-  invk-no2 :  ¬ (Qˇ˙ , n) ✓ᴵⁿᵛ invk i P ∙ᴵⁿᵛ invk i P
-  invk-no2 {i = i} (-, ✓iPP , _)  with ✓iPP i .π₁
+  invk-no2 :  ¬ (E , n) ✓ᴵⁿᵛ invk i nm P ∙ᴵⁿᵛ invk i nm P
+  invk-no2 {i = i} (-, ✓inmPnmP , _)  with ✓inmPnmP i .π₁
   … | ✓↯  rewrite ≟-refl {a = i} =  absurd ✓↯
 
   -- Allocate inv and invk
 
-  inv-invk-alloc :  ((Qˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
-                      (upd˙ n (š P) Qˇ˙ , ṡ n) , inv n P ∙ᴵⁿᵛ invk n P
+  inv-invk-alloc :  ((E , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
+    (upd˙ n (š (nm , P)) E , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P
   inv-invk-alloc _ _ .π₀ =  _
-  inv-invk-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
+  inv-invk-alloc _ (✓E ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓E
   inv-invk-alloc _ (-, -, ✓c) .π₁ .π₁ .π₁ =  ✓c
-  inv-invk-alloc {n = n} _ (✓Qˇ , Qˇ✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | Qˇ✓ab i
-  … | no _ | Qˇi✓abi =  Qˇi✓abi
-  … | yes refl | (Qˇn✓an , Qˇn✓bn)  rewrite ✓Qˇ _ ≤-refl =
-    ✓ᴸ-alloc Qˇn✓an , ✓ˣ-alloc Qˇn✓bn
+  inv-invk-alloc {n = n} _ (✓E , E✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | E✓ab i
+  … | no _ | Ei✓abi =  Ei✓abi
+  … | yes refl | (En✓an , En✓bn)  rewrite ✓E _ ≤-refl =
+    ✓ᴸ-alloc En✓an , ✓ˣ-alloc En✓bn
 
   -- Get agreement from inv
 
-  inv-agree :  ((Qˇ˙ , n) , inv i P)  ↝ᴵⁿᵛ
-                 λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , inv i P
-  inv-agree _ ✓Qˇ✓iP∙ .π₁ =  ✓Qˇ✓iP∙
-  inv-agree {n = n} {i} _ (✓Qˇ , Qˇ✓iP∙ , _) .π₀  with Qˇ✓iP∙ i .π₀
-  … | Qˇi✓P∷  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷
-  …   | Qˇi≡šP  with i <≥ n
-  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
+  inv-agree :  ((E , n) , inv i nm P)  ↝ᴵⁿᵛ
+                 λ (_ :  E i ≡ š (nm , P)  ×  i < n) →  (E , n) , inv i nm P
+  inv-agree _ ✓E✓inmP∙ .π₁ =  ✓E✓inmP∙
+  inv-agree {n = n} {i} _ (✓E , E✓inmP∙ , _) .π₀  with E✓inmP∙ i .π₀
+  … | Ei✓P∷  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Ei✓P∷
+  …   | Ei≡šP  with i <≥ n
+  …     | ĩ₀ i<n =  Ei≡šP , i<n
+  …     | ĩ₁ i≥n  rewrite ✓E _ i≥n  with Ei≡šP
   …       | ()
 
   -- Get agreement from invk
 
-  invk-agree :  ((Qˇ˙ , n) , invk i P)  ↝ᴵⁿᵛ
-                  λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , invk i P
-  invk-agree _ ✓Qˇ✓iP∙ .π₁ =  ✓Qˇ✓iP∙
-  invk-agree {n = n} {i} (a ,-) (✓Qˇ , Qˇ✓iP∙ , _) .π₀  with Qˇ✓iP∙ i .π₁
-  … | Qˇi✓#P∙  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = a i .π₁} Qˇi✓#P∙
-  …   | Qˇi≡šP  with i <≥ n
-  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
+  invk-agree :  ((E , n) , invk i nm P)  ↝ᴵⁿᵛ
+                  λ (_ :  E i ≡ š (nm , P)  ×  i < n) →  (E , n) , invk i nm P
+  invk-agree _ ✓E✓inmP∙ .π₁ =  ✓E✓inmP∙
+  invk-agree {n = n} {i} (a ,-) (✓E , E✓inmP∙ , _) .π₀  with E✓inmP∙ i .π₁
+  … | Ei✓#P∙  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = a i .π₁} Ei✓#P∙
+  …   | Ei≡šP  with i <≥ n
+  …     | ĩ₀ i<n =  Ei≡šP , i<n
+  …     | ĩ₁ i≥n  rewrite ✓E _ i≥n  with Ei≡šP
   …       | ()

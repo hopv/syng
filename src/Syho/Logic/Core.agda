@@ -265,7 +265,7 @@ abstract
   ∗-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  P ∗ R ⊢[ ι ] Q ∗ S
   ∗-mono P⊢Q R⊢S =  ∗-monoˡ P⊢Q » ∗-monoʳ R⊢S
 
-  -- Eliminating ∗
+  -- Eliminate ∗
 
   -->  ⊤∗-elim :  ⊤' ∗ P ⊢[ ι ] P
 

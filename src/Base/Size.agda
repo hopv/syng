@@ -84,7 +84,7 @@ open Thunk public
 -- Map over a thunk
 
 infixr -1 _$ᵀʰ_
-_$ᵀʰ_ : (∀{ι} → F ι → G ι) →  Thunk F ι →  Thunk G ι
+_$ᵀʰ_ :  (∀{ι} → F ι → G ι) →  Thunk F ι →  Thunk G ι
 (f $ᵀʰ ThF) .! =  f (ThF .!)
 
 --------------------------------------------------------------------------------
@@ -102,5 +102,5 @@ data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where
 -- Map over a shrunk
 
 infixr -1 _$ˢʰʳ_
-_$ˢʰʳ_ : (∀{ι} → F ι → G ι) →  Shrunk F ι →  Shrunk G ι
+_$ˢʰʳ_ :  (∀{ι} → F ι → G ι) →  Shrunk F ι →  Shrunk G ι
 f $ˢʰʳ § ShrF =  § f ShrF

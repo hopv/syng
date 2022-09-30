@@ -290,7 +290,7 @@ abstract
     (λ □R∧InvPa → ⸨⸩-⇒ᴮ {R} $ □R∧InvPa 0₂ , □R∧InvPa 1₂) ›
     Invᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!) ✓a
 
-  -- OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm P˂  ⊢[ ι ]  OInv nm Q˂
+  -- OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
 
   ⊢-sem (OInv-mono P⊢Q) _ ()
 

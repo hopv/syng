@@ -443,7 +443,7 @@ data  _⊢[_]*_  where
 
   -- Monotonicity of an open invariant token
 
-  OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm P˂  ⊢[ ι ]  OInv nm Q˂
+  OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
 
   -- Let an open invariant token eat a basic proposition
 

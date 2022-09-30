@@ -420,7 +420,7 @@ data  _⊢[_]*_  where
 
   []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ι ] [ Nm' ]ᴺ
 
-  -- name set tokens can be merged and split w.r.t. the set sum
+  -- Name set tokens can be merged and split w.r.t. the set sum
 
   []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴺ
 

@@ -20,9 +20,9 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; 
   □ᵒ-mono; ◎-Mono; ⊥ᵒ {- For now -})
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Syho.Model.Prop.Names using ([_]ᴺᵒ)
+open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
   ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᵒ-Mono)
-open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
   P :  Prop∞

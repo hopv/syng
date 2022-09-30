@@ -157,7 +157,9 @@ following parts.
         * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
             connectives;
             [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the points-to
-            and freeing tokens.
+            and freeing tokens;
+            [`Names`](src/Syho/Model/Prop.Names.agda) for interpreting the name
+            set token.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
             [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;

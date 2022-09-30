@@ -18,10 +18,10 @@ open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (JudgRes; Pure; _⊢[_]*_; _⊢[_]_;
-  _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro;
-  choice; →-intro; →-elim; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; ∗-monoˡ;
-  -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out; □-mono; □-elim;
-  □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
+  _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice;
+  →-intro; →-elim; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; -∗-intro;
+  -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out; □-mono; □-elim; □-dup;
+  □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 
 private variable
   ι :  Size

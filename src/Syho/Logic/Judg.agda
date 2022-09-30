@@ -199,8 +199,10 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On ∗
 
-  -- ∗ is unital with the unit ⊤', commutative, associative, and monotone with
-  -- respect to ⊢
+  -- ∗ is monotone with respect to ⊢, unital with the unit ⊤', commutative,
+  -- and associative
+
+  ∗-monoˡ :  P ⊢[ ι ] Q →  P ∗ R ⊢[ ι ] Q ∗ R
 
   ⊤∗-elim :  ⊤' ∗ P ⊢[ ι ] P
 
@@ -209,8 +211,6 @@ data  _⊢[_]*_  where
   ∗-comm :  P ∗ Q ⊢[ ι ] Q ∗ P
 
   ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ι ] P ∗ (Q ∗ R)
-
-  ∗-monoˡ :  P ⊢[ ι ] Q →  P ∗ R ⊢[ ι ] Q ∗ R
 
   ------------------------------------------------------------------------------
   -- On -∗

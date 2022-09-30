@@ -714,7 +714,7 @@ abstract
 
   -- ↝ into ⤇ᴱ on ◎
 
-  ↝-◎-⤇ᴱ :  ((E , a)  ↝ λ x →  F ˙ x , b˙ x)  →
+  ↝-◎-⤇ᴱ :  ((E , a)  ↝ λ x →  F˙ x , b˙ x)  →
             ◎ a  ⊨  E  ⤇ᴱ λ x →  F˙ x , ◎ b˙ x
   ↝-◎-⤇ᴱ Ea↝Fxbx a⊑a' _ E✓a'∙c  with Ea↝Fxbx _ $ ✓-mono (∙-monoˡ a⊑a') E✓a'∙c
   … | -, Fx✓bx∙c =  -, -, Fx✓bx∙c , ⊑-refl

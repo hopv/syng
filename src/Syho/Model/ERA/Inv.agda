@@ -106,15 +106,15 @@ abstract
   empᴵⁿᵛ-✓ :  empᴵⁿᵛ ✓ᴵⁿᵛ [ ⊤ᶻ ]ᴺʳ
   empᴵⁿᵛ-✓ =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _) , _
 
-  -- The set of [ ]ᴺʳ is valid
-
-  []ᴺʳ-✔ :  (Pˇ˙ , n) ✓ᴵⁿᵛ [ Nm ]ᴺʳ →  ✔ᶻ Nm
-  []ᴺʳ-✔ (-, -, ✔Nm) =  ✔Nm
-
   -- Update the set part of [ ]ᴺʳ
 
   []ᴺʳ-cong :  Nm ≡˙ Nm' →  [ Nm ]ᴺʳ ≈ᴵⁿᵛ [ Nm' ]ᴺʳ
   []ᴺʳ-cong Nm≡Nm' =  (refl˜ᴵⁿᵛᵗᵏ , Nm≡Nm')
+
+  -- The set of [ ]ᴺʳ is valid
+
+  []ᴺʳ-✔ :  (Pˇ˙ , n) ✓ᴵⁿᵛ [ Nm ]ᴺʳ →  ✔ᶻ Nm
+  []ᴺʳ-✔ (-, -, ✔Nm) =  ✔Nm
 
   -- invk i P cannot overlap
 

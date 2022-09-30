@@ -23,6 +23,7 @@ open import Syho.Model.Prop.Names using ([_]ᴺᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᵒ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
   ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᵒ-Mono)
+open import Syho.Model.Prop.Inv using (Invᵒ; Invᵒ-Mono)
 
 private variable
   P :  Prop∞
@@ -43,7 +44,7 @@ private variable
 ⸨ P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙ ⸩ =  P˂ .! ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ↪⟨ e ⟩[ κ ] Q˂˙ ⸩ =  P˂ .! ↪⟨ e ⟩[ κ ]ᵒ λ v → Q˂˙ v .!
 ⸨ [ Nm ]ᴺ ⸩ =  [ Nm ]ᴺᵒ
-⸨ Inv nm P˂ ⸩ =  ⊥ᵒ -- For now
+⸨ Inv nm P˂ ⸩ =  Invᵒ nm (P˂ .!)
 ⸨ OInv nm P˂ ⸩ =  ⊥ᵒ -- For now
 ⸨ θ ↦⟨ p ⟩ ᵗv ⸩ =  θ ↦⟨ p ⟩ᵒ ᵗv
 ⸨ Free n θ ⸩ =  Freeᵒ n θ
@@ -92,6 +93,7 @@ abstract
   ⸨⸩-Mono {_ ↪[ _ ]⇛ _} =  ↪⇛ᵒ-Mono
   ⸨⸩-Mono {_ ↪[ _ ]ᵃ⟨ _ ⟩ _} =  ↪ᵃ⟨⟩ᵒ-Mono
   ⸨⸩-Mono {_ ↪⟨ _ ⟩[ _ ] _} =  ↪⟨⟩ᵒ-Mono
+  ⸨⸩-Mono {Inv _ _} =  Invᵒ-Mono
   ⸨⸩-Mono {[ _ ]ᴺ} =  ◎-Mono
   ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  ◎-Mono
   ⸨⸩-Mono {Free _ _} =  Freeᵒ-Mono

@@ -34,6 +34,7 @@ open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-ṡ;
   ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-ṡ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-ṡ;
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-monoʳᵘ; ↪⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵒ)
+open import Syho.Model.Prop.Inv using (Invᵒ-⇒□ᵒ; Invᵒ-resp-□ᵒ×ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-⇒ᴮ; ⸨⸩-Mono)
 
 private variable
@@ -279,13 +280,15 @@ abstract
 
   -- Inv-⇒□ :  Inv nm P˂  ⊢[ ι ]  □ Inv nm P˂
 
-  ⊢-sem Inv-⇒□ _ ()
+  ⊢-sem Inv-⇒□ _ =  Invᵒ-⇒□ᵒ
 
   -- Inv-resp-□∧ :  {{Basic R}} →
   --   R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
   --   □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
 
-  ⊢-sem (Inv-resp-□∧ R∧P⊢Q R∧Q⊢P) _ =  (_$ 1₂) › absurd
+  ⊢-sem (Inv-resp-□∧ {R = R} R∧P⊢Q R∧Q⊢P) ✓a =
+    (λ □R∧InvPa → ⸨⸩-⇒ᴮ {R} $ □R∧InvPa 0₂ , □R∧InvPa 1₂) ›
+    Invᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!) ✓a
 
   -- OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm P˂  ⊢[ ι ]  OInv nm Q˂
 

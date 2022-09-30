@@ -164,7 +164,9 @@ following parts.
             propositions;
             [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;
             [`Ind`](src/Syho/Model/Prop/Ind.agda) for interpreting the
-            indirection modality and precursors.
+            indirection modality and precursors;
+            [`Inv`](src/Syho/Model/Prop/Inv.agda) for interpreting the invariant
+            and open invariant tokens.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting all the
             propositions;
             [`Sound`](src/Syho/Model/Prop/Sound.agda) for the semantic soundness

@@ -25,7 +25,7 @@ open import Syho.Logic.Mem using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦⟨⟩-mer
 open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-monoˡ;
   ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-intro; -∗ᵒ-elim;
   ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-⌜⌝ᵒ×-out; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
-  □ᵒˡ-×ᵒ⇒∗ᵒ; ∗ᵒ⇒∗ᵒ' {- for now -})
+  □ᵒˡ-×ᵒ⇒∗ᵒ)
 open import Syho.Model.Prop.Mem using (↦⟨⟩ᵒ-agree; ↦⟨⟩ᵒ-≤1; ↦⟨⟩ᵒ-merge;
   ↦⟨⟩ᵒ-split)
 open import Syho.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ-split;
@@ -34,7 +34,8 @@ open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-ṡ;
   ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-ṡ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-ṡ;
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-monoʳᵘ; ↪⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵒ)
-open import Syho.Model.Prop.Inv using (Invᵒ-⇒□ᵒ; Invᵒ-resp-□ᵒ×ᵒ)
+open import Syho.Model.Prop.Inv using (Invᵒ-⇒□ᵒ; Invᵒ-resp-□ᵒ×ᵒ; OInvᵒ-mono;
+  OInvᵒ-eatˡ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-⇒ᴮ; ⸨⸩-Mono)
 
 private variable
@@ -292,12 +293,12 @@ abstract
 
   -- OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
 
-  ⊢-sem (OInv-mono P⊢Q) _ ()
+  ⊢-sem (OInv-mono P⊢Q) _ =  OInvᵒ-mono $ P⊢Q .!
 
   -- OInv-eatˡ :  {{Basic Q}} →
   --   Q  ∗  OInv nm P˂  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
 
-  ⊢-sem OInv-eatˡ _ =  ∗ᵒ⇒∗ᵒ' › λ ()
+  ⊢-sem (OInv-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › OInvᵒ-eatˡ
 
   -- ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ∞ ]  ⌜ ᵗu ≡ ᵗv ⌝
 

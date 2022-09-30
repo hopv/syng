@@ -156,6 +156,13 @@ infixr 7 _×ᵒ_
 _×ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (ł ⊔ᴸ ł')
 (Pᵒ ×ᵒ Qᵒ) a =  Pᵒ a × Qᵒ a
 
+abstract
+
+  -- Monoᵒ for ×ᵒ
+
+  ×ᵒ-Mono :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  Monoᵒ $ Pᵒ ×ᵒ Qᵒ
+  ×ᵒ-Mono MonoP MonoQ a⊑b (Pa , Qa) =  MonoP a⊑b Pa , MonoQ a⊑b Qa
+
 --------------------------------------------------------------------------------
 -- ⨿ᵒ :  Semantic disjunction
 

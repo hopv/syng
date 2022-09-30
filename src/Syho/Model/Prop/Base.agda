@@ -673,8 +673,8 @@ abstract
 
   -- Modify the resource of ◎
 
-  ◎-cong :  a ≈ b →  ◎ a ⊨ ◎ b
-  ◎-cong a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
+  ◎-resp :  a ≈ b →  ◎ a ⊨ ◎ b
+  ◎-resp a≈b a⊑c =  ⊑-respˡ a≈b a⊑c
 
   ◎-mono :  b ⊑ a →  ◎ a ⊨ ◎ b
   ◎-mono b⊑a a⊑c =  ⊑-trans b⊑a a⊑c
@@ -685,7 +685,7 @@ abstract
   ◎-ε =  ε-min
 
   ◎-≈ε :  a ≈ ε →  ⊨ ◎ a
-  ◎-≈ε a≈ε =  ◎-cong (◠˜ a≈ε) ◎-ε
+  ◎-≈ε a≈ε =  ◎-resp (◠˜ a≈ε) ◎-ε
 
   -- ◎ a ∗ᵒ ◎ b agrees with ◎ (a ∙ b)
 
@@ -740,8 +740,8 @@ module _ {i : ℕ} where
 
   abstract
 
-    ◎⟨⟩-cong :  aⁱ ≈ⁱ bⁱ →  ◎⟨ i ⟩ aⁱ ⊨ ◎⟨ i ⟩ bⁱ
-    ◎⟨⟩-cong =  inj˙-≈ › ◎-cong
+    ◎⟨⟩-resp :  aⁱ ≈ⁱ bⁱ →  ◎⟨ i ⟩ aⁱ ⊨ ◎⟨ i ⟩ bⁱ
+    ◎⟨⟩-resp =  inj˙-≈ › ◎-resp
 
     -- Get ◎⟨ i ⟩ εⁱ
 
@@ -751,10 +751,10 @@ module _ {i : ℕ} where
     -- ◎⟨ i ⟩ aⁱ ∗ᵒ ◎⟨ i ⟩ bⁱ agrees with ◎⟨ i ⟩ (aⁱ ∙ⁱ bⁱ)
 
     ◎⟨⟩-∗ᵒ⇒∙ :  ◎⟨ i ⟩ aⁱ  ∗ᵒ  ◎⟨ i ⟩ bⁱ  ⊨  ◎⟨ i ⟩ (aⁱ ∙ⁱ bⁱ)
-    ◎⟨⟩-∗ᵒ⇒∙ =  ◎-∗ᵒ⇒∙ › ◎-cong inj˙-∙
+    ◎⟨⟩-∗ᵒ⇒∙ =  ◎-∗ᵒ⇒∙ › ◎-resp inj˙-∙
 
     ◎⟨⟩-∙⇒∗ᵒ :  ◎⟨ i ⟩ (aⁱ ∙ⁱ bⁱ)  ⊨  ◎⟨ i ⟩ aⁱ  ∗ᵒ  ◎⟨ i ⟩ bⁱ
-    ◎⟨⟩-∙⇒∗ᵒ =  ◎-cong (◠˜ inj˙-∙) › ◎-∙⇒∗ᵒ
+    ◎⟨⟩-∙⇒∗ᵒ =  ◎-resp (◠˜ inj˙-∙) › ◎-∙⇒∗ᵒ
 
     -- ◎⟨ i ⟩ aⁱ is persistent when ⌞ aⁱ ⌟ agrees with aⁱ
 

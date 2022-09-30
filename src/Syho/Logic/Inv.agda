@@ -12,16 +12,17 @@ open import Base.Size using (Size; !; ¡_; _$ᵀʰ_)
 open import Base.Zoi using (Zoi; _⊆ᶻ_; ⊆ᶻ⇒∑⊎ᶻ)
 open import Base.Prod using (_,_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; _∗_; _-∗_; [_]ᴺ; Inv;
-  OInv; Basic)
-open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∧-elimʳ;
-  ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ∗⇒∧; -∗-intro; -∗-apply;
-  -∗-const; Persˡ-∧⇒∗)
+open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; _∧_; _∗_; _-∗_; [_]ᴺ;
+  Inv; OInv; Basic)
+open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∧-monoˡ;
+  ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ∗⇒∧; -∗-intro;
+  -∗-apply; -∗-const; Persˡ-∧⇒∗)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»_; ⇛-frameʳ)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔;
-  Inv-⇒□; Inv-resp-∧; OInv-mono; OInv-eatˡ; Inv-alloc-rec; Inv-open; OInv-close)
+  Inv-⇒□; Inv-resp-□∧; OInv-mono; OInv-eatˡ; Inv-alloc-rec; Inv-open;
+  OInv-close)
 
 private variable
   ι :  Size
@@ -58,9 +59,14 @@ abstract
 
   -- Change the proposition of an invariant token
 
-  -->  Inv-resp-∧ :  {{Pers R}} →  {{Basic R}} →
+  -->  Inv-resp-□∧ :  {{Basic R}} →
   -->    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-  -->    R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+  -->    □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+
+  Inv-resp-∧ :  {{Pers R}} →  {{Basic R}} →
+    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+    R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+  Inv-resp-∧ R∧P⊢Q R∧Q⊢P =  ∧-monoˡ Pers-⇒□ » Inv-resp-□∧ R∧P⊢Q R∧Q⊢P
 
   Inv-resp-∗ :  {{Pers R}} →  {{Basic R}} →
     R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →

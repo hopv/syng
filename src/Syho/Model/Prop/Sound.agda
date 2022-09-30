@@ -20,7 +20,7 @@ open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-ṡ; ↪⇛-eatˡ�
   ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-ṡ; ↪⟨⟩-eatˡ⁻ˡᵘ; ↪⟨⟩-eatˡ⁻ʳ; ↪⟨⟩-monoʳᵘ;
   ↪⟨⟩-frameˡ; ○⇒↪⟨⟩)
 open import Syho.Logic.Inv using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔; Inv-⇒□;
-  Inv-resp-∧; OInv-mono; OInv-eatˡ)
+  Inv-resp-□∧; OInv-mono; OInv-eatˡ)
 open import Syho.Logic.Mem using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦⟨⟩-merge; ↦⟨⟩-split)
 open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-monoˡ;
   ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-intro; -∗ᵒ-elim;
@@ -281,11 +281,11 @@ abstract
 
   ⊢-sem Inv-⇒□ _ ()
 
-  -- Inv-resp-∧ :  {{Pers R}} →  {{Basic R}} →
+  -- Inv-resp-□∧ :  {{Basic R}} →
   --   R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-  --   R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+  --   □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
 
-  ⊢-sem (Inv-resp-∧ R∧P⊢Q R∧Q⊢P) _ =  (_$ 1₂) › absurd
+  ⊢-sem (Inv-resp-□∧ R∧P⊢Q R∧Q⊢P) _ =  (_$ 1₂) › absurd
 
   -- OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm P˂  ⊢[ ι ]  OInv nm Q˂
 

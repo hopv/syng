@@ -437,9 +437,9 @@ data  _⊢[_]*_  where
   -- Change the proposition of an invariant token assuming a persistent basic
   -- proposition
 
-  Inv-resp-∧ :  {{Pers R}} →  {{Basic R}} →
+  Inv-resp-□∧ :  {{Basic R}} →
     R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+    □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
 
   -- Monotonicity of an open invariant token
 

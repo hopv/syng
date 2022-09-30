@@ -38,6 +38,8 @@ private variable
 --------------------------------------------------------------------------------
 -- Size₀ :  Set₀ wrapper for Size
 
+-- This is handy but rather dangerous; it should be used with care
+
 record  Size₀ :  Set₀  where
   constructor sz
   field

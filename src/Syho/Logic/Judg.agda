@@ -42,9 +42,9 @@ infix 3 [_]⇛_ [_]ᵃ⟨_⟩_ ⁺⟨_⟩[_]_
 data  JudgRes :  Set₁  where
   -- Just a proposition
   Pure :  Prop∞ →  JudgRes
-  -- Under the super update
+  -- Under the super update, with a level
   [_]⇛_ :  ℕ →  Prop∞ →  JudgRes
-  -- Atomic weakest precondition
+  -- Atomic weakest precondition, with a level
   [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → Prop∞) →  JudgRes
   -- Weakest precondion, over Val/Ktxred
   ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  JudgRes
@@ -266,7 +266,7 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- On ⇛
 
-  -- Increment the counter of ⇛ by 1
+  -- Increment the level of ⇛ by 1
 
   ⇛-ṡ :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ ṡ i ]⇛ Q
 
@@ -330,8 +330,8 @@ data  _⊢[_]*_  where
 
   ○⇒↪⇛ :  P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]⇛  Q˂ .!  →   ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
 
-  -- Use ↪⇛, with counter increment
-  -- Without that counter increment, we could do any super update (⇛/↪⇛-use' in
+  -- Use ↪⇛, with level increment
+  -- Without that level increment, we could do any super update (⇛/↪⇛-use' in
   -- Syho.Logic.Paradox)
 
   ↪⇛-use :  P˂ .!  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!
@@ -361,8 +361,8 @@ data  _⊢[_]*_  where
   ○⇒↪ᵃ⟨⟩ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!)  →
             ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
 
-  -- Use ↪ᵃ⟨⟩, with counter increment
-  -- Without that counter increment, we could have any atomic Hoare triple
+  -- Use ↪ᵃ⟨⟩, with level increment
+  -- Without that level increment, we could have any atomic Hoare triple
   -- (ahor/↪ᵃ⟨⟩-use' in Syho.Logic.Paradox)
 
   ↪ᵃ⟨⟩-use :  P˂ .!  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)
@@ -402,11 +402,11 @@ data  _⊢[_]*_  where
 
   ↪⟨⟩ᴾ-use :  P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
 
-  -- Use ↪⟨⟩ᵀ, with counter increment
+  -- Use ↪⟨⟩ᵀ, with level increment
 
-  -- Without that counter increment, we could have any total Hoare triple
+  -- Without that level increment, we could have any total Hoare triple
   -- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
-  -- If we use ▶ (just like ↪⟨⟩ᴾ-use) instead of counter increment, the total
+  -- If we use ▶ (just like ↪⟨⟩ᴾ-use) instead of level increment, the total
   -- Hoare triple does not ensure termination (horᵀ-loop/↪⟨⟩ᵀ-use▶ in
   -- Syho.Logic.Paradox)
 

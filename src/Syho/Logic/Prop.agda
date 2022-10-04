@@ -33,7 +33,7 @@ Name =  List (Str ⨿ ℕ)
 data  WpKind :  Set₀  where
   -- Partial
   par :  WpKind
-  -- Total, with a counter
+  -- Total, with a level
   tot :  ℕ →  WpKind
 
 --------------------------------------------------------------------------------
@@ -93,10 +93,10 @@ data  Prop' ι  where
   -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι
 
-  -- ↪[ ]⇛ :  Super-update precursor
+  -- ↪[ ]⇛ :  Super-update precursor, with a level
   _↪[_]⇛_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
 
-  -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare-triple precursor
+  -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare-triple precursor, with a level
   _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂∞) →  Prop' ι
 
   -- ↪⟨ ⟩[ ] :  Hoare-triple precursor

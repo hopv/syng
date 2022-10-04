@@ -43,10 +43,10 @@ private variable
 ○-rec ○P⊢P =  -∗-intro (∗-elimˡ » □-mono ○P⊢P) » □○-alloc-rec ᵘ»ᵘ □-elim » ○-use
 
 --------------------------------------------------------------------------------
--- If we can use ↪⇛ without counter increment, then we get a paradox
+-- If we can use ↪⇛ without level increment, then we get a paradox
 
 module _
-  -- ↪⇛-use without counter increment
+  -- ↪⇛-use without level increment
   (↪⇛-use' :  ∀{P˂ Q˂ ι i} →  P˂ .!  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ i ]⇛  Q˂ .!)
   where abstract
 
@@ -62,10 +62,10 @@ module _
     ⇛-frameˡ (○-rec ○⇒-↪⇛/↪⇛-use') ᵘ»ᵘ ↪⇛-use' {¡ P} {¡ Q}
 
 --------------------------------------------------------------------------------
--- If we can use ↪ᵃ⟨ ⟩ without counter increment, then we get a paradox
+-- If we can use ↪ᵃ⟨ ⟩ without level increment, then we get a paradox
 
 module _
-  -- ↪ᵃ⟨⟩-use without counter increment
+  -- ↪ᵃ⟨⟩-use without level increment
   (↪ᵃ⟨⟩-use' :  ∀{T} {red : Redex T} {P˂ Q˂˙ i ι} →
     P˂ .!  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!)
   where abstract
@@ -105,10 +105,10 @@ module _
     ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
 
 --------------------------------------------------------------------------------
--- If we can use ↪⟨ ⟩ᵀ without counter increment, then we get a paradox
+-- If we can use ↪⟨ ⟩ᵀ without level increment, then we get a paradox
 
 module _
-  -- ↪⟨⟩ᵀ-use without counter increment
+  -- ↪⟨⟩ᵀ-use without level increment
   (↪⟨⟩ᵀ-use' :  ∀{T} {e : Expr∞ T} {P˂ Q˂˙ i ι} →
     P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
   where abstract
@@ -126,10 +126,10 @@ module _
     ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
 
 --------------------------------------------------------------------------------
--- If we can use ↪⟨ ⟩ᵀ with ▶, not counter increment, then we get a paradox
+-- If we can use ↪⟨ ⟩ᵀ with ▶, not level increment, then we get a paradox
 
 module _
-  -- ↪⟨⟩ᵀ-use with ▶, not counter increment
+  -- ↪⟨⟩ᵀ-use with ▶, not level increment
   (↪⟨⟩ᵀ-use▶ :  ∀{T} {e˂ : Expr˂∞ T} {P˂ Q˂˙ i ι} →
     P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
   where abstract

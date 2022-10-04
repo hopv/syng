@@ -86,7 +86,7 @@ abstract
 
   -- ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
   --               ⊢[ ∞ ]⟨ ¡ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
-  -- The counter increment ṡ i makes the recursive call of ⊢⁺⟨⟩ᵀ-sem inductive
+  -- The level increment ṡ i makes the recursive call of ⊢⁺⟨⟩ᵀ-sem inductive
 
   ⊢⁺⟨⟩ᵀ-sem ↪⟨⟩ᵀ-use big =  ⇛ᵒ-⁺⟨⟩ᵀᵒ λ _ → big ▷
     ∗ᵒ-monoʳ (↪⟨⟩ᵀᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) →

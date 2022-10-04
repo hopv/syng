@@ -8,7 +8,6 @@ module Syho.Model.Supd.Inv where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
-open import Base.Few using (absurd)
 open import Base.Prod using (_,_; -,_; -ᴵ,_; uncurry)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)

@@ -241,6 +241,12 @@ abstract
   val/ktxred-ĩ₀ {e = ∇ _} refl =  refl
   val/ktxred-ĩ₀ {e = λ˙ _} refl =  refl
 
+  -- val/ktxred (V⇒E v) equals ĩ₀ v
+
+  val/ktxred-V⇒E :  val/ktxred (V⇒E {T} v) ≡ ĩ₀ v
+  val/ktxred-V⇒E {T = ◸ʸ _} =  refl
+  val/ktxred-V⇒E {T = _ ʸ↷ _} =  refl
+
   -- Calculate val/ktxred (K ᴷ◁ e)
 
   val/ktxred-ktx :  val/ktxred e ≡ ĩ₁ kr →  let (-, K' , red) = kr in

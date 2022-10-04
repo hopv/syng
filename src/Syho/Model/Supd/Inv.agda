@@ -16,7 +16,8 @@ open import Base.Nat using (ℕ)
 open import Syho.Lang.Reduce using (Mem)
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Logic.Core using (_»_; ∗⇒∧)
-open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; inv-invk-alloc; inv-agree)
+open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; invk; inv-invk-alloc;
+  inv-agree; invk-agree)
 open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; upd˙-out-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm;
@@ -26,7 +27,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; _⨿ᵒ_; _∗
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Syho.Model.Prop.Smry using (Smry; Smry-add-š; Smry-rem-<; Smry-upd)
 open import Syho.Model.Prop.Names using ([^_]ᴺᵒ; [^]ᴺᵒ-no2)
-open import Syho.Model.Prop.Inv using (Invᵒ; Invk; OInvᵒ; dup-Invᵒ;
+open import Syho.Model.Prop.Inv using (Invᵒ; Invk; OInvᵒ; dup-Invᵒ; Invk-no2;
   Invᵒ∗ᵒInvk-make)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
@@ -101,3 +102,28 @@ abstract
     ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-monoˡ ∗ᵒ?-comm › ∗ᵒ-assocˡ ›
     ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem (∗⇒∧ » Q∧R⊢P) ✓∙) ✓∙ ›
     ∗ᵒ-monoʳ (λ big → -, -, -ᴵ, -, ∗⇒∧ » Q∧P⊢R , big)) ✓∙) ▷ ⤇ᴱ-param }
+
+  -- Store Invk i nm P and P to get [^ nm ]ᴺᵒ under Lineᴵⁿᵛ
+
+  Invk-close :  (Invk i nm P  ∗ᵒ  ⸨ P ⸩)  ∗ᵒ  Lineᴵⁿᵛ i nm P  ⊨✓
+                  [^ nm ]ᴺᵒ  ∗ᵒ  Lineᴵⁿᵛ i nm P
+  Invk-close ✓∙ =  ∗ᵒ⨿ᵒ-out › λ{
+    (ĩ₀ Invk∗P²) →  Invk∗P² ▷ ∗ᵒ-assocʳ ▷
+      ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ?-comm › ∗ᵒ-mono✓ˡ Invk-no2 ✓∙ › ∗ᵒ⇒∗ᵒ') ✓∙ ▷
+      ∗ᵒ⇒∗ᵒ' ▷ λ ();
+    (ĩ₁ Invk∗P∗[nm]) →  Invk∗P∗[nm] ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₀_ }
+
+  -- Store P and OInvᵒ nm P to get [^ nm ]ᴺᵒ
+
+  OInvᵒ-close :  ⸨ P ⸩  ∗ᵒ  OInvᵒ nm P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
+  OInvᵒ-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
+    (-, Q , -ᴵ, -, Q∗P⊢R , Q∗Invkb) , P∗INVc) →
+    (-, -, b∙c⊑a , Q∗Invkb ▷ ∗ᵒ-monoʳ
+      (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → invk _ _ _} invk-agree) ▷ ⤇ᴱ-eatˡ , P∗INVc) ▷
+    ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (≡šR , i<n) ✓∙ →
+    -- (Q∗Invk)∗P∗INV → ((Q∗Invk)∗P)∗INV → → (Invk∗Q∗P)∗INV → (Invk∗R)∗INV →
+    -- (Invk∗R)∗INV → (Invk∗R)∗(Line∗INV) → → [nm]∗(Line∗INV) → [nm]∗INV
+    ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
+    ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗P⊢R ✓∙) ✓∙) ✓∙ ›
+    ∗ᵒ-monoʳ (Smry-rem-< ≡šR i<n) › ∗ᵒ-assocʳ ›
+    ∗ᵒ-mono✓ˡ Invk-close ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ▷ ⤇ᴱ-param }

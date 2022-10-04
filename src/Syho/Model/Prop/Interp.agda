@@ -51,6 +51,26 @@ private variable
 
 abstract
 
+  --  ⸨ P ⸩ satisfies monotonicity
+
+  ⸨⸩-Mono :  Monoᵒ ⸨ P ⸩
+  ⸨⸩-Mono {∀˙ P˙} =  ∀ᵒ-Mono λ x → ⸨⸩-Mono {P˙ x}
+  ⸨⸩-Mono {∃˙ P˙} =  ∃ᵒ-Mono λ x → ⸨⸩-Mono {P˙ x}
+  ⸨⸩-Mono {_ →' _} =  →ᵒ-Mono
+  ⸨⸩-Mono {_ ∗ _} =  ∗ᵒ-Mono
+  ⸨⸩-Mono {_ -∗ _} =  -∗ᵒ-Mono
+  ⸨⸩-Mono {⤇ _} =  ⤇ᵒ-Mono
+  ⸨⸩-Mono {□ P} =  □ᵒ-Mono (⸨⸩-Mono {P})
+  ⸨⸩-Mono {○ _} =  ○ᵒ-Mono
+  ⸨⸩-Mono {_ ↪[ _ ]⇛ _} =  ↪⇛ᵒ-Mono
+  ⸨⸩-Mono {_ ↪[ _ ]ᵃ⟨ _ ⟩ _} =  ↪ᵃ⟨⟩ᵒ-Mono
+  ⸨⸩-Mono {_ ↪⟨ _ ⟩[ _ ] _} =  ↪⟨⟩ᵒ-Mono
+  ⸨⸩-Mono {Inv _ _} =  Invᵒ-Mono
+  ⸨⸩-Mono {OInv _ _} =  OInvᵒ-Mono
+  ⸨⸩-Mono {[ _ ]ᴺ} =  ◎-Mono
+  ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  ◎-Mono
+  ⸨⸩-Mono {Free _ _} =  Freeᵒ-Mono
+
   -- ⸨ ⸩ᴮ agrees with ⸨ ⸩
   -- ⸨⸩-ᴮ⇒ and ⸨⸩-⇒ᴮ are mutually recursive
 
@@ -78,23 +98,3 @@ abstract
   ⸨⸩-⇒ᴮ {{[]ᴺ-Basic}} =  id
   ⸨⸩-⇒ᴮ {{↦⟨⟩-Basic}} =  id
   ⸨⸩-⇒ᴮ {{Free-Basic}} =  id
-
-  --  ⸨ P ⸩ satisfies monotonicity
-
-  ⸨⸩-Mono :  Monoᵒ ⸨ P ⸩
-  ⸨⸩-Mono {∀˙ P˙} =  ∀ᵒ-Mono λ x → ⸨⸩-Mono {P˙ x}
-  ⸨⸩-Mono {∃˙ P˙} =  ∃ᵒ-Mono λ x → ⸨⸩-Mono {P˙ x}
-  ⸨⸩-Mono {_ →' _} =  →ᵒ-Mono
-  ⸨⸩-Mono {_ ∗ _} =  ∗ᵒ-Mono
-  ⸨⸩-Mono {_ -∗ _} =  -∗ᵒ-Mono
-  ⸨⸩-Mono {⤇ _} =  ⤇ᵒ-Mono
-  ⸨⸩-Mono {□ P} =  □ᵒ-Mono (⸨⸩-Mono {P})
-  ⸨⸩-Mono {○ _} =  ○ᵒ-Mono
-  ⸨⸩-Mono {_ ↪[ _ ]⇛ _} =  ↪⇛ᵒ-Mono
-  ⸨⸩-Mono {_ ↪[ _ ]ᵃ⟨ _ ⟩ _} =  ↪ᵃ⟨⟩ᵒ-Mono
-  ⸨⸩-Mono {_ ↪⟨ _ ⟩[ _ ] _} =  ↪⟨⟩ᵒ-Mono
-  ⸨⸩-Mono {Inv _ _} =  Invᵒ-Mono
-  ⸨⸩-Mono {OInv _ _} =  OInvᵒ-Mono
-  ⸨⸩-Mono {[ _ ]ᴺ} =  ◎-Mono
-  ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  ◎-Mono
-  ⸨⸩-Mono {Free _ _} =  Freeᵒ-Mono

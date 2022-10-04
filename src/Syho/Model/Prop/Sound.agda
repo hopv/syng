@@ -36,7 +36,7 @@ open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-ṡ;
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-monoʳᵘ; ↪⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵒ)
 open import Syho.Model.Prop.Inv using (Invᵒ-⇒□ᵒ; Invᵒ-resp-□ᵒ×ᵒ; OInvᵒ-mono;
   OInvᵒ-eatˡ)
-open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-⇒ᴮ; ⸨⸩-Mono)
+open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
 
 private variable
   P Q R S T :  Prop∞

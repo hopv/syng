@@ -225,7 +225,7 @@ abstract
 --------------------------------------------------------------------------------
 -- ∗ᵒ :  Semantic separating conjunction
 
-infixr 7 _∗ᵒ_
+infixr 7 _∗ᵒ'_ _∗ᵒ_
 
 -- ∗ᵒ' :  Non-abstract version of ∗ᵒ
 

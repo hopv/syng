@@ -18,14 +18,15 @@ open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Logic.Core using (_»_; ∗⇒∧)
 open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; invk; inv-invk-alloc;
   inv-agree; invk-agree)
-open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; upd˙-out-envᴳ)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
+open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; empᴵⁿᴳ; upd˙-out-envᴳ)
+open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm;
   ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ∗ᵒ?-comm; ?∗ᵒ-intro; ∗ᵒ-elimˡ; ∗ᵒ⨿ᵒ-out; -∗ᵒ-apply;
   ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; □ᵒˡ-×ᵒ⇒∗ᵒ;
   dup-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
-open import Syho.Model.Prop.Smry using (Smry; Smry-add-š; Smry-rem-<; Smry-upd)
+open import Syho.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
+  Smry-upd)
 open import Syho.Model.Prop.Names using ([^_]ᴺᵒ; [^]ᴺᵒ-no2)
 open import Syho.Model.Prop.Inv using (Invᵒ; Invk; OInvᵒ; dup-Invᵒ; Invk-no2;
   Invᵒ∗ᵒInvk-make)
@@ -60,6 +61,11 @@ infix 3 ⇛ᴵⁿᵛ_
 ⇛ᴵⁿᵛ Pᵒ =  [ jᴵⁿᵛ , Invᴵⁿᵛ ]⇛ᵍ¹ Pᵒ
 
 abstract
+
+  -- Get Invᴵⁿᵛ (empᴵⁿᴳ jᴵⁿᵛ) for free
+
+  Invᴵⁿᵛ-emp :  ⊨ Invᴵⁿᵛ (empᴵⁿᴳ jᴵⁿᵛ)
+  Invᴵⁿᵛ-emp =  Smry-0
 
   -- Get Invᵒ nm P by storing P minus Invᵒ nm P
 

@@ -79,7 +79,7 @@ abstract
                   (Invk i nm P  ∗ᵒ  ⸨ P ⸩)  ∗ᵒ  Lineᴵⁿᵛ i nm P
   [^]ᴺᵒ-open ✓∙ =  ∗ᵒ⨿ᵒ-out › λ{
     (ĩ₀ [nm]∗Invk∗P) →  [nm]∗Invk∗P ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₁_;
-    (ĩ₁ [nm]∗[nm]) →  [nm]∗[nm] ▷ [^]ᴺᵒ-no2 ✓∙ ▷ absurd }
+    (ĩ₁ [nm]∗[nm]) →  [nm]∗[nm] ▷ [^]ᴺᵒ-no2 ✓∙ ▷ λ () }
 
   -- Store Invᵒ nm P and [^ nm ]ᴺᵒ to get P and OInvᵒ nm P
 

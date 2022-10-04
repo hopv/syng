@@ -6,7 +6,7 @@
 
 module Syho.Lang.Example where
 
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; _▷_)
 open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Size using (Size; !)
@@ -97,8 +97,7 @@ abstract
   -- stuck can't be reduced (it's stuck!)
 
   stuck-no⇒ :  ¬ (stuck , M) ⇒ᴱ (e , eˇ , M')
-  stuck-no⇒ (redᴱ refl (redᴷᴿ r⇒))  with r⇒
-  … | ()
+  stuck-no⇒ (redᴱ refl (redᴷᴿ r⇒)) =  r⇒ ▷ λ ()
 
   -- Invert reduction on plus◁3,4
 

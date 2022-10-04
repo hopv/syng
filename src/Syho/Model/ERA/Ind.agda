@@ -7,7 +7,7 @@
 module Syho.Model.ERA.Ind where
 
 open import Base.Level using (1ᴸ)
-open import Base.Func using (_∘_; id)
+open import Base.Func using (_▷_; _∘_; id)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
@@ -87,8 +87,7 @@ abstract
   … | Qˇi✓#P∙Rˣi  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = Rˣ˙ i} Qˇi✓#P∙Rˣi
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
-  …       | ()
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n =  Qˇi≡šP ▷ λ ()
   indˣ-use _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-sat {F = λ _ → _≡ ň} refl ✓Qˇ
   indˣ-use {i = i} _ (-, Qˇ✓iP∙Rˣ) .π₁ .π₁ j  with j ≟ i | Qˇ✓iP∙Rˣ j
   … | no _ | Qˇj✓Rˣj =  Qˇj✓Rˣj
@@ -152,8 +151,7 @@ abstract
   … | Qˇi✓P∷Rsi  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷Rsi
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
-  …       | ()
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n =  Qˇi≡šP ▷ λ ()
 
 --------------------------------------------------------------------------------
 -- On both indirection ERAs

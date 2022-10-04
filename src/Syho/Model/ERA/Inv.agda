@@ -7,6 +7,7 @@
 module Syho.Model.ERA.Inv where
 
 open import Base.Level using (1ᴸ)
+open import Base.Func using (_▷_)
 open import Base.Few using (⊤₀; ¬_; absurd)
 open import Base.Eq using (_≡_; refl; _≡˙_)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
@@ -151,8 +152,7 @@ abstract
   … | Qˇi✓P∷  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
-  …       | ()
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n =  Qˇi≡šP ▷ λ ()
 
   -- Get agreement from invk
 
@@ -163,5 +163,4 @@ abstract
   … | Qˇi✓#P∙  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = a i .π₁} Qˇi✓#P∙
   …   | Qˇi≡šP  with i <≥ n
   …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
-  …       | ()
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n =  Qˇi≡šP ▷ λ ()

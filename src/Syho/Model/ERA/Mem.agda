@@ -178,9 +178,8 @@ abstract
     refl , ≈ᴸ-refl
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {k} {_ ∷ ᵗvs'} {ṡ i'}  with k + ṡ i' ≟ k
   … | no _  rewrite +-ṡ {k} {i'} =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-idx {ṡ k} {ᵗvs'} {i'}
-  … | yes k+ṡi'≡k
-    with ≡⇒¬< (◠ k+ṡi'≡k) $ subst (_< k + ṡ i') (+-0 {k}) $ +-smonoʳ 0<ṡ
-  …   | ()
+  … | yes k+ṡi'≡k =
+    ≡⇒¬< (◠ k+ṡi'≡k) $ subst (_< k + ṡ i') (+-0 {k}) $ +-smonoʳ 0<ṡ ▷ λ ()
 
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ :  ([∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv) .π₁  ≡  ?ˣ
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ {ᵗvs = []} =  refl

@@ -7,7 +7,7 @@
 module Syho.Model.ERA.Ag where
 
 open import Base.Level using (Level)
-open import Base.Func using (_$_; id)
+open import Base.Func using (_$_; _▷_; id)
 open import Base.Eq using (_≡_; refl)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_,_; -,_)
@@ -63,8 +63,7 @@ abstract
 
   ✓ᴸ-alloc :  ň ✓ᴸ bs →  š a ✓ᴸ a ∷ bs
   ✓ᴸ-alloc {bs = []} _ _ ∈ʰᵈ =  refl
-  ✓ᴸ-alloc {bs = _ ∷ _} ň✓ᴸ∷  with ň✓ᴸ∷ _ ∈ʰᵈ
-  … | ()
+  ✓ᴸ-alloc {bs = _ ∷ _} ň✓ᴸ∷ =  ň✓ᴸ∷ _ ∈ʰᵈ ▷ λ ()
 
   -- Agreement from ✓ᴸ - ∷ -
 

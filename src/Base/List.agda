@@ -7,7 +7,7 @@
 module Base.List where
 
 open import Base.Level using (Level; _⊔ᴸ_)
-open import Base.Func using (_$_; _∘_; id)
+open import Base.Func using (_$_; _▷_; _∘_; id)
 open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; cong)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; ≟-refl)
@@ -276,8 +276,7 @@ abstract
 
   ⊆ᴸ-[] :  as ⊆ᴸ [] →  as ≡ []
   ⊆ᴸ-[] {as = []} _ =  refl
-  ⊆ᴸ-[] {as = _ ∷ _} as⊆[]  with as⊆[] ∈ʰᵈ
-  … | ()
+  ⊆ᴸ-[] {as = _ ∷ _} as⊆[] =  as⊆[] ∈ʰᵈ ▷ λ ()
 
   -- ⊆ᴸ is reflexive and transitive
 

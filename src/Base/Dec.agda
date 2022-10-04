@@ -7,7 +7,7 @@
 module Base.Dec where
 
 open import Base.Level using (Level; _⊔ᴸ_)
-open import Base.Func using (_$_; _›_; it)
+open import Base.Func using (_$_; _▷_; _›_; it)
 open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; Uip; eq≡; const⇒Uip)
 
@@ -126,8 +126,7 @@ instance abstract
     k-const :  ∀{a b : A} (eq eq' : a ≡ b) →  k eq ≡ k eq'
     k-const {a} {b} eq _  with a ≟ b
     … | yes _ =  refl
-    … | no a≢b  with a≢b eq
-    …   | ()
+    … | no a≢b =  a≢b eq ▷ λ ()
 
 abstract
 
@@ -136,8 +135,7 @@ abstract
   ≡-≟ :  ∀{{_ : ≡Dec A}} {a b : A} (eq : a ≡ b) →  (a ≟ b) ≡ yes eq
   ≡-≟ {a = a} {b} eq  with a ≟ b
   … | yes eq'  rewrite eq≡ eq' eq =  refl
-  … | no a≢b  with a≢b eq
-  …   | ()
+  … | no a≢b =  a≢b eq ▷ λ ()
 
   ≟-refl :  ∀{{_ : ≡Dec A}} {a : A} →  (a ≟ a) ≡ yes refl
   ≟-refl =  ≡-≟ refl

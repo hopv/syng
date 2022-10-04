@@ -97,6 +97,9 @@ abstract
   ⇛ᵍ-Mono :  Monoᵒ $ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ
   ⇛ᵍ-Mono =  ∀ᵒ-Mono λ _ → -∗ᵒ-Mono
 
+  ⇛ᵍᶠ-Mono :  Monoᵒ $ [ gsI ]⇛ᵍᶠ Pᵒ
+  ⇛ᵍᶠ-Mono a⊑b big _ =  ⇛ᵍ-Mono a⊑b $ big _
+
   -- Monotonicity of ⇛ᵍ
 
   ⇛ᵍ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ

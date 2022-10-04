@@ -71,8 +71,8 @@ abstract
 
   -- Dubplicate Invᵒ
 
-  Invᵒ-dup :  Invᵒ nm P  ⊨  Invᵒ nm P  ∗ᵒ  Invᵒ nm P
-  Invᵒ-dup =  Invᵒ-⇒□ᵒ › dup-□ᵒ Invᵒ-Mono ›
+  dup-Invᵒ :  Invᵒ nm P  ⊨  Invᵒ nm P  ∗ᵒ  Invᵒ nm P
+  dup-Invᵒ =  Invᵒ-⇒□ᵒ › dup-□ᵒ Invᵒ-Mono ›
     ∗ᵒ-mono (□ᵒ-elim Invᵒ-Mono) (□ᵒ-elim Invᵒ-Mono)
 
 --------------------------------------------------------------------------------

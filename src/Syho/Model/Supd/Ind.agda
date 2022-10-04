@@ -20,10 +20,10 @@ open import Syho.Lang.Reduce using (Mem)
 open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_)
-open import Syho.Model.ERA.Ind using (indˣ-alloc; indˣ-use; indᵖ-alloc;
-  indᵖ-use; Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
-open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; upd˙-out-envᴳ;
-  empᴵⁿᴳ)
+open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ;
+  indˣ-alloc; indˣ-use; indᵖ-alloc; indᵖ-use; )
+open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; empᴵⁿᴳ;
+  upd˙-out-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
   _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ;
   ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;

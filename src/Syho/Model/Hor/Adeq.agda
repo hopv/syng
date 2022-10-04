@@ -109,10 +109,10 @@ abstract
   -- valid M
 
   ⟨⟩ᴾᵒ-post :  ⊨ ⟨ e ⟩ᴾᵒ[ ∞ ] (λ u → ⌜ X˙ u ⌝ᵒ) →  ✓ᴹ M →
-               (e , [] , M) ⇒ᵀ* (V⇒E v , es , M') →  X˙ v
-  ⟨⟩ᴾᵒ-post {v = v} ⊨⟨e⟩X ✓M eM⇒*vesM' with (λ{a} → ⊨⟨e⟩X {a} ▷ ∗ᵒ?-intro _ ▷
-    ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*vesM' ▷ ⇛ᵒ-mono $ ∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono)
-  … | ⊨M⇛M'⟨v⟩X  rewrite val/ktxred-V⇒E {v = v} =  ⇛ᵒ-adeq ✓M
+               (e , [] , M) ⇒ᵀ* (V⇒E {T} v , es , M') →  X˙ v
+  ⟨⟩ᴾᵒ-post {T} {v = v} ⊨⟨e⟩X ✓M eM⇒*vesM' with (λ{a} → ⊨⟨e⟩X {a} ▷ ∗ᵒ?-intro _
+    ▷ ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*vesM' ▷ ⇛ᵒ-mono $ ∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono)
+  … | ⊨M⇛M'⟨v⟩X  rewrite val/ktxred-V⇒E {T} {v} =  ⇛ᵒ-adeq ✓M
     (⊨M⇛M'⟨v⟩X ▷ ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-val⁻¹ › (_$ _)) ▷ ⇛ᵒ-join)
 
   -- If (⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙) is a tautology, then any reduction sequence starting

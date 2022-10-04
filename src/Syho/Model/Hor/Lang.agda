@@ -6,6 +6,7 @@
 
 module Syho.Model.Hor.Lang where
 
+open import Base.Level using (Level)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Eq using (refl; ◠_)
 open import Base.Dec using (Inh; auto)
@@ -73,13 +74,15 @@ abstract
   ⁺⟨⟩ᴾᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →
     ∀ᵒ x ∈ ⸨ Xʸ ⸩ʸ , ⟨ K ᴷ◁ ∇ x ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨
       ⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-nd InhX big =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ auto) ,
+  ⁺⟨⟩ᴾᵒ-nd {{InhX}} big =  ⁺⟨⟩ᴾᵒ-kr λ M →
+    ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ $ auto {{InhX}}) ,
     λ{ _ _ _ (redᴷᴿ (nd⇒ x)) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ λ{ .! → big x }})
 
   ⁺⟨⟩ᵀᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →
     ∀ᵒ x ∈ ⸨ Xʸ ⸩ʸ , ⟨ K ᴷ◁ ∇ x ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨
       ⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-nd InhX big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ auto) ,
+  ⁺⟨⟩ᵀᵒ-nd {{InhX}} big =  ⁺⟨⟩ᵀᵒ-kr λ M →
+    ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ $ auto {{InhX}}) ,
     λ{ _ _ _ (redᴷᴿ (nd⇒ x)) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § big x })
 
   -- ▶ and ⁺⟨⟩ᴾ/ᵀᵒ

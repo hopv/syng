@@ -112,6 +112,8 @@ abstract
   □ᵒIndᵖ-alloc-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈᵖ  □ᵒ Indᵖ P
   □ᵒIndᵖ-alloc-rec {P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-alloc) ›
     ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (□ᵒIndᵖ-make › dup-□ᵒ Indᵖ-Mono) ›
+      -- (□IndP∗□IndP)∗(□IndP-∗□P)∗Inv → □IndP∗(□IndP∗(□IndP-∗□P)∗Inv) → →
+      -- □IndP∗(□P∗Inv) → → □IndP∗Inv
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
         Smry-add-š) ✓∙) › ⤇ᴱ-param

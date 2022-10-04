@@ -135,11 +135,14 @@ abstract
                 envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ ,  Pᵒ  ∗ᵒ  Inv x
   ⇛ᵍ-apply =  ⊨✓⇒⊨-⤇ᴱ λ ✓∙ → ∗ᵒ-monoˡ (_$ _) › ∗ᵒ-comm › -∗ᵒ-apply ⤇ᴱ-Mono ✓∙
 
-  -- ⊨✓ ⇛ᵍ into ⊨ ⇛ᵍ
+  -- ⊨✓ ⇛ᵍ/⇛ᵍᶠ into ⊨ ⇛ᵍ/⇛ᵍᶠ
 
   ⊨✓⇒⊨-⇛ᵍ :  Pᵒ ⊨✓ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ
   ⊨✓⇒⊨-⇛ᵍ {Pᵒ = Pᵒ} P⊨✓⇛Q =  ⇛ᵍ-make {Pᵒ = Pᵒ} $ ⊨✓⇒⊨-⤇ᴱ λ ✓∙ →
     ∗ᵒ-mono✓ˡ P⊨✓⇛Q ✓∙ › ⇛ᵍ-apply
+
+  ⊨✓⇒⊨-⇛ᵍᶠ :  Pᵒ ⊨✓ [ gsI ]⇛ᵍᶠ Qᵒ →  Pᵒ ⊨ [ gsI ]⇛ᵍᶠ Qᵒ
+  ⊨✓⇒⊨-⇛ᵍᶠ P⊨✓⇛Q Pa _ =  ⊨✓⇒⊨-⇛ᵍ (λ ✓∙ Pb → P⊨✓⇛Q ✓∙ Pb _) Pa
 
   -- Let ⇛ᵍ/⇛ᵍᶠ use Envᴵⁿᴳ as the parameter
 

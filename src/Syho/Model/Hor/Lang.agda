@@ -68,7 +68,7 @@ abstract
     ▷ ⇛ᵒ-mono $ ∗ᵒ-monoʳ (¿⁺⟨⟩ᵀᵒ⊤<-size {ι = ∞} {eˇ = eˇ}) › ∗ᵒ-monoˡ
     λ{ (§ big) → § ⟨⟩ᵀᵒ-bind big ▷ substᵒ (⟨_⟩ᵀᵒ[< ∞ ] _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }}}
 
-  -- nd and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+  -- nd and ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →
     ∀ᵒ x ∈ ⸨ Xʸ ⸩ʸ , ⟨ K ᴷ◁ ∇ x ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨
@@ -82,7 +82,7 @@ abstract
   ⁺⟨⟩ᵀᵒ-nd InhX big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ auto) ,
     λ{ _ _ _ (redᴷᴿ (nd⇒ x)) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § big x })
 
-  -- ▶ and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+  -- ▶ and ⁺⟨⟩ᴾ/ᵀᵒ
   -- The premise is under the thunk for ⁺⟨⟩ᴾᵒ
 
   ⁺⟨⟩ᴾᵒ-▶ :  ⟨ K ᴷ◁ e˂ .! ⟩ᴾᵒ[< ι ] Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾᵒ[ ι ] Pᵒ˙
@@ -93,7 +93,7 @@ abstract
   ⁺⟨⟩ᵀᵒ-▶ big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ▶⇒) ,
     λ{ _ _ _ (redᴷᴿ ▶⇒) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § big })
 
-  -- ◁ and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+  -- ◁ and ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-◁ :  ⟨ K ᴷ◁ e˙ x ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-◁ big =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ◁⇒) ,
@@ -103,7 +103,7 @@ abstract
   ⁺⟨⟩ᵀᵒ-◁ big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ◁⇒) ,
     λ{ _ _ _ (redᴷᴿ ◁⇒) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § big })
 
-  -- ⁏ and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+  -- ⁏ and ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-⁏ :  ⟨ K ᴷ◁ e ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-⁏ big =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ⁏⇒) ,
@@ -113,7 +113,7 @@ abstract
   ⁺⟨⟩ᵀᵒ-⁏ big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ⁏⇒) ,
     λ{ _ _ _ (redᴷᴿ ⁏⇒) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § big })
 
-  -- fork and ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+  -- fork and ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-fork :  (⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ[ ι ] Pᵒ˙)  ∗ᵒ  ⟨ e ⟩ᴾᵒ⊤[ ι ]  ⊨
                 ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾᵒ[ ι ] Pᵒ˙

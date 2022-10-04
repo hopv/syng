@@ -228,7 +228,7 @@ abstract
   ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  λ _ → big _ ▷ ⇛ᵒ'⇒⇛ᵒ ▷ ⇛ᵒ-mono λ (krM⇒ , big) →
     krM⇒ , λ _ _ _ eeˇM'⇐krM → big _ _ _ eeˇM'⇐krM ▷ ⇛ᵒ'⇒⇛ᵒ ▷ ⇛ᵒ-mono ∗ᵒ'⇒∗ᵒ
 
-  -- Monoᵒ for ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+  -- Monoᵒ for ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-Mono :  Monoᵒ $ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-Mono {vk = ĩ₀ _} a⊑b =
@@ -242,7 +242,7 @@ abstract
   ⁺⟨⟩ᵀᵒ-Mono {vk = ĩ₁ _} a⊑b =
     ⁺⟨⟩ᵀᵒ-kr⁻¹ › ∀ᵒ-Mono (λ _ → ⇛ᵒ-Mono) a⊑b › ⁺⟨⟩ᵀᵒ-kr
 
-  -- Monotonicity of ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+  -- Monotonicity of ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-mono✓ :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →
                  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙
@@ -266,7 +266,7 @@ abstract
   ⁺⟨⟩ᵀᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙
   ⁺⟨⟩ᵀᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᵀᵒ-mono✓
 
-  -- Modify the size of ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ / ¿-case (⟨ ⟩ᵀᵒ⊤[< ]) ⊤ᵒ
+  -- Modify the size of ⁺⟨⟩ᴾ/ᵀᵒ / ¿-case (⟨ ⟩ᵀᵒ⊤[< ]) ⊤ᵒ
 
   ⁺⟨⟩ᴾᵒ-size :  ∀{ι' : Size< ι} →  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι' ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-size ⟨vk⟩P =  ⟨vk⟩P
@@ -278,7 +278,7 @@ abstract
     ¿-case (⟨_⟩ᵀᵒ⊤[< ι' ]) ⊤ᵒ eˇ  ⊨  ¿-case (⟨_⟩ᵀᵒ⊤[< ι ]) ⊤ᵒ eˇ
   ¿⁺⟨⟩ᵀᵒ⊤<-size ⟨vk⟩P =  ⟨vk⟩P
 
-  -- Convert ⁺⟨⟩ᴾᵒ⊤ / ⁺⟨⟩ᵀᵒ⊤ into ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ λ _ → ⊤ᵒ₀
+  -- Convert ⁺⟨⟩ᴾ/ᵀᵒ⊤ into ⁺⟨⟩ᴾ/ᵀᵒ λ _ → ⊤ᵒ₀
 
   ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ :  ⁺⟨ vk ⟩ᴾᵒ⊤[ ι ]  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ _ → ⊤ᵒ₀
   ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ ⁺⟨⟩ᴾᵒ⊤-val =  ⁺⟨⟩ᴾᵒ-val λ _ → ⇛ᵒ-intro _
@@ -292,7 +292,7 @@ abstract
     λ (krM⇒ , big) → krM⇒ , λ _ _ _ eeˇM'⇐krM → big _ _ _ eeˇM'⇐krM ▷ ⇛ᵒ'⇒⇛ᵒ ▷
     ⇛ᵒ-mono $ ∗ᵒ'⇒∗ᵒ › ∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ big }
 
-  -- Convert ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ into ⁺⟨⟩ᴾᵒ⊤ / ⁺⟨⟩ᵀᵒ⊤
+  -- Convert ⁺⟨⟩ᴾ/ᵀᵒ into ⁺⟨⟩ᴾ/ᵀᵒ⊤
 
   ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ :  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ⊤[ ι ]
   ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ {vk = ĩ₀ _} _ =  ⁺⟨⟩ᴾᵒ⊤-val
@@ -308,7 +308,7 @@ abstract
     ⇛ᵒ-mono (∗ᵒ-monoˡ (λ{ (§ big) → § ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ big }) › ∗ᵒ⇒∗ᵒ') ▷ ⇛ᵒ⇒⇛ᵒ') ▷
     ⇛ᵒ⇒⇛ᵒ'
 
-  -- Monoᵒ for ⁺⟨⟩ᴾᵒ⊤ / ⁺⟨⟩ᵀᵒ⊤
+  -- Monoᵒ for ⁺⟨⟩ᴾ/ᵀᵒ⊤
 
   ⁺⟨⟩ᴾᵒ⊤-Mono :  Monoᵒ ⁺⟨ vk ⟩ᴾᵒ⊤[ ι ]
   ⁺⟨⟩ᴾᵒ⊤-Mono a⊑b =  ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ › ⁺⟨⟩ᴾᵒ-Mono a⊑b › ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤
@@ -340,7 +340,7 @@ abstract
     ⇛ᵒ-mono $ ∗ᵒ-mono (λ{ (§ big) → λ{ .! → ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ big }}) $
       ¿⁺⟨⟩ᵀᵒ⊤<⇒¿⁺⟨⟩ᴾᵒ⊤< {eˇ = eˇ}
 
-  -- ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ absorbs ⇛ᵒ outside itself
+  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒ outside itself
 
   ⇛ᵒ-⁺⟨⟩ᴾᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⇛ᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} ⇛⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ _ → ⇛⟨v⟩P _ ▷
@@ -354,7 +354,7 @@ abstract
   ⇛ᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} ⇛⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ _ → ⇛⟨kr⟩P _ ▷
     ⇛ᵒ-mono (⁺⟨⟩ᵀᵒ-kr⁻¹ › _$ _) ▷ ⇛ᵒ-join
 
-  -- ⊨✓ into ⊨ when the right-hand side is ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ
+  -- ⊨✓ into ⊨ when the right-hand side is ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ :  Pᵒ ⊨✓ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙ →  Pᵒ ⊨ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙
   ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ P⊨✓⟨vk⟩Q Pa =  ⇛ᵒ-⁺⟨⟩ᴾᵒ λ _ → Pa ▷ ⊨✓⇒⊨-⇛ᵒ λ ✓∙ →
@@ -364,7 +364,7 @@ abstract
   ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ P⊨✓⟨vk⟩Q Pa =  ⇛ᵒ-⁺⟨⟩ᵀᵒ λ _ → Pa ▷ ⊨✓⇒⊨-⇛ᵒ λ ✓∙ →
     P⊨✓⟨vk⟩Q ✓∙ › ⇛ᵒ-intro
 
-  -- ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ absorbs ⇛ᵒ inside itself
+  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒ inside itself
 
   ⁺⟨⟩ᴾᵒ-⇛ᵒ :  ⁺⟨ vk ⟩ᴾᵒ[ ι ] (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
               ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
@@ -382,7 +382,7 @@ abstract
     λ (krM⇒ , big) → krM⇒ , λ _ _ _ eeˇM'⇐krM → big _ _ _ eeˇM'⇐krM ▷
     ⇛ᵒ-mono $ ∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-⇛ᵒ big }
 
-  -- ⁺⟨⟩ᴾᵒ / ⁺⟨⟩ᵀᵒ can eat a proposition
+  -- ⁺⟨⟩ᴾ/ᵀᵒ can eat a proposition
 
   ⁺⟨⟩ᴾᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙)  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₀ _} Q∗⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ _ → Q∗⟨v⟩P ▷

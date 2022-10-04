@@ -235,7 +235,7 @@ val/ktxred (free e) =  ĩ₁ body
 
 abstract
 
-  -- If val/ktxred e equlas ĩ₀ v, then e equals V⇒E v
+  -- If val/ktxred e equals ĩ₀ v, then e equals V⇒E v
 
   val/ktxred-ĩ₀ :  val/ktxred e ≡ ĩ₀ v →  e ≡ V⇒E v
   val/ktxred-ĩ₀ {e = ∇ _} refl =  refl

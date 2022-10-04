@@ -29,11 +29,11 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜
   _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ;
   ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
   -∗ᵒ-apply; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim;
-  dup-□ᵒ; □ᵒ-∗ᵒ-in; ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
+  dup-□ᵒ; □ᵒ-∗ᵒ-in; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
   Smry-rem-<)
 open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᵒ_;
-  _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_; Ind⇒○ᵒ)
+  _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_; Indᵖ-Mono; Indˣ-make; □ᵒIndᵖ-make; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ⟨_⟩_; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
@@ -77,7 +77,7 @@ abstract
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⟨ M ⟩⇛ᴵⁿᵈˣ⟨ M ⟩  Indˣ P
   Indˣ-alloc =  ⇛ᵍ-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono (-,_) Smry-add-š) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono Indˣ-make Smry-add-š) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ ›
     ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
@@ -113,8 +113,7 @@ abstract
 
   □ᵒIndᵖ-alloc-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨  ⟨ M ⟩⇛ᴵⁿᵈᵖ⟨ M ⟩  □ᵒ Indᵖ P
   □ᵒIndᵖ-alloc-rec {P} =  ⇛ᵍ-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-alloc) ›
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ →
-      ∗ᵒ-monoˡ (◎⟨⟩-⌞⌟≡-□ᵒ refl › dup-□ᵒ ◎-Mono › ∗ᵒ-mono (-,_) (-,_)) ›
+    ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (□ᵒIndᵖ-make › dup-□ᵒ Indᵖ-Mono) ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-apply $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
         Smry-add-š) ✓∙) › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ › ⤇ᴱ-param

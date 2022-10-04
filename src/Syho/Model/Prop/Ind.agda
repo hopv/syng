@@ -9,6 +9,7 @@ module Syho.Model.Prop.Ind where
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (absurd)
+open import Base.Eq using (refl)
 open import Base.Size using (∞)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
 open import Base.Zoi using (⊤ᶻ)
@@ -28,8 +29,8 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax; ∃ᴵ-syntax;
-  ⌜_⌝ᵒ×_; _⨿ᵒ_; _∗ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⨿ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono;
-  ∗ᵒ-assocʳ; ?∗ᵒ-intro; ◎-Mono)
+  ⌜_⌝ᵒ×_; _⨿ᵒ_; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⨿ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ;
+  ∗ᵒ-Mono; ∗ᵒ-assocʳ; ?∗ᵒ-intro; ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
@@ -62,6 +63,16 @@ abstract
 
   Ind-Mono :  Monoᵒ $ Ind P
   Ind-Mono =  ⨿ᵒ-Mono Indˣ-Mono Indᵖ-Mono
+
+  -- Make Indˣ
+
+  Indˣ-make :  ◎⟨ iᴵⁿᵈˣ ⟩ indˣ i P  ⊨  Indˣ P
+  Indˣ-make =  -,_
+
+  -- Make □ᵒ Indᵖ
+
+  □ᵒIndᵖ-make :  ◎⟨ iᴵⁿᵈᵖ ⟩ indᵖ i P  ⊨  □ᵒ Indᵖ P
+  □ᵒIndᵖ-make =  ◎⟨⟩-⌞⌟≡-□ᵒ refl › -,_
 
 --------------------------------------------------------------------------------
 -- ○ᵒ :  Interpret the indirection modality ○

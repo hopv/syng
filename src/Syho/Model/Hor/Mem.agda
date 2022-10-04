@@ -67,7 +67,7 @@ abstract
   ↦ᵒ-write :  θ ↦ᵒ ᵗu  ⊨  ⟨ M ⟩⇛ᵒ⟨ updᴹ θ ᵗv M ⟩  θ ↦ᵒ ᵗv
   ↦ᵒ-write =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ $ ↝-◎⟨⟩-⤇ᴱ ↦ʳ-write › ⤇ᴱ-respᴱʳ upd˙-mem-envᴳ
 
-  -- Allocate getting ↦ᴸᵒ' and Freeᵒ'
+  -- Allocate to get ↦ᴸᵒ' and Freeᵒ'
 
   ↦ᴸᵒ'-alloc :  M o ≡ ň  →
     ⊨  ⟨ M ⟩⇛ᵒ⟨ upd˙ o (š rep n ⊤-) M ⟩  o ↦ᴸᵒ' rep n ⊤-  ∗ᵒ  Freeᵒ' n o

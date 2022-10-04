@@ -130,7 +130,7 @@ abstract
   invk-no2 {i = i} (-, ✓inmPnmP , _)  with ✓inmPnmP i .π₁
   … | ✓↯  rewrite ≟-refl {a = i} =  absurd ✓↯
 
-  -- Allocate inv and invk
+  -- Get inv and invk
 
   inv-invk-alloc :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
     (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P

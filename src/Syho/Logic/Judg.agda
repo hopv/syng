@@ -449,8 +449,7 @@ data  _⊢[_]*_  where
 
   OInv-eatˡ :  {{Basic Q}} →  Q  ∗  OInv nm P˂  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
 
-  -- Allocate a proposition minus the invariant token itself to get an
-  -- invariant token
+  -- Get Inv nm P˂ by storing P˂ minus Inv nm P˂
 
   Inv-alloc-rec :  Inv nm P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
 

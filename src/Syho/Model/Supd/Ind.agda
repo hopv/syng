@@ -72,7 +72,7 @@ abstract
   Invᴵⁿᵈˣ-emp :  ⊨ Invᴵⁿᵈˣ (empᴵⁿᴳ jᴵⁿᵈˣ)
   Invᴵⁿᵈˣ-emp =  Smry-0
 
-  -- Allocate P to get Indˣ P
+  -- Get Indˣ P by storing P
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈˣ  Indˣ P
   Indˣ-alloc =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
@@ -107,7 +107,7 @@ abstract
   Invᴵⁿᵈᵖ-emp :  ⊨ Invᴵⁿᵈᵖ (empᴵⁿᴳ jᴵⁿᵈᵖ)
   Invᴵⁿᵈᵖ-emp =  Smry-0
 
-  -- Allocate □ P to get □ᵒ Indᵖ P
+  -- Get □ᵒ Indᵖ P by storing □ P minus □ᵒ Indᵖ P
 
   □ᵒIndᵖ-alloc-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈᵖ  □ᵒ Indᵖ P
   □ᵒIndᵖ-alloc-rec {P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-alloc) ›
@@ -169,12 +169,12 @@ abstract
   ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ :  ⇛ᴵⁿᵈᵖ Pᵒ  ⊨  ⇛ᴵⁿᵈ Pᵒ
   ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ =  ⇛ᵍᶠ-intro {set = upd˙ jᴵⁿᵈˣ} upd˙-self › ⇛ᵍᶠ-join2 refl
 
-  -- Allocate P to get Ind P
+  -- Get Ind P by storing P
 
   Ind-alloc :  ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  Ind P
   Ind-alloc =  Indˣ-alloc › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ › ⇛ᵍᶠ-mono ĩ₀_
 
-  -- Allocate □ P to get □ᵒ Ind P
+  -- Get □ᵒ Ind P by storing □ P minus □ᵒ Ind P
 
   □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  □ᵒ Ind P
   □ᵒInd-alloc-rec =

@@ -56,7 +56,7 @@ abstract
   ○-eatʳ :  {{Basic Q}} →  ○ P˂ ∗ Q ⊢[ ι ] ○ ¡ (P˂ .! ∗ Q)
   ○-eatʳ =  ∗-comm » ○-eatˡ » ○-mono $ ¡ ∗-comm
 
-  -- Allocate ○
+  -- Get ○
 
   -->  ○-alloc :  P˂ .! ⊢[ ι ][ i ]⇛ ○ P˂
 

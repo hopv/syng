@@ -294,7 +294,7 @@ abstract
   …     | š ᵗus | us‼i≡šu  rewrite upd-‼-in {as = ᵗus} {b = ᵗv} (-, us‼i≡šu) =
     ✓ᶠʳ-update {x = a o .π₀ i} M‼θ✓↦u∙aθ
 
-  -- Allocate getting ↦ᴸʳ and freeʳ
+  -- Allocate to get ↦ᴸʳ and freeʳ
 
   ↦ᴸʳ-alloc :  M o ≡ ň →
     (↑ M , εᴹᵉᵐ)  ↝ᴹᵉᵐ λ (_ : ⊤₀) →

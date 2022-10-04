@@ -87,7 +87,7 @@ abstract
   OInv-eatʳ :  {{Basic Q}} →  OInv nm P˂  ∗  Q  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
   OInv-eatʳ =   ∗-comm » OInv-eatˡ
 
-  -- Allocate a proposition to get an invariant token
+  -- Get Inv nm P˂ by storing P˂
 
   -->  Inv-alloc-rec :  Inv nm P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
 

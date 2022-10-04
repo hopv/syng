@@ -21,7 +21,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ⊤ᵒ; _
 private variable
   ł :  Level
   X Y :  Set ł
-  F :  X → Propᵒ ł
+  F :  ℕ → X → Propᵒ ł
   i n :  ℕ
   xˇ˙ yˇ˙ :  ℕ → ¿ X
   xˇ :  ¿ X
@@ -34,11 +34,11 @@ abstract
 
   -- Smry F xˇ˙ n :  xˇ˙ i interpreted with F, over all i < n
 
-  Smry :  (X → Propᵒ ł) →  (ℕ → ¿ X) →  ℕ →  Propᵒ (1ᴸ ⊔ᴸ ł)
+  Smry :  (ℕ → X → Propᵒ ł) →  (ℕ → ¿ X) →  ℕ →  Propᵒ (1ᴸ ⊔ᴸ ł)
   Smry F xˇ˙ 0 =  ⊤ᵒ
   Smry F xˇ˙ (ṡ n)  with xˇ˙ n
   … | ň =  Smry F xˇ˙ n
-  … | š y =  F y ∗ᵒ Smry F xˇ˙ n
+  … | š y =  F n y ∗ᵒ Smry F xˇ˙ n
 
   -- Monoᵒ for Smry
 
@@ -73,7 +73,7 @@ abstract
 
   -- Add a new element to Smry at the bound
 
-  Smry-add-š :  F x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ n (š x) yˇ˙) (ṡ n)
+  Smry-add-š :  F n x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ n (š x) yˇ˙) (ṡ n)
   Smry-add-š {n = n}  rewrite ≟-refl {a = n} =
     ∗ᵒ-monoʳ $ Smry-⇒upd-≥ $ ≤-refl {n}
 
@@ -83,7 +83,7 @@ abstract
   -- Take out an element within the bound from Smry
 
   Smry-rem-<ᵈ :  yˇ˙ i ≡ š x  →   i <ᵈ n  →
-    Smry F yˇ˙ n  ⊨  F x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
+    Smry F yˇ˙ n  ⊨  F i x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
   Smry-rem-<ᵈ {i = i} yˇi≡šx ≤ᵈ-refl  rewrite yˇi≡šx =
     ∗ᵒ-monoʳ $ Smry-add-ň {n = i}
   Smry-rem-<ᵈ {yˇ˙ = yˇ˙} {i} yˇi≡šx (≤ᵈṡ {n = n'} i<ᵈn')  with n' ≟ i
@@ -93,13 +93,13 @@ abstract
   …   | š _ =  ∗ᵒ-monoʳ (Smry-rem-<ᵈ yˇi≡šx i<ᵈn') › ?∗ᵒ-comm
 
   Smry-rem-< :  yˇ˙ i ≡ š x  →   i < n  →
-    Smry F yˇ˙ n  ⊨  F x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
+    Smry F yˇ˙ n  ⊨  F i x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
   Smry-rem-< yˇi≡šx =  ≤⇒≤ᵈ › Smry-rem-<ᵈ yˇi≡šx
 
   -- Insert an element to Smry
 
   Smry-ins-<ᵈ :  i <ᵈ n  →
-    F x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
+    F i x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
   Smry-ins-<ᵈ {i} {yˇ˙ = yˇ˙} ≤ᵈ-refl  with yˇ˙ i
   … | ň =  Smry-add-š {n = i}
   … | š _ =  ∗ᵒ-monoʳ (∗ᵒ-elimʳ $ Smry-Mono {n = i}) › Smry-add-š {n = i}
@@ -109,17 +109,19 @@ abstract
   …   | ň =  Smry-ins-<ᵈ i<ᵈn'
   …   | š _ =  ?∗ᵒ-comm › ∗ᵒ-monoʳ $ Smry-ins-<ᵈ i<ᵈn'
 
-  Smry-ins-< :  i < n  →   F x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
+  Smry-ins-< :  i < n  →
+    F i x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
   Smry-ins-< =  ≤⇒≤ᵈ › Smry-ins-<ᵈ
 
-  Smry-ins :  F x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
-  Smry-ins {n = n} {i}  with i <≥ n
+  Smry-ins :  F i x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
+  Smry-ins {i = i} {n = n}  with i <≥ n
   … | ĩ₀ i<n =  Smry-ins-< i<n
   … | ĩ₁ i≥n =  ∗ᵒ-elimʳ (Smry-Mono {n = n}) › Smry-⇒upd-≥ i≥n
 
   -- Update an element of Smry
   -- It can be used in combination with Smry-rem-<
 
-  Smry-upd :  yˇ˙ i ≡ š x  →   F x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n  ⊨  Smry F yˇ˙ n
+  Smry-upd :  yˇ˙ i ≡ š x  →
+    F i x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n  ⊨  Smry F yˇ˙ n
   Smry-upd {yˇ˙ = yˇ˙} {n = n} yˇi≡šx =  Smry-ins {n = n} › Smry-resp {n = n} $
     upd˙-2 ◇˙ subst (λ xˇ → upd˙ _ xˇ yˇ˙ ≡˙ yˇ˙) yˇi≡šx upd˙-self

@@ -58,7 +58,7 @@ private variable
 -- Invariant for Indˣᴱᴿᴬ
 
 Invᴵⁿᵈˣ :  Envᴵⁿᵈˣ →  Propᵒ 1ᴸ
-Invᴵⁿᵈˣ (P˙ , n) =  Smry ⸨_⸩ P˙ n
+Invᴵⁿᵈˣ (P˙ , n) =  Smry (λ _ → ⸨_⸩) P˙ n
 
 -- Super update on Indˣᴱᴿᴬ
 
@@ -95,7 +95,7 @@ abstract
 -- Invariant for Indᵖᴱᴿᴬ
 
 Invᴵⁿᵈᵖ :  Envᴵⁿᵈᵖ →  Propᵒ 1ᴸ
-Invᴵⁿᵈᵖ (P˙ , n) =  □ᵒ Smry ⸨_⸩ P˙ n
+Invᴵⁿᵈᵖ (P˙ , n) =  □ᵒ Smry (λ _ → ⸨_⸩) P˙ n
 
 -- Super update on Indᵖᴱᴿᴬ
 

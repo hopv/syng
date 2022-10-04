@@ -81,7 +81,7 @@ abstract
 
   -- Take out an element within the bound from Smry
 
-  Smry-rem-<ᵈ :  yˇ˙ i ≡ š x →  i <ᵈ n →
+  Smry-rem-<ᵈ :  yˇ˙ i ≡ š x  →   i <ᵈ n  →
     Smry F yˇ˙ n  ⊨  F x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
   Smry-rem-<ᵈ {i = i} yˇi≡šx ≤ᵈ-refl  rewrite yˇi≡šx =
     ∗ᵒ-monoʳ $ Smry-add-ň {n = i}

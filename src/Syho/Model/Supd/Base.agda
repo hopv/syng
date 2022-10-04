@@ -7,7 +7,7 @@
 module Syho.Model.Supd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↓)
-open import Base.Func using (_$_; _▷_; _›_; id)
+open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
 open import Base.Dec using (upd˙)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
 open import Base.Prod using (∑-syntax; _×_; π₀; _,_; -,_; _,-)
@@ -35,6 +35,7 @@ private variable
   get get' :  Envᴵⁿᴳ → X
   set set' :  X → Envᴵⁿᴳ → Envᴵⁿᴳ
   Inv Inv' F :  X → Propᵒ ł
+  f :  X → Y
 
 --------------------------------------------------------------------------------
 -- ⇛ᵍ :  General super-update modality
@@ -137,6 +138,16 @@ abstract
   ⊨✓⇒⊨-⇛ᵍ :  Pᵒ ⊨✓ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Qᵒ
   ⊨✓⇒⊨-⇛ᵍ {Pᵒ = Pᵒ} P⊨✓⇛Q =  ⇛ᵍ-make {Pᵒ = Pᵒ} $ ⊨✓⇒⊨-⤇ᴱ λ ✓∙ →
     ∗ᵒ-mono✓ˡ P⊨✓⇛Q ✓∙ › ⇛ᵍ-apply
+
+  -- Update parametrization of ⇛ᵍ/⇛ᵍᶠ
+
+  ⇛ᵍ-param :  ⟨ M ⟩[ get , set' ∘ f , Inv' ∘ f ]⇛ᵍ⟨ M' ⟩ Pᵒ  ⊨
+                ⟨ M ⟩[ f ∘ get , set' , Inv' ]⇛ᵍ⟨ M' ⟩ Pᵒ
+  ⇛ᵍ-param =  ⇛ᵍ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᵍ⟨ _ ⟩ _} $ ⇛ᵍ-apply › ⤇ᴱ-param
+
+  ⇛ᵍᶠ-param :  [ get , set' ∘ f , Inv' ∘ f ]⇛ᵍᶠ Pᵒ  ⊨
+                 [ f ∘ get , set' , Inv' ]⇛ᵍᶠ Pᵒ
+  ⇛ᵍᶠ-param big _ =  big _ ▷ ⇛ᵍ-param
 
   -- Introduce ⇛ᵍ/⇛ᵍᶠ
 

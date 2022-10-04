@@ -12,17 +12,20 @@ open import Base.Few using (binary)
 open import Base.Eq using (refl)
 open import Base.Size using (∞)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
+open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Name; Prop∞; _∧_; _∗_; _-∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-monoˡ; ∧-monoʳ; ∧-comm;
   ∧-assocˡ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗?-comm; -∗-apply)
-open import Syho.Model.ERA.Inv using (inv; invk; inv-⌞⌟)
+open import Syho.Model.ERA.Inv using (inv; invk; inv-⌞⌟; invk-no2)
 open import Syho.Model.ERA.Glob using (iᴵⁿᵛ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
-  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono; ∗ᵒ-Mono;
-  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-assocʳ; □ᵒ-Mono; □ᵒ-dup; ◎-Mono; ◎⟨⟩-⌞⌟≈-□ᵒ)
+  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono;
+  ∗ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-assocʳ; □ᵒ-Mono; □ᵒ-dup; ◎-Mono; ◎⟨⟩-∗ᵒ⇒∙;
+  ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
 private variable
+  i :  ℕ
   nm :  Name
   P Q R :  Prop∞
 
@@ -62,11 +65,24 @@ abstract
     binary □Ra □Sa , invTa
 
 --------------------------------------------------------------------------------
+-- Invk :  Invariant key
+
+Invk :  ℕ →  Name →  Prop∞ →  Propᵒ 1ᴸ
+Invk i nm P =  ◎⟨ iᴵⁿᵛ ⟩ invk i nm P
+
+abstract
+
+  -- Invk cannot overlap
+
+  Invk-no2 :  Invk i nm P  ∗ᵒ  Invk i nm P  ⊨✓  ⊥ᵒ₀
+  Invk-no2 ✓a =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-✓ ✓a › λ (-, ✓invk²) →  invk-no2 ✓invk²
+
+--------------------------------------------------------------------------------
 -- OInvᵒ :  Interpret the open invariant token
 
 OInvᵒ :  Name →  Prop∞ →  Propᵒ 1ᴸ
 OInvᵒ nm P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
-  ⌜ Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  ◎⟨ iᴵⁿᵛ ⟩ invk i nm R
+  ⌜ Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Invk i nm R
 
 abstract
 
@@ -79,15 +95,15 @@ abstract
   -- Monotonicity of OInvᵒ
 
   OInvᵒ-mono :  P  ⊢[ ∞ ]  Q  →   OInvᵒ nm Q  ⊨  OInvᵒ nm P
-  OInvᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗invkSa) =  -, -, -ᴵ, -,
-    ∗-monoʳ P⊢Q » R∗Q⊢S , R∗invkSa
+  OInvᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗InvkSa) =  -, -, -ᴵ, -,
+    ∗-monoʳ P⊢Q » R∗Q⊢S , R∗InvkSa
 
   -- Let OInvᵒ eat a basic proposition
 
   OInvᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ  ∗ᵒ  OInvᵒ nm P  ⊨  OInvᵒ nm (Q -∗ P)
   OInvᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' ›
-    λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗invkSc) →
+    λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗InvkSc) →
     -, -, -ᴵ, -,
     -- (Q∗R)∗(Q-∗P) ⊢ (Q∗(Q-∗P))∗R ⊢ P∗R ⊢ R∗P ⊢ S
     ∗?-comm » ∗-monoˡ -∗-apply » ∗-comm » R∗P⊢S ,
-    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗invkSc) }
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗InvkSc) }

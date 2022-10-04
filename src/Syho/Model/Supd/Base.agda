@@ -168,7 +168,7 @@ abstract
   ⇛ᵍ-intro setget≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵍ setget≡
 
   ⤇ᵒ⇒⇛ᵍᶠ :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
-              ⤇ᵒ Pᵒ ⊨ [ get , set , Inv ]⇛ᵍᶠ Pᵒ
+            ⤇ᵒ Pᵒ ⊨ [ get , set , Inv ]⇛ᵍᶠ Pᵒ
   ⤇ᵒ⇒⇛ᵍᶠ setget≡ ⤇Pa _ =  ⤇Pa ▷ ⤇ᵒ⇒⇛ᵍ setget≡
 
   ⇛ᵍᶠ-intro :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →

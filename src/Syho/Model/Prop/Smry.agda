@@ -49,7 +49,7 @@ abstract
 
   -- Update the map of Smry with ≡˙
 
-  Smry-resp :  xˇ˙ ≡˙ yˇ˙ →  Smry F xˇ˙ n ⊨ Smry F yˇ˙ n
+  Smry-resp :  xˇ˙ ≡˙ yˇ˙  →   Smry F xˇ˙ n  ⊨  Smry F yˇ˙ n
   Smry-resp {n = 0} _ =  id
   Smry-resp {xˇ˙ = xˇ˙} {yˇ˙} {n = ṡ n'} xˇ≡yˇ  with xˇ˙ n' | yˇ˙ n' | xˇ≡yˇ n'
   … | ň | ň | _ =  Smry-resp {n = n'} xˇ≡yˇ
@@ -62,7 +62,7 @@ abstract
 
   -- Update an element for Smry out of the bound
 
-  Smry-⇒upd-≥ :  i ≥ n →  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i xˇ yˇ˙) n
+  Smry-⇒upd-≥ :  i ≥ n  →   Smry F yˇ˙ n  ⊨  Smry F (upd˙ i xˇ yˇ˙) n
   Smry-⇒upd-≥ {_} {0} =  _
   Smry-⇒upd-≥ {i} {ṡ n'} {yˇ˙ = yˇ˙} i>n'  with n' ≟ i
   … | yes refl =  absurd $ <-irrefl i>n'
@@ -72,7 +72,7 @@ abstract
 
   -- Add a new element to Smry at the bound
 
-  Smry-add-š :  F x ∗ᵒ Smry F yˇ˙ n  ⊨  Smry F (upd˙ n (š x) yˇ˙) (ṡ n)
+  Smry-add-š :  F x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ n (š x) yˇ˙) (ṡ n)
   Smry-add-š {n = n}  rewrite ≟-refl {a = n} =
     ∗ᵒ-monoʳ $ Smry-⇒upd-≥ $ ≤-refl {n}
 
@@ -82,15 +82,15 @@ abstract
   -- Take out an element within the bound from Smry
 
   Smry-rem-<ᵈ :  xˇ˙ i ≡ š y →  i <ᵈ n →
-    Smry F xˇ˙ n  ⊨  F y ∗ᵒ Smry F (upd˙ i ň xˇ˙) n
+    Smry F xˇ˙ n  ⊨  F y  ∗ᵒ  Smry F (upd˙ i ň xˇ˙) n
   Smry-rem-<ᵈ {i = i} xˇi≡šy ≤ᵈ-refl  rewrite xˇi≡šy =
-    ∗ᵒ-monoʳ (Smry-add-ň {n = i})
+    ∗ᵒ-monoʳ $ Smry-add-ň {n = i}
   Smry-rem-<ᵈ {xˇ˙ = xˇ˙} {i} xˇi≡šy (≤ᵈṡ {n = n'} i<ᵈn')  with n' ≟ i
   … | yes refl =  absurd $ <-irrefl $ ≤ᵈ⇒≤ i<ᵈn'
   … | no _  with xˇ˙ n'
   …   | ň =  Smry-rem-<ᵈ xˇi≡šy i<ᵈn'
   …   | š _ =  ∗ᵒ-monoʳ (Smry-rem-<ᵈ xˇi≡šy i<ᵈn') › ?∗ᵒ-comm
 
-  Smry-rem-< :  xˇ˙ i ≡ š y →  i < n →
-    Smry F xˇ˙ n  ⊨  F y ∗ᵒ Smry F (upd˙ i ň xˇ˙) n
+  Smry-rem-< :  xˇ˙ i ≡ š y  →   i < n  →
+    Smry F xˇ˙ n  ⊨  F y  ∗ᵒ  Smry F (upd˙ i ň xˇ˙) n
   Smry-rem-< xˇi≡šy =  ≤⇒≤ᵈ › Smry-rem-<ᵈ xˇi≡šy

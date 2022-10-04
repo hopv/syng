@@ -40,8 +40,8 @@ abstract
   -- ⸨ ⸩ᴮ satisfies monotonicity
 
   ⸨⸩ᴮ-Mono :  {{_ : Basic P}} →  Monoᵒ ⸨ P ⸩ᴮ
-  ⸨⸩ᴮ-Mono {{∀-Basic BasicP˙}} =  ∀ᵒ-Mono (λ x → ⸨⸩ᴮ-Mono {{BasicP˙ x}})
-  ⸨⸩ᴮ-Mono {{∃-Basic BasicP˙}} =  ∃ᵒ-Mono (λ x → ⸨⸩ᴮ-Mono {{BasicP˙ x}})
+  ⸨⸩ᴮ-Mono {{∀-Basic BasicP˙}} =  ∀ᵒ-Mono λ x → ⸨⸩ᴮ-Mono {{BasicP˙ x}}
+  ⸨⸩ᴮ-Mono {{∃-Basic BasicP˙}} =  ∃ᵒ-Mono λ x → ⸨⸩ᴮ-Mono {{BasicP˙ x}}
   ⸨⸩ᴮ-Mono {{→-Basic}} =  →ᵒ-Mono
   ⸨⸩ᴮ-Mono {{∗-Basic}} =  ∗ᵒ-Mono
   ⸨⸩ᴮ-Mono {{ -∗-Basic {Q = Q}}} =  -∗ᵒ-Mono {Qᵒ = ⸨ Q ⸩ᴮ}

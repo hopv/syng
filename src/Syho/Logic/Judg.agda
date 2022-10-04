@@ -452,7 +452,7 @@ data  _⊢[_]*_  where
   -- Allocate a proposition minus the invariant token itself to get an
   -- invariant token
 
-  Inv-alloc-rec :  Inv nm P˂ -∗ P  ⊢[ ι ][ i ]⇛  Inv nm P˂
+  Inv-alloc-rec :  Inv nm P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
 
   -- Open an invariant with a name token, getting an open invariant token
 

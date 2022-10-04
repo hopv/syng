@@ -89,9 +89,9 @@ abstract
 
   -- Allocate a proposition to get an invariant token
 
-  -->  Inv-alloc-rec :  Inv nm P˂ -∗ P  ⊢[ ι ][ i ]⇛  Inv nm P˂
+  -->  Inv-alloc-rec :  Inv nm P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
 
-  Inv-alloc :  P  ⊢[ ι ][ i ]⇛  Inv nm P˂
+  Inv-alloc :  P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
   Inv-alloc =  -∗-const » Inv-alloc-rec
 
   -- Take out a name set token of a subset

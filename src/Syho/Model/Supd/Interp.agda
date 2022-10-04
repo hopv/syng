@@ -108,7 +108,7 @@ abstract
   -- Introduce ⇛ᵒ
 
   ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
-  ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍ $ upd˙²-self λ ()
+  ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍ upd˙²-self
 
   ⇛ᵒ-intro :  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
   ⇛ᵒ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵒ
@@ -116,7 +116,7 @@ abstract
   -- Introduce ⇛ᵒ with ✓ᴹ
 
   ⇛ᵒ-intro-✓ᴹ :  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩  ⌜ ✓ᴹ M ⌝ᵒ×  Pᵒ
-  ⇛ᵒ-intro-✓ᴹ =  ⇛ᵍ-intro-✓ᴹ $ upd˙²-self λ ()
+  ⇛ᵒ-intro-✓ᴹ =  ⇛ᵍ-intro-✓ᴹ upd˙²-self
 
   -- Join ⇛ᵒ
 

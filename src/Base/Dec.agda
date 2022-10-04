@@ -209,15 +209,8 @@ abstract
 
   -- Self upd˙²
 
-  upd˙²-self :  {{_ : ≡Dec I}} →
-    i ≢ j →  upd˙² {I = I} i (f i) j (f j) f  ≡˙  f
-  upd˙²-self {i = i} {j = j} i≢j k  with k ≟ j
-  … | no _  with k ≟ i
-  …   | yes refl =  refl
-  …   | no _ =  refl
-  upd˙²-self {i = i} {j = j} i≢j k | yes refl  with k ≟ i
-  …   | yes refl =  absurd $ i≢j refl
-  …   | no _ =  refl
+  upd˙²-self :  {{_ : ≡Dec I}} →  upd˙² {I = I} i (f i) j (f j) f  ≡˙  f
+  upd˙²-self =  upd˙-cong upd˙-self ◇˙ upd˙-self
 
   -- Double upd˙²
 

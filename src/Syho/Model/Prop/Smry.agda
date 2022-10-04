@@ -7,9 +7,9 @@
 module Syho.Model.Prop.Smry where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
-open import Base.Func using (_$_; _›_)
+open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (absurd)
-open import Base.Eq using (_≡_; refl)
+open import Base.Eq using (_≡_; refl; _≡˙_)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl;
@@ -46,6 +46,14 @@ abstract
   Smry-Mono {xˇ˙ = xˇ˙} {ṡ n'}  with xˇ˙ n'
   … | ň =  Smry-Mono {n = n'}
   … | š _ =  ∗ᵒ-Mono
+
+  -- Update the map of Smry with ≡˙
+
+  Smry-resp :  xˇ˙ ≡˙ yˇ˙ →  Smry F xˇ˙ n ⊨ Smry F yˇ˙ n
+  Smry-resp {n = 0} _ =  id
+  Smry-resp {xˇ˙ = xˇ˙} {yˇ˙} {n = ṡ n'} xˇ≡yˇ  with xˇ˙ n' | yˇ˙ n' | xˇ≡yˇ n'
+  … | ň | ň | _ =  Smry-resp {n = n'} xˇ≡yˇ
+  … | š _ | š _ | refl =  ∗ᵒ-monoʳ $ Smry-resp {n = n'} xˇ≡yˇ
 
   -- Get Smry _ _ 0 for free
 

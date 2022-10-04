@@ -7,7 +7,7 @@
 module Syho.Model.Supd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↓)
-open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
+open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
 open import Base.Dec using (upd˙)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
 open import Base.Prod using (∑-syntax; _×_; π₀; _,_; -,_; _,-)
@@ -139,15 +139,17 @@ abstract
   ⊨✓⇒⊨-⇛ᵍ {Pᵒ = Pᵒ} P⊨✓⇛Q =  ⇛ᵍ-make {Pᵒ = Pᵒ} $ ⊨✓⇒⊨-⤇ᴱ λ ✓∙ →
     ∗ᵒ-mono✓ˡ P⊨✓⇛Q ✓∙ › ⇛ᵍ-apply
 
-  -- Update parametrization of ⇛ᵍ/⇛ᵍᶠ
+  -- Let ⇛ᵍ/⇛ᵍᶠ use Envᴵⁿᴳ as the parameter
 
-  ⇛ᵍ-param :  ⟨ M ⟩[ get , set' ∘ f , Inv' ∘ f ]⇛ᵍ⟨ M' ⟩ Pᵒ  ⊨
-                ⟨ M ⟩[ f ∘ get , set' , Inv' ]⇛ᵍ⟨ M' ⟩ Pᵒ
-  ⇛ᵍ-param =  ⇛ᵍ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᵍ⟨ _ ⟩ _} $ ⇛ᵍ-apply › ⤇ᴱ-param
+  ⇛ᵍ-all :  (∀{Eᴵⁿ x} → get (set x Eᴵⁿ) ≡ x)  →
+            ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ Pᵒ  ⊨
+              ⟨ M ⟩[ id , const , Inv ∘ get ]⇛ᵍ⟨ M' ⟩ Pᵒ
+  ⇛ᵍ-all {Inv = Inv} getset≡ =  ⇛ᵍ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᵍ⟨ _ ⟩ _} $ ⇛ᵍ-apply ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-monoʳ $ substᵒ Inv $ ◠ getset≡) › ⤇ᴱ-param
 
-  ⇛ᵍᶠ-param :  [ get , set' ∘ f , Inv' ∘ f ]⇛ᵍᶠ Pᵒ  ⊨
-                 [ f ∘ get , set' , Inv' ]⇛ᵍᶠ Pᵒ
-  ⇛ᵍᶠ-param big _ =  big _ ▷ ⇛ᵍ-param
+  ⇛ᵍᶠ-all :  (∀{Eᴵⁿ x} → get (set x Eᴵⁿ) ≡ x)  →
+             [ get , set , Inv ]⇛ᵍᶠ Pᵒ  ⊨  [ id , const , Inv ∘ get ]⇛ᵍᶠ Pᵒ
+  ⇛ᵍᶠ-all getset≡ big _ =  big _ ▷ ⇛ᵍ-all getset≡
 
   -- Introduce ⇛ᵍ/⇛ᵍᶠ
 

@@ -16,12 +16,13 @@ open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr∞)
+open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Lang.Reduce using (Mem)
 open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_)
 open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ;
-  indˣ-alloc; indˣ-use; indᵖ-alloc; indᵖ-use; )
+  indˣ-alloc; indˣ-use; indᵖ-alloc; indᵖ-use)
 open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; empᴵⁿᴳ;
   upd˙-out-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
@@ -32,26 +33,23 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜
 open import Syho.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
   Smry-rem-<)
 open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᵒ_;
-  _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩ᵒ_; Ind⇒○ᵒ)
+  _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ⟨_⟩_; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
   ⇛ᵍ-make; ⇛ᵍ-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ)
 
 private variable
-  ł ł' :  Level
-  i j m n :  ℕ
+  ł :  Level
+  i :  ℕ
   P Q :  Prop∞
-  X :  Set ł
+  X :  Set₀
   Q˙ :  X →  Prop∞
-  Pˇ˙ Qˇ˙ :  X →  ¿ Prop∞
-  Pˇ :  ¿ Prop∞
-  Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
-  Pᵒ˙ :  X → Propᵒ ł
+  Pᵒ :  Propᵒ ł
   κ :  WpKind
   T :  Type
+  red :  Redex T
   e :  Expr∞ T
-  E :  Envᴵⁿᴳ
   M M' :  Mem
 
 --------------------------------------------------------------------------------
@@ -213,8 +211,8 @@ abstract
     ∗ᵒ-monoʳ Ind-use › ⇛ᵍ-eatˡ › ⇛ᵍ-mono $
     ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⇛Q ,_) › -,_
 
-  ↪ᵃ⟨⟩ᵒ-use :  P ↪[ i ]ᵃ⟨ e ⟩ᵒ Q˙  ⊨  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M ⟩
-                 (∃ᵒ R ,  ⌜ P ∗ R ⊢[ ∞ ][ i ]ᵃ⟨ e ⟩ Q˙ ⌝ᵒ×  ⸨ R ⸩)
+  ↪ᵃ⟨⟩ᵒ-use :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  ⟨ M ⟩⇛ᴵⁿᵈ⟨ M ⟩
+                 (∃ᵒ R ,  ⌜ P ∗ R ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ ⌝ᵒ×  ⸨ R ⸩)
   ↪ᵃ⟨⟩ᵒ-use =  ∑-case λ S → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ P∗S∗T⊢⟨e⟩Q →
     ∗ᵒ-monoʳ Ind-use › ⇛ᵍ-eatˡ › ⇛ᵍ-mono $
     ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⟨e⟩Q ,_) › -,_

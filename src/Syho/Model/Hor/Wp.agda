@@ -20,11 +20,11 @@ open import Syho.Lang.Reduce using (Mem; _⇐ᴿ_; _⇐ᴷᴿ_; _⇒ᴿ∑; _⇒
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
   ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; Thunkᵒ; Shrunkᵒ; ⊨⇒⊨✓;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocʳ; ?∗ᵒ-intro;
-  ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-intro'; ◎-Mono;
-  ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
+  ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-intro'; ⊨✓⇒⊨--∗ᵒ;
+  ◎-Mono; ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ'⟨_⟩_; ⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒᶠ_; ⇛ᵒ⇒⇛ᵒ';
-  ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⇛ᵒᶠ-intro; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
+  ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒᶠ-intro; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 
 private variable
   ł :  Level
@@ -246,6 +246,20 @@ abstract
     λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM ▷ ⇛ᵒ'⇒⇛ᵒ ▷
     ⇛ᵒ-mono $ ∗ᵒ'⇒∗ᵒ › ∗ᵒ-monoʳ ∗ᵒ'⇒∗ᵒ
 
+  -- ⊨✓ into ⊨ when the right-hand side is ⁺⟨⟩ᴾ/ᵀᵒ
+
+  ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ :  Pᵒ ⊨✓ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙ →  Pᵒ ⊨ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙
+  ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} P⊨✓⟨v⟩Q Pa =
+    ⊨✓⇒⊨--∗ᵒ (λ ✓∙ Pa → P⊨✓⟨v⟩Q ✓∙ Pa ▷ ⁺⟨⟩ᴾᵒ-val⁻¹) Pa ▷ ⁺⟨⟩ᴾᵒ-val
+  ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} P⊨✓⟨kr⟩Q Pa =
+    ⊨✓⇒⊨--∗ᵒ (λ ✓∙ Pa → P⊨✓⟨kr⟩Q ✓∙ Pa ▷ ⁺⟨⟩ᴾᵒ-kr⁻¹) Pa ▷ ⁺⟨⟩ᴾᵒ-kr
+
+  ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ :  Pᵒ ⊨✓ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙ →  Pᵒ ⊨ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙
+  ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} P⊨✓⟨v⟩Q Pa =
+    ⊨✓⇒⊨--∗ᵒ (λ ✓∙ Pa → P⊨✓⟨v⟩Q ✓∙ Pa ▷ ⁺⟨⟩ᵀᵒ-val⁻¹) Pa ▷ ⁺⟨⟩ᵀᵒ-val
+  ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} P⊨✓⟨kr⟩Q Pa =
+    ⊨✓⇒⊨--∗ᵒ (λ ✓∙ Pa → P⊨✓⟨kr⟩Q ✓∙ Pa ▷ ⁺⟨⟩ᵀᵒ-kr⁻¹) Pa ▷ ⁺⟨⟩ᵀᵒ-kr
+
   -- Monoᵒ for ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-Mono :  Monoᵒ $ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
@@ -376,16 +390,6 @@ abstract
     ⇛ᵒ-mono (⁺⟨⟩ᵀᵒ-val⁻¹ › _$ _) ▷ ⇛ᵒ-join
   ⇛ᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} ⇛⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ _ → ⇛⟨kr⟩P _ ▷
     ⇛ᵒ-mono (⁺⟨⟩ᵀᵒ-kr⁻¹ › _$ _) ▷ ⇛ᵒ-join
-
-  -- ⊨✓ into ⊨ when the right-hand side is ⁺⟨⟩ᴾ/ᵀᵒ
-
-  ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ :  Pᵒ ⊨✓ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙ →  Pᵒ ⊨ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙
-  ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ P⊨✓⟨vk⟩Q Pa =  ⇛ᵒ-⁺⟨⟩ᴾᵒ λ _ → Pa ▷ ⊨✓⇒⊨-⇛ᵒ λ ✓∙ →
-    P⊨✓⟨vk⟩Q ✓∙ › ⇛ᵒ-intro
-
-  ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ :  Pᵒ ⊨✓ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙ →  Pᵒ ⊨ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙
-  ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ P⊨✓⟨vk⟩Q Pa =  ⇛ᵒ-⁺⟨⟩ᵀᵒ λ _ → Pa ▷ ⊨✓⇒⊨-⇛ᵒ λ ✓∙ →
-    P⊨✓⟨vk⟩Q ✓∙ › ⇛ᵒ-intro
 
   -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒ inside itself
 

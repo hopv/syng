@@ -9,13 +9,14 @@ module Syho.Model.Prop.Smry where
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (absurd)
-open import Base.Eq using (_≡_; refl; _≡˙_)
-open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
+open import Base.Eq using (_≡_; refl; ◠_; subst; _≡˙_; _◇˙_)
+open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙; upd˙-self; upd˙-2)
 open import Base.Option using (¿_; š_; ň)
-open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl;
+open import Base.Sum using (ĩ₀_; ĩ₁_)
+open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl; _<≥_;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ⊤ᵒ; _∗ᵒ_;
-  ∗ᵒ-Mono; ∗ᵒ-monoʳ; ?∗ᵒ-comm)
+  ∗ᵒ-Mono; ∗ᵒ-monoʳ; ?∗ᵒ-comm; ∗ᵒ-elimʳ)
 
 private variable
   ł :  Level
@@ -94,3 +95,31 @@ abstract
   Smry-rem-< :  yˇ˙ i ≡ š x  →   i < n  →
     Smry F yˇ˙ n  ⊨  F x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
   Smry-rem-< yˇi≡šx =  ≤⇒≤ᵈ › Smry-rem-<ᵈ yˇi≡šx
+
+  -- Insert an element to Smry
+
+  Smry-ins-<ᵈ :  i <ᵈ n  →
+    F x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
+  Smry-ins-<ᵈ {i} {yˇ˙ = yˇ˙} ≤ᵈ-refl  with yˇ˙ i
+  … | ň =  Smry-add-š {n = i}
+  … | š _ =  ∗ᵒ-monoʳ (∗ᵒ-elimʳ $ Smry-Mono {n = i}) › Smry-add-š {n = i}
+  Smry-ins-<ᵈ {i} {yˇ˙ = yˇ˙} (≤ᵈṡ {n = n'} i<ᵈn')  with n' ≟ i
+  … | yes refl =  absurd $ <-irrefl $ ≤ᵈ⇒≤ i<ᵈn'
+  … | no _  with yˇ˙ n'
+  …   | ň =  Smry-ins-<ᵈ i<ᵈn'
+  …   | š _ =  ?∗ᵒ-comm › ∗ᵒ-monoʳ $ Smry-ins-<ᵈ i<ᵈn'
+
+  Smry-ins-< :  i < n  →   F x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
+  Smry-ins-< =  ≤⇒≤ᵈ › Smry-ins-<ᵈ
+
+  Smry-ins :  F x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
+  Smry-ins {n = n} {i}  with i <≥ n
+  … | ĩ₀ i<n =  Smry-ins-< i<n
+  … | ĩ₁ i≥n =  ∗ᵒ-elimʳ (Smry-Mono {n = n}) › Smry-⇒upd-≥ i≥n
+
+  -- Update an element of Smry
+  -- It can be used in combination with Smry-rem-<
+
+  Smry-upd :  yˇ˙ i ≡ š x  →   F x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n  ⊨  Smry F yˇ˙ n
+  Smry-upd {yˇ˙ = yˇ˙} {n = n} yˇi≡šx =  Smry-ins {n = n} › Smry-resp {n = n} $
+    upd˙-2 ◇˙ subst (λ xˇ → upd˙ _ xˇ yˇ˙ ≡˙ yˇ˙) yˇi≡šx upd˙-self

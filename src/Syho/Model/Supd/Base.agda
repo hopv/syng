@@ -8,7 +8,7 @@ module Syho.Model.Supd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↓)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
-open import Base.Dec using (upd˙)
+open import Base.Dec using (upd˙; upd˙-self)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
 open import Base.Prod using (∑-syntax; _×_; π₀; _,_; -,_; _,-)
 open import Base.Nat using (ℕ)
@@ -151,7 +151,7 @@ abstract
              [ get , set , Inv ]⇛ᵍᶠ Pᵒ  ⊨  [ id , const , Inv ∘ get ]⇛ᵍᶠ Pᵒ
   ⇛ᵍᶠ-all getset≡ big _ =  big _ ▷ ⇛ᵍ-all getset≡
 
-  -- Introduce ⇛ᵍ/⇛ᵍᶠ
+  -- Introduce ⇛ᵍ/⇛ᵍᶠ/⇛ᵍ¹
 
   ⤇ᵒ⇒⇛ᵍ :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
            ⤇ᵒ Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M ⟩ Pᵒ
@@ -169,6 +169,12 @@ abstract
   ⇛ᵍᶠ-intro :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
                Pᵒ ⊨ [ get , set , Inv ]⇛ᵍᶠ Pᵒ
   ⇛ᵍᶠ-intro setget≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵍᶠ setget≡
+
+  ⤇ᵒ⇒⇛ᵍ¹ :  ⤇ᵒ Pᵒ ⊨ [ j , Inv ]⇛ᵍ¹ Pᵒ
+  ⤇ᵒ⇒⇛ᵍ¹ =  ⤇ᵒ⇒⇛ᵍᶠ upd˙-self
+
+  ⇛ᵍ¹-intro :  Pᵒ ⊨ [ j , Inv ]⇛ᵍ¹ Pᵒ
+  ⇛ᵍ¹-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵍ¹
 
   -- Introduce ⇛ᵍ with ✓ᴹ
 

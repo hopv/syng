@@ -9,7 +9,6 @@ module Syho.Model.Supd.Inv where
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Few using (absurd)
-open import Base.Dec using (upd˙)
 open import Base.Prod using (_,_; -,_; -ᴵ,_; uncurry)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
@@ -32,7 +31,7 @@ open import Syho.Model.Prop.Inv using (Invᵒ; Invk; OInvᵒ; dup-Invᵒ; Invk-n
   Invᵒ∗ᵒInvk-make)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Supd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ¹-make)
+open import Syho.Model.Supd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ¹-make; ⇛ᵍ¹-intro)
 
 private variable
   ł :  Level
@@ -40,6 +39,7 @@ private variable
   M :  Mem
   nm :  Name
   P :  Prop∞
+  Pᵒ :  Propᵒ ł
 
 --------------------------------------------------------------------------------
 -- Super update on Invᴱᴿᴬ
@@ -66,6 +66,11 @@ abstract
 
   Invᴵⁿᵛ-emp :  ⊨ Invᴵⁿᵛ (empᴵⁿᴳ jᴵⁿᵛ)
   Invᴵⁿᵛ-emp =  Smry-0
+
+  -- Introduce ⇛ᴵⁿᵛ
+
+  ⇛ᴵⁿᵛ-intro :  Pᵒ  ⊨ ⇛ᴵⁿᵛ  Pᵒ
+  ⇛ᴵⁿᵛ-intro =  ⇛ᵍ¹-intro
 
   -- Get Invᵒ nm P by storing P minus Invᵒ nm P
 

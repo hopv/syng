@@ -10,7 +10,7 @@ open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Size using (∞)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Eq using (_≡_; refl; _≡˙_; _◇˙_)
-open import Base.Dec using (upd˙; upd˙²; upd˙-self)
+open import Base.Dec using (upd˙²)
 open import Base.Option using (¿_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⨿-case)
@@ -36,7 +36,7 @@ open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛�
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Base using ([_]⇛ᵍᶠ_; [_]⇛ᵍ¹_; ⇛ᵍᶠ-mono✓; ⇛ᵍᶠ-mono;
-  ⇛ᵍ¹-make; ⇛ᵍᶠ-intro; ⇛ᵍᶠ-join2; ⇛ᵍᶠ-eatˡ)
+  ⇛ᵍ¹-make; ⇛ᵍ¹-intro; ⇛ᵍᶠ-join2; ⇛ᵍᶠ-eatˡ)
 
 private variable
   ł :  Level
@@ -72,6 +72,11 @@ abstract
   Invᴵⁿᵈˣ-emp :  ⊨ Invᴵⁿᵈˣ (empᴵⁿᴳ jᴵⁿᵈˣ)
   Invᴵⁿᵈˣ-emp =  Smry-0
 
+  -- Introduce ⇛ᴵⁿᵈˣ
+
+  ⇛ᴵⁿᵈˣ-intro :  Pᵒ  ⊨ ⇛ᴵⁿᵈˣ  Pᵒ
+  ⇛ᴵⁿᵈˣ-intro =  ⇛ᵍ¹-intro
+
   -- Get Indˣ P by storing P
 
   Indˣ-alloc :  ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈˣ  Indˣ P
@@ -106,6 +111,11 @@ abstract
 
   Invᴵⁿᵈᵖ-emp :  ⊨ Invᴵⁿᵈᵖ (empᴵⁿᴳ jᴵⁿᵈᵖ)
   Invᴵⁿᵈᵖ-emp =  Smry-0
+
+  -- Introduce ⇛ᴵⁿᵈᵖ
+
+  ⇛ᴵⁿᵈᵖ-intro :  Pᵒ  ⊨ ⇛ᴵⁿᵈᵖ  Pᵒ
+  ⇛ᴵⁿᵈᵖ-intro =  ⇛ᵍ¹-intro
 
   -- Get □ᵒ Indᵖ P by storing □ P minus □ᵒ Indᵖ P
 
@@ -161,13 +171,17 @@ abstract
   -- ⇛ᴵⁿᵈˣ into ⇛ᴵⁿᵈ
 
   ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ :  ⇛ᴵⁿᵈˣ Pᵒ  ⊨  ⇛ᴵⁿᵈ Pᵒ
-  ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ =
-    ⇛ᵍᶠ-mono (⇛ᵍᶠ-intro {set = upd˙ jᴵⁿᵈᵖ} upd˙-self) › ⇛ᵍᶠ-join2 refl
+  ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ =  ⇛ᵍᶠ-mono ⇛ᴵⁿᵈᵖ-intro › ⇛ᵍᶠ-join2 refl
 
   -- ⊨⇛ᴵⁿᵈᵖ into ⊨⇛ᴵⁿᵈ
 
   ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ :  ⇛ᴵⁿᵈᵖ Pᵒ  ⊨  ⇛ᴵⁿᵈ Pᵒ
-  ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ =  ⇛ᵍᶠ-intro {set = upd˙ jᴵⁿᵈˣ} upd˙-self › ⇛ᵍᶠ-join2 refl
+  ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ =  ⇛ᴵⁿᵈˣ-intro › ⇛ᵍᶠ-join2 refl
+
+  -- Introduce ⇛ᴵⁿᵈ
+
+  ⇛ᴵⁿᵈ-intro :  Pᵒ  ⊨ ⇛ᴵⁿᵈ  Pᵒ
+  ⇛ᴵⁿᵈ-intro =  ⇛ᴵⁿᵈˣ-intro › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ
 
   -- Get Ind P by storing P
 

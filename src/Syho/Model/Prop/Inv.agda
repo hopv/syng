@@ -8,20 +8,20 @@ module Syho.Model.Prop.Inv where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Few using (binary)
+open import Base.Few using (binary; absurd)
 open import Base.Eq using (refl)
 open import Base.Size using (∞)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (Name; Prop∞; _∧_; _∗_; _-∗_; Basic)
+open import Syho.Logic.Prop using (Name; Prop∞; _∧_; ⊤'; _∗_; _-∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-monoˡ; ∧-monoʳ; ∧-comm;
-  ∧-assocˡ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗?-comm; -∗-apply)
-open import Syho.Model.ERA.Inv using (inv; invk; inv-⌞⌟; invk-no2)
+  ∧-assocˡ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗?-comm; -∗-apply)
+open import Syho.Model.ERA.Inv using (_∙ᴵⁿᵛ_; inv; invk; inv-⌞⌟; invk-no2)
 open import Syho.Model.ERA.Glob using (iᴵⁿᵛ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono;
-  ∗ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-assocʳ; □ᵒ-Mono; □ᵒ-dup; ◎-Mono; ◎⟨⟩-∗ᵒ⇒∙;
-  ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓)
+  ∗ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocʳ; □ᵒ-Mono; □ᵒ-elim;
+  □ᵒ-dup; dup-□ᵒ; ◎-Mono; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
 private variable
@@ -64,6 +64,17 @@ abstract
     ∧-monoˡ ∧-comm » ∧-assocˡ » ∧-monoʳ R∧Q⊢P » S∧P⊢T) ,
     binary □Ra □Sa , invTa
 
+  -- Make Invᵒ
+
+  Invᵒ-make :  ◎⟨ iᴵⁿᵛ ⟩ inv i nm P  ⊨  Invᵒ nm P
+  Invᵒ-make inva =  -, ⊤' , -ᴵ, -, (∧-elimʳ , ∧-elimʳ) , absurd , inva
+
+  -- Dubplicate Invᵒ
+
+  Invᵒ-dup :  Invᵒ nm P  ⊨  Invᵒ nm P  ∗ᵒ  Invᵒ nm P
+  Invᵒ-dup =  Invᵒ-⇒□ᵒ › dup-□ᵒ Invᵒ-Mono ›
+    ∗ᵒ-mono (□ᵒ-elim Invᵒ-Mono) (□ᵒ-elim Invᵒ-Mono)
+
 --------------------------------------------------------------------------------
 -- Invk :  Invariant key
 
@@ -76,6 +87,12 @@ abstract
 
   Invk-no2 :  Invk i nm P  ∗ᵒ  Invk i nm P  ⊨✓  ⊥ᵒ₀
   Invk-no2 ✓a =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-✓ ✓a › λ (-, ✓invk²) →  invk-no2 ✓invk²
+
+  -- Make Invᵒ ∗ᵒ Invk
+
+  Invᵒ∗ᵒInvk-make :
+    ◎⟨ iᴵⁿᵛ ⟩ (inv i nm P ∙ᴵⁿᵛ invk i nm P)  ⊨  Invᵒ nm P  ∗ᵒ  Invk i nm P
+  Invᵒ∗ᵒInvk-make =  ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoˡ Invᵒ-make
 
 --------------------------------------------------------------------------------
 -- OInvᵒ :  Interpret the open invariant token

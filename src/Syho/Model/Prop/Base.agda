@@ -600,9 +600,9 @@ abstract
   -- Adequacy of ⤇ᴱ
   -- If we have Y under E ⤇ᴱ for valid E, then Y holds purely
 
-  ⤇ᴱ-adeq :  E ✓ ε →  ⊨ E ⤇ᴱ (λ x → F˙ x , ⌜ Y ⌝ᵒ) →  Y
-  ⤇ᴱ-adeq E✓ε ⊨E⤇FxY =
-    let (-, -, -, y) = ⊨E⤇FxY _ (✓-resp (◠˜ ∙-unitʳ) E✓ε) in y
+  ⤇ᴱ-adeq :  E ✓ a →  ⊨ E ⤇ᴱ (λ x → F˙ x , ⌜ Y ⌝ᵒ) →  Y
+  ⤇ᴱ-adeq E✓a ⊨E⤇FxY =
+    let (-, -, -, y) = ⊨E⤇FxY _ (✓-resp (◠˜ ∙-unitʳ) E✓a) in y
 
   -- Perform a step by ⤇ᴱ
 

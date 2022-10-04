@@ -57,6 +57,13 @@ data  Setʸ :  Set₀  where
 ⸨ Aʸ ×ʸ Bʸ ⸩ʸ =  ⸨ Aʸ ⸩ʸ × ⸨ Bʸ ⸩ʸ
 ⸨ Aʸ ⨿ʸ Bʸ ⸩ʸ =  ⸨ Aʸ ⸩ʸ ⨿ ⸨ Bʸ ⸩ʸ
 
+instance
+
+  -- Setʸ is inhabited
+
+  Setʸ-Dec :  Dec Setʸ
+  Setʸ-Dec =  yes ⟨2⟩ʸ
+
 private variable
   A B :  Set₀
   Aʸ :  Setʸ

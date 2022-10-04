@@ -31,7 +31,7 @@ infixr 1 _×ʸ_
 infix 8 ¿ʸ_
 
 data  Setʸ :  Set₀  where
-  ⟨2⟩ʸ ⊤ʸ ⊥ʸ Boolʸ Zoiʸ ℕʸ ℕ⁺ʸ Charʸ Strʸ ℚ⁺ʸ :  Setʸ
+  ⟨2⟩ʸ ⊤ʸ ⊥ʸ Boolʸ Zoiʸ ℕʸ ℕ⁺ʸ Charʸ Strʸ ℚ⁺ʸ Setʸʸ :  Setʸ
   ¿ʸ_ Listʸ List⁺ʸ Seq∞ʸ :  Setʸ →  Setʸ
   _→ʸ_ _×ʸ_ _⨿ʸ_ :  Setʸ →  Setʸ →  Setʸ
 
@@ -48,6 +48,7 @@ data  Setʸ :  Set₀  where
 ⸨ Charʸ ⸩ʸ =  Char
 ⸨ Strʸ ⸩ʸ =  Str
 ⸨ ℚ⁺ʸ ⸩ʸ =  ℚ⁺
+⸨ Setʸʸ ⸩ʸ =  Setʸ
 ⸨ ¿ʸ Aʸ ⸩ʸ =  ¿ ⸨ Aʸ ⸩ʸ
 ⸨ Listʸ Aʸ ⸩ʸ =  List ⸨ Aʸ ⸩ʸ
 ⸨ List⁺ʸ Aʸ ⸩ʸ =  List⁺ ⸨ Aʸ ⸩ʸ
@@ -124,6 +125,10 @@ instance
   ℚ⁺-Syn .setʸ =  ℚ⁺ʸ
   ℚ⁺-Syn .⸨⸩ʸ≡ =  refl
 
+  Setʸ-Syn :  Syn Setʸ
+  Setʸ-Syn .setʸ =  Setʸʸ
+  Setʸ-Syn .⸨⸩ʸ≡ =  refl
+
   ¿-Syn :  {{Syn A}} →  Syn (¿ A)
   ¿-Syn {A} .setʸ =  ¿ʸ setʸ {A}
   ¿-Syn {A} .⸨⸩ʸ≡ =  cong ¿_ $ ⸨⸩ʸ≡ {A}
@@ -168,13 +173,14 @@ roughʸ ℕ⁺ʸ =  6
 roughʸ Charʸ =  7
 roughʸ Strʸ =  8
 roughʸ ℚ⁺ʸ =  9
-roughʸ (¿ʸ _) =  10
-roughʸ (Listʸ _) =  11
-roughʸ (List⁺ʸ _) =  12
-roughʸ (Seq∞ʸ _) =  13
-roughʸ (_ →ʸ _) =  14
-roughʸ (_ ×ʸ _) =  15
-roughʸ (_ ⨿ʸ _) =  16
+roughʸ Setʸʸ =  10
+roughʸ (¿ʸ _) =  11
+roughʸ (Listʸ _) =  12
+roughʸ (List⁺ʸ _) =  13
+roughʸ (Seq∞ʸ _) =  14
+roughʸ (_ →ʸ _) =  15
+roughʸ (_ ×ʸ _) =  16
+roughʸ (_ ⨿ʸ _) =  17
 
 instance
 
@@ -195,6 +201,7 @@ instance
     Charʸ ≟' Charʸ | yes _ =  yes refl
     Strʸ ≟' Strʸ | yes _ =  yes refl
     ℚ⁺ʸ ≟' ℚ⁺ʸ | yes _ =  yes refl
+    Setʸʸ ≟' Setʸʸ | yes _ =  yes refl
     ¿ʸ Aʸ ≟' ¿ʸ Bʸ | yes _  with Aʸ ≟' Bʸ
     … | yes refl =  yes refl
     … | no A≢B =  no λ{ refl → A≢B refl }

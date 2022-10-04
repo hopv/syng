@@ -98,7 +98,7 @@ private variable
   kr :  Ktxred T
   ι :  Size
 
-infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_
+infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴷᴿ∑
 
 -- ⇒ᴿ :  Reduction of a redex
 --       The ¿ Expr∞ (◸ ⊤) part is a possibly forked thread
@@ -147,8 +147,8 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem �
 -- ⇒ᴷᴿ :  Reduction of a context-redex pair
 
 data  _⇒ᴷᴿ_ :  Ktxred T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀  where
-  redᴷᴿ :  (red , M) ⇒ᴿ (e' , eˇ , M') →
-           ((-, K , red) , M) ⇒ᴷᴿ (K ᴷ◁ e' , eˇ , M')
+  redᴷᴿ :  (red , M) ⇒ᴿ (e , eˇ , M') →
+           ((-, K , red) , M) ⇒ᴷᴿ (K ᴷ◁ e , eˇ , M')
 
 -- ⇒ᴱ :  Reduction of an expression
 
@@ -182,9 +182,8 @@ _⇐ᵀ_ =  flip _⇒ᵀ_
 
 -- ⇒ᴷᴿ∑ :  A contex-redex pair is reducible
 
-infix 4 _⇒ᴷᴿ∑
-_⇒ᴷᴿ∑ :  ∀{T} →  Ktxred T × Mem →  Set₀
-redM ⇒ᴷᴿ∑ =  ∑ e'M' , redM ⇒ᴷᴿ e'M'
+_⇒ᴷᴿ∑ :  Ktxred T × Mem →  Set₀
+krM ⇒ᴷᴿ∑ =  ∑ eM' , krM ⇒ᴷᴿ eM'
 
 --------------------------------------------------------------------------------
 -- ⇒ᵀ* :  Finite reduction sequence

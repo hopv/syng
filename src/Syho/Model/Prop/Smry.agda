@@ -81,16 +81,16 @@ abstract
 
   -- Take out an element within the bound from Smry
 
-  Smry-rem-<ᵈ :  xˇ˙ i ≡ š y →  i <ᵈ n →
-    Smry F xˇ˙ n  ⊨  F y  ∗ᵒ  Smry F (upd˙ i ň xˇ˙) n
-  Smry-rem-<ᵈ {i = i} xˇi≡šy ≤ᵈ-refl  rewrite xˇi≡šy =
+  Smry-rem-<ᵈ :  yˇ˙ i ≡ š x →  i <ᵈ n →
+    Smry F yˇ˙ n  ⊨  F x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
+  Smry-rem-<ᵈ {i = i} yˇi≡šx ≤ᵈ-refl  rewrite yˇi≡šx =
     ∗ᵒ-monoʳ $ Smry-add-ň {n = i}
-  Smry-rem-<ᵈ {xˇ˙ = xˇ˙} {i} xˇi≡šy (≤ᵈṡ {n = n'} i<ᵈn')  with n' ≟ i
+  Smry-rem-<ᵈ {yˇ˙ = yˇ˙} {i} yˇi≡šx (≤ᵈṡ {n = n'} i<ᵈn')  with n' ≟ i
   … | yes refl =  absurd $ <-irrefl $ ≤ᵈ⇒≤ i<ᵈn'
-  … | no _  with xˇ˙ n'
-  …   | ň =  Smry-rem-<ᵈ xˇi≡šy i<ᵈn'
-  …   | š _ =  ∗ᵒ-monoʳ (Smry-rem-<ᵈ xˇi≡šy i<ᵈn') › ?∗ᵒ-comm
+  … | no _  with yˇ˙ n'
+  …   | ň =  Smry-rem-<ᵈ yˇi≡šx i<ᵈn'
+  …   | š _ =  ∗ᵒ-monoʳ (Smry-rem-<ᵈ yˇi≡šx i<ᵈn') › ?∗ᵒ-comm
 
-  Smry-rem-< :  xˇ˙ i ≡ š y  →   i < n  →
-    Smry F xˇ˙ n  ⊨  F y  ∗ᵒ  Smry F (upd˙ i ň xˇ˙) n
-  Smry-rem-< xˇi≡šy =  ≤⇒≤ᵈ › Smry-rem-<ᵈ xˇi≡šy
+  Smry-rem-< :  yˇ˙ i ≡ š x  →   i < n  →
+    Smry F yˇ˙ n  ⊨  F x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
+  Smry-rem-< yˇi≡šx =  ≤⇒≤ᵈ › Smry-rem-<ᵈ yˇi≡šx

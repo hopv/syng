@@ -98,7 +98,7 @@ private variable
   kr :  Ktxred T
   ι :  Size
 
-infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
+infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
 
 -- ⇒ᴿ :  Reduction of a redex
 --       The ¿ Expr∞ (◸ ⊤) part is a possibly forked thread

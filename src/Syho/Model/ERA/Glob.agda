@@ -11,7 +11,6 @@ open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Func using (_$_; _∘_)
 open import Base.Eq using (refl; _≡˙_)
 open import Base.Dec using (yes; no; ≡Dec; _≟_; ≟-refl; upd˙)
-open import Base.Zoi using (⊤ᶻ)
 open import Base.Prod using (∑∈-syntax; π₀; _,-)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
@@ -20,7 +19,7 @@ open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿᵈˣ; empᴵⁿᵈᵖ;
   empᴵⁿᵈˣ-✓; empᴵⁿᵈᵖ-✓)
-open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; [_]ᴺʳ; empᴵⁿᵛ-✓)
+open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; [⊤]ᴺʳ; empᴵⁿᵛ-✓)
 
 open ERA using (Env; Res)
 
@@ -125,7 +124,7 @@ abstract
 
   -- envᴳ M empᴵⁿᴳ is valid for valid M
 
-  empᴵⁿᴳ-✓ :  ✓ᴹ M →  envᴳ M empᴵⁿᴳ ✓ᴳ inj˙ iᴵⁿᵛ [ ⊤ᶻ ]ᴺʳ
+  empᴵⁿᴳ-✓ :  ✓ᴹ M →  envᴳ M empᴵⁿᴳ ✓ᴳ inj˙ iᴵⁿᵛ [⊤]ᴺʳ
   empᴵⁿᴳ-✓ ✓M iᴹᵉᵐ =  ✓ᴹ⇒✓ᴹᵉᵐ ✓M
   empᴵⁿᴳ-✓ _ iᴵⁿᵈˣ =  empᴵⁿᵈˣ-✓
   empᴵⁿᴳ-✓ _ iᴵⁿᵈᵖ =  empᴵⁿᵈᵖ-✓

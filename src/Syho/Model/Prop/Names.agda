@@ -9,7 +9,7 @@ module Syho.Model.Prop.Names where
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _›_)
 open import Base.Eq using (_≡˙_)
-open import Base.Zoi using (Zoi; ^ᶻ_; _⊎ᶻ_; ✔ᶻ_; ^ᶻ-no2)
+open import Base.Zoi using (Zoi; ⊤ᶻ; ^ᶻ_; _⊎ᶻ_; ✔ᶻ_; ^ᶻ-no2)
 open import Base.Prod using (-,_)
 open import Base.Sum using ()
 open import Base.Nat using ()
@@ -30,6 +30,11 @@ private variable
 
 [_]ᴺᵒ :  (Name → Zoi) →  Propᵒ 1ᴸ
 [ Nm ]ᴺᵒ  =  ◎⟨ iᴵⁿᵛ ⟩ [ Nm ]ᴺʳ
+
+-- [⊤]ᴺᵒ :  Interpret the universal name set token
+
+[⊤]ᴺᵒ :  Propᵒ 1ᴸ
+[⊤]ᴺᵒ =  [ ⊤ᶻ ]ᴺᵒ
 
 -- [^ ]ᴺᵒ :  Interpret the name token
 

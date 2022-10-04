@@ -8,12 +8,11 @@ module Syho.Logic.Ind where
 
 open import Base.Func using (_∘_; id; const; _$_)
 open import Base.Size using (Size; Thunk; ¡_; !)
-open import Base.Zoi using (⊤ᶻ)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Syho.Lang.Expr using (Type; Expr∞)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ∀-syntax; _∗_; _-∗_;
-  □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴺ; Basic)
+  □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [⊤]ᴺ; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢-refl; _»_; ∗-monoˡ;
   ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)
 open import Syho.Logic.Supd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; ⊢⇒⊢⇛; _ᵘ»_)
@@ -195,10 +194,10 @@ abstract
   ↪⟨⟩ᵀ-≤ =  ↪⟨⟩ᵀ-≤ᵈ ∘ ≤⇒≤ᵈ
 
   -->  ↪⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}} →
-  -->    (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴺ  →
+  -->    (R  ∗  P'˂ .!)  ∗  [⊤]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [⊤]ᴺ  →
   -->    R  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩ᴾ Q˂˙
 
-  ↪⟨⟩-monoˡᵘ :  P'˂ .!  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴺ  →
+  ↪⟨⟩-monoˡᵘ :  P'˂ .!  ∗  [⊤]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [⊤]ᴺ  →
                 P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
   ↪⟨⟩-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪⟨⟩-eatˡ⁻ˡᵘ
     λ{ .! → ∗-monoˡ ∗-elimʳ » P'⊢⇛P .! }
@@ -217,7 +216,7 @@ abstract
   -->      P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
   -->  ↪⟨⟩-monoʳᵘ :
-  -->    (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ)  →
+  -->    (∀ v →  Q˂˙ v .!  ∗  [⊤]ᴺ  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!  ∗  [⊤]ᴺ)  →
   -->    P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
 
   ↪⟨⟩-monoʳ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ]  Q'˂˙ v .!)  →

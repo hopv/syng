@@ -13,7 +13,7 @@ open import Base.Eq using (_≡_; _≢_; _≡˙_)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size; Thunk; ¡_; !)
 open import Base.Bool using (tt; ff)
-open import Base.Zoi using (Zoi; ⊤ᶻ; _⊎ᶻ_; ✔ᶻ_)
+open import Base.Zoi using (Zoi; _⊎ᶻ_; ✔ᶻ_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_)
@@ -28,7 +28,7 @@ open import Syho.Lang.Ktxred using (Redex; ▶ᴿ_; ndᴿ; _◁ᴿ_; _⁏ᴿ_; f
 open import Syho.Logic.Prop using (Name; WpKind; par; tot; Prop∞; Prop˂∞; ∀˙;
   ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
   □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴺ;
-  [^_]ᴺ; Inv; OInv; _↦_; _↦ᴸ_; Free; Basic)
+  [⊤]ᴺ; [^_]ᴺ; Inv; OInv; _↦_; _↦ᴸ_; Free; Basic)
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -378,14 +378,14 @@ data  _⊢[_]*_  where
   ↪⟨⟩ᵀ-ṡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂˙
 
   ↪⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}} →
-    (R  ∗  P'˂ .!)  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [ ⊤ᶻ ]ᴺ  →
+    (R  ∗  P'˂ .!)  ∗  [⊤]ᴺ  ⊢[< ι ][ i ]⇛  P˂ .!  ∗  [⊤]ᴺ  →
     R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
   ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
     R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
   ↪⟨⟩-monoʳᵘ :
-    (∀ v →  Q˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!  ∗  [ ⊤ᶻ ]ᴺ)  →
+    (∀ v →  Q˂˙ v .!  ∗  [⊤]ᴺ  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!  ∗  [⊤]ᴺ)  →
     P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
 
   ↪⟨⟩-frameˡ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]
@@ -482,7 +482,7 @@ data  _⊢[_]*_  where
   _ᵘ»ᵃʰ_ :  P  ⊢[ ι ][ j ]⇛  Q  →   Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙  →
             P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
 
-  _ᵘ»ʰ_ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ ⊤ᶻ ]ᴺ  →
+  _ᵘ»ʰ_ :  P  ∗  [⊤]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [⊤]ᴺ  →
            Q  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
 
@@ -490,7 +490,7 @@ data  _⊢[_]*_  where
             P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
 
   _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
-          (∀ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ j ]⇛  R˙ v  ∗  [ ⊤ᶻ ]ᴺ)  →
+          (∀ v →  Q˙ v  ∗  [⊤]ᴺ  ⊢[ ι ][ j ]⇛  R˙ v  ∗  [⊤]ᴺ)  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
 
   -- Frame
@@ -504,7 +504,7 @@ data  _⊢[_]*_  where
   -- Get a Hoare triple out of an atomic Hoare triple and a Hoare triple on
   -- the context
 
-  ahor-hor :  (P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ)  →
+  ahor-hor :  (P  ∗  [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  [⊤]ᴺ)  →
               (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 
@@ -516,7 +516,7 @@ data  _⊢[_]*_  where
 
   -- Value
 
-  hor-valᵘ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ι ][ i ]⇛  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  →
+  hor-valᵘ :  P  ∗  [⊤]ᴺ  ⊢[ ι ][ i ]⇛  Q˙ v  ∗  [⊤]ᴺ  →
               P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
 
   -- Non-deterministic value

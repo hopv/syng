@@ -114,7 +114,7 @@ abstract
 
   ⊢⁺⟨⟩ᵀ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q ) › ⁺⟨⟩ᵀᵒ-eatˡ
 
-  -- hor-valᵘ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ∞ ][ i ]⇛  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  →
+  -- hor-valᵘ :  P  ∗  [⊤]ᴺ  ⊢[ ∞ ][ i ]⇛  Q˙ v  ∗  [⊤]ᴺ  →
   --             P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩ᵀ[ i ]  Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-valᵘ P⊢⇛[⊤]Qv) Pa =  ⁺⟨⟩ᵀᵒ-val λ _ → Pa ▷ ⊢⇛-sem P⊢⇛[⊤]Qv
@@ -225,7 +225,7 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q ) › ⁺⟨⟩ᴾᵒ-eatˡ
 
-  -- hor-valᵘ :  P  ∗  [ ⊤ᶻ ]ᴺ  ⊢[ ∞ ][ i ]⇛  Q˙ v  ∗  [ ⊤ᶻ ]ᴺ  →
+  -- hor-valᵘ :  P  ∗  [⊤]ᴺ  ⊢[ ∞ ][ i ]⇛  Q˙ v  ∗  [⊤]ᴺ  →
   --             P  ⊢[ ι ]⁺⟨ ĩ₀ v ⟩ᴾ  Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-valᵘ P⊢⇛[⊤]Qv) Pa =  ⁺⟨⟩ᴾᵒ-val λ _ → Pa ▷ ⊢⇛-sem P⊢⇛[⊤]Qv

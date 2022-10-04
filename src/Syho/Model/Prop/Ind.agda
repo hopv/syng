@@ -12,11 +12,10 @@ open import Base.Few using (absurd)
 open import Base.Eq using (refl)
 open import Base.Size using (∞)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
-open import Base.Zoi using (⊤ᶻ)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Type; Expr∞; Val)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; [_]ᴺ;
+open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; [⊤]ᴺ;
   Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗?-comm; ∗-elimʳ)
@@ -241,7 +240,7 @@ abstract
     -, -ᴵ, -, horᵀ-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
-                  (R ∗ P') ∗ [ ⊤ᶻ ]ᴺ ⊢[ ∞ ][ i ]⇛ P ∗ [ ⊤ᶻ ]ᴺ →
+                  (R ∗ P') ∗ [⊤]ᴺ ⊢[ ∞ ][ i ]⇛ P ∗ [⊤]ᴺ →
                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩[ κ ]ᵒ Q˙
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
@@ -258,7 +257,7 @@ abstract
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [ ⊤ᶻ ]ᴺ ⊢[ ∞ ][ i ]⇛ Q'˙ v ∗ [ ⊤ᶻ ]ᴺ) →
+  ↪⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [⊤]ᴺ ⊢[ ∞ ][ i ]⇛ Q'˙ v ∗ [⊤]ᴺ) →
                  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q'˙
   ↪⟨⟩ᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa

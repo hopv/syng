@@ -96,6 +96,11 @@ invk i nm P =  inj˙ᴵⁿᵛᵗᵏ i ([] , #ˣ (nm , P)) , εᴺᵃᵐᵉˢ
 [_]ᴺʳ :  (Name → Zoi) →  Resᴵⁿᵛ
 [ Nm ]ᴺʳ =  εᴵⁿᵛᵗᵏ , Nm
 
+-- Own the universal name set
+
+[⊤]ᴺʳ :  Resᴵⁿᵛ
+[⊤]ᴺʳ =  [ ⊤ᶻ ]ᴺʳ
+
 private variable
   P :  Prop∞
   ⁿPˇ˙ ⁿQˇ˙ :  ℕ →  ¿ (Name × Prop∞)
@@ -105,9 +110,9 @@ private variable
 
 abstract
 
-  -- empᴵⁿᵛ with [ ⊤ᶻ ]ᴺʳ is valid
+  -- empᴵⁿᵛ with [⊤]ᴺʳ is valid
 
-  empᴵⁿᵛ-✓ :  empᴵⁿᵛ ✓ᴵⁿᵛ [ ⊤ᶻ ]ᴺʳ
+  empᴵⁿᵛ-✓ :  empᴵⁿᵛ ✓ᴵⁿᵛ [⊤]ᴺʳ
   empᴵⁿᵛ-✓ =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _) , _
 
   -- Update the set part of [ ]ᴺʳ

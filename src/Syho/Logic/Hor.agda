@@ -7,15 +7,17 @@
 module Syho.Logic.Hor where
 
 open import Base.Func using (_$_; const)
+open import Base.Dec using (Inh)
 open import Base.Size using (Size)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
+open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; _⁏_; let˙)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
+open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; ∇_; _⁏_; let˙)
+open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _ᴷ◁_;
   Val/Ktxred)
 
 -- Import and re-export
@@ -23,13 +25,14 @@ open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_
   _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
   _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘ_;
-  ahor-frameˡ; hor-frameˡ; ahor-hor; hor-bind; hor-valᵘ; hor-nd; horᴾ-▶; horᵀ-▶;
-  hor-◁; hor-⁏; hor-fork)
+  ahor-frameˡ; hor-frameˡ; ahor-hor; hor-bind; hor-valᵘ; ahor-nd; horᴾ-▶;
+  horᵀ-▶; hor-◁; hor-⁏; hor-fork)
 
 private variable
   ι :  Size
   i :  ℕ
   X :  Set₀
+  Xʸ :  Setʸ
   T U :  Type
   κ :  WpKind
   P P' Q R :  Prop∞
@@ -57,9 +60,6 @@ abstract
   -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
   -->              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  R˙
-
-  -->  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  (∀ x →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ]  Q˙)  →
-  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ {Xʸ}) ⟩[ κ ]  Q˙
 
   -->  horᴾ-▶ :  P  ⊢[< ι ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
   -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾ  Q˙
@@ -122,6 +122,15 @@ abstract
 
   hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
   hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} $ ∗-monoˡ P⊢Q
+
+  -- Non-deterministic value
+
+  -->  ahor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  P  ⊢[ ι ][ i ]ᵃ⟨ ndᴿ {Xʸ} ⟩ λ _ →  P
+
+  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  (∀ x →  P ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ] Q˙)  →
+            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ {Xʸ}) ⟩[ κ ]  Q˙
+  hor-nd {{InhXʸ}} P⊢⟨Kx⟩Q =
+    ahor-hor (ahor-frameʳ $ ahor-nd {i = 0} {{InhXʸ}}) λ _ → P⊢⟨Kx⟩Q _
 
   -- Sequential execution
 

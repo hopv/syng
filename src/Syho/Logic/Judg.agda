@@ -521,10 +521,9 @@ data  _⊢[_]*_  where
 
   -- Non-deterministic value
 
-  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  (∀ x →  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ]  Q˙)  →
-            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ {Xʸ}) ⟩[ κ ]  Q˙
+  ahor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  P  ⊢[ ι ][ i ]ᵃ⟨ ndᴿ {Xʸ} ⟩ λ _ →  P
 
-  -- ▶, for partial and total Hoare triples
+  -- Remove ▶
 
   horᴾ-▶ :  P  ⊢[< ι ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾ  Q˙

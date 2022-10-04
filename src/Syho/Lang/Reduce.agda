@@ -98,7 +98,7 @@ private variable
   kr :  Ktxred T
   ι :  Size
 
-infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴷᴿ∑
+infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
 
 -- ⇒ᴿ :  Reduction of a redex
 --       The ¿ Expr∞ (◸ ⊤) part is a possibly forked thread
@@ -168,7 +168,10 @@ data  _⇒ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
   redᵀ-tl :  (e , es , M) ⇒ᵀ (e' , es' , M') →
              (e₀ , e ∷ es , M) ⇒ᵀ (e₀ , e' ∷ es' , M')
 
--- ⇐ᴷᴿ, ⇐ᴱ, ⇐ᵀ :  Flipped ⇒ᴷᴿ, ⇒ᴱ, ⇒ᵀ
+-- ⇐ᴿ, ⇐ᴷᴿ, ⇐ᴱ, ⇐ᵀ :  Flipped ⇒ᴿ, ⇒ᴷᴿ, ⇒ᴱ, ⇒ᵀ
+
+_⇐ᴿ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Redex T × Mem →  Set₀
+_⇐ᴿ_ =  flip _⇒ᴿ_
 
 _⇐ᴷᴿ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Ktxred T × Mem →  Set₀
 _⇐ᴷᴿ_ =  flip _⇒ᴷᴿ_
@@ -180,7 +183,10 @@ _⇐ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
         Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 _⇐ᵀ_ =  flip _⇒ᵀ_
 
--- ⇒ᴷᴿ∑ :  A contex-redex pair is reducible
+-- ⇒ᴿ∑, ⇒ᴷᴿ∑ :  A redex / contex-redex pair is reducible
+
+_⇒ᴿ∑ :   Redex T × Mem →  Set₀
+redM ⇒ᴿ∑ =  ∑ eM' , redM ⇒ᴿ eM'
 
 _⇒ᴷᴿ∑ :  Ktxred T × Mem →  Set₀
 krM ⇒ᴷᴿ∑ =  ∑ eM' , krM ⇒ᴷᴿ eM'

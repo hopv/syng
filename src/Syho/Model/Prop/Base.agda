@@ -18,10 +18,9 @@ open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Envᴳ; Resᴳ; inj˙;
-  ✓˙-respᴱ; inj˙-≈; inj˙-∙; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝; ✓-inj˙)
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Envᴳ; Resᴳ; Resᴳ˙;
+  inj˙; ✓˙-respᴱ; inj˙-≈; inj˙-∙; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝; ✓-inj˙)
 
-open ERA using (Res)
 open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
   ⊑-respˡ; ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-resp; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ;
   ∙-unitˡ; ∙-unitʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min;
@@ -731,7 +730,7 @@ abstract
 -- ◎⟨ ⟩ :  Semantically own a resource of a component ERA
 
 infix 8 ◎⟨_⟩_
-◎⟨_⟩_ :  ∀ i →  Globᴱᴿᴬ˙ i .Res →  Propᵒ 1ᴸ
+◎⟨_⟩_ :  ∀ i →  Resᴳ˙ i →  Propᵒ 1ᴸ
 ◎⟨ i ⟩ aⁱ =  ◎ inj˙ i aⁱ
 
 module _ {i : ℕ} where

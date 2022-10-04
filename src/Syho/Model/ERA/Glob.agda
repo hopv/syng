@@ -8,7 +8,7 @@ module Syho.Model.ERA.Glob where
 
 open import Base.Level using (1ᴸ; ↑_; ↓)
 open import Base.Few using (⊤; ⊥; absurd)
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; _∘_)
 open import Base.Eq using (refl; _≡˙_)
 open import Base.Dec using (yes; no; ≡Dec; _≟_; ≟-refl; upd˙)
 open import Base.Zoi using (⊤ᶻ)
@@ -22,7 +22,7 @@ open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿ
   empᴵⁿᵈˣ-✓; empᴵⁿᵈᵖ-✓)
 open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; [_]ᴺʳ; empᴵⁿᵛ-✓)
 
-open ERA using (Env)
+open ERA using (Env; Res)
 
 --------------------------------------------------------------------------------
 -- Global ERA
@@ -63,6 +63,12 @@ open AllGlob public using () renaming (
 
 open ERA Globᴱᴿᴬ public using () renaming (ε to εᴳ; _✓_ to _✓ᴳ_)
 
+-- Environment and resource of a component ERA
+
+Envᴳ˙ Resᴳ˙ :  ℕ →  Set 1ᴸ
+Envᴳ˙ i =  Globᴱᴿᴬ˙ i .Env
+Resᴳ˙ i =  Globᴱᴿᴬ˙ i .Res
+
 --------------------------------------------------------------------------------
 -- The inner part of Globᴱᴿᴬ
 
@@ -77,10 +83,16 @@ pattern jᴵⁿᵈᵖ =  1
 pattern jᴵⁿᵛ =  2
 pattern elseᴵⁿᴳ =  ṡ ṡ ṡ _
 
+-- Environment and resource of a component inner ERA
+
+Envᴵⁿᴳ˙ Resᴵⁿᴳ˙ :  ℕ →  Set 1ᴸ
+Envᴵⁿᴳ˙ =  Envᴳ˙ ∘ outᴳ
+Resᴵⁿᴳ˙ =  Resᴳ˙ ∘ outᴳ
+
 -- The inner part of the environment
 
 Envᴵⁿᴳ :  Set₁
-Envᴵⁿᴳ =  ∀(j : ℕ) →  Globᴱᴿᴬ˙ (outᴳ j) .Env
+Envᴵⁿᴳ =  ∀ j →  Envᴵⁿᴳ˙ j
 
 -- Conversion between Envᴳ and a pair of Mem and Envᴵⁿᴳ
 

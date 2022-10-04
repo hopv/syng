@@ -226,17 +226,17 @@ abstract
 
   -- Let ⇛ᵍ/⇛ᵍᶠ eat a proposition under ∗ᵒ
 
-  ⇛ᵍ-eatˡ :  Qᵒ ∗ᵒ (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ)  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
+  ⇛ᵍ-eatˡ :  Qᵒ ∗ᵒ (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ)  ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
   ⇛ᵍ-eatˡ =  ⇛ᵍ-make {Pᵒ = _ ∗ᵒ _} $ ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ⇛ᵍ-apply › ⤇ᴱ-eatˡ ›
     ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
 
-  ⇛ᵍ-eatʳ :  (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨  ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
+  ⇛ᵍ-eatʳ :  (⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⟨ M ⟩[ gsI ]⇛ᵍ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
   ⇛ᵍ-eatʳ =  ∗ᵒ-comm › ⇛ᵍ-eatˡ › ⇛ᵍ-mono ∗ᵒ-comm
 
-  ⇛ᵍᶠ-eatˡ :  Qᵒ ∗ᵒ ([ gsI ]⇛ᵍᶠ Pᵒ)  ⊨  [ gsI ]⇛ᵍᶠ  Qᵒ ∗ᵒ Pᵒ
+  ⇛ᵍᶠ-eatˡ :  Qᵒ ∗ᵒ ([ gsI ]⇛ᵍᶠ Pᵒ)  ⊨ [ gsI ]⇛ᵍᶠ  Qᵒ ∗ᵒ Pᵒ
   ⇛ᵍᶠ-eatˡ big _ =  big ▷ ∗ᵒ-monoʳ (_$ _) ▷ ⇛ᵍ-eatˡ
 
-  ⇛ᵍᶠ-eatʳ :  ([ gsI ]⇛ᵍᶠ Pᵒ) ∗ᵒ Qᵒ  ⊨  [ gsI ]⇛ᵍᶠ  Pᵒ ∗ᵒ Qᵒ
+  ⇛ᵍᶠ-eatʳ :  ([ gsI ]⇛ᵍᶠ Pᵒ) ∗ᵒ Qᵒ  ⊨ [ gsI ]⇛ᵍᶠ  Pᵒ ∗ᵒ Qᵒ
   ⇛ᵍᶠ-eatʳ big _ =  big ▷ ∗ᵒ-monoˡ (_$ _) ▷ ⇛ᵍ-eatʳ
 
   -- Adequacy of ⇛ᵍ

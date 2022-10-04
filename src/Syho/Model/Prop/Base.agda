@@ -483,12 +483,12 @@ abstract
 
   -- Let ⤇ᵒ eat a proposition under ∗ᵒ
 
-  ⤇ᵒ-eatʳ :  (⤇ᵒ Pᵒ) ∗ᵒ Qᵒ  ⊨  ⤇ᵒ Pᵒ ∗ᵒ Qᵒ
+  ⤇ᵒ-eatʳ :  (⤇ᵒ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⤇ᵒ  Pᵒ ∗ᵒ Qᵒ
   ⤇ᵒ-eatʳ (-, -, b∙c⊑a , ⤇Pb , Qc) _ _ E✓a∙e
     with ⤇Pb _ _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocˡ $ ∙-monoˡ b∙c⊑a
   … | -, E✓d∙ce , Pd =  -, ✓-resp ∙-assocʳ E✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
-  ⤇ᵒ-eatˡ :  Qᵒ ∗ᵒ (⤇ᵒ Pᵒ)  ⊨  ⤇ᵒ Qᵒ ∗ᵒ Pᵒ
+  ⤇ᵒ-eatˡ :  Qᵒ ∗ᵒ (⤇ᵒ Pᵒ)  ⊨ ⤇ᵒ  Qᵒ ∗ᵒ Pᵒ
   ⤇ᵒ-eatˡ =  ∗ᵒ-comm › ⤇ᵒ-eatʳ › ⤇ᵒ-mono ∗ᵒ-comm
 
   -- Let ⌜ ⌝ᵒ× go out of ⤇ᵒ
@@ -582,13 +582,13 @@ abstract
 
   -- Let ⤇ᴱ eat a proposition under ∗ᵒ
 
-  ⤇ᴱ-eatʳ :  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ∗ᵒ  Qᵒ  ⊨  E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x ∗ᵒ Qᵒ
+  ⤇ᴱ-eatʳ :  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ∗ᵒ  Qᵒ  ⊨ E ⤇ᴱ λ x → F˙ x ,  Pᵒ˙ x ∗ᵒ Qᵒ
   ⤇ᴱ-eatʳ (-, -, b∙c⊑a , E⤇FPb , Qc) _ E✓a∙e
     with E⤇FPb _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocˡ $ ∙-monoˡ b∙c⊑a
   … | -, -, F✓d∙ce , Pd =
     -, -, ✓-resp ∙-assocʳ F✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
-  ⤇ᴱ-eatˡ :  Qᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ⊨  E ⤇ᴱ λ x → F˙ x , Qᵒ ∗ᵒ Pᵒ˙ x
+  ⤇ᴱ-eatˡ :  Qᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ⊨ E ⤇ᴱ λ x → F˙ x ,  Qᵒ ∗ᵒ Pᵒ˙ x
   ⤇ᴱ-eatˡ =  ∗ᵒ-comm › ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-comm
 
   -- ⊨✓ ⤇ᴱ into ⊨ ⤇ᴱ

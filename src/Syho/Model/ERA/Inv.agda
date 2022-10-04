@@ -58,13 +58,13 @@ open ProdInv public using () renaming (
   --  ×Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ×ᴱᴿᴬ to ×Invᴱᴿᴬ)
 module EnvmInv =  Syho.Model.ERA.Envm ×Invᴱᴿᴬ ((ℕ → ¿ (Name × Prop∞)) × ℕ)
-  (λ (E ,-) → (λ i → E i , E i) , _)
+  (λ (ⁿPˇ˙ ,-) → (λ i → ⁿPˇ˙ i , ⁿPˇ˙ i) , _)
 open EnvmInv public using () renaming (
   --  EnvmInvᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envmᴱᴿᴬ to EnvmInvᴱᴿᴬ)
--- The domain of E consists of indices less than n
+-- The domain of ⁿPˇ˙ consists of indices less than n
 module EnvvInv =  Syho.Model.ERA.Envv EnvmInvᴱᴿᴬ
-  (λ (E , n) → ∀≥˙ n (λ _ → _≡ ň) E)
+  (λ (ⁿPˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) ⁿPˇ˙)
 open EnvvInv public using () renaming (
   --  Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Envvᴱᴿᴬ to Invᴱᴿᴬ)
@@ -97,7 +97,7 @@ invk i nm P =  inj˙ᴵⁿᵛᵗᵏ i ([] , #ˣ (nm , P)) , εᴺᵃᵐᵉˢ
 
 private variable
   P :  Prop∞
-  E :  ℕ →  ¿ (Name × Prop∞)
+  ⁿPˇ˙ ⁿQˇ˙ :  ℕ →  ¿ (Name × Prop∞)
   i n :  ℕ
   nm :  Name
   Nm Nm' :  Name → Zoi
@@ -116,7 +116,7 @@ abstract
 
   -- The set of [ ]ᴺʳ is valid
 
-  []ᴺʳ-✔ :  (E , n) ✓ᴵⁿᵛ [ Nm ]ᴺʳ →  ✔ᶻ Nm
+  []ᴺʳ-✔ :  (ⁿPˇ˙ , n) ✓ᴵⁿᵛ [ Nm ]ᴺʳ →  ✔ᶻ Nm
   []ᴺʳ-✔ (-, -, ✔Nm) =  ✔Nm
 
   -- inv i nm P absorbs ⌞ ⌟
@@ -126,42 +126,42 @@ abstract
 
   -- invk i nm P cannot overlap
 
-  invk-no2 :  ¬ (E , n) ✓ᴵⁿᵛ invk i nm P ∙ᴵⁿᵛ invk i nm P
+  invk-no2 :  ¬ (ⁿQˇ˙ , n) ✓ᴵⁿᵛ invk i nm P ∙ᴵⁿᵛ invk i nm P
   invk-no2 {i = i} (-, ✓inmPnmP , _)  with ✓inmPnmP i .π₁
   … | ✓↯  rewrite ≟-refl {a = i} =  absurd ✓↯
 
   -- Allocate inv and invk
 
-  inv-invk-alloc :  ((E , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
-    (upd˙ n (š (nm , P)) E , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P
+  inv-invk-alloc :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
+    (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P
   inv-invk-alloc _ _ .π₀ =  _
-  inv-invk-alloc _ (✓E ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓E
+  inv-invk-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
   inv-invk-alloc _ (-, -, ✓c) .π₁ .π₁ .π₁ =  ✓c
-  inv-invk-alloc {n = n} _ (✓E , E✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | E✓ab i
-  … | no _ | Ei✓abi =  Ei✓abi
-  … | yes refl | (En✓an , En✓bn)  rewrite ✓E _ ≤-refl =
-    ✓ᴸ-alloc En✓an , ✓ˣ-alloc En✓bn
+  inv-invk-alloc {n = n} _ (✓Qˇ , Qˇ✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | Qˇ✓ab i
+  … | no _ | Qˇi✓abi =  Qˇi✓abi
+  … | yes refl | (Qˇn✓an , Qˇn✓bn)  rewrite ✓Qˇ _ ≤-refl =
+    ✓ᴸ-alloc Qˇn✓an , ✓ˣ-alloc Qˇn✓bn
 
   -- Get agreement from inv
 
-  inv-agree :  ((E , n) , inv i nm P)  ↝ᴵⁿᵛ
-                 λ (_ :  E i ≡ š (nm , P)  ×  i < n) →  (E , n) , inv i nm P
-  inv-agree _ ✓E✓inmP∙ .π₁ =  ✓E✓inmP∙
-  inv-agree {n = n} {i} _ (✓E , E✓inmP∙ , _) .π₀  with E✓inmP∙ i .π₀
-  … | Ei✓P∷  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Ei✓P∷
-  …   | Ei≡šP  with i <≥ n
-  …     | ĩ₀ i<n =  Ei≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓E _ i≥n  with Ei≡šP
+  inv-agree :  ((ⁿQˇ˙ , n) , inv i nm P)  ↝ᴵⁿᵛ
+    λ (_ :  ⁿQˇ˙ i ≡ š (nm , P)  ×  i < n) →  (ⁿQˇ˙ , n) , inv i nm P
+  inv-agree _ ✓Qˇ✓inmP∙ .π₁ =  ✓Qˇ✓inmP∙
+  inv-agree {n = n} {i} _ (✓Qˇ , Qˇ✓inmP∙ , _) .π₀  with Qˇ✓inmP∙ i .π₀
+  … | Qˇi✓P∷  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷
+  …   | Qˇi≡šP  with i <≥ n
+  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
   …       | ()
 
   -- Get agreement from invk
 
-  invk-agree :  ((E , n) , invk i nm P)  ↝ᴵⁿᵛ
-                  λ (_ :  E i ≡ š (nm , P)  ×  i < n) →  (E , n) , invk i nm P
-  invk-agree _ ✓E✓inmP∙ .π₁ =  ✓E✓inmP∙
-  invk-agree {n = n} {i} (a ,-) (✓E , E✓inmP∙ , _) .π₀  with E✓inmP∙ i .π₁
-  … | Ei✓#P∙  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = a i .π₁} Ei✓#P∙
-  …   | Ei≡šP  with i <≥ n
-  …     | ĩ₀ i<n =  Ei≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓E _ i≥n  with Ei≡šP
+  invk-agree :  ((ⁿQˇ˙ , n) , invk i nm P)  ↝ᴵⁿᵛ
+    λ (_ :  ⁿQˇ˙ i ≡ š (nm , P)  ×  i < n) →  (ⁿQˇ˙ , n) , invk i nm P
+  invk-agree _ ✓Qˇ✓inmP∙ .π₁ =  ✓Qˇ✓inmP∙
+  invk-agree {n = n} {i} (a ,-) (✓Qˇ , Qˇ✓inmP∙ , _) .π₀  with Qˇ✓inmP∙ i .π₁
+  … | Qˇi✓#P∙  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = a i .π₁} Qˇi✓#P∙
+  …   | Qˇi≡šP  with i <≥ n
+  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
+  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n  with Qˇi≡šP
   …       | ()

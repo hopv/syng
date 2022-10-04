@@ -439,6 +439,10 @@ abstract
   -∗ᵒ-intro P∗Q⊨✓R Qa _ _ _ a⊑b E✓c∙b Pc =
     P∗Q⊨✓R E✓c∙b (-, -, ∙-monoʳ a⊑b , Pc , Qa)
 
+  -∗ᵒ-intro' :  Monoᵒ Pᵒ →  Pᵒ ⊨✓ Qᵒ →  ⊨ Pᵒ -∗ᵒ Qᵒ
+  -∗ᵒ-intro' MonoP P⊨✓Q =
+    -∗ᵒ-intro {Qᵒ = ⊤ᵒ₀} (λ ✓∙ → ∗ᵒ-elimˡ MonoP › P⊨✓Q ✓∙) _
+
   -∗ᵒ-elim :  Monoᵒ Rᵒ →  Qᵒ ⊨✓ Pᵒ -∗ᵒ Rᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ
   -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, -, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $ Q⊨✓P-∗R
     (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) E✓a) Qc _ _ _ ⊑-refl (✓-mono b∙c⊑a E✓a) Pb

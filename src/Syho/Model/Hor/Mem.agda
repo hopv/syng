@@ -14,10 +14,11 @@ open import Base.Prod using (∑-syntax; π₁; _,_; -,_; ≡∑⇒π₁≡)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺)
-open import Syho.Lang.Expr using (Addr; Type; ∇_; Val; TyVal; ⊤-)
-open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; allocᴿ; freeᴿ)
-open import Syho.Lang.Reduce using (Mem; _‼ᴹ_; updᴹ; 🞰⇒; ←⇒; alloc⇒; free⇒;
-  ✓ᴹ-∑ň)
+open import Base.Sety using (Setʸ)
+open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; Val; TyVal; ⊤-)
+open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ)
+open import Syho.Lang.Reduce using (Mem; _‼ᴹ_; updᴹ; 🞰⇒; ←⇒; fau⇒; cas⇒-tt;
+  cas⇒-ff; alloc⇒; free⇒; ✓ᴹ-∑ň)
 open import Syho.Model.ERA.Glob using (upd˙-mem-envᴳ)
 open import Syho.Model.ERA.Mem using (εᴹᵉᵐ; ↦⟨⟩ʳ-read; ↦ʳ-write; ↦ᴸʳ-alloc;
   freeʳ-š; ↦ᴸʳ-free)
@@ -32,6 +33,7 @@ open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ_)
 
 private variable
   X :  Set₀
+  Xʸ :  Setʸ
   T :  Type
   M :  Mem
   θ :  Addr
@@ -39,7 +41,8 @@ private variable
   o n :  ℕ
   ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
-  v :  X
+  v x :  X
+  f :  X → X
 
 --------------------------------------------------------------------------------
 -- Semantic super update for the memory
@@ -97,6 +100,14 @@ abstract
   ᵃ⟨⟩ᵒ-← :  θ ↦ᵒ ᵗu  ⊨ ᵃ⟨ _←ᴿ_ {T} θ v ⟩ᵒ λ _ →  θ ↦ᵒ (T , v)
   ᵃ⟨⟩ᵒ-← θ↦ _ =  ↦⟨⟩ᵒ-read θ↦ ▷ ⇛ᵒ-mono λ (M‼θ≡ , θ↦) → (-, ←⇒ (-, M‼θ≡)) ,
     λ{ _ _ _ (←⇒ _) → -, (refl , refl) , ↦ᵒ-write θ↦ }
+
+  -- fau and ᵃ⟨⟩ᵒ
+
+  ᵃ⟨⟩ᵒ-fau :  θ ↦ᵒ (◸ʸ Xʸ , x)  ⊨ ᵃ⟨ fauᴿ f θ ⟩ᵒ λ y →
+                ⌜ y ≡ x ⌝ᵒ×  θ ↦ᵒ (-, f x)
+  ᵃ⟨⟩ᵒ-fau θ↦x _ =  ↦⟨⟩ᵒ-read θ↦x ▷ ⇛ᵒ-mono λ (M‼θ≡x , θ↦x) → (-, fau⇒ M‼θ≡x) ,
+    λ{ _ _ _ (fau⇒ M‼θ≡y) → -, (refl , refl) , ↦ᵒ-write θ↦x ▷ ⇛ᵒ-mono λ θ↦fx →
+    (≡∑⇒π₁≡ $ š-inj $ ◠ M‼θ≡y ◇ M‼θ≡x) ▷ λ{ refl → refl , θ↦fx }}
 
   -- alloc and ᵃ⟨⟩ᵒ
 

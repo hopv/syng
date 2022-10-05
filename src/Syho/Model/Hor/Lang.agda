@@ -19,7 +19,8 @@ open import Syho.Lang.Ktxred using (Redex; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_; f
   _ᴷ◁_; _ᴷ∘ᴷ_; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
 open import Syho.Lang.Reduce using (nd⇒; ▶⇒; ◁⇒; ⁏⇒; fork⇒; redᴷᴿ)
 open import Syho.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-syntax; _∗ᵒ_;
-  _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; -∗ᵒ-monoʳ)
+  _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ?∗ᵒ-intro; ∗ᵒ?-intro; -∗ᵒ-monoʳ;
+  -∗ᵒ-intro; -∗ᵒ-applyˡ; ∗ᵒThunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⇛ᵒ-mono; ⇛ᵒ-intro; ⇛ᵒ-join)
 open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ_; ⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[_]_;
@@ -97,18 +98,20 @@ abstract
   ᵃ⟨⟩ᵒ-nd {{InhX}} Pa M =  ⇛ᵒ-intro ((-, nd⇒ $ auto {{InhX}}) ,
     λ{ _ _ _ (nd⇒ _) → -, (refl , refl) , ⇛ᵒ-intro Pa })
 
-{-
   -- ▶ and ⁺⟨⟩ᴾ/ᵀᵒ
   -- The premise is under the thunk for ⁺⟨⟩ᴾᵒ
 
   ⁺⟨⟩ᴾᵒ-▶ :  ⟨ K ᴷ◁ e˂ .! ⟩ᴾᵒ[< ι ] Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-▶ big =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ▶⇒) ,
-    λ{ _ _ _ (redᴷᴿ ▶⇒) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ big })
+  ⁺⟨⟩ᴾᵒ-▶ =  -∗ᵒ-intro (λ _ big _ → ⇛ᵒ-intro ((-, redᴷᴿ ▶⇒) ,
+    λ{ _ _ _ (redᴷᴿ ▶⇒) → ⇛ᵒ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ (?∗ᵒ-intro _) }))
+    › ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-▶ :  ⟨ K ᴷ◁ e˂ .! ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-▶ big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ ▶⇒) ,
-    λ{ _ _ _ (redᴷᴿ ▶⇒) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § big })
+  ⁺⟨⟩ᵀᵒ-▶ =  -∗ᵒ-intro (λ _ big _ → ⇛ᵒ-intro ((-, redᴷᴿ ▶⇒) ,
+    λ{ _ _ _ (redᴷᴿ ▶⇒) → ⇛ᵒ-intro $ big ▷ ∗ᵒ-comm ▷
+    ∗ᵒ-mono §_ (?∗ᵒ-intro _) })) › ⁺⟨⟩ᵀᵒ-kr
 
+{-
   -- ◁ and ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-◁ :  ⟨ K ᴷ◁ e˙ x ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩ᴾᵒ[ ι ] Pᵒ˙

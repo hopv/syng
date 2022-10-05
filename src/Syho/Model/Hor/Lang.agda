@@ -34,6 +34,7 @@ private variable
   X :  Set₀
   v x :  X
   T U :  Type
+  Pᵒ :  Propᵒ ł
   Pᵒ˙ :  X →  Propᵒ ł
   e :  Expr∞ T
   e˂ :  Expr˂∞ T
@@ -90,23 +91,13 @@ abstract
     ¿⁺⟨⟩ᵀᵒ⊤<-size {ι = ∞} {eˇ = eˇ}) › ∗ᵒ-monoˡ λ{ (§ big) → § ⟨⟩ᵀᵒ-bind big ▷
     substᵒ (⟨_⟩ᵀᵒ[< ∞ ] _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }) }}) › ⁺⟨⟩ᵀᵒ-kr
 
+  -- nd and ᵃ⟨⟩ᵒ
+
+  ᵃ⟨⟩ᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →  Pᵒ ⊨ ᵃ⟨ ndᴿ {Xʸ} ⟩ᵒ λ _ → Pᵒ
+  ᵃ⟨⟩ᵒ-nd {{InhX}} Pa M =  ⇛ᵒ-intro ((-, nd⇒ $ auto {{InhX}}) ,
+    λ{ _ _ _ (nd⇒ _) → -, (refl , refl) , ⇛ᵒ-intro Pa })
+
 {-
-  -- nd and ⁺⟨⟩ᴾ/ᵀᵒ
-
-  ⁺⟨⟩ᴾᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →
-    ∀ᵒ x ∈ ⸨ Xʸ ⸩ʸ , ⟨ K ᴷ◁ ∇ x ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨
-      ⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-nd {{InhX}} big =  ⁺⟨⟩ᴾᵒ-kr λ M →
-    ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ $ auto {{InhX}}) ,
-    λ{ _ _ _ (redᴷᴿ (nd⇒ x)) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ λ{ .! → big x }})
-
-  ⁺⟨⟩ᵀᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →
-    ∀ᵒ x ∈ ⸨ Xʸ ⸩ʸ , ⟨ K ᴷ◁ ∇ x ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨
-      ⁺⟨ ĩ₁ (-, K , ndᴿ) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-nd {{InhX}} big =  ⁺⟨⟩ᵀᵒ-kr λ M →
-    ⇛ᵒ-intro ((-, redᴷᴿ $ nd⇒ $ auto {{InhX}}) ,
-    λ{ _ _ _ (redᴷᴿ (nd⇒ x)) → ⇛ᵒ-intro $ ∗ᵒ?-intro _ $ § big x })
-
   -- ▶ and ⁺⟨⟩ᴾ/ᵀᵒ
   -- The premise is under the thunk for ⁺⟨⟩ᴾᵒ
 

@@ -6,11 +6,9 @@
 
 module Syho.Model.Hor.Mem where
 
-open import Base.Level using (Level)
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong)
+open import Base.Eq using (_≡_; refl; ◠_; _◇_)
 open import Base.Dec using (upd˙)
-open import Base.Size using (Size; ∞; !; §_)
 open import Base.Option using (š_; ň; š-inj)
 open import Base.Prod using (∑-syntax; π₁; _,_; -,_; ≡∑⇒π₁≡)
 open import Base.Nat using (ℕ)
@@ -24,29 +22,24 @@ open import Syho.Model.ERA.Glob using (upd˙-mem-envᴳ)
 open import Syho.Model.ERA.Mem using (εᴹᵉᵐ; ↦⟨⟩ʳ-read; ↦ʳ-write; ↦ᴸʳ-alloc;
   freeʳ-š; ↦ᴸʳ-free)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_;
-  _⤇ᴱ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ?∗ᵒ-intro;
-  ∗ᵒ?-intro; ∗ᵒ-elimʳ; ∃ᵒ∗ᵒ-out; ⤇ᴱ-mono; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ◎⟨⟩-∗ᵒ⇒∙;
-  ◎⟨⟩-∙⇒∗ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
+  ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ∃ᵒ-out; ⤇ᴱ-mono; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param;
+  ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; _↦ᵒ_; Freeᵒ'; Freeᵒ; _↦ᴸᵒ_;
   _↦ᴸᵒ'_; ↦ᴸᵒ⇒↦ᴸᵒ'; ↦ᴸᵒ'⇒↦ᴸᵒ)
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒ-mono; ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ;
-  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ; ⇛ᵒ-intro; ⇛ᵒ-intro-✓ᴹ)
+open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ; ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ;
+  ⇛ᵒ-mono; ⇛ᵒ-intro; ⇛ᵒ-intro-✓ᴹ; ⇛ᵒ-eatˡ)
 open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ_)
 
 private variable
-  ł :  Level
-  ι :  Size
   X :  Set₀
-  T U :  Type
-  Pᵒ Qᵒ :  Propᵒ ł
-  Qᵒ˙ :  X → Propᵒ ł
-  M M' :  Mem
+  T :  Type
+  M :  Mem
   θ :  Addr
   p :  ℚ⁺
   o n :  ℕ
   ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
-  u v :  X
+  v :  X
 
 --------------------------------------------------------------------------------
 -- Semantic super update for the memory
@@ -105,52 +98,20 @@ abstract
   ᵃ⟨⟩ᵒ-← θ↦ _ =  ↦⟨⟩ᵒ-read θ↦ ▷ ⇛ᵒ-mono λ (M‼θ≡ , θ↦) → (-, ←⇒ (-, M‼θ≡)) ,
     λ{ _ _ _ (←⇒ _) → -, (refl , refl) , ↦ᵒ-write θ↦ }
 
-{-
-  -- alloc and ⁺⟨⟩ᴾ/ᵀᵒ
+  -- alloc and ᵃ⟨⟩ᵒ
 
-  ⁺⟨⟩ᴾᵒ-alloc :
-    (∀ θ →
-      θ ↦ᴸᵒ rep n ⊤-  ∗ᵒ  Freeᵒ n θ  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ θ ⟩ᴾᵒ[ ι ]  Qᵒ˙)  →
-    Pᵒ  ⊨  ⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩ᴾᵒ[ ι ]  Qᵒ˙
-  ⁺⟨⟩ᴾᵒ-alloc {n = n} θ↦∗Free∗P⊨⟨Kθ⟩Q Pa =  ⁺⟨⟩ᴾᵒ-kr λ M →
-    ⇛ᵒ-mono (λ (✓M , big) → (-, redᴷᴿ (alloc⇒ _ $ ✓ᴹ-∑ň ✓M .π₁)) , big) $
-    ⇛ᵒ-intro-✓ᴹ λ{ _ _ _ (redᴷᴿ (alloc⇒ o Mo≡ň)) → Pa ▷
-    ?∗ᵒ-intro (↦ᴸᵒ'-alloc Mo≡ň) ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $
-    ∗ᵒ-monoˡ (∗ᵒ-mono (↦ᴸᵒ'⇒↦ᴸᵒ {ᵗvs = rep n _}) (λ Fr'b → -, refl , Fr'b)) ›
-    ∗ᵒ-assocˡ › θ↦∗Free∗P⊨⟨Kθ⟩Q _ › λ big → ∗ᵒ?-intro _ $ λ{ .! → big }}
+  ᵃ⟨⟩ᵒ-alloc :  ⊨ ᵃ⟨ allocᴿ n ⟩ᵒ λ θ →  θ ↦ᴸᵒ rep n ⊤-  ∗ᵒ  Freeᵒ n θ
+  ᵃ⟨⟩ᵒ-alloc {n} _ =  ⇛ᵒ-intro-✓ᴹ {Pᵒ = ⊤ᵒ₀} _  ▷ ⇛ᵒ-mono λ (✓M , -) →
+    (-, alloc⇒ _ $ ✓ᴹ-∑ň ✓M .π₁) , λ{ _ _ _ (alloc⇒ _ Mo≡ň) → -, (refl , refl) ,
+    ↦ᴸᵒ'-alloc Mo≡ň ▷
+    ⇛ᵒ-mono (∗ᵒ-mono (↦ᴸᵒ'⇒↦ᴸᵒ {ᵗvs = rep n _}) λ Free' → -, refl , Free') }
 
-  ⁺⟨⟩ᵀᵒ-alloc :
-    (∀ θ →
-      θ ↦ᴸᵒ rep n ⊤-  ∗ᵒ  Freeᵒ n θ  ∗ᵒ  Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ θ ⟩ᵀᵒ[ ι ]  Qᵒ˙)  →
-    Pᵒ  ⊨  ⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩ᵀᵒ[ ∞ ] Qᵒ˙
-  ⁺⟨⟩ᵀᵒ-alloc {n} θ↦∗Free∗P⊨⟨Kθ⟩Q Pa =  ⁺⟨⟩ᵀᵒ-kr λ M →
-    ⇛ᵒ-mono (λ (✓M , big) → (-, redᴷᴿ (alloc⇒ _ $ ✓ᴹ-∑ň ✓M .π₁)) , big) $
-    ⇛ᵒ-intro-✓ᴹ λ{ _ _ _ (redᴷᴿ (alloc⇒ o Mo≡ň)) → Pa ▷
-    ?∗ᵒ-intro (↦ᴸᵒ'-alloc Mo≡ň) ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $
-    ∗ᵒ-monoˡ (∗ᵒ-mono (↦ᴸᵒ'⇒↦ᴸᵒ {ᵗvs = rep n _}) (λ Fr'b → -, refl , Fr'b)) ›
-    ∗ᵒ-assocˡ › θ↦∗Free∗P⊨⟨Kθ⟩Q _ › §_ › ∗ᵒ?-intro _ }
+  -- free and ᵃ⟨⟩ᵒ
 
-  -- free and ⁺⟨⟩ᴾ/ᵀᵒ
-
-  ⁺⟨⟩ᴾᵒ-free :  len ᵗvs ≡ n  →   Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ[ ι ] Qᵒ˙  →
-    θ ↦ᴸᵒ ᵗvs  ∗ᵒ  Freeᵒ n θ  ∗ᵒ  Pᵒ  ⊨  ⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩ᴾᵒ[ ι ] Qᵒ˙
-  ⁺⟨⟩ᴾᵒ-free {ᵗvs} lenvs≡n P⊨⟨K⟩Q θ↦vs∗Free∗Pa
-    with θ↦vs∗Free∗Pa ▷ ?∗ᵒ-comm ▷ ∃ᵒ∗ᵒ-out ▷ (λ (o , big) → o , ∃ᵒ∗ᵒ-out big)
-  … | o , refl , Free'∗θ↦vs∗Pa =  ⁺⟨⟩ᴾᵒ-kr λ M → Free'∗θ↦vs∗Pa ▷
-    ∗ᵒ-monoˡ Freeᵒ'-š ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ (Mo≡š , Free'∗θ↦vs∗Pb) →
-    (-, redᴷᴿ $ free⇒ Mo≡š) , λ{ _ _ _ (redᴷᴿ (free⇒ _)) → Free'∗θ↦vs∗Pb ▷
-    ?∗ᵒ-comm ▷ ∗ᵒ-monoˡ (↦ᴸᵒ⇒↦ᴸᵒ' {ᵗvs = ᵗvs}) ▷ ∗ᵒ-assocʳ ▷
-    ∗ᵒ-monoˡ (↦ᴸᵒ'-free lenvs≡n) ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∗ᵒ-monoʳ P⊨⟨K⟩Q ›
-    ∗ᵒ-elimʳ ⁺⟨⟩ᴾᵒ-Mono › λ big → ∗ᵒ?-intro _ λ{ .! → big }}
-
-  ⁺⟨⟩ᵀᵒ-free :  len ᵗvs ≡ n  →   Pᵒ  ⊨  ⟨ K ᴷ◁ ∇ _ ⟩ᵀᵒ[ ι ] Qᵒ˙  →
-    θ ↦ᴸᵒ ᵗvs  ∗ᵒ  Freeᵒ n θ  ∗ᵒ  Pᵒ  ⊨  ⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩ᵀᵒ[ ∞ ] Qᵒ˙
-  ⁺⟨⟩ᵀᵒ-free {ᵗvs} lenvs≡n P⊨⟨K⟩Q θ↦vs∗Free∗Pa
-    with θ↦vs∗Free∗Pa ▷ ?∗ᵒ-comm ▷ ∃ᵒ∗ᵒ-out ▷ (λ (o , big) → o , ∃ᵒ∗ᵒ-out big)
-  … | o , refl , Free'∗θ↦vs∗Pa =  ⁺⟨⟩ᵀᵒ-kr λ M → Free'∗θ↦vs∗Pa ▷
-    ∗ᵒ-monoˡ Freeᵒ'-š ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∃ᵒ∗ᵒ-out › λ (Mo≡š , Free'∗θ↦vs∗Pb) →
-    (-, redᴷᴿ $ free⇒ Mo≡š) , λ{ _ _ _ (redᴷᴿ (free⇒ _)) → Free'∗θ↦vs∗Pb ▷
-    ?∗ᵒ-comm ▷ ∗ᵒ-monoˡ (↦ᴸᵒ⇒↦ᴸᵒ' {ᵗvs = ᵗvs}) ▷ ∗ᵒ-assocʳ ▷
-    ∗ᵒ-monoˡ (↦ᴸᵒ'-free lenvs≡n) ▷ ⇛ᵒ-eatʳ ▷ ⇛ᵒ-mono $ ∗ᵒ-monoʳ P⊨⟨K⟩Q ›
-    ∗ᵒ-elimʳ ⁺⟨⟩ᵀᵒ-Mono › §_ › ∗ᵒ?-intro _ }
--}
+  ᵃ⟨⟩ᵒ-free :  len ᵗvs ≡ n  →
+    θ ↦ᴸᵒ ᵗvs  ∗ᵒ  Freeᵒ n θ  ⊨ ᵃ⟨ freeᴿ θ ⟩ᵒ λ _ →  ⊤ᵒ₀
+  ᵃ⟨⟩ᵒ-free {ᵗvs} lenvs≡n θ↦vs∗Free _ =  θ↦vs∗Free ▷ ∗ᵒ∃ᵒ-out ▷ λ (-, big) →
+    ∗ᵒ∃ᵒ-out big ▷ λ{ (refl , big) → big ▷ ∗ᵒ-monoʳ Freeᵒ'-š ▷ ⇛ᵒ-eatˡ ▷
+    ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › λ (Mo≡š , big) → (-, free⇒ Mo≡š) , λ{ _ _ _ (free⇒ _) →
+    -, (refl , refl) , big ▷ ∗ᵒ-monoˡ (↦ᴸᵒ⇒↦ᴸᵒ' {ᵗvs = ᵗvs}) ▷
+    ↦ᴸᵒ'-free lenvs≡n }) }

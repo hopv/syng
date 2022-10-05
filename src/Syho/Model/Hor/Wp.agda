@@ -40,7 +40,7 @@ private variable
   eˇ :  ¿ Expr∞ T
 
 --------------------------------------------------------------------------------
--- Semantic atomic weakest precondition
+-- ᵃ⟨ ⟩ᵒ :  Semantic atomic weakest precondition
 
 infix 3 ᵃ⟨_⟩ᵒ_
 
@@ -50,7 +50,7 @@ infix 3 ᵃ⟨_⟩ᵒ_
                     ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Pᵒ v
 
 --------------------------------------------------------------------------------
--- Semantic partial weakest precondition
+-- ⁺⟨ ⟩ᴾᵒ etc. :  Semantic partial weakest precondition
 
 infix 3 ⁺⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[_]_ ⟨_⟩ᴾᵒ[<_]_
 
@@ -121,7 +121,7 @@ data  Wpᴾ Pᵒ˙ ι  where
                ⁺⟨ ĩ₁ kr ⟩ᴾᵒ[ ι ] Pᵒ˙
 
 --------------------------------------------------------------------------------
--- Semantic total weakest precondition
+-- ⁺⟨ ⟩ᵀᵒ etc. :  Semantic total weakest precondition
 
 infix 3 ⁺⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[_]_ ⟨_⟩ᵀᵒ[<_]_
 

@@ -523,7 +523,9 @@ data  _⊢[_]*_  where
 
   ahor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  P  ⊢[ ι ][ i ]ᵃ⟨ ndᴿ {Xʸ} ⟩ λ _ →  P
 
-  -- Remove ▶
+  -- Strip ▶ off
+  -- The premise can be used coinductively for the partial Hoare triple,
+  -- and only inductively for the total Hoare triple
 
   horᴾ-▶ :  P  ⊢[< ι ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾ  Q˙

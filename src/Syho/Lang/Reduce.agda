@@ -92,7 +92,8 @@ private variable
   es es' es'' :  List (Expr∞ (◸ ⊤))
   K :  Ktx T U
   red : Redex T
-  v x y :  X
+  v x y z :  X
+  ᵗu :  TyVal
   f :  X → X
   n :  ℕ
   kr :  Ktxred T
@@ -124,8 +125,7 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem �
   🞰⇒ :  M ‼ᴹ θ ≡ š (T , v) →  (🞰ᴿ θ , M) ⇒ᴿ (V⇒E {T} v , ň , M)
 
   -- For ←, with a check that θ is in the domain of M
-  ←⇒ :  ∑ ᵗu , M ‼ᴹ θ ≡ š ᵗu →
-        (_←ᴿ_ {T} θ v , M) ⇒ᴿ (∇ _ , ň , updᴹ θ (T , v) M)
+  ←⇒ :  M ‼ᴹ θ ≡ š ᵗu →  (_←ᴿ_ {T} θ v , M) ⇒ᴿ (∇ _ , ň , updᴹ θ (T , v) M)
 
   -- For fau
   fau⇒ :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , x) →
@@ -134,7 +134,7 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem �
   -- For cas, the success and failure cases
   cas⇒-tt :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , x) →
              (casᴿ θ x y , M) ⇒ᴿ (∇ tt , ň , updᴹ θ (-, y) M)
-  cas⇒-ff :  ∑ z , M ‼ᴹ θ ≡ š (◸ʸ Xʸ , z) × z ≢ x →
+  cas⇒-ff :  M ‼ᴹ θ ≡ š (◸ʸ Xʸ , z) →  z ≢ x →
              (casᴿ θ x y , M) ⇒ᴿ (∇ ff , ň , M)
 
   -- For alloc, for any o out of the domain of M

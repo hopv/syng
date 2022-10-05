@@ -7,7 +7,7 @@
 module Syho.Model.Supd.Interp where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
-open import Base.Func using (_$_; _▷_; _›_; id; const)
+open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
 open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; refl˙)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
@@ -15,9 +15,10 @@ open import Base.Nat using ()
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ;
   empᴵⁿᴳ-✓; envᴳ-cong)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
-  ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm;
-  ∗ᵒ?-intro; -∗ᵒ-intro; ⤇ᴱ-param; ⤇ᴱ-eatʳ; ⤇ᴱ-step)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
+  ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; substᵒ; ∗ᵒ-mono✓ˡ;
+  ∗ᵒ-monoˡ; ∗ᵒ-comm; ∗ᵒ?-intro; -∗ᵒ-Mono; -∗ᵒ-intro; -∗ᵒ-applyʳ; ⤇ᴱ-param;
+  ⤇ᴱ-eatʳ; ⤇ᴱ-step)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⟨_⟩[_]⇛ᵍ⟨_⟩_; ⇛ᵍ≡⇛ᵍ';
   ⇛ᵍ-Mono; ⇛ᵍᶠ-Mono; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᵍᶠ-mono✓; ⇛ᵍᶠ-mono; ⇛ᵍ-make; ⇛ᵍ-apply;
@@ -178,11 +179,6 @@ abstract
   ⇛ᵒ-eatʳ :  (⇛ᵒ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⇛ᵒ  Pᵒ ∗ᵒ Qᵒ
   ⇛ᵒ-eatʳ =  ⇛ᵍᶠ-eatʳ
 
-  -- ⇛ᵒ into ⇛ᴺᵒ
-
-  ⇛ᵒ⇒⇛ᴺᵒ :  ⇛ᵒ Pᵒ ⊨ ⇛ᴺᵒ Pᵒ
-  ⇛ᵒ⇒⇛ᴺᵒ =  -∗ᵒ-intro λ _ → ∗ᵒ-comm › ⇛ᵒ-eatʳ
-
   -- Adequacy of ⇛ᴹ
   -- If we have X under ⟨ M ⟩⇛ᴹ⟨ M' ⟩ for valid M, then X holds purely
 
@@ -195,3 +191,27 @@ abstract
              ∑ Fᴵⁿ , ∑ b ,  envᴳ M' Fᴵⁿ ✓ᴳ b  ×  (Pᵒ ∗ᵒ Invᴳ Fᴵⁿ) b
   ⇛ᴹ-step ME✓a ⇛P∗InvEa  with ⤇ᴱ-step ME✓a (⇛ᵍ-apply ⇛P∗InvEa)
   … | -, -, M'F✓b , P∗InvFb =  -, -, M'F✓b , P∗InvFb
+
+  -- Utility for making ⇛ᴺᵒ
+
+  ⇛ᴺᵒ-make :  Pᵒ ∗ᵒ [⊤]ᴺᵒ ⊨✓ ⇛ᵒ Qᵒ ∗ᵒ [⊤]ᴺᵒ →  Pᵒ ⊨ ⇛ᴺᵒ Qᵒ
+  ⇛ᴺᵒ-make P∗[⊤]⊨✓Q∗[⊤] =  -∗ᵒ-intro λ ✓∙ → ∗ᵒ-comm › P∗[⊤]⊨✓Q∗[⊤] ✓∙
+
+  -- ⇛ᵒ into ⇛ᴺᵒ
+
+  ⇛ᵒ⇒⇛ᴺᵒ :  ⇛ᵒ Pᵒ ⊨ ⇛ᴺᵒ Pᵒ
+  ⇛ᵒ⇒⇛ᴺᵒ =  ⇛ᴺᵒ-make λ _ → ⇛ᵒ-eatʳ
+
+  -- Monoᵒ for ⇛ᴺᵒ
+
+  ⇛ᴺᵒ-Mono :  Monoᵒ $ ⇛ᴺᵒ Pᵒ
+  ⇛ᴺᵒ-Mono =  -∗ᵒ-Mono
+
+  -- Monotonicity of ⇛ᴺᵒ
+
+  ⇛ᴺᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⇛ᴺᵒ Pᵒ ⊨ ⇛ᴺᵒ Qᵒ
+  ⇛ᴺᵒ-mono✓ P⊨✓Q =  ⇛ᴺᵒ-make {Pᵒ = ⇛ᴺᵒ _} λ ✓∙ →
+    -∗ᵒ-applyʳ ⇛ᵒ-Mono ✓∙ › ⇛ᵒ-mono✓ $ ∗ᵒ-mono✓ˡ P⊨✓Q
+
+  ⇛ᴺᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⇛ᴺᵒ Pᵒ ⊨ ⇛ᴺᵒ Qᵒ
+  ⇛ᴺᵒ-mono =  ⇛ᴺᵒ-mono✓ ∘ ⊨⇒⊨✓

@@ -13,7 +13,8 @@ open import Base.Nat using (ℕ)
 open import Syho.Lang.Reduce using (Mem)
 open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_»_; ∃-elim)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⇛-refl-⤇;
+  _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
 open import Syho.Logic.Inv using (Inv-alloc-rec; Inv-open; OInv-close)
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
@@ -22,8 +23,8 @@ open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Ind using (○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
   ↪⇛ᵒ-use)
 open import Syho.Model.Supd.Inv using (Invᵒ-alloc-rec; Invᵒ-open; OInvᵒ-close)
-open import Syho.Model.Supd.Interp using (⇛ᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᵒ-mono;
-  ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
+open import Syho.Model.Supd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᵒ-mono;
+  ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-make)
 
 private variable
   P Q :  Prop∞
@@ -89,3 +90,8 @@ private variable
 -- OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ∞ ][ i ]⇛  [^ nm ]ᴺ
 
 ⊢⇛-sem OInv-close =  OInvᵒ-close › ⇛ᴵⁿᵛ⇒⇛ᵒ
+
+-- Utility for ⇛ᴺ
+
+⊢⇛ᴺ-sem :  P ⊢[ ∞ ][ i ]⇛ᴺ Q →  ⸨ P ⸩ ⊨ ⇛ᴺᵒ ⸨ Q ⸩
+⊢⇛ᴺ-sem P⊢⇛Q =  ⇛ᴺᵒ-make λ _ → ⊢⇛-sem P⊢⇛Q

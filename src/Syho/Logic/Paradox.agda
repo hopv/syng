@@ -19,7 +19,7 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-fram
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _ᵘ»ᵃʰ_; _ᵘ»ʰ_)
 open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
-  ○⇒↪⟨⟩ᴾ; ○⇒↪⟨⟩ᵀ)
+  ○⇒↪⟨⟩)
 
 private variable
   ι :  Size
@@ -95,7 +95,7 @@ module _
   -- We can strip ○ from ↪⟨⟩ᴾ, using ↪⟨⟩ᴾ-use'
 
   ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' :  ○ ¡ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
-  ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' =  ○⇒↪⟨⟩ᴾ λ{ .! → ↪⟨⟩ᴾ-use' }
+  ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' =  ○⇒↪⟨⟩ λ{ .! → ↪⟨⟩ᴾ-use' }
 
   -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
 
@@ -116,7 +116,7 @@ module _
   -- We can strip ○ from ↪⟨⟩ᵀ, using ↪⟨⟩ᵀ-use'
 
   ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' :  ○ ¡ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
-  ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' =  ○⇒↪⟨⟩ᵀ λ{ .! → ↪⟨⟩ᵀ-use' }
+  ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' =  ○⇒↪⟨⟩ λ{ .! → ↪⟨⟩ᵀ-use' }
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
@@ -138,7 +138,7 @@ module _
 
   ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶ :
     ○ ¡ (P˂ ↪⟨ loop ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop ⟩ᵀ[ i ] Q˂˙
-  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶ =  ○⇒↪⟨⟩ᵀ λ{ .! → ↪⟨⟩ᵀ-use▶ }
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶ =  ○⇒↪⟨⟩ λ{ .! → ↪⟨⟩ᵀ-use▶ }
 
   -- Therefore, by ○-rec, we have any total Hoare triple for the expression
   -- loop, which is a paradox: Although the total Hoare triple should ensure

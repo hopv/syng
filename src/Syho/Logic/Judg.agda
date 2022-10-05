@@ -471,7 +471,7 @@ data  _⊢[_]*_  where
 
   hor-ᵀ⇒ᴾ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
 
-  -- Counter increment on the atomic / total Hoare triple
+  -- Level increment on the atomic / total Hoare triple
 
   ahor-ṡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
 

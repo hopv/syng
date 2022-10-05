@@ -23,7 +23,7 @@ private variable
 
 abstract
 
-  -- Counter tweak
+  -- Level tweak
 
   -->  ⇛-ṡ :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ ṡ i ]⇛ Q
 

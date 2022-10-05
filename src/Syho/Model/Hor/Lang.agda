@@ -62,8 +62,8 @@ abstract
       ⁺⟨ ĩ₁ (-, K , red) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
   ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᵒ-mono λ ((-, redM⇒) , big) →
     (-, redᴷᴿ redM⇒) , λ{ _ _ _ (redᴷᴿ e'eˇM'⇐) → big _ _ _ e'eˇM'⇐ ▷
-    λ{ (-, (refl , refl) , big) → big ▷
-    ⇛ᵒ-mono (∗ᵒ-mono (§_) (?∗ᵒ-intro _)) }}) › ⁺⟨⟩ᵀᵒ-kr
+    λ{ (-, (refl , refl) , big) → big ▷ ⇛ᵒ-mono (∗ᵒ-mono §_ (?∗ᵒ-intro _)) }}) ›
+    ⁺⟨⟩ᵀᵒ-kr
 
   -- Bind for ⟨⟩ᴾ/ᵀᵒ
 

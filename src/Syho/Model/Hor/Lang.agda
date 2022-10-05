@@ -19,8 +19,8 @@ open import Syho.Lang.Ktxred using (Redex; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_; f
   _ᴷ◁_; _ᴷ∘ᴷ_; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
 open import Syho.Lang.Reduce using (nd⇒; ▶⇒; ◁⇒; ⁏⇒; fork⇒; redᴷᴿ)
 open import Syho.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-syntax; _∗ᵒ_;
-  _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ?∗ᵒ-intro; ∗ᵒ?-intro; -∗ᵒ-monoʳ;
-  -∗ᵒ-intro; -∗ᵒ-applyˡ; ∗ᵒThunkᵒ-out)
+  _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ∗ᵒ?-intro;
+  -∗ᵒ-monoʳ; -∗ᵒ-intro; -∗ᵒ-applyˡ; ∗ᵒThunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⇛ᵒ-mono; ⇛ᵒ-intro; ⇛ᵒ-join)
 open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ_; ⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[_]_;
@@ -135,18 +135,16 @@ abstract
     λ{_ _ _ (redᴷᴿ ⁏⇒) → ⇛ᵒ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-mono §_ (?∗ᵒ-intro _) }))
     › ⁺⟨⟩ᵀᵒ-kr
 
-{-
   -- fork and ⁺⟨⟩ᴾ/ᵀᵒ
 
   ⁺⟨⟩ᴾᵒ-fork :  (⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ[ ι ] Pᵒ˙)  ∗ᵒ  ⟨ e ⟩ᴾᵒ⊤[ ι ]  ⊨
-                ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-fork big =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ fork⇒) ,
-    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᵒ-intro $ big ▷
-      ∗ᵒ-mono (λ big → λ{ .! → big }) (λ big → λ{ .! → big }) })
+                  ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-fork =  -∗ᵒ-intro (λ _ big _ → ⇛ᵒ-intro ((-, redᴷᴿ fork⇒) ,
+    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᵒ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ (∗ᵒ-mono
+    (λ big → λ{ .! → big }) (λ big → λ{ .! → big })) ▷ ∗ᵒ-assocˡ})) › ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-fork :  (⟨ K ᴷ◁ ∇ _ ⟩ᵀᵒ[ ι ] Pᵒ˙)  ∗ᵒ  ⟨ e ⟩ᵀᵒ⊤[ ι' ]  ⊨
-                ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-fork big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ fork⇒) ,
-    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᵒ-intro $ big ▷
-      ∗ᵒ-mono (λ big → § big) (λ big → §_ {ι = ∞} big) })
--}
+                  ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-fork =  -∗ᵒ-intro (λ _ big _ → ⇛ᵒ-intro ((-, redᴷᴿ fork⇒) ,
+    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᵒ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ (∗ᵒ-mono
+    (λ big → § big) (λ big → §_ {ι = ∞} big)) ▷ ∗ᵒ-assocˡ})) › ⁺⟨⟩ᵀᵒ-kr

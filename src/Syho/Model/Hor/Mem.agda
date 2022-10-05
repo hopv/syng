@@ -7,8 +7,10 @@
 module Syho.Model.Hor.Mem where
 
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Eq using (_≡_; refl; ◠_; _◇_)
+open import Base.Few using (absurd)
+open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_)
 open import Base.Dec using (upd˙)
+open import Base.Bool using (tt; ff)
 open import Base.Option using (š_; ň; š-inj)
 open import Base.Prod using (∑-syntax; π₁; _,_; -,_; ≡∑⇒π₁≡)
 open import Base.Nat using (ℕ)
@@ -41,7 +43,7 @@ private variable
   o n :  ℕ
   ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
-  v x :  X
+  v x y z :  X
   f :  X → X
 
 --------------------------------------------------------------------------------
@@ -108,6 +110,23 @@ abstract
   ᵃ⟨⟩ᵒ-fau θ↦x _ =  ↦⟨⟩ᵒ-read θ↦x ▷ ⇛ᵒ-mono λ (M‼θ≡x , θ↦x) → (-, fau⇒ M‼θ≡x) ,
     λ{ _ _ _ (fau⇒ M‼θ≡y) → -, (refl , refl) , ↦ᵒ-write θ↦x ▷ ⇛ᵒ-mono λ θ↦fx →
     (≡∑⇒π₁≡ $ š-inj $ ◠ M‼θ≡y ◇ M‼θ≡x) ▷ λ{ refl → refl , θ↦fx }}
+
+  -- cas by ᵃ⟨⟩ᵒ
+
+  ᵃ⟨⟩ᵒ-cas-tt :  θ ↦ᵒ (◸ʸ Xʸ , x)  ⊨ ᵃ⟨ casᴿ θ x y ⟩ᵒ λ b →
+                   ⌜ b ≡ tt ⌝ᵒ×  θ ↦ᵒ (-, y)
+  ᵃ⟨⟩ᵒ-cas-tt θ↦x _ =  ↦⟨⟩ᵒ-read θ↦x ▷ ⇛ᵒ-mono λ (M‼θ≡x , θ↦x) →
+    (-, cas⇒-tt M‼θ≡x) , λ _ _ _ → λ{
+    (cas⇒-ff M‼θ≡z z≢x) → absurd $ z≢x $ ≡∑⇒π₁≡ $ š-inj $ ◠ M‼θ≡z ◇ M‼θ≡x;
+    (cas⇒-tt _) → -, (refl , refl) , ↦ᵒ-write θ↦x ▷ ⇛ᵒ-mono (refl ,_) }
+
+  ᵃ⟨⟩ᵒ-cas-ff :  z ≢ x  →
+    θ ↦⟨ p ⟩ᵒ (◸ʸ Xʸ , z)  ⊨ ᵃ⟨ casᴿ θ x y ⟩ᵒ λ b →
+      ⌜ b ≡ ff ⌝ᵒ×  θ ↦⟨ p ⟩ᵒ (-, z)
+  ᵃ⟨⟩ᵒ-cas-ff z≢x θ↦z _ =  ↦⟨⟩ᵒ-read θ↦z ▷ ⇛ᵒ-mono λ (M‼θ≡z , θ↦z) →
+    (-, cas⇒-ff M‼θ≡z z≢x) , λ _ _ _ → λ{
+    (cas⇒-tt M‼θ≡x) → absurd $ z≢x $ ≡∑⇒π₁≡ $ š-inj $ ◠ M‼θ≡z ◇ M‼θ≡x;
+    (cas⇒-ff _ _) → -, (refl , refl) , ⇛ᵒ-intro (refl , θ↦z) }
 
   -- alloc by ᵃ⟨⟩ᵒ
 

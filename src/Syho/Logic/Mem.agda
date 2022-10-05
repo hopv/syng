@@ -78,11 +78,11 @@ abstract
 
   -- Fetch and update
 
-  -->  ahor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λᵛ y ,
-  -->                ⌜ y ≡ x ⌝∧  θ ↦⟨ p ⟩ (-, f x)
+  -->  ahor-fau :  θ ↦ (◸ʸ Xʸ , x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λᵛ y ,
+  -->                ⌜ y ≡ x ⌝∧  θ ↦ (-, f x)
 
-  hor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , f x)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ]  Q˙  →
-             θ ↦⟨ p ⟩ (-, x)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , fauᴿ f θ) ⟩[ κ ]  Q˙
+  hor-fau :  θ ↦ (◸ʸ Xʸ , f x)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ]  Q˙  →
+             θ ↦ (-, x)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , fauᴿ f θ) ⟩[ κ ]  Q˙
   hor-fau θ↦fx∗P⊢⟨Kx⟩Q =  ahor-hor
     (ahor-frameʳ $ ahor-frameʳ $ ahor-fau {i = 0}) λ _ →
     ∃∗-elim λ{ refl → θ↦fx∗P⊢⟨Kx⟩Q }

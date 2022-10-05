@@ -577,8 +577,8 @@ data  _⊢[_]*_  where
 
   -- Fetch and update
 
-  ahor-fau :  θ ↦⟨ p ⟩ (◸ʸ Xʸ , x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λ y →
-                ⌜ y ≡ x ⌝∧  θ ↦⟨ p ⟩ (-, f x)
+  ahor-fau :  θ ↦ (◸ʸ Xʸ , x)  ⊢[ ι ][ i ]ᵃ⟨ fauᴿ f θ ⟩ λ y →
+                ⌜ y ≡ x ⌝∧  θ ↦ (-, f x)
 
   -- Compare and swap, the success and failure cases
 

@@ -305,7 +305,15 @@ abstract
   ⁺⟨⟩ᵀᵒ⊤-Mono :  Monoᵒ ⁺⟨ vk ⟩ᵀᵒ⊤[ ι ]
   ⁺⟨⟩ᵀᵒ⊤-Mono a⊑b =  ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ › ⁺⟨⟩ᵀᵒ-Mono a⊑b › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤
 
-  -- Monotonicity of ⁺⟨⟩ᴾ/ᵀᵒ
+  -- Monotonicity of ᵃ⟨⟩ᵒ and ⁺⟨⟩ᴾ/ᵀᵒ
+
+  ᵃ⟨⟩ᵒ-mono✓ :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →  ᵃ⟨ red ⟩ᵒ Pᵒ˙ ⊨ ᵃ⟨ red ⟩ᵒ Qᵒ˙
+  ᵃ⟨⟩ᵒ-mono✓ Pv⊨✓Qv big M =  big M ▷ ⇛ᵒ-mono λ (redM⇒ , big) → redM⇒ ,
+    λ _ _ _ eeˇM'⇐krM → big _ _ _ eeˇM'⇐krM ▷ λ (-, ≡vň , big) → -, ≡vň ,
+    big ▷ ⇛ᵒ-mono✓ (Pv⊨✓Qv _)
+
+  ᵃ⟨⟩ᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ᵃ⟨ red ⟩ᵒ Pᵒ˙ ⊨ ᵃ⟨ red ⟩ᵒ Qᵒ˙
+  ᵃ⟨⟩ᵒ-mono =  (⊨⇒⊨✓ ∘_) › ᵃ⟨⟩ᵒ-mono✓
 
   ⁺⟨⟩ᴾᵒ-mono✓ :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →
                  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙

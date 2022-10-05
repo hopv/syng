@@ -9,20 +9,21 @@ module Syho.Model.Hor.Wp where
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; 3ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
 open import Base.Few using (⊤)
+open import Base.Eq using (_≡_)
 open import Base.Size using (Size; Size<; !; §_)
 open import Base.Option using (¿_; ň; š_; ¿-case)
-open import Base.Prod using (_,_)
+open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (Mem; _⇐ᴿ_; _⇐ᴷᴿ_; _⇒ᴿ∑; _⇒ᴷᴿ∑)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
-  ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; Thunkᵒ; Shrunkᵒ; ⊨⇒⊨✓;
-  ∀ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
-  ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro; ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ; -∗ᵒ-Mono;
-  -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-intro'; -∗ᵒ-applyʳ; -∗ᵒ-eatˡ; ◎-Mono; ∗ᵒThunkᵒ-out;
-  ∗ᵒShrunkᵒ-out)
+  ∃ᵒ-syntax; ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; Thunkᵒ;
+  Shrunkᵒ; ⊨⇒⊨✓; ∀ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ;
+  ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro; ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ;
+  -∗ᵒ-Mono; -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-intro'; -∗ᵒ-applyʳ; -∗ᵒ-eatˡ; ◎-Mono;
+  ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ'⟨_⟩_; ⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒᶠ_; ⇛ᵒ⇒⇛ᵒ';
   ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒᶠ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒᶠ-mono✓; ⇛ᵒᶠ-mono; ⊨✓⇒⊨-⇛ᵒ;
@@ -49,8 +50,8 @@ infix 3 ᵃ⟨_⟩ᵒ_
 
 ᵃ⟨_⟩ᵒ_ :  Redex T →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ᵃ⟨ red ⟩ᵒ Pᵒ =  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (red , M) ⇒ᴿ∑ ⌝ᵒ×
-                  ∀ᵒ v , ∀ᵒ M' , ⌜ (V⇒E v , ň , M') ⇐ᴿ (red , M) ⌝ᵒ→
-                    ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Pᵒ v
+                  ∀ᵒ e , ∀ᵒ eˇ , ∀ᵒ M' , ⌜ (e , eˇ , M') ⇐ᴿ (red , M) ⌝ᵒ→
+                    ∃ᵒ v , ⌜ e ≡ V⇒E v × eˇ ≡ ň ⌝ᵒ×  ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Pᵒ v
 
 --------------------------------------------------------------------------------
 -- ⁺⟨ ⟩ᴾᵒ etc. :  Semantic partial weakest precondition
@@ -400,8 +401,9 @@ abstract
   -- ᵃ⟨⟩ᵒ absorbs ⇛ᵒᶠ inside
 
   ᵃ⟨⟩ᵒ-⇛ᵒᶠ :  ᵃ⟨ red ⟩ᵒ (λ v → ⇛ᵒᶠ Pᵒ˙ v)  ⊨  ᵃ⟨ red ⟩ᵒ Pᵒ˙
-  ᵃ⟨⟩ᵒ-⇛ᵒᶠ big M =  big M ▷ ⇛ᵒ-mono λ (redM⇒ , big) → redM⇒ , λ _ _ vM'⇐ →
-    big _ _ vM'⇐ ▷ ⇛ᵒ-mono (_$ _) ▷ ⇛ᵒ-join
+  ᵃ⟨⟩ᵒ-⇛ᵒᶠ big M =  big M ▷ ⇛ᵒ-mono λ (redM⇒ , big) → redM⇒ , λ _ _ _ veˇM'⇐ →
+    big _ _ _ veˇM'⇐ ▷ λ (-, ≡vň , big) → -, ≡vň ,
+    big ▷ ⇛ᵒ-mono (_$ _) ▷ ⇛ᵒ-join
 
   -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒᶠ with [⊤]ᴺᵒ inside
 
@@ -425,8 +427,9 @@ abstract
 
   ᵃ⟨⟩ᵒ-eatˡ :  Qᵒ ∗ᵒ (ᵃ⟨ red ⟩ᵒ Pᵒ˙)  ⊨  ᵃ⟨ red ⟩ᵒ λ v → Qᵒ ∗ᵒ Pᵒ˙ v
   ᵃ⟨⟩ᵒ-eatˡ big M =  big ▷ ∗ᵒ-monoʳ (_$ M) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono (∗ᵒ∃ᵒ-out ›
-    λ (redM⇒ , big) → redM⇒ , λ _ _ vM'⇐ → big ▷
-    ∗ᵒ-monoʳ (λ big → big _ _ vM'⇐) ▷ ⇛ᵒ-eatˡ)
+    λ (redM⇒ , big) → redM⇒ , λ _ _ _ veˇM'⇐ → big ▷
+    ∗ᵒ-monoʳ (λ big → big _ _ _ veˇM'⇐) ▷ ∗ᵒ∃ᵒ-out ▷ λ (-, big) → -,
+    big ▷ ∗ᵒ∃ᵒ-out ▷ λ (≡vň , big) → ≡vň , big ▷ ⇛ᵒ-eatˡ)
 
   ⁺⟨⟩ᴾᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙)  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₀ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-val⁻¹ ›

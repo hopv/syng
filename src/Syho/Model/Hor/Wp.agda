@@ -19,12 +19,14 @@ open import Syho.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (Mem; _⇐ᴿ_; _⇐ᴷᴿ_; _⇒ᴿ∑; _⇒ᴷᴿ∑)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
   ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; Thunkᵒ; Shrunkᵒ; ⊨⇒⊨✓;
-  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocʳ; ?∗ᵒ-intro;
-  ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ; -∗ᵒ-Mono; -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-intro';
-  ◎-Mono; ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
+  ∀ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
+  ∗ᵒ-assocʳ; ?∗ᵒ-intro; ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ; -∗ᵒ-Mono; -∗ᵒ-monoʳ;
+  ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-intro'; -∗ᵒ-elim; -∗ᵒ-applyʳ; ◎-Mono; ∗ᵒThunkᵒ-out;
+  ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ'⟨_⟩_; ⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒᶠ_; ⇛ᵒ⇒⇛ᵒ';
-  ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⇛ᵒᶠ-intro; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
+  ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒᶠ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒᶠ-mono✓; ⊨✓⇒⊨-⇛ᵒ; ⇛ᵒᶠ-intro;
+  ⇛ᵒ-join; ⇛ᵒᶠ-join)
 
 private variable
   ł :  Level
@@ -374,39 +376,30 @@ abstract
   ¿⁺⟨⟩ᵀᵒ⊤<⇒¿⁺⟨⟩ᴾᵒ⊤< {eˇ = š _} (§ big) .! =
     big ▷ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ ▷ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤
 
+  -- ᵃ⟨⟩ᵒ absorbs ⇛ᵒᶠ outside
+
+  ⇛ᵒᶠ-ᵃ⟨⟩ᵒ :  ⇛ᵒᶠ ᵃ⟨ red ⟩ᵒ Pᵒ˙  ⊨  ᵃ⟨ red ⟩ᵒ Pᵒ˙
+  ⇛ᵒᶠ-ᵃ⟨⟩ᵒ big M =  big M ▷ ⇛ᵒ-mono (_$ _) ▷ ⇛ᵒ-join
+
+  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒᶠ with [⊤]ᴺᵒ outside
+
+  ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ (⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙) ∗ᵒ [⊤]ᴺᵒ)  ⊨
+                 ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} =  (-∗ᵒ-monoʳ $ ⇛ᵒᶠ-mono✓ (λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-val⁻¹ ›
+    -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙) › ⇛ᵒᶠ-join) › ⁺⟨⟩ᴾᵒ-val
+  ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} =  (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᵒ-mono✓ (λ ✓∙ →
+    ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-kr⁻¹ › -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙ › _$ _) ▷
+    ⇛ᵒ-join) › ⁺⟨⟩ᴾᵒ-kr
+
+  ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ :  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ (⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [⊤]ᴺᵒ)  ⊨
+                 ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
+  ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} =  (-∗ᵒ-monoʳ $ ⇛ᵒᶠ-mono✓ (λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-val⁻¹ ›
+    -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙) › ⇛ᵒᶠ-join) › ⁺⟨⟩ᵀᵒ-val
+  ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} =  (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᵒ-mono✓ (λ ✓∙ →
+    ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙ › _$ _) ▷
+    ⇛ᵒ-join) › ⁺⟨⟩ᵀᵒ-kr
+
 {-
-  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒ outside itself
-
-  ⇛ᵒ-⁺⟨⟩ᴾᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⇛ᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} ⇛⟨v⟩P =  ⁺⟨⟩ᴾᵒ-val λ _ → ⇛⟨v⟩P _ ▷
-    ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-val⁻¹ › _$ _) ▷ ⇛ᵒ-join
-  ⇛ᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} ⇛⟨kr⟩P =  ⁺⟨⟩ᴾᵒ-kr λ _ → ⇛⟨kr⟩P _ ▷
-    ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-kr⁻¹ › _$ _) ▷ ⇛ᵒ-join
-
-  ⇛ᵒ-⁺⟨⟩ᵀᵒ :  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
-  ⇛ᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} ⇛⟨v⟩P =  ⁺⟨⟩ᵀᵒ-val λ _ → ⇛⟨v⟩P _ ▷
-    ⇛ᵒ-mono (⁺⟨⟩ᵀᵒ-val⁻¹ › _$ _) ▷ ⇛ᵒ-join
-  ⇛ᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} ⇛⟨kr⟩P =  ⁺⟨⟩ᵀᵒ-kr λ _ → ⇛⟨kr⟩P _ ▷
-    ⇛ᵒ-mono (⁺⟨⟩ᵀᵒ-kr⁻¹ › _$ _) ▷ ⇛ᵒ-join
-
-  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒ inside itself
-
-  ⁺⟨⟩ᴾᵒ-⇛ᵒ :  ⁺⟨ vk ⟩ᴾᵒ[ ι ] (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
-              ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-⇛ᵒ {vk = ĩ₀ _} ⟨v⟩⇛P =  ⁺⟨⟩ᴾᵒ-val λ _ → ⁺⟨⟩ᴾᵒ-val⁻¹ ⟨v⟩⇛P _ ▷
-    ⇛ᵒ-mono (_$ _) ▷ ⇛ᵒ-join
-  ⁺⟨⟩ᴾᵒ-⇛ᵒ {vk = ĩ₁ _} ⟨kr⟩⇛P =  ⁺⟨⟩ᴾᵒ-kr λ _ → ⁺⟨⟩ᴾᵒ-kr⁻¹ ⟨kr⟩⇛P _ ▷ ⇛ᵒ-mono
-    λ (krM⇒ , big) → krM⇒ , λ _ _ _ eeˇM'⇐krM → big _ _ _ eeˇM'⇐krM ▷
-    ⇛ᵒ-mono $ ∗ᵒ-monoˡ λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-⇛ᵒ $ big .! }
-
-  ⁺⟨⟩ᵀᵒ-⇛ᵒ :  ⁺⟨ vk ⟩ᵀᵒ[ ι ] (λ v → ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ˙ v)  ⊨
-              ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-⇛ᵒ {vk = ĩ₀ _} ⟨v⟩⇛P =  ⁺⟨⟩ᵀᵒ-val λ _ → ⁺⟨⟩ᵀᵒ-val⁻¹ ⟨v⟩⇛P _ ▷
-    ⇛ᵒ-mono (_$ _) ▷ ⇛ᵒ-join
-  ⁺⟨⟩ᵀᵒ-⇛ᵒ {vk = ĩ₁ _} ⟨kr⟩⇛P =  ⁺⟨⟩ᵀᵒ-kr λ _ → ⁺⟨⟩ᵀᵒ-kr⁻¹ ⟨kr⟩⇛P _ ▷ ⇛ᵒ-mono
-    λ (krM⇒ , big) → krM⇒ , λ _ _ _ eeˇM'⇐krM → big _ _ _ eeˇM'⇐krM ▷
-    ⇛ᵒ-mono $ ∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-⇛ᵒ big }
-
   -- ⁺⟨⟩ᴾ/ᵀᵒ can eat a proposition
 
   ⁺⟨⟩ᴾᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙)  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ v → Qᵒ ∗ᵒ Pᵒ˙ v

@@ -583,7 +583,7 @@ data  _⊢[_]*_  where
   -- Compare and swap, the success and failure cases
 
   ahor-cas-tt :  θ ↦ (◸ʸ Xʸ , x)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λ b →
-                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, y)
+                   ⌜ b ≡ tt ⌝∧  θ ↦ (-, y)
 
   ahor-cas-ff :  z ≢ x  →
     θ ↦⟨ p ⟩ (◸ʸ Xʸ , z)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λ b →

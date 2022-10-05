@@ -90,7 +90,7 @@ abstract
   -- Compare and swap, the success and failure cases
 
   -->  ahor-cas-tt :  θ ↦ (◸ʸ Xʸ , x)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λᵛ b ,
-  -->                   ⌜ b ≡ tt ⌝∧  θ ↦⟨ p ⟩ (-, y)
+  -->                   ⌜ b ≡ tt ⌝∧  θ ↦ (-, y)
 
   hor-cas-tt :  θ ↦ (◸ʸ Xʸ , y)  ∗  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ tt ⟩[ κ ]  Q˙  →
                 θ ↦ (-, x)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , casᴿ θ x y) ⟩[ κ ]  Q˙

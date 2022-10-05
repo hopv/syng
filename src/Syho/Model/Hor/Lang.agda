@@ -121,11 +121,11 @@ abstract
   ⁺⟨⟩ᴾᵒ-fork :  (⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ[ ι ] Pᵒ˙)  ∗ᵒ  ⟨ e ⟩ᴾᵒ⊤[ ι ]  ⊨
                 ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾᵒ[ ι ] Pᵒ˙
   ⁺⟨⟩ᴾᵒ-fork big =  ⁺⟨⟩ᴾᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ fork⇒) ,
-    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᵒ-intro (big ▷
-      ∗ᵒ-mono (λ big → λ{ .! → big }) (λ big → λ{ .! → big })) })
+    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᵒ-intro $ big ▷
+      ∗ᵒ-mono (λ big → λ{ .! → big }) (λ big → λ{ .! → big }) })
 
   ⁺⟨⟩ᵀᵒ-fork :  (⟨ K ᴷ◁ ∇ _ ⟩ᵀᵒ[ ι ] Pᵒ˙)  ∗ᵒ  ⟨ e ⟩ᵀᵒ⊤[ ι' ]  ⊨
                 ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
   ⁺⟨⟩ᵀᵒ-fork big =  ⁺⟨⟩ᵀᵒ-kr λ M → ⇛ᵒ-intro ((-, redᴷᴿ fork⇒) ,
-    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᵒ-intro (big ▷
-      ∗ᵒ-mono (λ big → § big) (λ big → §_ {ι = ∞} big)) })
+    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᵒ-intro $ big ▷
+      ∗ᵒ-mono (λ big → § big) (λ big → §_ {ι = ∞} big) })

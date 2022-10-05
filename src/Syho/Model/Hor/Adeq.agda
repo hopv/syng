@@ -112,8 +112,8 @@ abstract
                (e , [] , M) ⇒ᵀ* (V⇒E {T} v , es , M') →  X˙ v
   ⟨⟩ᴾᵒ-post {T} {v = v} ⊨⟨e⟩X ✓M eM⇒*vesM' with (λ{a} → ⊨⟨e⟩X {a} ▷ ∗ᵒ?-intro _
     ▷ ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*vesM' ▷ ⇛ᵒ-mono $ ∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono)
-  … | ⊨M⇛M'⟨v⟩X  rewrite val/ktxred-V⇒E {T} {v} =  ⇛ᵒ-adeq ✓M
-    (⊨M⇛M'⟨v⟩X ▷ ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-val⁻¹ › (_$ _)) ▷ ⇛ᵒ-join)
+  … | ⊨M⇛M'⟨v⟩X  rewrite val/ktxred-V⇒E {T} {v} =  ⇛ᵒ-adeq ✓M $
+    ⊨M⇛M'⟨v⟩X ▷ ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-val⁻¹ › (_$ _)) ▷ ⇛ᵒ-join
 
   -- If (⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙) is a tautology, then any reduction sequence starting
   -- with (e , [] , M) never gets stuck for valid M
@@ -125,8 +125,8 @@ abstract
   ⟨⟩ᴾᵒ-nostuck-hd ⊨⟨e⟩P ✓M eM⇒*e'esM' e'≡kr' with (λ{a} → ⊨⟨e⟩P {a} ▷
     ∗ᵒ?-intro _ ▷ ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*e'esM' ▷
     ⇛ᵒ-mono $ ∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono)
-  … | ⊨M⇛M'⟨e'⟩P  rewrite e'≡kr' =  ⇛ᵒ-adeq ✓M
-    (⊨M⇛M'⟨e'⟩P ▷ ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono π₀) ▷ ⇛ᵒ-join)
+  … | ⊨M⇛M'⟨e'⟩P  rewrite e'≡kr' =  ⇛ᵒ-adeq ✓M $ ⊨M⇛M'⟨e'⟩P ▷
+    ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono π₀) ▷ ⇛ᵒ-join
 
   -- For a tail thread
 
@@ -136,8 +136,8 @@ abstract
   ⟨⟩ᴾᵒ-nostuck-tl {es = es} ⊨⟨e⟩P ✓M eM⇒*e'esM' e⁺∈es e⁺≡kr' with (λ{a} →
     ⊨⟨e⟩P {a} ▷ ∗ᵒ?-intro _ ▷ ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*e'esM' ▷
     ⇛ᵒ-mono $ ∗ᵒ-elimʳ ([∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-Mono {es = es}) › [∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-elim e⁺∈es)
-  … | ⊨M⇛M'⟨e⁺⟩  rewrite e⁺≡kr' =  ⇛ᵒ-adeq ✓M (⊨M⇛M'⟨e⁺⟩ ▷
-    ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ › ⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono π₀) ▷ ⇛ᵒ-join)
+  … | ⊨M⇛M'⟨e⁺⟩  rewrite e⁺≡kr' =  ⇛ᵒ-adeq ✓M $ ⊨M⇛M'⟨e⁺⟩ ▷
+    ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ › ⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono π₀) ▷ ⇛ᵒ-join
 
 --------------------------------------------------------------------------------
 -- Adequacy of the semantic total weakest precondition
@@ -196,8 +196,8 @@ abstract
   -- terminates, for valid M
 
   ⟨⟩ᵀᵒ⇒acc :  ⊨ ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ →  ✓ᴹ M →  Acc _⇐ᵀ_ (e , [] , M)
-  ⟨⟩ᵀᵒ⇒acc ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓ ✓M)
-    (⊨⟨e⟩P ▷ ∗ᵒ?-intro _ ▷ ∗ᵒ?-intro Invᴳ-emp)
+  ⟨⟩ᵀᵒ⇒acc ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓ ✓M) $
+    ⊨⟨e⟩P ▷ ∗ᵒ?-intro _ ▷ ∗ᵒ?-intro Invᴳ-emp
    where
     -- Induction with the termination metric sz ι ∷ ιs
     go :  Acc _≺ᴰᴹ⟨ _<ˢ_ ⟩_ (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →

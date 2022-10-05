@@ -245,6 +245,6 @@ abstract
 
   ⇛ᵍ-adeq :  ⊨ Inv (get empᴵⁿᴳ) →  ✓ᴹ M →
              ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⌜ Y ⌝ᵒ →  Y
-  ⇛ᵍ-adeq ⊨Invgetemp ✓M M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓ ✓M) (M⇛M'Y ▷
+  ⇛ᵍ-adeq ⊨Invgetemp ✓M M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓ ✓M) $ M⇛M'Y ▷
     ∗ᵒ?-intro ⊨Invgetemp ▷ ⇛ᵍ-apply ▷
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-monoˡ {Qᵒ = ⌜ _ ⌝ᵒ× ⊤ᵒ₀} (_,-) › ∃ᵒ∗ᵒ-out › π₀))
+    ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ {Qᵒ = ⌜ _ ⌝ᵒ× ⊤ᵒ₀} (_,-) › ∃ᵒ∗ᵒ-out › π₀

@@ -21,7 +21,7 @@ open import Agda.Builtin.Sigma public using () renaming (
   Σ to ∑˙;
   -- Pair constructor
   -- _,_ :  A →  B˙ A →  ∑˙ A B˙
-  _,_ to infixr -3 _,_;
+  _,_ to infixr -2 _,_;
   -- The zeroth (left-hand) component of a pair
   -- π₀ :  ∑˙ A B˙ →  A
   fst to π₀;
@@ -44,7 +44,7 @@ infix -1 ∑∈-syntax ∑-syntax
 syntax ∑∈-syntax {A = A} (λ a → b) =  ∑ a ∈ A , b
 syntax ∑-syntax (λ a → B) =  ∑ a , B
 
-infix -3 -,_ _,-
+infix -2 -,_ _,-
 pattern -,_ b =  _ , b
 pattern _,- a =  a , _
 
@@ -108,11 +108,11 @@ instance
 --------------------------------------------------------------------------------
 -- ∑ᴵ :  Sigma type with an instance
 
-infix -3 -ᴵ,_
+infix -2 -ᴵ,_
 data  ∑ᴵ˙ (A : Set ł) (B˙ : A → Set ł') :  Set (ł ⊔ᴸ ł')  where
   -ᴵ,_ :  ∀{{a : A}} →  B˙ a →  ∑ᴵ˙ A B˙
 
-infixr -3 _ᴵ,_
+infixr -2 _ᴵ,_
 pattern _ᴵ,_ a b =  -ᴵ,_ {{a}} b
 
 ∑ᴵ∈-syntax ∑ᴵ-syntax :  ∀{A : Set ł} →  (B : A → Set ł') →  Set (ł ⊔ᴸ ł')

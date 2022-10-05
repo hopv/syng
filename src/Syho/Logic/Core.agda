@@ -442,13 +442,16 @@ abstract
 
   -- Apply -∗
 
-  -∗-apply :  P ∗ (P -∗ Q) ⊢[ ι ] Q
-  -∗-apply =  -∗-elim ⊢-refl
+  -∗-applyˡ :  P ∗ (P -∗ Q) ⊢[ ι ] Q
+  -∗-applyˡ =  -∗-elim ⊢-refl
+
+  -∗-applyʳ :  (P -∗ Q) ∗ P ⊢[ ι ] Q
+  -∗-applyʳ =  ∗-comm » -∗-applyˡ
 
   -- -∗ is monotone
 
   -∗-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  Q -∗ R ⊢[ ι ] P -∗ S
-  -∗-mono P⊢Q R⊢S =  -∗-intro $ ∗-monoˡ P⊢Q » -∗-apply » R⊢S
+  -∗-mono P⊢Q R⊢S =  -∗-intro $ ∗-monoˡ P⊢Q » -∗-applyˡ » R⊢S
 
   -∗-monoˡ :  P ⊢[ ι ] Q →  Q -∗ R ⊢[ ι ] P -∗ R
   -∗-monoˡ P⊢Q =  -∗-mono P⊢Q ⊢-refl
@@ -464,7 +467,7 @@ abstract
   -- Apply the head magic wand to the succedent
 
   -∗∗-apply :  Q ⊢[ ι ] P →  (P -∗ P') ∗ Q ⊢[ ι ] P'
-  -∗∗-apply Q⊢P =  ∗-monoˡ (-∗-monoˡ Q⊢P) » ∗-comm » -∗-apply
+  -∗∗-apply Q⊢P =  ∗-monoˡ (-∗-monoˡ Q⊢P) » -∗-applyʳ
 
   ------------------------------------------------------------------------------
   -- On ⤇
@@ -533,7 +536,7 @@ abstract
   -- P -∗ can turn into □ P →'
 
   -∗⇒□→ :  P -∗ Q ⊢[ ι ] □ P →' Q
-  -∗⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-apply
+  -∗⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-applyˡ
 
   -- Under □, -∗ can turn into →'
 

@@ -453,8 +453,11 @@ abstract
   -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, -, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $ Q⊨✓P-∗R
     (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) E✓a) Qc _ _ _ ⊑-refl (✓-mono b∙c⊑a E✓a) Pb
 
-  -∗ᵒ-apply :  Monoᵒ Qᵒ →  Pᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨✓ Qᵒ
-  -∗ᵒ-apply MonoQ =  -∗ᵒ-elim MonoQ λ _ → id
+  -∗ᵒ-applyˡ :  Monoᵒ Qᵒ →  Pᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨✓ Qᵒ
+  -∗ᵒ-applyˡ MonoQ =  -∗ᵒ-elim MonoQ λ _ → id
+
+  -∗ᵒ-applyʳ :  Monoᵒ Qᵒ →  (Pᵒ -∗ᵒ Qᵒ) ∗ᵒ Pᵒ ⊨✓ Qᵒ
+  -∗ᵒ-applyʳ MonoQ ✓∙ =  ∗ᵒ-comm › -∗ᵒ-applyˡ MonoQ ✓∙
 
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Semantic update modality

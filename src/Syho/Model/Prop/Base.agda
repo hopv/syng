@@ -459,6 +459,15 @@ abstract
   -∗ᵒ-applyʳ :  Monoᵒ Qᵒ →  (Pᵒ -∗ᵒ Qᵒ) ∗ᵒ Pᵒ ⊨✓ Qᵒ
   -∗ᵒ-applyʳ MonoQ ✓∙ =  ∗ᵒ-comm › -∗ᵒ-applyˡ MonoQ ✓∙
 
+  -- Let -∗ᵒ eat a proposition
+
+  -∗ᵒ-eatʳ :  Monoᵒ Qᵒ →  (Pᵒ -∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ -∗ᵒ Qᵒ ∗ᵒ Rᵒ
+  -∗ᵒ-eatʳ MonoQ =  -∗ᵒ-intro λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ MonoQ) ✓∙
+
+  -∗ᵒ-eatˡ :  Monoᵒ Qᵒ →  Rᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨ Pᵒ -∗ᵒ Rᵒ ∗ᵒ Qᵒ
+  -∗ᵒ-eatˡ {Qᵒ = Qᵒ} {Rᵒ = Rᵒ} MonoQ =  ∗ᵒ-comm › -∗ᵒ-eatʳ MonoQ ›
+    -∗ᵒ-monoʳ λ{a} → ∗ᵒ-comm {Pᵒ = Qᵒ} {Qᵒ = Rᵒ} {a}
+
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Semantic update modality
 

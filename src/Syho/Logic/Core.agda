@@ -469,6 +469,14 @@ abstract
   -∗∗-apply :  Q ⊢[ ι ] P →  (P -∗ P') ∗ Q ⊢[ ι ] P'
   -∗∗-apply Q⊢P =  ∗-monoˡ (-∗-monoˡ Q⊢P) » -∗-applyʳ
 
+  -- Let -∗ eat a proposition
+
+  -∗-eatʳ :  (P -∗ Q) ∗ R ⊢[ ι ] P -∗ Q ∗ R
+  -∗-eatʳ =  -∗-intro $ ∗-assocʳ » ∗-monoˡ -∗-applyˡ
+
+  -∗-eatˡ :  R ∗ (P -∗ Q) ⊢[ ι ] P -∗ R ∗ Q
+  -∗-eatˡ =  ∗-comm » -∗-eatʳ » -∗-monoʳ ∗-comm
+
   ------------------------------------------------------------------------------
   -- On ⤇
 

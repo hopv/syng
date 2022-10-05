@@ -24,7 +24,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_;
   ◎-Mono; ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ'⟨_⟩_; ⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒᶠ_; ⇛ᵒ⇒⇛ᵒ';
-  ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒᶠ-intro; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
+  ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⇛ᵒᶠ-intro; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 
 private variable
   ł :  Level
@@ -328,7 +328,10 @@ abstract
   ⁺⟨⟩ᵀᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Qᵒ˙
   ⁺⟨⟩ᵀᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᵀᵒ-mono✓
 
-  -- ⊨✓ into ⊨ when the right-hand side is ⁺⟨⟩ᴾ/ᵀᵒ
+  -- ⊨✓ into ⊨ when the right-hand side is ᵃ⟨⟩ᵒ or ⁺⟨⟩ᴾ/ᵀᵒ
+
+  ⊨✓⇒⊨-ᵃ⟨⟩ᵒ :  Pᵒ ⊨✓ ᵃ⟨ red ⟩ᵒ Qᵒ˙ →  Pᵒ ⊨ ᵃ⟨ red ⟩ᵒ Qᵒ˙
+  ⊨✓⇒⊨-ᵃ⟨⟩ᵒ P⊨✓⟨red⟩Q Pa M =  Pa ▷ ⊨✓⇒⊨-⇛ᵒ (λ ✓∙ Pb → P⊨✓⟨red⟩Q ✓∙ Pb M)
 
   ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ :  Pᵒ ⊨✓ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙ →  Pᵒ ⊨ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Qᵒ˙
   ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} P⊨✓⟨v⟩Q Pa =  Pa ▷

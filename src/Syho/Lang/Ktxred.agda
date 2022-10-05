@@ -14,8 +14,8 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr∞; Expr˂∞; ▶_;
-  ∇_; nd; λ˙; _◁_; _⁏_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr∞; Expr˂∞; ∇_;
+  λ˙; nd; ▶_; _◁_; _⁏_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
 
 private variable
   Xʸ :  Setʸ
@@ -30,10 +30,10 @@ infixl 5 _◁ᴿ_
 infixr 4 _⁏ᴿ_
 
 data  Redex :  Type →  Set₀  where
-  -- For ▶
-  ▶ᴿ_ :  Expr˂∞ T →  Redex T
   -- For nd
   ndᴿ :  Redex (◸ʸ Xʸ)
+  -- For ▶
+  ▶ᴿ_ :  Expr˂∞ T →  Redex T
   -- For ◁
   _◁ᴿ_ :  (⸨ Xʸ ⸩ʸ → Expr∞ T) →  ⸨ Xʸ ⸩ʸ →  Redex T
   -- For ⁏
@@ -173,8 +173,8 @@ abstract
 val/ktxred :  Expr∞ T →  Val/Ktxred T
 val/ktxred (∇ x) =  ĩ₀ x
 val/ktxred (λ˙ e˙) =  ĩ₀ e˙
-val/ktxred (▶ e˂) =  ĩ₁ (-, •ᴷ , ▶ᴿ e˂)
 val/ktxred nd =  ĩ₁ (-, •ᴷ , ndᴿ)
+val/ktxred (▶ e˂) =  ĩ₁ (-, •ᴷ , ▶ᴿ e˂)
 val/ktxred (e' ◁ e) =  ĩ₁ body
  where
   body :  Ktxred _

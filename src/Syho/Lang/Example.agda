@@ -14,8 +14,8 @@ open import Base.Option using (¿_; ň)
 open import Base.Prod using (∑∈-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; ▶_; ∇_; nd;
-  λ-syntax; _◁_; _⁏_; let-syntax; 🞰_; _←_; free; loop)
+open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; ∇_;
+  λ-syntax; nd; ▶_; _◁_; _⁏_; let-syntax; 🞰_; _←_; free; loop)
 open import Syho.Lang.Reduce using (Mem; nd⇒; ▶⇒; ◁⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
 
 private variable

@@ -103,17 +103,17 @@ infixr 4 _⁏_
 
 data  Expr ι  where
 
-  -- Later, for infinite construction
-  ▶_ :  Expr˂ ι T →  Expr ι T
-
   -- Pure value
   ∇_ :  ⸨ Xʸ ⸩ʸ →  Expr ι (◸ʸ Xʸ)
+
+  -- Lambda abstraction over a value
+  λ˙ :  (⸨ Xʸ ⸩ʸ → Expr ι T) →  Expr ι (Xʸ ʸ↷ T)
 
   -- Non-deterministic value
   nd :  Expr ι (◸ʸ Xʸ)
 
-  -- Lambda abstraction over a value
-  λ˙ :  (⸨ Xʸ ⸩ʸ → Expr ι T) →  Expr ι (Xʸ ʸ↷ T)
+  -- Later, for infinite construction
+  ▶_ :  Expr˂ ι T →  Expr ι T
 
   -- Application
   _◁_ :  Expr ι (Xʸ ʸ↷ T) →  Expr ι (◸ʸ Xʸ) →  Expr ι T

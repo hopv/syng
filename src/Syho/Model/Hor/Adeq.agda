@@ -28,8 +28,8 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-sy
   ⌜_⌝ᵒ×_; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ?∗ᵒ-comm; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono;
   Thunkᵒ-Mono; Shrunkᵒ-Mono; Shrunkᵒ-mono; Shrunkᵒ∗ᵒ-out; ∗ᵒShrunkᵒ-out)
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ⟨_⟩_; Invᴳ; Invᴳ-emp; ⇛ᵒ-mono;
-  ⇛ᵒ-intro; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᵒ-eatʳ; ⇛ᵒ-adeq; ⇛ᵒ-step)
+open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-emp; ⇛ᴹ-mono;
+  ⇛ᴹ-intro; ⇛ᴹ-join; ⇛ᴹ-eatˡ; ⇛ᴹ-eatʳ; ⇛ᴹ-adeq; ⇛ᴹ-step)
 open import Syho.Model.Hor.Wp using (⟨_⟩ᴾᵒ[_]_; ⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ⊤[_]; ⟨_⟩ᵀᵒ⊤[_];
   ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-Mono; ⁺⟨⟩ᴾᵒ⊤-Mono; ⁺⟨⟩ᵀᵒ-Mono;
   ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ)
@@ -75,34 +75,34 @@ abstract
 
   -- Lemma: If (e , es , M) ⇒ᵀ (e' , es' , M'),
   -- then ⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤[∞] entails
-  -- ⟨ e' ⟩ᴾᵒ[ ∞ ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤[∞] under ⟨ M ⟩⇛ᵒ⟨ M' ⟩
+  -- ⟨ e' ⟩ᴾᵒ[ ∞ ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤[∞] under ⟨ M ⟩⇛ᴹ⟨ M' ⟩
 
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ :  (e , es , M) ⇒ᵀ (e' , es' , M') →
-    (⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤[∞]  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩
+    (⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤[∞]  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       (⟨ e' ⟩ᴾᵒ[ ∞ ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤[∞]
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ (redᵀ-hd (redᴱ {eˇ = ň} e≡kr e'M'⇐krM))  rewrite e≡kr =
-    ∗ᵒ-monoˡ (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono (λ big → big .π₁ _ _ _ e'M'⇐krM) ›
-      ⇛ᵒ-join › ⇛ᵒ-mono $ ∗ᵒ-elimˡ (Thunkᵒ-Mono ⁺⟨⟩ᴾᵒ-Mono) › λ big → big .!) ›
-    ⇛ᵒ-eatʳ
+    ∗ᵒ-monoˡ (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᴹ-mono (λ big → big .π₁ _ _ _ e'M'⇐krM) ›
+      ⇛ᴹ-join › ⇛ᴹ-mono $ ∗ᵒ-elimˡ (Thunkᵒ-Mono ⁺⟨⟩ᴾᵒ-Mono) › λ big → big .!) ›
+    ⇛ᴹ-eatʳ
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ (redᵀ-hd (redᴱ {eˇ = š _} e≡kr e'e⁺M'⇐krM))  rewrite e≡kr =
-    ∗ᵒ-monoˡ (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono (λ big → big .π₁ _ _ _ e'e⁺M'⇐krM) ›
-      ⇛ᵒ-join › ⇛ᵒ-mono $ ∗ᵒ-mono (λ big → big .!) (λ big → big .!)) ›
-    ⇛ᵒ-eatʳ › ⇛ᵒ-mono ∗ᵒ-assocˡ
+    ∗ᵒ-monoˡ (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᴹ-mono (λ big → big .π₁ _ _ _ e'e⁺M'⇐krM) ›
+      ⇛ᴹ-join › ⇛ᴹ-mono $ ∗ᵒ-mono (λ big → big .!) (λ big → big .!)) ›
+    ⇛ᴹ-eatʳ › ⇛ᴹ-mono ∗ᵒ-assocˡ
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ (redᵀ-tl es'M'⇐esM) =
     ∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ es'M'⇐esM) ›
-    ⇛ᵒ-eatˡ › ⇛ᵒ-mono $ ∗ᵒ-monoʳ $ ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤
+    ⇛ᴹ-eatˡ › ⇛ᴹ-mono $ ∗ᵒ-monoʳ $ ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤
 
   -- Lemma: If (e , es , M) ⇒ᵀ* (e' , es' , M'),
   -- then ⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤[∞] entails
-  -- ⟨ e' ⟩ᴾᵒ[ ∞ ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤[∞] under ⟨ M ⟩⇛ᵒ⟨ M' ⟩
+  -- ⟨ e' ⟩ᴾᵒ[ ∞ ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤[∞] under ⟨ M ⟩⇛ᴹ⟨ M' ⟩
 
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* :  (e , es , M) ⇒ᵀ* (e' , es' , M') →
-    (⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤[∞]  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩
+    (⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤[∞]  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       (⟨ e' ⟩ᴾᵒ[ ∞ ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤[∞]
-  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* ⇒ᵀ*-refl =  ⇛ᵒ-intro
+  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* ⇒ᵀ*-refl =  ⇛ᴹ-intro
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* (⇒ᵀ*-step M⇒ᵀM'' M''⇒ᵀ*M') =
     ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ M⇒ᵀM'' ›
-    ⇛ᵒ-mono (⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* M''⇒ᵀ*M') › ⇛ᵒ-join
+    ⇛ᴹ-mono (⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* M''⇒ᵀ*M') › ⇛ᴹ-join
 
   -- ⊨ ⟨ e ⟩ᴾᵒ[ ∞ ]/ᵀᵒ[ ι ] λ u → ⌜ X˙ u ⌝ᵒ ensures that the X˙ v holds for the
   -- result value v of any reduction sequence starting with (e , [] , M) for
@@ -111,9 +111,9 @@ abstract
   ⟨⟩ᴾᵒ-post :  ⊨ ⟨ e ⟩ᴾᵒ[ ∞ ] (λ u → ⌜ X˙ u ⌝ᵒ) →  ✓ᴹ M →
                (e , [] , M) ⇒ᵀ* (V⇒E {T} v , es , M') →  X˙ v
   ⟨⟩ᴾᵒ-post {T} {v = v} ⊨⟨e⟩X ✓M eM⇒*vesM' with (λ{a} → ⊨⟨e⟩X {a} ▷ ∗ᵒ?-intro _
-    ▷ ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*vesM' ▷ ⇛ᵒ-mono $ ∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono)
-  … | ⊨M⇛M'⟨v⟩X  rewrite val/ktxred-V⇒E {T} {v} =  ⇛ᵒ-adeq ✓M $
-    ⊨M⇛M'⟨v⟩X ▷ ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-val⁻¹ › (_$ _)) ▷ ⇛ᵒ-join
+    ▷ ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*vesM' ▷ ⇛ᴹ-mono $ ∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono)
+  … | ⊨M⇛M'⟨v⟩X  rewrite val/ktxred-V⇒E {T} {v} =  ⇛ᴹ-adeq ✓M $
+    ⊨M⇛M'⟨v⟩X ▷ ⇛ᴹ-mono (⁺⟨⟩ᴾᵒ-val⁻¹ › (_$ _)) ▷ ⇛ᴹ-join
 
   -- If (⟨ e ⟩ᴾᵒ[ ∞ ] Pᵒ˙) is a tautology, then any reduction sequence starting
   -- with (e , [] , M) never gets stuck for valid M
@@ -124,9 +124,9 @@ abstract
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr' →  (kr' , M') ⇒ᴷᴿ∑
   ⟨⟩ᴾᵒ-nostuck-hd ⊨⟨e⟩P ✓M eM⇒*e'esM' e'≡kr' with (λ{a} → ⊨⟨e⟩P {a} ▷
     ∗ᵒ?-intro _ ▷ ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*e'esM' ▷
-    ⇛ᵒ-mono $ ∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono)
-  … | ⊨M⇛M'⟨e'⟩P  rewrite e'≡kr' =  ⇛ᵒ-adeq ✓M $ ⊨M⇛M'⟨e'⟩P ▷
-    ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono π₀) ▷ ⇛ᵒ-join
+    ⇛ᴹ-mono $ ∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono)
+  … | ⊨M⇛M'⟨e'⟩P  rewrite e'≡kr' =  ⇛ᴹ-adeq ✓M $ ⊨M⇛M'⟨e'⟩P ▷
+    ⇛ᴹ-mono (⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᴹ-mono π₀) ▷ ⇛ᴹ-join
 
   -- For a tail thread
 
@@ -135,9 +135,9 @@ abstract
     (kr' , M') ⇒ᴷᴿ∑
   ⟨⟩ᴾᵒ-nostuck-tl {es = es} ⊨⟨e⟩P ✓M eM⇒*e'esM' e⁺∈es e⁺≡kr' with (λ{a} →
     ⊨⟨e⟩P {a} ▷ ∗ᵒ?-intro _ ▷ ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-⇒ᵀ* eM⇒*e'esM' ▷
-    ⇛ᵒ-mono $ ∗ᵒ-elimʳ ([∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-Mono {es = es}) › [∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-elim e⁺∈es)
-  … | ⊨M⇛M'⟨e⁺⟩  rewrite e⁺≡kr' =  ⇛ᵒ-adeq ✓M $ ⊨M⇛M'⟨e⁺⟩ ▷
-    ⇛ᵒ-mono (⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ › ⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono π₀) ▷ ⇛ᵒ-join
+    ⇛ᴹ-mono $ ∗ᵒ-elimʳ ([∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-Mono {es = es}) › [∗ᵒ]⟨⟩ᴾᵒ⊤[∞]-elim e⁺∈es)
+  … | ⊨M⇛M'⟨e⁺⟩  rewrite e⁺≡kr' =  ⇛ᴹ-adeq ✓M $ ⊨M⇛M'⟨e⁺⟩ ▷
+    ⇛ᴹ-mono (⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ › ⁺⟨⟩ᴾᵒ-kr⁻¹ › (_$ _) › ⇛ᴹ-mono π₀) ▷ ⇛ᴹ-join
 
 --------------------------------------------------------------------------------
 -- Adequacy of the semantic total weakest precondition
@@ -168,26 +168,26 @@ abstract
 
   -- Lemma: If (e , es , M) ⇒ᵀ (e' , es' , M'),
   -- then ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ] entails
-  -- ⟨ e' ⟩ᵀᵒ[ ι' ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤[ ιs' ] under ⟨ M ⟩⇛ᵒ⟨ M' ⟩
+  -- ⟨ e' ⟩ᵀᵒ[ ι' ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤[ ιs' ] under ⟨ M ⟩⇛ᴹ⟨ M' ⟩
   -- for some ι', ιs' satisfying sz ι' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs
 
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ :  (e , es , M) ⇒ᵀ (e' , es' , M') →
-    (⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ]  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩
+    (⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ]  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       ∃ᵒ ι₀' , ∃ᵒ ιs' , ⌜ ι₀' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
       (⟨ e' ⟩ᵀᵒ[ sz⁻¹ ι₀' ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤[ ιs' ]
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (redᵀ-hd (redᴱ {eˇ = ň} e≡kr e'M'⇐krM))  rewrite e≡kr =
-    ∗ᵒ-monoˡ (⁺⟨⟩ᵀᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono (λ big → big .π₁ _ _ _ e'M'⇐krM) ›
-      ⇛ᵒ-join) › ⇛ᵒ-eatʳ › ⇛ᵒ-mono $
+    ∗ᵒ-monoˡ (⁺⟨⟩ᵀᵒ-kr⁻¹ › (_$ _) › ⇛ᴹ-mono (λ big → big .π₁ _ _ _ e'M'⇐krM) ›
+      ⇛ᴹ-join) › ⇛ᴹ-eatʳ › ⇛ᴹ-mono $
     ∗ᵒ-monoˡ (∗ᵒ-elimˡ $ Shrunkᵒ-Mono ⁺⟨⟩ᵀᵒ-Mono) › Shrunkᵒ∗ᵒ-out ›
     λ{ (§ big) → -, -, ≺ᴰᴹ-hd $ aug-∷ size< aug-refl , big }
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (redᵀ-hd (redᴱ {eˇ = š _} e≡kr e'e⁺M'⇐krM))  rewrite e≡kr =
-    ∗ᵒ-monoˡ (⁺⟨⟩ᵀᵒ-kr⁻¹ › (_$ _) › ⇛ᵒ-mono (λ big → big .π₁ _ _ _ e'e⁺M'⇐krM) ›
-      ⇛ᵒ-join) › ⇛ᵒ-eatʳ › ⇛ᵒ-mono $ ∗ᵒ-assocˡ › Shrunkᵒ∗ᵒ-out › λ{ (§ big) →
+    ∗ᵒ-monoˡ (⁺⟨⟩ᵀᵒ-kr⁻¹ › (_$ _) › ⇛ᴹ-mono (λ big → big .π₁ _ _ _ e'e⁺M'⇐krM) ›
+      ⇛ᴹ-join) › ⇛ᴹ-eatʳ › ⇛ᴹ-mono $ ∗ᵒ-assocˡ › Shrunkᵒ∗ᵒ-out › λ{ (§ big) →
     big ▷ ?∗ᵒ-comm ▷ Shrunkᵒ∗ᵒ-out ▷ λ{ (§ big) → -, -,
     ≺ᴰᴹ-hd $ aug-∷ size< $ aug-∷ size< aug-refl , ?∗ᵒ-comm big }}
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = _ ∷ _} (redᵀ-tl esM⇒es'M') =
-    ∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ esM⇒es'M') › ⇛ᵒ-eatˡ ›
-    ⇛ᵒ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , ⟨es'⟩) → -, -,
+    ∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ esM⇒es'M') › ⇛ᴹ-eatˡ ›
+    ⇛ᴹ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , ⟨es'⟩) → -, -,
     ≺ᴰᴹ-tl ι'∷ιs'≺ , ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ ⟨es'⟩)
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (redᵀ-tl _) =  ∗ᵒ⇒∗ᵒ' › λ ()
 
@@ -205,6 +205,6 @@ abstract
           Acc _⇐ᵀ_ (e , es , M)
     go (acc ≺ι∷ιs⇒acc) ME✓a ⟨e⟩P∗⟨es⟩∗InvEa =  acc λ eesM⇒e'es'M' →
       ⟨e⟩P∗⟨es⟩∗InvEa ▷ ∗ᵒ-monoˡ (⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ eesM⇒e'es'M') ▷
-      ⇛ᵒ-step ME✓a ▷ λ (-, -, M'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
+      ⇛ᴹ-step ME✓a ▷ λ (-, -, M'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
       λ (-, -, ∙⊑ , (-, -, ≺ι∷ιs , big) , InvE') →
       go (≺ι∷ιs⇒acc ≺ι∷ιs) M'E'✓b $ ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , big , InvE')

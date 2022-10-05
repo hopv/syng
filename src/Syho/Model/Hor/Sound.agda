@@ -27,11 +27,11 @@ open import Syho.Model.Prop.Mem using (_↦ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Ind using (↪⟨⟩ᴾᵒ-use; ↪⟨⟩ᵀᵒ-use)
-open import Syho.Model.Supd.Interp using (⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⇛ᵒ-eatˡ)
+open import Syho.Model.Supd.Interp using (⇛ᴵⁿᵈ⇒⇛ᴹ; ⇛ᴹ-mono; ⇛ᴹ-eatˡ)
 open import Syho.Model.Supd.Sound using (⊢⇛-sem)
 open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⁺⟨⟩ᴾᵒ-val;
   ⁺⟨⟩ᵀᵒ-val; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᵀᵒ-mono; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ;
-  ⇛ᵒ-⁺⟨⟩ᴾᵒ; ⇛ᵒ-⁺⟨⟩ᵀᵒ; ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ; ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ-⇛ᵒ; ⁺⟨⟩ᵀᵒ-⇛ᵒ; ⁺⟨⟩ᴾᵒ-eatˡ;
+  ⇛ᴹ-⁺⟨⟩ᴾᵒ; ⇛ᴹ-⁺⟨⟩ᵀᵒ; ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ; ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ-⇛ᴹ; ⁺⟨⟩ᵀᵒ-⇛ᴹ; ⁺⟨⟩ᴾᵒ-eatˡ;
   ⁺⟨⟩ᵀᵒ-eatˡ)
 open import Syho.Model.Hor.Lang using (⟨⟩ᴾᵒ-bind; ⟨⟩ᵀᵒ-bind; ⁺⟨⟩ᴾᵒ-nd; ⁺⟨⟩ᵀᵒ-nd;
   ⁺⟨⟩ᴾᵒ-▶; ⁺⟨⟩ᵀᵒ-▶; ⁺⟨⟩ᴾᵒ-◁; ⁺⟨⟩ᵀᵒ-◁; ⁺⟨⟩ᴾᵒ-⁏; ⁺⟨⟩ᵀᵒ-⁏; ⁺⟨⟩ᴾᵒ-fork; ⁺⟨⟩ᵀᵒ-fork)
@@ -88,8 +88,8 @@ abstract
   --               ⊢[ ∞ ]⟨ ¡ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
   -- The level increment ṡ i makes the recursive call of ⊢⁺⟨⟩ᵀ-sem inductive
 
-  ⊢⁺⟨⟩ᵀ-sem ↪⟨⟩ᵀ-use big =  ⇛ᵒ-⁺⟨⟩ᵀᵒ λ _ → big ▷
-    ∗ᵒ-monoʳ (↪⟨⟩ᵀᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) →
+  ⊢⁺⟨⟩ᵀ-sem ↪⟨⟩ᵀ-use big =  ⇛ᴹ-⁺⟨⟩ᵀᵒ λ _ → big ▷
+    ∗ᵒ-monoʳ (↪⟨⟩ᵀᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᴹ) ▷ ⇛ᴹ-eatˡ ▷ ⇛ᴹ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) →
     ∗ᵒ∃ᵒ-out big ▷ λ (P∗R⊢⟨e⟩Q , PRa) → ⊢⁺⟨⟩ᵀ-sem P∗R⊢⟨e⟩Q PRa
 
   -- horᵀ-ṡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
@@ -99,15 +99,15 @@ abstract
   -- _ᵘ»ʰ_ :  P  ⊢[ ∞ ][ i ]⇛  Q  →   Q  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  R˙  →
   --          P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  R˙
 
-  ⊢⁺⟨⟩ᵀ-sem (P⊢⇛Q ᵘ»ʰ Q⊢⟨vk⟩R) Pa =  ⇛ᵒ-⁺⟨⟩ᵀᵒ λ _ → Pa ▷ ⊢⇛-sem P⊢⇛Q ▷
-    ⇛ᵒ-mono $ ⊢⁺⟨⟩ᵀ-sem Q⊢⟨vk⟩R
+  ⊢⁺⟨⟩ᵀ-sem (P⊢⇛Q ᵘ»ʰ Q⊢⟨vk⟩R) Pa =  ⇛ᴹ-⁺⟨⟩ᵀᵒ λ _ → Pa ▷ ⊢⇛-sem P⊢⇛Q ▷
+    ⇛ᴹ-mono $ ⊢⁺⟨⟩ᵀ-sem Q⊢⟨vk⟩R
 
   -- _ʰ»ᵘ_ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
   --          (∀ v →  Q˙ v  ⊢[ ∞ ][ i ]⇛  R˙ v)  →
   --          P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  R˙
 
   ⊢⁺⟨⟩ᵀ-sem (P⊢⟨vk⟩Q ʰ»ᵘ Qv⊢⇛Rv) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q ›
-    ⁺⟨⟩ᵀᵒ-mono (λ v Qva _ → ⊢⇛-sem (Qv⊢⇛Rv v) Qva) › ⁺⟨⟩ᵀᵒ-⇛ᵒ
+    ⁺⟨⟩ᵀᵒ-mono (λ v Qva _ → ⊢⇛-sem (Qv⊢⇛Rv v) Qva) › ⁺⟨⟩ᵀᵒ-⇛ᴹ
 
   -- hor-frameˡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
   --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] λ v →  R  ∗  Q˙ v
@@ -200,21 +200,21 @@ abstract
 
   -- ↪⟨⟩ᴾ-use :  P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ∞ ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
 
-  ⊢⁺⟨⟩ᴾ-sem ↪⟨⟩ᴾ-use big =  ⁺⟨⟩ᴾᵒ-▶ λ{ .! → ⇛ᵒ-⁺⟨⟩ᴾᵒ λ _ → big ▷
-    ∗ᵒ-monoʳ (↪⟨⟩ᴾᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷ ⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) →
+  ⊢⁺⟨⟩ᴾ-sem ↪⟨⟩ᴾ-use big =  ⁺⟨⟩ᴾᵒ-▶ λ{ .! → ⇛ᴹ-⁺⟨⟩ᴾᵒ λ _ → big ▷
+    ∗ᵒ-monoʳ (↪⟨⟩ᴾᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᴹ) ▷ ⇛ᴹ-eatˡ ▷ ⇛ᴹ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) →
     ∗ᵒ∃ᵒ-out big ▷ λ (P∗R⊢⟨e⟩Q , PRa) → ⊢⁺⟨⟩ᴾ-sem P∗R⊢⟨e⟩Q PRa }
 
   -- _ᵘ»ʰ_ :  P  ⊢[ ∞ ][ i ]⇛  Q  →   Q  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  R˙  →
   --          P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  R˙
 
-  ⊢⁺⟨⟩ᴾ-sem (P⊢⇛Q ᵘ»ʰ Q⊢⟨vk⟩R) Pa =  ⇛ᵒ-⁺⟨⟩ᴾᵒ λ _ → Pa ▷ ⊢⇛-sem P⊢⇛Q ▷
-    ⇛ᵒ-mono $ ⊢⁺⟨⟩ᴾ-sem Q⊢⟨vk⟩R
+  ⊢⁺⟨⟩ᴾ-sem (P⊢⇛Q ᵘ»ʰ Q⊢⟨vk⟩R) Pa =  ⇛ᴹ-⁺⟨⟩ᴾᵒ λ _ → Pa ▷ ⊢⇛-sem P⊢⇛Q ▷
+    ⇛ᴹ-mono $ ⊢⁺⟨⟩ᴾ-sem Q⊢⟨vk⟩R
 
   -- _ʰ»ᵘ_ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   (∀ v →  Q˙ v  ⊢[ ∞ ][ i ]⇛  R˙ v)  →
   --          P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  R˙
 
   ⊢⁺⟨⟩ᴾ-sem (P⊢⟨vk⟩Q ʰ»ᵘ Qv⊢⇛Rv) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q ›
-    ⁺⟨⟩ᴾᵒ-mono (λ v Qva _ → ⊢⇛-sem (Qv⊢⇛Rv v) Qva) › ⁺⟨⟩ᴾᵒ-⇛ᵒ
+    ⁺⟨⟩ᴾᵒ-mono (λ v Qva _ → ⊢⇛-sem (Qv⊢⇛Rv v) Qva) › ⁺⟨⟩ᴾᵒ-⇛ᴹ
 
   -- hor-ᵀ⇒ᴾ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ  Q˙  →   P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙
 

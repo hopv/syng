@@ -39,34 +39,34 @@ private variable
 --------------------------------------------------------------------------------
 -- Interpret the super update
 
-infix 3 ⟨_⟩⇛ᵒ'⟨_⟩_ ⟨_⟩⇛ᵒ⟨_⟩_ ⇛ᵒᶠ_ ⇛ᵒᶠᴺ_
+infix 3 ⟨_⟩⇛ᴹ'⟨_⟩_ ⟨_⟩⇛ᴹ⟨_⟩_ ⇛ᵒ_ ⇛ᴺᵒ_
 
 -- Invᴳ :  Global invariant
 
 Invᴳ :  Envᴵⁿᴳ →  Propᵒ 1ᴸ
 Invᴳ Eᴵⁿ =  Invᴵⁿᵈ (envᴵⁿᵈ Eᴵⁿ)  ∗ᵒ  Invᴵⁿᵛ (Eᴵⁿ jᴵⁿᵛ)
 
--- ⇛ᵒ' :  Non-abstract version of ⇛ᵒ
+-- ⇛ᴹ' :  Non-abstract version of ⇛ᴹ
 
-⟨_⟩⇛ᵒ'⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
-⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ id , const , Invᴳ ]⇛ᵍ'⟨ M' ⟩ Pᵒ
+⟨_⟩⇛ᴹ'⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⟨ M ⟩⇛ᴹ'⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ id , const , Invᴳ ]⇛ᵍ'⟨ M' ⟩ Pᵒ
 
 abstract
 
-  -- ⇛ᵒ :  Interpret the super update
+  -- ⇛ᴹ :  Semantic super update with a memory
 
-  ⟨_⟩⇛ᵒ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
-  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ id , const , Invᴳ ]⇛ᵍ⟨ M' ⟩ Pᵒ
+  ⟨_⟩⇛ᴹ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ id , const , Invᴳ ]⇛ᵍ⟨ M' ⟩ Pᵒ
 
--- ⇛ᵒᶠ :  ⇛ᵒ with any fixed memory
+-- ⇛ᵒ :  Semantic super update, i.e., ⇛ᴹ with any fixed memory
 
-⇛ᵒᶠ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
-⇛ᵒᶠ Pᵒ =  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
+⇛ᵒ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᵒ Pᵒ =  ∀ᵒ M , ⟨ M ⟩⇛ᴹ⟨ M ⟩ Pᵒ
 
--- ⇛ᵒᶠᴺ :  ⇛ᵒᶠ with [⊤]ᴺ
+-- ⇛ᴺᵒ :  ⇛ᵒ with [⊤]ᴺᵒ
 
-⇛ᵒᶠᴺ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
-⇛ᵒᶠᴺ Pᵒ =  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ Pᵒ ∗ᵒ [⊤]ᴺᵒ)
+⇛ᴺᵒ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᴺᵒ Pᵒ =  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒ Pᵒ ∗ᵒ [⊤]ᴺᵒ)
 
 abstract
 
@@ -75,123 +75,123 @@ abstract
   Invᴳ-emp :  ⊨ Invᴳ empᴵⁿᴳ
   Invᴳ-emp =  Invᴵⁿᵈ-emp ▷ ∗ᵒ?-intro Invᴵⁿᵛ-emp
 
-  -- ⇛ᵒ equals ⇛ᵒ'
+  -- ⇛ᴹ equals ⇛ᴹ'
 
-  ⇛ᵒ≡⇛ᵒ' :  (⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ)  ≡  (⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ)
-  ⇛ᵒ≡⇛ᵒ' =  ⇛ᵍ≡⇛ᵍ'
+  ⇛ᴹ≡⇛ᴹ' :  (⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ)  ≡  (⟨ M ⟩⇛ᴹ'⟨ M' ⟩ Pᵒ)
+  ⇛ᴹ≡⇛ᴹ' =  ⇛ᵍ≡⇛ᵍ'
 
-  ⇛ᵒ⇒⇛ᵒ' :  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ
-  ⇛ᵒ⇒⇛ᵒ' =  substᵒ id ⇛ᵒ≡⇛ᵒ'
+  ⇛ᴹ⇒⇛ᴹ' :  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ'⟨ M' ⟩ Pᵒ
+  ⇛ᴹ⇒⇛ᴹ' =  substᵒ id ⇛ᴹ≡⇛ᴹ'
 
-  ⇛ᵒ'⇒⇛ᵒ :  ⟨ M ⟩⇛ᵒ'⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ
-  ⇛ᵒ'⇒⇛ᵒ =  substᵒ id $ ◠ ⇛ᵒ≡⇛ᵒ'
+  ⇛ᴹ'⇒⇛ᴹ :  ⟨ M ⟩⇛ᴹ'⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ
+  ⇛ᴹ'⇒⇛ᴹ =  substᵒ id $ ◠ ⇛ᴹ≡⇛ᴹ'
 
-  -- ⇛ᴵⁿᵈ into ⇛ᵒᶠ
+  -- ⇛ᴵⁿᵈ into ⇛ᵒ
 
-  ⇛ᴵⁿᵈ⇒⇛ᵒᶠ :  ⇛ᴵⁿᵈ Pᵒ  ⊨  ⇛ᵒᶠ Pᵒ
-  ⇛ᴵⁿᵈ⇒⇛ᵒᶠ =  ⇛ᵍᶠ-mono ⇛ᴵⁿᵛ-intro › ⇛ᵍᶠ-join2 refl › ⇛ᵍᶠ-all refl
+  ⇛ᴵⁿᵈ⇒⇛ᵒ :  ⇛ᴵⁿᵈ Pᵒ  ⊨  ⇛ᵒ Pᵒ
+  ⇛ᴵⁿᵈ⇒⇛ᵒ =  ⇛ᵍᶠ-mono ⇛ᴵⁿᵛ-intro › ⇛ᵍᶠ-join2 refl › ⇛ᵍᶠ-all refl
 
-  -- ⇛ᴵⁿᵛ into ⇛ᵒᶠ
+  -- ⇛ᴵⁿᵛ into ⇛ᵒ
 
-  ⇛ᴵⁿᵛ⇒⇛ᵒᶠ :  ⇛ᴵⁿᵛ Pᵒ  ⊨  ⇛ᵒᶠ Pᵒ
-  ⇛ᴵⁿᵛ⇒⇛ᵒᶠ =  ⇛ᴵⁿᵈ-intro › ⇛ᵍᶠ-join2 refl › ⇛ᵍᶠ-all refl
+  ⇛ᴵⁿᵛ⇒⇛ᵒ :  ⇛ᴵⁿᵛ Pᵒ  ⊨  ⇛ᵒ Pᵒ
+  ⇛ᴵⁿᵛ⇒⇛ᵒ =  ⇛ᴵⁿᵈ-intro › ⇛ᵍᶠ-join2 refl › ⇛ᵍᶠ-all refl
 
-  -- ⤇ᴱ on the memory into ⇛ᵒ
+  -- ⤇ᴱ on the memory into ⇛ᴹ
 
-  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ :
+  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ :
     (∀{Eᴵⁿ} →  Pᵒ ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ (_ : ⊤₀) → envᴳ M' Eᴵⁿ , Qᵒ)  →
-    Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ
-  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ P⊨ME⤇M'EQ =  ⇛ᵍ-make $ ∗ᵒ-monoˡ P⊨ME⤇M'EQ › ⤇ᴱ-eatʳ › ⤇ᴱ-param
+    Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Qᵒ
+  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ P⊨ME⤇M'EQ =  ⇛ᵍ-make $ ∗ᵒ-monoˡ P⊨ME⤇M'EQ › ⤇ᴱ-eatʳ › ⤇ᴱ-param
 
-  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ :  (∀{Eᴵⁿ} →  ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ (_ : ⊤₀) → envᴳ M' Eᴵⁿ , Pᵒ)  →
-                ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ
-  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᵒ ⊨ME⤇M'EP =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᵒ {Pᵒ = ⊤ᵒ₀} (λ _ → ⊨ME⤇M'EP) _
+  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ :  (∀{Eᴵⁿ} →  ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ (_ : ⊤₀) → envᴳ M' Eᴵⁿ , Pᵒ)  →
+                ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ
+  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ ⊨ME⤇M'EP =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ {Pᵒ = ⊤ᵒ₀} (λ _ → ⊨ME⤇M'EP) _
 
-  -- Monoᵒ for ⇛ᵒ/⇛ᵒᶠ
+  -- Monoᵒ for ⇛ᴹ/⇛ᵒ
 
-  ⇛ᵒ-Mono :  Monoᵒ $ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ
-  ⇛ᵒ-Mono =  ⇛ᵍ-Mono
+  ⇛ᴹ-Mono :  Monoᵒ $ ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ
+  ⇛ᴹ-Mono =  ⇛ᵍ-Mono
 
-  ⇛ᵒᶠ-Mono :  Monoᵒ $ ⇛ᵒᶠ Pᵒ
-  ⇛ᵒᶠ-Mono =  ⇛ᵍᶠ-Mono
+  ⇛ᵒ-Mono :  Monoᵒ $ ⇛ᵒ Pᵒ
+  ⇛ᵒ-Mono =  ⇛ᵍᶠ-Mono
 
-  -- Monotonicity of ⇛ᵒ/⇛ᵒᶠ
+  -- Monotonicity of ⇛ᴹ/⇛ᵒ
 
-  ⇛ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ
-  ⇛ᵒ-mono✓ =  ⇛ᵍ-mono✓
+  ⇛ᴹ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Qᵒ
+  ⇛ᴹ-mono✓ =  ⇛ᵍ-mono✓
 
-  ⇛ᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ
-  ⇛ᵒ-mono =  ⇛ᵍ-mono
+  ⇛ᴹ-mono :  Pᵒ ⊨ Qᵒ →  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Qᵒ
+  ⇛ᴹ-mono =  ⇛ᵍ-mono
 
-  ⇛ᵒᶠ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⇛ᵒᶠ Pᵒ ⊨ ⇛ᵒᶠ Qᵒ
-  ⇛ᵒᶠ-mono✓ =  ⇛ᵍᶠ-mono✓
+  ⇛ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⇛ᵒ Pᵒ ⊨ ⇛ᵒ Qᵒ
+  ⇛ᵒ-mono✓ =  ⇛ᵍᶠ-mono✓
 
-  ⇛ᵒᶠ-mono :  Pᵒ ⊨ Qᵒ →  ⇛ᵒᶠ Pᵒ ⊨ ⇛ᵒᶠ Qᵒ
-  ⇛ᵒᶠ-mono =  ⇛ᵍᶠ-mono
+  ⇛ᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⇛ᵒ Pᵒ ⊨ ⇛ᵒ Qᵒ
+  ⇛ᵒ-mono =  ⇛ᵍᶠ-mono
 
-  -- ⊨✓ ⇛ᵒ/⇛ᵒᶠ into ⊨ ⇛ᵒ/⇛ᵒᶠ
+  -- ⊨✓ ⇛ᴹ/⇛ᵒ into ⊨ ⇛ᴹ/⇛ᵒ
 
-  ⊨✓⇒⊨-⇛ᵒ :  Pᵒ ⊨✓ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ Qᵒ
-  ⊨✓⇒⊨-⇛ᵒ =  ⊨✓⇒⊨-⇛ᵍ
+  ⊨✓⇒⊨-⇛ᴹ :  Pᵒ ⊨✓ ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Qᵒ
+  ⊨✓⇒⊨-⇛ᴹ =  ⊨✓⇒⊨-⇛ᵍ
 
-  ⊨✓⇒⊨-⇛ᵒᶠ :  Pᵒ ⊨✓ ⇛ᵒᶠ Qᵒ →  Pᵒ ⊨ ⇛ᵒᶠ Qᵒ
-  ⊨✓⇒⊨-⇛ᵒᶠ =  ⊨✓⇒⊨-⇛ᵍᶠ
+  ⊨✓⇒⊨-⇛ᵒ :  Pᵒ ⊨✓ ⇛ᵒ Qᵒ →  Pᵒ ⊨ ⇛ᵒ Qᵒ
+  ⊨✓⇒⊨-⇛ᵒ =  ⊨✓⇒⊨-⇛ᵍᶠ
 
-  -- Introduce ⇛ᵒ/⇛ᵒᶠ
+  -- Introduce ⇛ᴹ/⇛ᵒ
 
-  ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
-  ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍ refl˙
+  ⤇ᵒ⇒⇛ᴹ :  ⤇ᵒ Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M ⟩ Pᵒ
+  ⤇ᵒ⇒⇛ᴹ =  ⤇ᵒ⇒⇛ᵍ refl˙
 
-  ⇛ᵒ-intro :  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
-  ⇛ᵒ-intro =  ⇛ᵍ-intro refl˙
+  ⇛ᴹ-intro :  Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M ⟩ Pᵒ
+  ⇛ᴹ-intro =  ⇛ᵍ-intro refl˙
 
-  ⤇ᵒ⇒⇛ᵒᶠ :  ⤇ᵒ Pᵒ  ⊨  ⇛ᵒᶠ Pᵒ
-  ⤇ᵒ⇒⇛ᵒᶠ =  ⤇ᵒ⇒⇛ᵍᶠ refl˙
+  ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨  ⇛ᵒ Pᵒ
+  ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍᶠ refl˙
 
-  ⇛ᵒᶠ-intro :  Pᵒ  ⊨  ⇛ᵒᶠ Pᵒ
-  ⇛ᵒᶠ-intro =  ⇛ᵍᶠ-intro refl˙
+  ⇛ᵒ-intro :  Pᵒ  ⊨  ⇛ᵒ Pᵒ
+  ⇛ᵒ-intro =  ⇛ᵍᶠ-intro refl˙
 
-  -- Introduce ⇛ᵒ with ✓ᴹ
+  -- Introduce ⇛ᴹ with ✓ᴹ
 
-  ⇛ᵒ-intro-✓ᴹ :  Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M ⟩  ⌜ ✓ᴹ M ⌝ᵒ×  Pᵒ
-  ⇛ᵒ-intro-✓ᴹ =  ⇛ᵍ-intro-✓ᴹ refl˙
+  ⇛ᴹ-intro-✓ᴹ :  Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M ⟩  ⌜ ✓ᴹ M ⌝ᵒ×  Pᵒ
+  ⇛ᴹ-intro-✓ᴹ =  ⇛ᵍ-intro-✓ᴹ refl˙
 
-  -- Join ⇛ᵒ/⇛ᵒᶠ
+  -- Join ⇛ᴹ/⇛ᵒ
 
-  ⇛ᵒ-join :  ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⟨ M' ⟩⇛ᵒ⟨ M'' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M'' ⟩ Pᵒ
-  ⇛ᵒ-join =  ⇛ᵍ-join refl refl˙
+  ⇛ᴹ-join :  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⟨ M' ⟩⇛ᴹ⟨ M'' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M'' ⟩ Pᵒ
+  ⇛ᴹ-join =  ⇛ᵍ-join refl refl˙
 
-  ⇛ᵒᶠ-join :  ⇛ᵒᶠ ⇛ᵒᶠ Pᵒ  ⊨  ⇛ᵒᶠ Pᵒ
-  ⇛ᵒᶠ-join =  ⇛ᵍᶠ-join refl refl˙
+  ⇛ᵒ-join :  ⇛ᵒ ⇛ᵒ Pᵒ  ⊨  ⇛ᵒ Pᵒ
+  ⇛ᵒ-join =  ⇛ᵍᶠ-join refl refl˙
 
-  -- Let ⇛ᵒ/⇛ᵒᶠ eat a proposition under ∗ᵒ
+  -- Let ⇛ᴹ/⇛ᵒ eat a proposition under ∗ᵒ
 
-  ⇛ᵒ-eatˡ :  Qᵒ ∗ᵒ (⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ)  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
-  ⇛ᵒ-eatˡ =  ⇛ᵍ-eatˡ
+  ⇛ᴹ-eatˡ :  Qᵒ ∗ᵒ (⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ)  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
+  ⇛ᴹ-eatˡ =  ⇛ᵍ-eatˡ
 
-  ⇛ᵒ-eatʳ :  (⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨  ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
-  ⇛ᵒ-eatʳ =  ⇛ᵍ-eatʳ
+  ⇛ᴹ-eatʳ :  (⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
+  ⇛ᴹ-eatʳ =  ⇛ᵍ-eatʳ
 
-  ⇛ᵒᶠ-eatˡ :  Qᵒ ∗ᵒ (⇛ᵒᶠ Pᵒ)  ⊨ ⇛ᵒᶠ  Qᵒ ∗ᵒ Pᵒ
-  ⇛ᵒᶠ-eatˡ =  ⇛ᵍᶠ-eatˡ
+  ⇛ᵒ-eatˡ :  Qᵒ ∗ᵒ (⇛ᵒ Pᵒ)  ⊨ ⇛ᵒ  Qᵒ ∗ᵒ Pᵒ
+  ⇛ᵒ-eatˡ =  ⇛ᵍᶠ-eatˡ
 
-  ⇛ᵒᶠ-eatʳ :  (⇛ᵒᶠ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⇛ᵒᶠ  Pᵒ ∗ᵒ Qᵒ
-  ⇛ᵒᶠ-eatʳ =  ⇛ᵍᶠ-eatʳ
+  ⇛ᵒ-eatʳ :  (⇛ᵒ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⇛ᵒ  Pᵒ ∗ᵒ Qᵒ
+  ⇛ᵒ-eatʳ =  ⇛ᵍᶠ-eatʳ
 
-  -- ⇛ᵒᶠ into ⇛ᵒᶠᴺ
+  -- ⇛ᵒ into ⇛ᴺᵒ
 
-  ⇛ᵒᶠ⇒⇛ᵒᶠᴺ :  ⇛ᵒᶠ Pᵒ ⊨ ⇛ᵒᶠᴺ Pᵒ
-  ⇛ᵒᶠ⇒⇛ᵒᶠᴺ =  -∗ᵒ-intro λ _ → ∗ᵒ-comm › ⇛ᵒᶠ-eatʳ
+  ⇛ᵒ⇒⇛ᴺᵒ :  ⇛ᵒ Pᵒ ⊨ ⇛ᴺᵒ Pᵒ
+  ⇛ᵒ⇒⇛ᴺᵒ =  -∗ᵒ-intro λ _ → ∗ᵒ-comm › ⇛ᵒ-eatʳ
 
-  -- Adequacy of ⇛ᵒ
-  -- If we have X under ⟨ M ⟩⇛ᵒ⟨ M' ⟩ for valid M, then X holds purely
+  -- Adequacy of ⇛ᴹ
+  -- If we have X under ⟨ M ⟩⇛ᴹ⟨ M' ⟩ for valid M, then X holds purely
 
-  ⇛ᵒ-adeq :  ✓ᴹ M →  ⊨ ⟨ M ⟩⇛ᵒ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
-  ⇛ᵒ-adeq =  ⇛ᵍ-adeq Invᴳ-emp
+  ⇛ᴹ-adeq :  ✓ᴹ M →  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
+  ⇛ᴹ-adeq =  ⇛ᵍ-adeq Invᴳ-emp
 
-  -- Perform a step by ⇛ᵒ
+  -- Perform a step by ⇛ᴹ
 
-  ⇛ᵒ-step :  envᴳ M Eᴵⁿ ✓ᴳ a  →  ((⟨ M ⟩⇛ᵒ⟨ M' ⟩ Pᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
+  ⇛ᴹ-step :  envᴳ M Eᴵⁿ ✓ᴳ a  →  ((⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
              ∑ Fᴵⁿ , ∑ b ,  envᴳ M' Fᴵⁿ ✓ᴳ b  ×  (Pᵒ ∗ᵒ Invᴳ Fᴵⁿ) b
-  ⇛ᵒ-step ME✓a ⇛P∗InvEa  with ⤇ᴱ-step ME✓a (⇛ᵍ-apply ⇛P∗InvEa)
+  ⇛ᴹ-step ME✓a ⇛P∗InvEa  with ⤇ᴱ-step ME✓a (⇛ᵍ-apply ⇛P∗InvEa)
   … | -, -, M'F✓b , P∗InvFb =  -, -, M'F✓b , P∗InvFb

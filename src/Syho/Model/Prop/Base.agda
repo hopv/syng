@@ -209,6 +209,11 @@ abstract
   →ᵒ-mono :  Pᵒ ⊨ Qᵒ →  Rᵒ ⊨ Sᵒ →  Qᵒ →ᵒ Rᵒ ⊨ Pᵒ →ᵒ Sᵒ
   →ᵒ-mono P⊨Q R⊨S Q→Ra _ _ a⊑b E✓b =  P⊨Q › Q→Ra _ _ a⊑b E✓b › R⊨S
 
+  -- ⊨✓ →ᵒ into ⊨ →ᵒ
+
+  ⊨✓⇒⊨-→ᵒ :  Pᵒ ⊨✓ Qᵒ →ᵒ Rᵒ →  Pᵒ ⊨ Qᵒ →ᵒ Rᵒ
+  ⊨✓⇒⊨-→ᵒ P⊨✓Q→R Pa _ _ a⊑b E✓b =  P⊨✓Q→R (✓-mono a⊑b E✓b) Pa _ _ a⊑b E✓b
+
   -- Introduce/eliminate →ᵒ
 
   →ᵒ-intro :  Monoᵒ Qᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ →ᵒ Rᵒ
@@ -216,11 +221,6 @@ abstract
 
   →ᵒ-elim :  Qᵒ ⊨✓ Pᵒ →ᵒ Rᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ
   →ᵒ-elim Q⊨✓P→R E✓a (Pa , Qa) =  Q⊨✓P→R E✓a Qa _ _ ⊑-refl E✓a Pa
-
-  -- ⊨✓ →ᵒ into ⊨ →ᵒ
-
-  ⊨✓⇒⊨-→ᵒ :  Pᵒ ⊨✓ Qᵒ →ᵒ Rᵒ →  Pᵒ ⊨ Qᵒ →ᵒ Rᵒ
-  ⊨✓⇒⊨-→ᵒ P⊨✓Q→R Pa _ _ a⊑b E✓b =  P⊨✓Q→R (✓-mono a⊑b E✓b) Pa _ _ a⊑b E✓b
 
 --------------------------------------------------------------------------------
 -- ∗ᵒ :  Semantic separating conjunction
@@ -433,6 +433,12 @@ abstract
   -∗ᵒ-monoʳ :  Pᵒ ⊨ Qᵒ →  Rᵒ -∗ᵒ Pᵒ ⊨ Rᵒ -∗ᵒ Qᵒ
   -∗ᵒ-monoʳ =  -∗ᵒ-mono id
 
+  -- ⊨✓ -∗ᵒ into ⊨ -∗ᵒ
+
+  ⊨✓⇒⊨--∗ᵒ :  Pᵒ ⊨✓ Qᵒ -∗ᵒ Rᵒ →  Pᵒ ⊨ Qᵒ -∗ᵒ Rᵒ
+  ⊨✓⇒⊨--∗ᵒ P⊨✓Q-∗R Pa _ _ _ a⊑b E✓c∙b =
+    P⊨✓Q-∗R (✓-mono (⊑-trans a⊑b ∙-incrˡ) E✓c∙b) Pa _ _ _ a⊑b E✓c∙b
+
   -- Introduce/eliminate -∗ᵒ
 
   -∗ᵒ-intro :  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
@@ -449,12 +455,6 @@ abstract
 
   -∗ᵒ-apply :  Monoᵒ Qᵒ →  Pᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨✓ Qᵒ
   -∗ᵒ-apply MonoQ =  -∗ᵒ-elim MonoQ λ _ → id
-
-  -- ⊨✓ -∗ᵒ into ⊨ -∗ᵒ
-
-  ⊨✓⇒⊨--∗ᵒ :  Pᵒ ⊨✓ Qᵒ -∗ᵒ Rᵒ →  Pᵒ ⊨ Qᵒ -∗ᵒ Rᵒ
-  ⊨✓⇒⊨--∗ᵒ P⊨✓Q-∗R Pa _ _ _ a⊑b E✓c∙b =
-    P⊨✓Q-∗R (✓-mono (⊑-trans a⊑b ∙-incrˡ) E✓c∙b) Pa _ _ _ a⊑b E✓c∙b
 
 --------------------------------------------------------------------------------
 -- ⤇ᵒ :  Semantic update modality
@@ -569,6 +569,11 @@ abstract
   ⤇ᴱ-param E⤇FPf _ E✓a∙c  with E⤇FPf _ E✓a∙c
   … | -, b,F✓b,Pb∙c =  -, b,F✓b,Pb∙c
 
+  -- ⊨✓ ⤇ᴱ into ⊨ ⤇ᴱ
+
+  ⊨✓⇒⊨-⤇ᴱ :  Pᵒ ⊨✓ E ⤇ᴱ FQᵒ˙ →  Pᵒ ⊨ E ⤇ᴱ FQᵒ˙
+  ⊨✓⇒⊨-⤇ᴱ P⊨✓E⤇FQ Pa _ E✓a∙c =  P⊨✓E⤇FQ (✓-mono ∙-incrʳ E✓a∙c) Pa _ E✓a∙c
+
   -- Introduce ⤇ᴱ
 
   ⤇ᵒ⇒⤇ᴱ :  ⤇ᵒ Pᵒ  ⊨  E ⤇ᴱ λ (_ : ⊤₀) → E , Pᵒ
@@ -600,11 +605,6 @@ abstract
 
   ⤇ᴱ-eatˡ :  Qᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ⊨ E ⤇ᴱ λ x → F˙ x ,  Qᵒ ∗ᵒ Pᵒ˙ x
   ⤇ᴱ-eatˡ =  ∗ᵒ-comm › ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-comm
-
-  -- ⊨✓ ⤇ᴱ into ⊨ ⤇ᴱ
-
-  ⊨✓⇒⊨-⤇ᴱ :  Pᵒ ⊨✓ E ⤇ᴱ FQᵒ˙ →  Pᵒ ⊨ E ⤇ᴱ FQᵒ˙
-  ⊨✓⇒⊨-⤇ᴱ P⊨✓E⤇FQ Pa _ E✓a∙c =  P⊨✓E⤇FQ (✓-mono ∙-incrʳ E✓a∙c) Pa _ E✓a∙c
 
   -- Adequacy of ⤇ᴱ
   -- If we have Y under E ⤇ᴱ for valid E, then Y holds purely

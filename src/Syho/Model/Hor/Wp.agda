@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
 open import Base.Few using (⊤)
 open import Base.Size using (Size; Size<; !; §_)
 open import Base.Option using (¿_; ň; š_; ¿-case)
-open import Base.Prod using (π₀; π₁; _,_)
+open import Base.Prod using (_,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E)
@@ -19,10 +19,10 @@ open import Syho.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (Mem; _⇐ᴿ_; _⇐ᴷᴿ_; _⇒ᴿ∑; _⇒ᴷᴿ∑)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
   ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; Thunkᵒ; Shrunkᵒ; ⊨⇒⊨✓;
-  ∀ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ;
-  ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro; ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ';
-  -∗ᵒ'⇒-∗ᵒ; -∗ᵒ-Mono; -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-intro; -∗ᵒ-intro'; -∗ᵒ-elim;
-  -∗ᵒ-applyʳ; -∗ᵒ-eatˡ; ◎-Mono; ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
+  ∀ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ;
+  ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro; ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ; -∗ᵒ-Mono;
+  -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-intro'; -∗ᵒ-applyʳ; -∗ᵒ-eatˡ; ◎-Mono; ∗ᵒThunkᵒ-out;
+  ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ'⟨_⟩_; ⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒᶠ_; ⇛ᵒ⇒⇛ᵒ';
   ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒᶠ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒᶠ-mono✓; ⇛ᵒᶠ-mono; ⊨✓⇒⊨-⇛ᵒ;

@@ -25,9 +25,9 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_;
   -∗ᵒ-Mono; -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-intro'; -∗ᵒ-applyʳ; -∗ᵒ-eatˡ; ◎-Mono;
   ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ'⟨_⟩_; ⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒᶠ_; ⇛ᵒ⇒⇛ᵒ';
-  ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒᶠ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒᶠ-mono✓; ⇛ᵒᶠ-mono; ⊨✓⇒⊨-⇛ᵒ;
-  ⇛ᵒᶠ-intro; ⇛ᵒ-join; ⇛ᵒᶠ-join; ⇛ᵒ-eatˡ; ⇛ᵒᶠ-eatˡ)
+open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᵒ'⟨_⟩_; ⟨_⟩⇛ᵒ⟨_⟩_; ⇛ᵒᶠ_; ⇛ᵒᶠᴺ_;
+  ⇛ᵒ⇒⇛ᵒ'; ⇛ᵒ'⇒⇛ᵒ; ⇛ᵒ-Mono; ⇛ᵒᶠ-Mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono; ⇛ᵒᶠ-mono✓; ⇛ᵒᶠ-mono;
+  ⊨✓⇒⊨-⇛ᵒ; ⇛ᵒᶠ-intro; ⇛ᵒ-join; ⇛ᵒᶠ-join; ⇛ᵒ-eatˡ; ⇛ᵒᶠ-eatˡ; ⇛ᵒᶠ⇒⇛ᵒᶠᴺ)
 
 private variable
   ł :  Level
@@ -110,7 +110,7 @@ data  Wpᴾ Pᵒ˙ ι  where
 
   -- For a value, having the postcondition under ⇛ᵒ
 
-  ⁺⟨⟩ᴾᵒ-val :  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ Pᵒ˙ v ∗ᵒ [⊤]ᴺᵒ)  ⊨  ⁺⟨ ĩ₀ v ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-val :  ⇛ᵒᶠᴺ Pᵒ˙ v  ⊨  ⁺⟨ ĩ₀ v ⟩ᴾᵒ[ ι ] Pᵒ˙
 
   -- For a context-redex pair, stating that the reduction is not stuck
   -- and for every next state the weakest precondition coinductively holds
@@ -184,7 +184,7 @@ data  Wpᵀ Pᵒ˙ ι  where
 
   -- For a value, having the postcondition under ⇛ᵒ
 
-  ⁺⟨⟩ᵀᵒ-val :  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ Pᵒ˙ v ∗ᵒ [⊤]ᴺᵒ)  ⊨  ⁺⟨ ĩ₀ v ⟩ᵀᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-val :  ⇛ᵒᶠᴺ Pᵒ˙ v  ⊨  ⁺⟨ ĩ₀ v ⟩ᵀᵒ[ ι ] Pᵒ˙
 
   -- For a context-redex pair, stating that the reduction is not stuck
   -- and for every next state the weakest precondition inductively holds
@@ -388,23 +388,27 @@ abstract
   ⇛ᵒᶠ-ᵃ⟨⟩ᵒ :  ⇛ᵒᶠ ᵃ⟨ red ⟩ᵒ Pᵒ˙  ⊨  ᵃ⟨ red ⟩ᵒ Pᵒ˙
   ⇛ᵒᶠ-ᵃ⟨⟩ᵒ big M =  big M ▷ ⇛ᵒ-mono (_$ _) ▷ ⇛ᵒ-join
 
-  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒᶠ with [⊤]ᴺᵒ outside
+  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒᶠᴺ/⇛ᵒᶠ outside
 
-  ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ (⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙) ∗ᵒ [⊤]ᴺᵒ)  ⊨
-                 ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} =  (-∗ᵒ-monoʳ $ ⇛ᵒᶠ-mono✓ (λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-val⁻¹ ›
+  ⇛ᵒᶠᴺ-⁺⟨⟩ᴾᵒ :  ⇛ᵒᶠᴺ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ⇛ᵒᶠᴺ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} =  (-∗ᵒ-monoʳ $ ⇛ᵒᶠ-mono✓ (λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-val⁻¹ ›
     -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙) › ⇛ᵒᶠ-join) › ⁺⟨⟩ᴾᵒ-val
-  ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} =  (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᵒ-mono✓ (λ ✓∙ →
+  ⇛ᵒᶠᴺ-⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} =  (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᵒ-mono✓ (λ ✓∙ →
     ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-kr⁻¹ › -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙ › _$ _) ▷
     ⇛ᵒ-join) › ⁺⟨⟩ᴾᵒ-kr
 
-  ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ :  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ (⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [⊤]ᴺᵒ)  ⊨
-                 ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
-  ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} =  (-∗ᵒ-monoʳ $ ⇛ᵒᶠ-mono✓ (λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-val⁻¹ ›
+  ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ :  ⇛ᵒᶠ ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ =  ⇛ᵒᶠ⇒⇛ᵒᶠᴺ › ⇛ᵒᶠᴺ-⁺⟨⟩ᴾᵒ
+
+  ⇛ᵒᶠᴺ-⁺⟨⟩ᵀᵒ :  ⇛ᵒᶠᴺ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
+  ⇛ᵒᶠᴺ-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} =  (-∗ᵒ-monoʳ $ ⇛ᵒᶠ-mono✓ (λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-val⁻¹ ›
     -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙) › ⇛ᵒᶠ-join) › ⁺⟨⟩ᵀᵒ-val
-  ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} =  (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᵒ-mono✓ (λ ✓∙ →
+  ⇛ᵒᶠᴺ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} =  (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᵒ-mono✓ (λ ✓∙ →
     ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙ › _$ _) ▷
     ⇛ᵒ-join) › ⁺⟨⟩ᵀᵒ-kr
+
+  ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ :  ⇛ᵒᶠ ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
+  ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ =  ⇛ᵒᶠ⇒⇛ᵒᶠᴺ › ⇛ᵒᶠᴺ-⁺⟨⟩ᵀᵒ
 
   -- ᵃ⟨⟩ᵒ absorbs ⇛ᵒᶠ inside
 
@@ -413,23 +417,27 @@ abstract
     big _ _ _ veˇM'⇐ ▷ λ (-, ≡vň , big) → -, ≡vň ,
     big ▷ ⇛ᵒ-mono (_$ _) ▷ ⇛ᵒ-join
 
-  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒᶠ with [⊤]ᴺᵒ inside
+  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒᶠᴺ/⇛ᵒᶠ inside
 
-  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ :  ⁺⟨ vk ⟩ᴾᵒ[ ι ] (λ v → [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ Pᵒ˙ v ∗ᵒ [⊤]ᴺᵒ))  ⊨
-                 ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ {vk = ĩ₀ _} =  ⁺⟨⟩ᴾᵒ-val⁻¹ › (-∗ᵒ-monoʳ $
+  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠᴺ :  ⁺⟨ vk ⟩ᴾᵒ[ ι ] (λ v → ⇛ᵒᶠᴺ Pᵒ˙ v)  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠᴺ {vk = ĩ₀ _} =  ⁺⟨⟩ᴾᵒ-val⁻¹ › (-∗ᵒ-monoʳ $
     ⇛ᵒᶠ-mono✓ (λ ✓∙ → -∗ᵒ-applyʳ ⇛ᵒᶠ-Mono ✓∙) › ⇛ᵒᶠ-join) › ⁺⟨⟩ᴾᵒ-val
-  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ {vk = ĩ₁ _} =  ⁺⟨⟩ᴾᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷
+  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠᴺ {vk = ĩ₁ _} =  ⁺⟨⟩ᴾᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷
     ⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ , λ _ _ _ eeˇM'⇐ → big _ _ _ eeˇM'⇐ ▷
-    ⇛ᵒ-mono (∗ᵒ-monoˡ λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ $ big .! })) › ⁺⟨⟩ᴾᵒ-kr
+    ⇛ᵒ-mono (∗ᵒ-monoˡ λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-⇛ᵒᶠᴺ $ big .! })) › ⁺⟨⟩ᴾᵒ-kr
 
-  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ :  ⁺⟨ vk ⟩ᵀᵒ[ ι ] (λ v → [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ Pᵒ˙ v ∗ᵒ [⊤]ᴺᵒ))  ⊨
-                 ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ {vk = ĩ₀ _} =  ⁺⟨⟩ᵀᵒ-val⁻¹ › (-∗ᵒ-monoʳ $
+  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ :  ⁺⟨ vk ⟩ᴾᵒ[ ι ] (λ v → ⇛ᵒᶠ Pᵒ˙ v)  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ =  ⁺⟨⟩ᴾᵒ-mono (λ _ → ⇛ᵒᶠ⇒⇛ᵒᶠᴺ) › ⁺⟨⟩ᴾᵒ-⇛ᵒᶠᴺ
+
+  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠᴺ :  ⁺⟨ vk ⟩ᵀᵒ[ ι ] (λ v → ⇛ᵒᶠᴺ Pᵒ˙ v)  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠᴺ {vk = ĩ₀ _} =  ⁺⟨⟩ᵀᵒ-val⁻¹ › (-∗ᵒ-monoʳ $
     ⇛ᵒᶠ-mono✓ (λ ✓∙ → -∗ᵒ-applyʳ ⇛ᵒᶠ-Mono ✓∙) › ⇛ᵒᶠ-join) › ⁺⟨⟩ᵀᵒ-val
-  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ {vk = ĩ₁ _} =  ⁺⟨⟩ᵀᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷
+  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠᴺ {vk = ĩ₁ _} =  ⁺⟨⟩ᵀᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷
     ⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ , λ _ _ _ eeˇM'⇐ → big _ _ _ eeˇM'⇐ ▷
-    ⇛ᵒ-mono (∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ big })) › ⁺⟨⟩ᵀᵒ-kr
+    ⇛ᵒ-mono (∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-⇛ᵒᶠᴺ big })) › ⁺⟨⟩ᵀᵒ-kr
+
+  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ :  ⁺⟨ vk ⟩ᵀᵒ[ ι ] (λ v → ⇛ᵒᶠ Pᵒ˙ v)  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ =  ⁺⟨⟩ᵀᵒ-mono (λ _ → ⇛ᵒᶠ⇒⇛ᵒᶠᴺ) › ⁺⟨⟩ᵀᵒ-⇛ᵒᶠᴺ
 
   -- Let ᵃ⟨⟩ᵒ and ⁺⟨⟩ᴾ/ᵀᵒ eat a proposition
 

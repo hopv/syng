@@ -16,8 +16,9 @@ open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ;
   empᴵⁿᴳ-✓; envᴳ-cong)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
-  ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ?-intro; ⤇ᴱ-param;
-  ⤇ᴱ-eatʳ; ⤇ᴱ-step)
+  ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; substᵒ; ∗ᵒ-monoˡ; ∗ᵒ-comm;
+  ∗ᵒ?-intro; -∗ᵒ-intro; ⤇ᴱ-param; ⤇ᴱ-eatʳ; ⤇ᴱ-step)
+open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᵍ'⟨_⟩_; ⟨_⟩[_]⇛ᵍ⟨_⟩_; ⇛ᵍ≡⇛ᵍ';
   ⇛ᵍ-Mono; ⇛ᵍᶠ-Mono; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᵍᶠ-mono✓; ⇛ᵍᶠ-mono; ⇛ᵍ-make; ⇛ᵍ-apply;
   ⊨✓⇒⊨-⇛ᵍ; ⊨✓⇒⊨-⇛ᵍᶠ; ⇛ᵍ-all; ⇛ᵍᶠ-all; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro; ⤇ᵒ⇒⇛ᵍᶠ; ⇛ᵍᶠ-intro;
@@ -38,7 +39,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Interpret the super update
 
-infix 3 ⟨_⟩⇛ᵒ'⟨_⟩_ ⟨_⟩⇛ᵒ⟨_⟩_ ⇛ᵒᶠ_
+infix 3 ⟨_⟩⇛ᵒ'⟨_⟩_ ⟨_⟩⇛ᵒ⟨_⟩_ ⇛ᵒᶠ_ ⇛ᵒᶠᴺ_
 
 -- Invᴳ :  Global invariant
 
@@ -61,6 +62,11 @@ abstract
 
 ⇛ᵒᶠ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᵒᶠ Pᵒ =  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ Pᵒ
+
+-- ⇛ᵒᶠᴺ :  ⇛ᵒᶠ with [⊤]ᴺ
+
+⇛ᵒᶠᴺ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᵒᶠᴺ Pᵒ =  [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ Pᵒ ∗ᵒ [⊤]ᴺᵒ)
 
 abstract
 
@@ -171,6 +177,11 @@ abstract
 
   ⇛ᵒᶠ-eatʳ :  (⇛ᵒᶠ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⇛ᵒᶠ  Pᵒ ∗ᵒ Qᵒ
   ⇛ᵒᶠ-eatʳ =  ⇛ᵍᶠ-eatʳ
+
+  -- ⇛ᵒᶠ into ⇛ᵒᶠᴺ
+
+  ⇛ᵒᶠ⇒⇛ᵒᶠᴺ :  ⇛ᵒᶠ Pᵒ ⊨ ⇛ᵒᶠᴺ Pᵒ
+  ⇛ᵒᶠ⇒⇛ᵒᶠᴺ =  -∗ᵒ-intro λ _ → ∗ᵒ-comm › ⇛ᵒᶠ-eatʳ
 
   -- Adequacy of ⇛ᵒ
   -- If we have X under ⟨ M ⟩⇛ᵒ⟨ M' ⟩ for valid M, then X holds purely

@@ -399,6 +399,30 @@ abstract
     ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-applyʳ (∀ᵒ-Mono λ _ → ⇛ᵒ-Mono) ✓∙ › _$ _) ▷
     ⇛ᵒ-join) › ⁺⟨⟩ᵀᵒ-kr
 
+  -- ᵃ⟨⟩ᵒ absorbs ⇛ᵒᶠ inside
+
+  ᵃ⟨⟩ᵒ-⇛ᵒᶠ :  ᵃ⟨ red ⟩ᵒ (λ v → ⇛ᵒᶠ Pᵒ˙ v)  ⊨  ᵃ⟨ red ⟩ᵒ Pᵒ˙
+  ᵃ⟨⟩ᵒ-⇛ᵒᶠ big M =  big M ▷ ⇛ᵒ-mono λ (redM⇒ , big) → redM⇒ , λ _ _ vM'⇐ →
+    big _ _ vM'⇐ ▷ ⇛ᵒ-mono (_$ _) ▷ ⇛ᵒ-join
+
+  -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᵒᶠ with [⊤]ᴺᵒ inside
+
+  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ :  ⁺⟨ vk ⟩ᴾᵒ[ ι ] (λ v → [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ Pᵒ˙ v ∗ᵒ [⊤]ᴺᵒ))  ⊨
+                 ⁺⟨ vk ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ {vk = ĩ₀ _} =  ⁺⟨⟩ᴾᵒ-val⁻¹ › (-∗ᵒ-monoʳ $
+    ⇛ᵒᶠ-mono✓ (λ ✓∙ → -∗ᵒ-applyʳ ⇛ᵒᶠ-Mono ✓∙) › ⇛ᵒᶠ-join) › ⁺⟨⟩ᴾᵒ-val
+  ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ {vk = ĩ₁ _} =  ⁺⟨⟩ᴾᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷
+    ⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ , λ _ _ _ eeˇM'⇐ → big _ _ _ eeˇM'⇐ ▷
+    ⇛ᵒ-mono (∗ᵒ-monoˡ λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-⇛ᵒᶠ $ big .! })) › ⁺⟨⟩ᴾᵒ-kr
+
+  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ :  ⁺⟨ vk ⟩ᵀᵒ[ ι ] (λ v → [⊤]ᴺᵒ -∗ᵒ (⇛ᵒᶠ Pᵒ˙ v ∗ᵒ [⊤]ᴺᵒ))  ⊨
+                 ⁺⟨ vk ⟩ᵀᵒ[ ι ] Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ {vk = ĩ₀ _} =  ⁺⟨⟩ᵀᵒ-val⁻¹ › (-∗ᵒ-monoʳ $
+    ⇛ᵒᶠ-mono✓ (λ ✓∙ → -∗ᵒ-applyʳ ⇛ᵒᶠ-Mono ✓∙) › ⇛ᵒᶠ-join) › ⁺⟨⟩ᵀᵒ-val
+  ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ {vk = ĩ₁ _} =  ⁺⟨⟩ᵀᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷
+    ⇛ᵒ-mono λ (krM⇒ , big) → krM⇒ , λ _ _ _ eeˇM'⇐ → big _ _ _ eeˇM'⇐ ▷
+    ⇛ᵒ-mono (∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-⇛ᵒᶠ big })) › ⁺⟨⟩ᵀᵒ-kr
+
 {-
   -- ⁺⟨⟩ᴾ/ᵀᵒ can eat a proposition
 

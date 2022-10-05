@@ -42,12 +42,12 @@ private variable
 --------------------------------------------------------------------------------
 -- Semantic atomic weakest precondition
 
-infix 3 ⁺ᵃ⟨_⟩_
+infix 3 ᵃ⟨_⟩ᵒ_
 
-⁺ᵃ⟨_⟩_ :  Redex T →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
-⁺ᵃ⟨ red ⟩ Pᵒ  =  ∀ᵒ M , ⟨ M ⟩⇛ᵒ'⟨ M ⟩ ⌜ (red , M) ⇒ᴿ∑ ⌝ᵒ×
-                   ∀ᵒ v , ∀ᵒ M' , ⌜ (V⇒E v , ň , M') ⇐ᴿ (red , M) ⌝ᵒ→
-                     ⟨ M ⟩⇛ᵒ'⟨ M' ⟩  Pᵒ v
+ᵃ⟨_⟩ᵒ_ :  Redex T →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
+ᵃ⟨ red ⟩ᵒ Pᵒ =  ∀ᵒ M , ⟨ M ⟩⇛ᵒ⟨ M ⟩ ⌜ (red , M) ⇒ᴿ∑ ⌝ᵒ×
+                  ∀ᵒ v , ∀ᵒ M' , ⌜ (V⇒E v , ň , M') ⇐ᴿ (red , M) ⌝ᵒ→
+                    ⟨ M ⟩⇛ᵒ⟨ M' ⟩  Pᵒ v
 
 --------------------------------------------------------------------------------
 -- Semantic partial weakest precondition

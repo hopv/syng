@@ -15,14 +15,13 @@ open import Base.Prod using (_,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Type; Expr∞; Val)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; [⊤]ᴺ;
-  Basic)
+open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
-  ∗-monoʳ; ?∗-comm; ∗?-comm; ∗-elimʳ)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇛-ṡ; _ᵘ»_; _ᵘ»ᵘ_; ⇛-frameˡ;
-  ⇛-frameʳ)
+  ∗-monoʳ; ?∗-comm; ∗-elimʳ)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; _ᵘ»_; _ᵘ»ᵘ_;
+  ⇛-frameˡ; ⇛-frameʳ; ⇛ᴺ-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_;
-  _⊢[_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵃʰ»ᵘ_; _ʰ»ᵘ_; _ᵘ»ᵃʰ_; _ᵘ»ʰ_;
+  _⊢[_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
   ahor-frameˡ; hor-frameˡ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
@@ -239,14 +238,13 @@ abstract
   ↪⟨⟩ᵀᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, horᵀ-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
-                  (R ∗ P') ∗ [⊤]ᴺ ⊢[ ∞ ][ i ]⇛ P ∗ [⊤]ᴺ →
+  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ :  {{_ : Basic R}} →  (R ∗ P') ⊢[ ∞ ][ i ]⇛ᴺ P →
                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩[ κ ]ᵒ Q˙
-  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
+  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
-    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛[⊤] P∗S∗T ⊢⟨e⟩ Q˙
+    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ᴺ P∗S∗T ⊢⟨e⟩ Q˙
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ »
-      (∗?-comm » ⇛-frameʳ R∗P'⊢⇛[⊤]P ᵘ» ∗?-comm) ᵘ»ʰ P∗S∗T⊢⟨e⟩Q ,
+      ⇛ᴺ-frameʳ R∗P'⊢⇛[⊤]P ᵘᴺ»ʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
@@ -257,10 +255,10 @@ abstract
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ∗ [⊤]ᴺ ⊢[ ∞ ][ i ]⇛ Q'˙ v ∗ [⊤]ᴺ) →
+  ↪⟨⟩ᵒ-monoʳᵘᴺ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ᴺ Q'˙ v) →
                  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q'˙
-  ↪⟨⟩ᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa
+  ↪⟨⟩ᵒ-monoʳᵘᴺ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘᴺ ∀vQ⊢⇛Q' , R∗IndSa
 
   ↪⟨⟩ᵒ-frameˡ :  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =

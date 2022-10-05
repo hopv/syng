@@ -6,7 +6,7 @@
 
 module Syho.Logic.Hor where
 
-open import Base.Func using (_$_; const)
+open import Base.Func using (_$_; _∘_; const)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size)
 open import Base.Prod using (_,_; -,_)
@@ -14,8 +14,8 @@ open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
-open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-comm)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl)
+open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl; ⇛⇒⇛ᴺ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; ∇_; _⁏_; let˙)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _ᴷ◁_;
   Val/Ktxred)
@@ -24,13 +24,13 @@ open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏�
 open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
   _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
   _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
-  _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘ_;
-  ahor-frameˡ; hor-frameˡ; ahor-hor; hor-bind; hor-valᵘ; ahor-nd; horᴾ-▶;
+  _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_;
+  ahor-frameˡ; hor-frameˡ; ahor-hor; hor-bind; hor-valᵘᴺ; ahor-nd; horᴾ-▶;
   horᵀ-▶; hor-◁; hor-⁏; hor-fork)
 
 private variable
   ι :  Size
-  i :  ℕ
+  i j :  ℕ
   X :  Set₀
   Xʸ :  Setʸ
   T U :  Type
@@ -79,9 +79,12 @@ abstract
   -->  _ᵘ»ᵃʰ_ :  P  ⊢[ ι ][ j ]⇛  Q  →   Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙  →
   -->            P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
 
-  -->  _ᵘ»ʰ_ :  P  ∗  [⊤]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [⊤]ᴺ  →
-  -->           Q  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙  →
-  -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
+  -->  _ᵘᴺ»ʰ_ :  P  ⊢[ ι ][ i ]⇛ᴺ  Q  →   Q  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙  →
+  -->            P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
+
+  _ᵘ»ʰ_ :  P  ⊢[ ι ][ i ]⇛  Q  →   Q  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙  →
+           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
+  _ᵘ»ʰ_ =  _ᵘᴺ»ʰ_ ∘  ⇛⇒⇛ᴺ
 
   -->  _ᵃʰ»ᵘ_ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
   -->            (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛  R˙ v)  →
@@ -91,13 +94,17 @@ abstract
            P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
   P⊢⟨red⟩Q ᵃʰ» ∀vQ⊢R =  P⊢⟨red⟩Q ᵃʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀vQ⊢R _
 
-  -->  _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
-  -->           (∀ v →  Q˙ v  ∗  [⊤]ᴺ  ⊢[ ι ][ j ]⇛  R˙ v  ∗  [⊤]ᴺ)  →
-  -->           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
+  -->  _ʰ»ᵘᴺ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
+  -->            (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛ᴺ  R˙ v)  →
+  -->            P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
+
+  _ʰ»ᵘ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛  R˙ v)  →
+           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
+  _ʰ»ᵘ_ P⊢⟨vk⟩Q =  (P⊢⟨vk⟩Q ʰ»ᵘᴺ_) ∘ (⇛⇒⇛ᴺ ∘_)
 
   _ʰ»_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ]  R˙ v)  →
           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
-  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∗-monoˡ $ ∀vQ⊢R _
+  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀vQ⊢R _
 
   -- Frame
 
@@ -117,11 +124,13 @@ abstract
 
   -- Value
 
-  -->  hor-valᵘ :  P  ∗  [⊤]ᴺ  ⊢[ ι ][ i ]⇛  Q˙ v  ∗  [⊤]ᴺ  →
-  -->              P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
+  -->  hor-valᵘᴺ :  P  ⊢[ ι ][ i ]⇛  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
+
+  hor-valᵘ :  P  ⊢[ ι ][ i ]⇛  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
+  hor-valᵘ =  hor-valᵘᴺ ∘ ⇛⇒⇛ᴺ
 
   hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
-  hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} $ ∗-monoˡ P⊢Q
+  hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} P⊢Q
 
   -- Non-deterministic value
 

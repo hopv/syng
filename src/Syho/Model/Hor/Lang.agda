@@ -15,13 +15,14 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; ∇_; Val; V⇒E)
-open import Syho.Lang.Ktxred using (Ktx; _ᴷ◁_; _ᴷ∘ᴷ_; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_;
-  forkᴿ; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
+open import Syho.Lang.Ktxred using (Redex; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_; forkᴿ; Ktx;
+  _ᴷ◁_; _ᴷ∘ᴷ_; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
 open import Syho.Lang.Reduce using (nd⇒; ▶⇒; ◁⇒; ⁏⇒; fork⇒; redᴷᴿ)
 open import Syho.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-syntax; _∗ᵒ_;
-  ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ?-intro; -∗ᵒ-monoʳ)
+  _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; -∗ᵒ-monoʳ)
+open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⇛ᵒ-mono; ⇛ᵒ-intro; ⇛ᵒ-join)
-open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[_]_;
+open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ_; ⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[_]_;
   ⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[<_]_; ⟨_⟩ᵀᵒ[<_]_; ⟨_⟩ᴾᵒ⊤[_]; ⟨_⟩ᵀᵒ⊤[_]; ⁺⟨⟩ᴾᵒ-val⁻¹;
   ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono;
   ⁺⟨⟩ᴾᵒ-size; ¿⁺⟨⟩ᵀᵒ⊤<-size; ⇛ᵒᶠ-⁺⟨⟩ᴾᵒ; ⇛ᵒᶠ-⁺⟨⟩ᵀᵒ)
@@ -37,12 +38,31 @@ private variable
   e :  Expr∞ T
   e˂ :  Expr˂∞ T
   e˙ :  X →  Expr∞ T
+  red :  Redex T
   K :  Ktx T U
 
 --------------------------------------------------------------------------------
 -- Language-specific lemmas on the weakest preconditions
 
 abstract
+
+  -- Get ⁺⟨⟩ᴾ/ᵀᵒ out of ⟨⟩ᴾ/ᵀᵒ under ᵃ⟨⟩ᵒ with [⊤]ᴺᵒ
+
+  ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ :
+    [⊤]ᴺᵒ -∗ᵒ (ᵃ⟨ red ⟩ᵒ λ v → (⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ[ ι ] Pᵒ˙) ∗ᵒ [⊤]ᴺᵒ)  ⊨
+      ⁺⟨ ĩ₁ (-, K , red) ⟩ᴾᵒ[ ι ] Pᵒ˙
+  ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᵒ-mono λ ((-, redM⇒) , big) →
+    (-, redᴷᴿ redM⇒) , λ{ _ _ _ (redᴷᴿ e'eˇM'⇐) → big _ _ _ e'eˇM'⇐ ▷
+    λ{ (-, (refl , refl) , big) → big ▷
+    ⇛ᵒ-mono (∗ᵒ-mono (λ big → λ{ .! → big }) (?∗ᵒ-intro _)) }}) › ⁺⟨⟩ᴾᵒ-kr
+
+  ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ :
+    [⊤]ᴺᵒ -∗ᵒ (ᵃ⟨ red ⟩ᵒ λ v → (⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ[ ∞ ] Pᵒ˙) ∗ᵒ [⊤]ᴺᵒ)  ⊨
+      ⁺⟨ ĩ₁ (-, K , red) ⟩ᵀᵒ[ ∞ ] Pᵒ˙
+  ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᵒ-mono λ ((-, redM⇒) , big) →
+    (-, redᴷᴿ redM⇒) , λ{ _ _ _ (redᴷᴿ e'eˇM'⇐) → big _ _ _ e'eˇM'⇐ ▷
+    λ{ (-, (refl , refl) , big) → big ▷
+    ⇛ᵒ-mono (∗ᵒ-mono (§_) (?∗ᵒ-intro _)) }}) › ⁺⟨⟩ᵀᵒ-kr
 
   -- Bind for ⟨⟩ᴾ/ᵀᵒ
 

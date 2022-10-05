@@ -225,19 +225,18 @@ only be partial*, because one *later modality* `▷` is stripped off per program
 step, which causes coinductive reasoning by Löb induction.
 
 Let's see this more in detail.  
-Suppose that the target language has a constructor `▶` on an expression, such
-that `▶ e` reduces to `e` in one program step.  
-In such a step-indexed logic, because **one later modality is stripped off per
-program step**, we have the following Hoare triple rule for `▶`.
+Suppose the target language has a expression constructor `▶`, such that `▶ e`
+reduces to `e` in one program step.  
+We have the following Hoare triple rule for `▶` in step-indexed logics like
+Iris, because **one later modality is stripped off per program step**.
 ```
 ▷ { P } e { Q }  ⊢  { P } ▶ e { Q }
 ```
 Intuitively, `▷ P`, `P` under the *later modality* `▷`, means that `P` holds
 after one *logical* step.
 
-Also, suppose that we can make a vacuous loop `▶ ▶ ▶ …` of `▶`s.  
-As an immediate consequence of the rule for `▶`, we have the following lemma on
-`▶ ▶ ▶ …`.
+Also, suppose we can make a vacuous loop `▶ ▶ ▶ …` of `▶`s.  
+By the rule for `▶`, we get the following lemma on `▶ ▶ ▶ …`.
 ```
 ▷ { P } ▶ ▶ ▶ … { Q }  ⊢  { P } ▶ ▶ ▶ … { Q }
 ```
@@ -249,8 +248,8 @@ induction**.
 -------
   ⊢ P
 ```
-This means that, if we can get `P` assuming `▷ P` (or intuitively, `P` after one
-logical step), then we can get just `P`.
+If we can get `P` assuming `▷ P` (or intuitively, `P` after one logical step),
+then we can get just `P`.
 
 Combining Löb induction with the previous lemma, we can have a Hoare triple on
 `▶ ▶ ▶ …` without any premise.

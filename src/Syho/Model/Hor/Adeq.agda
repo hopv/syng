@@ -26,17 +26,17 @@ open import Syho.Lang.Reduce using (Mem; ✓ᴹ_; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
   ⌜_⌝ᵒ×_; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; substᵒ; ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ;
-  ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ?∗ᵒ-intro; ∗ᵒ-elimˡ;
-  ∗ᵒ-elimʳ; [∗ᵒ]-Mono; -∗ᵒ-applyʳ; ◎-Mono; Shrunkᵒ-Mono; Shrunkᵒ-mono;
-  Shrunkᵒ∗ᵒ-out; ∗ᵒShrunkᵒ-out)
+  ∗ᵒ-Mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ?∗ᵒ-intro;
+  ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono; -∗ᵒ-applyʳ; ◎-Mono; ◎-just;
+  Shrunkᵒ∗ᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-emp; ⇛ᴹ-Mono;
   ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴹ-intro; ⇛ᴹ-join; ⇛ᴹ-eatˡ; ⇛ᴹ-eatʳ; ⇛ᴹ-adeq;
   ⇛ᴹ-step)
 open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ[_]_; ⟨_⟩ᴾᵒ[_]_; ⟨_⟩ᵀᵒ[_]_;
-  ⟨_⟩ᴾᵒ⊤[_]; ⟨_⟩ᵀᵒ⊤[_]; ⟨¿_⟩ᴾᵒ⊤[<_]; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹;
-  ⁺⟨⟩ᴾᵒ-Mono; ⁺⟨⟩ᴾᵒ⊤-Mono; ⁺⟨⟩ᵀᵒ-Mono; ∀ᵒ⇛ᴹ-Mono; ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ;
-  ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ)
+  ⟨_⟩ᵀᵒ[<_]_; ⟨_⟩ᴾᵒ⊤[_]; ⟨_⟩ᵀᵒ⊤[_]; ⟨¿_⟩ᴾᵒ⊤[<_]; ⟨¿_⟩ᵀᵒ⊤[<_]; ⁺⟨⟩ᴾᵒ-val⁻¹;
+  ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-Mono; ⁺⟨⟩ᴾᵒ⊤-Mono; ⁺⟨⟩ᵀᵒ-Mono; ∀ᵒ⇛ᴹ-Mono;
+  ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ)
 
 private variable
   ł :  Level
@@ -171,31 +171,37 @@ abstract
     (kr , M') ⇒ᴷᴿ∑
   ⟨⟩ᵀᵒ-nostuck-tl ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-tl $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
-{-
   -- Lemma: If (e , es , M) ⇒ᵀ (e' , es' , M'),
   -- then ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ] entails
   -- ⟨ e' ⟩ᵀᵒ[ ι' ] Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤[ ιs' ] under ⟨ M ⟩⇛ᴹ⟨ M' ⟩
   -- for some ι', ιs' satisfying sz ι' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs
 
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ :  (e , es , M) ⇒ᵀ (e' , es' , M') →
-    (⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ]  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩
+    (⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ] ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       ∃ᵒ ι₀' , ∃ᵒ ιs' , ⌜ ι₀' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
-      (⟨ e' ⟩ᵀᵒ[ sz⁻¹ ι₀' ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤[ ιs' ]
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (redᵀ-hd (redᴱ {eˇ = ň} e≡kr e'M'⇐krM))  rewrite e≡kr =
-    ∗ᵒ-monoˡ (⁺⟨⟩ᵀᵒ-kr⁻¹ › (_$ _) › ⇛ᴹ-mono (λ big → big .π₁ _ _ _ e'M'⇐krM) ›
-      ⇛ᴹ-join) › ⇛ᴹ-eatʳ › ⇛ᴹ-mono $
-    ∗ᵒ-monoˡ (∗ᵒ-elimˡ $ Shrunkᵒ-Mono ⁺⟨⟩ᵀᵒ-Mono) › Shrunkᵒ∗ᵒ-out ›
-    λ{ (§ big) → -, -, ≺ᴰᴹ-hd $ aug-∷ size< aug-refl , big }
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (redᵀ-hd (redᴱ {eˇ = š _} e≡kr e'e⁺M'⇐krM))  rewrite e≡kr =
-    ∗ᵒ-monoˡ (⁺⟨⟩ᵀᵒ-kr⁻¹ › (_$ _) › ⇛ᴹ-mono (λ big → big .π₁ _ _ _ e'e⁺M'⇐krM) ›
-      ⇛ᴹ-join) › ⇛ᴹ-eatʳ › ⇛ᴹ-mono $ ∗ᵒ-assocˡ › Shrunkᵒ∗ᵒ-out › λ{ (§ big) →
-    big ▷ ?∗ᵒ-comm ▷ Shrunkᵒ∗ᵒ-out ▷ λ{ (§ big) → -, -,
-    ≺ᴰᴹ-hd $ aug-∷ size< $ aug-∷ size< aug-refl , ?∗ᵒ-comm big }}
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = _ ∷ _} (redᵀ-tl esM⇒es'M') =
-    ∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ esM⇒es'M') › ⇛ᴹ-eatˡ ›
-    ⇛ᴹ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , ⟨es'⟩) → -, -,
-    ≺ᴰᴹ-tl ι'∷ιs'≺ , ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ ⟨es'⟩)
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (redᵀ-tl _) =  ∗ᵒ⇒∗ᵒ' › λ ()
+        (⟨ e' ⟩ᵀᵒ[ sz⁻¹ ι₀' ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤[ ιs' ] ∗ᵒ [⊤]ᴺᵒ
+  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e≡kr e'eˇM'⇐))
+    rewrite e≡kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
+    -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
+    ⇛ᴹ-mono (λ (-, big) → big _ _ _ e'eˇM'⇐) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
+    ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm › go {eˇ' = eˇ}
+   where
+    go :
+      (⟨ e ⟩ᵀᵒ[< ι ] Pᵒ˙) ∗ᵒ ⟨¿ eˇ' ⟩ᵀᵒ⊤[< ι ] ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ] ∗ᵒ [⊤]ᴺᵒ ⊨
+        ∃ᵒ ι₀' , ∃ᵒ ιs' , ⌜ ι₀' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
+          (⟨ e ⟩ᵀᵒ[ sz⁻¹ ι₀' ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ ¿⇒ᴸ eˇ' ⧺ es ⟩ᵀᵒ⊤[ ιs' ] ∗ᵒ [⊤]ᴺᵒ
+    go {eˇ' = ň} =  Shrunkᵒ∗ᵒ-out › λ{ (§ big) → -, -,
+      ≺ᴰᴹ-hd $ aug-∷ size< aug-refl , big ▷ ∗ᵒ-monoʳ (∗ᵒ-elimʳ ∗ᵒ-Mono) }
+    go {eˇ' = š _} =  Shrunkᵒ∗ᵒ-out › λ{ (§ big) → big ▷ ?∗ᵒ-comm ▷
+      Shrunkᵒ∗ᵒ-out ▷ λ{ (§ big) → -, -,
+      ≺ᴰᴹ-hd $ aug-∷ size< $ aug-∷ size< aug-refl ,
+      big ▷ ?∗ᵒ-comm ▷ ∗ᵒ-monoʳ ∗ᵒ-assocʳ }}
+  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (redᵀ-tl _) =  ?∗ᵒ-comm › ∗ᵒ⇒∗ᵒ' › λ ()
+  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = _ ∷ _} (redᵀ-tl esM⇒) =
+    ∗ᵒ-monoʳ (∗ᵒ-assocˡ › ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ esM⇒) ›
+    ⇛ᴹ-eatˡ › ⇛ᴹ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
+    -, -, ≺ᴰᴹ-tl ι'∷ιs'≺ ,
+    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , big ▷ ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ ▷ ∗ᵒ-assocʳ)
 
   -- ⊨ ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ ensures that (e , [] , M) is accessible with respect to
   -- ⇐ᵀ, i.e., any reduction sequence starting with (e , M) eventually
@@ -203,15 +209,14 @@ abstract
 
   ⟨⟩ᵀᵒ⇒acc :  ⊨ ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ →  ✓ᴹ M →  Acc _⇐ᵀ_ (e , [] , M)
   ⟨⟩ᵀᵒ⇒acc ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓ ✓M) $
-    ⊨⟨e⟩P ▷ ∗ᵒ?-intro _ ▷ ∗ᵒ?-intro Invᴳ-emp
+    ◎-just ▷ ?∗ᵒ-intro _ ▷ ?∗ᵒ-intro ⊨⟨e⟩P ▷ ∗ᵒ?-intro Invᴳ-emp
    where
     -- Induction with the termination metric sz ι ∷ ιs
     go :  Acc _≺ᴰᴹ⟨ _<ˢ_ ⟩_ (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →
-          (((⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ]) ∗ᵒ Invᴳ Eᴵⁿ) a  →
-          Acc _⇐ᵀ_ (e , es , M)
-    go (acc ≺ι∷ιs⇒acc) ME✓a ⟨e⟩P∗⟨es⟩∗InvEa =  acc λ eesM⇒e'es'M' →
-      ⟨e⟩P∗⟨es⟩∗InvEa ▷ ∗ᵒ-monoˡ (⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ eesM⇒e'es'M') ▷
-      ⇛ᴹ-step ME✓a ▷ λ (-, -, M'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
+      (((⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ] ∗ᵒ [⊤]ᴺᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
+      Acc _⇐ᵀ_ (e , es , M)
+    go (acc ≺ι∷ιs⇒acc) ME✓a big =  acc λ eesM⇒ → big ▷
+      ∗ᵒ-monoˡ (⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ eesM⇒) ▷ ⇛ᴹ-step ME✓a ▷
+      λ (-, -, M'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
       λ (-, -, ∙⊑ , (-, -, ≺ι∷ιs , big) , InvE') →
       go (≺ι∷ιs⇒acc ≺ι∷ιs) M'E'✓b $ ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , big , InvE')
--}

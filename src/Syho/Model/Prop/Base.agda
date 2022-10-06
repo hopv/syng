@@ -618,13 +618,6 @@ abstract
   ⤇ᴱ-eatˡ :  Qᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ⊨ E ⤇ᴱ λ x → F˙ x ,  Qᵒ ∗ᵒ Pᵒ˙ x
   ⤇ᴱ-eatˡ =  ∗ᵒ-comm › ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-comm
 
-  -- Adequacy of ⤇ᴱ
-  -- If we have Y under E ⤇ᴱ for valid E, then Y holds purely
-
-  ⤇ᴱ-adeq :  E ✓ a →  ⊨ E ⤇ᴱ (λ x → F˙ x , ⌜ Y ⌝ᵒ) →  Y
-  ⤇ᴱ-adeq E✓a ⊨E⤇FxY =
-    let (-, -, -, y) = ⊨E⤇FxY _ (✓-resp (◠˜ ∙-unitʳ) E✓a) in y
-
   -- Perform a step by ⤇ᴱ
 
   ⤇ᴱ-step :  E ✓ a  →  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x) a →
@@ -746,6 +739,14 @@ abstract
             ◎ a  ⊨  E  ⤇ᴱ λ x →  F˙ x , ◎ b˙ x
   ↝-◎-⤇ᴱ Ea↝Fxbx a⊑a' _ E✓a'∙c  with Ea↝Fxbx _ $ ✓-mono (∙-monoˡ a⊑a') E✓a'∙c
   … | -, Fx✓bx∙c =  -, -, Fx✓bx∙c , ⊑-refl
+
+  -- Adequacy of ⤇ᴱ
+  -- If we have Y under ◎ a and E ⤇ᴱ for a and E such that E ✓ a,
+  -- then Y holds purely
+
+  ⤇ᴱ-adeq :  E ✓ a →  ◎ a ⊨ E ⤇ᴱ (λ x → F˙ x , ⌜ Y ⌝ᵒ) →  Y
+  ⤇ᴱ-adeq E✓a a⊨E⤇FxY =
+    let (-, -, -, y) = a⊨E⤇FxY ⊑-refl _ (✓-resp (◠˜ ∙-unitʳ) E✓a) in y
 
 -- On an component ERA
 

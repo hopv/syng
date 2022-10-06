@@ -180,9 +180,9 @@ abstract
   ⇛ᵒ-eatʳ =  ⇛ᵍᶠ-eatʳ
 
   -- Adequacy of ⇛ᴹ
-  -- If we have X under ⟨ M ⟩⇛ᴹ⟨ M' ⟩ for valid M, then X holds purely
+  -- If we have X under [⊤]ᴺᵒ and ⟨ M ⟩⇛ᴹ⟨ _ ⟩ for valid M, then X holds purely
 
-  ⇛ᴹ-adeq :  ✓ᴹ M →  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
+  ⇛ᴹ-adeq :  ✓ᴹ M →  [⊤]ᴺᵒ ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
   ⇛ᴹ-adeq =  ⇛ᵍ-adeq Invᴳ-emp
 
   -- Perform a step by ⇛ᴹ

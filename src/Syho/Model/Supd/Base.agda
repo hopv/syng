@@ -21,6 +21,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_;
   ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-intro; -∗ᵒ-applyʳ;
   ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ'; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param;
   ⊨✓⇒⊨-⤇ᴱ; ⤇ᵒ⇒⤇ᴱ; ⤇ᴱ-intro-✓; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; ⤇ᴱ-adeq)
+open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 
 private variable
   ł ł' ł'' :  Level
@@ -239,11 +240,11 @@ abstract
   ⇛ᵍᶠ-eatʳ big _ =  big ▷ ∗ᵒ-monoˡ (_$ _) ▷ ⇛ᵍ-eatʳ
 
   -- Adequacy of ⇛ᵍ
-  -- If we have Y under ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ for valid M and
+  -- If we have Y under [⊤]ᴺᵒ and ⟨ M ⟩[ get , _ , Inv ]⇛ᵍ⟨ _ ⟩ for valid M and
   -- Inv (get empᴵⁿᴳ) is a tautology, then Y holds purely
 
   ⇛ᵍ-adeq :  ⊨ Inv (get empᴵⁿᴳ) →  ✓ᴹ M →
-             ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⌜ Y ⌝ᵒ →  Y
-  ⇛ᵍ-adeq ⊨Invgetemp ✓M M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓ ✓M) $ M⇛M'Y ▷
-    ∗ᵒ?-intro ⊨Invgetemp ▷ ⇛ᵍ-apply ▷
+             [⊤]ᴺᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⌜ Y ⌝ᵒ →  Y
+  ⇛ᵍ-adeq ⊨Invgetemp ✓M [⊤]⊨M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓ ✓M) $
+    [⊤]⊨M⇛M'Y › ∗ᵒ?-intro ⊨Invgetemp › ⇛ᵍ-apply ›
     ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ {Qᵒ = ⌜ _ ⌝ᵒ× ⊤ᵒ₀} (_,-) › ∃ᵒ∗ᵒ-out › π₀

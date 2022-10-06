@@ -26,7 +26,7 @@ open import Syho.Model.Supd.Interp using (⇛ᴹ-mono; ⇛ᴹ-intro; ⇛ᴹ-join
 open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ_; ⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[_]_;
   ⟨_⟩ᵀᵒ[_]_; ⟨_⟩ᴾᵒ[<_]_; ⟨_⟩ᵀᵒ[<_]_; ⟨_⟩ᴾᵒ⊤[_]; ⟨_⟩ᵀᵒ⊤[_]; ⁺⟨⟩ᴾᵒ-val⁻¹;
   ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono;
-  ⁺⟨⟩ᴾᵒ-size; ¿⁺⟨⟩ᵀᵒ⊤<-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ)
+  ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤<-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ)
 
 private variable
   ł :  Level
@@ -89,7 +89,7 @@ abstract
     ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ{
     ((-, redᴷᴿ redM⇒) , big) → (-, redᴷᴿ redM⇒) , λ{ _ eˇ _ (redᴷᴿ e'eˇM'⇐) →
     big _ _ _ (redᴷᴿ e'eˇM'⇐) ▷ ⇛ᴹ-mono (∗ᵒ-monoʳ (∗ᵒ-monoˡ $
-    ¿⁺⟨⟩ᵀᵒ⊤<-size {ι = ∞} {eˇ = eˇ}) › ∗ᵒ-monoˡ λ{ (§ big) → § ⟨⟩ᵀᵒ-bind big ▷
+    ⟨¿⟩ᵀᵒ⊤<-size {ι = ∞} {eˇ = eˇ}) › ∗ᵒ-monoˡ λ{ (§ big) → § ⟨⟩ᵀᵒ-bind big ▷
     substᵒ (⟨_⟩ᵀᵒ[< ∞ ] _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }) }}) › ⁺⟨⟩ᵀᵒ-kr
 
   -- nd by ᵃ⟨⟩ᵒ

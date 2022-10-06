@@ -239,7 +239,7 @@ abstract
     -, -ᴵ, -, horᵀ-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ :  {{_ : Basic R}} →  (R ∗ P') ⊢[ ∞ ][ i ]⇛ᴺ P →
-                  ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩[ κ ]ᵒ Q˙
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩[ κ ]ᵒ Q˙
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ᴺ P∗S∗T ⊢⟨e⟩ Q˙
@@ -256,7 +256,7 @@ abstract
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᵒ-monoʳᵘᴺ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ᴺ Q'˙ v) →
-                 P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q'˙
+                  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q'˙
   ↪⟨⟩ᵒ-monoʳᵘᴺ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘᴺ ∀vQ⊢⇛Q' , R∗IndSa
 

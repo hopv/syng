@@ -733,6 +733,11 @@ abstract
   ◎-✓ :  ◎ a  ⊨✓  ⌜ ∑ E , E ✓ a ⌝ᵒ
   ◎-✓ E✓b a⊑b =  -, ✓-mono a⊑b E✓b
 
+  -- Get (◎ a) a
+
+  ◎-just :  (◎ a) a
+  ◎-just =  ⊑-refl
+
   -- ↝ into ⤇ᵒ on ◎
 
   ↝-◎-⤇ᵒ-∃ᵒ :  (∀{E} →  (E , a)  ↝ λ x →  E , b˙ x) →

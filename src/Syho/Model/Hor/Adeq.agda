@@ -17,7 +17,7 @@ open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Option using (¿_; ň; š_)
 open import Base.List using (List; []; _∷_; ¿⇒ᴸ; _⧺_; _$ᴸ_; _∈ᴸ_; ∈ʰᵈ; ∈ᵗˡ_;
-  aug-refl; aug-∷; _≺ᴰᴹ⟨_⟩_; ≺ᴰᴹ-hd; ≺ᴰᴹ-tl; ≺ᴰᴹ-wf)
+  aug-refl; aug-∷; _≺ᴰᴹ⟨_⟩_; Rᴰᴹ; ≺ᴰᴹ-hd; ≺ᴰᴹ-tl; ≺ᴰᴹ-wf)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-V⇒E)
@@ -212,8 +212,8 @@ abstract
   ⟨⟩ᵀᵒ⇒acc ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓ ✓M) $
     ◎-just ▷ ?∗ᵒ-intro _ ▷ ?∗ᵒ-intro ⊨⟨e⟩P ▷ ∗ᵒ?-intro Invᴳ-emp
    where
-    -- Induction with the termination metric sz ι ∷ ιs
-    go :  Acc _≺ᴰᴹ⟨ _<ˢ_ ⟩_ (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →
+    -- Well-founded induction by the metric sz ι ∷ ιs
+    go :  Acc (Rᴰᴹ _<ˢ_) (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →
       (((⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙) ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤[ ιs ] ∗ᵒ [⊤]ᴺᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
       Acc _⇐ᵀ_ (e , es , M)
     go (acc ≺ι∷ιs⇒acc) ME✓a big =  acc λ eesM⇒ → big ▷

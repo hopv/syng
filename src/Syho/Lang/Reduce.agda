@@ -16,7 +16,7 @@ open import Base.Option using (¿_; š_; ň; ¿-case; _$¿_; _»-¿_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
-open import Base.List using (List; _∷_; _‼_; upd; rep)
+open import Base.List using (List; _∷_; ¿⇒ᴸ; _⧺_; _‼_; upd; rep)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr∞; Expr˂∞; ∇_; V⇒E;
   TyVal; ⊤-)
@@ -162,7 +162,7 @@ data  _⇒ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
               Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀  where
   -- Reduce the head thread
   redᵀ-hd :  (e , M) ⇒ᴱ (e' , eˇ , M') →
-             (e , es , M) ⇒ᵀ (e' , ¿-case (_∷ es) es eˇ , M')
+             (e , es , M) ⇒ᵀ (e' , ¿⇒ᴸ eˇ ⧺ es , M')
 
   -- Continue to the tail threads
   redᵀ-tl :  (e , es , M) ⇒ᵀ (e' , es' , M') →

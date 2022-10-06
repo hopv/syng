@@ -401,14 +401,15 @@ data  Aug {A : Set ł} (F : A → Set ł') :  List A →  List A →  Set (ł �
 --           Its transitive closure, with the order of elements of lists
 --           ignored, is the standard Dershowitz–Manna ordering on multisets
 
--- ≺ᴰᴹ⟨ ⟩ with the relation argument coming first
-data  DM {A : Set ł} (_≺_ : A → A → Set ł') :  List A →  List A →  Set (ł ⊔ᴸ ł')
+-- Rᴰᴹ :  Non-infix version of ≺ᴰᴹ⟨ ⟩, with the relation argument coming first
+data  Rᴰᴹ {A : Set ł} (_≺_ : A → A → Set ł') :
+  List A →  List A →  Set (ł ⊔ᴸ ł')
 
 infix 4 _≺ᴰᴹ⟨_⟩_
 _≺ᴰᴹ⟨_⟩_ :  {A : Set ł} →  List A →  (A → A → Set ł') →  List A →  Set (ł ⊔ᴸ ł')
-as ≺ᴰᴹ⟨ _≺_ ⟩ bs =  DM _≺_ as bs
+as ≺ᴰᴹ⟨ _≺_ ⟩ bs =  Rᴰᴹ _≺_ as bs
 
-data  DM _≺_  where
+data  Rᴰᴹ _≺_  where
 
   -- Add elements less than the head to the tail
   ≺ᴰᴹ-hd :  Aug (_≺ a) as bs →  bs ≺ᴰᴹ⟨ _≺_ ⟩ a ∷ as
@@ -424,42 +425,40 @@ abstract
   -- If a is accessible w.r.t. ≺ and as is accessible w.r.t. ≺ᴰᴹ⟨ _≺_ ⟩,
   -- then a ∷ as is accessible w.r.t. ≺ᴰᴹ⟨ _≺_ ⟩
 
-  ≺ᴰᴹ-∷-acc :  Acc _≺_ a →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
+  ≺ᴰᴹ-∷-acc :  Acc _≺_ a →  Acc (Rᴰᴹ _≺_) as →  Acc (Rᴰᴹ _≺_) (a ∷ as)
   ≺ᴰᴹ-∷-acc {_≺_ = _≺_} (acc ≺a⇒acc) =  go (λ b≺a → ≺ᴰᴹ-∷-acc (≺a⇒acc b≺a))
    where
-    fo :  (∀{b bs} →  b ≺ a →
-            Acc _≺ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
-          Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →
-          (∀{bs} →  bs ≺ᴰᴹ⟨ _≺_ ⟩ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ bs)) →
-          Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
+    fo :  (∀{b bs} →  b ≺ a →  Acc (Rᴰᴹ _≺_) bs →  Acc (Rᴰᴹ _≺_) (b ∷ bs)) →
+          Acc (Rᴰᴹ _≺_) as →
+          (∀{bs} →  bs ≺ᴰᴹ⟨ _≺_ ⟩ as →  Acc (Rᴰᴹ _≺_) (a ∷ bs)) →
+          Acc (Rᴰᴹ _≺_) (a ∷ as)
     fo {a = a} {as} big accas <as⇒acca∷ =  acc
       λ{ (≺ᴰᴹ-tl bs'<as) → <as⇒acca∷ bs'<as; (≺ᴰᴹ-hd augbs) → eo augbs }
      where
-      eo :  Aug (_≺ a) as bs →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ bs
+      eo :  Aug (_≺ a) as bs →  Acc (Rᴰᴹ _≺_) bs
       eo aug-refl =  accas
       eo (aug-∷ b≺a augbs') =  big b≺a (eo augbs')
-    go :  (∀{b bs} →  b ≺ a →
-            Acc _≺ᴰᴹ⟨ _≺_ ⟩_ bs →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (b ∷ bs)) →
-          Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ (a ∷ as)
+    go :  (∀{b bs} →  b ≺ a →  Acc (Rᴰᴹ _≺_) bs →  Acc (Rᴰᴹ _≺_) (b ∷ bs)) →
+          Acc (Rᴰᴹ _≺_) as →  Acc (Rᴰᴹ _≺_) (a ∷ as)
     go big accas@(acc <as⇒acc) =  fo big accas λ bs<as → go big (<as⇒acc bs<as)
 
   -- If every element of as is accessible w.r.t. ≺,
   -- then as is accessible w.r.t. ≺ᴰᴹ⟨ _≺_ ⟩
 
-  ≺ᴰᴹ-acc :  (∀{a} →  a ∈ᴸ as →  Acc _≺_ a) →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as
+  ≺ᴰᴹ-acc :  (∀{a} →  a ∈ᴸ as →  Acc _≺_ a) →  Acc (Rᴰᴹ _≺_) as
   ≺ᴰᴹ-acc {as = []} _ =  acc λ ()
   ≺ᴰᴹ-acc {as = _ ∷ _} ∈as⇒acc =
     ≺ᴰᴹ-∷-acc (∈as⇒acc ∈ʰᵈ) $ ≺ᴰᴹ-acc (∈as⇒acc ∘ ∈ᵗˡ_)
 
-  -- If ≺ is well-founded, then ≺ᴰᴹ⟨ _≺_ ⟩ is well-founded
+  -- If ≺ is well-founded, then Rᴰᴹ _≺_ is well-founded
 
-  ≺ᴰᴹ-wf :  (∀{a} → Acc _≺_ a) →  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as
+  ≺ᴰᴹ-wf :  (∀{a} → Acc _≺_ a) →  Acc (Rᴰᴹ _≺_) as
   ≺ᴰᴹ-wf wf =  ≺ᴰᴹ-acc λ _ → wf
 
-  -- Converse of ≺ᴰᴹ-acc :  If as is accessible w.r.t. ≺ᴰᴹ⟨ _≺_ ⟩,
+  -- Converse of ≺ᴰᴹ-acc :  If as is accessible w.r.t. Rᴰᴹ _≺_,
   -- then every element of as is accessible w.r.t. ≺
 
-  ≺ᴰᴹ-acc-inv :  Acc _≺ᴰᴹ⟨ _≺_ ⟩_ as →  a ∈ᴸ as →  Acc _≺_ a
+  ≺ᴰᴹ-acc-inv :  Acc (Rᴰᴹ _≺_) as →  a ∈ᴸ as →  Acc _≺_ a
   ≺ᴰᴹ-acc-inv accas ∈ʰᵈ =  acc-sub (λ a≺b → ≺ᴰᴹ-hd $ aug-∷ a≺b aug-refl) accas
   ≺ᴰᴹ-acc-inv (acc ≺as⇒acc) (∈ᵗˡ a∈as') =
     ≺ᴰᴹ-acc-inv (≺as⇒acc $ ≺ᴰᴹ-hd aug-refl) a∈as'

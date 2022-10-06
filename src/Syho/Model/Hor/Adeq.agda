@@ -206,6 +206,7 @@ abstract
   -- ⊨ ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ ensures that (e , [] , M) is accessible with respect to
   -- ⇐ᵀ, i.e., any reduction sequence starting with (e , M) eventually
   -- terminates, for valid M
+  -- We don't assume fair thread scheduling for termination
 
   ⟨⟩ᵀᵒ⇒acc :  ⊨ ⟨ e ⟩ᵀᵒ[ ι ] Pᵒ˙ →  ✓ᴹ M →  Acc _⇐ᵀ_ (e , [] , M)
   ⟨⟩ᵀᵒ⇒acc ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓ ✓M) $

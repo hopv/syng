@@ -209,7 +209,7 @@ abstract
 
   ⊢⁺⟨⟩ᵀ-sem (hor-valᵘᴺ P⊢⇛Qv) =  ⊢⇛ᴺ-sem P⊢⇛Qv › ⁺⟨⟩ᵀᵒ-val
 
-  -- ahor-hor :  (P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  -- ahor-hor :  P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
   --             (∀ v →  Q˙ v  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ j ]  R˙)  →
   --             P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , red) ⟩ᵀ[ j ]  R˙
 
@@ -230,7 +230,7 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (hor-[] P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-[]
 
   -- hor-fork :  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᵀ[ i ]  R˙  →
-  --             Q  ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ]  (λ _ → ⊤')  →
+  --             Q  ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] (λ _ →  ⊤')  →
   --             P  ∗  Q  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᵀ[ i ]  R˙
 
   ⊢⁺⟨⟩ᵀ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
@@ -289,7 +289,7 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (hor-valᵘᴺ P⊢⇛Qv) =  ⊢⇛ᴺ-sem P⊢⇛Qv › ⁺⟨⟩ᴾᵒ-val
 
-  -- ahor-hor :  (P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  -- ahor-hor :  P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
   --             (∀ v →  Q˙ v  ⊢[< ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  R˙)  →
   --             P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , red) ⟩ᴾ  R˙
 
@@ -310,7 +310,7 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (hor-[] P⊢⟨Ke⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-[] λ{ .! → ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Ke⟩Q .!) Pa }
 
   -- hor-fork :  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  R˙  →
-  --             Q  ⊢[ ∞ ]⟨ e ⟩ᴾ  (λ _ → ⊤')  →
+  --             Q  ⊢[ ∞ ]⟨ e ⟩ᴾ (λ _ →  ⊤')  →
   --             P  ∗  Q  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾ  R˙
 
   ⊢⁺⟨⟩ᴾ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =

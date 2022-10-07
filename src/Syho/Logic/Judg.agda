@@ -56,6 +56,7 @@ data  JudgRes :  Set₁  where
 infix 2 _⊢[_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_
   _⊢[_][_]ᵃ⟨_⟩_ _⊢[<_][_]ᵃ⟨_⟩_ _⊢[_]⁺⟨_⟩[_]_ _⊢[_]⁺⟨_⟩ᴾ_ _⊢[_]⁺⟨_⟩ᵀ[_]_
   _⊢[_]⟨_⟩[_]_ _⊢[<_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_
+  _⊢[<ᴾ_]⟨_⟩[_]_
 
 -- Judg ι P Jr :  P ⊢[ ι ]* Jr with the size argument coming first
 
@@ -128,6 +129,12 @@ _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_ :
   Prop∞ →  Size →  Expr∞ T →  ℕ →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩[ tot i ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[< ι ]⟨ e ⟩[ tot i ] Q˙
+
+-- ⊢[<ᴾ ]⟨ ⟩[ ] :  Hoare triple over Expr, under thunk if partial
+
+_⊢[<ᴾ_]⟨_⟩[_]_ :  Prop∞ →  Size →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Set₁
+P ⊢[<ᴾ ι ]⟨ e ⟩[ par ] Q˙ =  P ⊢[< ι ]⟨ e ⟩ᴾ Q˙
+P ⊢[<ᴾ ι ]⟨ e ⟩[ tot i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
 
 -- Pers :  Persistence of a proposition
 
@@ -513,13 +520,9 @@ data  Judg ι  where
   -- The premise on the context can be used coinductively for the partial Hoare
   -- triple, and only inductively for the total Hoare triple
 
-  ahor-horᴾ :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
-               (∀ v →  Q˙ v  ⊢[< ι ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  R˙)  →
-               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩ᴾ  R˙
-
-  ahor-horᵀ :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
-               (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ j ]  R˙)  →
-               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩ᵀ[ j ]  R˙
+  ahor-hor :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+              (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
+              P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 
   -- Bind by a context
 
@@ -539,11 +542,8 @@ data  Judg ι  where
   -- The premise can be used coinductively for the partial Hoare triple,
   -- and only inductively for the total Hoare triple
 
-  horᴾ-[] :  P  ⊢[< ι ]⟨ K ᴷ◁ e ⟩ᴾ  Q˙  →
-             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᴾ  Q˙
-
-  horᵀ-[] :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩ᵀ[ i ]  Q˙  →
-             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᵀ[ i ]  Q˙
+  hor-[] :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
+            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩[ κ ]  Q˙
 
   -- Thread forking
 

@@ -20,8 +20,7 @@ open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Ind using (↪ᵃ⟨⟩-use; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
   hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ;
-  hor-frameˡ; ahor-horᴾ; ahor-horᵀ; hor-bind; hor-valᵘᴺ; ahor-nd; horᴾ-[];
-  horᵀ-[]; hor-fork)
+  hor-frameˡ; ahor-hor; hor-bind; hor-valᵘᴺ; ahor-nd; hor-[]; hor-fork)
 open import Syho.Logic.Mem using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
   ahor-cas-ff; ahor-alloc; ahor-free)
 open import Syho.Model.Prop.Base using (_⊨_; [∗ᵒ∈ⁱ⟨⟩]-syntax; ∗ᵒ-mono; ∗ᵒ-monoˡ;
@@ -210,11 +209,11 @@ abstract
 
   ⊢⁺⟨⟩ᵀ-sem (hor-valᵘᴺ P⊢⇛Qv) =  ⊢⇛ᴺ-sem P⊢⇛Qv › ⁺⟨⟩ᵀᵒ-val
 
-  -- ahor-horᵀ :  (P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
-  --              (∀ v →  Q˙ v  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ j ]  R˙)  →
-  --              P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , red) ⟩ᵀ[ j ]  R˙
+  -- ahor-hor :  (P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  --             (∀ v →  Q˙ v  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ j ]  R˙)  →
+  --             P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , red) ⟩ᵀ[ j ]  R˙
 
-  ⊢⁺⟨⟩ᵀ-sem (ahor-horᵀ P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩R) =  -∗ᵒ-intro (λ _ → ∗ᵒ-comm ›
+  ⊢⁺⟨⟩ᵀ-sem (ahor-hor P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩R) =  -∗ᵒ-intro (λ _ → ∗ᵒ-comm ›
     ⊢ᵃ⟨⟩-sem P⊢⟨red⟩ᴺQ › ᵃ⟨⟩ᵒ-mono λ v → ∗ᵒ-monoˡ $ ⊢⁺⟨⟩ᵀ-sem (Qv⊢⟨Kv⟩R v)) ›
     ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ
 
@@ -225,10 +224,10 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᵀᵒ-mono (λ v → ⊢⁺⟨⟩ᵀ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᵀᵒ-bind
 
-  -- horᵀ-[] :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
-  --            P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩[ κ ]  Q˙
+  -- hor-[] :  P  ⊢[ ∞ ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
+  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩[ κ ]  Q˙
 
-  ⊢⁺⟨⟩ᵀ-sem (horᵀ-[] P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-[]
+  ⊢⁺⟨⟩ᵀ-sem (hor-[] P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-[]
 
   -- hor-fork :  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᵀ[ i ]  R˙  →
   --             Q  ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ]  (λ _ → ⊤')  →
@@ -290,11 +289,11 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (hor-valᵘᴺ P⊢⇛Qv) =  ⊢⇛ᴺ-sem P⊢⇛Qv › ⁺⟨⟩ᴾᵒ-val
 
-  -- ahor-horᴾ :  (P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
-  --              (∀ v →  Q˙ v  ⊢[< ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  R˙)  →
-  --              P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , red) ⟩ᴾ  R˙
+  -- ahor-hor :  (P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  --             (∀ v →  Q˙ v  ⊢[< ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  R˙)  →
+  --             P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , red) ⟩ᴾ  R˙
 
-  ⊢⁺⟨⟩ᴾ-sem (ahor-horᴾ P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩R) =  -∗ᵒ-intro (λ _ → ∗ᵒ-comm ›
+  ⊢⁺⟨⟩ᴾ-sem (ahor-hor P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩R) =  -∗ᵒ-intro (λ _ → ∗ᵒ-comm ›
     ⊢ᵃ⟨⟩-sem P⊢⟨red⟩ᴺQ › ᵃ⟨⟩ᵒ-mono λ v → ∗ᵒ-monoˡ λ big →
     λ{ .! → big ▷ ⊢⁺⟨⟩ᴾ-sem (Qv⊢⟨Kv⟩R v .!) }) › ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ
 
@@ -305,10 +304,10 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (hor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩R) =  ⊢⁺⟨⟩ᴾ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᴾᵒ-mono (λ v → ⊢⁺⟨⟩ᴾ-sem (Qv⊢⟨Kv⟩R v)) › ⟨⟩ᴾᵒ-bind
 
-  -- horᴾ-[] :  P  ⊢[< ∞ ]⟨ K ᴷ◁ e ⟩ᴾ  Q˙  →
-  --            P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᴾ  Q˙
+  -- hor-[] :  P  ⊢[< ∞ ]⟨ K ᴷ◁ e ⟩ᴾ  Q˙  →
+  --           P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᴾ  Q˙
 
-  ⊢⁺⟨⟩ᴾ-sem (horᴾ-[] P⊢⟨Ke⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-[] λ{ .! → ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Ke⟩Q .!) Pa }
+  ⊢⁺⟨⟩ᴾ-sem (hor-[] P⊢⟨Ke⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-[] λ{ .! → ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Ke⟩Q .!) Pa }
 
   -- hor-fork :  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  R˙  →
   --             Q  ⊢[ ∞ ]⟨ e ⟩ᴾ  (λ _ → ⊤')  →

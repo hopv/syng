@@ -8,7 +8,7 @@ module Syho.Logic.Hor where
 
 open import Base.Func using (_$_; _∘_; const)
 open import Base.Dec using (Inh)
-open import Base.Size using (Size; !)
+open import Base.Size using (Size; !; _$ᵀʰ_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
@@ -24,9 +24,9 @@ open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ; Ktx; •ᴷ; _◁ᴷʳ
 open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
   _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
   _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
-  _⊢[<_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_;
-  ahor-frameˡ; hor-frameˡ; ahor-horᴾ; ahor-horᵀ; hor-bind; hor-valᵘᴺ; ahor-nd;
-  horᴾ-[]; horᵀ-[]; hor-fork)
+  _⊢[<_]⟨_⟩ᵀ[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
+  _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ; ahor-hor; hor-bind; hor-valᵘᴺ;
+  ahor-nd; hor-[]; hor-fork)
 
 private variable
   ι :  Size
@@ -52,9 +52,16 @@ abstract
 
   -->  horᵀ-ṡ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
 
+  -->  ahor-hor :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  -->              (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
+  -->              P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
+
   -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
   -->              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  R˙
+
+  -->  hor-[] :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
+  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩[ κ ]  Q˙
 
   -->  hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
   -->              Q  ⊢[ ι ]⟨ e ⟩[ κ ]  (λ _ → ⊤')  →
@@ -108,22 +115,6 @@ abstract
                 P  ∗  R  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  Q˙ v  ∗  R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
-  -- Compose an atomic Hoare triple with a Hoare triple on the context
-
-  -->  ahor-horᴾ :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
-  -->               (∀ v →  Q˙ v  ⊢[< ι ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  R˙)  →
-  -->               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩ᴾ  R˙
-
-  -->  ahor-horᵀ :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
-  -->               (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ j ]  R˙)  →
-  -->               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩ᵀ[ j ]  R˙
-
-  ahor-hor :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
-              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
-              P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
-  ahor-hor {κ = par} ⊢⟨red⟩ ⊢⟨Kv⟩ =  ahor-horᴾ ⊢⟨red⟩ λ{ v .! → ⊢⟨Kv⟩ v }
-  ahor-hor {κ = tot _} =  ahor-horᵀ
-
   -- Value
 
   -->  hor-valᵘᴺ :  P  ⊢[ ι ][ i ]⇛  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
@@ -138,27 +129,14 @@ abstract
 
   -->  ahor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  P  ⊢[ ι ][ i ]ᵃ⟨ ndᴿ {Xʸ} ⟩ λ _ →  P
 
-  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  (∀ x →  P ⊢[ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ] Q˙)  →
+  hor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  (∀ x →  P ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ] Q˙)  →
             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ {Xʸ}) ⟩[ κ ]  Q˙
   hor-nd {{InhXʸ}} P⊢⟨Kx⟩Q =
     ahor-hor (ahor-frameʳ $ ahor-nd {i = 0} {{InhXʸ}}) λ _ → P⊢⟨Kx⟩Q _
 
-  -- Pure reduction
-
-  -->  horᴾ-[] :  P  ⊢[< ι ]⟨ K ᴷ◁ e ⟩ᴾ  Q˙  →
-  -->             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᴾ  Q˙
-
-  -->  horᵀ-[] :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
-  -->             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩[ κ ]  Q˙
-
-  hor-[] :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
-            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩[ κ ]  Q˙
-  hor-[] {κ = par} P⊢⟨Ke⟩Q =  horᴾ-[] λ{ .! → P⊢⟨Ke⟩Q }
-  hor-[] {κ = tot _} =  horᵀ-[]
-
   -- Sequential execution
 
-  hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  const Q  →   Q  ⊢[ ι ]⟨ e' ⟩[ κ ]  R˙  →
+  hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  const Q  →   Q  ⊢[<ᴾ ι ]⟨ e' ⟩[ κ ]  R˙  →
                 P  ⊢[ ι ]⟨ _⁏_ {T = T} e e' ⟩[ κ ]  R˙
   hor-⁏-bind {T = ◸ʸ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
     hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ _ → hor-[] Q⊢⟨e'⟩R
@@ -168,7 +146,14 @@ abstract
   -- Let binding
 
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ κ ]  Q˙  →
-                  (∀ x →  Q˙ x  ⊢[ ι ]⟨ e˙ x ⟩[ κ ]  R˙) →
+                  (∀ x →  Q˙ x  ⊢[<ᴾ ι ]⟨ e˙ x ⟩[ κ ]  R˙) →
                   P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ]  R˙
   hor-let-bind P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
     hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ x → hor-[] $ ∀xQ⊢⟨e˙⟩R x
+
+  -- Transform ⊢[<ᴾ ]⟨ ⟩[ ]
+
+  hor<ᴾ-map :  (∀{ι'} →  P ⊢[ ι' ]⟨ e ⟩[ κ ] Q˙ →  P' ⊢[ ι' ]⟨ e' ⟩[ κ ] Q'˙) →
+               P ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] Q˙ →  P' ⊢[<ᴾ ι ]⟨ e' ⟩[ κ ] Q'˙
+  hor<ᴾ-map {κ = par} P⊢⟨e⟩Q⇒P'⊢⟨e'⟩Q' =  P⊢⟨e⟩Q⇒P'⊢⟨e'⟩Q' $ᵀʰ_
+  hor<ᴾ-map {κ = tot _} P⊢⟨e⟩Q⇒P'⊢⟨e'⟩Q' =  P⊢⟨e⟩Q⇒P'⊢⟨e'⟩Q'

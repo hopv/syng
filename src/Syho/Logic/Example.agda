@@ -20,7 +20,7 @@ open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; hor-nd;
-  horᴾ-[]; hor-[])
+  hor-[])
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
 
 private variable
@@ -44,7 +44,7 @@ abstract
   -- Get ⊥' after ▶ ▶ ▶ … under partial Hoare triple
 
   loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ᴾ λ _ → ⊥'
-  loop-⊥ =  horᴾ-[] λ{ .! → loop-⊥ }
+  loop-⊥ =  hor-[] λ{ .! → loop-⊥ }
 
   -- Execute plus ◁ ∇ (3 , 4)
 

@@ -84,8 +84,8 @@ abstract
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ :  (e , es , M) ⇒ᵀ (e' , es' , M') →
     ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞ ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞ ∗ᵒ [⊤]ᴺᵒ
-  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e≡kr e'eˇM'⇐))
-    rewrite e≡kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-kr⁻¹ ›
+  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
+    rewrite e⇒kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-kr⁻¹ ›
     -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) › ⇛ᴹ-mono (λ (-, big) → big _ _ _ e'eˇM'⇐ ▷
     ⇛ᴹ-mono (∗ᵒ-monoˡ λ big → big .!)) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
     ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ $ ?∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-monoˡ $ go {eˇ}
@@ -181,8 +181,8 @@ abstract
     ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       ∃ᵒ ι₀' , ∃ᵒ ιs' , ⌜ ι₀' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
         ⟨ e' ⟩ᵀᵒ (sz⁻¹ ι₀') Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e≡kr e'eˇM'⇐))
-    rewrite e≡kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
+  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
+    rewrite e⇒kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
     -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
     ⇛ᴹ-mono (λ (-, big) → big _ _ _ e'eˇM'⇐) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
     ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm › go {eˇ' = eˇ}

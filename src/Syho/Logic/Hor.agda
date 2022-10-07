@@ -19,6 +19,7 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl; ⇛�
 open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; ∇_; _⁏_; let˙; V⇒E)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   _ᴷ◁_; Val/Ktxred)
+open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
@@ -59,9 +60,6 @@ abstract
   -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
   -->              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  R˙
-
-  -->  hor-[] :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
-  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩[ κ ]  Q˙
 
   -->  hor-fork :  P  ⊢[ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
   -->              Q  ⊢[ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
@@ -133,6 +131,14 @@ abstract
             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ndᴿ {Xʸ}) ⟩[ κ ]  Q˙
   hor-nd {{InhXʸ}} P⊢⟨Kx⟩Q =
     ahor-hor (ahor-frameʳ $ ahor-nd {i = 0} {{InhXʸ}}) λ _ → P⊢⟨Kx⟩Q _
+
+  -- Pure reduction
+
+  -->  hor-[] :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
+  -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩[ κ ]  Q˙
+
+  hor-⇒ᴾ :  e ⇒ᴾ e'  →   P  ⊢[<ᴾ ι ]⟨ e' ⟩[ κ ]  Q˙  →   P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙
+  hor-⇒ᴾ (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  hor-[]
 
   -- Sequential execution
 

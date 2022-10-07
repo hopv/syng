@@ -49,9 +49,9 @@ private variable
 infix 3 ᵃ⟨_⟩ᵒ_
 
 ᵃ⟨_⟩ᵒ_ :  Redex T →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
-ᵃ⟨ red ⟩ᵒ Pᵒ =  ∀ᵒ M , ⟨ M ⟩⇛ᴹ⟨ M ⟩ ⌜ (red , M) ⇒ᴿ∑ ⌝ᵒ×
-                  ∀ᵒ e , ∀ᵒ eˇ , ∀ᵒ M' , ⌜ (e , eˇ , M') ⇐ᴿ (red , M) ⌝ᵒ→
-                    ∃ᵒ v , ⌜ e ≡ V⇒E v × eˇ ≡ ň ⌝ᵒ×  ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Pᵒ v
+ᵃ⟨ red ⟩ᵒ Pᵒ˙ =  ∀ᵒ M , ⟨ M ⟩⇛ᴹ⟨ M ⟩ ⌜ (red , M) ⇒ᴿ∑ ⌝ᵒ×
+                   ∀ᵒ e , ∀ᵒ eˇ , ∀ᵒ M' , ⌜ (e , eˇ , M') ⇐ᴿ (red , M) ⌝ᵒ→
+                     ∃ᵒ v , ⌜ e ≡ V⇒E v × eˇ ≡ ň ⌝ᵒ×  ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Pᵒ˙ v
 
 --------------------------------------------------------------------------------
 -- ⁺⟨ ⟩ᴾᵒ etc. :  Semantic partial weakest precondition

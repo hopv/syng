@@ -10,7 +10,6 @@ open import Base.Func using (_$_; flip)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_)
 open import Base.Dec using (upd˙)
-open import Base.Size using (Size; Thunk; !)
 open import Base.Bool using (tt; ff)
 open import Base.Option using (¿_; š_; ň; ¿-case; _$¿_; _»-¿_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
@@ -20,8 +19,8 @@ open import Base.List using (List; _∷_; ¿⇒ᴸ; _⧺_; _‼_; upd; rep)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr∞; Expr˂∞; ∇_; V⇒E;
   TyVal; ⊤-)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
-  _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
+open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ; forkᴿ; 🞰ᴿ_; _←ᴿ_; fauᴿ;
+  casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------
 -- Memory
@@ -97,7 +96,6 @@ private variable
   f :  X → X
   n :  ℕ
   kr :  Ktxred T
-  ι :  Size
 
 infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
 
@@ -109,14 +107,8 @@ data  _⇒ᴿ_ :  Redex T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem �
   -- For nd
   nd⇒ :  ∀(x : ⸨ Xʸ ⸩ʸ) →  (ndᴿ , M) ⇒ᴿ (∇ x , ň , M)
 
-  -- For ▶
-  ▶⇒ :  (▶ᴿ e˂ , M) ⇒ᴿ (e˂ .! , ň , M)
-
-  -- For ◁
-  ◁⇒ :  ∀{x : ⸨ Xʸ ⸩ʸ} →  (e˙ ◁ᴿ x , M) ⇒ᴿ (e˙ x , ň , M)
-
-  -- For ⁏
-  ⁏⇒ :  (_⁏ᴿ_ {T} v e , M) ⇒ᴿ (e , ň , M)
+  -- Pure reduction
+  []⇒ :  ([ e ]ᴿ , M) ⇒ᴿ (e , ň , M)
 
   -- For fork
   fork⇒ :  (forkᴿ e , M) ⇒ᴿ (∇ _ , š e , M)

@@ -16,7 +16,7 @@ open import Base.Nat using (ℕ; ṡ_; _+_)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; ∇_;
   λ-syntax; nd; ▶_; _◁_; _⁏_; let-syntax; 🞰_; _←_; free; loop)
-open import Syho.Lang.Reduce using (Mem; nd⇒; ▶⇒; ◁⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
+open import Syho.Lang.Reduce using (Mem; nd⇒; []⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
 
 private variable
   ι :  Size
@@ -72,12 +72,12 @@ abstract
   -- Reduce loop
 
   loop⇒ :  (loop , M) ⇒ᴱ (loop , ň , M)
-  loop⇒ =  redᴱ refl $ redᴷᴿ ▶⇒
+  loop⇒ =  redᴱ refl $ redᴷᴿ []⇒
 
   -- Reduce plus◁3,4
 
   plus◁3,4⇒ :  (plus◁3,4 , M) ⇒ᴱ (∇ 7 , ň , M)
-  plus◁3,4⇒ =  redᴱ refl $ redᴷᴿ ◁⇒
+  plus◁3,4⇒ =  redᴱ refl $ redᴷᴿ []⇒
 
   -- Reduce ndnat
 
@@ -92,7 +92,7 @@ abstract
   -- Invert reduction on loop
 
   loop⇒-inv :  (loop , M) ⇒ᴱ (e , eˇ , M') →  (e , eˇ , M') ≡ (loop , ň , M)
-  loop⇒-inv (redᴱ refl (redᴷᴿ ▶⇒)) =  refl
+  loop⇒-inv (redᴱ refl (redᴷᴿ []⇒)) =  refl
 
   -- stuck can't be reduced (it's stuck!)
 
@@ -103,7 +103,7 @@ abstract
 
   plus◁3,4⇒-inv :  (plus◁3,4 , M) ⇒ᴱ (e , eˇ , M') →
                    (e , eˇ , M') ≡ (∇ 7 , ň , M)
-  plus◁3,4⇒-inv (redᴱ refl (redᴷᴿ ◁⇒)) =  refl
+  plus◁3,4⇒-inv (redᴱ refl (redᴷᴿ []⇒)) =  refl
 
   -- Invert reduction on ndnat
 

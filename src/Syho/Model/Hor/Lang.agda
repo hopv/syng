@@ -15,9 +15,9 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; ∇_; Val; V⇒E)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_; forkᴿ; Ktx;
-  _ᴷ◁_; _ᴷ∘ᴷ_; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
-open import Syho.Lang.Reduce using (nd⇒; ▶⇒; ◁⇒; ⁏⇒; fork⇒; redᴷᴿ)
+open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ; forkᴿ; Ktx; _ᴷ◁_; _ᴷ∘ᴷ_;
+  val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
+open import Syho.Lang.Reduce using (nd⇒; []⇒; fork⇒; redᴷᴿ)
 open import Syho.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-syntax; _∗ᵒ_;
   _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ∗ᵒ?-intro;
   -∗ᵒ-monoʳ; -∗ᵒ-intro; -∗ᵒ-applyˡ; ∗ᵒThunkᵒ-out)
@@ -38,7 +38,6 @@ private variable
   Pᵒ :  Propᵒ ł
   Pᵒ˙ :  X →  Propᵒ ł
   e :  Expr∞ T
-  e˂ :  Expr˂∞ T
   e˙ :  X →  Expr∞ T
   red :  Redex T
   K :  Ktx T U
@@ -96,42 +95,18 @@ abstract
   ᵃ⟨⟩ᵒ-nd {{InhX}} Pa M =  ⇛ᴹ-intro ((-, nd⇒ $ auto {{InhX}}) ,
     λ{ _ _ _ (nd⇒ _) → -, (refl , refl) , ⇛ᴹ-intro Pa })
 
-  -- ▶ by ⁺⟨⟩ᴾ/ᵀᵒ
+  -- Pure reduction by ⁺⟨⟩ᴾ/ᵀᵒ
   -- The premise is under the thunk for ⁺⟨⟩ᴾᵒ
 
-  ⁺⟨⟩ᴾᵒ-▶ :  ⟨ K ᴷ◁ e˂ .! ⟩ᴾᵒ˂ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾᵒ ι Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-▶ =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ ▶⇒) ,
-    λ{ _ _ _ (redᴷᴿ ▶⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ (?∗ᵒ-intro _) }))
+  ⁺⟨⟩ᴾᵒ-[] :  ⟨ K ᴷ◁ e ⟩ᴾᵒ˂ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᴾᵒ ι Pᵒ˙
+  ⁺⟨⟩ᴾᵒ-[] =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ []⇒) ,
+    λ{ _ _ _ (redᴷᴿ []⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ (?∗ᵒ-intro _) }))
     › ⁺⟨⟩ᴾᵒ-kr
 
-  ⁺⟨⟩ᵀᵒ-▶ :  ⟨ K ᴷ◁ e˂ .! ⟩ᵀᵒ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᵀᵒ ∞ Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-▶ =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ ▶⇒) ,
-    λ{ _ _ _ (redᴷᴿ ▶⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷
+  ⁺⟨⟩ᵀᵒ-[] :  ⟨ K ᴷ◁ e ⟩ᵀᵒ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᵀᵒ ∞ Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-[] =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ []⇒) ,
+    λ{ _ _ _ (redᴷᴿ []⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷
     ∗ᵒ-mono §_ (?∗ᵒ-intro _) })) › ⁺⟨⟩ᵀᵒ-kr
-
-  -- ◁ by ⁺⟨⟩ᴾ/ᵀᵒ
-
-  ⁺⟨⟩ᴾᵒ-◁ :  ⟨ K ᴷ◁ e˙ x ⟩ᴾᵒ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩ᴾᵒ ι Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-◁ =  -∗ᵒ-intro {Qᵒ = ⟨ _ ⟩ᴾᵒ _ _} (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ ◁⇒) ,
-    λ{_ _ _ (redᴷᴿ ◁⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷
-    ∗ᵒ-mono (λ big → λ{ .! → big }) (?∗ᵒ-intro _) })) › ⁺⟨⟩ᴾᵒ-kr
-
-  ⁺⟨⟩ᵀᵒ-◁ :  ⟨ K ᴷ◁ e˙ x ⟩ᵀᵒ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , e˙ ◁ᴿ x) ⟩ᵀᵒ ∞ Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-◁ =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ ◁⇒) ,
-    λ{_ _ _ (redᴷᴿ ◁⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-mono §_ (?∗ᵒ-intro _) }))
-    › ⁺⟨⟩ᵀᵒ-kr
-
-  -- ⁏ by ⁺⟨⟩ᴾ/ᵀᵒ
-
-  ⁺⟨⟩ᴾᵒ-⁏ :  ⟨ K ᴷ◁ e ⟩ᴾᵒ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩ᴾᵒ ι Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-⁏ =  -∗ᵒ-intro {Qᵒ = ⟨ _ ⟩ᴾᵒ _ _} (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ ⁏⇒) ,
-    λ{_ _ _ (redᴷᴿ ⁏⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷
-    ∗ᵒ-mono (λ big → λ{ .! → big }) (?∗ᵒ-intro _) })) › ⁺⟨⟩ᴾᵒ-kr
-
-  ⁺⟨⟩ᵀᵒ-⁏ :  ⟨ K ᴷ◁ e ⟩ᵀᵒ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , v ⁏ᴿ e) ⟩ᵀᵒ ∞ Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-⁏ =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ ⁏⇒) ,
-    λ{_ _ _ (redᴷᴿ ⁏⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-mono §_ (?∗ᵒ-intro _) }))
-    › ⁺⟨⟩ᵀᵒ-kr
 
   -- fork by ⁺⟨⟩ᴾ/ᵀᵒ
 

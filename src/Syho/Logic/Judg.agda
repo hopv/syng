@@ -23,7 +23,7 @@ open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; ▶_; Val;
   V⇒E; TyVal; ⊤-)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; ▶ᴿ_; _◁ᴿ_; _⁏ᴿ_; forkᴿ; 🞰ᴿ_;
+open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Logic.Prop using (Name; WpKind; par; tot; Prop∞; Prop˂∞; ∀˙;
   ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
@@ -529,25 +529,15 @@ data  Judg ι  where
 
   ahor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  P  ⊢[ ι ][ i ]ᵃ⟨ ndᴿ {Xʸ} ⟩ λ _ →  P
 
-  -- Strip ▶ off
+  -- Pure reduction
   -- The premise can be used coinductively for the partial Hoare triple,
   -- and only inductively for the total Hoare triple
 
-  horᴾ-▶ :  P  ⊢[< ι ]⟨ K ᴷ◁ e˂ .! ⟩ᴾ  Q˙  →
-            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᴾ  Q˙
+  horᴾ-[] :  P  ⊢[< ι ]⟨ K ᴷ◁ e ⟩ᴾ  Q˙  →
+             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᴾ  Q˙
 
-  horᵀ-▶ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˂ .! ⟩ᵀ[ i ]  Q˙  →
-            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , ▶ᴿ e˂) ⟩ᵀ[ i ]  Q˙
-
-  -- Application
-
-  hor-◁ :  P  ⊢[ ι ]⟨ K ᴷ◁ e˙ x ⟩[ κ ]  Q˙  →
-           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _◁ᴿ_ {Xʸ} e˙ x) ⟩[ κ ]  Q˙
-
-  -- Sequential execution
-
-  hor-⁏ :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
-           P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _⁏ᴿ_ {T} v e) ⟩[ κ ]  Q˙
+  horᵀ-[] :  P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩ᵀ[ i ]  Q˙  →
+             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ) ⟩ᵀ[ i ]  Q˙
 
   -- Thread forking
 

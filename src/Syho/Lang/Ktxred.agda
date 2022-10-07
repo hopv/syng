@@ -9,6 +9,7 @@ module Syho.Lang.Ktxred where
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl)
+open import Base.Size using (!)
 open import Base.Bool using (Bool)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
@@ -25,19 +26,13 @@ private variable
 -------------------------------------------------------------------------------
 -- Redex
 
-infix 6 ▶ᴿ_ 🞰ᴿ_ _←ᴿ_
-infixl 5 _◁ᴿ_
-infixr 4 _⁏ᴿ_
+infix 6 🞰ᴿ_ _←ᴿ_
 
 data  Redex :  Type →  Set₀  where
   -- For nd
   ndᴿ :  Redex (◸ʸ Xʸ)
-  -- For ▶
-  ▶ᴿ_ :  Expr˂∞ T →  Redex T
-  -- For ◁
-  _◁ᴿ_ :  (⸨ Xʸ ⸩ʸ → Expr∞ T) →  ⸨ Xʸ ⸩ʸ →  Redex T
-  -- For ⁏
-  _⁏ᴿ_ :  Val T →  Expr∞ U →  Redex U
+  -- Pure reduction
+  [_]ᴿ :  Expr∞ T →  Redex T
   -- For fork
   forkᴿ :  Expr∞ (◸ ⊤) →  Redex (◸ ⊤)
   -- For 🞰
@@ -174,7 +169,7 @@ val/ktxred :  Expr∞ T →  Val/Ktxred T
 val/ktxred (∇ x) =  ĩ₀ x
 val/ktxred (λ˙ e˙) =  ĩ₀ e˙
 val/ktxred nd =  ĩ₁ (-, •ᴷ , ndᴿ)
-val/ktxred (▶ e˂) =  ĩ₁ (-, •ᴷ , ▶ᴿ e˂)
+val/ktxred (▶ e˂) =  ĩ₁ (-, •ᴷ , [ e˂ .! ]ᴿ)
 val/ktxred (e' ◁ e) =  ĩ₁ body
  where
   body :  Ktxred _
@@ -182,12 +177,12 @@ val/ktxred (e' ◁ e) =  ĩ₁ body
   … | ĩ₁ (-, K , red) =  -, e' ◁ᴷʳ K , red
   … | ĩ₀ x  with val/ktxred e'
   …   | ĩ₁ (-, K , red) =  -, K ◁ᴷˡ x , red
-  …   | ĩ₀ v =  -, •ᴷ , v ◁ᴿ x
+  …   | ĩ₀ e˙ =  -, •ᴷ , [ e˙ x ]ᴿ
 val/ktxred (_⁏_ {T} e e') =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₀ v =  -, •ᴷ , _⁏ᴿ_ {T} v e'
+  … | ĩ₀ _ =  -, •ᴷ , [ e' ]ᴿ
   … | ĩ₁ (-, K , red) =  -, K ⁏ᴷ e' , red
 val/ktxred (fork e) =  ĩ₁ (-, •ᴷ , forkᴿ e)
 val/ktxred (🞰 e) =  ĩ₁ body

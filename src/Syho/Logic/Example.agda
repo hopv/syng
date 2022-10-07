@@ -20,7 +20,7 @@ open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; hor-nd;
-  horᴾ-▶; horᵀ-▶; hor-◁; hor-⁏)
+  horᴾ-[]; hor-[])
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
 
 private variable
@@ -44,12 +44,12 @@ abstract
   -- Get ⊥' after ▶ ▶ ▶ … under partial Hoare triple
 
   loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ᴾ λ _ → ⊥'
-  loop-⊥ =  horᴾ-▶ λ{ .! → loop-⊥ }
+  loop-⊥ =  horᴾ-[] λ{ .! → loop-⊥ }
 
   -- Execute plus ◁ ∇ (3 , 4)
 
   plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ[ 0 ] λ n → ⌜ n ≡ 7 ⌝
-  plus◁3,4-7 =  hor-◁ $ hor-val $ ⌜⌝-intro refl
+  plus◁3,4-7 =  hor-[] $ hor-val $ ⌜⌝-intro refl
 
   -- decrloop θ terminates, setting the value at θ to 0
 
@@ -58,15 +58,15 @@ abstract
   decrloop'-exec :
     ∀ n →  θ ↦ (-, n)  ⊢[ ∞ ]⟨ decrloop' θ n ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, 0)
 
-  decrloop-exec n =  ∗⊤-intro » hor-🞰 $ hor-◁ $ ∗-elimˡ » decrloop'-exec n
+  decrloop-exec n =  ∗⊤-intro » hor-🞰 $ hor-[] $ ∗-elimˡ » decrloop'-exec n
 
   decrloop'-exec 0 =  hor-val ⊢-refl
   decrloop'-exec (ṡ n) =
-    ∗⊤-intro » hor-← $ hor-⁏ $ ∗-elimˡ » horᵀ-▶ $ decrloop-exec n
+    ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » hor-[] $ decrloop-exec n
 
   -- nddecrloop terminates, setting the value at θ to 0
   -- Notably, the number of reduction steps is dynamically determined
 
   nddecrloop-exec :  θ ↦ ᵗv  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, 0)
   nddecrloop-exec =
-    hor-nd λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-⁏ $ decrloop-exec n
+    hor-nd λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] $ decrloop-exec n

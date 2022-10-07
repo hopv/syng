@@ -7,7 +7,7 @@
 module Syho.Logic.Ind where
 
 open import Base.Func using (_∘_; id; const; _$_)
-open import Base.Size using (Size; Thunk; ¡_; !)
+open import Base.Size using (Size; Thunk; ¡_; !; _$ᵀʰ_)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Syho.Lang.Expr using (Type; Expr∞)
 open import Syho.Lang.Ktxred using (Redex)
@@ -89,7 +89,7 @@ abstract
 
   ↪⇛-monoˡᵘ :  P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .! →
                P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
-  ↪⇛-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪⇛-eatˡ⁻ˡᵘ λ{ .! → ∗-elimʳ » P'⊢⇛P .! }
+  ↪⇛-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪⇛-eatˡ⁻ˡᵘ $ (∗-elimʳ »_) $ᵀʰ P'⊢⇛P
 
   ↪⇛-eatˡ⁻ˡ :  {{Basic R}} →
     R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]⇛ Q˂
@@ -97,7 +97,7 @@ abstract
 
   ↪⇛-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
               P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
-  ↪⇛-monoˡ ⊢< =  ↪⇛-monoˡᵘ λ{ .! → ⊢⇒⊢⇛ $ ⊢< .! }
+  ↪⇛-monoˡ P'⊢P =  ↪⇛-monoˡᵘ $ ⊢⇒⊢⇛ $ᵀʰ P'⊢P
 
   -->  ↪⇛-eatˡ⁻ʳ :  {{Basic R}} →
   -->    R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
@@ -107,7 +107,7 @@ abstract
 
   ↪⇛-monoʳ :  Q˂ .! ⊢[< ι ] Q'˂ .! →
                 P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
-  ↪⇛-monoʳ ⊢< =  ↪⇛-monoʳᵘ λ{ .! → ⊢⇒⊢⇛ $ ⊢< .! }
+  ↪⇛-monoʳ Q⊢Q' =  ↪⇛-monoʳᵘ $ ⊢⇒⊢⇛ $ᵀʰ Q⊢Q'
 
   -->  ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]
   -->                 ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
@@ -141,7 +141,7 @@ abstract
 
   ↪ᵃ⟨⟩-monoˡᵘ :  P'˂ .! ⊢[< ι ][ j ]⇛ P˂ .! →
                  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
-  ↪ᵃ⟨⟩-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ λ{ .! → ∗-elimʳ » P'⊢⇛P .! }
+  ↪ᵃ⟨⟩-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ $ (∗-elimʳ »_) $ᵀʰ P'⊢⇛P
 
   ↪ᵃ⟨⟩-eatˡ⁻ˡ :  {{Basic R}} →
     R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
@@ -149,7 +149,7 @@ abstract
 
   ↪ᵃ⟨⟩-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
                 P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
-  ↪ᵃ⟨⟩-monoˡ ⊢< =  ↪ᵃ⟨⟩-monoˡᵘ {j = 0} λ{ .! → ⊢⇒⊢⇛ $ ⊢< .! }
+  ↪ᵃ⟨⟩-monoˡ P'⊢P =  ↪ᵃ⟨⟩-monoˡᵘ {j = 0} $ ⊢⇒⊢⇛ $ᵀʰ P'⊢P
 
   -->  ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
   -->    R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
@@ -160,7 +160,7 @@ abstract
 
   ↪ᵃ⟨⟩-monoʳ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ]  Q'˂˙ v .!)  →
                 P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q'˂˙
-  ↪ᵃ⟨⟩-monoʳ ⊢< =  ↪ᵃ⟨⟩-monoʳᵘ {j = 0} λ{ v .! → ⊢⇒⊢⇛ $ ⊢< v .! }
+  ↪ᵃ⟨⟩-monoʳ Qv⊢Q'v =  ↪ᵃ⟨⟩-monoʳᵘ {j = 0} λ v → ⊢⇒⊢⇛ $ᵀʰ Qv⊢Q'v v
 
   -->  ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
   -->                  ¡ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
@@ -200,7 +200,7 @@ abstract
 
   ↪⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .!  →
                  R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-eatˡ⁻ˡᵘ R⊢⇛P' =  ↪⟨⟩-eatˡ⁻ˡᵘᴺ λ{ .! → ⇛⇒⇛ᴺ $ R⊢⇛P' .! }
+  ↪⟨⟩-eatˡ⁻ˡᵘ R⊢⇛P' =  ↪⟨⟩-eatˡ⁻ˡᵘᴺ $ ⇛⇒⇛ᴺ $ᵀʰ R⊢⇛P'
 
   ↪⟨⟩-eatˡ⁻ˡ :  {{Basic R}} →
     R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪⟨ e ⟩[ κ ] Q˂˙
@@ -208,16 +208,15 @@ abstract
 
   ↪⟨⟩-monoˡᵘᴺ :  P'˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
                  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-monoˡᵘᴺ P'⊢⇛P =  ⊤∗-intro » ↪⟨⟩-eatˡ⁻ˡᵘᴺ
-    λ{ .! → ∗-monoˡ ∗-elimʳ » P'⊢⇛P .! }
+  ↪⟨⟩-monoˡᵘᴺ P'⊢⇛P =  ⊤∗-intro » ↪⟨⟩-eatˡ⁻ˡᵘᴺ $ (∗-monoˡ ∗-elimʳ »_) $ᵀʰ P'⊢⇛P
 
   ↪⟨⟩-monoˡᵘ :  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .!  →
                 P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-monoˡᵘ P'⊢⇛P =  ↪⟨⟩-monoˡᵘᴺ λ{ .! → ⇛⇒⇛ᴺ $ P'⊢⇛P .! }
+  ↪⟨⟩-monoˡᵘ P'⊢⇛P =  ↪⟨⟩-monoˡᵘᴺ $ ⇛⇒⇛ᴺ $ᵀʰ P'⊢⇛P
 
   ↪⟨⟩-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
                P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-monoˡ P'⊢P =  ↪⟨⟩-monoˡᵘ {i = 0} λ{ .! → ⊢⇒⊢⇛ $ P'⊢P .! }
+  ↪⟨⟩-monoˡ P'⊢P =  ↪⟨⟩-monoˡᵘ {i = 0} $ ⊢⇒⊢⇛ $ᵀʰ P'⊢P
 
   -->  ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
   -->    R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]
@@ -232,7 +231,7 @@ abstract
 
   ↪⟨⟩-monoʳ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ]  Q'˂˙ v .!)  →
                P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
-  ↪⟨⟩-monoʳ ⊢< =  ↪⟨⟩-monoʳᵘ {i = 0} λ{ v .! → ⊢⇒⊢⇛ $ ⊢< v .! }
+  ↪⟨⟩-monoʳ Qv⊢Q'v =  ↪⟨⟩-monoʳᵘ {i = 0} λ v → ⊢⇒⊢⇛ $ᵀʰ Qv⊢Q'v v
 
   -->  ↪⟨⟩-frameˡ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]
   -->                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)

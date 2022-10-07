@@ -260,8 +260,8 @@ abstract
   --   P˂ .!  ∗  (P˂ ↪⟨ e' ⟩ᴾ Q˂˙)  ⊢[ ∞ ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!
 
   ⊢⁺⟨⟩ᴾ-sem (↪⟨⟩ᴾ-use (redᴾ e⇒K[e₀])) big  rewrite e⇒K[e₀] =
-    ⁺⟨⟩ᴾᵒ-[] λ{ .! → big ▷ ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ)
-    ▷ ⇛ᵒ-eatˡ ▷ (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
+    ⁺⟨⟩ᴾᵒ-[] λ{ .! → big ▷ ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷
+    (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
     λ (P∗R⊢⟨e⟩Q , PRa) → ⊢⁺⟨⟩ᴾ-sem P∗R⊢⟨e⟩Q PRa) ▷ ⇛ᵒ-⁺⟨⟩ᴾᵒ }
 
   -- _ᵘᴺ»ʰ_ :  P  ⊢[ ∞ ][ i ]⇛ᴺ  Q  →   Q  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  R˙  →

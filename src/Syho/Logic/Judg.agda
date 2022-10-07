@@ -509,12 +509,17 @@ data  Judg ι  where
   hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
                 R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  R  ∗  Q˙ v
 
-  -- Get a Hoare triple out of an atomic Hoare triple and a Hoare triple on
-  -- the context
+  -- Compose an atomic Hoare triple with a Hoare triple on the context
+  -- The premise on the context can be used coinductively for the partial Hoare
+  -- triple, and only inductively for the total Hoare triple
 
-  ahor-hor :  (P  ∗  [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  [⊤]ᴺ)  →
-              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
-              P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
+  ahor-horᴾ :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+               (∀ v →  Q˙ v  ⊢[< ι ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  R˙)  →
+               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩ᴾ  R˙
+
+  ahor-horᵀ :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+               (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ j ]  R˙)  →
+               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩ᵀ[ j ]  R˙
 
   -- Bind by a context
 

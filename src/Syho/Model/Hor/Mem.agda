@@ -31,7 +31,7 @@ open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; _↦ᵒ_; Freeᵒ'; Free
   _↦ᴸᵒ'_; ↦ᴸᵒ⇒↦ᴸᵒ'; ↦ᴸᵒ'⇒↦ᴸᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ; ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ;
   ⇛ᴹ-mono; ⇛ᴹ-intro; ⇛ᴹ-intro-✓ᴹ; ⇛ᴹ-eatˡ)
-open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ_)
+open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ)
 
 private variable
   X :  Set₀

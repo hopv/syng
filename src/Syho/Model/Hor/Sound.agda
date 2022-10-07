@@ -31,7 +31,7 @@ open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Ind using (↪ᵃ⟨⟩ᵒ-use; ↪⟨⟩ᵒ-use)
 open import Syho.Model.Supd.Interp using (⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-mono)
 open import Syho.Model.Supd.Sound using (⊢⇛-sem; ⊢⇛ᴺ-sem)
-open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ_; ⁺⟨_⟩ᴾᵒ[_]_; ⁺⟨_⟩ᵀᵒ[_]_; ⁺⟨⟩ᴾᵒ-val;
+open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ-val;
   ⁺⟨⟩ᵀᵒ-val; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ᵃ⟨⟩ᵒ-mono; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᵀᵒ-mono;
   ⊨✓⇒⊨-ᵃ⟨⟩ᵒ; ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ; ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ; ⇛ᵒ-ᵃ⟨⟩ᵒ; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᵒ-⁺⟨⟩ᴾᵒ;
   ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ; ⇛ᵒ-⁺⟨⟩ᵀᵒ; ᵃ⟨⟩ᵒ-⇛ᵒ; ⁺⟨⟩ᴾᵒ-⇛ᴺᵒ; ⁺⟨⟩ᴾᵒ-⇛ᵒ; ⁺⟨⟩ᵀᵒ-⇛ᴺᵒ; ⁺⟨⟩ᵀᵒ-⇛ᵒ;
@@ -165,7 +165,7 @@ abstract
 abstract
 
   ⊢⁺⟨⟩ᵀ-sem :
-    P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᵀᵒ[ ∞ ] λ v → ⸨ Q˙ v ⸩
+    P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   ⸨ P ⸩  ⊨ ⁺⟨ vk ⟩ᵀᵒ ∞ λ v →  ⸨ Q˙ v ⸩
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] R˙ →  P ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] R˙
 
@@ -256,7 +256,7 @@ abstract
   -- the proof ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ; for ↪⟨⟩ᴾ-use and horᴾ-▶, the proof structure does
   -- not decrease but the size ∞ does, which is the key trick.
 
-  ⊢⁺⟨⟩ᴾ-sem : P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   ⸨ P ⸩  ⊨  ⁺⟨ vk ⟩ᴾᵒ[ ι ] λ v → ⸨ Q˙ v ⸩
+  ⊢⁺⟨⟩ᴾ-sem : P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →   ⸨ P ⸩  ⊨ ⁺⟨ vk ⟩ᴾᵒ ι λ v →  ⸨ Q˙ v ⸩
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ R˙ →  P ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ R˙
 

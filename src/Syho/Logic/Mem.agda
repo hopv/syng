@@ -128,7 +128,7 @@ abstract
   -->    θ ↦ᴸ ᵗvs  ∗  Free n θ  ⊢[ ι ][ i ]ᵃ⟨ freeᴿ θ ⟩ λ _ →  ⊤'
 
   hor-free :  len ᵗvs ≡ n  →   P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  Q˙  →
-     θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩[ κ ]  Q˙
+    θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩[ κ ]  Q˙
   hor-free lenvs≡n P⊢⟨K⟩Q =  ∗-assocʳ » ahor-hor
-    (ahor-frameʳ $ ahor-frameʳ $ ahor-free {i = 0} lenvs≡n) λ θ →
+    (ahor-frameʳ $ ahor-frameʳ $ ahor-free {i = 0} lenvs≡n) λ _ →
     hor<ᴾ-map (∗-elimʳ »_) P⊢⟨K⟩Q

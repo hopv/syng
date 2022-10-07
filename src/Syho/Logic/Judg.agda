@@ -25,6 +25,7 @@ open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; 
   V⇒E; TyVal; ⊤-)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ; forkᴿ; 🞰ᴿ_;
   _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
+open import Syho.Lang.Reduce using (_⇒ᴾ_)
 open import Syho.Logic.Prop using (Name; WpKind; par; tot; Prop∞; Prop˂∞; ∀˙;
   ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
   □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴺ;
@@ -151,8 +152,7 @@ private variable
   κ :  WpKind
   red :  Redex T
   vk :  Val/Ktxred T
-  e :  Expr∞ T
-  e˂ :  Expr˂∞ T
+  e e' :  Expr∞ T
   e˙ :  X → Expr∞ T
   K :  Ktx T U
   θ :  Addr
@@ -405,19 +405,20 @@ data  Judg ι  where
   ○⇒↪⟨⟩ :  (P˂ .!  ∗  R˂ .!  ⊢[< ι ]⟨ e ⟩[ κ ] λ v →  Q˂˙ v .!)  →
            ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
-  -- Use ↪⟨⟩ᴾ, with ▶ on the expression
-  -- Without that ▶, we could have any partial Hoare triple (horᴾ/↪⟨⟩ᴾ-use' in
-  -- Syho.Logic.Paradox)
+  -- Use ↪⟨⟩ᴾ, with pure reduction
+  -- Without pure reduction, we could have any partial Hoare triple
+  -- (horᴾ/↪⟨⟩ᴾ-use' in Syho.Logic.Paradox)
 
-  ↪⟨⟩ᴾ-use :  P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
+  ↪⟨⟩ᴾ-use :  e ⇒ᴾ e'  →
+    P˂ .!  ∗  (P˂ ↪⟨ e' ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!
 
   -- Use ↪⟨⟩ᵀ, with level increment
 
   -- Without that level increment, we could have any total Hoare triple
   -- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
-  -- If we use ▶ (just like ↪⟨⟩ᴾ-use) instead of level increment, the total
-  -- Hoare triple does not ensure termination (horᵀ-loop/↪⟨⟩ᵀ-use▶ in
-  -- Syho.Logic.Paradox)
+  -- If we use pure reduction (just like ↪⟨⟩ᴾ-use) instead of level increment
+  -- for this rule, the total Hoare triple does not ensure termination
+  -- (horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ in Syho.Logic.Paradox)
 
   ↪⟨⟩ᵀ-use :  P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
                 ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!

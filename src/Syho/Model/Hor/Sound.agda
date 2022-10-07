@@ -14,6 +14,7 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; rep)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Val; TyVal)
 open import Syho.Lang.Ktxred using (Redex; Val/Ktxred)
+open import Syho.Lang.Reduce using (redᴾ)
 open import Syho.Logic.Prop using (Prop∞; _↦_; [∗∈ⁱ⟨⟩]-syntax)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Ind using (↪ᵃ⟨⟩-use; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use)
@@ -256,9 +257,11 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᴾ-sem (Px⊢⟨vk⟩Q x)
 
-  -- ↪⟨⟩ᴾ-use :  P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᴾ Q˂˙)  ⊢[ ∞ ]⟨ ▶ e˂ ⟩ᴾ λ v →  Q˂˙ v .!
+  -- ↪⟨⟩ᴾ-use :  e ⇒ᴾ e'  →
+  --   P˂ .!  ∗  (P˂ ↪⟨ e' ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!
 
-  ⊢⁺⟨⟩ᴾ-sem ↪⟨⟩ᴾ-use big =  ⁺⟨⟩ᴾᵒ-[] λ{ .! → big ▷ ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ)
+  ⊢⁺⟨⟩ᴾ-sem (↪⟨⟩ᴾ-use (redᴾ e⇒K[e₀])) big  rewrite e⇒K[e₀] =
+    ⁺⟨⟩ᴾᵒ-[] λ{ .! → big ▷ ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ)
     ▷ ⇛ᵒ-eatˡ ▷ (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
     λ (P∗R⊢⟨e⟩Q , PRa) → ⊢⁺⟨⟩ᴾ-sem P∗R⊢⟨e⟩Q PRa) ▷ ⇛ᵒ-⁺⟨⟩ᴾᵒ }
 

@@ -7,10 +7,12 @@
 module Syho.Logic.Paradox where
 
 open import Base.Func using (_$_)
+open import Base.Eq using (refl)
 open import Base.Size using (Size; ¡_; !)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; ▶_; loop; Val)
+open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; loop; Val)
 open import Syho.Lang.Ktxred using (Redex)
+open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
 open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
@@ -84,10 +86,10 @@ module _
     ↪ᵃ⟨⟩-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
 
 --------------------------------------------------------------------------------
--- If we can use ↪⟨ ⟩ᴾ without ▶, then we get a paradox
+-- If we can use ↪⟨ ⟩ᴾ without pure reduction, then we get a paradox
 
 module _
-  -- ↪⟨⟩ᴾ-use without ▶
+  -- ↪⟨⟩ᴾ-use without pure reduction
   (↪⟨⟩ᴾ-use' :  ∀{T} {e : Expr∞ T} {P˂ Q˂˙ ι} →
     P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!)
   where abstract
@@ -126,25 +128,26 @@ module _
     ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
 
 --------------------------------------------------------------------------------
--- If we can use ↪⟨ ⟩ᵀ with ▶, not level increment, then we get a paradox
+-- If we can use ↪⟨ ⟩ᵀ with pure reduction, not level increment,
+-- then we get a paradox
 
 module _
-  -- ↪⟨⟩ᵀ-use with ▶, not level increment
-  (↪⟨⟩ᵀ-use▶ :  ∀{T} {e˂ : Expr˂∞ T} {P˂ Q˂˙ i ι} →
-    P˂ .!  ∗  (P˂ ↪⟨ e˂ .! ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ ▶ e˂ ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
+  -- ↪⟨⟩ᵀ-use with pure reduction, not level increment
+  (↪⟨⟩ᵀ-use⇒ᴾ :  ∀{T} {e e' : Expr∞ T} {P˂ Q˂˙ i ι} →  e ⇒ᴾ e' →
+    P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
   where abstract
 
-  -- We can strip ○ from ↪⟨ loop ⟩ᵀ, using ↪⟨⟩ᵀ-use▶
+  -- We can strip ○ from ↪⟨ loop ⟩ᵀ, using ↪⟨⟩ᵀ-use
 
-  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶ :
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ :
     ○ ¡ (P˂ ↪⟨ loop ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop ⟩ᵀ[ i ] Q˂˙
-  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶ =  ○⇒↪⟨⟩ λ{ .! → ↪⟨⟩ᵀ-use▶ }
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ λ{ .! → ↪⟨⟩ᵀ-use⇒ᴾ $ redᴾ refl }
 
   -- Therefore, by ○-rec, we have any total Hoare triple for the expression
   -- loop, which is a paradox: Although the total Hoare triple should ensure
   -- termination, loop does not terminate!
 
-  horᵀ-loop/↪⟨⟩ᵀ-use▶ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
-  horᵀ-loop/↪⟨⟩ᵀ-use▶ {P} {Q˙ = Q˙} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use▶) ᵘ»ʰ
-    ↪⟨⟩ᵀ-use▶ {P˂ = ¡ P} {λ v → ¡ Q˙ v}
+  horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
+  horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ {P} {Q˙ = Q˙} =  ∗⊤-intro »
+    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ) ᵘ»ʰ
+    ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ P} {λ v → ¡ Q˙ v} (redᴾ refl)

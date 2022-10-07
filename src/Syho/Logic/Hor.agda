@@ -154,8 +154,8 @@ abstract
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ κ ]  Q˙  →
                   (∀ x →  Q˙ x  ⊢[<ᴾ ι ]⟨ e˙ x ⟩[ κ ]  R˙) →
                   P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ]  R˙
-  hor-let-bind P⊢⟨e₀⟩Q ∀xQ⊢⟨e˙⟩R =
-    hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ x → hor-[] $ ∀xQ⊢⟨e˙⟩R x
+  hor-let-bind P⊢⟨e₀⟩Q Qx⊢⟨ex⟩R =
+    hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ x → hor-[] $ Qx⊢⟨ex⟩R x
 
   -- Transform ⊢[<ᴾ ]⟨ ⟩[ ]
 

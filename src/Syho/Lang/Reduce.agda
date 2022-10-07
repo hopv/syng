@@ -97,7 +97,12 @@ private variable
   n :  ℕ
   kr :  Ktxred T
 
-infix 4 _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
+infix 4 _⇒ᴾ_ _⇒ᴿ_ _⇒ᴷᴿ_ _⇒ᴱ_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
+
+-- ⇒ᴾ :  Pure reduction of an expression
+
+data  _⇒ᴾ_ :  Expr∞ T →  Expr∞ T →  Set₀  where
+  redᴾ :  val/ktxred e ≡ ĩ₁ (-, K , [ e₀ ]ᴿ) →  e ⇒ᴾ K ᴷ◁ e₀
 
 -- ⇒ᴿ :  Reduction of a redex
 --       The ¿ Expr∞ (◸ ⊤) part is a possibly forked thread
@@ -182,6 +187,13 @@ redM ⇒ᴿ∑ =  ∑ eM' , redM ⇒ᴿ eM'
 
 _⇒ᴷᴿ∑ :  Ktxred T × Mem →  Set₀
 krM ⇒ᴷᴿ∑ =  ∑ eM' , krM ⇒ᴷᴿ eM'
+
+abstract
+
+  -- ⇒ᴾ implies ⇒ᴱ
+
+  ⇒ᴾ⇒⇒ᴱ :  e ⇒ᴾ e' →  (e , M) ⇒ᴱ (e' , ň , M)
+  ⇒ᴾ⇒⇒ᴱ (redᴾ e⇒K[e₀]) =  redᴱ e⇒K[e₀] $ redᴷᴿ []⇒
 
 --------------------------------------------------------------------------------
 -- ⇒ᵀ* :  Finite reduction sequence

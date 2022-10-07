@@ -165,24 +165,24 @@ data  _⊢[_]*_  where
   ------------------------------------------------------------------------------
   -- General rules
 
-  -- The sequent is reflexive
+  -- The pure sequent is reflexive
 
   ⊢-refl :  P ⊢[ ι ] P
 
-  -- The left-hand side of a judgment can be modified with a sequent
+  -- Modify the left-hand side of a judgment with a pure sequent
 
   _»_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ]* Jr →  P ⊢[ ι ]* Jr
 
   ------------------------------------------------------------------------------
   -- On ∀ / ∃
 
-  -- Introducing ∀ / Eliminating ∃
+  -- Introduce ∀ / Eliminate ∃
 
   ∀-intro :  (∀ x →  P ⊢[ ι ] Q˙ x) →  P ⊢[ ι ] ∀˙ Q˙
 
   ∃-elim :  (∀ x →  P˙ x ⊢[ ι ]* Jr) →  ∃˙ P˙ ⊢[ ι ]* Jr
 
-  -- Eliminating ∀ / Introducing ∃
+  -- Eliminate ∀ / Introduce ∃
 
   ∀-elim :  ∀ x →  ∀˙ P˙ ⊢[ ι ] P˙ x
 

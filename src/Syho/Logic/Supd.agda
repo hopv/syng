@@ -42,7 +42,7 @@ abstract
   ⇛-refl :  P ⊢[ ι ][ i ]⇛ P
   ⇛-refl =  ⤇-intro » ⇛-refl-⤇
 
-  -- Lift a sequent into a super update ⇛
+  -- Lift a pure sequent into a super update ⇛
 
   ⊢⇒⊢⇛ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ Q
   ⊢⇒⊢⇛ P⊢Q =  P⊢Q » ⇛-refl
@@ -73,7 +73,7 @@ abstract
   ⇛ᴺ-refl :  P ⊢[ ι ][ i ]⇛ᴺ P
   ⇛ᴺ-refl =  ⇛-refl
 
-  -- Lift a sequent into ⇛ᴺ
+  -- Lift a pure sequent into ⇛ᴺ
 
   ⊢⇒⊢⇛ᴺ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ᴺ Q
   ⊢⇒⊢⇛ᴺ P⊢Q =  ⇛⇒⇛ᴺ $ ⊢⇒⊢⇛ P⊢Q

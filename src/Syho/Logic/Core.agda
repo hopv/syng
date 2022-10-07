@@ -17,7 +17,7 @@ open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-
   □_; [∗])
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (JudgRes; Pure; _⊢[_]*_; _⊢[_]_;
+open import Syho.Logic.Judg public using (JudgRes; Pure; Judg; _⊢[_]*_; _⊢[_]_;
   _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice;
   →-intro; →-elim; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; -∗-intro;
   -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out; □-mono; □-elim; □-dup;

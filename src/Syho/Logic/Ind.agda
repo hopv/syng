@@ -54,7 +54,7 @@ abstract
   -->  ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ (Q ∗ P˂ .!)
 
   ○-eatʳ :  {{Basic Q}} →  ○ P˂ ∗ Q ⊢[ ι ] ○ ¡ (P˂ .! ∗ Q)
-  ○-eatʳ =  ∗-comm » ○-eatˡ » ○-mono $ ¡ ∗-comm
+  ○-eatʳ =  ∗-comm » ○-eatˡ » ○-mono λ{ .! → ∗-comm }
 
   -- Get ○
 
@@ -113,7 +113,8 @@ abstract
   -->                 ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
   ↪⇛-frameʳ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ (P˂ .! ∗ R) ↪[ i ]⇛ ¡ (Q˂ .! ∗ R)
-  ↪⇛-frameʳ =  ↪⇛-frameˡ » ↪⇛-monoˡ (¡ ∗-comm) » ↪⇛-monoʳ (¡ ∗-comm)
+  ↪⇛-frameʳ =  ↪⇛-frameˡ »
+    ↪⇛-monoˡ (λ{ .! → ∗-comm }) » ↪⇛-monoʳ λ{ .! → ∗-comm }
 
   ------------------------------------------------------------------------------
   -- On ↪ᵃ⟨ ⟩
@@ -167,7 +168,7 @@ abstract
   ↪ᵃ⟨⟩-frameʳ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
                    ¡ (P˂ .! ∗ R) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (Q˂˙ v .! ∗ R)
   ↪ᵃ⟨⟩-frameʳ =  ↪ᵃ⟨⟩-frameˡ »
-    ↪ᵃ⟨⟩-monoˡ (¡ ∗-comm) » ↪ᵃ⟨⟩-monoʳ (λ _ → ¡ ∗-comm)
+    ↪ᵃ⟨⟩-monoˡ (λ{ .! → ∗-comm }) » ↪ᵃ⟨⟩-monoʳ λ{ _ .! → ∗-comm }
 
   ------------------------------------------------------------------------------
   -- On ↪⟨ ⟩
@@ -238,4 +239,5 @@ abstract
 
   ↪⟨⟩-frameʳ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]
                   ¡ (P˂ .! ∗ R) ↪⟨ e ⟩[ κ ] λ v → ¡ (Q˂˙ v .! ∗ R)
-  ↪⟨⟩-frameʳ =  ↪⟨⟩-frameˡ » ↪⟨⟩-monoˡ (¡ ∗-comm) » ↪⟨⟩-monoʳ (λ _ → ¡ ∗-comm)
+  ↪⟨⟩-frameʳ =  ↪⟨⟩-frameˡ »
+    ↪⟨⟩-monoˡ (λ{ .! → ∗-comm }) » ↪⟨⟩-monoʳ λ{ _ .! → ∗-comm }

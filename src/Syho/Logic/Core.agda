@@ -17,11 +17,11 @@ open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-
   □_; [∗])
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (JudgRes; Pure; Judg; _⊢[_]*_; _⊢[_]_;
-  _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim; ∃-intro; choice;
-  →-intro; →-elim; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm; ∗-assocˡ; -∗-intro;
-  -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out; □-mono; □-elim; □-dup;
-  □ˡ-∧⇒∗; □-∀-in; □-∃-out)
+open import Syho.Logic.Judg public using (JudgRes; Pure; Judg; _⊢[_]*_;
+  _⊢[<_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim;
+  ∀-elim; ∃-intro; choice; →-intro; →-elim; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
+  ∗-assocˡ; -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
+  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 
 private variable
   ι :  Size
@@ -35,9 +35,17 @@ private variable
 
 abstract
 
+  ------------------------------------------------------------------------------
+  -- General
+
   -->  ⊢-refl :  P ⊢[ ι ] P
 
   -->  _»_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ]* Jr →  P ⊢[ ι ]* Jr
+
+  -- ⊢[ ]* into ⊢[< ]*
+
+  ⊢⇒⊢< :  P ⊢[ ι ]* Jr →  P ⊢[< ι ]* Jr
+  ⊢⇒⊢< P⊢Jr .! =  P⊢Jr
 
   ------------------------------------------------------------------------------
   -- On ∀/∃/∧/∨/⊤'/⊥'

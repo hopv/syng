@@ -360,8 +360,8 @@ data  Judg ι  where
 
   ↪ᵃ⟨⟩-ṡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ ṡ i ]ᵃ⟨ red ⟩ Q˂˙
 
-  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}} →  R ∗ P'˂ .! ⊢[< ι ][ j ]⇛ P˂ .! →
-                  R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ j ]⇛  P˂ .!  →
+                  R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
 
   ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
     R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
@@ -375,7 +375,7 @@ data  Judg ι  where
 
   -- Make ↪⟨ ⟩ᵀ out of ○
 
-  ○⇒↪ᵃ⟨⟩ :  (P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!)  →
+  ○⇒↪ᵃ⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˂˙ v .!)  →
             ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
 
   -- Use ↪ᵃ⟨⟩, with level increment
@@ -408,7 +408,7 @@ data  Judg ι  where
 
   -- Make ↪⟨ ⟩ out of ○
 
-  ○⇒↪⟨⟩ :  (P˂ .!  ∗  R˂ .!  ⊢[< ι ]⟨ e ⟩[ κ ] λ v →  Q˂˙ v .!)  →
+  ○⇒↪⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ι ]⟨ e ⟩[ κ ] (λ v →  Q˂˙ v .!)  →
            ○ R˂  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
   -- Use ↪⟨⟩ᴾ, with pure reduction

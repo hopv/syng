@@ -14,14 +14,14 @@ open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; loop; Val)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
 open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
-  _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_)
+  _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞)
 open import Syho.Logic.Core using (_⊢[_]_; ⊢⇒⊢<; _»_; -∗-intro; ∗-elimˡ;
   ∗⊤-intro; □-mono; □-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
-  _ᵘ»ᵃʰ_; _ᵘ»ʰ_)
+  _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
 open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
-  ○⇒↪⟨⟩)
+  ○⇒↪⟨⟩; ○⇒↪⟨⟩∞)
 
 private variable
   ι :  Size
@@ -151,3 +151,23 @@ module _
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ) ᵘ»ʰ
     ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ P} {λ v → ¡ Q˙ v} (redᴾ refl)
+
+--------------------------------------------------------------------------------
+-- If we can use ↪⟨ ⟩∞ without level increment, then we get a paradox
+
+module _
+  -- ↪⟨⟩∞-use without level increment
+  (↪⟨⟩∞-use' :  ∀{T} {e : Expr∞ T} {P˂ i ι} →
+    P˂ .!  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ][ i ]⟨ e ⟩∞)
+  where abstract
+
+  -- We can strip ○ from ↪⟨⟩∞, using ↪⟨⟩∞-use'
+
+  ○⇒-↪⟨⟩∞/↪⟨⟩∞-use' :  ○ ¡ (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  P˂ ↪[ i ]⟨ e ⟩∞
+  ○⇒-↪⟨⟩∞/↪⟨⟩∞-use' =  ○⇒↪⟨⟩∞ $ ⊢⇒⊢< ↪⟨⟩∞-use'
+
+  -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
+
+  ihor/↪⟨⟩∞-use' :  P  ⊢[ ι ][ i ]⟨ e ⟩∞
+  ihor/↪⟨⟩∞-use' {P} =  ∗⊤-intro »
+    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩∞/↪⟨⟩∞-use') ᵘ»ⁱʰ ↪⟨⟩∞-use' {P˂ = ¡ P}

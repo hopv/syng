@@ -219,22 +219,24 @@ Our meta-logic has the following properties.
     + Despite some concerns about Agda's soundness around sized types, we
         believe our usage of sized types in Syho's mechanization is safe.
 
-## Termination verification
+## Termination verification by induction
 
 Syho has two types of Hoare triples, **partial** and **total**.  
 The partial Hoare triple allows coinductive reasoning but does not ensure
 termination.  
-The total Hoare triple allows only inductive reasoning and thus ensures
+The total Hoare triple allows only **inductive reasoning** and thus ensures
 termination.
 
-### Comparison with step-indexed logics
+### Why termination verification is tough in step-indexed logics
 
-This is in contrast to step-indexed logics like Iris, where *a Hoare triple can 
-only be partial*, because one *later modality* `▷` is stripped off per program
-step, which causes coinductive reasoning by Löb induction.
+In **step-indexed logics** like Iris, roughly speaking, a Hoare triple *can only
+be partial*.  
+They strip one *later modality* `▷` off per program step, which destines their
+reasoning to be *coinductive*, due to Löb induction.  
+This makes termination verification in such logics fundamentally challenging.
 
 Let's see this more in detail.  
-Suppose the target language has a expression constructor `▶`, such that `▶ e`
+Suppose the target language has an expression constructor `▶`, such that `▶ e`
 reduces to `e` in one program step.  
 We have the following Hoare triple rule for `▶` in step-indexed logics like
 Iris, because **one later modality is stripped off per program step**.

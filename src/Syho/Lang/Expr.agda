@@ -8,7 +8,7 @@ module Syho.Lang.Expr where
 
 open import Base.Level using (Level; Up; ↑_)
 open import Base.Func using (_$_; _∘_; id)
-open import Base.Few using (⊤; absurd)
+open import Base.Few using (⊤; 0⊤; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; cong; subst)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 open import Base.Size using (Size; ∞; Thunk; !)
@@ -97,9 +97,9 @@ Expr˂ :  Size →  Type →  Set₀
 Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 
 infix 7 ∇_
-infix 6 ▶_ 🞰_ _←_
+infix 6 🞰_ _←_
 infixl 5 _◁_
-infixr 4 _⁏_
+infixr 4 _⁏_ _⁏¡_
 
 data  Expr ι  where
 
@@ -107,20 +107,17 @@ data  Expr ι  where
   ∇_ :  ⸨ Xʸ ⸩ʸ →  Expr ι (◸ʸ Xʸ)
 
   -- Lambda abstraction over a value
-  λ˙ :  (⸨ Xʸ ⸩ʸ → Expr ι T) →  Expr ι (Xʸ ʸ↷ T)
+  λ˙ :  (⸨ Xʸ ⸩ʸ → Expr˂ ι T) →  Expr ι (Xʸ ʸ↷ T)
 
   -- Non-deterministic value
   nd :  Expr ι (◸ʸ Xʸ)
-
-  -- Later, for infinite construction
-  ▶_ :  Expr˂ ι T →  Expr ι T
 
   -- Application
   _◁_ :  Expr ι (Xʸ ʸ↷ T) →  Expr ι (◸ʸ Xʸ) →  Expr ι T
 
   -- Sequential execution
   -- We need this (apart from λ˙ and ◁) to support the case where T is non-pure
-  _⁏_ :  Expr ι T →  Expr ι U →  Expr ι U
+  _⁏_ :  Expr ι T →  Expr˂ ι U →  Expr ι U
 
   -- Fork a new thread
   fork :  Expr ι (◸ ⊤) →  Expr ι (◸ ⊤)
@@ -143,27 +140,48 @@ data  Expr ι  where
   -- Freeing a memory block
   free :  Expr ι (◸ Addr) →  Expr ι (◸ ⊤)
 
+-- Sequential execution
+
+_⁏¡_ :  Expr ι T →  Expr ι U →  Expr ι U
+e ⁏¡ e' =  e ⁏ λ{ .! → e' }
+
 -- Lambda abstraction
 
-λ∈-syntax λ-syntax :  (⸨ Xʸ ⸩ʸ → Expr ι T) →  Expr ι (Xʸ ʸ↷ T)
+λ∈-syntax λ-syntax :  (⸨ Xʸ ⸩ʸ → Expr˂ ι T) →  Expr ι (Xʸ ʸ↷ T)
 λ∈-syntax =  λ˙
 λ-syntax =  λ˙
-infix 3 λ∈-syntax λ-syntax
-syntax λ∈-syntax {Xʸ = Xʸ} (λ x → e) =  λ' x ∈ Xʸ , e
-syntax λ-syntax (λ x → e) =  λ' x , e
+λ∈¡-syntax λ¡-syntax :  (⸨ Xʸ ⸩ʸ → Expr ι T) →  Expr ι (Xʸ ʸ↷ T)
+λ∈¡-syntax e˙ =  λ∈-syntax λ{ x .! → e˙ x }
+λ¡-syntax =  λ∈¡-syntax
+infix 3 λ∈-syntax λ-syntax λ∈¡-syntax λ¡-syntax
+syntax λ∈-syntax {Xʸ = Xʸ} (λ x → e˂) =  λ' x ∈ Xʸ , e˂
+syntax λ-syntax (λ x → e˂) =  λ' x , e˂
+syntax λ∈¡-syntax {Xʸ = Xʸ} (λ x → e) =  λ' x ∈ Xʸ ,¡ e
+syntax λ¡-syntax (λ x → e) =  λ' x ,¡ e
 
 -- Let binding
 
 let˙ let∈-syntax let-syntax :
-  Expr ι (◸ʸ Xʸ) →  (⸨ Xʸ ⸩ʸ → Expr ι T) →  Expr ι T
-let˙ e₀ e˙ =  λ˙ e˙ ◁ e₀
+  Expr ι (◸ʸ Xʸ) →  (⸨ Xʸ ⸩ʸ → Expr˂ ι T) →  Expr ι T
+let˙ e₀ e˂˙ =  λ˙ e˂˙ ◁ e₀
 let∈-syntax =  let˙
 let-syntax =  let˙
-infix 3 let∈-syntax let-syntax
-syntax let∈-syntax {Xʸ = Xʸ} e₀ (λ x → e) =  let' x ∈ Xʸ := e₀ in' e
-syntax let-syntax e₀ (λ x → e) =  let' x := e₀ in' e
+let∈¡-syntax let¡-syntax :  Expr ι (◸ʸ Xʸ) →  (⸨ Xʸ ⸩ʸ → Expr ι T) →  Expr ι T
+let∈¡-syntax e₀ e˙ =  let˙ e₀ λ{ x .! → e˙ x }
+let¡-syntax =  let∈¡-syntax
+infix 3 let∈-syntax let-syntax let∈¡-syntax let¡-syntax
+syntax let∈-syntax {Xʸ = Xʸ} e₀ (λ x → e˂) =  let' x ∈ Xʸ := e₀ in' e˂
+syntax let-syntax e₀ (λ x → e˂) =  let' x := e₀ in' e˂
+syntax let∈¡-syntax {Xʸ = Xʸ} e₀ (λ x → e) =  let' x ∈ Xʸ := e₀ in¡ e
+syntax let¡-syntax e₀ (λ x → e) =  let' x := e₀ in¡ e
 
--- ▶ ▶ ▶ …
+-- No-op
+
+infix 8 ▶_
+▶_ :  Expr˂ ι T →  Expr ι T
+▶ e˂ =  ∇ 0⊤ ⁏ e˂
+
+-- Infinite loop
 
 loop :  Expr ι (◸ ⊤)
 loop =  ▶ λ{ .! → loop }
@@ -179,7 +197,7 @@ Expr˂∞ T =  Expr˂ ∞ T
 
 Val :  Type →  Set₀
 Val (◸ʸ Xʸ) =  ⸨ Xʸ ⸩ʸ
-Val (Xʸ ʸ↷ T) =  ⸨ Xʸ ⸩ʸ →  Expr∞ T
+Val (Xʸ ʸ↷ T) =  ⸨ Xʸ ⸩ʸ →  Expr˂∞ T
 
 -- Conversion from Val to Expr
 

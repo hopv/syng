@@ -15,7 +15,7 @@ open import Base.Prod using (∑∈-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; ∇_;
-  λ-syntax; nd; ▶_; _◁_; _⁏_; let-syntax; 🞰_; _←_; free; loop)
+  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; 🞰_; _←_; free; loop)
 open import Syho.Lang.Reduce using (Mem; nd⇒; []⇒; redᴷᴿ; _⇒ᴱ_; redᴱ)
 
 private variable
@@ -37,7 +37,7 @@ stuck =  free $ ∇ (0 , 42)
 -- Just add two natural-number arguments
 
 plus :  Expr∞ $ (ℕ × ℕ) ↷ ◸ ℕ
-plus =  λ' (m , n) ,  ∇ (m + n)
+plus =  λ' (m , n) ,¡ ∇ (m + n)
 
 -- plus on 3 & 4
 
@@ -54,15 +54,15 @@ ndnat =  nd
 decrloop :  Addr →  Expr ι $ ◸ ⊤
 decrloop' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
 
-decrloop θ =  let' n := 🞰 ∇ θ in' decrloop' θ n
+decrloop θ =  let' n := 🞰 ∇ θ in' λ{ .! → decrloop' θ n }
 
 decrloop' θ 0 =  ∇ _
-decrloop' θ (ṡ n) =  ∇ θ ← ∇ n ⁏ ▶ λ{ .! → decrloop θ }
+decrloop' θ (ṡ n) =  ∇ θ ← ∇ n ⁏¡ decrloop θ
 
 -- decrloop with initialization with ndnat
 
 nddecrloop :  Addr →  Expr∞ $ ◸ ⊤
-nddecrloop θ =  ∇ θ ← ndnat ⁏ decrloop θ
+nddecrloop θ =  ∇ θ ← ndnat ⁏¡ decrloop θ
 
 --------------------------------------------------------------------------------
 -- Constructing Red

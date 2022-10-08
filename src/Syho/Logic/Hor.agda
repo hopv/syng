@@ -16,7 +16,8 @@ open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; _∗_; [⊤]ᴺ)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl; ⇛⇒⇛ᴺ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; ∇_; _⁏_; let˙; V⇒E)
+open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇_; _⁏_; let˙;
+  V⇒E)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   _ᴷ◁_; Val/Ktxred)
 open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
@@ -42,7 +43,8 @@ private variable
   vk :  Val/Ktxred T
   K :  Ktx T U
   e e' e₀ :  Expr∞ T
-  e˙ :  X → Expr∞ T
+  e'˂ :  Expr˂∞ T
+  e˂˙ :  X → Expr˂∞ T
   v :  X
 
 infixr -1 _ᵃʰ»_ _ʰ»_
@@ -142,8 +144,9 @@ abstract
 
   -- Sequential execution
 
-  hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  const Q  →   Q  ⊢[<ᴾ ι ]⟨ e' ⟩[ κ ]  R˙  →
-                P  ⊢[ ι ]⟨ _⁏_ {T = T} e e' ⟩[ κ ]  R˙
+  hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  const Q  →
+                Q  ⊢[<ᴾ ι ]⟨ e'˂ .! ⟩[ κ ]  R˙  →
+                P  ⊢[ ι ]⟨ _⁏_ {T = T} e e'˂ ⟩[ κ ]  R˙
   hor-⁏-bind {T = ◸ʸ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
     hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ _ → hor-[] Q⊢⟨e'⟩R
   hor-⁏-bind {T = _ ʸ↷ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
@@ -152,8 +155,8 @@ abstract
   -- Let binding
 
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ κ ]  Q˙  →
-                  (∀ x →  Q˙ x  ⊢[<ᴾ ι ]⟨ e˙ x ⟩[ κ ]  R˙) →
-                  P  ⊢[ ι ]⟨ let˙ e₀ e˙ ⟩[ κ ]  R˙
+                  (∀ x →  Q˙ x  ⊢[<ᴾ ι ]⟨ e˂˙ x .! ⟩[ κ ]  R˙) →
+                  P  ⊢[ ι ]⟨ let˙ e₀ e˂˙ ⟩[ κ ]  R˙
   hor-let-bind P⊢⟨e₀⟩Q Qx⊢⟨ex⟩R =
     hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ x → hor-[] $ Qx⊢⟨ex⟩R x
 

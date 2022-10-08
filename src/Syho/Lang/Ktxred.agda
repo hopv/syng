@@ -16,7 +16,7 @@ open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr∞; Expr˂∞; ∇_;
-  λ˙; nd; ▶_; _◁_; _⁏_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
+  λ˙; nd; _◁_; _⁏_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
 
 private variable
   Xʸ :  Setʸ
@@ -62,7 +62,7 @@ data  Ktx :  Type →  Type →  Set₀  where
   _◁ᴷʳ_ :  Expr∞ (Xʸ ʸ↷ T) →  Ktx U (◸ʸ Xʸ) →  Ktx U T
   _◁ᴷˡ_ :  Ktx U (Xʸ ʸ↷ T) →  ⸨ Xʸ ⸩ʸ →  Ktx U T
   -- For ⁏
-  _⁏ᴷ_ :  Ktx V T →  Expr∞ U →  Ktx V U
+  _⁏ᴷ_ :  Ktx V T →  Expr˂∞ U →  Ktx V U
   -- For 🞰
   🞰ᴷ_ :  Ktx U (◸ Addr) →  Ktx U T
   -- For ←
@@ -86,7 +86,7 @@ _ᴷ◁_ :  Ktx U T →  Expr∞ U →  Expr∞ T
 •ᴷ ᴷ◁ e =  e
 (e' ◁ᴷʳ K) ᴷ◁ e =  e' ◁ (K ᴷ◁ e)
 (K ◁ᴷˡ x) ᴷ◁ e =  (K ᴷ◁ e) ◁ ∇ x
-(K ⁏ᴷ e') ᴷ◁ e =  (K ᴷ◁ e) ⁏ e'
+(K ⁏ᴷ e˂) ᴷ◁ e =  (K ᴷ◁ e) ⁏ e˂
 🞰ᴷ K ᴷ◁ e =  🞰 (K ᴷ◁ e)
 (e' ←ᴷʳ K) ᴷ◁ e =  e' ← (K ᴷ◁ e)
 (_←ᴷˡ_ {T = T} K v) ᴷ◁ e =  (K ᴷ◁ e) ← V⇒E {T} v
@@ -104,7 +104,7 @@ _ᴷ∘ᴷ_ :  Ktx U V →  Ktx T U →  Ktx T V
 •ᴷ ᴷ∘ᴷ K =  K
 (e ◁ᴷʳ K) ᴷ∘ᴷ K' =  e ◁ᴷʳ (K ᴷ∘ᴷ K')
 (K ◁ᴷˡ x) ᴷ∘ᴷ K' =  (K ᴷ∘ᴷ K') ◁ᴷˡ x
-(K ⁏ᴷ e) ᴷ∘ᴷ K' =  (K ᴷ∘ᴷ K') ⁏ᴷ e
+(K ⁏ᴷ e˂) ᴷ∘ᴷ K' =  (K ᴷ∘ᴷ K') ⁏ᴷ e˂
 🞰ᴷ K ᴷ∘ᴷ K' =  🞰ᴷ (K ᴷ∘ᴷ K')
 (e ←ᴷʳ K) ᴷ∘ᴷ K' =  e ←ᴷʳ (K ᴷ∘ᴷ K')
 (_←ᴷˡ_ {T = T} K v) ᴷ∘ᴷ K' =  _←ᴷˡ_ {T = T} (K ᴷ∘ᴷ K') v
@@ -167,9 +167,8 @@ abstract
 
 val/ktxred :  Expr∞ T →  Val/Ktxred T
 val/ktxred (∇ x) =  ĩ₀ x
-val/ktxred (λ˙ e˙) =  ĩ₀ e˙
+val/ktxred (λ˙ e˂˙) =  ĩ₀ e˂˙
 val/ktxred nd =  ĩ₁ (-, •ᴷ , ndᴿ)
-val/ktxred (▶ e˂) =  ĩ₁ (-, •ᴷ , [ e˂ .! ]ᴿ)
 val/ktxred (e' ◁ e) =  ĩ₁ body
  where
   body :  Ktxred _
@@ -177,13 +176,13 @@ val/ktxred (e' ◁ e) =  ĩ₁ body
   … | ĩ₁ (-, K , red) =  -, e' ◁ᴷʳ K , red
   … | ĩ₀ x  with val/ktxred e'
   …   | ĩ₁ (-, K , red) =  -, K ◁ᴷˡ x , red
-  …   | ĩ₀ e˙ =  -, •ᴷ , [ e˙ x ]ᴿ
-val/ktxred (_⁏_ {T} e e') =  ĩ₁ body
+  …   | ĩ₀ e˂˙ =  -, •ᴷ , [ e˂˙ x .! ]ᴿ
+val/ktxred (_⁏_ {T} e e'˂) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₀ _ =  -, •ᴷ , [ e' ]ᴿ
-  … | ĩ₁ (-, K , red) =  -, K ⁏ᴷ e' , red
+  … | ĩ₀ _ =  -, •ᴷ , [ e'˂ .! ]ᴿ
+  … | ĩ₁ (-, K , red) =  -, K ⁏ᴷ e'˂ , red
 val/ktxred (fork e) =  ĩ₁ (-, •ᴷ , forkᴿ e)
 val/ktxred (🞰 e) =  ĩ₁ body
  where

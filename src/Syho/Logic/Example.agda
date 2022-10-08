@@ -41,7 +41,7 @@ abstract
   □○Loop-alloc :  ⊤' ⊢[ ι ][ i ]⇛ □○Loop
   □○Loop-alloc =  -∗-intro (∗-elimˡ » □-dup) » □○-alloc-rec
 
-  -- Get ⊥' after ▶ ▶ ▶ … under partial Hoare triple
+  -- Get ⊥' after loop under partial Hoare triple
 
   loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ᴾ λ _ → ⊥'
   loop-⊥ =  hor-[] λ{ .! → loop-⊥ }
@@ -61,8 +61,7 @@ abstract
   decrloop-exec n =  ∗⊤-intro » hor-🞰 $ hor-[] $ ∗-elimˡ » decrloop'-exec n
 
   decrloop'-exec 0 =  hor-val ⊢-refl
-  decrloop'-exec (ṡ n) =
-    ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » hor-[] $ decrloop-exec n
+  decrloop'-exec (ṡ n) =  ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » decrloop-exec n
 
   -- nddecrloop terminates, setting the value at θ to 0
   -- Notably, the number of reduction steps is dynamically determined

@@ -36,30 +36,30 @@ private variable
   F G :  Size → Set ł
 
 --------------------------------------------------------------------------------
--- Size₀ :  Set₀ wrapper for Size
+-- Size' :  Set ł wrapper for Size
 
 -- This is handy but rather dangerous; it should be used with care
 
-record  Size₀ :  Set₀  where
+record  Size' (ł : Level) :  Set ł  where
   constructor sz
   field
     sz⁻¹ :  Size
 
-open Size₀ public
+open Size' public
 
 --------------------------------------------------------------------------------
 -- <ˢ :  Well-founded order on Size₀
 
 infix 4 _<ˢ_
 
-data  _<ˢ_ :  Size₀ →  Size₀ →  Set₀  where
+data  _<ˢ_ {ł : Level} :  Size' ł →  Size' ł →  Set ł  where
   size< :  ∀{ι' : Size< ι} →  sz ι' <ˢ sz ι
 
 abstract
 
   -- <ˢ is well-founded
 
-  <ˢ-wf :  Acc _<ˢ_ (sz ι)
+  <ˢ-wf :  Acc (_<ˢ_ {ł}) (sz ι)
   <ˢ-wf =  acc λ{ size< → <ˢ-wf }
 
 --------------------------------------------------------------------------------

@@ -6,12 +6,12 @@
 
 module Syho.Model.Hor.Adeq where
 
-open import Base.Level using (Level; 1ᴸ)
+open import Base.Level using (Level; 1ᴸ; 2ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)
 open import Base.Acc using (Acc; acc)
-open import Base.Size using (Size; ∞; Size₀; sz; sz⁻¹; _<ˢ_; size<; !; §_;
+open import Base.Size using (Size; ∞; Size'; sz; sz⁻¹; _<ˢ_; size<; !; §_;
   <ˢ-wf)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
@@ -41,7 +41,7 @@ open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀ
 private variable
   ł :  Level
   ι :  Size
-  ιs :  List Size₀
+  ιs :  List (Size' 2ᴸ)
   M M' :  Mem
   X :  Set₀
   T :  Type
@@ -151,7 +151,7 @@ abstract
 
 -- Separating conjunction of ⟨ ⟩ᵀᵒ⊤ over expressions of type ◸ ⊤ and sizes
 
-[∗ᵒ]⟨_⟩ᵀᵒ⊤ :  List (Expr∞ (◸ ⊤)) →  List Size₀ →  Propᵒ 1ᴸ
+[∗ᵒ]⟨_⟩ᵀᵒ⊤ :  List (Expr∞ (◸ ⊤)) →  List (Size' 2ᴸ) →  Propᵒ 1ᴸ
 [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs =  [∗ᵒ (e , sz ι) ∈² es , ιs ] ⟨ e ⟩ᵀᵒ⊤ ι
 
 abstract
@@ -180,8 +180,8 @@ abstract
 
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ :  (e , es , M) ⇒ᵀ (e' , es' , M') →
     ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
-      ∃ᵒ ι₀' , ∃ᵒ ιs' , ⌜ ι₀' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
-        ⟨ e' ⟩ᵀᵒ (sz⁻¹ ι₀') Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ
+      ∃ᵒ ι'⁺ , ∃ᵒ ιs' , ⌜ ι'⁺ ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
+        ⟨ e' ⟩ᵀᵒ (sz⁻¹ ι'⁺) Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
     rewrite e⇒kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
     -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
@@ -189,8 +189,8 @@ abstract
     ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm › go {eˇ' = eˇ}
    where
     go :  ⟨ e ⟩ᵀᵒ˂ ι Pᵒ˙ ∗ᵒ ⟨¿ eˇ' ⟩ᵀᵒ⊤˂ ι ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ ⊨
-            ∃ᵒ ι₀' , ∃ᵒ ιs' , ⌜ ι₀' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
-              ⟨ e ⟩ᵀᵒ (sz⁻¹ ι₀') Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ ¿⇒ᴸ eˇ' ⧺ es ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ
+            ∃ᵒ ι'⁺ , ∃ᵒ ιs' , ⌜ ι'⁺ ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
+              ⟨ e ⟩ᵀᵒ (sz⁻¹ ι'⁺) Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ ¿⇒ᴸ eˇ' ⧺ es ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ
     go {eˇ' = ň} =  Shrunkᵒ∗ᵒ-out › λ{ (§ big) → -, -,
       ≺ᴰᴹ-hd $ aug-∷ size< aug-refl , big ▷ ∗ᵒ-monoʳ (∗ᵒ-elimʳ ∗ᵒ-Mono) }
     go {eˇ' = š _} =  Shrunkᵒ∗ᵒ-out › λ{ (§ big) → big ▷ ?∗ᵒ-comm ▷

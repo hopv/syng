@@ -10,13 +10,13 @@ open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl)
 open import Base.Size using (!)
-open import Base.Bool using (Bool)
+open import Base.Bool using (Bool; tt; ff)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr∞; Expr˂∞; ∇_;
-  λ˙; nd; _◁_; _⁏_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
+  λ˙; nd; _◁_; _⁏_; ●_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
 
 private variable
   Xʸ :  Setʸ
@@ -31,8 +31,8 @@ infix 6 🞰ᴿ_ _←ᴿ_
 data  Redex :  Type →  Set₀  where
   -- For nd
   ndᴿ :  Redex (◸ʸ Xʸ)
-  -- Pure reduction
-  [_]ᴿ :  Expr∞ T →  Redex T
+  -- Pure reduction, with the event flag
+  [_]ᴿ⟨_⟩ :  Expr∞ T →  Bool →  Redex T
   -- For fork
   forkᴿ :  Expr∞ (◸ ⊤) →  Redex (◸ ⊤)
   -- For 🞰
@@ -47,6 +47,11 @@ data  Redex :  Type →  Set₀  where
   allocᴿ :  ℕ →  Redex (◸ Addr)
   -- For free
   freeᴿ :  Addr →  Redex (◸ ⊤)
+
+-- Shorthand for pure reduction
+
+pattern [_]ᴿ○ e =  [ e ]ᴿ⟨ ff ⟩
+pattern [_]ᴿ● e =  [ e ]ᴿ⟨ tt ⟩
 
 --------------------------------------------------------------------------------
 -- Ktx :  Syntactic evaluation context
@@ -176,13 +181,14 @@ val/ktxred (e' ◁ e) =  ĩ₁ body
   … | ĩ₁ (-, K , red) =  -, e' ◁ᴷʳ K , red
   … | ĩ₀ x  with val/ktxred e'
   …   | ĩ₁ (-, K , red) =  -, K ◁ᴷˡ x , red
-  …   | ĩ₀ e˂˙ =  -, •ᴷ , [ e˂˙ x .! ]ᴿ
+  …   | ĩ₀ e˂˙ =  -, •ᴷ , [ e˂˙ x .! ]ᴿ○
 val/ktxred (e ⁏ e'˂) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e
-  … | ĩ₀ _ =  -, •ᴷ , [ e'˂ .! ]ᴿ
+  … | ĩ₀ _ =  -, •ᴷ , [ e'˂ .! ]ᴿ○
   … | ĩ₁ (-, K , red) =  -, K ⁏ᴷ e'˂ , red
+val/ktxred (● e˂) =  ĩ₁ (-, •ᴷ , [ e˂ .! ]ᴿ●)
 val/ktxred (fork e) =  ĩ₁ (-, •ᴷ , forkᴿ e)
 val/ktxred (🞰 e) =  ĩ₁ body
  where

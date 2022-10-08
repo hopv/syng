@@ -84,17 +84,18 @@ abstract
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ :  (e , es , M) ⇒ᵀ (e' , es' , M') →
     ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞ ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞ ∗ᵒ [⊤]ᴺᵒ
-  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
+  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
     rewrite e⇒kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-kr⁻¹ ›
-    -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) › ⇛ᴹ-mono (λ (-, big) → big _ _ _ e'eˇM'⇐ ▷
-    ⇛ᴹ-mono (∗ᵒ-monoˡ λ big → big .!)) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
-    ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ $ ?∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-monoˡ $ go {eˇ}
+    -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) › ⇛ᴹ-mono (λ (-, big) →
+    big _ _ _ (-, e'eˇM'⇐) ▷ ⇛ᴹ-mono (∗ᵒ-monoˡ λ big → big .!)) › ⇛ᴹ-join) ›
+    ⇛ᴹ-eatˡ › ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ $ ?∗ᵒ-comm › ∗ᵒ-assocʳ ›
+    ∗ᵒ-monoˡ $ go {eˇ}
    where
     go :  ⟨¿ eˇ' ⟩ᴾᵒ⊤˂ ∞ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞  ⊨  [∗ᵒ]⟨ ¿⇒ᴸ eˇ' ⧺ es ⟩ᴾᵒ⊤∞
     go {ň} =  ∗ᵒ-elimʳ $ [∗ᵒ]⟨⟩ᴾᵒ⊤∞-Mono {es = es}
     go {š _} =  ∗ᵒ-monoˡ λ big → big .!
-  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (redᵀ-tl es'M'⇐esM) =  ∗ᵒ-monoʳ
-    (∗ᵒ-assocˡ › ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ es'M'⇐esM) ›
+  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (-, redᵀ-tl es'M'⇐esM) =  ∗ᵒ-monoʳ
+    (∗ᵒ-assocˡ › ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (-, es'M'⇐esM)) ›
     ⇛ᴹ-eatˡ › ⇛ᴹ-mono $ ∗ᵒ-monoʳ $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ $ ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤
 
   -- Lemma: If (e , es , M) ⇒ᵀ* (e' , es' , M'),
@@ -181,10 +182,10 @@ abstract
     ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       ∃ᵒ ι₀' , ∃ᵒ ιs' , ⌜ ι₀' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
         ⟨ e' ⟩ᵀᵒ (sz⁻¹ ι₀') Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
+  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
     rewrite e⇒kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
     -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
-    ⇛ᴹ-mono (λ (-, big) → big _ _ _ e'eˇM'⇐) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
+    ⇛ᴹ-mono (λ (-, big) → big _ _ _ (-, e'eˇM'⇐)) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
     ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm › go {eˇ' = eˇ}
    where
     go :  ⟨ e ⟩ᵀᵒ˂ ι Pᵒ˙ ∗ᵒ ⟨¿ eˇ' ⟩ᵀᵒ⊤˂ ι ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ ⊨
@@ -196,9 +197,9 @@ abstract
       Shrunkᵒ∗ᵒ-out ▷ λ{ (§ big) → -, -,
       ≺ᴰᴹ-hd $ aug-∷ size< $ aug-∷ size< aug-refl ,
       big ▷ ?∗ᵒ-comm ▷ ∗ᵒ-monoʳ ∗ᵒ-assocʳ }}
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (redᵀ-tl _) =  ?∗ᵒ-comm › ∗ᵒ⇒∗ᵒ' › λ ()
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = _ ∷ _} (redᵀ-tl esM⇒) =
-    ∗ᵒ-monoʳ (∗ᵒ-assocˡ › ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ esM⇒) ›
+  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (-, redᵀ-tl _) =  ?∗ᵒ-comm › ∗ᵒ⇒∗ᵒ' › λ ()
+  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = _ ∷ _} (-, redᵀ-tl esM⇒) =
+    ∗ᵒ-monoʳ (∗ᵒ-assocˡ › ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, esM⇒)) ›
     ⇛ᴹ-eatˡ › ⇛ᴹ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
     -, -, ≺ᴰᴹ-tl ι'∷ιs'≺ ,
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , big ▷ ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ ▷ ∗ᵒ-assocʳ)

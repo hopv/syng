@@ -51,9 +51,9 @@ data  Redex :  Type →  Set₀  where
 --------------------------------------------------------------------------------
 -- Ktx :  Syntactic evaluation context
 
+infixl 7 _◁ᴷʳ_ _◁ᴷˡ_
 infix 6 🞰ᴷ_ _←ᴷʳ_ _←ᴷˡ_
-infixl 5 _◁ᴷʳ_ _◁ᴷˡ_
-infixr 4 _⁏ᴷ_
+infixr 5 _⁏ᴷ_
 
 data  Ktx :  Type →  Type →  Set₀  where
   -- Hole

@@ -96,10 +96,10 @@ data  Expr (ι : Size) :  Type →  Set₀
 Expr˂ :  Size →  Type →  Set₀
 Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 
-infix 7 ∇_
+infix 8 ∇_
+infixl 7 _◁_
 infix 6 🞰_ _←_
-infixl 5 _◁_
-infixr 4 _⁏_ _⁏¡_
+infixr 5 _⁏_ _⁏¡_
 
 data  Expr ι  where
 

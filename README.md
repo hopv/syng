@@ -31,9 +31,18 @@ Just [install Agda](https://agda.readthedocs.io/en/latest/getting-started/instal
 Syho is known to work with Agda 2.6.2.2.  
 Syho has no dependencies on external libraries.
 
+### Agda Mode
+
 For viewing and editing Agda code, you can use **Agda mode**
 for [Emacs](https://agda.readthedocs.io/en/latest/tools/emacs-mode.html)
 or [VS Code](https://marketplace.visualstudio.com/items?itemName=banacorn.agda-mode).
+
+When you open an Agda file, you should first *load the file* (`Ctrl-c Ctrl-l` in
+Emacs and VS Code), which loads the contents of the file and its dependencies
+and type-checks them.
+
+Also, you can quickly jump to the definition (`Meta-.` in Emacs and `F12` in VS
+Code) of any identifiers, including those that use symbols.
 
 ### Fonts
 

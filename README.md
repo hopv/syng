@@ -214,8 +214,7 @@ Our meta-logic has the following properties.
 - We **don't use the axiom K**, an axiom incompatible with the **univalence**
     axiom.
 - We don't use any proof-irrelevant types like types in Coq's `Prop`.
-- We use **sized types** for coinduction, including the **inaccessible ordinal
-    `∞`**.
+- We use **sized types** for flexible coinduction and induction.
     + Despite some concerns about Agda's soundness around sized types, we
         believe our usage of sized types in Syho's mechanization is safe.
 

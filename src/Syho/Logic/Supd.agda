@@ -24,7 +24,7 @@ private variable
 
 abstract
 
-  -- Level tweak
+  -- Level increment
 
   -->  ⇛-ṡ :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ ṡ i ]⇛ Q
 

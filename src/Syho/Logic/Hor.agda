@@ -47,7 +47,7 @@ private variable
   e˂˙ :  X → Expr˂∞ T
   v :  X
 
-infixr -1 _ᵃʰ»_ _ʰ»_
+infixr -1 _ᵘ»ʰ_ _ᵃʰ»_ _ʰ»ᵘ_ _ʰ»_
 
 abstract
 

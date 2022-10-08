@@ -14,7 +14,7 @@ open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Addr; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop)
-open import Syho.Logic.Prop using (Prop'; ⊤'; ⊥'; ⌜_⌝; □_; ○_; _↦_)
+open import Syho.Logic.Prop using (Prop'; Prop∞; ⊤'; ⊥'; ⌜_⌝; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗⊤-intro;
   -∗-intro; □-dup)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
@@ -28,6 +28,9 @@ private variable
   i n :  ℕ
   θ :  Addr
   ᵗv :  TyVal
+  X :  Set₀
+  P :  Prop∞
+  Q˙ :  X → Prop∞
 
 -- □ ○ □ ○ □ ○ …
 
@@ -41,10 +44,10 @@ abstract
   □○Loop-alloc :  ⊤' ⊢[ ι ][ i ]⇛ □○Loop
   □○Loop-alloc =  -∗-intro (∗-elimˡ » □-dup) » □○-alloc-rec
 
-  -- Get ⊥' after loop under partial Hoare triple
+  -- Get any partial Hoare triple on loop
 
-  loop-⊥ :  ⊤' ⊢[ ι ]⟨ loop ⟩ᴾ λ _ → ⊥'
-  loop-⊥ =  hor-[] λ{ .! → loop-⊥ }
+  horᴾ-loop :  P ⊢[ ι ]⟨ loop ⟩ᴾ Q˙
+  horᴾ-loop =  hor-[] λ{ .! → horᴾ-loop }
 
   -- Execute plus ◁ ∇ (3 , 4)
 

@@ -183,7 +183,7 @@ infix 8 ▶_
 
 -- Infinite loop
 
-loop :  Expr ι (◸ ⊤)
+loop :  Expr ι T
 loop =  ▶ λ{ .! → loop }
 
 -- Utility

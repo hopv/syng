@@ -140,7 +140,7 @@ module _
   -- We can strip ○ from ↪⟨ loop ⟩ᵀ, using ↪⟨⟩ᵀ-use
 
   ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ :
-    ○ ¡ (P˂ ↪⟨ loop ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop ⟩ᵀ[ i ] Q˂˙
+    ○ ¡ (P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙
   ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ $ ⊢⇒⊢< $ ↪⟨⟩ᵀ-use⇒ᴾ $ redᴾ refl
 
   -- Therefore, by ○-rec, we have any total Hoare triple for the expression

@@ -71,7 +71,7 @@ abstract
 
   -- Reduce loop
 
-  loop⇒ :  (loop , M) ⇒ᴱ (loop , ň , M)
+  loop⇒ :  (loop {T = T} , M) ⇒ᴱ (loop , ň , M)
   loop⇒ =  redᴱ refl $ redᴷᴿ []⇒
 
   -- Reduce plus◁3,4
@@ -91,7 +91,8 @@ abstract
 
   -- Invert reduction on loop
 
-  loop⇒-inv :  (loop , M) ⇒ᴱ (e , eˇ , M') →  (e , eˇ , M') ≡ (loop , ň , M)
+  loop⇒-inv :  (loop {T = T} , M) ⇒ᴱ (e , eˇ , M') →
+               (e , eˇ , M') ≡ (loop , ň , M)
   loop⇒-inv (redᴱ refl (redᴷᴿ []⇒)) =  refl
 
   -- stuck can't be reduced (it's stuck!)

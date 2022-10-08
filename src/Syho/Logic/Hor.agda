@@ -6,12 +6,12 @@
 
 module Syho.Logic.Hor where
 
-open import Base.Func using (_$_; _∘_)
+open import Base.Func using (_$_; _∘_; id)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size; !; _$ᵀʰ_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ)
+open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; _∗_; [⊤]ᴺ)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
@@ -53,8 +53,6 @@ abstract
 
   -->  hor-ᵀ⇒ᴾ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
 
-  -->  horᵀ-ṡ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
-
   -->  ahor-hor :  P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
   -->              (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->              P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
@@ -62,6 +60,30 @@ abstract
   -->  hor-fork :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
   -->              Q  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
   -->              P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ κ ]  R˙
+
+  -- Level increase on the atomic / total Hoare triple
+
+  -->  ahor-ṡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
+
+  ahor-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
+             P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
+  ahor-≤ᵈ ≤ᵈ-refl =  id
+  ahor-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ahor-ṡ ∘ ahor-≤ᵈ i≤ᵈj'
+
+  ahor-≤ :  i ≤ j  →   P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
+            P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
+  ahor-≤ =  ahor-≤ᵈ ∘ ≤⇒≤ᵈ
+
+  -->  horᵀ-ṡ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
+
+  horᵀ-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
+             P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
+  horᵀ-≤ᵈ ≤ᵈ-refl =  id
+  horᵀ-≤ᵈ (≤ᵈṡ i≤ᵈj') =  horᵀ-ṡ ∘ horᵀ-≤ᵈ i≤ᵈj'
+
+  horᵀ-≤ :  i ≤ j  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
+            P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
+  horᵀ-≤ =  horᵀ-≤ᵈ ∘ ≤⇒≤ᵈ
 
   -- Compose
 

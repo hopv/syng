@@ -6,7 +6,7 @@
 
 module Syho.Logic.Hor where
 
-open import Base.Func using (_$_; _∘_; const)
+open import Base.Func using (_$_; _∘_)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size; !; _$ᵀʰ_)
 open import Base.Prod using (_,_; -,_)
@@ -144,13 +144,13 @@ abstract
 
   -- Sequential execution
 
-  hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  const Q  →
-                Q  ⊢[<ᴾ ι ]⟨ e'˂ .! ⟩[ κ ]  R˙  →
+  hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
+                (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ e'˂ .! ⟩[ κ ]  R˙)  →
                 P  ⊢[ ι ]⟨ _⁏_ {T = T} e e'˂ ⟩[ κ ]  R˙
-  hor-⁏-bind {T = ◸ʸ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
-    hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ _ → hor-[] Q⊢⟨e'⟩R
-  hor-⁏-bind {T = _ ʸ↷ _} P⊢⟨e⟩Q Q⊢⟨e'⟩R =
-    hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ _ → hor-[] Q⊢⟨e'⟩R
+  hor-⁏-bind {T = ◸ʸ _} P⊢⟨e⟩Q Qv⊢⟨e'⟩R =
+    hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ v → hor-[] $ Qv⊢⟨e'⟩R v
+  hor-⁏-bind {T = _ ʸ↷ _} P⊢⟨e⟩Q Qv⊢⟨e'⟩R =
+    hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ v → hor-[] $ Qv⊢⟨e'⟩R v
 
   -- Let binding
 

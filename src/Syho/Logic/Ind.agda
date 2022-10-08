@@ -6,7 +6,7 @@
 
 module Syho.Logic.Ind where
 
-open import Base.Func using (_∘_; id; const; _$_)
+open import Base.Func using (_$_; _∘_; id; const)
 open import Base.Size using (Size; Thunk; ¡_; !; _$ᵀʰ_)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Syho.Lang.Expr using (Type; Expr∞)
@@ -77,21 +77,21 @@ abstract
 
   -->  ↪⇛-ṡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ ṡ i ]⇛ Q˂
 
-  ↪⇛-≤ᵈ :  i ≤ᵈ j →  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ j ]⇛ Q˂
+  ↪⇛-≤ᵈ :  i ≤ᵈ j  →   P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ j ]⇛ Q˂
   ↪⇛-≤ᵈ ≤ᵈ-refl =  ⊢-refl
   ↪⇛-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ↪⇛-≤ᵈ i≤ᵈj' » ↪⇛-ṡ
 
-  ↪⇛-≤ :  i ≤ j →  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ j ]⇛ Q˂
+  ↪⇛-≤ :  i ≤ j  →   P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ j ]⇛ Q˂
   ↪⇛-≤ =  ↪⇛-≤ᵈ ∘ ≤⇒≤ᵈ
 
-  -->  ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}} →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .! →
+  -->  ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .! →
   -->                R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
 
   ↪⇛-monoˡᵘ :  P'˂ .! ⊢[< ι ][ i ]⇛ P˂ .! →
                P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
   ↪⇛-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪⇛-eatˡ⁻ˡᵘ $ (∗-elimʳ »_) $ᵀʰ P'⊢⇛P
 
-  ↪⇛-eatˡ⁻ˡ :  {{Basic R}} →
+  ↪⇛-eatˡ⁻ˡ :  {{Basic R}}  →
     R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]⇛ Q˂
   ↪⇛-eatˡ⁻ˡ =  ↪⇛-eatˡ⁻ˡᵘ $ ⊢⇒⊢< $ ⊢⇒⊢⇛ $ -∗-elim ⊢-refl
 
@@ -99,14 +99,14 @@ abstract
               P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
   ↪⇛-monoˡ P'⊢P =  ↪⇛-monoˡᵘ $ ⊢⇒⊢⇛ $ᵀʰ P'⊢P
 
-  -->  ↪⇛-eatˡ⁻ʳ :  {{Basic R}} →
+  -->  ↪⇛-eatˡ⁻ʳ :  {{Basic R}}  →
   -->    R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
   -->  ↪⇛-monoʳᵘ :  Q˂ .!  ⊢[< ι ][ i ]⇛  Q'˂ .! →
   -->               P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
 
-  ↪⇛-monoʳ :  Q˂ .! ⊢[< ι ] Q'˂ .! →
-                P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
+  ↪⇛-monoʳ :  Q˂ .!  ⊢[< ι ]  Q'˂ .!  →
+              P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
   ↪⇛-monoʳ Q⊢Q' =  ↪⇛-monoʳᵘ $ ⊢⇒⊢⇛ $ᵀʰ Q⊢Q'
 
   -->  ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]
@@ -129,11 +129,11 @@ abstract
 
   -->  ↪ᵃ⟨⟩-ṡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂˙
 
-  ↪ᵃ⟨⟩-≤ᵈ :  i ≤ᵈ j →  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙
+  ↪ᵃ⟨⟩-≤ᵈ :  i ≤ᵈ j  →   P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙
   ↪ᵃ⟨⟩-≤ᵈ ≤ᵈ-refl =  ⊢-refl
   ↪ᵃ⟨⟩-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ↪ᵃ⟨⟩-≤ᵈ i≤ᵈj' » ↪ᵃ⟨⟩-ṡ
 
-  ↪ᵃ⟨⟩-≤ :  i ≤ j →  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙
+  ↪ᵃ⟨⟩-≤ :  i ≤ j  →   P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙
   ↪ᵃ⟨⟩-≤ =  ↪ᵃ⟨⟩-≤ᵈ ∘ ≤⇒≤ᵈ
 
   -->  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ j ]⇛  P˂ .!  →
@@ -143,7 +143,7 @@ abstract
                  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
   ↪ᵃ⟨⟩-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ $ (∗-elimʳ »_) $ᵀʰ P'⊢⇛P
 
-  ↪ᵃ⟨⟩-eatˡ⁻ˡ :  {{Basic R}} →
+  ↪ᵃ⟨⟩-eatˡ⁻ˡ :  {{Basic R}}  →
     R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
   ↪ᵃ⟨⟩-eatˡ⁻ˡ =  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ {j = 0} $ ⊢⇒⊢< $ ⊢⇒⊢⇛ $ -∗-elim ⊢-refl
 
@@ -151,7 +151,7 @@ abstract
                 P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
   ↪ᵃ⟨⟩-monoˡ P'⊢P =  ↪ᵃ⟨⟩-monoˡᵘ {j = 0} $ ⊢⇒⊢⇛ $ᵀʰ P'⊢P
 
-  -->  ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+  -->  ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
   -->    R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
   -->      P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
 
@@ -188,11 +188,11 @@ abstract
 
   -->  ↪⟨⟩ᵀ-ṡ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ ṡ i ] Q˂˙
 
-  ↪⟨⟩ᵀ-≤ᵈ :  i ≤ᵈ j →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂˙
+  ↪⟨⟩ᵀ-≤ᵈ :  i ≤ᵈ j  →   P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂˙
   ↪⟨⟩ᵀ-≤ᵈ ≤ᵈ-refl =  ⊢-refl
   ↪⟨⟩ᵀ-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ↪⟨⟩ᵀ-≤ᵈ i≤ᵈj' » ↪⟨⟩ᵀ-ṡ
 
-  ↪⟨⟩ᵀ-≤ :  i ≤ j →  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂˙
+  ↪⟨⟩ᵀ-≤ :  i ≤ j  →   P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂˙
   ↪⟨⟩ᵀ-≤ =  ↪⟨⟩ᵀ-≤ᵈ ∘ ≤⇒≤ᵈ
 
   -->  ↪⟨⟩-eatˡ⁻ˡᵘᴺ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
@@ -200,9 +200,9 @@ abstract
 
   ↪⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .!  →
                  R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-eatˡ⁻ˡᵘ R⊢⇛P' =  ↪⟨⟩-eatˡ⁻ˡᵘᴺ $ ⇛⇒⇛ᴺ $ᵀʰ R⊢⇛P'
+  ↪⟨⟩-eatˡ⁻ˡᵘ =  ↪⟨⟩-eatˡ⁻ˡᵘᴺ ∘ (⇛⇒⇛ᴺ $ᵀʰ_)
 
-  ↪⟨⟩-eatˡ⁻ˡ :  {{Basic R}} →
+  ↪⟨⟩-eatˡ⁻ˡ :  {{Basic R}}  →
     R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪⟨ e ⟩[ κ ] Q˂˙
   ↪⟨⟩-eatˡ⁻ˡ =  ↪⟨⟩-eatˡ⁻ˡᵘ {i = 0} $ ⊢⇒⊢< $ ⊢⇒⊢⇛ $ -∗-elim ⊢-refl
 
@@ -212,13 +212,13 @@ abstract
 
   ↪⟨⟩-monoˡᵘ :  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .!  →
                 P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-monoˡᵘ P'⊢⇛P =  ↪⟨⟩-monoˡᵘᴺ $ ⇛⇒⇛ᴺ $ᵀʰ P'⊢⇛P
+  ↪⟨⟩-monoˡᵘ =  ↪⟨⟩-monoˡᵘᴺ ∘ (⇛⇒⇛ᴺ $ᵀʰ_)
 
   ↪⟨⟩-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
                P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-monoˡ P'⊢P =  ↪⟨⟩-monoˡᵘ {i = 0} $ ⊢⇒⊢⇛ $ᵀʰ P'⊢P
+  ↪⟨⟩-monoˡ =  ↪⟨⟩-monoˡᵘ {i = 0} ∘ (⊢⇒⊢⇛ $ᵀʰ_)
 
-  -->  ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+  -->  ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
   -->    R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]
   -->      P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
@@ -227,7 +227,7 @@ abstract
 
   ↪⟨⟩-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ][ i ]⇛  Q'˂˙ v .!)  →
                 P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
-  ↪⟨⟩-monoʳᵘ Qv⊢⇛Q'v =  ↪⟨⟩-monoʳᵘᴺ λ{ v .! → ⇛⇒⇛ᴺ $ Qv⊢⇛Q'v v .! }
+  ↪⟨⟩-monoʳᵘ Qv⊢⇛Q'v =  ↪⟨⟩-monoʳᵘᴺ λ v → ⇛⇒⇛ᴺ $ᵀʰ Qv⊢⇛Q'v v
 
   ↪⟨⟩-monoʳ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ]  Q'˂˙ v .!)  →
                P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙

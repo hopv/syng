@@ -59,16 +59,16 @@ abstract
 
   -- Change the proposition of an invariant token
 
-  -->  Inv-resp-□∧ :  {{Basic R}} →
+  -->  Inv-resp-□∧ :  {{Basic R}}  →
   -->    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
   -->    □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
 
-  Inv-resp-∧ :  {{Pers R}} →  {{Basic R}} →
+  Inv-resp-∧ :  {{Pers R}}  →   {{Basic R}}  →
     R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
     R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
   Inv-resp-∧ R∧P⊢Q R∧Q⊢P =  ∧-monoˡ Pers-⇒□ » Inv-resp-□∧ R∧P⊢Q R∧Q⊢P
 
-  Inv-resp-∗ :  {{Pers R}} →  {{Basic R}} →
+  Inv-resp-∗ :  {{Pers R}}  →   {{Basic R}}  →
     R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
     R  ∗  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
   Inv-resp-∗ R∗P⊢Q R∗Q⊢P =  ∗⇒∧ »

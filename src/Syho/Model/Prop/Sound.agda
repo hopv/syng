@@ -172,13 +172,13 @@ abstract
 
   ⊢-sem ↪⇛-ṡ _ =  ↪⇛ᵒ-ṡ
 
-  -- ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}} →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .! →
+  -- ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .! →
   --               R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P'˂ ↪[ i ]⇛ Q˂
 
   ⊢-sem (↪⇛-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
-  -- ↪⇛-eatˡ⁻ʳ :  {{Basic R}} →
+  -- ↪⇛-eatˡ⁻ʳ :  {{Basic R}}  →
   --   R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
   ⊢-sem (↪⇛-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ʳ
@@ -207,7 +207,7 @@ abstract
   ⊢-sem (↪ᵃ⟨⟩-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
-  -- ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+  -- ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
   --   R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
   --     P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
 
@@ -242,7 +242,7 @@ abstract
   ⊢-sem (↪⟨⟩-eatˡ⁻ˡᵘᴺ {R} R∗P'⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ $ R∗P'⊢⇛P .!
 
-  -- ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+  -- ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
   --   R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
   ⊢-sem (↪⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ʳ
@@ -282,7 +282,7 @@ abstract
 
   ⊢-sem Inv-⇒□ _ =  Invᵒ-⇒□ᵒ
 
-  -- Inv-resp-□∧ :  {{Basic R}} →
+  -- Inv-resp-□∧ :  {{Basic R}}  →
   --   R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
   --   □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
 

@@ -332,10 +332,10 @@ data  Judg ι  where
 
   ↪⇛-ṡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ ṡ i ]⇛ Q˂
 
-  ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}} →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .! →
+  ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .! →
                 R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
 
-  ↪⇛-eatˡ⁻ʳ :  {{Basic R}} →
+  ↪⇛-eatˡ⁻ʳ :  {{Basic R}}  →
     R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
 
   ↪⇛-monoʳᵘ :  Q˂ .!  ⊢[< ι ][ i ]⇛  Q'˂ .! →
@@ -363,7 +363,7 @@ data  Judg ι  where
   ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ j ]⇛  P˂ .!  →
                   R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
 
-  ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+  ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
     R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
       P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
 
@@ -397,7 +397,7 @@ data  Judg ι  where
   ↪⟨⟩-eatˡ⁻ˡᵘᴺ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
                   R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
-  ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}} →
+  ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
     R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
 
   ↪⟨⟩-monoʳᵘᴺ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ][ i ]⇛ᴺ  Q'˂˙ v .!)  →
@@ -453,7 +453,7 @@ data  Judg ι  where
   -- Change the proposition of an invariant token assuming a persistent basic
   -- proposition
 
-  Inv-resp-□∧ :  {{Basic R}} →
+  Inv-resp-□∧ :  {{Basic R}}  →
     R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
     □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
 

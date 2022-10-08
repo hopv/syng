@@ -38,8 +38,8 @@ for [Emacs](https://agda.readthedocs.io/en/latest/tools/emacs-mode.html)
 or [VS Code](https://marketplace.visualstudio.com/items?itemName=banacorn.agda-mode).
 
 When you open an Agda file, you should first *load the file* (`Ctrl-c Ctrl-l` in
-Emacs and VS Code), which loads the contents of the file and its dependencies
-and type-checks them.
+Emacs and VS Code), which loads and type-checks the contents of the file and
+its dependencies.
 
 Also, you can quickly jump to the definition (`Meta-.` in Emacs and `F12` in VS
 Code) of any identifiers, including those that use symbols.

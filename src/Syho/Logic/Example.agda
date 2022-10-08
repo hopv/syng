@@ -9,7 +9,7 @@ module Syho.Logic.Example where
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using ()
-open import Base.Size using (Size; ∞; !)
+open import Base.Size using (Size; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Addr; TyVal; loop)
@@ -39,36 +39,41 @@ private variable
 
 abstract
 
+  ------------------------------------------------------------------------------
   -- Get □ ○ □ ○ □ ○ … for free
 
   □○Loop-alloc :  ⊤' ⊢[ ι ][ i ]⇛ □○Loop
   □○Loop-alloc =  -∗-intro (∗-elimˡ » □-dup) » □○-alloc-rec
 
+  ------------------------------------------------------------------------------
   -- Get any partial Hoare triple on loop
+  -- This uses coinduction by thunk for the infinite execution of loop
 
   horᴾ-loop :  P ⊢[ ι ]⟨ loop ⟩ᴾ Q˙
   horᴾ-loop =  hor-[] λ{ .! → horᴾ-loop }
 
-  -- Execute plus ◁ ∇ (3 , 4)
+  ------------------------------------------------------------------------------
+  -- Total Hoare triple on plus ◁ ∇ (3 , 4)
 
-  plus◁3,4-7 :  ⊤' ⊢[ ∞ ]⟨ plus◁3,4 ⟩ᵀ[ 0 ] λ n → ⌜ n ≡ 7 ⌝
-  plus◁3,4-7 =  hor-[] $ hor-val $ ⌜⌝-intro refl
+  horᵀ-plus◁3,4 :  ⊤'  ⊢[ ι ]⟨ plus◁3,4 ⟩ᵀ[ i ] λ n →  ⌜ n ≡ 7 ⌝
+  horᵀ-plus◁3,4 =  hor-[] $ hor-val $ ⌜⌝-intro refl
 
-  -- decrloop θ terminates, setting the value at θ to 0
+  ------------------------------------------------------------------------------
+  -- Total Hoare triple on decrloop θ, ensuring termination by induction over n
 
-  decrloop-exec :
-    ∀(n : ℕ) →  θ ↦ (-, n)  ⊢[ ∞ ]⟨ decrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, 0)
-  decrloop'-exec :
-    ∀ n →  θ ↦ (-, n)  ⊢[ ∞ ]⟨ decrloop' θ n ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, 0)
+  horᵀ-decrloop :
+    ∀(n : ℕ) →  θ ↦ (-, n)  ⊢[ ι ]⟨ decrloop θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
+  horᵀ-decrloop' :
+    ∀ n →  θ ↦ (-, n)  ⊢[ ι ]⟨ decrloop' θ n ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
 
-  decrloop-exec n =  ∗⊤-intro » hor-🞰 $ hor-[] $ ∗-elimˡ » decrloop'-exec n
+  horᵀ-decrloop n =  ∗⊤-intro » hor-🞰 $ hor-[] $ ∗-elimˡ » horᵀ-decrloop' n
 
-  decrloop'-exec 0 =  hor-val ⊢-refl
-  decrloop'-exec (ṡ n) =  ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » decrloop-exec n
+  horᵀ-decrloop' 0 =  hor-val ⊢-refl
+  horᵀ-decrloop' (ṡ n) =  ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » horᵀ-decrloop n
 
-  -- nddecrloop terminates, setting the value at θ to 0
+  -- Total Hoare triple on nddecrloop, ensuring termination
   -- Notably, the number of reduction steps is dynamically determined
 
-  nddecrloop-exec :  θ ↦ ᵗv  ⊢[ ∞ ]⟨ nddecrloop θ ⟩ᵀ[ 0 ] λ _ →  θ ↦ (-, 0)
-  nddecrloop-exec =
-    hor-nd λ n → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] $ decrloop-exec n
+  horᵀ-nddecrloop :  θ ↦ ᵗv  ⊢[ ι ]⟨ nddecrloop θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
+  horᵀ-nddecrloop =  hor-nd λ n →
+    ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] $ horᵀ-decrloop n

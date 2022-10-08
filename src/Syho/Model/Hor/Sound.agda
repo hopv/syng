@@ -163,8 +163,8 @@ abstract
 
 abstract
 
-  ⊢⁺⟨⟩ᵀ-sem :
-    P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   ⸨ P ⸩  ⊨ ⁺⟨ vk ⟩ᵀᵒ ∞ λ v →  ⸨ Q˙ v ⸩
+  ⊢⁺⟨⟩ᵀ-sem :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
+               ⸨ P ⸩  ⊨ ⁺⟨ vk ⟩ᵀᵒ ∞ λ v →  ⸨ Q˙ v ⸩
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] R˙ →  P ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] R˙
 

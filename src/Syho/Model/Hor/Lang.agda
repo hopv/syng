@@ -24,9 +24,9 @@ open import Syho.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-synt
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⇛ᴹ-mono; ⇛ᴹ-intro; ⇛ᴹ-join)
 open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀᵒ;
-  ⟨_⟩ᴾᵒ˂; ⟨_⟩ᵀᵒ˂; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᵀᵒ⊤; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr;
-  ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤˂-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ;
-  ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ)
+  ⟨_⟩ᴾᵒ˂; ⟨_⟩ᵀᵒ˂; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᴾᵒ⊤˂; ⟨_⟩ᵀᵒ⊤; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr;
+  ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤˂-size;
+  ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ)
 
 private variable
   ł :  Level
@@ -108,12 +108,12 @@ abstract
     ∗ᵒ-mono §_ (?∗ᵒ-intro _) })) › ⁺⟨⟩ᵀᵒ-kr
 
   -- fork by ⁺⟨⟩ᴾ/ᵀᵒ
+  -- The premise is under the thunk for ⁺⟨⟩ᴾᵒ
 
-  ⁺⟨⟩ᴾᵒ-fork :  ⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ ι Pᵒ˙  ∗ᵒ  ⟨ e ⟩ᴾᵒ⊤ ι  ⊨
+  ⁺⟨⟩ᴾᵒ-fork :  ⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ˂ ι Pᵒ˙  ∗ᵒ  ⟨ e ⟩ᴾᵒ⊤˂ ι  ⊨
                   ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾᵒ ι Pᵒ˙
   ⁺⟨⟩ᴾᵒ-fork =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, redᴷᴿ fork⇒) ,
-    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ (∗ᵒ-mono
-    (λ big → λ{ .! → big }) (λ big → λ{ .! → big })) ▷ ∗ᵒ-assocˡ})) › ⁺⟨⟩ᴾᵒ-kr
+    λ{ _ _ _ (redᴷᴿ fork⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-assocˡ})) › ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-fork :  ⟨ K ᴷ◁ ∇ _ ⟩ᵀᵒ ι Pᵒ˙  ∗ᵒ  ⟨ e ⟩ᵀᵒ⊤ ι'  ⊨
                   ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᵀᵒ ∞ Pᵒ˙

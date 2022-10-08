@@ -309,9 +309,10 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (hor-[] P⊢⟨Ke⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-[] λ{ .! → ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Ke⟩Q .!) Pa }
 
-  -- hor-fork :  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  R˙  →
-  --             Q  ⊢[ ∞ ]⟨ e ⟩ᴾ (λ _ →  ⊤')  →
+  -- hor-fork :  P  ⊢[< ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  R˙  →
+  --             Q  ⊢[< ∞ ]⟨ e ⟩ᴾ (λ _ →  ⊤')  →
   --             P  ∗  Q  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾ  R˙
 
-  ⊢⁺⟨⟩ᴾ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
-    ∗ᵒ-mono (⊢⁺⟨⟩ᴾ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᴾ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤) › ⁺⟨⟩ᴾᵒ-fork
+  ⊢⁺⟨⟩ᴾ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =  ∗ᵒ-mono
+    (λ Pb → λ{ .! → Pb ▷ ⊢⁺⟨⟩ᴾ-sem (P⊢⟨K⟩R .!) })
+    (λ Qc → λ{ .! → Qc ▷ ⊢⁺⟨⟩ᴾ-sem (Q⊢⟨e⟩ .!) ▷ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ }) › ⁺⟨⟩ᴾᵒ-fork

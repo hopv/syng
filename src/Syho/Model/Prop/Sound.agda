@@ -18,7 +18,7 @@ open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim
 open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-ṡ; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ;
   ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛;  ↪ᵃ⟨⟩-ṡ; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ; ↪ᵃ⟨⟩-monoʳᵘ;
   ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-ṡ; ↪⟨⟩-eatˡ⁻ˡᵘᴺ; ↪⟨⟩-eatˡ⁻ʳ; ↪⟨⟩-monoʳᵘᴺ;
-  ↪⟨⟩-frameˡ; ○⇒↪⟨⟩)
+  ↪⟨⟩-frameˡ; ○⇒↪⟨⟩; ↪⟨⟩∞-ṡ; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞)
 open import Syho.Logic.Inv using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔; Inv-⇒□;
   Inv-resp-□∧; OInv-mono; OInv-eatˡ)
 open import Syho.Logic.Mem using (↦⟨⟩-agree; ↦⟨⟩-≤1; ↦⟨⟩-merge; ↦⟨⟩-split)
@@ -33,7 +33,8 @@ open import Syho.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ
 open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-ṡ; ↪⇛ᵒ-eatˡ⁻ˡᵘ;
   ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-ṡ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-ṡ;
-  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-monoʳᵘᴺ; ↪⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵒ)
+  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-monoʳᵘᴺ; ↪⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵒ; ↪⟨⟩∞ᵒ-ṡ;
+  ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒↪⟨⟩∞ᵒ)
 open import Syho.Model.Prop.Inv using (Invᵒ-⇒□ᵒ; Invᵒ-resp-□ᵒ×ᵒ; OInvᵒ-mono;
   OInvᵒ-eatˡ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
@@ -261,6 +262,21 @@ abstract
   --          ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
   ⊢-sem (○⇒↪⟨⟩ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᵒ $ P∗R⊢⟨e⟩Q .!
+
+  -- ↪⟨⟩∞-ṡ :  P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ↪[ ṡ i ]⟨ e ⟩∞
+
+  ⊢-sem ↪⟨⟩∞-ṡ _ =  ↪⟨⟩∞ᵒ-ṡ
+
+  -- ↪⟨⟩∞-eatˡ⁻ᵘᴺ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ι ][ j ]⇛ᴺ  P˂ .!  →
+  --                 R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  Q˂ ↪[ i ]⟨ e ⟩∞
+
+  ⊢-sem (↪⟨⟩∞-eatˡ⁻ᵘᴺ {R} R∗Q⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ $ R∗Q⊢⇛P .!
+
+  -- ○⇒↪⟨⟩∞ :  P˂ .!  ∗  Q˂ .!  ⊢[< ι ][ i ]⟨ e ⟩∞   →
+  --           ○ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⟨ e ⟩∞
+
+  ⊢-sem (○⇒↪⟨⟩∞ P∗Q⊢⟨e⟩∞) _ =  ○ᵒ⇒↪⟨⟩∞ᵒ $ P∗Q⊢⟨e⟩∞ .!
 
   -- []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ι ] [ Nm' ]ᴺ
 

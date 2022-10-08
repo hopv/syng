@@ -10,9 +10,9 @@ open import Base.Level using (1ᴸ)
 open import Base.Func using (id)
 open import Base.Size using (!)
 open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; ○_;
-  [_]ᴺ; Inv; OInv; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↦⟨_⟩_; Free; Basic; ∀-Basic;
-  ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic;
-  Free-Basic)
+  [_]ᴺ; Inv; OInv; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪[_]⟨_⟩∞; _↦⟨_⟩_; Free;
+  Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic;
+  []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono; ∃ᵒ-mono; →ᵒ-Mono;
@@ -22,7 +22,7 @@ open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Syho.Model.Prop.Names using ([_]ᴺᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᴹ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
-  ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᵒ-Mono)
+  _↪[_]⟨_⟩∞ᵒ; ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᵒ-Mono; ↪⟨⟩∞ᵒ-Mono)
 open import Syho.Model.Prop.Inv using (Invᵒ; OInvᵒ; Invᵒ-Mono; OInvᵒ-Mono)
 
 private variable
@@ -43,6 +43,7 @@ private variable
 ⸨ P˂ ↪[ i ]⇛ Q˂ ⸩ =  P˂ .! ↪[ i ]⇛ᴹ Q˂ .!
 ⸨ P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙ ⸩ =  P˂ .! ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ↪⟨ e ⟩[ κ ] Q˂˙ ⸩ =  P˂ .! ↪⟨ e ⟩[ κ ]ᵒ λ v → Q˂˙ v .!
+⸨ P˂ ↪[ i ]⟨ e ⟩∞ ⸩ =  P˂ .! ↪[ i ]⟨ e ⟩∞ᵒ
 ⸨ [ Nm ]ᴺ ⸩ =  [ Nm ]ᴺᵒ
 ⸨ Inv nm P˂ ⸩ =  Invᵒ nm (P˂ .!)
 ⸨ OInv nm P˂ ⸩ =  OInvᵒ nm (P˂ .!)
@@ -65,6 +66,7 @@ abstract
   ⸨⸩-Mono {_ ↪[ _ ]⇛ _} =  ↪⇛ᵒ-Mono
   ⸨⸩-Mono {_ ↪[ _ ]ᵃ⟨ _ ⟩ _} =  ↪ᵃ⟨⟩ᵒ-Mono
   ⸨⸩-Mono {_ ↪⟨ _ ⟩[ _ ] _} =  ↪⟨⟩ᵒ-Mono
+  ⸨⸩-Mono {_ ↪[ _ ]⟨ _ ⟩∞} =  ↪⟨⟩∞ᵒ-Mono
   ⸨⸩-Mono {Inv _ _} =  Invᵒ-Mono
   ⸨⸩-Mono {OInv _ _} =  OInvᵒ-Mono
   ⸨⸩-Mono {[ _ ]ᴺ} =  ◎-Mono

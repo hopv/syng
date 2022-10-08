@@ -12,7 +12,8 @@ open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒
 open import Syho.Lang.Expr using (Type; Expr∞)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ∀-syntax; _∗_; _-∗_;
-  □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [⊤]ᴺ; Basic)
+  □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [⊤]ᴺ;
+  Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⊢⇒⊢<; ⊢-refl; _»_;
   ∗-monoˡ; ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)
 open import Syho.Logic.Supd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; _⊢[<_][_]⇛ᴺ_;
@@ -23,7 +24,7 @@ open import Syho.Logic.Judg public using (○-mono; ○-eatˡ; ○-alloc; □○
   ○-use; ↪⇛-ṡ; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-eatˡ⁻ʳ; ↪⇛-monoʳᵘ; ↪⇛-frameˡ; ○⇒↪⇛; ↪⇛-use;
   ↪ᵃ⟨⟩-ṡ; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪ᵃ⟨⟩-use;
   ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-ṡ; ↪⟨⟩-eatˡ⁻ˡᵘᴺ; ↪⟨⟩-eatˡ⁻ʳ; ↪⟨⟩-monoʳᵘᴺ; ↪⟨⟩-frameˡ; ○⇒↪⟨⟩;
-  ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use)
+  ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use; ↪⟨⟩∞-ṡ; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞; ↪⟨⟩∞-use)
 
 private variable
   ι :  Size
@@ -240,3 +241,40 @@ abstract
                   ¡ (P˂ .! ∗ R) ↪⟨ e ⟩[ κ ] λ v → ¡ (Q˂˙ v .! ∗ R)
   ↪⟨⟩-frameʳ =  ↪⟨⟩-frameˡ »
     ↪⟨⟩-monoˡ (⊢⇒⊢< ∗-comm) » ↪⟨⟩-monoʳ λ _ → ⊢⇒⊢< ∗-comm
+
+  ------------------------------------------------------------------------------
+  -- On ↪⟨ ⟩∞
+
+  -- Modify ⟨ ⟩ proof
+
+  -->  ↪⟨⟩∞-ṡ :  P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ↪[ ṡ i ]⟨ e ⟩∞
+
+  ↪⟨⟩∞-≤ᵈ :  i ≤ᵈ j  →   P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ↪[ j ]⟨ e ⟩∞
+  ↪⟨⟩∞-≤ᵈ ≤ᵈ-refl =  ⊢-refl
+  ↪⟨⟩∞-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ↪⟨⟩∞-≤ᵈ i≤ᵈj' » ↪⟨⟩∞-ṡ
+
+  ↪⟨⟩∞-≤ :  i ≤ j  →   P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ↪[ j ]⟨ e ⟩∞
+  ↪⟨⟩∞-≤ =  ↪⟨⟩∞-≤ᵈ ∘ ≤⇒≤ᵈ
+
+  -->  ↪⟨⟩∞-eatˡ⁻ᵘᴺ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ι ][ j ]⇛ᴺ  P˂ .!  →
+  -->                  R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  Q˂ ↪[ i ]⟨ e ⟩∞
+
+  ↪⟨⟩∞-eatˡ⁻ᵘ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ι ][ j ]⇛  P˂ .!  →
+                 R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  Q˂ ↪[ i ]⟨ e ⟩∞
+  ↪⟨⟩∞-eatˡ⁻ᵘ =  ↪⟨⟩∞-eatˡ⁻ᵘᴺ ∘ (⇛⇒⇛ᴺ $ᵀʰ_)
+
+  ↪⟨⟩∞-eatˡ :  {{Basic R}}  →
+    R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]⟨ e ⟩∞
+  ↪⟨⟩∞-eatˡ =  ↪⟨⟩∞-eatˡ⁻ᵘ {j = 0} $ ⊢⇒⊢< $ ⊢⇒⊢⇛ $ -∗-elim ⊢-refl
+
+  ↪⟨⟩∞-monoᵘᴺ :  Q˂ .!  ⊢[< ι ][ j ]⇛ᴺ  P˂ .!  →
+                 P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  Q˂ ↪[ i ]⟨ e ⟩∞
+  ↪⟨⟩∞-monoᵘᴺ Q⊢⇛P =  ⊤∗-intro » ↪⟨⟩∞-eatˡ⁻ᵘᴺ $ (∗-monoˡ ∗-elimʳ »_) $ᵀʰ Q⊢⇛P
+
+  ↪⟨⟩∞-monoᵘ :  Q˂ .!  ⊢[< ι ][ j ]⇛  P˂ .!  →
+                P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  Q˂ ↪[ i ]⟨ e ⟩∞
+  ↪⟨⟩∞-monoᵘ =  ↪⟨⟩∞-monoᵘᴺ ∘ (⇛⇒⇛ᴺ $ᵀʰ_)
+
+  ↪⟨⟩∞-mono :  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+               P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  Q˂ ↪[ i ]⟨ e ⟩∞
+  ↪⟨⟩∞-mono =  ↪⟨⟩∞-monoᵘ {j = 0} ∘ (⊢⇒⊢⇛ $ᵀʰ_)

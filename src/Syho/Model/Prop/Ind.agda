@@ -21,8 +21,8 @@ open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; _ᵘ»_; _ᵘ»ᵘ_;
   ⇛-frameˡ; ⇛-frameʳ; ⇛ᴺ-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_;
-  _⊢[_]⟨_⟩ᵀ[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
-  ahor-frameˡ; hor-frameˡ)
+  _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
+  _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
@@ -269,3 +269,38 @@ abstract
   ○ᵒ⇒↪⟨⟩ᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩[ κ ] Q˙ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q˙
   ○ᵒ⇒↪⟨⟩ᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q , S∗IndTa
+
+--------------------------------------------------------------------------------
+-- ↪⟨ ⟩∞ᵒ :  Interpret the infinite Hoare-triple precursor ↪ᵃ⟨ ⟩
+
+infixr 5 _↪[_]⟨_⟩∞ᵒ
+_↪[_]⟨_⟩∞ᵒ :  Prop∞ →  ℕ →  Expr∞ T →  Propᵒ 1ᴸ
+P ↪[ i ]⟨ e ⟩∞ᵒ =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
+  ⌜ P ∗ Q ∗ R ⊢[ ∞ ][ i ]⟨ e ⟩∞ ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
+
+abstract
+
+  -- Monoᵒ for ↪⟨ ⟩∞ᵒ
+
+  ↪⟨⟩∞ᵒ-Mono :  Monoᵒ $ P ↪[ i ]⟨ e ⟩∞ᵒ
+  ↪⟨⟩∞ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+
+  -- Modify ⟨ ⟩∞ proof
+
+  ↪⟨⟩∞ᵒ-ṡ :  P ↪[ i ]⟨ e ⟩∞ᵒ  ⊨  P ↪[ ṡ i ]⟨ e ⟩∞ᵒ
+  ↪⟨⟩∞ᵒ-ṡ (-, -ᴵ, -, P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa) =
+    -, -ᴵ, -, ihor-ṡ P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa
+
+  ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ :  {{_ : Basic R}} →  R ∗ Q ⊢[ ∞ ][ j ]⇛ᴺ P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⟨ e ⟩∞ᵒ)  ⊨  Q ↪[ i ]⟨ e ⟩∞ᵒ
+  ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ R∗Q⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
+    -- Q∗(R∗S)∗T ⊢ Q∗R∗S∗T ⊢ R∗Q∗S∗T ⊢ (R∗Q)∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩∞
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛ᴺ-frameʳ R∗Q⊢⇛P ᵘᴺ»ⁱʰ P∗S∗T⊢⟨e⟩Q ,
+    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
+
+  -- Make ↪⟨ ⟩∞ᵒ out of ○ᵒ
+
+  ○ᵒ⇒↪⟨⟩∞ᵒ :  P ∗ Q ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ○ᵒ Q  ⊨  P ↪[ i ]⟨ e ⟩∞ᵒ
+  ○ᵒ⇒↪⟨⟩∞ᵒ P∗Q⊢⟨e⟩∞ (-, -ᴵ, -, R∗S⊢Q , R∗IndSa) =
+    -, -ᴵ, -, ∗-monoʳ R∗S⊢Q » P∗Q⊢⟨e⟩∞ , R∗IndSa

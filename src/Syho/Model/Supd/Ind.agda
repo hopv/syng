@@ -20,7 +20,7 @@ open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Lang.Reduce using (Mem)
 open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
-open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_)
+open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
 open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ;
   indˣ-alloc; indˣ-use; indᵖ-alloc; indᵖ-use)
 open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; empᴵⁿᴳ)
@@ -32,7 +32,8 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜
 open import Syho.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
   Smry-rem-<)
 open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᴹ_;
-  _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_; Indᵖ-Mono; Indˣ-make; □ᵒIndᵖ-make; Ind⇒○ᵒ)
+  _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_; _↪[_]⟨_⟩∞ᵒ; Indᵖ-Mono; Indˣ-make; □ᵒIndᵖ-make;
+  Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Base using ([_]⇛ᵍᶠ_; [_]⇛ᵍ¹_; ⇛ᵍᶠ-mono✓; ⇛ᵍᶠ-mono;
@@ -216,7 +217,7 @@ abstract
     ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗R⊢P ✓∙
 
 --------------------------------------------------------------------------------
--- On ↪⇛ᵒ, ↪ᵃ⟨ ⟩ᵒ and ↪⟨ ⟩ᵒ
+-- On ↪⇛ᵒ, ↪ᵃ⟨ ⟩ᵒ, ↪⟨ ⟩ᵒ and ↪⟨ ⟩∞ᵒ
 
   ↪⇛ᵒ-use :  P ↪[ i ]⇛ᴹ Q  ⊨ ⇛ᴵⁿᵈ  ∃ᵒ R ,  ⌜ P ∗ R ⊢[ ∞ ][ i ]⇛ Q ⌝ᵒ×  ⸨ R ⸩
   ↪⇛ᵒ-use =  ∑-case λ S → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ P∗S∗T⊢⇛Q →
@@ -234,3 +235,9 @@ abstract
   ↪⟨⟩ᵒ-use =  ∑-case λ S → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ P∗S∗T⊢⟨e⟩Q →
     ∗ᵒ-monoʳ Ind-use › ⇛ᵍᶠ-eatˡ › ⇛ᵍᶠ-mono $
     ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⟨e⟩Q ,_) › -,_
+
+  ↪⟨⟩∞ᵒ-use :  P ↪[ i ]⟨ e ⟩∞ᵒ  ⊨ ⇛ᴵⁿᵈ
+                 ∃ᵒ Q ,  ⌜ P ∗ Q ⊢[ ∞ ][ i ]⟨ e ⟩∞ ⌝ᵒ×  ⸨ Q ⸩
+  ↪⟨⟩∞ᵒ-use =  ∑-case λ R → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ P∗R∗S⊢⟨e⟩∞ →
+    ∗ᵒ-monoʳ Ind-use › ⇛ᵍᶠ-eatˡ › ⇛ᵍᶠ-mono $
+    ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {R}) › (P∗R∗S⊢⟨e⟩∞ ,_) › -,_

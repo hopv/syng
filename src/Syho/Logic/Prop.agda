@@ -64,7 +64,7 @@ private variable
   Nm :  Name → Zoi
 
 infix 3 ⤇_ _→'_ _-∗_
-infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_
+infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
 infix 8 □_ ○_
 infix 9 _↦⟨_⟩_
@@ -101,6 +101,9 @@ data  Prop' ι  where
 
   -- ↪⟨ ⟩[ ] :  Hoare-triple precursor
   _↪⟨_⟩[_]_ :  Prop˂ ι →  Expr∞ T →  WpKind →  (Val T → Prop˂∞) →  Prop' ι
+
+  -- ↪[ ]⟨ ⟩∞ :  Infinite Hoare-triple precursor, with a level
+  _↪[_]⟨_⟩∞ :  Prop˂ ι →  ℕ →  Expr∞ T →  Prop' ι
 
   -- [ ]ᴺ :  Name set token
   [_]ᴺ :  (Name → Zoi) →  Prop' ι

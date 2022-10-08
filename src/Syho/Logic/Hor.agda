@@ -9,29 +9,32 @@ module Syho.Logic.Hor where
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size; !; _$ᵀʰ_)
+open import Base.Bool using (Bool; tt; ff)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; _∗_; [⊤]ᴺ)
-open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-comm)
+open import Syho.Logic.Core using (_⊢[_]_; ⊢⇒⊢<; _»_; ∗-comm)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl; ⇛⇒⇛ᴺ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇_; _⁏_; let˙;
   V⇒E)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_; _ᴷ◁_;
-  Val/Ktxred)
+open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
+  _ᴷ◁_; Val/Ktxred)
 open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
   _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
   _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
-  _⊢[<_]⟨_⟩ᵀ[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
-  _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ; ahor-hor; hor-bind; hor-valᵘᴺ;
-  ahor-nd; hor-[]; hor-fork)
+  _⊢[<_]⟨_⟩ᵀ[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[_][_]⟨_⟩∞; _⊢[<_][_]⟨_⟩∞;
+  hor-ᵀ⇒ᴾ; ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_;
+  _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ; ahor-hor; ahor-ihor; hor-bind; ihor-bind;
+  hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○; ihor-[]●; hor-fork; ihor-fork)
 
 private variable
   ι :  Size
+  b :  Bool
   i j :  ℕ
   X :  Set₀
   Xʸ :  Setʸ
@@ -53,13 +56,23 @@ abstract
 
   -->  hor-ᵀ⇒ᴾ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
 
+  -->  ihor⇒horᴾ :  P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
+
   -->  ahor-hor :  P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
   -->              (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->              P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 
+  -->  ahor-ihor :  P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  -->               (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
+  -->               P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
+
   -->  hor-fork :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
   -->              Q  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
   -->              P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ κ ]  R˙
+
+  -->  ihor-fork :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
+  -->               Q  ⊢[ ι ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+  -->               P  ∗  Q  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞
 
   -- Level increase on the atomic / total Hoare triple
 
@@ -85,6 +98,15 @@ abstract
             P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
   horᵀ-≤ =  horᵀ-≤ᵈ ∘ ≤⇒≤ᵈ
 
+  -->  ihor-ṡ :  P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ ṡ i ]⁺⟨ vk ⟩∞
+
+  ihor-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
+  ihor-≤ᵈ ≤ᵈ-refl =  id
+  ihor-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ihor-ṡ ∘ ihor-≤ᵈ i≤ᵈj'
+
+  ihor-≤ :  i ≤ j  →   P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
+  ihor-≤ =  ihor-≤ᵈ ∘ ≤⇒≤ᵈ
+
   -- Compose
 
   -->  _ᵘ»ᵃʰ_ :  P  ⊢[ ι ][ j ]⇛  Q  →   Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙  →
@@ -96,6 +118,13 @@ abstract
   _ᵘ»ʰ_ :  P  ⊢[ ι ][ i ]⇛  Q  →   Q  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙  →
            P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
   _ᵘ»ʰ_ =  _ᵘᴺ»ʰ_ ∘ ⇛⇒⇛ᴺ
+
+  -->  _ᵘᴺ»ⁱʰ_ :  P  ⊢[ ι ][ i ]⇛ᴺ  Q  →   Q  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞  →
+  -->             P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
+
+  _ᵘ»ⁱʰ_ :  P  ⊢[ ι ][ i ]⇛  Q  →   Q  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞  →
+            P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
+  _ᵘ»ⁱʰ_ =  _ᵘᴺ»ⁱʰ_ ∘ ⇛⇒⇛ᴺ
 
   -->  _ᵃʰ»ᵘ_ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
   -->            (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛  R˙ v)  →
@@ -160,11 +189,27 @@ abstract
   hor-⇒ᴾ :  e ⇒ᴾ e'  →   P  ⊢[<ᴾ ι ]⟨ e' ⟩[ κ ]  Q˙  →   P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙
   hor-⇒ᴾ (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  hor-[]
 
+  -->  ihor-[]○ :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
+  -->              P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ○) ⟩∞
+
+  -->  ihor-[]● :  P  ⊢[< ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
+  -->              P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ●) ⟩∞
+
+  ihor-[] :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
+             P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ⟨ b ⟩) ⟩∞
+  ihor-[] {b = ff} =  ihor-[]○
+  ihor-[] {b = tt} =  ihor-[]● ∘ ⊢⇒⊢<
+
+  ihor-⇒ᴾ :  e ⇒ᴾ e'  →   P  ⊢[ ι ][ i ]⟨ e' ⟩∞  →   P  ⊢[ ι ][ i ]⟨ e ⟩∞
+  ihor-⇒ᴾ (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  ihor-[]
+
   -- Bind
 
   -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
   -->              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  R˙
+
+  --> ihor-bind :  P  ⊢[ ι ][ i ]⟨ e ⟩∞  →   P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞
 
   hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
                 (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ e'˂ .! ⟩[ κ ]  R˙)  →
@@ -174,11 +219,17 @@ abstract
   hor-⁏-bind {T = _ ʸ↷ _} P⊢⟨e⟩Q Qv⊢⟨e'⟩R =
     hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ v → hor-[] $ Qv⊢⟨e'⟩R v
 
+  ihor-⁏-bind :  P  ⊢[ ι ][ i ]⟨ e ⟩∞  →   P  ⊢[ ι ][ i ]⟨ e ⁏ e'˂ ⟩∞
+  ihor-⁏-bind =  ihor-bind {K = •ᴷ ⁏ᴷ _}
+
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ κ ]  Q˙  →
                   (∀ x →  Q˙ x  ⊢[<ᴾ ι ]⟨ e˂˙ x .! ⟩[ κ ]  R˙) →
                   P  ⊢[ ι ]⟨ let˙ e₀ e˂˙ ⟩[ κ ]  R˙
   hor-let-bind P⊢⟨e₀⟩Q Qx⊢⟨ex⟩R =
     hor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ x → hor-[] $ Qx⊢⟨ex⟩R x
+
+  ihor-let-bind :  P  ⊢[ ι ][ i ]⟨ e₀ ⟩∞  →   P  ⊢[ ι ][ i ]⟨ let˙ e₀ e˂˙ ⟩∞
+  ihor-let-bind =  ihor-bind {K = _ ◁ᴷʳ •ᴷ}
 
   -- Transform ⊢[<ᴾ ]⟨ ⟩[ ]
 

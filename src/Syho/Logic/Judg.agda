@@ -23,13 +23,13 @@ open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; Val; V⇒E;
   TyVal; ⊤-)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; forkᴿ; 🞰ᴿ_;
-  _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
+open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
+  🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (_⇒ᴾ_)
 open import Syho.Logic.Prop using (Name; WpKind; par; tot; Prop∞; Prop˂∞; ∀˙;
   ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
-  □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; [_]ᴺ;
-  [⊤]ᴺ; [^_]ᴺ; Inv; OInv; _↦_; _↦ᴸ_; Free; Basic)
+  □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_;
+  _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; Inv; OInv; _↦_; _↦ᴸ_; Free; Basic)
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -49,6 +49,8 @@ data  JudgRes :  Set₁  where
   [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → Prop∞) →  JudgRes
   -- Weakest precondion, over Val/Ktxred
   ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  JudgRes
+  -- Infinite weakest precondition, with a level, over Val/Ktxred
+  [_]⁺⟨_⟩∞ :  ℕ →  Val/Ktxred T →  JudgRes
 
 --------------------------------------------------------------------------------
 -- P ⊢[ ι ]* Jr :  Judgment
@@ -56,7 +58,7 @@ data  JudgRes :  Set₁  where
 infix 2 _⊢[_]*_ _⊢[<_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _⊢[_][_]⇛ᴺ_
   _⊢[<_][_]⇛ᴺ_ _⊢[_][_]ᵃ⟨_⟩_ _⊢[<_][_]ᵃ⟨_⟩_ _⊢[_]⁺⟨_⟩[_]_ _⊢[_]⁺⟨_⟩ᴾ_
   _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[_]⟨_⟩[_]_ _⊢[<_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ[_]_
-  _⊢[<_]⟨_⟩ᵀ[_]_ _⊢[<ᴾ_]⟨_⟩[_]_
+  _⊢[<_]⟨_⟩ᵀ[_]_ _⊢[<ᴾ_]⟨_⟩[_]_ _⊢[_][_]⁺⟨_⟩∞ _⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞
 
 -- Judg ι P Jr :  P ⊢[ ι ]* Jr with the size argument coming first
 
@@ -134,6 +136,18 @@ _⊢[<ᴾ_]⟨_⟩[_]_ :  Prop∞ →  Size →  Expr∞ T →  WpKind →  (Val
 P ⊢[<ᴾ ι ]⟨ e ⟩[ par ] Q˙ =  P ⊢[< ι ]⟨ e ⟩ᴾ Q˙
 P ⊢[<ᴾ ι ]⟨ e ⟩[ tot i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
 
+-- ⊢[ ][ ]⁺⟨ ⟩∞ etc. :  Infinite Hoare triple
+
+-- This means that the event ● should occur an infinite number of times
+-- in any execution of the program
+
+_⊢[_][_]⁺⟨_⟩∞ :  Prop∞ →  Size →  ℕ →  Val/Ktxred T →  Set₁
+P ⊢[ ι ][ i ]⁺⟨ vk ⟩∞ =  P ⊢[ ι ]* [ i ]⁺⟨ vk ⟩∞
+
+_⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞ :  Prop∞ →  Size →  ℕ →  Expr∞ T →  Set₁
+P ⊢[ ι ][ i ]⟨ e ⟩∞ =  P ⊢[ ι ][ i ]⁺⟨ val/ktxred e ⟩∞
+P ⊢[< ι ][ i ]⟨ e ⟩∞ =  Thunk (P ⊢[_][ i ]⟨ e ⟩∞) ι
+
 -- Pers :  Persistence of a proposition
 
 record  Pers (P : Prop∞) :  Set₁  where
@@ -168,7 +182,7 @@ private variable
   nm :  Name
   Nm Nm' :  Name → Zoi
 
-infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ᵃʰ_ _ᵘᴺ»ʰ_ _ᵃʰ»ᵘ_ _ʰ»ᵘᴺ_
+infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ᵃʰ_ _ᵘᴺ»ʰ_ _ᵘᴺ»ⁱʰ_ _ᵃʰ»ᵘ_ _ʰ»ᵘᴺ_
 
 -- Define Judg
 
@@ -375,7 +389,7 @@ data  Judg ι  where
 
   -- Make ↪⟨ ⟩ᵀ out of ○
 
-  ○⇒↪ᵃ⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˂˙ v .!)  →
+  ○⇒↪ᵃ⟨⟩ :  P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˂˙ v .!)  →
             ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
 
   -- Use ↪ᵃ⟨⟩, with level increment
@@ -428,6 +442,27 @@ data  Judg ι  where
 
   ↪⟨⟩ᵀ-use :  P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
                 ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
+
+  ------------------------------------------------------------------------------
+  -- On ↪⟨ ⟩∞
+
+  -- Modify ⟨ ⟩∞ proof
+
+  ↪⟨⟩∞-ṡ :  P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ↪[ ṡ i ]⟨ e ⟩∞
+
+  ↪⟨⟩∞-eatˡ⁻ᵘᴺ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ι ][ j ]⇛ᴺ  P˂ .!  →
+                  R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  Q˂ ↪[ i ]⟨ e ⟩∞
+
+  -- Make ↪⟨ ⟩∞ out of ○
+
+  ○⇒↪⟨⟩∞ :  P˂ .!  ∗  Q˂ .!  ⊢[< ι ][ i ]⟨ e ⟩∞   →
+            ○ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⟨ e ⟩∞
+
+  -- Use ↪⟨⟩∞, with level increment
+  -- Without that level increment, we could have any infinite Hoare triple
+  -- (ihor/↪⟨⟩∞-use' in Syho.Logic.Paradox)
+
+  ↪⟨⟩∞-use :  P˂ .!  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ][ ṡ i ]⟨ e ⟩∞
 
   ------------------------------------------------------------------------------
   -- On the impredicative invariant
@@ -487,11 +522,17 @@ data  Judg ι  where
 
   hor-ᵀ⇒ᴾ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
 
-  -- Level increment on the atomic / total Hoare triple
+  -- Weaken an infinite Hoare triple into a partial Hoare triple
+
+  ihor⇒horᴾ :  P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
+
+  -- Level increment on the atomic / total / infinite Hoare triple
 
   ahor-ṡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
 
   horᵀ-ṡ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
+
+  ihor-ṡ :  P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ ṡ i ]⁺⟨ vk ⟩∞
 
   -- Compose with a super update
 
@@ -500,6 +541,9 @@ data  Judg ι  where
 
   _ᵘᴺ»ʰ_ :  P  ⊢[ ι ][ i ]⇛ᴺ  Q  →   Q  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙  →
             P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
+
+  _ᵘᴺ»ⁱʰ_ :  P  ⊢[ ι ][ i ]⇛ᴺ  Q  →   Q  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞  →
+             P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
 
   _ᵃʰ»ᵘ_ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛  R˙ v)  →
             P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
@@ -515,19 +559,26 @@ data  Judg ι  where
   hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
                 R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  R  ∗  Q˙ v
 
-  -- Compose an atomic Hoare triple with a Hoare triple on the context
+  -- Compose an atomic Hoare triple with [⊤]ᴺ and a Hoare triple on the context
+
   -- The premise on the context can be used coinductively for the partial Hoare
-  -- triple, and only inductively for the total Hoare triple
+  -- triple, and only inductively for the total and infinite Hoare triples
 
   ahor-hor :  P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
+
+  ahor-ihor :  P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+               (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
+               P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
 
   -- Bind by a context
 
   hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
               (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙) →
               P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  R˙
+
+  ihor-bind :  P  ⊢[ ι ][ i ]⟨ e ⟩∞  →   P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞
 
   -- Value
 
@@ -538,17 +589,31 @@ data  Judg ι  where
   ahor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  P  ⊢[ ι ][ i ]ᵃ⟨ ndᴿ {Xʸ} ⟩ λ _ →  P
 
   -- Pure reduction
+
   -- The premise can be used coinductively for the partial Hoare triple,
-  -- and only inductively for the total Hoare triple
+  -- only inductively for the total Hoare triple,
+  -- coinductively only with the event for the infinite Hoare triple
 
   hor-[] :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
             P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ⟨ b ⟩) ⟩[ κ ]  Q˙
 
+  ihor-[]○ :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
+              P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ○) ⟩∞
+
+  ihor-[]● :  P  ⊢[< ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
+              P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ●) ⟩∞
+
   -- Thread forking
+
+  -- For the infinite Hoare triple, the forked thread should terminate
 
   hor-fork :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
               Q  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
               P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ κ ]  R˙
+
+  ihor-fork :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
+               Q  ⊢[ ι ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+               P  ∗  Q  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞
 
   ------------------------------------------------------------------------------
   -- On the memory

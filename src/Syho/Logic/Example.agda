@@ -61,19 +61,18 @@ abstract
   ------------------------------------------------------------------------------
   -- Total Hoare triple on decrloop θ, ensuring termination by induction over n
 
-  horᵀ-decrloop :
-    ∀(n : ℕ) →  θ ↦ (-, n)  ⊢[ ι ]⟨ decrloop θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
-  horᵀ-decrloop' :
-    ∀ n →  θ ↦ (-, n)  ⊢[ ι ]⟨ decrloop' θ n ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
+  horᵀ-decrloop :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrloop θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
+  horᵀ-decrloop' :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrloop' θ n ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
 
-  horᵀ-decrloop n =  ∗⊤-intro » hor-🞰 $ hor-[] $ ∗-elimˡ » horᵀ-decrloop' n
+  horᵀ-decrloop =  ∗⊤-intro » hor-🞰 $ hor-[] $ ∗-elimˡ » horᵀ-decrloop'
 
-  horᵀ-decrloop' 0 =  hor-val ⊢-refl
-  horᵀ-decrloop' (ṡ n) =  ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » horᵀ-decrloop n
+  horᵀ-decrloop' {n = 0} =  hor-val ⊢-refl
+  horᵀ-decrloop' {n = ṡ _} =
+    ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » horᵀ-decrloop
 
   -- Total Hoare triple on nddecrloop, ensuring termination
   -- Notably, the number of reduction steps is dynamically determined
 
   horᵀ-nddecrloop :  θ ↦ ᵗv  ⊢[ ι ]⟨ nddecrloop θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
-  horᵀ-nddecrloop =  hor-nd λ n →
-    ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] $ horᵀ-decrloop n
+  horᵀ-nddecrloop =  hor-nd λ _ →
+    ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] horᵀ-decrloop

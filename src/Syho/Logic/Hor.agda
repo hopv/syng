@@ -59,10 +59,6 @@ abstract
   -->              (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->              P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 
-  -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
-  -->              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
-  -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  R˙
-
   -->  hor-fork :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
   -->              Q  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
   -->              P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ κ ]  R˙
@@ -142,7 +138,11 @@ abstract
   hor-⇒ᴾ :  e ⇒ᴾ e'  →   P  ⊢[<ᴾ ι ]⟨ e' ⟩[ κ ]  Q˙  →   P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙
   hor-⇒ᴾ (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  hor-[]
 
-  -- Sequential execution
+  -- Bind
+
+  -->  hor-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
+  -->              (∀ v →  Q˙ v  ⊢[ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
+  -->              P  ⊢[ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  R˙
 
   hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
                 (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ e'˂ .! ⟩[ κ ]  R˙)  →
@@ -151,8 +151,6 @@ abstract
     hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ v → hor-[] $ Qv⊢⟨e'⟩R v
   hor-⁏-bind {T = _ ʸ↷ _} P⊢⟨e⟩Q Qv⊢⟨e'⟩R =
     hor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ v → hor-[] $ Qv⊢⟨e'⟩R v
-
-  -- Let binding
 
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ κ ]  Q˙  →
                   (∀ x →  Q˙ x  ⊢[<ᴾ ι ]⟨ e˂˙ x .! ⟩[ κ ]  R˙) →

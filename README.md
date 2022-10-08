@@ -5,7 +5,7 @@ ghost states**.
 
 Syho supports **higher-order ghost states** (or **impredicative resources**),
 bringing powerful expressivity, just like an existing separation logic
-[**Iris**](https://iris-project.org/).  
+[**Iris**](https://iris-project.org/) (Jung et al., 2015).  
 Notably, Syho supports **impredicative invariants**.
 
 But in contrast to Iris's *fully semantic* approach, Syho models the
@@ -273,9 +273,9 @@ Essentially, this is due to *coinduction introduced by the later modality*.
 
 For this reason, Iris does not generally support termination verification.
 
-Transfinite Iris (Spies et al., 2021), a variant of Iris with step-indexing over
-ordinal numbers, supports *time credits with ordinals* for termination
-verification.  
+[Transfinite Iris](https://iris-project.org/transfinite-iris/) (Spies et al.,
+2021), a variant of Iris with step-indexing over ordinal numbers, supports *time
+credits with ordinals* for termination verification.  
 However, to use this, one should do *careful math of ordinals*, which is a
 demanding task and formally requires *classical and choice axioms*.
 

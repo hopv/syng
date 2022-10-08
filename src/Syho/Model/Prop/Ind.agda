@@ -155,7 +155,7 @@ abstract
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⇛Q , S∗IndTa
 
 --------------------------------------------------------------------------------
--- ↪ᵃ⟨ ⟩ᵒ :  Interpret the partial Hoare-triple precursor ↪ᵃ⟨ ⟩
+-- ↪ᵃ⟨ ⟩ᵒ :  Interpret the atomic Hoare-triple precursor ↪ᵃ⟨ ⟩
 
 infixr 5 _↪[_]ᵃ⟨_⟩ᵒ_
 _↪[_]ᵃ⟨_⟩ᵒ_ :  Prop∞ →  ℕ →  Redex T →  (Val T → Prop∞) →  Propᵒ 1ᴸ
@@ -172,39 +172,39 @@ abstract
   -- Modify ᵃ⟨ ⟩ proof
 
   ↪ᵃ⟨⟩ᵒ-ṡ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ ṡ i ]ᵃ⟨ red ⟩ᵒ Q˙
-  ↪ᵃ⟨⟩ᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, ahor-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
+  ↪ᵃ⟨⟩ᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+    -, -ᴵ, -, ahor-ṡ P∗R∗S⊢⟨red⟩Q , R∗IndSa
 
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P' ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
-    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
-    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩ᵀ Q˙
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵃʰ P∗S∗T⊢⟨e⟩Q ,
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨red⟩Q , S∗IndTc) →  -, -ᴵ, -,
+    -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢ᵃ⟨red⟩ Q˙
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵃʰ P∗S∗T⊢⟨red⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
     ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
-    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
-    -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ᵀ R∗Q
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ahor-frameˡ P∗S∗T⊢⟨e⟩Q ,
+    (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨red⟩Q , S∗IndTc) →  -, -ᴵ, -,
+    -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢ᵃ⟨red⟩ R∗Q
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ahor-frameˡ P∗S∗T⊢⟨red⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪ᵃ⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
                   P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q'˙
-  ↪ᵃ⟨⟩ᵒ-monoʳᵘ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ᵃʰ»ᵘ ∀vQ⊢⇛Q' , R∗IndSa
+  ↪ᵃ⟨⟩ᵒ-monoʳᵘ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+    -, -ᴵ, -, P∗R∗S⊢⟨red⟩Q ᵃʰ»ᵘ Qv⊢⇛Q'v , R∗IndSa
 
   ↪ᵃ⟨⟩ᵒ-frameˡ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  R ∗ P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
-  ↪ᵃ⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, ∗-assocˡ » ahor-frameˡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
+  ↪ᵃ⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+    -, -ᴵ, -, ∗-assocˡ » ahor-frameˡ P∗R∗S⊢⟨red⟩Q , R∗IndSa
 
-  -- Make ↪⟨ ⟩ᵀᵒ out of ○ᵒ
+  -- Make ↪ᵃ⟨ ⟩ᵒ out of ○ᵒ
 
   ○ᵒ⇒↪ᵃ⟨⟩ᵒ :  P ∗ R ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ →  ○ᵒ R  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
-  ○ᵒ⇒↪ᵃ⟨⟩ᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
-    -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q , S∗IndTa
+  ○ᵒ⇒↪ᵃ⟨⟩ᵒ P∗R⊢⟨red⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
+    -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨red⟩Q , S∗IndTa
 
 --------------------------------------------------------------------------------
 -- ↪⟨ ⟩[ ]ᵒ :  Interpret the Hoare-triple precursor ↪⟨ ⟩
@@ -257,8 +257,8 @@ abstract
 
   ↪⟨⟩ᵒ-monoʳᵘᴺ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ᴺ Q'˙ v) →
                   P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q'˙
-  ↪⟨⟩ᵒ-monoʳᵘᴺ ∀vQ⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘᴺ ∀vQ⊢⇛Q' , R∗IndSa
+  ↪⟨⟩ᵒ-monoʳᵘᴺ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘᴺ Qv⊢⇛Q'v , R∗IndSa
 
   ↪⟨⟩ᵒ-frameˡ :  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =

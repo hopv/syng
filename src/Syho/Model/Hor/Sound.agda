@@ -115,7 +115,7 @@ abstract
   -- ahor-frameˡ :  P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩  Q˙  →
   --                R  ∗  P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  R  ∗  Q˙ v
 
-  ⊢ᵃ⟨⟩-sem (ahor-frameˡ P⊢⟨red⟩Q) =  ∗ᵒ-monoʳ (⊢ᵃ⟨⟩-sem P⊢⟨red⟩Q ) › ᵃ⟨⟩ᵒ-eatˡ
+  ⊢ᵃ⟨⟩-sem (ahor-frameˡ P⊢⟨red⟩Q) =  ∗ᵒ-monoʳ (⊢ᵃ⟨⟩-sem P⊢⟨red⟩Q) › ᵃ⟨⟩ᵒ-eatˡ
 
   -- ahor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  P  ⊢[ ∞ ][ i ]ᵃ⟨ ndᴿ {Xʸ} ⟩ λ _ →  P
 
@@ -203,7 +203,7 @@ abstract
   -- hor-frameˡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
   --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] λ v →  R  ∗  Q˙ v
 
-  ⊢⁺⟨⟩ᵀ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q ) › ⁺⟨⟩ᵀᵒ-eatˡ
+  ⊢⁺⟨⟩ᵀ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q) › ⁺⟨⟩ᵀᵒ-eatˡ
 
   -- hor-valᵘᴺ :  P  ⊢[ ∞ ][ i ]⇛ᴺ  Q˙ v  →   P  ⊢[ ∞ ]⁺⟨ T / ĩ₀ v ⟩ᵀ[ i ]  Q˙
 
@@ -283,7 +283,7 @@ abstract
   -- hor-frameˡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →
   --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ λ v →  R  ∗  Q˙ v
 
-  ⊢⁺⟨⟩ᴾ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q ) › ⁺⟨⟩ᴾᵒ-eatˡ
+  ⊢⁺⟨⟩ᴾ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q) › ⁺⟨⟩ᴾᵒ-eatˡ
 
   -- hor-valᵘᴺ :  P  ⊢[ ∞ ][ i ]⇛ᴺ  Q˙ v  →   P  ⊢[ ∞ ]⁺⟨ T / ĩ₀ v ⟩ᴾ  Q˙
 

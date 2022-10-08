@@ -50,14 +50,14 @@ abstract
   -- Compose ᵃ⟨⟩ᵒ and ⟨⟩ᴾ/ᵀᵒ
   -- The inner weakest precondion is under the thunk for ⟨⟩ᴾᵒ
 
-  ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ (ᵃ⟨ red ⟩ᵒ λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ˂ ι Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ)  ⊨
+  ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ˂ ι Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ  ⊨
                  ⁺⟨ ĩ₁ (-, K , red) ⟩ᴾᵒ ι Pᵒ˙
   ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, redM⇒) , big) →
     (-, redᴷᴿ redM⇒) , λ{ _ _ _ (redᴷᴿ e'eˇM'⇐) → big _ _ _ e'eˇM'⇐ ▷
     λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴹ-mono (∗ᵒ-monoʳ $ ?∗ᵒ-intro _) }}) ›
     ⁺⟨⟩ᴾᵒ-kr
 
-  ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ :  [⊤]ᴺᵒ -∗ᵒ (ᵃ⟨ red ⟩ᵒ λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ ∞ Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ)  ⊨
+  ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ ∞ Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ  ⊨
                  ⁺⟨ ĩ₁ (-, K , red) ⟩ᵀᵒ ∞ Pᵒ˙
   ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, redM⇒) , big) →
     (-, redᴷᴿ redM⇒) , λ{ _ _ _ (redᴷᴿ e'eˇM'⇐) → big _ _ _ e'eˇM'⇐ ▷

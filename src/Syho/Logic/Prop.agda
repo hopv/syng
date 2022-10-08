@@ -63,8 +63,8 @@ private variable
   T :  Type
   Nm :  Name → Zoi
 
-infix 3 ⤇_
-infixr 5 _→'_ _-∗_ _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_
+infix 3 ⤇_ _→'_ _-∗_
+infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_
 infixr 7 _∗_
 infix 8 □_ ○_
 infix 9 _↦⟨_⟩_

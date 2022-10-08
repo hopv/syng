@@ -202,7 +202,7 @@ abstract
 
 abstract
 
-  infixr 5 _→ᵒ_
+  infixr 3 _→ᵒ_
   _→ᵒ_ :  Propᵒ ł →  Propᵒ ł' →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
   (Pᵒ →ᵒ Qᵒ) a =  ∀ E b →  a ⊑ b →  E ✓ b →  Pᵒ b →  Qᵒ b
 
@@ -397,7 +397,7 @@ abstract
 --------------------------------------------------------------------------------
 -- -∗ᵒ :  Semantic magic wand
 
-infixr 5 _-∗ᵒ'_ _-∗ᵒ_
+infixr 3 _-∗ᵒ'_ _-∗ᵒ_
 
 -- -∗ᵒ' :  Non-abstract version of -∗ᵒ
 
@@ -536,7 +536,7 @@ abstract
 --------------------------------------------------------------------------------
 -- ⤇ᴱ :  Environmental update modality
 
-infix 3 _⤇ᴱ'_ _⤇ᴱ_
+infixr 3 _⤇ᴱ'_ _⤇ᴱ_
 
 -- ⤇ᴱ' :  Non-abstract version of ⤇ᴱ
 

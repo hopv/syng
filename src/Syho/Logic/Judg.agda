@@ -69,14 +69,10 @@ _⊢[_]*_ _⊢[<_]*_ :  Prop∞ →  Size →  JudgRes →  Set₁
 P ⊢[ ι ]* Jr =  Judg ι P Jr
 P ⊢[< ι ]* Jr =  Thunk (P ⊢[_]* Jr) ι
 
--- ⊢[ ] :  Pure sequent
+-- ⊢[ ] etc. :  Pure sequent
 
-_⊢[_]_ :  Prop∞ →  Size →  Prop∞ →  Set₁
+_⊢[_]_ _⊢[<_]_ :  Prop∞ →  Size →  Prop∞ →  Set₁
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
-
--- ⊢[< ] :  Pure sequent under thunk
-
-_⊢[<_]_ :  Prop∞ →  Size →  Prop∞ →  Set₁
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ][ ]⇛ etc. :  Super update

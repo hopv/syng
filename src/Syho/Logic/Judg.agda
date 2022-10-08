@@ -519,7 +519,7 @@ data  Judg ι  where
   -- The premise on the context can be used coinductively for the partial Hoare
   -- triple, and only inductively for the total Hoare triple
 
-  ahor-hor :  (P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  ahor-hor :  P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 

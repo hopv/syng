@@ -177,7 +177,7 @@ val/ktxred (e' ◁ e) =  ĩ₁ body
   … | ĩ₀ x  with val/ktxred e'
   …   | ĩ₁ (-, K , red) =  -, K ◁ᴷˡ x , red
   …   | ĩ₀ e˂˙ =  -, •ᴷ , [ e˂˙ x .! ]ᴿ
-val/ktxred (_⁏_ {T} e e'˂) =  ĩ₁ body
+val/ktxred (e ⁏ e'˂) =  ĩ₁ body
  where
   body :  Ktxred _
   body  with val/ktxred e

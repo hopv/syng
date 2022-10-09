@@ -11,6 +11,7 @@ open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_)
 open import Base.Dec using (upd˙)
 open import Base.Acc using (Acc)
+open import Base.Size using (Size; Thunk)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.Option using (¿_; š_; ň; ¿-case; _$¿_; _»-¿_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
@@ -82,6 +83,7 @@ abstract
 -- Reduction
 
 private variable
+  ι :  Size
   T U :  Type
   Xʸ :  Setʸ
   X :  Set₀
@@ -258,3 +260,19 @@ data  _⇒ᵀ*_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
 
 SNᵀ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 SNᵀ =  Acc _⇐ᵀ_
+
+--------------------------------------------------------------------------------
+-- Infᵀ :  Any execution starting with the thread list with the memory triggers
+--         the event an infinite number of times
+
+data  Infᵀ (ι : Size) :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+
+-- Infᵀ˂ᴮ :  Infᵀ, under the thunk if the boolean is true
+
+Infᵀ˂ᴮ :  Bool →  Size →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+Infᵀ˂ᴮ ff ι eesM =  Infᵀ ι eesM
+Infᵀ˂ᴮ tt ι eesM =  Thunk (λ ι' → Infᵀ ι' eesM) ι
+
+data  Infᵀ ι  where
+  infᵀ :  (∀{b e' es' M'} →  (e' , es' , M') ⇐ᵀ⟨ b ⟩ (e , es , M) →
+            Infᵀ˂ᴮ b ι (e' , es' , M')) → Infᵀ ι (e , es , M)

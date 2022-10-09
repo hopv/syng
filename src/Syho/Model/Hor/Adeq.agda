@@ -6,7 +6,7 @@
 
 module Syho.Model.Hor.Adeq where
 
-open import Base.Level using (Level; 1ᴸ; 2ᴸ)
+open import Base.Level using (Level; 1ᴸ; 3ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)
@@ -41,7 +41,7 @@ open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀ
 private variable
   ł :  Level
   ι :  Size
-  ιs :  List (Size' 2ᴸ)
+  ιs :  List (Size' 3ᴸ)
   M M' :  Mem
   X :  Set₀
   T :  Type
@@ -151,7 +151,7 @@ abstract
 
 -- Separating conjunction of ⟨ ⟩ᵀᵒ⊤ over expressions of type ◸ ⊤ and sizes
 
-[∗ᵒ]⟨_⟩ᵀᵒ⊤ :  List (Expr∞ (◸ ⊤)) →  List (Size' 2ᴸ) →  Propᵒ 1ᴸ
+[∗ᵒ]⟨_⟩ᵀᵒ⊤ :  List (Expr∞ (◸ ⊤)) →  List (Size' 3ᴸ) →  Propᵒ 1ᴸ
 [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs =  [∗ᵒ (e , sz ι) ∈² es , ιs ] ⟨ e ⟩ᵀᵒ⊤ ι
 
 abstract

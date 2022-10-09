@@ -136,9 +136,9 @@ abstract
 
   -- For forked threads
 
-  ⟨⟩ᴾᵒ-nostuck-forked :  ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
-    (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →
-    (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩ᴾᵒ-nostuck-forked :
+    ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →
+    val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
   ⟨⟩ᴾᵒ-nostuck-forked {es = es} ⊨⟨e⟩P ✓M eM⇒*e'esM' e⁺∈es e⁺≡kr =  ⇛ᴹ-adeq ✓M $
     ?∗ᵒ-intro _ › ?∗ᵒ-intro ⊨⟨e⟩P › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eM⇒*e'esM' › ⇛ᴹ-mono✓
     (λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (∗ᵒ-elimʳ ([∗ᵒ]⟨⟩ᴾᵒ⊤∞-Mono {es = es}) ›
@@ -168,9 +168,9 @@ abstract
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
   ⟨⟩ᵀᵒ-nostuck-main ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-main $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
-  ⟨⟩ᵀᵒ-nostuck-forked :  ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
-    (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →
-    (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩ᵀᵒ-nostuck-forked :
+    ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →
+    val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
   ⟨⟩ᵀᵒ-nostuck-forked ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-forked $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
   -- Lemma: If (e , es , M) ⇒ᵀ (e' , es' , M'),

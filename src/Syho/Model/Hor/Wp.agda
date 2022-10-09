@@ -22,12 +22,12 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_;
   ∃ᵒ-syntax; ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; Thunkᵒ;
   Shrunkᵒ; ⊨⇒⊨✓; ∀ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro; ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ;
-  -∗ᵒ-Mono; -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-intro'; -∗ᵒ-applyʳ; -∗ᵒ-eatˡ; ◎-Mono;
-  ∗ᵒThunkᵒ-out; ∗ᵒShrunkᵒ-out)
+  -∗ᵒ-Mono; -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-applyʳ; -∗ᵒ-eatˡ; ◎-Mono; ∗ᵒThunkᵒ-out;
+  ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ'⟨_⟩_; ⟨_⟩⇛ᴹ⟨_⟩_; ⇛ᵒ_; ⇛ᴺᵒ_;
   ⇛ᴹ⇒⇛ᴹ'; ⇛ᴹ'⇒⇛ᴹ; ⇛ᴹ-Mono; ⇛ᵒ-Mono; ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono;
-  ⊨✓⇒⊨-⇛ᴹ; ⇛ᵒ-intro; ⇛ᴹ-join; ⇛ᵒ-join; ⇛ᴹ-eatˡ; ⇛ᵒ-eatˡ; ⇛ᵒ⇒⇛ᴺᵒ)
+  ⇛ᴺᵒ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴺᵒ-intro; ⇛ᴹ-join; ⇛ᴺᵒ-join; ⇛ᴹ-eatˡ; ⇛ᴺᵒ-eatˡ; ⇛ᵒ⇒⇛ᴺᵒ)
 
 private variable
   ł :  Level
@@ -249,8 +249,7 @@ abstract
   -- Conversion between ⁺⟨⟩ᴾ/ᵀᵒ⊤ and ⁺⟨⟩ᴾ/ᵀᵒ λ _ → ⊤ᵒ₀
 
   ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ :  ⁺⟨ vk ⟩ᴾᵒ⊤ ι  ⊨  ⁺⟨ vk ⟩ᴾᵒ ι λ _ → ⊤ᵒ₀
-  ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ ⁺⟨⟩ᴾᵒ⊤-val =  ⁺⟨⟩ᴾᵒ-val $ -∗ᵒ-intro' ◎-Mono λ _ →
-    ?∗ᵒ-intro _ › ⇛ᵒ-intro
+  ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ ⁺⟨⟩ᴾᵒ⊤-val =  ⁺⟨⟩ᴾᵒ-val $ ⇛ᴺᵒ-intro _
   ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ (⁺⟨⟩ᴾᵒ⊤-kr' big) =  ⁺⟨⟩ᴾᵒ-kr $ big ▷
     -∗ᵒ'⇒-∗ᵒ {Qᵒ = ∀ᵒ M , ⟨ M ⟩⇛ᴹ'⟨ M ⟩ _} ▷ -∗ᵒ-monoʳ λ big M → big M ▷
     ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ →
@@ -258,8 +257,7 @@ abstract
     ∗ᵒ-mono (λ big → λ{ .! → ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ (big .!) }) ∗ᵒ'⇒∗ᵒ)
 
   ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ :  ⁺⟨ vk ⟩ᵀᵒ⊤ ι  ⊨  ⁺⟨ vk ⟩ᵀᵒ ι λ _ → ⊤ᵒ₀
-  ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ ⁺⟨⟩ᵀᵒ⊤-val =  ⁺⟨⟩ᵀᵒ-val $ -∗ᵒ-intro' ◎-Mono λ _ →
-    ?∗ᵒ-intro _ › ⇛ᵒ-intro
+  ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ ⁺⟨⟩ᵀᵒ⊤-val =  ⁺⟨⟩ᵀᵒ-val $ ⇛ᴺᵒ-intro _
   ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ (⁺⟨⟩ᵀᵒ⊤-kr' big) =  ⁺⟨⟩ᵀᵒ-kr $ big ▷
     -∗ᵒ'⇒-∗ᵒ {Qᵒ = ∀ᵒ M , ⟨ M ⟩⇛ᴹ'⟨ M ⟩ _} ▷ -∗ᵒ-monoʳ λ big M → big M ▷
     ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ →
@@ -388,8 +386,7 @@ abstract
   -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᴺᵒ/⇛ᵒ outside
 
   ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ :  ⇛ᴺᵒ ⁺⟨ vk ⟩ᴾᵒ ι Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ ι Pᵒ˙
-  ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} =  (-∗ᵒ-monoʳ $ ⇛ᵒ-mono✓ (λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-val⁻¹ ›
-    -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙) › ⇛ᵒ-join) › ⁺⟨⟩ᴾᵒ-val
+  ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} =  ⇛ᴺᵒ-mono ⁺⟨⟩ᴾᵒ-val⁻¹ › ⇛ᴺᵒ-join › ⁺⟨⟩ᴾᵒ-val
   ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} =  (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᴹ-mono✓ (λ ✓∙ →
     ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ-kr⁻¹ › -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › _$ M) ▷ ⇛ᴹ-join) › ⁺⟨⟩ᴾᵒ-kr
 
@@ -397,8 +394,7 @@ abstract
   ⇛ᵒ-⁺⟨⟩ᴾᵒ =  ⇛ᵒ⇒⇛ᴺᵒ › ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ
 
   ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ :  ⇛ᴺᵒ ⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙
-  ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} =  (-∗ᵒ-monoʳ $ ⇛ᵒ-mono✓ (λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-val⁻¹ ›
-    -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙) › ⇛ᵒ-join) › ⁺⟨⟩ᵀᵒ-val
+  ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₀ _} =  ⇛ᴺᵒ-mono ⁺⟨⟩ᵀᵒ-val⁻¹ › ⇛ᴺᵒ-join › ⁺⟨⟩ᵀᵒ-val
   ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ {vk = ĩ₁ _} =  (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᴹ-mono✓ (λ ✓∙ →
     ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › _$ M) ▷ ⇛ᴹ-join) › ⁺⟨⟩ᵀᵒ-kr
 
@@ -415,8 +411,7 @@ abstract
   -- ⁺⟨⟩ᴾ/ᵀᵒ absorbs ⇛ᴺᵒ/⇛ᵒ inside
 
   ⁺⟨⟩ᴾᵒ-⇛ᴺᵒ :  ⁺⟨ vk ⟩ᴾᵒ ι (λ v → ⇛ᴺᵒ Pᵒ˙ v)  ⊨  ⁺⟨ vk ⟩ᴾᵒ ι Pᵒ˙
-  ⁺⟨⟩ᴾᵒ-⇛ᴺᵒ {vk = ĩ₀ _} =  ⁺⟨⟩ᴾᵒ-val⁻¹ › (-∗ᵒ-monoʳ $
-    ⇛ᵒ-mono✓ (λ ✓∙ → -∗ᵒ-applyʳ ⇛ᵒ-Mono ✓∙) › ⇛ᵒ-join) › ⁺⟨⟩ᴾᵒ-val
+  ⁺⟨⟩ᴾᵒ-⇛ᴺᵒ {vk = ĩ₀ _} =  ⁺⟨⟩ᴾᵒ-val⁻¹ › ⇛ᴺᵒ-join › ⁺⟨⟩ᴾᵒ-val
   ⁺⟨⟩ᴾᵒ-⇛ᴺᵒ {vk = ĩ₁ _} =  ⁺⟨⟩ᴾᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷
     ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷
     ⇛ᴹ-mono (∗ᵒ-monoˡ λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-⇛ᴺᵒ $ big .! })) › ⁺⟨⟩ᴾᵒ-kr
@@ -425,8 +420,7 @@ abstract
   ⁺⟨⟩ᴾᵒ-⇛ᵒ =  ⁺⟨⟩ᴾᵒ-mono (λ _ → ⇛ᵒ⇒⇛ᴺᵒ) › ⁺⟨⟩ᴾᵒ-⇛ᴺᵒ
 
   ⁺⟨⟩ᵀᵒ-⇛ᴺᵒ :  ⁺⟨ vk ⟩ᵀᵒ ι (λ v → ⇛ᴺᵒ Pᵒ˙ v)  ⊨  ⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙
-  ⁺⟨⟩ᵀᵒ-⇛ᴺᵒ {vk = ĩ₀ _} =  ⁺⟨⟩ᵀᵒ-val⁻¹ › (-∗ᵒ-monoʳ $
-    ⇛ᵒ-mono✓ (λ ✓∙ → -∗ᵒ-applyʳ ⇛ᵒ-Mono ✓∙) › ⇛ᵒ-join) › ⁺⟨⟩ᵀᵒ-val
+  ⁺⟨⟩ᵀᵒ-⇛ᴺᵒ {vk = ĩ₀ _} =  ⁺⟨⟩ᵀᵒ-val⁻¹ › ⇛ᴺᵒ-join › ⁺⟨⟩ᵀᵒ-val
   ⁺⟨⟩ᵀᵒ-⇛ᴺᵒ {vk = ĩ₁ _} =  ⁺⟨⟩ᵀᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷
     ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷
     ⇛ᴹ-mono (∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-⇛ᴺᵒ big })) › ⁺⟨⟩ᵀᵒ-kr
@@ -443,8 +437,7 @@ abstract
     big ▷ ∗ᵒ∃ᵒ-out ▷ λ (≡vň , big) → ≡vň , big ▷ ⇛ᴹ-eatˡ)
 
   ⁺⟨⟩ᴾᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩ᴾᵒ ι Pᵒ˙)  ⊨  ⁺⟨ vk ⟩ᴾᵒ ι λ v → Qᵒ ∗ᵒ Pᵒ˙ v
-  ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₀ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-val⁻¹ › -∗ᵒ-eatˡ ∀ᵒ⇛ᴹ-Mono ›
-    -∗ᵒ-monoʳ (⇛ᵒ-eatˡ › ⇛ᵒ-mono ∗ᵒ-assocʳ) › ⁺⟨⟩ᴾᵒ-val
+  ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₀ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-val⁻¹ › ⇛ᴺᵒ-eatˡ › ⁺⟨⟩ᴾᵒ-val
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₁ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-kr⁻¹ › -∗ᵒ-eatˡ ∀ᵒ⇛ᴹ-Mono ›
     -∗ᵒ-monoʳ (λ big M → big ▷ ∗ᵒ-monoʳ (_$ M) ▷ ⇛ᴹ-eatˡ ▷ ⇛ᴹ-mono (∗ᵒ∃ᵒ-out ›
     λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big ▷
@@ -453,8 +446,7 @@ abstract
     ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙)  ⊨  ⁺⟨ vk ⟩ᵀᵒ ι λ v → Qᵒ ∗ᵒ Pᵒ˙ v
-  ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₀ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-val⁻¹ › -∗ᵒ-eatˡ ∀ᵒ⇛ᴹ-Mono ›
-    -∗ᵒ-monoʳ (⇛ᵒ-eatˡ › ⇛ᵒ-mono ∗ᵒ-assocʳ) › ⁺⟨⟩ᵀᵒ-val
+  ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₀ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-val⁻¹ › ⇛ᴺᵒ-eatˡ › ⁺⟨⟩ᵀᵒ-val
   ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₁ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-eatˡ ∀ᵒ⇛ᴹ-Mono ›
     -∗ᵒ-monoʳ (λ big M → big ▷ ∗ᵒ-monoʳ (_$ M) ▷ ⇛ᴹ-eatˡ ▷ ⇛ᴹ-mono (∗ᵒ∃ᵒ-out ›
     λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big ▷

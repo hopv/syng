@@ -55,16 +55,16 @@ abstract
   ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ˂ ι Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ)  ⊨
                  ⁺⟨ ĩ₁ (-, K , red) ⟩ᴾᵒ ι Pᵒ˙
   ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
-    (-, -, redᴷᴿ redM⇒) , λ{ _ _ _ (-, redᴷᴿ e'eˇM'⇐) → big _ _ _ (-, e'eˇM'⇐) ▷
-    λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴹ-mono (∗ᵒ-monoʳ $ ?∗ᵒ-intro _) }}) ›
+    (-, -, redᴷᴿ redM⇒) , λ{ _ eˇ M' (-, redᴷᴿ eeˇM'⇐) → big _ eˇ M' (-, eeˇM'⇐)
+    ▷ λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴹ-mono (∗ᵒ-monoʳ $ ?∗ᵒ-intro _) }}) ›
     ⁺⟨⟩ᴾᵒ-kr
 
   ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ ∞ Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ)  ⊨
                  ⁺⟨ ĩ₁ (-, K , red) ⟩ᵀᵒ ∞ Pᵒ˙
   ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
-    (-, -, redᴷᴿ redM⇒) , λ{ _ _ _ (-, redᴷᴿ e'eˇM'⇐) → big _ _ _ (-, e'eˇM'⇐) ▷
-    λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴹ-mono (∗ᵒ-mono §_ (?∗ᵒ-intro _)) }}) ›
-    ⁺⟨⟩ᵀᵒ-kr
+    (-, -, redᴷᴿ redM⇒) , λ{ _ eˇ M' (-, redᴷᴿ eeˇM'⇐) → big _ eˇ M' (-, eeˇM'⇐)
+    ▷ λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴹ-mono (∗ᵒ-mono §_ (?∗ᵒ-intro _)) }})
+    › ⁺⟨⟩ᵀᵒ-kr
 
   -- Bind for ⟨⟩ᴾ/ᵀᵒ
 
@@ -75,7 +75,7 @@ abstract
   … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
     ⁺⟨⟩ᴾᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono
     λ{ ((-, -, redᴷᴿ redM⇒) , big) → (-, -, redᴷᴿ redM⇒) ,
-    λ{ _ _ _ (-, redᴷᴿ e'eˇM'⇐) → big _ _ _ (-, redᴷᴿ e'eˇM'⇐) ▷ ⇛ᴹ-mono
+    λ{ _ eˇ M' (-, redᴷᴿ e'eˇM'⇐) → big _ eˇ M' (-, redᴷᴿ e'eˇM'⇐) ▷ ⇛ᴹ-mono
     (∗ᵒ-monoˡ λ big → λ{ .! {ι'} → big .! ▷ ⁺⟨⟩ᴾᵒ-mono (λ _ → ⁺⟨⟩ᴾᵒ-size) ▷
     ⟨⟩ᴾᵒ-bind ▷ substᵒ (λ e⁺ → ⟨ e⁺ ⟩ᴾᵒ ι' _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }) }}) ›
     ⁺⟨⟩ᴾᵒ-kr
@@ -87,7 +87,7 @@ abstract
   … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
     ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ{
     ((-, -, redᴷᴿ redM⇒) , big) → (-, -, redᴷᴿ redM⇒) ,
-    λ{ _ eˇ _ (-, redᴷᴿ e'eˇM'⇐) → big _ _ _ (-, redᴷᴿ e'eˇM'⇐) ▷ ⇛ᴹ-mono
+    λ{ _ eˇ M' (-, redᴷᴿ e'eˇM'⇐) → big _ eˇ M' (-, redᴷᴿ e'eˇM'⇐) ▷ ⇛ᴹ-mono
     (∗ᵒ-monoʳ (∗ᵒ-monoˡ $ ⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
     ∗ᵒ-monoˡ λ{ (§ big) → § ⟨⟩ᵀᵒ-bind big ▷
     substᵒ (λ e⁺ → ⟨ e⁺ ⟩ᵀᵒ˂ ∞ _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }) }}) › ⁺⟨⟩ᵀᵒ-kr

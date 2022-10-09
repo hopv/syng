@@ -229,7 +229,7 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 [^ nm ]ᴺ =  [ ^ᶻ nm ]ᴺ
 
 --------------------------------------------------------------------------------
--- Basic P :  P doesn't contain impredicative connectives
+-- Basic P :  P is basic, i.e., P doesn't contain impredicative connectives
 
 data  Basic :  Prop∞ →  Set₁  where
 

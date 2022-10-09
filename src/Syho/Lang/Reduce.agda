@@ -100,7 +100,7 @@ private variable
   kr :  Ktxred T
 
 infix 4 _⇒ᴾ_ _⇒ᴿ⟨_⟩_ _⇒ᴿ○_ _⇒ᴿ_ _⇒ᴷᴿ⟨_⟩_ _⇒ᴷᴿ_ _⇒ᴱ⟨_⟩_ _⇒ᴱ_ _⇒ᵀ⟨_⟩_ _⇒ᵀ_ _⇐ᴿ_
-  _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
+  _⇐ᴷᴿ⟨_⟩_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
 
 -- ⇒ᴾ :  Pure reduction of an expression
 
@@ -191,10 +191,13 @@ _⇒ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
         Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 eesM ⇒ᵀ e'es'M' =  ∑ b , eesM ⇒ᵀ⟨ b ⟩ e'es'M'
 
--- ⇐ᴿ, ⇐ᴷᴿ, ⇐ᴱ, ⇐ᵀ :  Flipped ⇒ᴿ, ⇒ᴷᴿ, ⇒ᴱ, ⇒ᵀ
+-- ⇐ᴿ, ⇐ᴷᴿ⟨ ⟩, ⇐ᴷᴿ, ⇐ᴱ, ⇐ᵀ :  Flipped ⇒ᴿ, ⇒ᴷᴿ⟨ ⟩, ⇒ᴷᴿ, ⇒ᴱ, ⇒ᵀ
 
 _⇐ᴿ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Redex T × Mem →  Set₀
 _⇐ᴿ_ =  flip _⇒ᴿ_
+
+_⇐ᴷᴿ⟨_⟩_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Bool →  Ktxred T × Mem →  Set₀
+e'eˇM' ⇐ᴷᴿ⟨ b ⟩ krM =  krM ⇒ᴷᴿ⟨ b ⟩ e'eˇM'
 
 _⇐ᴷᴿ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Ktxred T × Mem →  Set₀
 _⇐ᴷᴿ_ =  flip _⇒ᴷᴿ_

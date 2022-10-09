@@ -99,13 +99,18 @@ private variable
   n :  ℕ
   kr :  Ktxred T
 
-infix 4 _⇒ᴾ_ _⇒ᴿ⟨_⟩_ _⇒ᴿ○_ _⇒ᴿ_ _⇒ᴷᴿ⟨_⟩_ _⇒ᴷᴿ_ _⇒ᴱ⟨_⟩_ _⇒ᴱ_ _⇒ᵀ⟨_⟩_ _⇒ᵀ_ _⇐ᴿ_
-  _⇐ᴷᴿ⟨_⟩_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
+infix 4 _⇒ᴾ⟨_⟩_ _⇒ᴾ○_ _⇒ᴾ●_ _⇒ᴿ⟨_⟩_ _⇒ᴿ○_ _⇒ᴿ_ _⇒ᴷᴿ⟨_⟩_ _⇒ᴷᴿ_ _⇒ᴱ⟨_⟩_ _⇒ᴱ_
+  _⇒ᵀ⟨_⟩_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ⟨_⟩_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
 
 -- ⇒ᴾ :  Pure reduction of an expression
 
-data  _⇒ᴾ_ :  Expr∞ T →  Expr∞ T →  Set₀  where
-  redᴾ :  val/ktxred e ≡ ĩ₁ (-, K , [ e₀ ]ᴿ⟨ b ⟩) →  e ⇒ᴾ K ᴷ◁ e₀
+data  _⇒ᴾ⟨_⟩_ :  Expr∞ T →  Bool →  Expr∞ T →  Set₀  where
+  redᴾ :  val/ktxred e ≡ ĩ₁ (-, K , [ e₀ ]ᴿ⟨ b ⟩) →  e ⇒ᴾ⟨ b ⟩ K ᴷ◁ e₀
+
+_⇒ᴾ_ _⇒ᴾ○_ _⇒ᴾ●_ :  Expr∞ T →  Expr∞ T →  Set₀
+e ⇒ᴾ e' =  ∑ b , e ⇒ᴾ⟨ b ⟩ e'
+e ⇒ᴾ○ e' =  e ⇒ᴾ⟨ ff ⟩ e'
+e ⇒ᴾ● e' =  e ⇒ᴾ⟨ tt ⟩ e'
 
 -- ⇒ᴿ :  Reduction of a redex
 --       The Bool part is the event flag
@@ -221,8 +226,8 @@ abstract
 
   -- ⇒ᴾ implies ⇒ᴱ
 
-  ⇒ᴾ⇒⇒ᴱ :  e ⇒ᴾ e' →  (e , M) ⇒ᴱ (e' , ň , M)
-  ⇒ᴾ⇒⇒ᴱ (redᴾ e⇒K[e₀]) =  -, redᴱ e⇒K[e₀] $ redᴷᴿ []⇒
+  ⇒ᴾ⇒⇒ᴱ :  e ⇒ᴾ⟨ b ⟩ e' →  (e , M) ⇒ᴱ⟨ b ⟩ (e' , ň , M)
+  ⇒ᴾ⇒⇒ᴱ (redᴾ e⇒K[e₀]) =  redᴱ e⇒K[e₀] $ redᴷᴿ []⇒
 
 --------------------------------------------------------------------------------
 -- ⇒ᵀ* :  Finite reduction sequence

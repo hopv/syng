@@ -9,6 +9,7 @@ module Syho.Logic.Paradox where
 open import Base.Func using (_$_)
 open import Base.Eq using (refl)
 open import Base.Size using (Size; ¡_; !)
+open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; loop; Val)
 open import Syho.Lang.Ktxred using (Redex)
@@ -141,7 +142,7 @@ module _
 
   ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ :
     ○ ¡ (P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙
-  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ $ ⇒< $ ↪⟨⟩ᵀ-use⇒ᴾ $ redᴾ refl
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ $ ⇒< $ ↪⟨⟩ᵀ-use⇒ᴾ (-, redᴾ refl)
 
   -- Therefore, by ○-rec, we have any total Hoare triple for the expression
   -- loop, which is a paradox: Although the total Hoare triple should ensure
@@ -150,7 +151,7 @@ module _
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ) ᵘ»ʰ
-    ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ P} {λ v → ¡ Q˙ v} (redᴾ refl)
+    ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ P} {λ v → ¡ Q˙ v} (-, redᴾ refl)
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩∞ without level increment, then we get a paradox

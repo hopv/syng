@@ -21,7 +21,7 @@ open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇
   V⇒E)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   _ᴷ◁_; Val/Ktxred)
-open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
+open import Syho.Lang.Reduce using (_⇒ᴾ_; _⇒ᴾ○_; _⇒ᴾ●_; redᴾ)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
@@ -187,8 +187,9 @@ abstract
   -->  hor-[] :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ e ⟩[ κ ]  Q˙  →
   -->            P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ⟨ b ⟩) ⟩[ κ ]  Q˙
 
-  hor-⇒ᴾ :  e ⇒ᴾ e'  →   P  ⊢[<ᴾ ι ]⟨ e' ⟩[ κ ]  Q˙  →   P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙
-  hor-⇒ᴾ (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  hor-[]
+  hor-⇒ᴾ :  e ⇒ᴾ e'  →   P  ⊢[<ᴾ ι ]⟨ e' ⟩[ κ ]  Q˙  →
+            P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙
+  hor-⇒ᴾ (-, redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  hor-[]
 
   -->  ihor-[]○ :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
   -->              P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ○) ⟩∞
@@ -201,8 +202,14 @@ abstract
   ihor-[] {b = ff} =  ihor-[]○
   ihor-[] {b = tt} =  ihor-[]● ∘ ⇒<
 
+  ihor-⇒ᴾ○ :  e ⇒ᴾ○ e'  →   P  ⊢[ ι ][ i ]⟨ e' ⟩∞  →   P  ⊢[ ι ][ i ]⟨ e ⟩∞
+  ihor-⇒ᴾ○ (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  ihor-[]○
+
+  ihor-⇒ᴾ● :  e ⇒ᴾ● e'  →   P  ⊢[< ι ][ i ]⟨ e' ⟩∞  →   P  ⊢[ ι ][ i ]⟨ e ⟩∞
+  ihor-⇒ᴾ● (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  ihor-[]●
+
   ihor-⇒ᴾ :  e ⇒ᴾ e'  →   P  ⊢[ ι ][ i ]⟨ e' ⟩∞  →   P  ⊢[ ι ][ i ]⟨ e ⟩∞
-  ihor-⇒ᴾ (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  ihor-[]
+  ihor-⇒ᴾ (-, redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  ihor-[]
 
   -- Bind
 

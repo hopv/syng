@@ -6,7 +6,7 @@
 
 module Syho.Model.Hor.Wp where
 
-open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; 3ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_)

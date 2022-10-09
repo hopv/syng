@@ -15,8 +15,8 @@ open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
 open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞)
-open import Syho.Logic.Core using (_⊢[_]_; ⊢⇒⊢<; _»_; -∗-intro; ∗-elimˡ;
-  ∗⊤-intro; □-mono; □-elim)
+open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
+  □-mono; □-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
@@ -55,7 +55,7 @@ module _
   -- We can strip ○ from ↪⇛, using ↪⇛-use'
 
   ○⇒-↪⇛/↪⇛-use' :  ○ ¡ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
-  ○⇒-↪⇛/↪⇛-use' =  ○⇒↪⇛ $ ⊢⇒⊢< ↪⇛-use'
+  ○⇒-↪⇛/↪⇛-use' =  ○⇒↪⇛ $ ⇒< ↪⇛-use'
 
   -- Therefore, by ○-rec, we can do any super update --- a paradox!
 
@@ -76,7 +76,7 @@ module _
 
   ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use' :
     ○ ¡ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
-  ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use' =  ○⇒↪ᵃ⟨⟩ $ ⊢⇒⊢< ↪ᵃ⟨⟩-use'
+  ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use' =  ○⇒↪ᵃ⟨⟩ $ ⇒< ↪ᵃ⟨⟩-use'
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
@@ -97,7 +97,7 @@ module _
   -- We can strip ○ from ↪⟨⟩ᴾ, using ↪⟨⟩ᴾ-use'
 
   ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' :  ○ ¡ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
-  ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' =  ○⇒↪⟨⟩ $ ⊢⇒⊢< ↪⟨⟩ᴾ-use'
+  ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' =  ○⇒↪⟨⟩ $ ⇒< ↪⟨⟩ᴾ-use'
 
   -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
 
@@ -118,7 +118,7 @@ module _
   -- We can strip ○ from ↪⟨⟩ᵀ, using ↪⟨⟩ᵀ-use'
 
   ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' :  ○ ¡ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
-  ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' =  ○⇒↪⟨⟩ $ ⊢⇒⊢< ↪⟨⟩ᵀ-use'
+  ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' =  ○⇒↪⟨⟩ $ ⇒< ↪⟨⟩ᵀ-use'
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
@@ -141,7 +141,7 @@ module _
 
   ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ :
     ○ ¡ (P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙
-  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ $ ⊢⇒⊢< $ ↪⟨⟩ᵀ-use⇒ᴾ $ redᴾ refl
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ $ ⇒< $ ↪⟨⟩ᵀ-use⇒ᴾ $ redᴾ refl
 
   -- Therefore, by ○-rec, we have any total Hoare triple for the expression
   -- loop, which is a paradox: Although the total Hoare triple should ensure
@@ -164,7 +164,7 @@ module _
   -- We can strip ○ from ↪⟨⟩∞, using ↪⟨⟩∞-use'
 
   ○⇒-↪⟨⟩∞/↪⟨⟩∞-use' :  ○ ¡ (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  P˂ ↪[ i ]⟨ e ⟩∞
-  ○⇒-↪⟨⟩∞/↪⟨⟩∞-use' =  ○⇒↪⟨⟩∞ $ ⊢⇒⊢< ↪⟨⟩∞-use'
+  ○⇒-↪⟨⟩∞/↪⟨⟩∞-use' =  ○⇒↪⟨⟩∞ $ ⇒< ↪⟨⟩∞-use'
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 

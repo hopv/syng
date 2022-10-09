@@ -44,8 +44,8 @@ abstract
 
   -- Lift ⊢ into ⊢⇛
 
-  ⊢⇒⊢⇛ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ Q
-  ⊢⇒⊢⇛ P⊢Q =  P⊢Q » ⇛-refl
+  ⇒⇛ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ Q
+  ⇒⇛ P⊢Q =  P⊢Q » ⇛-refl
 
   -- Compose ⇛
 
@@ -54,7 +54,7 @@ abstract
   infixr -1 _ᵘ»_
 
   _ᵘ»_ :  P ⊢[ ι ][ i ]⇛ Q →  Q ⊢[ ι ] R →  P ⊢[ ι ][ i ]⇛ R
-  P⊢⇛Q ᵘ» Q⊢R =  P⊢⇛Q ᵘ»ᵘ ⊢⇒⊢⇛ Q⊢R
+  P⊢⇛Q ᵘ» Q⊢R =  P⊢⇛Q ᵘ»ᵘ ⇒⇛ Q⊢R
 
   -- Frame for ⇛
 
@@ -75,8 +75,8 @@ abstract
 
   -- Lift a pure sequent into ⇛ᴺ
 
-  ⊢⇒⊢⇛ᴺ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ᴺ Q
-  ⊢⇒⊢⇛ᴺ P⊢Q =  ⇛⇒⇛ᴺ $ ⊢⇒⊢⇛ P⊢Q
+  ⇒⇛ᴺ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ᴺ Q
+  ⇒⇛ᴺ P⊢Q =  ⇛⇒⇛ᴺ $ ⇒⇛ P⊢Q
 
   -- Compose with ⇛ᴺ
 
@@ -86,10 +86,10 @@ abstract
   _ᵘᴺ»ᵘᴺ_ =  _ᵘ»ᵘ_
 
   _ᵘᴺ»_ :  P ⊢[ ι ][ i ]⇛ᴺ Q →  Q ⊢[ ι ] R →  P ⊢[ ι ][ i ]⇛ᴺ R
-  P⊢⇛Q ᵘᴺ» Q⊢R =  P⊢⇛Q ᵘᴺ»ᵘᴺ ⊢⇒⊢⇛ᴺ Q⊢R
+  P⊢⇛Q ᵘᴺ» Q⊢R =  P⊢⇛Q ᵘᴺ»ᵘᴺ ⇒⇛ᴺ Q⊢R
 
   _»ᵘᴺ_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ][ i ]⇛ᴺ R →  P ⊢[ ι ][ i ]⇛ᴺ R
-  P⊢Q »ᵘᴺ Q⊢⇛R =  ⊢⇒⊢⇛ᴺ P⊢Q ᵘᴺ»ᵘᴺ Q⊢⇛R
+  P⊢Q »ᵘᴺ Q⊢⇛R =  ⇒⇛ᴺ P⊢Q ᵘᴺ»ᵘᴺ Q⊢⇛R
 
   -- Frame for ⇛ᴺ
 

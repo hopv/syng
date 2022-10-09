@@ -15,8 +15,8 @@ open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; _∗_; [⊤]ᴺ)
-open import Syho.Logic.Core using (_⊢[_]_; ⊢⇒⊢<; _»_; ∗-comm)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⊢⇒⊢⇛; ⇛-refl; ⇛⇒⇛ᴺ)
+open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-comm)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇒⇛; ⇛-refl; ⇛⇒⇛ᴺ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇_; _⁏_; let˙;
   V⇒E)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
@@ -132,7 +132,7 @@ abstract
 
   _ᵃʰ»_ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ]  R˙ v)  →
            P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
-  P⊢⟨red⟩Q ᵃʰ» ∀vQ⊢R =  P⊢⟨red⟩Q ᵃʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀vQ⊢R _
+  P⊢⟨red⟩Q ᵃʰ» ∀vQ⊢R =  P⊢⟨red⟩Q ᵃʰ»ᵘ λ _ → ⇒⇛ {i = 0} $ ∀vQ⊢R _
 
   -->  _ʰ»ᵘᴺ_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
   -->            (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛ᴺ  R˙ v)  →
@@ -144,7 +144,7 @@ abstract
 
   _ʰ»_ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →   (∀ v →  Q˙ v  ⊢[ ι ]  R˙ v)  →
           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
-  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⊢⇒⊢⇛ {i = 0} $ ∀vQ⊢R _
+  P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒⇛ {i = 0} $ ∀vQ⊢R _
 
   -- Frame
 
@@ -170,7 +170,7 @@ abstract
   hor-valᵘ =  hor-valᵘᴺ ∘ ⇛⇒⇛ᴺ
 
   hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
-  hor-val P⊢Q =  hor-valᵘ $ ⊢⇒⊢⇛ {i = 0} P⊢Q
+  hor-val P⊢Q =  hor-valᵘ $ ⇒⇛ {i = 0} P⊢Q
 
   -- Non-deterministic value
 
@@ -198,7 +198,7 @@ abstract
   ihor-[] :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
              P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ⟨ b ⟩) ⟩∞
   ihor-[] {b = ff} =  ihor-[]○
-  ihor-[] {b = tt} =  ihor-[]● ∘ ⊢⇒⊢<
+  ihor-[] {b = tt} =  ihor-[]● ∘ ⇒<
 
   ihor-⇒ᴾ :  e ⇒ᴾ e'  →   P  ⊢[ ι ][ i ]⟨ e' ⟩∞  →   P  ⊢[ ι ][ i ]⟨ e ⟩∞
   ihor-⇒ᴾ (redᴾ e⇒K[e₀])  rewrite e⇒K[e₀] =  ihor-[]

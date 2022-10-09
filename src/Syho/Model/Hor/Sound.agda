@@ -171,7 +171,8 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (P⊢Q » Q⊢⟨vk⟩R) =
     ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ λ ✓∙ → ⊢-sem P⊢Q ✓∙ › ⊢⁺⟨⟩ᵀ-sem Q⊢⟨vk⟩R
 
-  -- ∃-elim :  (∀ x →  P˙ x ⊢[ ∞ ][ i ]⇛ Q) →  ∃˙ P˙ ⊢[ ∞ ][ i ]⇛ Q
+  -- ∃-elim :  (∀ x →  P˙ x ⊢[ ∞ ]⟨ vk ⟩ᵀ[ i ] Q˙) →
+  --           ∃˙ P˙ ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] Q˙
 
   ⊢⁺⟨⟩ᵀ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᵀ-sem (Px⊢⟨vk⟩Q x)
 
@@ -252,7 +253,7 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (P⊢Q » Q⊢⟨vk⟩R) =
     ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ λ ✓∙ → ⊢-sem P⊢Q ✓∙ › ⊢⁺⟨⟩ᴾ-sem Q⊢⟨vk⟩R
 
-  -- ∃-elim :  (∀ x →  P˙ x ⊢[ ∞ ][ i ]⇛ Q) →  ∃˙ P˙ ⊢[ ∞ ][ i ]⇛ Q
+  -- ∃-elim :  (∀ x →  P˙ x ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ Q˙) →  ∃˙ P˙ ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ Q˙
 
   ⊢⁺⟨⟩ᴾ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᴾ-sem (Px⊢⟨vk⟩Q x)
 

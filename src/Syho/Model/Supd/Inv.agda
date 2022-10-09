@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Prod using (_,_; -,_; -ᴵ,_; uncurry)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Reduce using (Mem)
+open import Syho.Lang.Expr using (Mem)
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Logic.Core using (_»_; ∗⇒∧)
 open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; invk; inv-invk-alloc;

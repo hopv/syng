@@ -16,8 +16,8 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; Expr˂∞; ∇_;
-  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; ●_; 🞰_; _←_; free; loop)
-open import Syho.Lang.Reduce using (Mem; nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
+  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; ●_; 🞰_; _←_; free; loop; Mem)
+open import Syho.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
 
 private variable
   ι :  Size

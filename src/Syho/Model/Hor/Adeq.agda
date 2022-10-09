@@ -19,10 +19,10 @@ open import Base.Option using (¿_; ň; š_)
 open import Base.List using (List; []; _∷_; ¿⇒ᴸ; _⧺_; _$ᴸ_; _∈ᴸ_; ∈ʰᵈ; ∈ᵗˡ_;
   aug-refl; aug-∷; _≺ᴰᴹ⟨_⟩_; Rᴰᴹ; ≺ᴰᴹ-hd; ≺ᴰᴹ-tl; ≺ᴰᴹ-wf)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E)
+open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E; Mem; ✓ᴹ_)
 open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-V⇒E)
-open import Syho.Lang.Reduce using (Mem; ✓ᴹ_; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇐ᵀ_; redᵀ-hd;
-  redᵀ-tl; _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ)
+open import Syho.Lang.Reduce using (_⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇐ᵀ_; redᵀ-hd; redᵀ-tl;
+  _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓[⊤])
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
   ⌜_⌝ᵒ×_; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; substᵒ; ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ;

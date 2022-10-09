@@ -10,11 +10,14 @@ open import Base.Level using (Level; Up; ↑_)
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (⊤; 0⊤; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; cong; subst)
-open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
+open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
 open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Bool using (Bool)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-)
-open import Base.Nat using (ℕ; _+_; +-assocʳ)
+open import Base.Option using (¿_; ň; _$¿_; _»-¿_)
+open import Base.Nat using (ℕ; _+_; +-assocʳ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙;
+  Cofin˙-∑)
+open import Base.List using (List; _‼_; upd)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Syn; setʸ)
 
 --------------------------------------------------------------------------------
@@ -25,7 +28,7 @@ Addr =  ℕ × ℕ
 
 private variable
   θ :  Addr
-  m n :  ℕ
+  m n o :  ℕ
 
 -- ∘ :  Address offset operation
 
@@ -215,3 +218,56 @@ TyVal =  ∑ T , Val T
 
 ⊤- :  TyVal
 ⊤- =  ◸ ⊤ ,-
+
+--------------------------------------------------------------------------------
+-- Memory
+
+-- Mblo :  Memory block state
+-- Mem :  Memory state
+Mblo Mem :  Set₀
+Mblo =  ¿ List TyVal
+Mem =  ℕ →  Mblo
+
+private variable
+  M M' M'' :  Mem
+  Mb :  Mblo
+  ᵗv :  TyVal
+
+-- Memory read
+
+infix 5 _‼ᴹ_
+_‼ᴹ_ :  Mem →  Addr →  ¿ TyVal
+M ‼ᴹ (o , i) =  M o »-¿ _‼ i
+
+-- Empty memory
+
+empᴹ :  Mem
+empᴹ _ =  ň
+
+-- Memory update
+
+updᴹ :  Addr →  TyVal →  Mem →  Mem
+updᴹ (o , i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
+
+-- Memory validity, saying that the domain of the memory is a finite set
+
+infix 3 ✓ᴹ_
+✓ᴹ_ :  Mem →  Set₀
+✓ᴹ M =  Cofin˙ (λ _ → _≡ ň) M
+
+abstract
+
+  -- ✓ᴹ holds for empᴹ
+
+  ✓ᴹ-emp :  ✓ᴹ empᴹ
+  ✓ᴹ-emp =  ∀⇒Cofin˙ {F = λ _ → _≡ ň} λ _ → refl
+
+  -- ✓ᴹ is preserved by upd˙ and updᴹ
+
+  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o Mb M)
+  ✓ᴹ-upd˙ =  Cofin˙-upd˙ {F = λ _ → _≡ ň}
+
+  -- If ✓ᴹ M holds, then M o ≡ ň for some o
+
+  ✓ᴹ-∑ň :  ✓ᴹ M →  ∑ o , M o ≡ ň
+  ✓ᴹ-∑ň =  Cofin˙-∑ {F = λ _ → _≡ ň}

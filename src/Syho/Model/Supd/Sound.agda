@@ -10,7 +10,7 @@ open import Base.Func using (_›_)
 open import Base.Size using (∞)
 open import Base.Prod using (∑-case; _,_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Reduce using (Mem)
+open import Syho.Lang.Expr using (Mem)
 open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⇛-refl-⤇;

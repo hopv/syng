@@ -13,71 +13,16 @@ open import Base.Dec using (upd˙)
 open import Base.Acc using (Acc)
 open import Base.Size using (Size; Thunk)
 open import Base.Bool using (Bool; tt; ff)
-open import Base.Option using (¿_; š_; ň; ¿-case; _$¿_; _»-¿_)
+open import Base.Option using (¿_; ň; š_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
-open import Base.Nat using (ℕ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙; Cofin˙-∑)
-open import Base.List using (List; _∷_; ¿⇒ᴸ; _⧺_; _‼_; upd; rep)
+open import Base.Nat using (ℕ)
+open import Base.List using (List; _∷_; ¿⇒ᴸ; _⧺_; rep)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr∞; Expr˂∞; ∇_; V⇒E;
-  TyVal; ⊤-)
+  TyVal; ⊤-; Mem; _‼ᴹ_; updᴹ)
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; forkᴿ; 🞰ᴿ_; _←ᴿ_; fauᴿ;
   casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
-
---------------------------------------------------------------------------------
--- Memory
-
--- Mblo :  Memory block state
--- Mem :  Memory state
-Mblo Mem :  Set₀
-Mblo =  ¿ List TyVal
-Mem =  ℕ →  Mblo
-
-private variable
-  M M' M'' :  Mem
-  Mb :  Mblo
-  o :  ℕ
-  θ :  Addr
-  ᵗv :  TyVal
-
--- Memory read
-
-infix 5 _‼ᴹ_
-_‼ᴹ_ :  Mem →  Addr →  ¿ TyVal
-M ‼ᴹ (o , i) =  M o »-¿ _‼ i
-
--- Empty memory
-
-empᴹ :  Mem
-empᴹ _ =  ň
-
--- Memory update
-
-updᴹ :  Addr →  TyVal →  Mem →  Mem
-updᴹ (o , i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
-
--- Memory validity, saying that the domain of the memory is a finite set
-
-infix 3 ✓ᴹ_
-✓ᴹ_ :  Mem →  Set₀
-✓ᴹ M =  Cofin˙ (λ _ → _≡ ň) M
-
-abstract
-
-  -- ✓ᴹ holds for empᴹ
-
-  ✓ᴹ-emp :  ✓ᴹ empᴹ
-  ✓ᴹ-emp =  ∀⇒Cofin˙ {F = λ _ → _≡ ň} λ _ → refl
-
-  -- ✓ᴹ is preserved by upd˙ and updᴹ
-
-  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o Mb M)
-  ✓ᴹ-upd˙ =  Cofin˙-upd˙ {F = λ _ → _≡ ň}
-
-  -- If ✓ᴹ M holds, then M o ≡ ň for some o
-
-  ✓ᴹ-∑ň :  ✓ᴹ M →  ∑ o , M o ≡ ň
-  ✓ᴹ-∑ň =  Cofin˙-∑ {F = λ _ → _≡ ň}
 
 --------------------------------------------------------------------------------
 -- Reduction
@@ -98,8 +43,10 @@ private variable
   v x y z :  X
   ᵗu :  TyVal
   f :  X → X
-  n :  ℕ
+  n o :  ℕ
   kr :  Ktxred T
+  M M' M'' :  Mem
+  θ :  Addr
 
 infix 4 _⇒ᴾ⟨_⟩_ _⇒ᴾ○_ _⇒ᴾ●_ _⇒ᴿ⟨_⟩_ _⇒ᴿ○_ _⇒ᴿ●_ _⇒ᴿ_ _⇒ᴷᴿ⟨_⟩_ _⇒ᴷᴿ_ _⇒ᴱ⟨_⟩_ _⇒ᴱ_
   _⇒ᵀ⟨_⟩_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ⟨_⟩_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ⟨_⟩_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑

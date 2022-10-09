@@ -12,7 +12,7 @@ open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; refl˙)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using ()
-open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
+open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ;
   empᴵⁿᴳ-✓[⊤]; envᴳ-cong)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;

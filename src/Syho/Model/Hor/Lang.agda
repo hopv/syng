@@ -124,6 +124,23 @@ abstract
       ∗ᵒ-monoˡ λ big → λ{ .! {ι'⁻} → big .! ▷ ⟨⟩∞ᵒ-bind {K = K} ▷
       substᵒ (λ e⁺ → ⟨ e⁺ ⟩∞ᵒ ∞ ι'⁻) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }) }}) › ⁺⟨⟩∞ᵒ-kr
 
+  ⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind :  ⟨ e ⟩ᵀᵒ ι (λ v → ⟨ K ᴷ◁ V⇒E v ⟩∞ᵒ ∞ ι')  ⊨
+                    ⟨ K ᴷ◁ e ⟩∞ᵒ ∞ ι'
+  ⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind {e = e} {K = K} {ι' = ι'}
+    with val/ktxred e | val/ktxred-ĩ₀ {e = e} | val/ktxred-ktx {e = e}
+  … | ĩ₀ _ | ⇒e⇒v | _  rewrite ⇒e⇒v refl =  ⁺⟨⟩ᵀᵒ-val⁻¹ › ⇛ᴺᵒ-⁺⟨⟩∞ᵒ
+  … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
+    ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ{
+    ((-, -, redᴷᴿ redM⇒) , big) → (-, -, redᴷᴿ redM⇒) , λ _ eˇ M' → λ{
+    ff (redᴷᴿ e'eˇM'⇐○) → big _ eˇ M' (-, redᴷᴿ e'eˇM'⇐○) ▷ ⇛ᴹ-mono
+      (∗ᵒ-monoʳ (∗ᵒ-monoˡ $ ⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
+      ∗ᵒ-monoˡ λ{ (§ big) → § (⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind big ▷
+      substᵒ (λ e⁺ → ⟨ e⁺ ⟩∞ᵒ ∞ ι') (◠ ᴷ∘ᴷ-ᴷ◁ {K = K})) });
+    tt (redᴷᴿ e'eˇM'⇐●) → big _ eˇ M' (-, redᴷᴿ e'eˇM'⇐●) ▷ ⇛ᴹ-mono
+      (∗ᵒ-monoʳ (∗ᵒ-monoˡ $ ⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
+      ∗ᵒ-monoˡ λ{ (§ big) → λ{ .! {ι'⁻} → big ▷ ⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind {K = K} ▷
+      substᵒ (λ e⁺ → ⟨ e⁺ ⟩∞ᵒ ∞ ι'⁻) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }}) }}) › ⁺⟨⟩∞ᵒ-kr
+
   -- nd by ᵃ⟨⟩ᵒ
 
   ᵃ⟨⟩ᵒ-nd :  {{Inh ⸨ Xʸ ⸩ʸ}} →  Pᵒ ⊨ ᵃ⟨ ndᴿ {Xʸ} ⟩ᵒ λ _ → Pᵒ

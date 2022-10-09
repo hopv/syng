@@ -126,9 +126,9 @@ abstract
 
   -- For the main thread
 
-  ⟨⟩ᴾᵒ-nostuck-main :  ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
+  ⟨⟩ᴾᵒ-progress-main :  ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
-  ⟨⟩ᴾᵒ-nostuck-main ⊨⟨e⟩P ✓M eM⇒*e'esM' e'≡kr =  ⇛ᴹ-adeq ✓M $ ?∗ᵒ-intro _ ›
+  ⟨⟩ᴾᵒ-progress-main ⊨⟨e⟩P ✓M eM⇒*e'esM' e'≡kr =  ⇛ᴹ-adeq ✓M $ ?∗ᵒ-intro _ ›
     ?∗ᵒ-intro ⊨⟨e⟩P › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eM⇒*e'esM' › ⇛ᴹ-mono✓ (λ ✓∙ →
     ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono ›
     substᵒ (λ kr → ⁺⟨ kr ⟩ᴾᵒ ∞ _) e'≡kr › ⁺⟨⟩ᴾᵒ-kr⁻¹) ›
@@ -136,10 +136,10 @@ abstract
 
   -- For forked threads
 
-  ⟨⟩ᴾᵒ-nostuck-forked :
+  ⟨⟩ᴾᵒ-progress-forked :
     ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →
     val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
-  ⟨⟩ᴾᵒ-nostuck-forked {es = es} ⊨⟨e⟩P ✓M eM⇒*e'esM' e⁺∈es e⁺≡kr =  ⇛ᴹ-adeq ✓M $
+  ⟨⟩ᴾᵒ-progress-forked {es = es} ⊨⟨e⟩P ✓M eM⇒*e'esM' e⁺∈es e⁺≡kr =  ⇛ᴹ-adeq ✓M $
     ?∗ᵒ-intro _ › ?∗ᵒ-intro ⊨⟨e⟩P › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eM⇒*e'esM' › ⇛ᴹ-mono✓
     (λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (∗ᵒ-elimʳ ([∗ᵒ]⟨⟩ᴾᵒ⊤∞-Mono {es = es}) ›
     [∗ᵒ]⟨⟩ᴾᵒ⊤∞-elim e⁺∈es › ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ ›
@@ -162,16 +162,16 @@ abstract
                (e , [] , M) ⇒ᵀ* (V⇒E v , es , M') →  X˙ v
   ⟨⟩ᵀᵒ-post ⊨⟨e⟩X =  ⟨⟩ᴾᵒ-post $ λ{a} → ⊨⟨e⟩X {a} ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
-  -- On the no-stuck property
+  -- On the progress property
 
-  ⟨⟩ᵀᵒ-nostuck-main :  ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
+  ⟨⟩ᵀᵒ-progress-main :  ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
-  ⟨⟩ᵀᵒ-nostuck-main ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-main $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
+  ⟨⟩ᵀᵒ-progress-main ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-progress-main $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
-  ⟨⟩ᵀᵒ-nostuck-forked :
+  ⟨⟩ᵀᵒ-progress-forked :
     ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →
     val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
-  ⟨⟩ᵀᵒ-nostuck-forked ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-forked $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
+  ⟨⟩ᵀᵒ-progress-forked ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-progress-forked $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
   -- Lemma: If (e , es , M) ⇒ᵀ (e' , es' , M'),
   -- then ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs entails

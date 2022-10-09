@@ -49,7 +49,7 @@ private variable
   θ :  Addr
 
 infix 4 _⇒ᴾ⟨_⟩_ _⇒ᴾ○_ _⇒ᴾ●_ _⇒ᴿ⟨_⟩_ _⇒ᴿ○_ _⇒ᴿ●_ _⇒ᴿ_ _⇒ᴷᴿ⟨_⟩_ _⇒ᴷᴿ_ _⇒ᴱ⟨_⟩_ _⇒ᴱ_
-  _⇒ᵀ⟨_⟩_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ⟨_⟩_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ⟨_⟩_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
+  _⇒ᵀ⟨_⟩_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ⟨_⟩_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ⟨_⟩_ _⇒ᵀ○_ _⇒ᵀ●_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
 
 -- ⇒ᴾ :  Pure reduction of an expression
 
@@ -142,8 +142,10 @@ data  _⇒ᵀ⟨_⟩_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
   redᵀ-tl :  (e , es , M) ⇒ᵀ⟨ b ⟩ (e' , es' , M') →
              (e₀ , e ∷ es , M) ⇒ᵀ⟨ b ⟩ (e₀ , e' ∷ es' , M')
 
-_⇒ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
-        Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+_⇒ᵀ○_ _⇒ᵀ●_ _⇒ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
+                    Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+eesM ⇒ᵀ○ e'es'M' =  eesM ⇒ᵀ⟨ ff ⟩ e'es'M'
+eesM ⇒ᵀ● e'es'M' =  eesM ⇒ᵀ⟨ tt ⟩ e'es'M'
 eesM ⇒ᵀ e'es'M' =  ∑ b , eesM ⇒ᵀ⟨ b ⟩ e'es'M'
 
 -- ⇐ᴿ, ⇐ᴷᴿ⟨ ⟩, ⇐ᴷᴿ, ⇐ᴱ, ⇐ᵀ :  Flipped ⇒ᴿ, ⇒ᴷᴿ⟨ ⟩, ⇒ᴷᴿ, ⇒ᴱ, ⇒ᵀ

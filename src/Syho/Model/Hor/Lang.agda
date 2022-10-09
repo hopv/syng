@@ -8,10 +8,11 @@ module Syho.Model.Hor.Lang where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _▷_; _›_)
+open import Base.Few using (absurd)
 open import Base.Eq using (refl; ◠_)
 open import Base.Dec using (Inh; auto)
 open import Base.Size using (Size; ∞; !; §_)
-open import Base.Bool using (Bool)
+open import Base.Bool using (Bool; tt; ff)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
@@ -23,11 +24,11 @@ open import Syho.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-synt
   _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ∗ᵒ?-intro;
   -∗ᵒ-monoʳ; -∗ᵒ-intro; -∗ᵒ-applyˡ; ∗ᵒThunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Syho.Model.Supd.Interp using (⇛ᴹ-mono; ⇛ᴹ-intro; ⇛ᴹ-join)
-open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀᵒ;
-  ⟨_⟩ᴾᵒ˂; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᴾᵒ⊤˂; ⟨_⟩ᵀᵒ⊤; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr;
-  ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤˂-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ;
-  ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ)
+open import Syho.Model.Supd.Interp using (⇛ᴹ-mono; ⇛ᴺᵒ-mono; ⇛ᴹ-intro; ⇛ᴹ-join)
+open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⁺⟨_⟩∞ᵒ; ⟨_⟩ᴾᵒ;
+  ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᴾᵒ˂; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᴾᵒ⊤˂; ⟨_⟩ᵀᵒ⊤; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᵀᵒ-val⁻¹;
+  ⁺⟨⟩∞ᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩∞ᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩∞ᵒ-kr⁻¹;
+  ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤˂-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ; ⇛ᴺᵒ-⁺⟨⟩∞ᵒ)
 
 private variable
   ł :  Level
@@ -66,6 +67,19 @@ abstract
     ▷ λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴹ-mono (∗ᵒ-mono §_ (?∗ᵒ-intro _)) }})
     › ⁺⟨⟩ᵀᵒ-kr
 
+  -- Compose ᵃ⟨⟩ᵒ and ⟨⟩∞ᵒ
+
+  ᵃ⟨⟩ᵒ-⟨⟩∞ᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩∞ᵒ ∞ ι ∗ᵒ [⊤]ᴺᵒ)  ⊨
+                 ⁺⟨ ĩ₁ (-, K , red) ⟩∞ᵒ ∞ ι
+  ᵃ⟨⟩ᵒ-⟨⟩∞ᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
+    (-, -, redᴷᴿ redM⇒) , λ _ eˇ M' → λ{
+    ff (redᴷᴿ eeˇM'⇐○) → big _ eˇ M' (-, eeˇM'⇐○) ▷
+      λ{ (-, (refl , refl) , big) → big ▷
+      ⇛ᴹ-mono (∗ᵒ-mono §_ (?∗ᵒ-intro _)) };
+    tt (redᴷᴿ eeˇM'⇐●) → big _ eˇ M' (-, eeˇM'⇐●) ▷
+      λ{ (-, (refl , refl) , big) → big ▷
+      ⇛ᴹ-mono (∗ᵒ-mono (λ big → λ{ .! → big }) (?∗ᵒ-intro _)) }}) › ⁺⟨⟩∞ᵒ-kr
+
   -- Bind for ⟨⟩ᴾ/ᵀᵒ
 
   ⟨⟩ᴾᵒ-bind :  ⟨ e ⟩ᴾᵒ ι (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ ι Pᵒ˙)  ⊨  ⟨ K ᴷ◁ e ⟩ᴾᵒ ι Pᵒ˙
@@ -91,6 +105,23 @@ abstract
     (∗ᵒ-monoʳ (∗ᵒ-monoˡ $ ⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
     ∗ᵒ-monoˡ λ{ (§ big) → § (⟨⟩ᵀᵒ-bind big ▷
     substᵒ (λ e⁺ → ⟨ e⁺ ⟩ᵀᵒ ∞ _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K})) }) }}) › ⁺⟨⟩ᵀᵒ-kr
+
+  ⟨⟩∞ᵒ-bind :  ⟨ e ⟩∞ᵒ ι ι'  ⊨  ⟨ K ᴷ◁ e ⟩∞ᵒ ∞ ι'
+  ⟨⟩∞ᵒ-bind {e = e} {ι = ι} {ι' = ι'} {K = K}
+    with val/ktxred e | val/ktxred-ĩ₀ {e = e} | val/ktxred-ktx {e = e}
+  … | ĩ₀ _ | ⇒e⇒v | _  rewrite ⇒e⇒v refl =
+    ⁺⟨⟩∞ᵒ-val⁻¹ › ⇛ᴺᵒ-mono absurd › ⇛ᴺᵒ-⁺⟨⟩∞ᵒ
+  … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
+    ⁺⟨⟩∞ᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ{
+    ((-, -, redᴷᴿ redM⇒) , big) → (-, -, redᴷᴿ redM⇒) , λ _ eˇ M' → λ{
+    ff (redᴷᴿ e'eˇM'⇐○) → big _ eˇ M' ff (redᴷᴿ e'eˇM'⇐○) ▷ ⇛ᴹ-mono
+      (∗ᵒ-monoʳ (∗ᵒ-monoˡ $ ⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
+      ∗ᵒ-monoˡ λ{ (§ big) → § (⟨⟩∞ᵒ-bind {K = K} big ▷
+      substᵒ (λ e⁺ → ⟨ e⁺ ⟩∞ᵒ ∞ ι') (◠ ᴷ∘ᴷ-ᴷ◁ {K = K})) });
+    tt (redᴷᴿ e'eˇM'⇐●) → big _ eˇ M' tt (redᴷᴿ e'eˇM'⇐●) ▷ ⇛ᴹ-mono
+      (∗ᵒ-monoʳ (∗ᵒ-monoˡ $ ⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
+      ∗ᵒ-monoˡ λ big → λ{ .! {ι'⁻} → big .! ▷ ⟨⟩∞ᵒ-bind {K = K} ▷
+      substᵒ (λ e⁺ → ⟨ e⁺ ⟩∞ᵒ ∞ ι'⁻) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }) }}) › ⁺⟨⟩∞ᵒ-kr
 
   -- nd by ᵃ⟨⟩ᵒ
 

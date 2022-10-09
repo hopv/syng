@@ -132,13 +132,13 @@ data  Wpᵀ (Pᵒ˙ : Val T → Propᵒ ł) (ι : Size) :  Val/Ktxred T →  Pro
 
 -- ⁺⟨ ⟩ᵀᵒ :  Semantic total weakest precondition on Val/Ktxred
 -- ⟨ ⟩ᵀᵒ :  ⁺⟨ ⟩ᵀᵒ on Expr
--- ⟨ ⟩˂ᵀᵒ :  ⟨ ⟩ᵀᵒ under Thunk
+-- ⟨ ⟩˂ᵀᵒ :  ⟨ ⟩ᵀᵒ under Shrunk
+
+-- We use Shrunk here for induction based semantically on the size, rather than
+-- only on the syntactic structure.
 
 ⁺⟨_⟩ᵀᵒ :  Val/Ktxred T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ⁺⟨ kr ⟩ᵀᵒ ι Pᵒ˙ =  Wpᵀ Pᵒ˙ ι kr
-
--- We use Shrunk for defining Wpᵀ, which enables induction based semantically on
--- the size rather than on the syntactic structure.
 
 ⟨_⟩ᵀᵒ ⟨_⟩ᵀᵒ˂ :  Expr∞ T →  Size →  (Val T → Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ⟨ e ⟩ᵀᵒ ι Pᵒ˙ =  ⁺⟨ val/ktxred e ⟩ᵀᵒ ι Pᵒ˙

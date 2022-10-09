@@ -126,11 +126,11 @@ following parts.
     + [`Prop`](src/Syho/Logic/Prop.agda) for propositions;
         [`Judg`](src/Syho/Logic/Judg.agda) for judgments.
     + [`Core`](src/Syho/Logic/Core.agda) for core proof rules;
-        [`Supd`](src/Syho/Logic/Supd.agda) for super updates;
+        [`Supd`](src/Syho/Logic/Supd.agda) for the super update;
         [`Ind`](src/Syho/Logic/Ind.agda) for the indirection modality and the
         precursors;
         [`Inv`](src/Syho/Logic/Inv.agda) for the impredicative invariant.
-        [`Hor`](src/Syho/Logic/Supd.agda) for Hoare triples;
+        [`Hor`](src/Syho/Logic/Supd.agda) for the Hoare triple;
         [`Mem`](src/Syho/Logic/Mem.agda) for the memory.
     + [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof
         rules.

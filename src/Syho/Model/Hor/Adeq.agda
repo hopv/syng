@@ -29,8 +29,8 @@ open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; e
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
   ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; ⊥ᵒ₀; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; Thunkᵒ; substᵒ;
   ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ;
-  ∗ᵒ-assocʳ; ?∗ᵒ-comm; ?∗ᵒ-intro; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ∃ᵒ∗ᵒ-out;
-  [∗ᵒ]-Mono; -∗ᵒ-applyʳ; ◎-Mono; ◎-just; Shrunkᵒ∗ᵒ-out)
+  ∗ᵒ-assocʳ; ?∗ᵒ-comm; ?∗ᵒ-intro; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono;
+  -∗ᵒ-applyʳ; ◎-Mono; ◎-just; Shrunkᵒ∗ᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-emp; ⇛ᴹ-Mono;
   ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴹ-intro; ⇛ᴹ-join; ⇛ᴹ-eatˡ; ⇛ᴹ-eatʳ; ⇛ᴹ-adeq;
@@ -281,17 +281,16 @@ abstract
 
   -- Lemma: If (e , es , M) ⇒ᵀ● (e' , es' , M'),
   -- then ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs entails
-  -- ⟨ e' ⟩∞ᵒ ∞ - ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' under ⟨ M ⟩⇛ᴹ⟨ M' ⟩ and Thunkᵒ
-  -- for some ιs'
+  -- ⟨ e' ⟩∞ᵒ ∞ - ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs under ⟨ M ⟩⇛ᴹ⟨ M' ⟩ and Thunkᵒ
 
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● :  (e , es , M) ⇒ᵀ● (e' , es' , M') →
     ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
-      ∃ᵒ ιs' , Thunkᵒ (λ ι₀' → ⟨ e' ⟩∞ᵒ ∞ ι₀' ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ) ι₀
+      Thunkᵒ (λ ι₀' → ⟨ e' ⟩∞ᵒ ∞ ι₀' ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ) ι₀
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● (redᵀ-hd (redᴱ e⇒kr (redᴷᴿ []⇒)))  rewrite e⇒kr =
     ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
     -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
     ⇛ᴹ-mono (λ (-, big) → big _ _ _ _ (redᴷᴿ []⇒)) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
-    ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm › λ big → -,
+    ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm › λ big →
     λ{ .! → big ▷ ∗ᵒ-mono (λ big → big .!) (∗ᵒ-elimʳ ∗ᵒ-Mono) }
 
   -- ⊨ ⟨ e ⟩∞ᵒ ι ∞ ensures that any execution from (e , [] , M) triggers the
@@ -311,5 +310,5 @@ abstract
         λ (-, -, ∙⊑ , (-, -, ≺ι∷ιs , big) , InvE') →
         go (≺ι∷ιs⇒acc ≺ι∷ιs) M'E'✓b $ ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , big , InvE');
       {b = tt} eesM⇒● .! → big ▷ ∗ᵒ-monoˡ (⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● eesM⇒●) ▷
-        ⇛ᴹ-step ME✓a ▷ λ (-, -, M'E'✓b , big) → big ▷ ∃ᵒ∗ᵒ-out ▷ λ (-, big) →
+        ⇛ᴹ-step ME✓a ▷ λ (-, -, M'E'✓b , big) →
         go (≺ᴰᴹ-wf <ˢ-wf) M'E'✓b $ big ▷ ∗ᵒ-monoˡ λ big → big .! }

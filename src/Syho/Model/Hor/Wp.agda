@@ -202,10 +202,10 @@ abstract
 
   -- Invert ⁺⟨⟩ᴾ/ᵀᵒ-val
 
-  ⁺⟨⟩ᴾᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩ᴾᵒ ι Pᵒ˙  ⊨  [⊤]ᴺᵒ -∗ᵒ ⇛ᵒ Pᵒ˙ v ∗ᵒ [⊤]ᴺᵒ
+  ⁺⟨⟩ᴾᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩ᴾᵒ ι Pᵒ˙  ⊨ ⇛ᴺᵒ  Pᵒ˙ v
   ⁺⟨⟩ᴾᵒ-val⁻¹ (⁺⟨⟩ᴾᵒ-val ⇛Pv) =  ⇛Pv
 
-  ⁺⟨⟩ᵀᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩ᵀᵒ ι Pᵒ˙  ⊨  [⊤]ᴺᵒ -∗ᵒ ⇛ᵒ Pᵒ˙ v ∗ᵒ [⊤]ᴺᵒ
+  ⁺⟨⟩ᵀᵒ-val⁻¹ :  ⁺⟨ ĩ₀ v ⟩ᵀᵒ ι Pᵒ˙  ⊨ ⇛ᴺᵒ  Pᵒ˙ v
   ⁺⟨⟩ᵀᵒ-val⁻¹ (⁺⟨⟩ᵀᵒ-val ⇛Pv) =  ⇛Pv
 
   -- Modified ⁺⟨⟩ᴾ/ᵀᵒ-kr'
@@ -215,7 +215,7 @@ abstract
                   ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⟨ e ⟩ᴾᵒ˂ ι Pᵒ˙ ∗ᵒ ⟨¿ eˇ ⟩ᴾᵒ⊤˂ ι ∗ᵒ [⊤]ᴺᵒ  ⊨
               ⁺⟨ ĩ₁ kr ⟩ᴾᵒ ι Pᵒ˙
   ⁺⟨⟩ᴾᵒ-kr big =  ⁺⟨⟩ᴾᵒ-kr' $ big ▷ -∗ᵒ-monoʳ (λ big M → big M ▷ (⇛ᴹ-mono
-    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM ▷
+    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷
     ⇛ᴹ-mono (∗ᵒ-monoʳ ∗ᵒ⇒∗ᵒ' › ∗ᵒ⇒∗ᵒ') ▷ ⇛ᴹ⇒⇛ᴹ') ▷ ⇛ᴹ⇒⇛ᴹ') ▷ -∗ᵒ⇒-∗ᵒ'
 
   ⁺⟨⟩ᵀᵒ-kr :  [⊤]ᴺᵒ -∗ᵒ ∀ᵒ M , ⟨ M ⟩⇛ᴹ⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
@@ -223,7 +223,7 @@ abstract
                   ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⟨ e ⟩ᵀᵒ˂ ι Pᵒ˙ ∗ᵒ ⟨¿ eˇ ⟩ᵀᵒ⊤˂ ι ∗ᵒ [⊤]ᴺᵒ  ⊨
               ⁺⟨ ĩ₁ kr ⟩ᵀᵒ ι Pᵒ˙
   ⁺⟨⟩ᵀᵒ-kr big =  ⁺⟨⟩ᵀᵒ-kr' $ big ▷ -∗ᵒ-monoʳ (λ big M → big M ▷ (⇛ᴹ-mono
-    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM ▷
+    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷
     ⇛ᴹ-mono (∗ᵒ-monoʳ ∗ᵒ⇒∗ᵒ' › ∗ᵒ⇒∗ᵒ') ▷ ⇛ᴹ⇒⇛ᴹ') ▷ ⇛ᴹ⇒⇛ᴹ') ▷ -∗ᵒ⇒-∗ᵒ'
 
   -- Invert ⁺⟨⟩ᴾ/ᵀᵒ-kr
@@ -234,7 +234,7 @@ abstract
                     ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⟨ e ⟩ᴾᵒ˂ ι Pᵒ˙ ∗ᵒ ⟨¿ eˇ ⟩ᴾᵒ⊤˂ ι ∗ᵒ [⊤]ᴺᵒ
   ⁺⟨⟩ᴾᵒ-kr⁻¹ (⁺⟨⟩ᴾᵒ-kr' big) =  big ▷ -∗ᵒ'⇒-∗ᵒ {Qᵒ = ∀ᵒ M , ⟨ M ⟩⇛ᴹ'⟨ M ⟩ _} ▷
     -∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ ,
-    λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM ▷ ⇛ᴹ'⇒⇛ᴹ ▷
+    λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷ ⇛ᴹ'⇒⇛ᴹ ▷
     ⇛ᴹ-mono (∗ᵒ'⇒∗ᵒ › ∗ᵒ-monoʳ ∗ᵒ'⇒∗ᵒ)
 
   ⁺⟨⟩ᵀᵒ-kr⁻¹ :  ⁺⟨ ĩ₁ kr ⟩ᵀᵒ ι Pᵒ˙  ⊨
@@ -243,7 +243,7 @@ abstract
                     ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⟨ e ⟩ᵀᵒ˂ ι Pᵒ˙ ∗ᵒ ⟨¿ eˇ ⟩ᵀᵒ⊤˂ ι ∗ᵒ [⊤]ᴺᵒ
   ⁺⟨⟩ᵀᵒ-kr⁻¹ (⁺⟨⟩ᵀᵒ-kr' big) =  big ▷ -∗ᵒ'⇒-∗ᵒ {Qᵒ = ∀ᵒ M , ⟨ M ⟩⇛ᴹ'⟨ M ⟩ _} ▷
     -∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ ,
-    λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM ▷ ⇛ᴹ'⇒⇛ᴹ ▷
+    λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷ ⇛ᴹ'⇒⇛ᴹ ▷
     ⇛ᴹ-mono (∗ᵒ'⇒∗ᵒ › ∗ᵒ-monoʳ ∗ᵒ'⇒∗ᵒ)
 
   -- Conversion between ⁺⟨⟩ᴾ/ᵀᵒ⊤ and ⁺⟨⟩ᴾ/ᵀᵒ λ _ → ⊤ᵒ₀
@@ -253,8 +253,8 @@ abstract
     ?∗ᵒ-intro _ › ⇛ᵒ-intro
   ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ (⁺⟨⟩ᴾᵒ⊤-kr' big) =  ⁺⟨⟩ᴾᵒ-kr $ big ▷
     -∗ᵒ'⇒-∗ᵒ {Qᵒ = ∀ᵒ M , ⟨ M ⟩⇛ᴹ'⟨ M ⟩ _} ▷ -∗ᵒ-monoʳ λ big M → big M ▷
-    ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM →
-    big e eˇ M' eeˇM'⇐krM ▷ ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono (∗ᵒ'⇒∗ᵒ ›
+    ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ →
+    big e eˇ M' eeˇM'⇐ ▷ ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono (∗ᵒ'⇒∗ᵒ ›
     ∗ᵒ-mono (λ big → λ{ .! → ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ (big .!) }) ∗ᵒ'⇒∗ᵒ)
 
   ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ :  ⁺⟨ vk ⟩ᵀᵒ⊤ ι  ⊨  ⁺⟨ vk ⟩ᵀᵒ ι λ _ → ⊤ᵒ₀
@@ -262,15 +262,15 @@ abstract
     ?∗ᵒ-intro _ › ⇛ᵒ-intro
   ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ (⁺⟨⟩ᵀᵒ⊤-kr' big) =  ⁺⟨⟩ᵀᵒ-kr $ big ▷
     -∗ᵒ'⇒-∗ᵒ {Qᵒ = ∀ᵒ M , ⟨ M ⟩⇛ᴹ'⟨ M ⟩ _} ▷ -∗ᵒ-monoʳ λ big M → big M ▷
-    ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM →
-    big e eˇ M' eeˇM'⇐krM ▷ ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono (∗ᵒ'⇒∗ᵒ ›
+    ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ →
+    big e eˇ M' eeˇM'⇐ ▷ ⇛ᴹ'⇒⇛ᴹ ▷ ⇛ᴹ-mono (∗ᵒ'⇒∗ᵒ ›
     ∗ᵒ-mono (λ{ (§ big) → § ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ big }) ∗ᵒ'⇒∗ᵒ)
 
   ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ :  ⁺⟨ vk ⟩ᴾᵒ ι Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ⊤ ι
   ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ {vk = ĩ₀ _} _ =  ⁺⟨⟩ᴾᵒ⊤-val
   ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ {vk = ĩ₁ _} ⟨kr⟩P =  ⁺⟨⟩ᴾᵒ⊤-kr' $ ⁺⟨⟩ᴾᵒ-kr⁻¹ ⟨kr⟩P ▷ -∗ᵒ-monoʳ
-    (λ big M → big M ▷ ⇛ᴹ-mono (λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM →
-    big e eˇ M' eeˇM'⇐krM ▷ ⇛ᴹ-mono (∗ᵒ-mono {Qᵒ = ⟨ _ ⟩ᴾᵒ⊤˂ _} (λ big →
+    (λ big M → big M ▷ ⇛ᴹ-mono (λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ →
+    big e eˇ M' eeˇM'⇐ ▷ ⇛ᴹ-mono (∗ᵒ-mono {Qᵒ = ⟨ _ ⟩ᴾᵒ⊤˂ _} (λ big →
     λ{ .! {ι'} → ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ (big .! {ι'}) }) ∗ᵒ⇒∗ᵒ' › ∗ᵒ⇒∗ᵒ') ▷ ⇛ᴹ⇒⇛ᴹ') ▷
     ⇛ᴹ⇒⇛ᴹ') ▷ -∗ᵒ⇒-∗ᵒ'
 
@@ -278,7 +278,7 @@ abstract
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ {vk = ĩ₀ _} _ =  ⁺⟨⟩ᵀᵒ⊤-val
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ {vk = ĩ₁ _} {ι} ⟨kr⟩P =  ⁺⟨⟩ᵀᵒ⊤-kr' $ ⁺⟨⟩ᵀᵒ-kr⁻¹ ⟨kr⟩P ▷
     -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono (λ (krM⇒ , big) → krM⇒ ,
-    λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM ▷ ⇛ᴹ-mono
+    λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷ ⇛ᴹ-mono
     (∗ᵒ-mono (λ{ (§_ big) → §_ {ι = ι} $ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ big }) ∗ᵒ⇒∗ᵒ' › ∗ᵒ⇒∗ᵒ') ▷
     ⇛ᴹ⇒⇛ᴹ') ▷ ⇛ᴹ⇒⇛ᴹ') ▷ -∗ᵒ⇒-∗ᵒ'
 
@@ -310,7 +310,7 @@ abstract
 
   ᵃ⟨⟩ᵒ-mono✓ :  (∀ v → Pᵒ˙ v ⊨✓ Qᵒ˙ v) →  ᵃ⟨ red ⟩ᵒ Pᵒ˙ ⊨ ᵃ⟨ red ⟩ᵒ Qᵒ˙
   ᵃ⟨⟩ᵒ-mono✓ Pv⊨✓Qv big M =  big M ▷ ⇛ᴹ-mono λ (redM⇒ , big) → redM⇒ ,
-    λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM ▷ λ (-, ≡vň , big) → -, ≡vň ,
+    λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷ λ (-, ≡vň , big) → -, ≡vň ,
     big ▷ ⇛ᴹ-mono✓ (Pv⊨✓Qv _)
 
   ᵃ⟨⟩ᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ᵃ⟨ red ⟩ᵒ Pᵒ˙ ⊨ ᵃ⟨ red ⟩ᵒ Qᵒ˙
@@ -320,8 +320,8 @@ abstract
   ⁺⟨⟩ᴾᵒ-mono✓ {vk = ĩ₀ _} Pv⊨✓Qv =  ⁺⟨⟩ᴾᵒ-val⁻¹ › -∗ᵒ-monoʳ
     (λ big M → big M ▷ ⇛ᴹ-mono✓ (∗ᵒ-mono✓ˡ $ Pv⊨✓Qv _)) › ⁺⟨⟩ᴾᵒ-val
   ⁺⟨⟩ᴾᵒ-mono✓ {vk = ĩ₁ _} Pv⊨✓Qv =  ⁺⟨⟩ᴾᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big M → big M ▷
-    ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM
-    ▷ ⇛ᴹ-mono (∗ᵒ-monoˡ λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-mono✓ Pv⊨✓Qv $ big .! })) ›
+    ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷
+    ⇛ᴹ-mono (∗ᵒ-monoˡ λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-mono✓ Pv⊨✓Qv $ big .! })) ›
     ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᴾᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩ᴾᵒ ι Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᴾᵒ ι Qᵒ˙
@@ -331,8 +331,8 @@ abstract
   ⁺⟨⟩ᵀᵒ-mono✓ {vk = ĩ₀ _} Pv⊨✓Qv =  ⁺⟨⟩ᵀᵒ-val⁻¹ › -∗ᵒ-monoʳ
     (λ big M → big M ▷ ⇛ᴹ-mono✓ (∗ᵒ-mono✓ˡ $ Pv⊨✓Qv _)) › ⁺⟨⟩ᵀᵒ-val
   ⁺⟨⟩ᵀᵒ-mono✓ {vk = ĩ₁ _} Pv⊨✓Qv =  ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big M → big M ▷
-    ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM
-    ▷ ⇛ᴹ-mono (∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-mono✓ Pv⊨✓Qv big })) › ⁺⟨⟩ᵀᵒ-kr
+    ⇛ᴹ-mono λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷
+    ⇛ᴹ-mono (∗ᵒ-monoˡ λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-mono✓ Pv⊨✓Qv big })) › ⁺⟨⟩ᵀᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-mono :  (∀ v → Pᵒ˙ v ⊨ Qᵒ˙ v) →  ⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙ ⊨ ⁺⟨ vk ⟩ᵀᵒ ι Qᵒ˙
   ⁺⟨⟩ᵀᵒ-mono =  (⊨⇒⊨✓ ∘_) › ⁺⟨⟩ᵀᵒ-mono✓
@@ -372,7 +372,7 @@ abstract
 
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ {vk = ĩ₀ _} =  ⁺⟨⟩ᵀᵒ-val⁻¹ › ⁺⟨⟩ᴾᵒ-val
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ {vk = ĩ₁ _} =  ⁺⟨⟩ᵀᵒ-kr⁻¹ › (-∗ᵒ-monoʳ λ big M → big M ▷ ⇛ᴹ-mono
-    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM → big e eˇ M' eeˇM'⇐krM ▷
+    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big e eˇ M' eeˇM'⇐ ▷
     ⇛ᴹ-mono (∗ᵒ-mono (λ{ (§ big) → λ{ .! → ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ big }}) $ ∗ᵒ-monoˡ $
     ⟨¿⟩ᵀᵒ⊤˂⇒⟨¿⟩ᴾᵒ⊤˂ {eˇ = eˇ})) › ⁺⟨⟩ᴾᵒ-kr
 
@@ -447,17 +447,16 @@ abstract
     -∗ᵒ-monoʳ (⇛ᵒ-eatˡ › ⇛ᵒ-mono ∗ᵒ-assocʳ) › ⁺⟨⟩ᴾᵒ-val
   ⁺⟨⟩ᴾᵒ-eatˡ {vk = ĩ₁ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-kr⁻¹ › -∗ᵒ-eatˡ ∀ᵒ⇛ᴹ-Mono ›
     -∗ᵒ-monoʳ (λ big M → big ▷ ∗ᵒ-monoʳ (_$ M) ▷ ⇛ᴹ-eatˡ ▷ ⇛ᴹ-mono (∗ᵒ∃ᵒ-out ›
-    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM → big ▷
-    ∗ᵒ-monoʳ (λ big → big e eˇ M' eeˇM'⇐krM) ▷ ⇛ᴹ-eatˡ ▷
-    ⇛ᴹ-mono (∗ᵒ-assocʳ › ∗ᵒ-monoˡ $ ∗ᵒThunkᵒ-out ›
-    λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-eatˡ $ big .! }))) › ⁺⟨⟩ᴾᵒ-kr
+    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big ▷
+    ∗ᵒ-monoʳ (λ big → big e eˇ M' eeˇM'⇐) ▷ ⇛ᴹ-eatˡ ▷ ⇛ᴹ-mono (∗ᵒ-assocʳ ›
+    ∗ᵒ-monoˡ $ ∗ᵒThunkᵒ-out › λ big → λ{ .! → ⁺⟨⟩ᴾᵒ-eatˡ $ big .! }))) ›
+    ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-eatˡ :  Qᵒ ∗ᵒ (⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙)  ⊨  ⁺⟨ vk ⟩ᵀᵒ ι λ v → Qᵒ ∗ᵒ Pᵒ˙ v
   ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₀ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-val⁻¹ › -∗ᵒ-eatˡ ∀ᵒ⇛ᴹ-Mono ›
     -∗ᵒ-monoʳ (⇛ᵒ-eatˡ › ⇛ᵒ-mono ∗ᵒ-assocʳ) › ⁺⟨⟩ᵀᵒ-val
   ⁺⟨⟩ᵀᵒ-eatˡ {vk = ĩ₁ _} =  ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-eatˡ ∀ᵒ⇛ᴹ-Mono ›
     -∗ᵒ-monoʳ (λ big M → big ▷ ∗ᵒ-monoʳ (_$ M) ▷ ⇛ᴹ-eatˡ ▷ ⇛ᴹ-mono (∗ᵒ∃ᵒ-out ›
-    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐krM → big ▷
-    ∗ᵒ-monoʳ (λ big → big e eˇ M' eeˇM'⇐krM) ▷ ⇛ᴹ-eatˡ ▷
-    ⇛ᴹ-mono (∗ᵒ-assocʳ › ∗ᵒ-monoˡ $ ∗ᵒShrunkᵒ-out ›
-    λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-eatˡ big }))) › ⁺⟨⟩ᵀᵒ-kr
+    λ (krM⇒ , big) → krM⇒ , λ e eˇ M' eeˇM'⇐ → big ▷
+    ∗ᵒ-monoʳ (λ big → big e eˇ M' eeˇM'⇐) ▷ ⇛ᴹ-eatˡ ▷ ⇛ᴹ-mono (∗ᵒ-assocʳ ›
+    ∗ᵒ-monoˡ $ ∗ᵒShrunkᵒ-out › λ{ (§ big) → § ⁺⟨⟩ᵀᵒ-eatˡ big }))) › ⁺⟨⟩ᵀᵒ-kr

@@ -14,7 +14,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using ()
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ;
-  empᴵⁿᴳ-✓; envᴳ-cong)
+  empᴵⁿᴳ-✓[⊤]; envᴳ-cong)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
   ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; substᵒ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ∗ᵒ-comm; ∗ᵒ?-intro; -∗ᵒ-Mono; -∗ᵒ-intro; -∗ᵒ-applyʳ; ⤇ᴱ-param;

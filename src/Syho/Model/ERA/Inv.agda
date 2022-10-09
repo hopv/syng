@@ -112,8 +112,8 @@ abstract
 
   -- empᴵⁿᵛ with [⊤]ᴺʳ is valid
 
-  empᴵⁿᵛ-✓ :  empᴵⁿᵛ ✓ᴵⁿᵛ [⊤]ᴺʳ
-  empᴵⁿᵛ-✓ =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _) , _
+  empᴵⁿᵛ-✓[⊤] :  empᴵⁿᵛ ✓ᴵⁿᵛ [⊤]ᴺʳ
+  empᴵⁿᵛ-✓[⊤] =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _) , _
 
   -- Update the set part of [ ]ᴺʳ
 

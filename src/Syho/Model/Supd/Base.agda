@@ -14,7 +14,7 @@ open import Base.Prod using (∑-syntax; _×_; π₀; _,_; -,_; _,-)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Glob using (iᴹᵉᵐ; outᴳ; Envᴵⁿᴳ; Envᴵⁿᴳ˙; envᴳ;
-  empᴵⁿᴳ; empᴵⁿᴳ-✓; envᴳ-cong; upd˙-out-envᴳ)
+  empᴵⁿᴳ; empᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-out-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
   ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⊨⇒⊨✓;
   substᵒ; ∗ᵒ≡∗ᵒ'; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ;
@@ -245,6 +245,6 @@ abstract
 
   ⇛ᵍ-adeq :  ⊨ Inv (get empᴵⁿᴳ) →  ✓ᴹ M →
              [⊤]ᴺᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᵍ⟨ M' ⟩ ⌜ Y ⌝ᵒ →  Y
-  ⇛ᵍ-adeq ⊨Invgetemp ✓M [⊤]⊨M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓ ✓M) $
+  ⇛ᵍ-adeq ⊨Invgetemp ✓M [⊤]⊨M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓[⊤] ✓M) $
     [⊤]⊨M⇛M'Y › ∗ᵒ?-intro ⊨Invgetemp › ⇛ᵍ-apply ›
     ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ {Qᵒ = ⌜ _ ⌝ᵒ× ⊤ᵒ₀} (_,-) › ∃ᵒ∗ᵒ-out › π₀

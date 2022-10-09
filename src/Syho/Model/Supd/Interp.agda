@@ -140,26 +140,26 @@ abstract
 
   -- Introduce ⇛ᴹ/⇛ᵒ
 
-  ⤇ᵒ⇒⇛ᴹ :  ⤇ᵒ Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M ⟩ Pᵒ
+  ⤇ᵒ⇒⇛ᴹ :  ⤇ᵒ Pᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M ⟩  Pᵒ
   ⤇ᵒ⇒⇛ᴹ =  ⤇ᵒ⇒⇛ᵍ refl˙
 
-  ⇛ᴹ-intro :  Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M ⟩ Pᵒ
+  ⇛ᴹ-intro :  Pᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M ⟩  Pᵒ
   ⇛ᴹ-intro =  ⇛ᵍ-intro refl˙
 
-  ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨  ⇛ᵒ Pᵒ
+  ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨ ⇛ᵒ  Pᵒ
   ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍᶠ refl˙
 
-  ⇛ᵒ-intro :  Pᵒ  ⊨  ⇛ᵒ Pᵒ
+  ⇛ᵒ-intro :  Pᵒ  ⊨ ⇛ᵒ  Pᵒ
   ⇛ᵒ-intro =  ⇛ᵍᶠ-intro refl˙
 
   -- Introduce ⇛ᴹ with ✓ᴹ
 
-  ⇛ᴹ-intro-✓ᴹ :  Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M ⟩  ⌜ ✓ᴹ M ⌝ᵒ×  Pᵒ
+  ⇛ᴹ-intro-✓ᴹ :  Pᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M ⟩  ⌜ ✓ᴹ M ⌝ᵒ×  Pᵒ
   ⇛ᴹ-intro-✓ᴹ =  ⇛ᵍ-intro-✓ᴹ refl˙
 
   -- Join ⇛ᴹ/⇛ᵒ
 
-  ⇛ᴹ-join :  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⟨ M' ⟩⇛ᴹ⟨ M'' ⟩ Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M'' ⟩ Pᵒ
+  ⇛ᴹ-join :  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⟨ M' ⟩⇛ᴹ⟨ M'' ⟩ Pᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M'' ⟩  Pᵒ
   ⇛ᴹ-join =  ⇛ᵍ-join refl refl˙
 
   ⇛ᵒ-join :  ⇛ᵒ ⇛ᵒ Pᵒ  ⊨  ⇛ᵒ Pᵒ
@@ -167,10 +167,10 @@ abstract
 
   -- Let ⇛ᴹ/⇛ᵒ eat a proposition under ∗ᵒ
 
-  ⇛ᴹ-eatˡ :  Qᵒ ∗ᵒ (⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ)  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
+  ⇛ᴹ-eatˡ :  Qᵒ ∗ᵒ (⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ)  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
   ⇛ᴹ-eatˡ =  ⇛ᵍ-eatˡ
 
-  ⇛ᴹ-eatʳ :  (⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
+  ⇛ᴹ-eatʳ :  (⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
   ⇛ᴹ-eatʳ =  ⇛ᵍ-eatʳ
 
   ⇛ᵒ-eatˡ :  Qᵒ ∗ᵒ (⇛ᵒ Pᵒ)  ⊨ ⇛ᵒ  Qᵒ ∗ᵒ Pᵒ
@@ -210,7 +210,7 @@ abstract
   -- Monotonicity of ⇛ᴺᵒ
 
   ⇛ᴺᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⇛ᴺᵒ Pᵒ ⊨ ⇛ᴺᵒ Qᵒ
-  ⇛ᴺᵒ-mono✓ P⊨✓Q =  ⇛ᴺᵒ-make {Pᵒ = ⇛ᴺᵒ _} λ ✓∙ →
+  ⇛ᴺᵒ-mono✓ P⊨✓Q =  ⇛ᴺᵒ-make λ ✓∙ →
     -∗ᵒ-applyʳ ⇛ᵒ-Mono ✓∙ › ⇛ᵒ-mono✓ $ ∗ᵒ-mono✓ˡ P⊨✓Q
 
   ⇛ᴺᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⇛ᴺᵒ Pᵒ ⊨ ⇛ᴺᵒ Qᵒ
@@ -218,13 +218,13 @@ abstract
 
   -- Introduce ⇛ᴺᵒ
 
-  ⤇ᵒ⇒⇛ᴺᵒ :  ⤇ᵒ Pᵒ  ⊨  ⇛ᴺᵒ Pᵒ
+  ⤇ᵒ⇒⇛ᴺᵒ :  ⤇ᵒ Pᵒ  ⊨ ⇛ᴺᵒ  Pᵒ
   ⤇ᵒ⇒⇛ᴺᵒ =  ⇛ᴺᵒ-make λ _ → ∗ᵒ-monoˡ ⤇ᵒ⇒⇛ᵒ › ⇛ᵒ-eatʳ
 
-  ⇛ᴺᵒ-intro :  Pᵒ  ⊨  ⇛ᴺᵒ Pᵒ
+  ⇛ᴺᵒ-intro :  Pᵒ  ⊨ ⇛ᴺᵒ  Pᵒ
   ⇛ᴺᵒ-intro =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᴺᵒ
 
   -- Join ⇛ᴺᵒ
 
-  ⇛ᴺᵒ-join :  ⇛ᴺᵒ ⇛ᴺᵒ Pᵒ  ⊨  ⇛ᴺᵒ Pᵒ
+  ⇛ᴺᵒ-join :  ⇛ᴺᵒ ⇛ᴺᵒ Pᵒ  ⊨ ⇛ᴺᵒ Pᵒ
   ⇛ᴺᵒ-join =  -∗ᵒ-monoʳ $ ⇛ᵒ-mono✓ (λ ✓∙ → -∗ᵒ-applyʳ ⇛ᵒ-Mono ✓∙) › ⇛ᵒ-join

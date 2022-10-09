@@ -13,6 +13,7 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Acc using (Acc; acc)
 open import Base.Size using (Size; ∞; Size'; sz; sz⁻¹; _<ˢ_; size<; !; §_;
   <ˢ-wf)
+open import Base.Bool using (tt; ff)
 open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Option using (¿_; ň; š_)
@@ -22,26 +23,27 @@ open import Base.Sety using ()
 open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E; Mem; ✓ᴹ_)
 open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-ĩ₀;
   val/ktxred-V⇒E)
-open import Syho.Lang.Reduce using (_⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇐ᵀ_; redᵀ-hd; redᵀ-tl;
-  _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ)
+open import Syho.Lang.Reduce using ([]⇒; redᴷᴿ; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇒ᵀ○_; _⇒ᵀ●_;
+  redᵀ-hd; redᵀ-tl; _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ; Infᵀ; infᵀ)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓[⊤])
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
-  ⌜_⌝ᵒ×_; ⊥ᵒ₀; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; substᵒ; ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ';
-  ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm;
-  ?∗ᵒ-intro; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono; -∗ᵒ-applyʳ; ◎-Mono;
-  ◎-just; Shrunkᵒ∗ᵒ-out)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
+  ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; ⊥ᵒ₀; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; Thunkᵒ; substᵒ;
+  ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ;
+  ∗ᵒ-assocʳ; ?∗ᵒ-comm; ?∗ᵒ-intro; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ∃ᵒ∗ᵒ-out;
+  [∗ᵒ]-Mono; -∗ᵒ-applyʳ; ◎-Mono; ◎-just; Shrunkᵒ∗ᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-emp; ⇛ᴹ-Mono;
   ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴹ-intro; ⇛ᴹ-join; ⇛ᴹ-eatˡ; ⇛ᴹ-eatʳ; ⇛ᴹ-adeq;
   ⇛ᴹ-step)
 open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᵀᵒ˂;
-  ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᵀᵒ⊤; ⟨¿_⟩ᴾᵒ⊤˂; ⟨¿_⟩ᵀᵒ⊤˂; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹;
-  ⁺⟨⟩ᴾᵒ-Mono; ⁺⟨⟩ᴾᵒ⊤-Mono; ⁺⟨⟩ᵀᵒ-Mono; ∀ᵒ⇛ᴹ-Mono; ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ;
-  ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ)
+  ⟨_⟩∞ᵒ˂ˡ; ⟨_⟩∞ᵒ˂ʳ; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᵀᵒ⊤; ⟨¿_⟩ᴾᵒ⊤˂; ⟨¿_⟩ᵀᵒ⊤˂; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr⁻¹;
+  ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩∞ᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-Mono; ⁺⟨⟩ᴾᵒ⊤-Mono; ⁺⟨⟩ᵀᵒ-Mono; ∀ᵒ⇛ᴹ-Mono;
+  ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ;
+  ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ)
 
 private variable
   ł :  Level
-  ι :  Size
+  ι ι₀ ι' :  Size
   ιs :  List (Size' 3ᴸ)
   M M' :  Mem
   X :  Set₀
@@ -245,3 +247,69 @@ abstract
     val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
   ⟨⟩∞ᵒ-progress-forked ⊨⟨e⟩P =
     ⟨⟩ᴾᵒ-progress-forked $ ⊨⟨e⟩P ▷ ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ {Pᵒ˙ = λ _ → ⊥ᵒ₀}
+
+  -- Lemma: If (e , es , M) ⇒ᵀ○ (e' , es' , M'),
+  -- then ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs entails
+  -- ⟨ e' ⟩∞ᵒ ι' ι₀ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' under ⟨ M ⟩⇛ᴹ⟨ M' ⟩
+  -- for some ι', ιs' satisfying sz ι' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs
+
+  ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ :  (e , es , M) ⇒ᵀ○ (e' , es' , M') →
+    ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
+      ∃ᵒ ι'⁺ , ∃ᵒ ιs' , ⌜ ι'⁺ ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
+        ⟨ e' ⟩∞ᵒ (sz⁻¹ ι'⁺) ι₀ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ
+  ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐○))
+    rewrite e⇒kr =  ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
+    -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
+    ⇛ᴹ-mono (λ (-, big) → big _ _ _ _ e'eˇM'⇐○) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
+    ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm › go {eˇ' = eˇ}
+   where
+    go :  ⟨ e ⟩∞ᵒ˂ˡ ι ι₀ ∗ᵒ ⟨¿ eˇ' ⟩ᵀᵒ⊤˂ ι ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ ⊨
+            ∃ᵒ ι'⁺ , ∃ᵒ ιs' , ⌜ ι'⁺ ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
+              ⟨ e ⟩∞ᵒ (sz⁻¹ ι'⁺) ι₀ ∗ᵒ [∗ᵒ]⟨ ¿⇒ᴸ eˇ' ⧺ es ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ
+    go {eˇ' = ň} =  Shrunkᵒ∗ᵒ-out › λ{ (§ big) → -, -,
+      ≺ᴰᴹ-hd $ aug-∷ size< aug-refl , big ▷ ∗ᵒ-monoʳ (∗ᵒ-elimʳ ∗ᵒ-Mono) }
+    go {eˇ' = š _} =  Shrunkᵒ∗ᵒ-out › λ{ (§ big) → big ▷ ?∗ᵒ-comm ▷
+      Shrunkᵒ∗ᵒ-out ▷ λ{ (§ big) → -, -,
+      ≺ᴰᴹ-hd $ aug-∷ size< $ aug-∷ size< aug-refl ,
+      big ▷ ?∗ᵒ-comm ▷ ∗ᵒ-monoʳ ∗ᵒ-assocʳ }}
+  ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ {ιs = []} (redᵀ-tl _) =  ?∗ᵒ-comm › ∗ᵒ⇒∗ᵒ' › λ ()
+  ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ {ιs = _ ∷ _} (redᵀ-tl esM⇒) =
+    ∗ᵒ-monoʳ (∗ᵒ-assocˡ › ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, esM⇒)) ›
+    ⇛ᴹ-eatˡ › ⇛ᴹ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
+    -, -, ≺ᴰᴹ-tl ι'∷ιs'≺ ,
+    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , big ▷ ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ ▷ ∗ᵒ-assocʳ)
+
+  -- Lemma: If (e , es , M) ⇒ᵀ● (e' , es' , M'),
+  -- then ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs entails
+  -- ⟨ e' ⟩∞ᵒ ∞ - ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' under ⟨ M ⟩⇛ᴹ⟨ M' ⟩ and Thunkᵒ
+  -- for some ιs'
+
+  ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● :  (e , es , M) ⇒ᵀ● (e' , es' , M') →
+    ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
+      ∃ᵒ ιs' , Thunkᵒ (λ ι₀' → ⟨ e' ⟩∞ᵒ ∞ ι₀' ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' ∗ᵒ [⊤]ᴺᵒ) ι₀
+  ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● (redᵀ-hd (redᴱ e⇒kr (redᴷᴿ []⇒)))  rewrite e⇒kr =
+    ?∗ᵒ-comm › ∗ᵒ-monoʳ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoˡ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
+    -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
+    ⇛ᴹ-mono (λ (-, big) → big _ _ _ _ (redᴷᴿ []⇒)) › ⇛ᴹ-join) › ⇛ᴹ-eatˡ ›
+    ⇛ᴹ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm › λ big → -,
+    λ{ .! → big ▷ ∗ᵒ-mono (λ big → big .!) (∗ᵒ-elimʳ ∗ᵒ-Mono) }
+
+  -- ⊨ ⟨ e ⟩∞ᵒ ι ∞ ensures that any execution from (e , [] , M) triggers the
+  -- event an infinite number of times
+
+  ⟨⟩∞ᵒ⇒Inf :  ⊨ ⟨ e ⟩∞ᵒ ι ι' →  ✓ᴹ M →  Infᵀ ι' (e , [] , M)
+  ⟨⟩∞ᵒ⇒Inf ⊨⟨e⟩∞ ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓[⊤] ✓M) $
+    ◎-just ▷ ?∗ᵒ-intro _ ▷ ?∗ᵒ-intro ⊨⟨e⟩∞ ▷ ∗ᵒ?-intro Invᴳ-emp
+   where
+    -- Well-founded induction by the metric (ι' , sz ι ∷ ιs)
+    go :  Acc (Rᴰᴹ _<ˢ_) (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →
+      ((⟨ e ⟩∞ᵒ ι ι' ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
+      Infᵀ ι' (e , es , M)
+    go (acc ≺ι∷ιs⇒acc) ME✓a big =  infᵀ λ{
+      {b = ff} eesM⇒○ → big ▷ ∗ᵒ-monoˡ (⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ eesM⇒○) ▷
+        ⇛ᴹ-step ME✓a ▷ λ (-, -, M'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
+        λ (-, -, ∙⊑ , (-, -, ≺ι∷ιs , big) , InvE') →
+        go (≺ι∷ιs⇒acc ≺ι∷ιs) M'E'✓b $ ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , big , InvE');
+      {b = tt} eesM⇒● .! → big ▷ ∗ᵒ-monoˡ (⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● eesM⇒●) ▷
+        ⇛ᴹ-step ME✓a ▷ λ (-, -, M'E'✓b , big) → big ▷ ∃ᵒ∗ᵒ-out ▷ λ (-, big) →
+        go (≺ᴰᴹ-wf <ˢ-wf) M'E'✓b $ big ▷ ∗ᵒ-monoˡ λ big → big .! }

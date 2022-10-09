@@ -8,35 +8,36 @@ module Syho.Model.Hor.Adeq where
 
 open import Base.Level using (Level; 1ᴸ; 3ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Few using (⊤)
-open import Base.Eq using (_≡_)
+open import Base.Few using (⊤; ⊥₀; absurd)
+open import Base.Eq using (_≡_; refl)
 open import Base.Acc using (Acc; acc)
 open import Base.Size using (Size; ∞; Size'; sz; sz⁻¹; _<ˢ_; size<; !; §_;
   <ˢ-wf)
-open import Base.Prod using (_×_; π₀; π₁; _,_; -,_)
-open import Base.Sum using (ĩ₁_)
+open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_)
+open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Option using (¿_; ň; š_)
 open import Base.List using (List; []; _∷_; ¿⇒ᴸ; _⧺_; _$ᴸ_; _∈ᴸ_; ∈ʰᵈ; ∈ᵗˡ_;
   aug-refl; aug-∷; _≺ᴰᴹ⟨_⟩_; Rᴰᴹ; ≺ᴰᴹ-hd; ≺ᴰᴹ-tl; ≺ᴰᴹ-wf)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E; Mem; ✓ᴹ_)
-open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-V⇒E)
+open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-ĩ₀;
+  val/ktxred-V⇒E)
 open import Syho.Lang.Reduce using (_⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇐ᵀ_; redᵀ-hd; redᵀ-tl;
   _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓[⊤])
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
-  ⌜_⌝ᵒ×_; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; substᵒ; ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ;
-  ∗ᵒ-Mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ?∗ᵒ-intro;
-  ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono; -∗ᵒ-applyʳ; ◎-Mono; ◎-just;
-  Shrunkᵒ∗ᵒ-out)
+  ⌜_⌝ᵒ×_; ⊥ᵒ₀; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; substᵒ; ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ';
+  ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm;
+  ?∗ᵒ-intro; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono; -∗ᵒ-applyʳ; ◎-Mono;
+  ◎-just; Shrunkᵒ∗ᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-emp; ⇛ᴹ-Mono;
   ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴹ-intro; ⇛ᴹ-join; ⇛ᴹ-eatˡ; ⇛ᴹ-eatʳ; ⇛ᴹ-adeq;
   ⇛ᴹ-step)
-open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀᵒ; ⟨_⟩ᵀᵒ˂; ⟨_⟩ᴾᵒ⊤;
-  ⟨_⟩ᵀᵒ⊤; ⟨¿_⟩ᴾᵒ⊤˂; ⟨¿_⟩ᵀᵒ⊤˂; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-Mono;
-  ⁺⟨⟩ᴾᵒ⊤-Mono; ⁺⟨⟩ᵀᵒ-Mono; ∀ᵒ⇛ᴹ-Mono; ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤;
-  ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ)
+open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᵀᵒ˂;
+  ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᵀᵒ⊤; ⟨¿_⟩ᴾᵒ⊤˂; ⟨¿_⟩ᵀᵒ⊤˂; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹;
+  ⁺⟨⟩ᴾᵒ-Mono; ⁺⟨⟩ᴾᵒ⊤-Mono; ⁺⟨⟩ᵀᵒ-Mono; ∀ᵒ⇛ᴹ-Mono; ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ;
+  ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ)
 
 private variable
   ł :  Level
@@ -220,3 +221,27 @@ abstract
       λ (-, -, M'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
       λ (-, -, ∙⊑ , (-, -, ≺ι∷ιs , big) , InvE') →
       go (≺ι∷ιs⇒acc ≺ι∷ιs) M'E'✓b $ ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , big , InvE')
+
+--------------------------------------------------------------------------------
+-- Adequacy of the semantic infinite weakest precondition
+
+abstract
+
+  -- On the progress property
+  -- The main thread never becomes a value
+
+  ⟨⟩∞ᵒ-progress-main :
+    ⊨ ⟨ e ⟩∞ᵒ ι ∞ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →
+    ∑ kr ,  val/ktxred e' ≡ ĩ₁ kr  ×  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩∞ᵒ-progress-main {e' = e'} ⊨⟨e⟩P ✓M eM⇒* with val/ktxred e' |
+    (λ{v} → val/ktxred-ĩ₀ {e = e'} {v}) | (λ{kr} → ⟨⟩ᴾᵒ-progress-main
+    {Pᵒ˙ = λ _ → ⊥ᵒ₀} {kr = kr} (⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ ⊨⟨e⟩P) ✓M eM⇒*)
+  … | ĩ₀ v | ⇒e'⇒v | _  rewrite ⇒e'⇒v refl =  absurd $
+    ⟨⟩ᴾᵒ-post {X˙ = λ _ → ⊥₀} (⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ ⊨⟨e⟩P) ✓M eM⇒*
+  … | ĩ₁ kr | _ | ⇒krM'⇒ =  -, refl , ⇒krM'⇒ refl
+
+  ⟨⟩∞ᵒ-progress-forked :
+    ⊨ ⟨ e ⟩∞ᵒ ι ∞ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →
+    val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩∞ᵒ-progress-forked ⊨⟨e⟩P =
+    ⟨⟩ᴾᵒ-progress-forked $ ⊨⟨e⟩P ▷ ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ {Pᵒ˙ = λ _ → ⊥ᵒ₀}

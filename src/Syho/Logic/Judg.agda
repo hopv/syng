@@ -609,7 +609,8 @@ data  Judg ι  where
 
   -- Thread forking
 
-  -- For the infinite Hoare triple, the forked thread should terminate
+  -- For the infinite Hoare triple, the forked thread should terminate, because
+  -- we don't assume fair scheduling of threads
 
   hor-fork :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
               Q  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →

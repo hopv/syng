@@ -203,7 +203,7 @@ data  _⇒ᵀ*_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
 -- SNᵀ :  The thread list with the memory is strongly normalizing, i.e., any
 --        execution starting with the state eventually terminates
 --        We define it by Acc, saying that the state is accessible w.r.t. ⇐ᵀ
---        We don't assume fair thread scheduling for termination
+--        We don't assume fair scheduling of threads here
 
 SNᵀ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 SNᵀ =  Acc _⇐ᵀ_
@@ -211,6 +211,9 @@ SNᵀ =  Acc _⇐ᵀ_
 --------------------------------------------------------------------------------
 -- Infᵀ :  Any execution starting with the thread list with the memory triggers
 --         the event an infinite number of times
+--         This means that the execution never terminates and from any point of
+--         execution the event occurs in a finite number of steps
+--         We don't assume fair scheduling of threads here
 
 data  Infᵀ (ι : Size) :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 

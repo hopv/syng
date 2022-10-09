@@ -156,7 +156,7 @@ abstract
     λ{ _ _ _ tt (redᴷᴿ []⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷
     ∗ᵒ-monoʳ (?∗ᵒ-intro _) })) › ⁺⟨⟩∞ᵒ-kr
 
-  -- fork by ⁺⟨⟩ᴾ/ᵀᵒ
+  -- fork by ⁺⟨⟩ᴾ/ᵀᵒ / ⁺⟨⟩∞ᵒ
   -- The premise is under the thunk for ⁺⟨⟩ᴾᵒ
 
   ⁺⟨⟩ᴾᵒ-fork :  ⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ˂ ι Pᵒ˙  ∗ᵒ  ⟨ e ⟩ᴾᵒ⊤˂ ι  ⊨
@@ -170,3 +170,9 @@ abstract
   ⁺⟨⟩ᵀᵒ-fork =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, -, redᴷᴿ fork⇒) ,
     λ{ _ _ _ (-, redᴷᴿ fork⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ (∗ᵒ-mono
     (λ big → § big) (λ big → §_ {ι = ∞} big)) ▷ ∗ᵒ-assocˡ})) › ⁺⟨⟩ᵀᵒ-kr
+
+  ⁺⟨⟩∞ᵒ-fork :  ⟨ K ᴷ◁ ∇ _ ⟩∞ᵒ ι ι'  ∗ᵒ  ⟨ e ⟩ᵀᵒ⊤ ι  ⊨
+                  ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞ᵒ ∞ ι'
+  ⁺⟨⟩∞ᵒ-fork =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, -, redᴷᴿ fork⇒) ,
+    λ{ _ _ _ ff (redᴷᴿ fork⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoˡ (∗ᵒ-mono
+    (λ big → § big) (λ big → §_ {ι = ∞} big)) ▷ ∗ᵒ-assocˡ})) › ⁺⟨⟩∞ᵒ-kr

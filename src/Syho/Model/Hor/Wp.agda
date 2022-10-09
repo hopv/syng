@@ -359,7 +359,7 @@ abstract
   ⁺⟨⟩ᴾᵒ-size :  ∀{ι' : Size< ι} →  ⁺⟨ vk ⟩ᴾᵒ ι Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᴾᵒ ι' Pᵒ˙
   ⁺⟨⟩ᴾᵒ-size ⟨vk⟩P =  ⟨vk⟩P
 
-  ⁺⟨⟩ᵀᵒ-size :  ∀{ι' : Size< ι} →  ⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙
+  ⁺⟨⟩ᵀᵒ-size :  ∀{ι' : Size< ι} →  ⁺⟨ vk ⟩ᵀᵒ ι' Pᵒ˙  ⊨  ⁺⟨ vk ⟩ᵀᵒ ι Pᵒ˙
   ⁺⟨⟩ᵀᵒ-size ⟨vk⟩P =  ⟨vk⟩P
 
   ⟨¿⟩ᵀᵒ⊤˂-size :  ∀{ι' : Size< ι} → ⟨¿ eˇ ⟩ᵀᵒ⊤˂ ι'  ⊨  ⟨¿ eˇ ⟩ᵀᵒ⊤˂ ι

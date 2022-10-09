@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Proof rules on ⇛
+-- Proof rules on the super-update sequent
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -42,12 +42,12 @@ abstract
   ⇛-refl :  P ⊢[ ι ][ i ]⇛ P
   ⇛-refl =  ⤇-intro » ⇛-refl-⤇
 
-  -- Lift a pure sequent into a super update ⇛
+  -- Lift ⊢ into ⊢⇛
 
   ⊢⇒⊢⇛ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ Q
   ⊢⇒⊢⇛ P⊢Q =  P⊢Q » ⇛-refl
 
-  -- Compose with ⇛
+  -- Compose ⇛
 
   -->  _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]⇛ Q →  Q ⊢[ ι ][ i ]⇛ R →  P ⊢[ ι ][ i ]⇛ R
 
@@ -56,7 +56,7 @@ abstract
   _ᵘ»_ :  P ⊢[ ι ][ i ]⇛ Q →  Q ⊢[ ι ] R →  P ⊢[ ι ][ i ]⇛ R
   P⊢⇛Q ᵘ» Q⊢R =  P⊢⇛Q ᵘ»ᵘ ⊢⇒⊢⇛ Q⊢R
 
-  -- Framing of ⇛
+  -- Frame for ⇛
 
   -->  ⇛-frameˡ :  P ⊢[ ι ][ i ]⇛ Q →  R ∗ P ⊢[ ι ][ i ]⇛ R ∗ Q
 
@@ -91,7 +91,7 @@ abstract
   _»ᵘᴺ_ :  P ⊢[ ι ] Q →  Q ⊢[ ι ][ i ]⇛ᴺ R →  P ⊢[ ι ][ i ]⇛ᴺ R
   P⊢Q »ᵘᴺ Q⊢⇛R =  ⊢⇒⊢⇛ᴺ P⊢Q ᵘᴺ»ᵘᴺ Q⊢⇛R
 
-  -- Framing of ⇛ᴺ
+  -- Frame for ⇛ᴺ
 
   ⇛ᴺ-frameˡ :  P ⊢[ ι ][ i ]⇛ᴺ Q →  R ∗ P ⊢[ ι ][ i ]⇛ᴺ R ∗ Q
   ⇛ᴺ-frameˡ P⊢⇛Q =  ∗-assocˡ » ⇛-frameˡ P⊢⇛Q ᵘ» ∗-assocʳ

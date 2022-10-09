@@ -77,13 +77,13 @@ _⊢[_]_ _⊢[<_]_ :  Prop∞ →  Size →  Prop∞ →  Set₁
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
--- ⊢[ ][ ]⇛ etc. :  Super update
+-- ⊢[ ][ ]⇛ etc. :  Super-update sequent
 
 _⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop∞ →  Size →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
 P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 
--- ⊢[ ][ ]⇛ᴺ etc. :  Super update with the universal name set token [⊤]ᴺ
+-- ⊢[ ][ ]⇛ᴺ etc. :  Super-update sequent with the universal name set token [⊤]ᴺ
 
 _⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_ :  Prop∞ →  Size →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ᴺ Q =  P ∗ [⊤]ᴺ ⊢[ ι ][ i ]⇛ Q ∗ [⊤]ᴺ

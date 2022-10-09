@@ -22,7 +22,7 @@ open import Base.Sety using ()
 open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E)
 open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-V⇒E)
 open import Syho.Lang.Reduce using (Mem; ✓ᴹ_; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇐ᵀ_; redᵀ-hd;
-  redᵀ-tl; _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step)
+  redᵀ-tl; _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
   ⌜_⌝ᵒ×_; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; substᵒ; ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ;
@@ -204,19 +204,17 @@ abstract
     -, -, ≺ᴰᴹ-tl ι'∷ιs'≺ ,
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , big ▷ ∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤ ▷ ∗ᵒ-assocʳ)
 
-  -- ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ensures that (e , [] , M) is accessible with respect to
-  -- ⇐ᵀ, i.e., any reduction sequence starting with (e , M) eventually
-  -- terminates, for valid M
-  -- We don't assume fair thread scheduling for termination
+  -- ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ensures that (e , [] , M) is strongly normalizing
+  -- for valid M
 
-  ⟨⟩ᵀᵒ⇒acc :  ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ →  ✓ᴹ M →  Acc _⇐ᵀ_ (e , [] , M)
-  ⟨⟩ᵀᵒ⇒acc ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓ ✓M) $
+  ⟨⟩ᵀᵒ⇒SN :  ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ →  ✓ᴹ M →  SNᵀ (e , [] , M)
+  ⟨⟩ᵀᵒ⇒SN ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓ ✓M) $
     ◎-just ▷ ?∗ᵒ-intro _ ▷ ?∗ᵒ-intro ⊨⟨e⟩P ▷ ∗ᵒ?-intro Invᴳ-emp
    where
     -- Well-founded induction by the metric sz ι ∷ ιs
     go :  Acc (Rᴰᴹ _<ˢ_) (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →
       ((⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs ∗ᵒ [⊤]ᴺᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
-      Acc _⇐ᵀ_ (e , es , M)
+      SNᵀ (e , es , M)
     go (acc ≺ι∷ιs⇒acc) ME✓a big =  acc λ eesM⇒ → big ▷
       ∗ᵒ-monoˡ (⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ eesM⇒) ▷ ⇛ᴹ-step ME✓a ▷
       λ (-, -, M'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷

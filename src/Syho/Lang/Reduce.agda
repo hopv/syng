@@ -10,6 +10,7 @@ open import Base.Func using (_$_; flip)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_)
 open import Base.Dec using (upd˙)
+open import Base.Acc using (Acc)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.Option using (¿_; š_; ň; ¿-case; _$¿_; _»-¿_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
@@ -235,3 +236,12 @@ data  _⇒ᵀ*_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
   ⇒ᵀ*-step :  (e , es , M) ⇒ᵀ (e' , es' , M') →
               (e' , es' , M') ⇒ᵀ* (e'' , es'' , M'') →
               (e , es , M) ⇒ᵀ* (e'' , es'' , M'')
+
+--------------------------------------------------------------------------------
+-- SNᵀ :  A thread list with a memory is strongly normalizing, i.e., any
+--        execution of the state eventually terminates
+--        We define it by Acc, saying that the state is accessible w.r.t. ⇐ᵀ
+--        We don't assume fair thread scheduling for termination
+
+SNᵀ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+SNᵀ =  Acc _⇐ᵀ_

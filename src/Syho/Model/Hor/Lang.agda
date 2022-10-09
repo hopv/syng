@@ -17,8 +17,8 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; ∇_; Val; V⇒E)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; forkᴿ; Ktx; _ᴷ◁_;
-  _ᴷ∘ᴷ_; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
+open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
+  Ktx; _ᴷ◁_; _ᴷ∘ᴷ_; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
 open import Syho.Lang.Reduce using (nd⇒; []⇒; fork⇒; redᴷᴿ)
 open import Syho.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-syntax; _∗ᵒ_;
   _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ∗ᵒ?-intro;
@@ -26,9 +26,10 @@ open import Syho.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-synt
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Supd.Interp using (⇛ᴹ-mono; ⇛ᴺᵒ-mono; ⇛ᴹ-intro; ⇛ᴹ-join)
 open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⁺⟨_⟩∞ᵒ; ⟨_⟩ᴾᵒ;
-  ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᴾᵒ˂; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᴾᵒ⊤˂; ⟨_⟩ᵀᵒ⊤; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᵀᵒ-val⁻¹;
-  ⁺⟨⟩∞ᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩∞ᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩∞ᵒ-kr⁻¹;
-  ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤˂-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ; ⇛ᴺᵒ-⁺⟨⟩∞ᵒ)
+  ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᴾᵒ˂; ⟨_⟩∞ᵒ˂ʳ; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᴾᵒ⊤˂; ⟨_⟩ᵀᵒ⊤; ⁺⟨⟩ᴾᵒ-val⁻¹;
+  ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩∞ᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩∞ᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹;
+  ⁺⟨⟩∞ᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤˂-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ;
+  ⇛ᴺᵒ-⁺⟨⟩∞ᵒ)
 
 private variable
   ł :  Level
@@ -141,6 +142,19 @@ abstract
   ⁺⟨⟩ᵀᵒ-[] =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, -, redᴷᴿ []⇒) ,
     λ{ _ _ _ (-, redᴷᴿ []⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷
     ∗ᵒ-mono §_ (?∗ᵒ-intro _) })) › ⁺⟨⟩ᵀᵒ-kr
+
+  -- Pure reduction by ⁺⟨⟩∞ᵒ
+  -- The premise is under the thunk when the reduction triggers an event
+
+  ⁺⟨⟩∞ᵒ-[]○ :  ⟨ K ᴷ◁ e ⟩∞ᵒ ι ι'  ⊨  ⁺⟨ ĩ₁ (-, K , [ e ]ᴿ○) ⟩∞ᵒ ∞ ι'
+  ⁺⟨⟩∞ᵒ-[]○ =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, -, redᴷᴿ []⇒) ,
+    λ{ _ _ _ ff (redᴷᴿ []⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷
+    ∗ᵒ-mono §_ (?∗ᵒ-intro _) })) › ⁺⟨⟩∞ᵒ-kr
+
+  ⁺⟨⟩∞ᵒ-[]● :  ⟨ K ᴷ◁ e ⟩∞ᵒ˂ʳ ι'  ⊨  ⁺⟨ ĩ₁ (-, K , [ e ]ᴿ●) ⟩∞ᵒ ι ι'
+  ⁺⟨⟩∞ᵒ-[]● =  -∗ᵒ-intro (λ _ big _ → ⇛ᴹ-intro ((-, -, redᴷᴿ []⇒) ,
+    λ{ _ _ _ tt (redᴷᴿ []⇒) → ⇛ᴹ-intro $ big ▷ ∗ᵒ-comm ▷
+    ∗ᵒ-monoʳ (?∗ᵒ-intro _) })) › ⁺⟨⟩∞ᵒ-kr
 
   -- fork by ⁺⟨⟩ᴾ/ᵀᵒ
   -- The premise is under the thunk for ⁺⟨⟩ᴾᵒ

@@ -248,6 +248,11 @@ abstract
 
   ⊢⁺⟨⟩∞-sem :  P  ⊢[ ∞ ][ i ]⁺⟨ vk ⟩∞  →   ⸨ P ⸩  ⊨ ⁺⟨ vk ⟩∞ᵒ ∞ ι
 
+  -- The metric of termination is the triple of the level i, the size ι, and the
+  -- structure of the proof ⊢[ ][ ]⁺⟨ ⟩∞
+  -- For the rule ihor-[]●, the proof structure does not decrease but the size ι
+  -- does, which is the key trick (see also ⊢⁺⟨⟩ᴾ-sem)
+
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ]⁺⟨ vk ⟩∞ →  P ⊢[ ∞ ][ i ]⁺⟨ vk ⟩∞
 
   ⊢⁺⟨⟩∞-sem (P⊢Q » Q⊢⟨vk⟩∞) =
@@ -258,6 +263,8 @@ abstract
   ⊢⁺⟨⟩∞-sem (∃-elim Px⊢⟨vk⟩∞) =   ∑-case λ x → ⊢⁺⟨⟩∞-sem (Px⊢⟨vk⟩∞ x)
 
   -- ↪⟨⟩∞-use :  P˂ .!  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ∞ ][ ṡ i ]⟨ e ⟩∞
+  -- The level increment ṡ i makes the recursive call of ⊢⁺⟨⟩∞-sem inductive
+  -- (just like ↪⟨⟩ᵀ-use)
 
   ⊢⁺⟨⟩∞-sem ↪⟨⟩∞-use =  ∗ᵒ-monoʳ (↪⟨⟩∞ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
     (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷ λ (P∗R⊢⟨e⟩Q , PRa) →
@@ -292,20 +299,20 @@ abstract
   ⊢⁺⟨⟩∞-sem (hor-ihor-bind P⊢⟨e⟩Q Qv⊢⟨Kv⟩∞) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩Q ›
     ⁺⟨⟩ᵀᵒ-mono (λ v → ⊢⁺⟨⟩∞-sem (Qv⊢⟨Kv⟩∞ v)) › ⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind
 
-  -- ihor-[]○ :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
-  --             P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ○) ⟩∞
+  -- ihor-[]○ :  P  ⊢[ ∞ ][ i ]⟨ K ᴷ◁ e ⟩∞  →
+  --             P  ⊢[ ∞ ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ○) ⟩∞
 
   ⊢⁺⟨⟩∞-sem (ihor-[]○ P⊢⟨Ke⟩∞) =  ⊢⁺⟨⟩∞-sem P⊢⟨Ke⟩∞ › ⁺⟨⟩∞ᵒ-[]○
 
-  -- ihor-[]● :  P  ⊢[< ι ][ i ]⟨ K ᴷ◁ e ⟩∞  →
-  --             P  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ●) ⟩∞
+  -- ihor-[]● :  P  ⊢[< ∞ ][ i ]⟨ K ᴷ◁ e ⟩∞  →
+  --             P  ⊢[ ∞ ][ i ]⁺⟨ ĩ₁ (-, K , [ e ]ᴿ●) ⟩∞
 
   ⊢⁺⟨⟩∞-sem (ihor-[]● P⊢⟨Ke⟩∞) Pa =
     ⁺⟨⟩∞ᵒ-[]● λ{ .! → ⊢⁺⟨⟩∞-sem (P⊢⟨Ke⟩∞ .!) Pa }
 
-  -- ihor-fork :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
-  --              Q  ⊢[ ι ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
-  --              P  ∗  Q  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞
+  -- ihor-fork :  P  ⊢[ ∞ ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
+  --              Q  ⊢[ ∞ ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+  --              P  ∗  Q  ⊢[ ∞ ][ i ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞
 
   ⊢⁺⟨⟩∞-sem (ihor-fork P⊢⟨K⟩∞ Q⊢⟨e⟩) =
     ∗ᵒ-mono (⊢⁺⟨⟩∞-sem P⊢⟨K⟩∞) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) › ⁺⟨⟩∞ᵒ-fork

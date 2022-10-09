@@ -95,7 +95,7 @@ abstract
     ⁺⟨⟩ᴾᵒ-kr
 
   ⟨⟩ᵀᵒ-bind :  ⟨ e ⟩ᵀᵒ ι (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ ∞ Pᵒ˙)  ⊨  ⟨ K ᴷ◁ e ⟩ᵀᵒ ∞ Pᵒ˙
-  ⟨⟩ᵀᵒ-bind {e = e} {ι = ι} {K = K}
+  ⟨⟩ᵀᵒ-bind {e = e} {K = K}
     with val/ktxred e | val/ktxred-ĩ₀ {e = e} | val/ktxred-ktx {e = e}
   … | ĩ₀ _ | ⇒e⇒v | _  rewrite ⇒e⇒v refl =  ⁺⟨⟩ᵀᵒ-val⁻¹ › ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ
   … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
@@ -107,7 +107,7 @@ abstract
     substᵒ (λ e⁺ → ⟨ e⁺ ⟩ᵀᵒ ∞ _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K})) }) }}) › ⁺⟨⟩ᵀᵒ-kr
 
   ⟨⟩∞ᵒ-bind :  ⟨ e ⟩∞ᵒ ι ι'  ⊨  ⟨ K ᴷ◁ e ⟩∞ᵒ ∞ ι'
-  ⟨⟩∞ᵒ-bind {e = e} {ι = ι} {ι' = ι'} {K = K}
+  ⟨⟩∞ᵒ-bind {e = e} {ι' = ι'} {K = K}
     with val/ktxred e | val/ktxred-ĩ₀ {e = e} | val/ktxred-ktx {e = e}
   … | ĩ₀ _ | ⇒e⇒v | _  rewrite ⇒e⇒v refl =
     ⁺⟨⟩∞ᵒ-val⁻¹ › ⇛ᴺᵒ-mono absurd › ⇛ᴺᵒ-⁺⟨⟩∞ᵒ

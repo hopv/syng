@@ -580,6 +580,10 @@ data  Judg ι  where
 
   ihor-bind :  P  ⊢[ ι ][ i ]⟨ e ⟩∞  →   P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞
 
+  hor-ihor-bind :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙  →
+                   (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
+                  P  ⊢[ ι ][ j ]⟨ K ᴷ◁ e ⟩∞
+
   -- Value
 
   hor-valᵘᴺ :  P  ⊢[ ι ][ i ]⇛ᴺ  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙

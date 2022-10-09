@@ -30,7 +30,8 @@ open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_
   _⊢[<_]⟨_⟩ᵀ[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[_][_]⟨_⟩∞; _⊢[<_][_]⟨_⟩∞;
   hor-ᵀ⇒ᴾ; ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_;
   _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ; ahor-hor; ahor-ihor; hor-bind; ihor-bind;
-  hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○; ihor-[]●; hor-fork; ihor-fork)
+  hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○; ihor-[]●; hor-fork;
+  ihor-fork)
 
 private variable
   ι :  Size
@@ -211,6 +212,10 @@ abstract
 
   -->  ihor-bind :  P  ⊢[ ι ][ i ]⟨ e ⟩∞  →   P  ⊢[ ι ][ i ]⟨ K ᴷ◁ e ⟩∞
 
+  -->  hor-ihor-bind :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙  →
+  -->                   (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
+  -->                   P  ⊢[ ι ][ j ]⟨ K ᴷ◁ e ⟩∞
+
   hor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩[ κ ]  Q˙  →
                 (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ e'˂ .! ⟩[ κ ]  R˙)  →
                 P  ⊢[ ι ]⟨ _⁏_ {T = T} e e'˂ ⟩[ κ ]  R˙
@@ -222,6 +227,14 @@ abstract
   ihor-⁏-bind :  P  ⊢[ ι ][ i ]⟨ e ⟩∞  →   P  ⊢[ ι ][ i ]⟨ e ⁏ e'˂ ⟩∞
   ihor-⁏-bind =  ihor-bind {K = •ᴷ ⁏ᴷ _}
 
+  hor-ihor-⁏-bind :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  Q˙  →
+                     (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ e'˂ .! ⟩∞)  →
+                     P  ⊢[ ι ][ j ]⟨ _⁏_ {T = T} e e'˂ ⟩∞
+  hor-ihor-⁏-bind {T = ◸ʸ _} P⊢⟨e⟩Q Qv⊢⟨e'⟩∞ =
+    hor-ihor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ v → ihor-[] $ Qv⊢⟨e'⟩∞ v
+  hor-ihor-⁏-bind {T = _ ʸ↷ _} P⊢⟨e⟩Q Qv⊢⟨e'⟩∞ =
+    hor-ihor-bind {K = •ᴷ ⁏ᴷ _} P⊢⟨e⟩Q λ v → ihor-[] $ Qv⊢⟨e'⟩∞ v
+
   hor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩[ κ ]  Q˙  →
                   (∀ x →  Q˙ x  ⊢[<ᴾ ι ]⟨ e˂˙ x .! ⟩[ κ ]  R˙) →
                   P  ⊢[ ι ]⟨ let˙ e₀ e˂˙ ⟩[ κ ]  R˙
@@ -230,6 +243,12 @@ abstract
 
   ihor-let-bind :  P  ⊢[ ι ][ i ]⟨ e₀ ⟩∞  →   P  ⊢[ ι ][ i ]⟨ let˙ e₀ e˂˙ ⟩∞
   ihor-let-bind =  ihor-bind {K = _ ◁ᴷʳ •ᴷ}
+
+  hor-ihor-let-bind :  P  ⊢[ ι ]⟨ e₀ ⟩ᵀ[ i ]  Q˙  →
+                       (∀ x →  Q˙ x  ⊢[ ι ][ j ]⟨ e˂˙ x .! ⟩∞) →
+                       P  ⊢[ ι ][ j ]⟨ let˙ e₀ e˂˙ ⟩∞
+  hor-ihor-let-bind P⊢⟨e₀⟩Q Qx⊢⟨ex⟩∞ =
+    hor-ihor-bind {K = _ ◁ᴷʳ •ᴷ} P⊢⟨e₀⟩Q λ x → ihor-[] $ Qx⊢⟨ex⟩∞ x
 
   -- Transform ⊢[<ᴾ ]⟨ ⟩[ ]
 

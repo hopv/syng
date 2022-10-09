@@ -124,22 +124,22 @@ abstract
   -- If ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ is a tautology, then any reduction sequence starting with
   -- (e , [] , M) never gets stuck for valid M
 
-  -- For the head thread
+  -- For the main thread
 
-  ⟨⟩ᴾᵒ-nostuck-hd :  ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
+  ⟨⟩ᴾᵒ-nostuck-main :  ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
-  ⟨⟩ᴾᵒ-nostuck-hd ⊨⟨e⟩P ✓M eM⇒*e'esM' e'≡kr =  ⇛ᴹ-adeq ✓M $ ?∗ᵒ-intro _ ›
+  ⟨⟩ᴾᵒ-nostuck-main ⊨⟨e⟩P ✓M eM⇒*e'esM' e'≡kr =  ⇛ᴹ-adeq ✓M $ ?∗ᵒ-intro _ ›
     ?∗ᵒ-intro ⊨⟨e⟩P › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eM⇒*e'esM' › ⇛ᴹ-mono✓ (λ ✓∙ →
     ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono ›
     substᵒ (λ kr → ⁺⟨ kr ⟩ᴾᵒ ∞ _) e'≡kr › ⁺⟨⟩ᴾᵒ-kr⁻¹) ›
     -∗ᵒ-applyʳ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) › ⇛ᴹ-mono π₀) › ⇛ᴹ-join
 
-  -- For a tail thread
+  -- For forked threads
 
-  ⟨⟩ᴾᵒ-nostuck-tl :  ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
+  ⟨⟩ᴾᵒ-nostuck-forked :  ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →
     (kr , M') ⇒ᴷᴿ∑
-  ⟨⟩ᴾᵒ-nostuck-tl {es = es} ⊨⟨e⟩P ✓M eM⇒*e'esM' e⁺∈es e⁺≡kr =  ⇛ᴹ-adeq ✓M $
+  ⟨⟩ᴾᵒ-nostuck-forked {es = es} ⊨⟨e⟩P ✓M eM⇒*e'esM' e⁺∈es e⁺≡kr =  ⇛ᴹ-adeq ✓M $
     ?∗ᵒ-intro _ › ?∗ᵒ-intro ⊨⟨e⟩P › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eM⇒*e'esM' › ⇛ᴹ-mono✓
     (λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (∗ᵒ-elimʳ ([∗ᵒ]⟨⟩ᴾᵒ⊤∞-Mono {es = es}) ›
     [∗ᵒ]⟨⟩ᴾᵒ⊤∞-elim e⁺∈es › ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ ›
@@ -164,14 +164,14 @@ abstract
 
   -- On the no-stuck property
 
-  ⟨⟩ᵀᵒ-nostuck-hd :  ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
+  ⟨⟩ᵀᵒ-nostuck-main :  ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
-  ⟨⟩ᵀᵒ-nostuck-hd ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-hd $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
+  ⟨⟩ᵀᵒ-nostuck-main ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-main $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
-  ⟨⟩ᵀᵒ-nostuck-tl :  ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
+  ⟨⟩ᵀᵒ-nostuck-forked :  ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →
     (kr , M') ⇒ᴷᴿ∑
-  ⟨⟩ᵀᵒ-nostuck-tl ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-tl $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
+  ⟨⟩ᵀᵒ-nostuck-forked ⊨⟨e⟩P =  ⟨⟩ᴾᵒ-nostuck-forked $ ⊨⟨e⟩P ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
   -- Lemma: If (e , es , M) ⇒ᵀ (e' , es' , M'),
   -- then ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs entails

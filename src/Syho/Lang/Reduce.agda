@@ -99,8 +99,8 @@ private variable
   n :  ℕ
   kr :  Ktxred T
 
-infix 4 _⇒ᴾ⟨_⟩_ _⇒ᴾ○_ _⇒ᴾ●_ _⇒ᴿ⟨_⟩_ _⇒ᴿ○_ _⇒ᴿ_ _⇒ᴷᴿ⟨_⟩_ _⇒ᴷᴿ_ _⇒ᴱ⟨_⟩_ _⇒ᴱ_
-  _⇒ᵀ⟨_⟩_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ⟨_⟩_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
+infix 4 _⇒ᴾ⟨_⟩_ _⇒ᴾ○_ _⇒ᴾ●_ _⇒ᴿ⟨_⟩_ _⇒ᴿ○_ _⇒ᴿ●_ _⇒ᴿ_ _⇒ᴷᴿ⟨_⟩_ _⇒ᴷᴿ_ _⇒ᴱ⟨_⟩_ _⇒ᴱ_
+  _⇒ᵀ⟨_⟩_ _⇒ᵀ_ _⇐ᴿ_ _⇐ᴷᴿ⟨_⟩_ _⇐ᴷᴿ_ _⇐ᴱ_ _⇐ᵀ⟨_⟩_ _⇐ᵀ_ _⇒ᴿ∑ _⇒ᴷᴿ∑
 
 -- ⇒ᴾ :  Pure reduction of an expression
 
@@ -118,8 +118,9 @@ e ⇒ᴾ● e' =  e ⇒ᴾ⟨ tt ⟩ e'
 
 data  _⇒ᴿ⟨_⟩_ :  Redex T × Mem →  Bool →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀
 
-_⇒ᴿ○_ :  Redex T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀
+_⇒ᴿ○_ _⇒ᴿ●_ :  Redex T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀
 red ⇒ᴿ○ eeˇM =  red ⇒ᴿ⟨ ff ⟩ eeˇM
+red ⇒ᴿ● eeˇM =  red ⇒ᴿ⟨ tt ⟩ eeˇM
 
 data _⇒ᴿ⟨_⟩_ where
 
@@ -210,6 +211,10 @@ _⇐ᴷᴿ_ =  flip _⇒ᴷᴿ_
 _⇐ᴱ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Expr∞ T × Mem →  Set₀
 _⇐ᴱ_ =  flip _⇒ᴱ_
 
+_⇐ᵀ⟨_⟩_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
+           Bool →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+e'es'M' ⇐ᵀ⟨ b ⟩ eesM =  eesM ⇒ᵀ⟨ b ⟩ e'es'M'
+
 _⇐ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
         Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 _⇐ᵀ_ =  flip _⇒ᵀ_
@@ -246,8 +251,8 @@ data  _⇒ᵀ*_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
               (e , es , M) ⇒ᵀ* (e'' , es'' , M'')
 
 --------------------------------------------------------------------------------
--- SNᵀ :  A thread list with a memory is strongly normalizing, i.e., any
---        execution of the state eventually terminates
+-- SNᵀ :  The thread list with the memory is strongly normalizing, i.e., any
+--        execution starting with the state eventually terminates
 --        We define it by Acc, saying that the state is accessible w.r.t. ⇐ᵀ
 --        We don't assume fair thread scheduling for termination
 

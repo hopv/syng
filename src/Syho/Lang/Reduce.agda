@@ -134,13 +134,14 @@ eM ⇒ᴱ e'eˇM' =  ∑ b , eM ⇒ᴱ⟨ b ⟩ e'eˇM'
 
 data  _⇒ᵀ⟨_⟩_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
                  Bool →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀  where
+
   -- Reduce the head thread
   redᵀ-hd :  (e , M) ⇒ᴱ⟨ b ⟩ (e' , eˇ , M') →
              (e , es , M) ⇒ᵀ⟨ b ⟩ (e' , ¿⇒ᴸ eˇ ⧺ es , M')
 
   -- Continue to the tail threads
   redᵀ-tl :  (e , es , M) ⇒ᵀ⟨ b ⟩ (e' , es' , M') →
-             (e₀ , e ∷ es , M) ⇒ᵀ⟨ b ⟩ (e₀ , e' ∷ es' , M')
+             (e₀ , e ∷ es , M) ⇒ᵀ⟨ ff ⟩ (e₀ , e' ∷ es' , M')
 
 _⇒ᵀ○_ _⇒ᵀ●_ _⇒ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
                     Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀

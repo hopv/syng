@@ -282,3 +282,35 @@ On the other hand, our logic, Syho, simply provides the **total** Hoare triple
 with **inductive** deduction, thanks to being **non-step-indexed**.  
 Remarkably, termination verification in Syho can **take advantage of Agda's
 termination checker**, which is handy, flexible and expressive.
+
+## Verifying richer liveness properties
+
+Because Syho is not step-indexed, it has the potential to verify **liveness
+properties** of programs in general, not just termination.
+
+To demonstrate this, the current version of Syho has the **infinite Hoare
+triple**.  
+It ensures that an observable event occurs an infinite number of times in any
+execution of the program.  
+This property, apparently simple, is actually characterized as the **mixed fixed
+point**, or more specifically, the greatest fixed point over the least fixed
+point.  
+For the infinite Hoare triple, usually the hypothesis can be used only
+*inductively*, but when the event is triggered, the hypothesis can be used
+*coinductively*.  
+In this way, this judgment is defined by **coinduction over induction**, which
+naturally ensures an infinite number of occurrences of the event.
+
+As a future extension, Syho can be combined with the approach of
+[**Simuliris**](https://iris-project.org/pdfs/2022-popl-simuliris.pdf) (Gäher et
+al., 2022).  
+Syho is a logic for verifying **fair termination preservation** (i.e.,
+preservation of termination under any fair thread scheduling) of various
+optimizations of concurrent programs.  
+Fair termination preservation is an applicable but tricky property, modeled by
+**coinduction over induction**.  
+For this reason, Simuliris is built on a **non-step-indexed** variant of Iris,
+which has given up any kinds of *higher-order ghost states*, including
+*impredicative invariants*.  
+We can build a logic for fair termination preservation *with* higher-order
+ghost states, simply by fusing Simuliris with our logic Syho.

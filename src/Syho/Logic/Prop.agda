@@ -64,7 +64,7 @@ private variable
   P Q :  Prop∞
   n :  ℕ
   θ :  Addr
-  q⁺ :  ℚ⁺
+  p :  ℚ⁺
   ᵗv :  TyVal
   T :  Type
   Nm :  Name → Zoi
@@ -253,7 +253,7 @@ data  Basic :  Prop∞ →  Set₁  where
     -∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic $ P -∗ Q
     ⤇-Basic :  {{Basic P}} →  Basic $ ⤇ P
     □-Basic :  {{Basic P}} →  Basic $ □ P
-    ↦⟨⟩-Basic :  Basic $ θ ↦⟨ q⁺ ⟩ ᵗv
+    ↦⟨⟩-Basic :  Basic $ θ ↦⟨ p ⟩ ᵗv
     Free-Basic :  Basic $ Free n θ
     []ᴺ-Basic :  Basic [ Nm ]ᴺ
 

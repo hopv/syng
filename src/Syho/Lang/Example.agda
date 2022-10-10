@@ -67,6 +67,11 @@ decrloop' θ (ṡ n) =  ∇ θ ← ∇ n ⁏¡ decrloop θ
 nddecrloop :  Addr →  Expr∞ $ ◸ ⊤
 nddecrloop θ =  ∇ θ ← ndnat ⁏¡ decrloop θ
 
+-- Loop nddecrloop with an event
+
+nddecrloop●-loop :  Addr →  Expr ι $ ◸ ⊤
+nddecrloop●-loop θ =  nddecrloop θ ⁏¡ ● λ{ .! → nddecrloop●-loop θ }
+
 --------------------------------------------------------------------------------
 -- Constructing Red
 

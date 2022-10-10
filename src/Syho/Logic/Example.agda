@@ -13,14 +13,15 @@ open import Base.Size using (Size; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Addr; TyVal; loop)
-open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop)
+open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop;
+  nddecrloop●-loop)
 open import Syho.Logic.Prop using (Prop'; Prop∞; ⊤'; ⊥'; ⌜_⌝; □_; ○_; _↦_)
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗⊤-intro;
   -∗-intro; □-dup)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Ind using (□○-alloc-rec)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; hor-val; hor-nd;
-  hor-[])
+open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞;
+  hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind)
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
 
 private variable
@@ -76,3 +77,10 @@ abstract
   horᵀ-nddecrloop :  θ ↦ ᵗv  ⊢[ ι ]⟨ nddecrloop θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
   horᵀ-nddecrloop =  hor-nd λ _ →
     ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] horᵀ-decrloop
+
+  ------------------------------------------------------------------------------
+  -- Infinite Hoare triple for nddecrloop●-loop
+
+  ihor-nddecrloop●-loop :  θ ↦ ᵗv  ⊢[ ι ][ i ]⟨ nddecrloop●-loop θ ⟩∞
+  ihor-nddecrloop●-loop =  hor-ihor-⁏-bind {e = nddecrloop _} {i = 0}
+    horᵀ-nddecrloop λ _ → ihor-[]● λ{ .! → ihor-nddecrloop●-loop }

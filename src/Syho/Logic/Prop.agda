@@ -20,14 +20,6 @@ open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr∞; Val; TyVal)
 open import Syho.Lang.Ktxred using (Redex)
 
 --------------------------------------------------------------------------------
--- Name :  Name of invariants
---         We can choose any type with decidable equality;
---         we choose here List (Str ⨿ ℕ) for good expressivity
-
-Name :  Set₀
-Name =  List (Str ⨿ ℕ)
-
---------------------------------------------------------------------------------
 -- WpKind :  Weakest precondion kind
 
 data  WpKind :  Set₀  where
@@ -35,6 +27,14 @@ data  WpKind :  Set₀  where
   par :  WpKind
   -- Total, with a level
   tot :  ℕ →  WpKind
+
+--------------------------------------------------------------------------------
+-- Name :  Name of invariants
+--         We can choose any type with decidable equality;
+--         we choose here List (Str ⨿ ℕ) for good expressivity
+
+Name :  Set₀
+Name =  List (Str ⨿ ℕ)
 
 --------------------------------------------------------------------------------
 -- Prop' :  Proposition

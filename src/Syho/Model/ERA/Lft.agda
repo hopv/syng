@@ -251,6 +251,12 @@ abstract
   []ᴸ⟨⟩ʳ-∙ :  [ α ]ᴸ⟨ p ⟩ʳ ∙ᴸᶠᵗ [ α ]ᴸ⟨ q ⟩ʳ  ≈ᴸᶠᵗ  [ α ]ᴸ⟨ p +ᴿ⁺ q ⟩ʳ
   []ᴸ⟨⟩ʳ-∙ .↓ =  inj˙ᴸᵇ-∙
 
+  -- The fraction of [ ]ᴸ⟨ ⟩ʳ is no more than 1
+
+  []ᴸ⟨⟩ʳ-≤1 :  _ ✓ᴸᶠᵗ [ α ]ᴸ⟨ p ⟩ʳ →  p ≤1ᴿ⁺
+  []ᴸ⟨⟩ʳ-≤1 {α} (↑ (-, ✓αp))  with ✓αp α
+  … | ✓#p  rewrite ≟-refl {a = α} =  ✓#p
+
   -- †ᴸʳ absorbs ⌞ ⌟ᴸᶠᵗ
 
   †ᴸʳ-⌞⌟ :  ⌞ †ᴸʳ α ⌟ᴸᶠᵗ  ≈ᴸᶠᵗ  †ᴸʳ α
@@ -261,12 +267,6 @@ abstract
   []ᴸ⟨⟩ʳ-†ᴸʳ-no :  ¬ _ ✓ᴸᶠᵗ [ α ]ᴸ⟨ p ⟩ʳ ∙ᴸᶠᵗ †ᴸʳ α
   []ᴸ⟨⟩ʳ-†ᴸʳ-no {α} (↑ (-, ✓αp∙†α))  with ✓αp∙†α α
   … | ✓#p∙†  rewrite ≟-refl {a = α} =  ✓#p∙†
-
-  -- The fraction of [ ]ᴸ⟨ ⟩ʳ is no more than 1
-
-  []ᴸ⟨⟩ʳ-≤1 :  _ ✓ᴸᶠᵗ [ α ]ᴸ⟨ p ⟩ʳ →  p ≤1ᴿ⁺
-  []ᴸ⟨⟩ʳ-≤1 {α} (↑ (-, ✓αp))  with ✓αp α
-  … | ✓#p  rewrite ≟-refl {a = α} =  ✓#p
 
   -- Allocate a new lifetime
 

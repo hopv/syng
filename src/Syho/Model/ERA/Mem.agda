@@ -145,22 +145,22 @@ infix 9 ↦ᴸᵇˡᵒ_
 
 abstract
 
-  -- Agreement of ↦⟨ ⟩ᵇˡᵒ
-
-  ↦⟨⟩ᵇˡᵒ-agree :  Mb ✓ᴹᵇˡᵒ i ↦⟨ p ⟩ᵇˡᵒ ᵗu ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗv  →  ᵗu ≡ ᵗv
-  ↦⟨⟩ᵇˡᵒ-agree =  π₀ › ✓ᴾⁿᵗˢ-resp inj˙ᴾⁿᵗˢ-∙ › ✓-inj˙ᴾⁿᵗˢ › ✓ᶠʳ-agree2
-
-  -- The fraction of ↦⟨ ⟩ᵇˡᵒ is no more than 1
-
-  ↦⟨⟩ᵇˡᵒ-≤1 :  Mb ✓ᴹᵇˡᵒ i ↦⟨ p ⟩ᵇˡᵒ ᵗv →  p ≤1ᴿ⁺
-  ↦⟨⟩ᵇˡᵒ-≤1 =  π₀ › ✓-inj˙ᴾⁿᵗˢ › ✓ᶠʳ-≤1
-
   -- Merge ↦⟨ ⟩ᵇˡᵒ with ∙ᴹᵇˡᵒ
 
   ↦⟨⟩ᵇˡᵒ-∙ :  i ↦⟨ p ⟩ᵇˡᵒ ᵗv ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗv  ≈ᴹᵇˡᵒ i ↦⟨ p +ᴿ⁺ q ⟩ᵇˡᵒ ᵗv
   ↦⟨⟩ᵇˡᵒ-∙ .π₁ =  refl
   ↦⟨⟩ᵇˡᵒ-∙ {p = p} {q = q} .π₀ =
     inj˙ᴾⁿᵗˢ-∙ ◇˜ᴾⁿᵗˢ inj˙ᴾⁿᵗˢ-≈ $ š[?]-∙ᶠʳ {p} {q = q}
+
+  -- The fraction of ↦⟨ ⟩ᵇˡᵒ is no more than 1
+
+  ↦⟨⟩ᵇˡᵒ-≤1 :  Mb ✓ᴹᵇˡᵒ i ↦⟨ p ⟩ᵇˡᵒ ᵗv →  p ≤1ᴿ⁺
+  ↦⟨⟩ᵇˡᵒ-≤1 =  π₀ › ✓-inj˙ᴾⁿᵗˢ › ✓ᶠʳ-≤1
+
+  -- Agreement of ↦⟨ ⟩ᵇˡᵒ
+
+  ↦⟨⟩ᵇˡᵒ-agree :  Mb ✓ᴹᵇˡᵒ i ↦⟨ p ⟩ᵇˡᵒ ᵗu ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗv  →  ᵗu ≡ ᵗv
+  ↦⟨⟩ᵇˡᵒ-agree =  π₀ › ✓ᴾⁿᵗˢ-resp inj˙ᴾⁿᵗˢ-∙ › ✓-inj˙ᴾⁿᵗˢ › ✓ᶠʳ-agree2
 
   -- Lemmas on [∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv
 
@@ -225,21 +225,21 @@ abstract
   ✓ᴹ⇒✓ᴹᵉᵐ :  ✓ᴹ M →  ↑ M ✓ᴹᵉᵐ εᴹᵉᵐ
   ✓ᴹ⇒✓ᴹᵉᵐ ✓M .↓ =  ✓M , _
 
-  -- Agreement of ↦⟨ ⟩ʳ
+  -- Merge ↦⟨ ⟩ʳ with ∙ʳ
 
-  ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗu ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  →  ᵗu ≡ ᵗv
-  ↦⟨⟩ʳ-agree {M} =  ↓ › π₁ ›
-    ✓ᴬᴹᵉᵐ-resp inj˙ᴬᴹᵉᵐ-∙ › ✓-inj˙ᴬᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-agree {M _}
+  ↦⟨⟩ʳ-∙ :  θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  ≈ᴹᵉᵐ  θ ↦⟨ p +ᴿ⁺ q ⟩ʳ ᵗv
+  ↦⟨⟩ʳ-∙ =  ↑ inj˙ᴬᴹᵉᵐ-∙ ◇˜ᴹᵉᵐ ↑ inj˙ᴬᴹᵉᵐ-≈ ↦⟨⟩ᵇˡᵒ-∙
 
   -- The fraction of ↦⟨ ⟩ʳ is no more than 1
 
   ↦⟨⟩ʳ-≤1 :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗv →  p ≤1ᴿ⁺
   ↦⟨⟩ʳ-≤1 {M} =  ↓ › π₁ › ✓-inj˙ᴬᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-≤1 {M _}
 
-  -- Merge ↦⟨ ⟩ʳ with ∙ʳ
+  -- Agreement of ↦⟨ ⟩ʳ
 
-  ↦⟨⟩ʳ-∙ :  θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  ≈ᴹᵉᵐ  θ ↦⟨ p +ᴿ⁺ q ⟩ʳ ᵗv
-  ↦⟨⟩ʳ-∙ =  ↑ inj˙ᴬᴹᵉᵐ-∙ ◇˜ᴹᵉᵐ ↑ inj˙ᴬᴹᵉᵐ-≈ ↦⟨⟩ᵇˡᵒ-∙
+  ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗu ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  →  ᵗu ≡ ᵗv
+  ↦⟨⟩ʳ-agree {M} =  ↓ › π₁ ›
+    ✓ᴬᴹᵉᵐ-resp inj˙ᴬᴹᵉᵐ-∙ › ✓-inj˙ᴬᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-agree {M _}
 
   -- Lemmas on [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] (o , i) ↦ʳ ᵗv
 

@@ -189,7 +189,7 @@ abstract
 
   ⊢-sem ↪⇛-ṡ _ =  ↪⇛ᵒ-ṡ
 
-  -- ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .! →
+  -- ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ i ]⇛  P˂ .! →
   --               R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P'˂ ↪[ i ]⇛ Q˂
 
   ⊢-sem (↪⇛-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
@@ -209,43 +209,43 @@ abstract
 
   ⊢-sem ↪⇛-frameˡ _ =  ↪⇛ᵒ-frameˡ
 
-  -- ○⇒↪⇛ :  P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]⇛  Q˂ .!  →
-  --         ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
+  -- ○⇒↪⇛ :  P˂ .!  ∗  R˂ .! ⊢[< ∞ ][ i ]⇛  Q˂ .!  →
+  --         ○ R˂  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ Q˂
 
   ⊢-sem (○⇒↪⇛ P∗R⊢⇛Q) _ =  ○ᵒ⇒↪⇛ᵒ $ P∗R⊢⇛Q .!
 
-  -- ↪ᵃ⟨⟩-ṡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ ṡ i ]ᵃ⟨ red ⟩ Q˂˙
+  -- ↪ᵃ⟨⟩-ṡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]  P˂ ↪[ ṡ i ]ᵃ⟨ red ⟩ Q˂˙
 
   ⊢-sem ↪ᵃ⟨⟩-ṡ _ =  ↪ᵃ⟨⟩ᵒ-ṡ
 
-  -- ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ j ]⇛  P˂ .!  →
-  --                 R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+  -- ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ j ]⇛  P˂ .!  →
+  --                 R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ∞ ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
 
   ⊢-sem (↪ᵃ⟨⟩-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
   -- ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
-  --   R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
+  --   R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ∞ ]
   --     P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
 
   ⊢-sem (↪ᵃ⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ
 
-  -- ↪ᵃ⟨⟩-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ][ j ]⇛  Q'˂˙ v .!)  →
-  --                P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q'˂˙
+  -- ↪ᵃ⟨⟩-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ∞ ][ j ]⇛  Q'˂˙ v .!)  →
+  --                P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q'˂˙
 
   ⊢-sem (↪ᵃ⟨⟩-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪ᵃ⟨⟩ᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
 
-  -- ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
+  -- ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]
   --                  ¡ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
 
   ⊢-sem ↪ᵃ⟨⟩-frameˡ _ =  ↪ᵃ⟨⟩ᵒ-frameˡ
 
-  -- ○⇒↪ᵃ⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˂˙ v .!)  →
-  --           ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+  -- ○⇒↪ᵃ⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˂˙ v .!)  →
+  --           ○ R˂  ⊢[ ∞ ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
 
   ⊢-sem (○⇒↪ᵃ⟨⟩ P∗R⊢⟨red⟩Q) _ =  ○ᵒ⇒↪ᵃ⟨⟩ᵒ $ P∗R⊢⟨red⟩Q .!
 
-  -- ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
+  -- ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
 
   ⊢-sem ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ _ =  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ
 
@@ -253,8 +253,8 @@ abstract
 
   ⊢-sem ↪⟨⟩ᵀ-ṡ _ =  ↪⟨⟩ᵀᵒ-ṡ
 
-  -- ↪⟨⟩-eatˡ⁻ˡᵘᴺ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
-  --                 R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
+  -- ↪⟨⟩-eatˡ⁻ˡᵘᴺ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ i ]⇛ᴺ  P˂ .!  →
+  --                 R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
   ⊢-sem (↪⟨⟩-eatˡ⁻ˡᵘᴺ {R} R∗P'⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ $ R∗P'⊢⇛P .!
@@ -264,8 +264,8 @@ abstract
 
   ⊢-sem (↪⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ʳ
 
-  -- ↪⟨⟩-monoʳᵘᴺ :  (∀ v →  Q˂˙ v .!  ⊢[< ι ][ i ]⇛ᴺ  Q'˂˙ v .!)  →
-  --                P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
+  -- ↪⟨⟩-monoʳᵘᴺ :  (∀ v →  Q˂˙ v .!  ⊢[< ∞ ][ i ]⇛ᴺ  Q'˂˙ v .!)  →
+  --                P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
 
   ⊢-sem (↪⟨⟩-monoʳᵘᴺ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᵒ-monoʳᵘᴺ λ v → ∀vQ⊢⇛Q' v .!
 
@@ -274,59 +274,59 @@ abstract
 
   ⊢-sem ↪⟨⟩-frameˡ _ =  ↪⟨⟩ᵒ-frameˡ
 
-  -- ○⇒↪⟨⟩ :  P˂ .!  ∗  R˂ .! ⊢[< ι ]⟨ e ⟩[ κ ] (λ v →  Q˂˙ v .!)  →
+  -- ○⇒↪⟨⟩ :  P˂ .!  ∗  R˂ .! ⊢[< ∞ ]⟨ e ⟩[ κ ] (λ v →  Q˂˙ v .!)  →
   --          ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] Q˂˙
 
   ⊢-sem (○⇒↪⟨⟩ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᵒ $ P∗R⊢⟨e⟩Q .!
 
-  -- ↪⟨⟩∞-ṡ :  P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ↪[ ṡ i ]⟨ e ⟩∞
+  -- ↪⟨⟩∞-ṡ :  P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ∞ ]  P˂ ↪[ ṡ i ]⟨ e ⟩∞
 
   ⊢-sem ↪⟨⟩∞-ṡ _ =  ↪⟨⟩∞ᵒ-ṡ
 
-  -- ↪⟨⟩∞-eatˡ⁻ᵘᴺ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ι ][ j ]⇛ᴺ  P˂ .!  →
-  --                 R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  Q˂ ↪[ i ]⟨ e ⟩∞
+  -- ↪⟨⟩∞-eatˡ⁻ᵘᴺ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ∞ ][ j ]⇛ᴺ  P˂ .!  →
+  --                 R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ∞ ]  Q˂ ↪[ i ]⟨ e ⟩∞
 
   ⊢-sem (↪⟨⟩∞-eatˡ⁻ᵘᴺ {R} R∗Q⊢⇛P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ $ R∗Q⊢⇛P .!
 
-  -- ○⇒↪⟨⟩∞ :  P˂ .!  ∗  Q˂ .!  ⊢[< ι ][ i ]⟨ e ⟩∞   →
-  --           ○ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⟨ e ⟩∞
+  -- ○⇒↪⟨⟩∞ :  P˂ .!  ∗  Q˂ .!  ⊢[< ∞ ][ i ]⟨ e ⟩∞   →
+  --           ○ Q˂  ⊢[ ∞ ]  P˂ ↪[ i ]⟨ e ⟩∞
 
   ⊢-sem (○⇒↪⟨⟩∞ P∗Q⊢⟨e⟩∞) _ =  ○ᵒ⇒↪⟨⟩∞ᵒ $ P∗Q⊢⟨e⟩∞ .!
 
-  -- []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ι ] [ Nm' ]ᴺ
+  -- []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ∞ ] [ Nm' ]ᴺ
 
   ⊢-sem ([]ᴺ-resp Nm≡Nm') _ =  []ᴺᵒ-resp Nm≡Nm'
 
-  -- []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴺ
+  -- []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ∞ ]  [ Nm ⊎ᶻ Nm' ]ᴺ
 
   ⊢-sem []ᴺ-merge _ =  []ᴺᵒ-merge
 
-  -- []ᴺ-split :  [ Nm ⊎ᶻ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ
+  -- []ᴺ-split :  [ Nm ⊎ᶻ Nm' ]ᴺ  ⊢[ ∞ ]  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ
 
   ⊢-sem []ᴺ-split _ =  []ᴺᵒ-split
 
-  -- []ᴺ-✔ :  [ Nm ]ᴺ  ⊢[ ι ]  ⌜ ✔ᶻ Nm ⌝
+  -- []ᴺ-✔ :  [ Nm ]ᴺ  ⊢[ ∞ ]  ⌜ ✔ᶻ Nm ⌝
 
   ⊢-sem []ᴺ-✔ ✓∙ =  []ᴺᵒ-✔ ✓∙ › (_, absurd)
 
-  -- Inv-⇒□ :  Inv nm P˂  ⊢[ ι ]  □ Inv nm P˂
+  -- Inv-⇒□ :  Inv nm P˂  ⊢[ ∞ ]  □ Inv nm P˂
 
   ⊢-sem Inv-⇒□ _ =  Invᵒ-⇒□ᵒ
 
   -- Inv-resp-□∧ :  {{Basic R}}  →
-  --   R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-  --   □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+  --   R  ∧  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ∞ ]  P˂ .!  →
+  --   □ R  ∧  Inv nm P˂  ⊢[ ∞ ]  Inv nm Q˂
 
   ⊢-sem (Inv-resp-□∧ {R} R∧P⊢Q R∧Q⊢P) ✓a =
     (λ □R∧InvPa → ⸨⸩-⇒ᴮ {R} $ □R∧InvPa 0₂ , □R∧InvPa 1₂) ›
     Invᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!) ✓a
 
-  -- OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
+  -- OInv-mono :  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ∞ ]  OInv nm P˂
 
   ⊢-sem (OInv-mono P⊢Q) _ =  OInvᵒ-mono $ P⊢Q .!
 
   -- OInv-eatˡ :  {{Basic Q}} →
-  --   Q  ∗  OInv nm P˂  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
+  --   Q  ∗  OInv nm P˂  ⊢[ ∞ ]  OInv nm (¡ (Q -∗ P˂ .!))
 
   ⊢-sem (OInv-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › OInvᵒ-eatˡ

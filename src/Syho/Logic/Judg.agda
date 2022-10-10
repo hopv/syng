@@ -230,7 +230,7 @@ data  Judg ι  where
   ------------------------------------------------------------------------------
   -- On ∗
 
-  -- ∗ is monotone with respect to ⊢, unital with the unit ⊤', commutative,
+  -- ∗ is monotone w.r.t. ⊢, unital with the unit ⊤', commutative,
   -- and associative
 
   ∗-monoˡ :  P ⊢[ ι ] Q →  P ∗ R ⊢[ ι ] Q ∗ R
@@ -263,11 +263,11 @@ data  Judg ι  where
 
   ⤇-join :  ⤇ ⤇ P ⊢[ ι ] ⤇ P
 
-  -- ∗ can get inside ⤇
+  -- Let ⤇ eat a proposition
 
   ⤇-eatˡ :  Q ∗ (⤇ P) ⊢[ ι ] ⤇ Q ∗ P
 
-  -- ⌜ ⌝∧ can get outside ⤇
+  -- Let ⌜ ⌝∧ go outside ⤇
 
   ⤇-⌜⌝∧-out :  ⤇ (⌜ X ⌝∧ P) ⊢[ ι ] ⌜ X ⌝∧ ⤇ P
 
@@ -282,15 +282,15 @@ data  Judg ι  where
 
   □-dup :  □ P ⊢[ ι ] □ □ P
 
-  -- ∧ can turn into ∗ when one argument is under □
+  -- Turn ∧ into ∗ when one argument is under □
 
   □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ι ] □ P ∗ Q
 
-  -- ∀ can get inside □
+  -- Let ∀ go inside □
 
   □-∀-in :  ∀˙ (□_ ∘ P˙) ⊢[ ι ] □ ∀˙ P˙
 
-  -- ∃ can get outside □
+  -- Let ∃ go outside □
 
   □-∃-out :  □ ∃˙ P˙ ⊢[ ι ] ∃˙ (□_ ∘ P˙)
 
@@ -309,7 +309,7 @@ data  Judg ι  where
 
   _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]⇛ Q →  Q ⊢[ ι ][ i ]⇛ R →  P ⊢[ ι ][ i ]⇛ R
 
-  -- ⊢⇛ can frame
+  -- Frame for ⊢⇛
 
   ⇛-frameˡ :  P ⊢[ ι ][ i ]⇛ Q →  R ∗ P ⊢[ ι ][ i ]⇛ R ∗ Q
 
@@ -320,16 +320,15 @@ data  Judg ι  where
 
   ○-mono :  P˂ .! ⊢[< ι ] Q˂ .! →  ○ P˂ ⊢[ ι ] ○ Q˂
 
-  -- ○ can eat a basic proposition
+  -- Let ○ eat a basic proposition
 
   ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ (Q ∗ P˂ .!)
 
-  -- ○ P can be obtained by allocating P
+  -- Obtain ○ P by allocating P
 
   ○-alloc :  P˂ .! ⊢[ ι ][ i ]⇛ ○ P˂
 
-  -- When P is persistent, □ ○ P_i can be obtained recursively, i.e.,
-  -- by allocating P minus the target □ ○ P
+  -- Obtain □ ○ P recursively, i.e., by allocating □ P minus the target □ ○ P
 
   -- This can be seen as an analog of Löb induction in step-indexed logics
 
@@ -471,7 +470,7 @@ data  Judg ι  where
 
   []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ι ] [ Nm' ]ᴺ
 
-  -- Name set tokens can be merged and split w.r.t. the set sum
+  -- Merge and split name set tokens w.r.t. the set sum
 
   []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴺ
 
@@ -631,7 +630,7 @@ data  Judg ι  where
 
   ↦⟨⟩-≤1 :  θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  ⌜ p ≤1ᴿ⁺ ⌝
 
-  -- Points-to tokens can be merged and split with respect to the fraction
+  -- Merge and split points-to tokens w.r.t. the fraction
 
   ↦⟨⟩-merge :  θ ↦⟨ p ⟩ ᵗv  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv
 

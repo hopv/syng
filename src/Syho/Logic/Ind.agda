@@ -50,7 +50,7 @@ abstract
 
   -->  ○-use :  ○ P˂ ⊢[ ι ][ i ]⇛ P˂ .!
 
-  -- ○ can eat a basic proposition
+  -- Let ○ eat a basic proposition
 
   -->  ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ (Q ∗ P˂ .!)
 

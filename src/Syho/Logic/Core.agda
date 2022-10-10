@@ -305,12 +305,12 @@ abstract
   ∗?-comm :  (P ∗ Q) ∗ R ⊢[ ι ] (P ∗ R) ∗ Q
   ∗?-comm =  ∗-assocˡ » ∗-monoʳ ∗-comm » ∗-assocʳ
 
-  -- ∗ can turn into ∧
+  -- Turn ∗ into ∧
 
   ∗⇒∧ :  P ∗ Q ⊢[ ι ] P ∧ Q
   ∗⇒∧ =  ∧-intro ∗-elimˡ ∗-elimʳ
 
-  -- ∃ can get outside ∗
+  -- Let ∃ go outside ∗
 
   ∗∃-out :  P ∗ ∃˙ Q˙ ⊢[ ι ] ∃ x , P ∗ Q˙ x
   ∗∃-out =  -∗-elim $ ∃-elim $ -∗-intro ∘ ∃-intro
@@ -318,7 +318,7 @@ abstract
   ∃∗-out :  ∃˙ P˙ ∗ Q ⊢[ ι ] ∃ x , P˙ x ∗ Q
   ∃∗-out =  ∗-comm » ∗∃-out » ∃-mono λ _ → ∗-comm
 
-  -- ∨ can get outside ∗
+  -- Let ∨ go outside ∗
 
   ∨∗-out :  (P ∨ Q) ∗ R ⊢[ ι ] (P ∗ R) ∨ (Q ∗ R)
   ∨∗-out =  ∃∗-out » ∃-mono $ binary ⊢-refl ⊢-refl
@@ -467,7 +467,7 @@ abstract
   -∗-monoʳ :  P ⊢[ ι ] Q →  R -∗ P ⊢[ ι ] R -∗ Q
   -∗-monoʳ P⊢Q =  -∗-mono ⊢-refl P⊢Q
 
-  -- →' can turn into -∗
+  -- Turn →' into -∗
 
   →⇒-∗ :  P →' Q ⊢[ ι ] P -∗ Q
   →⇒-∗ =  -∗-intro $ ∗⇒∧ » →-elim ⊢-refl
@@ -501,14 +501,14 @@ abstract
   ⤇-elim :  P ⊢[ ι ] ⤇ Q →  ⤇ P ⊢[ ι ] ⤇ Q
   ⤇-elim P⊢⤇Q =  ⤇-mono P⊢⤇Q » ⤇-join
 
-  -- ∗ can get inside ⤇
+  -- Let ⤇ eat a proposition
 
   -->  ⤇-eatˡ :  Q ∗ (⤇ P) ⊢[ ι ] ⤇ Q ∗ P
 
   ⤇-eatʳ :  (⤇ P) ∗ Q ⊢[ ι ] ⤇ P ∗ Q
   ⤇-eatʳ =  ∗-comm » ⤇-eatˡ » ⤇-mono ∗-comm
 
-  -- Updates ⤇ can be merged
+  -- Merge ⤇
 
   ⤇-merge :  (⤇ P) ∗ (⤇ Q) ⊢[ ι ] ⤇ P ∗ Q
   ⤇-merge =  ⤇-eatˡ » ⤇-mono ⤇-eatʳ » ⤇-join
@@ -527,34 +527,34 @@ abstract
   □-intro :  □ P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
   □-intro □P⊢Q =  □-dup » □-mono □P⊢Q
 
-  -- The antecedent can be retained when the succedent is under □
+  -- Retain the antecedent when the succedent is under □
 
   retain-□ :  P ⊢[ ι ] □ Q →  P ⊢[ ι ] □ Q ∗ P
   retain-□ P⊢Q =  ∧-intro P⊢Q ⊢-refl » □ˡ-∧⇒∗
 
-  -- A proposition under □ can be duplicated
+  -- Duplicate a proposition under □
 
   dup-□ :  □ P ⊢[ ι ] □ P ∗ □ P
   dup-□ =  retain-□ ⊢-refl
 
-  -- ∧ can turn into ∗ when one argument is under □
+  -- Turn ∧ into ∗ when one argument is under □
 
   -->  □ˡ-∧⇒∗ :  □ P ∧ Q ⊢[ ι ] □ P ∗ Q
 
   □ʳ-∧⇒∗ :  P ∧ □ Q ⊢[ ι ] P ∗ □ Q
   □ʳ-∧⇒∗ =  ∧-comm » □ˡ-∧⇒∗ » ∗-comm
 
-  -- Under □, ∧ can turn into ∗
+  -- Turn ∧ into ∗ under □
 
   in□-∧⇒∗ :  □ (P ∧ Q) ⊢[ ι ] □ (P ∗ Q)
   in□-∧⇒∗ =  □-intro $ dup-□ » ∗-mono (□-elim » ∧-elimˡ) (□-elim » ∧-elimʳ)
 
-  -- P -∗ can turn into □ P →'
+  -- Turn P -∗ into □ P →'
 
   -∗⇒□→ :  P -∗ Q ⊢[ ι ] □ P →' Q
   -∗⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-applyˡ
 
-  -- Under □, -∗ can turn into →'
+  -- Turn -∗ into →' under □
 
   in□--∗⇒→ :  □ (P -∗ Q) ⊢[ ι ] □ (P →' Q)
   in□--∗⇒→ =  □-intro $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
@@ -589,7 +589,7 @@ abstract
   □-∗-out :  □ (P ∗ Q) ⊢[ ι ] □ P ∗ □ Q
   □-∗-out =  □-mono ∗⇒∧ » □-∧-out » □ˡ-∧⇒∗
 
-  -- □ ⊤' can be introduced and □ ⊥' can be eliminated
+  -- Introduce □ ⊤' / Eliminate □ ⊥'
 
   □-⊤-intro :  P ⊢[ ι ] □ ⊤'
   □-⊤-intro =  ∀-intro absurd » □-∀-in
@@ -644,7 +644,7 @@ abstract
   ------------------------------------------------------------------------------
   -- Use Pers P
 
-  -- ∧ can turn into ∗ when one argument is persistent
+  -- Turn ∧ into ∗ when one argument is persistent
 
   Persˡ-∧⇒∗ :  {{Pers P}} →  P ∧ Q ⊢[ ι ] P ∗ Q
   Persˡ-∧⇒∗ =  ∧-monoˡ Pers-⇒□ » □ˡ-∧⇒∗ » ∗-monoˡ □-elim
@@ -652,12 +652,12 @@ abstract
   Persʳ-∧⇒∗ :  {{Pers Q}} →  P ∧ Q ⊢[ ι ] P ∗ Q
   Persʳ-∧⇒∗ =  ∧-comm » Persˡ-∧⇒∗ » ∗-comm
 
-  -- The antecedent can be retained when the succedent is persistent
+  -- Retain the antecedent when the succedent is persistent
 
   retain-Pers :  {{Pers Q}} →  P ⊢[ ι ] Q →  P ⊢[ ι ] Q ∗ P
   retain-Pers P⊢Q =  retain-□ (P⊢Q » Pers-⇒□) » ∗-monoˡ □-elim
 
-  -- A persistent proposition can be duplicated
+  -- Duplicate a persistent proposition
 
   dup-Pers :  {{Pers P}} →  P ⊢[ ι ] P ∗ P
   dup-Pers =  retain-Pers ⊢-refl
@@ -667,12 +667,12 @@ abstract
   dup-Pers-∗ :  {{Pers P}} →  P ∗ Q ⊢[ ι ] P ∗ P ∗ Q
   dup-Pers-∗ =  ∗-monoˡ dup-Pers » ∗-assocˡ
 
-  -- -∗ can turn into →' when the left-hand side is persistent
+  -- Turn -∗ into →' when the left-hand side is persistent
 
   Pers--∗⇒→ :  {{Pers P}} →  P -∗ Q ⊢[ ι ] P →' Q
   Pers--∗⇒→ =  -∗⇒□→ » →-monoˡ Pers-⇒□
 
-  -- □ can eat persistent propositions
+  -- Let □ eat persistent propositions
 
   □-eatˡ-Pers :  {{Pers Q}} →  Q ∗ □ P ⊢[ ι ] □ (Q ∗ P)
   □-eatˡ-Pers =  ∗-monoˡ Pers-⇒□ » □-∗-in
@@ -697,7 +697,7 @@ abstract
   [∗]-mono []ᴬ² =  ⊢-refl
   [∗]-mono (P⊢Q ∷ᴬ² Ps⊢Qs) =  ∗-mono P⊢Q $ [∗]-mono Ps⊢Qs
 
-  -- ⧺ can get inside and outside [∗]
+  -- Let ⧺ go inside and outside [∗]
 
   [∗]-⧺-in :  [∗] Ps ∗ [∗] Qs ⊢[ ι ] [∗] (Ps ⧺ Qs)
   [∗]-⧺-in {[]} =  ∗-elimʳ

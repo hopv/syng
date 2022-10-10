@@ -96,7 +96,7 @@ The library consists of the following parts.
     [`Dec`](src/Base/Dec.agda) for decidability;
     [`Acc`](src/Base/Acc.agda) for accessibility;
     [`Size`](src/Base/Size.agda) for sizes (modeling ordinals), thunks and
-        shrunks.
+    shrunks.
 - **Data types** ―
     [`Bool`](src/Base/Bool.agda) for Booleans;
     [`Zoi`](src/Base/Zoi.agda) for zoi (zero, one, or infinity) numbers;

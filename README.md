@@ -153,7 +153,8 @@ following parts.
             [`Zoi`](src/Base/Zoi.agda) for the zoi ERA;
             [`Exc`](src/Syho/Model/ERA/Exc.agda) for the exclusive ERA;
             [`Ag`](src/Syho/Model/ERA/Ag.agda) for the agreement ERA;
-            [`Frac`](src/Syho/Model/ERA/Frac.agda) for the fractional ERA.
+            [`FracAg`](src/Syho/Model/ERA/FracAg.agda) for the fractional
+            agreement ERA.
         * Language-specific ERA ―
             [`Mem`](src/Syho/Model/ERA/Mem.agda) for the memory ERA.
         * Logic-dependent ERAs ―

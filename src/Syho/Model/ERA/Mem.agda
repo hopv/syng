@@ -23,8 +23,8 @@ open import Syho.Lang.Expr using (Addr; TyVal; ⊤-; Mblo; Mem; _‼ᴹ_; updᴹ
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ; ✓ˣ-agree; ✓ˣ-alloc;
   ✓ˣ-free)
-open import Syho.Model.ERA.Frac using (Frac; _≈ᶠʳ_; _∙ᶠʳ_; Fracᴱᴿᴬ;š[?]-∙ᶠʳ;
-  ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-alloc; ✓ᶠʳ-free)
+open import Syho.Model.ERA.FracAg using (FracAg; _≈ᶠʳ_; _∙ᶠʳ_; FracAgᴱᴿᴬ;
+  š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-alloc; ✓ᶠʳ-free)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
 import Syho.Model.ERA.Envm
@@ -36,11 +36,11 @@ import Syho.Model.ERA.Up
 
 -- For the points-to token
 
-module AllPnts =  Syho.Model.ERA.All ℕ (λ _ → Fracᴱᴿᴬ TyVal)
+module AllPnts =  Syho.Model.ERA.All ℕ (λ _ → FracAgᴱᴿᴬ TyVal)
 open AllPnts public using () renaming (
   --  Pntsᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to Pntsᴱᴿᴬ;
-  --  inj˙ᴾⁿᵗˢ :  ℕ →  Fracᴱᴿᴬ TyVal →  Pntsᴱᴿᴬ .Res
+  --  inj˙ᴾⁿᵗˢ :  ℕ →  FracAgᴱᴿᴬ TyVal →  Pntsᴱᴿᴬ .Res
   inj˙ to inj˙ᴾⁿᵗˢ;
   inj˙-∙ to inj˙ᴾⁿᵗˢ-∙; inj˙-≈ to inj˙ᴾⁿᵗˢ-≈; ✓-inj˙ to ✓-inj˙ᴾⁿᵗˢ)
 
@@ -132,7 +132,7 @@ freeᵇˡᵒ _ .π₀ _ =  ň
 
 -- pnts :  Resource for the points-to token over an optional value
 
-pnts :  ¿ TyVal →  Frac TyVal
+pnts :  ¿ TyVal →  FracAg TyVal
 pnts ᵗvˇ =  ¿-case (λ ᵗv → š (1ᴿ⁺ , [ ᵗv ])) ň ᵗvˇ
 
 -- ↦ᴸᵇˡᵒ :  Block-level resource for the points-to token over a list of values

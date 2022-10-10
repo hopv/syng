@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Fractional ERA
+-- Fractional Agreement ERA
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.ERA.Frac where
+module Syho.Model.ERA.FracAg where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _›_)
@@ -33,35 +33,35 @@ private variable
   p q :  ℚ⁺
 
 --------------------------------------------------------------------------------
--- Frac A :  Fractional box, which is either empty or a pair of a positive
---           fraction ℚ⁺ and a finite set List A
+-- FracAg A :  Fractional agreement box, which is either empty or a pair of a
+--             positive fraction ℚ⁺ and a finite set List A
 
-Frac :  Set ł →  Set ł
-Frac A =  ¿ (ℚ⁺ × List A)
+FracAg :  Set ł →  Set ł
+FracAg A =  ¿ (ℚ⁺ × List A)
 
 private variable
-  x y z :  Frac A
+  x y z :  FracAg A
 
--- ≈ᶠʳ :  Equivalence over Frac A
+-- ≈ᶠʳ :  Equivalence over FracAg A
 
 infix 4 _≈ᶠʳ_
-_≈ᶠʳ_ :  ∀{A : Set ł} →  Frac A →  Frac A →  Set ł
+_≈ᶠʳ_ :  ∀{A : Set ł} →  FracAg A →  FracAg A →  Set ł
 š (p , as) ≈ᶠʳ š (q , bs) =  p ≈ᴿ⁺ q  ×  as ≈ᴸ bs
 ň ≈ᶠʳ ň =  ⊤
 _ ≈ᶠʳ _ =  ⊥
 
--- ∙ᶠʳ :  Product over Frac A
+-- ∙ᶠʳ :  Product over FracAg A
 
 infixl 7 _∙ᶠʳ_
-_∙ᶠʳ_ :  Frac A →  Frac A →  Frac A
+_∙ᶠʳ_ :  FracAg A →  FracAg A →  FracAg A
 ň ∙ᶠʳ y =  y
 x ∙ᶠʳ ň =  x
 š (p , as) ∙ᶠʳ š (q , bs) =  š (p +ᴿ⁺ q , as ⧺ bs)
 
--- ✓ᶠʳ :  Agreement between ¿ A and Frac A, with validity of the fraction
+-- ✓ᶠʳ :  Agreement between ¿ A and FracAg A, with validity of the fraction
 
 infix 3 _✓ᶠʳ_
-_✓ᶠʳ_ :  ∀{A : Set ł} →  ¿ A →  Frac A →  Set ł
+_✓ᶠʳ_ :  ∀{A : Set ł} →  ¿ A →  FracAg A →  Set ł
 _ ✓ᶠʳ ň =  ⊤
 ň ✓ᶠʳ š _ =  ⊥
 š a ✓ᶠʳ š (p , bs) =  p ≤1ᴿ⁺  ×  š a ✓ᴸ bs
@@ -169,26 +169,26 @@ abstract
   ✓ᶠʳ-update {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-alloc {x = x}
 
 --------------------------------------------------------------------------------
--- Fracᴱᴿᴬ :  Fractional ERA
+-- FracAgᴱᴿᴬ :  Fractional agreement ERA
 
-Fracᴱᴿᴬ :  Set ł →  ERA ł ł ł ł
-Fracᴱᴿᴬ A .Env =  ¿ A
-Fracᴱᴿᴬ A .Res =  Frac A
-Fracᴱᴿᴬ _ ._≈_ =  _≈ᶠʳ_
-Fracᴱᴿᴬ _ ._✓_ =  _✓ᶠʳ_
-Fracᴱᴿᴬ _ ._∙_ =  _∙ᶠʳ_
-Fracᴱᴿᴬ _ .ε =  ň
-Fracᴱᴿᴬ _ .⌞_⌟ _ =  ň
-Fracᴱᴿᴬ _ .refl˜ =  ≈ᶠʳ-refl
-Fracᴱᴿᴬ _ .◠˜_ =  ≈ᶠʳ-sym
-Fracᴱᴿᴬ _ ._◇˜_ =  ≈ᶠʳ-trans
-Fracᴱᴿᴬ _ .∙-congˡ =  ∙ᶠʳ-congˡ
-Fracᴱᴿᴬ _ .∙-unitˡ =  ≈ᶠʳ-refl
-Fracᴱᴿᴬ _ .∙-comm {a = x} =  ∙ᶠʳ-comm {x = x}
-Fracᴱᴿᴬ _ .∙-assocˡ {a = x} =  ∙ᶠʳ-assocˡ {x = x}
-Fracᴱᴿᴬ _ .✓-resp =  ✓ᶠʳ-resp
-Fracᴱᴿᴬ _ .✓-rem {a = x} =  ✓ᶠʳ-rem {x = x}
-Fracᴱᴿᴬ _ .⌞⌟-cong _ =  _
-Fracᴱᴿᴬ _ .⌞⌟-add =  ň ,-
-Fracᴱᴿᴬ _ .⌞⌟-unitˡ =  ≈ᶠʳ-refl
-Fracᴱᴿᴬ _ .⌞⌟-idem =  _
+FracAgᴱᴿᴬ :  Set ł →  ERA ł ł ł ł
+FracAgᴱᴿᴬ A .Env =  ¿ A
+FracAgᴱᴿᴬ A .Res =  FracAg A
+FracAgᴱᴿᴬ _ ._≈_ =  _≈ᶠʳ_
+FracAgᴱᴿᴬ _ ._✓_ =  _✓ᶠʳ_
+FracAgᴱᴿᴬ _ ._∙_ =  _∙ᶠʳ_
+FracAgᴱᴿᴬ _ .ε =  ň
+FracAgᴱᴿᴬ _ .⌞_⌟ _ =  ň
+FracAgᴱᴿᴬ _ .refl˜ =  ≈ᶠʳ-refl
+FracAgᴱᴿᴬ _ .◠˜_ =  ≈ᶠʳ-sym
+FracAgᴱᴿᴬ _ ._◇˜_ =  ≈ᶠʳ-trans
+FracAgᴱᴿᴬ _ .∙-congˡ =  ∙ᶠʳ-congˡ
+FracAgᴱᴿᴬ _ .∙-unitˡ =  ≈ᶠʳ-refl
+FracAgᴱᴿᴬ _ .∙-comm {a = x} =  ∙ᶠʳ-comm {x = x}
+FracAgᴱᴿᴬ _ .∙-assocˡ {a = x} =  ∙ᶠʳ-assocˡ {x = x}
+FracAgᴱᴿᴬ _ .✓-resp =  ✓ᶠʳ-resp
+FracAgᴱᴿᴬ _ .✓-rem {a = x} =  ✓ᶠʳ-rem {x = x}
+FracAgᴱᴿᴬ _ .⌞⌟-cong _ =  _
+FracAgᴱᴿᴬ _ .⌞⌟-add =  ň ,-
+FracAgᴱᴿᴬ _ .⌞⌟-unitˡ =  ≈ᶠʳ-refl
+FracAgᴱᴿᴬ _ .⌞⌟-idem =  _

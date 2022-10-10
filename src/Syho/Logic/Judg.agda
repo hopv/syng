@@ -25,10 +25,11 @@ open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; 
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
   🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (_⇒ᴾ_)
-open import Syho.Logic.Prop using (WpKind; Name; par; tot; Prop∞; Prop˂∞; ∀˙;
-  ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
-  □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_;
-  _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; Inv; OInv; _↦_; _↦ᴸ_; Free; Basic)
+open import Syho.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂∞;
+  ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_;
+  _-∗_; ⤇_; □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_;
+  _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; Inv; OInv; _↦_; _↦ᴸ_; [_]ᴸ⟨_⟩; [_]ᴸ; †ᴸ_; Free;
+  Basic)
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -180,6 +181,7 @@ private variable
   ᵗvs :  List TyVal
   nm :  Name
   Nm Nm' :  Name → Zoi
+  α :  Lft
 
 infixr -1 _»_ _ᵘ»ᵘ_ _ᵘ»ᵃʰ_ _ᵘᴺ»ʰ_ _ᵘᴺ»ⁱʰ_ _ᵃʰ»ᵘ_ _ʰ»ᵘᴺ_
 
@@ -667,3 +669,28 @@ data  Judg ι  where
 
   ahor-free :  len ᵗvs ≡ n  →
     θ ↦ᴸ ᵗvs  ∗  Free n θ  ⊢[ ι ][ i ]ᵃ⟨ freeᴿ θ ⟩ λ _ →  ⊤'
+
+  ------------------------------------------------------------------------------
+  -- On lifetimes
+
+  -- Merge and split lifetime tokens w.r.t. the fraction
+
+  []ᴸ⟨⟩-merge :  [ α ]ᴸ⟨ p ⟩  ∗  [ α ]ᴸ⟨ q ⟩  ⊢[ ι ]  [ α ]ᴸ⟨ p +ᴿ⁺ q ⟩
+
+  []ᴸ⟨⟩-split :  [ α ]ᴸ⟨ p +ᴿ⁺ q ⟩  ⊢[ ι ]  [ α ]ᴸ⟨ p ⟩  ∗  [ α ]ᴸ⟨ q ⟩
+
+  -- The fraction of the lifetime token is no more than 1
+
+  []ᴸ⟨⟩-≤1 :  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ]  ⌜ p ≤1ᴿ⁺ ⌝
+
+  -- The dead lifetime token is persistent
+
+  †ᴸ-⇒□ :  †ᴸ α  ⊢[ ι ]  □ †ᴸ α
+
+  -- The lifetime and dead lifetime tokens for a lifetime cannot coexist
+
+  []ᴸ⟨⟩-†ᴸ-no :  [ α ]ᴸ⟨ p ⟩  ∗  †ᴸ α  ⊢[ ι ]  ⊥'
+
+  -- Allocate a new lifetime
+
+  []ᴸ-alloc :  ⊤'  ⊢[ ι ] ⤇  ∃ α , [ α ]ᴸ

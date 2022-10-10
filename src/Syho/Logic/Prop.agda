@@ -68,11 +68,12 @@ private variable
   ᵗv :  TyVal
   T :  Type
   Nm :  Name → Zoi
+  α :  Lft
 
 infix 3 ⤇_ _→'_ _-∗_
 infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
-infix 8 □_ ○_
+infix 8 □_ ○_ †ᴸ_
 infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
@@ -125,6 +126,12 @@ data  Prop' ι  where
 
   -- Free :  Freeing token
   Free :  ℕ →  Addr →  Prop' ι
+
+  -- [ ]ᴸ⟨ ⟩ :  Lifetime token
+  [_]ᴸ⟨_⟩ :  Lft →  ℚ⁺ →  Prop' ι
+
+  -- †ᴸ :  Dead lifetime token
+  †ᴸ_ :  Lft →  Prop' ι
 
 --------------------------------------------------------------------------------
 -- Utility for ∀/∃
@@ -235,6 +242,12 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 [^ nm ]ᴺ =  [ ^ᶻ nm ]ᴺ
 
 --------------------------------------------------------------------------------
+-- [ ]ᴸ :  Full lifetime token
+
+[_]ᴸ :  Lft →  Prop' ι
+[ α ]ᴸ =  [ α ]ᴸ⟨ 1ᴿ⁺ ⟩
+
+--------------------------------------------------------------------------------
 -- Basic P :  P is basic, i.e., P doesn't contain impredicative connectives
 
 data  Basic :  Prop∞ →  Set₁  where
@@ -256,6 +269,8 @@ data  Basic :  Prop∞ →  Set₁  where
     ↦⟨⟩-Basic :  Basic $ θ ↦⟨ p ⟩ ᵗv
     Free-Basic :  Basic $ Free n θ
     []ᴺ-Basic :  Basic [ Nm ]ᴺ
+    []ᴸ⟨⟩-Basic :  Basic [ α ]ᴸ⟨ p ⟩
+    †ᴸ-Basic :  Basic $ †ᴸ α
 
 instance
 

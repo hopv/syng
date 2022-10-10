@@ -172,7 +172,7 @@ following parts.
             [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;
             [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the points-to
             and freeing tokens;
-            [`Names`](src/Syho/Model/Prop.Names.agda) for interpreting the name
+            [`Names`](src/Syho/Model/Prop/Names.agda) for interpreting the name
             set token.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;

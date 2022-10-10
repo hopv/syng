@@ -97,6 +97,12 @@ data  Prop' ι  where
   -- □ :  Persistence modality
   □_ :  Prop' ι →  Prop' ι
 
+  -- ↦⟨ ⟩ :  Points-to token
+  _↦⟨_⟩_ :  Addr →  ℚ⁺ →  TyVal →  Prop' ι
+
+  -- Free :  Freeing token
+  Free :  ℕ →  Addr →  Prop' ι
+
   -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι
 
@@ -120,12 +126,6 @@ data  Prop' ι  where
 
   -- OInv :  Open invariant token
   OInv :  Name →  Prop˂ ι →  Prop' ι
-
-  -- ↦⟨ ⟩ :  Points-to token
-  _↦⟨_⟩_ :  Addr →  ℚ⁺ →  TyVal →  Prop' ι
-
-  -- Free :  Freeing token
-  Free :  ℕ →  Addr →  Prop' ι
 
   -- [ ]ᴸ⟨ ⟩ :  Lifetime token
   [_]ᴸ⟨_⟩ :  Lft →  ℚ⁺ →  Prop' ι
@@ -203,17 +203,6 @@ syntax [∗∈ⁱ]-syntax (λ ix → P) xs =  [∗ ix ∈ⁱ xs ] P
 syntax [∗∈ⁱ⟨⟩]-syntax (λ ix → P) k xs =  [∗ ix ∈ⁱ⟨ k ⟩ xs ] P
 
 --------------------------------------------------------------------------------
--- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare-triple precursor
-
-infixr 5 _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
-
-_↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr∞ T →  (Val T → Prop˂∞) →  Prop' ι
-P ↪⟨ e ⟩ᴾ Q˙ =  P ↪⟨ e ⟩[ par ] Q˙
-
-_↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂∞) →  Prop' ι
-P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
-
---------------------------------------------------------------------------------
 -- Extend _↦⟨_⟩_
 
 infix 9 _↦_ _↦ᴸ⟨_⟩_ _↦ᴸ_
@@ -227,6 +216,17 @@ _↦ᴸ⟨_⟩_ :  Addr →  ℚ⁺ →  List TyVal →  Prop' ι
 θ ↦ᴸ⟨ p ⟩ ᵗvs =  [∗ (i , ᵗv) ∈ⁱ ᵗvs ] θ ₒ i ↦⟨ p ⟩ ᵗv
 _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
+
+--------------------------------------------------------------------------------
+-- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare-triple precursor
+
+infixr 5 _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
+
+_↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr∞ T →  (Val T → Prop˂∞) →  Prop' ι
+P ↪⟨ e ⟩ᴾ Q˙ =  P ↪⟨ e ⟩[ par ] Q˙
+
+_↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂∞) →  Prop' ι
+P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
 
 --------------------------------------------------------------------------------
 -- Utility for [ ]ᴺ

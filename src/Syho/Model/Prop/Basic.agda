@@ -9,13 +9,15 @@ module Syho.Model.Prop.Basic where
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_)
 open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
-  _↦⟨_⟩_; Free; Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic;
-  □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic)
+  _↦⟨_⟩_; Free; [_]ᴸ⟨_⟩; †ᴸ_; Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic;
+  -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic; []ᴸ⟨⟩-Basic;
+  †ᴸ-Basic)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; ∀ᵒ-syntax; ∃ᵒ-syntax;
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∃ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono; -∗ᵒ-Mono;
   ⤇ᵒ-Mono; □ᵒ-Mono; ◎-Mono)
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Syho.Model.Prop.Names using ([_]ᴺᵒ)
+open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
 
 private variable
   P :  Prop∞
@@ -34,6 +36,8 @@ private variable
 ⸨ [ Nm ]ᴺ ⸩ᴮ {{[]ᴺ-Basic}} =  [ Nm ]ᴺᵒ
 ⸨ θ ↦⟨ p ⟩ ᵗv ⸩ᴮ {{↦⟨⟩-Basic}} =  θ ↦⟨ p ⟩ᵒ ᵗv
 ⸨ Free n θ ⸩ᴮ {{Free-Basic}} =  Freeᵒ n θ
+⸨ [ α ]ᴸ⟨ p ⟩ ⸩ᴮ {{[]ᴸ⟨⟩-Basic}} =  [ α ]ᴸ⟨ p ⟩ᵒ
+⸨ †ᴸ α ⸩ᴮ {{†ᴸ-Basic}} =  †ᴸᵒ α
 
 abstract
 
@@ -50,3 +54,5 @@ abstract
   ⸨⸩ᴮ-Mono {{[]ᴺ-Basic}} =  ◎-Mono
   ⸨⸩ᴮ-Mono {{↦⟨⟩-Basic}} =  ◎-Mono
   ⸨⸩ᴮ-Mono {{Free-Basic}} =  Freeᵒ-Mono
+  ⸨⸩ᴮ-Mono {{[]ᴸ⟨⟩-Basic}} =  ◎-Mono
+  ⸨⸩ᴮ-Mono {{†ᴸ-Basic}} =  ◎-Mono

@@ -11,8 +11,8 @@ open import Base.Func using (id)
 open import Base.Size using (!)
 open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; ○_;
   [_]ᴺ; Inv; OInv; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪[_]⟨_⟩∞; _↦⟨_⟩_; Free;
-  Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic;
-  []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic)
+  [_]ᴸ⟨_⟩; †ᴸ_; Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic;
+  □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono; ∃ᵒ-mono; →ᵒ-Mono;
@@ -20,6 +20,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; 
   □ᵒ-mono; ◎-Mono)
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Syho.Model.Prop.Names using ([_]ᴺᵒ)
+open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᴹ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
   _↪[_]⟨_⟩∞ᵒ; ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᵒ-Mono; ↪⟨⟩∞ᵒ-Mono)
@@ -49,6 +50,8 @@ private variable
 ⸨ OInv nm P˂ ⸩ =  OInvᵒ nm (P˂ .!)
 ⸨ θ ↦⟨ p ⟩ ᵗv ⸩ =  θ ↦⟨ p ⟩ᵒ ᵗv
 ⸨ Free n θ ⸩ =  Freeᵒ n θ
+⸨ [ α ]ᴸ⟨ p ⟩ ⸩ =  [ α ]ᴸ⟨ p ⟩ᵒ
+⸨ †ᴸ α ⸩ =  †ᴸᵒ α
 
 abstract
 
@@ -72,6 +75,8 @@ abstract
   ⸨⸩-Mono {[ _ ]ᴺ} =  ◎-Mono
   ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  ◎-Mono
   ⸨⸩-Mono {Free _ _} =  Freeᵒ-Mono
+  ⸨⸩-Mono {[ _ ]ᴸ⟨ _ ⟩} =  ◎-Mono
+  ⸨⸩-Mono {†ᴸ _} =  ◎-Mono
 
   -- ⸨ ⸩ᴮ agrees with ⸨ ⸩
   -- ⸨⸩-ᴮ⇒ and ⸨⸩-⇒ᴮ are mutually recursive
@@ -89,6 +94,8 @@ abstract
   ⸨⸩-ᴮ⇒ {{[]ᴺ-Basic}} =  id
   ⸨⸩-ᴮ⇒ {{↦⟨⟩-Basic}} =  id
   ⸨⸩-ᴮ⇒ {{Free-Basic}} =  id
+  ⸨⸩-ᴮ⇒ {{[]ᴸ⟨⟩-Basic}} =  id
+  ⸨⸩-ᴮ⇒ {{†ᴸ-Basic}} =  id
 
   ⸨⸩-⇒ᴮ {{∀-Basic BasicP˙}} =  ∀ᵒ-mono λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a}
   ⸨⸩-⇒ᴮ {{∃-Basic BasicP˙}} =  ∃ᵒ-mono λ x {a} → ⸨⸩-⇒ᴮ {{BasicP˙ x}} {a}
@@ -100,3 +107,5 @@ abstract
   ⸨⸩-⇒ᴮ {{[]ᴺ-Basic}} =  id
   ⸨⸩-⇒ᴮ {{↦⟨⟩-Basic}} =  id
   ⸨⸩-⇒ᴮ {{Free-Basic}} =  id
+  ⸨⸩-⇒ᴮ {{[]ᴸ⟨⟩-Basic}} =  id
+  ⸨⸩-⇒ᴮ {{†ᴸ-Basic}} =  id

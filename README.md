@@ -173,7 +173,9 @@ following parts.
             [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the
             memory-related tokens;
             [`Names`](src/Syho/Model/Prop/Names.agda) for interpreting the name
-            set token.
+            set token;
+            [`Lft`](src/Syho/Model/Prop/Lft.agda) for interpreting the
+            lifetime-related tokens.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
             [`Ind`](src/Syho/Model/Prop/Ind.agda) for interpreting the

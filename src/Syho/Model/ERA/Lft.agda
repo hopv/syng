@@ -228,7 +228,8 @@ open UpLft public using () renaming (
   Upᴱᴿᴬ to Lftᴱᴿᴬ)
 
 open ERA Lftᴱᴿᴬ public using () renaming (Res to Resᴸᶠᵗ; _≈_ to _≈ᴸᶠᵗ_;
-  _∙_ to _∙ᴸᶠᵗ_; ε to εᴸᶠᵗ; ⌞_⌟ to ⌞_⌟ᴸᶠᵗ; _✓_ to _✓ᴸᶠᵗ_; _↝_ to _↝ᴸᶠᵗ_)
+  _∙_ to _∙ᴸᶠᵗ_; ε to εᴸᶠᵗ; ⌞_⌟ to ⌞_⌟ᴸᶠᵗ; _✓_ to _✓ᴸᶠᵗ_; _↝_ to _↝ᴸᶠᵗ_;
+  ◠˜_ to ◠˜ᴸᶠᵗ_)
 
 -- [ ]ᴸ⟨ ⟩ʳ :  Resource for the lifetime token
 

@@ -12,16 +12,16 @@ open import Base.Few using (absurd)
 open import Base.Eq using (refl)
 open import Base.Size using (∞)
 open import Base.Prod using (_,_; -,_; -ᴵ,_)
-open import Base.Nat using (ℕ; ṡ_)
+open import Base.Nat using (ℕ; _≤_)
 open import Syho.Lang.Expr using (Type; Expr∞; Val)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗-elimʳ)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; _ᵘ»_; _ᵘ»ᵘ_;
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-≤; _ᵘ»_; _ᵘ»ᵘ_;
   ⇛-frameˡ; ⇛-frameʳ; ⇛ᴺ-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_;
-  _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
+  _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ahor-≤; horᵀ-≤; ihor-≤; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
   _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
@@ -121,8 +121,9 @@ abstract
 
   -- Modify ⇛ proof
 
-  ↪⇛ᵒ-ṡ :  P ↪[ i ]⇛ᴹ Q  ⊨  P ↪[ ṡ i ]⇛ᴹ Q
-  ↪⇛ᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =  -, -ᴵ, -, ⇛-ṡ P∗R∗S⊢⇛Q , R∗IndSa
+  ↪⇛ᵒ-≤ :  i ≤ j  →   P ↪[ i ]⇛ᴹ Q  ⊨  P ↪[ j ]⇛ᴹ Q
+  ↪⇛ᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
+    -, -ᴵ, -, ⇛-≤ i≤j P∗R∗S⊢⇛Q , R∗IndSa
 
   ↪⇛ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
     R ∗ P' ⊢[ ∞ ][ i ]⇛ P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᴹ Q)  ⊨  P' ↪[ i ]⇛ᴹ Q
@@ -171,9 +172,9 @@ abstract
 
   -- Modify ᵃ⟨ ⟩ proof
 
-  ↪ᵃ⟨⟩ᵒ-ṡ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ ṡ i ]ᵃ⟨ red ⟩ᵒ Q˙
-  ↪ᵃ⟨⟩ᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
-    -, -ᴵ, -, ahor-ṡ P∗R∗S⊢⟨red⟩Q , R∗IndSa
+  ↪ᵃ⟨⟩ᵒ-≤ :  i ≤ j  →   P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ j ]ᵃ⟨ red ⟩ᵒ Q˙
+  ↪ᵃ⟨⟩ᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+    -, -ᴵ, -, ahor-≤ i≤j P∗R∗S⊢⟨red⟩Q , R∗IndSa
 
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P' ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
@@ -234,9 +235,9 @@ abstract
   ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, hor-ᵀ⇒ᴾ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  ↪⟨⟩ᵀᵒ-ṡ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ ṡ i ]ᵒ Q˙
-  ↪⟨⟩ᵀᵒ-ṡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, horᵀ-ṡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
+  ↪⟨⟩ᵀᵒ-≤ :  i ≤ j  →   P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ j ]ᵒ Q˙
+  ↪⟨⟩ᵀᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, horᵀ-≤ i≤j P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ :  {{_ : Basic R}} →  (R ∗ P') ⊢[ ∞ ][ i ]⇛ᴺ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩[ κ ]ᵒ Q˙
@@ -287,9 +288,9 @@ abstract
 
   -- Modify ⟨ ⟩∞ proof
 
-  ↪⟨⟩∞ᵒ-ṡ :  P ↪[ i ]⟨ e ⟩∞ᵒ  ⊨  P ↪[ ṡ i ]⟨ e ⟩∞ᵒ
-  ↪⟨⟩∞ᵒ-ṡ (-, -ᴵ, -, P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa) =
-    -, -ᴵ, -, ihor-ṡ P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa
+  ↪⟨⟩∞ᵒ-≤ :  i ≤ j  →   P ↪[ i ]⟨ e ⟩∞ᵒ  ⊨  P ↪[ j ]⟨ e ⟩∞ᵒ
+  ↪⟨⟩∞ᵒ-≤ i≤j (-, -ᴵ, -, P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa) =
+    -, -ᴵ, -, ihor-≤ i≤j P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa
 
   ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ :  {{_ : Basic R}} →  R ∗ Q ⊢[ ∞ ][ j ]⇛ᴺ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⟨ e ⟩∞ᵒ)  ⊨  Q ↪[ i ]⟨ e ⟩∞ᵒ

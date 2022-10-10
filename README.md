@@ -148,6 +148,8 @@ following parts.
             modification ERA;
             [`Envv`](src/Syho/Model/ERA/Envv.agda) for the environment
             validity ERA;
+            [`Valm`](src/Syho/Model/ERA/Valm.agda) for the validity modification
+            ERA;
             [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA.
         * Basic ERAs ―
             [`Zoi`](src/Base/Zoi.agda) for the zoi ERA;

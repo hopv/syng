@@ -8,7 +8,6 @@
 module Syho.Logic.Judg where
 
 open import Base.Func using (_∘_; _$_)
-open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_; _≡˙_)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size; Thunk; ¡_; !)
@@ -26,7 +25,7 @@ open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; 
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
   🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (_⇒ᴾ_)
-open import Syho.Logic.Prop using (Name; WpKind; par; tot; Prop∞; Prop˂∞; ∀˙;
+open import Syho.Logic.Prop using (WpKind; Name; par; tot; Prop∞; Prop˂∞; ∀˙;
   ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
   □_; _↪[_]⇛_; ○_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_;
   _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; Inv; OInv; _↦_; _↦ᴸ_; Free; Basic)

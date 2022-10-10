@@ -18,7 +18,7 @@ open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Top using (⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿᵈˣ; empᴵⁿᵈᵖ;
-  empᴵⁿᵈˣ-✓; empᴵⁿᵈᵖ-✓)
+  empᴵⁿᵈˣ-✓ε; empᴵⁿᵈᵖ-✓ε)
 open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; [⊤]ᴺʳ; empᴵⁿᵛ-✓[⊤])
 
 open ERA using (Res; Env)
@@ -126,8 +126,8 @@ abstract
 
   empᴵⁿᴳ-✓[⊤] :  ✓ᴹ M →  envᴳ M empᴵⁿᴳ ✓ᴳ inj˙ iᴵⁿᵛ [⊤]ᴺʳ
   empᴵⁿᴳ-✓[⊤] ✓M iᴹᵉᵐ =  ✓ᴹ⇒✓ᴹᵉᵐ ✓M
-  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈˣ =  empᴵⁿᵈˣ-✓
-  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈᵖ =  empᴵⁿᵈᵖ-✓
+  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈˣ =  empᴵⁿᵈˣ-✓ε
+  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈᵖ =  empᴵⁿᵈᵖ-✓ε
   empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵛ =  empᴵⁿᵛ-✓[⊤]
   empᴵⁿᴳ-✓[⊤] _ elseᴳ =  _
 

@@ -64,10 +64,10 @@ indˣ i P =  inj˙ᴵⁿᵈˣ i (#ˣ P)
 
 abstract
 
-  -- empᴵⁿᵈˣ is valid
+  -- empᴵⁿᵈˣ with εᴵⁿᵈˣ is valid
 
-  empᴵⁿᵈˣ-✓ :  empᴵⁿᵈˣ ✓ᴵⁿᵈˣ εᴵⁿᵈˣ
-  empᴵⁿᵈˣ-✓ =  (λ _ _ → refl) , _
+  empᴵⁿᵈˣ-✓ε :  empᴵⁿᵈˣ ✓ᴵⁿᵈˣ εᴵⁿᵈˣ
+  empᴵⁿᵈˣ-✓ε =  (λ _ _ → refl) , _
 
   -- Add a new proposition and get a line
 
@@ -129,8 +129,8 @@ abstract
 
   -- empᴵⁿᵈᵖ is valid
 
-  empᴵⁿᵈᵖ-✓ :  empᴵⁿᵈᵖ ✓ᴵⁿᵈᵖ εᴵⁿᵈᵖ
-  empᴵⁿᵈᵖ-✓ =  (λ _ _ → refl) , λ _ → ✓ᴸ-[]
+  empᴵⁿᵈᵖ-✓ε :  empᴵⁿᵈᵖ ✓ᴵⁿᵈᵖ εᴵⁿᵈᵖ
+  empᴵⁿᵈᵖ-✓ε =  (λ _ _ → refl) , λ _ → ✓ᴸ-[]
 
   -- Add a new proposition and get a line
 

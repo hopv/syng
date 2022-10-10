@@ -88,7 +88,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
 
     -- When ⌞⌟'s argument gets added, ⌞⌟'s result gets added
 
-    ⌞⌟-add :  ∀{a b} →  ∑ b' ,  b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
+    ⌞⌟-add :  ∀{a b} →  ∑ a' ,  ⌞ a ∙ b ⌟  ≈ a' ∙ ⌞ b ⌟
 
     -- ⌞ a ⌟ is absorbed by a
 
@@ -171,7 +171,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
 
     -->  ⌞⌟-cong :  a ≈ b →  ⌞ a ⌟ ≈ ⌞ b ⌟
 
-    -->  ⌞⌟-add :  ∑ b' ,  b' ∙ ⌞ a ⌟ ≈ ⌞ b ∙ a ⌟
+    -->  ⌞⌟-add :  ∑ a' ,  ⌞ a ∙ b ⌟  ≈ a' ∙ ⌞ b ⌟
 
     -->  ⌞⌟-idem :  ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
 
@@ -259,8 +259,8 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     ∙-mono a⊑b c⊑d =  ⊑-trans (∙-monoˡ a⊑b) (∙-monoʳ c⊑d)
 
     ⌞⌟-mono :  a ⊑ b →  ⌞ a ⌟ ⊑ ⌞ b ⌟
-    ⌞⌟-mono (c , c∙a≈b)  with ⌞⌟-add {_} {c}
-    … | c' , c'∙⌞a⌟≈⌞c∙a⌟ =  c' , c'∙⌞a⌟≈⌞c∙a⌟ ◇˜ ⌞⌟-cong c∙a≈b
+    ⌞⌟-mono (c , c∙a≈b)  with ⌞⌟-add {c}
+    … | c' , ⌞c∙a⌟≈'∙⌞a⌟ =  c' , ◠˜ ⌞c∙a⌟≈'∙⌞a⌟ ◇˜ ⌞⌟-cong c∙a≈b
 
     -- ⌞ ⌟ is decreasing
 

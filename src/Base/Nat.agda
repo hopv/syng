@@ -555,22 +555,22 @@ abstract
   -- ∀≥˙ n is preserved by upd˙ if the added element satisfies the condition
 
   ∀≥˙-upd˙-sat :  F i a →  ∀≥˙ n F f →  ∀≥˙ n F (upd˙ i a f)
-  ∀≥˙-upd˙-sat {i = i} Fia ∀≥Ff j j≥n  with j ≟ i
-  … | no _ =  ∀≥Ff j j≥n
+  ∀≥˙-upd˙-sat {i = i} Fia ∀≥f j j≥n  with j ≟ i
+  … | no _ =  ∀≥f j j≥n
   … | yes refl =  Fia
 
   -- ∀≥˙ is preserved by upd˙ i, updating the bound by ṡ i ⊔ -
 
   ∀≥˙-upd˙ :  ∀≥˙ n F f →  ∀≥˙ (ṡ i ⊔ n) F (upd˙ i a f)
-  ∀≥˙-upd˙ {n = n} {i = i} ∀≥Ff j ṡi⊔n≥j  with j ≟ i
-  … | no _ =  ∀≥Ff j $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
+  ∀≥˙-upd˙ {n = n} {i = i} ∀≥f j ṡi⊔n≥j  with j ≟ i
+  … | no _ =  ∀≥f j $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
   … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j
 
   -- ∀≥˙ is preserved by upd˙ at the bound, updating the bound by ṡ
 
   ∀≥˙-upd˙-ṡ : ∀≥˙ n F f →  ∀≥˙ (ṡ n) F (upd˙ n a f)
-  ∀≥˙-upd˙-ṡ {n} {F = F} {a = a} ∀≥Ff  with ∀≥˙-upd˙ {F = F} {a = a} ∀≥Ff
-  … | ∀≥Fupdf  rewrite ṡ⊔-same {n} =  ∀≥Fupdf
+  ∀≥˙-upd˙-ṡ {n} {F = F} {a = a} ∀≥f  with ∀≥˙-upd˙ {F = F} {a = a} ∀≥f
+  … | ∀≥updf  rewrite ṡ⊔-same {n} =  ∀≥updf
 
 --------------------------------------------------------------------------------
 -- Cofin˙ F f :  F i (f i) holds for all but finitely many i's
@@ -593,9 +593,9 @@ abstract
   -- Cofin˙ is preserved by upd˙
 
   Cofin˙-upd˙ :  Cofin˙ F f →  Cofin˙ F (upd˙ i a f)
-  Cofin˙-upd˙ {F = F} (-, ∀≥Ff) =  -, ∀≥˙-upd˙ {F = F} ∀≥Ff
+  Cofin˙-upd˙ {F = F} (-, ∀≥f) =  -, ∀≥˙-upd˙ {F = F} ∀≥f
 
   -- If Cofin˙ F f holds, then there exists some i such that F i (f i) holds
 
   Cofin˙-∑ :  Cofin˙ F f →  ∑ i , F i (f i)
-  Cofin˙-∑ {F = F} (n , ∀≥Ff) =  n , ∀≥Ff n ≤-refl
+  Cofin˙-∑ (n , ∀≥f) =  n , ∀≥f n ≤-refl

@@ -18,10 +18,10 @@ open import Base.List using (List; len; rep)
 open import Base.RatPos using (ℚ⁺)
 open import Base.Sety using (Setʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; Val; TyVal; ⊤-; Mem;
-  _‼ᴹ_; updᴹ)
+  _‼ᴹ_; updᴹ; ✓ᴹ-∑ň)
 open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ)
 open import Syho.Lang.Reduce using (🞰⇒; ←⇒; fau⇒; cas⇒-tt; cas⇒-ff; alloc⇒;
-  free⇒; ✓ᴹ-∑ň)
+  free⇒)
 open import Syho.Model.ERA.Glob using (upd˙-mem-envᴳ)
 open import Syho.Model.ERA.Mem using (εᴹᵉᵐ; ↦⟨⟩ʳ-read; ↦ʳ-write; ↦ᴸʳ-alloc;
   freeʳ-š; ↦ᴸʳ-free)

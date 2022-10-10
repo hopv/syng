@@ -52,14 +52,14 @@ plus◁3,4 =  plus ◁ ∇ (3 , 4)
 ndnat :  Expr∞ $ ◸ ℕ
 ndnat =  nd
 
--- Decrement the natural number at the address until it becomes zero
+-- Repeat decrementing the natural number at the address until it becomes zero
 
 decrloop :  Addr →  Expr ι $ ◸ ⊤
 decrloop' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
 
 decrloop θ =  let' n := 🞰 ∇ θ in' λ{ .! → decrloop' θ n }
 
-decrloop' θ 0 =  ∇ _
+decrloop' _ 0 =  ∇ _
 decrloop' θ (ṡ n) =  ∇ θ ← ∇ n ⁏¡ decrloop θ
 
 -- decrloop with initialization with ndnat

@@ -209,6 +209,9 @@ following parts.
         * [`Adeq`](src/Syho/Model/Hor/Adeq.agda) for the adequacy of the
             semantic partial and total weakest preconditions.
 
+We also have [`All`](src/Syho/All.agda) for just importing all the relevant
+parts of Syho.
+
 ## Meta-logic
 
 As the meta-logic of Syho, we use **Agda**, under the option

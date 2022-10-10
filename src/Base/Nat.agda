@@ -9,7 +9,7 @@ module Base.Nat where
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _∘_)
 open import Base.Few using (⊤; ⊥; ¬_; absurd)
-open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂)
+open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂; _≡˙_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
 open import Base.Acc using (Acc; acc; acc-sub)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
@@ -33,7 +33,7 @@ private variable
   A :  Set ł
   A˙ :  ℕ → Set ł
   F :  ∀ i →  A˙ i →  Set ł
-  f :  ∀ i →  A˙ i
+  f g :  ∀ i →  A˙ i
   i :  ℕ
   a :  A
 
@@ -542,6 +542,11 @@ abstract
 
 abstract
 
+  -- ∀≥˙ respects ≡˙
+
+  ∀≥˙-resp :  f ≡˙ g →  ∀≥˙ n F f →  ∀≥˙ n F g
+  ∀≥˙-resp f≡g ∀≥f i  rewrite ◠ f≡g i =  ∀≥f i
+
   -- ∀≥˙ holds if there is no exception
 
   ∀⇒∀≥˙ :  (∀ i → F i (f i)) →  ∀≥˙ n F f
@@ -574,6 +579,11 @@ Cofin˙ :  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
 Cofin˙ F f =  ∑ n ,  ∀≥˙ n F f
 
 abstract
+
+  -- Cofin˙ respects ≡˙
+
+  Cofin˙-resp :  f ≡˙ g →  Cofin˙ F f →  Cofin˙ F g
+  Cofin˙-resp {F = F} f≡g (n , ∀≥f) =  n , ∀≥˙-resp {F = F} f≡g ∀≥f
 
   -- Cofin˙ holds if there is no exception
 

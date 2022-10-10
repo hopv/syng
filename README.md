@@ -170,16 +170,16 @@ following parts.
         * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
             connectives;
             [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;
-            [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the points-to
-            and freeing tokens;
+            [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the
+            memory-related tokens;
             [`Names`](src/Syho/Model/Prop/Names.agda) for interpreting the name
             set token.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
             [`Ind`](src/Syho/Model/Prop/Ind.agda) for interpreting the
             indirection modality and precursors;
-            [`Inv`](src/Syho/Model/Prop/Inv.agda) for interpreting the invariant
-            and open invariant tokens.
+            [`Inv`](src/Syho/Model/Prop/Inv.agda) for interpreting the
+            invariant-related tokens.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting all the
             propositions;
             [`Sound`](src/Syho/Model/Prop/Sound.agda) for the semantic soundness

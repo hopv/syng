@@ -7,8 +7,8 @@
 open import Base.Level using (Level)
 open import Base.Dec using (≡Dec)
 open import Syho.Model.ERA.Base using (ERA)
-module Syho.Model.ERA.All {łᴵ łᴱ łᴿ ł≈ ł✓ : Level} (I : Set łᴵ) {{_ : ≡Dec I}}
-  (Era˙ : I → ERA łᴱ łᴿ ł≈ ł✓) where
+module Syho.Model.ERA.All {łᴵ łᴿ ł≈ łᴱ ł✓ : Level} (I : Set łᴵ) {{_ : ≡Dec I}}
+  (Era˙ : I → ERA łᴿ ł≈ łᴱ ł✓) where
 
 open import Base.Level using (_⊔ᴸ_)
 open import Base.Func using (_$_)
@@ -17,21 +17,21 @@ open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙; upd˙-cong; upd˙-s
   upd˙-2; upd˙-swap)
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
 
-open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
+open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ⊑-refl;
   ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
   ⌞⌟-idem; ⌞⌟-ε)
 
 --------------------------------------------------------------------------------
 -- ∀ᴱᴿᴬ :  Dependent-map ERA
 
-∀ᴱᴿᴬ :  ERA (łᴵ ⊔ᴸ łᴱ) (łᴵ ⊔ᴸ łᴿ) (łᴵ ⊔ᴸ ł≈) (łᴵ ⊔ᴸ ł✓)
-∀ᴱᴿᴬ .Env =  ∀ i →  Era˙ i .Env
+∀ᴱᴿᴬ :  ERA (łᴵ ⊔ᴸ łᴿ) (łᴵ ⊔ᴸ ł≈) (łᴵ ⊔ᴸ łᴱ) (łᴵ ⊔ᴸ ł✓)
 ∀ᴱᴿᴬ .Res =  ∀ i →  Era˙ i .Res
 ∀ᴱᴿᴬ ._≈_ a b =  ∀ i →  Era˙ i ._≈_ (a i) (b i)
-∀ᴱᴿᴬ ._✓_ E a =  ∀ i →  Era˙ i ._✓_ (E i) (a i)
 ∀ᴱᴿᴬ ._∙_ a b i =  Era˙ i ._∙_ (a i) (b i)
 ∀ᴱᴿᴬ .ε i =  Era˙ i .ε
 ∀ᴱᴿᴬ .⌞_⌟ a i =  Era˙ i .⌞_⌟ (a i)
+∀ᴱᴿᴬ .Env =  ∀ i →  Era˙ i .Env
+∀ᴱᴿᴬ ._✓_ E a =  ∀ i →  Era˙ i ._✓_ (E i) (a i)
 ∀ᴱᴿᴬ .refl˜ i =  Era˙ i .refl˜
 ∀ᴱᴿᴬ .◠˜_ a≈b i =  Era˙ i .◠˜_ (a≈b i)
 ∀ᴱᴿᴬ ._◇˜_ a≈b b≈c i =  Era˙ i ._◇˜_ (a≈b i) (b≈c i)
@@ -39,18 +39,16 @@ open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇
 ∀ᴱᴿᴬ .∙-unitˡ i =  Era˙ i .∙-unitˡ
 ∀ᴱᴿᴬ .∙-comm i =  Era˙ i .∙-comm
 ∀ᴱᴿᴬ .∙-assocˡ i =  Era˙ i .∙-assocˡ
-∀ᴱᴿᴬ .✓-resp a≈b E✓a i =  Era˙ i .✓-resp (a≈b i) (E✓a i)
-∀ᴱᴿᴬ .✓-rem E✓a∙b i =  Era˙ i .✓-rem (E✓a∙b i)
 ∀ᴱᴿᴬ .⌞⌟-cong a≈b i =  Era˙ i .⌞⌟-cong (a≈b i)
 ∀ᴱᴿᴬ .⌞⌟-add =  (λ i → Era˙ i .⌞⌟-add .π₀) , λ i → Era˙ i .⌞⌟-add .π₁
 ∀ᴱᴿᴬ .⌞⌟-unitˡ i =  Era˙ i .⌞⌟-unitˡ
 ∀ᴱᴿᴬ .⌞⌟-idem i =  Era˙ i .⌞⌟-idem
+∀ᴱᴿᴬ .✓-resp a≈b E✓a i =  Era˙ i .✓-resp (a≈b i) (E✓a i)
+∀ᴱᴿᴬ .✓-rem E✓a∙b i =  Era˙ i .✓-rem (E✓a∙b i)
 
-open ERA ∀ᴱᴿᴬ public using () renaming (Env to Env˙; Res to Res˙)
-
-open ERA ∀ᴱᴿᴬ using () renaming (_≈_ to _≈˙_; _⊑_ to _⊑˙_; _✓_ to _✓˙_;
-  _∙_ to _∙˙_; ε to ε˙; ⌞_⌟ to ⌞_⌟˙; _↝_ to _↝˙_; refl˜ to refl˜˙;
-  _◇˜_ to _◇˜˙_; ⊑≡ to ⊑˙≡)
+open ERA ∀ᴱᴿᴬ public using () renaming (Res to Res˙; _≈_ to _≈˙_; _⊑_ to _⊑˙_;
+  _∙_ to _∙˙_; ε to ε˙; ⌞_⌟ to ⌞_⌟˙; Env to Env˙; _✓_ to _✓˙_; _↝_ to _↝˙_;
+  refl˜ to refl˜˙; _◇˜_ to _◇˜˙_; ⊑≡ to ⊑˙≡)
 
 private variable
   E˙ F˙ G˙ :  Env˙
@@ -71,9 +69,9 @@ inj˙ i a =  upd˙ i a ε˙
 
 module _ {i : I} where
 
-  open ERA (Era˙ i) using () renaming (Env to Envⁱ; Res to Resⁱ;
-    _≈_ to _≈ⁱ_; _⊑_ to _⊑ⁱ_; _✓_ to _✓ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ;
-    _↝_ to _↝ⁱ_; refl˜ to refl˜ⁱ; ⊑≡ to ⊑ⁱ≡)
+  open ERA (Era˙ i) using () renaming (Res to Resⁱ; _≈_ to _≈ⁱ_; _⊑_ to _⊑ⁱ_;
+    _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; Env to Envⁱ; _✓_ to _✓ⁱ_; _↝_ to _↝ⁱ_;
+    refl˜ to refl˜ⁱ; ⊑≡ to ⊑ⁱ≡)
 
   private variable
     E F G :  Envⁱ
@@ -93,7 +91,7 @@ module _ {i : I} where
     ----------------------------------------------------------------------------
     -- On upd˙
 
-    -- upd˙ preserves ≈/⊑/✓/∙/⌞⌟/↝
+    -- upd˙ preserves ≈/⊑/∙/⌞⌟/✓/↝
 
     upd˙-≈ :  a ≈ⁱ b →  c˙ ≈˙ d˙ →  upd˙ i a c˙ ≈˙ upd˙ i b d˙
     upd˙-≈ a≈b c˙≈d˙ j  with j ≟ i
@@ -110,11 +108,6 @@ module _ {i : I} where
     upd˙-⊑ :  a ⊑ⁱ b →  c˙ ⊑˙ d˙ →  upd˙ i a c˙ ⊑˙ upd˙ i b d˙
     upd˙-⊑  rewrite ⊑ⁱ≡ | ⊑˙≡ =  upd˙-⊑'
 
-    upd˙-✓ :  E˙ i ✓ⁱ a →  E˙ ✓˙ b˙ →  E˙ ✓˙ upd˙ i a b˙
-    upd˙-✓ Ei✓a E✓b˙ j  with j ≟ i
-    … | no _ =  E✓b˙ j
-    … | yes refl =  Ei✓a
-
     upd˙-∙ :  upd˙ i a c˙ ∙˙ upd˙ i b d˙  ≈˙  upd˙ i (a ∙ⁱ b) (c˙ ∙˙ d˙)
     upd˙-∙ j  with j ≟ i
     … | no _ =  Era˙ j .refl˜
@@ -124,6 +117,11 @@ module _ {i : I} where
     upd˙-⌞⌟ j  with j ≟ i
     … | no _ =  Era˙ j .refl˜
     … | yes refl =  refl˜ⁱ
+
+    upd˙-✓ :  E˙ i ✓ⁱ a →  E˙ ✓˙ b˙ →  E˙ ✓˙ upd˙ i a b˙
+    upd˙-✓ Ei✓a E✓b˙ j  with j ≟ i
+    … | no _ =  E✓b˙ j
+    … | yes refl =  Ei✓a
 
     upd˙-↝ :  ((E˙ i , a)  ↝ⁱ λ x →  E˙ i , bˣ x)  →
               (E˙ , upd˙ i a c˙)  ↝˙ λ x →  E˙ , upd˙ i (bˣ x) c˙

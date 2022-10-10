@@ -16,9 +16,8 @@ open import Base.List using (List; []; _∷_; [_]; _⧺_; ∈ʰᵈ; _∈ᴸ_; _�
   ≈ᴸ-trans)
 open import Syho.Model.ERA.Base using (ERA)
 
-open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
-  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
-  ⌞⌟-idem; ⌞⌟-ε)
+open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
 
 private variable
   ł :  Level
@@ -74,13 +73,13 @@ abstract
 -- Agᴱᴿᴬ :  Agreement ERA
 
 Agᴱᴿᴬ :  Set ł →  ERA ł ł ł ł
-Agᴱᴿᴬ A .Env =  ¿ A
 Agᴱᴿᴬ A .Res =  List A
 Agᴱᴿᴬ _ ._≈_ =  _≈ᴸ_
-Agᴱᴿᴬ _ ._✓_ =  _✓ᴸ_
 Agᴱᴿᴬ _ ._∙_ =  _⧺_
 Agᴱᴿᴬ _ .ε =  []
 Agᴱᴿᴬ _ .⌞_⌟ as =  as
+Agᴱᴿᴬ A .Env =  ¿ A
+Agᴱᴿᴬ _ ._✓_ =  _✓ᴸ_
 Agᴱᴿᴬ _ .refl˜ =  ≈ᴸ-refl
 Agᴱᴿᴬ _ .◠˜_ =  ≈ᴸ-sym
 Agᴱᴿᴬ _ ._◇˜_ =  ≈ᴸ-trans
@@ -88,9 +87,9 @@ Agᴱᴿᴬ _ .∙-congˡ =  ⧺-congˡ
 Agᴱᴿᴬ _ .∙-unitˡ =  ≈ᴸ-refl
 Agᴱᴿᴬ _ .∙-comm {a = as} =  ⧺-comm {as = as}
 Agᴱᴿᴬ _ .∙-assocˡ {a = as} =  ≡⇒≈ᴸ $ ⧺-assocˡ {as = as}
-Agᴱᴿᴬ _ .✓-resp =  ✓ᴸ-resp
-Agᴱᴿᴬ _ .✓-rem =  ✓ᴸ-rem
 Agᴱᴿᴬ _ .⌞⌟-cong =  id
 Agᴱᴿᴬ _ .⌞⌟-add =  -, ≈ᴸ-refl
 Agᴱᴿᴬ _ .⌞⌟-unitˡ =  ⧺-idem
 Agᴱᴿᴬ _ .⌞⌟-idem =  ≈ᴸ-refl
+Agᴱᴿᴬ _ .✓-resp =  ✓ᴸ-resp
+Agᴱᴿᴬ _ .✓-rem =  ✓ᴸ-rem

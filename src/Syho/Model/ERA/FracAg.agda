@@ -20,9 +20,8 @@ open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ�
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ag using (_✓ᴸ_; ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 
-open ERA using (Env; Res; _≈_; _✓_; _∙_; ε; ⌞_⌟; refl˜; ◠˜_; _◇˜_; ⊑-refl;
-  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
-  ⌞⌟-idem; ⌞⌟-ε)
+open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
 
 private variable
   ł :  Level
@@ -172,13 +171,13 @@ abstract
 -- FracAgᴱᴿᴬ :  Fractional agreement ERA
 
 FracAgᴱᴿᴬ :  Set ł →  ERA ł ł ł ł
-FracAgᴱᴿᴬ A .Env =  ¿ A
 FracAgᴱᴿᴬ A .Res =  FracAg A
 FracAgᴱᴿᴬ _ ._≈_ =  _≈ᶠʳ_
-FracAgᴱᴿᴬ _ ._✓_ =  _✓ᶠʳ_
 FracAgᴱᴿᴬ _ ._∙_ =  _∙ᶠʳ_
 FracAgᴱᴿᴬ _ .ε =  ň
 FracAgᴱᴿᴬ _ .⌞_⌟ _ =  ň
+FracAgᴱᴿᴬ A .Env =  ¿ A
+FracAgᴱᴿᴬ _ ._✓_ =  _✓ᶠʳ_
 FracAgᴱᴿᴬ _ .refl˜ =  ≈ᶠʳ-refl
 FracAgᴱᴿᴬ _ .◠˜_ =  ≈ᶠʳ-sym
 FracAgᴱᴿᴬ _ ._◇˜_ =  ≈ᶠʳ-trans
@@ -186,9 +185,9 @@ FracAgᴱᴿᴬ _ .∙-congˡ =  ∙ᶠʳ-congˡ
 FracAgᴱᴿᴬ _ .∙-unitˡ =  ≈ᶠʳ-refl
 FracAgᴱᴿᴬ _ .∙-comm {a = x} =  ∙ᶠʳ-comm {x = x}
 FracAgᴱᴿᴬ _ .∙-assocˡ {a = x} =  ∙ᶠʳ-assocˡ {x = x}
-FracAgᴱᴿᴬ _ .✓-resp =  ✓ᶠʳ-resp
-FracAgᴱᴿᴬ _ .✓-rem {a = x} =  ✓ᶠʳ-rem {x = x}
 FracAgᴱᴿᴬ _ .⌞⌟-cong _ =  _
 FracAgᴱᴿᴬ _ .⌞⌟-add =  ň ,-
 FracAgᴱᴿᴬ _ .⌞⌟-unitˡ =  ≈ᶠʳ-refl
 FracAgᴱᴿᴬ _ .⌞⌟-idem =  _
+FracAgᴱᴿᴬ _ .✓-resp =  ✓ᶠʳ-resp
+FracAgᴱᴿᴬ _ .✓-rem {a = x} =  ✓ᶠʳ-rem {x = x}

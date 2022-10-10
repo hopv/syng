@@ -42,7 +42,7 @@ open AllPnts public using () renaming (
   ∀ᴱᴿᴬ to Pntsᴱᴿᴬ;
   --  inj˙ᴾⁿᵗˢ :  ℕ →  FracAgᴱᴿᴬ TyVal →  Pntsᴱᴿᴬ .Res
   inj˙ to inj˙ᴾⁿᵗˢ;
-  inj˙-∙ to inj˙ᴾⁿᵗˢ-∙; inj˙-≈ to inj˙ᴾⁿᵗˢ-≈; ✓-inj˙ to ✓-inj˙ᴾⁿᵗˢ)
+  inj˙-≈ to inj˙ᴾⁿᵗˢ-≈; inj˙-∙ to inj˙ᴾⁿᵗˢ-∙; ✓-inj˙ to ✓-inj˙ᴾⁿᵗˢ)
 
 -- For the freeing token
 
@@ -69,7 +69,7 @@ open AllMem public using () renaming (
   ∀ᴱᴿᴬ to ∀Memᴱᴿᴬ;
   --  inj˙ᴬᴹᵉᵐ :  ℕ →  Mbloᴱᴿᴬ .Res →  ∀Memᴱᴿᴬ .Res
   inj˙ to inj˙ᴬᴹᵉᵐ;
-  inj˙-∙ to inj˙ᴬᴹᵉᵐ-∙; inj˙-≈ to inj˙ᴬᴹᵉᵐ-≈; ✓-inj˙ to ✓-inj˙ᴬᴹᵉᵐ)
+  inj˙-≈ to inj˙ᴬᴹᵉᵐ-≈; inj˙-∙ to inj˙ᴬᴹᵉᵐ-∙; ✓-inj˙ to ✓-inj˙ᴬᴹᵉᵐ)
 module EnvvMem =  Syho.Model.ERA.Envv ∀Memᴱᴿᴬ ✓ᴹ_
 open EnvvMem public using () renaming (
   --  EnvvMemᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
@@ -82,11 +82,11 @@ open UpMem public using () renaming (
 open ERA Pntsᴱᴿᴬ public using () renaming (Res to Resᴾⁿᵗˢ; _≈_ to _≈ᴾⁿᵗˢ_;
   _◇˜_ to _◇˜ᴾⁿᵗˢ_; ✓-resp to ✓ᴾⁿᵗˢ-resp)
 open ERA Mbloᴱᴿᴬ public using () renaming (Res to Resᴹᵇˡᵒ; _≈_ to _≈ᴹᵇˡᵒ_;
-  _✓_ to _✓ᴹᵇˡᵒ_; _∙_ to _∙ᴹᵇˡᵒ_; [∙∈ⁱ] to [∙ᴹᵇˡᵒ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵇˡᵒ∈ⁱ⟨⟩];
+  _∙_ to _∙ᴹᵇˡᵒ_; [∙∈ⁱ] to [∙ᴹᵇˡᵒ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]; _✓_ to _✓ᴹᵇˡᵒ_;
   _↝_ to _↝ᴹᵇˡᵒ_; _◇˜_ to _◇˜ᴹᵇˡᵒ_; ∙-congʳ to ∙ᴹᵇˡᵒ-congʳ)
 open ERA ∀Memᴱᴿᴬ public using () renaming (✓-resp to ✓ᴬᴹᵉᵐ-resp)
 open ERA Memᴱᴿᴬ public using () renaming (Res to Resᴹᵉᵐ; _≈_ to _≈ᴹᵉᵐ_;
-  _✓_ to _✓ᴹᵉᵐ_; ε to εᴹᵉᵐ; _∙_ to _∙ᴹᵉᵐ_; _↝_ to _↝ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_;
+  ε to εᴹᵉᵐ; _∙_ to _∙ᴹᵉᵐ_; _✓_ to _✓ᴹᵉᵐ_; _↝_ to _↝ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_;
   _◇˜_ to _◇˜ᴹᵉᵐ_; [∙∈ⁱ] to [∙ᴹᵉᵐ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵉᵐ∈ⁱ⟨⟩])
 
 [∙ᴹᵇˡᵒ∈ⁱ]-syntax =  [∙ᴹᵇˡᵒ∈ⁱ]

@@ -26,29 +26,23 @@ open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩
 -- resource updates ↝), thanks to the fact that we always stably have a single
 -- environment separately from resources.
 
-record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł✓))  where
+record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ łᴱ ⊔ᴸ ł✓))  where
   ------------------------------------------------------------------------------
   -- Fields
   infix 4 _≈_
-  infix 4 _✓_
   infixr 7 _∙_
+  infix 4 _✓_
   infix 0 ◠˜_
   infixr -1 _◇˜_
   field
     ----------------------------------------------------------------------------
     -- Main components
 
-    -- Env :  Environment
-    Env :  Set łᴱ
-
     -- Res :  Resource
     Res :  Set łᴿ
 
     -- ≈ :  Equivalence on resources
     _≈_ :  Res →  Res →  Set ł≈
-
-    -- ✓ :  Validity of a pair of an environment and a resource
-    _✓_ :  Env →  Res →  Set ł✓
 
     -- ∙ :  Product of resources, used for modeling the separating conjunction ∗
     _∙_ :  Res →  Res →  Res
@@ -58,6 +52,12 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
 
     -- ⌞ ⌟ :  Core of a resource, used for modeling the persistence modality □
     ⌞_⌟ :  Res →  Res
+
+    -- Env :  Environment
+    Env :  Set łᴱ
+
+    -- ✓ :  Validity of a pair of an environment and a resource
+    _✓_ :  Env →  Res →  Set ł✓
 
     ----------------------------------------------------------------------------
     -- On ≈
@@ -80,17 +80,6 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
     ∙-assocˡ :  ∀{a b c} →  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
 
     ----------------------------------------------------------------------------
-    -- On ✓
-
-    -- ✓ respects ≈
-
-    ✓-resp :  ∀{E a b} →  a ≈ b →  E ✓ a →  E ✓ b
-
-    -- ✓ is kept after a resource is removed
-
-    ✓-rem :  ∀{E a b} →  E ✓ a ∙ b →  E ✓ b
-
-    ----------------------------------------------------------------------------
     -- On ⌞⌟
 
     -- ⌞⌟ preserves ≈
@@ -108,6 +97,17 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
     -- ⌞⌟ is idempotent
 
     ⌞⌟-idem :  ∀{a} →  ⌞ ⌞ a ⌟ ⌟ ≈ ⌞ a ⌟
+
+    ----------------------------------------------------------------------------
+    -- On ✓
+
+    -- ✓ respects ≈
+
+    ✓-resp :  ∀{E a b} →  a ≈ b →  E ✓ a →  E ✓ b
+
+    -- ✓ is kept after a resource is removed
+
+    ✓-rem :  ∀{E a b} →  E ✓ a ∙ b →  E ✓ b
 
   private variable
     a a' b b' c d :  Res
@@ -278,17 +278,6 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
     ✓-⌞⌟ ✓a =  ✓-mono ⌞⌟-decr ✓a
 
   ------------------------------------------------------------------------------
-  -- ↝ :  Environmental resource update
-
-  infix 2 _↝_
-
-  -- (E , a) ↝ Fb˙ :  The environment-resource pair (E , a) can be updated into
-  --                  Fb˙ x for some x, regardless the frame resource c
-
-  _↝_ :  ∀{X : Set ł} →  Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
-  (E , a) ↝ Fb˙ =  ∀ c →  E ✓ a ∙ c →  ∑ x ,  let (F , b) = Fb˙ x in  F ✓ b ∙ c
-
-  ------------------------------------------------------------------------------
   -- [∙] :  Iterated resource product
 
   [∙] :  List Res →  Res
@@ -310,3 +299,14 @@ record  ERA łᴱ łᴿ ł≈ ł✓ : Set (ṡᴸ (łᴱ ⊔ᴸ łᴿ ⊔ᴸ ł�
   syntax [∙∈]-syntax (λ x → a) xs =  [∙ x ∈ xs ] a
   syntax [∙∈ⁱ]-syntax (λ ix → a) xs =  [∙ ix ∈ⁱ xs ] a
   syntax [∙∈ⁱ⟨⟩]-syntax (λ ix → a) k xs =  [∙ ix ∈ⁱ⟨ k ⟩ xs ] a
+
+  ------------------------------------------------------------------------------
+  -- ↝ :  Environmental resource update
+
+  infix 2 _↝_
+
+  -- (E , a) ↝ Fb˙ :  The environment-resource pair (E , a) can be updated into
+  --                  Fb˙ x for some x, regardless the frame resource c
+
+  _↝_ :  ∀{X : Set ł} →  Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
+  (E , a) ↝ Fb˙ =  ∀ c →  E ✓ a ∙ c →  ∑ x ,  let (F , b) = Fb˙ x in  F ✓ b ∙ c

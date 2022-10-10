@@ -21,7 +21,7 @@ open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿ
   empᴵⁿᵈˣ-✓; empᴵⁿᵈᵖ-✓)
 open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; [⊤]ᴺʳ; empᴵⁿᵛ-✓[⊤])
 
-open ERA using (Env; Res)
+open ERA using (Res; Env)
 
 --------------------------------------------------------------------------------
 -- Global ERA
@@ -55,18 +55,18 @@ open AllGlob public
 open AllGlob public using () renaming (
   -- Globᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to Globᴱᴿᴬ;
-  -- Envᴳ :  Set 1ᴸ
-  Env˙ to Envᴳ;
   -- Resᴳ :  Set 1ᴸ
-  Res˙ to Resᴳ)
+  Res˙ to Resᴳ;
+  -- Envᴳ :  Set 1ᴸ
+  Env˙ to Envᴳ)
 
 open ERA Globᴱᴿᴬ public using () renaming (ε to εᴳ; _✓_ to _✓ᴳ_)
 
--- Environment and resource of a component ERA
+-- Resource and environment of a component ERA
 
-Envᴳ˙ Resᴳ˙ :  ℕ →  Set 1ᴸ
-Envᴳ˙ i =  Globᴱᴿᴬ˙ i .Env
+Resᴳ˙ Envᴳ˙ :  ℕ →  Set 1ᴸ
 Resᴳ˙ i =  Globᴱᴿᴬ˙ i .Res
+Envᴳ˙ i =  Globᴱᴿᴬ˙ i .Env
 
 --------------------------------------------------------------------------------
 -- The inner part of Globᴱᴿᴬ
@@ -82,11 +82,11 @@ pattern jᴵⁿᵈᵖ =  1
 pattern jᴵⁿᵛ =  2
 pattern elseᴵⁿᴳ =  ṡ ṡ ṡ _
 
--- Environment and resource of a component inner ERA
+-- Resource and environment of a component inner ERA
 
-Envᴵⁿᴳ˙ Resᴵⁿᴳ˙ :  ℕ →  Set 1ᴸ
-Envᴵⁿᴳ˙ =  Envᴳ˙ ∘ outᴳ
+Resᴵⁿᴳ˙ Envᴵⁿᴳ˙ :  ℕ →  Set 1ᴸ
 Resᴵⁿᴳ˙ =  Resᴳ˙ ∘ outᴳ
+Envᴵⁿᴳ˙ =  Envᴳ˙ ∘ outᴳ
 
 -- The inner part of the environment
 

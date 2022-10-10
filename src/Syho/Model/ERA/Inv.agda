@@ -73,7 +73,7 @@ open EnvvInv public using () renaming (
 open ERA Invtkᴱᴿᴬ public using () renaming (ε to εᴵⁿᵛᵗᵏ; refl˜ to refl˜ᴵⁿᵛᵗᵏ)
 open ERA Namesᴱᴿᴬ public using () renaming (ε to εᴺᵃᵐᵉˢ; refl˜ to refl˜ᴺᵃᵐᵉˢ)
 open ERA Invᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵛ; Res to Resᴵⁿᵛ;
-  _≈_ to _≈ᴵⁿᵛ_; _✓_ to _✓ᴵⁿᵛ_; _∙_ to _∙ᴵⁿᵛ_; ε to εᴵⁿᵛ; ⌞_⌟ to ⌞_⌟ᴵⁿᵛ;
+  _≈_ to _≈ᴵⁿᵛ_; _∙_ to _∙ᴵⁿᵛ_; ε to εᴵⁿᵛ; ⌞_⌟ to ⌞_⌟ᴵⁿᵛ; _✓_ to _✓ᴵⁿᵛ_;
   _↝_ to _↝ᴵⁿᵛ_)
 
 -- Empty environment of Invᴱᴿᴬ

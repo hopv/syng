@@ -18,13 +18,13 @@ open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Envᴳ; Resᴳ; Resᴳ˙;
+open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Resᴳ; Resᴳ˙; Envᴳ;
   inj˙; ✓˙-respᴱ; inj˙-≈; inj˙-∙; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝; ✓-inj˙)
 
-open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _✓_; _∙_; ε; ⌞_⌟; _↝_; ◠˜_; _◇˜_;
-  ⊑-respˡ; ⊑-refl; ⊑-trans; ≈⇒⊑; ✓-resp; ✓-mono; ∙-mono; ∙-monoˡ; ∙-monoʳ;
-  ∙-unitˡ; ∙-unitʳ; ∙-comm; ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min;
-  ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem; ⌞⌟-unitˡ; ⌞⌟-∙)
+open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _∙_; ε; ⌞_⌟; _✓_; _↝_; ◠˜_; _◇˜_; ⊑-respˡ;
+  ⊑-refl; ⊑-trans; ≈⇒⊑; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-unitʳ; ∙-comm;
+  ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem;
+  ⌞⌟-unitˡ; ⌞⌟-∙; ✓-resp; ✓-mono)
 
 private variable
   ł ł' :  Level
@@ -771,7 +771,7 @@ infix 8 ◎⟨_⟩_
 module _ {i : ℕ} where
 
   open ERA (Globᴱᴿᴬ˙ i) using () renaming (Res to Resⁱ; Env to Envⁱ;
-    _≈_ to _≈ⁱ_; _✓_ to _✓ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _↝_ to _↝ⁱ_;
+    _≈_ to _≈ⁱ_; _∙_ to _∙ⁱ_; ε to εⁱ; ⌞_⌟ to ⌞_⌟ⁱ; _✓_ to _✓ⁱ_; _↝_ to _↝ⁱ_;
     ≡⇒≈ to ≡⇒≈ⁱ)
 
   private variable

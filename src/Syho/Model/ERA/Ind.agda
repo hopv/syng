@@ -50,7 +50,7 @@ open EnvvIndˣ public using () renaming (
   Envvᴱᴿᴬ to Indˣᴱᴿᴬ)
 
 open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to Resᴵⁿᵈˣ;
-  _✓_ to _✓ᴵⁿᵈˣ_; ε to εᴵⁿᵈˣ; _↝_ to _↝ᴵⁿᵈˣ_)
+  ε to εᴵⁿᵈˣ; _✓_ to _✓ᴵⁿᵈˣ_; _↝_ to _↝ᴵⁿᵈˣ_)
 
 -- Empty environment of Indˣᴱᴿᴬ
 

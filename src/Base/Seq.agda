@@ -46,7 +46,7 @@ hdˢ (a ∷ˢ _) =  a
 -- tlˢ :  Tail of Seq
 
 tlˢ :  Seq ι A →  Seq˂ ι A
-tlˢ (_ ∷ˢ as) =  as
+tlˢ (_ ∷ˢ as˂) =  as˂
 
 -- repˢ :  Just repeat an element
 
@@ -67,7 +67,7 @@ instance
 infix 5 _‼ˢ_
 _‼ˢ_ :  Seq∞ A →  ℕ →  A
 (a ∷ˢ _) ‼ˢ 0 =  a
-(_ ∷ˢ as) ‼ˢ ṡ i =  as .! ‼ˢ i
+(_ ∷ˢ as˂) ‼ˢ ṡ i =  as˂ .! ‼ˢ i
 
 --------------------------------------------------------------------------------
 -- List⁺ and Seq
@@ -76,8 +76,8 @@ _‼ˢ_ :  Seq∞ A →  ℕ →  A
 
 infixr 5 _⁺⧺ˢ_
 _⁺⧺ˢ_ :  List⁺ A →  Seq˂ ι A →  Seq ι A
-[ a ]⁺ ⁺⧺ˢ bs =  a ∷ˢ bs
-(a ∷⁺ as) ⁺⧺ˢ bs =  a ∷ˢ λ{ .! → as ⁺⧺ˢ bs }
+[ a ]⁺ ⁺⧺ˢ bs˂ =  a ∷ˢ bs˂
+(a ∷⁺ as) ⁺⧺ˢ bs˂ =  a ∷ˢ λ{ .! → as ⁺⧺ˢ bs˂ }
 
 -- rep⁺ˢ :  Repeat List⁺ to get Seq
 

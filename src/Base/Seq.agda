@@ -11,7 +11,7 @@ open import Base.Func using (_$_)
 open import Base.Dec using (Dec; yes; no)
 open import Base.Size using (Size; ∞; Thunk; !)
 open import Base.Nat using (ℕ; ṡ_)
-open import Base.List using (List⁺; [_]⁺; _∷⁺_)
+open import Base.List using (List; []; _∷_; List⁺; [_]⁺; _∷⁺_)
 
 private variable
   ł :  Level
@@ -68,6 +68,13 @@ infix 5 _‼ˢ_
 _‼ˢ_ :  Seq∞ A →  ℕ →  A
 (a ∷ˢ _) ‼ˢ 0 =  a
 (_ ∷ˢ as˂) ‼ˢ ṡ i =  as˂ .! ‼ˢ i
+
+--------------------------------------------------------------------------------
+-- take :  Take a list from a sequence
+
+takeˢ :  ℕ →  Seq∞ A →  List A
+takeˢ 0 _ =  []
+takeˢ (ṡ n) (a ∷ˢ as˂) =  a ∷ takeˢ n (as˂ .!)
 
 --------------------------------------------------------------------------------
 -- List⁺ and Seq

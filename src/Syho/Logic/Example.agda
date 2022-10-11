@@ -13,15 +13,15 @@ open import Base.Size using (Size; !)
 open import Base.Prod using (_,_; -,_)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; []; _∷_)
-open import Base.Seq using (Seq∞; _∷ˢ_; repˢ; takeˢ)
+open import Base.Seq using (Seq∞; _∷ˢ_; repˢ; rep²ˢ; takeˢ)
 open import Syho.Lang.Expr using (Addr; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop;
   nddecrloop●-loop)
 open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∃-syntax; ⊤'; ⊥';
   ⌜_⌝; _∗_; □_; ○_; _↦_; _↦ˢ⟨_⟩_)
 open import Syho.Logic.Core using (Pers; ⊢-refl; _»_; ∃-intro; ∃-elim; ⊤-intro;
-  ⌜⌝-intro; ∗-monoʳ; ∗-comm; ∗-elimˡ; ∗⊤-intro; dup-Pers-∗; -∗-intro; □-mono;
-  □-dup; ∃-Pers; □-elim; □-intro-Pers)
+  ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ; ?∗-comm; ∗-elimˡ; ∗-elimʳ;
+  ∗⊤-intro; dup-Pers-∗; -∗-intro; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ)
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
 open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use)
@@ -31,8 +31,8 @@ open import Syho.Logic.Bor using ()
 
 private variable
   ι :  Size
-  i k n :  ℕ
-  θ :  Addr
+  i k m n :  ℕ
+  θ θ' :  Addr
   ᵗv :  TyVal
   X :  Set₀
   P :  Prop∞
@@ -131,4 +131,16 @@ abstract
   Slist∞-repˢ-new :  θ ↦ˢ⟨ α ⟩ (-, n , θ)  ⊢[ ι ][ i ]⇛  Slist∞ (repˢ n) α θ
   Slist∞-repˢ-new =  -∗-intro (□-intro-Pers $ ∗-comm »
     ∗-monoʳ (□-mono $ ○-mono λ{ .! → ⊢-refl }) » ∃-intro _) »
+    □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
+
+  -- Turn two mutually pointing pointers into Slist∞ (rep²ˢ - -) for both sides
+  -- using □○-new-rec
+
+  Slist∞-rep²ˢ-new :
+    θ ↦ˢ⟨ α ⟩ (-, m , θ')  ∗  θ' ↦ˢ⟨ α ⟩ (-, n , θ)  ⊢[ ι ][ i ]⇛
+      Slist∞ (rep²ˢ m n) α θ  ∗  Slist∞ (rep²ˢ n m) α θ'
+  Slist∞-rep²ˢ-new =  -∗-intro (□-intro-Pers $ dup-Pers-∗ »
+    ∗-monoʳ ?∗-comm » ∗-assocʳ » ∗-mono
+    (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimʳ }) » ∃-intro _)
+    (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimˡ }) » ∃-intro _)) »
     □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use

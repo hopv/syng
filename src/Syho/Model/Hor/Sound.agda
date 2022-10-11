@@ -159,8 +159,8 @@ abstract
   -- The level increment ṡ i makes the recursive call of ⊢ᵃ⟨⟩-sem inductive
 
   ⊢ᵃ⟨⟩-sem ↪ᵃ⟨⟩-use =  ∗ᵒ-monoʳ (↪ᵃ⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
-    ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷ λ (P∗R⊢⟨red⟩Q , PRa) →
-    ⊢ᵃ⟨⟩-sem P∗R⊢⟨red⟩Q PRa) › ⇛ᵒ-ᵃ⟨⟩ᵒ
+    ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
+    λ (P∗R⊢⟨red⟩Q , P∗Ra) → ⊢ᵃ⟨⟩-sem P∗R⊢⟨red⟩Q P∗Ra) › ⇛ᵒ-ᵃ⟨⟩ᵒ
 
 --------------------------------------------------------------------------------
 -- ⊢⁺⟨⟩ᵀ-sem :  Semantic soundness of the total Hoare triple
@@ -238,8 +238,8 @@ abstract
   -- The level increment ṡ i makes the recursive call of ⊢⁺⟨⟩ᵀ-sem inductive
 
   ⊢⁺⟨⟩ᵀ-sem ↪⟨⟩ᵀ-use =  ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
-    (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷ λ (P∗R⊢⟨e⟩Q , PRa) →
-    ⊢⁺⟨⟩ᵀ-sem P∗R⊢⟨e⟩Q PRa) › ⇛ᵒ-⁺⟨⟩ᵀᵒ
+    (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
+    λ (P∗R⊢⟨e⟩Q , P∗Ra) → ⊢⁺⟨⟩ᵀ-sem P∗R⊢⟨e⟩Q P∗Ra) › ⇛ᵒ-⁺⟨⟩ᵀᵒ
 
 --------------------------------------------------------------------------------
 -- ⊢⁺⟨⟩∞-sem :  Semantic soundness of the infinite Hoare triple
@@ -314,8 +314,8 @@ abstract
   -- (just like ↪⟨⟩ᵀ-use)
 
   ⊢⁺⟨⟩∞-sem ↪⟨⟩∞-use =  ∗ᵒ-monoʳ (↪⟨⟩∞ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
-    (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷ λ (P∗R⊢⟨e⟩Q , PRa) →
-    ⊢⁺⟨⟩∞-sem P∗R⊢⟨e⟩Q PRa) › ⇛ᵒ-⁺⟨⟩∞ᵒ
+    (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
+    λ (P∗R⊢⟨e⟩Q , P∗Ra) → ⊢⁺⟨⟩∞-sem P∗R⊢⟨e⟩Q P∗Ra) › ⇛ᵒ-⁺⟨⟩∞ᵒ
 
 --------------------------------------------------------------------------------
 -- ⊢⁺⟨⟩ᴾ-sem :  Semantic soundness of the partial Hoare triple
@@ -401,4 +401,4 @@ abstract
   ⊢⁺⟨⟩ᴾ-sem (↪⟨⟩ᴾ-use (-, redᴾ e⇒K[e₀])) big  rewrite e⇒K[e₀] =
     ⁺⟨⟩ᴾᵒ-[] λ{ .! → big ▷ ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷
     (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
-    λ (P∗R⊢⟨e⟩Q , PRa) → ⊢⁺⟨⟩ᴾ-sem P∗R⊢⟨e⟩Q PRa) ▷ ⇛ᵒ-⁺⟨⟩ᴾᵒ }
+    λ (P∗R⊢⟨e⟩Q , P∗Ra) → ⊢⁺⟨⟩ᴾ-sem P∗R⊢⟨e⟩Q P∗Ra) ▷ ⇛ᵒ-⁺⟨⟩ᴾᵒ }

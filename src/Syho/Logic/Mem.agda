@@ -68,8 +68,8 @@ abstract
 
   hor-🞰 :  θ ↦⟨ p ⟩ (T , v)  ∗  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  Q˙  →
            θ ↦⟨ p ⟩ (T , v)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , 🞰ᴿ_ {T} θ) ⟩[ κ ]  Q˙
-  hor-🞰 θ↦v∗P⊢⟨Kv⟩Q =  ahor-hor (ahor-frameʳ $ ahor-frameʳ $ ahor-🞰 {i = 0})
-    λ v → hor<ᴾ-map (λ big → ∃∗-elim λ{ refl → big }) θ↦v∗P⊢⟨Kv⟩Q
+  hor-🞰 θ↦v∗P⊢⟨Kv⟩Q =  ahor-hor (ahor-frameʳ $ ahor-🞰 {i = 0}) λ _ →
+    hor<ᴾ-map (λ big → ∃∗-elim λ{ refl → big }) θ↦v∗P⊢⟨Kv⟩Q
 
   -- Memory write
 
@@ -77,8 +77,7 @@ abstract
 
   hor-← :  θ ↦ (T , v)  ∗  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  Q˙  →
            θ ↦ ᵗu  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , _←ᴿ_ {T} θ v) ⟩[ κ ]  Q˙
-  hor-← θ↦v∗P⊢⟨K⟩Q =  ahor-hor (ahor-frameʳ $ ahor-frameʳ $ ahor-← {i = 0})
-    λ _ → θ↦v∗P⊢⟨K⟩Q
+  hor-← θ↦v∗P⊢⟨K⟩Q =  ahor-hor (ahor-frameʳ $ ahor-← {i = 0}) λ _ → θ↦v∗P⊢⟨K⟩Q
 
   -- Fetch and update
 
@@ -87,8 +86,7 @@ abstract
 
   hor-fau :  θ ↦ (◸ʸ Xʸ , f x)  ∗  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ x ⟩[ κ ]  Q˙  →
              θ ↦ (-, x)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , fauᴿ f θ) ⟩[ κ ]  Q˙
-  hor-fau θ↦fx∗P⊢⟨Kx⟩Q =  ahor-hor
-    (ahor-frameʳ $ ahor-frameʳ $ ahor-fau {i = 0}) λ _ →
+  hor-fau θ↦fx∗P⊢⟨Kx⟩Q =  ahor-hor (ahor-frameʳ $ ahor-fau {i = 0}) λ _ →
     hor<ᴾ-map (λ big → ∃∗-elim λ{ refl → big }) θ↦fx∗P⊢⟨Kx⟩Q
 
   -- Compare and swap, the success and failure cases
@@ -98,8 +96,7 @@ abstract
 
   hor-cas-tt :  θ ↦ (◸ʸ Xʸ , y)  ∗  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ tt ⟩[ κ ]  Q˙  →
                 θ ↦ (-, x)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , casᴿ θ x y) ⟩[ κ ]  Q˙
-  hor-cas-tt θ↦x∗P⊢⟨Ktt⟩Q =  ahor-hor
-    (ahor-frameʳ $ ahor-frameʳ $ ahor-cas-tt {i = 0}) λ _ →
+  hor-cas-tt θ↦x∗P⊢⟨Ktt⟩Q =  ahor-hor (ahor-frameʳ $ ahor-cas-tt {i = 0}) λ _ →
     hor<ᴾ-map (λ big → ∃∗-elim λ{ refl → big }) θ↦x∗P⊢⟨Ktt⟩Q
 
   -->  ahor-cas-ff :  z ≢ x  →
@@ -110,7 +107,7 @@ abstract
     θ ↦⟨ p ⟩ (◸ʸ Xʸ , z)  ∗  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ ff ⟩[ κ ]  Q˙  →
     θ ↦⟨ p ⟩ (-, z)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , casᴿ θ x y) ⟩[ κ ]  Q˙
   hor-cas-ff z≢x θ↦z∗P⊢⟨Kff⟩Q =  ahor-hor
-    (ahor-frameʳ $ ahor-frameʳ $ ahor-cas-ff {i = 0} z≢x) λ _ →
+    (ahor-frameʳ $ ahor-cas-ff {i = 0} z≢x) λ _ →
     hor<ᴾ-map (λ big → ∃∗-elim λ{ refl → big }) θ↦z∗P⊢⟨Kff⟩Q
 
   -- Memory allocation
@@ -122,7 +119,7 @@ abstract
     (∀ θ →  θ ↦ᴸ rep n ⊤-  ∗  Free n θ  ∗  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ θ ⟩[ κ ]  Q˙)  →
     P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩[ κ ]  Q˙
   hor-alloc θ↦∗Freeθ∗P⊢⟨Kθ⟩Q =  ahor-hor
-    (ahor-frameʳ $ ⊤∗-intro » ahor-frameʳ $ ahor-alloc {i = 0}) λ θ →
+    (⊤∗-intro » ahor-frameʳ $ ahor-alloc {i = 0}) λ θ →
     hor<ᴾ-map (∗-assocˡ »_) $ θ↦∗Freeθ∗P⊢⟨Kθ⟩Q θ
 
   -- Memory freeing
@@ -132,6 +129,6 @@ abstract
 
   hor-free :  len ᵗvs ≡ n  →   P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  Q˙  →
     θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩[ κ ]  Q˙
-  hor-free lenvs≡n P⊢⟨K⟩Q =  ∗-assocʳ » ahor-hor
-    (ahor-frameʳ $ ahor-frameʳ $ ahor-free {i = 0} lenvs≡n) λ _ →
+  hor-free lenvs≡n P⊢⟨K⟩Q =  ∗-assocʳ »
+    ahor-hor (ahor-frameʳ $ ahor-free {i = 0} lenvs≡n) λ _ →
     hor<ᴾ-map (∗-elimʳ »_) P⊢⟨K⟩Q

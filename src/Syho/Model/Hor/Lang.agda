@@ -54,25 +54,25 @@ abstract
   -- Compose ᵃ⟨⟩ᵒ and ⟨⟩ᴾ/ᵀᵒ
   -- The inner weakest precondion is under the thunk for ⟨⟩ᴾᵒ
 
-  ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ˂ ι Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ)  ⊨
+  ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ˂ ι Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ)  ⊨
                  ⁺⟨ ĩ₁ (-, K , red) ⟩ᴾᵒ ι Pᵒ˙
-  ᵃ⟨⟩ᵒ-⟨⟩ᴾᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
+  ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
     (-, -, redᴷᴿ redM⇒) , λ{ _ eˇ M' (-, redᴷᴿ eeˇM'⇐) → big _ eˇ M' (-, eeˇM'⇐)
     ▷ λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴹ-mono (∗ᵒ-monoʳ $ ?∗ᵒ-intro _) }}) ›
     ⁺⟨⟩ᴾᵒ-kr
 
-  ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ ∞ Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ)  ⊨
+  ᵃ⟨⟩ᴺᵒ-⟨⟩ᵀᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ ∞ Pᵒ˙ ∗ᵒ [⊤]ᴺᵒ)  ⊨
                  ⁺⟨ ĩ₁ (-, K , red) ⟩ᵀᵒ ∞ Pᵒ˙
-  ᵃ⟨⟩ᵒ-⟨⟩ᵀᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
+  ᵃ⟨⟩ᴺᵒ-⟨⟩ᵀᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
     (-, -, redᴷᴿ redM⇒) , λ{ _ eˇ M' (-, redᴷᴿ eeˇM'⇐) → big _ eˇ M' (-, eeˇM'⇐)
     ▷ λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴹ-mono (∗ᵒ-mono §_ (?∗ᵒ-intro _)) }})
     › ⁺⟨⟩ᵀᵒ-kr
 
   -- Compose ᵃ⟨⟩ᵒ and ⟨⟩∞ᵒ
 
-  ᵃ⟨⟩ᵒ-⟨⟩∞ᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩∞ᵒ ∞ ι ∗ᵒ [⊤]ᴺᵒ)  ⊨
+  ᵃ⟨⟩ᴺᵒ-⟨⟩∞ᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → ⟨ K ᴷ◁ V⇒E v ⟩∞ᵒ ∞ ι ∗ᵒ [⊤]ᴺᵒ)  ⊨
                  ⁺⟨ ĩ₁ (-, K , red) ⟩∞ᵒ ∞ ι
-  ᵃ⟨⟩ᵒ-⟨⟩∞ᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
+  ᵃ⟨⟩ᴺᵒ-⟨⟩∞ᵒ =  -∗ᵒ-monoʳ (λ big M → big M ▷ ⇛ᴹ-mono λ ((-, -, redM⇒) , big) →
     (-, -, redᴷᴿ redM⇒) , λ _ eˇ M' → λ{
     ff (redᴷᴿ eeˇM'⇐○) → big _ eˇ M' (-, eeˇM'⇐○) ▷
       λ{ (-, (refl , refl) , big) → big ▷

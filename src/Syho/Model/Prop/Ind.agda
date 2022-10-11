@@ -292,8 +292,8 @@ abstract
   ↪⟨⟩∞ᵒ-≤ i≤j (-, -ᴵ, -, P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa) =
     -, -ᴵ, -, ihor-≤ i≤j P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa
 
-  ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ :  {{_ : Basic R}} →  R ∗ Q ⊢[ ∞ ][ j ]⇛ᴺ P →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⟨ e ⟩∞ᵒ)  ⊨  Q ↪[ i ]⟨ e ⟩∞ᵒ
+  ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ :  {{_ : Basic R}} →  R ∗ Q ⊢[ ∞ ][ i ]⇛ᴺ P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ j ]⟨ e ⟩∞ᵒ)  ⊨  Q ↪[ j ]⟨ e ⟩∞ᵒ
   ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ R∗Q⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- Q∗(R∗S)∗T ⊢ Q∗R∗S∗T ⊢ R∗Q∗S∗T ⊢ (R∗Q)∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩∞

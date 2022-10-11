@@ -266,6 +266,13 @@ P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
 [ α ]ᴸ =  [ α ]ᴸ⟨ 1ᴿ⁺ ⟩
 
 --------------------------------------------------------------------------------
+-- ↦ˢ⟨ ⟩ :  Shared-borrowed points-to token
+
+infix 9 _↦ˢ⟨_⟩_
+_↦ˢ⟨_⟩_ :  Addr →  Lft →  TyVal →  Prop' ι
+θ ↦ˢ⟨ α ⟩ ᵗv =  &ˢ⟨ α ⟩ λ q → ¡ᴾ θ ↦⟨ q ⟩ ᵗv
+
+--------------------------------------------------------------------------------
 -- Basic P :  P is basic, i.e., P doesn't contain impredicative connectives
 
 data  Basic :  Prop∞ →  Set₁  where

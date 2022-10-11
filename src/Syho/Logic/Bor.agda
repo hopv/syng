@@ -8,15 +8,22 @@ module Syho.Logic.Bor where
 
 open import Base.Func using (_$_)
 open import Base.Size using (Size; !; ¡_; _$ᵀʰ_)
-open import Base.Prod using (_,_)
+open import Base.Eq using (_≡_; refl)
+open import Base.Prod using (_,_; -,_)
+open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.RatPos using (ℚ⁺)
-open import Syho.Logic.Prop using (Lft; Prop∞; Prop˂∞; _∧_; _∗_; _-∗_; [_]ᴸ⟨_⟩;
-  ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; Basic)
+open import Syho.Lang.Expr using (Addr; Type; V⇒E)
+open import Syho.Lang.Ktxred using (🞰ᴿ_; Ktx; _ᴷ◁_)
+open import Syho.Logic.Prop using (Lft; WpKind; Prop∞; Prop˂∞; ¡ᴾ_; _∧_; ⌜_⌝∧_;
+  _∗_; _-∗_; _↦⟨_⟩_; [_]ᴸ⟨_⟩; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; _↦ˢ⟨_⟩_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⇒<; _»_;
-  ∧-monoˡ; ∧-elimʳ; ⊤∧-intro; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗⇒∧; ∗∃-elim;
-  Persˡ-∧⇒∗)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; ⇛-frameˡ; ⇛-frameʳ)
+  ∃-elim; ∃-intro; ∧-monoˡ; ∧-elimʳ; ⊤∧-intro; ∗-comm; ∗-assocˡ; ∗-assocʳ;
+  ?∗-comm; ∗⇒∧; ∃∗-elim; ∗∃-elim; Persˡ-∧⇒∗)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
+open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[<ᴾ_]⟨_⟩[_]_; _⊢[_]⁺⟨_⟩[_]_;
+  _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; ahor-frameʳ; ahor-hor; hor<ᴾ-map)
+open import Syho.Logic.Mem using (ahor-🞰)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (&ˢ-⇒□; ⟨†⟩-mono; ⟨†⟩-eatˡ; &ˢ-resp-□∧;
@@ -26,10 +33,17 @@ private variable
   ι :  Size
   i :  ℕ
   α :  Lft
-  Q R :  Prop∞
+  X :  Set₀
+  P Q R :  Prop∞
   P˂ :  Prop˂∞
-  P˂˙ Q˂˙ :  ℚ⁺ → Prop˂∞
+  Q˙ :  X → Prop∞
+  P˂˙ Q˂˙ :  X → Prop˂∞
   p :  ℚ⁺
+  θ :  Addr
+  T U :  Type
+  v :  X
+  K :  Ktx T U
+  κ :  WpKind
 
 abstract
 
@@ -107,3 +121,18 @@ abstract
   &ˢ-use {P˂˙ = P˂˙} Q∗Pq⊢⇛R∗Pq =  ?∗-comm » ⇛-frameˡ &ˢ-open ᵘ»ᵘ ∗∃-elim λ _ →
     ∗-assocʳ » ⇛-frameʳ Q∗Pq⊢⇛R∗Pq ᵘ»ᵘ ∗-assocˡ »
     ⇛-frameˡ $ %ˢ-close {P˂˙ = P˂˙}
+
+  ------------------------------------------------------------------------------
+  -- On the shared-borrowed points-to token
+
+  ahor-↦ˢ-🞰 :  θ ↦ˢ⟨ α ⟩ (T , v)  ∗  [ α ]ᴸ⟨ p ⟩
+                 ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ_ {T} θ ⟩ λ u →  ⌜ u ≡ v ⌝∧  [ α ]ᴸ⟨ p ⟩
+  ahor-↦ˢ-🞰 =  &ˢ-open {i = 0} ᵘ»ᵃʰ ∃-elim λ _ → ahor-frameʳ ahor-🞰 ᵃʰ»ᵘ λ _ →
+    ∃∗-elim λ u≡v → %ˢ-close {P˂˙ = λ q → ¡ᴾ _ ↦⟨ q ⟩ _} {i = 0} ᵘ» ∃-intro u≡v
+
+  hor-↦ˢ-🞰 :  [ α ]ᴸ⟨ p ⟩  ∗  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  Q˙  →
+              θ ↦ˢ⟨ α ⟩ (T , v)  ∗  [ α ]ᴸ⟨ p ⟩  ∗  P
+                ⊢[ ι ]⁺⟨ ĩ₁ (-, K , 🞰ᴿ_ {T} θ) ⟩[ κ ]  Q˙
+  hor-↦ˢ-🞰 [α]∗P⊢⟨Kv⟩Q =  ∗-assocʳ »
+    ahor-hor (ahor-frameʳ $ ahor-↦ˢ-🞰 {i = 0}) λ v →
+    hor<ᴾ-map (λ big → ∃∗-elim λ{ refl → big }) [α]∗P⊢⟨Kv⟩Q

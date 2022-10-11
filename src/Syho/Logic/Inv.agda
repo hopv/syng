@@ -15,7 +15,7 @@ open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; _∧_; _∗_; _-∗_; [_]ᴺ;
-  [^_]ᴺ; Inv; OInv; Basic)
+  [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∧-monoˡ;
   ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗⇒∧;
   -∗-intro; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
@@ -24,8 +24,7 @@ open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _ᵘ»ᵃʰ_; _ᵃʰ»�
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔;
-  Inv-⇒□; Inv-resp-□∧; OInv-mono; OInv-eatˡ; Inv-alloc-rec; Inv-open;
-  OInv-close)
+  &ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ; &ⁱ-alloc-rec; &ⁱ-open; %ⁱ-close)
 
 private variable
   ι :  Size
@@ -74,67 +73,67 @@ abstract
   ------------------------------------------------------------------------------
   -- On the invariant and open invariant tokens
 
-  -->  OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
+  -->  %ⁱ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ⁱ⟨ nm ⟩ Q˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ P˂
 
   instance
 
     -- An invariant token is persistent
 
-    -->  Inv-⇒□ :  Inv nm P˂  ⊢[ ι ]  □ Inv nm P˂
+    -->  &ⁱ-⇒□ :  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  □ &ⁱ⟨ nm ⟩ P˂
 
-    Inv-Pers :  Pers $ Inv nm P˂
-    Inv-Pers .Pers-⇒□ =  Inv-⇒□
+    &ⁱ-Pers :  Pers $ &ⁱ⟨ nm ⟩ P˂
+    &ⁱ-Pers .Pers-⇒□ =  &ⁱ-⇒□
 
   -- Change the proposition of an invariant token
 
-  -->  Inv-resp-□∧ :  {{Basic R}}  →
+  -->  &ⁱ-resp-□∧ :  {{Basic R}}  →
   -->    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-  -->    □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+  -->    □ R  ∧  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
 
-  Inv-resp-∧ :  {{Pers R}}  →   {{Basic R}}  →
+  &ⁱ-resp-∧ :  {{Pers R}}  →   {{Basic R}}  →
     R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
-  Inv-resp-∧ R∧P⊢Q R∧Q⊢P =  ∧-monoˡ Pers-⇒□ » Inv-resp-□∧ R∧P⊢Q R∧Q⊢P
+    R  ∧  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
+  &ⁱ-resp-∧ R∧P⊢Q R∧Q⊢P =  ∧-monoˡ Pers-⇒□ » &ⁱ-resp-□∧ R∧P⊢Q R∧Q⊢P
 
-  Inv-resp-∗ :  {{Pers R}}  →   {{Basic R}}  →
+  &ⁱ-resp-∗ :  {{Pers R}}  →   {{Basic R}}  →
     R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    R  ∗  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
-  Inv-resp-∗ R∗P⊢Q R∗Q⊢P =  ∗⇒∧ »
-    Inv-resp-∧ ((Persˡ-∧⇒∗ »_) $ᵀʰ R∗P⊢Q) ((Persˡ-∧⇒∗ »_) $ᵀʰ R∗Q⊢P)
+    R  ∗  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
+  &ⁱ-resp-∗ R∗P⊢Q R∗Q⊢P =  ∗⇒∧ »
+    &ⁱ-resp-∧ ((Persˡ-∧⇒∗ »_) $ᵀʰ R∗P⊢Q) ((Persˡ-∧⇒∗ »_) $ᵀʰ R∗Q⊢P)
 
-  Inv-resp :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   Q˂ .!  ⊢[< ι ]  P˂ .!  →
-              Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
-  Inv-resp P⊢Q Q⊢P =  ⊤∧-intro »
-    Inv-resp-∧ ((∧-elimʳ »_) $ᵀʰ P⊢Q) ((∧-elimʳ »_) $ᵀʰ Q⊢P)
+  &ⁱ-resp :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   Q˂ .!  ⊢[< ι ]  P˂ .!  →
+             &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
+  &ⁱ-resp P⊢Q Q⊢P =  ⊤∧-intro »
+    &ⁱ-resp-∧ ((∧-elimʳ »_) $ᵀʰ P⊢Q) ((∧-elimʳ »_) $ᵀʰ Q⊢P)
 
   -- Let an open invariant token eat a basic proposition
 
-  -->  OInv-eatˡ :  {{Basic Q}} →
-  -->    Q  ∗  OInv nm P˂  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
+  -->  %ⁱ-eatˡ :  {{Basic Q}} →
+  -->    Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
 
-  OInv-eatʳ :  {{Basic Q}} →  OInv nm P˂  ∗  Q  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
-  OInv-eatʳ =   ∗-comm » OInv-eatˡ
+  %ⁱ-eatʳ :  {{Basic Q}} →  %ⁱ⟨ nm ⟩ P˂  ∗  Q  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
+  %ⁱ-eatʳ =  ∗-comm » %ⁱ-eatˡ
 
-  -- Get Inv nm P˂ by storing P˂
+  -- Get &ⁱ⟨ nm ⟩ P˂ by storing P˂
 
-  -->  Inv-alloc-rec :  Inv nm P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
+  -->  &ⁱ-alloc-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
 
-  Inv-alloc :  P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
-  Inv-alloc =  -∗-const » Inv-alloc-rec
+  &ⁱ-alloc :  P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
+  &ⁱ-alloc =  -∗-const » &ⁱ-alloc-rec
 
   -- Use an invariant token
 
-  -->  Inv-open :  Inv nm P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
+  -->  &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂
 
-  -->  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
+  -->  %ⁱ-close :  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
 
-  Inv-use :  Q  ∗  P˂ .!  ⊢[ ι ][ i ]⇛  R  ∗  P˂ .!  →
-             Inv nm P˂  ∗  Q  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  R  ∗  [^ nm ]ᴺ
-  Inv-use Q∗P⊢⇛R∗P =  ?∗-comm » ⇛-frameˡ Inv-open ᵘ»ᵘ ∗-assocʳ »
-    ⇛-frameʳ Q∗P⊢⇛R∗P ᵘ»ᵘ ∗-assocˡ » ⇛-frameˡ OInv-close
+  &ⁱ-use :  Q  ∗  P˂ .!  ⊢[ ι ][ i ]⇛  R  ∗  P˂ .!  →
+            &ⁱ⟨ nm ⟩ P˂  ∗  Q  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  R  ∗  [^ nm ]ᴺ
+  &ⁱ-use Q∗P⊢⇛R∗P =  ?∗-comm » ⇛-frameˡ &ⁱ-open ᵘ»ᵘ ∗-assocʳ »
+    ⇛-frameʳ Q∗P⊢⇛R∗P ᵘ»ᵘ ∗-assocˡ » ⇛-frameˡ %ⁱ-close
 
-  ahor-Inv-use :  Q  ∗  P˂ .!  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  R˙ v  ∗  P˂ .!)  →
-    Inv nm P˂  ∗  Q  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  R˙ v  ∗  [^ nm ]ᴺ
-  ahor-Inv-use Q∗P⊢⟨red⟩Rv∗P =  ?∗-comm » ⇛-frameˡ {i = 0} Inv-open ᵘ»ᵃʰ
+  ahor-&ⁱ-use :  Q  ∗  P˂ .!  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  R˙ v  ∗  P˂ .!)  →
+    &ⁱ⟨ nm ⟩ P˂  ∗  Q  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  R˙ v  ∗  [^ nm ]ᴺ
+  ahor-&ⁱ-use Q∗P⊢⟨red⟩Rv∗P =  ?∗-comm » ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ
     ∗-assocʳ » ahor-frameʳ Q∗P⊢⟨red⟩Rv∗P ᵃʰ»ᵘ λ _ → ∗-assocˡ »
-    ⇛-frameˡ {i = 0} OInv-close
+    ⇛-frameˡ {i = 0} %ⁱ-close

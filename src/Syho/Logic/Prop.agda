@@ -73,7 +73,7 @@ private variable
 infix 3 ⤇_ _→'_ _-∗_
 infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
-infix 8 □_ ○_ †ᴸ_
+infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_
 infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
@@ -121,11 +121,11 @@ data  Prop' ι  where
   -- [ ]ᴺ :  Name set token
   [_]ᴺ :  (Name → Zoi) →  Prop' ι
 
-  -- Inv :  Invariant token
-  Inv :  Name →  Prop˂ ι →  Prop' ι
+  -- &ⁱ⟨ ⟩ :  Invariant token
+  &ⁱ⟨_⟩_ :  Name →  Prop˂ ι →  Prop' ι
 
-  -- OInv :  Open invariant token
-  OInv :  Name →  Prop˂ ι →  Prop' ι
+  -- %ⁱ⟨ ⟩ :  Open invariant token
+  %ⁱ⟨_⟩_ :  Name →  Prop˂ ι →  Prop' ι
 
   -- [ ]ᴸ⟨ ⟩ :  Lifetime token
   [_]ᴸ⟨_⟩ :  Lft →  ℚ⁺ →  Prop' ι

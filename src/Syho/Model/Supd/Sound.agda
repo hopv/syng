@@ -16,13 +16,13 @@ open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⇛-refl-⤇;
   _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
-open import Syho.Logic.Inv using (Inv-alloc-rec; Inv-open; OInv-close)
+open import Syho.Logic.Inv using (&ⁱ-alloc-rec; &ⁱ-open; %ⁱ-close)
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Ind using (○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
   ↪⇛ᵒ-use)
-open import Syho.Model.Supd.Inv using (Invᵒ-alloc-rec; Invᵒ-open; OInvᵒ-close)
+open import Syho.Model.Supd.Inv using (&ⁱᵒ-alloc-rec; &ⁱᵒ-open; %ⁱᵒ-close)
 open import Syho.Model.Supd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᵒ-mono;
   ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-make)
 
@@ -79,17 +79,17 @@ private variable
   ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ →
     ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛-sem P∗R⊢⇛Q) › ⇛ᵒ-join
 
--- Inv-alloc-rec :  Inv nm P˂ -∗ P˂ .!  ⊢[ ∞ ][ i ]⇛  Inv nm P˂
+-- &ⁱ-alloc-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ∞ ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
 
-⊢⇛-sem Inv-alloc-rec =  Invᵒ-alloc-rec › ⇛ᴵⁿᵛ⇒⇛ᵒ
+⊢⇛-sem &ⁱ-alloc-rec =  &ⁱᵒ-alloc-rec › ⇛ᴵⁿᵛ⇒⇛ᵒ
 
--- Inv-open :  Inv nm P˂  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
+-- &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂
 
-⊢⇛-sem Inv-open =  Invᵒ-open › ⇛ᴵⁿᵛ⇒⇛ᵒ
+⊢⇛-sem &ⁱ-open =  &ⁱᵒ-open › ⇛ᴵⁿᵛ⇒⇛ᵒ
 
--- OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ∞ ][ i ]⇛  [^ nm ]ᴺ
+-- %ⁱ-close :  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [^ nm ]ᴺ
 
-⊢⇛-sem OInv-close =  OInvᵒ-close › ⇛ᴵⁿᵛ⇒⇛ᵒ
+⊢⇛-sem %ⁱ-close =  %ⁱᵒ-close › ⇛ᴵⁿᵛ⇒⇛ᵒ
 
 -- Utility for ⇛ᴺ
 

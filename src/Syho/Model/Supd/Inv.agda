@@ -26,8 +26,8 @@ open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Syho.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-upd)
 open import Syho.Model.Prop.Names using ([^_]ᴺᵒ; [^]ᴺᵒ-no2)
-open import Syho.Model.Prop.Inv using (Invᵒ; Invk; OInvᵒ; dup-Invᵒ; Invk-no2;
-  Invᵒ∗ᵒInvk-make)
+open import Syho.Model.Prop.Inv using (&ⁱ⟨_⟩ᵒ_; Invk; %ⁱ⟨_⟩ᵒ_; dup-&ⁱᵒ;
+  Invk-no2; &ⁱᵒ∗ᵒInvk-make)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ¹-make; ⇛ᵍ¹-intro)
@@ -71,15 +71,14 @@ abstract
   ⇛ᴵⁿᵛ-intro :  Pᵒ  ⊨ ⇛ᴵⁿᵛ  Pᵒ
   ⇛ᴵⁿᵛ-intro =  ⇛ᵍ¹-intro
 
-  -- Get Invᵒ nm P by storing P minus Invᵒ nm P
+  -- Get &ⁱ⟨ nm ⟩ᵒ P by storing P minus &ⁱ⟨ nm ⟩ᵒ P
 
-  Invᵒ-alloc-rec :  Invᵒ nm P -∗ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵛ  Invᵒ nm P
-  Invᵒ-alloc-rec {P = P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ inv-invk-alloc) ›
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (Invᵒ∗ᵒInvk-make › ∗ᵒ-monoˡ dup-Invᵒ ›
-      -- ((Inv∗Inv)∗Invk)∗(Inv-*P)*INV → → → Inv∗((Inv∗Invk)∗(Inv-*P))*INV
+  &ⁱᵒ-alloc-rec :  &ⁱ⟨ nm ⟩ᵒ P -∗ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵛ  &ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-alloc-rec {P = P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ inv-invk-alloc) ›
+    ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (&ⁱᵒ∗ᵒInvk-make › ∗ᵒ-monoˡ dup-&ⁱᵒ ›
+      -- ((&∗&)∗Invk)∗(&-*P)*INV → → → &∗((&∗Invk)∗(&-*P))*INV
       ∗ᵒ-assocˡ) › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
-      -- ((Inv∗Invk)∗(Inv-*P))*INV → → (Invk∗(Inv∗(Inv-*P)))*INV →
-      -- (Invk∗P)∗INV → → INV
+      -- ((&∗Invk)∗(&-*P))*INV → → (Invk∗(&∗(&-*P)))*INV → (Invk∗P)∗INV → → INV
       ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
       ∗ᵒ-mono✓ʳ (-∗ᵒ-applyˡ $ ⸨⸩-Mono {P}) ✓∙ › ĩ₀_) ✓∙ › Smry-add-š) ✓∙) ›
     ⤇ᴱ-param
@@ -92,10 +91,10 @@ abstract
     (ĩ₀ [nm]∗Invk∗P) →  [nm]∗Invk∗P ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₁_;
     (ĩ₁ [nm]∗[nm]) →  [nm]∗[nm] ▷ [^]ᴺᵒ-no2 ✓∙ ▷ λ () }
 
-  -- Store Invᵒ nm P and [^ nm ]ᴺᵒ to get P and OInvᵒ nm P
+  -- Store &ⁱ⟨ nm ⟩ᵒ P and [^ nm ]ᴺᵒ to get P and %ⁱ⟨ nm ⟩ᵒ P
 
-  Invᵒ-open :  Invᵒ nm P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  OInvᵒ nm P
-  Invᵒ-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
+  &ⁱᵒ-open :  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
     (-, Q , -ᴵ, -, (Q∧R⊢P , Q∧P⊢R) , □Qb , invRb) , [nm]∗INVc) →
     (-, -, b∙c⊑a , □ᵒˡ-×ᵒ⇒∗ᵒ (⸨⸩ᴮ-Mono {Q}) (□Qb ,
       ↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → inv _ _ _} inv-agree invRb) ▷ ⤇ᴱ-eatˡ ▷
@@ -108,7 +107,7 @@ abstract
       ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ✓∙ ›
     -- (Q∗Q)∗(Invk∗R)∗INV → ((Q∗Q)∗Invk∗R)∗INV
     ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (λ ✓∙ →
-    -- (Q∗Q)∗Invk∗R → → → (Q∗R)∗Q∗Invk → P∗(Q∗Invk) → P∗OInv
+    -- (Q∗Q)∗Invk∗R → → → (Q∗R)∗Q∗Invk → P∗(Q∗Invk) → P∗%
     ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-monoˡ ∗ᵒ?-comm › ∗ᵒ-assocˡ ›
     ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem (∗⇒∧ » Q∧R⊢P) ✓∙) ✓∙ ›
     ∗ᵒ-monoʳ (λ big → -, -, -ᴵ, -, ∗⇒∧ » Q∧P⊢R , big)) ✓∙) ▷ ⤇ᴱ-param }
@@ -123,10 +122,10 @@ abstract
       ∗ᵒ⇒∗ᵒ' ▷ λ ();
     (ĩ₁ Invk∗P∗[nm]) →  Invk∗P∗[nm] ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₀_ }
 
-  -- Store P and OInvᵒ nm P to get [^ nm ]ᴺᵒ
+  -- Store P and %ⁱ⟨ nm ⟩ᵒ P to get [^ nm ]ᴺᵒ
 
-  OInvᵒ-close :  ⸨ P ⸩  ∗ᵒ  OInvᵒ nm P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
-  OInvᵒ-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
+  %ⁱᵒ-close :  ⸨ P ⸩  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
+  %ⁱᵒ-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
     (-, Q , -ᴵ, -, Q∗P⊢R , Q∗Invkb) , P∗INVc) →
     (-, -, b∙c⊑a , Q∗Invkb ▷ ∗ᵒ-monoʳ
       (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → invk _ _ _} invk-agree) ▷ ⤇ᴱ-eatˡ , P∗INVc) ▷

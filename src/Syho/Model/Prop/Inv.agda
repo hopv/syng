@@ -30,50 +30,54 @@ private variable
   P Q R :  Prop∞
 
 --------------------------------------------------------------------------------
--- Invᵒ :  Interpret the invariant token
+-- &ⁱᵒ :  Interpret the invariant token
 
-Invᵒ :  Name →  Prop∞ →  Propᵒ 1ᴸ
-Invᵒ nm P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
+Inv :  ℕ →  Name →  Prop∞ →  Propᵒ 1ᴸ
+Inv i nm P =  ◎⟨ iᴵⁿᵛ ⟩ inv i nm P
+
+infix 8 &ⁱ⟨_⟩ᵒ_
+&ⁱ⟨_⟩ᵒ_ :  Name →  Prop∞ →  Propᵒ 1ᴸ
+&ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∧ R ⊢[ ∞ ] P  ×  Q ∧ P ⊢[ ∞ ] R ⌝ᵒ×
-  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ×ᵒ  ◎⟨ iᴵⁿᵛ ⟩ inv i nm R
+  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ×ᵒ  Inv i nm R
 
 abstract
 
-  -- Monoᵒ for Invᵒ
+  -- Monoᵒ for &ⁱᵒ
 
-  Invᵒ-Mono :  Monoᵒ $ Invᵒ nm P
-  Invᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ Q → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ →
+  &ⁱᵒ-Mono :  Monoᵒ $ &ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ Q → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ →
     ∃ᵒ-Mono λ _ → ×ᵒ-Mono (□ᵒ-Mono $ ⸨⸩ᴮ-Mono {Q}) ◎-Mono
 
-  -- Invᵒ nm P is persistent
+  -- &ⁱ⟨ nm ⟩ᵒ P is persistent
 
-  Invᵒ-⇒□ᵒ :  Invᵒ nm P  ⊨  □ᵒ Invᵒ nm P
-  Invᵒ-⇒□ᵒ (-, Q , -ᴵ, -, Q∧|R⊣⊢P , □Qa , invRa) =  -, -, -ᴵ, -, Q∧|R⊣⊢P ,
-    □ᵒ-dup (⸨⸩ᴮ-Mono {Q}) □Qa , ◎⟨⟩-⌞⌟≈-□ᵒ inv-⌞⌟ invRa
+  &ⁱᵒ-⇒□ᵒ :  &ⁱ⟨ nm ⟩ᵒ P  ⊨  □ᵒ &ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-⇒□ᵒ (-, Q , -ᴵ, -, Q∧|R⊣⊢P , □Qa , InvRa) =  -, -, -ᴵ, -, Q∧|R⊣⊢P ,
+    □ᵒ-dup (⸨⸩ᴮ-Mono {Q}) □Qa , ◎⟨⟩-⌞⌟≈-□ᵒ inv-⌞⌟ InvRa
 
-  -- Change the proposition of Invᵒ with a persistent basic proposition
+  -- Change the proposition of &ⁱᵒ with a persistent basic proposition
 
-  Invᵒ-resp-□ᵒ×ᵒ :  {{_ : Basic R}} →
+  &ⁱᵒ-resp-□ᵒ×ᵒ :  {{_ : Basic R}} →
     R  ∧  P  ⊢[ ∞ ]  Q  →   R  ∧  Q  ⊢[ ∞ ]  P  →
-    □ᵒ ⸨ R ⸩ᴮ  ×ᵒ  Invᵒ nm P  ⊨✓  Invᵒ nm Q
-  Invᵒ-resp-□ᵒ×ᵒ {R = R} R∧P⊢Q R∧Q⊢P ✓a
-    (□Ra , -, -, -ᴵ, -, (S∧T⊢P , S∧P⊢T) , □Sa , invTa) = -, -, -ᴵ, -,
+    □ᵒ ⸨ R ⸩ᴮ  ×ᵒ  &ⁱ⟨ nm ⟩ᵒ P  ⊨✓  &ⁱ⟨ nm ⟩ᵒ Q
+  &ⁱᵒ-resp-□ᵒ×ᵒ {R = R} R∧P⊢Q R∧Q⊢P ✓a
+    (□Ra , -, -, -ᴵ, -, (S∧T⊢P , S∧P⊢T) , □Sa , InvTa) = -, -, -ᴵ, -,
     -- (R∧S)∧T ⊢ R∧(S∧T) ⊢ R∧P ⊢ Q
     (∧-assocˡ » ∧-monoʳ S∧T⊢P » R∧P⊢Q ,
     -- (R∧S)∧Q ⊢ (S∧R)∧Q ⊢ S∧(R∧Q) ⊢ S∧P ⊢ T
     ∧-monoˡ ∧-comm » ∧-assocˡ » ∧-monoʳ R∧Q⊢P » S∧P⊢T) ,
-    binary □Ra □Sa , invTa
+    binary □Ra □Sa , InvTa
 
-  -- Make Invᵒ
+  -- Make &ⁱᵒ
 
-  Invᵒ-make :  ◎⟨ iᴵⁿᵛ ⟩ inv i nm P  ⊨  Invᵒ nm P
-  Invᵒ-make inva =  -, ⊤' , -ᴵ, -, (∧-elimʳ , ∧-elimʳ) , absurd , inva
+  &ⁱᵒ-make :  Inv i nm P  ⊨  &ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-make Inva =  -, ⊤' , -ᴵ, -, (∧-elimʳ , ∧-elimʳ) , absurd , Inva
 
-  -- Dubplicate Invᵒ
+  -- Dubplicate &ⁱᵒ
 
-  dup-Invᵒ :  Invᵒ nm P  ⊨  Invᵒ nm P  ∗ᵒ  Invᵒ nm P
-  dup-Invᵒ =  Invᵒ-⇒□ᵒ › dup-□ᵒ Invᵒ-Mono ›
-    ∗ᵒ-mono (□ᵒ-elim Invᵒ-Mono) (□ᵒ-elim Invᵒ-Mono)
+  dup-&ⁱᵒ :  &ⁱ⟨ nm ⟩ᵒ P  ⊨  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  &ⁱ⟨ nm ⟩ᵒ P
+  dup-&ⁱᵒ =  &ⁱᵒ-⇒□ᵒ › dup-□ᵒ &ⁱᵒ-Mono ›
+    ∗ᵒ-mono (□ᵒ-elim &ⁱᵒ-Mono) (□ᵒ-elim &ⁱᵒ-Mono)
 
 --------------------------------------------------------------------------------
 -- Invk :  Invariant key
@@ -88,37 +92,38 @@ abstract
   Invk-no2 :  Invk i nm P  ∗ᵒ  Invk i nm P  ⊨✓  ⊥ᵒ₀
   Invk-no2 ✓a =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-✓ ✓a › λ (-, ✓invk²) →  invk-no2 ✓invk²
 
-  -- Make Invᵒ ∗ᵒ Invk
+  -- Make &ⁱᵒ ∗ᵒ Invk
 
-  Invᵒ∗ᵒInvk-make :
-    ◎⟨ iᴵⁿᵛ ⟩ (inv i nm P ∙ᴵⁿᵛ invk i nm P)  ⊨  Invᵒ nm P  ∗ᵒ  Invk i nm P
-  Invᵒ∗ᵒInvk-make =  ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoˡ Invᵒ-make
+  &ⁱᵒ∗ᵒInvk-make :
+    ◎⟨ iᴵⁿᵛ ⟩ (inv i nm P ∙ᴵⁿᵛ invk i nm P)  ⊨  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  Invk i nm P
+  &ⁱᵒ∗ᵒInvk-make =  ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoˡ &ⁱᵒ-make
 
 --------------------------------------------------------------------------------
--- OInvᵒ :  Interpret the open invariant token
+-- %ⁱᵒ :  Interpret the open invariant token
 
-OInvᵒ :  Name →  Prop∞ →  Propᵒ 1ᴸ
-OInvᵒ nm P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
+infix 8 %ⁱ⟨_⟩ᵒ_
+%ⁱ⟨_⟩ᵒ_ :  Name →  Prop∞ →  Propᵒ 1ᴸ
+%ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Invk i nm R
 
 abstract
 
-  -- Monoᵒ for OInvᵒ
+  -- Monoᵒ for %ⁱᵒ
 
-  OInvᵒ-Mono :  Monoᵒ $ OInvᵒ nm P
-  OInvᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ Q → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ →
+  %ⁱᵒ-Mono :  Monoᵒ $ %ⁱ⟨ nm ⟩ᵒ P
+  %ⁱᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ Q → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ →
     ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
-  -- Monotonicity of OInvᵒ
+  -- Monotonicity of %ⁱᵒ
 
-  OInvᵒ-mono :  P  ⊢[ ∞ ]  Q  →   OInvᵒ nm Q  ⊨  OInvᵒ nm P
-  OInvᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗InvkSa) =  -, -, -ᴵ, -,
+  %ⁱᵒ-mono :  P  ⊢[ ∞ ]  Q  →   %ⁱ⟨ nm ⟩ᵒ Q  ⊨  %ⁱ⟨ nm ⟩ᵒ P
+  %ⁱᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗InvkSa) =  -, -, -ᴵ, -,
     ∗-monoʳ P⊢Q » R∗Q⊢S , R∗InvkSa
 
-  -- Let OInvᵒ eat a basic proposition
+  -- Let %ⁱᵒ eat a basic proposition
 
-  OInvᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ  ∗ᵒ  OInvᵒ nm P  ⊨  OInvᵒ nm (Q -∗ P)
-  OInvᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' ›
+  %ⁱᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P  ⊨  %ⁱ⟨ nm ⟩ᵒ (Q -∗ P)
+  %ⁱᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' ›
     λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗InvkSc) →
     -, -, -ᴵ, -,
     -- (Q∗R)∗(Q-∗P) ⊢ (Q∗(Q-∗P))∗R ⊢ P∗R ⊢ R∗P ⊢ S

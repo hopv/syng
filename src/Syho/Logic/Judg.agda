@@ -28,8 +28,8 @@ open import Syho.Lang.Reduce using (_⇒ᴾ_)
 open import Syho.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂∞;
   ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_;
   _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _↪[_]⇛_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_;
-  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; Inv; OInv; [_]ᴸ⟨_⟩; [_]ᴸ;
-  †ᴸ_; Basic)
+  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; [_]ᴸ⟨_⟩;
+  [_]ᴸ; †ᴸ_; Basic)
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -641,37 +641,37 @@ data  Judg ι  where
 
   -- An invariant token is persistent
 
-  Inv-⇒□ :  Inv nm P˂  ⊢[ ι ]  □ Inv nm P˂
+  &ⁱ-⇒□ :  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  □ &ⁱ⟨ nm ⟩ P˂
 
   -- Change the proposition of an invariant token assuming a persistent basic
   -- proposition
 
-  Inv-resp-□∧ :  {{Basic R}}  →
+  &ⁱ-resp-□∧ :  {{Basic R}}  →
     R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
+    □ R  ∧  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
 
   -- Monotonicity of the open invariant token
 
-  OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
+  %ⁱ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ⁱ⟨ nm ⟩ Q˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ P˂
 
   -- Let an open invariant token eat a basic proposition
 
-  OInv-eatˡ :  {{Basic Q}} →  Q  ∗  OInv nm P˂  ⊢[ ι ]  OInv nm (¡ (Q -∗ P˂ .!))
+  %ⁱ-eatˡ :  {{Basic Q}} →  Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
 
-  -- Get Inv nm P˂ by storing P˂ minus Inv nm P˂
+  -- Get &ⁱ⟨ nm ⟩ P˂ by storing P˂ minus &ⁱ⟨ nm ⟩ P˂
 
-  Inv-alloc-rec :  Inv nm P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
+  &ⁱ-alloc-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
 
   -- Open an invariant with a name token, getting an open invariant token
 
   -- Notably, the proposition P˂ .! is directly obtained, without any guard like
   -- the later modality as in Iris
 
-  Inv-open :  Inv nm P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
+  &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂
 
   -- Retrieve a name token out of an open invariant token and its proposition
 
-  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
+  %ⁱ-close :  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
 
   ------------------------------------------------------------------------------
   -- On lifetimes

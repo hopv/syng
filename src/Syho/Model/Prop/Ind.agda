@@ -133,6 +133,10 @@ abstract
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵘ P∗S∗T⊢⇛Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
+  ↪⇛ᵒ-monoʳᵘ :  Q ⊢[ ∞ ][ i ]⇛ Q' →  P ↪[ i ]⇛ᴹ Q  ⊨  P ↪[ i ]⇛ᴹ Q'
+  ↪⇛ᵒ-monoʳᵘ Q⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
+    -, -ᴵ, -, P∗R∗S⊢⇛Q ᵘ»ᵘ Q⊢⇛Q' , R∗IndSa
+
   ↪⇛ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
     ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᴹ Q)  ⊨  P ↪[ i ]⇛ᴹ R ∗ Q
   ↪⇛ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) →
@@ -140,10 +144,6 @@ abstract
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢⇛ R∗P∗S∗T ⊢⇛ R∗Q
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ⇛-frameˡ P∗S∗T⊢⇛Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
-
-  ↪⇛ᵒ-monoʳᵘ :  Q ⊢[ ∞ ][ i ]⇛ Q' →  P ↪[ i ]⇛ᴹ Q  ⊨  P ↪[ i ]⇛ᴹ Q'
-  ↪⇛ᵒ-monoʳᵘ Q⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢⇛Q ᵘ»ᵘ Q⊢⇛Q' , R∗IndSa
 
   ↪⇛ᵒ-frameˡ :  P ↪[ i ]⇛ᴹ Q  ⊨  R ∗ P ↪[ i ]⇛ᴹ R ∗ Q
   ↪⇛ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
@@ -184,6 +184,11 @@ abstract
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵃʰ P∗S∗T⊢⟨red⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
+  ↪ᵃ⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
+                  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q'˙
+  ↪ᵃ⟨⟩ᵒ-monoʳᵘ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+    -, -ᴵ, -, P∗R∗S⊢⟨red⟩Q ᵃʰ»ᵘ Qv⊢⇛Q'v , R∗IndSa
+
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
     ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
@@ -191,11 +196,6 @@ abstract
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢ᵃ⟨red⟩ R∗Q
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ahor-frameˡ P∗S∗T⊢⟨red⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
-
-  ↪ᵃ⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
-                  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q'˙
-  ↪ᵃ⟨⟩ᵒ-monoʳᵘ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢⟨red⟩Q ᵃʰ»ᵘ Qv⊢⇛Q'v , R∗IndSa
 
   ↪ᵃ⟨⟩ᵒ-frameˡ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  R ∗ P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
   ↪ᵃ⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
@@ -248,6 +248,11 @@ abstract
       ⇛ᴺ-frameʳ R∗P'⊢⇛[⊤]P ᵘᴺ»ʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
+  ↪⟨⟩ᵒ-monoʳᵘᴺ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ᴺ Q'˙ v) →
+                  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q'˙
+  ↪⟨⟩ᵒ-monoʳᵘᴺ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘᴺ Qv⊢⇛Q'v , R∗IndSa
+
   ↪⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
     ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
@@ -255,11 +260,6 @@ abstract
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ R∗Q
     ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
-
-  ↪⟨⟩ᵒ-monoʳᵘᴺ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ᴺ Q'˙ v) →
-                  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q'˙
-  ↪⟨⟩ᵒ-monoʳᵘᴺ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘᴺ Qv⊢⇛Q'v , R∗IndSa
 
   ↪⟨⟩ᵒ-frameˡ :  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
   ↪⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =

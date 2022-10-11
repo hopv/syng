@@ -8,7 +8,7 @@ module Syho.Logic.Prop where
 
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
-open import Base.Size using (Size; ∞; Thunk)
+open import Base.Size using (Size; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; curry)
 open import Base.Sum using (_⨿_)
 open import Base.Zoi using (Zoi; ⊤ᶻ; ^ᶻ_)
@@ -144,6 +144,12 @@ data  Prop' ι  where
   -- %ˢ :  Open shared borrow token
 
   %ˢ⟨_⟩_ :  Lft × ℚ⁺ →  Prop˂ ι →  Prop' ι
+
+-- ¡ᴾ :  Prop' into Prop˂
+
+infix 8 ¡ᴾ_
+¡ᴾ_ :  Prop' ι →  Prop˂ ι
+(¡ᴾ P) .! =  P
 
 --------------------------------------------------------------------------------
 -- Utility for ∀/∃

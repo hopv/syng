@@ -650,7 +650,7 @@ data  Judg ι  where
     R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
     □ R  ∧  Inv nm P˂  ⊢[ ι ]  Inv nm Q˂
 
-  -- Monotonicity of an open invariant token
+  -- Monotonicity of the open invariant token
 
   OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
 

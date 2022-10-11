@@ -55,7 +55,7 @@ abstract
   &ⁱᵒ-⇒□ᵒ (-, Q , -ᴵ, -, Q∧|R⊣⊢P , □Qa , InvRa) =  -, -, -ᴵ, -, Q∧|R⊣⊢P ,
     □ᵒ-dup (⸨⸩ᴮ-Mono {Q}) □Qa , ◎⟨⟩-⌞⌟≈-□ᵒ inv-⌞⌟ InvRa
 
-  -- Change the proposition of &ⁱᵒ with a persistent basic proposition
+  -- Modify &ⁱᵒ using a persistent basic proposition
 
   &ⁱᵒ-resp-□ᵒ×ᵒ :  {{_ : Basic R}} →
     R  ∧  P  ⊢[ ∞ ]  Q  →   R  ∧  Q  ⊢[ ∞ ]  P  →

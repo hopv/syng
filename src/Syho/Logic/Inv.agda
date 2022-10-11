@@ -84,7 +84,7 @@ abstract
     &ⁱ-Pers :  Pers $ &ⁱ⟨ nm ⟩ P˂
     &ⁱ-Pers .Pers-⇒□ =  &ⁱ-⇒□
 
-  -- Change the proposition of an invariant token
+  -- Modify an invariant token
 
   -->  &ⁱ-resp-□∧ :  {{Basic R}}  →
   -->    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →

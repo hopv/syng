@@ -643,8 +643,7 @@ data  Judg ι  where
 
   &ⁱ-⇒□ :  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  □ &ⁱ⟨ nm ⟩ P˂
 
-  -- Change the proposition of an invariant token assuming a persistent basic
-  -- proposition
+  -- Modify an invariant token using a persistent basic proposition
 
   &ⁱ-resp-□∧ :  {{Basic R}}  →
     R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →

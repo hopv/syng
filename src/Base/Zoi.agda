@@ -22,15 +22,6 @@ data  Zoi :  Set₀  where
 private variable
   l m n :  Zoi
 
--- +ᶻ :  Addition of zois
-
-infixl 6 _+ᶻ_
-_+ᶻ_ :  Zoi →  Zoi →  Zoi
-0ᶻ +ᶻ n =  n
-∞ᶻ +ᶻ n =  ∞ᶻ
-n +ᶻ 0ᶻ =  n
-_ +ᶻ _ =  ∞ᶻ
-
 -- ✓ᶻ :  Validity of a zoi
 
 infix 4 ✓ᶻ_
@@ -46,6 +37,15 @@ _≤ᶻ_ :  Zoi →  Zoi →  Set₀
 _ ≤ᶻ ∞ᶻ =  ⊤
 1ᶻ ≤ᶻ 1ᶻ =  ⊤
 _ ≤ᶻ _ =  ⊥
+
+-- +ᶻ :  Addition of zois
+
+infixl 6 _+ᶻ_
+_+ᶻ_ :  Zoi →  Zoi →  Zoi
+0ᶻ +ᶻ n =  n
+∞ᶻ +ᶻ n =  ∞ᶻ
+n +ᶻ 0ᶻ =  n
+_ +ᶻ _ =  ∞ᶻ
 
 instance
 
@@ -124,6 +124,18 @@ private variable
   A :  Set ł
   Aᶻ A'ᶻ Bᶻ B'ᶻ Cᶻ :  A → Zoi
 
+-- ✔ᶻ :  Set validity
+
+infix 4 ✔ᶻ_
+✔ᶻ_ :  ∀{A : Set ł} →  (A → Zoi) →  Set ł
+✔ᶻ Aᶻ =  ∀ a →  ✓ᶻ (Aᶻ a)
+
+-- ⊆ᶻ :  Set inclusion
+
+infix 4 _⊆ᶻ_
+_⊆ᶻ_ :  ∀{A : Set ł} →  (A → Zoi) →  (A → Zoi) →  Set ł
+Aᶻ ⊆ᶻ Bᶻ =  ∀ a →  Aᶻ a ≤ᶻ Bᶻ a
+
 -- ∅ᶻ, ⊤ᶻ :  Empty and universal sets
 
 ∅ᶻ ⊤ᶻ :  A → Zoi
@@ -142,19 +154,12 @@ infixl 6 _⊎ᶻ_
 _⊎ᶻ_ :  (A → Zoi) →  (A → Zoi) →  (A → Zoi)
 (Aᶻ ⊎ᶻ Bᶻ) a =  Aᶻ a +ᶻ Bᶻ a
 
--- ✔ᶻ :  Set validity
-
-infix 4 ✔ᶻ_
-✔ᶻ_ :  ∀{A : Set ł} →  (A → Zoi) →  Set ł
-✔ᶻ Aᶻ =  ∀ a →  ✓ᶻ (Aᶻ a)
-
--- ⊆ᶻ :  Set inclusion
-
-infix 4 _⊆ᶻ_
-_⊆ᶻ_ :  ∀{A : Set ł} →  (A → Zoi) →  (A → Zoi) →  Set ł
-Aᶻ ⊆ᶻ Bᶻ =  ∀ a →  Aᶻ a ≤ᶻ Bᶻ a
-
 abstract
+
+  -- ✔ᶻ and ≡˙
+
+  ✔ᶻ-resp :  Aᶻ ≡˙ Bᶻ →  ✔ᶻ Aᶻ →  ✔ᶻ Bᶻ
+  ✔ᶻ-resp A≡B ✓A a  rewrite ◠ A≡B a =  ✓A a
 
   -- ⊎ᶻ and ≡˙
 
@@ -184,11 +189,6 @@ abstract
 
   ⊎ᶻ-assocʳ :  Aᶻ ⊎ᶻ (Bᶻ ⊎ᶻ Cᶻ) ≡˙ (Aᶻ ⊎ᶻ Bᶻ) ⊎ᶻ Cᶻ
   ⊎ᶻ-assocʳ {Aᶻ = Aᶻ} a =  +ᶻ-assocʳ {Aᶻ a}
-
-  -- ✔ᶻ and ≡˙
-
-  ✔ᶻ-resp :  Aᶻ ≡˙ Bᶻ →  ✔ᶻ Aᶻ →  ✔ᶻ Bᶻ
-  ✔ᶻ-resp A≡B ✓A a  rewrite ◠ A≡B a =  ✓A a
 
   -- If Aᶻ ⊆ᶻ Bᶻ holds, then there exists Cᶻ s.t. Cᶻ ⊎ᶻ Aᶻ ≡˙ Bᶻ
 

@@ -10,7 +10,7 @@ open import Base.Level using (0ᴸ)
 open import Base.Func using (id)
 open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_)
-open import Base.Zoi using (Zoi; 0ᶻ; _+ᶻ_; ✓ᶻ_; +ᶻ-comm; +ᶻ-assocˡ; ✓ᶻ-rem)
+open import Base.Zoi using (Zoi; ✓ᶻ_; 0ᶻ; _+ᶻ_; +ᶻ-comm; +ᶻ-assocˡ; ✓ᶻ-rem)
 open import Base.Prod using (_,_)
 open import Syho.Model.ERA.Base using (ERA)
 

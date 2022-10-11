@@ -9,7 +9,7 @@ module Syho.Model.Prop.Names where
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _›_)
 open import Base.Eq using (_≡˙_)
-open import Base.Zoi using (Zoi; ⊤ᶻ; ^ᶻ_; _⊎ᶻ_; ✔ᶻ_; ^ᶻ-no2)
+open import Base.Zoi using (Zoi; ✔ᶻ_; ⊤ᶻ; ^ᶻ_; _⊎ᶻ_; ^ᶻ-no2)
 open import Base.Prod using (-,_)
 open import Base.Sum using ()
 open import Base.Nat using ()

@@ -95,7 +95,7 @@ abstract
   ∙ᶠʳ-congˡ {x = š _} {š _} {ň} x≈y =  x≈y
   ∙ᶠʳ-congˡ {x = ň} {ň} _ =  ≈ᶠʳ-refl
 
-  -- ∙ᶠʳ is commutative with respect to ≈ᶠʳ
+  -- ∙ᶠʳ is commutative w.r.t. ≈ᶠʳ
 
   ∙ᶠʳ-comm :  x ∙ᶠʳ y  ≈ᶠʳ  y ∙ᶠʳ x
   ∙ᶠʳ-comm {x = š (p , as)} {š (q , bs)} =
@@ -104,7 +104,7 @@ abstract
   ∙ᶠʳ-comm {x = x@(š _)} {ň} =  ≈ᶠʳ-refl {x = x}
   ∙ᶠʳ-comm {x = ň} {ň} =  _
 
-  -- ∙ᶠʳ is associative with respect to ≈ᶠʳ
+  -- ∙ᶠʳ is associative w.r.t. ≈ᶠʳ
 
   ∙ᶠʳ-assocˡ :  (x ∙ᶠʳ y) ∙ᶠʳ z  ≈ᶠʳ  x ∙ᶠʳ (y ∙ᶠʳ z)
   ∙ᶠʳ-assocˡ {x = š (p , as)} {š (q ,-)} {š (r ,-)} =

@@ -293,7 +293,7 @@ abstract
   ⊆ᴸ-trans :  as ⊆ᴸ bs →  bs ⊆ᴸ cs →  as ⊆ᴸ cs
   ⊆ᴸ-trans as⊆bs bs⊆cs =  bs⊆cs ∘ as⊆bs
 
-  -- ⧺ is the lowest upper bound with respect to ⊆ᴸ
+  -- ⧺ is the lowest upper bound w.r.t. ⊆ᴸ
 
   ⧺-⊆ᴸ-elim :  ∀{cs} →  as ⊆ᴸ cs →  bs ⊆ᴸ cs →  as ⧺ bs  ⊆ᴸ  cs
   ⧺-⊆ᴸ-elim as⊆cs bs⊆cs a∈as⧺bs with ∈ᴸ-⧺-case a∈as⧺bs
@@ -344,7 +344,7 @@ abstract
   ≈ᴸ-[] :  as ≈ᴸ [] →  as ≡ []
   ≈ᴸ-[] (as⊆[] ,-) =  ⊆ᴸ-[] as⊆[]
 
-  -- ⧺ preserves ≈ᴿ⁺ and is commutative and idempotent with respect to ≈ᴸ
+  -- ⧺ preserves ≈ᴿ⁺ and is commutative and idempotent w.r.t. ≈ᴸ
 
   ⧺-congˡ :  as ≈ᴸ bs →  as ⧺ cs  ≈ᴸ  bs ⧺ cs
   ⧺-congˡ (as⊆bs , bs⊆as) =  ⧺-monoˡ as⊆bs , ⧺-monoˡ bs⊆as

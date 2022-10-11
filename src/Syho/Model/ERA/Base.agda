@@ -72,7 +72,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     -- On ∙
 
     -- ∙ preserves ≈, and is unital with the unit ε, commutative and associative
-    -- with respect to ≈
+    -- w.r.t. ≈
 
     ∙-congˡ :  ∀{a b c} →  a ≈ b →  a ∙ c ≈ b ∙ c
     ∙-unitˡ :  ∀{a} →  ε ∙ a ≈ a

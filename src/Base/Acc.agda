@@ -16,16 +16,16 @@ private variable
   _≺_ _≺'_ :  A → A → Set ł
 
 --------------------------------------------------------------------------------
--- Acc _≺_ a :  a is accessible with respect to ≺, or every descending chain
---              from a terminates
+-- Acc _≺_ a :  a is accessible w.r.t. ≺, i.e., every descending chain from a
+--              terminates
 
 data  Acc {A : Set ł} (_≺_ : A → A → Set ł') :  A →  Set (ł ⊔ᴸ ł')  where
   acc :  (∀{b} →  b ≺ a →  Acc _≺_ b) →  Acc _≺_ a
 
 abstract
 
-  -- If f a is accessible with respect to ≺' and ≺ is a sub-relation of
-  -- f - ≺' f - , then a is accessible with respect to ≺
+  -- If f a is accessible w.r.t. ≺' and ≺ is a sub-relation of f - ≺' f - ,
+  -- then a is accessible w.r.t. ≺
 
   acc-sub :  (∀{a b} →  a ≺ b →  f a ≺' f b) →  Acc _≺'_ (f a) →  Acc _≺_ a
   acc-sub ≺⇒f≺' (acc ≺'fa⇒acc) =

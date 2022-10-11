@@ -137,7 +137,7 @@ abstract
   empᴵⁿᴳ-✓[⊤] _ iᴸᶠᵗ =  ✓ᴸᶠᵗε
   empᴵⁿᴳ-✓[⊤] _ elseᴳ =  _
 
-  -- ≡˙ is congruent with respect to envᴳ M
+  -- ≡˙ is congruent w.r.t. envᴳ M
 
   envᴳ-cong :  Eᴵⁿ ≡˙ Fᴵⁿ →  envᴳ M Eᴵⁿ ≡˙ envᴳ M Fᴵⁿ
   envᴳ-cong _ iᴹᵉᵐ =  refl

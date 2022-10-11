@@ -66,7 +66,7 @@ abstract
 -- Thunk F ι :  For flexibly coinductive or coinductive-inductive data types
 
 -- This type intuitively means ∀ ι' < ι . F ι' (*universally* quantified),
--- and thus is *contravariant* with respect to ι in subtyping
+-- and thus is *contravariant* w.r.t. ι in subtyping
 
 infix 8 ¡_
 record  Thunk (F : Size → Set ł) (ι : Size) :  Set ł  where
@@ -91,7 +91,7 @@ _$ᵀʰ_ :  (∀{ι} → F ι → G ι) →  Thunk F ι →  Thunk G ι
 -- Shrunk F ι :  For flexibly inductive data types
 
 -- This type intuitively means ∃ ι' < ι . F ι' (*existentially* quantified),
--- and thus is *covariant* with respect to ι in subtyping
+-- and thus is *covariant* w.r.t. ι in subtyping
 
 infix 8 §_
 data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where

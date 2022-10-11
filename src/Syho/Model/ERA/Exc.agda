@@ -103,8 +103,8 @@ abstract
 
   -- Update ň into š a and εˣ into #ˣ a, preserving ✓ˣ - ∙ˣ x
 
-  ✓ˣ-alloc :  ň ✓ˣ x →  š a ✓ˣ #ˣ a ∙ˣ x
-  ✓ˣ-alloc {x = εˣ} _ =  refl
+  ✓ˣ-new :  ň ✓ˣ x →  š a ✓ˣ #ˣ a ∙ˣ x
+  ✓ˣ-new {x = εˣ} _ =  refl
 
   -- Agreement from ✓ˣ x ∙ˣ #ˣ
 

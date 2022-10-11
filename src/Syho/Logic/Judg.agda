@@ -483,15 +483,15 @@ data  Judg ι  where
 
   ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ (Q ∗ P˂ .!)
 
-  -- Obtain ○ P by allocating P
+  -- Create ○ P by storing P
 
-  ○-alloc :  P˂ .! ⊢[ ι ][ i ]⇛ ○ P˂
+  ○-new :  P˂ .! ⊢[ ι ][ i ]⇛ ○ P˂
 
   -- Obtain □ ○ P recursively, i.e., by allocating □ P minus the target □ ○ P
 
   -- This can be seen as an analog of Löb induction in step-indexed logics
 
-  □○-alloc-rec :  □ ○ P˂ -∗ □ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
+  □○-new-rec :  □ ○ P˂ -∗ □ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
 
   -- Use ○ P
 
@@ -657,9 +657,9 @@ data  Judg ι  where
 
   %ⁱ-eatˡ :  {{Basic Q}}  →   Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
 
-  -- Get &ⁱ⟨ nm ⟩ P˂ by storing P˂ minus &ⁱ⟨ nm ⟩ P˂
+  -- Create &ⁱ⟨ nm ⟩ P˂ by storing P˂ minus &ⁱ⟨ nm ⟩ P˂
 
-  &ⁱ-alloc-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
+  &ⁱ-new-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
 
   -- Open an invariant with a name token, getting an open invariant token
 
@@ -693,6 +693,6 @@ data  Judg ι  where
 
   []ᴸ⟨⟩-†ᴸ-no :  [ α ]ᴸ⟨ p ⟩  ∗  †ᴸ α  ⊢[ ι ]  ⊥'
 
-  -- Allocate a new lifetime
+  -- Create a new lifetime
 
-  []ᴸ-alloc :  ⊤'  ⊢[ ι ] ⤇  ∃ α , [ α ]ᴸ
+  []ᴸ-new :  ⊤'  ⊢[ ι ] ⤇  ∃ α , [ α ]ᴸ

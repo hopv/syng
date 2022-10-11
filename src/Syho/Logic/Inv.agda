@@ -24,7 +24,7 @@ open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _ᵘ»ᵃʰ_; _ᵃʰ»�
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔;
-  &ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ; &ⁱ-alloc-rec; &ⁱ-open; %ⁱ-close)
+  &ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ; &ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
 
 private variable
   ι :  Size
@@ -114,12 +114,12 @@ abstract
   %ⁱ-eatʳ :  {{Basic Q}} →  %ⁱ⟨ nm ⟩ P˂  ∗  Q  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
   %ⁱ-eatʳ =  ∗-comm » %ⁱ-eatˡ
 
-  -- Get &ⁱ⟨ nm ⟩ P˂ by storing P˂
+  -- Create &ⁱ⟨ nm ⟩ P˂ by storing P˂
 
-  -->  &ⁱ-alloc-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
+  -->  &ⁱ-new-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
 
-  &ⁱ-alloc :  P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
-  &ⁱ-alloc =  -∗-const » &ⁱ-alloc-rec
+  &ⁱ-new :  P˂ .!  ⊢[ ι ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
+  &ⁱ-new =  -∗-const » &ⁱ-new-rec
 
   -- Use an invariant token
 

@@ -21,8 +21,8 @@ open import Base.Str using ()
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Zoi using (Zoiᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ✓ˣ-alloc; ✓ˣ-agree)
-open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-alloc; ✓ᴸ-agree)
+open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ✓ˣ-new; ✓ˣ-agree)
+open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-new; ✓ᴸ-agree)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
 import Syho.Model.ERA.Envm
@@ -138,15 +138,15 @@ abstract
 
   -- Get inv and invk
 
-  inv-invk-alloc :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
+  inv-invk-new :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
     (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P
-  inv-invk-alloc _ _ .π₀ =  _
-  inv-invk-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
-  inv-invk-alloc _ (-, -, ✓c) .π₁ .π₁ .π₁ =  ✓c
-  inv-invk-alloc {n = n} _ (✓Qˇ , Qˇ✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | Qˇ✓ab i
+  inv-invk-new _ _ .π₀ =  _
+  inv-invk-new _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
+  inv-invk-new _ (-, -, ✓c) .π₁ .π₁ .π₁ =  ✓c
+  inv-invk-new {n = n} _ (✓Qˇ , Qˇ✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | Qˇ✓ab i
   … | no _ | Qˇi✓abi =  Qˇi✓abi
   … | yes refl | (Qˇn✓an , Qˇn✓bn)  rewrite ✓Qˇ _ ≤-refl =
-    ✓ᴸ-alloc Qˇn✓an , ✓ˣ-alloc Qˇn✓bn
+    ✓ᴸ-new Qˇn✓an , ✓ˣ-new Qˇn✓bn
 
   -- Get agreement from inv
 

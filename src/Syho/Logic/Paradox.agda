@@ -21,7 +21,7 @@ open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-intro; ∗-elimˡ;
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
-open import Syho.Logic.Ind using (○-mono; □○-alloc-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
+open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
   ○⇒↪⟨⟩; ○⇒↪⟨⟩∞)
 
 private variable
@@ -40,10 +40,10 @@ private variable
 -- Utility
 
 -- If we can turn ○ P into P, then we get P after a super update,
--- thanks to □○-alloc-rec
+-- thanks to □○-new-rec
 
 ○-rec :  ○ ¡ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]⇛ P
-○-rec ○P⊢P =  -∗-intro (∗-elimˡ » □-mono ○P⊢P) » □○-alloc-rec ᵘ»ᵘ □-elim » ○-use
+○-rec ○P⊢P =  -∗-intro (∗-elimˡ » □-mono ○P⊢P) » □○-new-rec ᵘ»ᵘ □-elim » ○-use
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⇛ without level increment, then we get a paradox

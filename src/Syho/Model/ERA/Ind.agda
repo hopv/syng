@@ -19,8 +19,8 @@ open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; 
 open import Base.List using ([_])
 open import Syho.Logic.Prop using (Prop∞; ⊤')
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ✓ˣ-alloc; ✓ˣ-agree; ✓ˣ-free)
-open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-alloc; ✓ᴸ-agree)
+open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ✓ˣ-new; ✓ˣ-agree; ✓ˣ-free)
+open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-new; ✓ᴸ-agree)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Envm
 import Syho.Model.ERA.Envv
@@ -71,13 +71,13 @@ abstract
 
   -- Add a new proposition and get a line
 
-  indˣ-alloc :  ((Qˇ˙ , n) , εᴵⁿᵈˣ)  ↝ᴵⁿᵈˣ λ (_ : ⊤₀) →
+  indˣ-new :  ((Qˇ˙ , n) , εᴵⁿᵈˣ)  ↝ᴵⁿᵈˣ λ (_ : ⊤₀) →
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , indˣ n P
-  indˣ-alloc _ _ .π₀ =  _
-  indˣ-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
-  indˣ-alloc {n = n} _ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≟ n | Qˇ✓Rˣ i
+  indˣ-new _ _ .π₀ =  _
+  indˣ-new _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
+  indˣ-new {n = n} _ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≟ n | Qˇ✓Rˣ i
   … | no _ | Qˇi✓Rˣi =  Qˇi✓Rˣi
-  … | yes refl | Qˇn✓Rˣn  rewrite ✓Qˇ _ ≤-refl =  ✓ˣ-alloc Qˇn✓Rˣn
+  … | yes refl | Qˇn✓Rˣn  rewrite ✓Qˇ _ ≤-refl =  ✓ˣ-new Qˇn✓Rˣn
 
   -- Remove a proposition consuming a line
 
@@ -134,13 +134,13 @@ abstract
 
   -- Add a new proposition and get a line
 
-  indᵖ-alloc :  ((Qˇ˙ , n) , εᴵⁿᵈᵖ)  ↝ᴵⁿᵈᵖ λ (_ : ⊤₀) →
+  indᵖ-new :  ((Qˇ˙ , n) , εᴵⁿᵈᵖ)  ↝ᴵⁿᵈᵖ λ (_ : ⊤₀) →
                   (upd˙ n (š P) Qˇ˙ , ṡ n) , indᵖ n P
-  indᵖ-alloc _ _ .π₀ =  _
-  indᵖ-alloc _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
-  indᵖ-alloc {n = n} _ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≟ n | Qˇ✓Rs i
+  indᵖ-new _ _ .π₀ =  _
+  indᵖ-new _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
+  indᵖ-new {n = n} _ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≟ n | Qˇ✓Rs i
   … | no _ | Qˇi✓Rsi =  Qˇi✓Rsi
-  … | yes refl | Qˇn✓Rsn  rewrite ✓Qˇ _ ≤-refl =  ✓ᴸ-alloc Qˇn✓Rsn
+  … | yes refl | Qˇn✓Rsn  rewrite ✓Qˇ _ ≤-refl =  ✓ᴸ-new Qˇn✓Rsn
 
   -- Get an agreement from a line
 

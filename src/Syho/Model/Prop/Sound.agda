@@ -23,7 +23,7 @@ open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ�
 open import Syho.Logic.Inv using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔; &ⁱ-⇒□;
   &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ)
 open import Syho.Logic.Lft using ([]ᴸ⟨⟩-merge; []ᴸ⟨⟩-split; []ᴸ⟨⟩-≤1; †ᴸ-⇒□;
-  []ᴸ⟨⟩-†ᴸ-no; []ᴸ-alloc)
+  []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new)
 open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-monoˡ;
   ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-intro; -∗ᵒ-elim;
   ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-⌜⌝ᵒ×-out; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
@@ -40,7 +40,7 @@ open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤;
 open import Syho.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ×ᵒ; %ⁱᵒ-mono;
   %ⁱᵒ-eatˡ)
 open import Syho.Model.Prop.Lft using ([]ᴸ⟨⟩ᵒ-merge; []ᴸ⟨⟩ᵒ-split; []ᴸ⟨⟩ᵒ-≤1;
-  †ᴸᵒ-⇒□ᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no; []ᴸᵒ-alloc)
+  †ᴸᵒ-⇒□ᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no; []ᴸᵒ-new)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
 
 private variable
@@ -355,6 +355,6 @@ abstract
 
   ⊢-sem []ᴸ⟨⟩-†ᴸ-no ✓∙ =  []ᴸ⟨⟩ᵒ-†ᴸᵒ-no ✓∙ › λ ()
 
-  -- []ᴸ-alloc :  ⊤'  ⊢[ ∞ ] ⤇  ∃ α , [ α ]ᴸ
+  -- []ᴸ-new :  ⊤'  ⊢[ ∞ ] ⤇  ∃ α , [ α ]ᴸ
 
-  ⊢-sem []ᴸ-alloc _ _ =  []ᴸᵒ-alloc
+  ⊢-sem []ᴸ-new _ _ =  []ᴸᵒ-new

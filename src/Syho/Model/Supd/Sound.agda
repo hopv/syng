@@ -15,14 +15,13 @@ open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⇛-refl-⤇;
   _ᵘ»ᵘ_; ⇛-frameˡ)
-open import Syho.Logic.Ind using (○-alloc; □○-alloc-rec; ○-use; ↪⇛-use)
-open import Syho.Logic.Inv using (&ⁱ-alloc-rec; &ⁱ-open; %ⁱ-close)
+open import Syho.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
+open import Syho.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Supd.Ind using (○ᵒ-alloc; □ᵒ○ᵒ-alloc-rec; ○ᵒ-use;
-  ↪⇛ᵒ-use)
-open import Syho.Model.Supd.Inv using (&ⁱᵒ-alloc-rec; &ⁱᵒ-open; %ⁱᵒ-close)
+open import Syho.Model.Supd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
+open import Syho.Model.Supd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
 open import Syho.Model.Supd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᵒ-mono;
   ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-make)
 
@@ -60,13 +59,13 @@ private variable
 
 ⊢⇛-sem (⇛-frameˡ Q⊢⇛R) =  ∗ᵒ-monoʳ (⊢⇛-sem Q⊢⇛R) › ⇛ᵒ-eatˡ
 
--- ○-alloc :  P˂ .! ⊢[ ∞ ][ i ]⇛ ○ P˂
+-- ○-new :  P˂ .! ⊢[ ∞ ][ i ]⇛ ○ P˂
 
-⊢⇛-sem ○-alloc =  ○ᵒ-alloc › ⇛ᴵⁿᵈ⇒⇛ᵒ
+⊢⇛-sem ○-new =  ○ᵒ-new › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
--- □○-alloc-rec :  □ ○ P˂ -∗ □ P˂ .! ⊢[ ∞ ][ i ]⇛ □ ○ P˂
+-- □○-new-rec :  □ ○ P˂ -∗ □ P˂ .! ⊢[ ∞ ][ i ]⇛ □ ○ P˂
 
-⊢⇛-sem □○-alloc-rec =  □ᵒ○ᵒ-alloc-rec › ⇛ᴵⁿᵈ⇒⇛ᵒ
+⊢⇛-sem □○-new-rec =  □ᵒ○ᵒ-new-rec › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
 -- ○-use :  ○ P˂ ⊢[ ∞ ][ i ]⇛ P˂ .!
 
@@ -79,9 +78,9 @@ private variable
   ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ →
     ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛-sem P∗R⊢⇛Q) › ⇛ᵒ-join
 
--- &ⁱ-alloc-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ∞ ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
+-- &ⁱ-new-rec :  &ⁱ⟨ nm ⟩ P˂ -∗ P˂ .!  ⊢[ ∞ ][ i ]⇛  &ⁱ⟨ nm ⟩ P˂
 
-⊢⇛-sem &ⁱ-alloc-rec =  &ⁱᵒ-alloc-rec › ⇛ᴵⁿᵛ⇒⇛ᵒ
+⊢⇛-sem &ⁱ-new-rec =  &ⁱᵒ-new-rec › ⇛ᴵⁿᵛ⇒⇛ᵒ
 
 -- &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂
 

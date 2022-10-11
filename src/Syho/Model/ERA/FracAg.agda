@@ -140,8 +140,8 @@ abstract
 
   -- Update ň into š a and ň into š (1ᴿ⁺ , [ a ]), preserving ✓ᶠʳ - ∙ᶠʳ x
 
-  ✓ᶠʳ-alloc :  ň ✓ᶠʳ x →  š a ✓ᶠʳ š (1ᴿ⁺ , [ a ]) ∙ᶠʳ x
-  ✓ᶠʳ-alloc {x = ň} _ =  1≤1ᴿ⁺ , ✓ᴸ-š-[?]
+  ✓ᶠʳ-new :  ň ✓ᶠʳ x →  š a ✓ᶠʳ š (1ᴿ⁺ , [ a ]) ∙ᶠʳ x
+  ✓ᶠʳ-new {x = ň} _ =  1≤1ᴿ⁺ , ✓ᴸ-š-[?]
 
   -- Agreement from ✓ᶠʳ š (p , [ - ]) ∙ᶠʳ x
 
@@ -165,7 +165,7 @@ abstract
   -- preserving ✓ᶠʳ - ∙ᶠʳ x
 
   ✓ᶠʳ-update :  aˇ ✓ᶠʳ š (1ᴿ⁺ , bs) ∙ᶠʳ x  →  š c ✓ᶠʳ š (1ᴿ⁺ , [ c ]) ∙ᶠʳ x
-  ✓ᶠʳ-update {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-alloc {x = x}
+  ✓ᶠʳ-update {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-new {x = x}
 
 --------------------------------------------------------------------------------
 -- FracAgᴱᴿᴬ :  Fractional agreement ERA

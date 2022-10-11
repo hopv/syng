@@ -21,10 +21,10 @@ open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; TyVal; ⊤-; Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_;
   ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; εˣ; ✓ˣ-agree; ✓ˣ-alloc;
+open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; εˣ; ✓ˣ-agree; ✓ˣ-new;
   ✓ˣ-free)
 open import Syho.Model.ERA.FracAg using (FracAg; _≈ᶠʳ_; _∙ᶠʳ_; FracAgᴱᴿᴬ;
-  š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-alloc; ✓ᶠʳ-free)
+  š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-new; ✓ᶠʳ-free)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
 import Syho.Model.ERA.Envm
@@ -304,13 +304,13 @@ abstract
   ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₁
     with o' ≟ o | M✓a o' .π₁
   … | no _ | lenMo'✓ao' =  lenMo'✓ao'
-  … | yes refl | ň✓ao  rewrite Mo≡ň | rep-len {n} {a = ⊤- } =  ✓ˣ-alloc ň✓ao
+  … | yes refl | ň✓ao  rewrite Mo≡ň | rep-len {n} {a = ⊤- } =  ✓ˣ-new ň✓ao
   ↦ᴸʳ-alloc {o = o} {n = n} Mo≡ň _ (↑ (-, M✓a)) .π₁ .↓ .π₁ o' .π₀ i
     with o' ≟ o | M✓a o' .π₀ i
   … | no _ | Mo'‼i✓ao'i =  Mo'‼i✓ao'i
   … | yes refl | Mo‼i✓aoi  rewrite Mo≡ň  with rep n ⊤- ‼ i
   …   | ň =  Mo‼i✓aoi
-  …   | š _ =  ✓ᶠʳ-alloc Mo‼i✓aoi
+  …   | š _ =  ✓ᶠʳ-new Mo‼i✓aoi
 
   -- Bounds check using freeʳ
 

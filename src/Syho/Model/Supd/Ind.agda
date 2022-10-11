@@ -21,7 +21,7 @@ open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
 open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ;
-  indˣ-alloc; indˣ-use; indᵖ-alloc; indᵖ-use)
+  indˣ-new; indˣ-use; indᵖ-new; indᵖ-use)
 open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; empᴵⁿᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
   _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ;
@@ -79,8 +79,8 @@ abstract
 
   -- Get Indˣ P by storing P
 
-  Indˣ-alloc :  ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈˣ  Indˣ P
-  Indˣ-alloc =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-alloc) › ⤇ᴱ-eatʳ ›
+  Indˣ-new :  ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈˣ  Indˣ P
+  Indˣ-new =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-new) › ⤇ᴱ-eatʳ ›
     (⤇ᴱ-mono λ _ → ∗ᵒ-mono Indˣ-make Smry-add-š) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
@@ -119,8 +119,8 @@ abstract
 
   -- Get □ᵒ Indᵖ P by storing □ P minus □ᵒ Indᵖ P
 
-  □ᵒIndᵖ-alloc-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈᵖ  □ᵒ Indᵖ P
-  □ᵒIndᵖ-alloc-rec {P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-alloc) ›
+  □ᵒIndᵖ-new-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈᵖ  □ᵒ Indᵖ P
+  □ᵒIndᵖ-new-rec {P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-new) ›
     ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (□ᵒIndᵖ-make › dup-□ᵒ Indᵖ-Mono) ›
       -- (□IndP∗□IndP)∗(□IndP-∗□P)∗Inv → □IndP∗(□IndP∗(□IndP-∗□P)∗Inv) → →
       -- □IndP∗(□P∗Inv) → → □IndP∗Inv
@@ -185,14 +185,13 @@ abstract
 
   -- Get Ind P by storing P
 
-  Ind-alloc :  ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  Ind P
-  Ind-alloc =  Indˣ-alloc › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ › ⇛ᵍᶠ-mono ĩ₀_
+  Ind-new :  ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  Ind P
+  Ind-new =  Indˣ-new › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ › ⇛ᵍᶠ-mono ĩ₀_
 
   -- Get □ᵒ Ind P by storing □ P minus □ᵒ Ind P
 
-  □ᵒInd-alloc-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  □ᵒ Ind P
-  □ᵒInd-alloc-rec =
-    -∗ᵒ-monoˡ ĩ₁_ › □ᵒIndᵖ-alloc-rec › ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ › ⇛ᵍᶠ-mono ĩ₁_
+  □ᵒInd-new-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  □ᵒ Ind P
+  □ᵒInd-new-rec =  -∗ᵒ-monoˡ ĩ₁_ › □ᵒIndᵖ-new-rec › ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ › ⇛ᵍᶠ-mono ĩ₁_
 
   -- Consume Ind P to get P
 
@@ -204,11 +203,11 @@ abstract
 
 abstract
 
-  ○ᵒ-alloc :  ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  ○ᵒ P
-  ○ᵒ-alloc =  Ind-alloc › ⇛ᵍᶠ-mono Ind⇒○ᵒ
+  ○ᵒ-new :  ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  ○ᵒ P
+  ○ᵒ-new =  Ind-new › ⇛ᵍᶠ-mono Ind⇒○ᵒ
 
-  □ᵒ○ᵒ-alloc-rec :  □ᵒ ○ᵒ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  □ᵒ ○ᵒ P
-  □ᵒ○ᵒ-alloc-rec =  -∗ᵒ-monoˡ Ind⇒○ᵒ › □ᵒInd-alloc-rec › ⇛ᵍᶠ-mono Ind⇒○ᵒ
+  □ᵒ○ᵒ-new-rec :  □ᵒ ○ᵒ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  □ᵒ ○ᵒ P
+  □ᵒ○ᵒ-new-rec =  -∗ᵒ-monoˡ Ind⇒○ᵒ › □ᵒInd-new-rec › ⇛ᵍᶠ-mono Ind⇒○ᵒ
 
   ○ᵒ-use :  ○ᵒ P  ⊨ ⇛ᴵⁿᵈ  ⸨ P ⸩
   ○ᵒ-use =  ∑-case λ Q → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ Q∗R⊢P →

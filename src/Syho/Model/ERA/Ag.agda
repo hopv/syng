@@ -60,9 +60,9 @@ abstract
 
   -- Update ň into š a and [] into [ a ], preserving ✓ᴸ - ⧺ bs
 
-  ✓ᴸ-alloc :  ň ✓ᴸ bs →  š a ✓ᴸ a ∷ bs
-  ✓ᴸ-alloc {bs = []} _ _ ∈ʰᵈ =  refl
-  ✓ᴸ-alloc {bs = _ ∷ _} ň✓ᴸ∷ =  ň✓ᴸ∷ _ ∈ʰᵈ ▷ λ ()
+  ✓ᴸ-new :  ň ✓ᴸ bs →  š a ✓ᴸ a ∷ bs
+  ✓ᴸ-new {bs = []} _ _ ∈ʰᵈ =  refl
+  ✓ᴸ-new {bs = _ ∷ _} ň✓ᴸ∷ =  ň✓ᴸ∷ _ ∈ʰᵈ ▷ λ ()
 
   -- Agreement from ✓ᴸ - ∷ -
 

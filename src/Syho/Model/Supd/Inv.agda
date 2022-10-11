@@ -14,7 +14,7 @@ open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Mem)
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Logic.Core using (_»_; ∗⇒∧)
-open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; invk; inv-invk-alloc;
+open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; invk; inv-invk-new;
   inv-agree; invk-agree)
 open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; empᴵⁿᴳ; upd˙-out-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
@@ -73,8 +73,8 @@ abstract
 
   -- Get &ⁱ⟨ nm ⟩ᵒ P by storing P minus &ⁱ⟨ nm ⟩ᵒ P
 
-  &ⁱᵒ-alloc-rec :  &ⁱ⟨ nm ⟩ᵒ P -∗ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵛ  &ⁱ⟨ nm ⟩ᵒ P
-  &ⁱᵒ-alloc-rec {P = P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ inv-invk-alloc) ›
+  &ⁱᵒ-new-rec :  &ⁱ⟨ nm ⟩ᵒ P -∗ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵛ  &ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-new-rec {P = P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ inv-invk-new) ›
     ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (&ⁱᵒ∗ᵒInvk-make › ∗ᵒ-monoˡ dup-&ⁱᵒ ›
       -- ((&∗&)∗Invk)∗(&-*P)*INV → → → &∗((&∗Invk)∗(&-*P))*INV
       ∗ᵒ-assocˡ) › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›

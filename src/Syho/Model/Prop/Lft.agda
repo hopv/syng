@@ -12,7 +12,7 @@ open import Base.Prod using (-,_)
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Logic.Prop using (Lft)
 open import Syho.Model.ERA.Lft using ([_]ᴸ⟨_⟩ʳ; †ᴸʳ_; ◠˜ᴸᶠᵗ_; []ᴸ⟨⟩ʳ-∙;
-  []ᴸ⟨⟩ʳ-≤1; †ᴸʳ-⌞⌟; []ᴸ⟨⟩ʳ-†ᴸʳ-no; []ᴸ-alloc)
+  []ᴸ⟨⟩ʳ-≤1; †ᴸʳ-⌞⌟; []ᴸ⟨⟩ʳ-†ᴸʳ-no; []ᴸʳ-new)
 open import Syho.Model.ERA.Glob using (iᴸᶠᵗ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
   ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓;
@@ -67,5 +67,5 @@ abstract
 
   -- Allocate a new lifetime
 
-  []ᴸᵒ-alloc :  ⊨ ⤇ᵒ  ∃ᵒ α , [ α ]ᴸᵒ
-  []ᴸᵒ-alloc =  ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ []ᴸ-alloc
+  []ᴸᵒ-new :  ⊨ ⤇ᵒ  ∃ᵒ α , [ α ]ᴸᵒ
+  []ᴸᵒ-new =  ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ []ᴸʳ-new

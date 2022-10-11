@@ -19,7 +19,7 @@ open import Syho.Logic.Prop using (Prop'; Prop∞; ⊤'; ⊥'; ⌜_⌝; □_; �
 open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗⊤-intro;
   -∗-intro; □-dup)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
-open import Syho.Logic.Ind using (□○-alloc-rec)
+open import Syho.Logic.Ind using (□○-new-rec)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞;
   hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind)
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
@@ -43,8 +43,8 @@ abstract
   ------------------------------------------------------------------------------
   -- Get □ ○ □ ○ □ ○ … for free
 
-  □○Loop-alloc :  ⊤' ⊢[ ι ][ i ]⇛ □○Loop
-  □○Loop-alloc =  -∗-intro (∗-elimˡ » □-dup) » □○-alloc-rec
+  □○Loop-new :  ⊤' ⊢[ ι ][ i ]⇛ □○Loop
+  □○Loop-new =  -∗-intro (∗-elimˡ » □-dup) » □○-new-rec
 
   ------------------------------------------------------------------------------
   -- Get any partial Hoare triple on loop

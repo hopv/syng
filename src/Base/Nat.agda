@@ -435,7 +435,7 @@ open import Agda.Builtin.Nat public using () renaming (
 
 abstract
 
-  -- m + n ∸ m equals n
+  -- m plus n ∸ m equals n
 
   +ˡ-∸ :  m + n ∸ m ≡ n
   +ˡ-∸ {0} =  refl

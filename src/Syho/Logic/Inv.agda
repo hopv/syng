@@ -9,7 +9,7 @@ module Syho.Logic.Inv where
 open import Base.Func using (_$_)
 open import Base.Eq using (◠˙_)
 open import Base.Size using (Size; !; ¡_; _$ᵀʰ_)
-open import Base.Zoi using (Zoi; _⊆ᶻ_; ⊆ᶻ⇒∑⊎ᶻ)
+open import Base.Zoi using (Zoi; _⊆ᶻ_; _∖ᶻ_; ⊆ᶻ⇒∖-⊎ˡ)
 open import Base.Prod using (_,_)
 open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; _∧_; _∗_; _-∗_; [_]ᴺ;
@@ -47,16 +47,21 @@ abstract
 
   -- Take out a name set token of a subset
 
-  []ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  ([ Nm' ]ᴺ -∗ [ Nm ]ᴺ)
-  []ᴺ-⊆ Nm'⊆Nm  with ⊆ᶻ⇒∑⊎ᶻ Nm'⊆Nm
-  … | Nm'' , Nm''⊎Nm'≡Nm =  []ᴺ-resp (◠˙ Nm''⊎Nm'≡Nm) » []ᴺ-split {Nm = Nm''} »
-    ∗-comm » ∗-monoʳ $ -∗-intro $ ∗-comm » []ᴺ-merge » []ᴺ-resp Nm''⊎Nm'≡Nm
+  []ᴺ-⊆-split :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  [ Nm ∖ᶻ Nm' ]ᴺ
+  []ᴺ-⊆-split Nm'⊆Nm =  []ᴺ-resp (◠˙ ⊆ᶻ⇒∖-⊎ˡ Nm'⊆Nm) » []ᴺ-split
+
+  []ᴺ-⊆-merge :  Nm' ⊆ᶻ Nm  →   [ Nm' ]ᴺ  ∗  [ Nm ∖ᶻ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ]ᴺ
+  []ᴺ-⊆-merge Nm'⊆Nm =  []ᴺ-merge » []ᴺ-resp (⊆ᶻ⇒∖-⊎ˡ Nm'⊆Nm)
+
+  []ᴺ-⊆--∗ :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  ([ Nm' ]ᴺ -∗ [ Nm ]ᴺ)
+  []ᴺ-⊆--∗ Nm'⊆Nm =
+    []ᴺ-⊆-split Nm'⊆Nm » ∗-monoʳ $ -∗-intro $ []ᴺ-⊆-merge Nm'⊆Nm
 
   -- Use only a part of a name set token for super update
 
   ⇛-[]ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   P  ∗  [ Nm' ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm' ]ᴺ  →
              P  ∗  [ Nm ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm ]ᴺ
-  ⇛-[]ᴺ-⊆ Nm'⊆Nm P⊢⇛[Nm']Q =  ∗-monoʳ ([]ᴺ-⊆ Nm'⊆Nm) » ∗-assocʳ »
+  ⇛-[]ᴺ-⊆ Nm'⊆Nm P⊢⇛[Nm']Q =  ∗-monoʳ ([]ᴺ-⊆--∗ Nm'⊆Nm) » ∗-assocʳ »
     ⇛-frameʳ P⊢⇛[Nm']Q ᵘ» ∗-assocˡ » ∗-monoʳ -∗-applyˡ
 
   ------------------------------------------------------------------------------

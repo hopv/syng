@@ -9,7 +9,7 @@ module Base.Zoi where
 open import Base.Level using (Level)
 open import Base.Func using (id)
 open import Base.Few using (⊤; ⊥; ¬_)
-open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; refl˙)
+open import Base.Eq using (_≡_; refl; ◠_; _◇_; _≡˙_; refl˙)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; ≟-refl; upd˙)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_)
 
@@ -46,6 +46,16 @@ _+ᶻ_ :  Zoi →  Zoi →  Zoi
 ∞ᶻ +ᶻ n =  ∞ᶻ
 n +ᶻ 0ᶻ =  n
 _ +ᶻ _ =  ∞ᶻ
+
+-- ∸ᶻ :  Truncated subtraction of zois
+
+infixl 6 _∸ᶻ_
+_∸ᶻ_ :  Zoi →  Zoi →  Zoi
+m ∸ᶻ 0ᶻ =  m
+m ∸ᶻ ∞ᶻ =  0ᶻ
+0ᶻ ∸ᶻ n =  0ᶻ
+1ᶻ ∸ᶻ 1ᶻ =  0ᶻ
+∞ᶻ ∸ᶻ 1ᶻ =  ∞ᶻ
 
 instance
 
@@ -130,12 +140,16 @@ abstract
   ✓ᶻ-rem {0ᶻ} =  id
   ✓ᶻ-rem {1ᶻ} {0ᶻ} =  _
 
-  -- If m ≤ᶻ n holds, then there exists l s.t. l +ᶻ m ≡ n
+  -- m plus n ∸ᶻ m equals n if m ≤ᶻ n
 
-  ≤ᶻ⇒∑+ᶻ :  m ≤ᶻ n →  ∑ l , l +ᶻ m ≡ n
-  ≤ᶻ⇒∑+ᶻ {0ᶻ} {n} _ =  n , +ᶻ-0ᶻ
-  ≤ᶻ⇒∑+ᶻ {_} {∞ᶻ} _ =  ∞ᶻ , refl
-  ≤ᶻ⇒∑+ᶻ {1ᶻ} {1ᶻ} _ =  0ᶻ , refl
+  ≤ᶻ⇒∸-+ˡ :  m ≤ᶻ n →  m +ᶻ (n ∸ᶻ m) ≡ n
+  ≤ᶻ⇒∸-+ˡ {0ᶻ} _ =  refl
+  ≤ᶻ⇒∸-+ˡ {1ᶻ} {1ᶻ} _ =  refl
+  ≤ᶻ⇒∸-+ˡ {1ᶻ} {∞ᶻ} _ =  refl
+  ≤ᶻ⇒∸-+ˡ {∞ᶻ} {∞ᶻ} _ =  refl
+
+  ≤ᶻ⇒∸-+ʳ :  m ≤ᶻ n →  (n ∸ᶻ m) +ᶻ m ≡ n
+  ≤ᶻ⇒∸-+ʳ {m} m≤n =  +ᶻ-comm {n = m} ◇ ≤ᶻ⇒∸-+ˡ m≤n
 
 --------------------------------------------------------------------------------
 -- Set, as a map to Zoi
@@ -175,6 +189,12 @@ infixl 6 _⊎ᶻ_
 _⊎ᶻ_ :  (A → Zoi) →  (A → Zoi) →  (A → Zoi)
 (Aᶻ ⊎ᶻ Bᶻ) a =  Aᶻ a +ᶻ Bᶻ a
 
+-- ∖ᶻ :  Set difference
+
+infixl 6 _∖ᶻ_
+_∖ᶻ_ :  (A → Zoi) →  (A → Zoi) →  (A → Zoi)
+(Aᶻ ∖ᶻ Bᶻ) a =  Aᶻ a ∸ᶻ Bᶻ a
+
 abstract
 
   -- ✔ᶻ and ≡˙
@@ -211,14 +231,16 @@ abstract
   ⊎ᶻ-assocʳ :  Aᶻ ⊎ᶻ (Bᶻ ⊎ᶻ Cᶻ) ≡˙ (Aᶻ ⊎ᶻ Bᶻ) ⊎ᶻ Cᶻ
   ⊎ᶻ-assocʳ {Aᶻ = Aᶻ} a =  +ᶻ-assocʳ {Aᶻ a}
 
-  -- If Aᶻ ⊆ᶻ Bᶻ holds, then there exists Cᶻ s.t. Cᶻ ⊎ᶻ Aᶻ ≡˙ Bᶻ
-
-  ⊆ᶻ⇒∑⊎ᶻ :  Aᶻ ⊆ᶻ Bᶻ →  ∑ Cᶻ , Cᶻ ⊎ᶻ Aᶻ ≡˙ Bᶻ
-  ⊆ᶻ⇒∑⊎ᶻ A⊆B .π₀ a =  ≤ᶻ⇒∑+ᶻ (A⊆B a) .π₀
-  ⊆ᶻ⇒∑⊎ᶻ A⊆B .π₁ a =  ≤ᶻ⇒∑+ᶻ (A⊆B a) .π₁
-
   -- ^ᶻ a ⊎ᶻ ^ᶻ a is invalid
 
   ^ᶻ-no2 :  ∀{{_ : ≡Dec A}} {a : A} →  ¬ ✔ᶻ ^ᶻ a ⊎ᶻ ^ᶻ a
   ^ᶻ-no2 {a = a} ✔^a⊎^a  with ✔^a⊎^a a
   … | ✓∞  rewrite ≟-refl {a = a} =  ✓∞
+
+  -- If Aᶻ ⊆ᶻ Bᶻ holds, then Aᶻ ⊎ᶻ (Bᶻ ∖ᶻ Aᶻ) equals Bᶻ
+
+  ⊆ᶻ⇒∖-⊎ˡ :  Aᶻ ⊆ᶻ Bᶻ →  Aᶻ ⊎ᶻ (Bᶻ ∖ᶻ Aᶻ) ≡˙ Bᶻ
+  ⊆ᶻ⇒∖-⊎ˡ A⊆B a =  ≤ᶻ⇒∸-+ˡ (A⊆B a)
+
+  ⊆ᶻ⇒∖-⊎ʳ :  Aᶻ ⊆ᶻ Bᶻ →  (Bᶻ ∖ᶻ Aᶻ) ⊎ᶻ Aᶻ ≡˙ Bᶻ
+  ⊆ᶻ⇒∖-⊎ʳ A⊆B a =  ≤ᶻ⇒∸-+ʳ (A⊆B a)

@@ -103,7 +103,7 @@ abstract
   +ᶻ-assocʳ :  l +ᶻ (m +ᶻ n) ≡ (l +ᶻ m) +ᶻ n
   +ᶻ-assocʳ {l} =  ◠ +ᶻ-assocˡ {l}
 
-  -- ✓ᶻ holds after removal with respect to +ᶻ
+  -- ✓ᶻ is preserved by removal w.r.t. +ᶻ
 
   ✓ᶻ-rem :  ✓ᶻ m +ᶻ n →  ✓ᶻ n
   ✓ᶻ-rem {0ᶻ} =  id

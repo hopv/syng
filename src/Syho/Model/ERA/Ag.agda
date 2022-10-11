@@ -48,7 +48,7 @@ abstract
   ✓ᴸ-[] :  aˇ ✓ᴸ []
   ✓ᴸ-[] _ ()
 
-  -- ✓ˣ holds after removing a list with respect to ⧺
+  -- ✓ˣ is preserved by removal w.r.t. ⧺
 
   ✓ᴸ-rem :  aˇ ✓ᴸ bs ⧺ cs →  aˇ ✓ᴸ cs
   ✓ᴸ-rem ∈bs⧺cs⇒≡a _ c∈cs =  ∈bs⧺cs⇒≡a _ $ ⧺-⊆ᴸ-introʳ c∈cs

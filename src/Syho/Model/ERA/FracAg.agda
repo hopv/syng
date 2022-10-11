@@ -125,7 +125,7 @@ abstract
   ✓ᶠʳ-resp {x = š _} {š _} {š _} (p≈q , bs≈cs) (p≤1 , aˇ✓bs) =
     ≤1ᴿ⁺-resp p≈q p≤1 , ✓ᴸ-resp bs≈cs aˇ✓bs
 
-  -- ✓ᶠʳ holds after removing an element with respect to ∙ᶠʳ
+  -- ✓ᶠʳ is preserved by removal w.r.t. ∙ᶠʳ
 
   ✓ᶠʳ-rem :  aˇ ✓ᶠʳ x ∙ᶠʳ y →  aˇ ✓ᶠʳ y
   ✓ᶠʳ-rem {x = ň} aˇ✓y =  aˇ✓y

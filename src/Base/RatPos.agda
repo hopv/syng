@@ -152,7 +152,7 @@ abstract
   1≤1ᴿ⁺ :  1ᴿ⁺ ≤1ᴿ⁺
   1≤1ᴿ⁺ =  ≤⁺-refl
 
-  -- ≤1ᴿ⁺ holds after removing an addend
+  -- ≤1ᴿ⁺ is preserved by removal w.r.t. +ᴿ⁺
 
   ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
   ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd  with c ≤>⁺ d

@@ -85,7 +85,7 @@ abstract
   ∙ˣ-assocˡ {x = #ˣ _} {#ˣ _} {↯ˣ} =  refl
   ∙ˣ-assocˡ {x = #ˣ _} {#ˣ _} {#ˣ _} =  refl
 
-  -- ✓ˣ holds after removing an element with respect to ∙ˣ
+  -- ✓ˣ is preserved by removal w.r.t. ∙ˣ
 
   ✓ˣ-rem :  aˇ ✓ˣ x ∙ˣ y →  aˇ ✓ˣ y
   ✓ˣ-rem {x = ?ˣ} =  id

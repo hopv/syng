@@ -150,7 +150,7 @@ abstract
   ⌞⌟ᴸᵇ-idem {†ᴸᵇ} =  refl
   ⌞⌟ᴸᵇ-idem {↯ᴸᵇ} =  refl
 
-  -- ✓ᴸᵇ holds after removal with respect to ∙ᴸᵇ
+  -- ✓ᴸᵇ is preserved by removal w.r.t. ∙ᴸᵇ
 
   ✓ᴸᵇ-rem :  ✓ᴸᵇ a ∙ᴸᵇ b →  ✓ᴸᵇ b
   ✓ᴸᵇ-rem {εᴸᵇ} =  id
@@ -200,7 +200,7 @@ Cofinεᴸᵇ =  Cofin˙ (λ _ → _≡ εᴸᵇ)
 
 abstract
 
-  -- Cofinεᴸᵇ is preserved after removal w.r.t. ∙ᴸᵇ˙
+  -- Cofinεᴸᵇ is preserved by removal w.r.t. ∙ᴸᵇ˙
 
   Cofinεᴸᵇ˙-rem :  Cofinεᴸᵇ (a˙ ∙ᴸᵇ˙ b˙) →  Cofinεᴸᵇ b˙
   Cofinεᴸᵇ˙-rem {a˙} {b˙} (n ,-) .π₀ =  n

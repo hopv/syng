@@ -61,10 +61,12 @@ abstract
 
   -- The shared borrow token is persistent
 
-  -->  &ˢ-⇒□ :  &ˢ⟨ α ⟩ P˂˙  ⊢[ ι ]  □ &ˢ⟨ α ⟩ P˂˙
+  instance
 
-  &ˢ-Pers :  Pers $ &ˢ⟨ α ⟩ P˂˙
-  &ˢ-Pers .Pers-⇒□ =  &ˢ-⇒□
+    -->  &ˢ-⇒□ :  &ˢ⟨ α ⟩ P˂˙  ⊢[ ι ]  □ &ˢ⟨ α ⟩ P˂˙
+
+    &ˢ-Pers :  Pers $ &ˢ⟨ α ⟩ P˂˙
+    &ˢ-Pers .Pers-⇒□ =  &ˢ-⇒□
 
   -- Let a lending token eat a basic proposition
 

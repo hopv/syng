@@ -11,17 +11,18 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Dec using ()
 open import Base.Size using (Size; !)
 open import Base.Prod using (_,_; -,_)
-open import Base.Nat using (ℕ; ṡ_)
+open import Base.Nat using (ℕ; ṡ_; _≤_; _⊔_; ≤-refl; ≤-trans; ⊔-introˡ; ⊔-comm)
 open import Base.List using (List; []; _∷_)
 open import Base.Seq using (Seq∞; _∷ˢ_; repˢ; rep²ˢ; takeˢ)
 open import Syho.Lang.Expr using (Addr; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop;
   nddecrloop●-loop)
 open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∃-syntax; ⊤'; ⊥';
-  ⌜_⌝; _∗_; □_; ○_; _↦_; _↦ˢ⟨_⟩_)
-open import Syho.Logic.Core using (Pers; ⊢-refl; _»_; ∃-intro; ∃-elim; ⊤-intro;
-  ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ; ?∗-comm; ∗-elimˡ; ∗-elimʳ;
-  ∗⊤-intro; dup-Pers-∗; -∗-intro; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers)
+  ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↦ˢ⟨_⟩_)
+open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∃-intro; ∃-elim;
+  ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ; ?∗-comm; ∗-elimˡ;
+  ∗-elimʳ; ∗⊤-intro; dup-Pers-∗; -∗-intro; □-mono; □-dup; ∃-Pers; □-elim;
+  □-intro-Pers)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ)
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
 open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use)
@@ -31,7 +32,7 @@ open import Syho.Logic.Bor using ()
 
 private variable
   ι :  Size
-  i k m n :  ℕ
+  i k l m n :  ℕ
   θ θ' :  Addr
   ᵗv :  TyVal
   X :  Set₀
@@ -109,6 +110,12 @@ abstract
   Slist∞ (n ∷ˢ nsˢ˂) α θ =
     ∃ θ' , θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞ (nsˢ˂ .!) α θ' }
 
+  -- Shared-borrowed singly-linked infinite list with a bound
+
+  Slist∞≤ :  ℕ →  Lft →  Addr →  Prop' ι
+  Slist∞≤ k α θ =  ∃ n , ∃ θ' , ⌜ n ≤ k ⌝∧
+    θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞≤ k α θ' }
+
   instance
 
     -- Slist∞ is persistent
@@ -124,6 +131,13 @@ abstract
   Slist∞⇒Slist {k = 0} =  ⇒⇛ ⊤-intro
   Slist∞⇒Slist {_ ∷ˢ _} {k = ṡ k'} =  ∃-elim λ θ' → ∗-monoʳ □-elim »
     ⇛-frameˡ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
+
+  -- Monotonicity of Slist∞≤
+
+  Slist∞≤-mono :  k ≤ l  →   Slist∞≤ k α θ  ⊢[ ι ]  Slist∞≤ l α θ
+  Slist∞≤-mono k≤l =  ∃-elim λ _ → ∃-elim λ _ → ∃-elim λ n≤k →
+    ∗-monoʳ (□-mono $ ○-mono λ{ .! → Slist∞≤-mono k≤l }) »
+    ∃-intro (≤-trans n≤k k≤l) » ∃-intro _ » ∃-intro _
 
   -- Turn a self-pointing pointer into Slist∞ (repˢ n)
   -- The key to this seemingly infinite construction is □○-new-rec
@@ -144,3 +158,19 @@ abstract
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimʳ }) » ∃-intro _)
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimˡ }) » ∃-intro _)) »
     □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
+
+  -- Slist∞ (repˢ n) into Slist∞≤ n
+
+  Slist∞-repˢ⇒Slist∞≤ :  Slist∞ (repˢ n) α θ  ⊢[ ι ]  Slist∞≤ n α θ
+  Slist∞-repˢ⇒Slist∞≤ =  ∃-elim λ _ →
+    ∗-monoʳ (□-mono $ ○-mono λ{ .! → Slist∞-repˢ⇒Slist∞≤ }) »
+    ∃-intro ≤-refl » ∃-intro _ » ∃-intro _
+
+  -- Slist∞ (rep²ˢ m n) into Slist∞≤ (m ⊔ n)
+
+  Slist∞-rep²ˢ⇒Slist∞≤ :  Slist∞ (rep²ˢ m n) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
+  Slist∞-rep²ˢ⇒Slist∞≤ =  ∃-elim λ _ → ∗-monoʳ (□-mono $ ○-mono λ{ .! → go }) »
+    ∃-intro ⊔-introˡ » ∃-intro _ » ∃-intro _
+   where
+    go :  Slist∞ (rep²ˢ n m) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
+    go {n} {m}  rewrite ⊔-comm {m} {n} =  Slist∞-rep²ˢ⇒Slist∞≤

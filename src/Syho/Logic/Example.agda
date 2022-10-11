@@ -6,32 +6,39 @@
 
 module Syho.Logic.Example where
 
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; it)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using ()
 open import Base.Size using (Size; !)
-open import Base.Prod using (-,_)
+open import Base.Prod using (_,_; -,_)
 open import Base.Nat using (ℕ; ṡ_)
+open import Base.List using (List; []; _∷_)
+open import Base.Seq using (Seq∞; _∷ˢ_; repˢ; takeˢ)
 open import Syho.Lang.Expr using (Addr; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop;
   nddecrloop●-loop)
-open import Syho.Logic.Prop using (Prop'; Prop∞; ⊤'; ⊥'; ⌜_⌝; □_; ○_; _↦_)
-open import Syho.Logic.Core using (⊢-refl; _»_; ⌜⌝-intro; ∗-elimˡ; ∗⊤-intro;
-  -∗-intro; □-dup)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
-open import Syho.Logic.Ind using (□○-new-rec)
+open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∃-syntax; ⊤'; ⊥';
+  ⌜_⌝; _∗_; □_; ○_; _↦_; _↦ˢ⟨_⟩_)
+open import Syho.Logic.Core using (Pers; ⊢-refl; _»_; ∃-intro; ∃-elim; ⊤-intro;
+  ⌜⌝-intro; ∗-monoʳ; ∗-comm; ∗-elimˡ; ∗⊤-intro; dup-Pers-∗; -∗-intro; □-mono;
+  □-dup; ∃-Pers; □-elim; □-intro-Pers)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ)
+open import Syho.Logic.Mem using (hor-🞰; hor-←)
+open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞;
   hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind)
-open import Syho.Logic.Mem using (hor-🞰; hor-←)
+open import Syho.Logic.Bor using ()
 
 private variable
   ι :  Size
-  i n :  ℕ
+  i k n :  ℕ
   θ :  Addr
   ᵗv :  TyVal
   X :  Set₀
   P :  Prop∞
   Q˙ :  X → Prop∞
+  α :  Lft
+  nsˢ :  Seq∞ ℕ
 
 -- □ ○ □ ○ □ ○ …
 
@@ -84,3 +91,44 @@ abstract
   ihor-nddecrloop●-loop :  θ ↦ ᵗv  ⊢[ ι ][ i ]⟨ nddecrloop●-loop θ ⟩∞
   ihor-nddecrloop●-loop =  hor-ihor-⁏-bind {e = nddecrloop _} {i = 0}
     horᵀ-nddecrloop λ _ → ihor-[]● λ{ .! → ihor-nddecrloop●-loop }
+
+  ------------------------------------------------------------------------------
+  -- Shared-borrowed singly-linked list
+
+  -- Shared-borrowed singly-linked list over a list
+
+  Slist :  List ℕ →  Lft →  Addr →  Prop∞
+  Slist (n ∷ ns) α θ =  ∃ θ' , θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ Slist ns α θ'
+  Slist [] _ _ =  ⊤'
+
+  -- Shared-borrowed singly-linked list over a sequence
+  -- We leverage here the coinductivity of the indirection modality ○,
+  -- just like Iris's guarded recursion using the later modality ▷
+
+  Slist∞ :  Seq∞ ℕ →  Lft →  Addr →  Prop' ι
+  Slist∞ (n ∷ˢ nsˢ˂) α θ =
+    ∃ θ' , θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞ (nsˢ˂ .!) α θ' }
+
+  instance
+
+    -- Slist∞ is persistent
+
+    Slist∞-Pers :  Pers $ Slist∞ nsˢ α θ
+    Slist∞-Pers {nsˢ = _ ∷ˢ _} =  ∃-Pers λ _ → it
+
+  -- Turn Slist∞ nsˢ into Slist (takeˢ k nsˢ)
+  -- This is under the super update ⇛, which is transitive,
+  -- unlike the later modality ▷ in Iris
+
+  Slist∞⇒Slist :  Slist∞ nsˢ α θ  ⊢[ ι ][ i ]⇛  Slist (takeˢ k nsˢ) α θ
+  Slist∞⇒Slist {k = 0} =  ⇒⇛ ⊤-intro
+  Slist∞⇒Slist {_ ∷ˢ _} {k = ṡ k'} =  ∃-elim λ θ' → ∗-monoʳ □-elim »
+    ⇛-frameˡ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
+
+  -- Turn a self-pointing pointer into Slist∞ (repˢ n)
+  -- The key to this seemingly infinite construction is □○-new-rec
+
+  Slist∞-repˢ-new :  θ ↦ˢ⟨ α ⟩ (-, n , θ)  ⊢[ ι ][ i ]⇛  Slist∞ (repˢ n) α θ
+  Slist∞-repˢ-new =  -∗-intro (□-intro-Pers $ ∗-comm »
+    ∗-monoʳ (□-mono $ ○-mono λ{ .! → ⊢-refl }) » ∃-intro _) »
+    □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use

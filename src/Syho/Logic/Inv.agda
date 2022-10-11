@@ -13,11 +13,11 @@ open import Base.Zoi using (Zoi; _⊆ᶻ_; _∖ᶻ_; ⊆ᶻ⇒∖-⊎ˡ)
 open import Base.Prod using (_,_)
 open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; _∧_; _∗_; _-∗_; [_]ᴺ;
-  Inv; OInv; Basic)
+  [^_]ᴺ; Inv; OInv; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∧-monoˡ;
-  ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ∗⇒∧; -∗-intro;
-  -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»_; ⇛-frameʳ)
+  ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗⇒∧;
+  -∗-intro; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔;
@@ -69,10 +69,6 @@ abstract
 
   -->  OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
 
-  -->  Inv-open :  Inv nm P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
-
-  -->  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
-
   instance
 
     -- An invariant token is persistent
@@ -118,3 +114,14 @@ abstract
 
   Inv-alloc :  P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
   Inv-alloc =  -∗-const » Inv-alloc-rec
+
+  -- Use an invariant token
+
+  -->  Inv-open :  Inv nm P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  OInv nm P˂
+
+  -->  OInv-close :  P˂ .!  ∗  OInv nm P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
+
+  Inv-use :  Q  ∗  P˂ .!  ⊢[ ι ][ i ]⇛  R  ∗  P˂ .!  →
+             Inv nm P˂  ∗  Q  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  R  ∗  [^ nm ]ᴺ
+  Inv-use Q∗P⊢⇛R∗P =  ?∗-comm » ⇛-frameˡ Inv-open ᵘ»ᵘ ∗-assocʳ »
+    ⇛-frameʳ Q∗P⊢⇛R∗P ᵘ»ᵘ ∗-assocˡ » ⇛-frameˡ OInv-close

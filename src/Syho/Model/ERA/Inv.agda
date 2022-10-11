@@ -21,7 +21,7 @@ open import Base.Str using ()
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Zoi using (Zoiᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (?ˣ; #ˣ_; Excᴱᴿᴬ; ✓ˣ-alloc; ✓ˣ-agree)
+open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ✓ˣ-alloc; ✓ˣ-agree)
 open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-alloc; ✓ᴸ-agree)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Prod
@@ -84,7 +84,7 @@ empᴵⁿᵛ =  (λ _ → ň) , 0
 -- Persistently observe a proposition at an index
 
 inv :  ℕ →  Name →  Prop∞ →  Resᴵⁿᵛ
-inv i nm P =  inj˙ᴵⁿᵛᵗᵏ i ([ nm , P ] , ?ˣ) , εᴺᵃᵐᵉˢ
+inv i nm P =  inj˙ᴵⁿᵛᵗᵏ i ([ nm , P ] , εˣ) , εᴺᵃᵐᵉˢ
 
 -- Exclusively own a key of an index
 

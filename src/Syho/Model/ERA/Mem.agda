@@ -21,7 +21,7 @@ open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; TyVal; ⊤-; Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_;
   ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ?ˣ; ✓ˣ-agree; ✓ˣ-alloc;
+open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; εˣ; ✓ˣ-agree; ✓ˣ-alloc;
   ✓ˣ-free)
 open import Syho.Model.ERA.FracAg using (FracAg; _≈ᶠʳ_; _∙ᶠʳ_; FracAgᴱᴿᴬ;
   š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-alloc; ✓ᶠʳ-free)
@@ -117,7 +117,7 @@ infix 9 _↦⟨_⟩ᵇˡᵒ_ _↦ᵇˡᵒ_
 
 _↦⟨_⟩ᵇˡᵒ_ :  ℕ →  ℚ⁺ →  TyVal →  Resᴹᵇˡᵒ
 (i ↦⟨ p ⟩ᵇˡᵒ ᵗv) .π₀ =  inj˙ᴾⁿᵗˢ i $ š (p , [ ᵗv ])
-(_ ↦⟨ _ ⟩ᵇˡᵒ _) .π₁ =  ?ˣ
+(_ ↦⟨ _ ⟩ᵇˡᵒ _) .π₁ =  εˣ
 
 -- ↦ᵇˡᵒ :  ↦⟨ ⟩ᵇˡᵒ with the fraction 1
 
@@ -141,7 +141,7 @@ pnts ň =  ň
 infix 9 ↦ᴸᵇˡᵒ_
 ↦ᴸᵇˡᵒ_ :  List TyVal →  Resᴹᵇˡᵒ
 (↦ᴸᵇˡᵒ ᵗvs) .π₀ i =  pnts $ ᵗvs ‼ i
-(↦ᴸᵇˡᵒ _) .π₁ =  ?ˣ
+(↦ᴸᵇˡᵒ _) .π₁ =  εˣ
 
 abstract
 
@@ -182,7 +182,7 @@ abstract
   … | yes k+ṡi'≡k =
     (≡⇒¬< (◠ k+ṡi'≡k) $ subst (_< k + ṡ i') (+-0 {k}) $ +-smonoʳ 0<ṡ) ▷ λ ()
 
-  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ :  ([∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv) .π₁  ≡  ?ˣ
+  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ :  ([∙ᴹᵇˡᵒ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] i ↦ᵇˡᵒ ᵗv) .π₁  ≡  εˣ
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ {ᵗvs = []} =  refl
   [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ {ᵗvs = _ ∷ ᵗvs'} =  [∙∈ⁱ⟨⟩]↦ᵇˡᵒ-π₁ {ᵗvs = ᵗvs'}
 
@@ -244,7 +244,7 @@ abstract
   -- Lemmas on [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] (o , i) ↦ʳ ᵗv
 
   [∙∈ⁱ⟨⟩]↦ʳ-out :  o' ≢ o →
-    ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] (o , i) ↦ʳ ᵗv) .↓ o'  ≈ᴹᵇˡᵒ  ((λ _ → ň) , ?ˣ)
+    ([∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] (o , i) ↦ʳ ᵗv) .↓ o'  ≈ᴹᵇˡᵒ  ((λ _ → ň) , εˣ)
   [∙∈ⁱ⟨⟩]↦ʳ-out {ᵗvs = []} _ =  _ , refl
   [∙∈ⁱ⟨⟩]↦ʳ-out {o'} {o} {ᵗvs = _ ∷ ᵗvs'} o'≢o  with o' ≟ o
   … | yes refl =  absurd $ o'≢o refl

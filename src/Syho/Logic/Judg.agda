@@ -10,7 +10,7 @@ module Syho.Logic.Judg where
 open import Base.Func using (_∘_; _$_)
 open import Base.Eq using (_≡_; _≢_; _≡˙_)
 open import Base.Dec using (Inh)
-open import Base.Size using (Size; Thunk; ¡_; !)
+open import Base.Size using (Size; Thunk; !)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.Zoi using (Zoi; ✔ᶻ_; _⊎ᶻ_)
 open import Base.Prod using (_×_; _,_; -,_)
@@ -26,10 +26,10 @@ open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]�
   🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (_⇒ᴾ_)
 open import Syho.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂∞;
-  ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_;
-  _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _↪[_]⇛_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_;
-  _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; [_]ᴸ⟨_⟩;
-  [_]ᴸ; †ᴸ_; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; Basic)
+  ¡ᴾ_; ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_;
+  _∗_; _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _↪[_]⇛_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_;
+  _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_;
+  [_]ᴸ⟨_⟩; [_]ᴸ; †ᴸ_; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; Basic)
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -481,7 +481,7 @@ data  Judg ι  where
 
   -- Let ○ eat a basic proposition
 
-  ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ (Q ∗ P˂ .!)
+  ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ᴾ (Q ∗ P˂ .!)
 
   -- Create ○ P by storing P
 
@@ -511,9 +511,9 @@ data  Judg ι  where
                P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q'˂
 
   ↪⇛-eatˡ⁻ʳ :  {{Basic R}}  →
-    R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+    R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
-  ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+  ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
   -- Make ↪⇛ out of ○
 
@@ -540,10 +540,10 @@ data  Judg ι  where
 
   ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
     R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
-      P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+      P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
-                   ¡ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+                   ¡ᴾ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   -- Make ↪⟨ ⟩ᵀ out of ○
 
@@ -573,10 +573,10 @@ data  Judg ι  where
                  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
 
   ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
-    R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
+    R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   ↪⟨⟩-frameˡ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]
-                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
+                  ¡ᴾ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   -- Make ↪⟨ ⟩ out of ○
 
@@ -655,7 +655,7 @@ data  Judg ι  where
 
   -- Let an open invariant token eat a basic proposition
 
-  %ⁱ-eatˡ :  {{Basic Q}}  →   Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
+  %ⁱ-eatˡ :  {{Basic Q}}  →   Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   -- Create &ⁱ⟨ nm ⟩ P˂ by storing P˂ minus &ⁱ⟨ nm ⟩ P˂
 
@@ -710,7 +710,7 @@ data  Judg ι  where
 
   -- Let a lending token eat a basic proposition
 
-  ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ (Q ∗ P˂ .!)
+  ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
 
   -- Modify a shared borrow token using a basic persistent proposition
 
@@ -726,7 +726,7 @@ data  Judg ι  where
   -- Let an open shared borrow token eat a basic proposition
 
   %ˢ-eatˡ :  {{Basic Q}}  →
-    Q  ∗  %ˢ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ˢ⟨ α , p ⟩ ¡ (Q -∗ P˂ .!)
+    Q  ∗  %ˢ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ˢ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   -- Retrieve the proposition from a lender token using a dead lifetime token
 

@@ -11,8 +11,8 @@ open import Base.Size using (Size; Thunk; ¡_; !; _$ᵀʰ_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr∞)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ∀-syntax; _∗_; _-∗_;
-  □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [⊤]ᴺ;
+open import Syho.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ¡ᴾ_; ∀-syntax; _∗_;
+  _-∗_; □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞;
   Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⇒<; ⊢-refl; _»_;
   ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)
@@ -52,9 +52,9 @@ abstract
 
   -- Let ○ eat a basic proposition
 
-  -->  ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ (Q ∗ P˂ .!)
+  -->  ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ι ] ○ ¡ᴾ (Q ∗ P˂ .!)
 
-  ○-eatʳ :  {{Basic Q}} →  ○ P˂ ∗ Q ⊢[ ι ] ○ ¡ (P˂ .! ∗ Q)
+  ○-eatʳ :  {{Basic Q}} →  ○ P˂ ∗ Q ⊢[ ι ] ○ ¡ᴾ (P˂ .! ∗ Q)
   ○-eatʳ =  ∗-comm » ○-eatˡ » ○-mono $ ⇒< ∗-comm
 
   -- Get ○
@@ -86,7 +86,7 @@ abstract
   ↪⇛-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪⇛-eatˡ⁻ˡᵘ $ (∗-elimʳ »_) $ᵀʰ P'⊢⇛P
 
   ↪⇛-eatˡ⁻ˡ :  {{Basic R}}  →
-    R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]⇛ Q˂
+    R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  ¡ᴾ (R -∗ P˂ .!) ↪[ i ]⇛ Q˂
   ↪⇛-eatˡ⁻ˡ =  ↪⇛-eatˡ⁻ˡᵘ $ ⇒< $ ⇒⇛ $ -∗-elim ⊢-refl
 
   ↪⇛-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
@@ -101,12 +101,12 @@ abstract
   ↪⇛-monoʳ Q⊢Q' =  ↪⇛-monoʳᵘ $ ⇒⇛ $ᵀʰ Q⊢Q'
 
   -->  ↪⇛-eatˡ⁻ʳ :  {{Basic R}}  →
-  -->    R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+  -->    R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
   -->  ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]
-  -->                 ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+  -->                 ¡ᴾ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
-  ↪⇛-frameʳ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ (P˂ .! ∗ R) ↪[ i ]⇛ ¡ (Q˂ .! ∗ R)
+  ↪⇛-frameʳ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ᴾ (P˂ .! ∗ R) ↪[ i ]⇛ ¡ᴾ (Q˂ .! ∗ R)
   ↪⇛-frameʳ =  ↪⇛-frameˡ » ↪⇛-monoˡ (⇒< ∗-comm) » ↪⇛-monoʳ $ ⇒< ∗-comm
 
   ------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ abstract
   ↪ᵃ⟨⟩-monoˡᵘ P'⊢⇛P =  ⊤∗-intro » ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ $ (∗-elimʳ »_) $ᵀʰ P'⊢⇛P
 
   ↪ᵃ⟨⟩-eatˡ⁻ˡ :  {{Basic R}}  →
-    R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+    R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  ¡ᴾ (R -∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
   ↪ᵃ⟨⟩-eatˡ⁻ˡ =  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elim ⊢-refl
 
   ↪ᵃ⟨⟩-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
@@ -146,13 +146,13 @@ abstract
 
   -->  ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
   -->    R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
-  -->      P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+  -->      P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   -->  ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
-  -->                  ¡ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+  -->                  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   ↪ᵃ⟨⟩-frameʳ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
-                   ¡ (P˂ .! ∗ R) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (Q˂˙ v .! ∗ R)
+                   ¡ᴾ (P˂ .! ∗ R) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (Q˂˙ v .! ∗ R)
   ↪ᵃ⟨⟩-frameʳ =  ↪ᵃ⟨⟩-frameˡ »
     ↪ᵃ⟨⟩-monoˡ (⇒< ∗-comm) » ↪ᵃ⟨⟩-monoʳ λ _ → ⇒< ∗-comm
 
@@ -168,7 +168,7 @@ abstract
   -->    P˂ .!  ∗  (P˂ ↪⟨ e' ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!
 
   -->  ↪⟨⟩ᵀ-use :  P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
-  -->                ⊢[ ι ]⟨ ¡ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
+  -->                ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
 
   -- Modify ⟨ ⟩ proof
 
@@ -182,7 +182,7 @@ abstract
   ↪⟨⟩-eatˡ⁻ˡᵘ =  ↪⟨⟩-eatˡ⁻ˡᵘᴺ ∘ (⇛⇒⇛ᴺ $ᵀʰ_)
 
   ↪⟨⟩-eatˡ⁻ˡ :  {{Basic R}}  →
-    R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪⟨ e ⟩[ κ ] Q˂˙
+    R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  ¡ᴾ (R -∗ P˂ .!) ↪⟨ e ⟩[ κ ] Q˂˙
   ↪⟨⟩-eatˡ⁻ˡ =  ↪⟨⟩-eatˡ⁻ˡᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elim ⊢-refl
 
   ↪⟨⟩-monoˡᵘᴺ :  P'˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
@@ -210,13 +210,13 @@ abstract
 
   -->  ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
   -->    R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]
-  -->      P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
+  -->      P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   -->  ↪⟨⟩-frameˡ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]
-  -->                  ¡ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
+  -->                  ¡ᴾ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   ↪⟨⟩-frameʳ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]
-                  ¡ (P˂ .! ∗ R) ↪⟨ e ⟩[ κ ] λ v → ¡ (Q˂˙ v .! ∗ R)
+                  ¡ᴾ (P˂ .! ∗ R) ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (Q˂˙ v .! ∗ R)
   ↪⟨⟩-frameʳ =  ↪⟨⟩-frameˡ » ↪⟨⟩-monoˡ (⇒< ∗-comm) » ↪⟨⟩-monoʳ λ _ → ⇒< ∗-comm
 
   ------------------------------------------------------------------------------
@@ -234,7 +234,7 @@ abstract
   ↪⟨⟩∞-eatˡ⁻ᵘ =  ↪⟨⟩∞-eatˡ⁻ᵘᴺ ∘ (⇛⇒⇛ᴺ $ᵀʰ_)
 
   ↪⟨⟩∞-eatˡ :  {{Basic R}}  →
-    R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  ¡ (R -∗ P˂ .!) ↪[ i ]⟨ e ⟩∞
+    R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  ¡ᴾ (R -∗ P˂ .!) ↪[ i ]⟨ e ⟩∞
   ↪⟨⟩∞-eatˡ =  ↪⟨⟩∞-eatˡ⁻ᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elim ⊢-refl
 
   ↪⟨⟩∞-monoᵘᴺ :  Q˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →

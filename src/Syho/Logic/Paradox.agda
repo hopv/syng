@@ -8,13 +8,13 @@ module Syho.Logic.Paradox where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (refl)
-open import Base.Size using (Size; ¡_; !)
+open import Base.Size using (Size; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; loop; Val)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
-open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
+open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ¡ᴾ_; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞)
 open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
   □-mono; □-elim)
@@ -42,7 +42,7 @@ private variable
 -- If we can turn ○ P into P, then we get P after a super update,
 -- thanks to □○-new-rec
 
-○-rec :  ○ ¡ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]⇛ P
+○-rec :  ○ ¡ᴾ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]⇛ P
 ○-rec ○P⊢P =  -∗-intro (∗-elimˡ » □-mono ○P⊢P) » □○-new-rec ᵘ»ᵘ □-elim » ○-use
 
 --------------------------------------------------------------------------------
@@ -55,14 +55,14 @@ module _
 
   -- We can strip ○ from ↪⇛, using ↪⇛-use'
 
-  ○⇒-↪⇛/↪⇛-use' :  ○ ¡ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
+  ○⇒-↪⇛/↪⇛-use' :  ○ ¡ᴾ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
   ○⇒-↪⇛/↪⇛-use' =  ○⇒↪⇛ $ ⇒< ↪⇛-use'
 
   -- Therefore, by ○-rec, we can do any super update --- a paradox!
 
   ⇛/↪⇛-use' :  P  ⊢[ ι ][ i ]⇛  Q
-  ⇛/↪⇛-use' {P} {Q = Q} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec ○⇒-↪⇛/↪⇛-use') ᵘ»ᵘ ↪⇛-use' {¡ P} {¡ Q}
+  ⇛/↪⇛-use' =  ∗⊤-intro »
+    ⇛-frameˡ (○-rec ○⇒-↪⇛/↪⇛-use') ᵘ»ᵘ ↪⇛-use' {¡ᴾ _} {¡ᴾ _}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪ᵃ⟨ ⟩ without level increment, then we get a paradox
@@ -76,7 +76,7 @@ module _
   -- We can strip ○ from ↪ᵃ⟨⟩, using ↪ᵃ⟨⟩-use'
 
   ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use' :
-    ○ ¡ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+    ○ ¡ᴾ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
   ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use' =  ○⇒↪ᵃ⟨⟩ $ ⇒< ↪ᵃ⟨⟩-use'
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
@@ -84,7 +84,7 @@ module _
   ahor/↪ᵃ⟨⟩-use' :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙
   ahor/↪ᵃ⟨⟩-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use') ᵘ»ᵃʰ
-    ↪ᵃ⟨⟩-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
+    ↪ᵃ⟨⟩-use' {P˂ = ¡ᴾ _} {λ v → ¡ᴾ _}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᴾ without pure reduction, then we get a paradox
@@ -97,7 +97,7 @@ module _
 
   -- We can strip ○ from ↪⟨⟩ᴾ, using ↪⟨⟩ᴾ-use'
 
-  ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' :  ○ ¡ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
+  ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' :  ○ ¡ᴾ (P˂ ↪⟨ e ⟩ᴾ Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
   ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use' =  ○⇒↪⟨⟩ $ ⇒< ↪⟨⟩ᴾ-use'
 
   -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
@@ -105,7 +105,7 @@ module _
   horᴾ/↪⟨⟩ᴾ-use' :  P  ⊢[ ι ]⟨ e ⟩ᴾ  Q˙
   horᴾ/↪⟨⟩ᴾ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
-    ↪⟨⟩ᴾ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
+    ↪⟨⟩ᴾ-use' {P˂ = ¡ᴾ P} {λ v → ¡ᴾ Q˙ v}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᵀ without level increment, then we get a paradox
@@ -118,7 +118,7 @@ module _
 
   -- We can strip ○ from ↪⟨⟩ᵀ, using ↪⟨⟩ᵀ-use'
 
-  ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' :  ○ ¡ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
+  ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' :  ○ ¡ᴾ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙
   ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use' =  ○⇒↪⟨⟩ $ ⇒< ↪⟨⟩ᵀ-use'
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
@@ -126,7 +126,7 @@ module _
   horᵀ/↪⟨⟩ᵀ-use' :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  Q˙
   horᵀ/↪⟨⟩ᵀ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
-    ↪⟨⟩ᵀ-use' {P˂ = ¡ P} {λ v → ¡ Q˙ v}
+    ↪⟨⟩ᵀ-use' {P˂ = ¡ᴾ P} {λ v → ¡ᴾ Q˙ v}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᵀ with pure reduction, not level increment,
@@ -141,7 +141,7 @@ module _
   -- We can strip ○ from ↪⟨ loop ⟩ᵀ, using ↪⟨⟩ᵀ-use
 
   ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ :
-    ○ ¡ (P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙
+    ○ ¡ᴾ (P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙
   ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ $ ⇒< $ ↪⟨⟩ᵀ-use⇒ᴾ (-, redᴾ refl)
 
   -- Therefore, by ○-rec, we have any total Hoare triple for the expression
@@ -151,7 +151,7 @@ module _
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ {P} {Q˙ = Q˙} =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ) ᵘ»ʰ
-    ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ P} {λ v → ¡ Q˙ v} (-, redᴾ refl)
+    ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ᴾ P} {λ v → ¡ᴾ _} (-, redᴾ refl)
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩∞ without level increment, then we get a paradox
@@ -164,11 +164,11 @@ module _
 
   -- We can strip ○ from ↪⟨⟩∞, using ↪⟨⟩∞-use'
 
-  ○⇒-↪⟨⟩∞/↪⟨⟩∞-use' :  ○ ¡ (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  P˂ ↪[ i ]⟨ e ⟩∞
+  ○⇒-↪⟨⟩∞/↪⟨⟩∞-use' :  ○ ¡ᴾ (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  P˂ ↪[ i ]⟨ e ⟩∞
   ○⇒-↪⟨⟩∞/↪⟨⟩∞-use' =  ○⇒↪⟨⟩∞ $ ⇒< ↪⟨⟩∞-use'
 
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
   ihor/↪⟨⟩∞-use' :  P  ⊢[ ι ][ i ]⟨ e ⟩∞
   ihor/↪⟨⟩∞-use' {P} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩∞/↪⟨⟩∞-use') ᵘ»ⁱʰ ↪⟨⟩∞-use' {P˂ = ¡ P}
+    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩∞/↪⟨⟩∞-use') ᵘ»ⁱʰ ↪⟨⟩∞-use' {P˂ = ¡ᴾ P}

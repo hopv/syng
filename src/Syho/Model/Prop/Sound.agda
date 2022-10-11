@@ -190,7 +190,7 @@ abstract
 
   ⊢-sem (○-mono P⊢Q) _ =  ○ᵒ-mono $ P⊢Q .!
 
-  -- ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ∞ ] ○ ¡ (Q ∗ P˂ .!)
+  -- ○-eatˡ :  {{Basic Q}} →  Q ∗ ○ P˂ ⊢[ ∞ ] ○ ¡ᴾ (Q ∗ P˂ .!)
 
   ⊢-sem (○-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › ○ᵒ-eatˡ
 
@@ -210,11 +210,11 @@ abstract
   ⊢-sem (↪⇛-monoʳᵘ Q⊢⇛Q') _ =  ↪⇛ᵒ-monoʳᵘ $ Q⊢⇛Q' .!
 
   -- ↪⇛-eatˡ⁻ʳ :  {{Basic R}}  →
-  --   R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+  --   R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
   ⊢-sem (↪⇛-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ʳ
 
-  -- ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  ¡ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ (R ∗ Q˂ .!)
+  -- ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
   ⊢-sem ↪⇛-frameˡ _ =  ↪⇛ᵒ-frameˡ
 
@@ -240,12 +240,12 @@ abstract
 
   -- ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
   --   R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ∞ ]
-  --     P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+  --     P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   ⊢-sem (↪ᵃ⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ
 
   -- ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]
-  --                  ¡ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ (R ∗ Q˂˙ v .!)
+  --                  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   ⊢-sem ↪ᵃ⟨⟩-frameˡ _ =  ↪ᵃ⟨⟩ᵒ-frameˡ
 
@@ -274,12 +274,12 @@ abstract
   ⊢-sem (↪⟨⟩-monoʳᵘᴺ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᵒ-monoʳᵘᴺ λ v → ∀vQ⊢⇛Q' v .!
 
   -- ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
-  --   R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
+  --   R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   ⊢-sem (↪⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ʳ
 
   -- ↪⟨⟩-frameˡ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]
-  --                 ¡ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ (R ∗ Q˂˙ v .!)
+  --                 ¡ᴾ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   ⊢-sem ↪⟨⟩-frameˡ _ =  ↪⟨⟩ᵒ-frameˡ
 
@@ -336,7 +336,7 @@ abstract
   ⊢-sem (%ⁱ-mono P⊢Q) _ =  %ⁱᵒ-mono $ P⊢Q .!
 
   -- %ⁱ-eatˡ :  {{Basic Q}}  →
-  --   Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
+  --   Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ]  %ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   ⊢-sem (%ⁱ-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › %ⁱᵒ-eatˡ
 
@@ -372,7 +372,7 @@ abstract
 
   ⊢-sem (⟨†⟩-mono P⊢Q) =  WIP
 
-  -- ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ ¡ (Q ∗ P˂ .!)
+  -- ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
 
   ⊢-sem ⟨†⟩-eatˡ =  WIP
 
@@ -389,6 +389,6 @@ abstract
   ⊢-sem (%ˢ-mono P⊢Q) =  WIP
 
   -- %ˢ-eatˡ :  {{Basic Q}}  →
-  --   Q  ∗  %ˢ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  %ˢ⟨ α , p ⟩ ¡ (Q -∗ P˂ .!)
+  --   Q  ∗  %ˢ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  %ˢ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   ⊢-sem %ˢ-eatˡ =  WIP

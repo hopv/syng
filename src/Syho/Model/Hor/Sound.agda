@@ -234,7 +234,7 @@ abstract
     ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) › ⁺⟨⟩ᵀᵒ-fork
 
   -- ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
-  --               ⊢[ ∞ ]⟨ ¡ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
+  --               ⊢[ ∞ ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
   -- The level increment ṡ i makes the recursive call of ⊢⁺⟨⟩ᵀ-sem inductive
 
   ⊢⁺⟨⟩ᵀ-sem ↪⟨⟩ᵀ-use =  ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›

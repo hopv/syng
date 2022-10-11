@@ -14,8 +14,8 @@ open import Base.Prod using (_,_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type)
 open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; _∧_; _∗_; _-∗_; [_]ᴺ;
-  [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; Basic)
+open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; ¡ᴾ_; _∧_; _∗_; _-∗_;
+  [_]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∧-monoˡ;
   ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm; ∗⇒∧;
   -∗-intro; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
@@ -109,9 +109,9 @@ abstract
   -- Let an open invariant token eat a basic proposition
 
   -->  %ⁱ-eatˡ :  {{Basic Q}}  →
-  -->    Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
+  -->    Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
-  %ⁱ-eatʳ :  {{Basic Q}} →  %ⁱ⟨ nm ⟩ P˂  ∗  Q  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
+  %ⁱ-eatʳ :  {{Basic Q}} →  %ⁱ⟨ nm ⟩ P˂  ∗  Q  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
   %ⁱ-eatʳ =  ∗-comm » %ⁱ-eatˡ
 
   -- Create &ⁱ⟨ nm ⟩ P˂ by storing P˂

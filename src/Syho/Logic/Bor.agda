@@ -71,9 +71,9 @@ abstract
   -- Let a lending token eat a basic proposition
 
   -->  ⟨†⟩-eatˡ :  {{Basic Q}}  →
-  -->    Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ (Q ∗ P˂ .!)
+  -->    Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
 
-  ⟨†⟩-eatʳ :  {{Basic Q}}  →   ⟨† α ⟩ P˂  ∗  Q  ⊢[ ι ]  ⟨† α ⟩ ¡ (P˂ .! ∗ Q)
+  ⟨†⟩-eatʳ :  {{Basic Q}}  →   ⟨† α ⟩ P˂  ∗  Q  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (P˂ .! ∗ Q)
   ⟨†⟩-eatʳ =  ∗-comm » ⟨†⟩-eatˡ » ⟨†⟩-mono $ ⇒< ∗-comm
 
   -- Modify a shared borrow token
@@ -105,10 +105,10 @@ abstract
   -- Let an open shared borrow token eat a basic proposition
 
   -->  %ˢ-eatˡ :  {{Basic Q}}  →
-  -->    Q  ∗  %ˢ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ˢ⟨ α , p ⟩ ¡ (Q -∗ P˂ .!)
+  -->    Q  ∗  %ˢ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ˢ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   %ˢ-eatʳ :  {{Basic Q}}  →
-    %ˢ⟨ α , p ⟩ P˂  ∗  Q  ⊢[ ι ]  %ˢ⟨ α , p ⟩ ¡ (Q -∗ P˂ .!)
+    %ˢ⟨ α , p ⟩ P˂  ∗  Q  ⊢[ ι ]  %ˢ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
   %ˢ-eatʳ =  ∗-comm » %ˢ-eatˡ
 
   -- Use a shared borrow token

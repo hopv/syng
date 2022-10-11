@@ -522,10 +522,10 @@ abstract
 
   -->  □-dup :  □ P ⊢[ ι ] □ □ P
 
-  -- Introduce ⤇ to the succedent
+  -- Introduce □ to the succedent
 
-  □-intro :  □ P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
-  □-intro □P⊢Q =  □-dup » □-mono □P⊢Q
+  □-intro-□ :  □ P ⊢[ ι ] Q →  □ P ⊢[ ι ] □ Q
+  □-intro-□ □P⊢Q =  □-dup » □-mono □P⊢Q
 
   -- Retain the antecedent when the succedent is under □
 
@@ -547,7 +547,7 @@ abstract
   -- Turn ∧ into ∗ under □
 
   in□-∧⇒∗ :  □ (P ∧ Q) ⊢[ ι ] □ (P ∗ Q)
-  in□-∧⇒∗ =  □-intro $ dup-□ » ∗-mono (□-elim » ∧-elimˡ) (□-elim » ∧-elimʳ)
+  in□-∧⇒∗ =  □-intro-□ $ dup-□ » ∗-mono (□-elim » ∧-elimˡ) (□-elim » ∧-elimʳ)
 
   -- Turn P -∗ into □ P →'
 
@@ -557,7 +557,7 @@ abstract
   -- Turn -∗ into →' under □
 
   in□--∗⇒→ :  □ (P -∗ Q) ⊢[ ι ] □ (P →' Q)
-  in□--∗⇒→ =  □-intro $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
+  in□--∗⇒→ =  □-intro-□ $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
 
   -- ∀, ∧, ∃, ∨ and ∗ commute with □
 
@@ -643,6 +643,11 @@ abstract
 
   ------------------------------------------------------------------------------
   -- Use Pers P
+
+  -- Introduce □ to the succedent
+
+  □-intro-Pers :  {{Pers P}} →  P ⊢[ ι ] Q →  P ⊢[ ι ] □ Q
+  □-intro-Pers P⊢Q =  Pers-⇒□ » □-mono P⊢Q
 
   -- Turn ∧ into ∗ when one argument is persistent
 

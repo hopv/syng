@@ -108,7 +108,7 @@ abstract
 
   -- Let an open invariant token eat a basic proposition
 
-  -->  %ⁱ-eatˡ :  {{Basic Q}} →
+  -->  %ⁱ-eatˡ :  {{Basic Q}}  →
   -->    Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
 
   %ⁱ-eatʳ :  {{Basic Q}} →  %ⁱ⟨ nm ⟩ P˂  ∗  Q  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)

@@ -655,7 +655,7 @@ data  Judg ι  where
 
   -- Let an open invariant token eat a basic proposition
 
-  %ⁱ-eatˡ :  {{Basic Q}} →  Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
+  %ⁱ-eatˡ :  {{Basic Q}}  →   Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
 
   -- Get &ⁱ⟨ nm ⟩ P˂ by storing P˂ minus &ⁱ⟨ nm ⟩ P˂
 

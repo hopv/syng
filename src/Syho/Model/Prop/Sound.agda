@@ -330,7 +330,7 @@ abstract
 
   ⊢-sem (%ⁱ-mono P⊢Q) _ =  %ⁱᵒ-mono $ P⊢Q .!
 
-  -- %ⁱ-eatˡ :  {{Basic Q}} →
+  -- %ⁱ-eatˡ :  {{Basic Q}}  →
   --   Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ]  %ⁱ⟨ nm ⟩ ¡ (Q -∗ P˂ .!)
 
   ⊢-sem (%ⁱ-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › %ⁱᵒ-eatˡ

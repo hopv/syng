@@ -11,8 +11,9 @@ open import Base.Func using (id)
 open import Base.Size using (!)
 open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_;
   _↦⟨_⟩_; Free; ○_; [_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_;
-  _↪[_]⟨_⟩∞; [_]ᴸ⟨_⟩; †ᴸ_; Basic; ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic;
-  ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic; []ᴺ-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic)
+  _↪[_]⟨_⟩∞; [_]ᴸ⟨_⟩; †ᴸ_; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; Basic; ∀-Basic; ∃-Basic;
+  →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic;
+  []ᴺ-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono; ∃ᵒ-mono; →ᵒ-Mono;
@@ -28,6 +29,9 @@ open import Syho.Model.Prop.Inv using (&ⁱ⟨_⟩ᵒ_; %ⁱ⟨_⟩ᵒ_; &ⁱᵒ
 
 private variable
   P :  Prop∞
+
+postulate
+  WIP :  ∀{ł} {A : Set ł} →  A  -- Just for now
 
 --------------------------------------------------------------------------------
 -- ⸨ ⸩ :  Interpret syntactic propositions
@@ -52,6 +56,9 @@ private variable
 ⸨ %ⁱ⟨ nm ⟩ P˂ ⸩ =  %ⁱ⟨ nm ⟩ᵒ P˂ .!
 ⸨ [ α ]ᴸ⟨ p ⟩ ⸩ =  [ α ]ᴸ⟨ p ⟩ᵒ
 ⸨ †ᴸ α ⸩ =  †ᴸᵒ α
+⸨ ⟨† α ⟩ P˂ ⸩ =  WIP
+⸨ &ˢ⟨ α ⟩ P˂˙ ⸩ =  WIP
+⸨ %ˢ⟨ αp ⟩ P˂ ⸩ =  WIP
 
 abstract
 
@@ -77,6 +84,9 @@ abstract
   ⸨⸩-Mono {[ _ ]ᴺ} =  ◎-Mono
   ⸨⸩-Mono {[ _ ]ᴸ⟨ _ ⟩} =  ◎-Mono
   ⸨⸩-Mono {†ᴸ _} =  ◎-Mono
+  ⸨⸩-Mono {⟨† _ ⟩ _} =  WIP
+  ⸨⸩-Mono {&ˢ⟨ _ ⟩ _} =  WIP
+  ⸨⸩-Mono {%ˢ⟨ _ ⟩ _} =  WIP
 
   -- ⸨ ⸩ᴮ agrees with ⸨ ⸩
   -- ⸨⸩-ᴮ⇒ and ⸨⸩-⇒ᴮ are mutually recursive

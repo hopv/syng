@@ -132,7 +132,8 @@ following parts.
         [`Inv`](src/Syho/Logic/Inv.agda) for the impredicative invariant.
         [`Hor`](src/Syho/Logic/Supd.agda) for the Hoare triple;
         [`Mem`](src/Syho/Logic/Mem.agda) for the memory;
-        [`Lft`](src/Syho/Logic/Lft.agda) for the lifetime.
+        [`Lft`](src/Syho/Logic/Lft.agda) for the lifetime;
+        [`Bor`](src/Syho/Logic/Bor.agda) for the borrow.
     + [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof
         rules.
     + [`Example`](src/Syho/Logic/Example.agda) for examples.

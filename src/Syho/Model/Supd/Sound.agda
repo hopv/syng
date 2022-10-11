@@ -17,6 +17,7 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; �
   _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
 open import Syho.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
+open import Syho.Logic.Bor using (⟨†⟩-back; &ˢ-new; &ˢ-open; %ˢ-close)
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
@@ -29,6 +30,9 @@ private variable
   P Q :  Prop∞
   i :  ℕ
   M :  Mem
+
+postulate
+  WIP :  ∀{ł} {A : Set ł} →  A  -- Just for now
 
 --------------------------------------------------------------------------------
 -- ⊢⇛-sem :  Semantic soundness of the super update
@@ -91,6 +95,23 @@ abstract
   -- %ⁱ-close :  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [^ nm ]ᴺ
 
   ⊢⇛-sem %ⁱ-close =  %ⁱᵒ-close › ⇛ᴵⁿᵛ⇒⇛ᵒ
+
+  -- ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!
+
+  ⊢⇛-sem ⟨†⟩-back =  WIP
+
+  -- &ˢ-new :  P˂˙ 1ᴿ⁺ .!  ⊢[ ι ][ i ]⇛  &ˢ⟨ α ⟩ P˂˙  ∗  ⟨† α ⟩ P˂˙ 1ᴿ⁺
+
+  ⊢⇛-sem &ˢ-new =  WIP
+
+  -- &ˢ-open :  &ˢ⟨ α ⟩ P˂˙  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ][ i ]⇛
+  --              ∃ q ,  P˂˙ q .!  ∗  %ˢ⟨ α , p ⟩ P˂˙ q
+
+  ⊢⇛-sem &ˢ-open =  WIP
+
+  -- %ˢ-close :  P˂˙ q .!  ∗  %ˢ⟨ α , p ⟩ P˂˙ q  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
+
+  ⊢⇛-sem %ˢ-close =  WIP
 
   -- Utility for ⇛ᴺ
 

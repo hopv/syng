@@ -18,7 +18,7 @@ open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_; _≤_)
 open import Base.List using (List; len; rep)
 open import Base.Str using ()
-open import Base.RatPos using (ℚ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; Val; V⇒E;
   TyVal; ⊤-)
@@ -29,7 +29,7 @@ open import Syho.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂�
   ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_; _∗_;
   _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _↪[_]⇛_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_;
   _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; [_]ᴸ⟨_⟩;
-  [_]ᴸ; †ᴸ_; Basic)
+  [_]ᴸ; †ᴸ_; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; Basic)
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -171,7 +171,7 @@ private variable
   P P' Q R :  Prop∞
   P˙ Q˙ R˙ :  X → Prop∞
   P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂∞
-  Q˂˙ Q'˂˙ :  X → Prop˂∞
+  P˂˙ Q˂˙ Q'˂˙ :  X → Prop˂∞
   κ :  WpKind
   red :  Redex T
   vk :  Val/Ktxred T
@@ -696,3 +696,51 @@ data  Judg ι  where
   -- Create a new lifetime
 
   []ᴸ-new :  ⊤'  ⊢[ ι ] ⤇  ∃ α , [ α ]ᴸ
+
+  ------------------------------------------------------------------------------
+  -- On borrows
+
+  -- The shared borrow token is persistent
+
+  &ˢ-⇒□ :  &ˢ⟨ α ⟩ P˂˙  ⊢[ ι ]  □ &ˢ⟨ α ⟩ P˂˙
+
+  -- Monotonicity of the lending token
+
+  ⟨†⟩-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ Q˂
+
+  -- Let a lending token eat a basic proposition
+
+  ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ (Q ∗ P˂ .!)
+
+  -- Modify a shared borrow token using a basic persistent proposition
+
+  &ˢ-resp-□∧ :  {{Basic R}}  →
+    (∀{p} →  R  ∧  P˂˙ p .!  ⊢[< ι ]  Q˂˙ p .!)  →
+    (∀{p} →  R  ∧  Q˂˙ p .!  ⊢[< ι ]  P˂˙ p .!)  →
+    □ R  ∧  &ˢ⟨ α ⟩ P˂˙  ⊢[ ι ]  &ˢ⟨ α ⟩ Q˂˙
+
+  -- Monotonicity of the open shared borrow token
+
+  %ˢ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ˢ⟨ α , p ⟩ Q˂  ⊢[ ι ]  %ˢ⟨ α , p ⟩ P˂
+
+  -- Let an open shared borrow token eat a basic proposition
+
+  %ˢ-eatˡ :  {{Basic Q}}  →
+    Q  ∗  %ˢ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ˢ⟨ α , p ⟩ ¡ (Q -∗ P˂ .!)
+
+  -- Retrieve the proposition from a lender token using a dead lifetime token
+
+  ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!
+
+  -- Allocate a proposition to create a new shared borrow
+
+  &ˢ-new :  P˂˙ 1ᴿ⁺ .!  ⊢[ ι ][ i ]⇛  &ˢ⟨ α ⟩ P˂˙  ∗  ⟨† α ⟩ P˂˙ 1ᴿ⁺
+
+  -- Open a shared borrow token
+
+  &ˢ-open :  &ˢ⟨ α ⟩ P˂˙  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ][ i ]⇛
+               ∃ q ,  P˂˙ q .!  ∗  %ˢ⟨ α , p ⟩ P˂˙ q
+
+  -- Close an open shared borrow token
+
+  %ˢ-close :  P˂˙ q .!  ∗  %ˢ⟨ α , p ⟩ P˂˙ q  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩

@@ -73,7 +73,7 @@ private variable
 infix 3 ⤇_ _→'_ _-∗_
 infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
-infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_
+infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ ⟨†_⟩_ &ˢ⟨_⟩_ %ˢ⟨_⟩_
 infix 9 _↦⟨_⟩_
 
 data  Prop' ι  where
@@ -132,6 +132,18 @@ data  Prop' ι  where
 
   -- †ᴸ :  Dead lifetime token
   †ᴸ_ :  Lft →  Prop' ι
+
+  -- ⟨† ⟩ :  Lender token
+
+  ⟨†_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
+
+  -- &ˢ :  Shared borrow token
+
+  &ˢ⟨_⟩_ :  Lft →  (ℚ⁺ → Prop˂ ι) →  Prop' ι
+
+  -- %ˢ :  Open shared borrow token
+
+  %ˢ⟨_⟩_ :  Lft × ℚ⁺ →  Prop˂ ι →  Prop' ι
 
 --------------------------------------------------------------------------------
 -- Utility for ∀/∃

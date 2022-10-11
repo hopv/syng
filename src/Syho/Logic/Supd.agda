@@ -73,7 +73,7 @@ abstract
   -- ⇛ into ⇛ᴺ
 
   ⇛⇒⇛ᴺ :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ i ]⇛ᴺ Q
-  ⇛⇒⇛ᴺ =  ⇛-frameʳ
+  ⇛⇒⇛ᴺ =  ⇛-frameˡ
 
   -- Reflexivity of ⇛ᴺ
 
@@ -100,8 +100,8 @@ abstract
 
   -- Frame for ⇛ᴺ
 
-  ⇛ᴺ-frameˡ :  P ⊢[ ι ][ i ]⇛ᴺ Q →  R ∗ P ⊢[ ι ][ i ]⇛ᴺ R ∗ Q
-  ⇛ᴺ-frameˡ P⊢⇛Q =  ∗-assocˡ » ⇛-frameˡ P⊢⇛Q ᵘ» ∗-assocʳ
-
   ⇛ᴺ-frameʳ :  P ⊢[ ι ][ i ]⇛ᴺ Q →  P ∗ R ⊢[ ι ][ i ]⇛ᴺ Q ∗ R
-  ⇛ᴺ-frameʳ P⊢⇛Q =  ∗-comm »ᵘᴺ ⇛ᴺ-frameˡ P⊢⇛Q ᵘᴺ» ∗-comm
+  ⇛ᴺ-frameʳ P⊢⇛Q =  ∗-assocʳ » ⇛-frameʳ P⊢⇛Q ᵘ» ∗-assocˡ
+
+  ⇛ᴺ-frameˡ :  P ⊢[ ι ][ i ]⇛ᴺ Q →  R ∗ P ⊢[ ι ][ i ]⇛ᴺ R ∗ Q
+  ⇛ᴺ-frameˡ P⊢⇛Q =  ∗-comm »ᵘᴺ ⇛ᴺ-frameʳ P⊢⇛Q ᵘᴺ» ∗-comm

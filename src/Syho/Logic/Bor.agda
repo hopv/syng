@@ -19,7 +19,7 @@ open import Syho.Logic.Prop using (Lft; WpKind; Prop∞; Prop˂∞; ¡ᴾ_; _∧
   _∗_; _-∗_; _↦⟨_⟩_; [_]ᴸ⟨_⟩; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; _↦ˢ⟨_⟩_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⇒<; _»_;
   ∃-elim; ∃-intro; ∧-monoˡ; ∧-elimʳ; ⊤∧-intro; ∗-comm; ∗-assocˡ; ∗-assocʳ;
-  ?∗-comm; ∗⇒∧; ∃∗-elim; ∗∃-elim; Persˡ-∧⇒∗)
+  ?∗-comm; ∗?-comm; ∗⇒∧; ∃∗-elim; ∗∃-elim; Persˡ-∧⇒∗)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[<ᴾ_]⟨_⟩[_]_; _⊢[_]⁺⟨_⟩[_]_;
   _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; ahor-frameʳ; ahor-hor; hor<ᴾ-map)
@@ -116,11 +116,11 @@ abstract
 
   -->  %ˢ-close :  P˂˙ q .!  ∗  %ˢ⟨ α , p ⟩ P˂˙ q  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
 
-  &ˢ-use :  (∀{q} →  Q  ∗  P˂˙ q .!  ⊢[ ι ][ i ]⇛  R  ∗  P˂˙ q .!)  →
-    &ˢ⟨ α ⟩ P˂˙  ∗  Q  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ][ i ]⇛  R  ∗  [ α ]ᴸ⟨ p ⟩
-  &ˢ-use {P˂˙ = P˂˙} Q∗Pq⊢⇛R∗Pq =  ?∗-comm » ⇛-frameˡ &ˢ-open ᵘ»ᵘ ∗∃-elim λ _ →
-    ∗-assocʳ » ⇛-frameʳ Q∗Pq⊢⇛R∗Pq ᵘ»ᵘ ∗-assocˡ »
-    ⇛-frameˡ $ %ˢ-close {P˂˙ = P˂˙}
+  &ˢ-use :  (∀{q} →  P˂˙ q .!  ∗  Q  ⊢[ ι ][ i ]⇛  P˂˙ q .!  ∗  R)  →
+    &ˢ⟨ α ⟩ P˂˙  ∗  [ α ]ᴸ⟨ p ⟩  ∗  Q  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  R
+  &ˢ-use {P˂˙ = P˂˙} Pq∗Q⊢⇛Pq∗R =  ∗-assocʳ » ⇛-frameʳ &ˢ-open ᵘ»ᵘ ∃∗-elim λ _ →
+    ∗?-comm » ⇛-frameʳ Pq∗Q⊢⇛Pq∗R ᵘ»ᵘ ∗-assocˡ » ?∗-comm »
+    ⇛-frameˡ (%ˢ-close {P˂˙ = P˂˙}) ᵘ» ∗-comm
 
   ------------------------------------------------------------------------------
   -- On the shared-borrowed points-to token

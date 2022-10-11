@@ -15,9 +15,9 @@ open import Syho.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ∀-syntax; _∗_
   □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [⊤]ᴺ;
   Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⇒<; ⊢-refl; _»_;
-  ∗-monoˡ; ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)
+  ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)
 open import Syho.Logic.Supd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; _⊢[<_][_]⇛ᴺ_;
-  ⇒⇛; _ᵘ»_; ⇛⇒⇛ᴺ)
+  ⇒⇛; _ᵘ»_; _»ᵘᴺ_; ⇛⇒⇛ᴺ)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using (○-mono; ○-eatˡ; ○-new; □○-new-rec;
@@ -187,7 +187,7 @@ abstract
 
   ↪⟨⟩-monoˡᵘᴺ :  P'˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
                  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-monoˡᵘᴺ P'⊢⇛P =  ⊤∗-intro » ↪⟨⟩-eatˡ⁻ˡᵘᴺ $ (∗-monoˡ ∗-elimʳ »_) $ᵀʰ P'⊢⇛P
+  ↪⟨⟩-monoˡᵘᴺ P'⊢⇛P =  ⊤∗-intro » ↪⟨⟩-eatˡ⁻ˡᵘᴺ $ (∗-elimʳ »ᵘᴺ_) $ᵀʰ P'⊢⇛P
 
   ↪⟨⟩-monoˡᵘ :  P'˂ .!  ⊢[< ι ][ i ]⇛  P˂ .!  →
                 P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
@@ -239,7 +239,7 @@ abstract
 
   ↪⟨⟩∞-monoᵘᴺ :  Q˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
                  P˂ ↪[ j ]⟨ e ⟩∞  ⊢[ ι ]  Q˂ ↪[ j ]⟨ e ⟩∞
-  ↪⟨⟩∞-monoᵘᴺ Q⊢⇛P =  ⊤∗-intro » ↪⟨⟩∞-eatˡ⁻ᵘᴺ $ (∗-monoˡ ∗-elimʳ »_) $ᵀʰ Q⊢⇛P
+  ↪⟨⟩∞-monoᵘᴺ Q⊢⇛P =  ⊤∗-intro » ↪⟨⟩∞-eatˡ⁻ᵘᴺ $ (∗-elimʳ »ᵘᴺ_) $ᵀʰ Q⊢⇛P
 
   ↪⟨⟩∞-monoᵘ :  Q˂ .!  ⊢[< ι ][ i ]⇛  P˂ .!  →
                 P˂ ↪[ j ]⟨ e ⟩∞  ⊢[ ι ]  Q˂ ↪[ j ]⟨ e ⟩∞

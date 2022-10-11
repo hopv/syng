@@ -18,13 +18,13 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; �
 open import Syho.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
 open import Syho.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
 open import Syho.Logic.Bor using (⟨†⟩-back; &ˢ-new; &ˢ-open; %ˢ-close)
-open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out)
+open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-intro)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
 open import Syho.Model.Supd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
 open import Syho.Model.Supd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᵒ-mono;
-  ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-make)
+  ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 
 private variable
   P Q :  Prop∞
@@ -116,4 +116,4 @@ abstract
   -- Utility for ⇛ᴺ
 
   ⊢⇛ᴺ-sem :  P ⊢[ ∞ ][ i ]⇛ᴺ Q →  ⸨ P ⸩ ⊨ ⇛ᴺᵒ ⸨ Q ⸩
-  ⊢⇛ᴺ-sem P⊢⇛Q =  ⇛ᴺᵒ-make λ _ → ⊢⇛-sem P⊢⇛Q
+  ⊢⇛ᴺ-sem P⊢⇛Q =  -∗ᵒ-intro λ _ → ⊢⇛-sem P⊢⇛Q

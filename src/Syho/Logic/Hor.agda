@@ -185,23 +185,23 @@ abstract
 
   -- Compose an atomic Hoare triple and a Hoare triple on the context
 
-  -->  ahorᴺ-hor :  P ∗ [⊤]ᴺ  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  -->  ahorᴺ-hor :  [⊤]ᴺ ∗ P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
   -->               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 
   ahor-hor :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v)  →
               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
-  ahor-hor P⊢⟨red⟩Qv =  ahorᴺ-hor $ ahor-frameʳ P⊢⟨red⟩Qv
+  ahor-hor P⊢⟨red⟩Qv =  ahorᴺ-hor $ ahor-frameˡ P⊢⟨red⟩Qv
 
-  -->  ahorᴺ-ihor :  P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
-  -->               (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
-  -->               P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
+  -->  ahorᴺ-ihor :  [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
+  -->                (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
+  -->                P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
 
   ahor-ihor :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v)  →
                (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
                P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
-  ahor-ihor P⊢⟨red⟩Qv =  ahorᴺ-ihor $ ahor-frameʳ P⊢⟨red⟩Qv
+  ahor-ihor P⊢⟨red⟩Qv =  ahorᴺ-ihor $ ahor-frameˡ P⊢⟨red⟩Qv
 
   -- Value
 

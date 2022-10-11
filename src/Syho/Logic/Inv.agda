@@ -17,7 +17,7 @@ open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; _∧_; _∗_; _-∗_; [_]ᴺ;
   [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∧-monoˡ;
-  ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗⇒∧;
+  ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm; ∗⇒∧;
   -∗-intro; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; ahor-frameʳ)
@@ -127,13 +127,14 @@ abstract
 
   -->  %ⁱ-close :  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
 
-  &ⁱ-use :  Q  ∗  P˂ .!  ⊢[ ι ][ i ]⇛  R  ∗  P˂ .!  →
-            &ⁱ⟨ nm ⟩ P˂  ∗  Q  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  R  ∗  [^ nm ]ᴺ
-  &ⁱ-use Q∗P⊢⇛R∗P =  ?∗-comm » ⇛-frameˡ &ⁱ-open ᵘ»ᵘ ∗-assocʳ »
-    ⇛-frameʳ Q∗P⊢⇛R∗P ᵘ»ᵘ ∗-assocˡ » ⇛-frameˡ %ⁱ-close
+  &ⁱ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  R  →
+            &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ∗  Q  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ  ∗  R
+  &ⁱ-use P∗Q⊢⇛P∗R =  ∗-assocʳ » ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ∗?-comm »
+    ⇛-frameʳ P∗Q⊢⇛P∗R ᵘ»ᵘ ∗-assocˡ » ?∗-comm »
+    ⇛-frameˡ %ⁱ-close ᵘ» ∗-comm
 
-  ahor-&ⁱ-use :  Q  ∗  P˂ .!  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  R˙ v  ∗  P˂ .!)  →
-    &ⁱ⟨ nm ⟩ P˂  ∗  Q  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  R˙ v  ∗  [^ nm ]ᴺ
-  ahor-&ⁱ-use Q∗P⊢⟨red⟩Rv∗P =  ?∗-comm » ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ
-    ∗-assocʳ » ahor-frameʳ Q∗P⊢⟨red⟩Rv∗P ᵃʰ»ᵘ λ _ → ∗-assocˡ »
-    ⇛-frameˡ {i = 0} %ⁱ-close
+  ahor-&ⁱ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  P˂ .!  ∗  R˙ v)  →
+    &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  [^ nm ]ᴺ  ∗  R˙ v
+  ahor-&ⁱ-use P∗Q⊢⟨red⟩P∗Rv =  ∗-assocʳ » ⇛-frameʳ {i = 0} &ⁱ-open ᵘ»ᵃʰ
+    ∗?-comm » ahor-frameʳ P∗Q⊢⟨red⟩P∗Rv ᵃʰ»ᵘ λ _ → ∗-assocˡ » ?∗-comm »
+    ⇛-frameˡ {i = 0} %ⁱ-close ᵘ» ∗-comm

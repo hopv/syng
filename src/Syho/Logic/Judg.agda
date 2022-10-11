@@ -87,7 +87,7 @@ P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 -- ⊢[ ][ ]⇛ᴺ etc. :  Super-update sequent with the universal name set token [⊤]ᴺ
 
 _⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_ :  Prop∞ →  Size →  ℕ →  Prop∞ →  Set₁
-P ⊢[ ι ][ i ]⇛ᴺ Q =  P ∗ [⊤]ᴺ ⊢[ ι ][ i ]⇛ Q ∗ [⊤]ᴺ
+P ⊢[ ι ][ i ]⇛ᴺ Q =  [⊤]ᴺ ∗ P ⊢[ ι ][ i ]⇛ [⊤]ᴺ ∗ Q
 P ⊢[< ι ][ i ]⇛ᴺ Q =  Thunk (P ⊢[_][ i ]⇛ᴺ Q) ι
 
 -- ⊢[ ][ ]ᵃ⟨ ⟩ etc. :  Atomic Hoare triple
@@ -366,11 +366,11 @@ data  Judg ι  where
   -- The premise on the context can be used coinductively for the partial Hoare
   -- triple, and only inductively for the total and infinite Hoare triples
 
-  ahorᴺ-hor :  P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  ahorᴺ-hor :  [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
                (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
                P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 
-  ahorᴺ-ihor :  P ∗ [⊤]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v ∗ [⊤]ᴺ)  →
+  ahorᴺ-ihor :  [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
                 (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
                 P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
 

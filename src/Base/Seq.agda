@@ -53,6 +53,11 @@ tlˢ (_ ∷ˢ as˂) =  as˂
 repˢ :  A →  Seq ι A
 repˢ a =  a ∷ˢ λ{ .! → repˢ a }
 
+-- rep²ˢ :  Just repeat two elements
+
+rep²ˢ :  A →  A →  Seq ι A
+rep²ˢ a b =  a ∷ˢ λ{ .! → rep²ˢ b a }
+
 instance
 
   -- Decide Seq A

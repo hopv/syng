@@ -69,6 +69,27 @@ instance
 
 abstract
 
+  -- ≤ᶻ is reflexive, transitive, and antisymmetric
+
+  ≤ᶻ-refl :  n ≤ᶻ n
+  ≤ᶻ-refl {0ᶻ} =  _
+  ≤ᶻ-refl {1ᶻ} =  _
+  ≤ᶻ-refl {∞ᶻ} =  _
+
+  ≤ᶻ-trans :  l ≤ᶻ m →  m ≤ᶻ n →  l ≤ᶻ n
+  ≤ᶻ-trans {0ᶻ} _ _ =  _
+  ≤ᶻ-trans {1ᶻ} {_} {1ᶻ} _ _ =  _
+  ≤ᶻ-trans {1ᶻ} {_} {∞ᶻ} _ _ =  _
+  ≤ᶻ-trans {∞ᶻ} {_} {∞ᶻ} _ _ =  _
+  ≤ᶻ-trans {1ᶻ} {0ᶻ} {0ᶻ} ()
+  ≤ᶻ-trans {∞ᶻ} {0ᶻ} {0ᶻ} ()
+  ≤ᶻ-trans {∞ᶻ} {0ᶻ} {1ᶻ} ()
+
+  ≤ᶻ-antisym :  m ≤ᶻ n →  n ≤ᶻ m →  m ≡ n
+  ≤ᶻ-antisym {0ᶻ} {0ᶻ} _ _ =  refl
+  ≤ᶻ-antisym {1ᶻ} {1ᶻ} _ _ =  refl
+  ≤ᶻ-antisym {∞ᶻ} {∞ᶻ} _ _ =  refl
+
   -- n +ᶻ 0ᶻ equals n
 
   +ᶻ-0ᶻ :  n +ᶻ 0ᶻ ≡ n

@@ -239,7 +239,7 @@ abstract
   ↪⟨⟩ᵀᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, horᵀ-≤ i≤j P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ :  {{_ : Basic R}} →  (R ∗ P') ⊢[ ∞ ][ i ]⇛ᴺ P →
+  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ᴺ P →
                    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩[ κ ]ᵒ Q˙
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,

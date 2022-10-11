@@ -79,6 +79,13 @@ instance
 
 abstract
 
+  -- ∞ᶻ is the maximum element w.r.t. ≤ᶻ
+
+  ∞ᶻ-max :  n ≤ᶻ ∞ᶻ
+  ∞ᶻ-max {0ᶻ} =  _
+  ∞ᶻ-max {1ᶻ} =  _
+  ∞ᶻ-max {∞ᶻ} =  _
+
   -- ≤ᶻ is reflexive, transitive, and antisymmetric
 
   ≤ᶻ-refl :  n ≤ᶻ n
@@ -88,9 +95,8 @@ abstract
 
   ≤ᶻ-trans :  l ≤ᶻ m →  m ≤ᶻ n →  l ≤ᶻ n
   ≤ᶻ-trans {0ᶻ} _ _ =  _
-  ≤ᶻ-trans {1ᶻ} {_} {1ᶻ} _ _ =  _
-  ≤ᶻ-trans {1ᶻ} {_} {∞ᶻ} _ _ =  _
-  ≤ᶻ-trans {∞ᶻ} {_} {∞ᶻ} _ _ =  _
+  ≤ᶻ-trans {n = ∞ᶻ} _ _ =  ∞ᶻ-max
+  ≤ᶻ-trans {1ᶻ} {1ᶻ} {1ᶻ} _ _ =  _
   ≤ᶻ-trans {1ᶻ} {0ᶻ} {0ᶻ} ()
   ≤ᶻ-trans {∞ᶻ} {0ᶻ} {0ᶻ} ()
   ≤ᶻ-trans {∞ᶻ} {0ᶻ} {1ᶻ} ()
@@ -100,32 +106,28 @@ abstract
   ≤ᶻ-antisym {1ᶻ} {1ᶻ} _ _ =  refl
   ≤ᶻ-antisym {∞ᶻ} {∞ᶻ} _ _ =  refl
 
-  -- ∞ᶻ is the maximum element w.r.t. ≤ᶻ
-
-  ∞ᶻ-max :  n ≤ᶻ ∞ᶻ
-  ∞ᶻ-max {0ᶻ} =  _
-  ∞ᶻ-max {1ᶻ} =  _
-  ∞ᶻ-max {∞ᶻ} =  _
-
   -- n +ᶻ 0ᶻ equals n
 
-  +ᶻ-0ᶻ :  n +ᶻ 0ᶻ ≡ n
-  +ᶻ-0ᶻ {0ᶻ} =  refl
-  +ᶻ-0ᶻ {1ᶻ} =  refl
-  +ᶻ-0ᶻ {∞ᶻ} =  refl
+  +ᶻ-0 :  n +ᶻ 0ᶻ ≡ n
+  +ᶻ-0 {0ᶻ} =  refl
+  +ᶻ-0 {1ᶻ} =  refl
+  +ᶻ-0 {∞ᶻ} =  refl
+
+  -- n +ᶻ ∞ᶻ equals ∞ᶻ
+
+  +ᶻ-∞ :  n +ᶻ ∞ᶻ ≡ ∞ᶻ
+  +ᶻ-∞ {0ᶻ} =  refl
+  +ᶻ-∞ {1ᶻ} =  refl
+  +ᶻ-∞ {∞ᶻ} =  refl
 
   -- +ᶻ is commutative
 
   +ᶻ-comm :  m +ᶻ n ≡ n +ᶻ m
-  +ᶻ-comm {0ᶻ} {0ᶻ} =  refl
-  +ᶻ-comm {0ᶻ} {1ᶻ} =  refl
-  +ᶻ-comm {0ᶻ} {∞ᶻ} =  refl
-  +ᶻ-comm {1ᶻ} {0ᶻ} =  refl
+  +ᶻ-comm {m} {0ᶻ}  rewrite +ᶻ-0 {m} =  refl
+  +ᶻ-comm {0ᶻ} {n}  rewrite +ᶻ-0 {n} =  refl
+  +ᶻ-comm {m} {∞ᶻ}  rewrite +ᶻ-∞ {m} =  refl
+  +ᶻ-comm {∞ᶻ} {n}  rewrite +ᶻ-∞ {n} =  refl
   +ᶻ-comm {1ᶻ} {1ᶻ} =  refl
-  +ᶻ-comm {1ᶻ} {∞ᶻ} =  refl
-  +ᶻ-comm {∞ᶻ} {0ᶻ} =  refl
-  +ᶻ-comm {∞ᶻ} {1ᶻ} =  refl
-  +ᶻ-comm {∞ᶻ} {∞ᶻ} =  refl
 
   -- +ᶻ is associative
 
@@ -240,7 +242,7 @@ abstract
   -- Aᶻ ⊎ᶻ ∅ᶻ equals Aᶻ
 
   ⊎ᶻ-∅ᶻ :  Aᶻ ⊎ᶻ ∅ᶻ ≡˙ Aᶻ
-  ⊎ᶻ-∅ᶻ {Aᶻ = Aᶻ} a =  +ᶻ-0ᶻ {Aᶻ a}
+  ⊎ᶻ-∅ᶻ {Aᶻ = Aᶻ} a =  +ᶻ-0 {Aᶻ a}
 
   -- ⊎ᶻ is commutative
 

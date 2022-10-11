@@ -74,25 +74,33 @@ infix 4 ✓ᴸᵇ_
 
 abstract
 
+  -- a ∙ᴸᵇ εᴸᵇ equals a
+
+  ∙ᴸᵇ-ε :  a ∙ᴸᵇ εᴸᵇ ≡ a
+  ∙ᴸᵇ-ε {εᴸᵇ} =  refl
+  ∙ᴸᵇ-ε {#ᴸᵇ _} =  refl
+  ∙ᴸᵇ-ε {†ᴸᵇ} =  refl
+  ∙ᴸᵇ-ε {↯ᴸᵇ} =  refl
+
+  -- a ∙ᴸᵇ ↯ᴸᵇ equals ↯ᴸᵇ
+
+  ∙ᴸᵇ-↯ :  a ∙ᴸᵇ ↯ᴸᵇ ≡ ↯ᴸᵇ
+  ∙ᴸᵇ-↯ {εᴸᵇ} =  refl
+  ∙ᴸᵇ-↯ {#ᴸᵇ _} =  refl
+  ∙ᴸᵇ-↯ {†ᴸᵇ} =  refl
+  ∙ᴸᵇ-↯ {↯ᴸᵇ} =  refl
+
   -- ∙ᴸᵇ is commutative
 
   ∙ᴸᵇ-comm :  a ∙ᴸᵇ b  ≡  b ∙ᴸᵇ a
-  ∙ᴸᵇ-comm {εᴸᵇ} {εᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {εᴸᵇ} {#ᴸᵇ _} =  refl
-  ∙ᴸᵇ-comm {εᴸᵇ} {†ᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {εᴸᵇ} {↯ᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {#ᴸᵇ _} {εᴸᵇ} =  refl
+  ∙ᴸᵇ-comm {a} {εᴸᵇ}  rewrite ∙ᴸᵇ-ε {a} =  refl
+  ∙ᴸᵇ-comm {εᴸᵇ} {b}  rewrite ∙ᴸᵇ-ε {b} =  refl
+  ∙ᴸᵇ-comm {a} {↯ᴸᵇ}  rewrite ∙ᴸᵇ-↯ {a} =  refl
+  ∙ᴸᵇ-comm {↯ᴸᵇ} {b}  rewrite ∙ᴸᵇ-↯ {b} =  refl
   ∙ᴸᵇ-comm {#ᴸᵇ p} {#ᴸᵇ _} =  cong #ᴸᵇ_ $ +ᴿ⁺-comm {p}
   ∙ᴸᵇ-comm {#ᴸᵇ _} {†ᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {#ᴸᵇ _} {↯ᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {†ᴸᵇ} {εᴸᵇ} =  refl
   ∙ᴸᵇ-comm {†ᴸᵇ} {#ᴸᵇ _} =  refl
   ∙ᴸᵇ-comm {†ᴸᵇ} {†ᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {†ᴸᵇ} {↯ᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {↯ᴸᵇ} {εᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {↯ᴸᵇ} {#ᴸᵇ _} =  refl
-  ∙ᴸᵇ-comm {↯ᴸᵇ} {†ᴸᵇ} =  refl
-  ∙ᴸᵇ-comm {↯ᴸᵇ} {↯ᴸᵇ} =  refl
 
   -- ∙ᴸᵇ is associative
 
@@ -128,11 +136,11 @@ abstract
   ⌞⌟ᴸᵇ-add {#ᴸᵇ _} {εᴸᵇ} =  εᴸᵇ ,  refl
   ⌞⌟ᴸᵇ-add {#ᴸᵇ _} {#ᴸᵇ _} =  εᴸᵇ ,  refl
   ⌞⌟ᴸᵇ-add {#ᴸᵇ _} {†ᴸᵇ} =  ↯ᴸᵇ ,  refl
-  ⌞⌟ᴸᵇ-add {#ᴸᵇ _} {↯ᴸᵇ} =  ↯ᴸᵇ ,  refl
+  ⌞⌟ᴸᵇ-add {#ᴸᵇ _} {↯ᴸᵇ} =  εᴸᵇ ,  refl
   ⌞⌟ᴸᵇ-add {†ᴸᵇ} {εᴸᵇ} =  †ᴸᵇ ,  refl
   ⌞⌟ᴸᵇ-add {†ᴸᵇ} {#ᴸᵇ _} =  ↯ᴸᵇ ,  refl
-  ⌞⌟ᴸᵇ-add {†ᴸᵇ} {†ᴸᵇ} =  †ᴸᵇ ,  refl
-  ⌞⌟ᴸᵇ-add {†ᴸᵇ} {↯ᴸᵇ} =  ↯ᴸᵇ ,  refl
+  ⌞⌟ᴸᵇ-add {†ᴸᵇ} {†ᴸᵇ} =  εᴸᵇ ,  refl
+  ⌞⌟ᴸᵇ-add {†ᴸᵇ} {↯ᴸᵇ} =  εᴸᵇ ,  refl
 
   -- ⌞ a ⌟ᴸᵇ is absorbed by a
 
@@ -154,10 +162,9 @@ abstract
 
   ✓ᴸᵇ-rem :  ✓ᴸᵇ a ∙ᴸᵇ b →  ✓ᴸᵇ b
   ✓ᴸᵇ-rem {εᴸᵇ} =  id
-  ✓ᴸᵇ-rem {#ᴸᵇ _} {εᴸᵇ} _ =  _
+  ✓ᴸᵇ-rem {_} {εᴸᵇ} _ =  _
+  ✓ᴸᵇ-rem {_} {†ᴸᵇ} _ =  _
   ✓ᴸᵇ-rem {#ᴸᵇ p} {#ᴸᵇ _} p+q≤1 =  ≤1ᴿ⁺-rem {p} p+q≤1
-  ✓ᴸᵇ-rem {†ᴸᵇ} {εᴸᵇ} _ =  _
-  ✓ᴸᵇ-rem {†ᴸᵇ} {†ᴸᵇ} _ =  _
 
 --------------------------------------------------------------------------------
 -- Lftbᴱᴿᴬ :  Lifetime box ERA

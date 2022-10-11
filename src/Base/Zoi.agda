@@ -20,7 +20,7 @@ data  Zoi :  Set₀  where
   0ᶻ 1ᶻ ∞ᶻ :  Zoi
 
 private variable
-  l m n :  Zoi
+  k l m n :  Zoi
 
 -- ✓ᶻ :  Validity of a zoi
 
@@ -100,6 +100,13 @@ abstract
   ≤ᶻ-antisym {1ᶻ} {1ᶻ} _ _ =  refl
   ≤ᶻ-antisym {∞ᶻ} {∞ᶻ} _ _ =  refl
 
+  -- ∞ᶻ is the maximum element w.r.t. ≤ᶻ
+
+  ∞ᶻ-max :  n ≤ᶻ ∞ᶻ
+  ∞ᶻ-max {0ᶻ} =  _
+  ∞ᶻ-max {1ᶻ} =  _
+  ∞ᶻ-max {∞ᶻ} =  _
+
   -- n +ᶻ 0ᶻ equals n
 
   +ᶻ-0ᶻ :  n +ᶻ 0ᶻ ≡ n
@@ -139,6 +146,23 @@ abstract
   ✓ᶻ-rem :  ✓ᶻ m +ᶻ n →  ✓ᶻ n
   ✓ᶻ-rem {0ᶻ} =  id
   ✓ᶻ-rem {1ᶻ} {0ᶻ} =  _
+
+  -- +ᶻ is monotone
+
+  +ᶻ-monoˡ :  l ≤ᶻ m →  l +ᶻ n ≤ᶻ m +ᶻ n
+  +ᶻ-monoˡ {_} {∞ᶻ} _ =  ∞ᶻ-max
+  +ᶻ-monoˡ {_} {0ᶻ} {∞ᶻ} _ =  ∞ᶻ-max
+  +ᶻ-monoˡ {_} {1ᶻ} {∞ᶻ} _ =  ∞ᶻ-max
+  +ᶻ-monoˡ {_} {1ᶻ} {1ᶻ} _ =  ∞ᶻ-max
+  +ᶻ-monoˡ {0ᶻ} {_} {0ᶻ} _ =  _
+  +ᶻ-monoˡ {0ᶻ} {0ᶻ} {1ᶻ} _ =  _
+  +ᶻ-monoˡ {1ᶻ} {1ᶻ} {0ᶻ} _ =  _
+
+  +ᶻ-monoʳ :  l ≤ᶻ m →  n +ᶻ l ≤ᶻ n +ᶻ m
+  +ᶻ-monoʳ {l} {m} {n}  rewrite +ᶻ-comm {n} {l} | +ᶻ-comm {n} {m} =  +ᶻ-monoˡ
+
+  +ᶻ-mono :  k ≤ᶻ l →  m ≤ᶻ n →  k +ᶻ m ≤ᶻ l +ᶻ n
+  +ᶻ-mono {l = l} k≤l m≤n =  ≤ᶻ-trans (+ᶻ-monoˡ k≤l) (+ᶻ-monoʳ {n = l} m≤n)
 
   -- m plus n ∸ᶻ m equals n if m ≤ᶻ n
 

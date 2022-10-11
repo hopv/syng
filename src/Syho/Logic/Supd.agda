@@ -8,9 +8,9 @@ module Syho.Logic.Supd where
 
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Size using (Size)
-open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
+open import Base.Nat using (ℕ; _≤ᵈ_; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ṡ≤ᵈṡ; ≤⇒≤ᵈ)
 open import Syho.Logic.Prop using (Prop∞; _∗_; ⤇_)
-open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∗-comm; ∗-assocˡ;
+open import Syho.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∗-comm; ∗-assocˡ;
   ∗-assocʳ; ⤇-intro)
 
 -- Import and re-export
@@ -26,11 +26,18 @@ abstract
 
   -- Level increment
 
-  -->  ⇛-ṡ :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ ṡ i ]⇛ Q
+  -->  ⇛-ṡ :  P ⊢[< ι ][ i ]⇛ Q →  P ⊢[ ι ][ ṡ i ]⇛ Q
+
+  ⇛-<ᵈ :  i <ᵈ j →  P ⊢[< ι ][ i ]⇛ Q →  P ⊢[ ι ][ j ]⇛ Q
+  ⇛-<ᵈ ≤ᵈ-refl =  ⇛-ṡ
+  ⇛-<ᵈ (≤ᵈṡ i<j') =  ⇛-ṡ ∘ ⇒< ∘ ⇛-<ᵈ i<j'
 
   ⇛-≤ᵈ :  i ≤ᵈ j →  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ j ]⇛ Q
   ⇛-≤ᵈ ≤ᵈ-refl =  id
-  ⇛-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ⇛-ṡ ∘ ⇛-≤ᵈ i≤ᵈj'
+  ⇛-≤ᵈ (≤ᵈṡ i≤j') =  ⇛-<ᵈ (ṡ≤ᵈṡ i≤j') ∘ ⇒<
+
+  ⇛-< :  i < j →  P ⊢[< ι ][ i ]⇛ Q →  P ⊢[ ι ][ j ]⇛ Q
+  ⇛-< =  ⇛-<ᵈ ∘ ≤⇒≤ᵈ
 
   ⇛-≤ :  i ≤ j →  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ j ]⇛ Q
   ⇛-≤ =  ⇛-≤ᵈ ∘ ≤⇒≤ᵈ

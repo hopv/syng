@@ -12,7 +12,7 @@ open import Base.Size using (Size; !; _$ᵀʰ_)
 open import Base.Bool using (Bool; tt; ff)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ; _≤ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; ≤⇒≤ᵈ)
+open import Base.Nat using (ℕ; _≤ᵈ_; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ṡ≤ᵈṡ; ≤⇒≤ᵈ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; _∗_; [⊤]ᴺ)
 open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-comm)
@@ -26,12 +26,12 @@ open import Syho.Lang.Reduce using (_⇒ᴾ_; _⇒ᴾ○_; _⇒ᴾ●_; redᴾ)
 -- Import and re-export
 open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
   _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
-  _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
-  _⊢[<_]⟨_⟩ᵀ[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[_][_]⟨_⟩∞; _⊢[<_][_]⟨_⟩∞;
-  hor-ᵀ⇒ᴾ; ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_;
-  _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ; ahor-hor; ahor-ihor; hor-bind; ihor-bind;
-  hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○; ihor-[]●; hor-fork;
-  ihor-fork)
+  _⊢[<_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_;
+  _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[<_][_]⁺⟨_⟩∞;
+  _⊢[_][_]⟨_⟩∞; _⊢[<_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ;
+  _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ; ahor-hor;
+  ahor-ihor; hor-bind; ihor-bind; hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[];
+  ihor-[]○; ihor-[]●; hor-fork; ihor-fork)
 
 private variable
   ι :  Size
@@ -77,33 +77,58 @@ abstract
 
   -- Level increase on the atomic / total Hoare triple
 
-  -->  ahor-ṡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
+  -->  ahor-ṡ :  P  ⊢[< ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
+
+  ahor-<ᵈ :  i <ᵈ j  →   P  ⊢[< ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
+             P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
+  ahor-<ᵈ ≤ᵈ-refl =  ahor-ṡ
+  ahor-<ᵈ (≤ᵈṡ i<j') =  ahor-ṡ ∘ ⇒< ∘ ahor-<ᵈ i<j'
 
   ahor-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
              P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
   ahor-≤ᵈ ≤ᵈ-refl =  id
-  ahor-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ahor-ṡ ∘ ahor-≤ᵈ i≤ᵈj'
+  ahor-≤ᵈ (≤ᵈṡ i≤j') =  ahor-<ᵈ (ṡ≤ᵈṡ i≤j') ∘ ⇒<
+
+  ahor-< :  i < j  →   P  ⊢[< ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
+            P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
+  ahor-< =  ahor-<ᵈ ∘ ≤⇒≤ᵈ
 
   ahor-≤ :  i ≤ j  →   P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
             P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
   ahor-≤ =  ahor-≤ᵈ ∘ ≤⇒≤ᵈ
 
-  -->  horᵀ-ṡ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
+  -->  horᵀ-ṡ :  P  ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
+
+  horᵀ-<ᵈ :  i <ᵈ j  →   P  ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
+             P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
+  horᵀ-<ᵈ ≤ᵈ-refl =  horᵀ-ṡ
+  horᵀ-<ᵈ (≤ᵈṡ i<j') =  horᵀ-ṡ ∘ ⇒< ∘ horᵀ-<ᵈ i<j'
 
   horᵀ-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
              P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
   horᵀ-≤ᵈ ≤ᵈ-refl =  id
-  horᵀ-≤ᵈ (≤ᵈṡ i≤ᵈj') =  horᵀ-ṡ ∘ horᵀ-≤ᵈ i≤ᵈj'
+  horᵀ-≤ᵈ (≤ᵈṡ i≤j') =  horᵀ-<ᵈ (ṡ≤ᵈṡ i≤j') ∘ ⇒<
+
+  horᵀ-< :  i < j  →   P  ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
+            P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
+  horᵀ-< =  horᵀ-<ᵈ ∘ ≤⇒≤ᵈ
 
   horᵀ-≤ :  i ≤ j  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
             P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
   horᵀ-≤ =  horᵀ-≤ᵈ ∘ ≤⇒≤ᵈ
 
-  -->  ihor-ṡ :  P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ ṡ i ]⁺⟨ vk ⟩∞
+  -->  ihor-ṡ :  P  ⊢[< ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ ṡ i ]⁺⟨ vk ⟩∞
+
+  ihor-<ᵈ :  i <ᵈ j  →   P  ⊢[< ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
+  ihor-<ᵈ ≤ᵈ-refl =  ihor-ṡ
+  ihor-<ᵈ (≤ᵈṡ i<j') =  ihor-ṡ ∘ ⇒< ∘ ihor-<ᵈ i<j'
 
   ihor-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
   ihor-≤ᵈ ≤ᵈ-refl =  id
-  ihor-≤ᵈ (≤ᵈṡ i≤ᵈj') =  ihor-ṡ ∘ ihor-≤ᵈ i≤ᵈj'
+  ihor-≤ᵈ (≤ᵈṡ i≤j') =  ihor-ṡ ∘ ⇒< ∘ ihor-≤ᵈ i≤j'
+
+  ihor-< :  i < j  →   P  ⊢[< ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
+  ihor-< =  ihor-<ᵈ ∘ ≤⇒≤ᵈ
 
   ihor-≤ :  i ≤ j  →   P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
   ihor-≤ =  ihor-≤ᵈ ∘ ≤⇒≤ᵈ

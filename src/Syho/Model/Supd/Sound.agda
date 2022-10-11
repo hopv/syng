@@ -7,7 +7,7 @@
 module Syho.Model.Supd.Sound where
 
 open import Base.Func using (_›_)
-open import Base.Size using (∞)
+open import Base.Size using (∞; !)
 open import Base.Prod using (∑-case; _,_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Mem)
@@ -44,9 +44,9 @@ private variable
 
 ⊢⇛-sem (∃-elim Px⊢⇛Q) =   ∑-case λ x → ⊢⇛-sem (Px⊢⇛Q x)
 
--- ⇛-ṡ :  P ⊢[ ∞ ][ i ]⇛ Q →  P ⊢[ ∞ ][ ṡ i ]⇛ Q
+-- ⇛-ṡ :  P ⊢[< ∞ ][ i ]⇛ Q →  P ⊢[ ∞ ][ ṡ i ]⇛ Q
 
-⊢⇛-sem (⇛-ṡ P⊢⇛Q) =  ⊢⇛-sem P⊢⇛Q
+⊢⇛-sem (⇛-ṡ P⊢⇛Q) =  ⊢⇛-sem (P⊢⇛Q .!)
 
 -- ⇛-refl-⤇ :  ⤇ P ⊢[ ∞ ][ i ]⇛ P
 

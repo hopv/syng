@@ -57,8 +57,9 @@ data  JudgRes :  Set₁  where
 
 infix 2 _⊢[_]*_ _⊢[<_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _⊢[_][_]⇛ᴺ_
   _⊢[<_][_]⇛ᴺ_ _⊢[_][_]ᵃ⟨_⟩_ _⊢[<_][_]ᵃ⟨_⟩_ _⊢[_]⁺⟨_⟩[_]_ _⊢[_]⁺⟨_⟩ᴾ_
-  _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[_]⟨_⟩[_]_ _⊢[<_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ[_]_
-  _⊢[<_]⟨_⟩ᵀ[_]_ _⊢[<ᴾ_]⟨_⟩[_]_ _⊢[_][_]⁺⟨_⟩∞ _⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞
+  _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[<_]⁺⟨_⟩ᵀ[_]_ _⊢[_]⟨_⟩[_]_ _⊢[<_]⟨_⟩[_]_ _⊢[_]⟨_⟩ᴾ_
+  _⊢[<_]⟨_⟩ᴾ_ _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_ _⊢[<ᴾ_]⟨_⟩[_]_ _⊢[_][_]⁺⟨_⟩∞
+  _⊢[<_][_]⁺⟨_⟩∞ _⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞
 
 -- Judg ι P Jr :  P ⊢[ ι ]* Jr with the size argument coming first
 
@@ -109,9 +110,10 @@ P ⊢[ ι ]⁺⟨ _ / vk ⟩[ κ ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ κ ] Q˙
 _⊢[_]⁺⟨_⟩ᴾ_ :  Prop∞ →  Size →  Val/Ktxred T →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ par ] Q˙
 
-_⊢[_]⁺⟨_⟩ᵀ[_]_ :
+_⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[<_]⁺⟨_⟩ᵀ[_]_ :
   Prop∞ →  Size →  Val/Ktxred T →  ℕ →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot i ] Q˙
+P ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  Thunk (P ⊢[_]⁺⟨ vk ⟩ᵀ[ i ] Q˙) ι
 
 -- ⊢[ ]⟨ ⟩[ ] etc. :  Hoare triple over Expr
 
@@ -141,8 +143,9 @@ P ⊢[<ᴾ ι ]⟨ e ⟩[ tot i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
 -- This means that the event ● should occur an infinite number of times
 -- in any execution of the program
 
-_⊢[_][_]⁺⟨_⟩∞ :  Prop∞ →  Size →  ℕ →  Val/Ktxred T →  Set₁
+_⊢[_][_]⁺⟨_⟩∞ _⊢[<_][_]⁺⟨_⟩∞ :  Prop∞ →  Size →  ℕ →  Val/Ktxred T →  Set₁
 P ⊢[ ι ][ i ]⁺⟨ vk ⟩∞ =  P ⊢[ ι ]* [ i ]⁺⟨ vk ⟩∞
+P ⊢[< ι ][ i ]⁺⟨ vk ⟩∞ =  Thunk (P ⊢[_][ i ]⁺⟨ vk ⟩∞) ι
 
 _⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞ :  Prop∞ →  Size →  ℕ →  Expr∞ T →  Set₁
 P ⊢[ ι ][ i ]⟨ e ⟩∞ =  P ⊢[ ι ][ i ]⁺⟨ val/ktxred e ⟩∞
@@ -300,7 +303,7 @@ data  Judg ι  where
 
   -- Increment the level of ⇛ by 1
 
-  ⇛-ṡ :  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ ṡ i ]⇛ Q
+  ⇛-ṡ :  P ⊢[< ι ][ i ]⇛ Q →  P ⊢[ ι ][ ṡ i ]⇛ Q
 
   -- ⊢⇛ is reflexive, with removal of ⤇
 
@@ -327,11 +330,11 @@ data  Judg ι  where
 
   -- Level increment on the atomic / total / infinite Hoare triple
 
-  ahor-ṡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
+  ahor-ṡ :  P  ⊢[< ι ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
 
-  horᵀ-ṡ :  P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
+  horᵀ-ṡ :  P  ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
 
-  ihor-ṡ :  P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ ṡ i ]⁺⟨ vk ⟩∞
+  ihor-ṡ :  P  ⊢[< ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ ṡ i ]⁺⟨ vk ⟩∞
 
   -- Compose with a super update
 

@@ -91,6 +91,10 @@ abstract
 
   ⊢ᵃ⟨⟩-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢ᵃ⟨⟩-sem (Px⊢⟨vk⟩Q x)
 
+  -- ahor-ṡ :  P  ⊢[< ∞ ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ∞ ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
+
+  ⊢ᵃ⟨⟩-sem (ahor-ṡ P⊢⟨red⟩Q) =  ⊢ᵃ⟨⟩-sem (P⊢⟨red⟩Q .!)
+
   -- _ᵘ»ᵃʰ_ :  P  ⊢[ ∞ ][ j ]⇛  Q  →   Q  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩  R˙  →
   --           P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩  R˙
 
@@ -103,10 +107,6 @@ abstract
 
   ⊢ᵃ⟨⟩-sem (P⊢⟨red⟩Q ᵃʰ»ᵘ Qv⊢⇛Rv) =  ⊢ᵃ⟨⟩-sem P⊢⟨red⟩Q ›
     ᵃ⟨⟩ᵒ-mono (λ v Qva → ⊢⇛-sem (Qv⊢⇛Rv v) Qva) › ᵃ⟨⟩ᵒ-⇛ᵒ
-
-  -- ahor-ṡ :  P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩  Q˙  →   P  ⊢[ ∞ ][ ṡ i ]ᵃ⟨ red ⟩  Q˙
-
-  ⊢ᵃ⟨⟩-sem (ahor-ṡ P⊢⟨red⟩Q) =  ⊢ᵃ⟨⟩-sem P⊢⟨red⟩Q
 
   -- ahor-frameˡ :  P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩  Q˙  →
   --                R  ∗  P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  R  ∗  Q˙ v
@@ -180,9 +180,9 @@ abstract
 
   ⊢⁺⟨⟩ᵀ-sem (∃-elim Px⊢⟨vk⟩Q) =   ∑-case λ x → ⊢⁺⟨⟩ᵀ-sem (Px⊢⟨vk⟩Q x)
 
-  -- horᵀ-ṡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
+  -- horᵀ-ṡ :  P  ⊢[< ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
 
-  ⊢⁺⟨⟩ᵀ-sem (horᵀ-ṡ P⊢⟨vk⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q
+  ⊢⁺⟨⟩ᵀ-sem (horᵀ-ṡ P⊢⟨vk⟩Q) =  ⊢⁺⟨⟩ᵀ-sem (P⊢⟨vk⟩Q .!)
 
   -- _ᵘᴺ»ʰ_ :  P  ⊢[ ∞ ][ i ]⇛ᴺ  Q  →   Q  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  R˙  →
   --           P  ⊢[ ∞ ]⁺⟨ vk ⟩[ κ ]  R˙
@@ -262,9 +262,9 @@ abstract
 
   ⊢⁺⟨⟩∞-sem (∃-elim Px⊢⟨vk⟩∞) =   ∑-case λ x → ⊢⁺⟨⟩∞-sem (Px⊢⟨vk⟩∞ x)
 
-  -- ihor-ṡ :  P  ⊢[ ∞ ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ∞ ][ ṡ i ]⁺⟨ vk ⟩∞
+  -- ihor-ṡ :  P  ⊢[< ∞ ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ∞ ][ ṡ i ]⁺⟨ vk ⟩∞
 
-  ⊢⁺⟨⟩∞-sem (ihor-ṡ P⊢⟨vk⟩∞) =  ⊢⁺⟨⟩∞-sem P⊢⟨vk⟩∞
+  ⊢⁺⟨⟩∞-sem (ihor-ṡ P⊢⟨vk⟩∞) =  ⊢⁺⟨⟩∞-sem (P⊢⟨vk⟩∞ .!)
 
   -- _ᵘᴺ»ⁱʰ_ :  P  ⊢[ ∞ ][ i ]⇛ᴺ  Q  →   Q  ⊢[ ∞ ][ j ]⁺⟨ vk ⟩∞  →
   --            P  ⊢[ ∞ ][ j ]⁺⟨ vk ⟩∞

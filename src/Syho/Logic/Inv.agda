@@ -34,6 +34,9 @@ private variable
 
 abstract
 
+  ------------------------------------------------------------------------------
+  -- On the name set token
+
   -->  []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ι ] [ Nm' ]ᴺ
 
   -->  []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴺ
@@ -41,6 +44,23 @@ abstract
   -->  []ᴺ-split :  [ Nm ⊎ᶻ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ
 
   -->  []ᴺ-✔ :  [ Nm ]ᴺ  ⊢[ ι ]  ⌜ ✔ᶻ Nm ⌝
+
+  -- Take out a name set token of a subset
+
+  []ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  ([ Nm' ]ᴺ -∗ [ Nm ]ᴺ)
+  []ᴺ-⊆ Nm'⊆Nm  with ⊆ᶻ⇒∑⊎ᶻ Nm'⊆Nm
+  … | Nm'' , Nm''⊎Nm'≡Nm =  []ᴺ-resp (◠˙ Nm''⊎Nm'≡Nm) » []ᴺ-split {Nm = Nm''} »
+    ∗-comm » ∗-monoʳ $ -∗-intro $ ∗-comm » []ᴺ-merge » []ᴺ-resp Nm''⊎Nm'≡Nm
+
+  -- Use only a part of a name set token for super update
+
+  ⇛-[]ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   P  ∗  [ Nm' ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm' ]ᴺ  →
+             P  ∗  [ Nm ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm ]ᴺ
+  ⇛-[]ᴺ-⊆ Nm'⊆Nm P⊢⇛[Nm']Q =  ∗-monoʳ ([]ᴺ-⊆ Nm'⊆Nm) » ∗-assocʳ »
+    ⇛-frameʳ P⊢⇛[Nm']Q ᵘ» ∗-assocˡ » ∗-monoʳ -∗-applyˡ
+
+  ------------------------------------------------------------------------------
+  -- On the invariant and open invariant tokens
 
   -->  OInv-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   OInv nm Q˂  ⊢[ ι ]  OInv nm P˂
 
@@ -93,17 +113,3 @@ abstract
 
   Inv-alloc :  P˂ .!  ⊢[ ι ][ i ]⇛  Inv nm P˂
   Inv-alloc =  -∗-const » Inv-alloc-rec
-
-  -- Take out a name set token of a subset
-
-  []ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  ([ Nm' ]ᴺ -∗ [ Nm ]ᴺ)
-  []ᴺ-⊆ Nm'⊆Nm  with ⊆ᶻ⇒∑⊎ᶻ Nm'⊆Nm
-  … | Nm'' , Nm''⊎Nm'≡Nm =  []ᴺ-resp (◠˙ Nm''⊎Nm'≡Nm) » []ᴺ-split {Nm = Nm''} »
-    ∗-comm » ∗-monoʳ $ -∗-intro $ ∗-comm » []ᴺ-merge » []ᴺ-resp Nm''⊎Nm'≡Nm
-
-  -- Use only a part of a name set token for super update
-
-  ⇛-[]ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   P  ∗  [ Nm' ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm' ]ᴺ  →
-             P  ∗  [ Nm ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm ]ᴺ
-  ⇛-[]ᴺ-⊆ Nm'⊆Nm P⊢⇛[Nm']Q =  ∗-monoʳ ([]ᴺ-⊆ Nm'⊆Nm) » ∗-assocʳ »
-    ⇛-frameʳ P⊢⇛[Nm']Q ᵘ» ∗-assocˡ » ∗-monoʳ -∗-applyˡ

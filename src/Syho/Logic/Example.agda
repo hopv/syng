@@ -17,7 +17,8 @@ open import Base.List using (List; []; _∷_)
 open import Base.RatPos using (ℚ⁺)
 open import Base.Seq using (Seq∞; _∷ˢ_; hdˢ; tlˢ; repˢ; rep²ˢ; takeˢ)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; TyVal; loop)
+open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Type; TyVal;
+  loop)
 open import Syho.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
   ndecrep●∞; cntr←)
 open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∀-syntax; ∃-syntax;
@@ -43,7 +44,8 @@ private variable
   X :  Set₀
   P :  Prop∞
   Q˙ :  X → Prop∞
-  c :  ℕ → Expr˂∞ $ ◸ ℕ
+  T :  Type
+  e˂˙ :  X → Expr˂∞ T
   α :  Lft
   p :  ℚ⁺
   ns : List ℕ
@@ -104,19 +106,21 @@ abstract
 
   -- Specification for a counter
   -- Thanks to the coinductivity of ↪⟨ ⟩ᵀ, we can construct here an infinite
-  -- proposition, where Cntr c itself is returned after executing the counter c
+  -- proposition, where Cntr e˂˙ itself with an updated parameter k + n is
+  -- returned after executing the counter e˂˙
   -- This amounts to construction of a recursive type over a function type
   -- Notably, this spec just states about the observable behaviors and abstracts
   -- the internal state of the function
 
   Cntr :  (ℕ → Expr˂∞ (◸ ℕ)) →  ℕ →  Prop' ι
-  Cntr c n =  ∀' k ,
-    ¡ᴾ ⊤' ↪⟨ c k .! ⟩ᵀ[ 0 ] λ{ m .! → ⌜ m ≡ n ⌝∧ Cntr c (k + n) }
+  Cntr e˂˙ n =  ∀' k ,
+    ¡ᴾ ⊤' ↪⟨ e˂˙ k .! ⟩ᵀ[ 0 ] λ{ m .! → ⌜ m ≡ n ⌝∧ Cntr e˂˙ (k + n) }
 
-  -- Use Cntr c to get a total Hoare triple on c
+  -- Use Cntr e˂˙ to get a total Hoare triple on c
   -- The level of the total Hoare triple is 1, not 0
 
-  Cntr-use :  Cntr c n  ⊢[ ι ]⟨ c k .! ⟩ᵀ[ 1 ] λ m →  ⌜ m ≡ n ⌝∧ Cntr c (k + n)
+  Cntr-use :  Cntr e˂˙ n  ⊢[ ι ]⟨ e˂˙ k .! ⟩ᵀ[ 1 ] λ m →
+                ⌜ m ≡ n ⌝∧ Cntr e˂˙ (k + n)
   Cntr-use =  ∀-elim _ » ⊤∗-intro » ↪⟨⟩ᵀ-use
 
   -- Get Cntr (cntr← θ) n from a full points-to token θ ↦ (-, n)

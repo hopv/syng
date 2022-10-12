@@ -265,7 +265,7 @@ By the rule for `▶`, we get the following lemma on `▶ ▶ ▶ …`.
 On the other hand, a step-indexed logic has the following rule called **Löb
 induction**.
 ```
-▷ P ⊢ P 
+▷ P ⊢ P
 -------
   ⊢ P
 ```

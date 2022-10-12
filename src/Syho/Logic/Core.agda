@@ -19,9 +19,9 @@ open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-
 -- Import and re-export
 open import Syho.Logic.Judg public using (JudgRes; Pure; Judg; _⊢[_]*_;
   _⊢[<_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim;
-  ∀-elim; ∃-intro; choice; →-intro; →-elim; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
-  ∗-assocˡ; -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
-  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
+  ∀-elim; ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro;
+  ∗-comm; ∗-assocˡ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ;
+  ⤇-⌜⌝∧-out; □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 
 private variable
   ι :  Size
@@ -157,24 +157,33 @@ abstract
   ------------------------------------------------------------------------------
   -- On →'
 
-  -->  →-intro :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
+  -- Introduce →'
 
-  -->  →-elim :  Q ⊢[ ι ] P →' R →  P ∧ Q ⊢[ ι ] R
+  -->  →-introˡ :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
 
-  -- Introduce P →'
+  →-introʳ :  Q ∧ P ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
+  →-introʳ Q∧P⊢R =  →-introˡ $ ∧-comm » Q∧P⊢R
 
   →-const :  Q ⊢[ ι ] P →' Q
-  →-const =  →-intro ∧-elimʳ
+  →-const =  →-introˡ ∧-elimʳ
 
-  -- Application on →'
+  -- Eliminate →'
 
-  →-apply :  P ∧ (P →' Q) ⊢[ ι ] Q
-  →-apply =  →-elim ⊢-refl
+  -->  →-elimˡ :  Q ⊢[ ι ] P →' R →  P ∧ Q ⊢[ ι ] R
+
+  →-elimʳ :  Q ⊢[ ι ] P →' R →  Q ∧ P ⊢[ ι ] R
+  →-elimʳ Q⊢P→R =  ∧-comm » →-elimˡ Q⊢P→R
+
+  →-applyˡ :  P ∧ (P →' Q) ⊢[ ι ] Q
+  →-applyˡ =  →-elimˡ ⊢-refl
+
+  →-applyʳ :  (P →' Q) ∧ P ⊢[ ι ] Q
+  →-applyʳ =  →-elimʳ ⊢-refl
 
   -- →' is monotone
 
   →-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  Q →' R ⊢[ ι ] P →' S
-  →-mono P⊢Q R⊢S =  →-intro $ ∧-monoˡ P⊢Q » →-apply » R⊢S
+  →-mono P⊢Q R⊢S =  →-introˡ $ ∧-monoˡ P⊢Q » →-applyˡ » R⊢S
 
   →-monoˡ :  P ⊢[ ι ] Q →  Q →' R ⊢[ ι ] P →' R
   →-monoˡ P⊢Q =  →-mono P⊢Q ⊢-refl
@@ -201,7 +210,7 @@ abstract
   -- ⌜ X ⌝ ∧ is the same with ⌜ X ⌝∧
 
   ⌜⌝'∧⇒⌜⌝∧ :  ⌜ X ⌝ ∧ P ⊢[ ι ] ⌜ X ⌝∧ P
-  ⌜⌝'∧⇒⌜⌝∧ =  ∧-comm » →-elim $ ∃-elim λ x → →-intro $ ∧-elimˡ » ∃-intro x
+  ⌜⌝'∧⇒⌜⌝∧ =  →-elimʳ $ ∃-elim λ x → →-introˡ $ ∧-elimˡ » ∃-intro x
 
   ⌜⌝∧⇒⌜⌝'∧ :  ⌜ X ⌝∧ P ⊢[ ι ] ⌜ X ⌝ ∧ P
   ⌜⌝∧⇒⌜⌝'∧ =  ∃-elim λ x → ∧-intro (⌜⌝-intro x) ⊢-refl
@@ -209,10 +218,10 @@ abstract
   -- ⌜ X ⌝ →' is the same with ⌜ X ⌝→
 
   ⌜⌝'→⇒⌜⌝→ :  ⌜ X ⌝ →' P ⊢[ ι ] ⌜ X ⌝→ P
-  ⌜⌝'→⇒⌜⌝→ =  ∀-intro λ x → ∧-intro (⌜⌝-intro x) ⊢-refl » →-apply
+  ⌜⌝'→⇒⌜⌝→ =  ∀-intro λ x → ∧-intro (⌜⌝-intro x) ⊢-refl » →-applyˡ
 
   ⌜⌝→⇒⌜⌝'→ :  ⌜ X ⌝→ P ⊢[ ι ] ⌜ X ⌝ →' P
-  ⌜⌝→⇒⌜⌝'→ =  →-intro $ ⌜⌝'∧⇒⌜⌝∧ » ∃-elim λ x → ∀-elim x
+  ⌜⌝→⇒⌜⌝'→ =  →-introˡ $ ⌜⌝'∧⇒⌜⌝∧ » ∃-elim λ x → ∀-elim x
 
   -- Turn P ⊢ ⌜ X ⌝ into P ⊢ ⌜ X ⌝∧ P
 
@@ -256,7 +265,7 @@ abstract
   ⌜⌝-→-in =  ⌜⌝'→⇒⌜⌝→ » ⌜⌝-∀-in
 
   ⌜⌝-→-out :  ⌜ (X → Y) ⌝ ⊢[ ι ] ⌜ X ⌝ →' ⌜ Y ⌝
-  ⌜⌝-→-out =  →-intro $ ⌜⌝'∧⇒⌜⌝∧ » ∃-elim λ x → ⌜⌝-mono λ f → f x
+  ⌜⌝-→-out =  →-introˡ $ ⌜⌝'∧⇒⌜⌝∧ » ∃-elim λ x → ⌜⌝-mono λ f → f x
 
   ------------------------------------------------------------------------------
   -- On ∗
@@ -313,7 +322,7 @@ abstract
   -- Let ∃ go outside ∗
 
   ∗∃-out :  P ∗ ∃˙ Q˙ ⊢[ ι ] ∃ x , P ∗ Q˙ x
-  ∗∃-out =  -∗-elim $ ∃-elim $ -∗-intro ∘ ∃-intro
+  ∗∃-out =  -∗-elimˡ $ ∃-elim $ -∗-introˡ ∘ ∃-intro
 
   ∃∗-out :  ∃˙ P˙ ∗ Q ⊢[ ι ] ∃ x , P˙ x ∗ Q
   ∃∗-out =  ∗-comm » ∗∃-out » ∃-mono λ _ → ∗-comm
@@ -440,26 +449,33 @@ abstract
   ------------------------------------------------------------------------------
   -- On -∗
 
-  -->  -∗-intro :  P ∗ Q ⊢[ ι ] R →  Q ⊢[ ι ] P -∗ R
-  -->  -∗-elim :  Q ⊢[ ι ] P -∗ R →  P ∗ Q ⊢[ ι ] R
+  -- Introduce -∗
 
-  -- Introduce P -∗
+  -->  -∗-introˡ :  P ∗ Q ⊢[ ι ] R →  Q ⊢[ ι ] P -∗ R
+
+  -∗-introʳ :  Q ∗ P ⊢[ ι ] R →  Q ⊢[ ι ] P -∗ R
+  -∗-introʳ Q∗P⊢R =  -∗-introˡ $ ∗-comm » Q∗P⊢R
 
   -∗-const :  Q ⊢[ ι ] P -∗ Q
-  -∗-const =  -∗-intro ∗-elimʳ
+  -∗-const =  -∗-introˡ ∗-elimʳ
 
-  -- Apply -∗
+  -- Eliminate -∗
+
+  -->  -∗-elimˡ :  Q ⊢[ ι ] P -∗ R →  P ∗ Q ⊢[ ι ] R
+
+  -∗-elimʳ :  Q ⊢[ ι ] P -∗ R →  Q ∗ P ⊢[ ι ] R
+  -∗-elimʳ Q⊢P-∗R =  ∗-comm » -∗-elimˡ Q⊢P-∗R
 
   -∗-applyˡ :  P ∗ (P -∗ Q) ⊢[ ι ] Q
-  -∗-applyˡ =  -∗-elim ⊢-refl
+  -∗-applyˡ =  -∗-elimˡ ⊢-refl
 
   -∗-applyʳ :  (P -∗ Q) ∗ P ⊢[ ι ] Q
-  -∗-applyʳ =  ∗-comm » -∗-applyˡ
+  -∗-applyʳ =  -∗-elimʳ ⊢-refl
 
   -- -∗ is monotone
 
   -∗-mono :  P ⊢[ ι ] Q →  R ⊢[ ι ] S →  Q -∗ R ⊢[ ι ] P -∗ S
-  -∗-mono P⊢Q R⊢S =  -∗-intro $ ∗-monoˡ P⊢Q » -∗-applyˡ » R⊢S
+  -∗-mono P⊢Q R⊢S =  -∗-introˡ $ ∗-monoˡ P⊢Q » -∗-applyˡ » R⊢S
 
   -∗-monoˡ :  P ⊢[ ι ] Q →  Q -∗ R ⊢[ ι ] P -∗ R
   -∗-monoˡ P⊢Q =  -∗-mono P⊢Q ⊢-refl
@@ -470,7 +486,7 @@ abstract
   -- Turn →' into -∗
 
   →⇒-∗ :  P →' Q ⊢[ ι ] P -∗ Q
-  →⇒-∗ =  -∗-intro $ ∗⇒∧ » →-elim ⊢-refl
+  →⇒-∗ =  -∗-introˡ $ ∗⇒∧ » →-elimˡ ⊢-refl
 
   -- Apply the head magic wand to the succedent
 
@@ -480,7 +496,7 @@ abstract
   -- Let -∗ eat a proposition
 
   -∗-eatʳ :  (P -∗ Q) ∗ R ⊢[ ι ] P -∗ Q ∗ R
-  -∗-eatʳ =  -∗-intro $ ∗-assocʳ » ∗-monoˡ -∗-applyˡ
+  -∗-eatʳ =  -∗-introˡ $ ∗-assocʳ » ∗-monoˡ -∗-applyˡ
 
   -∗-eatˡ :  R ∗ (P -∗ Q) ⊢[ ι ] P -∗ R ∗ Q
   -∗-eatˡ =  ∗-comm » -∗-eatʳ » -∗-monoʳ ∗-comm
@@ -552,12 +568,12 @@ abstract
   -- Turn P -∗ into □ P →'
 
   -∗⇒□→ :  P -∗ Q ⊢[ ι ] □ P →' Q
-  -∗⇒□→ =  →-intro $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-applyˡ
+  -∗⇒□→ =  →-introˡ $ □ˡ-∧⇒∗ » ∗-monoˡ □-elim » -∗-applyˡ
 
   -- Turn -∗ into →' under □
 
   in□--∗⇒→ :  □ (P -∗ Q) ⊢[ ι ] □ (P →' Q)
-  in□--∗⇒→ =  □-intro-□ $ →-intro $ □ʳ-∧⇒∗ » -∗-elim □-elim
+  in□--∗⇒→ =  □-intro-□ $ →-introˡ $ □ʳ-∧⇒∗ » -∗-elimˡ □-elim
 
   -- ∀, ∧, ∃, ∨ and ∗ commute with □
 

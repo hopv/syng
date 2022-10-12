@@ -21,8 +21,8 @@ open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∃-syntax; ⊤'
   ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↦ˢ⟨_⟩_)
 open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∃-intro; ∃-elim;
   ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ; ?∗-comm; ∗-elimˡ;
-  ∗-elimʳ; ∗⊤-intro; dup-Pers-∗; -∗-intro; □-mono; □-dup; ∃-Pers; □-elim;
-  □-intro-Pers)
+  ∗-elimʳ; ∗⊤-intro; dup-Pers-∗; -∗-introˡ; -∗-introʳ; □-mono; □-dup; ∃-Pers;
+  □-elim; □-intro-Pers)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ)
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
 open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use)
@@ -52,7 +52,7 @@ abstract
   -- Get □ ○ □ ○ □ ○ … for free
 
   □○Loop-new :  ⊤' ⊢[ ι ][ i ]⇛ □○Loop
-  □○Loop-new =  -∗-intro (∗-elimˡ » □-dup) » □○-new-rec
+  □○Loop-new =  -∗-introˡ (∗-elimˡ » □-dup) » □○-new-rec
 
   ------------------------------------------------------------------------------
   -- Get any partial Hoare triple on loop
@@ -143,7 +143,7 @@ abstract
   -- The key to this seemingly infinite construction is □○-new-rec
 
   Slist∞-repˢ-new :  θ ↦ˢ⟨ α ⟩ (-, n , θ)  ⊢[ ι ][ i ]⇛  Slist∞ (repˢ n) α θ
-  Slist∞-repˢ-new =  -∗-intro (□-intro-Pers $ ∗-comm »
+  Slist∞-repˢ-new =  -∗-introʳ (□-intro-Pers $
     ∗-monoʳ (□-mono $ ○-mono λ{ .! → ⊢-refl }) » ∃-intro _) »
     □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
 
@@ -153,7 +153,7 @@ abstract
   Slist∞-rep²ˢ-new :
     θ ↦ˢ⟨ α ⟩ (-, m , θ')  ∗  θ' ↦ˢ⟨ α ⟩ (-, n , θ)  ⊢[ ι ][ i ]⇛
       Slist∞ (rep²ˢ m n) α θ  ∗  Slist∞ (rep²ˢ n m) α θ'
-  Slist∞-rep²ˢ-new =  -∗-intro (□-intro-Pers $ dup-Pers-∗ »
+  Slist∞-rep²ˢ-new =  -∗-introˡ (□-intro-Pers $ dup-Pers-∗ »
     ∗-monoʳ ?∗-comm » ∗-assocʳ » ∗-mono
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimʳ }) » ∃-intro _)
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimˡ }) » ∃-intro _)) »

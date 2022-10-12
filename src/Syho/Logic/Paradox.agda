@@ -16,8 +16,8 @@ open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
 open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ¡ᴾ_; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞)
-open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-intro; ∗-elimˡ; ∗⊤-intro;
-  □-mono; □-elim)
+open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-introˡ; ∗-elimˡ;
+  ∗⊤-intro; □-mono; □-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
@@ -43,7 +43,7 @@ private variable
 -- thanks to □○-new-rec
 
 ○-rec :  ○ ¡ᴾ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]⇛ P
-○-rec ○P⊢P =  -∗-intro (∗-elimˡ » □-mono ○P⊢P) » □○-new-rec ᵘ»ᵘ □-elim » ○-use
+○-rec ○P⊢P =  -∗-introˡ (∗-elimˡ » □-mono ○P⊢P) » □○-new-rec ᵘ»ᵘ □-elim » ○-use
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⇛ without level increment, then we get a paradox

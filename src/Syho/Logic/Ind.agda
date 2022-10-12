@@ -15,7 +15,7 @@ open import Syho.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ¡ᴾ_; ∀-synta
   _-∗_; □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞;
   Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⇒<; ⊢-refl; _»_;
-  ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elim; -∗-const)
+  ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elimˡ; -∗-const)
 open import Syho.Logic.Supd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; _⊢[<_][_]⇛ᴺ_;
   ⇒⇛; _ᵘ»_; _»ᵘᴺ_; ⇛⇒⇛ᴺ)
 
@@ -87,7 +87,7 @@ abstract
 
   ↪⇛-eatˡ⁻ˡ :  {{Basic R}}  →
     R ∗ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  ¡ᴾ (R -∗ P˂ .!) ↪[ i ]⇛ Q˂
-  ↪⇛-eatˡ⁻ˡ =  ↪⇛-eatˡ⁻ˡᵘ $ ⇒< $ ⇒⇛ $ -∗-elim ⊢-refl
+  ↪⇛-eatˡ⁻ˡ =  ↪⇛-eatˡ⁻ˡᵘ $ ⇒< $ ⇒⇛ $ -∗-elimˡ ⊢-refl
 
   ↪⇛-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
               P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  P'˂ ↪[ i ]⇛ Q˂
@@ -131,7 +131,7 @@ abstract
 
   ↪ᵃ⟨⟩-eatˡ⁻ˡ :  {{Basic R}}  →
     R ∗ (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]  ¡ᴾ (R -∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
-  ↪ᵃ⟨⟩-eatˡ⁻ˡ =  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elim ⊢-refl
+  ↪ᵃ⟨⟩-eatˡ⁻ˡ =  ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elimˡ ⊢-refl
 
   ↪ᵃ⟨⟩-monoˡ :  P'˂ .! ⊢[< ι ] P˂ .! →
                 P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]  P'˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
@@ -183,7 +183,7 @@ abstract
 
   ↪⟨⟩-eatˡ⁻ˡ :  {{Basic R}}  →
     R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  ¡ᴾ (R -∗ P˂ .!) ↪⟨ e ⟩[ κ ] Q˂˙
-  ↪⟨⟩-eatˡ⁻ˡ =  ↪⟨⟩-eatˡ⁻ˡᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elim ⊢-refl
+  ↪⟨⟩-eatˡ⁻ˡ =  ↪⟨⟩-eatˡ⁻ˡᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elimˡ ⊢-refl
 
   ↪⟨⟩-monoˡᵘᴺ :  P'˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
                  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
@@ -235,7 +235,7 @@ abstract
 
   ↪⟨⟩∞-eatˡ :  {{Basic R}}  →
     R  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ]  ¡ᴾ (R -∗ P˂ .!) ↪[ i ]⟨ e ⟩∞
-  ↪⟨⟩∞-eatˡ =  ↪⟨⟩∞-eatˡ⁻ᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elim ⊢-refl
+  ↪⟨⟩∞-eatˡ =  ↪⟨⟩∞-eatˡ⁻ᵘ {i = 0} $ ⇒< $ ⇒⇛ $ -∗-elimˡ ⊢-refl
 
   ↪⟨⟩∞-monoᵘᴺ :  Q˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →
                  P˂ ↪[ j ]⟨ e ⟩∞  ⊢[ ι ]  Q˂ ↪[ j ]⟨ e ⟩∞

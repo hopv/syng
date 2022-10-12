@@ -26,7 +26,7 @@ open import Syho.Logic.Mem using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
   ahor-cas-ff; ahor-alloc; ahor-free)
 open import Syho.Logic.Ind using (↪ᵃ⟨⟩-use; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use; ↪⟨⟩∞-use)
 open import Syho.Model.Prop.Base using (_⊨_; [∗ᵒ∈ⁱ⟨⟩]-syntax; ∗ᵒ-mono; ∗ᵒ-monoˡ;
-  ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-intro)
+  ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
 open import Syho.Model.Prop.Mem using (_↦ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
@@ -210,7 +210,7 @@ abstract
   --              (∀ v →  Q˙ v  ⊢[ ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᵀ[ j ]  R˙)  →
   --              P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , red) ⟩ᵀ[ j ]  R˙
 
-  ⊢⁺⟨⟩ᵀ-sem (ahorᴺ-hor P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩R) =  -∗ᵒ-intro (λ _ →
+  ⊢⁺⟨⟩ᵀ-sem (ahorᴺ-hor P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩R) =  -∗ᵒ-introˡ (λ _ →
     ⊢ᵃ⟨⟩-sem P⊢⟨red⟩ᴺQ › ᵃ⟨⟩ᵒ-mono λ v → ∗ᵒ-monoʳ $ ⊢⁺⟨⟩ᵀ-sem (Qv⊢⟨Kv⟩R v)) ›
     ᵃ⟨⟩ᴺᵒ-⟨⟩ᵀᵒ
 
@@ -276,7 +276,7 @@ abstract
   --               (∀ v →  Q˙ v  ⊢[ ∞ ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
   --               P  ⊢[ ∞ ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
 
-  ⊢⁺⟨⟩∞-sem (ahorᴺ-ihor P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩∞) =  -∗ᵒ-intro (λ _ →
+  ⊢⁺⟨⟩∞-sem (ahorᴺ-ihor P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩∞) =  -∗ᵒ-introˡ (λ _ →
     ⊢ᵃ⟨⟩-sem P⊢⟨red⟩ᴺQ › ᵃ⟨⟩ᵒ-mono λ v → ∗ᵒ-monoʳ $ ⊢⁺⟨⟩∞-sem (Qv⊢⟨Kv⟩∞ v)) ›
     ᵃ⟨⟩ᴺᵒ-⟨⟩∞ᵒ
 
@@ -371,7 +371,7 @@ abstract
   --              (∀ v →  Q˙ v  ⊢[< ∞ ]⟨ K ᴷ◁ V⇒E v ⟩ᴾ  R˙)  →
   --              P  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , red) ⟩ᴾ  R˙
 
-  ⊢⁺⟨⟩ᴾ-sem (ahorᴺ-hor P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩R) =  -∗ᵒ-intro (λ _ →
+  ⊢⁺⟨⟩ᴾ-sem (ahorᴺ-hor P⊢⟨red⟩ᴺQ Qv⊢⟨Kv⟩R) =  -∗ᵒ-introˡ (λ _ →
     ⊢ᵃ⟨⟩-sem P⊢⟨red⟩ᴺQ › ᵃ⟨⟩ᵒ-mono λ v → ∗ᵒ-monoʳ λ big →
     λ{ .! → big ▷ ⊢⁺⟨⟩ᴾ-sem (Qv⊢⟨Kv⟩R v .!) }) › ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ
 

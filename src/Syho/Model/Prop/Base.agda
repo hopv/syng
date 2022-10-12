@@ -223,11 +223,17 @@ abstract
 
   -- Introduce/eliminate →ᵒ
 
-  →ᵒ-intro :  Monoᵒ Qᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ →ᵒ Rᵒ
-  →ᵒ-intro MonoQ P×Q⊨✓R Qa _ _ a⊑b E✓b Pb =  P×Q⊨✓R E✓b (Pb , MonoQ a⊑b Qa)
+  →ᵒ-introˡ :  Monoᵒ Qᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ →ᵒ Rᵒ
+  →ᵒ-introˡ MonoQ P×Q⊨✓R Qa _ _ a⊑b E✓b Pb =  P×Q⊨✓R E✓b (Pb , MonoQ a⊑b Qa)
 
-  →ᵒ-elim :  Qᵒ ⊨✓ Pᵒ →ᵒ Rᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ
-  →ᵒ-elim Q⊨✓P→R E✓a (Pa , Qa) =  Q⊨✓P→R E✓a Qa _ _ ⊑-refl E✓a Pa
+  →ᵒ-introʳ :  Monoᵒ Qᵒ →  Qᵒ ×ᵒ Pᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ →ᵒ Rᵒ
+  →ᵒ-introʳ MonoQ Q×P⊨✓R =  →ᵒ-introˡ MonoQ λ ✓a (Pa , Qa) → Q×P⊨✓R ✓a (Qa , Pa)
+
+  →ᵒ-elimˡ :  Qᵒ ⊨✓ Pᵒ →ᵒ Rᵒ →  Pᵒ ×ᵒ Qᵒ ⊨✓ Rᵒ
+  →ᵒ-elimˡ Q⊨✓P→R E✓a (Pa , Qa) =  Q⊨✓P→R E✓a Qa _ _ ⊑-refl E✓a Pa
+
+  →ᵒ-elimʳ :  Qᵒ ⊨✓ Pᵒ →ᵒ Rᵒ →  Qᵒ ×ᵒ Pᵒ ⊨✓ Rᵒ
+  →ᵒ-elimʳ Q⊨✓P→R ✓a (Qa , Pa) =  →ᵒ-elimˡ Q⊨✓P→R ✓a (Pa , Qa)
 
 --------------------------------------------------------------------------------
 -- ∗ᵒ :  Semantic separating conjunction
@@ -446,22 +452,30 @@ abstract
   ⊨✓⇒⊨--∗ᵒ P⊨✓Q-∗R Pa _ _ _ a⊑b E✓c∙b =
     P⊨✓Q-∗R (✓-mono (⊑-trans a⊑b ∙-incrˡ) E✓c∙b) Pa _ _ _ a⊑b E✓c∙b
 
-  -- Introduce/eliminate -∗ᵒ
+  -- Introduce -∗ᵒ
 
-  -∗ᵒ-intro :  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
-  -∗ᵒ-intro P∗Q⊨✓R Qa _ _ _ a⊑b E✓c∙b Pc =
+  -∗ᵒ-introˡ :  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
+  -∗ᵒ-introˡ P∗Q⊨✓R Qa _ _ _ a⊑b E✓c∙b Pc =
     P∗Q⊨✓R E✓c∙b (-, -, ∙-monoʳ a⊑b , Pc , Qa)
+
+  -∗ᵒ-introʳ :  Qᵒ ∗ᵒ Pᵒ ⊨✓ Rᵒ →  Qᵒ ⊨ Pᵒ -∗ᵒ Rᵒ
+  -∗ᵒ-introʳ Q∗P⊨✓R =  -∗ᵒ-introˡ λ ✓∙ → ∗ᵒ-comm › Q∗P⊨✓R ✓∙
 
   -∗ᵒ-intro' :  Monoᵒ Pᵒ →  Pᵒ ⊨✓ Qᵒ →  ⊨ Pᵒ -∗ᵒ Qᵒ
   -∗ᵒ-intro' MonoP P⊨✓Q =
-    -∗ᵒ-intro {Qᵒ = ⊤ᵒ₀} (λ ✓∙ → ∗ᵒ-elimˡ MonoP › P⊨✓Q ✓∙) _
+    -∗ᵒ-introˡ {Qᵒ = ⊤ᵒ₀} (λ ✓∙ → ∗ᵒ-elimˡ MonoP › P⊨✓Q ✓∙) _
 
-  -∗ᵒ-elim :  Monoᵒ Rᵒ →  Qᵒ ⊨✓ Pᵒ -∗ᵒ Rᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ
-  -∗ᵒ-elim MonoR Q⊨✓P-∗R E✓a (-, -, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $ Q⊨✓P-∗R
+  -- Eliminate -∗ᵒ
+
+  -∗ᵒ-elimˡ :  Monoᵒ Rᵒ →  Qᵒ ⊨✓ Pᵒ -∗ᵒ Rᵒ →  Pᵒ ∗ᵒ Qᵒ ⊨✓ Rᵒ
+  -∗ᵒ-elimˡ MonoR Q⊨✓P-∗R E✓a (-, -, b∙c⊑a , Pb , Qc) =  MonoR b∙c⊑a $ Q⊨✓P-∗R
     (✓-mono (⊑-trans ∙-incrˡ b∙c⊑a) E✓a) Qc _ _ _ ⊑-refl (✓-mono b∙c⊑a E✓a) Pb
 
+  -∗ᵒ-elimʳ :  Monoᵒ Rᵒ →  Qᵒ ⊨✓ Pᵒ -∗ᵒ Rᵒ →  Qᵒ ∗ᵒ Pᵒ ⊨✓ Rᵒ
+  -∗ᵒ-elimʳ MonoR Q⊨✓P-∗R ✓∙ =  ∗ᵒ-comm › -∗ᵒ-elimˡ MonoR Q⊨✓P-∗R ✓∙
+
   -∗ᵒ-applyˡ :  Monoᵒ Qᵒ →  Pᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨✓ Qᵒ
-  -∗ᵒ-applyˡ MonoQ =  -∗ᵒ-elim MonoQ λ _ → id
+  -∗ᵒ-applyˡ MonoQ =  -∗ᵒ-elimˡ MonoQ λ _ → id
 
   -∗ᵒ-applyʳ :  Monoᵒ Qᵒ →  (Pᵒ -∗ᵒ Qᵒ) ∗ᵒ Pᵒ ⊨✓ Qᵒ
   -∗ᵒ-applyʳ MonoQ ✓∙ =  ∗ᵒ-comm › -∗ᵒ-applyˡ MonoQ ✓∙
@@ -469,7 +483,7 @@ abstract
   -- Let -∗ᵒ eat a proposition
 
   -∗ᵒ-eatʳ :  Monoᵒ Qᵒ →  (Pᵒ -∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ -∗ᵒ Qᵒ ∗ᵒ Rᵒ
-  -∗ᵒ-eatʳ MonoQ =  -∗ᵒ-intro λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ MonoQ) ✓∙
+  -∗ᵒ-eatʳ MonoQ =  -∗ᵒ-introˡ λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ MonoQ) ✓∙
 
   -∗ᵒ-eatˡ :  Monoᵒ Qᵒ →  Rᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨ Pᵒ -∗ᵒ Rᵒ ∗ᵒ Qᵒ
   -∗ᵒ-eatˡ {Qᵒ = Qᵒ} {Rᵒ = Rᵒ} MonoQ =  ∗ᵒ-comm › -∗ᵒ-eatʳ MonoQ ›

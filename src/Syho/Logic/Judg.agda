@@ -227,9 +227,9 @@ data  Judg ι  where
 
   -- → is the right adjoint of ∧
 
-  →-intro :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
+  →-introˡ :  P ∧ Q ⊢[ ι ] R →  Q ⊢[ ι ] P →' R
 
-  →-elim :  Q ⊢[ ι ] P →' R →  P ∧ Q ⊢[ ι ] R
+  →-elimˡ :  Q ⊢[ ι ] P →' R →  P ∧ Q ⊢[ ι ] R
 
   ------------------------------------------------------------------------------
   -- On ∗
@@ -252,9 +252,9 @@ data  Judg ι  where
 
   -- -∗ is the right adjoint of ∗
 
-  -∗-intro :  P ∗ Q ⊢[ ι ] R →  Q ⊢[ ι ] P -∗ R
+  -∗-introˡ :  P ∗ Q ⊢[ ι ] R →  Q ⊢[ ι ] P -∗ R
 
-  -∗-elim :  Q ⊢[ ι ] P -∗ R →  P ∗ Q ⊢[ ι ] R
+  -∗-elimˡ :  Q ⊢[ ι ] P -∗ R →  P ∗ Q ⊢[ ι ] R
 
   ------------------------------------------------------------------------------
   -- On ⤇

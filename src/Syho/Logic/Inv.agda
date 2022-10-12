@@ -18,7 +18,7 @@ open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; ¡ᴾ_; _∧_; _∗
   [_]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∧-monoˡ;
   ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm; ∗⇒∧;
-  -∗-intro; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
+  -∗-introˡ; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; ahor-frameʳ)
 
@@ -61,7 +61,7 @@ abstract
 
   []ᴺ-⊆--∗ :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  ([ Nm' ]ᴺ -∗ [ Nm ]ᴺ)
   []ᴺ-⊆--∗ Nm'⊆Nm =
-    []ᴺ-⊆-split Nm'⊆Nm » ∗-monoʳ $ -∗-intro $ []ᴺ-⊆-merge Nm'⊆Nm
+    []ᴺ-⊆-split Nm'⊆Nm » ∗-monoʳ $ -∗-introˡ $ []ᴺ-⊆-merge Nm'⊆Nm
 
   -- Use only a part of a name set token for super update
 

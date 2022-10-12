@@ -12,8 +12,8 @@ open import Base.Size using (Size; ∞; !)
 open import Base.Prod using (_,_; π₀; π₁; ∑-case)
 open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
-  ∃-intro; choice; →-intro; →-elim; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
-  ∗-assocˡ; -∗-intro; -∗-elim; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
+  ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
+  ∗-assocˡ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 open import Syho.Logic.Mem using (↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1; ↦⟨⟩-agree)
 open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-monoʳᵘ;
@@ -26,8 +26,8 @@ open import Syho.Logic.Lft using ([]ᴸ⟨⟩-merge; []ᴸ⟨⟩-split; []ᴸ⟨
   []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new)
 open import Syho.Logic.Bor using (&ˢ-⇒□; ⟨†⟩-mono; ⟨†⟩-eatˡ; &ˢ-resp-□∧;
   %ˢ-mono; %ˢ-eatˡ)
-open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-intro; →ᵒ-elim; ∗ᵒ-monoˡ;
-  ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-intro; -∗ᵒ-elim;
+open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-monoˡ;
+  ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-introˡ; -∗ᵒ-elimˡ;
   ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-⌜⌝ᵒ×-out; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
   □ᵒˡ-×ᵒ⇒∗ᵒ)
 open import Syho.Model.Prop.Mem using (↦⟨⟩ᵒ-merge; ↦⟨⟩ᵒ-split; ↦⟨⟩ᵒ-≤1;
@@ -89,14 +89,14 @@ abstract
   ⊢-sem choice _ ∀x∃yPxy .π₀ x =  ∀x∃yPxy x .π₀
   ⊢-sem choice _ ∀x∃yPxy .π₁ x =  ∀x∃yPxy x .π₁
 
-  -- →-intro :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
+  -- →-introˡ :  P ∧ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P →' R
 
-  ⊢-sem (→-intro {Q = Q} P∧Q⊢R) _ =
-    →ᵒ-intro (⸨⸩-Mono {Q}) λ ✓b (Pb , Qb) → ⊢-sem P∧Q⊢R ✓b $ binary Pb Qb
+  ⊢-sem (→-introˡ {Q = Q} P∧Q⊢R) _ =
+    →ᵒ-introˡ (⸨⸩-Mono {Q}) λ ✓b (Pb , Qb) → ⊢-sem P∧Q⊢R ✓b $ binary Pb Qb
 
-  -- →-elim :  Q ⊢[ ∞ ] P →' R →  P ∧ Q ⊢[ ∞ ] R
+  -- →-elimˡ :  Q ⊢[ ∞ ] P →' R →  P ∧ Q ⊢[ ∞ ] R
 
-  ⊢-sem (→-elim Q⊢P→R) ✓a P∧Qa =  →ᵒ-elim (⊢-sem Q⊢P→R) ✓a (P∧Qa 0₂ , P∧Qa 1₂)
+  ⊢-sem (→-elimˡ Q⊢P→R) ✓a P∧Qa =  →ᵒ-elimˡ (⊢-sem Q⊢P→R) ✓a (P∧Qa 0₂ , P∧Qa 1₂)
 
   -- ∗-monoˡ :  P ⊢[ ∞ ] Q →  P ∗ R ⊢[ ∞ ] Q ∗ R
 
@@ -118,13 +118,13 @@ abstract
 
   ⊢-sem ∗-assocˡ _ =  ∗ᵒ-assocˡ
 
-  -- -∗-intro :  P ∗ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P -∗ R
+  -- -∗-introˡ :  P ∗ Q ⊢[ ∞ ] R →  Q ⊢[ ∞ ] P -∗ R
 
-  ⊢-sem (-∗-intro P∗Q⊢R) _ =  -∗ᵒ-intro $ ⊢-sem P∗Q⊢R
+  ⊢-sem (-∗-introˡ P∗Q⊢R) _ =  -∗ᵒ-introˡ $ ⊢-sem P∗Q⊢R
 
-  -- -∗-elim :  Q ⊢[ ∞ ] P -∗ R →  P ∗ Q ⊢[ ∞ ] R
+  -- -∗-elimˡ :  Q ⊢[ ∞ ] P -∗ R →  P ∗ Q ⊢[ ∞ ] R
 
-  ⊢-sem (-∗-elim {R = R} Q⊢P-∗R) =  -∗ᵒ-elim (⸨⸩-Mono {R}) $ ⊢-sem Q⊢P-∗R
+  ⊢-sem (-∗-elimˡ {R = R} Q⊢P-∗R) =  -∗ᵒ-elimˡ (⸨⸩-Mono {R}) $ ⊢-sem Q⊢P-∗R
 
   -- ⤇-mono :  P ⊢[ ∞ ] Q →  ⤇ P ⊢[ ∞ ] ⤇ Q
 

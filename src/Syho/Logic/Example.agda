@@ -143,7 +143,7 @@ abstract
     -- Slist∞ is persistent
 
     Slist∞-Pers :  Pers $ Slist∞ nsˢ α θ
-    Slist∞-Pers {nsˢ = _ ∷ˢ _} =  ∃-Pers λ _ → it
+    Slist∞-Pers {_ ∷ˢ _} =  ∃-Pers λ _ → it
 
   -- Turn Slist∞ nsˢ into Slist (takeˢ k nsˢ)
   -- This is under the super update ⇛, which is transitive,

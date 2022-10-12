@@ -54,23 +54,23 @@ ndnat =  nd
 
 -- Repeat decrementing the natural number at the address until it becomes zero
 
-decrloop :  Addr →  Expr ι $ ◸ ⊤
-decrloop' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
+decrep :  Addr →  Expr ι $ ◸ ⊤
+decrep' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
 
-decrloop θ =  let' n := 🞰 ∇ θ in' λ{ .! → decrloop' θ n }
+decrep θ =  let' n := 🞰 ∇ θ in' λ{ .! → decrep' θ n }
 
-decrloop' _ 0 =  ∇ _
-decrloop' θ (ṡ n) =  ∇ θ ← ∇ n ⁏¡ decrloop θ
+decrep' _ 0 =  ∇ _
+decrep' θ (ṡ n) =  ∇ θ ← ∇ n ⁏¡ decrep θ
 
--- decrloop with initialization with ndnat
+-- decrep after initialization by a non-deterministic natural number
 
-nddecrloop :  Addr →  Expr∞ $ ◸ ⊤
-nddecrloop θ =  ∇ θ ← ndnat ⁏¡ decrloop θ
+ndecrep :  Addr →  Expr∞ $ ◸ ⊤
+ndecrep θ =  ∇ θ ← ndnat ⁏¡ decrep θ
 
--- Loop nddecrloop with an event
+-- Loop ndecrep with an event
 
-nddecrloop●-loop :  Addr →  Expr ι $ ◸ ⊤
-nddecrloop●-loop θ =  nddecrloop θ ⁏¡ ● λ{ .! → nddecrloop●-loop θ }
+ndecrep●∞ :  Addr →  Expr ι $ ◸ ⊤
+ndecrep●∞ θ =  ndecrep θ ⁏¡ ● λ{ .! → ndecrep●∞ θ }
 
 --------------------------------------------------------------------------------
 -- Construct reduction

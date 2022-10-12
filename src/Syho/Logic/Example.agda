@@ -15,8 +15,8 @@ open import Base.Nat using (ℕ; ṡ_; _≤_; _⊔_; ≤-refl; ≤-trans; ⊔-in
 open import Base.List using (List; []; _∷_)
 open import Base.Seq using (Seq∞; _∷ˢ_; repˢ; rep²ˢ; takeˢ)
 open import Syho.Lang.Expr using (Addr; TyVal; loop)
-open import Syho.Lang.Example using (plus◁3,4; decrloop; decrloop'; nddecrloop;
-  nddecrloop●-loop)
+open import Syho.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
+  ndecrep●∞)
 open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∃-syntax; ⊤'; ⊥';
   ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↦ˢ⟨_⟩_)
 open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∃-intro; ∃-elim;
@@ -43,16 +43,16 @@ private variable
 
 -- □ ○ □ ○ □ ○ …
 
-□○Loop :  Prop' ι
-□○Loop =  □ ○ λ{ .! → □○Loop }
+□○∞ :  Prop' ι
+□○∞ =  □ ○ λ{ .! → □○∞ }
 
 abstract
 
   ------------------------------------------------------------------------------
-  -- Get □ ○ □ ○ □ ○ … for free
+  -- Get □○∞ for free
 
-  □○Loop-new :  ⊤' ⊢[ ι ][ i ]⇛ □○Loop
-  □○Loop-new =  -∗-introˡ (∗-elimˡ » □-dup) » □○-new-rec
+  □○∞-new :  ⊤' ⊢[ ι ][ i ]⇛ □○∞
+  □○∞-new =  -∗-introˡ (∗-elimˡ » □-dup) » □○-new-rec
 
   ------------------------------------------------------------------------------
   -- Get any partial Hoare triple on loop
@@ -68,30 +68,28 @@ abstract
   horᵀ-plus◁3,4 =  hor-[] $ hor-val $ ⌜⌝-intro refl
 
   ------------------------------------------------------------------------------
-  -- Total Hoare triple on decrloop θ, ensuring termination by induction over n
+  -- Total Hoare triple on decrep θ, ensuring termination by induction over n
 
-  horᵀ-decrloop :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrloop θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
-  horᵀ-decrloop' :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrloop' θ n ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
+  horᵀ-decrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrep θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
+  horᵀ-decrep' :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrep' θ n ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
 
-  horᵀ-decrloop =  ∗⊤-intro » hor-🞰 $ hor-[] $ ∗-elimˡ » horᵀ-decrloop'
+  horᵀ-decrep =  ∗⊤-intro » hor-🞰 $ hor-[] $ ∗-elimˡ » horᵀ-decrep'
 
-  horᵀ-decrloop' {n = 0} =  hor-val ⊢-refl
-  horᵀ-decrloop' {n = ṡ _} =
-    ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » horᵀ-decrloop
+  horᵀ-decrep' {n = 0} =  hor-val ⊢-refl
+  horᵀ-decrep' {n = ṡ _} =  ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » horᵀ-decrep
 
-  -- Total Hoare triple on nddecrloop, ensuring termination
+  -- Total Hoare triple on ndecrep, ensuring termination
   -- Notably, the number of reduction steps is dynamically determined
 
-  horᵀ-nddecrloop :  θ ↦ ᵗv  ⊢[ ι ]⟨ nddecrloop θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
-  horᵀ-nddecrloop =  hor-nd λ _ →
-    ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] horᵀ-decrloop
+  horᵀ-ndecrep :  θ ↦ ᵗv  ⊢[ ι ]⟨ ndecrep θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
+  horᵀ-ndecrep =  hor-nd λ _ → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] horᵀ-decrep
 
   ------------------------------------------------------------------------------
-  -- Infinite Hoare triple for nddecrloop●-loop
+  -- Infinite Hoare triple for ndecrep●∞
 
-  ihor-nddecrloop●-loop :  θ ↦ ᵗv  ⊢[ ι ][ i ]⟨ nddecrloop●-loop θ ⟩∞
-  ihor-nddecrloop●-loop =  hor-ihor-⁏-bind {e = nddecrloop _} {i = 0}
-    horᵀ-nddecrloop λ _ → ihor-[]● λ{ .! → ihor-nddecrloop●-loop }
+  ihor-ndecrep●∞ :  θ ↦ ᵗv  ⊢[ ι ][ i ]⟨ ndecrep●∞ θ ⟩∞
+  ihor-ndecrep●∞ =  hor-ihor-⁏-bind {e = ndecrep _} {i = 0}
+    horᵀ-ndecrep λ _ → ihor-[]● λ{ .! → ihor-ndecrep●∞ }
 
   ------------------------------------------------------------------------------
   -- Shared-borrowed singly-linked list

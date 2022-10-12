@@ -51,7 +51,7 @@ data  Prop' (ι : Size) :  Set₁
 Prop˂ :  Size →  Set₁
 Prop˂ ι =  Thunk Prop' ι
 
--- Utility
+-- Utility for ∞
 
 Prop∞ Prop˂∞ :  Set₁
 Prop∞ =  Prop' ∞
@@ -75,6 +75,7 @@ infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
 infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ ⟨†_⟩_ &ˢ⟨_⟩_ %ˢ⟨_⟩_
 infix 9 _↦⟨_⟩_
+
 
 data  Prop' ι  where
 
@@ -110,10 +111,10 @@ data  Prop' ι  where
   _↪[_]⇛_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
 
   -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare-triple precursor, with a level
-  _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂∞) →  Prop' ι
+  _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂ ι) →  Prop' ι
 
   -- ↪⟨ ⟩[ ] :  Hoare-triple precursor
-  _↪⟨_⟩[_]_ :  Prop˂ ι →  Expr∞ T →  WpKind →  (Val T → Prop˂∞) →  Prop' ι
+  _↪⟨_⟩[_]_ :  Prop˂ ι →  Expr∞ T →  WpKind →  (Val T → Prop˂ ι) →  Prop' ι
 
   -- ↪[ ]⟨ ⟩∞ :  Infinite Hoare-triple precursor, with a level
   _↪[_]⟨_⟩∞ :  Prop˂ ι →  ℕ →  Expr∞ T →  Prop' ι
@@ -240,10 +241,10 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 
 infixr 5 _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
 
-_↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr∞ T →  (Val T → Prop˂∞) →  Prop' ι
+_↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr∞ T →  (Val T → Prop˂ ι) →  Prop' ι
 P ↪⟨ e ⟩ᴾ Q˙ =  P ↪⟨ e ⟩[ par ] Q˙
 
-_↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂∞) →  Prop' ι
+_↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂ ι) →  Prop' ι
 P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
 
 --------------------------------------------------------------------------------

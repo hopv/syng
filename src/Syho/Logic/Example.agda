@@ -167,15 +167,6 @@ abstract
     Slist∞≤-Pers :  Pers $ Slist∞≤ n α θ
     Slist∞≤-Pers =  ∃-Pers λ _ → ∃-Pers λ _ → ∃-Pers λ _ → it
 
-  -- Turn Slist∞ nsˢ into Slist (takeˢ k nsˢ)
-  -- This is under the super update ⇛, which is transitive,
-  -- unlike the later modality ▷ in Iris
-
-  Slist∞⇒Slist :  Slist∞ nsˢ α θ  ⊢[ ι ][ i ]⇛  Slist (takeˢ k nsˢ) α θ
-  Slist∞⇒Slist {k = 0} =  ⇒⇛ ⊤-intro
-  Slist∞⇒Slist {_ ∷ˢ _} {k = ṡ k'} =  ∃-elim λ θ' → ∗-monoʳ □-elim »
-    ⇛-frameˡ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
-
   -- Monotonicity of Slist∞≤
   -- Thanks to the coinductivity of ○-mono, we can get a pure sequent for the
   -- infinite proposition Slist∞≤
@@ -203,6 +194,15 @@ abstract
    where
     go :  Slist∞ (rep²ˢ n m) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
     go {n} {m}  rewrite ⊔-comm {m} {n} =  Slist∞-rep²ˢ⇒Slist∞≤
+
+  -- Turn Slist∞ nsˢ into Slist (takeˢ k nsˢ)
+  -- This is under the super update ⇛, which is transitive,
+  -- unlike the later modality ▷ in Iris
+
+  Slist∞⇒Slist :  Slist∞ nsˢ α θ  ⊢[ ι ][ i ]⇛  Slist (takeˢ k nsˢ) α θ
+  Slist∞⇒Slist {k = 0} =  ⇒⇛ ⊤-intro
+  Slist∞⇒Slist {_ ∷ˢ _} {k = ṡ k'} =  ∃-elim λ θ' → ∗-monoʳ □-elim »
+    ⇛-frameˡ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
 
   -- Turn a self-pointing pointer into Slist∞ (repˢ n)
   -- The key to this seemingly infinite construction is □○-new-rec

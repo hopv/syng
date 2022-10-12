@@ -21,15 +21,16 @@ open import Syho.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
   ndecrep●∞; cntr←)
 open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∀-syntax; ∃-syntax;
   ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; _↦ˢ⟨_⟩_)
-open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-intro;
-  ∃-elim; ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ; ?∗-comm;
-  ∗-elimˡ; ∗-elimʳ; ∗⊤-intro; dup-Pers-∗; -∗-introˡ; -∗-introʳ; □-mono; □-dup;
-  ∃-Pers; □-elim; □-intro-Pers)
+open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
+  ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ;
+  ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; dup-Pers-∗; -∗-introˡ;
+  -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞;
   hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind)
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
-open import Syho.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒↪⟨⟩)
+open import Syho.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒↪⟨⟩;
+  ↪⟨⟩ᵀ-use)
 open import Syho.Logic.Bor using ()
 
 private variable
@@ -40,6 +41,7 @@ private variable
   X :  Set₀
   P :  Prop∞
   Q˙ :  X → Prop∞
+  c :  ℕ → Expr˂∞ $ ◸ ℕ
   α :  Lft
   ns : List ℕ
   nsˢ :  Seq∞ ℕ
@@ -107,6 +109,12 @@ abstract
   Cntr :  (ℕ → Expr˂∞ (◸ ℕ)) →  ℕ →  Prop' ι
   Cntr c n =  ∀' k ,
     ¡ᴾ ⊤' ↪⟨ c k .! ⟩ᵀ[ 0 ] λ{ m .! → ⌜ m ≡ n ⌝∧ Cntr c (k + n) }
+
+  -- Use Cntr c to get a total Hoare triple on c
+  -- The level of the total Hoare triple is 1, not 0
+
+  Cntr-use :  Cntr c n  ⊢[ ι ]⟨ c k .! ⟩ᵀ[ 1 ] λ m →  ⌜ m ≡ n ⌝∧ Cntr c (k + n)
+  Cntr-use =  ∀-elim _ » ⊤∗-intro » ↪⟨⟩ᵀ-use
 
   -- Get Cntr (cntr← θ) n from a full points-to token θ ↦ (-, n)
   -- Thanks to the coinductivity of ○⇒↪⟨⟩, we can successfully perform the

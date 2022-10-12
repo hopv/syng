@@ -163,6 +163,25 @@ abstract
     ∗-monoʳ (□-mono $ ○-mono λ{ .! → Slist∞≤-mono k≤l }) »
     ∃-intro (≤-trans n≤k k≤l) » ∃-intro _ » ∃-intro _
 
+  -- Slist∞ (repˢ n) into Slist∞≤ n
+  -- Thanks to the coinductivity of ○-mono, we can get a pure sequent for the
+  -- infinite propositions Slist∞ and Slist∞≤
+
+  Slist∞-repˢ⇒Slist∞≤ :  Slist∞ (repˢ n) α θ  ⊢[ ι ]  Slist∞≤ n α θ
+  Slist∞-repˢ⇒Slist∞≤ =  ∃-elim λ _ →
+    ∗-monoʳ (□-mono $ ○-mono λ{ .! → Slist∞-repˢ⇒Slist∞≤ }) »
+    ∃-intro ≤-refl » ∃-intro _ » ∃-intro _
+
+  -- Slist∞ (rep²ˢ m n) into Slist∞≤ (m ⊔ n)
+  -- Again, the coinductivity of ○-mono is the key
+
+  Slist∞-rep²ˢ⇒Slist∞≤ :  Slist∞ (rep²ˢ m n) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
+  Slist∞-rep²ˢ⇒Slist∞≤ =  ∃-elim λ _ → ∗-monoʳ (□-mono $ ○-mono λ{ .! → go }) »
+    ∃-intro ⊔-introˡ » ∃-intro _ » ∃-intro _
+   where
+    go :  Slist∞ (rep²ˢ n m) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
+    go {n} {m}  rewrite ⊔-comm {m} {n} =  Slist∞-rep²ˢ⇒Slist∞≤
+
   -- Turn a self-pointing pointer into Slist∞ (repˢ n)
   -- The key to this seemingly infinite construction is □○-new-rec
 
@@ -182,22 +201,3 @@ abstract
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimʳ }) » ∃-intro _)
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimˡ }) » ∃-intro _)) »
     □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
-
-  -- Slist∞ (repˢ n) into Slist∞≤ n
-  -- Thanks to the coinductivity of ○-mono, we can get a pure sequent for the
-  -- infinite propositions Slist∞ and Slist∞≤
-
-  Slist∞-repˢ⇒Slist∞≤ :  Slist∞ (repˢ n) α θ  ⊢[ ι ]  Slist∞≤ n α θ
-  Slist∞-repˢ⇒Slist∞≤ =  ∃-elim λ _ →
-    ∗-monoʳ (□-mono $ ○-mono λ{ .! → Slist∞-repˢ⇒Slist∞≤ }) »
-    ∃-intro ≤-refl » ∃-intro _ » ∃-intro _
-
-  -- Slist∞ (rep²ˢ m n) into Slist∞≤ (m ⊔ n)
-  -- Again, the coinductivity of ○-mono is the key
-
-  Slist∞-rep²ˢ⇒Slist∞≤ :  Slist∞ (rep²ˢ m n) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
-  Slist∞-rep²ˢ⇒Slist∞≤ =  ∃-elim λ _ → ∗-monoʳ (□-mono $ ○-mono λ{ .! → go }) »
-    ∃-intro ⊔-introˡ » ∃-intro _ » ∃-intro _
-   where
-    go :  Slist∞ (rep²ˢ n m) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
-    go {n} {m}  rewrite ⊔-comm {m} {n} =  Slist∞-rep²ˢ⇒Slist∞≤

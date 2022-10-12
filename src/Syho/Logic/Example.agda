@@ -14,24 +14,26 @@ open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _+_; _⊔_; ≤-refl; ≤-trans; ⊔-introˡ;
   ⊔-comm)
 open import Base.List using (List; []; _∷_)
-open import Base.Seq using (Seq∞; _∷ˢ_; repˢ; rep²ˢ; takeˢ)
+open import Base.RatPos using (ℚ⁺)
+open import Base.Seq using (Seq∞; _∷ˢ_; hdˢ; tlˢ; repˢ; rep²ˢ; takeˢ)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; TyVal; loop)
+open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
   ndecrep●∞; cntr←)
 open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∀-syntax; ∃-syntax;
-  ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; _↦ˢ⟨_⟩_)
+  ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; [_]ᴸ⟨_⟩; _↦ˢ⟨_⟩_)
 open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
-  ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ;
-  ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; dup-Pers-∗; -∗-introˡ;
-  -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ)
+  ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocˡ;
+  ∗-assocʳ; ?∗-comm; ∗?-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim;
+  dup-Pers-∗; -∗-introˡ; -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ;
+  ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞;
   hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind)
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
 open import Syho.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒↪⟨⟩;
   ↪⟨⟩ᵀ-use)
-open import Syho.Logic.Bor using ()
+open import Syho.Logic.Bor using (hor-↦ˢ-🞰)
 
 private variable
   ι :  Size
@@ -43,6 +45,7 @@ private variable
   Q˙ :  X → Prop∞
   c :  ℕ → Expr˂∞ $ ◸ ℕ
   α :  Lft
+  p :  ℚ⁺
   ns : List ℕ
   nsˢ :  Seq∞ ℕ
 
@@ -203,6 +206,14 @@ abstract
   Slist∞⇒Slist {k = 0} =  ⇒⇛ ⊤-intro
   Slist∞⇒Slist {_ ∷ˢ _} {k = ṡ k'} =  ∃-elim λ θ' → ∗-monoʳ □-elim »
     ⇛-frameˡ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
+
+  -- Use Slist∞
+
+  Slist∞-use :
+    Slist∞ nsˢ α θ  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ]⟨ 🞰_ {T = ◸ _} (∇ θ) ⟩ᵀ[ i ]
+      λ (m , θ') →  ⌜ m ≡ hdˢ nsˢ ⌝∧ Slist∞ (tlˢ nsˢ .!) α θ'  ∗  [ α ]ᴸ⟨ p ⟩
+  Slist∞-use {_ ∷ˢ _} =  ∃∗-elim λ _ → ∗?-comm » ∗-assocˡ » hor-↦ˢ-🞰 $
+    hor-valᵘ {i = 0} $ ∗-comm » ⇛-frameʳ (□-elim » ○-use) ᵘ» ∃-intro refl
 
   -- Turn a self-pointing pointer into Slist∞ (repˢ n)
   -- The key to this seemingly infinite construction is □○-new-rec

@@ -132,6 +132,7 @@ abstract
     ∃ θ' , θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞ (nsˢ˂ .!) α θ' }
 
   -- Shared-borrowed singly-linked infinite list with a bound
+  -- Again, we leverage here the coinductivity of the indirection modality ○
 
   Slist∞≤ :  ℕ →  Lft →  Addr →  Prop' ι
   Slist∞≤ k α θ =  ∃ n , ∃ θ' , ⌜ n ≤ k ⌝∧
@@ -154,6 +155,8 @@ abstract
     ⇛-frameˡ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
 
   -- Monotonicity of Slist∞≤
+  -- Thanks to the coinductivity of ○-mono, we can get a pure sequent for the
+  -- infinite proposition Slist∞≤
 
   Slist∞≤-mono :  k ≤ l  →   Slist∞≤ k α θ  ⊢[ ι ]  Slist∞≤ l α θ
   Slist∞≤-mono k≤l =  ∃-elim λ _ → ∃-elim λ _ → ∃-elim λ n≤k →
@@ -181,6 +184,8 @@ abstract
     □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
 
   -- Slist∞ (repˢ n) into Slist∞≤ n
+  -- Thanks to the coinductivity of ○-mono, we can get a pure sequent for the
+  -- infinite propositions Slist∞ and Slist∞≤
 
   Slist∞-repˢ⇒Slist∞≤ :  Slist∞ (repˢ n) α θ  ⊢[ ι ]  Slist∞≤ n α θ
   Slist∞-repˢ⇒Slist∞≤ =  ∃-elim λ _ →
@@ -188,6 +193,7 @@ abstract
     ∃-intro ≤-refl » ∃-intro _ » ∃-intro _
 
   -- Slist∞ (rep²ˢ m n) into Slist∞≤ (m ⊔ n)
+  -- Again, the coinductivity of ○-mono is the key
 
   Slist∞-rep²ˢ⇒Slist∞≤ :  Slist∞ (rep²ˢ m n) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
   Slist∞-rep²ˢ⇒Slist∞≤ =  ∃-elim λ _ → ∗-monoʳ (□-mono $ ○-mono λ{ .! → go }) »

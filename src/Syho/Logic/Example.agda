@@ -100,7 +100,9 @@ abstract
   -- Specification for a counter
   -- Thanks to the coinductivity of ↪⟨ ⟩ᵀ, we can construct here an infinite
   -- proposition, where Cntr c itself is returned after executing the counter c
-  -- This amounts to construction of a recursive function type
+  -- This amounts to construction of a recursive type over a function type
+  -- Notably, this spec just states about the observable behaviors and abstracts
+  -- the internal state of the function
 
   Cntr :  (ℕ → Expr˂∞ (◸ ℕ)) →  ℕ →  Prop' ι
   Cntr c n =  ∀' k ,

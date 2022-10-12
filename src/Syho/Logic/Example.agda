@@ -41,6 +41,7 @@ private variable
   P :  Prop∞
   Q˙ :  X → Prop∞
   α :  Lft
+  ns : List ℕ
   nsˢ :  Seq∞ ℕ
 
 -- □ ○ □ ○ □ ○ …
@@ -138,12 +139,23 @@ abstract
   Slist∞≤ k α θ =  ∃ n , ∃ θ' , ⌜ n ≤ k ⌝∧
     θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞≤ k α θ' }
 
+  -- Slist is persistent
+
+  Slist-Pers :  Pers $ Slist ns α θ
+  Slist-Pers {[]} =  it
+  Slist-Pers {_ ∷ ns'} =  let instance _ = Slist-Pers {ns'} in ∃-Pers λ _ → it
+
   instance
 
     -- Slist∞ is persistent
 
     Slist∞-Pers :  Pers $ Slist∞ nsˢ α θ
     Slist∞-Pers {_ ∷ˢ _} =  ∃-Pers λ _ → it
+
+    -- Slist∞≤ is persistent
+
+    Slist∞≤-Pers :  Pers $ Slist∞≤ n α θ
+    Slist∞≤-Pers =  ∃-Pers λ _ → ∃-Pers λ _ → ∃-Pers λ _ → it
 
   -- Turn Slist∞ nsˢ into Slist (takeˢ k nsˢ)
   -- This is under the super update ⇛, which is transitive,

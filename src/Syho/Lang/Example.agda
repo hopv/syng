@@ -30,7 +30,7 @@ private variable
   n :  ℕ
 
 --------------------------------------------------------------------------------
--- Constructing Expr
+-- Various expressions
 
 -- Some stuck expression
 
@@ -73,7 +73,7 @@ nddecrloop●-loop :  Addr →  Expr ι $ ◸ ⊤
 nddecrloop●-loop θ =  nddecrloop θ ⁏¡ ● λ{ .! → nddecrloop●-loop θ }
 
 --------------------------------------------------------------------------------
--- Constructing Red
+-- Construct reduction
 
 abstract
 
@@ -98,7 +98,7 @@ abstract
   ●⇒ =  redᴱ refl $ redᴷᴿ []⇒
 
 --------------------------------------------------------------------------------
--- Destructing Red
+-- Destruct reduction
 
 abstract
 

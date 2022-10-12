@@ -10,30 +10,32 @@ open import Base.Func using (_$_; it)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using ()
 open import Base.Size using (Size; !)
-open import Base.Prod using (_,_; -,_)
-open import Base.Nat using (ℕ; ṡ_; _≤_; _⊔_; ≤-refl; ≤-trans; ⊔-introˡ; ⊔-comm)
+open import Base.Prod using (_×_; _,_; -,_)
+open import Base.Nat using (ℕ; ṡ_; _≤_; _+_; _⊔_; ≤-refl; ≤-trans; ⊔-introˡ;
+  ⊔-comm)
 open import Base.List using (List; []; _∷_)
 open import Base.Seq using (Seq∞; _∷ˢ_; repˢ; rep²ˢ; takeˢ)
-open import Syho.Lang.Expr using (Addr; TyVal; loop)
+open import Base.Sety using ()
+open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; TyVal; loop)
 open import Syho.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
-  ndecrep●∞)
-open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∃-syntax; ⊤'; ⊥';
-  ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↦ˢ⟨_⟩_)
-open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∃-intro; ∃-elim;
-  ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ; ?∗-comm; ∗-elimˡ;
-  ∗-elimʳ; ∗⊤-intro; dup-Pers-∗; -∗-introˡ; -∗-introʳ; □-mono; □-dup; ∃-Pers;
-  □-elim; □-intro-Pers)
+  ndecrep●∞; cntr←)
+open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∀-syntax; ∃-syntax;
+  ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; _↦ˢ⟨_⟩_)
+open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-intro;
+  ∃-elim; ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ; ?∗-comm;
+  ∗-elimˡ; ∗-elimʳ; ∗⊤-intro; dup-Pers-∗; -∗-introˡ; -∗-introʳ; □-mono; □-dup;
+  ∃-Pers; □-elim; □-intro-Pers)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ)
-open import Syho.Logic.Mem using (hor-🞰; hor-←)
-open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞;
-  hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind)
+  hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind)
+open import Syho.Logic.Mem using (hor-🞰; hor-←)
+open import Syho.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒↪⟨⟩)
 open import Syho.Logic.Bor using ()
 
 private variable
   ι :  Size
   i k l m n :  ℕ
-  θ θ' :  Addr
+  θ θ' θᶜ :  Addr
   ᵗv :  TyVal
   X :  Set₀
   P :  Prop∞
@@ -90,6 +92,27 @@ abstract
   ihor-ndecrep●∞ :  θ ↦ ᵗv  ⊢[ ι ][ i ]⟨ ndecrep●∞ θ ⟩∞
   ihor-ndecrep●∞ =  hor-ihor-⁏-bind {e = ndecrep _} {i = 0}
     horᵀ-ndecrep λ _ → ihor-[]● λ{ .! → ihor-ndecrep●∞ }
+
+  ------------------------------------------------------------------------------
+  -- Cntr
+
+  -- Specification for a counter
+  -- Thanks to the coinductivity of ↪⟨ ⟩ᵀ, we can construct here an infinite
+  -- proposition, where Cntr c itself is returned after executing the counter c
+  -- This amounts to construction of a recursive function type
+
+  Cntr :  (ℕ → Expr˂∞ (◸ ℕ)) →  ℕ →  Prop' ι
+  Cntr c n =  ∀' k ,
+    ¡ᴾ ⊤' ↪⟨ c k .! ⟩ᵀ[ 0 ] λ{ m .! → ⌜ m ≡ n ⌝∧ Cntr c (k + n) }
+
+  -- Get Cntr (cntr← θ) n from a full points-to token θ ↦ (-, n)
+  -- Thanks to the coinductivity of ○⇒↪⟨⟩, we can successfully perform the
+  -- infinite construction of Cntr
+
+  cntr←-Cntr :  θ ↦ (-, n)  ⊢[ ι ][ i ]⇛  Cntr (cntr← θ) n
+  cntr←-Cntr =  ○-new {P˂ = ¡ᴾ _} ᵘ» ∀-intro λ _ → ○⇒↪⟨⟩ λ{ .! →
+    ∗-comm » hor-🞰 $ hor-[] $ hor-← $ hor-[] $ hor-valᵘ {i = 0} $
+    ∗-elimˡ » cntr←-Cntr ᵘ» ∃-intro refl }
 
   ------------------------------------------------------------------------------
   -- Shared-borrowed singly-linked list

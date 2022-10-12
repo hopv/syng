@@ -16,7 +16,8 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; Expr˂∞; ∇_;
-  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; ●_; 🞰_; _←_; free; loop; Mem)
+  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; let¡-syntax; ●_; 🞰_; _←_; free; loop;
+  Mem)
 open import Syho.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
 
 private variable
@@ -71,6 +72,12 @@ ndecrep θ =  ∇ θ ← ndnat ⁏¡ decrep θ
 
 ndecrep●∞ :  Addr →  Expr ι $ ◸ ⊤
 ndecrep●∞ θ =  ndecrep θ ⁏¡ ● λ{ .! → ndecrep●∞ θ }
+
+-- Counter using memory, which increments the natural number at the address θ
+-- and returns the original value n
+
+cntr← :  Addr →  ℕ →  Expr˂∞ $ ◸ ℕ
+cntr← θ k .! =  let' n := 🞰 ∇ θ in¡ ∇ θ ← ∇ (k + n) ⁏¡ ∇ n
 
 --------------------------------------------------------------------------------
 -- Construct reduction

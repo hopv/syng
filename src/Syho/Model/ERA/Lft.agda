@@ -105,24 +105,17 @@ abstract
   ∙ᴸᵇ-assocˡ :  (a ∙ᴸᵇ b) ∙ᴸᵇ c  ≡  a ∙ᴸᵇ (b ∙ᴸᵇ c)
   ∙ᴸᵇ-assocˡ {εᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {↯ᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {†ᴸᵇ} {εᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {†ᴸᵇ} {↯ᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {†ᴸᵇ} {†ᴸᵇ} {εᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {†ᴸᵇ} {†ᴸᵇ} {↯ᴸᵇ} =  refl
+  ∙ᴸᵇ-assocˡ {a} {εᴸᵇ}  rewrite ∙ᴸᵇ-ε {a} =  refl
+  ∙ᴸᵇ-assocˡ {a} {b} {εᴸᵇ}  rewrite ∙ᴸᵇ-ε {a ∙ᴸᵇ b} | ∙ᴸᵇ-ε {b} =  refl
+  ∙ᴸᵇ-assocˡ {a} {↯ᴸᵇ}  rewrite ∙ᴸᵇ-↯ {a} =  refl
+  ∙ᴸᵇ-assocˡ {a} {b} {↯ᴸᵇ}  rewrite ∙ᴸᵇ-↯ {a ∙ᴸᵇ b} | ∙ᴸᵇ-↯ {b} | ∙ᴸᵇ-↯ {a} =
+    refl
   ∙ᴸᵇ-assocˡ {†ᴸᵇ} {†ᴸᵇ} {†ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {†ᴸᵇ} {†ᴸᵇ} {#ᴸᵇ _} =  refl
-  ∙ᴸᵇ-assocˡ {†ᴸᵇ} {#ᴸᵇ _} {εᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {†ᴸᵇ} {#ᴸᵇ _} {↯ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {†ᴸᵇ} {#ᴸᵇ _} {†ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {†ᴸᵇ} {#ᴸᵇ _} {#ᴸᵇ _} =  refl
-  ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {εᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {↯ᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {†ᴸᵇ} {εᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {†ᴸᵇ} {↯ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {†ᴸᵇ} {†ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {†ᴸᵇ} {#ᴸᵇ _} =  refl
-  ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {#ᴸᵇ _} {εᴸᵇ} =  refl
-  ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {#ᴸᵇ _} {↯ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {#ᴸᵇ _} {†ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {#ᴸᵇ p} {#ᴸᵇ q} {#ᴸᵇ _} =  cong #ᴸᵇ_ $ +ᴿ⁺-assocˡ {p} {q}
 

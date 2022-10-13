@@ -12,48 +12,48 @@ open import Base.Acc using (Acc; acc)
 
 -- Import and re-export
 open import Agda.Builtin.Size public using (
-  -- Universe of Size
+  -- Universe of 𝕊
   SizeUniv;
-  -- Size or ordinal
-  -- Size :  SizeUniv
-  Size;
   -- Inaccessible size/ordinal
-  -- ∞ :  Size
+  -- ∞ :  𝕊
   ∞) renaming (
-  -- Subtype of Size, consisting of sizes smaller than the given size
-  -- Size< :  Size →  SizeUniv
-  Size<_ to Size<;
+  -- Size or ordinal
+  -- 𝕊 :  SizeUniv
+  Size to 𝕊;
+  -- Subtype of 𝕊, consisting of sizes smaller than the given size
+  -- 𝕊< :  𝕊 →  SizeUniv
+  Size<_ to 𝕊<;
   -- Successor size
-  -- ṡˢ_ :  Size →  Size
+  -- ṡˢ_ :  𝕊 →  𝕊
   ↑_ to infix 10 ṡˢ_;
-  -- Maximum of Size
-  -- _⊔ˢ_ :  Size →  Size →  Size
+  -- Maximum of 𝕊
+  -- _⊔ˢ_ :  𝕊 →  𝕊 →  𝕊
   _⊔ˢ_ to infixr 5 _⊔ˢ_)
 
 private variable
   ł :  Level
-  ι :  Size
-  F G :  Size → Set ł
+  ι :  𝕊
+  F G :  𝕊 → Set ł
 
 --------------------------------------------------------------------------------
--- Size' :  Set ł wrapper for Size
+-- 𝕊' :  Set ł wrapper for 𝕊
 
 -- This is handy but rather dangerous; it should be used with care
 
-record  Size' (ł : Level) :  Set ł  where
+record  𝕊' (ł : Level) :  Set ł  where
   constructor sz
   field
-    sz⁻¹ :  Size
+    sz⁻¹ :  𝕊
 
-open Size' public
+open 𝕊' public
 
 --------------------------------------------------------------------------------
 -- <ˢ :  Well-founded order on Size₀
 
 infix 4 _<ˢ_
 
-data  _<ˢ_ {ł : Level} :  Size' ł →  Size' ł →  Set ł  where
-  size< :  ∀{ι' : Size< ι} →  sz ι' <ˢ sz ι
+data  _<ˢ_ {ł : Level} :  𝕊' ł →  𝕊' ł →  Set ł  where
+  size< :  ∀{ι' : 𝕊< ι} →  sz ι' <ˢ sz ι
 
 abstract
 
@@ -69,7 +69,7 @@ abstract
 -- and thus is *contravariant* w.r.t. ι in subtyping
 
 infix 8 ¡_
-record  Thunk (F : Size → Set ł) (ι : Size) :  Set ł  where
+record  Thunk (F : 𝕊 → Set ł) (ι : 𝕊) :  Set ł  where
   coinductive
 
   -- ¡ :  Construct a thunk
@@ -77,7 +77,7 @@ record  Thunk (F : Size → Set ł) (ι : Size) :  Set ł  where
 
   -- ! :  Force Thunk F ι into F ι' for any ι' < ι
   -- It can force Thunk F ∞ into F ∞ (when F satisfies some conditions)
-  field  ! :  {ι' : Size< ι} →  F ι'
+  field  ! :  {ι' : 𝕊< ι} →  F ι'
 
 open Thunk public
 
@@ -94,10 +94,10 @@ _$ᵀʰ_ :  (∀{ι} → F ι → G ι) →  Thunk F ι →  Thunk G ι
 -- and thus is *covariant* w.r.t. ι in subtyping
 
 infix 8 §_
-data  Shrunk (F : Size → Set ł) (ι : Size) :  Set ł  where
+data  Shrunk (F : 𝕊 → Set ł) (ι : 𝕊) :  Set ł  where
 
   -- Construct a shrunk
-  §_ :  {ι' : Size< ι} →  F ι' →  Shrunk F ι
+  §_ :  {ι' : 𝕊< ι} →  F ι' →  Shrunk F ι
 
 -- Map over a shrunk
 

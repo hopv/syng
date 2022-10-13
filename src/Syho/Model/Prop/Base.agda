@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; ◠˙_)
 open import Base.Dec using (yes; no; upd˙; upd˙-self)
-open import Base.Size using (Size; Size<; Thunk; !; Shrunk; §_)
+open import Base.Size using (𝕊; 𝕊<; Thunk; !; Shrunk; §_)
 open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; π₀; π₁;
   curry; uncurry; ∑-case)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
@@ -54,8 +54,8 @@ private variable
   f :  Y → X
   x y :  X
   xs ys :  List X
-  ι :  Size
-  Pᵒᶥ Qᵒᶥ :  Size →  Propᵒ ł
+  ι :  𝕊
+  Pᵒᶥ Qᵒᶥ :  𝕊 → Propᵒ ł
 
 --------------------------------------------------------------------------------
 -- ⊨✓, ⊨ :  Entailment
@@ -855,7 +855,7 @@ module _ {i : ℕ} where
 --------------------------------------------------------------------------------
 -- Thunkᵒ, Shrunkᵒ :  Sized proposition under Thunk / Shrunk
 
-Thunkᵒ Shrunkᵒ :  (Size →  Propᵒ ł) →  Size →  Propᵒ ł
+Thunkᵒ Shrunkᵒ :  (𝕊 → Propᵒ ł) →  𝕊 →  Propᵒ ł
 Thunkᵒ Pᵒᶥ ι a =  Thunk (λ ι' → Pᵒᶥ ι' a) ι
 Shrunkᵒ Pᵒᶥ ι a =  Shrunk (λ ι' → Pᵒᶥ ι' a) ι
 

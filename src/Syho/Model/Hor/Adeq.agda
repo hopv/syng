@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Few using (⊤; ⊥₀; absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Acc using (Acc; acc)
-open import Base.Size using (Size; ∞; Size'; sz; sz⁻¹; _<ˢ_; size<; !; §_;
+open import Base.Size using (𝕊; ∞; 𝕊'; sz; sz⁻¹; _<ˢ_; size<; !; §_;
   <ˢ-wf)
 open import Base.Bool using (tt; ff)
 open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_)
@@ -43,8 +43,8 @@ open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀ
 
 private variable
   ł :  Level
-  ι ι₀ ι' :  Size
-  ιs :  List (Size' 3ᴸ)
+  ι ι₀ ι' :  𝕊
+  ιs :  List (𝕊' 3ᴸ)
   M M' :  Mem
   X :  Set₀
   T :  Type
@@ -154,7 +154,7 @@ abstract
 
 -- Separating conjunction of ⟨ ⟩ᵀᵒ⊤ over expressions of type ◸ ⊤ and sizes
 
-[∗ᵒ]⟨_⟩ᵀᵒ⊤ :  List (Expr∞ (◸ ⊤)) →  List (Size' 3ᴸ) →  Propᵒ 1ᴸ
+[∗ᵒ]⟨_⟩ᵀᵒ⊤ :  List (Expr∞ (◸ ⊤)) →  List (𝕊' 3ᴸ) →  Propᵒ 1ᴸ
 [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs =  [∗ᵒ (e , sz ι) ∈² es , ιs ] ⟨ e ⟩ᵀᵒ⊤ ι
 
 abstract

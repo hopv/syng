@@ -9,23 +9,23 @@ module Base.Seq where
 open import Base.Level using (Level)
 open import Base.Func using (_$_)
 open import Base.Dec using (Dec; yes; no)
-open import Base.Size using (Size; ∞; Thunk; !)
+open import Base.Size using (𝕊; ∞; Thunk; !)
 open import Base.Nat using (ℕ; ṡ_)
 open import Base.List using (List; []; _∷_; List⁺; [_]⁺; _∷⁺_)
 
 private variable
   ł :  Level
-  ι :  Size
+  ι :  𝕊
   A :  Set ł
 
 --------------------------------------------------------------------------------
 -- Seq :  Infinite sequence
 
-data  Seq (ι : Size) (A : Set ł) :  Set ł
+data  Seq (ι : 𝕊) (A : Set ł) :  Set ł
 
 -- Seq under Thunk
 
-Seq˂ :  Size →  Set ł →  Set ł
+Seq˂ :  𝕊 →  Set ł →  Set ł
 Seq˂ ι A =  Thunk (λ ι' → Seq ι' A) ι
 
 infixr 5 _∷ˢ_

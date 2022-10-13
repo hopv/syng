@@ -10,7 +10,7 @@ module Syho.Logic.Judg where
 open import Base.Func using (_∘_; _$_)
 open import Base.Eq using (_≡_; _≢_; _≡˙_)
 open import Base.Dec using (Inh)
-open import Base.Size using (Size; Thunk; !)
+open import Base.Size using (𝕊; Thunk; !)
 open import Base.Bool using (𝔹; tt; ff)
 open import Base.Zoi using (Zoi; ✔ᶻ_; _⊎ᶻ_)
 open import Base.Prod using (_×_; _,_; -,_)
@@ -35,7 +35,7 @@ open import Syho.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂�
 -- JudgRes :  Result of a judgment
 
 private variable
-  ι :  Size
+  ι :  𝕊
   T U :  Type
 
 infix 3 [_]⇛_ [_]ᵃ⟨_⟩_ ⁺⟨_⟩[_]_
@@ -63,78 +63,76 @@ infix 2 _⊢[_]*_ _⊢[<_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _
 
 -- Judg ι P Jr :  P ⊢[ ι ]* Jr with the size argument coming first
 
-data  Judg (ι : Size) :  Prop∞ →  JudgRes →  Set₁
+data  Judg (ι : 𝕊) :  Prop∞ →  JudgRes →  Set₁
 
 -- ⊢[ ]* :  General Judgment
 -- ⊢[< ]* :  ⊢[ ]* under thunk
 
-_⊢[_]*_ _⊢[<_]*_ :  Prop∞ →  Size →  JudgRes →  Set₁
+_⊢[_]*_ _⊢[<_]*_ :  Prop∞ →  𝕊 →  JudgRes →  Set₁
 P ⊢[ ι ]* Jr =  Judg ι P Jr
 P ⊢[< ι ]* Jr =  Thunk (P ⊢[_]* Jr) ι
 
 -- ⊢[ ] etc. :  Pure sequent
 
-_⊢[_]_ _⊢[<_]_ :  Prop∞ →  Size →  Prop∞ →  Set₁
+_⊢[_]_ _⊢[<_]_ :  Prop∞ →  𝕊 →  Prop∞ →  Set₁
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ][ ]⇛ etc. :  Super-update sequent
 
-_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop∞ →  Size →  ℕ →  Prop∞ →  Set₁
+_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop∞ →  𝕊 →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
 P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 
 -- ⊢[ ][ ]⇛ᴺ etc. :  Super-update sequent with the universal name set token [⊤]ᴺ
 
-_⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_ :  Prop∞ →  Size →  ℕ →  Prop∞ →  Set₁
+_⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_ :  Prop∞ →  𝕊 →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ᴺ Q =  [⊤]ᴺ ∗ P ⊢[ ι ][ i ]⇛ [⊤]ᴺ ∗ Q
 P ⊢[< ι ][ i ]⇛ᴺ Q =  Thunk (P ⊢[_][ i ]⇛ᴺ Q) ι
 
 -- ⊢[ ][ ]ᵃ⟨ ⟩ etc. :  Atomic Hoare triple
 
 _⊢[_][_]ᵃ⟨_⟩_ _⊢[<_][_]ᵃ⟨_⟩_ :
-  Prop∞ →  Size →  ℕ →  Redex T →  (Val T → Prop∞) →  Set₁
+  Prop∞ →  𝕊 →  ℕ →  Redex T →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  P ⊢[ ι ]* [ i ]ᵃ⟨ red ⟩ Q˙
 P ⊢[< ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  Thunk (P ⊢[_][ i ]ᵃ⟨ red ⟩ Q˙) ι
 
 -- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Hoare triple over Val/Ktxred
 
-_⊢[_]⁺⟨_⟩[_]_ :
-  Prop∞ →  Size →  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  Set₁
+_⊢[_]⁺⟨_⟩[_]_ :  Prop∞ →  𝕊 →  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩[ κ ] Q˙ =  P ⊢[ ι ]* ⁺⟨ vk ⟩[ κ ] Q˙
 
 _⊢[_]⁺⟨_/_⟩[_]_ :
-  Prop∞ →  Size →  ∀ T →  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  Set₁
+  Prop∞ →  𝕊 →  ∀ T →  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ _ / vk ⟩[ κ ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ κ ] Q˙
 
-_⊢[_]⁺⟨_⟩ᴾ_ :  Prop∞ →  Size →  Val/Ktxred T →  (Val T → Prop∞) →  Set₁
+_⊢[_]⁺⟨_⟩ᴾ_ :  Prop∞ →  𝕊 →  Val/Ktxred T →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ par ] Q˙
 
 _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[<_]⁺⟨_⟩ᵀ[_]_ :
-  Prop∞ →  Size →  Val/Ktxred T →  ℕ →  (Val T → Prop∞) →  Set₁
+  Prop∞ →  𝕊 →  Val/Ktxred T →  ℕ →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot i ] Q˙
 P ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  Thunk (P ⊢[_]⁺⟨ vk ⟩ᵀ[ i ] Q˙) ι
 
 -- ⊢[ ]⟨ ⟩[ ] etc. :  Hoare triple over Expr
 
 _⊢[_]⟨_⟩[_]_ _⊢[<_]⟨_⟩[_]_ :
-  Prop∞ →  Size →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Set₁
+  Prop∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩[ κ ] Q˙ =  P ⊢[ ι ]⁺⟨ val/ktxred e ⟩[ κ ] Q˙
 P ⊢[< ι ]⟨ e ⟩[ κ ] Q˙ =  Thunk (P ⊢[_]⟨ e ⟩[ κ ] Q˙) ι
 
-_⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ :
-  Prop∞ →  Size →  Expr∞ T →  (Val T → Prop∞) →  Set₁
+_⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ :  Prop∞ →  𝕊 →  Expr∞ T →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᴾ Q˙ =  P ⊢[ ι ]⟨ e ⟩[ par ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᴾ Q˙ =  P ⊢[< ι ]⟨ e ⟩[ par ] Q˙
 
 _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_ :
-  Prop∞ →  Size →  Expr∞ T →  ℕ →  (Val T → Prop∞) →  Set₁
+  Prop∞ →  𝕊 →  Expr∞ T →  ℕ →  (Val T → Prop∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩[ tot i ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[< ι ]⟨ e ⟩[ tot i ] Q˙
 
 -- ⊢[<ᴾ ]⟨ ⟩[ ] :  Hoare triple over Expr, under thunk if partial
 
-_⊢[<ᴾ_]⟨_⟩[_]_ :  Prop∞ →  Size →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Set₁
+_⊢[<ᴾ_]⟨_⟩[_]_ :  Prop∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Set₁
 P ⊢[<ᴾ ι ]⟨ e ⟩[ par ] Q˙ =  P ⊢[< ι ]⟨ e ⟩ᴾ Q˙
 P ⊢[<ᴾ ι ]⟨ e ⟩[ tot i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
 
@@ -143,11 +141,11 @@ P ⊢[<ᴾ ι ]⟨ e ⟩[ tot i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
 -- This means that the event ● should occur an infinite number of times
 -- in any execution of the program
 
-_⊢[_][_]⁺⟨_⟩∞ _⊢[<_][_]⁺⟨_⟩∞ :  Prop∞ →  Size →  ℕ →  Val/Ktxred T →  Set₁
+_⊢[_][_]⁺⟨_⟩∞ _⊢[<_][_]⁺⟨_⟩∞ :  Prop∞ →  𝕊 →  ℕ →  Val/Ktxred T →  Set₁
 P ⊢[ ι ][ i ]⁺⟨ vk ⟩∞ =  P ⊢[ ι ]* [ i ]⁺⟨ vk ⟩∞
 P ⊢[< ι ][ i ]⁺⟨ vk ⟩∞ =  Thunk (P ⊢[_][ i ]⁺⟨ vk ⟩∞) ι
 
-_⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞ :  Prop∞ →  Size →  ℕ →  Expr∞ T →  Set₁
+_⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞ :  Prop∞ →  𝕊 →  ℕ →  Expr∞ T →  Set₁
 P ⊢[ ι ][ i ]⟨ e ⟩∞ =  P ⊢[ ι ][ i ]⁺⟨ val/ktxred e ⟩∞
 P ⊢[< ι ][ i ]⟨ e ⟩∞ =  Thunk (P ⊢[_][ i ]⟨ e ⟩∞) ι
 

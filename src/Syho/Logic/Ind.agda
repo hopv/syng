@@ -7,7 +7,7 @@
 module Syho.Logic.Ind where
 
 open import Base.Func using (_$_; _∘_; id; const)
-open import Base.Size using (Size; Thunk; ¡_; !; _$ᵀʰ_)
+open import Base.Size using (𝕊; Thunk; ¡_; !; _$ᵀʰ_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr∞)
 open import Syho.Lang.Ktxred using (Redex)
@@ -27,7 +27,7 @@ open import Syho.Logic.Judg public using (○-mono; ○-eatˡ; ○-new; □○-n
   ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use; ↪⟨⟩∞-≤; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞; ↪⟨⟩∞-use)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   i j :  ℕ
   T :  Type
   P Q R :  Prop∞

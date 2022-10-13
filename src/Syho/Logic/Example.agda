@@ -9,7 +9,7 @@ module Syho.Logic.Example where
 open import Base.Func using (_$_; it)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using ()
-open import Base.Size using (Size; !)
+open import Base.Size using (𝕊; !)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _+_; _⊔_; ≤-refl; ≤-trans; ⊔-introˡ;
   ⊔-comm)
@@ -37,7 +37,7 @@ open import Syho.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; �
 open import Syho.Logic.Bor using (hor-↦ˢ-🞰)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   i k l m n :  ℕ
   θ θ' θᶜ :  Addr
   ᵗv :  TyVal

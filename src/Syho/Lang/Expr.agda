@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _∘_; id)
 open import Base.Few using (⊤; 0⊤; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; cong; subst)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
-open import Base.Size using (Size; ∞; Thunk; !)
+open import Base.Size using (𝕊; ∞; Thunk; !)
 open import Base.Bool using (𝔹)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-)
 open import Base.Option using (¿_; ň; _$¿_; _»-¿_)
@@ -84,7 +84,7 @@ instance
 
 private variable
   ł :  Level
-  ι :  Size
+  ι :  𝕊
   T U :  Type
   Xʸ :  Setʸ
   Y :  Set ł
@@ -92,11 +92,11 @@ private variable
 --------------------------------------------------------------------------------
 -- Expr :  Expression, possibly infinite
 
-data  Expr (ι : Size) :  Type →  Set₀
+data  Expr (ι : 𝕊) :  Type →  Set₀
 
 -- Expr˂ :  Expr under Thunk
 
-Expr˂ :  Size →  Type →  Set₀
+Expr˂ :  𝕊 →  Type →  Set₀
 Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 
 infix 8 ∇_

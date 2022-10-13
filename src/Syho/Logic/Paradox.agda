@@ -8,7 +8,7 @@ module Syho.Logic.Paradox where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (refl)
-open import Base.Size using (Size; !)
+open import Base.Size using (𝕊; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; loop; Val)
@@ -25,7 +25,7 @@ open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use; ○⇒↪�
   ○⇒↪⟨⟩; ○⇒↪⟨⟩∞)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   i :  ℕ
   X :  Set₀
   T :  Type

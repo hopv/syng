@@ -7,7 +7,7 @@
 module Syho.Logic.Bor where
 
 open import Base.Func using (_$_)
-open import Base.Size using (Size; !; ¡_; _$ᵀʰ_)
+open import Base.Size using (𝕊; !; ¡_; _$ᵀʰ_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₁_)
@@ -30,7 +30,7 @@ open import Syho.Logic.Judg public using (&ˢ-⇒□; ⟨†⟩-mono; ⟨†⟩-
   %ˢ-mono; %ˢ-eatˡ; ⟨†⟩-back; &ˢ-new; &ˢ-open; %ˢ-close)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   i :  ℕ
   α :  Lft
   X :  Set₀

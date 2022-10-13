@@ -9,7 +9,7 @@ module Syho.Lang.Example where
 open import Base.Func using (_$_; _▷_)
 open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
-open import Base.Size using (Size; !)
+open import Base.Size using (𝕊; !)
 open import Base.Bool using (𝔹; tt; ff)
 open import Base.Option using (¿_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
@@ -21,7 +21,7 @@ open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; Expr˂
 open import Syho.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   b :  𝔹
   T :  Type
   e e' :  Expr∞ T

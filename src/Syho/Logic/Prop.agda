@@ -8,7 +8,7 @@ module Syho.Logic.Prop where
 
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
-open import Base.Size using (Size; ∞; Thunk; ¡_; !)
+open import Base.Size using (𝕊; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; curry)
 open import Base.Sum using (_⨿_)
 open import Base.Zoi using (Zoi; ⊤ᶻ; ^ᶻ_)
@@ -45,10 +45,10 @@ Lft =  ℕ
 --------------------------------------------------------------------------------
 -- Prop' :  Proposition
 
-data  Prop' (ι : Size) :  Set₁
+data  Prop' (ι : 𝕊) :  Set₁
 
 -- Prop˂ :  Prop' under Thunk
-Prop˂ :  Size →  Set₁
+Prop˂ :  𝕊 →  Set₁
 Prop˂ ι =  Thunk Prop' ι
 
 -- Utility for ∞
@@ -58,7 +58,7 @@ Prop∞ =  Prop' ∞
 Prop˂∞ =  Prop˂ ∞
 
 private variable
-  ι :  Size
+  ι :  𝕊
   X :  Set₀
   P˙ :  X → Prop∞
   P Q :  Prop∞

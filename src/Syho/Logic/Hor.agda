@@ -8,7 +8,7 @@ module Syho.Logic.Hor where
 
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Dec using (Inh)
-open import Base.Size using (Size; !; _$ᵀʰ_)
+open import Base.Size using (𝕊; !; _$ᵀʰ_)
 open import Base.Bool using (𝔹; tt; ff)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
@@ -34,7 +34,7 @@ open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_
   ihor-[]○; ihor-[]●; hor-fork; ihor-fork)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   b :  𝔹
   i j :  ℕ
   X :  Set₀

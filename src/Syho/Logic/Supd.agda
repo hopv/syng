@@ -7,7 +7,7 @@
 module Syho.Logic.Supd where
 
 open import Base.Func using (_$_; _∘_; id)
-open import Base.Size using (Size)
+open import Base.Size using (𝕊)
 open import Base.Nat using (ℕ; _≤ᵈ_; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ṡ≤ᵈṡ; ≤⇒≤ᵈ)
 open import Syho.Logic.Prop using (Prop∞; _∗_; ⤇_)
 open import Syho.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∗-comm; ∗-assocˡ;
@@ -18,7 +18,7 @@ open import Syho.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]�
   _⊢[_][_]⇛ᴺ_; _⊢[<_][_]⇛ᴺ_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   i j :  ℕ
   P Q R :  Prop∞
 

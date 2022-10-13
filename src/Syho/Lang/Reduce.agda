@@ -11,7 +11,7 @@ open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_)
 open import Base.Dec using (upd˙)
 open import Base.Acc using (Acc)
-open import Base.Size using (Size; Thunk)
+open import Base.Size using (𝕊; Thunk)
 open import Base.Bool using (𝔹; tt; ff)
 open import Base.Option using (¿_; ň; š_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
@@ -28,7 +28,7 @@ open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; forkᴿ; 🞰�
 -- Reduction
 
 private variable
-  ι :  Size
+  ι :  𝕊
   T U :  Type
   Xʸ :  Setʸ
   X :  Set₀
@@ -218,11 +218,11 @@ SNᵀ =  Acc _⇐ᵀ_
 --         execution the event occurs in a finite number of steps
 --         We don't assume fair scheduling of threads here
 
-data  Infᵀ (ι : Size) :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+data  Infᵀ (ι : 𝕊) :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 
 -- Infᵀ˂ᴮ :  Infᵀ, under the thunk if the boolean is true
 
-Infᵀ˂ᴮ :  𝔹 →  Size →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+Infᵀ˂ᴮ :  𝔹 →  𝕊 →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 Infᵀ˂ᴮ ff ι eesM =  Infᵀ ι eesM
 Infᵀ˂ᴮ tt ι eesM =  Thunk (λ ι' → Infᵀ ι' eesM) ι
 

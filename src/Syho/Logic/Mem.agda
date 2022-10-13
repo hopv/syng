@@ -8,7 +8,7 @@ module Syho.Logic.Mem where
 
 open import Base.Func using (_$_; _▷_)
 open import Base.Eq using (_≡_; _≢_; refl)
-open import Base.Size using (Size; !)
+open import Base.Size using (𝕊; !)
 open import Base.Bool using (tt; ff)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₁_)
@@ -32,7 +32,7 @@ open import Syho.Logic.Judg public using (↦⟨⟩-merge; ↦⟨⟩-split; ↦�
   ahor-free)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   T U :  Type
   Xʸ :  Setʸ
   X :  Set₀

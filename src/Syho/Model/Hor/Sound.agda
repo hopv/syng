@@ -6,7 +6,7 @@
 
 module Syho.Model.Hor.Sound where
 
-open import Base.Size using (Size; ∞; !)
+open import Base.Size using (𝕊; ∞; !)
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Few using (absurd)
 open import Base.Prod using (_,_; -,_; ∑-case)
@@ -46,7 +46,7 @@ open import Syho.Model.Hor.Mem using (ᵃ⟨⟩ᵒ-🞰; ᵃ⟨⟩ᵒ-←; ᵃ�
   ᵃ⟨⟩ᵒ-cas-ff; ᵃ⟨⟩ᵒ-alloc; ᵃ⟨⟩ᵒ-free)
 
 private variable
-  ι :  Size
+  ι :  𝕊
   X :  Set₀
   T :  Type
   P :  Prop∞

@@ -19,56 +19,39 @@ open import Base.Nat using (ℕ; ṡ_; _<_; ∀≥˙; ≤-refl; _<≥_; ∀≥˙
 open import Base.List using ([]; [_])
 open import Base.Str using ()
 open import Syho.Logic.Prop using (Name; Prop∞)
-open import Syho.Model.ERA.Base using (ERA)
+open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ; Envvᴱᴿᴬ; Upᴱᴿᴬ)
 open import Syho.Model.ERA.Zoi using (Zoiᴱᴿᴬ)
 open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ✓ˣ-new; ✓ˣ-agree)
 open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-new; ✓ᴸ-agree)
 import Syho.Model.ERA.All
-import Syho.Model.ERA.Prod
-import Syho.Model.ERA.Envm
-import Syho.Model.ERA.Envv
-import Syho.Model.ERA.Up
 
 --------------------------------------------------------------------------------
 -- Invᴱᴿᴬ :  Invariant ERA
 
--- For the invariant token and key
+-- Invtkᴱᴿᴬ :  ERA for the invariant token and key
 
-module ProdInvtk =  Syho.Model.ERA.Prod
-  (Agᴱᴿᴬ (Name × Prop∞)) (Excᴱᴿᴬ (Name × Prop∞))
-open ProdInvtk public using () renaming (
-  --  Invtkᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  ×ᴱᴿᴬ to ×Invtkᴱᴿᴬ)
-module AllInvtk =  Syho.Model.ERA.All ℕ (λ _ → ×Invtkᴱᴿᴬ)
+module AllInvtk =  Syho.Model.ERA.All ℕ (λ _ →
+  Agᴱᴿᴬ (Name × Prop∞) ×ᴱᴿᴬ Excᴱᴿᴬ (Name × Prop∞))
 open AllInvtk public using () renaming (
   --  Invtkᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to Invtkᴱᴿᴬ;
   inj˙ to inj˙ᴵⁿᵛᵗᵏ; inj˙-⌞⌟ to inj˙ᴵⁿᵛᵗᵏ-⌞⌟)
 
--- For the name set token
+-- Namesᴱᴿᴬ :  ERA for the name set token
 
 module AllNames =  Syho.Model.ERA.All Name (λ _ → Zoiᴱᴿᴬ)
 open AllNames public using () renaming (
   --  Namesᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to Namesᴱᴿᴬ)
 
--- For the all
+-- Invᴱᴿᴬ :  Invariant ERA
 
-module ProdInv =  Syho.Model.ERA.Prod Invtkᴱᴿᴬ Namesᴱᴿᴬ
-open ProdInv public using () renaming (
-  --  ×Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  ×ᴱᴿᴬ to ×Invᴱᴿᴬ)
-module EnvmInv =  Syho.Model.ERA.Envm ×Invᴱᴿᴬ ((ℕ → ¿ (Name × Prop∞)) × ℕ)
-  (λ (ⁿPˇ˙ ,-) → (λ i → ⁿPˇ˙ i , ⁿPˇ˙ i) , _)
-open EnvmInv public using () renaming (
-  --  EnvmInvᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Envmᴱᴿᴬ to EnvmInvᴱᴿᴬ)
--- The domain of ⁿPˇ˙ consists of indices less than n
-module EnvvInv =  Syho.Model.ERA.Envv EnvmInvᴱᴿᴬ
-  (λ (ⁿPˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) ⁿPˇ˙)
-open EnvvInv public using () renaming (
-  --  Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Envvᴱᴿᴬ to Invᴱᴿᴬ)
+Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+Invᴱᴿᴬ =  Envvᴱᴿᴬ
+  (Envmᴱᴿᴬ (Invtkᴱᴿᴬ ×ᴱᴿᴬ Namesᴱᴿᴬ) ((ℕ → ¿ (Name × Prop∞)) × ℕ)
+    λ (ⁿPˇ˙ ,-) → (λ i → ⁿPˇ˙ i , ⁿPˇ˙ i) , _)
+  -- Any index in the domain of Pˇ˙ is less than n
+  λ (ⁿPˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) ⁿPˇ˙
 
 open ERA Invtkᴱᴿᴬ public using () renaming (ε to εᴵⁿᵛᵗᵏ; refl˜ to refl˜ᴵⁿᵛᵗᵏ)
 open ERA Namesᴱᴿᴬ public using () renaming (ε to εᴺᵃᵐᵉˢ; refl˜ to refl˜ᴺᵃᵐᵉˢ)

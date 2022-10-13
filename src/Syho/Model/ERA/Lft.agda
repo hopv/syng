@@ -17,10 +17,8 @@ open import Base.Nat using (ℕ; ṡ_; ≤-refl; <⇒≤; <-irrefl; Cofin˙; ∀
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
   1≤1ᴿ⁺; ≤1ᴿ⁺-rem)
 open import Syho.Logic.Prop using (Lft)
-open import Syho.Model.ERA.Base using (ERA)
+open import Syho.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
 import Syho.Model.ERA.All
-import Syho.Model.ERA.Valm
-import Syho.Model.ERA.Up
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
@@ -224,15 +222,10 @@ open AllLft public using () renaming (
   ∀ᴱᴿᴬ to ∀Lftᴱᴿᴬ;
   --  inj˙ᴸᵇ :  Lft →  Lftb →  Lft →  Lftb
   inj˙ to inj˙ᴸᵇ; inj˙-∙ to inj˙ᴸᵇ-∙; inj˙-⌞⌟ to inj˙ᴸᵇ-⌞⌟)
-module ValmLft =  Syho.Model.ERA.Valm ∀Lftᴱᴿᴬ (λ _ → Cofinεᴸᵇ)
-  (Cofin˙-resp {F = λ _ → _≡ εᴸᵇ}) (λ{_} {a˙} → Cofinεᴸᵇ˙-rem {a˙})
-open ValmLft public using () renaming (
-  --  ValmLftᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
-  Valmᴱᴿᴬ to ValmLftᴱᴿᴬ)
-module UpLft =  Syho.Model.ERA.Up ValmLftᴱᴿᴬ {1ᴸ} {1ᴸ} {1ᴸ} {1ᴸ}
-open UpLft public using () renaming (
-  --  Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Upᴱᴿᴬ to Lftᴱᴿᴬ)
+
+Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+Lftᴱᴿᴬ =  Upᴱᴿᴬ (Valmᴱᴿᴬ ∀Lftᴱᴿᴬ (λ _ → Cofinεᴸᵇ)
+  (Cofin˙-resp {F = λ _ → _≡ εᴸᵇ}) (λ{_} {a˙} → Cofinεᴸᵇ˙-rem {a˙}))
 
 open ERA Lftᴱᴿᴬ public using () renaming (Res to Resᴸᶠᵗ; _≈_ to _≈ᴸᶠᵗ_;
   _∙_ to _∙ᴸᶠᵗ_; ε to εᴸᶠᵗ; ⌞_⌟ to ⌞_⌟ᴸᶠᵗ; _✓_ to _✓ᴸᶠᵗ_; _↝_ to _↝ᴸᶠᵗ_;

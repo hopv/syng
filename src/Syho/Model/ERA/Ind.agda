@@ -18,12 +18,10 @@ open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; <⇒≤; ≤-refl; <-irrefl; 
   ∀≥˙-upd˙-sat; ∀≥˙-upd˙-ṡ)
 open import Base.List using ([_])
 open import Syho.Logic.Prop using (Prop∞; ⊤')
-open import Syho.Model.ERA.Base using (ERA)
+open import Syho.Model.ERA.Base using (ERA; Envmᴱᴿᴬ; Envvᴱᴿᴬ)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; ✓ˣ-new; ✓ˣ-agree; ✓ˣ-free)
 open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-new; ✓ᴸ-agree)
 import Syho.Model.ERA.All
-import Syho.Model.ERA.Envm
-import Syho.Model.ERA.Envv
 
 private variable
   P :  Prop∞
@@ -38,16 +36,11 @@ open AllIndˣ public using () renaming (
   --  ∀Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to ∀Indˣᴱᴿᴬ;
   inj˙ to inj˙ᴵⁿᵈˣ)
-module EnvmIndˣ =  Syho.Model.ERA.Envm ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ) π₀
-open EnvmIndˣ public using () renaming (
-  --  EnvmIndˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Envmᴱᴿᴬ to EnvmIndˣᴱᴿᴬ)
--- The domain of Pˇ˙ consists of indices less than n
-module EnvvIndˣ =  Syho.Model.ERA.Envv EnvmIndˣᴱᴿᴬ
-  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
-open EnvvIndˣ public using () renaming (
-  --  Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Envvᴱᴿᴬ to Indˣᴱᴿᴬ)
+
+Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+Indˣᴱᴿᴬ =  Envvᴱᴿᴬ (Envmᴱᴿᴬ ∀Indˣᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ) π₀)
+  -- Any index in the domain of Pˇ˙ is less than n
+  λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙
 
 open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to Resᴵⁿᵈˣ;
   ε to εᴵⁿᵈˣ; _✓_ to _✓ᴵⁿᵈˣ_; _↝_ to _↝ᴵⁿᵈˣ_)
@@ -101,16 +94,11 @@ open AllIndᵖ public using () renaming (
   --  ∀Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   ∀ᴱᴿᴬ to ∀Indᵖᴱᴿᴬ;
   inj˙ to inj˙ᴵⁿᵈᵖ)
-module EnvmIndᵖ =  Syho.Model.ERA.Envm ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ) π₀
-open EnvmIndᵖ public using () renaming (
-  --  EnvmIndᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Envmᴱᴿᴬ to EnvmIndᵖᴱᴿᴬ)
--- The domain of Pˇ˙ consists of indices less than n
-module EnvvIndᵖ =  Syho.Model.ERA.Envv EnvmIndᵖᴱᴿᴬ
-  (λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙)
-open EnvvIndᵖ public using () renaming (
-  --  Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Envvᴱᴿᴬ to Indᵖᴱᴿᴬ)
+
+Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+Indᵖᴱᴿᴬ =  Envvᴱᴿᴬ (Envmᴱᴿᴬ ∀Indᵖᴱᴿᴬ ((ℕ → ¿ Prop∞) × ℕ) π₀)
+  -- Any index in the domain of Pˇ˙ is less than n
+  λ (Pˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) Pˇ˙
 
 open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ; Res to Resᴵⁿᵈᵖ;
   _✓_ to _✓ᴵⁿᵈᵖ_; ε to εᴵⁿᵈᵖ; _↝_ to _↝ᴵⁿᵈᵖ_)

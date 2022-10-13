@@ -6,11 +6,11 @@
 
 module Syho.Model.ERA.Base where
 
-open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_)
+open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; Up; ↑_; ↓)
 open import Base.Func using (_$_; id; _▷_; flip; _∘_)
-open import Base.Few using (⊤₀)
+open import Base.Few using (⊤; ⊤₀)
 open import Base.Eq using (_≡_; refl)
-open import Base.Prod using (∑-syntax; _×_; _,_; -,_; curry)
+open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_; curry)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 
@@ -310,3 +310,173 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
 
   _↝_ :  ∀{X : Set ł} →  Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
   (E , a) ↝ Fb˙ =  ∀ c →  E ✓ a ∙ c →  ∑ x ,  let (F , b) = Fb˙ x in  F ✓ b ∙ c
+
+open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
+  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
+
+private variable
+  łᴿ łᴿ' ł≈ ł≈' łᴱ łᴱ' ł✓ ł✓' :  Level
+
+--------------------------------------------------------------------------------
+-- ⊤ᴱᴿᴬ : Trivial ERA
+
+⊤ᴱᴿᴬ :  ERA łᴿ ł≈ łᴱ ł✓
+⊤ᴱᴿᴬ .Res =  ⊤
+⊤ᴱᴿᴬ ._≈_ _ _ =  ⊤
+⊤ᴱᴿᴬ ._∙_ =  _
+⊤ᴱᴿᴬ .ε =  _
+⊤ᴱᴿᴬ .⌞_⌟ =  _
+⊤ᴱᴿᴬ .Env =  ⊤
+⊤ᴱᴿᴬ ._✓_ _ _ =  ⊤
+⊤ᴱᴿᴬ .refl˜ =  _
+⊤ᴱᴿᴬ .◠˜_ =  _
+⊤ᴱᴿᴬ ._◇˜_ =  _
+⊤ᴱᴿᴬ .∙-congˡ =  _
+⊤ᴱᴿᴬ .∙-unitˡ =  _
+⊤ᴱᴿᴬ .∙-comm =  _
+⊤ᴱᴿᴬ .∙-assocˡ =  _
+⊤ᴱᴿᴬ .⌞⌟-cong =  _
+⊤ᴱᴿᴬ .⌞⌟-add =  _
+⊤ᴱᴿᴬ .⌞⌟-unitˡ =  _
+⊤ᴱᴿᴬ .⌞⌟-idem =  _
+⊤ᴱᴿᴬ .✓-resp =  _
+⊤ᴱᴿᴬ .✓-rem =  _
+
+--------------------------------------------------------------------------------
+-- ×ᴱᴿᴬ :  Product ERA
+
+infixr 1 _×ᴱᴿᴬ_
+_×ᴱᴿᴬ_ :  ERA łᴿ ł≈ łᴱ ł✓ →  ERA łᴿ' ł≈' łᴱ' ł✓' →
+        ERA (łᴿ ⊔ᴸ łᴿ') (ł≈ ⊔ᴸ ł≈') (łᴱ ⊔ᴸ łᴱ') (ł✓ ⊔ᴸ ł✓')
+(Era ×ᴱᴿᴬ Era') .Res =  Era .Res  ×  Era' .Res
+(Era ×ᴱᴿᴬ Era') ._≈_ (a , a') (b , b') =  Era ._≈_ a b  ×  Era' ._≈_ a' b'
+(Era ×ᴱᴿᴬ Era') ._∙_ (a , a') (b , b') =  Era ._∙_ a b  ,  Era' ._∙_ a' b'
+(Era ×ᴱᴿᴬ Era') .ε =  Era .ε  ,  Era' .ε
+(Era ×ᴱᴿᴬ Era') .⌞_⌟ (a , a') =  Era .⌞_⌟ a  ,  Era' .⌞_⌟ a'
+(Era ×ᴱᴿᴬ Era') .Env =  Era .Env  ×  Era' .Env
+(Era ×ᴱᴿᴬ Era') ._✓_ (E , E') (a , a') =  Era ._✓_ E a  ×  Era' ._✓_ E' a'
+(Era ×ᴱᴿᴬ Era') .refl˜ =  Era .refl˜  ,  Era' .refl˜
+(Era ×ᴱᴿᴬ Era') .◠˜_ (a≈b , a'≈b') =  Era .◠˜_ a≈b  ,  Era' .◠˜_ a'≈b'
+(Era ×ᴱᴿᴬ Era') ._◇˜_ (a≈b , a'≈b') (b≈c , b'≈c') =
+  Era ._◇˜_ a≈b b≈c  ,  Era' ._◇˜_ a'≈b' b'≈c'
+(Era ×ᴱᴿᴬ Era') .∙-congˡ (a≈b , a'≈b') =
+  Era .∙-congˡ a≈b  ,  Era' .∙-congˡ a'≈b'
+(Era ×ᴱᴿᴬ Era') .∙-unitˡ =  Era .∙-unitˡ  ,  Era' .∙-unitˡ
+(Era ×ᴱᴿᴬ Era') .∙-comm =  Era .∙-comm  ,  Era' .∙-comm
+(Era ×ᴱᴿᴬ Era') .∙-assocˡ =  Era .∙-assocˡ  ,  Era' .∙-assocˡ
+(Era ×ᴱᴿᴬ Era') .⌞⌟-cong (a≈b , a'≈b') =
+  Era .⌞⌟-cong a≈b  ,  Era' .⌞⌟-cong a'≈b'
+(Era ×ᴱᴿᴬ Era') .⌞⌟-add .π₀ =  Era .⌞⌟-add .π₀  ,  Era' .⌞⌟-add .π₀
+(Era ×ᴱᴿᴬ Era') .⌞⌟-add .π₁ =  Era .⌞⌟-add .π₁  ,  Era' .⌞⌟-add .π₁
+(Era ×ᴱᴿᴬ Era') .⌞⌟-unitˡ =  Era .⌞⌟-unitˡ  ,  Era' .⌞⌟-unitˡ
+(Era ×ᴱᴿᴬ Era') .⌞⌟-idem =  Era .⌞⌟-idem  ,  Era' .⌞⌟-idem
+(Era ×ᴱᴿᴬ Era') .✓-resp (a≈b , a'≈b') (E✓a , E'✓a') =
+  Era .✓-resp a≈b E✓a  ,  Era' .✓-resp a'≈b' E'✓a'
+(Era ×ᴱᴿᴬ Era') .✓-rem (E✓a , E'✓a') =  Era .✓-rem E✓a  ,  Era' .✓-rem E'✓a'
+
+--------------------------------------------------------------------------------
+-- Envmᴱᴿᴬ :  Environment modification ERA
+
+Envmᴱᴿᴬ :  (Era : ERA łᴿ ł≈ łᴱ ł✓) (Env' : Set łᴱ') →  (Env' → Era .Env) →
+           ERA łᴿ ł≈ łᴱ' ł✓
+Envmᴱᴿᴬ Era _ _ .Res =  Era .Res
+Envmᴱᴿᴬ Era _ _ ._≈_ =  Era ._≈_
+Envmᴱᴿᴬ Era _ _ ._∙_ =  Era ._∙_
+Envmᴱᴿᴬ Era _ _ .ε =  Era .ε
+Envmᴱᴿᴬ Era _ _ .⌞_⌟ =  Era .⌞_⌟
+Envmᴱᴿᴬ _ Env' _ .Env =  Env'
+Envmᴱᴿᴬ Era _ H ._✓_ E =   Era ._✓_ (H E)
+Envmᴱᴿᴬ Era _ _ .refl˜ =  Era .refl˜
+Envmᴱᴿᴬ Era _ _ .◠˜_ =  Era .◠˜_
+Envmᴱᴿᴬ Era _ _ ._◇˜_ =  Era ._◇˜_
+Envmᴱᴿᴬ Era _ _ .∙-congˡ =  Era .∙-congˡ
+Envmᴱᴿᴬ Era _ _ .∙-unitˡ =  Era .∙-unitˡ
+Envmᴱᴿᴬ Era _ _ .∙-comm =  Era .∙-comm
+Envmᴱᴿᴬ Era _ _ .∙-assocˡ =  Era .∙-assocˡ
+Envmᴱᴿᴬ Era _ _ .⌞⌟-cong =  Era .⌞⌟-cong
+Envmᴱᴿᴬ Era _ _ .⌞⌟-add =  Era .⌞⌟-add
+Envmᴱᴿᴬ Era _ _ .⌞⌟-unitˡ =  Era .⌞⌟-unitˡ
+Envmᴱᴿᴬ Era _ _ .⌞⌟-idem =  Era .⌞⌟-idem
+Envmᴱᴿᴬ Era _ _ .✓-resp a≈b HE✓a =  Era .✓-resp a≈b HE✓a
+Envmᴱᴿᴬ Era _ _ .✓-rem HE✓a∙b =  Era .✓-rem HE✓a∙b
+
+--------------------------------------------------------------------------------
+-- Envvᴱᴿᴬ :  Environment validity ERA
+
+Envvᴱᴿᴬ :  (Era : ERA łᴿ ł≈ łᴱ ł✓) →  (Era .Env → Set ł✓') →
+           ERA łᴿ ł≈ łᴱ (ł✓ ⊔ᴸ ł✓')
+Envvᴱᴿᴬ Era _ .Res =  Era .Res
+Envvᴱᴿᴬ Era _ ._≈_ =  Era ._≈_
+Envvᴱᴿᴬ Era _ ._∙_ =  Era ._∙_
+Envvᴱᴿᴬ Era _ .ε =  Era .ε
+Envvᴱᴿᴬ Era _ .⌞_⌟ =  Era .⌞_⌟
+Envvᴱᴿᴬ Era _ .Env =  Era .Env
+Envvᴱᴿᴬ Era ✓'_ ._✓_ E a =   ✓' E  ×  Era ._✓_ E a
+Envvᴱᴿᴬ Era _ .refl˜ =  Era .refl˜
+Envvᴱᴿᴬ Era _ .◠˜_ =  Era .◠˜_
+Envvᴱᴿᴬ Era _ ._◇˜_ =  Era ._◇˜_
+Envvᴱᴿᴬ Era _ .∙-congˡ =  Era .∙-congˡ
+Envvᴱᴿᴬ Era _ .∙-unitˡ =  Era .∙-unitˡ
+Envvᴱᴿᴬ Era _ .∙-comm =  Era .∙-comm
+Envvᴱᴿᴬ Era _ .∙-assocˡ =  Era .∙-assocˡ
+Envvᴱᴿᴬ Era _ .⌞⌟-cong =  Era .⌞⌟-cong
+Envvᴱᴿᴬ Era _ .⌞⌟-add =  Era .⌞⌟-add
+Envvᴱᴿᴬ Era _ .⌞⌟-unitˡ =  Era .⌞⌟-unitˡ
+Envvᴱᴿᴬ Era _ .⌞⌟-idem =  Era .⌞⌟-idem
+Envvᴱᴿᴬ Era _ .✓-resp a≈b (✓E , E✓a) =  ✓E  ,  Era .✓-resp a≈b E✓a
+Envvᴱᴿᴬ Era _ .✓-rem (✓E , E✓a∙b) =  ✓E  ,  Era .✓-rem E✓a∙b
+
+--------------------------------------------------------------------------------
+-- Valmᴱᴿᴬ :  Validity modification ERA
+
+Valmᴱᴿᴬ :  (Era :  ERA łᴿ ł≈ łᴱ ł✓) (_✓'_ :  Era .Env → Era .Res → Set ł✓') →
+  (∀{E a b} →  Era ._≈_ a b →  E ✓' a →  E ✓' b) →
+  (∀{E a b} →  E ✓' Era ._∙_ a b →  E ✓' b) →  ERA łᴿ ł≈ łᴱ (ł✓' ⊔ᴸ ł✓)
+Valmᴱᴿᴬ Era _ _ _ .Res =  Era .Res
+Valmᴱᴿᴬ Era _ _ _ ._≈_ =  Era ._≈_
+Valmᴱᴿᴬ Era _ _ _ ._∙_ =  Era ._∙_
+Valmᴱᴿᴬ Era _ _ _ .ε =  Era .ε
+Valmᴱᴿᴬ Era _ _ _ .⌞_⌟ =  Era .⌞_⌟
+Valmᴱᴿᴬ Era _ _ _ .Env =  Era .Env
+Valmᴱᴿᴬ Era _✓'_ _ _ ._✓_ E a =  E ✓' a  ×  Era ._✓_ E a
+Valmᴱᴿᴬ Era _ _ _ .refl˜ =  Era .refl˜
+Valmᴱᴿᴬ Era _ _ _ .◠˜_ =  Era .◠˜_
+Valmᴱᴿᴬ Era _ _ _ ._◇˜_ =  Era ._◇˜_
+Valmᴱᴿᴬ Era _ _ _ .∙-congˡ =  Era .∙-congˡ
+Valmᴱᴿᴬ Era _ _ _ .∙-unitˡ =  Era .∙-unitˡ
+Valmᴱᴿᴬ Era _ _ _ .∙-comm =  Era .∙-comm
+Valmᴱᴿᴬ Era _ _ _ .∙-assocˡ =  Era .∙-assocˡ
+Valmᴱᴿᴬ Era _ _ _ .⌞⌟-cong =  Era .⌞⌟-cong
+Valmᴱᴿᴬ Era _ _ _ .⌞⌟-add =  Era .⌞⌟-add
+Valmᴱᴿᴬ Era _ _ _ .⌞⌟-unitˡ =  Era .⌞⌟-unitˡ
+Valmᴱᴿᴬ Era _ _ _ .⌞⌟-idem =  Era .⌞⌟-idem
+Valmᴱᴿᴬ Era _ ✓'-resp _ .✓-resp a≈b (E✓'a , E✓a) =
+  ✓'-resp a≈b E✓'a , Era .✓-resp a≈b E✓a
+Valmᴱᴿᴬ Era _ _ ✓'-rem .✓-rem (E✓'a∙b , E✓a∙b) =
+  ✓'-rem E✓'a∙b , Era .✓-rem E✓a∙b
+
+--------------------------------------------------------------------------------
+-- Upᴱᴿᴬ :  Level-up ERA
+
+Upᴱᴿᴬ :  ERA łᴿ ł≈ łᴱ ł✓ →  ERA (łᴿ ⊔ᴸ łᴿ') (ł≈ ⊔ᴸ ł≈') (łᴱ ⊔ᴸ łᴱ') (ł✓ ⊔ᴸ ł✓')
+Upᴱᴿᴬ {łᴿ' = łᴿ'} Era .Res =  Up (Era .Res) {łᴿ'}
+Upᴱᴿᴬ {ł≈' = ł≈'} Era ._≈_ (↑ a) (↑ b) =  Up (Era ._≈_ a b) {ł≈'}
+Upᴱᴿᴬ Era ._∙_ (↑ a) (↑ b) .↓ =  Era ._∙_ a b
+Upᴱᴿᴬ Era .ε .↓ =  Era .ε
+Upᴱᴿᴬ Era .⌞_⌟ (↑ a) .↓ =  Era .⌞_⌟ a
+Upᴱᴿᴬ {łᴱ' = łᴱ'} Era .Env =  Up (Era .Env) {łᴱ'}
+Upᴱᴿᴬ {ł✓' = ł✓'} Era ._✓_ (↑ E) (↑ a) =  Up (Era ._✓_ E a) {ł✓'}
+Upᴱᴿᴬ Era .refl˜ .↓ =  Era .refl˜
+Upᴱᴿᴬ Era .◠˜_ (↑ a≈b) .↓ =  Era .◠˜_ a≈b
+Upᴱᴿᴬ Era ._◇˜_ (↑ a≈b) (↑ b≈c) .↓ =  Era ._◇˜_ a≈b b≈c
+Upᴱᴿᴬ Era .∙-congˡ (↑ a≈b) .↓ =  Era .∙-congˡ a≈b
+Upᴱᴿᴬ Era .∙-unitˡ .↓ =  Era .∙-unitˡ
+Upᴱᴿᴬ Era .∙-comm .↓ =  Era .∙-comm
+Upᴱᴿᴬ Era .∙-assocˡ .↓ =  Era .∙-assocˡ
+Upᴱᴿᴬ Era .⌞⌟-cong (↑ a≈b) .↓ =  Era .⌞⌟-cong a≈b
+Upᴱᴿᴬ Era .⌞⌟-add .π₀ .↓ =  Era .⌞⌟-add .π₀
+Upᴱᴿᴬ Era .⌞⌟-add .π₁ .↓ =  Era .⌞⌟-add .π₁
+Upᴱᴿᴬ Era .⌞⌟-unitˡ .↓ =  Era .⌞⌟-unitˡ
+Upᴱᴿᴬ Era .⌞⌟-idem .↓ =  Era .⌞⌟-idem
+Upᴱᴿᴬ Era .✓-resp (↑ a≈b) (↑ E✓a) .↓ =  Era .✓-resp a≈b E✓a
+Upᴱᴿᴬ Era .✓-rem (↑ E✓a∙b) .↓ =  Era .✓-rem E✓a∙b

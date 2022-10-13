@@ -141,18 +141,8 @@ following parts.
     Syho.**
     + [`ERA/`](src/Syho/Model/ERA/) ― **Environmental resource algebras (ERAs),
         for modeling ghost states of Syho.**
-        * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA.
-        * General ERAs ―
-            [`Top`](src/Syho/Model/ERA/Top.agda) for the trivial ERA;
-            [`Prod`](src/Syho/Model/ERA/Prod.agda) for the product ERA;
-            [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
-            [`Envm`](src/Syho/Model/ERA/Envm.agda) for the environment
-            modification ERA;
-            [`Envv`](src/Syho/Model/ERA/Envv.agda) for the environment
-            validity ERA;
-            [`Valm`](src/Syho/Model/ERA/Valm.agda) for the validity modification
-            ERA;
-            [`Up`](src/Syho/Model/ERA/Up.agda) for the level-up ERA.
+        * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
+            [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA.
         * Basic ERAs ―
             [`Zoi`](src/Base/Zoi.agda) for the zoi ERA;
             [`Exc`](src/Syho/Model/ERA/Exc.agda) for the exclusive ERA;

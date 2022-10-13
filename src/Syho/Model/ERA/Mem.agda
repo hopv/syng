@@ -20,21 +20,17 @@ open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
 open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; TyVal; ⊤-; Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_;
   ✓ᴹ-upd˙)
-open import Syho.Model.ERA.Base using (ERA)
+open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ; Envvᴱᴿᴬ; Upᴱᴿᴬ)
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; εˣ; ✓ˣ-agree; ✓ˣ-new;
   ✓ˣ-free)
 open import Syho.Model.ERA.FracAg using (FracAg; _≈ᶠʳ_; _∙ᶠʳ_; FracAgᴱᴿᴬ;
   š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-new; ✓ᶠʳ-free)
 import Syho.Model.ERA.All
-import Syho.Model.ERA.Prod
-import Syho.Model.ERA.Envm
-import Syho.Model.ERA.Envv
-import Syho.Model.ERA.Up
 
 --------------------------------------------------------------------------------
 -- Memᴱᴿᴬ :  Memory ERA
 
--- For the points-to token
+-- Pntsᴱᴿᴬ :  Points-to token ERA
 
 module AllPnts =  Syho.Model.ERA.All ℕ (λ _ → FracAgᴱᴿᴬ TyVal)
 open AllPnts public using () renaming (
@@ -44,24 +40,13 @@ open AllPnts public using () renaming (
   inj˙ to inj˙ᴾⁿᵗˢ;
   inj˙-≈ to inj˙ᴾⁿᵗˢ-≈; inj˙-∙ to inj˙ᴾⁿᵗˢ-∙; ✓-inj˙ to ✓-inj˙ᴾⁿᵗˢ)
 
--- For the freeing token
+-- Mbloᴱᴿᴬ :  Memory block ERA
 
-Freeᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
-Freeᴱᴿᴬ =  Excᴱᴿᴬ ℕ
-
--- For the memory block
-
-module ProdMblo =  Syho.Model.ERA.Prod Pntsᴱᴿᴬ Freeᴱᴿᴬ
-open ProdMblo public using () renaming (
-  --  ×Mbloᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
-  ×ᴱᴿᴬ to ×Mbloᴱᴿᴬ)
-module EnvmMblo =  Syho.Model.ERA.Envm ×Mbloᴱᴿᴬ
+Mbloᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
+Mbloᴱᴿᴬ =  Envmᴱᴿᴬ (Pntsᴱᴿᴬ ×ᴱᴿᴬ Excᴱᴿᴬ ℕ)
   Mblo (λ Mb → (λ i → Mb »-¿ _‼ i) , len $¿ Mb)
-open EnvmMblo public using () renaming (
-  --  Mbloᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
-  Envmᴱᴿᴬ to Mbloᴱᴿᴬ)
 
--- For the memory
+-- Memᴱᴿᴬ :  Memory ERA
 
 module AllMem =  Syho.Model.ERA.All ℕ (λ _ → Mbloᴱᴿᴬ)
 open AllMem public using () renaming (
@@ -70,14 +55,9 @@ open AllMem public using () renaming (
   --  inj˙ᴬᴹᵉᵐ :  ℕ →  Mbloᴱᴿᴬ .Res →  ∀Memᴱᴿᴬ .Res
   inj˙ to inj˙ᴬᴹᵉᵐ;
   inj˙-≈ to inj˙ᴬᴹᵉᵐ-≈; inj˙-∙ to inj˙ᴬᴹᵉᵐ-∙; ✓-inj˙ to ✓-inj˙ᴬᴹᵉᵐ)
-module EnvvMem =  Syho.Model.ERA.Envv ∀Memᴱᴿᴬ ✓ᴹ_
-open EnvvMem public using () renaming (
-  --  EnvvMemᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
-  Envvᴱᴿᴬ to EnvvMemᴱᴿᴬ)
-module UpMem =  Syho.Model.ERA.Up EnvvMemᴱᴿᴬ {1ᴸ} {1ᴸ} {1ᴸ} {1ᴸ}
-open UpMem public using () renaming (
-  --  Memᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  Upᴱᴿᴬ to Memᴱᴿᴬ)
+
+Memᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+Memᴱᴿᴬ =  Upᴱᴿᴬ (Envvᴱᴿᴬ ∀Memᴱᴿᴬ ✓ᴹ_)
 
 open ERA Pntsᴱᴿᴬ public using () renaming (Res to Resᴾⁿᵗˢ; _≈_ to _≈ᴾⁿᵗˢ_;
   _◇˜_ to _◇˜ᴾⁿᵗˢ_; ✓-resp to ✓ᴾⁿᵗˢ-resp)

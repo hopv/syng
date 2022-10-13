@@ -11,7 +11,7 @@ open import Base.Func using (_∘_; _$_)
 open import Base.Eq using (_≡_; _≢_; _≡˙_)
 open import Base.Dec using (Inh)
 open import Base.Size using (Size; Thunk; !)
-open import Base.Bool using (Bool; tt; ff)
+open import Base.Bool using (𝔹; tt; ff)
 open import Base.Zoi using (Zoi; ✔ᶻ_; _⊎ᶻ_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
@@ -161,7 +161,7 @@ open Pers {{…}} public
 
 private variable
   i j n :  ℕ
-  b :  Bool
+  b :  𝔹
   Xʸ :  Setʸ
   X :  Set₀
   v x y z :  X

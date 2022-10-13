@@ -12,7 +12,7 @@ open import Base.Eq using (_≡_; _≢_; refl; ◠_)
 open import Base.Dec using (upd˙)
 open import Base.Acc using (Acc)
 open import Base.Size using (Size; Thunk)
-open import Base.Bool using (Bool; tt; ff)
+open import Base.Bool using (𝔹; tt; ff)
 open import Base.Option using (¿_; ň; š_)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (ĩ₁_)
@@ -32,7 +32,7 @@ private variable
   T U :  Type
   Xʸ :  Setʸ
   X :  Set₀
-  b :  Bool
+  b :  𝔹
   e₀ e e' e'' :  Expr∞ T
   e˂ :  Expr˂∞ T
   e˙ :  ⸨ Xʸ ⸩ʸ → Expr∞ T
@@ -53,7 +53,7 @@ infix 4 _⇒ᴾ⟨_⟩_ _⇒ᴾ○_ _⇒ᴾ●_ _⇒ᴿ⟨_⟩_ _⇒ᴿ○_ _⇒
 
 -- ⇒ᴾ :  Pure reduction of an expression
 
-data  _⇒ᴾ⟨_⟩_ :  Expr∞ T →  Bool →  Expr∞ T →  Set₀  where
+data  _⇒ᴾ⟨_⟩_ :  Expr∞ T →  𝔹 →  Expr∞ T →  Set₀  where
   redᴾ :  val/ktxred e ≡ ĩ₁ (-, K , [ e₀ ]ᴿ⟨ b ⟩) →  e ⇒ᴾ⟨ b ⟩ K ᴷ◁ e₀
 
 _⇒ᴾ_ _⇒ᴾ○_ _⇒ᴾ●_ :  Expr∞ T →  Expr∞ T →  Set₀
@@ -62,10 +62,10 @@ e ⇒ᴾ○ e' =  e ⇒ᴾ⟨ ff ⟩ e'
 e ⇒ᴾ● e' =  e ⇒ᴾ⟨ tt ⟩ e'
 
 -- ⇒ᴿ :  Reduction of a redex
---       The Bool part is the event flag
+--       The 𝔹 part is the event flag
 --       The ¿ Expr∞ (◸ ⊤) part is a possibly forked thread
 
-data  _⇒ᴿ⟨_⟩_ :  Redex T × Mem →  Bool →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀
+data  _⇒ᴿ⟨_⟩_ :  Redex T × Mem →  𝔹 →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀
 
 _⇒ᴿ○_ _⇒ᴿ●_ :  Redex T × Mem →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Set₀
 red ⇒ᴿ○ eeˇM =  red ⇒ᴿ⟨ ff ⟩ eeˇM
@@ -111,7 +111,7 @@ redM ⇒ᴿ eeˇM' =  ∑ b , redM ⇒ᴿ⟨ b ⟩ eeˇM'
 
 -- ⇒ᴷᴿ :  Reduction of a context-redex pair
 
-data  _⇒ᴷᴿ⟨_⟩_ :  Ktxred T × Mem →  Bool →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →
+data  _⇒ᴷᴿ⟨_⟩_ :  Ktxred T × Mem →  𝔹 →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →
                   Set₀  where
   redᴷᴿ :  (red , M) ⇒ᴿ⟨ b ⟩ (e , eˇ , M') →
            ((-, K , red) , M) ⇒ᴷᴿ⟨ b ⟩ (K ᴷ◁ e , eˇ , M')
@@ -121,7 +121,7 @@ krM ⇒ᴷᴿ eeˇM' =  ∑ b , krM ⇒ᴷᴿ⟨ b ⟩ eeˇM'
 
 -- ⇒ᴱ :  Reduction of an expression
 
-data  _⇒ᴱ⟨_⟩_ :  Expr∞ T × Mem →  Bool →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →
+data  _⇒ᴱ⟨_⟩_ :  Expr∞ T × Mem →  𝔹 →  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →
                  Set₀  where
   redᴱ :  val/ktxred e ≡ ĩ₁ kr →  (kr , M) ⇒ᴷᴿ⟨ b ⟩ (e' , eˇ , M') →
           (e , M) ⇒ᴱ⟨ b ⟩ (e' , eˇ , M')
@@ -133,7 +133,7 @@ eM ⇒ᴱ e'eˇM' =  ∑ b , eM ⇒ᴱ⟨ b ⟩ e'eˇM'
 -- The Bool part is the event flag for the head thread only
 
 data  _⇒ᵀ⟨_⟩_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
-                 Bool →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀  where
+                 𝔹 →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀  where
 
   -- Reduce the head thread
   redᵀ-hd :  (e , M) ⇒ᴱ⟨ b ⟩ (e' , eˇ , M') →
@@ -154,7 +154,7 @@ eesM ⇒ᵀ e'es'M' =  ∑ b , eesM ⇒ᵀ⟨ b ⟩ e'es'M'
 _⇐ᴿ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Redex T × Mem →  Set₀
 _⇐ᴿ_ =  flip _⇒ᴿ_
 
-_⇐ᴷᴿ⟨_⟩_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Bool →  Ktxred T × Mem →  Set₀
+_⇐ᴷᴿ⟨_⟩_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  𝔹 →  Ktxred T × Mem →  Set₀
 e'eˇM' ⇐ᴷᴿ⟨ b ⟩ krM =  krM ⇒ᴷᴿ⟨ b ⟩ e'eˇM'
 
 _⇐ᴷᴿ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Ktxred T × Mem →  Set₀
@@ -164,7 +164,7 @@ _⇐ᴱ_ :  Expr∞ T × ¿ Expr∞ (◸ ⊤) × Mem →  Expr∞ T × Mem →  
 _⇐ᴱ_ =  flip _⇒ᴱ_
 
 _⇐ᵀ⟨_⟩_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
-           Bool →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+           𝔹 →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 e'es'M' ⇐ᵀ⟨ b ⟩ eesM =  eesM ⇒ᵀ⟨ b ⟩ e'es'M'
 
 _⇐ᵀ_ :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →
@@ -222,7 +222,7 @@ data  Infᵀ (ι : Size) :  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Se
 
 -- Infᵀ˂ᴮ :  Infᵀ, under the thunk if the boolean is true
 
-Infᵀ˂ᴮ :  Bool →  Size →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
+Infᵀ˂ᴮ :  𝔹 →  Size →  Expr∞ T × List (Expr∞ (◸ ⊤)) × Mem →  Set₀
 Infᵀ˂ᴮ ff ι eesM =  Infᵀ ι eesM
 Infᵀ˂ᴮ tt ι eesM =  Thunk (λ ι' → Infᵀ ι' eesM) ι
 

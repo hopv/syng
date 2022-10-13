@@ -10,7 +10,7 @@ open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl)
 open import Base.Size using (!)
-open import Base.Bool using (Bool; tt; ff)
+open import Base.Bool using (𝔹; tt; ff)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
@@ -32,7 +32,7 @@ data  Redex :  Type →  Set₀  where
   -- For nd
   ndᴿ :  Redex (◸ʸ Xʸ)
   -- Pure reduction, with the event flag
-  [_]ᴿ⟨_⟩ :  Expr∞ T →  Bool →  Redex T
+  [_]ᴿ⟨_⟩ :  Expr∞ T →  𝔹 →  Redex T
   -- For fork
   forkᴿ :  Expr∞ (◸ ⊤) →  Redex (◸ ⊤)
   -- For 🞰
@@ -42,7 +42,7 @@ data  Redex :  Type →  Set₀  where
   -- For fau
   fauᴿ :  (⸨ Xʸ ⸩ʸ → ⸨ Xʸ ⸩ʸ) →  Addr →  Redex (◸ʸ Xʸ)
   -- For cas
-  casᴿ :  Addr →  ⸨ Xʸ ⸩ʸ →  ⸨ Xʸ ⸩ʸ →  Redex (◸ Bool)
+  casᴿ :  Addr →  ⸨ Xʸ ⸩ʸ →  ⸨ Xʸ ⸩ʸ →  Redex (◸ 𝔹)
   -- For alloc
   allocᴿ :  ℕ →  Redex (◸ Addr)
   -- For free
@@ -76,9 +76,9 @@ data  Ktx :  Type →  Type →  Set₀  where
   -- For fau
   fauᴷ :  (⸨ Xʸ ⸩ʸ → ⸨ Xʸ ⸩ʸ) →  Ktx T (◸ Addr) →  Ktx T (◸ʸ Xʸ)
   -- For cas
-  casᴷ⁰ :  Ktx T (◸ Addr) →  Expr∞ (◸ʸ Xʸ) →  Expr∞ (◸ʸ Xʸ) →  Ktx T (◸ Bool)
-  casᴷ¹ :  Addr →  Ktx T (◸ʸ Xʸ) →  Expr∞ (◸ʸ Xʸ) →  Ktx T (◸ Bool)
-  casᴷ² :  Addr →  ⸨ Xʸ ⸩ʸ →  Ktx T (◸ʸ Xʸ) →  Ktx T (◸ Bool)
+  casᴷ⁰ :  Ktx T (◸ Addr) →  Expr∞ (◸ʸ Xʸ) →  Expr∞ (◸ʸ Xʸ) →  Ktx T (◸ 𝔹)
+  casᴷ¹ :  Addr →  Ktx T (◸ʸ Xʸ) →  Expr∞ (◸ʸ Xʸ) →  Ktx T (◸ 𝔹)
+  casᴷ² :  Addr →  ⸨ Xʸ ⸩ʸ →  Ktx T (◸ʸ Xʸ) →  Ktx T (◸ 𝔹)
   -- For alloc
   allocᴷ :  Ktx T (◸ ℕ) →  Ktx T (◸ Addr)
   -- For free

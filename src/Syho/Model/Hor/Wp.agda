@@ -11,7 +11,7 @@ open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
 open import Base.Few using (⊤; absurd)
 open import Base.Eq using (_≡_)
 open import Base.Size using (Size; Size<; ∞; !; §_)
-open import Base.Bool using (Bool; tt; ff)
+open import Base.Bool using (𝔹; tt; ff)
 open import Base.Option using (¿_; ň; š_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
@@ -34,7 +34,7 @@ open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ'⟨_⟩_; ⟨_⟩⇛ᴹ�
 private variable
   ł :  Level
   ι ι' :  Size
-  b :  Bool
+  b :  𝔹
   X :  Set₀
   T :  Type
   Pᵒ Qᵒ :  Propᵒ ł
@@ -222,7 +222,7 @@ data  Wp∞ {T} (ι ι' : Size) :  Val/Ktxred T →  Propᵒ 1ᴸ
 ⟨_⟩∞ᵒ˂ʳ :  Expr∞ T →  Size →  Propᵒ 1ᴸ
 ⟨ e ⟩∞ᵒ˂ʳ ι' =  Thunkᵒ (⟨ e ⟩∞ᵒ ∞) ι'
 
-⟨_⟩∞ᵒ˂⟨_⟩ :  Expr∞ T →  Bool →  Size →  Size →  Propᵒ 1ᴸ
+⟨_⟩∞ᵒ˂⟨_⟩ :  Expr∞ T →  𝔹 →  Size →  Size →  Propᵒ 1ᴸ
 ⟨ e ⟩∞ᵒ˂⟨ ff ⟩ ι ι' =  ⟨ e ⟩∞ᵒ˂ˡ ι ι'
 ⟨ e ⟩∞ᵒ˂⟨ tt ⟩ _ ι' =  ⟨ e ⟩∞ᵒ˂ʳ ι'
 

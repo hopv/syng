@@ -10,7 +10,7 @@ open import Base.Func using (_$_; _▷_)
 open import Base.Few using (⊤; ¬_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Size using (Size; !)
-open import Base.Bool using (Bool; tt; ff)
+open import Base.Bool using (𝔹; tt; ff)
 open import Base.Option using (¿_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _+_)
@@ -22,7 +22,7 @@ open import Syho.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; re
 
 private variable
   ι :  Size
-  b :  Bool
+  b :  𝔹
   T :  Type
   e e' :  Expr∞ T
   eˇ :  ¿ Expr∞ T

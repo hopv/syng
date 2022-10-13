@@ -12,7 +12,7 @@ open import Base.Few using (⊤; 0⊤; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; cong; subst)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
 open import Base.Size using (Size; ∞; Thunk; !)
-open import Base.Bool using (Bool)
+open import Base.Bool using (𝔹)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-)
 open import Base.Option using (¿_; ň; _$¿_; _»-¿_)
 open import Base.Nat using (ℕ; _+_; +-assocʳ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙;
@@ -138,7 +138,7 @@ data  Expr ι  where
   fau :  (⸨ Xʸ ⸩ʸ → ⸨ Xʸ ⸩ʸ) →  Expr ι (◸ Addr) →  Expr ι (◸ʸ Xʸ)
 
   -- Compare and swap
-  cas :  Expr ι (◸ Addr) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ Bool)
+  cas :  Expr ι (◸ Addr) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ 𝔹)
 
   -- Allocating a new memory block
   alloc :  Expr ι (◸ ℕ) →  Expr ι (◸ Addr)

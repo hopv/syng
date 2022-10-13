@@ -12,7 +12,7 @@ open import Base.Few using (absurd)
 open import Base.Eq using (refl; ◠_)
 open import Base.Dec using (Inh; auto)
 open import Base.Size using (Size; ∞; !; §_)
-open import Base.Bool using (Bool; tt; ff)
+open import Base.Bool using (𝔹; tt; ff)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
@@ -34,7 +34,7 @@ open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩
 private variable
   ł :  Level
   ι ι' :  Size
-  b :  Bool
+  b :  𝔹
   Xʸ :  Setʸ
   X :  Set₀
   v x :  X

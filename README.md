@@ -151,7 +151,7 @@ following parts.
             agreement ERA.
         * Language-specific ERA ―
             [`Mem`](src/Syho/Model/ERA/Mem.agda) for the memory ERA.
-        * Logic-dependent ERAs ―
+        * Logic-specific ERAs ―
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Inv`](src/Syho/Model/ERA/Inv.agda) for the invariant ERA;
             [`Lft`](src/Syho/Model/ERA/Lft.agda) for the lifetime ERA.

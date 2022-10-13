@@ -14,8 +14,8 @@ open import Base.Dec using (yes; no; _≟_; ≟-refl)
 open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; ṡ_; ≤-refl; <⇒≤; <-irrefl; Cofin˙; ∀≥˙-upd˙-ṡ;
   Cofin˙-resp)
-open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
-  1≤1ᴿ⁺; ≤1ᴿ⁺-rem)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; 1≤1ᴿ⁺;
+  ≤1ᴿ⁺-rem)
 open import Syho.Logic.Prop using (Lft)
 open import Syho.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
 import Syho.Model.ERA.All

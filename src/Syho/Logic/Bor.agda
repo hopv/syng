@@ -12,7 +12,7 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Base.RatPos using (ℚ⁺)
+open import Base.Ratp using (ℚ⁺)
 open import Syho.Lang.Expr using (Addr; Type; V⇒E)
 open import Syho.Lang.Ktxred using (🞰ᴿ_; Ktx; _ᴷ◁_)
 open import Syho.Logic.Prop using (Lft; WpKind; Prop∞; Prop˂∞; ¡ᴾ_; _∧_; ⌜_⌝∧_;

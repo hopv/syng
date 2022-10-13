@@ -12,7 +12,7 @@ open import Base.Eq using (_≡_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Nat using (ℕ; +-0)
 open import Base.List using (List; []; _∷_)
-open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; _ₒ_; TyVal)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; [∙ᴹᵉᵐ∈ⁱ]-syntax;
   [∙ᴹᵉᵐ∈ⁱ⟨⟩]-syntax; ◠˜ᴹᵉᵐ_; _↦⟨_⟩ʳ_; _↦ʳ_; freeʳ; _↦ᴸʳ_; ↦⟨⟩ʳ-agree; ↦⟨⟩ʳ-≤1;

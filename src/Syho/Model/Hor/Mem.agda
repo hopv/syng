@@ -15,7 +15,7 @@ open import Base.Option using (š_; ň; š-inj)
 open import Base.Prod using (∑-syntax; π₁; _,_; -,_; ≡∑⇒π₁≡)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; len; rep)
-open import Base.RatPos using (ℚ⁺)
+open import Base.Ratp using (ℚ⁺)
 open import Base.Sety using (Setʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; Val; TyVal; ⊤-; Mem;
   _‼ᴹ_; updᴹ; ✓ᴹ-∑ň)

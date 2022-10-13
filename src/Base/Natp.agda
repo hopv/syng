@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Base.NatPos where
+module Base.Natp where
 
 open import Base.Func using (_$_)
 open import Base.Few using (¬_)

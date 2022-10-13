@@ -16,11 +16,11 @@ open import Base.Option using (¿_)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Base.NatPos using (ℕ⁺)
+open import Base.Natp using (ℕ⁺)
 open import Base.List using (List; List⁺; [_]⁺; hd⁺)
 open import Base.Seq using (Seq∞; hdˢ; repˢ)
 open import Base.Str using (Char; Str)
-open import Base.RatPos using (ℚ⁺)
+open import Base.Ratp using (ℚ⁺)
 
 --------------------------------------------------------------------------------
 -- Setʸ :  Syntactic set, or syntax for a subset of Set₀

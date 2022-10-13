@@ -17,7 +17,7 @@ open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡
   <-trans; +-0; +-ṡ; +-smonoʳ)
 open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
   ‼-len≡-ň; ‼-len≡-š; upd-len; upd-‼-out; upd-‼-in; rep-len)
-open import Base.RatPos using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; TyVal; ⊤-; Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_;
   ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ; Envvᴱᴿᴬ; Upᴱᴿᴬ)

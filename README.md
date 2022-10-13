@@ -104,11 +104,11 @@ The library consists of the following parts.
     [`Prod`](src/Base/Prod.agda) for sigma and product types;
     [`Sum`](src/Base/Sum.agda) for sum types;
     [`Nat`](src/Base/Nat.agda) for natural numbers;
-    [`NatPos`](src/Base/NatPos.agda) for positive natural numbers;
+    [`Natp`](src/Base/Natp.agda) for positive natural numbers;
     [`List`](src/Base/List.agda) for singly linked lists;
     [`Seq`](src/Base/Seq.agda) for infinite sequences;
     [`Str`](src/Base/Str.agda) for characters and strings;
-    [`RatPos`](src/Base/RatPos.agda) for positive rational numbers.
+    [`Ratp`](src/Base/Ratp.agda) for positive rational numbers.
 - **Misc** ― [`Sety`](src/Base/Sety.agda) for syntactic sets.
 
 ### [`Syho/`](src/Syho/)

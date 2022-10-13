@@ -14,7 +14,7 @@ open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _+_; _⊔_; ≤-refl; ≤-trans; ⊔-introˡ;
   ⊔-comm)
 open import Base.List using (List; []; _∷_)
-open import Base.RatPos using (ℚ⁺)
+open import Base.Ratp using (ℚ⁺)
 open import Base.Seq using (Seq∞; _∷ˢ_; hdˢ; tlˢ; repˢ; rep²ˢ; takeˢ)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Type; TyVal;

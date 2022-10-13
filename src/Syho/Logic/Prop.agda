@@ -15,7 +15,7 @@ open import Base.Zoi using (Zoi; ⊤ᶻ; ^ᶻ_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Base.Str using (Str)
-open import Base.RatPos using (ℚ⁺; 1ᴿ⁺)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr∞; Val; TyVal)
 open import Syho.Lang.Ktxred using (Redex)
 

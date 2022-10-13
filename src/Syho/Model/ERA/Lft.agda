@@ -214,7 +214,7 @@ abstract
   … | εᴸᵇ | εᴸᵇ | refl =  refl
   … | ↯ᴸᵇ | _ | ()
 
--- Construct Lftᴱᴿᴬ
+-- Lftᴱᴿᴬ :  Lifetime ERA
 
 module AllLft =  Syho.Model.ERA.All Lft (λ _ → Lftbᴱᴿᴬ)
 open AllLft public using () renaming (

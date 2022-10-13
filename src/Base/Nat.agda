@@ -188,6 +188,13 @@ abstract
   … | ĩ₀ n≤m =  ĩ₁ n≤m
   … | ĩ₁ n>m =  ĩ₀ n>m
 
+  -- Turn ≤ into < or ≡
+
+  ≤⇒<≡ :  m ≤ n →  m < n  ⨿  m ≡ n
+  ≤⇒<≡ {m} {n} m≤n  with m <≥ n
+  … | ĩ₀ m<n =  ĩ₀ m<n
+  … | ĩ₁ m≥n =  ĩ₁ ≤-antisym m≤n m≥n
+
   -- Conversion between ≤ and ≤ᵈ
 
   0≤ᵈ :  0 ≤ᵈ n

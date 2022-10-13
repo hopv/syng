@@ -7,12 +7,13 @@
 module Syho.Logic.Hor where
 
 open import Base.Func using (_$_; _∘_; id)
+open import Base.Eq using (refl)
 open import Base.Dec using (Inh)
 open import Base.Size using (𝕊; !; _$ᵀʰ_)
 open import Base.Bool using (𝔹; tt; ff)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ; _≤ᵈ_; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ṡ≤ᵈṡ; ≤⇒≤ᵈ)
+open import Base.Nat using (ℕ; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ≤⇒<≡; ≤⇒≤ᵈ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; _∗_; [⊤]ᴺ)
 open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-comm)
@@ -79,18 +80,15 @@ abstract
   ahor-<ᵈ ≤ᵈ-refl =  ahor-ṡ
   ahor-<ᵈ (≤ᵈṡ i<j') =  ahor-ṡ ∘ ⇒< ∘ ahor-<ᵈ i<j'
 
-  ahor-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
-             P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
-  ahor-≤ᵈ ≤ᵈ-refl =  id
-  ahor-≤ᵈ (≤ᵈṡ i≤j') =  ahor-<ᵈ (ṡ≤ᵈṡ i≤j') ∘ ⇒<
-
   ahor-< :  i < j  →   P  ⊢[< ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
             P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
   ahor-< =  ahor-<ᵈ ∘ ≤⇒≤ᵈ
 
   ahor-≤ :  i ≤ j  →   P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
             P  ⊢[ ι ][ j ]ᵃ⟨ red ⟩  Q˙
-  ahor-≤ =  ahor-≤ᵈ ∘ ≤⇒≤ᵈ
+  ahor-≤ i≤j  with ≤⇒<≡ i≤j
+  … | ĩ₀ i<j =  ahor-< i<j ∘ ⇒<
+  … | ĩ₁ refl =  id
 
   -->  horᵀ-ṡ :  P  ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ ṡ i ]  Q˙
 
@@ -99,18 +97,15 @@ abstract
   horᵀ-<ᵈ ≤ᵈ-refl =  horᵀ-ṡ
   horᵀ-<ᵈ (≤ᵈṡ i<j') =  horᵀ-ṡ ∘ ⇒< ∘ horᵀ-<ᵈ i<j'
 
-  horᵀ-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
-             P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
-  horᵀ-≤ᵈ ≤ᵈ-refl =  id
-  horᵀ-≤ᵈ (≤ᵈṡ i≤j') =  horᵀ-<ᵈ (ṡ≤ᵈṡ i≤j') ∘ ⇒<
-
   horᵀ-< :  i < j  →   P  ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
             P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
   horᵀ-< =  horᵀ-<ᵈ ∘ ≤⇒≤ᵈ
 
   horᵀ-≤ :  i ≤ j  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
             P  ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ j ]  Q˙
-  horᵀ-≤ =  horᵀ-≤ᵈ ∘ ≤⇒≤ᵈ
+  horᵀ-≤ i≤j  with ≤⇒<≡ i≤j
+  … | ĩ₀ i<j =  horᵀ-< i<j ∘ ⇒<
+  … | ĩ₁ refl =  id
 
   -->  ihor-ṡ :  P  ⊢[< ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ ṡ i ]⁺⟨ vk ⟩∞
 
@@ -118,15 +113,13 @@ abstract
   ihor-<ᵈ ≤ᵈ-refl =  ihor-ṡ
   ihor-<ᵈ (≤ᵈṡ i<j') =  ihor-ṡ ∘ ⇒< ∘ ihor-<ᵈ i<j'
 
-  ihor-≤ᵈ :  i ≤ᵈ j  →   P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
-  ihor-≤ᵈ ≤ᵈ-refl =  id
-  ihor-≤ᵈ (≤ᵈṡ i≤j') =  ihor-ṡ ∘ ⇒< ∘ ihor-≤ᵈ i≤j'
-
   ihor-< :  i < j  →   P  ⊢[< ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
   ihor-< =  ihor-<ᵈ ∘ ≤⇒≤ᵈ
 
   ihor-≤ :  i ≤ j  →   P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ j ]⁺⟨ vk ⟩∞
-  ihor-≤ =  ihor-≤ᵈ ∘ ≤⇒≤ᵈ
+  ihor-≤ i≤j  with ≤⇒<≡ i≤j
+  … | ĩ₀ i<j =  ihor-< i<j ∘ ⇒<
+  … | ĩ₁ refl =  id
 
   -- Compose
 

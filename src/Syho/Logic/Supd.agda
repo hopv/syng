@@ -7,8 +7,10 @@
 module Syho.Logic.Supd where
 
 open import Base.Func using (_$_; _∘_; id)
+open import Base.Eq using (refl)
 open import Base.Size using (𝕊)
-open import Base.Nat using (ℕ; _≤ᵈ_; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ṡ≤ᵈṡ; ≤⇒≤ᵈ)
+open import Base.Sum using (ĩ₀_; ĩ₁_)
+open import Base.Nat using (ℕ; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ≤⇒<≡; ≤⇒≤ᵈ)
 open import Syho.Logic.Prop using (Prop∞; _∗_; ⤇_)
 open import Syho.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∗-comm; ∗-assocˡ;
   ∗-assocʳ; ⤇-intro)
@@ -32,15 +34,13 @@ abstract
   ⇛-<ᵈ ≤ᵈ-refl =  ⇛-ṡ
   ⇛-<ᵈ (≤ᵈṡ i<j') =  ⇛-ṡ ∘ ⇒< ∘ ⇛-<ᵈ i<j'
 
-  ⇛-≤ᵈ :  i ≤ᵈ j →  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ j ]⇛ Q
-  ⇛-≤ᵈ ≤ᵈ-refl =  id
-  ⇛-≤ᵈ (≤ᵈṡ i≤j') =  ⇛-<ᵈ (ṡ≤ᵈṡ i≤j') ∘ ⇒<
-
   ⇛-< :  i < j →  P ⊢[< ι ][ i ]⇛ Q →  P ⊢[ ι ][ j ]⇛ Q
   ⇛-< =  ⇛-<ᵈ ∘ ≤⇒≤ᵈ
 
   ⇛-≤ :  i ≤ j →  P ⊢[ ι ][ i ]⇛ Q →  P ⊢[ ι ][ j ]⇛ Q
-  ⇛-≤ =  ⇛-≤ᵈ ∘ ≤⇒≤ᵈ
+  ⇛-≤ i≤j  with ≤⇒<≡ i≤j
+  … | ĩ₀ i<j =  ⇛-< i<j ∘ ⇒<
+  … | ĩ₁ refl =  id
 
   -- Reflexivity of ⇛
 

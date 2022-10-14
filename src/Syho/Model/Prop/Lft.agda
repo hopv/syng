@@ -41,7 +41,7 @@ infix 8 †ᴸᵒ_
 
 abstract
 
-  -- Merge and split [ ]ᴸ⟨ ⟩ᵒ w.r.t. ∗ᵒ
+  -- Merge and split [ ]ᴸ⟨ ⟩ᵒ w.r.t. +ᴿ⁺
 
   []ᴸ⟨⟩ᵒ-merge :  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  [ α ]ᴸ⟨ q ⟩ᵒ  ⊨  [ α ]ᴸ⟨ p +ᴿ⁺ q ⟩ᵒ
   []ᴸ⟨⟩ᵒ-merge =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-resp []ᴸ⟨⟩ʳ-∙

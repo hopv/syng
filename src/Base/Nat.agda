@@ -147,6 +147,9 @@ abstract
   ≤⇒¬> :  m ≤ n →  ¬ m > n
   ≤⇒¬> (ṡ≤ṡ m'≤n') (ṡ<ṡ m'>n') =  ≤⇒¬> m'≤n' m'>n'
 
+  <⇒¬≥ :  m < n →  ¬ m ≥ n
+  <⇒¬≥ m<n m≥n =  ≤⇒¬> m≥n m<n
+
   -- < is asymmetric
 
   <-asym :  m < n →  ¬ m > n

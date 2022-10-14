@@ -129,13 +129,13 @@ abstract
 
   +ᴿ⁺-congˡ :  p ≈ᴿ⁺ q →  p +ᴿ⁺ r ≈ᴿ⁺ q +ᴿ⁺ r
   +ᴿ⁺-congˡ {a //⁺ b} {c //⁺ d} {e //⁺ f} da≡bc =
+    -- (df)(fa+be) ≡ (d(fa+be))f ≡ (b(fc+de))f ≡ (bf)(fc+de)
     *⁺?-comm {d} {f} ◇ cong (_*⁺ f) eq ◇ *⁺?-comm {b} {_} {f}
-    -- (d *⁺ f) *⁺ (f *⁺ a +⁺ b *⁺ e) ≡ (b *⁺ f) *⁺ (f *⁺ c +⁺ d *⁺ e)
    where
     eq :  d *⁺ (f *⁺ a +⁺ b *⁺ e) ≡ b *⁺ (f *⁺ c +⁺ d *⁺ e)
     eq =
-      -- d*(fa+be) ≡ d(fa)+d(be) ≡ d(fa)+b(de) ≡ f(da)+b(de) ≡ f(bc)+b(de) ≡
-      -- b(fc)+b(de) ≡ b*(fc+de)
+      -- d(fa+be) ≡ d(fa)+d(be) ≡ d(fa)+b(de) ≡ f(da)+b(de) ≡ f(bc)+b(de) ≡
+      -- b(fc)+b(de) ≡ b(fc+de)
       *⁺-+⁺-distrʳ {d} ◇
       flip (cong₂ _+⁺_) (?*⁺-comm {d} {b})
         (?*⁺-comm {d} {f} ◇ cong (f *⁺_) da≡bc ◇ ?*⁺-comm {f} {b}) ◇

@@ -11,7 +11,7 @@ open import Base.Few using (binary; absurd)
 open import Base.Size using (𝕊; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; curry)
 open import Base.Sum using (_⨿_)
-open import Base.Zoi using (Zoi; ⊤ᶻ; ^ᶻ_)
+open import Base.Zoi using (Zoi; ✔ᶻ_; ⊤ᶻ; ^ᶻ_; ^ᶻ-✔)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Base.Str using (Str)
@@ -68,6 +68,7 @@ private variable
   ᵗv :  TyVal
   T :  Type
   Nm :  Name → Zoi
+  nm :  Name
   α :  Lft
 
 infix 3 ⤇_ _→'_ _-∗_
@@ -233,6 +234,13 @@ syntax [∗∈ⁱ⟨⟩]-syntax (λ ix → P) k xs =  [∗ ix ∈ⁱ⟨ k ⟩ xs
 
 [^_]ᴺ :  Name →  Prop' ι
 [^ nm ]ᴺ =  [ ^ᶻ nm ]ᴺ
+
+abstract
+
+  -- ^ᶻ-✔ for Name
+
+  ^ᶻᴺ-✔ :  ✔ᶻ ^ᶻ nm
+  ^ᶻᴺ-✔ =  ^ᶻ-✔
 
 --------------------------------------------------------------------------------
 -- Extend _↦⟨_⟩_

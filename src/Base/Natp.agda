@@ -200,6 +200,12 @@ abstract
   +⁺-sincrʳ :  m <⁺ m +⁺ n
   +⁺-sincrʳ {m} =  subst (m <⁺_) +⁺-comm +⁺-sincrˡ
 
+  +⁺-incrˡ :  ∀{m n} →  n ≤⁺ m +⁺ n
+  +⁺-incrˡ =  <⁺⇒≤⁺ +⁺-sincrˡ
+
+  +⁺-incrʳ :  m ≤⁺ m +⁺ n
+  +⁺-incrʳ =  <⁺⇒≤⁺ +⁺-sincrʳ
+
 --------------------------------------------------------------------------------
 -- *⁺ :  Multiplication
 

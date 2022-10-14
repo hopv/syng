@@ -200,10 +200,10 @@ abstract
 
   -- Cofinεᴸᵇ is preserved by removal w.r.t. ∙ᴸᵇ˙
 
-  Cofinεᴸᵇ˙-rem :  Cofinεᴸᵇ (a˙ ∙ᴸᵇ˙ b˙) →  Cofinεᴸᵇ b˙
-  Cofinεᴸᵇ˙-rem {a˙} {b˙} (n ,-) .π₀ =  n
-  Cofinεᴸᵇ˙-rem {a˙} {b˙} (-, i≥n⇒ai∙bi≡ε) .π₁ i i≥n
-    with a˙ i | b˙ i | i≥n⇒ai∙bi≡ε i i≥n
+  Cofinεᴸᵇ-rem :  Cofinεᴸᵇ (a˙ ∙ᴸᵇ˙ b˙) →  Cofinεᴸᵇ b˙
+  Cofinεᴸᵇ-rem {a˙} {b˙} (α ,-) .π₀ =  α
+  Cofinεᴸᵇ-rem {a˙} {b˙} (-, β≥α⇒aβ∙bβ≡ε) .π₁ β β≥α
+    with a˙ β | b˙ β | β≥α⇒aβ∙bβ≡ε β β≥α
   … | εᴸᵇ | εᴸᵇ | refl =  refl
   … | ↯ᴸᵇ | _ | ()
 
@@ -218,7 +218,7 @@ open AllLft public using () renaming (
 
 Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Lftᴱᴿᴬ =  Upᴱᴿᴬ (Valmᴱᴿᴬ ∀Lftᴱᴿᴬ (λ _ → Cofinεᴸᵇ)
-  (Cofin˙-resp {F = λ _ → _≡ εᴸᵇ}) (λ{_} {a˙} → Cofinεᴸᵇ˙-rem {a˙}))
+  (Cofin˙-resp {F = λ _ → _≡ εᴸᵇ}) (λ{_} {a˙} → Cofinεᴸᵇ-rem {a˙}))
 
 open ERA Lftᴱᴿᴬ public using () renaming (Res to Resᴸᶠᵗ; _≈_ to _≈ᴸᶠᵗ_;
   _∙_ to _∙ᴸᶠᵗ_; ε to εᴸᶠᵗ; ⌞_⌟ to ⌞_⌟ᴸᶠᵗ; _✓_ to _✓ᴸᶠᵗ_; _↝_ to _↝ᴸᶠᵗ_;

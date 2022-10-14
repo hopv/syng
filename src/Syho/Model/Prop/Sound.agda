@@ -187,7 +187,7 @@ abstract
 
   ⊢-sem []ᴺ-✔ ✓∙ =  []ᴺᵒ-✔ ✓∙ › (_, absurd)
 
-  -- ↦⟨⟩-resp :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ q ⟩ ᵗv
+  -- ↦⟨⟩-resp :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ ᵗv  ⊢[ ∞ ]  θ ↦⟨ q ⟩ ᵗv
 
   ⊢-sem (↦⟨⟩-resp p≈q) _ =  ↦⟨⟩ᵒ-resp p≈q
 
@@ -345,7 +345,7 @@ abstract
 
   ⊢-sem (%ⁱ-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › %ⁱᵒ-eatˡ
 
-  -- []ᴸ⟨⟩-resp :  p ≈ᴿ⁺ q  →   [ α ]ᴸ⟨ p ⟩  ⊢[ ι ]  [ α ]ᴸ⟨ q ⟩
+  -- []ᴸ⟨⟩-resp :  p ≈ᴿ⁺ q  →   [ α ]ᴸ⟨ p ⟩  ⊢[ ∞ ]  [ α ]ᴸ⟨ q ⟩
 
   ⊢-sem ([]ᴸ⟨⟩-resp p≈q) _ =  []ᴸ⟨⟩ᵒ-resp p≈q
 

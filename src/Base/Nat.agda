@@ -112,7 +112,7 @@ abstract
   ≤-trans 0≤ _ =  0≤
   ≤-trans (ṡ≤ṡ l≤m) (ṡ≤ṡ m≤n) =  ṡ≤ṡ $ ≤-trans l≤m m≤n
 
-  -- Composing ≤ and <
+  -- Compose ≤ and <
 
   ≤-<-trans :  l ≤ m →  m < n →  l < n
   ≤-<-trans l≤m ṡm≤n =  ≤-trans (ṡ≤ṡ l≤m) ṡm≤n

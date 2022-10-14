@@ -126,6 +126,7 @@ following parts.
     + [`Prop`](src/Syho/Logic/Prop.agda) for propositions;
         [`Judg`](src/Syho/Logic/Judg.agda) for judgments.
     + [`Core`](src/Syho/Logic/Core.agda) for core proof rules;
+        [`Names`](src/Syho/Logic/Names.agda) for the name set token;
         [`Supd`](src/Syho/Logic/Supd.agda) for the super update;
         [`Hor`](src/Syho/Logic/Supd.agda) for the Hoare triple;
         [`Mem`](src/Syho/Logic/Mem.agda) for the memory;

@@ -9,28 +9,26 @@ module Syho.Logic.Inv where
 open import Base.Func using (_$_)
 open import Base.Eq using (◠˙_)
 open import Base.Size using (𝕊; !; ¡_; _$ᵀʰ_)
-open import Base.Zoi using (Zoi; _⊆ᶻ_; _∖ᶻ_; ⊆ᶻ⇒∖-⊎ˡ)
 open import Base.Prod using (_,_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (Name; Prop∞; Prop˂∞; ¡ᴾ_; _∧_; _∗_; _-∗_;
-  [_]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; Basic)
+  [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∧-monoˡ;
-  ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm; ∗⇒∧;
-  -∗-introˡ; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
+  ∧-elimʳ; ⊤∧-intro; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm; ∗⇒∧;
+  -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; ahor-frameʳ)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔;
-  &ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ; &ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
+open import Syho.Logic.Judg public using (&ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ;
+  &ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
 
 private variable
   ι :  𝕊
   P Q R :  Prop∞
   P˂ Q˂ :  Prop˂∞
-  Nm Nm' :  Name → Zoi
   nm :  Name
   i :  ℕ
   T :  Type
@@ -39,36 +37,6 @@ private variable
   R˙ :  X →  Prop∞
 
 abstract
-
-  ------------------------------------------------------------------------------
-  -- On the name set token
-
-  -->  []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ι ] [ Nm' ]ᴺ
-
-  -->  []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ⊎ᶻ Nm' ]ᴺ
-
-  -->  []ᴺ-split :  [ Nm ⊎ᶻ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ
-
-  -->  []ᴺ-✔ :  [ Nm ]ᴺ  ⊢[ ι ]  ⌜ ✔ᶻ Nm ⌝
-
-  -- Take out a name set token of a subset
-
-  []ᴺ-⊆-split :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  [ Nm ∖ᶻ Nm' ]ᴺ
-  []ᴺ-⊆-split Nm'⊆Nm =  []ᴺ-resp (◠˙ ⊆ᶻ⇒∖-⊎ˡ Nm'⊆Nm) » []ᴺ-split
-
-  []ᴺ-⊆-merge :  Nm' ⊆ᶻ Nm  →   [ Nm' ]ᴺ  ∗  [ Nm ∖ᶻ Nm' ]ᴺ  ⊢[ ι ]  [ Nm ]ᴺ
-  []ᴺ-⊆-merge Nm'⊆Nm =  []ᴺ-merge » []ᴺ-resp (⊆ᶻ⇒∖-⊎ˡ Nm'⊆Nm)
-
-  []ᴺ-⊆--∗ :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  ([ Nm' ]ᴺ -∗ [ Nm ]ᴺ)
-  []ᴺ-⊆--∗ Nm'⊆Nm =
-    []ᴺ-⊆-split Nm'⊆Nm » ∗-monoʳ $ -∗-introˡ $ []ᴺ-⊆-merge Nm'⊆Nm
-
-  -- Use only a part of a name set token for super update
-
-  ⇛-[]ᴺ-⊆ :  Nm' ⊆ᶻ Nm  →   P  ∗  [ Nm' ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm' ]ᴺ  →
-             P  ∗  [ Nm ]ᴺ  ⊢[ ι ][ i ]⇛  Q  ∗  [ Nm ]ᴺ
-  ⇛-[]ᴺ-⊆ Nm'⊆Nm P⊢⇛[Nm']Q =  ∗-monoʳ ([]ᴺ-⊆--∗ Nm'⊆Nm) » ∗-assocʳ »
-    ⇛-frameʳ P⊢⇛[Nm']Q ᵘ» ∗-assocˡ » ∗-monoʳ -∗-applyˡ
 
   ------------------------------------------------------------------------------
   -- On the invariant and open invariant tokens

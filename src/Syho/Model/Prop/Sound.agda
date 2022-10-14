@@ -15,14 +15,14 @@ open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim
   ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
   ∗-assocˡ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
+open import Syho.Logic.Names using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
 open import Syho.Logic.Mem using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
   ↦⟨⟩-agree)
 open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-monoʳᵘ;
   ↪⇛-eatˡ⁻ʳ; ↪⇛-frameˡ; ○⇒↪⇛;  ↪ᵃ⟨⟩-≤; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ;
   ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-≤; ↪⟨⟩-eatˡ⁻ˡᵘᴺ; ↪⟨⟩-monoʳᵘᴺ; ↪⟨⟩-eatˡ⁻ʳ;
   ↪⟨⟩-frameˡ; ○⇒↪⟨⟩; ↪⟨⟩∞-≤; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞)
-open import Syho.Logic.Inv using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔; &ⁱ-⇒□;
-  &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ)
+open import Syho.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ)
 open import Syho.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new)
 open import Syho.Logic.Bor using (&ˢ-⇒□; ⟨†⟩-mono; ⟨†⟩-eatˡ; &ˢ-resp-□∧;

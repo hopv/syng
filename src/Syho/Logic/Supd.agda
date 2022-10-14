@@ -9,11 +9,13 @@ module Syho.Logic.Supd where
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Eq using (refl)
 open import Base.Size using (𝕊)
+open import Base.Zoi using (Zoi; ✔ᶻ_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ≤⇒<≡; ≤⇒≤ᵈ)
-open import Syho.Logic.Prop using (Prop∞; _∗_; ⤇_)
-open import Syho.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∗-comm; ∗-assocˡ;
-  ∗-assocʳ; ⤇-intro)
+open import Syho.Logic.Prop using (Name; Prop∞; _∗_; ⤇_; [_]ᴺ)
+open import Syho.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∗-monoˡ; ∗-comm;
+  ∗-assocˡ; ∗-assocʳ; ∗?-comm; -∗-applyˡ; ⤇-intro)
+open import Syho.Logic.Names using ([]ᴺ-⊆--∗)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_;
@@ -23,6 +25,7 @@ private variable
   ι :  𝕊
   i j :  ℕ
   P Q R :  Prop∞
+  Nm :  Name → Zoi
 
 abstract
 
@@ -105,3 +108,9 @@ abstract
 
   ⇛ᴺ-frameˡ :  P ⊢[ ι ][ i ]⇛ᴺ Q →  R ∗ P ⊢[ ι ][ i ]⇛ᴺ R ∗ Q
   ⇛ᴺ-frameˡ P⊢⇛Q =  ∗-comm »ᵘᴺ ⇛ᴺ-frameʳ P⊢⇛Q ᵘᴺ» ∗-comm
+
+  -- Turn ⇛ with a valid name set token into ⇛ᴺ
+
+  ⇛✔⇒⇛ᴺ :  ✔ᶻ Nm →  [ Nm ]ᴺ ∗ P ⊢[ ι ][ i ]⇛ [ Nm ]ᴺ ∗ Q →  P ⊢[ ι ][ i ]⇛ᴺ Q
+  ⇛✔⇒⇛ᴺ ✔Nm [Nm]∗P⊢⇛[Nm]∗Q =  ∗-monoˡ ([]ᴺ-⊆--∗ ✔Nm) » ∗?-comm »
+    ⇛-frameʳ [Nm]∗P⊢⇛[Nm]∗Q ᵘ» ∗?-comm » ∗-monoˡ -∗-applyˡ

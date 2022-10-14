@@ -30,6 +30,7 @@ record  ℚ⁺ : Set where
 -- because superscipt Q or q is not widely supported in Unicode
 
 private variable
+  a b c :  ℕ⁺
   p q r s :  ℚ⁺
 
 --------------------------------------------------------------------------------
@@ -79,6 +80,16 @@ abstract
       cong (d *⁺_) (*⁺-comm {f} {a}) ◇ *⁺-assocʳ {d} {a} {f} ◇
       cong (_*⁺ f) da≡bc ◇ *⁺-assocˡ {b} {c} {f} ◇
       cong (b *⁺_) (*⁺-comm {c} {f} ◇ fc≡de) ◇ ?*⁺-comm {b} {d} {e}
+
+  -- Cancel multiplication of the numerator and denominator by the same factor
+
+  //⁺-*ˡ :  (c *⁺ a) //⁺ (c *⁺ b)  ≈ᴿ⁺  a //⁺ b
+  //⁺-*ˡ {c} {a} {b} =  -- b(ca) ≡ c(ba) ≡ (cb)a
+    ?*⁺-comm {b} {c} {a} ◇ *⁺-assocʳ {c} {b} {a}
+
+  //⁺-*ʳ :  (a *⁺ c) //⁺ (b *⁺ c)  ≈ᴿ⁺  a //⁺ b
+  //⁺-*ʳ {a} {c} {b} =  -- b(ac) ≡ (ba)c ≡ (bc)a
+    *⁺-assocʳ {b} {a} {c} ◇ *⁺?-comm {b} {a} {c}
 
 --------------------------------------------------------------------------------
 -- +ᴿ⁺ :  Addition over ℚ⁺

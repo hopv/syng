@@ -10,10 +10,10 @@ open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
 open import Base.Size using (𝕊; ∞; Thunk; ¡_; !)
 open import Base.Prod using (_×_; _,_; curry)
-open import Base.Sum using (_⨿_)
+open import Base.Sum using (_⨿_; ĩ₀_)
 open import Base.Zoi using (Zoi; ✔ᶻ_; ⊤ᶻ; ^ᶻ_; ^ᶻ-✔)
 open import Base.Nat using (ℕ)
-open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
+open import Base.List using (List; []; _∷_; [_]; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Base.Str using (Str)
 open import Base.Ratp using (ℚ⁺; 1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr∞; Val; TyVal)
@@ -267,6 +267,18 @@ P ↪⟨ e ⟩ᴾ Q˙ =  P ↪⟨ e ⟩[ par ] Q˙
 
 _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂ ι) →  Prop' ι
 P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
+
+------------------------------------------------------------------------------
+-- Static reference
+
+static :  Name
+static =  [ ĩ₀ "static" ]
+
+-- ↦ⁱ :  Points-to token under an invariant
+
+infix 9 _↦ⁱ_
+_↦ⁱ_ :  Addr →  TyVal →  Prop' ι
+θ ↦ⁱ ᵗv =  &ⁱ⟨ static ⟩ ¡ᴾ θ ↦ ᵗv
 
 --------------------------------------------------------------------------------
 -- [ ]ᴸ :  Full lifetime token

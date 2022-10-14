@@ -9,18 +9,18 @@ module Syho.Model.Prop.Interp where
 open import Base.Level using (1ᴸ)
 open import Base.Func using (id)
 open import Base.Size using (!)
-open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_;
-  _↦⟨_⟩_; Free; ○_; [_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_;
-  _↪[_]⟨_⟩∞; [_]ᴸ⟨_⟩; †ᴸ_; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; Basic; ∀-Basic; ∃-Basic;
-  →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; ↦⟨⟩-Basic; Free-Basic;
-  []ᴺ-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic)
+open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
+  _↦⟨_⟩_; Free; ○_; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪[_]⟨_⟩∞;
+  [_]ᴸ⟨_⟩; †ᴸ_; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; Basic; ∀-Basic; ∃-Basic; →-Basic;
+  ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic;
+  []ᴸ⟨⟩-Basic; †ᴸ-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono; ∃ᵒ-mono; →ᵒ-Mono;
   →ᵒ-mono; ∗ᵒ-Mono; ∗ᵒ-mono; -∗ᵒ-Mono; -∗ᵒ-mono; ⤇ᵒ-Mono; ⤇ᵒ-mono; □ᵒ-Mono;
   □ᵒ-mono; ◎-Mono)
-open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Syho.Model.Prop.Names using ([_]ᴺᵒ)
+open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᴹ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
@@ -44,6 +44,7 @@ postulate
 ⸨ P -∗ Q ⸩ =  ⸨ P ⸩ -∗ᵒ ⸨ Q ⸩
 ⸨ ⤇ P ⸩ =  ⤇ᵒ ⸨ P ⸩
 ⸨ □ P ⸩ =  □ᵒ ⸨ P ⸩
+⸨ [ Nm ]ᴺ ⸩ =  [ Nm ]ᴺᵒ
 ⸨ θ ↦⟨ p ⟩ ᵗv ⸩ =  θ ↦⟨ p ⟩ᵒ ᵗv
 ⸨ Free n θ ⸩ =  Freeᵒ n θ
 ⸨ ○ P˂ ⸩ =  ○ᵒ P˂ .!
@@ -51,7 +52,6 @@ postulate
 ⸨ P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙ ⸩ =  P˂ .! ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ↪⟨ e ⟩[ κ ] Q˂˙ ⸩ =  P˂ .! ↪⟨ e ⟩[ κ ]ᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ↪[ i ]⟨ e ⟩∞ ⸩ =  P˂ .! ↪[ i ]⟨ e ⟩∞ᵒ
-⸨ [ Nm ]ᴺ ⸩ =  [ Nm ]ᴺᵒ
 ⸨ &ⁱ⟨ nm ⟩ P˂ ⸩ =  &ⁱ⟨ nm ⟩ᵒ P˂ .!
 ⸨ %ⁱ⟨ nm ⟩ P˂ ⸩ =  %ⁱ⟨ nm ⟩ᵒ P˂ .!
 ⸨ [ α ]ᴸ⟨ p ⟩ ⸩ =  [ α ]ᴸ⟨ p ⟩ᵒ
@@ -72,6 +72,7 @@ abstract
   ⸨⸩-Mono {_ -∗ _} =  -∗ᵒ-Mono
   ⸨⸩-Mono {⤇ _} =  ⤇ᵒ-Mono
   ⸨⸩-Mono {□ P} =  □ᵒ-Mono (⸨⸩-Mono {P})
+  ⸨⸩-Mono {[ _ ]ᴺ} =  ◎-Mono
   ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  ◎-Mono
   ⸨⸩-Mono {Free _ _} =  Freeᵒ-Mono
   ⸨⸩-Mono {○ _} =  ○ᵒ-Mono
@@ -81,7 +82,6 @@ abstract
   ⸨⸩-Mono {_ ↪[ _ ]⟨ _ ⟩∞} =  ↪⟨⟩∞ᵒ-Mono
   ⸨⸩-Mono {&ⁱ⟨ _ ⟩ _} =  &ⁱᵒ-Mono
   ⸨⸩-Mono {%ⁱ⟨ _ ⟩ _} =  %ⁱᵒ-Mono
-  ⸨⸩-Mono {[ _ ]ᴺ} =  ◎-Mono
   ⸨⸩-Mono {[ _ ]ᴸ⟨ _ ⟩} =  ◎-Mono
   ⸨⸩-Mono {†ᴸ _} =  ◎-Mono
   ⸨⸩-Mono {⟨† _ ⟩ _} =  WIP
@@ -101,9 +101,9 @@ abstract
   ⸨⸩-ᴮ⇒ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-⇒ᴮ {P}) (⸨⸩-ᴮ⇒ {Q})
   ⸨⸩-ᴮ⇒ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-ᴮ⇒ {P})
   ⸨⸩-ᴮ⇒ {{□-Basic {P}}} =  □ᵒ-mono λ{a} → ⸨⸩-ᴮ⇒ {P} {a}
+  ⸨⸩-ᴮ⇒ {{[]ᴺ-Basic}} =  id
   ⸨⸩-ᴮ⇒ {{↦⟨⟩-Basic}} =  id
   ⸨⸩-ᴮ⇒ {{Free-Basic}} =  id
-  ⸨⸩-ᴮ⇒ {{[]ᴺ-Basic}} =  id
   ⸨⸩-ᴮ⇒ {{[]ᴸ⟨⟩-Basic}} =  id
   ⸨⸩-ᴮ⇒ {{†ᴸ-Basic}} =  id
 
@@ -114,8 +114,8 @@ abstract
   ⸨⸩-⇒ᴮ {{ -∗-Basic {P} {Q}}} =  -∗ᵒ-mono (⸨⸩-ᴮ⇒ {P}) (⸨⸩-⇒ᴮ {Q})
   ⸨⸩-⇒ᴮ {{⤇-Basic {P}}} =  ⤇ᵒ-mono (⸨⸩-⇒ᴮ {P})
   ⸨⸩-⇒ᴮ {{□-Basic {P}}} =  □ᵒ-mono λ{a} → ⸨⸩-⇒ᴮ {P} {a}
+  ⸨⸩-⇒ᴮ {{[]ᴺ-Basic}} =  id
   ⸨⸩-⇒ᴮ {{↦⟨⟩-Basic}} =  id
   ⸨⸩-⇒ᴮ {{Free-Basic}} =  id
-  ⸨⸩-⇒ᴮ {{[]ᴺ-Basic}} =  id
   ⸨⸩-⇒ᴮ {{[]ᴸ⟨⟩-Basic}} =  id
   ⸨⸩-⇒ᴮ {{†ᴸ-Basic}} =  id

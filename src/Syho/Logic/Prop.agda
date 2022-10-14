@@ -98,6 +98,9 @@ data  Prop' ι  where
   -- □ :  Persistence modality
   □_ :  Prop' ι →  Prop' ι
 
+  -- [ ]ᴺ :  Name set token
+  [_]ᴺ :  (Name → Zoi) →  Prop' ι
+
   -- ↦⟨ ⟩ :  Points-to token
   _↦⟨_⟩_ :  Addr →  ℚ⁺ →  TyVal →  Prop' ι
 
@@ -118,9 +121,6 @@ data  Prop' ι  where
 
   -- ↪[ ]⟨ ⟩∞ :  Infinite Hoare-triple precursor, with a level
   _↪[_]⟨_⟩∞ :  Prop˂ ι →  ℕ →  Expr∞ T →  Prop' ι
-
-  -- [ ]ᴺ :  Name set token
-  [_]ᴺ :  (Name → Zoi) →  Prop' ι
 
   -- &ⁱ⟨ ⟩ :  Invariant token
   &ⁱ⟨_⟩_ :  Name →  Prop˂ ι →  Prop' ι
@@ -222,6 +222,19 @@ syntax [∗∈ⁱ]-syntax (λ ix → P) xs =  [∗ ix ∈ⁱ xs ] P
 syntax [∗∈ⁱ⟨⟩]-syntax (λ ix → P) k xs =  [∗ ix ∈ⁱ⟨ k ⟩ xs ] P
 
 --------------------------------------------------------------------------------
+-- Utility for [ ]ᴺ
+
+-- [⊤]ᴺ :  Universal name set token
+
+[⊤]ᴺ :  Prop' ι
+[⊤]ᴺ =  [ ⊤ᶻ ]ᴺ
+
+-- [^ ]ᴺ :  Name token
+
+[^_]ᴺ :  Name →  Prop' ι
+[^ nm ]ᴺ =  [ ^ᶻ nm ]ᴺ
+
+--------------------------------------------------------------------------------
 -- Extend _↦⟨_⟩_
 
 infix 9 _↦_ _↦ᴸ⟨_⟩_ _↦ᴸ_
@@ -246,19 +259,6 @@ P ↪⟨ e ⟩ᴾ Q˙ =  P ↪⟨ e ⟩[ par ] Q˙
 
 _↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂ ι) →  Prop' ι
 P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
-
---------------------------------------------------------------------------------
--- Utility for [ ]ᴺ
-
--- [⊤]ᴺ :  Universal name set token
-
-[⊤]ᴺ :  Prop' ι
-[⊤]ᴺ =  [ ⊤ᶻ ]ᴺ
-
--- [^ ]ᴺ :  Name token
-
-[^_]ᴺ :  Name →  Prop' ι
-[^ nm ]ᴺ =  [ ^ᶻ nm ]ᴺ
 
 --------------------------------------------------------------------------------
 -- [ ]ᴸ :  Full lifetime token
@@ -292,9 +292,9 @@ data  Basic :  Prop∞ →  Set₁  where
     -∗-Basic :  {{Basic P}} →  {{Basic Q}} →  Basic $ P -∗ Q
     ⤇-Basic :  {{Basic P}} →  Basic $ ⤇ P
     □-Basic :  {{Basic P}} →  Basic $ □ P
+    []ᴺ-Basic :  Basic [ Nm ]ᴺ
     ↦⟨⟩-Basic :  Basic $ θ ↦⟨ p ⟩ ᵗv
     Free-Basic :  Basic $ Free n θ
-    []ᴺ-Basic :  Basic [ Nm ]ᴺ
     []ᴸ⟨⟩-Basic :  Basic [ α ]ᴸ⟨ p ⟩
     †ᴸ-Basic :  Basic $ †ᴸ α
 

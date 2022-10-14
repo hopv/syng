@@ -163,10 +163,10 @@ following parts.
         * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
             connectives;
             [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;
-            [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the
-            memory-related tokens;
             [`Names`](src/Syho/Model/Prop/Names.agda) for interpreting the name
             set token;
+            [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the
+            memory-related tokens;
             [`Lft`](src/Syho/Model/Prop/Lft.agda) for interpreting the
             lifetime-related tokens.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic

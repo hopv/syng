@@ -171,6 +171,22 @@ abstract
 
   ⊢-sem □-∃-out _ =  id
 
+  -- []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ∞ ] [ Nm' ]ᴺ
+
+  ⊢-sem ([]ᴺ-resp Nm≡Nm') _ =  []ᴺᵒ-resp Nm≡Nm'
+
+  -- []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ∞ ]  [ Nm ⊎ᶻ Nm' ]ᴺ
+
+  ⊢-sem []ᴺ-merge _ =  []ᴺᵒ-merge
+
+  -- []ᴺ-split :  [ Nm ⊎ᶻ Nm' ]ᴺ  ⊢[ ∞ ]  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ
+
+  ⊢-sem []ᴺ-split _ =  []ᴺᵒ-split
+
+  -- []ᴺ-✔ :  [ Nm ]ᴺ  ⊢[ ∞ ]  ⌜ ✔ᶻ Nm ⌝
+
+  ⊢-sem []ᴺ-✔ ✓∙ =  []ᴺᵒ-✔ ✓∙ › (_, absurd)
+
   -- ↦⟨⟩-resp :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ q ⟩ ᵗv
 
   ⊢-sem (↦⟨⟩-resp p≈q) _ =  ↦⟨⟩ᵒ-resp p≈q
@@ -307,22 +323,6 @@ abstract
   --           ○ Q˂  ⊢[ ∞ ]  P˂ ↪[ i ]⟨ e ⟩∞
 
   ⊢-sem (○⇒↪⟨⟩∞ P∗Q⊢⟨e⟩∞) _ =  ○ᵒ⇒↪⟨⟩∞ᵒ $ P∗Q⊢⟨e⟩∞ .!
-
-  -- []ᴺ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺ ⊢[ ∞ ] [ Nm' ]ᴺ
-
-  ⊢-sem ([]ᴺ-resp Nm≡Nm') _ =  []ᴺᵒ-resp Nm≡Nm'
-
-  -- []ᴺ-merge :  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ  ⊢[ ∞ ]  [ Nm ⊎ᶻ Nm' ]ᴺ
-
-  ⊢-sem []ᴺ-merge _ =  []ᴺᵒ-merge
-
-  -- []ᴺ-split :  [ Nm ⊎ᶻ Nm' ]ᴺ  ⊢[ ∞ ]  [ Nm ]ᴺ  ∗  [ Nm' ]ᴺ
-
-  ⊢-sem []ᴺ-split _ =  []ᴺᵒ-split
-
-  -- []ᴺ-✔ :  [ Nm ]ᴺ  ⊢[ ∞ ]  ⌜ ✔ᶻ Nm ⌝
-
-  ⊢-sem []ᴺ-✔ ✓∙ =  []ᴺᵒ-✔ ✓∙ › (_, absurd)
 
   -- &ⁱ-⇒□ :  &ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ]  □ &ⁱ⟨ nm ⟩ P˂
 

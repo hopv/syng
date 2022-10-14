@@ -18,7 +18,7 @@ open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_; _≤_)
 open import Base.List using (List; len; rep)
 open import Base.Str using ()
-open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; Val; V⇒E;
   TyVal; ⊤-)
@@ -422,6 +422,10 @@ data  Judg ι  where
 
   ------------------------------------------------------------------------------
   -- On the memory
+
+  -- Modify the fraction of the points-to token
+
+  ↦⟨⟩-resp :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ q ⟩ ᵗv
 
   -- Merge and split points-to tokens w.r.t. the fraction
 

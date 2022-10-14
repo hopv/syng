@@ -17,7 +17,7 @@ open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡
   <-trans; +-0; +-ṡ; +-smonoʳ)
 open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
   ‼-len≡-ň; ‼-len≡-š; upd-len; upd-‼-out; upd-‼-in; rep-len)
-open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Lang.Expr using (Addr; TyVal; ⊤-; Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_;
   ✓ᴹ-upd˙)
 open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ; Envvᴱᴿᴬ; Upᴱᴿᴬ)
@@ -125,6 +125,12 @@ infix 9 ↦ᴸᵇˡᵒ_
 
 abstract
 
+  -- Modify the fraction of ↦⟨ ⟩ᵇˡᵒ
+
+  ↦⟨⟩ᵇˡᵒ-cong :  p ≈ᴿ⁺ q  →   i ↦⟨ p ⟩ᵇˡᵒ ᵗv  ≈ᴹᵇˡᵒ  i ↦⟨ q ⟩ᵇˡᵒ ᵗv
+  ↦⟨⟩ᵇˡᵒ-cong p≈q .π₀ =  inj˙ᴾⁿᵗˢ-≈ (p≈q , ≈ᴸ-refl)
+  ↦⟨⟩ᵇˡᵒ-cong _ .π₁ =  refl
+
   -- Merge ↦⟨ ⟩ᵇˡᵒ with ∙ᴹᵇˡᵒ
 
   ↦⟨⟩ᵇˡᵒ-∙ :  i ↦⟨ p ⟩ᵇˡᵒ ᵗv ∙ᴹᵇˡᵒ i ↦⟨ q ⟩ᵇˡᵒ ᵗv  ≈ᴹᵇˡᵒ i ↦⟨ p +ᴿ⁺ q ⟩ᵇˡᵒ ᵗv
@@ -204,6 +210,11 @@ abstract
 
   ✓ᴹ⇒✓ᴹᵉᵐ :  ✓ᴹ M →  ↑ M ✓ᴹᵉᵐ εᴹᵉᵐ
   ✓ᴹ⇒✓ᴹᵉᵐ ✓M .↓ =  ✓M , _
+
+  -- Modify the fraction of ↦⟨ ⟩ʳ
+
+  ↦⟨⟩ʳ-cong :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ʳ ᵗv  ≈ᴹᵉᵐ  θ ↦⟨ q ⟩ʳ ᵗv
+  ↦⟨⟩ʳ-cong p≈q .↓ =  inj˙ᴬᴹᵉᵐ-≈ $ ↦⟨⟩ᵇˡᵒ-cong p≈q
 
   -- Merge ↦⟨ ⟩ʳ with ∙ʳ
 

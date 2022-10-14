@@ -27,9 +27,9 @@ open import Syho.Logic.Hor using (_⊢[_]⁺⟨_⟩[_]_; _⊢[<ᴾ_]⟨_⟩[_]_;
   ahor-hor; hor<ᴾ-map)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
-  ↦⟨⟩-agree; ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt; ahor-cas-ff; ahor-alloc;
-  ahor-free)
+open import Syho.Logic.Judg public using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split;
+  ↦⟨⟩-≤1; ↦⟨⟩-agree; ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt; ahor-cas-ff;
+  ahor-alloc; ahor-free)
 
 private variable
   ι :  𝕊
@@ -52,6 +52,8 @@ abstract
 
   ------------------------------------------------------------------------------
   -- On the memory
+
+  -->  ↦⟨⟩-resp :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ q ⟩ ᵗv
 
   -->  ↦⟨⟩-merge :  θ ↦⟨ p ⟩ ᵗv  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv
 

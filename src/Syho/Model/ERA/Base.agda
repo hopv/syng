@@ -41,7 +41,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     -- Res :  Resource
     Res :  Set łᴿ
 
-    -- ≈ :  Equivalence on resources
+    -- ≈ :  Equivalence of resources
     _≈_ :  Res →  Res →  Set ł≈
 
     -- ∙ :  Product of resources, used for modeling the separating conjunction ∗

@@ -41,7 +41,7 @@ FracAg A =  ¿ (ℚ⁺ × List A)
 private variable
   x y z :  FracAg A
 
--- ≈ᶠʳ :  Equivalence over FracAg A
+-- ≈ᶠʳ :  Equivalence of FracAg A
 
 infix 4 _≈ᶠʳ_
 _≈ᶠʳ_ :  ∀{A : Set ł} →  FracAg A →  FracAg A →  Set ł

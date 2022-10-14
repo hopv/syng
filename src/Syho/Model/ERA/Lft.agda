@@ -43,7 +43,7 @@ private variable
   a b c :  Lftb
   a˙ b˙ :  Lft →  Lftb
 
--- Equivalence for Lftb
+-- Equivalence of Lftb
 
 infix 4 _≈ᴸᵇ_
 _≈ᴸᵇ_ :  Lftb →  Lftb →  Set₀
@@ -53,7 +53,7 @@ _≈ᴸᵇ_ :  Lftb →  Lftb →  Set₀
 ↯ᴸᵇ ≈ᴸᵇ ↯ᴸᵇ =  ⊤
 _ ≈ᴸᵇ _ =  ⊥
 
--- Composition of Lftb
+-- Product of Lftb
 
 infixr 7 _∙ᴸᵇ_
 _∙ᴸᵇ_ :  Lftb →  Lftb →  Lftb

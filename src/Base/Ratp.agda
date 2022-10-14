@@ -13,9 +13,10 @@ open import Base.Dec using (Dec; yes; _≟_; ≟-refl)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (+-0; *-1ʳ)
 open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _+⁺_; _*⁺_; ≤⁺-refl;
-  ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ;
-  +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; ?*⁺-comm;
-  *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
+  ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; +⁺-comm;
+  +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
+  *⁺-+⁺-distrʳ; ?*⁺-comm; *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ;
+  *⁺-monoʳ; *⁺-monoʳ-inv)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number, unnormalized
@@ -90,6 +91,56 @@ abstract
   ⫽⁺-*ʳ :  a *⁺ c ⫽⁺ b *⁺ c  ≈ᴿ⁺  a ⫽⁺ b
   ⫽⁺-*ʳ {a} {c} {b} =  -- b(ac) ≡ (ba)c ≡ (bc)a
     *⁺-assocʳ {b} {a} {c} ◇ *⁺?-comm {b} {a} {c}
+
+--------------------------------------------------------------------------------
+-- ≤ᴿ⁺ :  Order of ℚ⁺
+
+infix 4 _≤ᴿ⁺_
+_≤ᴿ⁺_ :  ℚ⁺ → ℚ⁺ → Set₀
+(a ⫽⁺ b) ≤ᴿ⁺ (c ⫽⁺ d) =  d *⁺ a ≤⁺ b *⁺ c
+
+abstract
+
+  -- ≤ᴿ⁺ is reflexive
+
+  ≤ᴿ⁺-refl :  p ≤ᴿ⁺ p
+  ≤ᴿ⁺-refl =  ≤⁺-refl
+
+  ≡⇒≤ᴿ⁺ :  p ≡ q →  p ≤ᴿ⁺ q
+  ≡⇒≤ᴿ⁺ {p} refl =  ≤ᴿ⁺-refl {p}
+
+  -- ≤ᴿ⁺ is transitive
+
+  ≤ᴿ⁺-trans :  p ≤ᴿ⁺ q →  q ≤ᴿ⁺ r →  p ≤ᴿ⁺ r
+  ≤ᴿ⁺-trans {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} da≤bc fc≤de =  *⁺-monoʳ-inv {d} $
+    -- d(fa) ≡ f(da) ≤ f(bc) ≡ b(fc) ≤ b(de) ≡ d(be)
+    ≤⁺-trans
+      (subst₂ _≤⁺_ (?*⁺-comm {f} {d}) (?*⁺-comm {f} {b}) $ *⁺-monoʳ {f} da≤bc) $
+      subst (b *⁺ (f *⁺ c) ≤⁺_) (?*⁺-comm {b} {d}) $ *⁺-monoʳ {b} fc≤de
+
+  -- ≤ᴿ⁺ is antisymmetric
+
+  ≤ᴿ⁺-antisym :  p ≤ᴿ⁺ q →  q ≤ᴿ⁺ p →  p ≈ᴿ⁺ q
+  ≤ᴿ⁺-antisym p≤q q≤p =  ≤⁺-antisym p≤q q≤p
+
+  -- ≈ᴿ⁺ into ≤ᴿ⁺
+
+  ≈ᴿ⁺⇒≤ᴿ⁺ :  p ≈ᴿ⁺ q →  p ≤ᴿ⁺ q
+  ≈ᴿ⁺⇒≤ᴿ⁺ =  ≡⇒≤⁺
+
+  -- ≤ᴿ⁺ respects ≈ᴿ⁺
+
+  ≤ᴿ⁺-respˡ :  p ≈ᴿ⁺ q →  p ≤ᴿ⁺ r →  q ≤ᴿ⁺ r
+  ≤ᴿ⁺-respˡ {p} {q} {r} p≈q p≤r =
+    ≤ᴿ⁺-trans {q} {p} {r} (≈ᴿ⁺⇒≤ᴿ⁺ {q} {p} $ ≈ᴿ⁺-sym {p} {q} p≈q) p≤r
+
+  ≤ᴿ⁺-respʳ :  ∀{p q r} →  q ≈ᴿ⁺ r →  p ≤ᴿ⁺ q →  p ≤ᴿ⁺ r
+  ≤ᴿ⁺-respʳ {p} {q} {r} q≈r p≤q =
+    ≤ᴿ⁺-trans {p} {q} {r} p≤q $ ≈ᴿ⁺⇒≤ᴿ⁺ {q} {r} q≈r
+
+  ≤ᴿ⁺-resp :  p ≈ᴿ⁺ q →  r ≈ᴿ⁺ s →  p ≤ᴿ⁺ r →  q ≤ᴿ⁺ s
+  ≤ᴿ⁺-resp {p} {q} {r} {s} p≈q r≈s p≤r =
+    ≤ᴿ⁺-respʳ {q} {r} {s} r≈s $ ≤ᴿ⁺-respˡ {p} {q} {r} p≈q $ p≤r
 
 --------------------------------------------------------------------------------
 -- +ᴿ⁺ :  Addition of ℚ⁺, unnormalized

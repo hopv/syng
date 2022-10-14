@@ -92,12 +92,11 @@ abstract
     *⁺-assocʳ {b} {a} {c} ◇ *⁺?-comm {b} {a} {c}
 
 --------------------------------------------------------------------------------
--- +ᴿ⁺ :  Addition over ℚ⁺
+-- +ᴿ⁺ :  Addition of ℚ⁺, unnormalized
 
 infixl 6 _+ᴿ⁺_
 _+ᴿ⁺_ :  ℚ⁺ → ℚ⁺ → ℚ⁺
 (a //⁺ b) +ᴿ⁺ (c //⁺ d) =  (d *⁺ a +⁺ b *⁺ c) //⁺ (b *⁺ d)
--- Unnormalized
 
 abstract
 

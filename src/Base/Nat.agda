@@ -95,6 +95,9 @@ abstract
   ≤-refl {0} =  0≤
   ≤-refl {ṡ _} =  ṡ≤ṡ ≤-refl
 
+  ≡⇒≤ :  m ≡ n →  m ≤ n
+  ≡⇒≤ refl =  ≤-refl
+
   -- < is irreflexive
 
   <-irrefl :  ¬ n < n

@@ -75,6 +75,9 @@ abstract
   ≤⁺-refl :  n ≤⁺ n
   ≤⁺-refl =  ≤-refl
 
+  ≡⇒≤⁺ :  m ≡ n →  m ≤⁺ n
+  ≡⇒≤⁺ refl =  ≤⁺-refl
+
   ≤⁺-trans :  l ≤⁺ m →  m ≤⁺ n →  l ≤⁺ n
   ≤⁺-trans =  ≤-trans
 

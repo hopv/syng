@@ -7,7 +7,7 @@
 module Base.Natp where
 
 open import Base.Func using (_$_; _∘_)
-open import Base.Few using (¬_)
+open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
@@ -280,3 +280,25 @@ abstract
 
   *⁺-smono :  k <⁺ l →  m <⁺ n →  k *⁺ m <⁺ l *⁺ n
   *⁺-smono {l = l} k<l m<n =  <⁺-trans (*⁺-smonoˡ k<l) (*⁺-smonoʳ {l} m<n)
+
+  -- Divide both sides of ≤
+
+  *⁺-monoˡ-inv :  ∀{l m n} →  m *⁺ l ≤⁺ n *⁺ l →  m ≤⁺ n
+  *⁺-monoˡ-inv {_} {m} {n} ml≤nl  with m ≤>⁺ n
+  … | ĩ₀ m≤n =  m≤n
+  … | ĩ₁ m>n =  absurd $ ≤⁺⇒¬>⁺ ml≤nl $ *⁺-smonoˡ m>n
+
+  *⁺-monoʳ-inv :  l *⁺ m ≤⁺ l *⁺ n →  m ≤⁺ n
+  *⁺-monoʳ-inv {l} {m} {n} lm≤ln =
+    *⁺-monoˡ-inv $ subst₂ _≤⁺_ (*⁺-comm {l} {m}) (*⁺-comm {l} {n}) lm≤ln
+
+  -- Divide both sides of <
+
+  *-smonoˡ-inv :  ∀{l m n} →  m *⁺ l <⁺ n *⁺ l →  m <⁺ n
+  *-smonoˡ-inv {_} {m} {n} ml<nl  with m <≥⁺ n
+  … | ĩ₀ m<n =  m<n
+  … | ĩ₁ m≥n =  absurd $ <⁺⇒¬≥⁺ ml<nl $ *⁺-monoˡ m≥n
+
+  *-smonoʳ-inv :  l *⁺ m <⁺ l *⁺ n →  m <⁺ n
+  *-smonoʳ-inv {l} {m} {n} lm<ln =
+    *-smonoˡ-inv $ subst₂ _<⁺_ (*⁺-comm {l} {m}) (*⁺-comm {l} {n}) lm<ln

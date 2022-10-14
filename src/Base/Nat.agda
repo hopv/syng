@@ -432,6 +432,28 @@ abstract
   *-smonoʳ :  l >0 →  m < n →  l * m < l * n
   *-smonoʳ {l} {m} {n}  rewrite *-comm {l} {m} | *-comm {l} {n} =  *-smonoˡ
 
+  -- Divide both sides of ≤ by a positive number
+
+  *-monoˡ-inv :  l >0 →  m * l ≤ n * l →  m ≤ n
+  *-monoˡ-inv {_} {m} {n} l>0 ml≤nl  with m ≤> n
+  … | ĩ₀ m≤n =  m≤n
+  … | ĩ₁ m>n =  absurd $ ≤⇒¬> ml≤nl $ *-smonoˡ l>0 m>n
+
+  *-monoʳ-inv :  l >0 →  l * m ≤ l * n →  m ≤ n
+  *-monoʳ-inv {l} {m} {n}  rewrite *-comm {l} {m} | *-comm {l} {n} =
+    *-monoˡ-inv
+
+  -- Divide both sides of <
+
+  *-smonoˡ-inv :  ∀{l m n} →  m * l < n * l →  m < n
+  *-smonoˡ-inv {_} {m} {n} ml<nl  with m <≥ n
+  … | ĩ₀ m<n =  m<n
+  … | ĩ₁ m≥n =  absurd $ <⇒¬≥ ml<nl $ *-monoˡ m≥n
+
+  *-smonoʳ-inv :  l * m < l * n →  m < n
+  *-smonoʳ-inv {l} {m} {n}  rewrite *-comm {l} {m} | *-comm {l} {n} =
+    *-smonoˡ-inv
+
   -- * with a positive argument is injective
 
   *-injˡ :  l >0 →  m * l ≡ n * l →  m ≡ n

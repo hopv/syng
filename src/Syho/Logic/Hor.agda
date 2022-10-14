@@ -11,6 +11,7 @@ open import Base.Eq using (refl)
 open import Base.Dec using (Inh)
 open import Base.Size using (𝕊; !; _$ᵀʰ_)
 open import Base.Bool using (𝔹; tt; ff)
+open import Base.Zoi using (Zoi; ✔ᶻ_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ≤⇒<≡; ≤⇒≤ᵈ)
@@ -20,9 +21,12 @@ open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇
 open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   _ᴷ◁_; Val/Ktxred)
 open import Syho.Lang.Reduce using (_⇒ᴾ_; _⇒ᴾ○_; _⇒ᴾ●_; redᴾ)
-open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; _∗_; [⊤]ᴺ)
-open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-comm)
+open import Syho.Logic.Prop using (WpKind; par; tot; Name; Prop∞; _∗_; [_]ᴺ;
+  [⊤]ᴺ)
+open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-monoˡ; ∗-comm; ∗?-comm;
+  -∗-applyˡ)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇒⇛; ⇛-refl; ⇛⇒⇛ᴺ)
+open import Syho.Logic.Names using ([]ᴺ-⊆--∗)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
@@ -42,6 +46,7 @@ private variable
   Xʸ :  Setʸ
   T U :  Type
   κ :  WpKind
+  Nm :  Name → Zoi
   P P' Q R :  Prop∞
   Q˙ Q'˙ R˙ :  X → Prop∞
   red :  Redex T
@@ -176,11 +181,26 @@ abstract
                 P  ∗  R  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  Q˙ v  ∗  R
   hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
+  -- Turn an atomic Hoare triple with a valid name set token into one with the
+  -- universal name set token
+
+  ahor-✔⇒ᴺ :  ✔ᶻ Nm  →
+    [ Nm ]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [ Nm ]ᴺ ∗ Q˙ v)  →
+    [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)
+  ahor-✔⇒ᴺ ✔Nm P⊢⟨red⟩[Nm]Q =  ∗-monoˡ ([]ᴺ-⊆--∗ ✔Nm) » ∗?-comm »
+    ahor-frameʳ P⊢⟨red⟩[Nm]Q ᵃʰ» λ _ → ∗?-comm » ∗-monoˡ -∗-applyˡ
+
   -- Compose an atomic Hoare triple and a Hoare triple on the context
 
   -->  ahorᴺ-hor :  [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
   -->               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
+
+  ahor✔-hor :  ✔ᶻ Nm  →
+    [ Nm ]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [ Nm ]ᴺ ∗ Q˙ v)  →
+    (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
+    P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
+  ahor✔-hor ✔Nm P⊢⟨red⟩[Nm]Q =  ahorᴺ-hor $ ahor-✔⇒ᴺ ✔Nm P⊢⟨red⟩[Nm]Q
 
   ahor-hor :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v)  →
               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
@@ -190,6 +210,12 @@ abstract
   -->  ahorᴺ-ihor :  [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
   -->                (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
   -->                P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
+
+  ahor✔-ihor :  ✔ᶻ Nm  →
+    [ Nm ]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [ Nm ]ᴺ ∗ Q˙ v)  →
+    (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
+    P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
+  ahor✔-ihor ✔Nm P⊢⟨red⟩[Nm]Q =  ahorᴺ-ihor $ ahor-✔⇒ᴺ ✔Nm P⊢⟨red⟩[Nm]Q
 
   ahor-ihor :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v)  →
                (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →

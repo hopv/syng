@@ -6,7 +6,7 @@
 
 module Base.Natp where
 
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; _∘_)
 open import Base.Few using (¬_)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
@@ -243,6 +243,14 @@ abstract
 
   *⁺-1ʳ :  n *⁺ 1⁺ ≡ n
   *⁺-1ʳ {n}  rewrite *⁺-comm {n} {1⁺} =  *⁺-1ˡ {n}
+
+  -- Simplify *⁺ with 2
+
+  *⁺-2ˡ :  2⁺ *⁺ n ≡ n +⁺ n
+  *⁺-2ˡ {ṡ⁺ n⁰} =  cong (ṡ⁺_ ∘ (n⁰ +_)) +-0
+
+  *⁺-2ʳ :  n *⁺ 2⁺ ≡ n +⁺ n
+  *⁺-2ʳ {n}  rewrite *⁺-comm {n} {2⁺} =  *⁺-2ˡ {n}
 
   -- *⁺ is monotone
 

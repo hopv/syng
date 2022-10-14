@@ -401,6 +401,14 @@ abstract
   *-1ʳ :  n * 1 ≡ n
   *-1ʳ {n} =  *-comm {n} ◇ *-1ˡ
 
+  -- Simplify * with 2
+
+  *-2ˡ :  2 * n ≡ n + n
+  *-2ˡ {n} =  cong (n +_) *-1ˡ
+
+  *-2ʳ :  n * 2 ≡ n + n
+  *-2ʳ {n} =  *-comm {n} ◇ *-2ˡ {n}
+
   -- * is monotone
 
   *-monoˡ :  l ≤ m →  l * n ≤ m * n

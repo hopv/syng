@@ -18,7 +18,7 @@ open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _
   *⁺?-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
 
 --------------------------------------------------------------------------------
--- ℚ⁺ :  Positive rational number
+-- ℚ⁺ :  Positive rational number, unnormalized
 
 infix 7 _//⁺_
 record  ℚ⁺ : Set where
@@ -27,7 +27,7 @@ record  ℚ⁺ : Set where
     denom⁺ numer⁺ : ℕ⁺ --  denominator and numerator
 
 -- We use the superscript ᴿ for rational numbers
--- (superscipt Q is not widely supported)
+-- because superscipt Q or q is not widely supported in Unicode
 
 private variable
   p q r s :  ℚ⁺
@@ -47,7 +47,7 @@ instance
   ℚ⁺-Dec =  yes 1ᴿ⁺
 
 --------------------------------------------------------------------------------
--- ≈ᴿ⁺ :  Equivalence over ℚ⁺
+-- ≈ᴿ⁺ :  Equivalence of ℚ⁺
 
 infix 4 _≈ᴿ⁺_
 _≈ᴿ⁺_ : ℚ⁺ → ℚ⁺ → Set₀

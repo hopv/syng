@@ -20,9 +20,9 @@ open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number, unnormalized
 
-infix 5 _//⁺_
+infix 5 _⫽⁺_
 record  ℚ⁺ : Set where
-  constructor _//⁺_
+  constructor _⫽⁺_
   field
     denom⁺ numer⁺ : ℕ⁺ --  denominator and numerator
 
@@ -37,8 +37,8 @@ private variable
 -- 1ᴿ⁺, ½ᴿ⁺ :  Numbers in ℚ⁺
 
 1ᴿ⁺ ½⁺ :  ℚ⁺
-1ᴿ⁺ =  1⁺ //⁺ 1⁺
-½⁺ =  1⁺ //⁺ 2⁺
+1ᴿ⁺ =  1⁺ ⫽⁺ 1⁺
+½⁺ =  1⁺ ⫽⁺ 2⁺
 
 instance
 
@@ -52,14 +52,14 @@ instance
 
 infix 4 _≈ᴿ⁺_
 _≈ᴿ⁺_ : ℚ⁺ → ℚ⁺ → Set₀
-(a //⁺ b) ≈ᴿ⁺ (c //⁺ d) =  d *⁺ a ≡ b *⁺ c
+(a ⫽⁺ b) ≈ᴿ⁺ (c ⫽⁺ d) =  d *⁺ a ≡ b *⁺ c
 
 abstract
 
   -- ≈ᴿ⁺ is reflexive
 
   ≈ᴿ⁺-refl :  p ≈ᴿ⁺ p
-  ≈ᴿ⁺-refl {a //⁺ b} =  refl
+  ≈ᴿ⁺-refl {a ⫽⁺ b} =  refl
 
   ≡⇒≈ᴿ⁺ :  p ≡ q →  p ≈ᴿ⁺ q
   ≡⇒≈ᴿ⁺ {p} refl =  ≈ᴿ⁺-refl {p}
@@ -67,12 +67,12 @@ abstract
   -- ≈ᴿ⁺ is symmetric
 
   ≈ᴿ⁺-sym :  p ≈ᴿ⁺ q →  q ≈ᴿ⁺ p
-  ≈ᴿ⁺-sym {a //⁺ b} {c //⁺ d} =  ◠_
+  ≈ᴿ⁺-sym {a ⫽⁺ b} {c ⫽⁺ d} =  ◠_
 
   -- ≈ᴿ⁺ is transitive
 
   ≈ᴿ⁺-trans :  p ≈ᴿ⁺ q →  q ≈ᴿ⁺ r →  p ≈ᴿ⁺ r
-  ≈ᴿ⁺-trans {a //⁺ b} {c //⁺ d} {e //⁺ f} da≡bc fc≡de =  *⁺-injʳ {d} eq
+  ≈ᴿ⁺-trans {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} da≡bc fc≡de =  *⁺-injʳ {d} eq
    where
     eq :  d *⁺ (f *⁺ a) ≡ d *⁺ (b *⁺ e)
     eq =
@@ -83,12 +83,12 @@ abstract
 
   -- Cancel multiplication of the numerator and denominator by the same factor
 
-  //⁺-*ˡ :  c *⁺ a //⁺ c *⁺ b  ≈ᴿ⁺  a //⁺ b
-  //⁺-*ˡ {c} {a} {b} =  -- b(ca) ≡ c(ba) ≡ (cb)a
+  ⫽⁺-*ˡ :  c *⁺ a ⫽⁺ c *⁺ b  ≈ᴿ⁺  a ⫽⁺ b
+  ⫽⁺-*ˡ {c} {a} {b} =  -- b(ca) ≡ c(ba) ≡ (cb)a
     ?*⁺-comm {b} {c} {a} ◇ *⁺-assocʳ {c} {b} {a}
 
-  //⁺-*ʳ :  a *⁺ c //⁺ b *⁺ c  ≈ᴿ⁺  a //⁺ b
-  //⁺-*ʳ {a} {c} {b} =  -- b(ac) ≡ (ba)c ≡ (bc)a
+  ⫽⁺-*ʳ :  a *⁺ c ⫽⁺ b *⁺ c  ≈ᴿ⁺  a ⫽⁺ b
+  ⫽⁺-*ʳ {a} {c} {b} =  -- b(ac) ≡ (ba)c ≡ (bc)a
     *⁺-assocʳ {b} {a} {c} ◇ *⁺?-comm {b} {a} {c}
 
 --------------------------------------------------------------------------------
@@ -96,20 +96,20 @@ abstract
 
 infixl 6 _+ᴿ⁺_
 _+ᴿ⁺_ :  ℚ⁺ → ℚ⁺ → ℚ⁺
-(a //⁺ b) +ᴿ⁺ (c //⁺ d) =  d *⁺ a +⁺ b *⁺ c //⁺ b *⁺ d
+(a ⫽⁺ b) +ᴿ⁺ (c ⫽⁺ d) =  d *⁺ a +⁺ b *⁺ c ⫽⁺ b *⁺ d
 
 abstract
 
   -- +ᴿ⁺ is commutative
 
   +ᴿ⁺-comm :  p +ᴿ⁺ q ≡ q +ᴿ⁺ p
-  +ᴿ⁺-comm {a //⁺ b} {c //⁺ d} =  cong₂ _//⁺_ +⁺-comm (*⁺-comm {b} {d})
+  +ᴿ⁺-comm {a ⫽⁺ b} {c ⫽⁺ d} =  cong₂ _⫽⁺_ +⁺-comm (*⁺-comm {b} {d})
 
   -- +ᴿ⁺ is associative
 
   +ᴿ⁺-assocˡ :  (p +ᴿ⁺ q) +ᴿ⁺ r ≡ p +ᴿ⁺ (q +ᴿ⁺ r)
-  +ᴿ⁺-assocˡ {a //⁺ b} {c //⁺ d} {e //⁺ f} =
-    cong₂ _//⁺_ eq (*⁺-assocˡ {b} {d} {f})
+  +ᴿ⁺-assocˡ {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} =
+    cong₂ _⫽⁺_ eq (*⁺-assocˡ {b} {d} {f})
    where
     eq :  f *⁺ (d *⁺ a +⁺ b *⁺ c) +⁺ (b *⁺ d) *⁺ e ≡
           (d *⁺ f) *⁺ a +⁺ b *⁺ (f *⁺ c +⁺ d *⁺ e)
@@ -128,7 +128,7 @@ abstract
   -- +ᴿ⁺ preserves ≈ᴿ⁺
 
   +ᴿ⁺-congˡ :  p ≈ᴿ⁺ q →  p +ᴿ⁺ r ≈ᴿ⁺ q +ᴿ⁺ r
-  +ᴿ⁺-congˡ {a //⁺ b} {c //⁺ d} {e //⁺ f} da≡bc =
+  +ᴿ⁺-congˡ {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} da≡bc =
     -- (df)(fa+be) ≡ (d(fa+be))f ≡ (b(fc+de))f ≡ (bf)(fc+de)
     *⁺?-comm {d} {f} ◇ cong (_*⁺ f) eq ◇ *⁺?-comm {b} {_} {f}
    where
@@ -154,30 +154,30 @@ abstract
 
 infixl 7 _/⁺_
 _/⁺_ :  ℚ⁺ → ℕ⁺ → ℚ⁺
-(a //⁺ b) /⁺ c =  a //⁺ c *⁺ b
+(a ⫽⁺ b) /⁺ c =  a ⫽⁺ c *⁺ b
 
 abstract
 
   -- Cancel addition of two halved fractions
 
   /⁺2-two :  p /⁺ 2⁺  +ᴿ⁺  p /⁺ 2⁺  ≈ᴿ⁺  p
-  /⁺2-two {p@(a //⁺ b)} =  subst (_≈ᴿ⁺ p) (cong (_//⁺ 2b *⁺ 2b) eq) eqv
+  /⁺2-two {p@(a ⫽⁺ b)} =  subst (_≈ᴿ⁺ p) (cong (_⫽⁺ 2b *⁺ 2b) eq) eqv
    where
     2a 2b :  ℕ⁺
     2a =  2⁺ *⁺ a
     2b =  2⁺ *⁺ b
     eq :  2b *⁺ 2a  ≡  2b *⁺ a +⁺ 2b *⁺ a
     eq =  cong (2b *⁺_) *⁺-2ˡ ◇ *⁺-+⁺-distrʳ {2b} {a} {a}
-    eqv :  2b *⁺ 2a //⁺ 2b *⁺ 2b  ≈ᴿ⁺  p
-    eqv =  ≈ᴿ⁺-trans {2b *⁺ 2a //⁺ 2b *⁺ 2b} {2a //⁺ 2b} {p}
-      (//⁺-*ˡ {2b} {2a} {2b}) (//⁺-*ˡ {2⁺} {a} {b})
+    eqv :  2b *⁺ 2a ⫽⁺ 2b *⁺ 2b  ≈ᴿ⁺  p
+    eqv =  ≈ᴿ⁺-trans {2b *⁺ 2a ⫽⁺ 2b *⁺ 2b} {2a ⫽⁺ 2b} {p}
+      (⫽⁺-*ˡ {2b} {2a} {2b}) (⫽⁺-*ˡ {2⁺} {a} {b})
 
 --------------------------------------------------------------------------------
 -- ≤1ᴿ⁺ :  No more than 1ᴿ⁺
 
 infix 4 _≤1ᴿ⁺
 _≤1ᴿ⁺ :  ℚ⁺ → Set₀
-a //⁺ b ≤1ᴿ⁺ =  a ≤⁺ b
+a ⫽⁺ b ≤1ᴿ⁺ =  a ≤⁺ b
 
 abstract
 
@@ -188,7 +188,7 @@ abstract
   -- ≤1ᴿ⁺ is preserved by removal w.r.t. +ᴿ⁺
 
   ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
-  ≤1ᴿ⁺-rem {a //⁺ b} {c //⁺ d} da+bc≤bd  with c ≤>⁺ d
+  ≤1ᴿ⁺-rem {a ⫽⁺ b} {c ⫽⁺ d} da+bc≤bd  with c ≤>⁺ d
   … | ĩ₀ c≤d =  c≤d
   … | ĩ₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
     <⁺-trans (*⁺-smonoʳ {b} c>d) +⁺-sincrˡ
@@ -196,13 +196,13 @@ abstract
   -- 1ᴿ⁺ +ᴿ⁺ p does not satisfy ≤1ᴿ⁺
 
   ¬1+?≤1ᴿ⁺ :  ¬ 1ᴿ⁺ +ᴿ⁺ p ≤1ᴿ⁺
-  ¬1+?≤1ᴿ⁺ {a //⁺ ṡ⁺ b⁰} b+1a≤b  rewrite *-1ʳ {b⁰} | +-0 {b⁰} =
+  ¬1+?≤1ᴿ⁺ {a ⫽⁺ ṡ⁺ b⁰} b+1a≤b  rewrite *-1ʳ {b⁰} | +-0 {b⁰} =
     ≤⁺⇒¬>⁺ b+1a≤b +⁺-sincrʳ
 
   -- ≤1ᴿ⁺ respects ≈ᴿ⁺
 
   ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  p ≤1ᴿ⁺ →  q ≤1ᴿ⁺
-  ≤1ᴿ⁺-resp {a //⁺ b} {c //⁺ d} da≡bc a≤b  with c ≤>⁺ d
+  ≤1ᴿ⁺-resp {a ⫽⁺ b} {c ⫽⁺ d} da≡bc a≤b  with c ≤>⁺ d
   … | ĩ₀ c≤d =  c≤d
   … | ĩ₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc ◇ *⁺-comm {b} {c}) $
     <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)

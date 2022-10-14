@@ -22,13 +22,6 @@ data  Zoi :  Set₀  where
 private variable
   k l m n :  Zoi
 
--- ✓ᶻ :  Validity of a zoi
-
-infix 4 ✓ᶻ_
-✓ᶻ_ :  Zoi →  Set₀
-✓ᶻ ∞ᶻ =  ⊥
-✓ᶻ _ =  ⊤
-
 -- ≤ᶻ :  Order of zois
 
 infix 4 _≤ᶻ_
@@ -37,6 +30,12 @@ _≤ᶻ_ :  Zoi →  Zoi →  Set₀
 _ ≤ᶻ ∞ᶻ =  ⊤
 1ᶻ ≤ᶻ 1ᶻ =  ⊤
 _ ≤ᶻ _ =  ⊥
+
+-- ✓ᶻ :  Validity of a zoi
+
+infix 4 ✓ᶻ_
+✓ᶻ_ :  Zoi →  Set₀
+✓ᶻ a =  a ≤ᶻ 1ᶻ
 
 -- +ᶻ :  Addition of zois
 

@@ -12,9 +12,9 @@ open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst
 open import Base.Dec using (Dec; yes; _≟_; ≟-refl)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (+-0; *-1ʳ)
-open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _<⁺_; _≤>⁺_; _+⁺_; _*⁺_;
-  ≤⁺-refl; ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; <⁺-irrefl; ≡⇒¬<⁺; <⁺-trans; <⁺-asym;
-  <⁺⇒≤⁺; ≤⁺-<⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; <⁺⇒¬≥⁺; +⁺-comm; +⁺-assocˡ;
+open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _<⁺_; _<≡>⁺_; _≤>⁺_; _<≥⁺_;
+  _+⁺_; _*⁺_; ≤⁺-refl; ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; <⁺-irrefl; ≡⇒¬<⁺; <⁺-trans;
+  <⁺-asym; <⁺⇒≤⁺; ≤⁺-<⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; <⁺⇒¬≥⁺; +⁺-comm; +⁺-assocˡ;
   +⁺-assocʳ; +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
   ?*⁺-comm; *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ;
   *⁺-monoʳ-inv; *⁺-smonoʳ-inv)
@@ -204,6 +204,23 @@ abstract
 
   <ᴿ⁺⇒¬≥ᴿ⁺ :  p <ᴿ⁺ q →  ¬ p ≥ᴿ⁺ q
   <ᴿ⁺⇒¬≥ᴿ⁺ =  <⁺⇒¬≥⁺
+
+  infix 4 _<≈>ᴿ⁺_ _≤>ᴿ⁺_ _<≥ᴿ⁺_
+
+  -- Get <ᴿ⁺, ≈ᴿ⁺ or >ᴿ⁺
+
+  _<≈>ᴿ⁺_ :  ∀ p q →  p <ᴿ⁺ q  ⨿  p ≈ᴿ⁺ q  ⨿  p >ᴿ⁺ q
+  a ⫽⁺ b <≈>ᴿ⁺ c ⫽⁺ d =  d *⁺ a <≡>⁺ b *⁺ c
+
+  -- Get ≤ᴿ⁺ or >ᴿ⁺
+
+  _≤>ᴿ⁺_ :  ∀ p q →  p ≤ᴿ⁺ q  ⨿  p >ᴿ⁺ q
+  a ⫽⁺ b ≤>ᴿ⁺ c ⫽⁺ d =  d *⁺ a ≤>⁺ b *⁺ c
+
+  -- Get <⁺ or ≥⁺
+
+  _<≥ᴿ⁺_ :  ∀ p q →  p <ᴿ⁺ q  ⨿  p ≥ᴿ⁺ q
+  a ⫽⁺ b <≥ᴿ⁺ c ⫽⁺ d =  d *⁺ a <≥⁺ b *⁺ c
 
 --------------------------------------------------------------------------------
 -- +ᴿ⁺ :  Addition of ℚ⁺, unnormalized

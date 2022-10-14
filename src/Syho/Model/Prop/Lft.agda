@@ -7,12 +7,12 @@
 module Syho.Model.Prop.Lft where
 
 open import Base.Level using (1ᴸ)
-open import Base.Func using (_›_)
+open import Base.Func using (_$_; _›_)
 open import Base.Prod using (-,_)
-open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Syho.Logic.Prop using (Lft)
-open import Syho.Model.ERA.Lft using ([_]ᴸ⟨_⟩ʳ; †ᴸʳ_; ◠˜ᴸᶠᵗ_; []ᴸ⟨⟩ʳ-∙;
-  []ᴸ⟨⟩ʳ-≤1; †ᴸʳ-⌞⌟; []ᴸ⟨⟩ʳ-†ᴸʳ-no; []ᴸʳ-new)
+open import Syho.Model.ERA.Lft using ([_]ᴸ⟨_⟩ʳ; †ᴸʳ_; ◠˜ᴸᶠᵗ_; []ᴸ⟨⟩ʳ-cong;
+  []ᴸ⟨⟩ʳ-∙; []ᴸ⟨⟩ʳ-≤1; †ᴸʳ-⌞⌟; []ᴸ⟨⟩ʳ-†ᴸʳ-no; []ᴸʳ-new)
 open import Syho.Model.ERA.Glob using (iᴸᶠᵗ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
   ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓;
@@ -40,6 +40,11 @@ infix 8 †ᴸᵒ_
 †ᴸᵒ α =  ◎⟨ iᴸᶠᵗ ⟩ †ᴸʳ α
 
 abstract
+
+  -- Modify the fraction of [ ]ᴸ⟨ ⟩ᵒ
+
+  []ᴸ⟨⟩ᵒ-resp :  p ≈ᴿ⁺ q  →   [ α ]ᴸ⟨ p ⟩ᵒ  ⊨  [ α ]ᴸ⟨ q ⟩ᵒ
+  []ᴸ⟨⟩ᵒ-resp p≈q =  ◎⟨⟩-resp $ []ᴸ⟨⟩ʳ-cong p≈q
 
   -- Merge and split [ ]ᴸ⟨ ⟩ᵒ w.r.t. +ᴿ⁺
 

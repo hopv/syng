@@ -11,8 +11,8 @@ open import Syho.Logic.Prop using (Lft; †ᴸ_)
 open import Syho.Logic.Core using (Pers; Pers-⇒□)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using ([]ᴸ⟨⟩-merge; []ᴸ⟨⟩-split; []ᴸ⟨⟩-≤1;
-  †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new)
+open import Syho.Logic.Judg public using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
+  []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new)
 
 private variable
   α :  Lft
@@ -21,6 +21,8 @@ abstract
 
   ------------------------------------------------------------------------------
   -- On the lifetime
+
+  -->  []ᴸ⟨⟩-resp :  p ≈ᴿ⁺ q  →   [ α ]ᴸ⟨ p ⟩  ⊢[ ι ]  [ α ]ᴸ⟨ q ⟩
 
   -->  []ᴸ⟨⟩-merge :  [ α ]ᴸ⟨ p ⟩  ∗  [ α ]ᴸ⟨ q ⟩  ⊢[ ι ]  [ α ]ᴸ⟨ p +ᴿ⁺ q ⟩
 

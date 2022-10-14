@@ -23,8 +23,8 @@ open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ�
   ↪⟨⟩-frameˡ; ○⇒↪⟨⟩; ↪⟨⟩∞-≤; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞)
 open import Syho.Logic.Inv using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔; &ⁱ-⇒□;
   &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ)
-open import Syho.Logic.Lft using ([]ᴸ⟨⟩-merge; []ᴸ⟨⟩-split; []ᴸ⟨⟩-≤1; †ᴸ-⇒□;
-  []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new)
+open import Syho.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
+  []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new)
 open import Syho.Logic.Bor using (&ˢ-⇒□; ⟨†⟩-mono; ⟨†⟩-eatˡ; &ˢ-resp-□∧;
   %ˢ-mono; %ˢ-eatˡ)
 open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-monoˡ;
@@ -35,6 +35,8 @@ open import Syho.Model.Prop.Mem using (↦⟨⟩ᵒ-resp; ↦⟨⟩ᵒ-merge; �
   ↦⟨⟩ᵒ-≤1; ↦⟨⟩ᵒ-agree)
 open import Syho.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ-split;
   []ᴺᵒ-✔)
+open import Syho.Model.Prop.Lft using ([]ᴸ⟨⟩ᵒ-resp; []ᴸ⟨⟩ᵒ-merge; []ᴸ⟨⟩ᵒ-split;
+  []ᴸ⟨⟩ᵒ-≤1; †ᴸᵒ-⇒□ᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no; []ᴸᵒ-new)
 open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤; ↪⇛ᵒ-eatˡ⁻ˡᵘ;
   ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-≤; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
   ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-≤;
@@ -42,8 +44,6 @@ open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤;
   ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒↪⟨⟩∞ᵒ)
 open import Syho.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ×ᵒ; %ⁱᵒ-mono;
   %ⁱᵒ-eatˡ)
-open import Syho.Model.Prop.Lft using ([]ᴸ⟨⟩ᵒ-merge; []ᴸ⟨⟩ᵒ-split; []ᴸ⟨⟩ᵒ-≤1;
-  †ᴸᵒ-⇒□ᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no; []ᴸᵒ-new)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
 
 private variable
@@ -344,6 +344,10 @@ abstract
   --   Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ]  %ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   ⊢-sem (%ⁱ-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › %ⁱᵒ-eatˡ
+
+  -- []ᴸ⟨⟩-resp :  p ≈ᴿ⁺ q  →   [ α ]ᴸ⟨ p ⟩  ⊢[ ι ]  [ α ]ᴸ⟨ q ⟩
+
+  ⊢-sem ([]ᴸ⟨⟩-resp p≈q) _ =  []ᴸ⟨⟩ᵒ-resp p≈q
 
   -- []ᴸ⟨⟩-merge :  [ α ]ᴸ⟨ p ⟩  ∗  [ α ]ᴸ⟨ q ⟩  ⊢[ ∞ ]  [ α ]ᴸ⟨ p +ᴿ⁺ q ⟩
 

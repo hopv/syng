@@ -291,7 +291,8 @@ open AllLft public using () renaming (
   --  ∀Lftᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to ∀Lftᴱᴿᴬ;
   --  inj˙ᴸᵇ :  Lft →  Lftb →  Lft →  Lftb
-  inj˙ to inj˙ᴸᵇ; inj˙-∙ to inj˙ᴸᵇ-∙; inj˙-⌞⌟ to inj˙ᴸᵇ-⌞⌟)
+  inj˙ to inj˙ᴸᵇ;
+  inj˙-≈ to inj˙ᴸᵇ-≈; inj˙-∙ to inj˙ᴸᵇ-∙; inj˙-⌞⌟ to inj˙ᴸᵇ-⌞⌟)
 
 Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Lftᴱᴿᴬ =  Upᴱᴿᴬ (Valmᴱᴿᴬ ∀Lftᴱᴿᴬ (λ _ → Cofinεᴸᵇ) Cofinεᴸᵇ-resp
@@ -321,6 +322,11 @@ abstract
 
   ✓ᴸᶠᵗε :  _ ✓ᴸᶠᵗ εᴸᶠᵗ
   ✓ᴸᶠᵗε .↓ =  (0 , λ _ _ → refl) ,-
+
+  -- Modify the fraction of [ ]ᴸ⟨ ⟩ʳ
+
+  []ᴸ⟨⟩ʳ-cong :  p ≈ᴿ⁺ q  →   [ α ]ᴸ⟨ p ⟩ʳ  ≈ᴸᶠᵗ  [ α ]ᴸ⟨ q ⟩ʳ
+  []ᴸ⟨⟩ʳ-cong p≈q .↓ =  inj˙ᴸᵇ-≈ p≈q
 
   -- Merge [ ]ᴸ⟨ ⟩ʳ w.r.t. +ᴿ⁺
 

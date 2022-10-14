@@ -677,6 +677,10 @@ data  Judg ι  where
   ------------------------------------------------------------------------------
   -- On lifetimes
 
+  -- Modify the fraction of a lifetime token
+
+  []ᴸ⟨⟩-resp :  p ≈ᴿ⁺ q  →   [ α ]ᴸ⟨ p ⟩  ⊢[ ι ]  [ α ]ᴸ⟨ q ⟩
+
   -- Merge and split lifetime tokens w.r.t. the fraction
 
   []ᴸ⟨⟩-merge :  [ α ]ᴸ⟨ p ⟩  ∗  [ α ]ᴸ⟨ q ⟩  ⊢[ ι ]  [ α ]ᴸ⟨ p +ᴿ⁺ q ⟩

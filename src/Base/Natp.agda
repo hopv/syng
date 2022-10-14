@@ -305,11 +305,11 @@ abstract
 
   -- Divide both sides of <
 
-  *-smonoˡ-inv :  ∀{l m n} →  m *⁺ l <⁺ n *⁺ l →  m <⁺ n
-  *-smonoˡ-inv {_} {m} {n} ml<nl  with m <≥⁺ n
+  *⁺-smonoˡ-inv :  ∀{l m n} →  m *⁺ l <⁺ n *⁺ l →  m <⁺ n
+  *⁺-smonoˡ-inv {_} {m} {n} ml<nl  with m <≥⁺ n
   … | ĩ₀ m<n =  m<n
   … | ĩ₁ m≥n =  absurd $ <⁺⇒¬≥⁺ ml<nl $ *⁺-monoˡ m≥n
 
-  *-smonoʳ-inv :  l *⁺ m <⁺ l *⁺ n →  m <⁺ n
-  *-smonoʳ-inv {l} {m} {n} lm<ln =
-    *-smonoˡ-inv $ subst₂ _<⁺_ (*⁺-comm {l} {m}) (*⁺-comm {l} {n}) lm<ln
+  *⁺-smonoʳ-inv :  l *⁺ m <⁺ l *⁺ n →  m <⁺ n
+  *⁺-smonoʳ-inv {l} {m} {n} lm<ln =
+    *⁺-smonoˡ-inv $ subst₂ _<⁺_ (*⁺-comm {l} {m}) (*⁺-comm {l} {n}) lm<ln

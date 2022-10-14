@@ -20,7 +20,7 @@ open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number, unnormalized
 
-infix 7 _//⁺_
+infix 5 _//⁺_
 record  ℚ⁺ : Set where
   constructor _//⁺_
   field
@@ -83,11 +83,11 @@ abstract
 
   -- Cancel multiplication of the numerator and denominator by the same factor
 
-  //⁺-*ˡ :  (c *⁺ a) //⁺ (c *⁺ b)  ≈ᴿ⁺  a //⁺ b
+  //⁺-*ˡ :  c *⁺ a //⁺ c *⁺ b  ≈ᴿ⁺  a //⁺ b
   //⁺-*ˡ {c} {a} {b} =  -- b(ca) ≡ c(ba) ≡ (cb)a
     ?*⁺-comm {b} {c} {a} ◇ *⁺-assocʳ {c} {b} {a}
 
-  //⁺-*ʳ :  (a *⁺ c) //⁺ (b *⁺ c)  ≈ᴿ⁺  a //⁺ b
+  //⁺-*ʳ :  a *⁺ c //⁺ b *⁺ c  ≈ᴿ⁺  a //⁺ b
   //⁺-*ʳ {a} {c} {b} =  -- b(ac) ≡ (ba)c ≡ (bc)a
     *⁺-assocʳ {b} {a} {c} ◇ *⁺?-comm {b} {a} {c}
 
@@ -96,7 +96,7 @@ abstract
 
 infixl 6 _+ᴿ⁺_
 _+ᴿ⁺_ :  ℚ⁺ → ℚ⁺ → ℚ⁺
-(a //⁺ b) +ᴿ⁺ (c //⁺ d) =  (d *⁺ a +⁺ b *⁺ c) //⁺ (b *⁺ d)
+(a //⁺ b) +ᴿ⁺ (c //⁺ d) =  d *⁺ a +⁺ b *⁺ c //⁺ b *⁺ d
 
 abstract
 
@@ -154,7 +154,7 @@ abstract
 
 infixl 7 _/⁺_
 _/⁺_ :  ℚ⁺ → ℕ⁺ → ℚ⁺
-(a //⁺ b) /⁺ c =  a //⁺ (c *⁺ b)
+(a //⁺ b) /⁺ c =  a //⁺ c *⁺ b
 
 --------------------------------------------------------------------------------
 -- ≤1ᴿ⁺ :  No more than 1ᴿ⁺

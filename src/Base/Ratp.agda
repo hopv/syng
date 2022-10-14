@@ -15,8 +15,9 @@ open import Base.Nat using (+-0; *-1ʳ)
 open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _<⁺_; _<≡>⁺_; _≤>⁺_; _<≥⁺_;
   _+⁺_; _*⁺_; ≤⁺-refl; ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; <⁺-irrefl; ≡⇒¬<⁺; <⁺-trans;
   <⁺-asym; <⁺⇒≤⁺; ≤⁺-<⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; <⁺⇒¬≥⁺; +⁺-comm; +⁺-assocˡ;
-  +⁺-assocʳ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; ?*⁺-comm;
-  *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-monoʳ; *⁺-monoʳ-inv; *⁺-smonoʳ-inv)
+  +⁺-assocʳ; +⁺-sincrʳ; +⁺-monoˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
+  ?*⁺-comm; *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-monoˡ; *⁺-monoʳ;
+  *⁺-monoʳ-inv; *⁺-smonoʳ-inv)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number, unnormalized
@@ -294,6 +295,31 @@ abstract
 
   +ᴿ⁺-incrʳ :  p ≤ᴿ⁺ p +ᴿ⁺ q
   +ᴿ⁺-incrʳ {p} {q} =  <ᴿ⁺⇒≤ᴿ⁺ {p} {p +ᴿ⁺ q} $ +ᴿ⁺-sincrʳ {p} {q}
+
+  -- Monotonicity of +ᴿ⁺
+
+  +ᴿ⁺-monoˡ :  p ≤ᴿ⁺ q →  p +ᴿ⁺ r ≤ᴿ⁺ q +ᴿ⁺ r
+  +ᴿ⁺-monoˡ {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} da≤bc =  -- (df)(fa+be) ≤ (bf)(fc+de)
+    subst₂ _≤⁺_ (*⁺?-comm {d} {_} {f}) (*⁺?-comm {b} {_} {f}) $
+    -- (d(fa+be))f ≤ (b(fc+de))f
+    *⁺-monoˡ {n = f} le
+   where
+    le :  d *⁺ (f *⁺ a +⁺ b *⁺ e) ≤⁺ b *⁺ (f *⁺ c +⁺ d *⁺ e)
+    le =
+      -- d(fa+be) ≡ d(fa)+d(be) ≡ f(da)+b(de) ≤ f(bc)+b(de) ≡ b(fc)+b(de) ≡
+      -- b(fc+de)
+      subst₂ _≤⁺_
+        (cong₂ _+⁺_ (?*⁺-comm {f} {d}) (?*⁺-comm {b} {d}) ◇ ◠ *⁺-+⁺-distrʳ {d})
+        (cong (_+⁺ b *⁺ (d *⁺ e)) (?*⁺-comm {f} {b}) ◇ ◠ *⁺-+⁺-distrʳ {b}) $
+      +⁺-monoˡ (*⁺-monoʳ {f} da≤bc)
+
+  +ᴿ⁺-monoʳ :  ∀{p q r} →  q ≤ᴿ⁺ r →  p +ᴿ⁺ q ≤ᴿ⁺ p +ᴿ⁺ r
+  +ᴿ⁺-monoʳ {p} {q} {r} q≤r =  subst₂ _≤ᴿ⁺_
+    (+ᴿ⁺-comm {q} {p}) (+ᴿ⁺-comm {r} {p}) (+ᴿ⁺-monoˡ {q} {r} {p} q≤r)
+
+  +ᴿ⁺-mono :  p ≤ᴿ⁺ q →  r ≤ᴿ⁺ s →  p +ᴿ⁺ r ≤ᴿ⁺ q +ᴿ⁺ s
+  +ᴿ⁺-mono {p} {q} {r} {s} p≤q r≤s =  ≤ᴿ⁺-trans {p +ᴿ⁺ r} {q +ᴿ⁺ r} {q +ᴿ⁺ s}
+    (+ᴿ⁺-monoˡ {p} {q} {r} p≤q) (+ᴿ⁺-monoʳ {q} {r} {s} r≤s)
 
 --------------------------------------------------------------------------------
 -- ≤1ᴿ⁺ :  No more than 1ᴿ⁺

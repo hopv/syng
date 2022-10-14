@@ -14,7 +14,8 @@ open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _<≡>_; _≤>_; _+_; _*_; ṡ≤ṡ; ṡ<ṡ;
   ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤; ≤-<-trans;
   <-≤-trans; ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; +-comm; +-assocˡ; +-injˡ; +-0;
-  +-incrˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ; *-smonoˡ)
+  +-incrˡ; +-monoˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ;
+  *-smonoˡ)
 
 --------------------------------------------------------------------------------
 -- ℕ⁺ :  Positive natural number
@@ -205,6 +206,28 @@ abstract
 
   +⁺-incrʳ :  m ≤⁺ m +⁺ n
   +⁺-incrʳ =  <⁺⇒≤⁺ +⁺-sincrʳ
+
+  -- +⁺ is monotone
+
+  +⁺-monoˡ :  l ≤⁺ m →  l +⁺ n ≤⁺ m +⁺ n
+  +⁺-monoˡ =  +-monoˡ
+
+  +⁺-monoʳ :  ∀{l m n} →  m ≤⁺ n →  l +⁺ m ≤⁺ l +⁺ n
+  +⁺-monoʳ {l} {m} {n} m≤n =  subst₂ _≤⁺_ +⁺-comm +⁺-comm $ +⁺-monoˡ m≤n
+
+  +⁺-mono :  k ≤⁺ l →  m ≤⁺ n →  k +⁺ m ≤⁺ l +⁺ n
+  +⁺-mono k≤l m≤n =  ≤⁺-trans (+⁺-monoˡ k≤l) (+⁺-monoʳ m≤n)
+
+  -- + is strictly monotone
+
+  +⁺-smonoˡ :  l <⁺ m →  l +⁺ n <⁺ m +⁺ n
+  +⁺-smonoˡ =  +-monoˡ
+
+  +⁺-smonoʳ :  ∀{l m n} →  m <⁺ n →  l +⁺ m <⁺ l +⁺ n
+  +⁺-smonoʳ {l} {m} {n} m<n =  subst₂ _<⁺_ +⁺-comm +⁺-comm $ +⁺-smonoˡ m<n
+
+  +⁺-smono :  k <⁺ l →  m <⁺ n →  k +⁺ m <⁺ l +⁺ n
+  +⁺-smono k<l m<n =  <⁺-trans (+⁺-smonoˡ k<l) (+⁺-smonoʳ m<n)
 
 --------------------------------------------------------------------------------
 -- *⁺ :  Multiplication

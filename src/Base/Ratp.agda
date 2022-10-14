@@ -15,9 +15,8 @@ open import Base.Nat using (+-0; *-1ʳ)
 open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _<⁺_; _<≡>⁺_; _≤>⁺_; _<≥⁺_;
   _+⁺_; _*⁺_; ≤⁺-refl; ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; <⁺-irrefl; ≡⇒¬<⁺; <⁺-trans;
   <⁺-asym; <⁺⇒≤⁺; ≤⁺-<⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; <⁺⇒¬≥⁺; +⁺-comm; +⁺-assocˡ;
-  +⁺-assocʳ; +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
-  ?*⁺-comm; *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ;
-  *⁺-monoʳ-inv; *⁺-smonoʳ-inv)
+  +⁺-assocʳ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; ?*⁺-comm;
+  *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-monoʳ; *⁺-monoʳ-inv; *⁺-smonoʳ-inv)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number, unnormalized
@@ -297,6 +296,35 @@ abstract
   +ᴿ⁺-incrʳ {p} {q} =  <ᴿ⁺⇒≤ᴿ⁺ {p} {p +ᴿ⁺ q} $ +ᴿ⁺-sincrʳ {p} {q}
 
 --------------------------------------------------------------------------------
+-- ≤1ᴿ⁺ :  No more than 1ᴿ⁺
+
+infix 4 _≤1ᴿ⁺
+_≤1ᴿ⁺ :  ℚ⁺ → Set₀
+p ≤1ᴿ⁺ =  p ≤ᴿ⁺ 1ᴿ⁺
+
+abstract
+
+  -- 1ᴿ⁺ satisfies ≤1ᴿ⁺
+  1≤1ᴿ⁺ :  1ᴿ⁺ ≤1ᴿ⁺
+  1≤1ᴿ⁺ =  ≤ᴿ⁺-refl {1ᴿ⁺}
+
+  -- ≤1ᴿ⁺ respects ≈ᴿ⁺
+
+  ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  p ≤1ᴿ⁺ →  q ≤1ᴿ⁺
+  ≤1ᴿ⁺-resp {p} {q} p≈q =  ≤ᴿ⁺-respˡ {p} {q} {1ᴿ⁺} p≈q
+
+  -- ≤1ᴿ⁺ is preserved by removal w.r.t. +ᴿ⁺
+
+  ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
+  ≤1ᴿ⁺-rem {p} {q} p+q≤1 =
+    ≤ᴿ⁺-trans {q} {p +ᴿ⁺ q} {1ᴿ⁺} (+ᴿ⁺-incrˡ {p} {q}) p+q≤1
+
+  -- 1ᴿ⁺ +ᴿ⁺ p does not satisfy ≤1ᴿ⁺
+
+  ¬1+?≤1ᴿ⁺ :  ¬ 1ᴿ⁺ +ᴿ⁺ p ≤1ᴿ⁺
+  ¬1+?≤1ᴿ⁺ {p} =  <ᴿ⁺⇒¬≥ᴿ⁺ {1ᴿ⁺} {1ᴿ⁺ +ᴿ⁺ p} $ +ᴿ⁺-sincrʳ {1ᴿ⁺} {p}
+
+--------------------------------------------------------------------------------
 -- /⁺ :  Divide ℚ⁺ with ℕ⁺
 
 infixl 7 _/⁺_
@@ -318,38 +346,3 @@ abstract
     eqv :  2b *⁺ 2a ⫽⁺ 2b *⁺ 2b  ≈ᴿ⁺  p
     eqv =  ≈ᴿ⁺-trans {2b *⁺ 2a ⫽⁺ 2b *⁺ 2b} {2a ⫽⁺ 2b} {p}
       (⫽⁺-*ˡ {2b} {2a} {2b}) (⫽⁺-*ˡ {2⁺} {a} {b})
-
---------------------------------------------------------------------------------
--- ≤1ᴿ⁺ :  No more than 1ᴿ⁺
-
-infix 4 _≤1ᴿ⁺
-_≤1ᴿ⁺ :  ℚ⁺ → Set₀
-a ⫽⁺ b ≤1ᴿ⁺ =  a ≤⁺ b
-
-abstract
-
-  -- 1ᴿ⁺ satisfies ≤1ᴿ⁺
-  1≤1ᴿ⁺ :  1ᴿ⁺ ≤1ᴿ⁺
-  1≤1ᴿ⁺ =  ≤⁺-refl
-
-  -- ≤1ᴿ⁺ is preserved by removal w.r.t. +ᴿ⁺
-
-  ≤1ᴿ⁺-rem :  p +ᴿ⁺ q ≤1ᴿ⁺ →  q ≤1ᴿ⁺
-  ≤1ᴿ⁺-rem {a ⫽⁺ b} {c ⫽⁺ d} da+bc≤bd  with c ≤>⁺ d
-  … | ĩ₀ c≤d =  c≤d
-  … | ĩ₁ c>d =  absurd $ ≤⁺⇒¬>⁺ da+bc≤bd $
-    <⁺-trans (*⁺-smonoʳ {b} c>d) +⁺-sincrˡ
-
-  -- 1ᴿ⁺ +ᴿ⁺ p does not satisfy ≤1ᴿ⁺
-
-  ¬1+?≤1ᴿ⁺ :  ¬ 1ᴿ⁺ +ᴿ⁺ p ≤1ᴿ⁺
-  ¬1+?≤1ᴿ⁺ {a ⫽⁺ ṡ⁺ b⁰} b+1a≤b  rewrite *-1ʳ {b⁰} | +-0 {b⁰} =
-    ≤⁺⇒¬>⁺ b+1a≤b +⁺-sincrʳ
-
-  -- ≤1ᴿ⁺ respects ≈ᴿ⁺
-
-  ≤1ᴿ⁺-resp :  p ≈ᴿ⁺ q →  p ≤1ᴿ⁺ →  q ≤1ᴿ⁺
-  ≤1ᴿ⁺-resp {a ⫽⁺ b} {c ⫽⁺ d} da≡bc a≤b  with c ≤>⁺ d
-  … | ĩ₀ c≤d =  c≤d
-  … | ĩ₁ c>d =  absurd $ ≡⇒¬<⁺ (da≡bc ◇ *⁺-comm {b} {c}) $
-    <⁺-≤⁺-trans (*⁺-smonoˡ c>d) (*⁺-monoʳ {c} a≤b)

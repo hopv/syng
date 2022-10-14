@@ -270,3 +270,10 @@ abstract
 
   ⊆ᶻ⇒∖-⊎ʳ :  Aᶻ ⊆ᶻ Bᶻ →  (Bᶻ ∖ᶻ Aᶻ) ⊎ᶻ Aᶻ ≡˙ Bᶻ
   ⊆ᶻ⇒∖-⊎ʳ A⊆B a =  ≤ᶻ⇒∸-+ʳ (A⊆B a)
+
+  -- ^ᶻ a is valid
+
+  ✔^ᶻ :  ∀{{_ : ≡Dec A}} {a : A} →  ✔ᶻ ^ᶻ a
+  ✔^ᶻ {a = a} b  with b ≟ a
+  … | yes refl =  _
+  … | no _ =  _

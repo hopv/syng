@@ -280,6 +280,22 @@ abstract
   +ᴿ⁺-cong {p} {q} {r} {s} p≈q r≈s =  ≈ᴿ⁺-trans {p +ᴿ⁺ r} {q +ᴿ⁺ r} {q +ᴿ⁺ s}
     (+ᴿ⁺-congˡ {p} {q} {r} p≈q) (+ᴿ⁺-congʳ {q} {r} {s} r≈s)
 
+  -- +ᴿ⁺ is strictly increasing
+
+  +ᴿ⁺-sincrʳ :  p <ᴿ⁺ p +ᴿ⁺ q
+  +ᴿ⁺-sincrʳ {a ⫽⁺ b} {c ⫽⁺ d} =
+    -- (bd)a ≡ b(da) < b(da)+b(bc) ≡ b(da+bc)
+    subst₂ _<⁺_ (*⁺-assocʳ {b} {d}) (◠ *⁺-+⁺-distrʳ {b}) +⁺-sincrʳ
+
+  +ᴿ⁺-sincrˡ :  ∀{p q} →  q <ᴿ⁺ p +ᴿ⁺ q
+  +ᴿ⁺-sincrˡ {p} {q} =  subst (q <ᴿ⁺_) (+ᴿ⁺-comm {q} {p}) $ +ᴿ⁺-sincrʳ {q} {p}
+
+  +ᴿ⁺-incrˡ :  ∀{p q} →  q ≤ᴿ⁺ p +ᴿ⁺ q
+  +ᴿ⁺-incrˡ {p} {q} =  <ᴿ⁺⇒≤ᴿ⁺ {q} {p +ᴿ⁺ q} $ +ᴿ⁺-sincrˡ {p} {q}
+
+  +ᴿ⁺-incrʳ :  p ≤ᴿ⁺ p +ᴿ⁺ q
+  +ᴿ⁺-incrʳ {p} {q} =  <ᴿ⁺⇒≤ᴿ⁺ {p} {p +ᴿ⁺ q} $ +ᴿ⁺-sincrʳ {p} {q}
+
 --------------------------------------------------------------------------------
 -- /⁺ :  Divide ℚ⁺ with ℕ⁺
 

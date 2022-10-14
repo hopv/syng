@@ -178,7 +178,7 @@ abstract
 
   -- Compose an atomic Hoare triple and a Hoare triple on the context
 
-  -->  ahorᴺ-hor :  [⊤]ᴺ ∗ P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
+  -->  ahorᴺ-hor :  [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
   -->               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
   -->               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
 

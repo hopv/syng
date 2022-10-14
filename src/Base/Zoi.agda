@@ -272,7 +272,7 @@ abstract
 
   -- ^ᶻ a is valid
 
-  ✔^ᶻ :  ∀{{_ : ≡Dec A}} {a : A} →  ✔ᶻ ^ᶻ a
-  ✔^ᶻ {a = a} b  with b ≟ a
+  ^ᶻ-✔ :  ∀{{_ : ≡Dec A}} {a : A} →  ✔ᶻ ^ᶻ a
+  ^ᶻ-✔ {a = a} b  with b ≟ a
   … | yes refl =  _
   … | no _ =  _

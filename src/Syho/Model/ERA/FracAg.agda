@@ -122,8 +122,8 @@ abstract
 
   ✓ᶠʳ-resp :  x ≈ᶠʳ y →  aˇ ✓ᶠʳ x →  aˇ ✓ᶠʳ y
   ✓ᶠʳ-resp {x = ň} {ň} _ _ =  _
-  ✓ᶠʳ-resp {x = š _} {š _} {š _} (p≈q , bs≈cs) (p≤1 , aˇ✓bs) =
-    ≤1ᴿ⁺-resp p≈q p≤1 , ✓ᴸ-resp bs≈cs aˇ✓bs
+  ✓ᶠʳ-resp {x = š (p ,-)} {š (q ,-)} {š _} (p≈q , bs≈cs) (p≤1 , aˇ✓bs) =
+    ≤1ᴿ⁺-resp {p} {q} p≈q p≤1 , ✓ᴸ-resp bs≈cs aˇ✓bs
 
   -- ✓ᶠʳ is preserved by removal w.r.t. ∙ᶠʳ
 
@@ -131,7 +131,7 @@ abstract
   ✓ᶠʳ-rem {x = ň} aˇ✓y =  aˇ✓y
   ✓ᶠʳ-rem {x = š _} {ň} _ =  _
   ✓ᶠʳ-rem {aˇ = š _} {š (p ,-)} {š (q ,-)} (p+q≤1 , aˇ✓bs⧺cs) =
-    ≤1ᴿ⁺-rem {p} p+q≤1 , ✓ᴸ-rem aˇ✓bs⧺cs
+    ≤1ᴿ⁺-rem {p} {q} p+q≤1 , ✓ᴸ-rem aˇ✓bs⧺cs
 
   -- ✓ᶠʳ š (p , as) implies p ≤1ᴿ⁺
 
@@ -159,7 +159,7 @@ abstract
 
   ✓ᶠʳ-free :  aˇ ✓ᶠʳ š (1ᴿ⁺ , bs) ∙ᶠʳ x →  ň ✓ᶠʳ x
   ✓ᶠʳ-free {x = ň} _ =  _
-  ✓ᶠʳ-free {aˇ = š _} {x = š _} (1+p≤1 ,-) =  absurd $ ¬1+?≤1ᴿ⁺ 1+p≤1
+  ✓ᶠʳ-free {aˇ = š _} {x = š (p ,-)} (1+p≤1 ,-) =  absurd $ ¬1+?≤1ᴿ⁺ {p} 1+p≤1
 
   -- Update aˇ into š c and š (1ᴿ⁺ , bs) into š (1ᴿ⁺ , [ c ]),
   -- preserving ✓ᶠʳ - ∙ᶠʳ x

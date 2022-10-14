@@ -82,8 +82,7 @@ module _
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
   ahor/↪ᵃ⟨⟩-use' :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙
-  ahor/↪ᵃ⟨⟩-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use') ᵘ»ᵃʰ
+  ahor/↪ᵃ⟨⟩-use' =  ∗⊤-intro » ⇛-frameˡ (○-rec {i = 0} ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use') ᵘ»ᵃʰ
     ↪ᵃ⟨⟩-use' {P˂ = ¡ᴾ _} {λ v → ¡ᴾ _}
 
 --------------------------------------------------------------------------------
@@ -103,9 +102,8 @@ module _
   -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
 
   horᴾ/↪⟨⟩ᴾ-use' :  P  ⊢[ ι ]⟨ e ⟩ᴾ  Q˙
-  horᴾ/↪⟨⟩ᴾ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
-    ↪⟨⟩ᴾ-use' {P˂ = ¡ᴾ P} {λ v → ¡ᴾ Q˙ v}
+  horᴾ/↪⟨⟩ᴾ-use' =  ∗⊤-intro » ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
+    ↪⟨⟩ᴾ-use' {P˂ = ¡ᴾ _} {λ _ → ¡ᴾ _}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᵀ without level increment, then we get a paradox
@@ -124,9 +122,8 @@ module _
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
   horᵀ/↪⟨⟩ᵀ-use' :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  Q˙
-  horᵀ/↪⟨⟩ᵀ-use' {P} {Q˙ = Q˙} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
-    ↪⟨⟩ᵀ-use' {P˂ = ¡ᴾ P} {λ v → ¡ᴾ Q˙ v}
+  horᵀ/↪⟨⟩ᵀ-use' =  ∗⊤-intro » ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
+    ↪⟨⟩ᵀ-use' {P˂ = ¡ᴾ _} {λ _ → ¡ᴾ _}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩ᵀ with pure reduction, not level increment,
@@ -149,9 +146,9 @@ module _
   -- termination, loop does not terminate!
 
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
-  horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ {P} {Q˙ = Q˙} =  ∗⊤-intro »
+  horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ =  ∗⊤-intro »
     ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ) ᵘ»ʰ
-    ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ᴾ P} {λ v → ¡ᴾ _} (-, redᴾ refl)
+    ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ᴾ _} {λ _ → ¡ᴾ _} (-, redᴾ refl)
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩∞ without level increment, then we get a paradox
@@ -170,5 +167,5 @@ module _
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
   ihor/↪⟨⟩∞-use' :  P  ⊢[ ι ][ i ]⟨ e ⟩∞
-  ihor/↪⟨⟩∞-use' {P} =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩∞/↪⟨⟩∞-use') ᵘ»ⁱʰ ↪⟨⟩∞-use' {P˂ = ¡ᴾ P}
+  ihor/↪⟨⟩∞-use' =  ∗⊤-intro »
+    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩∞/↪⟨⟩∞-use') ᵘ»ⁱʰ ↪⟨⟩∞-use' {P˂ = ¡ᴾ _}

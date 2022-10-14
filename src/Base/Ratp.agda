@@ -12,11 +12,12 @@ open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst
 open import Base.Dec using (Dec; yes; _≟_; ≟-refl)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (+-0; *-1ʳ)
-open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _+⁺_; _*⁺_; ≤⁺-refl;
-  ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; +⁺-comm;
-  +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
-  *⁺-+⁺-distrʳ; ?*⁺-comm; *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ;
-  *⁺-monoʳ; *⁺-monoʳ-inv)
+open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _<⁺_; _≤>⁺_; _+⁺_; _*⁺_;
+  ≤⁺-refl; ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; <⁺-irrefl; ≡⇒¬<⁺; <⁺-trans; <⁺-asym;
+  <⁺⇒≤⁺; ≤⁺-<⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; <⁺⇒¬≥⁺; +⁺-comm; +⁺-assocˡ;
+  +⁺-assocʳ; +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
+  ?*⁺-comm; *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ;
+  *⁺-monoʳ-inv; *⁺-smonoʳ-inv)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number, unnormalized
@@ -95,9 +96,12 @@ abstract
 --------------------------------------------------------------------------------
 -- ≤ᴿ⁺ :  Order of ℚ⁺
 
-infix 4 _≤ᴿ⁺_
-_≤ᴿ⁺_ :  ℚ⁺ → ℚ⁺ → Set₀
+infix 4 _≤ᴿ⁺_ _≥ᴿ⁺_ _<ᴿ⁺_ _>ᴿ⁺_
+_≤ᴿ⁺_ _≥ᴿ⁺_ _<ᴿ⁺_ _>ᴿ⁺_ :  ℚ⁺ → ℚ⁺ → Set₀
 (a ⫽⁺ b) ≤ᴿ⁺ (c ⫽⁺ d) =  d *⁺ a ≤⁺ b *⁺ c
+p ≥ᴿ⁺ q =  q ≤ᴿ⁺ p
+(a ⫽⁺ b) <ᴿ⁺ (c ⫽⁺ d) =  d *⁺ a <⁺ b *⁺ c
+p >ᴿ⁺ q =  q <ᴿ⁺ p
 
 abstract
 
@@ -141,6 +145,65 @@ abstract
   ≤ᴿ⁺-resp :  p ≈ᴿ⁺ q →  r ≈ᴿ⁺ s →  p ≤ᴿ⁺ r →  q ≤ᴿ⁺ s
   ≤ᴿ⁺-resp {p} {q} {r} {s} p≈q r≈s p≤r =
     ≤ᴿ⁺-respʳ {q} {r} {s} r≈s $ ≤ᴿ⁺-respˡ {p} {q} {r} p≈q $ p≤r
+
+  -- <ᴿ⁺ is irreflexive
+
+  <ᴿ⁺-irrefl :  ¬ p <ᴿ⁺ p
+  <ᴿ⁺-irrefl =  <⁺-irrefl
+
+  -- <ᴿ⁺ is asymmetric
+
+  <ᴿ⁺-asym :  p <ᴿ⁺ q →  ¬ q <ᴿ⁺ p
+  <ᴿ⁺-asym p<q q<p =  <⁺-asym p<q q<p
+
+  -- <ᴿ⁺ into ≤ᴿ⁺
+
+  <ᴿ⁺⇒≤ᴿ⁺ :  p <ᴿ⁺ q →  p ≤ᴿ⁺ q
+  <ᴿ⁺⇒≤ᴿ⁺ =  <⁺⇒≤⁺
+
+  -- Compose ≤ᴿ⁺ and <ᴿ⁺
+
+  ≤ᴿ⁺-<ᴿ⁺-trans :  p ≤ᴿ⁺ q →  q <ᴿ⁺ r →  p <ᴿ⁺ r
+  ≤ᴿ⁺-<ᴿ⁺-trans {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} da≤bc fc<de =  *⁺-smonoʳ-inv {d} $
+    -- d(fa) ≡ f(da) ≤ f(bc) ≡ b(fc) < b(de) ≡ d(be)
+    ≤⁺-<⁺-trans
+      (subst₂ _≤⁺_ (?*⁺-comm {f} {d}) (?*⁺-comm {f} {b}) $ *⁺-monoʳ {f} da≤bc) $
+      subst (b *⁺ (f *⁺ c) <⁺_) (?*⁺-comm {b} {d}) $ *⁺-smonoʳ {b} fc<de
+
+  <ᴿ⁺-≤ᴿ⁺-trans :  p <ᴿ⁺ q →  q ≤ᴿ⁺ r →  p <ᴿ⁺ r
+  <ᴿ⁺-≤ᴿ⁺-trans {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} da<bc fc≤de =  *⁺-smonoʳ-inv {d} $
+    -- d(fa) ≡ f(da) < f(bc) ≡ b(fc) ≤ b(de) ≡ d(be)
+    <⁺-≤⁺-trans
+      (subst₂ _<⁺_ (?*⁺-comm {f} {d}) (?*⁺-comm {f} {b}) $ *⁺-smonoʳ {f} da<bc)
+      $ subst (b *⁺ (f *⁺ c) ≤⁺_) (?*⁺-comm {b} {d}) $ *⁺-monoʳ {b} fc≤de
+
+  -- <ᴿ⁺ is transitive
+
+  <ᴿ⁺-trans :  p <ᴿ⁺ q →  q <ᴿ⁺ r →  p <ᴿ⁺ r
+  <ᴿ⁺-trans {p} {q} {r} p<q q<r =
+    <ᴿ⁺-≤ᴿ⁺-trans {p} {q} {r} p<q $ <ᴿ⁺⇒≤ᴿ⁺ {q} {r} q<r
+
+  -- <ᴿ⁺ respects ≈ᴿ⁺
+
+  <ᴿ⁺-respˡ :  p ≈ᴿ⁺ q →  p <ᴿ⁺ r →  q <ᴿ⁺ r
+  <ᴿ⁺-respˡ {p} {q} {r} p≈q p<r =  ≤ᴿ⁺-<ᴿ⁺-trans {q} {p} {r}
+    (≈ᴿ⁺⇒≤ᴿ⁺ {q} {p} $ ≈ᴿ⁺-sym {p} {q} p≈q) p<r
+
+  <ᴿ⁺-respʳ :  ∀{p q r} →  q ≈ᴿ⁺ r →  p <ᴿ⁺ q →  p <ᴿ⁺ r
+  <ᴿ⁺-respʳ {p} {q} {r} q≈r p<q =
+    <ᴿ⁺-≤ᴿ⁺-trans {p} {q} {r} p<q $ ≈ᴿ⁺⇒≤ᴿ⁺ {q} {r} q≈r
+
+  <ᴿ⁺-resp :  p ≈ᴿ⁺ q →  r ≈ᴿ⁺ s →  p <ᴿ⁺ r →  q <ᴿ⁺ s
+  <ᴿ⁺-resp {p} {q} {r} {s} p≈q r≈s p<r =
+    <ᴿ⁺-respʳ {q} {r} {s} r≈s $ <ᴿ⁺-respˡ {p} {q} {r} p≈q $ p<r
+
+  -- ≤ᴿ⁺ and >ᴿ⁺ do not hold at the same time
+
+  ≤ᴿ⁺⇒¬>ᴿ⁺ :  p ≤ᴿ⁺ q →  ¬ p >ᴿ⁺ q
+  ≤ᴿ⁺⇒¬>ᴿ⁺ =  ≤⁺⇒¬>⁺
+
+  <ᴿ⁺⇒¬≥ᴿ⁺ :  p <ᴿ⁺ q →  ¬ p ≥ᴿ⁺ q
+  <ᴿ⁺⇒¬≥ᴿ⁺ =  <⁺⇒¬≥⁺
 
 --------------------------------------------------------------------------------
 -- +ᴿ⁺ :  Addition of ℚ⁺, unnormalized

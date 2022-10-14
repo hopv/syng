@@ -48,7 +48,7 @@ abstract
   []ᴺᵒ-resp :  Nm ≡˙ Nm' →  [ Nm ]ᴺᵒ ⊨ [ Nm' ]ᴺᵒ
   []ᴺᵒ-resp =  []ᴺʳ-cong › ◎⟨⟩-resp
 
-  -- Merge and split [ ]ᴺᵒ
+  -- Merge and split [ ]ᴺᵒ w.r.t. ⊎ᶻ
 
   []ᴺᵒ-merge :  [ Nm ]ᴺᵒ  ∗ᵒ  [ Nm' ]ᴺᵒ  ⊨  [ Nm ⊎ᶻ Nm' ]ᴺᵒ
   []ᴺᵒ-merge =  ◎⟨⟩-∗ᵒ⇒∙

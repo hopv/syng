@@ -14,19 +14,18 @@ open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _+_; _⊔_; ≤-refl; ≤-trans; ⊔-introˡ;
   ⊔-comm)
 open import Base.List using (List; []; _∷_)
-open import Base.Ratp using (ℚ⁺)
 open import Base.Seq using (Seq∞; _∷ˢ_; hdˢ; tlˢ; repˢ; rep²ˢ; takeˢ)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Type; TyVal;
   loop)
 open import Syho.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
   ndecrep●∞; cntr←)
-open import Syho.Logic.Prop using (Lft; Prop'; Prop∞; ¡ᴾ_; ∀-syntax; ∃-syntax;
-  ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; [_]ᴸ⟨_⟩; _↦ˢ⟨_⟩_)
+open import Syho.Logic.Prop using (Prop'; Prop∞; ¡ᴾ_; ∀-syntax; ∃-syntax;
+  ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; static; _↦ⁱ_)
 open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
-  ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocˡ;
-  ∗-assocʳ; ?∗-comm; ∗?-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim;
-  dup-Pers-∗; -∗-introˡ; -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers)
+  ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ;
+  ?∗-comm; ∗?-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; dup-Pers-∗;
+  -∗-introˡ; -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞;
@@ -34,7 +33,7 @@ open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _�
 open import Syho.Logic.Mem using (hor-🞰; hor-←)
 open import Syho.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒↪⟨⟩;
   ↪⟨⟩ᵀ-use)
-open import Syho.Logic.Bor using (hor-↦ˢ-🞰)
+open import Syho.Logic.Inv using (hor-↦ⁱ-🞰)
 
 private variable
   ι :  𝕊
@@ -46,8 +45,6 @@ private variable
   Q˙ :  X → Prop∞
   T :  Type
   e˂˙ :  X → Expr˂∞ T
-  α :  Lft
-  p :  ℚ⁺
   ns : List ℕ
   nsˢ :  Seq∞ ℕ
 
@@ -133,32 +130,32 @@ abstract
     ∗-elimˡ » cntr←-Cntr ᵘ» ∃-intro refl }
 
   ------------------------------------------------------------------------------
-  -- Shared-borrowed singly-linked list
+  -- Static singly-linked list
 
-  -- Shared-borrowed singly-linked list over a list
+  -- Static singly-linked list over a list
 
-  Slist :  List ℕ →  Lft →  Addr →  Prop∞
-  Slist (n ∷ ns) α θ =  ∃ θ' , θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ Slist ns α θ'
-  Slist [] _ _ =  ⊤'
+  Slist :  List ℕ →  Addr →  Prop∞
+  Slist (n ∷ ns) θ =  ∃ θ' , θ ↦ⁱ (-, n , θ') ∗ Slist ns θ'
+  Slist [] _ =  ⊤'
 
-  -- Shared-borrowed singly-linked list over a sequence
+  -- Static singly-linked list over a sequence
   -- We leverage here the coinductivity of the indirection modality ○,
   -- just like Iris's guarded recursion using the later modality ▷
 
-  Slist∞ :  Seq∞ ℕ →  Lft →  Addr →  Prop' ι
-  Slist∞ (n ∷ˢ nsˢ˂) α θ =
-    ∃ θ' , θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞ (nsˢ˂ .!) α θ' }
+  Slist∞ :  Seq∞ ℕ →  Addr →  Prop' ι
+  Slist∞ (n ∷ˢ nsˢ˂) θ =
+    ∃ θ' , θ ↦ⁱ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞ (nsˢ˂ .!) θ' }
 
-  -- Shared-borrowed singly-linked infinite list with a bound
+  -- Static singly-linked infinite list with a bound
   -- Again, we leverage here the coinductivity of the indirection modality ○
 
-  Slist∞≤ :  ℕ →  Lft →  Addr →  Prop' ι
-  Slist∞≤ k α θ =  ∃ n , ∃ θ' , ⌜ n ≤ k ⌝∧
-    θ ↦ˢ⟨ α ⟩ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞≤ k α θ' }
+  Slist∞≤ :  ℕ →  Addr →  Prop' ι
+  Slist∞≤ k θ =  ∃ n , ∃ θ' , ⌜ n ≤ k ⌝∧
+    θ ↦ⁱ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞≤ k θ' }
 
   -- Slist is persistent
 
-  Slist-Pers :  Pers $ Slist ns α θ
+  Slist-Pers :  Pers $ Slist ns θ
   Slist-Pers {[]} =  it
   Slist-Pers {_ ∷ ns'} =  let instance _ = Slist-Pers {ns'} in ∃-Pers λ _ → it
 
@@ -166,19 +163,19 @@ abstract
 
     -- Slist∞ is persistent
 
-    Slist∞-Pers :  Pers $ Slist∞ nsˢ α θ
+    Slist∞-Pers :  Pers $ Slist∞ nsˢ θ
     Slist∞-Pers {_ ∷ˢ _} =  ∃-Pers λ _ → it
 
     -- Slist∞≤ is persistent
 
-    Slist∞≤-Pers :  Pers $ Slist∞≤ n α θ
+    Slist∞≤-Pers :  Pers $ Slist∞≤ n θ
     Slist∞≤-Pers =  ∃-Pers λ _ → ∃-Pers λ _ → ∃-Pers λ _ → it
 
   -- Monotonicity of Slist∞≤
   -- Thanks to the coinductivity of ○-mono, we can get a pure sequent for the
   -- infinite proposition Slist∞≤
 
-  Slist∞≤-mono :  k ≤ l  →   Slist∞≤ k α θ  ⊢[ ι ]  Slist∞≤ l α θ
+  Slist∞≤-mono :  k ≤ l  →   Slist∞≤ k θ  ⊢[ ι ]  Slist∞≤ l θ
   Slist∞≤-mono k≤l =  ∃-elim λ _ → ∃-elim λ _ → ∃-elim λ n≤k →
     ∗-monoʳ (□-mono $ ○-mono λ{ .! → Slist∞≤-mono k≤l }) »
     ∃-intro (≤-trans n≤k k≤l) » ∃-intro _ » ∃-intro _
@@ -187,7 +184,7 @@ abstract
   -- Thanks to the coinductivity of ○-mono, we can get a pure sequent for the
   -- infinite propositions Slist∞ and Slist∞≤
 
-  Slist∞-repˢ⇒Slist∞≤ :  Slist∞ (repˢ n) α θ  ⊢[ ι ]  Slist∞≤ n α θ
+  Slist∞-repˢ⇒Slist∞≤ :  Slist∞ (repˢ n) θ  ⊢[ ι ]  Slist∞≤ n θ
   Slist∞-repˢ⇒Slist∞≤ =  ∃-elim λ _ →
     ∗-monoʳ (□-mono $ ○-mono λ{ .! → Slist∞-repˢ⇒Slist∞≤ }) »
     ∃-intro ≤-refl » ∃-intro _ » ∃-intro _
@@ -195,34 +192,33 @@ abstract
   -- Slist∞ (rep²ˢ m n) into Slist∞≤ (m ⊔ n)
   -- Again, the coinductivity of ○-mono is the key
 
-  Slist∞-rep²ˢ⇒Slist∞≤ :  Slist∞ (rep²ˢ m n) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
+  Slist∞-rep²ˢ⇒Slist∞≤ :  Slist∞ (rep²ˢ m n) θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) θ
   Slist∞-rep²ˢ⇒Slist∞≤ =  ∃-elim λ _ → ∗-monoʳ (□-mono $ ○-mono λ{ .! → go }) »
     ∃-intro ⊔-introˡ » ∃-intro _ » ∃-intro _
    where
-    go :  Slist∞ (rep²ˢ n m) α θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) α θ
+    go :  Slist∞ (rep²ˢ n m) θ  ⊢[ ι ]  Slist∞≤ (m ⊔ n) θ
     go {n} {m}  rewrite ⊔-comm {m} {n} =  Slist∞-rep²ˢ⇒Slist∞≤
 
   -- Turn Slist∞ nsˢ into Slist (takeˢ k nsˢ)
   -- This is under the super update ⇛, which is transitive,
   -- unlike the later modality ▷ in Iris
 
-  Slist∞⇒Slist :  Slist∞ nsˢ α θ  ⊢[ ι ][ i ]⇛  Slist (takeˢ k nsˢ) α θ
+  Slist∞⇒Slist :  Slist∞ nsˢ θ  ⊢[ ι ][ i ]⇛  Slist (takeˢ k nsˢ) θ
   Slist∞⇒Slist {k = 0} =  ⇒⇛ ⊤-intro
   Slist∞⇒Slist {_ ∷ˢ _} {k = ṡ k'} =  ∃-elim λ θ' → ∗-monoʳ □-elim »
     ⇛-frameˡ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
 
   -- Use Slist∞
 
-  Slist∞-use :
-    Slist∞ nsˢ α θ  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ]⟨ 🞰_ {T = ◸ _} (∇ θ) ⟩ᵀ[ i ]
-      λ (m , θ') →  ⌜ m ≡ hdˢ nsˢ ⌝∧ Slist∞ (tlˢ nsˢ .!) α θ'  ∗  [ α ]ᴸ⟨ p ⟩
-  Slist∞-use {_ ∷ˢ _} =  ∃∗-elim λ _ → ∗?-comm » ∗-assocˡ » hor-↦ˢ-🞰 $
-    hor-valᵘ {i = 0} $ ∗-comm » ⇛-frameʳ (□-elim » ○-use) ᵘ» ∃-intro refl
+  Slist∞-use :  Slist∞ nsˢ θ  ⊢[ ι ]⟨ 🞰_ {T = ◸ _} (∇ θ) ⟩ᵀ[ i ] λ (m , θ') →
+                  ⌜ m ≡ hdˢ nsˢ ⌝∧ Slist∞ (tlˢ nsˢ .!) θ'
+  Slist∞-use {_ ∷ˢ _} =  ∃-elim λ _ → hor-↦ⁱ-🞰 $ hor-valᵘ {i = 0} $
+    □-elim » ○-use ᵘ» ∃-intro refl
 
   -- Turn a self-pointing pointer into Slist∞ (repˢ n)
   -- The key to this seemingly infinite construction is □○-new-rec
 
-  Slist∞-repˢ-new :  θ ↦ˢ⟨ α ⟩ (-, n , θ)  ⊢[ ι ][ i ]⇛  Slist∞ (repˢ n) α θ
+  Slist∞-repˢ-new :  θ ↦ⁱ (-, n , θ)  ⊢[ ι ][ i ]⇛  Slist∞ (repˢ n) θ
   Slist∞-repˢ-new =  -∗-introʳ (□-intro-Pers $
     ∗-monoʳ (□-mono $ ○-mono λ{ .! → ⊢-refl }) » ∃-intro _) »
     □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
@@ -230,9 +226,8 @@ abstract
   -- Turn two mutually pointing pointers into Slist∞ (rep²ˢ - -) for both sides
   -- using □○-new-rec
 
-  Slist∞-rep²ˢ-new :
-    θ ↦ˢ⟨ α ⟩ (-, m , θ')  ∗  θ' ↦ˢ⟨ α ⟩ (-, n , θ)  ⊢[ ι ][ i ]⇛
-      Slist∞ (rep²ˢ m n) α θ  ∗  Slist∞ (rep²ˢ n m) α θ'
+  Slist∞-rep²ˢ-new :  θ ↦ⁱ (-, m , θ')  ∗  θ' ↦ⁱ (-, n , θ)  ⊢[ ι ][ i ]⇛
+                        Slist∞ (rep²ˢ m n) θ  ∗  Slist∞ (rep²ˢ n m) θ'
   Slist∞-rep²ˢ-new =  -∗-introˡ (□-intro-Pers $ dup-Pers-∗ »
     ∗-monoʳ ?∗-comm » ∗-assocʳ » ∗-mono
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimʳ }) » ∃-intro _)

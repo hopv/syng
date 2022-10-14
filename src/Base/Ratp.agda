@@ -15,7 +15,7 @@ open import Base.Nat using (+-0; *-1ʳ)
 open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _≤>⁺_; _+⁺_; _*⁺_; ≤⁺-refl;
   ≡⇒¬<⁺; <⁺-trans; <⁺-≤⁺-trans; <⁺⇒≤⁺; ≤⁺⇒¬>⁺; +⁺-comm; +⁺-assocˡ; +⁺-assocʳ;
   +⁺-sincrˡ; +⁺-sincrʳ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ; ?*⁺-comm;
-  *⁺?-comm; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
+  *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-smonoˡ; *⁺-monoʳ)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number, unnormalized
@@ -155,6 +155,22 @@ abstract
 infixl 7 _/⁺_
 _/⁺_ :  ℚ⁺ → ℕ⁺ → ℚ⁺
 (a //⁺ b) /⁺ c =  a //⁺ c *⁺ b
+
+abstract
+
+  -- Cancel addition of two halved fractions
+
+  /⁺2-two :  p /⁺ 2⁺  +ᴿ⁺  p /⁺ 2⁺  ≈ᴿ⁺  p
+  /⁺2-two {p@(a //⁺ b)} =  subst (_≈ᴿ⁺ p) (cong (_//⁺ 2b *⁺ 2b) eq) eqv
+   where
+    2a 2b :  ℕ⁺
+    2a =  2⁺ *⁺ a
+    2b =  2⁺ *⁺ b
+    eq :  2b *⁺ 2a  ≡  2b *⁺ a +⁺ 2b *⁺ a
+    eq =  cong (2b *⁺_) *⁺-2ˡ ◇ *⁺-+⁺-distrʳ {2b} {a} {a}
+    eqv :  2b *⁺ 2a //⁺ 2b *⁺ 2b  ≈ᴿ⁺  p
+    eqv =  ≈ᴿ⁺-trans {2b *⁺ 2a //⁺ 2b *⁺ 2b} {2a //⁺ 2b} {p}
+      (//⁺-*ˡ {2b} {2a} {2b}) (//⁺-*ˡ {2⁺} {a} {b})
 
 --------------------------------------------------------------------------------
 -- ≤1ᴿ⁺ :  No more than 1ᴿ⁺

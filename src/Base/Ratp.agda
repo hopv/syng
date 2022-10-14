@@ -74,7 +74,9 @@ abstract
   ≈ᴿ⁺-trans {a //⁺ b} {c //⁺ d} {e //⁺ f} da≡bc fc≡de =  *⁺-injʳ {d} eq
    where
     eq :  d *⁺ (f *⁺ a) ≡ d *⁺ (b *⁺ e)
-    eq =  cong (d *⁺_) (*⁺-comm {f} {a}) ◇ *⁺-assocʳ {d} {a} {f} ◇
+    eq =
+      -- d(fa) ≡ d(af) ≡ (da)f ≡ (bc)f ≡ b(cf) ≡ b(fc) ≡ b(de) ≡ d(be)
+      cong (d *⁺_) (*⁺-comm {f} {a}) ◇ *⁺-assocʳ {d} {a} {f} ◇
       cong (_*⁺ f) da≡bc ◇ *⁺-assocˡ {b} {c} {f} ◇
       cong (b *⁺_) (*⁺-comm {c} {f} ◇ fc≡de) ◇ ?*⁺-comm {b} {d} {e}
 
@@ -102,6 +104,8 @@ abstract
     eq :  f *⁺ (d *⁺ a +⁺ b *⁺ c) +⁺ (b *⁺ d) *⁺ e ≡
           (d *⁺ f) *⁺ a +⁺ b *⁺ (f *⁺ c +⁺ d *⁺ e)
     eq =
+      -- f(da+bc)+(bd)e ≡ f(da+bc)+b(de) ≡ (f(da)+f(bc))+b(de) ≡
+      -- ((df)a+b(fc))+b(de) ≡ (df)a+(b(fc)+b(de)) ≡ (df)a+b(fc+de)
       flip (cong₂ _+⁺_) (*⁺-assocˡ {b} {d} {e})
         (*⁺-+⁺-distrʳ {f} {d *⁺ a} {b *⁺ c} ◇ cong₂ _+⁺_
           (?*⁺-comm {f} {d} {a} ◇ *⁺-assocʳ {d} {f} {a})
@@ -119,7 +123,10 @@ abstract
     -- (d *⁺ f) *⁺ (f *⁺ a +⁺ b *⁺ e) ≡ (b *⁺ f) *⁺ (f *⁺ c +⁺ d *⁺ e)
    where
     eq :  d *⁺ (f *⁺ a +⁺ b *⁺ e) ≡ b *⁺ (f *⁺ c +⁺ d *⁺ e)
-    eq =  *⁺-+⁺-distrʳ {d} ◇
+    eq =
+      -- d*(fa+be) ≡ d(fa)+d(be) ≡ d(fa)+b(de) ≡ f(da)+b(de) ≡ f(bc)+b(de) ≡
+      -- b(fc)+b(de) ≡ b*(fc+de)
+      *⁺-+⁺-distrʳ {d} ◇
       flip (cong₂ _+⁺_) (?*⁺-comm {d} {b})
         (?*⁺-comm {d} {f} ◇ cong (f *⁺_) da≡bc ◇ ?*⁺-comm {f} {b}) ◇
       ◠ *⁺-+⁺-distrʳ {b}

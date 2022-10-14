@@ -9,13 +9,13 @@ module Syho.Model.ERA.Lft where
 open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; id)
 open import Base.Few using (⊤; ⊥; ¬_; absurd)
-open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong)
+open import Base.Eq using (_≡_; refl; cong)
 open import Base.Dec using (yes; no; _≟_; ≟-refl)
 open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; ṡ_; ≤-refl; <⇒≤; <-irrefl; Cofin˙; ∀≥˙-upd˙-ṡ;
   Cofin˙-resp)
-open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; 1≤1ᴿ⁺;
-  ≤1ᴿ⁺-rem)
+open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
+  ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem)
 open import Syho.Logic.Prop using (Lft)
 open import Syho.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
 import Syho.Model.ERA.All
@@ -42,6 +42,16 @@ private variable
   p q :  ℚ⁺
   a b c :  Lftb
   a˙ b˙ :  Lft →  Lftb
+
+-- Equivalence for Lftb
+
+infix 4 _≈ᴸᵇ_
+_≈ᴸᵇ_ :  Lftb →  Lftb →  Set₀
+εᴸᵇ ≈ᴸᵇ εᴸᵇ =  ⊤
+#ᴸᵇ p ≈ᴸᵇ #ᴸᵇ q =  p ≈ᴿ⁺ q
+†ᴸᵇ ≈ᴸᵇ †ᴸᵇ =  ⊤
+↯ᴸᵇ ≈ᴸᵇ ↯ᴸᵇ =  ⊤
+_ ≈ᴸᵇ _ =  ⊥
 
 -- Composition of Lftb
 
@@ -72,6 +82,33 @@ infix 4 ✓ᴸᵇ_
 
 abstract
 
+  -- ≈ᴸᵇ is reflexive
+
+  ≈ᴸᵇ-refl :  a ≈ᴸᵇ a
+  ≈ᴸᵇ-refl {εᴸᵇ} =  _
+  ≈ᴸᵇ-refl {#ᴸᵇ p} =  ≈ᴿ⁺-refl {p}
+  ≈ᴸᵇ-refl {†ᴸᵇ} =  _
+  ≈ᴸᵇ-refl {↯ᴸᵇ} =  _
+
+  ≡⇒≈ᴸᵇ :  a ≡ b →  a ≈ᴸᵇ b
+  ≡⇒≈ᴸᵇ refl =  ≈ᴸᵇ-refl
+
+  -- ≈ᴸᵇ is symmetric
+
+  ≈ᴸᵇ-sym :  a ≈ᴸᵇ b →  b ≈ᴸᵇ a
+  ≈ᴸᵇ-sym {εᴸᵇ} {εᴸᵇ} _ =  _
+  ≈ᴸᵇ-sym {#ᴸᵇ p} {#ᴸᵇ q} p≈q =  ≈ᴿ⁺-sym {p} {q} p≈q
+  ≈ᴸᵇ-sym {†ᴸᵇ} {†ᴸᵇ} _ =  _
+  ≈ᴸᵇ-sym {↯ᴸᵇ} {↯ᴸᵇ} _ =  _
+
+  -- ≈ᴸᵇ is transitive
+
+  ≈ᴸᵇ-trans :  a ≈ᴸᵇ b →  b ≈ᴸᵇ c →  a ≈ᴸᵇ c
+  ≈ᴸᵇ-trans {εᴸᵇ} {εᴸᵇ} {εᴸᵇ} _ _ =  _
+  ≈ᴸᵇ-trans {#ᴸᵇ p} {#ᴸᵇ q} {#ᴸᵇ r} p≈q q≈r =  ≈ᴿ⁺-trans {p} {q} {r} p≈q q≈r
+  ≈ᴸᵇ-trans {†ᴸᵇ} {†ᴸᵇ} {†ᴸᵇ} _ _ =  _
+  ≈ᴸᵇ-trans {↯ᴸᵇ} {↯ᴸᵇ} {↯ᴸᵇ} _ _ =  _
+
   -- a ∙ᴸᵇ εᴸᵇ equals a
 
   ∙ᴸᵇ-ε :  a ∙ᴸᵇ εᴸᵇ ≡ a
@@ -87,6 +124,17 @@ abstract
   ∙ᴸᵇ-↯ {#ᴸᵇ _} =  refl
   ∙ᴸᵇ-↯ {†ᴸᵇ} =  refl
   ∙ᴸᵇ-↯ {↯ᴸᵇ} =  refl
+
+  -- ∙ᴸᵇ preserves ≈ᴸᵇ
+
+  ∙ᴸᵇ-congˡ :  a ≈ᴸᵇ b  →   a ∙ᴸᵇ c  ≈ᴸᵇ  b ∙ᴸᵇ c
+  ∙ᴸᵇ-congˡ {εᴸᵇ} {εᴸᵇ} _ =  ≈ᴸᵇ-refl
+  ∙ᴸᵇ-congˡ {†ᴸᵇ} {†ᴸᵇ} _ =  ≈ᴸᵇ-refl
+  ∙ᴸᵇ-congˡ {↯ᴸᵇ} {↯ᴸᵇ} _ =  _
+  ∙ᴸᵇ-congˡ {a} {b} {εᴸᵇ} a≈b  rewrite ∙ᴸᵇ-ε {a} | ∙ᴸᵇ-ε {b} =  a≈b
+  ∙ᴸᵇ-congˡ {a} {b} {↯ᴸᵇ} a≈b  rewrite ∙ᴸᵇ-↯ {a} | ∙ᴸᵇ-↯ {b} =  _
+  ∙ᴸᵇ-congˡ {#ᴸᵇ p} {#ᴸᵇ q} {#ᴸᵇ r} p≈q =  +ᴿ⁺-congˡ {p} {q} {r} p≈q
+  ∙ᴸᵇ-congˡ {#ᴸᵇ _} {#ᴸᵇ _} {†ᴸᵇ} _ =  _
 
   -- ∙ᴸᵇ is commutative
 
@@ -119,6 +167,14 @@ abstract
   ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {#ᴸᵇ _} {†ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {#ᴸᵇ p} {#ᴸᵇ q} {#ᴸᵇ _} =  cong #ᴸᵇ_ $ +ᴿ⁺-assocˡ {p} {q}
 
+  -- ⌞⌟ᴸᵇ preserves ≈ᴸᵇ
+
+  ⌞⌟ᴸᵇ-cong :  a ≈ᴸᵇ b  →   ⌞ a ⌟ᴸᵇ  ≈ᴸᵇ  ⌞ b ⌟ᴸᵇ
+  ⌞⌟ᴸᵇ-cong {εᴸᵇ} {εᴸᵇ} _ =  _
+  ⌞⌟ᴸᵇ-cong {#ᴸᵇ _} {#ᴸᵇ _} _ =  _
+  ⌞⌟ᴸᵇ-cong {†ᴸᵇ} {†ᴸᵇ} _ =  _
+  ⌞⌟ᴸᵇ-cong {↯ᴸᵇ} {↯ᴸᵇ} _ =  _
+
   -- When ⌞⌟ᴸᵇ's argument gets added, ⌞⌟ᴸᵇ's result gets added
 
   ⌞⌟ᴸᵇ-add :  ∑ a' ,  ⌞ a ∙ᴸᵇ b ⌟ᴸᵇ  ≡  a' ∙ᴸᵇ ⌞ b ⌟ᴸᵇ
@@ -149,6 +205,13 @@ abstract
   ⌞⌟ᴸᵇ-idem {†ᴸᵇ} =  refl
   ⌞⌟ᴸᵇ-idem {↯ᴸᵇ} =  refl
 
+  -- ✓ᴸᵇ respects ≈ᴸᵇ
+
+  ✓ᴸᵇ-resp :  a ≈ᴸᵇ b →  ✓ᴸᵇ a →  ✓ᴸᵇ b
+  ✓ᴸᵇ-resp {εᴸᵇ} {εᴸᵇ} _ _ =  _
+  ✓ᴸᵇ-resp {#ᴸᵇ p} {#ᴸᵇ q} p≈q p≤1 =  ≤1ᴿ⁺-resp p≈q p≤1
+  ✓ᴸᵇ-resp {†ᴸᵇ} {†ᴸᵇ} _ _ =  _
+
   -- ✓ᴸᵇ is preserved by removal w.r.t. ∙ᴸᵇ
 
   ✓ᴸᵇ-rem :  ✓ᴸᵇ a ∙ᴸᵇ b →  ✓ᴸᵇ b
@@ -162,28 +225,34 @@ abstract
 
 Lftbᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
 Lftbᴱᴿᴬ .Res =  Lftb
-Lftbᴱᴿᴬ ._≈_ =  _≡_
+Lftbᴱᴿᴬ ._≈_ =  _≈ᴸᵇ_
 Lftbᴱᴿᴬ ._∙_ =  _∙ᴸᵇ_
 Lftbᴱᴿᴬ .ε =  εᴸᵇ
 Lftbᴱᴿᴬ .⌞_⌟ =  ⌞_⌟ᴸᵇ
 Lftbᴱᴿᴬ .Env =  ⊤
 Lftbᴱᴿᴬ ._✓_ _ =  ✓ᴸᵇ_
-Lftbᴱᴿᴬ .refl˜ =  refl
-Lftbᴱᴿᴬ .◠˜_ =  ◠_
-Lftbᴱᴿᴬ ._◇˜_ =  _◇_
-Lftbᴱᴿᴬ .∙-congˡ refl =  refl
-Lftbᴱᴿᴬ .∙-unitˡ =  refl
-Lftbᴱᴿᴬ .∙-comm {a} =  ∙ᴸᵇ-comm {a}
-Lftbᴱᴿᴬ .∙-assocˡ {a} =  ∙ᴸᵇ-assocˡ {a}
-Lftbᴱᴿᴬ .⌞⌟-cong refl =  refl
-Lftbᴱᴿᴬ .⌞⌟-add {a} =  ⌞⌟ᴸᵇ-add {a}
-Lftbᴱᴿᴬ .⌞⌟-unitˡ =  ⌞⌟ᴸᵇ-unitˡ
-Lftbᴱᴿᴬ .⌞⌟-idem =  ⌞⌟ᴸᵇ-idem
-Lftbᴱᴿᴬ .✓-resp refl =  id
+Lftbᴱᴿᴬ .refl˜ =  ≈ᴸᵇ-refl
+Lftbᴱᴿᴬ .◠˜_ a≈b =  ≈ᴸᵇ-sym a≈b
+Lftbᴱᴿᴬ ._◇˜_ a≈b b≈c =  ≈ᴸᵇ-trans a≈b b≈c
+Lftbᴱᴿᴬ .∙-congˡ =  ∙ᴸᵇ-congˡ
+Lftbᴱᴿᴬ .∙-unitˡ =  ≈ᴸᵇ-refl
+Lftbᴱᴿᴬ .∙-comm {a} =  ≡⇒≈ᴸᵇ $ ∙ᴸᵇ-comm {a}
+Lftbᴱᴿᴬ .∙-assocˡ {a} =  ≡⇒≈ᴸᵇ $ ∙ᴸᵇ-assocˡ {a}
+Lftbᴱᴿᴬ .⌞⌟-cong =  ⌞⌟ᴸᵇ-cong
+Lftbᴱᴿᴬ .⌞⌟-add {a}  with ⌞⌟ᴸᵇ-add {a}
+… | a' , ≡a'∙ =  a' , ≡⇒≈ᴸᵇ ≡a'∙
+Lftbᴱᴿᴬ .⌞⌟-unitˡ =  ≡⇒≈ᴸᵇ $ ⌞⌟ᴸᵇ-unitˡ
+Lftbᴱᴿᴬ .⌞⌟-idem =  ≡⇒≈ᴸᵇ $ ⌞⌟ᴸᵇ-idem
+Lftbᴱᴿᴬ .✓-resp =  ✓ᴸᵇ-resp
 Lftbᴱᴿᴬ .✓-rem {a = a} =  ✓ᴸᵇ-rem {a}
 
 --------------------------------------------------------------------------------
 -- Lftᴱᴿᴬ :  Lifetime ERA
+
+-- ≈ᴸᵇ˙ :  Equivalence for Lft → Lftb
+infix 4 _≈ᴸᵇ˙_
+_≈ᴸᵇ˙_ :  (Lft → Lftb) →  (Lft → Lftb) →  Set₀
+a˙ ≈ᴸᵇ˙ b˙ =  ∀ α → a˙ α ≈ᴸᵇ b˙ α
 
 -- ∙ᴸᵇ˙ :  Compose Lft → Lftb
 
@@ -197,6 +266,14 @@ Cofinεᴸᵇ :  (Lft → Lftb) →  Set₀
 Cofinεᴸᵇ =  Cofin˙ (λ _ → _≡ εᴸᵇ)
 
 abstract
+
+  -- Cofinεᴸᵇ respects ≈ᴸᵇ˙
+
+  Cofinεᴸᵇ-resp :  a˙ ≈ᴸᵇ˙ b˙ →  Cofinεᴸᵇ a˙ →  Cofinεᴸᵇ b˙
+  Cofinεᴸᵇ-resp _ (n ,-) .π₀ =  n
+  Cofinεᴸᵇ-resp {b˙ = b˙} aα≈bα (-, β≥α⇒aβ≡ε) .π₁ β β≥α with aα≈bα β
+  … | ε≈bα  rewrite β≥α⇒aβ≡ε β β≥α  with b˙ β | ε≈bα
+  …   | εᴸᵇ | _ =  refl
 
   -- Cofinεᴸᵇ is preserved by removal w.r.t. ∙ᴸᵇ˙
 
@@ -217,8 +294,8 @@ open AllLft public using () renaming (
   inj˙ to inj˙ᴸᵇ; inj˙-∙ to inj˙ᴸᵇ-∙; inj˙-⌞⌟ to inj˙ᴸᵇ-⌞⌟)
 
 Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-Lftᴱᴿᴬ =  Upᴱᴿᴬ (Valmᴱᴿᴬ ∀Lftᴱᴿᴬ (λ _ → Cofinεᴸᵇ)
-  (Cofin˙-resp {F = λ _ → _≡ εᴸᵇ}) (λ{_} {a˙} → Cofinεᴸᵇ-rem {a˙}))
+Lftᴱᴿᴬ =  Upᴱᴿᴬ (Valmᴱᴿᴬ ∀Lftᴱᴿᴬ (λ _ → Cofinεᴸᵇ) Cofinεᴸᵇ-resp
+  (λ{_} {a˙} → Cofinεᴸᵇ-rem {a˙}))
 
 open ERA Lftᴱᴿᴬ public using () renaming (Res to Resᴸᶠᵗ; _≈_ to _≈ᴸᶠᵗ_;
   _∙_ to _∙ᴸᶠᵗ_; ε to εᴸᶠᵗ; ⌞_⌟ to ⌞_⌟ᴸᶠᵗ; _✓_ to _✓ᴸᶠᵗ_; _↝_ to _↝ᴸᶠᵗ_;

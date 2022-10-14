@@ -17,7 +17,7 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; �
   _ᵘ»ᵘ_; ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
 open import Syho.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
-open import Syho.Logic.Bor using (⟨†⟩-back; &ˢ-new; &ˢ-open; %ˢ-close)
+open import Syho.Logic.Bor using (⟨†⟩-back; &ᵐ-new; &ᵐ-open; %ᵐ-close)
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
@@ -100,18 +100,17 @@ abstract
 
   ⊢⇛-sem ⟨†⟩-back =  WIP
 
-  -- &ˢ-new :  P˂˙ 1ᴿ⁺ .!  ⊢[ ι ][ i ]⇛  &ˢ⟨ α ⟩ P˂˙  ∗  ⟨† α ⟩ P˂˙ 1ᴿ⁺
+  -- &ᵐ-new :  P˂ .!  ⊢[ ι ][ i ]⇛  &ᵐ⟨ α ⟩ P˂  ∗  ⟨† α ⟩ P˂
 
-  ⊢⇛-sem &ˢ-new =  WIP
+  ⊢⇛-sem &ᵐ-new =  WIP
 
-  -- &ˢ-open :  &ˢ⟨ α ⟩ P˂˙  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ][ i ]⇛
-  --              ∃ q ,  P˂˙ q .!  ∗  %ˢ⟨ α , p ⟩ P˂˙ q
+  -- &ᵐ-open :  &ᵐ⟨ α ⟩ P˂  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α ⟩ P˂
 
-  ⊢⇛-sem &ˢ-open =  WIP
+  ⊢⇛-sem &ᵐ-open =  WIP
 
-  -- %ˢ-close :  P˂˙ q .!  ∗  %ˢ⟨ α , p ⟩ P˂˙ q  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
+  -- %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
 
-  ⊢⇛-sem %ˢ-close =  WIP
+  ⊢⇛-sem %ᵐ-close =  WIP
 
   -- Utility for ⇛ᴺ
 

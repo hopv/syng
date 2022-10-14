@@ -11,7 +11,7 @@ open import Base.Func using (id)
 open import Base.Size using (!)
 open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
   _↦⟨_⟩_; Free; ○_; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪[_]⟨_⟩∞;
-  [_]ᴸ⟨_⟩; †ᴸ_; ⟨†_⟩_; &ˢ⟨_⟩_; %ˢ⟨_⟩_; Basic; ∀-Basic; ∃-Basic; →-Basic;
+  [_]ᴸ⟨_⟩; †ᴸ_; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; Basic; ∀-Basic; ∃-Basic; →-Basic;
   ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic; Free-Basic;
   []ᴸ⟨⟩-Basic; †ᴸ-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
@@ -57,8 +57,8 @@ postulate
 ⸨ [ α ]ᴸ⟨ p ⟩ ⸩ =  [ α ]ᴸ⟨ p ⟩ᵒ
 ⸨ †ᴸ α ⸩ =  †ᴸᵒ α
 ⸨ ⟨† α ⟩ P˂ ⸩ =  WIP
-⸨ &ˢ⟨ α ⟩ P˂˙ ⸩ =  WIP
-⸨ %ˢ⟨ αp ⟩ P˂ ⸩ =  WIP
+⸨ &ᵐ⟨ α ⟩ P˂ ⸩ =  WIP
+⸨ %ᵐ⟨ α ⟩ P˂ ⸩ =  WIP
 
 abstract
 
@@ -85,8 +85,8 @@ abstract
   ⸨⸩-Mono {[ _ ]ᴸ⟨ _ ⟩} =  ◎-Mono
   ⸨⸩-Mono {†ᴸ _} =  ◎-Mono
   ⸨⸩-Mono {⟨† _ ⟩ _} =  WIP
-  ⸨⸩-Mono {&ˢ⟨ _ ⟩ _} =  WIP
-  ⸨⸩-Mono {%ˢ⟨ _ ⟩ _} =  WIP
+  ⸨⸩-Mono {&ᵐ⟨ _ ⟩ _} =  WIP
+  ⸨⸩-Mono {%ᵐ⟨ _ ⟩ _} =  WIP
 
   -- ⸨ ⸩ᴮ agrees with ⸨ ⸩
   -- ⸨⸩-ᴮ⇒ and ⸨⸩-⇒ᴮ are mutually recursive

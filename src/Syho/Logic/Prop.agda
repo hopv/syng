@@ -74,7 +74,7 @@ private variable
 infix 3 ⤇_ _→'_ _-∗_
 infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
-infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ ⟨†_⟩_ &ˢ⟨_⟩_ %ˢ⟨_⟩_
+infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ ⟨†_⟩_ &ᵐ⟨_⟩_ %ᵐ⟨_⟩_
 infix 9 _↦⟨_⟩_
 
 
@@ -139,13 +139,13 @@ data  Prop' ι  where
 
   ⟨†_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
 
-  -- &ˢ :  Shared borrow token
+  -- &ᵐ :  Mutable borrow token
 
-  &ˢ⟨_⟩_ :  Lft →  (ℚ⁺ → Prop˂ ι) →  Prop' ι
+  &ᵐ⟨_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
 
-  -- %ˢ :  Open shared borrow token
+  -- %ᵐ :  Open mutable borrow token
 
-  %ˢ⟨_⟩_ :  Lft × ℚ⁺ →  Prop˂ ι →  Prop' ι
+  %ᵐ⟨_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
 
 -- ¡ᴾ :  Prop' into Prop˂
 
@@ -285,13 +285,6 @@ _↦ⁱ_ :  Addr →  TyVal →  Prop' ι
 
 [_]ᴸ :  Lft →  Prop' ι
 [ α ]ᴸ =  [ α ]ᴸ⟨ 1ᴿ⁺ ⟩
-
---------------------------------------------------------------------------------
--- ↦ˢ⟨ ⟩ :  Shared-borrowed points-to token
-
-infix 9 _↦ˢ⟨_⟩_
-_↦ˢ⟨_⟩_ :  Addr →  Lft →  TyVal →  Prop' ι
-θ ↦ˢ⟨ α ⟩ ᵗv =  &ˢ⟨ α ⟩ λ q → ¡ᴾ θ ↦⟨ q ⟩ ᵗv
 
 --------------------------------------------------------------------------------
 -- Basic P :  P is basic, i.e., P doesn't contain impredicative connectives

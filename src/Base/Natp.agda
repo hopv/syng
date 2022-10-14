@@ -70,7 +70,7 @@ p >⁺ q =  q <⁺ p
 
 abstract
 
-  -- ≤⁺ is reflexive, transitive and antisymmetric
+  -- ≤⁺ is reflexive
 
   ≤⁺-refl :  n ≤⁺ n
   ≤⁺-refl =  ≤-refl
@@ -78,13 +78,17 @@ abstract
   ≡⇒≤⁺ :  m ≡ n →  m ≤⁺ n
   ≡⇒≤⁺ refl =  ≤⁺-refl
 
+  -- ≤⁺ is transitive
+
   ≤⁺-trans :  l ≤⁺ m →  m ≤⁺ n →  l ≤⁺ n
   ≤⁺-trans =  ≤-trans
+
+  -- ≤⁺ is antisymmetric
 
   ≤⁺-antisym :  m ≤⁺ n →  n ≤⁺ m →  m ≡ n
   ≤⁺-antisym mᵒ≤nᵒ nᵒ≤mᵒ =  cong ṡ⁺_ $ ≤-antisym mᵒ≤nᵒ nᵒ≤mᵒ
 
-  -- <⁺ is irreflexive, transitive and asymmetric
+  -- <⁺ is irreflexive
 
   <⁺-irrefl :  ¬ n <⁺ n
   <⁺-irrefl =  <-irrefl
@@ -92,8 +96,12 @@ abstract
   ≡⇒¬<⁺ :  m ≡ n →  ¬ m <⁺ n
   ≡⇒¬<⁺ refl =  <⁺-irrefl
 
+  -- <⁺ is transitive
+
   <⁺-trans :  l <⁺ m →  m <⁺ n →  l <⁺ n
   <⁺-trans =  <-trans
+
+  -- <⁺ is asymmetric
 
   <⁺-asym :  m <⁺ n →  ¬ m >⁺ n
   <⁺-asym =  <-asym

@@ -12,6 +12,7 @@ open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; ◠_; _◇_; cong; cong₂; _≡˙_)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_; upd˙)
 open import Base.Acc using (Acc; acc; acc-sub)
+open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _,_; -,_; _,-; π₀; π₁)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 
@@ -30,6 +31,7 @@ open import Agda.Builtin.Nat public using () renaming (
 private variable
   ł :  Level
   i k l m n :  ℕ
+  l∞ m∞ n∞ :  ¿ ℕ
   A :  Set ł
   A˙ :  ℕ → Set ł
   F :  ∀ i →  A˙ i →  Set ł
@@ -627,6 +629,47 @@ abstract
 
   ṡ⊔-same :  ṡ n ⊔ n ≡ ṡ n
   ṡ⊔-same =  ṡ⊔-≥ ≤-refl
+
+--------------------------------------------------------------------------------
+-- ⊓∞ :  Minimum for ¿ ℕ, seeing ň as the infinity
+
+infixr 5 _⊓∞_
+_⊓∞_ :  ¿ ℕ →  ¿ ℕ →  ¿ ℕ
+ň ⊓∞ n∞ =  n∞
+m∞ ⊓∞ ň =  m∞
+š m ⊓∞ š n =  š (m ⊓ n)
+
+abstract
+
+  -- Clear ⊓∞ ň
+
+  ⊓∞-ň :  n∞ ⊓∞ ň ≡ n∞
+  ⊓∞-ň {ň} =  refl
+  ⊓∞-ň {š _} =  refl
+
+  -- ⊓∞ is commutative
+
+  ⊓∞-comm :  m∞ ⊓∞ n∞  ≡  n∞ ⊓∞ m∞
+  ⊓∞-comm {ň} {n∞}  rewrite ⊓∞-ň {n∞} =  refl
+  ⊓∞-comm {m∞} {ň}  rewrite ⊓∞-ň {m∞} =  refl
+  ⊓∞-comm {š _} {š _} =  cong š_ ⊓-comm
+
+  -- ⊓∞ is associative
+
+  ⊓∞-assocˡ :  (l∞ ⊓∞ m∞) ⊓∞ n∞ ≡ l∞ ⊓∞ (m∞ ⊓∞ n∞)
+  ⊓∞-assocˡ {ň} =  refl
+  ⊓∞-assocˡ {š _} {ň} =  refl
+  ⊓∞-assocˡ {š _} {š _} {ň} =  refl
+  ⊓∞-assocˡ {š _} {š _} {š _} =  cong š_ ⊓-assocˡ
+
+  ⊓∞-assocʳ :  l∞ ⊓∞ (m∞ ⊓∞ n∞) ≡ (l∞ ⊓∞ m∞) ⊓∞ n∞
+  ⊓∞-assocʳ {l∞} =  ◠ ⊓∞-assocˡ {l∞}
+
+  -- ⊓∞ is idempotent
+
+  ⊓∞-idem :  n∞ ⊓∞ n∞ ≡ n∞
+  ⊓∞-idem {ň} =  refl
+  ⊓∞-idem {š _} =  cong š_ ⊓-idem
 
 --------------------------------------------------------------------------------
 -- ∀≥ n F f :  F i (f i) holds for every i ≥ n

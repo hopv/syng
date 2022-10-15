@@ -625,6 +625,15 @@ abstract
   ⊔-≥ :  m ≥ n →  m ⊔ n ≡ m
   ⊔-≥ {m} m≥n =  ⊔-comm {m} ◇ ⊔-≤ m≥n
 
+  -- Reduce ⊓
+
+  ⊓-≤ :  m ≤ n →  m ⊓ n ≡ m
+  ⊓-≤ 0≤ =  refl
+  ⊓-≤ (ṡ≤ṡ m'≤n') =  cong ṡ_ $ ⊓-≤ m'≤n'
+
+  ⊓-≥ :  m ≥ n →  m ⊓ n ≡ n
+  ⊓-≥ m≥n =  ⊓-comm ◇ ⊓-≤ m≥n
+
   -- Reduce ṡ _ ⊔ _
 
   ṡ⊔-< :  m < n →  ṡ m ⊔ n ≡ n

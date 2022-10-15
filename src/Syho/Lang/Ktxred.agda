@@ -189,7 +189,7 @@ val/ktxred (e ⁏ e'˂) =  ĩ₁ body
   … | ĩ₀ _ =  -, •ᴷ , [ e'˂ .! ]ᴿ○
   … | ĩ₁ (-, K , red) =  -, K ⁏ᴷ e'˂ , red
 val/ktxred (● e˂) =  ĩ₁ (-, •ᴷ , [ e˂ .! ]ᴿ●)
-val/ktxred (fork e) =  ĩ₁ (-, •ᴷ , forkᴿ e)
+val/ktxred (fork e) =  ĩ₁ (-, •ᴷ , forkᴿ $ e .!)
 val/ktxred (🞰 e) =  ĩ₁ body
  where
   body :  Ktxred _

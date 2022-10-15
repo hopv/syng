@@ -126,7 +126,7 @@ data  Expr ι  where
   ●_ :  Expr˂ ι T →  Expr ι T
 
   -- Fork a new thread
-  fork :  Expr ι (◸ ⊤) →  Expr ι (◸ ⊤)
+  fork :  Expr˂ ι (◸ ⊤) →  Expr ι (◸ ⊤)
 
   -- Read from the memory
   🞰_ :  Expr ι (◸ Addr) →  Expr ι T
@@ -191,6 +191,11 @@ infix 8 ▶_
 
 loop :  Expr ι T
 loop =  ▶ λ{ .! → loop }
+
+-- Fork
+
+fork¡ :  Expr ι (◸ ⊤) →  Expr ι (◸ ⊤)
+fork¡ e =  fork λ{ .! → e }
 
 -- Utility
 

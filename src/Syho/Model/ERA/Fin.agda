@@ -21,8 +21,8 @@ open import Base.Nat using (ṡ_; Cofin; ≤-refl; <-irrefl; <⇒≤)
 open import Syho.Model.ERA.Base using (Valmᴱᴿᴬ)
 import Syho.Model.ERA.All
 
-open ERA Era using (Res; _≈_; ε; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congʳ; ∙-unitˡ;
-  ∙-unitʳ; ✓-resp)
+open ERA Era using (Res; _≈_; ε; Env; _✓_; _↝_; refl˜; ◠˜_; _◇˜_; ∙-congʳ;
+  ∙-unitˡ; ∙-unitʳ; ✓-resp)
 
 --------------------------------------------------------------------------------
 -- Finᴱᴿᴬ :  Finite-map ERA
@@ -67,13 +67,13 @@ abstract
 
   -- Allocate a valid resource and environment to a fresh index
 
-  ✓-new :  E ✓ a  →   (F˙ , ε˙)  ↝ᶠⁱⁿ λ i →  upd˙ i E F˙ , inj˙ i a
-  ✓-new _ _ ((n ,-) ,-) .π₀ =  n
-  ✓-new _ _ ((n ,-) ,-) .π₁ .π₀ .π₀ =  ṡ n
-  ✓-new _ b˙ ((n , i≥n⇒bi≈ε) ,-) .π₁ .π₀ .π₁ i i>n  with i ≟ n
+  ↝ᶠⁱⁿ-new :  E ✓ a  →   (F˙ , ε˙)  ↝ᶠⁱⁿ λ i →  upd˙ i E F˙ , inj˙ i a
+  ↝ᶠⁱⁿ-new _ _ ((n ,-) ,-) .π₀ =  n
+  ↝ᶠⁱⁿ-new _ _ ((n ,-) ,-) .π₁ .π₀ .π₀ =  ṡ n
+  ↝ᶠⁱⁿ-new _ b˙ ((n , i≥n⇒bi≈ε) ,-) .π₁ .π₀ .π₁ i i>n  with i ≟ n
   … | no _ =  i≥n⇒bi≈ε i (<⇒≤ i>n)
   … | yes refl =  absurd $ <-irrefl i>n
-  ✓-new E✓a b˙ ((n , i≥n⇒bi≈ε) , F✓b) .π₁ .π₁ i  with i ≟ n
+  ↝ᶠⁱⁿ-new E✓a b˙ ((n , i≥n⇒bi≈ε) , F✓b) .π₁ .π₁ i  with i ≟ n
   … | no _ =  F✓b i
   … | yes refl =  flip ✓-resp E✓a $ ◠˜_ $
     ∙-congʳ (◠˜ ∙-unitˡ ◇˜ i≥n⇒bi≈ε n ≤-refl) ◇˜ ∙-unitʳ

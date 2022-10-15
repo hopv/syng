@@ -104,7 +104,7 @@ open FinUb public using () renaming (
   --  inj˙ᵁᵇ :  Ub →  Ubb →  Ub →  Ubb
   inj˙ to inj˙ᵁᵇ;
   inj˙-≈ to inj˙ᵁᵇ-≈; inj˙-∙ to inj˙ᵁᵇ-∙; inj˙-⌞⌟ to inj˙ᵁᵇ-⌞⌟)
-open FinUb using (✓-new)
+open FinUb using (↝ᶠⁱⁿ-new)
 
 Ubᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Ubᴱᴿᴬ =  Upᴱᴿᴬ Ub'ᴱᴿᴬ
@@ -152,5 +152,5 @@ abstract
   -- Create #ᵁᵇʳ and ≤ᵁᵇʳ at a fresh index
 
   #ᵁᵇʳ-new :  (-, εᵁᵇ)  ↝ᵁᵇ λ i →  -, ≤ᵁᵇ⟨ i ⟩ʳ n ∙ᵁᵇ #ᵁᵇ⟨ i ⟩ʳ n
-  #ᵁᵇʳ-new {n = n} (↑ u˙) (↑ ✓u)  with ✓-new (≤-refl {n}) u˙ ✓u
+  #ᵁᵇʳ-new {n = n} (↑ u˙) (↑ ✓u)  with ↝ᶠⁱⁿ-new (≤-refl {n}) u˙ ✓u
   … | i , ✓≤n∙#n =  i , ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤n∙#n

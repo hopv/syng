@@ -266,7 +266,7 @@ open FinLft public using () renaming (
   --  inj˙ᴸᶠᵗ :  Lft →  Lftb →  Lft →  Lftb
   inj˙ to inj˙ᴸᶠᵗ;
   inj˙-≈ to inj˙ᴸᶠᵗ-≈; inj˙-∙ to inj˙ᴸᶠᵗ-∙; inj˙-⌞⌟ to inj˙ᴸᶠᵗ-⌞⌟)
-open FinLft using (✓-new)
+open FinLft using (↝ᶠⁱⁿ-new)
 
 Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Lftᴱᴿᴬ =  Upᴱᴿᴬ Lft'ᴱᴿᴬ
@@ -326,5 +326,5 @@ abstract
   -- Allocate a new lifetime
 
   []ᴸʳ-new :  (-, εᴸᶠᵗ)  ↝ᴸᶠᵗ λ α →  -, [ α ]ᴸʳ
-  []ᴸʳ-new (↑ b˙) (↑ ✓b)  with ✓-new 1≤1ᴿ⁺ b˙ ✓b
+  []ᴸʳ-new (↑ b˙) (↑ ✓b)  with ↝ᶠⁱⁿ-new 1≤1ᴿ⁺ b˙ ✓b
   … | α , ✓[α]∙b =  α , ↑ ✓[α]∙b

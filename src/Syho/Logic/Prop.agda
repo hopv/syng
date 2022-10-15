@@ -36,6 +36,11 @@ data  WpKind :  Set₀  where
 Name :  Set₀
 Name =  List (Str ⨿ ℕ)
 
+-- Name by a single string
+
+strnm :  Str →  Name
+strnm s =  [ ĩ₀ s ]
+
 --------------------------------------------------------------------------------
 -- Lft :  Lifetime
 
@@ -280,7 +285,7 @@ P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
 -- Static reference
 
 static :  Name
-static =  [ ĩ₀ "static" ]
+static =  strnm "static"
 
 -- ↦ⁱ :  Points-to token under an invariant
 

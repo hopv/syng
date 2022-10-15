@@ -152,5 +152,5 @@ abstract
   -- Create #ᵁᵇʳ and ≤ᵁᵇʳ at a fresh index
 
   #ᵁᵇʳ-new :  (-, εᵁᵇ)  ↝ᵁᵇ λ i →  -, ≤ᵁᵇ⟨ i ⟩ʳ n ∙ᵁᵇ #ᵁᵇ⟨ i ⟩ʳ n
-  #ᵁᵇʳ-new {n = n} (↑ a˙) (↑ ✓a)  with ✓-new (≤-refl {n}) a˙ ✓a
+  #ᵁᵇʳ-new {n = n} (↑ u˙) (↑ ✓u)  with ✓-new (≤-refl {n}) u˙ ✓u
   … | i , ✓≤n∙#n =  i , ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤n∙#n

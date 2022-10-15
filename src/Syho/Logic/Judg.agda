@@ -704,6 +704,10 @@ data  Judg ι  where
 
   []ᴸ-new :  ⊤'  ⊢[ ι ] ⤇  ∃ α , [ α ]ᴸ
 
+  -- Kill a lifetime consuming a full lifetime token
+
+  []ᴸ-kill :  [ α ]ᴸ  ⊢[ ι ] ⤇  †ᴸ α
+
   ------------------------------------------------------------------------------
   -- On borrows
 

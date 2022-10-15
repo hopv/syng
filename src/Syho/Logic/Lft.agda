@@ -12,7 +12,7 @@ open import Syho.Logic.Core using (Pers; Pers-⇒□)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
-  []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new)
+  []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
 
 private variable
   α :  Lft
@@ -33,6 +33,8 @@ abstract
   -->  []ᴸ⟨⟩-†ᴸ-no :  [ α ]ᴸ⟨ p ⟩  ∗  †ᴸ α  ⊢[ ι ]  ⊥'
 
   -->  []ᴸ-new :  ⊤'  ⊢[ ι ] ⤇  ∃ α , [ α ]ᴸ
+
+  -->  []ᴸ-kill :  [ α ]ᴸ  ⊢[ ι ] ⤇  †ᴸ α
 
   instance
 

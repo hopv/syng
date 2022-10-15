@@ -507,13 +507,13 @@ m ⊔ 0 =  m
 
 abstract
 
-  -- Clearing ⊔ 0
+  -- Clear ⊔ 0
 
   ⊔-0 :  n ⊔ 0 ≡ n
   ⊔-0 {0} =  refl
   ⊔-0 {ṡ _} =  refl
 
-  -- ⊔ is the lub of m and n
+  -- ⊔ is the lub
 
   ⊔-introˡ :  m ≤ m ⊔ n
   ⊔-introˡ {0} =  0≤
@@ -530,12 +530,14 @@ abstract
   ⊔-elim {ṡ _} {0} l≤n _ =  l≤n
   ⊔-elim (ṡ≤ṡ l'≤n') (ṡ≤ṡ m'≤n') =  ṡ≤ṡ $ ⊔-elim l'≤n' m'≤n'
 
-  -- ⊔ is commutative and associative
+  -- ⊔ is commutative
 
   ⊔-comm :  m ⊔ n ≡ n ⊔ m
   ⊔-comm {0} {_} =  ◠ ⊔-0
   ⊔-comm {_} {0} =  ⊔-0
   ⊔-comm {ṡ m'} {ṡ _} =  cong ṡ_ (⊔-comm {m'})
+
+  -- ⊔ is associative
 
   ⊔-assocˡ :  (l ⊔ m) ⊔ n ≡ l ⊔ (m ⊔ n)
   ⊔-assocˡ {0} =  refl

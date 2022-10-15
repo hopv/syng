@@ -15,7 +15,7 @@ open import Base.Bool using (𝔹; tt; ff)
 open import Base.Zoi using (Zoi; ✔ᶻ_; _⊎ᶻ_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ; ṡ_; _≤_)
+open import Base.Nat using (ℕ; ṡ_; _≤_; _⊓_)
 open import Base.List using (List; len; rep)
 open import Base.Str using ()
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
@@ -29,7 +29,7 @@ open import Syho.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂�
   ¡ᴾ_; ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_;
   _∗_; _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _↪[_]⇛_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_;
   _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_;
-  [_]ᴸ⟨_⟩; [_]ᴸ; †ᴸ_; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; Basic)
+  [_]ᴸ⟨_⟩; [_]ᴸ; †ᴸ_; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic)
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -158,7 +158,7 @@ record  Pers (P : Prop∞) :  Set₁  where
 open Pers {{…}} public
 
 private variable
-  i j n :  ℕ
+  i j m n :  ℕ
   b :  𝔹
   Xʸ :  Setʸ
   X :  Set₀
@@ -748,3 +748,26 @@ data  Judg ι  where
   -- Close an open mutable borrow token
 
   %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
+
+  ------------------------------------------------------------------------------
+  -- On upper bounds
+
+  -- Monotonicity of ≤ᵁᵇ
+
+  ≤ᵁᵇ-mono :  m ≤ n  →   ≤ᵁᵇ⟨ i ⟩ m  ⊢[ ι ]  ≤ᵁᵇ⟨ i ⟩ n
+
+  -- The upper-bound token is persistent
+
+  ≤ᵁᵇ-⇒□ :  ≤ᵁᵇ⟨ i ⟩ n  ⊢[ ι ]  □ ≤ᵁᵇ⟨ i ⟩ n
+
+  -- Upper bound #ᵁᵇ with ≤ᵁᵇ
+
+  ≤ᵁᵇ-#ᵁᵇ :  ≤ᵁᵇ⟨ i ⟩ m  ∗  #ᵁᵇ⟨ i ⟩ n  ⊢[ ι ]  ⌜ n ≤ m ⌝
+
+  -- Create #ᵁᵇ and ≤ᵁᵇ at a fresh index
+
+  #ᵁᵇ-new :  ⊤'  ⊢[ ι ] ⤇  ∃ i , ≤ᵁᵇ⟨ i ⟩ n  ∗  #ᵁᵇ⟨ i ⟩ n
+
+  -- Kill a lifetime consuming a full lifetime token
+
+  #ᵁᵇ-upd :  m ≤ n  →   #ᵁᵇ⟨ i ⟩ n  ⊢[ ι ] ⤇  ≤ᵁᵇ⟨ i ⟩ m  ∗  #ᵁᵇ⟨ i ⟩ m

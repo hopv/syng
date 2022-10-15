@@ -134,7 +134,8 @@ following parts.
         precursors;
         [`Inv`](src/Syho/Logic/Inv.agda) for the impredicative invariant;
         [`Lft`](src/Syho/Logic/Lft.agda) for the lifetime;
-        [`Bor`](src/Syho/Logic/Bor.agda) for the borrow.
+        [`Bor`](src/Syho/Logic/Bor.agda) for the borrow;
+        [`Ub`](src/Syho/Logic/Ub.agda) for the upper bound.
     + [`Paradox`](src/Syho/Logic/Paradox.agda) for paradoxes on plausible proof
         rules.
     + [`Example`](src/Syho/Logic/Example.agda) for examples.

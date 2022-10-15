@@ -62,7 +62,7 @@ private variable
   X :  Set₀
   P˙ :  X → Prop∞
   P Q :  Prop∞
-  n :  ℕ
+  i n :  ℕ
   θ :  Addr
   p :  ℚ⁺
   ᵗv :  TyVal
@@ -74,7 +74,7 @@ private variable
 infix 3 ⤇_ _→'_ _-∗_
 infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
-infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ ⟨†_⟩_ &ᵐ⟨_⟩_ %ᵐ⟨_⟩_
+infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ ⟨†_⟩_ &ᵐ⟨_⟩_ %ᵐ⟨_⟩_ #ᵁᵇ⟨_⟩_ ≤ᵁᵇ⟨_⟩_
 infix 9 _↦⟨_⟩_
 
 
@@ -146,6 +146,14 @@ data  Prop' ι  where
   -- %ᵐ :  Open mutable borrow token
 
   %ᵐ⟨_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
+
+  -- Upper-boundee token
+
+  #ᵁᵇ⟨_⟩_ :  ℕ →  ℕ →  Prop' ι
+
+  -- Upper-bound token
+
+  ≤ᵁᵇ⟨_⟩_ :  ℕ →  ℕ →  Prop' ι
 
 -- ¡ᴾ :  Prop' into Prop˂
 
@@ -310,6 +318,8 @@ data  Basic :  Prop∞ →  Set₁  where
     Free-Basic :  Basic $ Free n θ
     []ᴸ⟨⟩-Basic :  Basic [ α ]ᴸ⟨ p ⟩
     †ᴸ-Basic :  Basic $ †ᴸ α
+    #ᵁᵇ-Basic :  Basic $ #ᵁᵇ⟨ i ⟩ n
+    ≤ᵁᵇ-Basic :  Basic $ ≤ᵁᵇ⟨ i ⟩ n
 
 instance
 

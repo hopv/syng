@@ -65,7 +65,7 @@ abstract
   -- Add a new proposition and get a line
 
   indˣ-new :  ((Qˇ˙ , n) , εᴵⁿᵈˣ)  ↝ᴵⁿᵈˣ λ (_ : ⊤₀) →
-                  (upd˙ n (š P) Qˇ˙ , ṡ n) , indˣ n P
+                (upd˙ n (š P) Qˇ˙ , ṡ n) , indˣ n P
   indˣ-new _ _ .π₀ =  _
   indˣ-new _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
   indˣ-new {n = n} _ (✓Qˇ , Qˇ✓Rˣ) .π₁ .π₁ i  with i ≟ n | Qˇ✓Rˣ i
@@ -123,7 +123,7 @@ abstract
   -- Add a new proposition and get a line
 
   indᵖ-new :  ((Qˇ˙ , n) , εᴵⁿᵈᵖ)  ↝ᴵⁿᵈᵖ λ (_ : ⊤₀) →
-                  (upd˙ n (š P) Qˇ˙ , ṡ n) , indᵖ n P
+                (upd˙ n (š P) Qˇ˙ , ṡ n) , indᵖ n P
   indᵖ-new _ _ .π₀ =  _
   indᵖ-new _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
   indᵖ-new {n = n} _ (✓Qˇ , Qˇ✓Rs) .π₁ .π₁ i  with i ≟ n | Qˇ✓Rs i

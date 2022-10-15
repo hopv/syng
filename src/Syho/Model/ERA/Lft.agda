@@ -8,13 +8,14 @@ module Syho.Model.ERA.Lft where
 
 open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; id)
-open import Base.Few using (⊤; ⊥; ¬_; absurd)
+open import Base.Few using (⊤; ⊤₀; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; refl; cong)
 open import Base.Dec using (≟-refl)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-)
 open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
-  ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem)
+  ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem;
+  ¬1+?≤1ᴿ⁺)
 open import Syho.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
 import Syho.Model.ERA.Fin
 
@@ -256,6 +257,16 @@ Lftbᴱᴿᴬ .⌞⌟-idem =  ≡⇒≈ᴸᶠᵗᵇ $ ⌞⌟ᴸᶠᵗᵇ-idem
 Lftbᴱᴿᴬ .✓-resp =  ✓ᴸᶠᵗᵇ-resp
 Lftbᴱᴿᴬ .✓-rem {a = a} =  ✓ᴸᶠᵗᵇ-rem {a}
 
+open ERA Lftbᴱᴿᴬ public using () renaming (_↝_ to _↝ᴸᶠᵗᵇ_)
+
+abstract
+
+  -- Turn #ᴸᶠᵗᵇ 1ᴿ⁺ into †ᴸᶠᵗᵇ
+
+  #ᴸᶠᵗᵇ-kill :  (-, #ᴸᶠᵗᵇ 1ᴿ⁺)  ↝ᴸᶠᵗᵇ λ (_ : ⊤₀) →  -,  †ᴸᶠᵗᵇ
+  #ᴸᶠᵗᵇ-kill εᴸᶠᵗᵇ _ =  _
+  #ᴸᶠᵗᵇ-kill (#ᴸᶠᵗᵇ p) 1+p≤1 =  absurd $ ¬1+?≤1ᴿ⁺ {p} 1+p≤1
+
 --------------------------------------------------------------------------------
 -- Lftᴱᴿᴬ :  Lifetime ERA
 
@@ -266,7 +277,7 @@ open FinLft public using () renaming (
   --  inj˙ᴸᶠᵗ :  Lft →  Lftb →  Lft →  Lftb
   inj˙ to inj˙ᴸᶠᵗ;
   inj˙-≈ to inj˙ᴸᶠᵗ-≈; inj˙-∙ to inj˙ᴸᶠᵗ-∙; inj˙-⌞⌟ to inj˙ᴸᶠᵗ-⌞⌟)
-open FinLft using (↝ᶠⁱⁿ-new)
+open FinLft using (↝ᶠⁱⁿ-new; inj˙-↝ᶠⁱⁿ)
 
 Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Lftᴱᴿᴬ =  Upᴱᴿᴬ Lft'ᴱᴿᴬ
@@ -328,3 +339,9 @@ abstract
   []ᴸʳ-new :  (-, εᴸᶠᵗ)  ↝ᴸᶠᵗ λ α →  -, [ α ]ᴸʳ
   []ᴸʳ-new (↑ b˙) (↑ ✓b)  with ↝ᶠⁱⁿ-new 1≤1ᴿ⁺ b˙ ✓b
   … | α , ✓[α]∙b =  α , ↑ ✓[α]∙b
+
+  -- Kill a lifetime consuming a full lifetime token
+
+  []ᴸʳ-kill :  (-, [ α ]ᴸʳ)  ↝ᴸᶠᵗ λ (_ : ⊤₀) →  -,  †ᴸʳ α
+  []ᴸʳ-kill (↑ b˙) (↑ ✓b)  with inj˙-↝ᶠⁱⁿ (λ ()) #ᴸᶠᵗᵇ-kill b˙ ✓b
+  … | -, ✓†α∙b =  -, ↑ ✓†α∙b

@@ -343,5 +343,5 @@ abstract
   -- Kill a lifetime consuming a full lifetime token
 
   []ᴸʳ-kill :  (-, [ α ]ᴸʳ)  ↝ᴸᶠᵗ λ (_ : ⊤₀) →  -,  †ᴸʳ α
-  []ᴸʳ-kill (↑ b˙) (↑ ✓b)  with inj˙-↝ᶠⁱⁿ (λ ()) #ᴸᶠᵗᵇ-kill b˙ ✓b
+  []ᴸʳ-kill (↑ b˙) (↑ ✓[α]∙b)  with inj˙-↝ᶠⁱⁿ (λ ()) #ᴸᶠᵗᵇ-kill b˙ ✓[α]∙b
   … | -, ✓†α∙b =  -, ↑ ✓†α∙b

@@ -170,5 +170,5 @@ abstract
 
   #ᵁᵇʳ-upd :  m ≤ n  →
     (-, #ᵁᵇ⟨ i ⟩ʳ n)  ↝ᵁᵇ λ (_ : ⊤₀) →  -, ≤ᵁᵇ⟨ i ⟩ʳ m ∙ᵁᵇ #ᵁᵇ⟨ i ⟩ʳ m
-  #ᵁᵇʳ-upd m≤n (↑ u˙) (↑ ✓u)  with inj˙-↝ᶠⁱⁿ (λ ()) (#ᵁᵇᵇʳ-upd m≤n) u˙ ✓u
+  #ᵁᵇʳ-upd m≤n (↑ u˙) (↑ ✓#n∙u)  with inj˙-↝ᶠⁱⁿ (λ ()) (#ᵁᵇᵇʳ-upd m≤n) u˙ ✓#n∙u
   … | -, ✓≤m∙#m∙u =  -, ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤m∙#m∙u

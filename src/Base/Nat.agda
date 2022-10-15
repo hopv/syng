@@ -586,6 +586,18 @@ abstract
   ⊓-assocˡ {ṡ _} {ṡ _} {0} =  refl
   ⊓-assocˡ {ṡ l'} {ṡ _} {ṡ _} =  cong ṡ_ (⊓-assocˡ {l'})
 
+  -- ⊔ is idempotent
+
+  ⊔-idem :  n ⊔ n ≡ n
+  ⊔-idem {0} =  refl
+  ⊔-idem {ṡ _} =  cong ṡ_ ⊔-idem
+
+  -- ⊓ is idempotent
+
+  ⊓-idem :  n ⊓ n ≡ n
+  ⊓-idem {0} =  refl
+  ⊓-idem {ṡ _} =  cong ṡ_ ⊓-idem
+
   -- Utility
 
   ⊔≤-introˡ :  l ⊔ m ≤ n →  l ≤ n
@@ -602,9 +614,6 @@ abstract
 
   ⊔-≥ :  m ≥ n →  m ⊔ n ≡ m
   ⊔-≥ {m} m≥n =  ⊔-comm {m} ◇ ⊔-≤ m≥n
-
-  ⊔-same :  n ⊔ n ≡ n
-  ⊔-same =  ⊔-≥ ≤-refl
 
   -- Reduce ṡ _ ⊔ _
 

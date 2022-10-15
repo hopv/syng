@@ -34,27 +34,28 @@ private variable
 --------------------------------------------------------------------------------
 -- Various expressions
 
--- Some stuck expression
+-- stuck :  Some stuck expression
 
 stuck :  Expr∞ (◸ ⊤)
 stuck =  free $ ∇ (0 , 42)
 
--- Just add two natural-number arguments
+-- plus:  Just add two natural-number arguments
 
 plus :  Expr∞ $ (ℕ × ℕ) ↷ ◸ ℕ
 plus =  λ' (m , n) ,¡ ∇ (m + n)
 
--- plus on 3 & 4
+-- plus◁3,4 :  plus on 3 and 4
 
 plus◁3,4 :  Expr∞ $ ◸ ℕ
 plus◁3,4 =  plus ◁ ∇ (3 , 4)
 
--- Non-deterministic natural number
+-- ndnat :  Non-deterministic natural number
 
 ndnat :  Expr∞ $ ◸ ℕ
 ndnat =  nd
 
--- Repeat decrementing the natural number at the address until it becomes zero
+-- decrep :  Repeat decrementing the natural number at the address until it
+-- becomes zero
 
 decrep :  Addr →  Expr ι $ ◸ ⊤
 decrep' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
@@ -64,12 +65,12 @@ decrep θ =  let' n := 🞰 ∇ θ in' λ{ .! → decrep' θ n }
 decrep' _ 0 =  ∇ _
 decrep' θ (ṡ n) =  ∇ θ ← ∇ n ⁏¡ decrep θ
 
--- decrep after initialization by a non-deterministic natural number
+-- ndecrep :  decrep after initialization by a non-deterministic natural number
 
 ndecrep :  Addr →  Expr∞ $ ◸ ⊤
 ndecrep θ =  ∇ θ ← ndnat ⁏¡ decrep θ
 
--- Loop ndecrep with an event
+-- ndecrep●∞ :  Loop ndecrep with an event
 
 ndecrep●∞ :  Addr →  Expr ι $ ◸ ⊤
 ndecrep●∞ θ =  ndecrep θ ⁏¡ ● λ{ .! → ndecrep●∞ θ }
@@ -98,8 +99,8 @@ forksfadrep :  Addr →  ℕ →  Expr ι $ ◸ ⊤
 forksfadrep _ 0 =  ∇ _
 forksfadrep θ (ṡ n) =  fork¡ (fadrep θ) ⁏¡ forksfadrep θ n
 
--- Counter using memory, which increments the natural number at the address θ
--- and returns the original value n
+-- cntr← :  Counter using memory, which increments the natural number at the
+-- address θ and returns the original value n
 
 cntr← :  Addr →  ℕ →  Expr˂∞ $ ◸ ℕ
 cntr← θ k .! =  let' n := 🞰 ∇ θ in¡ ∇ θ ← ∇ (k + n) ⁏¡ ∇ n

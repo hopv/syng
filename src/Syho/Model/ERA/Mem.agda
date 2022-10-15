@@ -52,9 +52,9 @@ module AllMem =  Syho.Model.ERA.All ℕ (λ _ → Mbloᴱᴿᴬ)
 open AllMem public using () renaming (
   --  ∀Memᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to ∀Memᴱᴿᴬ;
-  --  inj˙ᴬᴹᵉᵐ :  ℕ →  Mbloᴱᴿᴬ .Res →  ∀Memᴱᴿᴬ .Res
-  inj˙ to inj˙ᴬᴹᵉᵐ;
-  inj˙-≈ to inj˙ᴬᴹᵉᵐ-≈; inj˙-∙ to inj˙ᴬᴹᵉᵐ-∙; ✓-inj˙ to ✓-inj˙ᴬᴹᵉᵐ)
+  --  inj˙ᴹᵉᵐ :  ℕ →  Mbloᴱᴿᴬ .Res →  ∀Memᴱᴿᴬ .Res
+  inj˙ to inj˙ᴹᵉᵐ;
+  inj˙-≈ to inj˙ᴹᵉᵐ-≈; inj˙-∙ to inj˙ᴹᵉᵐ-∙; ✓-inj˙ to ✓-inj˙ᴹᵉᵐ)
 
 Memᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Memᴱᴿᴬ =  Upᴱᴿᴬ (Envvᴱᴿᴬ ∀Memᴱᴿᴬ ✓ᴹ_)
@@ -186,7 +186,7 @@ infix 9 _↦⟨_⟩ʳ_ _↦ʳ_
 -- ↦⟨ ⟩ᵇˡᵒ :  Resource for the points-to token
 
 _↦⟨_⟩ʳ_ :  Addr →  ℚ⁺ →  TyVal →  Resᴹᵉᵐ
-((o , i) ↦⟨ p ⟩ʳ ᵗv) .↓ =  inj˙ᴬᴹᵉᵐ o $ i ↦⟨ p ⟩ᵇˡᵒ ᵗv
+((o , i) ↦⟨ p ⟩ʳ ᵗv) .↓ =  inj˙ᴹᵉᵐ o $ i ↦⟨ p ⟩ᵇˡᵒ ᵗv
 
 -- ↦ᵇˡᵒ :  ↦⟨ ⟩ᵇˡᵒ with the fraction 1
 
@@ -196,13 +196,13 @@ _↦ʳ_ :  Addr →  TyVal →  Resᴹᵉᵐ
 -- freeʳ :  Resource for the freeing token
 
 freeʳ :  ℕ →  ℕ →  Resᴹᵉᵐ
-freeʳ n o .↓ =  inj˙ᴬᴹᵉᵐ o $ freeᵇˡᵒ n
+freeʳ n o .↓ =  inj˙ᴹᵉᵐ o $ freeᵇˡᵒ n
 
 -- ↦ᴸʳ :  Resource for the points-to token over a list of values
 
 infix 9 _↦ᴸʳ_
 _↦ᴸʳ_ :  ℕ →  List TyVal →  Resᴹᵉᵐ
-(o ↦ᴸʳ ᵗvs) .↓ =  inj˙ᴬᴹᵉᵐ o $ ↦ᴸᵇˡᵒ ᵗvs
+(o ↦ᴸʳ ᵗvs) .↓ =  inj˙ᴹᵉᵐ o $ ↦ᴸᵇˡᵒ ᵗvs
 
 abstract
 
@@ -214,23 +214,23 @@ abstract
   -- Modify the fraction of ↦⟨ ⟩ʳ
 
   ↦⟨⟩ʳ-cong :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ʳ ᵗv  ≈ᴹᵉᵐ  θ ↦⟨ q ⟩ʳ ᵗv
-  ↦⟨⟩ʳ-cong p≈q .↓ =  inj˙ᴬᴹᵉᵐ-≈ $ ↦⟨⟩ᵇˡᵒ-cong p≈q
+  ↦⟨⟩ʳ-cong p≈q .↓ =  inj˙ᴹᵉᵐ-≈ $ ↦⟨⟩ᵇˡᵒ-cong p≈q
 
   -- Merge ↦⟨ ⟩ʳ w.r.t. +ᴿ⁺
 
   ↦⟨⟩ʳ-∙ :  θ ↦⟨ p ⟩ʳ ᵗv ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  ≈ᴹᵉᵐ  θ ↦⟨ p +ᴿ⁺ q ⟩ʳ ᵗv
-  ↦⟨⟩ʳ-∙ =  ↑ inj˙ᴬᴹᵉᵐ-∙ ◇˜ᴹᵉᵐ ↑ inj˙ᴬᴹᵉᵐ-≈ ↦⟨⟩ᵇˡᵒ-∙
+  ↦⟨⟩ʳ-∙ =  ↑ inj˙ᴹᵉᵐ-∙ ◇˜ᴹᵉᵐ ↑ inj˙ᴹᵉᵐ-≈ ↦⟨⟩ᵇˡᵒ-∙
 
   -- The fraction of ↦⟨ ⟩ʳ is no more than 1
 
   ↦⟨⟩ʳ-≤1 :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗv →  p ≤1ᴿ⁺
-  ↦⟨⟩ʳ-≤1 {M} =  ↓ › π₁ › ✓-inj˙ᴬᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-≤1 {M _}
+  ↦⟨⟩ʳ-≤1 {M} =  ↓ › π₁ › ✓-inj˙ᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-≤1 {M _}
 
   -- Agreement of ↦⟨ ⟩ʳ
 
   ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗu ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  →  ᵗu ≡ ᵗv
   ↦⟨⟩ʳ-agree {M} =  ↓ › π₁ ›
-    ✓ᴬᴹᵉᵐ-resp inj˙ᴬᴹᵉᵐ-∙ › ✓-inj˙ᴬᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-agree {M _}
+    ✓ᴬᴹᵉᵐ-resp inj˙ᴹᵉᵐ-∙ › ✓-inj˙ᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-agree {M _}
 
   -- Lemmas on [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] (o , i) ↦ʳ ᵗv
 

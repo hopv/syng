@@ -85,7 +85,7 @@ abstract
   -- Total Hoare triple for decrep
 
   -- The proof guarantees termination by induction over n
-  -- Notably, we take advantage Agda's termination checker here
+  -- Notably, we take advantage of Agda's termination checker here
 
   horᵀ-decrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrep θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
   horᵀ-decrep' :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrep' θ n ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)

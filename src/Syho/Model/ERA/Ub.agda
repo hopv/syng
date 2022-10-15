@@ -7,7 +7,7 @@
 module Syho.Model.ERA.Ub where
 
 open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
-open import Base.Func using (id)
+open import Base.Func using (_$_; id)
 open import Base.Few using (⊤; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_)
 open import Base.Dec using (≟-refl)
@@ -104,10 +104,13 @@ open FinUb public using () renaming (
   --  inj˙ᵁᵇ :  Ub →  Ubb →  Ub →  Ubb
   inj˙ to inj˙ᵁᵇ;
   inj˙-≈ to inj˙ᵁᵇ-≈; inj˙-∙ to inj˙ᵁᵇ-∙; inj˙-⌞⌟ to inj˙ᵁᵇ-⌞⌟)
+open FinUb using (✓-new)
 
 Ubᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Ubᴱᴿᴬ =  Upᴱᴿᴬ Ub'ᴱᴿᴬ
 
+open ERA Ub'ᴱᴿᴬ using () renaming (◠˜_ to ◠˜ᵁᵇ'_; ∙-congˡ to ∙ᵁᵇ'-congˡ;
+  ✓-resp to ✓˙ᵁᵇ'-resp)
 open ERA Ubᴱᴿᴬ using () renaming (Res to Resᵁᵇ; _≈_ to _≈ᵁᵇ_; _∙_ to _∙ᵁᵇ_;
   ε to εᵁᵇ; ⌞_⌟ to ⌞_⌟ᵁᵇ; _✓_ to _✓ᵁᵇ_; _↝_ to _↝ᵁᵇ_)
 
@@ -145,3 +148,9 @@ abstract
   ≤ᵁᵇʳ-#ᵁᵇʳ :  _ ✓ᵁᵇ ≤ᵁᵇ⟨ i ⟩ʳ m ∙ᵁᵇ #ᵁᵇ⟨ i ⟩ʳ n  →   n ≤ m
   ≤ᵁᵇʳ-#ᵁᵇʳ {i = i} (↑ (-, ✓≤m∙#n))  with ✓≤m∙#n i
   … | ✓≤m∙#ni  rewrite ≟-refl {a = i} =  ✓≤m∙#ni
+
+  -- Create #ᵁᵇʳ and ≤ᵁᵇʳ at a fresh index
+
+  #ᵁᵇʳ-new :  (-, εᵁᵇ)  ↝ᵁᵇ λ i →  -, ≤ᵁᵇ⟨ i ⟩ʳ n ∙ᵁᵇ #ᵁᵇ⟨ i ⟩ʳ n
+  #ᵁᵇʳ-new {n = n} (↑ a˙) (↑ ✓a)  with ✓-new (≤-refl {n}) a˙ ✓a
+  … | i , ✓≤n∙#n =  i , ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤n∙#n

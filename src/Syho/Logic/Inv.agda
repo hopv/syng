@@ -116,7 +116,7 @@ abstract
     ⇛-frameˡ {i = 0} %ⁱ-close ᵘ» ∗-comm
 
   ------------------------------------------------------------------------------
-  -- Static reference
+  -- On the static reference
 
   -- Create ↦ⁱ
 

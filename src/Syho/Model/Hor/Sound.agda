@@ -226,12 +226,12 @@ abstract
 
   ⊢⁺⟨⟩ᵀ-sem (hor-[] P⊢⟨Ke⟩Q) =  ⊢⁺⟨⟩ᵀ-sem P⊢⟨Ke⟩Q › ⁺⟨⟩ᵀᵒ-[]
 
-  -- hor-fork :  P  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᵀ[ i ]  R˙  →
-  --             Q  ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] (λ _ →  ⊤')  →
+  -- hor-fork :  P  ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] (λ _ →  ⊤')  →
+  --             Q  ⊢[ ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᵀ[ i ]  R˙  →
   --             P  ∗  Q  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᵀ[ i ]  R˙
 
-  ⊢⁺⟨⟩ᵀ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =
-    ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨K⟩R) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) › ⁺⟨⟩ᵀᵒ-fork
+  ⊢⁺⟨⟩ᵀ-sem (hor-fork P⊢⟨e⟩ Q⊢⟨K⟩R) =
+    ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨K⟩R) › ⁺⟨⟩ᵀᵒ-fork
 
   -- ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
   --               ⊢[ ∞ ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
@@ -302,12 +302,12 @@ abstract
   ⊢⁺⟨⟩∞-sem (ihor-[]● P⊢⟨Ke⟩∞) Pa =
     ⁺⟨⟩∞ᵒ-[]● λ{ .! → ⊢⁺⟨⟩∞-sem (P⊢⟨Ke⟩∞ .!) Pa }
 
-  -- ihor-fork :  P  ⊢[ ∞ ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
-  --              Q  ⊢[ ∞ ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+  -- ihor-fork :  P  ⊢[ ∞ ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+  --              Q  ⊢[ ∞ ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
   --              P  ∗  Q  ⊢[ ∞ ][ i ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞
 
-  ⊢⁺⟨⟩∞-sem (ihor-fork P⊢⟨K⟩∞ Q⊢⟨e⟩) =
-    ∗ᵒ-mono (⊢⁺⟨⟩∞-sem P⊢⟨K⟩∞) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) › ⁺⟨⟩∞ᵒ-fork
+  ⊢⁺⟨⟩∞-sem (ihor-fork P⊢⟨e⟩ Q⊢⟨K⟩∞) =
+    ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) (⊢⁺⟨⟩∞-sem Q⊢⟨K⟩∞) › ⁺⟨⟩∞ᵒ-fork
 
   -- ↪⟨⟩∞-use :  P˂ .!  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ∞ ][ ṡ i ]⟨ e ⟩∞
   -- The level increment ṡ i makes the recursive call of ⊢⁺⟨⟩∞-sem inductive
@@ -387,13 +387,13 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (hor-[] P⊢⟨Ke⟩Q) Pa =  ⁺⟨⟩ᴾᵒ-[] λ{ .! → ⊢⁺⟨⟩ᴾ-sem (P⊢⟨Ke⟩Q .!) Pa }
 
-  -- hor-fork :  P  ⊢[< ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  R˙  →
-  --             Q  ⊢[< ∞ ]⟨ e ⟩ᴾ (λ _ →  ⊤')  →
+  -- hor-fork :  P  ⊢[< ∞ ]⟨ e ⟩ᴾ (λ _ →  ⊤')  →
+  --             Q  ⊢[< ∞ ]⟨ K ᴷ◁ ∇ _ ⟩ᴾ  R˙  →
   --             P  ∗  Q  ⊢[ ∞ ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾ  R˙
 
-  ⊢⁺⟨⟩ᴾ-sem (hor-fork P⊢⟨K⟩R Q⊢⟨e⟩) =  ∗ᵒ-mono
-    (λ Pb → λ{ .! → Pb ▷ ⊢⁺⟨⟩ᴾ-sem (P⊢⟨K⟩R .!) })
-    (λ Qc → λ{ .! → Qc ▷ ⊢⁺⟨⟩ᴾ-sem (Q⊢⟨e⟩ .!) ▷ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ }) › ⁺⟨⟩ᴾᵒ-fork
+  ⊢⁺⟨⟩ᴾ-sem (hor-fork P⊢⟨e⟩ Q⊢⟨K⟩R) =  ∗ᵒ-mono
+    (λ Pb → λ{ .! → Pb ▷ ⊢⁺⟨⟩ᴾ-sem (P⊢⟨e⟩ .!) ▷ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ })
+    (λ Qc → λ{ .! → Qc ▷ ⊢⁺⟨⟩ᴾ-sem (Q⊢⟨K⟩R .!) }) › ⁺⟨⟩ᴾᵒ-fork
 
   -- ↪⟨⟩ᴾ-use :  e ⇒ᴾ e'  →
   --   P˂ .!  ∗  (P˂ ↪⟨ e' ⟩ᴾ Q˂˙)  ⊢[ ∞ ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!

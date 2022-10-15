@@ -68,12 +68,12 @@ abstract
 
   -->  ihor⇒horᴾ :  P  ⊢[ ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ]⁺⟨ vk ⟩ᴾ  Q˙
 
-  -->  hor-fork :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
-  -->              Q  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
+  -->  hor-fork :  P  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
+  -->              Q  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
   -->              P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ κ ]  R˙
 
-  -->  ihor-fork :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
-  -->               Q  ⊢[ ι ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+  -->  ihor-fork :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+  -->               Q  ⊢[ ι ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
   -->               P  ∗  Q  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞
 
   -- Level increase on the atomic / total Hoare triple

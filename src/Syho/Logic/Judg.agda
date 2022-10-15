@@ -412,12 +412,12 @@ data  Judg ι  where
   -- For the infinite Hoare triple, the forked thread should terminate, because
   -- we don't assume fair scheduling of threads
 
-  hor-fork :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
-              Q  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
+  hor-fork :  P  ⊢[<ᴾ ι ]⟨ e ⟩[ κ ] (λ _ →  ⊤')  →
+              Q  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  R˙  →
               P  ∗  Q  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩[ κ ]  R˙
 
-  ihor-fork :  P  ⊢[ ι ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
-               Q  ⊢[ ι ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+  ihor-fork :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ j ] (λ _ →  ⊤')  →
+               Q  ⊢[ ι ][ i ]⟨ K ᴷ◁ ∇ _ ⟩∞  →
                P  ∗  Q  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞
 
   ------------------------------------------------------------------------------

@@ -20,7 +20,7 @@ open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Type; TyVal;
   loop)
 open import Syho.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
-  ndecrep●∞; fadᴿ; fad; fadrep; fadrep'; forksfadrep; cntr←)
+  ndecrep●∞; fadᴿ; fad; fadrep; fadrep'; forksfadrep; nforksfadrep; cntr←)
 open import Syho.Logic.Prop using (Name; strnm; Prop'; Prop∞; ¡ᴾ_; ∀-syntax;
   ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; [^_]ᴺ; &ⁱ⟨_⟩_;
   static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
@@ -175,6 +175,12 @@ abstract
 
   horᵀ-forksfadrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ j ] λ _ →  ⊤'
   horᵀ-forksfadrep =  &ub↦-new {j = 0} ᵘ»ʰ ∃-elim λ _ → horᵀ-forksfadrep-&ub↦
+
+  -- Total Hoare triple for nforksfadrep
+
+  horᵀ-nforksfadrep :  θ ↦ ᵗv  ⊢[ ι ]⟨ nforksfadrep θ ⟩ᵀ[ j ] λ _ →  ⊤'
+  horᵀ-nforksfadrep =  hor-nd λ _ → ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ »
+    hor-nd λ _ → hor-[] horᵀ-forksfadrep
 
   ------------------------------------------------------------------------------
   -- Counter: Example for the total Hoare-triple precursor

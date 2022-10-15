@@ -99,6 +99,11 @@ forksfadrep :  Addr →  ℕ →  Expr ι $ ◸ ⊤
 forksfadrep _ 0 =  ∇ _
 forksfadrep θ (ṡ k') =  fork¡ (fadrep θ) ⁏¡ forksfadrep θ k'
 
+-- nforksfadrep :  forksfadrep with non-deterministic natural numbers
+
+nforksfadrep :  Addr →  Expr∞ $ ◸ ⊤
+nforksfadrep θ =  ∇ θ ← ndnat ⁏¡ let' k := ndnat in¡ forksfadrep θ k
+
 -- cntr← :  Counter using memory, which increments the natural number at the
 --          address θ and returns the original value n
 

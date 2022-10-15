@@ -9,35 +9,40 @@ module Syho.Logic.Example where
 open import Base.Func using (_$_; it)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using ()
+open import Base.Acc using (Acc; acc)
 open import Base.Size using (𝕊; !)
 open import Base.Prod using (_×_; _,_; -,_)
-open import Base.Nat using (ℕ; ṡ_; _≤_; _+_; _⊔_; ≤-refl; ≤-trans; ⊔-introˡ;
-  ⊔-comm)
+open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; ṗ_; _+_; _⊔_; ≤-refl; ≤-trans;
+  <-wf; ṗ-decr; ⊔-introˡ; ⊔-comm)
 open import Base.List using (List; []; _∷_)
 open import Base.Seq using (Seq∞; _∷ˢ_; hdˢ; tlˢ; repˢ; rep²ˢ; takeˢ)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Type; TyVal;
   loop)
 open import Syho.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
-  ndecrep●∞; cntr←)
-open import Syho.Logic.Prop using (Prop'; Prop∞; ¡ᴾ_; ∀-syntax; ∃-syntax;
-  ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; static; _↦ⁱ_)
+  ndecrep●∞; fadᴿ; fad; fadrep; fadrep'; forksfadrep; cntr←)
+open import Syho.Logic.Prop using (Name; strnm; Prop'; Prop∞; ¡ᴾ_; ∀-syntax;
+  ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; [^_]ᴺ; &ⁱ⟨_⟩_;
+  static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
-  ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; ∗-mono; ∗-monoʳ; ∗-comm; ∗-assocʳ;
-  ?∗-comm; ∗?-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; dup-Pers-∗;
-  -∗-introˡ; -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇒⇛; ⇛-frameˡ;
+  ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ;
+  ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro;
+  ∃∗-elim; dup-Pers-∗; -∗-introˡ; -∗-introʳ; ⤇-eatʳ; □-mono; □-dup; ∃-Pers;
+  □-elim; □-intro-Pers; dup-Pers)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
   ⇛-frameʳ)
-open import Syho.Logic.Hor using (_⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞;
-  hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind)
-open import Syho.Logic.Mem using (hor-🞰; hor-←)
+open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
+  _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; ahor-frameʳ; ahor✔-hor; hor-valᵘ;
+  hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind; hor-fork)
+open import Syho.Logic.Mem using (ahor-fau; hor-🞰; hor-←)
 open import Syho.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒↪⟨⟩;
   ↪⟨⟩ᵀ-use)
-open import Syho.Logic.Inv using (hor-↦ⁱ-🞰)
+open import Syho.Logic.Inv using (&ⁱ-new; &ⁱ-open; %ⁱ-close; hor-↦ⁱ-🞰)
+open import Syho.Logic.Ub using (≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 
 private variable
   ι :  𝕊
-  i k l m n :  ℕ
+  i j k l m n :  ℕ
   θ θ' θᶜ :  Addr
   ᵗv :  TyVal
   X :  Set₀
@@ -105,6 +110,71 @@ abstract
   ihor-ndecrep●∞ :  θ ↦ ᵗv  ⊢[ ι ][ i ]⟨ ndecrep●∞ θ ⟩∞
   ihor-ndecrep●∞ =  hor-ihor-⁏-bind {e = ndecrep _} {i = 0}
     horᵀ-ndecrep λ _ → ihor-[]● λ{ .! → ihor-ndecrep●∞ }
+
+  ------------------------------------------------------------------------------
+  -- Concurrent decrement: Example for the total Hoare triple, the impredicative
+  -- invariant, and the upper bound
+
+  -- &ub↦ :  Invariant that contains a full points-to token θ ↦ (-, n) for some
+  -- number n under an upper-boundee token #ᵁᵇ⟨ i ⟩ n
+  -- When we have &ub↦ θ i, any threads can freely decrease the value at θ, but
+  -- never increase it
+
+  ub : Name
+  ub =  strnm "ub"
+
+  &ub↦ :  Addr →  ℕ →  Prop∞
+  &ub↦ θ i =  &ⁱ⟨ ub ⟩ ¡ᴾ (∃ n , #ᵁᵇ⟨ i ⟩ n ∗ θ ↦ (-, n))
+
+  -- Create ≤ᵁᵇ⟨ i ⟩ n and &ub↦ θ i out of θ ↦ (-, n)
+
+  &ub↦-new :  θ ↦ (-, n)  ⊢[ ι ][ j ]⇛  ∃ i ,  ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i
+  &ub↦-new =  ⊤∗-intro » ∗-monoˡ #ᵁᵇ-new » ⤇-eatʳ » ⤇⇒⇛ ᵘ»ᵘ ∃∗-elim λ i →
+    ∗-assocˡ » ∗-monoʳ (∃-intro _) » ⇛-frameˡ &ⁱ-new ᵘ» ∃-intro i
+
+  -- Atomic Hoare triple for fad under &ub↦, updating ≤ᵁᵇ
+
+  ahor-fad-&ub↦ :
+    [^ ub ]ᴺ  ∗  ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i  ⊢[ ι ][ j ]ᵃ⟨ fadᴿ θ ⟩ λ m →
+      [^ ub ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ i ⟩ ṗ m  ∗  &ub↦ θ i)
+  ahor-fad-&ub↦ =  ?∗-comm » ∗-monoʳ (∗-monoʳ dup-Pers » ?∗-comm » ∗-assocʳ) »
+    ⇛-frameˡ {i = 0} (⇛-frameʳ &ⁱ-open) ᵘ»ᵃʰ ∗-monoʳ ∗-assocˡ » ?∗-comm »
+    ∃∗-elim λ m → ?∗-comm » ∗-monoʳ ∗-assocˡ » ∗-assocʳ »
+    ∗-monoˡ (retain-⌜⌝ ≤ᵁᵇ-#ᵁᵇ) » ∃∗-elim λ m≤n → ∗-monoˡ ∗-elimʳ » ?∗-comm »
+    ahor-frameʳ ahor-fau ᵃʰ»ᵘ λ m' → ∃∗-elim λ{ refl → ?∗-comm »
+    ∗-monoˡ (#ᵁᵇ-upd ṗ-decr) » ⤇-eatʳ » ⤇⇒⇛ {i = 0} ᵘ»ᵘ ∗-assocˡ »
+    ∗-monoʳ (∗-assocʳ » ∗-monoˡ (∃-intro _) » ∗-assocʳ) »
+    ⇛-frameˡ (⇛-frameʳ %ⁱ-close) ᵘ» ?∗-comm » ∗-monoʳ $ ∃-intro m≤n }
+
+  -- Total Hoare triple for fadrep under ≤ᵁᵇ and &ub↦
+  -- The proof goes by well-founded induction over the upper bound n
+
+  horᵀ-fadrep-&ub↦-Acc :  Acc _<_ n  →
+    ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ j ] λ _ →  ⊤'
+  horᵀ-fadrep'-&ub↦-Acc :  Acc _<_ n  →   m ≤ n  →
+    ≤ᵁᵇ⟨ i ⟩ ṗ m  ∗  &ub↦ θ i  ⊢[ ι ]⟨ fadrep' θ m ⟩ᵀ[ j ] λ _ →  ⊤'
+
+  horᵀ-fadrep-&ub↦-Acc Accn =  ahor✔-hor {i = 0} ^ᶻᴺ-✔ ahor-fad-&ub↦ λ m →
+    ∃-elim λ m≤n → hor-[] $ horᵀ-fadrep'-&ub↦-Acc Accn m≤n
+  horᵀ-fadrep'-&ub↦-Acc {m = 0} _ _ =  hor-val ⊤-intro
+  horᵀ-fadrep'-&ub↦-Acc {m = ṡ _} (acc <n⇒acc) m'<n =
+    horᵀ-fadrep-&ub↦-Acc (<n⇒acc m'<n)
+
+  horᵀ-fadrep-&ub↦ :
+    ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ j ] λ _ →  ⊤'
+  horᵀ-fadrep-&ub↦ =  horᵀ-fadrep-&ub↦-Acc <-wf
+
+  -- Total Hoare triple for forksfadrep θ k, which forks k threads that perform
+  -- fadrep θ
+
+  horᵀ-forksfadrep-&ub↦ :
+    ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ j ] λ _ →  ⊤'
+  horᵀ-forksfadrep-&ub↦ {k = 0} =  hor-val ⊤-intro
+  horᵀ-forksfadrep-&ub↦ {k = ṡ _} =  dup-Pers »
+    hor-fork horᵀ-fadrep-&ub↦ $ hor-[] horᵀ-forksfadrep-&ub↦
+
+  horᵀ-forksfadrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ j ] λ _ →  ⊤'
+  horᵀ-forksfadrep =  &ub↦-new {j = 0} ᵘ»ʰ ∃-elim λ _ → horᵀ-forksfadrep-&ub↦
 
   ------------------------------------------------------------------------------
   -- Counter: Example for the total Hoare-triple precursor

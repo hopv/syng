@@ -13,11 +13,12 @@ open import Base.Size using (𝕊; !)
 open import Base.Bool using (𝔹; tt; ff)
 open import Base.Option using (¿_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
-open import Base.Nat using (ℕ; ṡ_; _+_)
+open import Base.Nat using (ℕ; ṡ_; ṗ_; _+_)
 open import Base.Sety using ()
 open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; Expr˂∞; ∇_;
-  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; let¡-syntax; ●_; 🞰_; _←_; free; loop;
-  Mem)
+  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; let¡-syntax; ●_; fork¡; 🞰_; _←_; fau;
+  free; loop; Mem)
+open import Syho.Lang.Ktxred using (Redex; fauᴿ)
 open import Syho.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
 
 private variable
@@ -72,6 +73,30 @@ ndecrep θ =  ∇ θ ← ndnat ⁏¡ decrep θ
 
 ndecrep●∞ :  Addr →  Expr ι $ ◸ ⊤
 ndecrep●∞ θ =  ndecrep θ ⁏¡ ● λ{ .! → ndecrep●∞ θ }
+
+-- fad :  Fetch and decrement, i.e., atomic decrement of the natural number at
+-- the address, returning the original value
+
+fadᴿ :  Addr →  Redex $ ◸ ℕ
+fadᴿ =  fauᴿ ṗ_
+
+fad :  Expr ι $ ◸ Addr →  Expr ι $ ◸ ℕ
+fad =  fau ṗ_
+
+-- fadrep θ :  Repeat fad on the address until the value becomes zero
+
+fadrep :  Addr →  Expr ι $ ◸ ⊤
+fadrep' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
+
+fadrep θ =  let' n := fad (∇ θ) in' λ{ .! → fadrep' θ n }
+fadrep' _ 0 =  ∇ _
+fadrep' θ (ṡ n) =  fadrep θ
+
+-- forksfadrep θ k :  Fork threads that perform fadrep θ
+
+forksfadrep :  Addr →  ℕ →  Expr ι $ ◸ ⊤
+forksfadrep _ 0 =  ∇ _
+forksfadrep θ (ṡ n) =  fork¡ (fadrep θ) ⁏¡ forksfadrep θ n
 
 -- Counter using memory, which increments the natural number at the address θ
 -- and returns the original value n

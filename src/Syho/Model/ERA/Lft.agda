@@ -12,8 +12,8 @@ open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; refl; cong)
 open import Base.Dec using (yes; no; _≟_; ≟-refl)
 open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_; _,-)
-open import Base.Nat using (ℕ; ṡ_; ≤-refl; <⇒≤; <-irrefl; Cofin˙; ∀≥˙-upd˙-ṡ;
-  Cofin˙-resp)
+open import Base.Nat using (ℕ; ṡ_; ≤-refl; <⇒≤; <-irrefl; Cofin; ∀≥-upd˙-ṡ;
+  Cofin-resp)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
   ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem)
 open import Syho.Logic.Prop using (Lft)
@@ -263,7 +263,7 @@ _∙ᴸᵇ˙_ :  (Lft → Lftb) →  (Lft → Lftb) →  (Lft → Lftb)
 -- Cofinεᴸᵇ a˙ :  a˙ i ≡ εᴸᵇ holds for all but finitely many i's
 
 Cofinεᴸᵇ :  (Lft → Lftb) →  Set₀
-Cofinεᴸᵇ =  Cofin˙ (λ _ → _≡ εᴸᵇ)
+Cofinεᴸᵇ =  Cofin (λ _ → _≡ εᴸᵇ)
 
 abstract
 

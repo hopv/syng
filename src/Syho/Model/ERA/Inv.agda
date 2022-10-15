@@ -15,7 +15,7 @@ open import Base.Zoi using (Zoi; ✔ᶻ_; ⊤ᶻ; ^ᶻ_; _⊎ᶻ_)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ; ṡ_; _<_; ∀≥˙; ≤-refl; _<≥_; ∀≥˙-upd˙-ṡ)
+open import Base.Nat using (ℕ; ṡ_; _<_; ∀≥; ≤-refl; _<≥_; ∀≥-upd˙-ṡ)
 open import Base.List using ([]; [_])
 open import Base.Str using ()
 open import Syho.Logic.Prop using (Name; Prop∞)
@@ -51,7 +51,7 @@ Invᴱᴿᴬ =  Envvᴱᴿᴬ
   (Envmᴱᴿᴬ (Invtkᴱᴿᴬ ×ᴱᴿᴬ Namesᴱᴿᴬ) ((ℕ → ¿ (Name × Prop∞)) × ℕ)
     λ (ⁿPˇ˙ ,-) → (λ i → ⁿPˇ˙ i , ⁿPˇ˙ i) , _)
   -- Any index in the domain of Pˇ˙ is less than n
-  λ (ⁿPˇ˙ , n) → ∀≥˙ n (λ _ → _≡ ň) ⁿPˇ˙
+  λ (ⁿPˇ˙ , n) → ∀≥ n (λ _ → _≡ ň) ⁿPˇ˙
 
 open ERA Invtkᴱᴿᴬ public using () renaming (ε to εᴵⁿᵛᵗᵏ; refl˜ to refl˜ᴵⁿᵛᵗᵏ)
 open ERA Namesᴱᴿᴬ public using () renaming (ε to εᴺᵃᵐᵉˢ; refl˜ to refl˜ᴺᵃᵐᵉˢ)
@@ -124,7 +124,7 @@ abstract
   inv-invk-new :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
     (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P
   inv-invk-new _ _ .π₀ =  _
-  inv-invk-new _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥˙-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
+  inv-invk-new _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
   inv-invk-new _ (-, -, ✓c) .π₁ .π₁ .π₁ =  ✓c
   inv-invk-new {n = n} _ (✓Qˇ , Qˇ✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | Qˇ✓ab i
   … | no _ | Qˇi✓abi =  Qˇi✓abi

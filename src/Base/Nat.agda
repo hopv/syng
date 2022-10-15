@@ -578,67 +578,67 @@ abstract
   ṡ⊔-same =  ṡ⊔-≥ ≤-refl
 
 --------------------------------------------------------------------------------
--- ∀≥˙ n F f :  F i (f i) holds for every i ≥ n
+-- ∀≥ n F f :  F i (f i) holds for every i ≥ n
 
-∀≥˙ :  ℕ →  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
-∀≥˙ n F f =  ∀ i →  i ≥ n →  F i (f i)
+∀≥ :  ℕ →  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
+∀≥ n F f =  ∀ i →  i ≥ n →  F i (f i)
 
 abstract
 
-  -- ∀≥˙ respects ≡˙
+  -- ∀≥ respects ≡˙
 
-  ∀≥˙-resp :  f ≡˙ g →  ∀≥˙ n F f →  ∀≥˙ n F g
-  ∀≥˙-resp f≡g ∀≥f i  rewrite ◠ f≡g i =  ∀≥f i
+  ∀≥-resp :  f ≡˙ g →  ∀≥ n F f →  ∀≥ n F g
+  ∀≥-resp f≡g ∀≥f i  rewrite ◠ f≡g i =  ∀≥f i
 
-  -- ∀≥˙ holds if there is no exception
+  -- ∀≥ holds if there is no exception
 
-  ∀⇒∀≥˙ :  (∀ i → F i (f i)) →  ∀≥˙ n F f
-  ∀⇒∀≥˙ Ffi i _ =  Ffi i
+  ∀⇒∀≥ :  (∀ i → F i (f i)) →  ∀≥ n F f
+  ∀⇒∀≥ Ffi i _ =  Ffi i
 
-  -- ∀≥˙ n is preserved by upd˙ if the added element satisfies the condition
+  -- ∀≥ n is preserved by upd˙ if the added element satisfies the condition
 
-  ∀≥˙-upd˙-sat :  F i a →  ∀≥˙ n F f →  ∀≥˙ n F (upd˙ i a f)
-  ∀≥˙-upd˙-sat {i = i} Fia ∀≥f j j≥n  with j ≟ i
+  ∀≥-upd˙-sat :  F i a →  ∀≥ n F f →  ∀≥ n F (upd˙ i a f)
+  ∀≥-upd˙-sat {i = i} Fia ∀≥f j j≥n  with j ≟ i
   … | no _ =  ∀≥f j j≥n
   … | yes refl =  Fia
 
-  -- ∀≥˙ is preserved by upd˙ i, updating the bound by ṡ i ⊔ -
+  -- ∀≥ is preserved by upd˙ i, updating the bound by ṡ i ⊔ -
 
-  ∀≥˙-upd˙ :  ∀≥˙ n F f →  ∀≥˙ (ṡ i ⊔ n) F (upd˙ i a f)
-  ∀≥˙-upd˙ {n = n} {i = i} ∀≥f j ṡi⊔n≥j  with j ≟ i
+  ∀≥-upd˙ :  ∀≥ n F f →  ∀≥ (ṡ i ⊔ n) F (upd˙ i a f)
+  ∀≥-upd˙ {n = n} {i = i} ∀≥f j ṡi⊔n≥j  with j ≟ i
   … | no _ =  ∀≥f j $ ⊔≤-introʳ {ṡ _} ṡi⊔n≥j
   … | yes refl =  absurd $ <-irrefl $ ⊔≤-introˡ {m = n} ṡi⊔n≥j
 
-  -- ∀≥˙ is preserved by upd˙ at the bound, updating the bound by ṡ
+  -- ∀≥ is preserved by upd˙ at the bound, updating the bound by ṡ
 
-  ∀≥˙-upd˙-ṡ : ∀≥˙ n F f →  ∀≥˙ (ṡ n) F (upd˙ n a f)
-  ∀≥˙-upd˙-ṡ {n} {F = F} {a = a} ∀≥f  with ∀≥˙-upd˙ {F = F} {a = a} ∀≥f
+  ∀≥-upd˙-ṡ : ∀≥ n F f →  ∀≥ (ṡ n) F (upd˙ n a f)
+  ∀≥-upd˙-ṡ {n} {F = F} {a = a} ∀≥f  with ∀≥-upd˙ {F = F} {a = a} ∀≥f
   … | ∀≥updf  rewrite ṡ⊔-same {n} =  ∀≥updf
 
 --------------------------------------------------------------------------------
--- Cofin˙ F f :  F i (f i) holds for all but finitely many i's
+-- Cofin F f :  F i (f i) holds for all but finitely many i's
 
-Cofin˙ :  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
-Cofin˙ F f =  ∑ n ,  ∀≥˙ n F f
+Cofin :  (∀ i → A˙ i → Set ł) →  (∀ i → A˙ i) →  Set ł
+Cofin F f =  ∑ n ,  ∀≥ n F f
 
 abstract
 
-  -- Cofin˙ respects ≡˙
+  -- Cofin respects ≡˙
 
-  Cofin˙-resp :  f ≡˙ g →  Cofin˙ F f →  Cofin˙ F g
-  Cofin˙-resp {F = F} f≡g (n , ∀≥f) =  n , ∀≥˙-resp {F = F} f≡g ∀≥f
+  Cofin-resp :  f ≡˙ g →  Cofin F f →  Cofin F g
+  Cofin-resp {F = F} f≡g (n , ∀≥f) =  n , ∀≥-resp {F = F} f≡g ∀≥f
 
-  -- Cofin˙ holds if there is no exception
+  -- Cofin holds if there is no exception
 
-  ∀⇒Cofin˙ :  (∀ i → F i (f i)) →  Cofin˙ F f
-  ∀⇒Cofin˙ {F = F} Ffi =  0 , ∀⇒∀≥˙ {F = F} Ffi
+  ∀⇒Cofin :  (∀ i → F i (f i)) →  Cofin F f
+  ∀⇒Cofin {F = F} Ffi =  0 , ∀⇒∀≥ {F = F} Ffi
 
-  -- Cofin˙ is preserved by upd˙
+  -- Cofin is preserved by upd˙
 
-  Cofin˙-upd˙ :  Cofin˙ F f →  Cofin˙ F (upd˙ i a f)
-  Cofin˙-upd˙ {F = F} (-, ∀≥f) =  -, ∀≥˙-upd˙ {F = F} ∀≥f
+  Cofin-upd˙ :  Cofin F f →  Cofin F (upd˙ i a f)
+  Cofin-upd˙ {F = F} (-, ∀≥f) =  -, ∀≥-upd˙ {F = F} ∀≥f
 
-  -- If Cofin˙ F f holds, then there exists some i such that F i (f i) holds
+  -- If Cofin F f holds, then there exists some i such that F i (f i) holds
 
-  Cofin˙-∑ :  Cofin˙ F f →  ∑ i , F i (f i)
-  Cofin˙-∑ (n , ∀≥f) =  n , ∀≥f n ≤-refl
+  Cofin-∑ :  Cofin F f →  ∑ i , F i (f i)
+  Cofin-∑ (n , ∀≥f) =  n , ∀≥f n ≤-refl

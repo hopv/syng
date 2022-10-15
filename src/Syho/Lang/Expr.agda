@@ -15,8 +15,8 @@ open import Base.Size using (𝕊; ∞; Thunk; !)
 open import Base.Bool using (𝔹)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-)
 open import Base.Option using (¿_; ň; _$¿_; _»-¿_)
-open import Base.Nat using (ℕ; _+_; +-assocʳ; Cofin˙; ∀⇒Cofin˙; Cofin˙-upd˙;
-  Cofin˙-∑)
+open import Base.Nat using (ℕ; _+_; +-assocʳ; Cofin; ∀⇒Cofin; Cofin-upd˙;
+  Cofin-∑)
 open import Base.List using (List; _‼_; upd)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Syn; setʸ)
 
@@ -253,21 +253,21 @@ updᴹ (o , i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
 
 infix 3 ✓ᴹ_
 ✓ᴹ_ :  Mem →  Set₀
-✓ᴹ M =  Cofin˙ (λ _ → _≡ ň) M
+✓ᴹ M =  Cofin (λ _ → _≡ ň) M
 
 abstract
 
   -- ✓ᴹ holds for empᴹ
 
   ✓ᴹ-emp :  ✓ᴹ empᴹ
-  ✓ᴹ-emp =  ∀⇒Cofin˙ {F = λ _ → _≡ ň} λ _ → refl
+  ✓ᴹ-emp =  ∀⇒Cofin {F = λ _ → _≡ ň} λ _ → refl
 
   -- ✓ᴹ is preserved by upd˙ and updᴹ
 
   ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o Mb M)
-  ✓ᴹ-upd˙ =  Cofin˙-upd˙ {F = λ _ → _≡ ň}
+  ✓ᴹ-upd˙ =  Cofin-upd˙ {F = λ _ → _≡ ň}
 
   -- If ✓ᴹ M holds, then M o ≡ ň for some o
 
   ✓ᴹ-∑ň :  ✓ᴹ M →  ∑ o , M o ≡ ň
-  ✓ᴹ-∑ň =  Cofin˙-∑ {F = λ _ → _≡ ň}
+  ✓ᴹ-∑ň =  Cofin-∑ {F = λ _ → _≡ ň}

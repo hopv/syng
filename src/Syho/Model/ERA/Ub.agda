@@ -8,13 +8,13 @@ module Syho.Model.ERA.Ub where
 
 open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; id)
-open import Base.Few using (⊤; ⊥)
+open import Base.Few using (⊤; ⊤₀; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_)
 open import Base.Dec using (≟-refl)
 open import Base.Option using (¿_; ň; š_)
-open import Base.Prod using (_×_; _,_; -,_; _,-)
-open import Base.Nat using (ℕ; _≤_; _⊓_; _⊓∞_; ≤-refl; ≤⊓-elimʳ; ⊓∞-comm;
-  ⊓∞-assocˡ; ⊓∞-idem)
+open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
+open import Base.Nat using (ℕ; _≤_; _⊓_; _⊓∞_; ≤-refl; ≤-trans; ≤⊓-elimʳ; ⊓-≤;
+  ⊓∞-comm; ⊓∞-assocˡ; ⊓∞-idem)
 open import Syho.Model.ERA.Base using (ERA; Upᴱᴿᴬ)
 open import Syho.Model.ERA.Exc using (Exc; εˣ; #ˣ_; ↯ˣ; _∙ˣ_; ∙ˣ-comm;
   ∙ˣ-assocˡ)
@@ -94,6 +94,17 @@ Ubbᴱᴿᴬ .⌞⌟-idem =  refl
 Ubbᴱᴿᴬ .✓-resp refl =  id
 Ubbᴱᴿᴬ .✓-rem {a = u} =  ✓ᵁᵇᵇ-rem {u}
 
+open ERA Ubbᴱᴿᴬ using () renaming (_↝_ to _↝ᵁᵇᵇ_)
+
+abstract
+
+  -- Lower the number of #ˣ
+
+  #ᵁᵇᵇʳ-upd :  m ≤ n  →   (-, #ˣ n , ň)  ↝ᵁᵇᵇ λ (_ : ⊤₀) →  -, (#ˣ m , š m)
+  #ᵁᵇᵇʳ-upd m≤n _ _ .π₀ =  _
+  #ᵁᵇᵇʳ-upd m≤n (εˣ , ň) _ .π₁ =  ≤-refl
+  #ᵁᵇᵇʳ-upd m≤n (εˣ , š l) n≤l .π₁  rewrite ⊓-≤ (≤-trans m≤n n≤l) =  ≤-refl
+
 --------------------------------------------------------------------------------
 -- Ubᴱᴿᴬ :  Upper-bound ERA
 
@@ -104,7 +115,7 @@ open FinUb public using () renaming (
   --  inj˙ᵁᵇ :  Ub →  Ubb →  Ub →  Ubb
   inj˙ to inj˙ᵁᵇ;
   inj˙-≈ to inj˙ᵁᵇ-≈; inj˙-∙ to inj˙ᵁᵇ-∙; inj˙-⌞⌟ to inj˙ᵁᵇ-⌞⌟)
-open FinUb using (↝ᶠⁱⁿ-new)
+open FinUb using (↝ᶠⁱⁿ-new; inj˙-↝ᶠⁱⁿ)
 
 Ubᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Ubᴱᴿᴬ =  Upᴱᴿᴬ Ub'ᴱᴿᴬ
@@ -154,3 +165,10 @@ abstract
   #ᵁᵇʳ-new :  (-, εᵁᵇ)  ↝ᵁᵇ λ i →  -, ≤ᵁᵇ⟨ i ⟩ʳ n ∙ᵁᵇ #ᵁᵇ⟨ i ⟩ʳ n
   #ᵁᵇʳ-new {n = n} (↑ u˙) (↑ ✓u)  with ↝ᶠⁱⁿ-new (≤-refl {n}) u˙ ✓u
   … | i , ✓≤n∙#n∙u =  i , ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤n∙#n∙u
+
+  -- Lower the number of #ᵁᵇʳ to get new ≤ᵁᵇʳ
+
+  #ᵁᵇʳ-upd :  m ≤ n  →
+    (-, #ᵁᵇ⟨ i ⟩ʳ n)  ↝ᵁᵇ λ (_ : ⊤₀) →  -, ≤ᵁᵇ⟨ i ⟩ʳ m ∙ᵁᵇ #ᵁᵇ⟨ i ⟩ʳ m
+  #ᵁᵇʳ-upd m≤n (↑ u˙) (↑ ✓u)  with inj˙-↝ᶠⁱⁿ (λ ()) (#ᵁᵇᵇʳ-upd m≤n) u˙ ✓u
+  … | -, ✓≤m∙#m∙u =  -, ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤m∙#m∙u

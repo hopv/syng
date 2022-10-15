@@ -64,10 +64,10 @@ open ERA Pntsᴱᴿᴬ public using () renaming (Res to Resᴾⁿᵗˢ; _≈_ to
 open ERA Mbloᴱᴿᴬ public using () renaming (Res to Resᴹᵇˡᵒ; _≈_ to _≈ᴹᵇˡᵒ_;
   _∙_ to _∙ᴹᵇˡᵒ_; [∙∈ⁱ] to [∙ᴹᵇˡᵒ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]; _✓_ to _✓ᴹᵇˡᵒ_;
   _↝_ to _↝ᴹᵇˡᵒ_; _◇˜_ to _◇˜ᴹᵇˡᵒ_; ∙-congʳ to ∙ᴹᵇˡᵒ-congʳ)
-open ERA ∀Memᴱᴿᴬ public using () renaming (✓-resp to ✓ᴬᴹᵉᵐ-resp)
 open ERA Memᴱᴿᴬ public using () renaming (Res to Resᴹᵉᵐ; _≈_ to _≈ᴹᵉᵐ_;
   ε to εᴹᵉᵐ; _∙_ to _∙ᴹᵉᵐ_; _✓_ to _✓ᴹᵉᵐ_; _↝_ to _↝ᴹᵉᵐ_; ◠˜_ to ◠˜ᴹᵉᵐ_;
-  _◇˜_ to _◇˜ᴹᵉᵐ_; [∙∈ⁱ] to [∙ᴹᵉᵐ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵉᵐ∈ⁱ⟨⟩])
+  _◇˜_ to _◇˜ᴹᵉᵐ_; [∙∈ⁱ] to [∙ᴹᵉᵐ∈ⁱ]; [∙∈ⁱ⟨⟩] to [∙ᴹᵉᵐ∈ⁱ⟨⟩];
+  ✓-resp to ✓ᴹᵉᵐ-resp)
 
 [∙ᴹᵇˡᵒ∈ⁱ]-syntax =  [∙ᴹᵇˡᵒ∈ⁱ]
 [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]-syntax =  [∙ᴹᵇˡᵒ∈ⁱ⟨⟩]
@@ -229,8 +229,8 @@ abstract
   -- Agreement of ↦⟨ ⟩ʳ
 
   ↦⟨⟩ʳ-agree :  ↑ M ✓ᴹᵉᵐ θ ↦⟨ p ⟩ʳ ᵗu ∙ᴹᵉᵐ θ ↦⟨ q ⟩ʳ ᵗv  →  ᵗu ≡ ᵗv
-  ↦⟨⟩ʳ-agree {M} =  ↓ › π₁ ›
-    ✓ᴬᴹᵉᵐ-resp inj˙ᴹᵉᵐ-∙ › ✓-inj˙ᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-agree {M _}
+  ↦⟨⟩ʳ-agree {M} =
+    ✓ᴹᵉᵐ-resp (↑ inj˙ᴹᵉᵐ-∙) › ↓ › π₁ › ✓-inj˙ᴹᵉᵐ › ↦⟨⟩ᵇˡᵒ-agree {M _}
 
   -- Lemmas on [∙ᴹᵉᵐ (i , ᵗv) ∈ⁱ⟨ k ⟩ ᵗvs ] (o , i) ↦ʳ ᵗv
 

@@ -37,7 +37,7 @@ private variable
   a˙ b˙ :  Res˙
   F˙ : Env˙
 
--- Cofinε a˙ :  a˙ i ≡ εᴸᵇ holds for all but finitely many i's
+-- Cofinε a˙ :  a˙ i ≈ ε holds for all but finitely many i's
 
 Cofinε :  Res˙ →  Set ł≈
 Cofinε =  Cofin (λ _ → _≈ ε)

@@ -610,6 +610,12 @@ abstract
   ⊔≤-introʳ :  l ⊔ m ≤ n →  m ≤ n
   ⊔≤-introʳ {l} l⊔m≤n =  ≤-trans (⊔-introʳ {_} {l}) l⊔m≤n
 
+  ≤⊓-elimˡ :  l ≤ m ⊓ n →  l ≤ m
+  ≤⊓-elimˡ l≤m⊓n =  ≤-trans l≤m⊓n ⊓-elimˡ
+
+  ≤⊓-elimʳ :  l ≤ m ⊓ n →  l ≤ n
+  ≤⊓-elimʳ l≤m⊓n =  ≤-trans l≤m⊓n ⊓-elimʳ
+
   -- Reduce ⊔
 
   ⊔-≤ :  m ≤ n →  m ⊔ n ≡ n

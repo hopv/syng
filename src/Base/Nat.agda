@@ -270,6 +270,22 @@ _>0 :  ℕ →  Set₀
 0 >0 =  ⊥
 
 --------------------------------------------------------------------------------
+-- ṗ :  Predecessor, returning 0 for 0
+
+infix 10 ṗ_
+ṗ_ :  ℕ →  ℕ
+ṗ 0 =  0
+ṗ (ṡ n) =  n
+
+abstract
+
+  -- ṗ n is no more then n
+
+  ṗ-decr :  ṗ n ≤ n
+  ṗ-decr {0} =  ≤-refl
+  ṗ-decr {ṡ _} =  ṡ-incr
+
+--------------------------------------------------------------------------------
 -- + :  Addition
 
 open import Agda.Builtin.Nat public using (

@@ -91,13 +91,13 @@ fadrep' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
 
 fadrep θ =  let' n := fad (∇ θ) in' λ{ .! → fadrep' θ n }
 fadrep' _ 0 =  ∇ _
-fadrep' θ (ṡ n) =  fadrep θ
+fadrep' θ (ṡ _) =  fadrep θ
 
 -- forksfadrep θ k :  Fork threads that perform fadrep θ
 
 forksfadrep :  Addr →  ℕ →  Expr ι $ ◸ ⊤
 forksfadrep _ 0 =  ∇ _
-forksfadrep θ (ṡ n) =  fork¡ (fadrep θ) ⁏¡ forksfadrep θ n
+forksfadrep θ (ṡ k') =  fork¡ (fadrep θ) ⁏¡ forksfadrep θ k'
 
 -- cntr← :  Counter using memory, which increments the natural number at the
 --          address θ and returns the original value n

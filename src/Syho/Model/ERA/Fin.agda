@@ -13,7 +13,7 @@ module Syho.Model.ERA.Fin {łᴿ ł≈ łᴱ ł✓ : Level} (Era : ERA łᴿ ł�
 
 open import Base.Level using (_⊔ᴸ_)
 open import Base.Func using (_$_; flip)
-open import Base.Few using (absurd)
+open import Base.Few using (⊤₀; absurd; ¬_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no; _≟_; upd˙)
 open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
@@ -22,7 +22,7 @@ open import Syho.Model.ERA.Base using (Valmᴱᴿᴬ)
 import Syho.Model.ERA.All
 
 open ERA Era using (Res; _≈_; ε; Env; _✓_; _↝_; refl˜; ◠˜_; _◇˜_; ∙-congʳ;
-  ∙-unitˡ; ∙-unitʳ; ✓-resp)
+  ∙-unitˡ; ∙-unitʳ; ∙-comm; ✓-resp)
 
 --------------------------------------------------------------------------------
 -- Finᴱᴿᴬ :  Finite-map ERA
@@ -32,10 +32,11 @@ module AllFin =  Syho.Model.ERA.All ℕ (λ _ → Era)
 open AllFin public
 
 private variable
-  a :  Res
+  i :  ℕ
+  a b :  Res
   E :  Env
   a˙ b˙ :  Res˙
-  F˙ : Env˙
+  E˙ F˙ : Env˙
 
 -- Cofinε a˙ :  a˙ i ≈ ε holds for all but finitely many i's
 
@@ -77,3 +78,19 @@ abstract
   … | no _ =  F✓b i
   … | yes refl =  flip ✓-resp E✓a $ ◠˜_ $
     ∙-congʳ (◠˜ ∙-unitˡ ◇˜ i≥n⇒bi≈ε n ≤-refl) ◇˜ ∙-unitʳ
+
+  -- Lift a resource update
+
+  inj˙-↝ᶠⁱⁿ :  ¬ a ≈ ε  →   ((E˙ i , a)  ↝ λ (_ : ⊤₀) →  E˙ i , b)  →
+               (E˙ , inj˙ i a)  ↝ᶠⁱⁿ λ (_ : ⊤₀) →  E˙ , inj˙ i b
+  inj˙-↝ᶠⁱⁿ _ _ _ _ .π₀ =  _
+  inj˙-↝ᶠⁱⁿ _ _ _ ((n ,-) ,-) .π₁ .π₀ .π₀ =  n
+  inj˙-↝ᶠⁱⁿ {i = i} ¬a≈ε _ _ ((n , j≥n⇒ia∙cj≈ε) ,-)
+    .π₁ .π₀ .π₁ j j≥n  with j≥n⇒ia∙cj≈ε j j≥n
+  … | ia∙cj≈ε  with j ≟ i
+  …   | no _ =  ia∙cj≈ε
+  …   | yes refl =  absurd $ ¬a≈ε $ ≈ε-rem $ ∙-comm ◇˜ ia∙cj≈ε
+  inj˙-↝ᶠⁱⁿ {i = i} _ Eia↝Eib c˙ (-, ✓ia∙c) .π₁ .π₁ j  with ✓ia∙c j
+  … | ✓ia∙cj  with j ≟ i
+  …   | no _ =  ✓ia∙cj
+  …   | yes refl =  Eia↝Eib (c˙ i) ✓ia∙cj .π₁

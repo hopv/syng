@@ -305,7 +305,7 @@ data  Judg ι  where
 
   -- ⊢⇛ is reflexive, with removal of ⤇
 
-  ⇛-refl-⤇ :  ⤇ P ⊢[ ι ][ i ]⇛ P
+  ⤇⇒⇛ :  ⤇ P ⊢[ ι ][ i ]⇛ P
 
   -- ⊢⇛ is transitive
 

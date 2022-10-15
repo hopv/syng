@@ -19,7 +19,7 @@ open import Syho.Logic.Names using ([]ᴺ-⊆--∗)
 
 -- Import and re-export
 open import Syho.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_;
-  _⊢[_][_]⇛ᴺ_; _⊢[<_][_]⇛ᴺ_; ⇛-ṡ; ⇛-refl-⤇; _ᵘ»ᵘ_; ⇛-frameˡ)
+  _⊢[_][_]⇛ᴺ_; _⊢[<_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_; ⇛-frameˡ)
 
 private variable
   ι :  𝕊
@@ -47,15 +47,15 @@ abstract
 
   -- Reflexivity of ⇛
 
-  -->  ⇛-refl-⤇ :  ⤇ P ⊢[ ι ][ i ]⇛ P
+  -->  ⤇⇒⇛ :  ⤇ P ⊢[ ι ][ i ]⇛ P
 
-  ⇛-refl :  P ⊢[ ι ][ i ]⇛ P
-  ⇛-refl =  ⤇-intro » ⇛-refl-⤇
+  ⇛-intro :  P ⊢[ ι ][ i ]⇛ P
+  ⇛-intro =  ⤇-intro » ⤇⇒⇛
 
   -- Lift ⊢ into ⊢⇛
 
   ⇒⇛ :  P ⊢[ ι ] Q →  P ⊢[ ι ][ i ]⇛ Q
-  ⇒⇛ P⊢Q =  P⊢Q » ⇛-refl
+  ⇒⇛ P⊢Q =  P⊢Q » ⇛-intro
 
   -- Compose ⇛
 
@@ -81,7 +81,7 @@ abstract
   -- Reflexivity of ⇛ᴺ
 
   ⇛ᴺ-refl :  P ⊢[ ι ][ i ]⇛ᴺ P
-  ⇛ᴺ-refl =  ⇛-refl
+  ⇛ᴺ-refl =  ⇛-intro
 
   -- Lift a pure sequent into ⇛ᴺ
 

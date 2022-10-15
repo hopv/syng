@@ -13,8 +13,8 @@ open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Mem)
 open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_»_; ∃-elim)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⇛-refl-⤇;
-  _ᵘ»ᵘ_; ⇛-frameˡ)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
+  ⇛-frameˡ)
 open import Syho.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
 open import Syho.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
 open import Syho.Logic.Bor using (⟨†⟩-back; &ᵐ-new; &ᵐ-open; %ᵐ-close)
@@ -53,9 +53,9 @@ abstract
 
   ⊢⇛-sem (⇛-ṡ P⊢⇛Q) =  ⊢⇛-sem (P⊢⇛Q .!)
 
-  -- ⇛-refl-⤇ :  ⤇ P ⊢[ ∞ ][ i ]⇛ P
+  -- ⤇⇒⇛ :  ⤇ P ⊢[ ∞ ][ i ]⇛ P
 
-  ⊢⇛-sem ⇛-refl-⤇ =  ⤇ᵒ⇒⇛ᵒ
+  ⊢⇛-sem ⤇⇒⇛ =  ⤇ᵒ⇒⇛ᵒ
 
   -- _ᵘ»ᵘ_ :  P ⊢[ ∞ ][ i ]⇛ Q →  Q ⊢[ ∞ ][ i ]⇛ R →  P ⊢[ ∞ ][ i ]⇛ R
 

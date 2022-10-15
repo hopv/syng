@@ -564,7 +564,7 @@ abstract
   ⊓-comm :  m ⊓ n ≡ n ⊓ m
   ⊓-comm {0} {_} =  ◠ ⊓-0
   ⊓-comm {_} {0} =  ⊓-0
-  ⊓-comm {ṡ m'} {ṡ _} =  cong ṡ_ (⊓-comm {m'})
+  ⊓-comm {ṡ _} {ṡ _} =  cong ṡ_ ⊓-comm
 
   -- ⊔ is associative
 
@@ -583,7 +583,10 @@ abstract
   ⊓-assocˡ {0} =  refl
   ⊓-assocˡ {ṡ _} {0} =  refl
   ⊓-assocˡ {ṡ _} {ṡ _} {0} =  refl
-  ⊓-assocˡ {ṡ l'} {ṡ _} {ṡ _} =  cong ṡ_ (⊓-assocˡ {l'})
+  ⊓-assocˡ {ṡ _} {ṡ _} {ṡ _} =  cong ṡ_ ⊓-assocˡ
+
+  ⊓-assocʳ :  l ⊓ (m ⊓ n) ≡ (l ⊓ m) ⊓ n
+  ⊓-assocʳ =  ◠ ⊓-assocˡ
 
   -- ⊔ is idempotent
 

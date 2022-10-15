@@ -120,10 +120,11 @@ open FinUb using (↝ᶠⁱⁿ-new; inj˙-↝ᶠⁱⁿ)
 Ubᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Ubᴱᴿᴬ =  Upᴱᴿᴬ Ub'ᴱᴿᴬ
 
-open ERA Ub'ᴱᴿᴬ using () renaming (◠˜_ to ◠˜ᵁᵇ'_; ∙-congˡ to ∙ᵁᵇ'-congˡ;
+open ERA Ub'ᴱᴿᴬ public using () renaming (◠˜_ to ◠˜ᵁᵇ'_; ∙-congˡ to ∙ᵁᵇ'-congˡ;
   ✓-resp to ✓˙ᵁᵇ'-resp)
-open ERA Ubᴱᴿᴬ using () renaming (Res to Resᵁᵇ; _≈_ to _≈ᵁᵇ_; _∙_ to _∙ᵁᵇ_;
-  ε to εᵁᵇ; ⌞_⌟ to ⌞_⌟ᵁᵇ; _✓_ to _✓ᵁᵇ_; _↝_ to _↝ᵁᵇ_)
+open ERA Ubᴱᴿᴬ public using () renaming (Res to Resᵁᵇ; _≈_ to _≈ᵁᵇ_;
+  _∙_ to _∙ᵁᵇ_; ε to εᵁᵇ; ⌞_⌟ to ⌞_⌟ᵁᵇ; _✓_ to _✓ᵁᵇ_; _↝_ to _↝ᵁᵇ_;
+  ◠˜_ to ◠˜ᵁᵇ_)
 
 -- #ᵁᵇ⟨ ⟩ʳ :  Resource for the upper-boundee token
 

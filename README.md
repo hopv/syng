@@ -170,7 +170,9 @@ following parts.
             [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the
             memory-related tokens;
             [`Lft`](src/Syho/Model/Prop/Lft.agda) for interpreting the
-            lifetime-related tokens.
+            lifetime-related tokens;
+            [`Ub`](src/Syho/Model/Prop/Ub.agda) for interpreting the
+            upper-bound-related tokens.
         * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
             propositions;
             [`Ind`](src/Syho/Model/Prop/Ind.agda) for interpreting the

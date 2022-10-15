@@ -12,10 +12,10 @@ open import Base.Size using (𝕊; !; ¡_; _$ᵀʰ_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Addr; Type; V⇒E)
+open import Syho.Lang.Expr using (Addr; Type; V⇒E; TyVal)
 open import Syho.Lang.Ktxred using (Redex; 🞰ᴿ_; Ktx; _ᴷ◁_)
 open import Syho.Logic.Prop using (WpKind; Name; Prop∞; Prop˂∞; ¡ᴾ_; _∧_; ⌜_⌝∧_;
-  _∗_; _-∗_; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; static; _↦ⁱ_; Basic; ^ᶻᴺ-✔)
+  _∗_; _-∗_; _↦_; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; static; _↦ⁱ_; Basic; ^ᶻᴺ-✔)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∃-elim;
   ∃-intro; ∧-monoˡ; ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ;
   ?∗-comm; ∗?-comm; ∗⇒∧; ∃∗-elim; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
@@ -40,6 +40,7 @@ private variable
   Q˙ R˙ :  X →  Prop∞
   θ :  Addr
   v :  X
+  ᵗv :  TyVal
   κ :  WpKind
   K :  Ktx T U
 
@@ -116,6 +117,11 @@ abstract
 
   ------------------------------------------------------------------------------
   -- Static reference
+
+  -- Create ↦ⁱ
+
+  ↦ⁱ-new :  θ ↦ ᵗv  ⊢[ ι ][ i ]⇛  θ ↦ⁱ ᵗv
+  ↦ⁱ-new =  &ⁱ-new
 
   -- Hoare triple rules for ↦ⁱ
 

@@ -143,7 +143,8 @@ following parts.
     + [`ERA/`](src/Syho/Model/ERA/) ― **Environmental resource algebras (ERAs),
         for modeling ghost states of Syho.**
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
-            [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA.
+            [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
+            [`Fin`](src/Syho/Model/ERA/Fin.agda) for the finite-map ERA.
         * Basic ERAs ―
             [`Zoi`](src/Base/Zoi.agda) for the zoi ERA;
             [`Exc`](src/Syho/Model/ERA/Exc.agda) for the exclusive ERA;

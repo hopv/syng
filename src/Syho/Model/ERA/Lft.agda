@@ -10,15 +10,14 @@ open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; id)
 open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; refl; cong)
-open import Base.Dec using (yes; no; _≟_; ≟-refl)
-open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_; _,-)
-open import Base.Nat using (ℕ; ṡ_; ≤-refl; <⇒≤; <-irrefl; Cofin; ∀≥-upd˙-ṡ;
-  Cofin-resp)
+open import Base.Dec using (≟-refl)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-)
+open import Base.Nat using ()
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
   ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem)
 open import Syho.Logic.Prop using (Lft)
 open import Syho.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
-import Syho.Model.ERA.All
+import Syho.Model.ERA.Fin
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
@@ -167,6 +166,12 @@ abstract
   ∙ᴸᵇ-assocˡ {#ᴸᵇ _} {#ᴸᵇ _} {†ᴸᵇ} =  refl
   ∙ᴸᵇ-assocˡ {#ᴸᵇ p} {#ᴸᵇ q} {#ᴸᵇ _} =  cong #ᴸᵇ_ $ +ᴿ⁺-assocˡ {p} {q}
 
+  -- ≈ᴸᵇ εᴸᵇ is preserved by removal w.r.t. ∙ᴸᵇ
+
+  ≈ᴸᵇε-rem :  a ∙ᴸᵇ b ≈ᴸᵇ εᴸᵇ →  b ≈ᴸᵇ εᴸᵇ
+  ≈ᴸᵇε-rem {εᴸᵇ} {εᴸᵇ} _ =  _
+  ≈ᴸᵇε-rem {↯ᴸᵇ} ()
+
   -- ⌞⌟ᴸᵇ preserves ≈ᴸᵇ
 
   ⌞⌟ᴸᵇ-cong :  a ≈ᴸᵇ b  →   ⌞ a ⌟ᴸᵇ  ≈ᴸᵇ  ⌞ b ⌟ᴸᵇ
@@ -249,54 +254,17 @@ Lftbᴱᴿᴬ .✓-rem {a = a} =  ✓ᴸᵇ-rem {a}
 --------------------------------------------------------------------------------
 -- Lftᴱᴿᴬ :  Lifetime ERA
 
--- ≈ᴸᵇ˙ :  Equivalence for Lft → Lftb
-infix 4 _≈ᴸᵇ˙_
-_≈ᴸᵇ˙_ :  (Lft → Lftb) →  (Lft → Lftb) →  Set₀
-a˙ ≈ᴸᵇ˙ b˙ =  ∀ α → a˙ α ≈ᴸᵇ b˙ α
-
--- ∙ᴸᵇ˙ :  Compose Lft → Lftb
-
-infix 7 _∙ᴸᵇ˙_
-_∙ᴸᵇ˙_ :  (Lft → Lftb) →  (Lft → Lftb) →  (Lft → Lftb)
-(a˙ ∙ᴸᵇ˙ b˙) i =  a˙ i ∙ᴸᵇ b˙ i
-
--- Cofinεᴸᵇ a˙ :  a˙ i ≡ εᴸᵇ holds for all but finitely many i's
-
-Cofinεᴸᵇ :  (Lft → Lftb) →  Set₀
-Cofinεᴸᵇ =  Cofin (λ _ → _≡ εᴸᵇ)
-
-abstract
-
-  -- Cofinεᴸᵇ respects ≈ᴸᵇ˙
-
-  Cofinεᴸᵇ-resp :  a˙ ≈ᴸᵇ˙ b˙ →  Cofinεᴸᵇ a˙ →  Cofinεᴸᵇ b˙
-  Cofinεᴸᵇ-resp _ (n ,-) .π₀ =  n
-  Cofinεᴸᵇ-resp {b˙ = b˙} aα≈bα (-, β≥α⇒aβ≡ε) .π₁ β β≥α with aα≈bα β
-  … | ε≈bα  rewrite β≥α⇒aβ≡ε β β≥α  with b˙ β | ε≈bα
-  …   | εᴸᵇ | _ =  refl
-
-  -- Cofinεᴸᵇ is preserved by removal w.r.t. ∙ᴸᵇ˙
-
-  Cofinεᴸᵇ-rem :  Cofinεᴸᵇ (a˙ ∙ᴸᵇ˙ b˙) →  Cofinεᴸᵇ b˙
-  Cofinεᴸᵇ-rem {a˙} {b˙} (α ,-) .π₀ =  α
-  Cofinεᴸᵇ-rem {a˙} {b˙} (-, β≥α⇒aβ∙bβ≡ε) .π₁ β β≥α
-    with a˙ β | b˙ β | β≥α⇒aβ∙bβ≡ε β β≥α
-  … | εᴸᵇ | εᴸᵇ | refl =  refl
-  … | ↯ᴸᵇ | _ | ()
-
--- Lftᴱᴿᴬ :  Lifetime ERA
-
-module AllLft =  Syho.Model.ERA.All Lft (λ _ → Lftbᴱᴿᴬ)
-open AllLft public using () renaming (
-  --  ∀Lftᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
-  ∀ᴱᴿᴬ to ∀Lftᴱᴿᴬ;
+module FinLft =  Syho.Model.ERA.Fin Lftbᴱᴿᴬ (λ{a} → ≈ᴸᵇε-rem {a})
+open FinLft public using () renaming (
+  --  Lft'ᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
+  Finᴱᴿᴬ to Lft'ᴱᴿᴬ;
   --  inj˙ᴸᵇ :  Lft →  Lftb →  Lft →  Lftb
   inj˙ to inj˙ᴸᵇ;
   inj˙-≈ to inj˙ᴸᵇ-≈; inj˙-∙ to inj˙ᴸᵇ-∙; inj˙-⌞⌟ to inj˙ᴸᵇ-⌞⌟)
+open FinLft using (✓-new)
 
 Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-Lftᴱᴿᴬ =  Upᴱᴿᴬ (Valmᴱᴿᴬ ∀Lftᴱᴿᴬ (λ _ → Cofinεᴸᵇ) Cofinεᴸᵇ-resp
-  (λ{_} {a˙} → Cofinεᴸᵇ-rem {a˙}))
+Lftᴱᴿᴬ =  Upᴱᴿᴬ Lft'ᴱᴿᴬ
 
 open ERA Lftᴱᴿᴬ public using () renaming (Res to Resᴸᶠᵗ; _≈_ to _≈ᴸᶠᵗ_;
   _∙_ to _∙ᴸᶠᵗ_; ε to εᴸᶠᵗ; ⌞_⌟ to ⌞_⌟ᴸᶠᵗ; _✓_ to _✓ᴸᶠᵗ_; _↝_ to _↝ᴸᶠᵗ_;
@@ -321,7 +289,7 @@ abstract
   -- εᴸᶠᵗ is valid
 
   ✓ᴸᶠᵗε :  _ ✓ᴸᶠᵗ εᴸᶠᵗ
-  ✓ᴸᶠᵗε .↓ =  (0 , λ _ _ → refl) ,-
+  ✓ᴸᶠᵗε .↓ =  (0 ,-) ,-
 
   -- Modify the fraction of [ ]ᴸ⟨ ⟩ʳ
 
@@ -353,12 +321,5 @@ abstract
   -- Allocate a new lifetime
 
   []ᴸʳ-new :  (-, εᴸᶠᵗ)  ↝ᴸᶠᵗ λ α →  -, [ α ]ᴸʳ
-  []ᴸʳ-new _ (↑ ((α ,-) ,-)) .π₀ =  α
-  []ᴸʳ-new _ (↑ ((α ,-) ,-)) .π₁ .↓ .π₀ .π₀ =  ṡ α
-  []ᴸʳ-new _ (↑ ((α , ≥α⇒≡ε) ,-)) .π₁ .↓ .π₀ .π₁ β β>α
-    rewrite ≥α⇒≡ε β (<⇒≤ β>α)  with β ≟ α
-  … | no _ =  refl
-  … | yes refl =  absurd $ <-irrefl β>α
-  []ᴸʳ-new _ (↑ ((α , ≥α⇒≡ε) , ✓c)) .π₁ .↓ .π₁ β  with β ≟ α
-  … | no _ =  ✓c β
-  … | yes refl  rewrite ≥α⇒≡ε α ≤-refl =  1≤1ᴿ⁺
+  []ᴸʳ-new (↑ b˙) (↑ ✓b)  with ✓-new 1≤1ᴿ⁺ b˙ ✓b
+  … | α , ✓[α]∙b =  α , ↑ ✓[α]∙b

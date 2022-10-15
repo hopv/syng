@@ -229,6 +229,7 @@ TyVal =  ∑ T , Val T
 
 -- Mblo :  Memory block state
 -- Mem :  Memory state
+
 Mblo Mem :  Set₀
 Mblo =  ¿ List TyVal
 Mem =  ℕ →  Mblo

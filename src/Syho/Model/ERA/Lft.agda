@@ -2,7 +2,7 @@
 -- Lifetime ERA
 --------------------------------------------------------------------------------
 
-{-# OPTIONS --without-K --sized-types #-}
+{-# OPTIONS --without-K --safe #-}
 
 module Syho.Model.ERA.Lft where
 
@@ -12,15 +12,18 @@ open import Base.Few using (⊤; ⊥; ¬_; absurd)
 open import Base.Eq using (_≡_; refl; cong)
 open import Base.Dec using (≟-refl)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-)
-open import Base.Nat using ()
+open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
   ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem)
-open import Syho.Logic.Prop using (Lft)
 open import Syho.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
 import Syho.Model.ERA.Fin
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
+
+private
+  Lft :  Set₀
+  Lft =  ℕ
 
 --------------------------------------------------------------------------------
 -- Lftb :  Lifetime box, a resource for a single lifetime

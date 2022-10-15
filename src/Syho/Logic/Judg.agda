@@ -359,7 +359,7 @@ data  Judg ι  where
   hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
                 R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  R  ∗  Q˙ v
 
-  -- Compose an atomic Hoare triple with [⊤]ᴺ and a Hoare triple on the context
+  -- Compose an atomic Hoare triple with [⊤]ᴺ and a Hoare triple for the context
 
   -- The premise on the context can be used coinductively for the partial Hoare
   -- triple, and only inductively for the total and infinite Hoare triples

@@ -268,7 +268,7 @@ induction**.
 If we can get `P` assuming `▷ P` (or intuitively, `P` after one logical step),
 then we can get just `P`.
 
-Combining Löb induction with the previous lemma, we can have a Hoare triple on
+Combining Löb induction with the previous lemma, we can have a Hoare triple for
 `▶ ▶ ▶ …` without any premise.
 ```
 ⊢  { P } ▶ ▶ ▶ … { Q }

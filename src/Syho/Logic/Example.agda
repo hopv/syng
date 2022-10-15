@@ -62,20 +62,25 @@ abstract
   □○∞-new =  -∗-introˡ (∗-elimˡ » □-dup) » □○-new-rec
 
   ------------------------------------------------------------------------------
-  -- Get any partial Hoare triple on loop
+  -- Get any partial Hoare triple for loop
   -- This uses coinduction by thunk for the infinite execution of loop
 
   horᴾ-loop :  P ⊢[ ι ]⟨ loop ⟩ᴾ Q˙
   horᴾ-loop =  hor-[] λ{ .! → horᴾ-loop }
 
   ------------------------------------------------------------------------------
-  -- Total Hoare triple on plus ◁ ∇ (3 , 4)
+  -- Total Hoare triple for plus ◁ ∇ (3 , 4)
 
   horᵀ-plus◁3,4 :  ⊤'  ⊢[ ι ]⟨ plus◁3,4 ⟩ᵀ[ i ] λ n →  ⌜ n ≡ 7 ⌝
   horᵀ-plus◁3,4 =  hor-[] $ hor-val $ ⌜⌝-intro refl
 
   ------------------------------------------------------------------------------
-  -- Total Hoare triple on decrep θ, ensuring termination by induction over n
+  -- Total Hoare triple, for decrep and ndecrep
+
+  -- Total Hoare triple for decrep
+
+  -- The proof guarantees termination by induction over n
+  -- Notably, we take advantage Agda's termination checker here
 
   horᵀ-decrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrep θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
   horᵀ-decrep' :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrep' θ n ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
@@ -85,26 +90,31 @@ abstract
   horᵀ-decrep' {n = 0} =  hor-val ⊢-refl
   horᵀ-decrep' {n = ṡ _} =  ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ » horᵀ-decrep
 
-  -- Total Hoare triple on ndecrep, ensuring termination
+  -- Total Hoare triple for ndecrep, ensuring termination
+
   -- Notably, the number of reduction steps is dynamically determined
+  -- Still, the proof here is totally natural; in particular, we don't need to
+  -- craft a bound by an ordinal number, unlike Transfinite Iris
 
   horᵀ-ndecrep :  θ ↦ ᵗv  ⊢[ ι ]⟨ ndecrep θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
   horᵀ-ndecrep =  hor-nd λ _ → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] horᵀ-decrep
 
   ------------------------------------------------------------------------------
-  -- Infinite Hoare triple for ndecrep●∞
+  -- Infinite Hoare triple, for ndecrep●∞
 
   ihor-ndecrep●∞ :  θ ↦ ᵗv  ⊢[ ι ][ i ]⟨ ndecrep●∞ θ ⟩∞
   ihor-ndecrep●∞ =  hor-ihor-⁏-bind {e = ndecrep _} {i = 0}
     horᵀ-ndecrep λ _ → ihor-[]● λ{ .! → ihor-ndecrep●∞ }
 
   ------------------------------------------------------------------------------
-  -- Cntr
+  -- Counter: Example for the total Hoare-triple precursor
 
-  -- Specification for a counter
-  -- Thanks to the coinductivity of ↪⟨ ⟩ᵀ, we can construct here an infinite
-  -- proposition, where Cntr e˂˙ itself with an updated parameter k + n is
-  -- returned after executing the counter e˂˙
+  -- Specification for a counter e˂˙
+
+  -- Thanks to the coinductivity of the total Hoare-triple precursor ↪⟨ ⟩ᵀ, we
+  -- can construct the infinite proposition Cntr, which returns Cntr itself with
+  -- an updated parameter k + n after executing the counter
+
   -- This amounts to construction of a recursive type over a function type
   -- Notably, this spec just states about the observable behaviors and abstracts
   -- the internal state of the function
@@ -113,7 +123,7 @@ abstract
   Cntr e˂˙ n =  ∀' k ,
     ¡ᴾ ⊤' ↪⟨ e˂˙ k .! ⟩ᵀ[ 0 ] λ{ m .! → ⌜ m ≡ n ⌝∧ Cntr e˂˙ (k + n) }
 
-  -- Use Cntr e˂˙ to get a total Hoare triple on c
+  -- Use Cntr e˂˙ to get a total Hoare triple for e˂˙
   -- The level of the total Hoare triple is 1, not 0
 
   Cntr-use :  Cntr e˂˙ n  ⊢[ ι ]⟨ e˂˙ k .! ⟩ᵀ[ 1 ] λ m →
@@ -130,7 +140,7 @@ abstract
     ∗-elimˡ » cntr←-Cntr ᵘ» ∃-intro refl }
 
   ------------------------------------------------------------------------------
-  -- Static singly-linked list
+  -- Static singly-linked list: Example for the indirection modality ○
 
   -- Static singly-linked list over a list
 

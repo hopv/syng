@@ -497,21 +497,28 @@ abstract
   ≤⇒∸-+ʳ {m} m≤n =  +-comm {n = m} ◇ ≤⇒∸-+ˡ m≤n
 
 --------------------------------------------------------------------------------
--- ⊔ :  Maximum
+-- ⊔, ⊓ :  Maximum and minimum
 
-infixr 5 _⊔_
-_⊔_ :  ℕ → ℕ →  ℕ
+infixr 5 _⊔_ _⊓_
+_⊔_ _⊓_ :  ℕ → ℕ →  ℕ
 0 ⊔ n =  n
 m ⊔ 0 =  m
 ṡ m ⊔ ṡ n =  ṡ (m ⊔ n)
+0 ⊓ _ =  0
+m ⊓ 0 =  0
+ṡ m ⊓ ṡ n =  ṡ (m ⊓ n)
 
 abstract
 
-  -- Clear ⊔ 0
+  -- Clear ⊔ / ⊓ 0
 
   ⊔-0 :  n ⊔ 0 ≡ n
   ⊔-0 {0} =  refl
   ⊔-0 {ṡ _} =  refl
+
+  ⊓-0 :  n ⊓ 0 ≡ 0
+  ⊓-0 {0} =  refl
+  ⊓-0 {ṡ _} =  refl
 
   -- ⊔ is the lub
 
@@ -530,12 +537,35 @@ abstract
   ⊔-elim {ṡ _} {0} l≤n _ =  l≤n
   ⊔-elim (ṡ≤ṡ l'≤n') (ṡ≤ṡ m'≤n') =  ṡ≤ṡ $ ⊔-elim l'≤n' m'≤n'
 
+  -- ⊓ is the glb
+
+  ⊓-elimˡ :  m ⊓ n ≤ m
+  ⊓-elimˡ {0} =  ≤-refl
+  ⊓-elimˡ {ṡ _} {0} =  0≤
+  ⊓-elimˡ {ṡ _} {ṡ _} =  ṡ≤ṡ ⊓-elimˡ
+
+  ⊓-elimʳ :  m ⊓ n ≤ n
+  ⊓-elimʳ {m} {0}  rewrite ⊓-0 {m} =  ≤-refl
+  ⊓-elimʳ {0} =  0≤
+  ⊓-elimʳ {ṡ _} {ṡ _} =  ṡ≤ṡ ⊓-elimʳ
+
+  ⊓-intro :  l ≤ m →  l ≤ n →  l ≤ m ⊓ n
+  ⊓-intro 0≤ 0≤ =  0≤
+  ⊓-intro (ṡ≤ṡ l'≤m') (ṡ≤ṡ l'≤n') =  ṡ≤ṡ $ ⊓-intro l'≤m' l'≤n'
+
   -- ⊔ is commutative
 
   ⊔-comm :  m ⊔ n ≡ n ⊔ m
   ⊔-comm {0} {_} =  ◠ ⊔-0
   ⊔-comm {_} {0} =  ⊔-0
   ⊔-comm {ṡ m'} {ṡ _} =  cong ṡ_ (⊔-comm {m'})
+
+  -- ⊓ is commutative
+
+  ⊓-comm :  m ⊓ n ≡ n ⊓ m
+  ⊓-comm {0} {_} =  ◠ ⊓-0
+  ⊓-comm {_} {0} =  ⊓-0
+  ⊓-comm {ṡ m'} {ṡ _} =  cong ṡ_ (⊓-comm {m'})
 
   -- ⊔ is associative
 
@@ -547,6 +577,14 @@ abstract
 
   ⊔-assocʳ :  l ⊔ (m ⊔ n) ≡ (l ⊔ m) ⊔ n
   ⊔-assocʳ {l} =  ◠ ⊔-assocˡ {l}
+
+  -- ⊓ is associative
+
+  ⊓-assocˡ :  (l ⊓ m) ⊓ n ≡ l ⊓ (m ⊓ n)
+  ⊓-assocˡ {0} =  refl
+  ⊓-assocˡ {ṡ _} {0} =  refl
+  ⊓-assocˡ {ṡ _} {ṡ _} {0} =  refl
+  ⊓-assocˡ {ṡ l'} {ṡ _} {ṡ _} =  cong ṡ_ (⊓-assocˡ {l'})
 
   -- Utility
 

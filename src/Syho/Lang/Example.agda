@@ -55,7 +55,7 @@ ndnat :  Expr∞ $ ◸ ℕ
 ndnat =  nd
 
 -- decrep :  Repeat decrementing the natural number at the address until it
--- becomes zero
+--           becomes zero
 
 decrep :  Addr →  Expr ι $ ◸ ⊤
 decrep' :  Addr →  ℕ →  Expr ι $ ◸ ⊤
@@ -76,7 +76,7 @@ ndecrep●∞ :  Addr →  Expr ι $ ◸ ⊤
 ndecrep●∞ θ =  ndecrep θ ⁏¡ ● λ{ .! → ndecrep●∞ θ }
 
 -- fad :  Fetch and decrement, i.e., atomic decrement of the natural number at
--- the address, returning the original value
+--        the address, returning the original value
 
 fadᴿ :  Addr →  Redex $ ◸ ℕ
 fadᴿ =  fauᴿ ṗ_
@@ -100,7 +100,7 @@ forksfadrep _ 0 =  ∇ _
 forksfadrep θ (ṡ n) =  fork¡ (fadrep θ) ⁏¡ forksfadrep θ n
 
 -- cntr← :  Counter using memory, which increments the natural number at the
--- address θ and returns the original value n
+--          address θ and returns the original value n
 
 cntr← :  Addr →  ℕ →  Expr˂∞ $ ◸ ℕ
 cntr← θ k .! =  let' n := 🞰 ∇ θ in¡ ∇ θ ← ∇ (k + n) ⁏¡ ∇ n

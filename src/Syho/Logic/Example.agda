@@ -113,12 +113,12 @@ abstract
 
   ------------------------------------------------------------------------------
   -- Concurrent decrement loop: Example for the total Hoare triple, the
-  -- impredicative invariant, and the upper bound
+  --                            impredicative invariant, and the upper bound
 
   -- &ub↦ :  Invariant that contains a full points-to token θ ↦ (-, n) for some
-  -- number n under an upper-boundee token #ᵁᵇ⟨ i ⟩ n
-  -- When we have &ub↦ θ i, any threads can freely decrease the value at θ, but
-  -- never increase it
+  --         number n under an upper-boundee token #ᵁᵇ⟨ i ⟩ n
+  --         When we have &ub↦ θ i, any threads can freely decrease the value at
+  --         θ, but never increase it
 
   ub : Name
   ub =  strnm "ub"

@@ -153,4 +153,4 @@ abstract
 
   #ᵁᵇʳ-new :  (-, εᵁᵇ)  ↝ᵁᵇ λ i →  -, ≤ᵁᵇ⟨ i ⟩ʳ n ∙ᵁᵇ #ᵁᵇ⟨ i ⟩ʳ n
   #ᵁᵇʳ-new {n = n} (↑ u˙) (↑ ✓u)  with ↝ᶠⁱⁿ-new (≤-refl {n}) u˙ ✓u
-  … | i , ✓≤n∙#n =  i , ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤n∙#n
+  … | i , ✓≤n∙#n∙u =  i , ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤n∙#n∙u

@@ -80,7 +80,7 @@ abstract
   horᵀ-plus◁3,4 =  hor-[] $ hor-val $ ⌜⌝-intro refl
 
   ------------------------------------------------------------------------------
-  -- Total Hoare triple, for decrep and ndecrep
+  -- Sequential decrement loop: Example for the total Hoare triple
 
   -- Total Hoare triple for decrep
 
@@ -112,8 +112,8 @@ abstract
     horᵀ-ndecrep λ _ → ihor-[]● λ{ .! → ihor-ndecrep●∞ }
 
   ------------------------------------------------------------------------------
-  -- Concurrent decrement: Example for the total Hoare triple, the impredicative
-  -- invariant, and the upper bound
+  -- Concurrent decrement loop: Example for the total Hoare triple, the
+  -- impredicative invariant, and the upper bound
 
   -- &ub↦ :  Invariant that contains a full points-to token θ ↦ (-, n) for some
   -- number n under an upper-boundee token #ᵁᵇ⟨ i ⟩ n

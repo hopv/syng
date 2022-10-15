@@ -102,7 +102,7 @@ Expr˂ ι T =  Thunk (λ ι → Expr ι T) ι
 infix 8 ∇_
 infixl 7 _◁_
 infix 6 🞰_ _←_
-infixr 5 _⁏_ _⁏¡_
+infixr 3 _⁏_ _⁏¡_
 
 data  Expr ι  where
 

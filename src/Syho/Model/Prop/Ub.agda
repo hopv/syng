@@ -8,14 +8,15 @@ module Syho.Model.Prop.Ub where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_▷_; _›_)
+open import Base.Eq using (◠_)
 open import Base.Prod using (_,_; -,_)
-open import Base.Nat using (ℕ; _≤_; _⊓_)
+open import Base.Nat using (ℕ; _≤_; _⊓_; ⊓-≤)
 open import Syho.Model.ERA.Ub using (#ᵁᵇ⟨_⟩ʳ_; ≤ᵁᵇ⟨_⟩ʳ_; ◠˜ᵁᵇ_; ≤ᵁᵇʳ-∙; ≤ᵁᵇʳ-⌞⌟;
   ≤ᵁᵇʳ-#ᵁᵇʳ; #ᵁᵇʳ-new; #ᵁᵇʳ-upd)
 open import Syho.Model.ERA.Glob using (iᵁᵇ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
-  _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; ⤇ᵒ-mono; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓;
-  ◎⟨⟩-⌞⌟≈-□ᵒ; ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ; ↝-◎⟨⟩-⤇ᵒ)
+  _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; ∗ᵒ-elimʳ; ⤇ᵒ-mono; ◎-Mono; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙;
+  ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓; ◎⟨⟩-⌞⌟≈-□ᵒ; ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ; ↝-◎⟨⟩-⤇ᵒ)
 
 private variable
   i m n :  ℕ
@@ -37,13 +38,11 @@ infix 8 ≤ᵁᵇ⟨_⟩ᵒ_
 
 abstract
 
-  -- Merge and split ≤ᵁᵇᵒ w.r.t. ⊓
+  -- Monotonicity of ≤ᵁᵇᵒ w.r.t. ⊓
 
-  ≤ᵁᵇᵒ-merge :  ≤ᵁᵇ⟨ i ⟩ᵒ m  ∗ᵒ  ≤ᵁᵇ⟨ i ⟩ᵒ n  ⊨  ≤ᵁᵇ⟨ i ⟩ᵒ (m ⊓ n)
-  ≤ᵁᵇᵒ-merge =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-resp ≤ᵁᵇʳ-∙
-
-  ≤ᵁᵇᵒ-split :  ≤ᵁᵇ⟨ i ⟩ᵒ (m ⊓ n)  ⊨  ≤ᵁᵇ⟨ i ⟩ᵒ m  ∗ᵒ  ≤ᵁᵇ⟨ i ⟩ᵒ n
-  ≤ᵁᵇᵒ-split =  ◎⟨⟩-resp (◠˜ᵁᵇ ≤ᵁᵇʳ-∙) › ◎⟨⟩-∙⇒∗ᵒ
+  ≤ᵁᵇᵒ-mono :  m ≤ n  →   ≤ᵁᵇ⟨ i ⟩ᵒ m  ⊨  ≤ᵁᵇ⟨ i ⟩ᵒ n
+  ≤ᵁᵇᵒ-mono m≤n  rewrite ◠ ⊓-≤ m≤n =
+    ◎⟨⟩-resp (◠˜ᵁᵇ ≤ᵁᵇʳ-∙) › ◎⟨⟩-∙⇒∗ᵒ {aⁱ = ≤ᵁᵇ⟨ _ ⟩ʳ _} › ∗ᵒ-elimʳ ◎-Mono
 
   -- The upper-bound token is persistent
 

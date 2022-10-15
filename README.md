@@ -222,8 +222,9 @@ Our meta-logic has the following properties.
     axiom.
 - We don't use any proof-irrelevant types like types in Coq's `Prop`.
 - We use **sized types** for flexible coinduction and induction.
-    + Despite some concerns about Agda's soundness around sized types, we
-        believe our usage of sized types in Syho's mechanization is safe.
+    + Although some concerns about Agda's soundness around sized types exist,
+        the semantics of sized types are pretty clear in theory. In Syho's 
+        mechanization, we use sized types carefully, avoiding unsoundness.
 
 ## Termination verification by induction
 

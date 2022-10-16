@@ -32,10 +32,10 @@ module AllFin =  Syho.Model.ERA.All ℕ (λ _ → Era)
 open AllFin public
 
 private variable
-  i :  ℕ
-  a b :  Res
   ł :  Level
   X :  Set ł
+  i :  ℕ
+  a :  Res
   bˣ :  X → Res
   E :  Env
   a˙ b˙ :  Res˙

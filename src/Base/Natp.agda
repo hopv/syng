@@ -11,9 +11,9 @@ open import Base.Few using (¬_; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst₂)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _<≡>_; _≤>_; _+_; _*_; ṡ≤ṡ; ṡ<ṡ;
-  ≤-refl; ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤; ≤-<-trans;
-  <-≤-trans; ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; +-comm; +-assocˡ; +-injˡ; +-0;
+open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _+_; _*_; ṡ≤ṡ; ṡ<ṡ; ≤-refl;
+  ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤; ≤-<-trans; <-≤-trans;
+  ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; _<≡>_; _≤>_; +-comm; +-assocˡ; +-injˡ; +-0;
   +-incrˡ; +-monoˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ;
   *-smonoˡ)
 

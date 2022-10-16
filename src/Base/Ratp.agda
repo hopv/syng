@@ -12,12 +12,12 @@ open import Base.Eq using (_≡_; refl; ◠_; _◇_; cong; cong₂; subst; subst
 open import Base.Dec using (Dec; yes; _≟_; ≟-refl)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (+-0; *-1ʳ)
-open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _<⁺_; _<≡>⁺_; _≤>⁺_; _<≥⁺_;
-  _+⁺_; _*⁺_; ≤⁺-refl; ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; <⁺-irrefl; ≡⇒¬<⁺; <⁺-trans;
-  <⁺-asym; <⁺⇒≤⁺; ≤⁺-<⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; <⁺⇒¬≥⁺; +⁺-comm; +⁺-assocˡ;
-  +⁺-assocʳ; +⁺-sincrʳ; +⁺-monoˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ; *⁺-+⁺-distrʳ;
-  ?*⁺-comm; *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-monoˡ; *⁺-monoʳ;
-  *⁺-monoʳ-inv; *⁺-smonoʳ-inv)
+open import Base.Natp using (ℕ⁺; 1⁺; 2⁺; ṡ⁺_; _≤⁺_; _<⁺_; _+⁺_; _*⁺_; ≤⁺-refl;
+  ≡⇒≤⁺; ≤⁺-trans; ≤⁺-antisym; <⁺-irrefl; ≡⇒¬<⁺; <⁺-trans; <⁺-asym; <⁺⇒≤⁺;
+  ≤⁺-<⁺-trans; <⁺-≤⁺-trans; ≤⁺⇒¬>⁺; <⁺⇒¬≥⁺; _<≡>⁺_; _≤>⁺_; _<≥⁺_; +⁺-comm;
+  +⁺-assocˡ; +⁺-assocʳ; +⁺-sincrʳ; +⁺-monoˡ; *⁺-comm; *⁺-assocˡ; *⁺-assocʳ;
+  *⁺-+⁺-distrʳ; ?*⁺-comm; *⁺?-comm; *⁺-2ˡ; *⁺-injʳ; *⁺-smonoʳ; *⁺-monoˡ;
+  *⁺-monoʳ; *⁺-monoʳ-inv; *⁺-smonoʳ-inv)
 
 --------------------------------------------------------------------------------
 -- ℚ⁺ :  Positive rational number, unnormalized

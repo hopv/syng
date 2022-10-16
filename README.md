@@ -145,6 +145,7 @@ following parts.
         for modeling ghost states of Syho.**
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
             [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
+            [`Bnd`](src/Syho/Model/ERA/Bnd.agda) for the bounded-map ERA;
             [`Fin`](src/Syho/Model/ERA/Fin.agda) for the finite-map ERA.
         * Basic ERAs ―
             [`Zoi`](src/Base/Zoi.agda) for the zoi ERA;

@@ -184,6 +184,9 @@ abstract
 
   -- Total Hoare triple for nforksfadrep
 
+  -- Notably, the number of threads and the number of iterations of each thread
+  -- are dynamically determined; still the proof here is totally natural
+
   horᵀ-nforksfadrep :  θ ↦ ᵗv  ⊢[ ι ]⟨ nforksfadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
   horᵀ-nforksfadrep =  hor-nd λ _ → ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ »
     hor-nd λ _ → hor-[] horᵀ-forksfadrep

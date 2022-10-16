@@ -42,7 +42,7 @@ open import Syho.Logic.Ub using (≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 
 private variable
   ι :  𝕊
-  i j k l m n :  ℕ
+  i j k l m n o :  ℕ
   θ θ' θᶜ :  Addr
   ᵗv :  TyVal
   X :  Set₀
@@ -124,19 +124,19 @@ abstract
   ub =  strnm "ub"
 
   &ub↦ :  Addr →  ℕ →  Prop∞
-  &ub↦ θ i =  &ⁱ⟨ ub ⟩ ¡ᴾ (∃ n , #ᵁᵇ⟨ i ⟩ n ∗ θ ↦ (-, n))
+  &ub↦ θ o =  &ⁱ⟨ ub ⟩ ¡ᴾ (∃ n , #ᵁᵇ⟨ o ⟩ n ∗ θ ↦ (-, n))
 
-  -- Create ≤ᵁᵇ⟨ i ⟩ n and &ub↦ θ i out of θ ↦ (-, n)
+  -- Create ≤ᵁᵇ⟨ o ⟩ n and &ub↦ θ o out of θ ↦ (-, n)
 
-  &ub↦-new :  θ ↦ (-, n)  ⊢[ ι ][ j ]⇛  ∃ i ,  ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i
-  &ub↦-new =  ⊤∗-intro » ∗-monoˡ #ᵁᵇ-new » ⤇-eatʳ » ⤇⇒⇛ ᵘ»ᵘ ∃∗-elim λ i →
-    ∗-assocˡ » ∗-monoʳ (∃-intro _) » ⇛-frameˡ &ⁱ-new ᵘ» ∃-intro i
+  &ub↦-new :  θ ↦ (-, n)  ⊢[ ι ][ i ]⇛  ∃ o ,  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o
+  &ub↦-new =  ⊤∗-intro » ∗-monoˡ #ᵁᵇ-new » ⤇-eatʳ » ⤇⇒⇛ ᵘ»ᵘ ∃∗-elim λ o →
+    ∗-assocˡ » ∗-monoʳ (∃-intro _) » ⇛-frameˡ &ⁱ-new ᵘ» ∃-intro o
 
   -- Atomic Hoare triple for fad under &ub↦, updating ≤ᵁᵇ
 
   ahor-fad-&ub↦ :
-    [^ ub ]ᴺ  ∗  ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i  ⊢[ ι ][ j ]ᵃ⟨ fadᴿ θ ⟩ λ m →
-      [^ ub ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ i ⟩ ṗ m  ∗  &ub↦ θ i)
+    [^ ub ]ᴺ  ∗  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
+      [^ ub ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  &ub↦ θ o)
   ahor-fad-&ub↦ =  ?∗-comm » ∗-monoʳ (∗-monoʳ dup-Pers » ?∗-comm » ∗-assocʳ) »
     ⇛-frameˡ {i = 0} (⇛-frameʳ &ⁱ-open) ᵘ»ᵃʰ ∗-monoʳ ∗-assocˡ » ?∗-comm »
     ∃∗-elim λ m → ?∗-comm » ∗-monoʳ ∗-assocˡ » ∗-assocʳ »
@@ -150,9 +150,9 @@ abstract
   -- The proof goes by well-founded induction over the upper bound n
 
   horᵀ-fadrep-&ub↦-Acc :  Acc _<_ n  →
-    ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ j ] λ _ →  ⊤'
+    ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
   horᵀ-fadrep'-&ub↦-Acc :  Acc _<_ n  →   m ≤ n  →
-    ≤ᵁᵇ⟨ i ⟩ ṗ m  ∗  &ub↦ θ i  ⊢[ ι ]⟨ fadrep' θ m ⟩ᵀ[ j ] λ _ →  ⊤'
+    ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  &ub↦ θ o  ⊢[ ι ]⟨ fadrep' θ m ⟩ᵀ[ i ] λ _ →  ⊤'
 
   horᵀ-fadrep-&ub↦-Acc Accn =  ahor✔-hor {i = 0} ^ᶻᴺ-✔ ahor-fad-&ub↦ λ m →
     ∃-elim λ m≤n → hor-[] $ horᵀ-fadrep'-&ub↦-Acc Accn m≤n
@@ -161,24 +161,24 @@ abstract
     horᵀ-fadrep-&ub↦-Acc (<n⇒acc m'<n)
 
   horᵀ-fadrep-&ub↦ :
-    ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ j ] λ _ →  ⊤'
+    ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
   horᵀ-fadrep-&ub↦ =  horᵀ-fadrep-&ub↦-Acc <-wf
 
   -- Total Hoare triple for forksfadrep θ k, which forks k threads that perform
   -- fadrep θ
 
   horᵀ-forksfadrep-&ub↦ :
-    ≤ᵁᵇ⟨ i ⟩ n  ∗  &ub↦ θ i  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ j ] λ _ →  ⊤'
+    ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
   horᵀ-forksfadrep-&ub↦ {k = 0} =  hor-val ⊤-intro
   horᵀ-forksfadrep-&ub↦ {k = ṡ _} =  dup-Pers »
     hor-fork horᵀ-fadrep-&ub↦ $ hor-[] horᵀ-forksfadrep-&ub↦
 
-  horᵀ-forksfadrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ j ] λ _ →  ⊤'
-  horᵀ-forksfadrep =  &ub↦-new {j = 0} ᵘ»ʰ ∃-elim λ _ → horᵀ-forksfadrep-&ub↦
+  horᵀ-forksfadrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
+  horᵀ-forksfadrep =  &ub↦-new {i = 0} ᵘ»ʰ ∃-elim λ _ → horᵀ-forksfadrep-&ub↦
 
   -- Total Hoare triple for nforksfadrep
 
-  horᵀ-nforksfadrep :  θ ↦ ᵗv  ⊢[ ι ]⟨ nforksfadrep θ ⟩ᵀ[ j ] λ _ →  ⊤'
+  horᵀ-nforksfadrep :  θ ↦ ᵗv  ⊢[ ι ]⟨ nforksfadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
   horᵀ-nforksfadrep =  hor-nd λ _ → ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ »
     hor-nd λ _ → hor-[] horᵀ-forksfadrep
 

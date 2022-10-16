@@ -67,7 +67,7 @@ private variable
   X :  Set₀
   P˙ :  X → Prop∞
   P Q :  Prop∞
-  i n :  ℕ
+  n o :  ℕ
   θ :  Addr
   p :  ℚ⁺
   ᵗv :  TyVal
@@ -323,8 +323,8 @@ data  Basic :  Prop∞ →  Set₁  where
     Free-Basic :  Basic $ Free n θ
     []ᴸ⟨⟩-Basic :  Basic [ α ]ᴸ⟨ p ⟩
     †ᴸ-Basic :  Basic $ †ᴸ α
-    #ᵁᵇ-Basic :  Basic $ #ᵁᵇ⟨ i ⟩ n
-    ≤ᵁᵇ-Basic :  Basic $ ≤ᵁᵇ⟨ i ⟩ n
+    #ᵁᵇ-Basic :  Basic $ #ᵁᵇ⟨ o ⟩ n
+    ≤ᵁᵇ-Basic :  Basic $ ≤ᵁᵇ⟨ o ⟩ n
 
 instance
 

@@ -149,9 +149,8 @@ abstract
   ahor-fad-&ub↦ =  ?∗-comm » ∗-monoʳ (∗-monoʳ dup-Pers » ?∗-comm » ∗-assocʳ) »
     ⇛-frameˡ {i = 0} (⇛-frameʳ &ⁱ-open) ᵘ»ᵃʰ ∗-monoʳ ∗-assocˡ » ∗-assocʳ »
     ahor-frameʳ (∗∃-elim λ _ → ahor-fad-#ᵁᵇ-↦) ᵃʰ»ᵘ λ m → ∃∗-elim λ m≤n →
-    ∗-assocˡ » ∗-monoʳ ∗-assocʳ »
-    ⇛-frameˡ {i = 0} (⇛-frameʳ $ ∗-monoˡ (∃-intro _) » %ⁱ-close) ᵘ»
-    ?∗-comm » ∗-monoʳ $ ∃-intro m≤n
+    ∗-assocˡ » ∗-monoʳ (∗-assocʳ » ∗-monoˡ $ ∗-monoˡ $ ∃-intro _) »
+    ⇛-frameˡ {i = 0} (⇛-frameʳ %ⁱ-close) ᵘ» ?∗-comm » ∗-monoʳ $ ∃-intro m≤n
 
   -- Total Hoare triple for fadrep under ≤ᵁᵇ and &ub↦
   -- The proof goes by well-founded induction over the upper bound n

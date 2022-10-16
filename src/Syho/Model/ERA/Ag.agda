@@ -24,7 +24,7 @@ private variable
   A :  Set ł
   a b :  A
   aˇ :  ¿ A
-  bs cs :  List A
+  as bs cs :  List A
 
 --------------------------------------------------------------------------------
 -- ✓ᴸ :  Agreement between ¿ A and List A
@@ -42,6 +42,12 @@ abstract
 
   ✓ᴸ-resp :  bs ≈ᴸ cs →  aˇ ✓ᴸ bs →  aˇ ✓ᴸ cs
   ✓ᴸ-resp (-, cs⊆bs) =  ✓ᴸ-⊆ᴸ cs⊆bs
+
+  -- ň ✓ᴸ as entails as ≡ []
+
+  ň-✓ᴸ :  ň ✓ᴸ as →  as ≡ []
+  ň-✓ᴸ {as = []} _ =  refl
+  ň-✓ᴸ {as = a ∷ as} ň✓as =  ň✓as _ ∈ʰᵈ ▷ λ ()
 
   -- aˇ ✓ᴸ [] holds
 

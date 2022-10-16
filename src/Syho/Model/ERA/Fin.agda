@@ -93,11 +93,9 @@ abstract
     body :  ∑ x , E˙ ✓ᶠⁱⁿ inj˙ i (bˣ x) ∙˙ c˙
     body .π₀ =  Eia↝Eibx (c˙ i) ✓a∙ci .π₀
     body .π₁ .π₀ .π₀ =  n
-    body .π₁ .π₀ .π₁ j j≥n  with j≥n⇒ia∙cj≈ε j j≥n
-    … | ia∙cj≈ε  with j ≟ i
-    …   | no _ =  ia∙cj≈ε
-    …   | yes refl =  absurd $ ¬a≈ε $ ≈ε-rem $ ∙-comm ◇˜ ia∙cj≈ε
-    body .π₁ .π₁ j  with ✓ia∙c j
-    … | ✓ia∙cj  with j ≟ i
-    …   | no _ =  ✓ia∙cj
-    …   | yes refl =  Eia↝Eibx (c˙ i) ✓a∙ci .π₁
+    body .π₁ .π₀ .π₁ j j≥n  with j ≟ i | j≥n⇒ia∙cj≈ε j j≥n
+    …   | no _ | ε∙cj≈ε =  ε∙cj≈ε
+    …   | yes refl | a∙ci≈ε =  absurd $ ¬a≈ε $ ≈ε-rem $ ∙-comm ◇˜ a∙ci≈ε
+    body .π₁ .π₁ j  with j ≟ i | ✓ia∙c j
+    … | no _ | ✓ε∙cj =  ✓ε∙cj
+    … | yes refl | _ =  Eia↝Eibx (c˙ i) ✓a∙ci .π₁

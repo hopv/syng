@@ -276,8 +276,8 @@ open FinLft public using () renaming (
   Finᴱᴿᴬ to Lft'ᴱᴿᴬ;
   --  inj˙ᴸᶠᵗ :  Lft →  Lftb →  Lft →  Lftb
   inj˙ to inj˙ᴸᶠᵗ;
-  inj˙-≈ to inj˙ᴸᶠᵗ-≈; inj˙-∙ to inj˙ᴸᶠᵗ-∙; inj˙-⌞⌟ to inj˙ᴸᶠᵗ-⌞⌟)
-open FinLft using (↝ᶠⁱⁿ-new; inj˙-↝ᶠⁱⁿ)
+  inj˙-≈ to inj˙ᴸᶠᵗ-≈; inj˙-∙ to inj˙ᴸᶠᵗ-∙; inj˙-⌞⌟ to inj˙ᴸᶠᵗ-⌞⌟;
+  ↝ᶠⁱⁿ-new to ↝ᴸᶠᵗ-new; inj˙-↝ᶠⁱⁿ to inj˙-↝ᴸᶠᵗ)
 
 Lftᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Lftᴱᴿᴬ =  Upᴱᴿᴬ Lft'ᴱᴿᴬ
@@ -337,11 +337,11 @@ abstract
   -- Allocate a new lifetime
 
   []ᴸʳ-new :  (-, εᴸᶠᵗ)  ↝ᴸᶠᵗ λ α →  -, [ α ]ᴸʳ
-  []ᴸʳ-new (↑ b˙) (↑ ✓b)  with ↝ᶠⁱⁿ-new 1≤1ᴿ⁺ b˙ ✓b
+  []ᴸʳ-new (↑ b˙) (↑ ✓b)  with ↝ᴸᶠᵗ-new 1≤1ᴿ⁺ b˙ ✓b
   … | α , ✓[α]∙b =  α , ↑ ✓[α]∙b
 
   -- Kill a lifetime consuming a full lifetime token
 
   []ᴸʳ-kill :  (-, [ α ]ᴸʳ)  ↝ᴸᶠᵗ λ (_ : ⊤₀) →  -,  †ᴸʳ α
-  []ᴸʳ-kill (↑ b˙) (↑ ✓[α]∙b)  with inj˙-↝ᶠⁱⁿ (λ ()) #ᴸᶠᵗᵇ-kill b˙ ✓[α]∙b
+  []ᴸʳ-kill (↑ b˙) (↑ ✓[α]∙b)  with inj˙-↝ᴸᶠᵗ (λ ()) #ᴸᶠᵗᵇ-kill b˙ ✓[α]∙b
   … | -, ✓†α∙b =  -, ↑ ✓†α∙b

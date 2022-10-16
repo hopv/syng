@@ -39,8 +39,8 @@ module BndInv =  Syho.Model.ERA.Bnd
 open BndInv public using () renaming (
   --  Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Bndᴱᴿᴬ to Invᴱᴿᴬ;
-  inj˙ to inj˙ᴵⁿᵛ; inj˙-∙ to inj˙ᴵⁿᵛ-∙; inj˙-⌞⌟ to inj˙ᴵⁿᵛ-⌞⌟)
-open BndInv using (↝ᴮⁿᵈ-new; ↝ᴮⁿᵈ-agree)
+  inj˙ to inj˙ᴵⁿᵛ; inj˙-∙ to inj˙ᴵⁿᵛ-∙; inj˙-⌞⌟ to inj˙ᴵⁿᵛ-⌞⌟;
+  ↝ᴮⁿᵈ-new to ↝ᴵⁿᵛ-new; ↝ᴮⁿᵈ-agree to ↝ᴵⁿᵛ-agree)
 
 open ERA Invᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵛ; Res to Resᴵⁿᵛ;
   _≈_ to _≈ᴵⁿᵛ_; _∙_ to _∙ᴵⁿᵛ_; ε to εᴵⁿᵛ; ⌞_⌟ to ⌞_⌟ᴵⁿᵛ; _✓_ to _✓ᴵⁿᵛ_;
@@ -84,16 +84,16 @@ abstract
   inv-invk-new :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
     (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P
   inv-invk-new =
-    ↝ᴵⁿᵛ-respʳ {a = εᴵⁿᵛ} (◠˜ᴵⁿᵛ inj˙ᴵⁿᵛ-∙) $ ↝ᴮⁿᵈ-new (✓ᴸ-š-[?] , refl)
+    ↝ᴵⁿᵛ-respʳ {a = εᴵⁿᵛ} (◠˜ᴵⁿᵛ inj˙ᴵⁿᵛ-∙) $ ↝ᴵⁿᵛ-new (✓ᴸ-š-[?] , refl)
 
   -- Get agreement from inv
 
   inv-agree :  ((ⁿQˇ˙ , n) , inv i nm P)  ↝ᴵⁿᵛ
     λ (_ :  ⁿQˇ˙ i ≡ š (nm , P)  ×  i < n) →  (ⁿQˇ˙ , n) , inv i nm P
-  inv-agree =  ↝ᴮⁿᵈ-agree (π₀ › ≈ᴸ-[] › λ ()) (π₀ › ✓ᴸ-agree)
+  inv-agree =  ↝ᴵⁿᵛ-agree (π₀ › ≈ᴸ-[] › λ ()) (π₀ › ✓ᴸ-agree)
 
   -- Get agreement from invk
 
   invk-agree :  ((ⁿQˇ˙ , n) , invk i nm P)  ↝ᴵⁿᵛ
     λ (_ :  ⁿQˇ˙ i ≡ š (nm , P)  ×  i < n) →  (ⁿQˇ˙ , n) , invk i nm P
-  invk-agree =  ↝ᴮⁿᵈ-agree (λ ()) π₁
+  invk-agree =  ↝ᴵⁿᵛ-agree (λ ()) π₁

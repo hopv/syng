@@ -69,7 +69,7 @@ open ERA Finᴱᴿᴬ using () renaming (_✓_ to _✓ᶠⁱⁿ_; _↝_ to _↝�
 
 abstract
 
-  -- Allocate a valid resource and environment to a fresh index
+  -- Allocate a valid resource to a fresh index
 
   ↝ᶠⁱⁿ-new :  E ✓ a  →   (F˙ , ε˙)  ↝ᶠⁱⁿ λ i →  upd˙ i E F˙ , inj˙ i a
   ↝ᶠⁱⁿ-new _ _ ((n ,-) ,-) .π₀ =  n

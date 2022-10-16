@@ -55,13 +55,13 @@ abstract
   empᴵⁿᵈˣ-✓ε :  empᴵⁿᵈˣ ✓ᴵⁿᵈˣ εᴵⁿᵈˣ
   empᴵⁿᵈˣ-✓ε =  (λ _ _ → refl) , _
 
-  -- Add a new proposition and get a line
+  -- Add a new proposition and get indˣ
 
   indˣ-new :  ((Qˇ˙ , n) , εᴵⁿᵈˣ)  ↝ᴵⁿᵈˣ λ (_ : ⊤₀) →
                 (upd˙ n (š P) Qˇ˙ , ṡ n) , indˣ n P
   indˣ-new =  ↝ᴵⁿᵈˣ-new refl
 
-  -- Remove a proposition consuming a line
+  -- Remove a proposition consuming indˣ
 
   indˣ-use :  ((Qˇ˙ , n) , indˣ i P)  ↝ᴵⁿᵈˣ
                 λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εᴵⁿᵈˣ
@@ -97,13 +97,13 @@ abstract
   empᴵⁿᵈᵖ-✓ε :  empᴵⁿᵈᵖ ✓ᴵⁿᵈᵖ εᴵⁿᵈᵖ
   empᴵⁿᵈᵖ-✓ε =  (λ _ _ → refl) , λ _ → ✓ᴸ-[]
 
-  -- Add a new proposition and get a line
+  -- Add a new proposition and get indᵖ
 
   indᵖ-new :  ((Qˇ˙ , n) , εᴵⁿᵈᵖ)  ↝ᴵⁿᵈᵖ λ (_ : ⊤₀) →
                 (upd˙ n (š P) Qˇ˙ , ṡ n) , indᵖ n P
   indᵖ-new =  ↝ᴵⁿᵈᵖ-new ✓ᴸ-š-[?]
 
-  -- Get an agreement from a line
+  -- Get an agreement from indᵖ
 
   indᵖ-use :  ((Qˇ˙ , n) , indᵖ i P)  ↝ᴵⁿᵈᵖ
                 λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , indᵖ i P

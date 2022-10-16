@@ -7,7 +7,7 @@
 module Syho.Logic.Core where
 
 open import Base.Func using (_$_; _∘_; it)
-open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; binary; absurd)
+open import Base.Few using (𝟚; 0₂; 1₂; ⊤; ⊥; binary; absurd)
 open import Base.Size using (𝕊; Thunk; !)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_; ⨿-case)

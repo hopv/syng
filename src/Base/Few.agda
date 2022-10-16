@@ -13,14 +13,14 @@ private variable
   A :  Set ł
 
 --------------------------------------------------------------------------------
--- ⟨2⟩ :  2-element set / doubleton set
+-- 𝟚 :  2-element set / doubleton set
 
-data  ⟨2⟩ {ł} :  Set ł  where
-  0₂ 1₂ :  ⟨2⟩
+data  𝟚 {ł} :  Set ł  where
+  0₂ 1₂ :  𝟚
 
--- Function from ⟨2⟩
+-- Function from 𝟚
 
-binary :  ∀{F : ⟨2⟩ {ł} → Set ł'} →  F 0₂ →  F 1₂ →  (x : ⟨2⟩) →  F x
+binary :  ∀{F : 𝟚 {ł} → Set ł'} →  F 0₂ →  F 1₂ →  (x : 𝟚) →  F x
 binary a _ 0₂ =  a
 binary _ b 1₂ =  b
 

@@ -7,7 +7,7 @@
 module Base.Sety where
 
 open import Base.Func using (_$_; _∘_; id)
-open import Base.Few using (⟨2⟩; ⊤; ⊥; absurd)
+open import Base.Few using (𝟚; ⊤; ⊥; absurd)
 open import Base.Eq using (_≡_; refl; ◠_; cong; cong₂; subst)
 open import Base.Dec using (Dec; yes; no; Yes; ≡Dec; _≟_)
 open import Base.Bool using (𝔹)
@@ -31,14 +31,14 @@ infixr 1 _×ʸ_
 infix 8 ¿ʸ_
 
 data  Setʸ :  Set₀  where
-  ⟨2⟩ʸ ⊤ʸ ⊥ʸ 𝔹ʸ Zoiʸ ℕʸ ℕ⁺ʸ Charʸ Strʸ ℚ⁺ʸ Setʸʸ :  Setʸ
+  𝟚ʸ ⊤ʸ ⊥ʸ 𝔹ʸ Zoiʸ ℕʸ ℕ⁺ʸ Charʸ Strʸ ℚ⁺ʸ Setʸʸ :  Setʸ
   ¿ʸ_ Listʸ List⁺ʸ Seq∞ʸ :  Setʸ →  Setʸ
   _→ʸ_ _×ʸ_ _⨿ʸ_ :  Setʸ →  Setʸ →  Setʸ
 
 -- ⸨ ⸩ʸ :  Interpret Setʸ as Set₀
 
 ⸨_⸩ʸ :  Setʸ  →  Set₀
-⸨ ⟨2⟩ʸ ⸩ʸ =  ⟨2⟩
+⸨ 𝟚ʸ ⸩ʸ =  𝟚
 ⸨ ⊤ʸ ⸩ʸ =  ⊤
 ⸨ ⊥ʸ ⸩ʸ =  ⊥
 ⸨ 𝔹ʸ ⸩ʸ =  𝔹
@@ -62,7 +62,7 @@ instance
   -- Setʸ is inhabited
 
   Setʸ-Dec :  Dec Setʸ
-  Setʸ-Dec =  yes ⟨2⟩ʸ
+  Setʸ-Dec =  yes 𝟚ʸ
 
 private variable
   A B :  Set₀
@@ -92,9 +92,9 @@ instance
 
   -- Instances for Syn
 
-  ⟨2⟩-Syn :  Syn ⟨2⟩
-  ⟨2⟩-Syn .setʸ =  ⟨2⟩ʸ
-  ⟨2⟩-Syn .⸨⸩ʸ≡ =  refl
+  𝟚-Syn :  Syn 𝟚
+  𝟚-Syn .setʸ =  𝟚ʸ
+  𝟚-Syn .⸨⸩ʸ≡ =  refl
 
   ⊤-Syn :  Syn ⊤
   ⊤-Syn .setʸ =  ⊤ʸ
@@ -170,7 +170,7 @@ instance
 -- Rough numbering for Setʸ
 
 roughʸ :  Setʸ →  ℕ
-roughʸ ⟨2⟩ʸ =  0
+roughʸ 𝟚ʸ =  0
 roughʸ ⊤ʸ =  1
 roughʸ ⊥ʸ =  2
 roughʸ 𝔹ʸ =  3
@@ -198,7 +198,7 @@ instance
     _≟'_ :  ∀ Aʸ Bʸ →  Dec $ Aʸ ≡ Bʸ
     Aʸ ≟' Bʸ  with roughʸ Aʸ ≟ roughʸ Bʸ
     … | no rA≢rB =  no λ{ refl → rA≢rB refl }
-    ⟨2⟩ʸ ≟' ⟨2⟩ʸ | yes _ =  yes refl
+    𝟚ʸ ≟' 𝟚ʸ | yes _ =  yes refl
     ⊤ʸ ≟' ⊤ʸ | yes _ =  yes refl
     ⊥ʸ ≟' ⊥ʸ | yes _ =  yes refl
     𝔹ʸ ≟' 𝔹ʸ | yes _ =  yes refl

@@ -8,7 +8,7 @@ module Base.Dec where
 
 open import Base.Level using (Level; _⊔ᴸ_)
 open import Base.Func using (_$_; _▷_; _›_; it)
-open import Base.Few using (⟨2⟩; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
+open import Base.Few using (𝟚; 0₂; 1₂; ⊤; ⊥; ¬_; ⇒¬¬; absurd)
 open import Base.Eq using (_≡_; _≢_; refl; _≡˙_; _◇˙_; Uip; eq≡; const⇒Uip)
 
 private variable
@@ -35,10 +35,10 @@ Yes (no _) =  ⊥
 
 instance
 
-  -- Dec on ⟨2⟩, ⊤ and ⊥
+  -- Dec on 𝟚, ⊤ and ⊥
 
-  ⟨2⟩-Dec :  Dec $ ⟨2⟩ {ł}
-  ⟨2⟩-Dec =  yes 0₂
+  𝟚-Dec :  Dec $ 𝟚 {ł}
+  𝟚-Dec =  yes 0₂
 
   ⊤-Dec :  Dec $ ⊤ {ł}
   ⊤-Dec =  yes _
@@ -90,13 +90,13 @@ instance
   ≡-Dec :  {{≡Dec A}} →  {a b : A} →  Dec $ a ≡ b
   ≡-Dec =  _ ≟ _
 
-  -- Equality decision for ⟨2⟩, ⊤ and ⊥
+  -- Equality decision for 𝟚, ⊤ and ⊥
 
-  ⟨2⟩-≡Dec :  ≡Dec {ł} ⟨2⟩
-  ⟨2⟩-≡Dec ._≟_ 0₂ 0₂ =  yes refl
-  ⟨2⟩-≡Dec ._≟_ 1₂ 1₂ =  yes refl
-  ⟨2⟩-≡Dec ._≟_ 0₂ 1₂ =  no λ ()
-  ⟨2⟩-≡Dec ._≟_ 1₂ 0₂ =  no λ ()
+  𝟚-≡Dec :  ≡Dec {ł} 𝟚
+  𝟚-≡Dec ._≟_ 0₂ 0₂ =  yes refl
+  𝟚-≡Dec ._≟_ 1₂ 1₂ =  yes refl
+  𝟚-≡Dec ._≟_ 0₂ 1₂ =  no λ ()
+  𝟚-≡Dec ._≟_ 1₂ 0₂ =  no λ ()
 
   ⊤-≡Dec :  ≡Dec {ł} ⊤
   ⊤-≡Dec ._≟_ _ _ =  yes refl

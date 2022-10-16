@@ -120,8 +120,8 @@ open FinUb public using () renaming (
 Ubᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Ubᴱᴿᴬ =  Upᴱᴿᴬ Ub'ᴱᴿᴬ
 
-open ERA Ub'ᴱᴿᴬ public using () renaming (◠˜_ to ◠˜ᵁᵇ'_; ∙-congˡ to ∙ᵁᵇ'-congˡ;
-  ✓-resp to ✓˙ᵁᵇ'-resp)
+open ERA Ub'ᴱᴿᴬ public using () renaming (ε to εᵁᵇ'; ◠˜_ to ◠˜ᵁᵇ'_;
+  ↝-respʳ to ↝ᵁᵇ'-respʳ)
 open ERA Ubᴱᴿᴬ public using () renaming (Res to Resᵁᵇ; _≈_ to _≈ᵁᵇ_;
   _∙_ to _∙ᵁᵇ_; ε to εᵁᵇ; ⌞_⌟ to ⌞_⌟ᵁᵇ; _✓_ to _✓ᵁᵇ_; _↝_ to _↝ᵁᵇ_;
   ◠˜_ to ◠˜ᵁᵇ_)
@@ -164,12 +164,14 @@ abstract
   -- Create #ᵁᵇʳ and ≤ᵁᵇʳ at a fresh index
 
   #ᵁᵇʳ-new :  (-, εᵁᵇ)  ↝ᵁᵇ λ o →  -, ≤ᵁᵇ⟨ o ⟩ʳ n ∙ᵁᵇ #ᵁᵇ⟨ o ⟩ʳ n
-  #ᵁᵇʳ-new {n = n} (↑ u˙) (↑ ✓u)  with ↝ᵁᵇ-new (≤-refl {n}) u˙ ✓u
-  … | o , ✓≤n∙#n∙u =  o , ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤n∙#n∙u
+  #ᵁᵇʳ-new {n = n} (↑ u˙) (↑ ✓u)
+    with ↝ᵁᵇ'-respʳ {a = εᵁᵇ'} (◠˜ᵁᵇ' inj˙ᵁᵇ-∙) (↝ᵁᵇ-new $ ≤-refl {n}) u˙ ✓u
+  … | o , ✓≤n∙#n∙u =  o , ↑ ✓≤n∙#n∙u
 
   -- Lower the number of #ᵁᵇʳ to get new ≤ᵁᵇʳ
 
   #ᵁᵇʳ-upd :  m ≤ n  →
     (-, #ᵁᵇ⟨ o ⟩ʳ n)  ↝ᵁᵇ λ (_ : ⊤₀) →  -, ≤ᵁᵇ⟨ o ⟩ʳ m ∙ᵁᵇ #ᵁᵇ⟨ o ⟩ʳ m
-  #ᵁᵇʳ-upd m≤n (↑ u˙) (↑ ✓#n∙u)  with inj˙-↝ᵁᵇ (λ ()) (#ᵁᵇᵇʳ-upd m≤n) u˙ ✓#n∙u
-  … | -, ✓≤m∙#m∙u =  -, ↑ ✓˙ᵁᵇ'-resp (∙ᵁᵇ'-congˡ $ ◠˜ᵁᵇ' inj˙ᵁᵇ-∙) ✓≤m∙#m∙u
+  #ᵁᵇʳ-upd m≤n (↑ u˙) (↑ ✓#n∙u)  with ↝ᵁᵇ'-respʳ {a = inj˙ᵁᵇ _ _}
+    (◠˜ᵁᵇ' inj˙ᵁᵇ-∙) (inj˙-↝ᵁᵇ (λ ()) (#ᵁᵇᵇʳ-upd m≤n)) u˙ ✓#n∙u
+  … | -, ✓≤m∙#m∙u =  -, ↑ ✓≤m∙#m∙u

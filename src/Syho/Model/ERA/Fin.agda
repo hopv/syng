@@ -13,7 +13,7 @@ module Syho.Model.ERA.Fin {łᴿ ł≈ łᴱ ł✓ : Level} (Era : ERA łᴿ ł�
 
 open import Base.Level using (_⊔ᴸ_)
 open import Base.Func using (_$_; flip)
-open import Base.Few using (⊤₀; absurd; ¬_)
+open import Base.Few using (absurd; ¬_)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_; -,_; _,-)

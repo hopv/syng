@@ -7,7 +7,7 @@
 module Syho.Model.ERA.Ind where
 
 open import Base.Level using (1ᴸ)
-open import Base.Func using (_▷_; _∘_; id)
+open import Base.Func using (_▷_)
 open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)

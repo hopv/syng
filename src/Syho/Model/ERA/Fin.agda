@@ -57,8 +57,8 @@ abstract
   -- Cofinε is preserved by removal w.r.t. ∙˙
 
   Cofinε-rem :  Cofinε (a˙ ∙˙ b˙) →  Cofinε b˙
-  Cofinε-rem {a˙} {b˙} (i ,-) .π₀ =  i
-  Cofinε-rem {a˙} {b˙} (-, i≥n⇒ai∙bi≈ε) .π₁ i i≥n =  ≈ε-rem $ i≥n⇒ai∙bi≈ε i i≥n
+  Cofinε-rem (i ,-) .π₀ =  i
+  Cofinε-rem (-, i≥n⇒ai∙bi≈ε) .π₁ i i≥n =  ≈ε-rem $ i≥n⇒ai∙bi≈ε i i≥n
 
 -- Finᴱᴿᴬ :  Finite-map ERA
 

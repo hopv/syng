@@ -16,7 +16,7 @@ open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.List using ([]; [_]; ≡⇒≈ᴸ; ≈ᴸ-[])
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ)
+open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ň-✓ˣ)
 open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ň-✓ᴸ; ✓ᴸ-[]; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 import Syho.Model.ERA.All
 import Syho.Model.ERA.Bnd
@@ -35,7 +35,7 @@ private variable
 
 module BndInv =  Syho.Model.ERA.Bnd
   (Envmᴱᴿᴬ (Agᴱᴿᴬ NameProp ×ᴱᴿᴬ Excᴱᴿᴬ NameProp) _ λ ⁿPˇ → ⁿPˇ , ⁿPˇ)
-  ň (λ{ { -, εˣ} (ň✓as ,-) → ≡⇒≈ᴸ (ň-✓ᴸ ň✓as) , refl })
+  ň (λ (ň✓as , ň✓x) → ≡⇒≈ᴸ (ň-✓ᴸ ň✓as) , ň-✓ˣ ň✓x)
 open BndInv public using () renaming (
   --  Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Bndᴱᴿᴬ to Invᴱᴿᴬ;

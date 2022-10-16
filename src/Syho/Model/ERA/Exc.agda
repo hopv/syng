@@ -95,6 +95,11 @@ abstract
   ∙ˣ-assocˡ {x = #ˣ _} {#ˣ _} {↯ˣ} =  refl
   ∙ˣ-assocˡ {x = #ˣ _} {#ˣ _} {#ˣ _} =  refl
 
+  -- ň ✓ˣ x entails x ≡ εˣ
+
+  ň-✓ˣ :  ň ✓ˣ x →  x ≡ εˣ
+  ň-✓ˣ {x = εˣ} _ =  refl
+
   -- ✓ˣ is preserved by removal w.r.t. ∙ˣ
 
   ✓ˣ-rem :  aˇ ✓ˣ x ∙ˣ y →  aˇ ✓ˣ y

@@ -15,10 +15,11 @@ open import Base.Prod using (∑∈-syntax; π₀; _,-)
 open import Base.Nat using (ℕ; ṡ_)
 open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Base using (ERA; ⊤ᴱᴿᴬ)
+open import Syho.Model.ERA.Names using (Namesᴱᴿᴬ; ✓ᴺᵃᵐᵉˢ[⊤]; [⊤]ᴺʳ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
 open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿᵈˣ; empᴵⁿᵈᵖ;
   empᴵⁿᵈˣ-✓ε; empᴵⁿᵈᵖ-✓ε)
-open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; [⊤]ᴺʳ; empᴵⁿᵛ-✓[⊤])
+open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; empᴵⁿᵛ-✓ε)
 open import Syho.Model.ERA.Lft using (Lftᴱᴿᴬ; ✓ᴸᶠᵗε)
 open import Syho.Model.ERA.Ub using (Ubᴱᴿᴬ; ✓ᵁᵇε)
 
@@ -30,17 +31,19 @@ open ERA using (Res; Env)
 -- Ids of ERAs
 
 pattern iᴹᵉᵐ =  0
-pattern iᴵⁿᵈˣ =  1
-pattern iᴵⁿᵈᵖ =  2
-pattern iᴵⁿᵛ =  3
-pattern iᴸᶠᵗ =  4
-pattern iᵁᵇ =  5
-pattern elseᴳ =  ṡ ṡ ṡ ṡ ṡ ṡ _
+pattern iᴺᵃᵐᵉˢ =  1
+pattern iᴵⁿᵈˣ =  2
+pattern iᴵⁿᵈᵖ =  3
+pattern iᴵⁿᵛ =  4
+pattern iᴸᶠᵗ =  5
+pattern iᵁᵇ =  6
+pattern elseᴳ =  ṡ ṡ ṡ ṡ ṡ ṡ ṡ _
 
 -- Map of ERAs
 
 Globᴱᴿᴬ˙ :  ℕ →  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Globᴱᴿᴬ˙ iᴹᵉᵐ =  Memᴱᴿᴬ
+Globᴱᴿᴬ˙ iᴺᵃᵐᵉˢ =  Namesᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈᵖ =  Indᵖᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵛ =  Invᴱᴿᴬ
@@ -82,12 +85,13 @@ pattern outᴳ i =  ṡ i
 
 -- Inner ids of inner ERAs
 
-pattern jᴵⁿᵈˣ =  0
-pattern jᴵⁿᵈᵖ =  1
-pattern jᴵⁿᵛ =  2
-pattern jᴸᶠᵗ =  3
-pattern jᵁᵇ =  4
-pattern elseᴵⁿᴳ =  ṡ ṡ ṡ ṡ ṡ _
+pattern jᴺᵃᵐᵉˢ =  0
+pattern jᴵⁿᵈˣ =  1
+pattern jᴵⁿᵈᵖ =  2
+pattern jᴵⁿᵛ =  3
+pattern jᴸᶠᵗ =  4
+pattern jᵁᵇ =  5
+pattern elseᴵⁿᴳ =  ṡ ṡ ṡ ṡ ṡ ṡ _
 
 -- Resource and environment of a component inner ERA
 
@@ -115,6 +119,7 @@ envᴵⁿᴳ E j =  E $ outᴳ j
 -- Empty inner environment
 
 empᴵⁿᴳ :  Envᴵⁿᴳ
+empᴵⁿᴳ jᴺᵃᵐᵉˢ =  _
 empᴵⁿᴳ jᴵⁿᵈˣ =  empᴵⁿᵈˣ
 empᴵⁿᴳ jᴵⁿᵈᵖ =  empᴵⁿᵈᵖ
 empᴵⁿᴳ jᴵⁿᵛ =  empᴵⁿᵛ
@@ -133,11 +138,12 @@ abstract
 
   -- envᴳ M empᴵⁿᴳ with inj˙ iᴵⁿᵛ [⊤]ᴺʳ is valid for valid M
 
-  empᴵⁿᴳ-✓[⊤] :  ✓ᴹ M →  envᴳ M empᴵⁿᴳ ✓ᴳ inj˙ iᴵⁿᵛ [⊤]ᴺʳ
+  empᴵⁿᴳ-✓[⊤] :  ✓ᴹ M →  envᴳ M empᴵⁿᴳ ✓ᴳ inj˙ iᴺᵃᵐᵉˢ [⊤]ᴺʳ
   empᴵⁿᴳ-✓[⊤] ✓M iᴹᵉᵐ =  ✓ᴹ⇒✓ᴹᵉᵐ ✓M
+  empᴵⁿᴳ-✓[⊤] _ iᴺᵃᵐᵉˢ =  ✓ᴺᵃᵐᵉˢ[⊤]
   empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈˣ =  empᴵⁿᵈˣ-✓ε
   empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈᵖ =  empᴵⁿᵈᵖ-✓ε
-  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵛ =  empᴵⁿᵛ-✓[⊤]
+  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵛ =  empᴵⁿᵛ-✓ε
   empᴵⁿᴳ-✓[⊤] _ iᴸᶠᵗ =  ✓ᴸᶠᵗε
   empᴵⁿᴳ-✓[⊤] _ iᵁᵇ =  ✓ᵁᵇε
   empᴵⁿᴳ-✓[⊤] _ elseᴳ =  _

@@ -16,8 +16,8 @@ open import Base.Nat using ()
 open import Base.List using ()
 open import Base.Str using ()
 open import Syho.Logic.Prop using (Name)
-open import Syho.Model.ERA.Inv using ([_]ᴺʳ; []ᴺʳ-cong; []ᴺʳ-✔)
-open import Syho.Model.ERA.Glob using (iᴵⁿᵛ)
+open import Syho.Model.ERA.Names using ([_]ᴺʳ; []ᴺʳ-cong; []ᴺʳ-✔)
+open import Syho.Model.ERA.Glob using (iᴺᵃᵐᵉˢ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⌜_⌝ᵒ; ⊥ᵒ₀; _∗ᵒ_;
   ◎⟨_⟩_; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓)
 
@@ -29,7 +29,7 @@ private variable
 -- [ ]ᴺᵒ :  Interpret the name set token
 
 [_]ᴺᵒ :  (Name → Zoi) →  Propᵒ 1ᴸ
-[ Nm ]ᴺᵒ  =  ◎⟨ iᴵⁿᵛ ⟩ [ Nm ]ᴺʳ
+[ Nm ]ᴺᵒ  =  ◎⟨ iᴺᵃᵐᵉˢ ⟩ [ Nm ]ᴺʳ
 
 -- [⊤]ᴺᵒ :  Interpret the universal name set token
 

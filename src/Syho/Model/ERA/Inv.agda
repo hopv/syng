@@ -6,58 +6,45 @@
 
 module Syho.Model.ERA.Inv where
 
-open import Base.Level using (1ᴸ)
-open import Base.Func using (_▷_)
+open import Base.Func using (_$_; _›_)
 open import Base.Few using (⊤₀; ¬_; absurd)
-open import Base.Eq using (_≡_; refl; _≡˙_)
-open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
-open import Base.Zoi using (Zoi; ✔ᶻ_; ⊤ᶻ; ^ᶻ_; _⊎ᶻ_)
+open import Base.Eq using (_≡_; refl)
+open import Base.Dec using (≟-refl; upd˙)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
-open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Nat using (ℕ; ṡ_; _<_; ∀≥; ≤-refl; _<≥_; ∀≥-upd˙-ṡ)
-open import Base.List using ([]; [_])
-open import Base.Str using ()
+open import Base.Nat using (ℕ; ṡ_; _<_)
+open import Base.List using ([]; [_]; ≡⇒≈ᴸ; ≈ᴸ-[])
 open import Syho.Logic.Prop using (Name; Prop∞)
-open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ; Envvᴱᴿᴬ; Upᴱᴿᴬ)
-open import Syho.Model.ERA.Zoi using (Zoiᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ✓ˣ-new; ✓ˣ-agree)
-open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ✓ᴸ-[]; ✓ᴸ-new; ✓ᴸ-agree)
+open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
+open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ)
+open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ň-✓ᴸ; ✓ᴸ-[]; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 import Syho.Model.ERA.All
+import Syho.Model.ERA.Bnd
 
 --------------------------------------------------------------------------------
 -- Invᴱᴿᴬ :  Invariant ERA
 
--- Invtkᴱᴿᴬ :  ERA for the invariant token and key
+NameProp :  Set₁
+NameProp =  Name × Prop∞
 
-module AllInvtk =  Syho.Model.ERA.All ℕ (λ _ →
-  Agᴱᴿᴬ (Name × Prop∞) ×ᴱᴿᴬ Excᴱᴿᴬ (Name × Prop∞))
-open AllInvtk public using () renaming (
-  --  Invtkᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-  ∀ᴱᴿᴬ to Invtkᴱᴿᴬ;
-  inj˙ to inj˙ᴵⁿᵛᵗᵏ; inj˙-⌞⌟ to inj˙ᴵⁿᵛᵗᵏ-⌞⌟)
+private variable
+  P :  Prop∞
+  nm :  Name
+  i n :  ℕ
+  ⁿPˇ˙ ⁿQˇ˙ :  ℕ →  ¿ NameProp
 
--- Namesᴱᴿᴬ :  ERA for the name set token
+module BndInv =  Syho.Model.ERA.Bnd
+  (Envmᴱᴿᴬ (Agᴱᴿᴬ NameProp ×ᴱᴿᴬ Excᴱᴿᴬ NameProp) _ λ ⁿPˇ → ⁿPˇ , ⁿPˇ)
+  ň (λ{ { -, εˣ} (ň✓as ,-) → ≡⇒≈ᴸ (ň-✓ᴸ ň✓as) , refl })
+open BndInv public using () renaming (
+  --  Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
+  Bndᴱᴿᴬ to Invᴱᴿᴬ;
+  inj˙ to inj˙ᴵⁿᵛ; inj˙-∙ to inj˙ᴵⁿᵛ-∙; inj˙-⌞⌟ to inj˙ᴵⁿᵛ-⌞⌟)
+open BndInv using (↝ᴮⁿᵈ-new; ↝ᴮⁿᵈ-agree)
 
-module AllNames =  Syho.Model.ERA.All Name (λ _ → Zoiᴱᴿᴬ)
-open AllNames public using () renaming (
-  --  Namesᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
-  ∀ᴱᴿᴬ to Namesᴱᴿᴬ)
-
--- Invᴱᴿᴬ :  Invariant ERA
-
-Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-Invᴱᴿᴬ =  Envvᴱᴿᴬ
-  (Envmᴱᴿᴬ (Invtkᴱᴿᴬ ×ᴱᴿᴬ Namesᴱᴿᴬ) ((ℕ → ¿ (Name × Prop∞)) × ℕ)
-    λ (ⁿPˇ˙ ,-) → (λ i → ⁿPˇ˙ i , ⁿPˇ˙ i) , _)
-  -- Any index in the domain of Pˇ˙ is less than n
-  λ (ⁿPˇ˙ , n) → ∀≥ n (λ _ → _≡ ň) ⁿPˇ˙
-
-open ERA Invtkᴱᴿᴬ public using () renaming (ε to εᴵⁿᵛᵗᵏ; refl˜ to refl˜ᴵⁿᵛᵗᵏ)
-open ERA Namesᴱᴿᴬ public using () renaming (ε to εᴺᵃᵐᵉˢ; refl˜ to refl˜ᴺᵃᵐᵉˢ)
 open ERA Invᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵛ; Res to Resᴵⁿᵛ;
   _≈_ to _≈ᴵⁿᵛ_; _∙_ to _∙ᴵⁿᵛ_; ε to εᴵⁿᵛ; ⌞_⌟ to ⌞_⌟ᴵⁿᵛ; _✓_ to _✓ᴵⁿᵛ_;
-  _↝_ to _↝ᴵⁿᵛ_)
+  _↝_ to _↝ᴵⁿᵛ_; ◠˜_ to ◠˜ᴵⁿᵛ_; ↝-respʳ to ↝ᴵⁿᵛ-respʳ)
 
 -- Empty environment of Invᴱᴿᴬ
 
@@ -67,88 +54,46 @@ empᴵⁿᵛ =  (λ _ → ň) , 0
 -- Persistently observe a proposition at an index
 
 inv :  ℕ →  Name →  Prop∞ →  Resᴵⁿᵛ
-inv i nm P =  inj˙ᴵⁿᵛᵗᵏ i ([ nm , P ] , εˣ) , εᴺᵃᵐᵉˢ
+inv i nm P =  inj˙ᴵⁿᵛ i ([ nm , P ] , εˣ)
 
 -- Exclusively own a key of an index
 
 invk :  ℕ →  Name →  Prop∞ →  Resᴵⁿᵛ
-invk i nm P =  inj˙ᴵⁿᵛᵗᵏ i ([] , #ˣ (nm , P)) , εᴺᵃᵐᵉˢ
-
--- Own a name set
-
-[_]ᴺʳ :  (Name → Zoi) →  Resᴵⁿᵛ
-[ Nm ]ᴺʳ =  εᴵⁿᵛᵗᵏ , Nm
-
--- Own the universal name set
-
-[⊤]ᴺʳ :  Resᴵⁿᵛ
-[⊤]ᴺʳ =  [ ⊤ᶻ ]ᴺʳ
-
-private variable
-  P :  Prop∞
-  ⁿPˇ˙ ⁿQˇ˙ :  ℕ →  ¿ (Name × Prop∞)
-  i n :  ℕ
-  nm :  Name
-  Nm Nm' :  Name → Zoi
+invk i nm P =  inj˙ᴵⁿᵛ i ([] , #ˣ (nm , P))
 
 abstract
 
-  -- empᴵⁿᵛ with [⊤]ᴺʳ is valid
+  -- empᴵⁿᵛ with εᴵⁿᵛ is valid
 
-  empᴵⁿᵛ-✓[⊤] :  empᴵⁿᵛ ✓ᴵⁿᵛ [⊤]ᴺʳ
-  empᴵⁿᵛ-✓[⊤] =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _) , _
-
-  -- Update the set part of [ ]ᴺʳ
-
-  []ᴺʳ-cong :  Nm ≡˙ Nm' →  [ Nm ]ᴺʳ ≈ᴵⁿᵛ [ Nm' ]ᴺʳ
-  []ᴺʳ-cong Nm≡Nm' =  (refl˜ᴵⁿᵛᵗᵏ , Nm≡Nm')
-
-  -- The set of [ ]ᴺʳ is valid
-
-  []ᴺʳ-✔ :  (ⁿPˇ˙ , n) ✓ᴵⁿᵛ [ Nm ]ᴺʳ →  ✔ᶻ Nm
-  []ᴺʳ-✔ (-, -, ✔Nm) =  ✔Nm
+  empᴵⁿᵛ-✓ε :  empᴵⁿᵛ ✓ᴵⁿᵛ εᴵⁿᵛ
+  empᴵⁿᵛ-✓ε =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _)
 
   -- inv i nm P absorbs ⌞ ⌟
 
   inv-⌞⌟ :  ⌞ inv i nm P ⌟ᴵⁿᵛ ≈ᴵⁿᵛ inv i nm P
-  inv-⌞⌟ =  inj˙ᴵⁿᵛᵗᵏ-⌞⌟ , refl˜ᴺᵃᵐᵉˢ
+  inv-⌞⌟ =  inj˙ᴵⁿᵛ-⌞⌟
 
   -- invk i nm P cannot overlap
 
   invk-no2 :  ¬ (ⁿQˇ˙ , n) ✓ᴵⁿᵛ invk i nm P ∙ᴵⁿᵛ invk i nm P
-  invk-no2 {i = i} (-, ✓inmPnmP , _)  with ✓inmPnmP i .π₁
-  … | ✓↯  rewrite ≟-refl {a = i} =  absurd ✓↯
+  invk-no2 {i = i} (-, ✓inmP2)  with ✓inmP2 i
+  … | -, ✓↯  rewrite ≟-refl {a = i} =  absurd ✓↯
 
   -- Get inv and invk
 
   inv-invk-new :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
     (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P
-  inv-invk-new _ _ .π₀ =  _
-  inv-invk-new _ (✓Qˇ ,-) .π₁ .π₀ =  ∀≥-upd˙-ṡ {F = λ _ → _≡ ň} ✓Qˇ
-  inv-invk-new _ (-, -, ✓c) .π₁ .π₁ .π₁ =  ✓c
-  inv-invk-new {n = n} _ (✓Qˇ , Qˇ✓ab , _) .π₁ .π₁ .π₀ i  with i ≟ n | Qˇ✓ab i
-  … | no _ | Qˇi✓abi =  Qˇi✓abi
-  … | yes refl | (Qˇn✓an , Qˇn✓bn)  rewrite ✓Qˇ _ ≤-refl =
-    ✓ᴸ-new Qˇn✓an , ✓ˣ-new Qˇn✓bn
+  inv-invk-new =
+    ↝ᴵⁿᵛ-respʳ {a = εᴵⁿᵛ} (◠˜ᴵⁿᵛ inj˙ᴵⁿᵛ-∙) $ ↝ᴮⁿᵈ-new (✓ᴸ-š-[?] , refl)
 
   -- Get agreement from inv
 
   inv-agree :  ((ⁿQˇ˙ , n) , inv i nm P)  ↝ᴵⁿᵛ
     λ (_ :  ⁿQˇ˙ i ≡ š (nm , P)  ×  i < n) →  (ⁿQˇ˙ , n) , inv i nm P
-  inv-agree _ ✓Qˇ✓inmP∙ .π₁ =  ✓Qˇ✓inmP∙
-  inv-agree {n = n} {i} _ (✓Qˇ , Qˇ✓inmP∙ , _) .π₀  with Qˇ✓inmP∙ i .π₀
-  … | Qˇi✓P∷  rewrite ≟-refl {a = i}  with ✓ᴸ-agree Qˇi✓P∷
-  …   | Qˇi≡šP  with i <≥ n
-  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n =  Qˇi≡šP ▷ λ ()
+  inv-agree =  ↝ᴮⁿᵈ-agree (π₀ › ≈ᴸ-[] › λ ()) (π₀ › ✓ᴸ-agree)
 
   -- Get agreement from invk
 
   invk-agree :  ((ⁿQˇ˙ , n) , invk i nm P)  ↝ᴵⁿᵛ
     λ (_ :  ⁿQˇ˙ i ≡ š (nm , P)  ×  i < n) →  (ⁿQˇ˙ , n) , invk i nm P
-  invk-agree _ ✓Qˇ✓inmP∙ .π₁ =  ✓Qˇ✓inmP∙
-  invk-agree {n = n} {i} (a ,-) (✓Qˇ , Qˇ✓inmP∙ , _) .π₀  with Qˇ✓inmP∙ i .π₁
-  … | Qˇi✓#P∙  rewrite ≟-refl {a = i}  with ✓ˣ-agree {x = a i .π₁} Qˇi✓#P∙
-  …   | Qˇi≡šP  with i <≥ n
-  …     | ĩ₀ i<n =  Qˇi≡šP , i<n
-  …     | ĩ₁ i≥n  rewrite ✓Qˇ _ i≥n =  Qˇi≡šP ▷ λ ()
+  invk-agree =  ↝ᴮⁿᵈ-agree (λ ()) π₁

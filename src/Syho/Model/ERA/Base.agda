@@ -110,13 +110,13 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     ✓-rem :  ∀{E a b} →  E ✓ a ∙ b →  E ✓ b
 
   private variable
-    a a' b b' c d :  Res
-    E E' F F' :  Env
-    Ea E'a' Fb F'b' Gc :  Env × Res
     ł :  Level
     X Y :  Set ł
-    Fb˙ F'b'˙ :  X →  Env × Res
     f :  Y → X
+    a a' b b' c d :  Res
+    b˙ b'˙ :  X → Res
+    E E' F F' :  Env
+    F˙ :  X → Env
 
   abstract
     ----------------------------------------------------------------------------
@@ -310,6 +310,24 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
 
   _↝_ :  ∀{X : Set ł} →  Env × Res →  (X →  Env × Res) →  Set (łᴿ ⊔ᴸ ł✓ ⊔ᴸ ł)
   (E , a) ↝ Fb˙ =  ∀ c →  E ✓ a ∙ c →  ∑ x ,  let (F , b) = Fb˙ x in  F ✓ b ∙ c
+
+  abstract
+
+    -- Modify ↝ with ≈
+
+    ↝-resp :  a ≈ a'  →   (∀{x} → b˙ x ≈ b'˙ x)  →
+      (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a') ↝ λ x → F˙ x , b'˙ x
+    ↝-resp a≈a' bx≈b'x Ea↝Fxbx c˙ E✓a'∙c
+      with Ea↝Fxbx c˙ $ ✓-resp (◠˜ ∙-congˡ a≈a') E✓a'∙c
+    … | x , Fx✓bx∙c =  x , ✓-resp (∙-congˡ bx≈b'x) Fx✓bx∙c
+
+    ↝-respʳ :  (∀{x} → b˙ x ≈ b'˙ x)  →
+      (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a) ↝ λ x → F˙ x , b'˙ x
+    ↝-respʳ =  ↝-resp refl˜
+
+    ↝-respˡ :  a ≈ a'  →
+      (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a') ↝ λ x → F˙ x , b˙ x
+    ↝-respˡ a≈a' =  ↝-resp a≈a' refl˜
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)

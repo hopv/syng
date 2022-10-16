@@ -67,7 +67,7 @@ abstract
 
   -- Use agreement at an index
 
-  ↝ᴮⁿᵈ-agree :  ¬ a ≈ ε  →  (E˙ i ✓ a → X)  →
+  ↝ᴮⁿᵈ-agree :  ¬ a ≈ ε  →   (E˙ i ✓ a → X)  →
     ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ (_ : X × i < n) →  (E˙ , n) , inj˙ i a
   ↝ᴮⁿᵈ-agree {i = i} {n = n} ¬a≈ε Ei✓a⇒X b˙ (j≥n⇒Ej≡∅ , E✓ia∙b) .π₀
     with ✓-mono ∙-incrʳ (E✓ia∙b i)
@@ -78,7 +78,7 @@ abstract
 
   -- Remove an element at an index
 
-  ↝ᴮⁿᵈ-rem :  ¬ a ≈ ε  →  (E˙ i ✓ a → X)  →  (∀{b} → E˙ i ✓ a ∙ b → ∅ ✓ b)  →
+  ↝ᴮⁿᵈ-rem :  ¬ a ≈ ε  →   (E˙ i ✓ a → X)  →   (∀{b} → E˙ i ✓ a ∙ b → ∅ ✓ b)  →
     ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ (_ : X × i < n) →  (upd˙ i ∅ E˙ , n) , ε˙
   ↝ᴮⁿᵈ-rem ¬a≈ε Ei✓a⇒X _ b˙ ✓E✓ia∙b .π₀ =  ↝ᴮⁿᵈ-agree ¬a≈ε Ei✓a⇒X b˙ ✓E✓ia∙b .π₀
   ↝ᴮⁿᵈ-rem {i = i} _ _ _ _ (j≥n⇒Ej≡∅ ,-) .π₁ .π₀ j j≥n  with j ≟ i

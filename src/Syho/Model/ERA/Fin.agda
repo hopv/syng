@@ -15,8 +15,8 @@ open import Base.Level using (_⊔ᴸ_)
 open import Base.Func using (_$_; flip)
 open import Base.Few using (⊤₀; absurd; ¬_)
 open import Base.Eq using (_≡_; refl)
-open import Base.Dec using (yes; no; _≟_; upd˙)
-open import Base.Prod using (π₀; π₁; _,_; -,_; _,-)
+open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
+open import Base.Prod using (∑-syntax; π₀; π₁; _,_; -,_; _,-)
 open import Base.Nat using (ṡ_; Cofin; ≤-refl; <-irrefl; <⇒≤)
 open import Syho.Model.ERA.Base using (Valmᴱᴿᴬ)
 import Syho.Model.ERA.All
@@ -34,6 +34,9 @@ open AllFin public
 private variable
   i :  ℕ
   a b :  Res
+  ł :  Level
+  X :  Set ł
+  bˣ :  X → Res
   E :  Env
   a˙ b˙ :  Res˙
   E˙ F˙ : Env˙
@@ -62,7 +65,7 @@ abstract
 Finᴱᴿᴬ :  ERA łᴿ ł≈ łᴱ (ł≈ ⊔ᴸ ł✓)
 Finᴱᴿᴬ =  Valmᴱᴿᴬ ∀ᴱᴿᴬ (λ _ → Cofinε) Cofinε-resp Cofinε-rem
 
-open ERA Finᴱᴿᴬ using () renaming (_↝_ to _↝ᶠⁱⁿ_)
+open ERA Finᴱᴿᴬ using () renaming (_✓_ to _✓ᶠⁱⁿ_; _↝_ to _↝ᶠⁱⁿ_)
 
 abstract
 
@@ -81,16 +84,20 @@ abstract
 
   -- Lift a resource update
 
-  inj˙-↝ᶠⁱⁿ :  ¬ a ≈ ε  →   ((E˙ i , a)  ↝ λ (_ : ⊤₀) →  E˙ i , b)  →
-               (E˙ , inj˙ i a)  ↝ᶠⁱⁿ λ (_ : ⊤₀) →  E˙ , inj˙ i b
-  inj˙-↝ᶠⁱⁿ _ _ _ _ .π₀ =  _
-  inj˙-↝ᶠⁱⁿ _ _ _ ((n ,-) ,-) .π₁ .π₀ .π₀ =  n
-  inj˙-↝ᶠⁱⁿ {i = i} ¬a≈ε _ _ ((n , j≥n⇒ia∙cj≈ε) ,-)
-    .π₁ .π₀ .π₁ j j≥n  with j≥n⇒ia∙cj≈ε j j≥n
-  … | ia∙cj≈ε  with j ≟ i
-  …   | no _ =  ia∙cj≈ε
-  …   | yes refl =  absurd $ ¬a≈ε $ ≈ε-rem $ ∙-comm ◇˜ ia∙cj≈ε
-  inj˙-↝ᶠⁱⁿ {i = i} _ Eia↝Eib c˙ (-, ✓ia∙c) .π₁ .π₁ j  with ✓ia∙c j
-  … | ✓ia∙cj  with j ≟ i
-  …   | no _ =  ✓ia∙cj
-  …   | yes refl =  Eia↝Eib (c˙ i) ✓ia∙cj .π₁
+  inj˙-↝ᶠⁱⁿ :  ¬ a ≈ ε  →   ((E˙ i , a)  ↝ λ x →  E˙ i , bˣ x)  →
+               (E˙ , inj˙ i a)  ↝ᶠⁱⁿ λ x →  E˙ , inj˙ i (bˣ x)
+  inj˙-↝ᶠⁱⁿ {E˙ = E˙} {i} {bˣ = bˣ}
+    ¬a≈ε Eia↝Eibx c˙ ((n , j≥n⇒ia∙cj≈ε) , ✓ia∙c)  with ✓ia∙c i
+  … | ✓a∙ci  rewrite ≟-refl {a = i}  =  body
+   where
+    body :  ∑ x , E˙ ✓ᶠⁱⁿ inj˙ i (bˣ x) ∙˙ c˙
+    body .π₀ =  Eia↝Eibx (c˙ i) ✓a∙ci .π₀
+    body .π₁ .π₀ .π₀ =  n
+    body .π₁ .π₀ .π₁ j j≥n  with j≥n⇒ia∙cj≈ε j j≥n
+    … | ia∙cj≈ε  with j ≟ i
+    …   | no _ =  ia∙cj≈ε
+    …   | yes refl =  absurd $ ¬a≈ε $ ≈ε-rem $ ∙-comm ◇˜ ia∙cj≈ε
+    body .π₁ .π₁ j  with ✓ia∙c j
+    … | ✓ia∙cj  with j ≟ i
+    …   | no _ =  ✓ia∙cj
+    …   | yes refl =  Eia↝Eibx (c˙ i) ✓a∙ci .π₁

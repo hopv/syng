@@ -14,7 +14,7 @@ open import Syho.Lang.Expr using (Mem)
 open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
-  ⇛-frameˡ)
+  ⇛-frameʳ)
 open import Syho.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
 open import Syho.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
 open import Syho.Logic.Bor using (&ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-back)
@@ -61,9 +61,9 @@ abstract
 
   ⊢⇛-sem (P⊢⇛Q ᵘ»ᵘ Q⊢⇛R) =  ⊢⇛-sem P⊢⇛Q › ⇛ᵒ-mono (⊢⇛-sem Q⊢⇛R) › ⇛ᵒ-join
 
-  -- ⇛-frameˡ :  P ⊢[ ∞ ][ i ]⇛ Q →  R ∗ P ⊢[ ∞ ][ i ]⇛ R ∗ Q
+  -- ⇛-frameʳ :  P ⊢[ ∞ ][ i ]⇛ Q →  R ∗ P ⊢[ ∞ ][ i ]⇛ R ∗ Q
 
-  ⊢⇛-sem (⇛-frameˡ Q⊢⇛R) =  ∗ᵒ-monoʳ (⊢⇛-sem Q⊢⇛R) › ⇛ᵒ-eatˡ
+  ⊢⇛-sem (⇛-frameʳ Q⊢⇛R) =  ∗ᵒ-monoʳ (⊢⇛-sem Q⊢⇛R) › ⇛ᵒ-eatˡ
 
   -- ○-new :  P˂ .! ⊢[ ∞ ][ i ]⇛ ○ P˂
 

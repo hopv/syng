@@ -19,9 +19,9 @@ open import Syho.Logic.Names using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-
 open import Syho.Logic.Mem using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
   ↦⟨⟩-agree)
 open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-monoʳᵘ;
-  ↪⇛-eatˡ⁻ʳ; ↪⇛-frameˡ; ○⇒↪⇛;  ↪ᵃ⟨⟩-≤; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ;
-  ↪ᵃ⟨⟩-frameˡ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-≤; ↪⟨⟩-eatˡ⁻ˡᵘᴺ; ↪⟨⟩-monoʳᵘᴺ; ↪⟨⟩-eatˡ⁻ʳ;
-  ↪⟨⟩-frameˡ; ○⇒↪⟨⟩; ↪⟨⟩∞-≤; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞)
+  ↪⇛-eatˡ⁻ʳ; ↪⇛-frameʳ; ○⇒↪⇛;  ↪ᵃ⟨⟩-≤; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ;
+  ↪ᵃ⟨⟩-frameʳ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-≤; ↪⟨⟩-eatˡ⁻ˡᵘᴺ; ↪⟨⟩-monoʳᵘᴺ; ↪⟨⟩-eatˡ⁻ʳ;
+  ↪⟨⟩-frameʳ; ○⇒↪⟨⟩; ↪⟨⟩∞-≤; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞)
 open import Syho.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ)
 open import Syho.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
@@ -39,9 +39,9 @@ open import Syho.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ
 open import Syho.Model.Prop.Lft using ([]ᴸ⟨⟩ᵒ-resp; []ᴸ⟨⟩ᵒ-merge; []ᴸ⟨⟩ᵒ-split;
   []ᴸ⟨⟩ᵒ-≤1; †ᴸᵒ-⇒□ᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no; []ᴸᵒ-new; []ᴸᵒ-kill)
 open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤; ↪⇛ᵒ-eatˡ⁻ˡᵘ;
-  ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-frameˡ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-≤; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
-  ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-≤;
-  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ↪⟨⟩ᵒ-monoʳᵘᴺ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-frameˡ; ○ᵒ⇒↪⟨⟩ᵒ; ↪⟨⟩∞ᵒ-≤;
+  ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-frameʳ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-≤; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
+  ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-frameʳ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-≤;
+  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ↪⟨⟩ᵒ-monoʳᵘᴺ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-frameʳ; ○ᵒ⇒↪⟨⟩ᵒ; ↪⟨⟩∞ᵒ-≤;
   ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒↪⟨⟩∞ᵒ)
 open import Syho.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ×ᵒ; %ⁱᵒ-mono;
   %ⁱᵒ-eatˡ)
@@ -237,9 +237,9 @@ abstract
 
   ⊢-sem (↪⇛-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ʳ
 
-  -- ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
+  -- ↪⇛-frameʳ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
-  ⊢-sem ↪⇛-frameˡ _ =  ↪⇛ᵒ-frameˡ
+  ⊢-sem ↪⇛-frameʳ _ =  ↪⇛ᵒ-frameʳ
 
   -- ○⇒↪⇛ :  P˂ .!  ∗  R˂ .! ⊢[< ∞ ][ i ]⇛  Q˂ .!  →
   --         ○ R˂  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ Q˂
@@ -267,10 +267,10 @@ abstract
 
   ⊢-sem (↪ᵃ⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ
 
-  -- ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]
+  -- ↪ᵃ⟨⟩-frameʳ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]
   --                  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
-  ⊢-sem ↪ᵃ⟨⟩-frameˡ _ =  ↪ᵃ⟨⟩ᵒ-frameˡ
+  ⊢-sem ↪ᵃ⟨⟩-frameʳ _ =  ↪ᵃ⟨⟩ᵒ-frameʳ
 
   -- ○⇒↪ᵃ⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˂˙ v .!)  →
   --           ○ R˂  ⊢[ ∞ ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
@@ -301,10 +301,10 @@ abstract
 
   ⊢-sem (↪⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ʳ
 
-  -- ↪⟨⟩-frameˡ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]
+  -- ↪⟨⟩-frameʳ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]
   --                 ¡ᴾ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
-  ⊢-sem ↪⟨⟩-frameˡ _ =  ↪⟨⟩ᵒ-frameˡ
+  ⊢-sem ↪⟨⟩-frameʳ _ =  ↪⟨⟩ᵒ-frameʳ
 
   -- ○⇒↪⟨⟩ :  P˂ .!  ∗  R˂ .! ⊢[< ∞ ]⟨ e ⟩[ κ ] (λ v →  Q˂˙ v .!)  →
   --          ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] Q˂˙

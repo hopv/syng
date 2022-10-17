@@ -34,7 +34,7 @@ open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_
   _⊢[<_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_;
   _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[<_][_]⁺⟨_⟩∞;
   _⊢[_][_]⟨_⟩∞; _⊢[<_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ;
-  _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ; ahorᴺ-hor;
+  _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameʳ; hor-frameʳ; ahorᴺ-hor;
   ahorᴺ-ihor; hor-bind; ihor-bind; hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[];
   ihor-[]○; ihor-[]●; hor-fork; ihor-fork)
 
@@ -167,19 +167,19 @@ abstract
 
   -- Frame
 
-  -->  ahor-frameˡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
+  -->  ahor-frameʳ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
   -->                 R  ∗  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  R  ∗  Q˙ v
 
-  ahor-frameʳ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
+  ahor-frameˡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
                  P  ∗  R  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  Q˙ v  ∗  R
-  ahor-frameʳ P⊢⟨red⟩Q =  ∗-comm » ahor-frameˡ P⊢⟨red⟩Q ᵃʰ» λ _ → ∗-comm
+  ahor-frameˡ P⊢⟨red⟩Q =  ∗-comm » ahor-frameʳ P⊢⟨red⟩Q ᵃʰ» λ _ → ∗-comm
 
-  -->  hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
+  -->  hor-frameʳ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
   -->                R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  R  ∗  Q˙ v
 
-  hor-frameʳ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
+  hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
                 P  ∗  R  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  Q˙ v  ∗  R
-  hor-frameʳ P⊢⟨vk⟩Q =  ∗-comm » hor-frameˡ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
+  hor-frameˡ P⊢⟨vk⟩Q =  ∗-comm » hor-frameʳ P⊢⟨vk⟩Q ʰ» λ _ → ∗-comm
 
   -- Turn an atomic Hoare triple with a valid name set token into one with the
   -- universal name set token
@@ -188,7 +188,7 @@ abstract
     [ Nm ]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [ Nm ]ᴺ ∗ Q˙ v)  →
     [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)
   ahor-✔⇒ᴺ ✔Nm P⊢⟨red⟩[Nm]Q =  ∗-monoˡ ([]ᴺ-⊆--∗ ✔Nm) » ∗?-comm »
-    ahor-frameʳ P⊢⟨red⟩[Nm]Q ᵃʰ» λ _ → ∗?-comm » ∗-monoˡ -∗-applyˡ
+    ahor-frameˡ P⊢⟨red⟩[Nm]Q ᵃʰ» λ _ → ∗?-comm » ∗-monoˡ -∗-applyˡ
 
   -- Compose an atomic Hoare triple and a Hoare triple for the context
 
@@ -205,7 +205,7 @@ abstract
   ahor-hor :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v)  →
               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →
               P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , red) ⟩[ κ ]  R˙
-  ahor-hor P⊢⟨red⟩Qv =  ahorᴺ-hor $ ahor-frameˡ P⊢⟨red⟩Qv
+  ahor-hor P⊢⟨red⟩Qv =  ahorᴺ-hor $ ahor-frameʳ P⊢⟨red⟩Qv
 
   -->  ahorᴺ-ihor :  [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
   -->                (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
@@ -220,7 +220,7 @@ abstract
   ahor-ihor :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˙ v)  →
                (∀ v →  Q˙ v  ⊢[ ι ][ j ]⟨ K ᴷ◁ V⇒E v ⟩∞)  →
                P  ⊢[ ι ][ j ]⁺⟨ ĩ₁ (-, K , red) ⟩∞
-  ahor-ihor P⊢⟨red⟩Qv =  ahorᴺ-ihor $ ahor-frameˡ P⊢⟨red⟩Qv
+  ahor-ihor P⊢⟨red⟩Qv =  ahorᴺ-ihor $ ahor-frameʳ P⊢⟨red⟩Qv
 
   -- Value
 

@@ -18,7 +18,7 @@ open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ¡ᴾ_; ⊤'; □_; _∗_
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞)
 open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-introˡ; ∗-elimˡ;
   ∗⊤-intro; □-mono; □-elim)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ)
+open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
 open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
@@ -62,7 +62,7 @@ module _
 
   ⇛/↪⇛-use' :  P  ⊢[ ι ][ i ]⇛  Q
   ⇛/↪⇛-use' =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec ○⇒-↪⇛/↪⇛-use') ᵘ»ᵘ ↪⇛-use' {¡ᴾ _} {¡ᴾ _}
+    ⇛-frameʳ (○-rec ○⇒-↪⇛/↪⇛-use') ᵘ»ᵘ ↪⇛-use' {¡ᴾ _} {¡ᴾ _}
 
 --------------------------------------------------------------------------------
 -- If we can use ↪ᵃ⟨ ⟩ without level increment, then we get a paradox
@@ -82,7 +82,7 @@ module _
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
   ahor/↪ᵃ⟨⟩-use' :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙
-  ahor/↪ᵃ⟨⟩-use' =  ∗⊤-intro » ⇛-frameˡ (○-rec {i = 0} ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use') ᵘ»ᵃʰ
+  ahor/↪ᵃ⟨⟩-use' =  ∗⊤-intro » ⇛-frameʳ (○-rec {i = 0} ○⇒-↪ᵃ⟨⟩/↪ᵃ⟨⟩-use') ᵘ»ᵃʰ
     ↪ᵃ⟨⟩-use' {P˂ = ¡ᴾ _} {λ v → ¡ᴾ _}
 
 --------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ module _
   -- Therefore, by ○-rec, we have any partial Hoare triple --- a paradox!
 
   horᴾ/↪⟨⟩ᴾ-use' :  P  ⊢[ ι ]⟨ e ⟩ᴾ  Q˙
-  horᴾ/↪⟨⟩ᴾ-use' =  ∗⊤-intro » ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
+  horᴾ/↪⟨⟩ᴾ-use' =  ∗⊤-intro » ⇛-frameʳ (○-rec {i = 0} ○⇒-↪⟨⟩ᴾ/↪⟨⟩ᴾ-use') ᵘ»ʰ
     ↪⟨⟩ᴾ-use' {P˂ = ¡ᴾ _} {λ _ → ¡ᴾ _}
 
 --------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ module _
   -- Therefore, by ○-rec, we have any total Hoare triple --- a paradox!
 
   horᵀ/↪⟨⟩ᵀ-use' :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ i ]  Q˙
-  horᵀ/↪⟨⟩ᵀ-use' =  ∗⊤-intro » ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
+  horᵀ/↪⟨⟩ᵀ-use' =  ∗⊤-intro » ⇛-frameʳ (○-rec {i = 0} ○⇒-↪⟨⟩ᵀ/↪⟨⟩ᵀ-use') ᵘ»ʰ
     ↪⟨⟩ᵀ-use' {P˂ = ¡ᴾ _} {λ _ → ¡ᴾ _}
 
 --------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ module _
 
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ) ᵘ»ʰ
+    ⇛-frameʳ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ) ᵘ»ʰ
     ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ᴾ _} {λ _ → ¡ᴾ _} (-, redᴾ refl)
 
 --------------------------------------------------------------------------------
@@ -168,4 +168,4 @@ module _
 
   ihor/↪⟨⟩∞-use' :  P  ⊢[ ι ][ i ]⟨ e ⟩∞
   ihor/↪⟨⟩∞-use' =  ∗⊤-intro »
-    ⇛-frameˡ (○-rec {i = 0} ○⇒-↪⟨⟩∞/↪⟨⟩∞-use') ᵘ»ⁱʰ ↪⟨⟩∞-use' {P˂ = ¡ᴾ _}
+    ⇛-frameʳ (○-rec {i = 0} ○⇒-↪⟨⟩∞/↪⟨⟩∞-use') ᵘ»ⁱʰ ↪⟨⟩∞-use' {P˂ = ¡ᴾ _}

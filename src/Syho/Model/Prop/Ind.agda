@@ -19,10 +19,10 @@ open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; Basic
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗-elimʳ)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-≤; _ᵘ»_; _ᵘ»ᵘ_;
-  ⇛-frameˡ; ⇛-frameʳ; ⇛ᴺ-frameʳ)
+  ⇛-frameˡ; ⇛-frameʳ; ⇛ᴺ-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_;
   _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ahor-≤; horᵀ-≤; ihor-≤; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
-  _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ)
+  _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameʳ; hor-frameʳ)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
@@ -130,7 +130,7 @@ abstract
   ↪⇛ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⇛ Q
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵘ P∗S∗T⊢⇛Q ,
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameˡ R∗P'⊢⇛P ᵘ»ᵘ P∗S∗T⊢⇛Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⇛ᵒ-monoʳᵘ :  Q ⊢[ ∞ ][ i ]⇛ Q' →  P ↪[ i ]⇛ᴹ Q  ⊨  P ↪[ i ]⇛ᴹ Q'
@@ -142,12 +142,12 @@ abstract
   ↪⇛ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) →
     -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢⇛ R∗P∗S∗T ⊢⇛ R∗Q
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ⇛-frameˡ P∗S∗T⊢⇛Q ,
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ⇛-frameʳ P∗S∗T⊢⇛Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⇛ᵒ-frameˡ :  P ↪[ i ]⇛ᴹ Q  ⊨  R ∗ P ↪[ i ]⇛ᴹ R ∗ Q
-  ↪⇛ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
-    -, -ᴵ, -, ∗-assocˡ » ⇛-frameˡ P∗R∗S⊢⇛Q , R∗IndSa
+  ↪⇛ᵒ-frameʳ :  P ↪[ i ]⇛ᴹ Q  ⊨  R ∗ P ↪[ i ]⇛ᴹ R ∗ Q
+  ↪⇛ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
+    -, -ᴵ, -, ∗-assocˡ » ⇛-frameʳ P∗R∗S⊢⇛Q , R∗IndSa
 
   -- Make ↪⇛ᵒ out of ○ᵒ
 
@@ -181,7 +181,7 @@ abstract
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨red⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢ᵃ⟨red⟩ Q˙
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameʳ R∗P'⊢⇛P ᵘ»ᵃʰ P∗S∗T⊢⟨red⟩Q ,
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛-frameˡ R∗P'⊢⇛P ᵘ»ᵃʰ P∗S∗T⊢⟨red⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪ᵃ⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
@@ -194,12 +194,12 @@ abstract
   ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨red⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢ᵃ⟨red⟩ R∗Q
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ahor-frameˡ P∗S∗T⊢⟨red⟩Q ,
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ahor-frameʳ P∗S∗T⊢⟨red⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪ᵃ⟨⟩ᵒ-frameˡ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  R ∗ P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
-  ↪ᵃ⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
-    -, -ᴵ, -, ∗-assocˡ » ahor-frameˡ P∗R∗S⊢⟨red⟩Q , R∗IndSa
+  ↪ᵃ⟨⟩ᵒ-frameʳ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  R ∗ P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
+  ↪ᵃ⟨⟩ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+    -, -ᴵ, -, ∗-assocˡ » ahor-frameʳ P∗R∗S⊢⟨red⟩Q , R∗IndSa
 
   -- Make ↪ᵃ⟨ ⟩ᵒ out of ○ᵒ
 
@@ -245,7 +245,7 @@ abstract
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ᴺ P∗S∗T ⊢⟨e⟩ Q˙
     ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ »
-      ⇛ᴺ-frameʳ R∗P'⊢⇛[⊤]P ᵘᴺ»ʰ P∗S∗T⊢⟨e⟩Q ,
+      ⇛ᴺ-frameˡ R∗P'⊢⇛[⊤]P ᵘᴺ»ʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   ↪⟨⟩ᵒ-monoʳᵘᴺ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ᴺ Q'˙ v) →
@@ -258,12 +258,12 @@ abstract
   ↪⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ R∗Q
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameˡ P∗S∗T⊢⟨e⟩Q ,
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » hor-frameʳ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᵒ-frameˡ :  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
-  ↪⟨⟩ᵒ-frameˡ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
-    -, -ᴵ, -, ∗-assocˡ » hor-frameˡ P∗R∗S⊢⟨e⟩Q , R∗IndSa
+  ↪⟨⟩ᵒ-frameʳ :  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
+  ↪⟨⟩ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+    -, -ᴵ, -, ∗-assocˡ » hor-frameʳ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
   -- Make ↪⟨ ⟩ᵒ out of ○ᵒ
 
@@ -297,7 +297,7 @@ abstract
   ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ R∗Q⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- Q∗(R∗S)∗T ⊢ Q∗R∗S∗T ⊢ R∗Q∗S∗T ⊢ (R∗Q)∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩∞
-    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛ᴺ-frameʳ R∗Q⊢⇛P ᵘᴺ»ⁱʰ P∗S∗T⊢⟨e⟩Q ,
+    ∗-monoʳ ∗-assocˡ » ?∗-comm » ∗-assocʳ » ⇛ᴺ-frameˡ R∗Q⊢⇛P ᵘᴺ»ⁱʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
   -- Make ↪⟨ ⟩∞ᵒ out of ○ᵒ

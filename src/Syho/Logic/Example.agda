@@ -26,11 +26,11 @@ open import Syho.Logic.Prop using (Name; strnm; Prop'; Prop∞; ¡ᴾ_; ∀-synt
   static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
   ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ;
-  ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro;
-  ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ; -∗-introʳ; □-mono; □-dup; ∃-Pers;
-  □-elim; □-intro-Pers; dup-Pers)
+  ∗-monoʳ²; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pushʳ²ˡ; ∗-elimˡ; ∗-elimʳ;
+  ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ; -∗-introʳ;
+  □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
-  ⇛-frameʳ)
+  ⇛-frameʳ; ⇛-frameʳˡ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; ahor-frameˡ; ahor-frameʳ; ahor✔-hor;
   hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind; hor-fork)
@@ -129,8 +129,8 @@ abstract
   -- Create ≤ᵁᵇ⟨ o ⟩ n and &ub↦ θ o out of θ ↦ (-, n)
 
   &ub↦-new :  θ ↦ (-, n)  ⊢[ ι ][ i ]⇛  ∃ o ,  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o
-  &ub↦-new =  ⊤∗-intro » ⇛-frameʳ (#ᵁᵇ-new » ⤇⇒⇛) ᵘ»ᵘ ∃∗-elim λ o →
-    ∗-assocˡ » ∗-monoʳ (∃-intro _) » ⇛-frameˡ &ⁱ-new ᵘ» ∃-intro o
+  &ub↦-new =  ⊤∗-intro » ⇛-frameˡ (#ᵁᵇ-new » ⤇⇒⇛) ᵘ»ᵘ ∃∗-elim λ o →
+    ∗-assocˡ » ∗-monoʳ (∃-intro _) » ⇛-frameʳ &ⁱ-new ᵘ» ∃-intro o
 
   -- Atomic Hoare triple for fad under #ᵁᵇ and ↦, updating ≤ᵁᵇ
 
@@ -138,19 +138,19 @@ abstract
     ≤ᵁᵇ⟨ o ⟩ n  ∗  #ᵁᵇ⟨ o ⟩ m' ∗ θ ↦ (-, m')  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
       ⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  #ᵁᵇ⟨ o ⟩ ṗ m  ∗ θ ↦ (-, ṗ m)
   ahor-fad-#ᵁᵇ-↦ =  ∗-assocʳ » ∗-monoˡ (retain-⌜⌝ ≤ᵁᵇ-#ᵁᵇ) » ∃∗-elim λ m≤n →
-    ∗-monoˡ ∗-elimʳ » ahor-frameˡ ahor-fau ᵃʰ»ᵘ λ m → ∗∃-elim λ{ refl →
-    ⇛-frameʳ {i = 0} (#ᵁᵇ-upd ṗ-decr » ⤇⇒⇛) ᵘ» ∗-assocˡ » ∃-intro m≤n }
+    ∗-monoˡ ∗-elimʳ » ahor-frameʳ ahor-fau ᵃʰ»ᵘ λ m → ∗∃-elim λ{ refl →
+    ⇛-frameˡ {i = 0} (#ᵁᵇ-upd ṗ-decr » ⤇⇒⇛) ᵘ» ∗-assocˡ » ∃-intro m≤n }
 
   -- Atomic Hoare triple for fad under &ub↦, updating ≤ᵁᵇ
 
   ahor-fad-&ub↦ :
     [^ ub ]ᴺ  ∗  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
       [^ ub ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  &ub↦ θ o)
-  ahor-fad-&ub↦ =  ?∗-comm » ∗-monoʳ (∗-monoʳ dup-Pers » ?∗-comm » ∗-assocʳ) »
-    ⇛-frameˡ {i = 0} (⇛-frameʳ &ⁱ-open) ᵘ»ᵃʰ ∗-monoʳ ∗-assocˡ » ∗-assocʳ »
-    ahor-frameʳ (∗∃-elim λ _ → ahor-fad-#ᵁᵇ-↦) ᵃʰ»ᵘ λ m → ∃∗-elim λ m≤n →
+  ahor-fad-&ub↦ =  ∗-monoʳ² dup-Pers » ∗-pushʳ²ˡ » ∗-monoʳ ∗-assocʳ »
+    ⇛-frameʳˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ ∗-monoʳ ∗-assocˡ » ∗-assocʳ »
+    ahor-frameˡ (∗∃-elim λ _ → ahor-fad-#ᵁᵇ-↦) ᵃʰ»ᵘ λ m → ∃∗-elim λ m≤n →
     ∗-assocˡ » ∗-monoʳ (∗-assocʳ » ∗-monoˡ $ ∗-monoˡ $ ∃-intro _) »
-    ⇛-frameˡ {i = 0} (⇛-frameʳ %ⁱ-close) ᵘ» ?∗-comm » ∗-monoʳ $ ∃-intro m≤n
+    ⇛-frameʳˡ {i = 0} %ⁱ-close ᵘ» ?∗-comm » ∗-monoʳ $ ∃-intro m≤n
 
   -- Total Hoare triple for fadrep under ≤ᵁᵇ and &ub↦
   -- The proof goes by well-founded induction over the upper bound n
@@ -301,7 +301,7 @@ abstract
   Slist∞⇒Slist :  Slist∞ nsˢ θ  ⊢[ ι ][ i ]⇛  Slist (takeˢ k nsˢ) θ
   Slist∞⇒Slist {k = 0} =  ⇒⇛ ⊤-intro
   Slist∞⇒Slist {_ ∷ˢ _} {k = ṡ k'} =  ∃-elim λ θ' → ∗-monoʳ □-elim »
-    ⇛-frameˡ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
+    ⇛-frameʳ (○-use ᵘ»ᵘ Slist∞⇒Slist {k = k'}) ᵘ» ∃-intro θ'
 
   -- Use Slist∞
 

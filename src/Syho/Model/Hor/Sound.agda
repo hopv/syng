@@ -19,7 +19,7 @@ open import Syho.Logic.Prop using (Prop∞; _↦_; [∗∈ⁱ⟨⟩]-syntax)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
   _⊢[_][_]⁺⟨_⟩∞; hor-ᵀ⇒ᴾ; ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
-  _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameˡ; hor-frameˡ; ahorᴺ-hor; ahorᴺ-ihor;
+  _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameʳ; hor-frameʳ; ahorᴺ-hor; ahorᴺ-ihor;
   hor-bind; ihor-bind; hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○;
   ihor-[]●; hor-fork; ihor-fork)
 open import Syho.Logic.Mem using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
@@ -108,10 +108,10 @@ abstract
   ⊢ᵃ⟨⟩-sem (P⊢⟨red⟩Q ᵃʰ»ᵘ Qv⊢⇛Rv) =  ⊢ᵃ⟨⟩-sem P⊢⟨red⟩Q ›
     ᵃ⟨⟩ᵒ-mono (λ v Qva → ⊢⇛-sem (Qv⊢⇛Rv v) Qva) › ᵃ⟨⟩ᵒ-⇛ᵒ
 
-  -- ahor-frameˡ :  P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩  Q˙  →
+  -- ahor-frameʳ :  P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩  Q˙  →
   --                R  ∗  P  ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ λ v →  R  ∗  Q˙ v
 
-  ⊢ᵃ⟨⟩-sem (ahor-frameˡ P⊢⟨red⟩Q) =  ∗ᵒ-monoʳ (⊢ᵃ⟨⟩-sem P⊢⟨red⟩Q) › ᵃ⟨⟩ᵒ-eatˡ
+  ⊢ᵃ⟨⟩-sem (ahor-frameʳ P⊢⟨red⟩Q) =  ∗ᵒ-monoʳ (⊢ᵃ⟨⟩-sem P⊢⟨red⟩Q) › ᵃ⟨⟩ᵒ-eatˡ
 
   -- ahor-nd :  {{ Inh ⸨ Xʸ ⸩ʸ }} →  P  ⊢[ ∞ ][ i ]ᵃ⟨ ndᴿ {Xʸ} ⟩ λ _ →  P
 
@@ -197,10 +197,10 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (P⊢⟨vk⟩Q ʰ»ᵘᴺ Qv⊢⇛Rv) =
     ⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q › ⁺⟨⟩ᵀᵒ-mono (λ v → ⊢⇛ᴺ-sem (Qv⊢⇛Rv v)) › ⁺⟨⟩ᵀᵒ-⇛ᴺᵒ
 
-  -- hor-frameˡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
+  -- hor-frameʳ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ]  Q˙  →
   --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᵀ[ i ] λ v →  R  ∗  Q˙ v
 
-  ⊢⁺⟨⟩ᵀ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q) › ⁺⟨⟩ᵀᵒ-eatˡ
+  ⊢⁺⟨⟩ᵀ-sem (hor-frameʳ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᵀ-sem P⊢⟨vk⟩Q) › ⁺⟨⟩ᵀᵒ-eatˡ
 
   -- hor-valᵘᴺ :  P  ⊢[ ∞ ][ i ]⇛ᴺ  Q˙ v  →   P  ⊢[ ∞ ]⁺⟨ T / ĩ₀ v ⟩ᵀ[ i ]  Q˙
 
@@ -358,10 +358,10 @@ abstract
 
   ⊢⁺⟨⟩ᴾ-sem (ihor⇒horᴾ P⊢⟨vk⟩∞) =  ⊢⁺⟨⟩∞-sem P⊢⟨vk⟩∞ › ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ
 
-  -- hor-frameˡ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →
+  -- hor-frameʳ :  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ  Q˙  →
   --               R  ∗  P  ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ λ v →  R  ∗  Q˙ v
 
-  ⊢⁺⟨⟩ᴾ-sem (hor-frameˡ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q) › ⁺⟨⟩ᴾᵒ-eatˡ
+  ⊢⁺⟨⟩ᴾ-sem (hor-frameʳ P⊢⟨vk⟩Q) =  ∗ᵒ-monoʳ (⊢⁺⟨⟩ᴾ-sem P⊢⟨vk⟩Q) › ⁺⟨⟩ᴾᵒ-eatˡ
 
   -- hor-valᵘᴺ :  P  ⊢[ ∞ ][ i ]⇛ᴺ  Q˙ v  →   P  ⊢[ ∞ ]⁺⟨ T / ĩ₀ v ⟩ᴾ  Q˙
 

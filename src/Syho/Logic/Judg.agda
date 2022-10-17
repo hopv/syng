@@ -313,7 +313,7 @@ data  Judg ι  where
 
   -- Frame for ⊢⇛
 
-  ⇛-frameˡ :  P ⊢[ ι ][ i ]⇛ Q →  R ∗ P ⊢[ ι ][ i ]⇛ R ∗ Q
+  ⇛-frameʳ :  P ⊢[ ι ][ i ]⇛ Q →  R ∗ P ⊢[ ι ][ i ]⇛ R ∗ Q
 
   ------------------------------------------------------------------------------
   -- On the Hoare triples
@@ -353,10 +353,10 @@ data  Judg ι  where
 
   -- Frame
 
-  ahor-frameˡ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
+  ahor-frameʳ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
                  R  ∗  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  R  ∗  Q˙ v
 
-  hor-frameˡ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
+  hor-frameʳ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
                 R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  R  ∗  Q˙ v
 
   -- Compose an atomic Hoare triple with [⊤]ᴺ and a Hoare triple for the context
@@ -515,7 +515,7 @@ data  Judg ι  where
   ↪⇛-eatˡ⁻ʳ :  {{Basic R}}  →
     R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
-  ↪⇛-frameˡ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
+  ↪⇛-frameʳ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ι ]  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
   -- Make ↪⇛ out of ○
 
@@ -544,7 +544,7 @@ data  Judg ι  where
     R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ι ]
       P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
-  ↪ᵃ⟨⟩-frameˡ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
+  ↪ᵃ⟨⟩-frameʳ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ι ]
                    ¡ᴾ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   -- Make ↪⟨ ⟩ᵀ out of ○
@@ -577,7 +577,7 @@ data  Judg ι  where
   ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
     R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
-  ↪⟨⟩-frameˡ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]
+  ↪⟨⟩-frameʳ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ι ]
                   ¡ᴾ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
   -- Make ↪⟨ ⟩ out of ○

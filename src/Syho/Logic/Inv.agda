@@ -21,7 +21,7 @@ open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_;
   ?∗-comm; ∗?-comm; ∗⇒∧; ∃∗-elim; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[<ᴾ_]⟨_⟩[_]_;
-  _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameʳ; ahor✔-hor; hor<ᴾ-map)
+  _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameˡ; ahor✔-hor; hor<ᴾ-map)
 open import Syho.Logic.Mem using (ahor-🞰)
 
 -- Import and re-export
@@ -105,15 +105,15 @@ abstract
 
   &ⁱ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  R  →
             &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ∗  Q  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ  ∗  R
-  &ⁱ-use P∗Q⊢⇛P∗R =  ∗-assocʳ » ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ∗?-comm »
-    ⇛-frameʳ P∗Q⊢⇛P∗R ᵘ»ᵘ ∗-assocˡ » ?∗-comm »
-    ⇛-frameˡ %ⁱ-close ᵘ» ∗-comm
+  &ⁱ-use P∗Q⊢⇛P∗R =  ∗-assocʳ » ⇛-frameˡ &ⁱ-open ᵘ»ᵘ ∗?-comm »
+    ⇛-frameˡ P∗Q⊢⇛P∗R ᵘ»ᵘ ∗-assocˡ » ?∗-comm »
+    ⇛-frameʳ %ⁱ-close ᵘ» ∗-comm
 
   ahor-&ⁱ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  P˂ .!  ∗  R˙ v)  →
     &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  [^ nm ]ᴺ  ∗  R˙ v
-  ahor-&ⁱ-use P∗Q⊢⟨red⟩P∗Rv =  ∗-assocʳ » ⇛-frameʳ {i = 0} &ⁱ-open ᵘ»ᵃʰ
-    ∗?-comm » ahor-frameʳ P∗Q⊢⟨red⟩P∗Rv ᵃʰ»ᵘ λ _ → ∗-assocˡ » ?∗-comm »
-    ⇛-frameˡ {i = 0} %ⁱ-close ᵘ» ∗-comm
+  ahor-&ⁱ-use P∗Q⊢⟨red⟩P∗Rv =  ∗-assocʳ » ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ
+    ∗?-comm » ahor-frameˡ P∗Q⊢⟨red⟩P∗Rv ᵃʰ»ᵘ λ _ → ∗-assocˡ » ?∗-comm »
+    ⇛-frameʳ {i = 0} %ⁱ-close ᵘ» ∗-comm
 
   ------------------------------------------------------------------------------
   -- On the static reference
@@ -127,12 +127,12 @@ abstract
 
   ahor-↦ⁱ-🞰 :  θ ↦ⁱ (T , v)  ∗  [^ static ]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ_ {T} θ ⟩ λ u →
                  ⌜ u ≡ v ⌝∧  [^ static ]ᴺ
-  ahor-↦ⁱ-🞰 =  &ⁱ-open {i = 0} ᵘ»ᵃʰ ahor-frameʳ ahor-🞰 ᵃʰ»ᵘ λ _ →
+  ahor-↦ⁱ-🞰 =  &ⁱ-open {i = 0} ᵘ»ᵃʰ ahor-frameˡ ahor-🞰 ᵃʰ»ᵘ λ _ →
     ∃∗-elim λ u≡v → %ⁱ-close {P˂ = ¡ᴾ _} {i = 0} ᵘ» ∃-intro u≡v
 
   hor-↦ⁱ-🞰 :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  Q˙  →
               θ ↦ⁱ (T , v)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , 🞰ᴿ_ {T} θ) ⟩[ κ ]  Q˙
   hor-↦ⁱ-🞰 P⊢⟨Kv⟩Q =  ahor✔-hor {i = 0} ^ᶻᴺ-✔
-    (?∗-comm » ∗-assocʳ » ahor-frameʳ ahor-↦ⁱ-🞰 ᵃʰ» λ _ → ∃∗-elim λ u≡v →
+    (?∗-comm » ∗-assocʳ » ahor-frameˡ ahor-↦ⁱ-🞰 ᵃʰ» λ _ → ∃∗-elim λ u≡v →
       ∗-monoʳ $ ∃-intro u≡v)
     λ v → hor<ᴾ-map (λ big → ∃-elim λ{ refl → big }) P⊢⟨Kv⟩Q

@@ -84,7 +84,7 @@ abstract
 
   -- Lift a resource update of the element ERA
 
-  inj˙-↝ᶠⁱⁿ :  ¬ a ≈ ε  →   ((E˙ i , a)  ↝ λ x →  E˙ i , bˣ x)  →
+  inj˙-↝ᶠⁱⁿ :  ¬ a ≈ ε  →   (E˙ i , a)  ↝ (λ x →  E˙ i , bˣ x)  →
                (E˙ , inj˙ i a)  ↝ᶠⁱⁿ λ x →  E˙ , inj˙ i (bˣ x)
   inj˙-↝ᶠⁱⁿ {E˙ = E˙} {i} {bˣ = bˣ}
     ¬a≈ε Eia↝Eibx c˙ ((n , j≥n⇒ia∙cj≈ε) , ✓ia∙c)  with ✓ia∙c i

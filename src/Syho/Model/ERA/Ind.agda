@@ -64,7 +64,7 @@ abstract
   -- Remove a proposition consuming indˣ
 
   indˣ-use :  ((Qˇ˙ , n) , indˣ i P)  ↝ᴵⁿᵈˣ
-                λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (upd˙ i ň Qˇ˙ , n) , εᴵⁿᵈˣ
+                λ (_ :  i < n  ×  Qˇ˙ i ≡ š P) →  (upd˙ i ň Qˇ˙ , n) , εᴵⁿᵈˣ
   indˣ-use =  ↝ᴵⁿᵈˣ-rem (λ ()) id ✓ˣ-free
 
 --------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ abstract
   -- Get an agreement from indᵖ
 
   indᵖ-use :  ((Qˇ˙ , n) , indᵖ i P)  ↝ᴵⁿᵈᵖ
-                λ (_ :  Qˇ˙ i ≡ š P  ×  i < n) →  (Qˇ˙ , n) , indᵖ i P
+                λ (_ :  i < n  ×  Qˇ˙ i ≡ š P) →  (Qˇ˙ , n) , indᵖ i P
   indᵖ-use =  ↝ᴵⁿᵈᵖ-agree (≈ᴸ-[] › λ ()) ✓ᴸ-agree
 
 --------------------------------------------------------------------------------

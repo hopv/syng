@@ -93,11 +93,11 @@ abstract
   -- Get agreement from inv
 
   inv-agree :  ((ⁿQˇ˙ , n) , inv i nm P)  ↝ᴵⁿᵛ
-    λ (_ :  ⁿQˇ˙ i ≡ š (nm , P)  ×  i < n) →  (ⁿQˇ˙ , n) , inv i nm P
+    λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →  (ⁿQˇ˙ , n) , inv i nm P
   inv-agree =  ↝ᴵⁿᵛ-agree (π₀ › ≈ᴸ-[] › λ ()) (π₀ › ✓ᴸ-agree)
 
   -- Get agreement from invk
 
   invk-agree :  ((ⁿQˇ˙ , n) , invk i nm P)  ↝ᴵⁿᵛ
-    λ (_ :  ⁿQˇ˙ i ≡ š (nm , P)  ×  i < n) →  (ⁿQˇ˙ , n) , invk i nm P
+    λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →  (ⁿQˇ˙ , n) , invk i nm P
   invk-agree =  ↝ᴵⁿᵛ-agree (λ ()) π₁

@@ -88,7 +88,7 @@ abstract
   Indˣ-use :  Indˣ P  ⊨  ⇛ᴵⁿᵈˣ  ⸨ P ⸩
   Indˣ-use =  ⇛ᵍ¹-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
     ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} indˣ-use) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ{ (≡šP , i<n) → ∗ᵒ-elimʳ Smry-Mono › Smry-rem-< ≡šP i<n }) ›
+    ⤇ᴱ-mono (λ{ (i<n , ≡šP) → ∗ᵒ-elimʳ Smry-Mono › Smry-rem-< i<n ≡šP }) ›
     ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
@@ -132,9 +132,9 @@ abstract
 
   Indᵖ-use :  Indᵖ P  ⊨ ⇛ᴵⁿᵈᵖ  ⸨ P ⸩
   Indᵖ-use {P} =  ⇛ᵍ¹-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
-    ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ indᵖ-use) › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ{ (≡šP , i<n) →
+    ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ indᵖ-use) › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ{ (i<n , ≡šP) →
       ∗ᵒ-elimʳ (□ᵒ-Mono Smry-Mono) › dup-□ᵒ Smry-Mono › ∗ᵒ-monoˡ $
-      □ᵒ-elim Smry-Mono › Smry-rem-< ≡šP i<n › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) ›
+      □ᵒ-elim Smry-Mono › Smry-rem-< i<n ≡šP › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) ›
     ⤇ᴱ-param
 
 --------------------------------------------------------------------------------

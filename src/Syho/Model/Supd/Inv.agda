@@ -101,9 +101,9 @@ abstract
       ⤇ᴱ-mono (λ _ → ∗ᵒ-elimˡ (□ᵒ-Mono $ ⸨⸩ᴮ-Mono {Q}) › dup-□ᵒ (⸨⸩ᴮ-Mono {Q}) ›
       ∗ᵒ-mono (□ᵒ-elim $ ⸨⸩ᴮ-Mono {Q}) (□ᵒ-elim $ ⸨⸩ᴮ-Mono {Q})) , [nm]∗INVc) ▷
     -- (⤇ Q∗Q)∗[nm]∗INV → ⤇ (Q∗Q)∗[nm]∗INV
-    ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (≡šR , i<n) ✓∙ → ∗ᵒ-mono✓ʳ
+    ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-mono✓ʳ
     -- [nm]∗INV → [nm]∗LineP∗INV → → → (Invk∗R)∗LineP∗INV → (Invk∗R)∗INV
-    (λ ✓∙ → ∗ᵒ-monoʳ (Smry-rem-< ≡šR i<n) › ∗ᵒ-assocʳ ›
+    (λ ✓∙ → ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocʳ ›
       ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ✓∙ ›
     -- (Q∗Q)∗(Invk∗R)∗INV → ((Q∗Q)∗Invk∗R)∗INV
     ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (λ ✓∙ →
@@ -129,10 +129,10 @@ abstract
     (-, Q , -ᴵ, -, Q∗P⊢R , Q∗Invkb) , P∗INVc) →
     (-, -, b∙c⊑a , Q∗Invkb ▷ ∗ᵒ-monoʳ
       (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → invk _ _ _} invk-agree) ▷ ⤇ᴱ-eatˡ , P∗INVc) ▷
-    ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (≡šR , i<n) ✓∙ →
+    ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (i<n , ≡šR) ✓∙ →
     -- (Q∗Invk)∗P∗INV → ((Q∗Invk)∗P)∗INV → → (Invk∗Q∗P)∗INV → (Invk∗R)∗INV →
     -- (Invk∗R)∗INV → (Invk∗R)∗(Line∗INV) → → [nm]∗(Line∗INV) → [nm]∗INV
     ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
     ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗P⊢R ✓∙) ✓∙) ✓∙ ›
-    ∗ᵒ-monoʳ (Smry-rem-< ≡šR i<n) › ∗ᵒ-assocʳ ›
+    ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocʳ ›
     ∗ᵒ-mono✓ˡ Invk-close ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ▷ ⤇ᴱ-param }

@@ -36,7 +36,7 @@ private variable
   ł :  Level
   X Y :  Set ł
   i n :  ℕ
-  a :  Res
+  a b :  Res
   bˣ :  X → Res
   E :  Env
   a˙ :  Res˙
@@ -48,7 +48,8 @@ Bndᴱᴿᴬ :  ERA łᴿ ł≈ łᴱ (łᴱ ⊔ᴸ ł✓)
 Bndᴱᴿᴬ =  Envvᴱᴿᴬ (Envmᴱᴿᴬ ∀ᴱᴿᴬ ((ℕ → Env) × ℕ) π₀)
   λ (E˙ , n) → ∀≥ n (λ _ → _≡ ∅) E˙
 
-open ERA Bndᴱᴿᴬ using () renaming (_✓_ to _✓ᴮⁿᵈ_; _↝_ to _↝ᴮⁿᵈ_)
+open ERA Bndᴱᴿᴬ using () renaming (_✓_ to _✓ᴮⁿᵈ_; _↝_ to _↝ᴮⁿᵈ_;
+  ↝-param to ↝ᴮⁿᵈ-param)
 
 abstract
 
@@ -69,18 +70,18 @@ abstract
   -- Use agreement at an index
 
   ↝ᴮⁿᵈ-agree :  ¬ a ≈ ε  →   (E˙ i ✓ a → X)  →
-    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ (_ : X × i < n) →  (E˙ , n) , inj˙ i a
+    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ (_ : i < n × X) →  (E˙ , n) , inj˙ i a
   ↝ᴮⁿᵈ-agree {i = i} {n = n} ¬a≈ε Ei✓a⇒X b˙ (j≥n⇒Ej≡∅ , E✓ia∙b) .π₀
     with ✓-mono ∙-incrʳ (E✓ia∙b i)
   … | Ei✓a  rewrite ≟-refl {a = i}  with i <≥ n
-  …   | ĩ₀ i<n =  Ei✓a⇒X Ei✓a , i<n
+  …   | ĩ₀ i<n =  i<n , Ei✓a⇒X Ei✓a
   …   | ĩ₁ i≥n  rewrite j≥n⇒Ej≡∅ i i≥n =  absurd $ ¬a≈ε $ ∅✓⇒≈ε Ei✓a
   ↝ᴮⁿᵈ-agree _ _ b˙ (✓E✓ia∙b) .π₁ =  ✓E✓ia∙b
 
   -- Remove an element at an index
 
   ↝ᴮⁿᵈ-rem :  ¬ a ≈ ε  →   (E˙ i ✓ a → X)  →   (∀{b} → E˙ i ✓ a ∙ b → ∅ ✓ b)  →
-    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ (_ : X × i < n) →  (upd˙ i ∅ E˙ , n) , ε˙
+    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ (_ : i < n × X) →  (upd˙ i ∅ E˙ , n) , ε˙
   ↝ᴮⁿᵈ-rem ¬a≈ε Ei✓a⇒X _ b˙ ✓E✓ia∙b .π₀ =  ↝ᴮⁿᵈ-agree ¬a≈ε Ei✓a⇒X b˙ ✓E✓ia∙b .π₀
   ↝ᴮⁿᵈ-rem {i = i} _ _ _ _ (j≥n⇒Ej≡∅ ,-) .π₁ .π₀ j j≥n  with j ≟ i
   … | no _ =  j≥n⇒Ej≡∅ j j≥n
@@ -94,20 +95,20 @@ abstract
 
   inj˙-↝ᴮⁿᵈ :
     ¬ a ≈ ε  →   (E˙ i ✓ a → Y)  →   (E˙ i , a)  ↝ (λ x →  E˙ i , bˣ x)  →
-    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ ((x ,-) : X × Y × i < n) →
+    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ ((x ,-) : X × i < n × Y) →
       (E˙ , n) , inj˙ i (bˣ x)
   inj˙-↝ᴮⁿᵈ {E˙ = E˙} {i} {Y = Y} {X = X} {bˣ} {n}
     ¬a≈ε Ei✓a⇒Y Eia↝Eibx c˙ ✓E✓ia∙c@(j≥n⇒Ej≡∅ , ✓ia∙c)  with ✓ia∙c i
-  … | ✓a∙ci  rewrite ≟-refl {a = i}  =  (x , yi<n) , body
+  … | ✓a∙ci  rewrite ≟-refl {a = i}  =  (x , i<n,y) , body
    where
-    yi<n :  Y × i < n
-    yi<n =  ↝ᴮⁿᵈ-agree ¬a≈ε Ei✓a⇒Y c˙ ✓E✓ia∙c .π₀
+    i<n,y :  i < n  ×  Y
+    i<n,y =  ↝ᴮⁿᵈ-agree ¬a≈ε Ei✓a⇒Y c˙ ✓E✓ia∙c .π₀
     x :  X
     x =  Eia↝Eibx (c˙ i) ✓a∙ci .π₀
     body :  (E˙ , n) ✓ᴮⁿᵈ inj˙ i (bˣ x) ∙˙ c˙
     body .π₀ j j≥n  with j ≟ i | j≥n⇒Ej≡∅ j j≥n
     … | no _ | Ej≡∅ =  Ej≡∅
-    … | yes refl | _ =  absurd $ <⇒¬≥ (yi<n .π₁) j≥n
+    … | yes refl | _ =  absurd $ <⇒¬≥ (i<n,y .π₀) j≥n
     body .π₁ j  with j ≟ i | ✓ia∙c j
     … | no _ | ✓ε∙cj =  ✓ε∙cj
     … | yes refl | _ =  Eia↝Eibx (c˙ i) ✓a∙ci .π₁

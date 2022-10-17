@@ -9,7 +9,8 @@ module Syho.Model.Prop.Lft where
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _›_)
 open import Base.Prod using (-,_)
-open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺; _/2⁺; /2⁺-merge;
+  /2⁺-split)
 open import Syho.Logic.Prop using (Lft)
 open import Syho.Model.ERA.Lft using ([_]ᴸ⟨_⟩ʳ; †ᴸʳ_; ◠˜ᴸᶠᵗ_; []ᴸ⟨⟩ʳ-cong;
   []ᴸ⟨⟩ʳ-∙; []ᴸ⟨⟩ʳ-≤1; †ᴸʳ-⌞⌟; []ᴸ⟨⟩ʳ-†ᴸʳ-no; []ᴸʳ-new; []ᴸʳ-kill)
@@ -53,6 +54,12 @@ abstract
 
   []ᴸ⟨⟩ᵒ-split :  [ α ]ᴸ⟨ p +ᴿ⁺ q ⟩ᵒ  ⊨  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  [ α ]ᴸ⟨ q ⟩ᵒ
   []ᴸ⟨⟩ᵒ-split =  ◎⟨⟩-resp (◠˜ᴸᶠᵗ []ᴸ⟨⟩ʳ-∙) › ◎⟨⟩-∙⇒∗ᵒ
+
+  []ᴸ⟨⟩ᵒ-merge-/2 :  [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ  ∗ᵒ  [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ  ⊨  [ α ]ᴸ⟨ p ⟩ᵒ
+  []ᴸ⟨⟩ᵒ-merge-/2 {p = p} =  []ᴸ⟨⟩ᵒ-merge › []ᴸ⟨⟩ᵒ-resp $ /2⁺-merge {p}
+
+  []ᴸ⟨⟩ᵒ-split-/2 :  [ α ]ᴸ⟨ p ⟩ᵒ  ⊨  [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ  ∗ᵒ  [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ
+  []ᴸ⟨⟩ᵒ-split-/2 {p = p} =  []ᴸ⟨⟩ᵒ-resp (/2⁺-split {p}) › []ᴸ⟨⟩ᵒ-split
 
   -- The fraction of [ ]ᴸ⟨ ⟩ᵒ is no more than 1
 

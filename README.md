@@ -159,6 +159,7 @@ following parts.
             [`Ind`](src/Syho/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Inv`](src/Syho/Model/ERA/Inv.agda) for the invariant ERA;
             [`Lft`](src/Syho/Model/ERA/Lft.agda) for the lifetime ERA;
+            [`Bor`](src/Syho/Model/ERA/Bor.agda) for the borrow ERA;
             [`Ub`](src/Syho/Model/ERA/Ub.agda) for the upper-bound ERA.
         * Global ERA ―
             [`Glob`](src/Syho/Model/ERA/Glob.agda) for the global ERA.

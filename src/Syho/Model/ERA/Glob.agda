@@ -21,6 +21,7 @@ open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿ
   empᴵⁿᵈˣ-✓ε; empᴵⁿᵈᵖ-✓ε)
 open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; empᴵⁿᵛ-✓ε)
 open import Syho.Model.ERA.Lft using (Lftᴱᴿᴬ; ✓ᴸᶠᵗε)
+open import Syho.Model.ERA.Bor using (Borᴱᴿᴬ; empᴮᵒʳ; empᴮᵒʳ-✓ε)
 open import Syho.Model.ERA.Ub using (Ubᴱᴿᴬ; ✓ᵁᵇε)
 
 open ERA using (Res; Env)
@@ -36,8 +37,9 @@ pattern iᴵⁿᵈˣ =  2
 pattern iᴵⁿᵈᵖ =  3
 pattern iᴵⁿᵛ =  4
 pattern iᴸᶠᵗ =  5
-pattern iᵁᵇ =  6
-pattern elseᴳ =  ṡ ṡ ṡ ṡ ṡ ṡ ṡ _
+pattern iᴮᵒʳ =  6
+pattern iᵁᵇ =  7
+pattern elseᴳ =  ṡ ṡ ṡ ṡ ṡ ṡ ṡ ṡ _
 
 -- Map of ERAs
 
@@ -48,6 +50,7 @@ Globᴱᴿᴬ˙ iᴵⁿᵈˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈᵖ =  Indᵖᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵛ =  Invᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴸᶠᵗ =  Lftᴱᴿᴬ
+Globᴱᴿᴬ˙ iᴮᵒʳ =  Borᴱᴿᴬ
 Globᴱᴿᴬ˙ iᵁᵇ =  Ubᴱᴿᴬ
 Globᴱᴿᴬ˙ elseᴳ =  ⊤ᴱᴿᴬ
 
@@ -90,8 +93,9 @@ pattern jᴵⁿᵈˣ =  1
 pattern jᴵⁿᵈᵖ =  2
 pattern jᴵⁿᵛ =  3
 pattern jᴸᶠᵗ =  4
-pattern jᵁᵇ =  5
-pattern elseᴵⁿᴳ =  ṡ ṡ ṡ ṡ ṡ ṡ _
+pattern jᴮᵒʳ =  5
+pattern jᵁᵇ =  6
+pattern elseᴵⁿᴳ =  ṡ ṡ ṡ ṡ ṡ ṡ ṡ _
 
 -- Resource and environment of a component inner ERA
 
@@ -124,6 +128,7 @@ empᴵⁿᴳ jᴵⁿᵈˣ =  empᴵⁿᵈˣ
 empᴵⁿᴳ jᴵⁿᵈᵖ =  empᴵⁿᵈᵖ
 empᴵⁿᴳ jᴵⁿᵛ =  empᴵⁿᵛ
 empᴵⁿᴳ jᴸᶠᵗ =  _
+empᴵⁿᴳ jᴮᵒʳ =  empᴮᵒʳ
 empᴵⁿᴳ jᵁᵇ =  _
 empᴵⁿᴳ elseᴵⁿᴳ =  _
 
@@ -145,6 +150,7 @@ abstract
   empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈᵖ =  empᴵⁿᵈᵖ-✓ε
   empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵛ =  empᴵⁿᵛ-✓ε
   empᴵⁿᴳ-✓[⊤] _ iᴸᶠᵗ =  ✓ᴸᶠᵗε
+  empᴵⁿᴳ-✓[⊤] _ iᴮᵒʳ =  empᴮᵒʳ-✓ε
   empᴵⁿᴳ-✓[⊤] _ iᵁᵇ =  ✓ᵁᵇε
   empᴵⁿᴳ-✓[⊤] _ elseᴳ =  _
 

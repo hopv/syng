@@ -26,11 +26,11 @@ open import Syho.Logic.Prop using (Name; strnm; Prop'; Prop∞; ¡ᴾ_; ∀-synt
   static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
   ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ;
-  ∗-monoʳ²; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pushʳ²ˡ; ∗-elimˡ; ∗-elimʳ;
-  ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ; -∗-introʳ;
-  □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
+  ∗-monoʳ²; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²ˡ; ∗-pushʳ²ˡ; ∗-elimˡ;
+  ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ;
+  -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
-  ⇛-frameʳ; ⇛-frameʳˡ)
+  ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; ahor-frameˡ; ahor-frameʳ; ahor✔-hor;
   hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind; hor-fork)
@@ -146,11 +146,11 @@ abstract
   ahor-fad-&ub↦ :
     [^ ub ]ᴺ  ∗  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
       [^ ub ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  &ub↦ θ o)
-  ahor-fad-&ub↦ =  ∗-monoʳ² dup-Pers » ∗-pushʳ²ˡ » ∗-monoʳ ∗-assocˡ »
-    ⇛-frameʳˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ ∗-monoʳ ∗-assocʳ » ∗-assocˡ »
+  ahor-fad-&ub↦ =  ∗-monoʳ² dup-Pers » ∗-pushʳ²ˡ » ∗-pushʳ²ˡ » ∗-assocˡ »
+    ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ ∗-assocʳ » ∗-pullʳ²ˡ » ∗-assocˡ »
     ahor-frameˡ (∗∃-elim λ _ → ahor-fad-#ᵁᵇ-↦) ᵃʰ»ᵘ λ m → ∃∗-elim λ m≤n →
-    ∗-assocʳ » ∗-monoʳ (∗-assocˡ » ∗-monoˡ $ ∗-monoˡ $ ∃-intro _) »
-    ⇛-frameʳˡ {i = 0} %ⁱ-close ᵘ» ?∗-comm » ∗-monoʳ $ ∃-intro m≤n
+    ∗-assocʳ » ∗-pushʳ²ˡ » ∗-monoˡ (∃-intro _) » ∗-assocˡ »
+    ⇛-frameˡ {i = 0} %ⁱ-close ᵘ» ∗-monoʳ $ ∃-intro m≤n
 
   -- Total Hoare triple for fadrep under ≤ᵁᵇ and &ub↦
   -- The proof goes by well-founded induction over the upper bound n

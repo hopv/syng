@@ -23,8 +23,8 @@ open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⇒<;
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (⟨†⟩-mono; ⟨†⟩-eatˡ; &ᵐ-resp-□∧;
-  %ᵐ-respᴿ; %ᵐ-monoᴾ; %ᵐ-eatˡ; ⟨†⟩-back; &ᵐ-new; &ᵐ-open; %ᵐ-close)
+open import Syho.Logic.Judg public using (&ᵐ-resp-□∧; %ᵐ-respᴿ; %ᵐ-monoᴾ;
+  %ᵐ-eatˡ; ⟨†⟩-mono; ⟨†⟩-eatˡ; &ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-back)
 
 private variable
   ι :  𝕊
@@ -45,24 +45,16 @@ abstract
   ------------------------------------------------------------------------------
   -- On the borrow
 
-  -->  ⟨†⟩-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ Q˂
-
   -->  %ᵐ-respᴿ :  p ≈ᴿ⁺ q  →   %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , q ⟩ P˂
 
   -->  %ᵐ-monoᴾ :
   -->    P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ᵐ⟨ α , p ⟩ Q˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ P˂
 
-  -->  ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!
+  -->  ⟨†⟩-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ Q˂
 
   -->  &ᵐ-new :  P˂ .!  ⊢[ ι ][ i ]⇛  &ᵐ⟨ α ⟩ P˂  ∗  ⟨† α ⟩ P˂
 
-  -- Let a lending token eat a basic proposition
-
-  -->  ⟨†⟩-eatˡ :  {{Basic Q}}  →
-  -->    Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
-
-  ⟨†⟩-eatʳ :  {{Basic Q}}  →   ⟨† α ⟩ P˂  ∗  Q  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (P˂ .! ∗ Q)
-  ⟨†⟩-eatʳ =  ∗-comm » ⟨†⟩-eatˡ » ⟨†⟩-mono $ ⇒< ∗-comm
+  -->  ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!
 
   -- Modify a mutable borrow token
 
@@ -94,6 +86,14 @@ abstract
   %ᵐ-eatʳ :  {{Basic Q}}  →
     %ᵐ⟨ α , p ⟩ P˂  ∗  Q  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
   %ᵐ-eatʳ =  ∗-comm » %ᵐ-eatˡ
+
+  -- Let a lending token eat a basic proposition
+
+  -->  ⟨†⟩-eatˡ :  {{Basic Q}}  →
+  -->    Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
+
+  ⟨†⟩-eatʳ :  {{Basic Q}}  →   ⟨† α ⟩ P˂  ∗  Q  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (P˂ .! ∗ Q)
+  ⟨†⟩-eatʳ =  ∗-comm » ⟨†⟩-eatˡ » ⟨†⟩-mono $ ⇒< ∗-comm
 
   -- Use a mutable borrow token
 

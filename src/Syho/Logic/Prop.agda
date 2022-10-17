@@ -79,7 +79,7 @@ private variable
 infix 3 ⤇_ _→'_ _-∗_
 infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
-infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ ⟨†_⟩_ &ᵐ⟨_⟩_ %ᵐ⟨_⟩_ #ᵁᵇ⟨_⟩_ ≤ᵁᵇ⟨_⟩_
+infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ &ᵐ⟨_⟩_ %ᵐ⟨_⟩_ ⟨†_⟩_ #ᵁᵇ⟨_⟩_ ≤ᵁᵇ⟨_⟩_
 infix 9 _↦⟨_⟩_
 
 
@@ -140,10 +140,6 @@ data  Prop' ι  where
   -- †ᴸ :  Dead lifetime token
   †ᴸ_ :  Lft →  Prop' ι
 
-  -- ⟨† ⟩ :  Lender token
-
-  ⟨†_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
-
   -- &ᵐ :  Mutable borrow token
 
   &ᵐ⟨_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
@@ -151,6 +147,10 @@ data  Prop' ι  where
   -- %ᵐ :  Open mutable borrow token
 
   %ᵐ⟨_⟩_ :  Lft × ℚ⁺ →  Prop˂ ι →  Prop' ι
+
+  -- ⟨† ⟩ :  Lender token
+
+  ⟨†_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
 
   -- Upper-boundee token
 

@@ -25,8 +25,8 @@ open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ�
 open import Syho.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ)
 open import Syho.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
-open import Syho.Logic.Bor using (⟨†⟩-mono; ⟨†⟩-eatˡ; &ᵐ-resp-□∧; %ᵐ-respᴿ;
-  %ᵐ-monoᴾ; %ᵐ-eatˡ)
+open import Syho.Logic.Bor using (&ᵐ-resp-□∧; %ᵐ-respᴿ; %ᵐ-monoᴾ; %ᵐ-eatˡ;
+  ⟨†⟩-mono; ⟨†⟩-eatˡ)
 open import Syho.Logic.Ub using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-monoˡ;
   ∗ᵒ-mono✓ˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; -∗ᵒ-introˡ; -∗ᵒ-elimˡ;
@@ -380,14 +380,6 @@ abstract
 
   ⊢-sem []ᴸ-kill _ =  []ᴸᵒ-kill
 
-  -- ⟨†⟩-mono :  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ Q˂
-
-  ⊢-sem (⟨†⟩-mono P⊢Q) =  WIP
-
-  -- ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
-
-  ⊢-sem ⟨†⟩-eatˡ =  WIP
-
   -- &ᵐ-resp-□∧ :  {{Basic R}}  →
   --   R  ∧  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ∞ ]  P˂ .!  →
   --   □ R  ∧  &ᵐ⟨ α ⟩ P˂  ⊢[ ∞ ]  &ᵐ⟨ α ⟩ Q˂
@@ -407,6 +399,14 @@ abstract
   --   Q  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   ⊢-sem %ᵐ-eatˡ =  WIP
+
+  -- ⟨†⟩-mono :  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ Q˂
+
+  ⊢-sem (⟨†⟩-mono P⊢Q) =  WIP
+
+  -- ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
+
+  ⊢-sem ⟨†⟩-eatˡ =  WIP
 
   -- ≤ᵁᵇ-mono :  m ≤ n  →   ≤ᵁᵇ⟨ o ⟩ m  ⊢[ ∞ ]  ≤ᵁᵇ⟨ o ⟩ n
 

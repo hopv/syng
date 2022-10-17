@@ -711,14 +711,6 @@ data  Judg ι  where
   ------------------------------------------------------------------------------
   -- On borrows
 
-  -- Monotonicity of the lending token
-
-  ⟨†⟩-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ Q˂
-
-  -- Let a lending token eat a basic proposition
-
-  ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
-
   -- Modify a mutable borrow token using a basic persistent proposition
 
   &ᵐ-resp-□∧ :  {{Basic R}}  →
@@ -738,9 +730,13 @@ data  Judg ι  where
   %ᵐ-eatˡ :  {{Basic Q}}  →
     Q  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
-  -- Retrieve the proposition from a lending token using a dead lifetime token
+  -- Monotonicity of the lending token
 
-  ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!
+  ⟨†⟩-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ Q˂
+
+  -- Let a lending token eat a basic proposition
+
+  ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
 
   -- Allocate a proposition to create a new mutable borrow
 
@@ -753,6 +749,10 @@ data  Judg ι  where
   -- Close an open mutable borrow token
 
   %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
+
+  -- Retrieve the proposition from a lending token using a dead lifetime token
+
+  ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!
 
   ------------------------------------------------------------------------------
   -- On upper bounds

@@ -164,8 +164,8 @@ abstract
   -- Update aˇ into š c and š (1ᴿ⁺ , bs) into š (1ᴿ⁺ , [ c ]),
   -- preserving ✓ᶠʳ - ∙ᶠʳ x
 
-  ✓ᶠʳ-update :  aˇ ✓ᶠʳ š (1ᴿ⁺ , bs) ∙ᶠʳ x  →  š c ✓ᶠʳ š (1ᴿ⁺ , [ c ]) ∙ᶠʳ x
-  ✓ᶠʳ-update {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-new {x = x}
+  ✓ᶠʳ-upd :  aˇ ✓ᶠʳ š (1ᴿ⁺ , bs) ∙ᶠʳ x  →  š c ✓ᶠʳ š (1ᴿ⁺ , [ c ]) ∙ᶠʳ x
+  ✓ᶠʳ-upd {x = x} =  ✓ᶠʳ-free {x = x} › ✓ᶠʳ-new {x = x}
 
 --------------------------------------------------------------------------------
 -- FracAgᴱᴿᴬ :  Fractional agreement ERA

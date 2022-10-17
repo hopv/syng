@@ -123,8 +123,8 @@ abstract
 
   -- Update aˇ into š c and #ˣ b into #ˣ c, preserving ✓ˣ - ∙ˣ x
 
-  ✓ˣ-update :  aˇ ✓ˣ #ˣ b ∙ˣ x →  š c ✓ˣ #ˣ c ∙ˣ x
-  ✓ˣ-update {x = εˣ} _ =  refl
+  ✓ˣ-upd :  aˇ ✓ˣ #ˣ b ∙ˣ x →  š c ✓ˣ #ˣ c ∙ˣ x
+  ✓ˣ-upd {x = εˣ} _ =  refl
 
 --------------------------------------------------------------------------------
 -- Excᴱᴿᴬ A :  Exclusive ERA

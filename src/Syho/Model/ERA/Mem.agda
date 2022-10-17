@@ -24,7 +24,7 @@ open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ; Envv�
 open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; εˣ; ✓ˣ-agree; ✓ˣ-new;
   ✓ˣ-free)
 open import Syho.Model.ERA.FracAg using (FracAg; _≈ᶠʳ_; _∙ᶠʳ_; FracAgᴱᴿᴬ;
-  š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-update; ✓ᶠʳ-new; ✓ᶠʳ-free)
+  š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-upd; ✓ᶠʳ-new; ✓ᶠʳ-free)
 import Syho.Model.ERA.All
 
 --------------------------------------------------------------------------------
@@ -283,7 +283,7 @@ abstract
     Mo‼j✓aoj
   …   | yes refl | Mo | M‼θ✓↦u∙aθ  with Mo | ✓ᶠʳ-agree {x = a o .π₀ i} M‼θ✓↦u∙aθ
   …     | š ᵗus | us‼i≡šu  rewrite upd-‼-in {as = ᵗus} {b = ᵗv} (-, us‼i≡šu) =
-    ✓ᶠʳ-update {x = a o .π₀ i} M‼θ✓↦u∙aθ
+    ✓ᶠʳ-upd {x = a o .π₀ i} M‼θ✓↦u∙aθ
 
   -- Allocate to get ↦ᴸʳ and freeʳ
 

@@ -82,7 +82,7 @@ abstract
   … | yes refl =  flip ✓-resp E✓a $ ◠˜_ $
     ∙-congʳ (◠˜ ∙-unitˡ ◇˜ i≥n⇒bi≈ε n ≤-refl) ◇˜ ∙-unitʳ
 
-  -- Lift a resource update
+  -- Lift a resource update of the element ERA
 
   inj˙-↝ᶠⁱⁿ :  ¬ a ≈ ε  →   ((E˙ i , a)  ↝ λ x →  E˙ i , bˣ x)  →
                (E˙ , inj˙ i a)  ↝ᶠⁱⁿ λ x →  E˙ , inj˙ i (bˣ x)

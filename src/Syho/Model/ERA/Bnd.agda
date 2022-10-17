@@ -18,12 +18,12 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
 open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
-open import Base.Nat using (ṡ_; _<_; ∀≥; ≤-refl; <-irrefl; <⇒≤; _<≥_)
+open import Base.Nat using (ṡ_; _<_; ∀≥; ≤-refl; <-irrefl; <⇒≤; <⇒¬≥; _<≥_)
 open import Syho.Model.ERA.Base using (Envmᴱᴿᴬ; Envvᴱᴿᴬ)
 import Syho.Model.ERA.All
 
-open ERA Era using (Res; _≈_; _∙_; ε; Env; _✓_; ◠˜_; _◇˜_; ∙-congʳ; ∙-unitˡ;
-  ∙-unitʳ; ∙-incrʳ; ✓-resp; ✓-mono)
+open ERA Era using (Res; _≈_; _∙_; ε; Env; _✓_; _↝_; ◠˜_; _◇˜_; ∙-congʳ;
+  ∙-unitˡ; ∙-unitʳ; ∙-incrʳ; ✓-resp; ✓-mono)
 
 --------------------------------------------------------------------------------
 -- Bndᴱᴿᴬ :  Bounded-map ERA
@@ -34,9 +34,10 @@ open AllBnd public
 
 private variable
   ł :  Level
-  X :  Set ł
+  X Y :  Set ł
   i n :  ℕ
   a :  Res
+  bˣ :  X → Res
   E :  Env
   a˙ :  Res˙
   E˙ F˙ : Env˙
@@ -88,3 +89,25 @@ abstract
     with j ≟ i | E✓ia∙b j
   … | no _ | Ej✓ε∙bj =  Ej✓ε∙bj
   … | yes refl | Ei✓a∙bi =  ✓-resp (◠˜ ∙-unitˡ) $ Ei✓a∙⇒∅✓ Ei✓a∙bi
+
+  -- Lift a resource update of the element ERA
+
+  inj˙-↝ᴮⁿᵈ :
+    ¬ a ≈ ε  →   (E˙ i ✓ a → Y)  →   (E˙ i , a)  ↝ (λ x →  E˙ i , bˣ x)  →
+    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ ((x ,-) : X × Y × i < n) →
+      (E˙ , n) , inj˙ i (bˣ x)
+  inj˙-↝ᴮⁿᵈ {E˙ = E˙} {i} {Y = Y} {X = X} {bˣ} {n}
+    ¬a≈ε Ei✓a⇒Y Eia↝Eibx c˙ ✓E✓ia∙c@(j≥n⇒Ej≡∅ , ✓ia∙c)  with ✓ia∙c i
+  … | ✓a∙ci  rewrite ≟-refl {a = i}  =  (x , yi<n) , body
+   where
+    yi<n :  Y × i < n
+    yi<n =  ↝ᴮⁿᵈ-agree ¬a≈ε Ei✓a⇒Y c˙ ✓E✓ia∙c .π₀
+    x :  X
+    x =  Eia↝Eibx (c˙ i) ✓a∙ci .π₀
+    body :  (E˙ , n) ✓ᴮⁿᵈ inj˙ i (bˣ x) ∙˙ c˙
+    body .π₀ j j≥n  with j ≟ i | j≥n⇒Ej≡∅ j j≥n
+    … | no _ | Ej≡∅ =  Ej≡∅
+    … | yes refl | _ =  absurd $ <⇒¬≥ (yi<n .π₁) j≥n
+    body .π₁ j  with j ≟ i | ✓ia∙c j
+    … | no _ | ✓ε∙cj =  ✓ε∙cj
+    … | yes refl | _ =  Eia↝Eibx (c˙ i) ✓a∙ci .π₁

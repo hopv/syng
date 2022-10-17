@@ -364,8 +364,8 @@ abstract
 
   -- Cancel addition of two halved fractions
 
-  /2⁺-two :  p /2⁺  +ᴿ⁺  p /2⁺  ≈ᴿ⁺  p
-  /2⁺-two {p@(a ⫽⁺ b)} =  subst (_≈ᴿ⁺ p) (cong (_⫽⁺ 2b *⁺ 2b) eq) eqv
+  /2⁺-merge :  p /2⁺  +ᴿ⁺  p /2⁺  ≈ᴿ⁺  p
+  /2⁺-merge {p@(a ⫽⁺ b)} =  subst (_≈ᴿ⁺ p) (cong (_⫽⁺ 2b *⁺ 2b) eq) eqv
    where
     2a 2b :  ℕ⁺
     2a =  2⁺ *⁺ a
@@ -375,3 +375,6 @@ abstract
     eqv :  2b *⁺ 2a ⫽⁺ 2b *⁺ 2b  ≈ᴿ⁺  p
     eqv =  ≈ᴿ⁺-trans {2b *⁺ 2a ⫽⁺ 2b *⁺ 2b} {2a ⫽⁺ 2b} {p}
       (⫽⁺-*ˡ {2b} {2a} {2b}) (⫽⁺-*ˡ {2⁺} {a} {b})
+
+  /2⁺-split :  p  ≈ᴿ⁺  p /2⁺  +ᴿ⁺  p /2⁺
+  /2⁺-split {p} =  ≈ᴿ⁺-sym {p /2⁺ +ᴿ⁺ p /2⁺} {p} $ /2⁺-merge {p}

@@ -12,8 +12,8 @@ open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (upd˙)
 open import Base.Bool using (𝔹; tt; ff)
-open import Base.Option using (¿_; š_; ň; ¿-case)
-open import Base.Prod using (_×_; _,_; _,-)
+open import Base.Option using (¿_; š_; ň)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.Ratp using (ℚ⁺)
 open import Syho.Logic.Prop using (Lft; Prop∞)
@@ -26,10 +26,41 @@ import Syho.Model.ERA.Bnd
 
 -- Borbᴱᴿᴬ :  Borrow box ERA
 
+Envᴮᵒʳᵇ :  Set₁
+Envᴮᵒʳᵇ =  ¿ (¿ ℚ⁺ × 𝔹 × Lft × Prop∞)
+
+lenvᴮᵒʳᵇ :  Envᴮᵒʳᵇ →  ¿ (¿ ℚ⁺ × Lft × Prop∞)
+lenvᴮᵒʳᵇ (š (pˇ , b , α , P)) =  š (pˇ , α , P)
+lenvᴮᵒʳᵇ ň =  ň
+
+renvᴮᵒʳᵇ :  Envᴮᵒʳᵇ →  ¿ (𝔹 × Lft × Prop∞)
+renvᴮᵒʳᵇ (š (pˇ , b , α , P)) =  š (b , α , P)
+renvᴮᵒʳᵇ ň =  ň
+
 Borbᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
 Borbᴱᴿᴬ =  Envmᴱᴿᴬ (Excᴱᴿᴬ (¿ ℚ⁺ × Lft × Prop∞) ×ᴱᴿᴬ Excᴱᴿᴬ (𝔹 × Lft × Prop∞))
-  (¿ (¿ ℚ⁺ × 𝔹 × Lft × Prop∞))
-  (¿-case (λ (pˇ , b , α , P) → š (pˇ , α , P) , š (b , α , P)) (ň , ň))
+  Envᴮᵒʳᵇ λ E → lenvᴮᵒʳᵇ E , renvᴮᵒʳᵇ E
+
+private variable
+  E :  Envᴮᵒʳᵇ
+  pˇ qˇ :  ¿ ℚ⁺
+  b c :  𝔹
+  α :  Lft
+  P :  Prop∞
+
+open ERA Borbᴱᴿᴬ public using () renaming (_↝_ to _↝ᴮᵒʳᵇ_)
+
+abstract
+
+  lenvᴮᵒʳᵇ-upd :  (E , #ˣ (pˇ , α , P) , εˣ)  ↝ᴮᵒʳᵇ
+    λ ((b ,-) : ∑ b , E ≡ š (pˇ , b , α , P)) →
+    š (qˇ , b , α , P) , #ˣ (qˇ , α , P) , εˣ
+  lenvᴮᵒʳᵇ-upd {š _} (εˣ ,-) (refl , ✓#bαP) =  (-, refl) , refl , ✓#bαP
+
+  renvᴮᵒʳᵇ-upd :  (E , εˣ , #ˣ (b , α , P))  ↝ᴮᵒʳᵇ
+    λ ((pˇ ,-) : ∑ pˇ , E ≡ š (pˇ , b , α , P)) →
+    š (pˇ , c , α , P) , εˣ , #ˣ (c , α , P)
+  renvᴮᵒʳᵇ-upd {š _} (-, εˣ) (✓#pˇαP , refl) =  (-, refl) , ✓#pˇαP , refl
 
 -- Borᴱᴿᴬ :  Borrow ERA
 
@@ -39,12 +70,11 @@ open BndBor public using () renaming (
   --  Borᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Bndᴱᴿᴬ to Borᴱᴿᴬ;
   inj˙ to inj˙ᴮᵒʳ; inj˙-∙ to inj˙ᴮᵒʳ-∙;
-  ↝ᴮⁿᵈ-new to ↝ᴮᵒʳ-new)
+  ↝ᴮⁿᵈ-new to ↝ᴮᵒʳ-new; inj˙-↝ᴮⁿᵈ to inj˙-↝ᴮᵒʳ)
 
-open ERA Borbᴱᴿᴬ public using () renaming (Env to Envᴮᵒʳᵇ)
 open ERA Borᴱᴿᴬ public using () renaming (Res to Resᴮᵒʳ; _∙_ to _∙ᴮᵒʳ_;
   ε to εᴮᵒʳ; Env to Envᴮᵒʳ; _✓_ to _✓ᴮᵒʳ_; _↝_ to _↝ᴮᵒʳ_; ◠˜_ to ◠˜ᴮᵒʳ_;
-  ↝-respʳ to ↝ᴮᵒʳ-respʳ)
+  ε-min to εᴮᵒʳ-min; ↝-respʳ to ↝ᴮᵒʳ-respʳ; ↝-monoʳ to ↝ᴮᵒʳ-monoʳ)
 
 -- Resource for the borrow token
 
@@ -63,9 +93,8 @@ lend i α P =  inj˙ᴮᵒʳ i (εˣ , #ˣ (tt , α , P))
 
 private variable
   E˙ :  ℕ → Envᴮᵒʳᵇ
-  n :  ℕ
-  α :  Lft
-  P :  Prop∞
+  i n :  ℕ
+  p :  ℚ⁺
 
 abstract
 
@@ -85,3 +114,25 @@ abstract
     (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) , bor n α P ∙ᴮᵒʳ lend n α P
   bor-lend-new =
     ↝ᴮᵒʳ-respʳ {a = εᴮᵒʳ} (◠˜ᴮᵒʳ inj˙ᴮᵒʳ-∙) $ ↝ᴮᵒʳ-new (refl , refl)
+
+  -- Turn bor into obor to update ¿ ℚ⁺ from ň to š p
+
+  bor-open :  ((E˙ , n) , bor i α P)  ↝ᴮᵒʳ
+    λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (ň , b , α , P))) →
+    (upd˙ i (š (š p , b , α , P)) E˙ , n) , obor i α p P
+  bor-open =  inj˙-↝ᴮᵒʳ (λ ()) lenvᴮᵒʳᵇ-upd
+
+  -- Turn obor into bor to update ¿ ℚ⁺ from š p to ň
+
+  obor-close :  ((E˙ , n) , obor i α p P)  ↝ᴮᵒʳ
+    λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (š p , b , α , P))) →
+    (upd˙ i (š (ň , b , α , P)) E˙ , n) , bor i α P
+  obor-close =  inj˙-↝ᴮᵒʳ (λ ()) lenvᴮᵒʳᵇ-upd
+
+  -- Consume lend to update 𝔹 from tt to ff
+
+  lend-back :  ((E˙ , n) , lend i α P)  ↝ᴮᵒʳ
+    λ ((-, (pˇ ,-)) :  i < n  ×  (∑ pˇ , E˙ i ≡ š (pˇ , tt , α , P))) →
+    (upd˙ i (š (pˇ , ff , α , P)) E˙ , n) , εᴮᵒʳ
+  lend-back =  ↝ᴮᵒʳ-monoʳ {b˙ = λ _ → inj˙ᴮᵒʳ _ _} {a = lend _ _ _} εᴮᵒʳ-min $
+    inj˙-↝ᴮᵒʳ {bˣ = λ _ → εˣ , #ˣ _} (λ ()) renvᴮᵒʳᵇ-upd

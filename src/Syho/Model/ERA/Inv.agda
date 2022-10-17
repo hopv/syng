@@ -24,6 +24,8 @@ import Syho.Model.ERA.Bnd
 --------------------------------------------------------------------------------
 -- Invᴱᴿᴬ :  Invariant ERA
 
+-- NameProp :  Pair of a name and a proposition
+
 NameProp :  Set₁
 NameProp =  Name × Prop∞
 
@@ -32,6 +34,8 @@ private variable
   nm :  Name
   i n :  ℕ
   ⁿPˇ˙ ⁿQˇ˙ :  ℕ →  ¿ NameProp
+
+-- Invᴱᴿᴬ :  Invariant ERA
 
 module BndInv =  Syho.Model.ERA.Bnd
   (Envmᴱᴿᴬ (Agᴱᴿᴬ NameProp ×ᴱᴿᴬ Excᴱᴿᴬ NameProp) _ λ ⁿPˇ → ⁿPˇ , ⁿPˇ)

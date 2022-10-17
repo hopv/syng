@@ -104,5 +104,5 @@ abstract
 
   &ᵐ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  R  →
     &ᵐ⟨ α ⟩ P˂  ∗  [ α ]ᴸ⟨ p ⟩  ∗  Q  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  R
-  &ᵐ-use P∗Q⊢⇛P∗R =  ∗-assocʳ » ⇛-frameˡ &ᵐ-open ᵘ»ᵘ ∗?-comm »
-    ⇛-frameˡ P∗Q⊢⇛P∗R ᵘ»ᵘ ∗-assocˡ » ?∗-comm » ⇛-frameʳ %ᵐ-close ᵘ» ∗-comm
+  &ᵐ-use P∗Q⊢⇛P∗R =  ∗-assocˡ » ⇛-frameˡ &ᵐ-open ᵘ»ᵘ ∗?-comm »
+    ⇛-frameˡ P∗Q⊢⇛P∗R ᵘ»ᵘ ∗-assocʳ » ?∗-comm » ⇛-frameʳ %ᵐ-close ᵘ» ∗-comm

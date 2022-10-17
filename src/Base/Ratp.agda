@@ -79,19 +79,19 @@ abstract
     eq :  d *⁺ (f *⁺ a) ≡ d *⁺ (b *⁺ e)
     eq =
       -- d(fa) ≡ d(af) ≡ (da)f ≡ (bc)f ≡ b(cf) ≡ b(fc) ≡ b(de) ≡ d(be)
-      cong (d *⁺_) (*⁺-comm {f} {a}) ◇ *⁺-assocʳ {d} {a} {f} ◇
-      cong (_*⁺ f) da≡bc ◇ *⁺-assocˡ {b} {c} {f} ◇
+      cong (d *⁺_) (*⁺-comm {f} {a}) ◇ *⁺-assocˡ {d} {a} {f} ◇
+      cong (_*⁺ f) da≡bc ◇ *⁺-assocʳ {b} {c} {f} ◇
       cong (b *⁺_) (*⁺-comm {c} {f} ◇ fc≡de) ◇ ?*⁺-comm {b} {d} {e}
 
   -- Cancel multiplication of the numerator and denominator by the same factor
 
   ⫽⁺-*ˡ :  c *⁺ a ⫽⁺ c *⁺ b  ≈ᴿ⁺  a ⫽⁺ b
   ⫽⁺-*ˡ {c} {a} {b} =  -- b(ca) ≡ c(ba) ≡ (cb)a
-    ?*⁺-comm {b} {c} {a} ◇ *⁺-assocʳ {c} {b} {a}
+    ?*⁺-comm {b} {c} {a} ◇ *⁺-assocˡ {c} {b} {a}
 
   ⫽⁺-*ʳ :  a *⁺ c ⫽⁺ b *⁺ c  ≈ᴿ⁺  a ⫽⁺ b
   ⫽⁺-*ʳ {a} {c} {b} =  -- b(ac) ≡ (ba)c ≡ (bc)a
-    *⁺-assocʳ {b} {a} {c} ◇ *⁺?-comm {b} {a} {c}
+    *⁺-assocˡ {b} {a} {c} ◇ *⁺?-comm {b} {a} {c}
 
 --------------------------------------------------------------------------------
 -- ≤ᴿ⁺, >ᴿ⁺ :  Order of ℚ⁺
@@ -238,23 +238,23 @@ abstract
 
   -- +ᴿ⁺ is associative
 
-  +ᴿ⁺-assocˡ :  (p +ᴿ⁺ q) +ᴿ⁺ r ≡ p +ᴿ⁺ (q +ᴿ⁺ r)
-  +ᴿ⁺-assocˡ {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} =
-    cong₂ _⫽⁺_ eq (*⁺-assocˡ {b} {d} {f})
+  +ᴿ⁺-assocʳ :  (p +ᴿ⁺ q) +ᴿ⁺ r ≡ p +ᴿ⁺ (q +ᴿ⁺ r)
+  +ᴿ⁺-assocʳ {a ⫽⁺ b} {c ⫽⁺ d} {e ⫽⁺ f} =
+    cong₂ _⫽⁺_ eq (*⁺-assocʳ {b} {d} {f})
    where
     eq :  f *⁺ (d *⁺ a +⁺ b *⁺ c) +⁺ (b *⁺ d) *⁺ e ≡
           (d *⁺ f) *⁺ a +⁺ b *⁺ (f *⁺ c +⁺ d *⁺ e)
     eq =
       -- f(da+bc)+(bd)e ≡ f(da+bc)+b(de) ≡ (f(da)+f(bc))+b(de) ≡
       -- ((df)a+b(fc))+b(de) ≡ (df)a+(b(fc)+b(de)) ≡ (df)a+b(fc+de)
-      flip (cong₂ _+⁺_) (*⁺-assocˡ {b} {d} {e})
+      flip (cong₂ _+⁺_) (*⁺-assocʳ {b} {d} {e})
         (*⁺-+⁺-distrʳ {f} {d *⁺ a} {b *⁺ c} ◇ cong₂ _+⁺_
-          (?*⁺-comm {f} {d} {a} ◇ *⁺-assocʳ {d} {f} {a})
+          (?*⁺-comm {f} {d} {a} ◇ *⁺-assocˡ {d} {f} {a})
           (?*⁺-comm {f} {b} {c})) ◇
-      +⁺-assocˡ ◇ cong (d *⁺ f *⁺ a +⁺_) $ ◠ *⁺-+⁺-distrʳ {b}
+      +⁺-assocʳ ◇ cong (d *⁺ f *⁺ a +⁺_) $ ◠ *⁺-+⁺-distrʳ {b}
 
-  +ᴿ⁺-assocʳ :  p +ᴿ⁺ (q +ᴿ⁺ r) ≡ (p +ᴿ⁺ q) +ᴿ⁺ r
-  +ᴿ⁺-assocʳ {p} {q} {r} =  ◠ +ᴿ⁺-assocˡ {p} {q} {r}
+  +ᴿ⁺-assocˡ :  p +ᴿ⁺ (q +ᴿ⁺ r) ≡ (p +ᴿ⁺ q) +ᴿ⁺ r
+  +ᴿ⁺-assocˡ {p} {q} {r} =  ◠ +ᴿ⁺-assocʳ {p} {q} {r}
 
   -- +ᴿ⁺ preserves ≈ᴿ⁺
 
@@ -285,7 +285,7 @@ abstract
   +ᴿ⁺-sincrʳ :  p <ᴿ⁺ p +ᴿ⁺ q
   +ᴿ⁺-sincrʳ {a ⫽⁺ b} {c ⫽⁺ d} =
     -- (bd)a ≡ b(da) < b(da)+b(bc) ≡ b(da+bc)
-    subst₂ _<⁺_ (*⁺-assocʳ {b} {d}) (◠ *⁺-+⁺-distrʳ {b}) +⁺-sincrʳ
+    subst₂ _<⁺_ (*⁺-assocˡ {b} {d}) (◠ *⁺-+⁺-distrʳ {b}) +⁺-sincrʳ
 
   +ᴿ⁺-sincrˡ :  ∀{p q} →  q <ᴿ⁺ p +ᴿ⁺ q
   +ᴿ⁺-sincrˡ {p} {q} =  subst (q <ᴿ⁺_) (+ᴿ⁺-comm {q} {p}) $ +ᴿ⁺-sincrʳ {q} {p}

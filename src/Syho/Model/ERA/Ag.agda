@@ -12,12 +12,12 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_,_; -,_)
 open import Base.List using (List; []; _∷_; [_]; _⧺_; ∈ʰᵈ; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_;
-  ⧺-congˡ; ⧺-comm; ⧺-assocˡ; ⧺-idem; ⧺-⊆ᴸ-introʳ; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
+  ⧺-congˡ; ⧺-comm; ⧺-assocʳ; ⧺-idem; ⧺-⊆ᴸ-introʳ; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
   ≈ᴸ-trans)
 open import Syho.Model.ERA.Base using (ERA)
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
+  ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
 
 private variable
   ł :  Level
@@ -92,7 +92,7 @@ Agᴱᴿᴬ _ ._◇˜_ =  ≈ᴸ-trans
 Agᴱᴿᴬ _ .∙-congˡ =  ⧺-congˡ
 Agᴱᴿᴬ _ .∙-unitˡ =  ≈ᴸ-refl
 Agᴱᴿᴬ _ .∙-comm {a = as} =  ⧺-comm {as = as}
-Agᴱᴿᴬ _ .∙-assocˡ {a = as} =  ≡⇒≈ᴸ $ ⧺-assocˡ {as = as}
+Agᴱᴿᴬ _ .∙-assocʳ {a = as} =  ≡⇒≈ᴸ $ ⧺-assocʳ {as = as}
 Agᴱᴿᴬ _ .⌞⌟-cong =  id
 Agᴱᴿᴬ _ .⌞⌟-add =  -, ≈ᴸ-refl
 Agᴱᴿᴬ _ .⌞⌟-unitˡ =  ⧺-idem

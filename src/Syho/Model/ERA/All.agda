@@ -18,7 +18,7 @@ open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙; upd˙-cong; upd˙-s
 open import Base.Prod using (∑-syntax; _,_; π₀; π₁; -,_)
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ⊑-refl;
-  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocˡ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
+  ∙-congˡ; ∙-unitˡ; ∙-comm; ∙-assocʳ; ✓-resp; ✓-rem; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ;
   ⌞⌟-idem; ⌞⌟-ε)
 
 --------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇
 ∀ᴱᴿᴬ .∙-congˡ a≈b i =  Era˙ i .∙-congˡ (a≈b i)
 ∀ᴱᴿᴬ .∙-unitˡ i =  Era˙ i .∙-unitˡ
 ∀ᴱᴿᴬ .∙-comm i =  Era˙ i .∙-comm
-∀ᴱᴿᴬ .∙-assocˡ i =  Era˙ i .∙-assocˡ
+∀ᴱᴿᴬ .∙-assocʳ i =  Era˙ i .∙-assocʳ
 ∀ᴱᴿᴬ .⌞⌟-cong a≈b i =  Era˙ i .⌞⌟-cong (a≈b i)
 ∀ᴱᴿᴬ .⌞⌟-add =  (λ i → Era˙ i .⌞⌟-add .π₀) , λ i → Era˙ i .⌞⌟-add .π₁
 ∀ᴱᴿᴬ .⌞⌟-unitˡ i =  Era˙ i .⌞⌟-unitˡ

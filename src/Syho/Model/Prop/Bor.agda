@@ -15,14 +15,14 @@ open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ⁺-trans)
 open import Syho.Logic.Prop using (Lft; Prop∞; _∧_; ⊤'; _∗_; _-∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-monoˡ; ∧-monoʳ; ∧-comm;
-  ∧-assocˡ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗?-comm; ∗-elimʳ;
+  ∧-assocʳ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocʳ; ∗?-comm; ∗-elimʳ;
   -∗-applyˡ)
 open import Syho.Model.ERA.Bor using (borᵐ; oborᵐ; lend; borᵐ-lend-new;
   borᵐ-open; oborᵐ-close; lend-back)
 open import Syho.Model.ERA.Glob using (iᴮᵒʳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono; □ᵒ-Mono;
-  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-assocʳ; ?∗ᵒ-intro; ◎-Mono)
+  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ◎-Mono)
 open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
@@ -60,9 +60,9 @@ abstract
   &ᵐᵒ-resp-□ᵒ×ᵒ {R = R} R∧P⊢Q R∧Q⊢P ✓a
     (□Ra , -, -, -ᴵ, -, (S∧T⊢P , S∧P⊢T) , □Sa , BorTa) = -, -, -ᴵ, -,
     -- (R∧S)∧T ⊢ R∧(S∧T) ⊢ R∧P ⊢ Q
-    (∧-assocˡ » ∧-monoʳ S∧T⊢P » R∧P⊢Q ,
+    (∧-assocʳ » ∧-monoʳ S∧T⊢P » R∧P⊢Q ,
     -- (R∧S)∧Q ⊢ (S∧R)∧Q ⊢ S∧(R∧Q) ⊢ S∧P ⊢ T
-    ∧-monoˡ ∧-comm » ∧-assocˡ » ∧-monoʳ R∧Q⊢P » S∧P⊢T) ,
+    ∧-monoˡ ∧-comm » ∧-assocʳ » ∧-monoʳ R∧Q⊢P » S∧P⊢T) ,
     binary □Ra □Sa , BorTa
 
   -- Make &ᵐᵒ out of Borᵐ
@@ -111,7 +111,7 @@ abstract
     -, -, -, -ᴵ, -, (p≈q ,
     -- (Q∗R)∗(Q-∗P) ⊢ (Q∗(Q-∗P))∗R ⊢ P∗R ⊢ R∗P ⊢ S
     ∗?-comm » ∗-monoˡ -∗-applyˡ » ∗-comm » R∗P⊢S) ,
-    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗αOborSc) }
+    ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗αOborSc) }
 
 --------------------------------------------------------------------------------
 -- ⟨†⟩ᵒ :  Interpret the lending token
@@ -142,8 +142,8 @@ abstract
 
   ⟨†⟩ᵒ-eatˡ :  {{_ : Basic Q}}  →  ⸨ Q ⸩ᴮ  ∗ᵒ  ⟨† α ⟩ᵒ P  ⊨  ⟨† α ⟩ᵒ (Q ∗ P)
   ⟨†⟩ᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗S⊢P , R∗LendSc) →
-    -, -, -ᴵ, -, ∗-assocˡ » ∗-monoʳ R∗S⊢P ,
-    ∗ᵒ-assocʳ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗LendSc) }
+    -, -, -ᴵ, -, ∗-assocʳ » ∗-monoʳ R∗S⊢P ,
+    ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗LendSc) }
 
   -- Make ⟨†⟩ᵒ out of Lend
 

@@ -14,13 +14,13 @@ open import Base.Dec using (≟-refl)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-)
 open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
-  ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem;
+  ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocʳ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem;
   ¬1+?≤1ᴿ⁺)
 open import Syho.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
 import Syho.Model.ERA.Fin
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
+  ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
 
 private
   Lft :  Set₀
@@ -154,23 +154,23 @@ abstract
 
   -- ∙ᴸᶠᵗᵇ is associative
 
-  ∙ᴸᶠᵗᵇ-assocˡ :  (a ∙ᴸᶠᵗᵇ b) ∙ᴸᶠᵗᵇ c  ≡  a ∙ᴸᶠᵗᵇ (b ∙ᴸᶠᵗᵇ c)
-  ∙ᴸᶠᵗᵇ-assocˡ {εᴸᶠᵗᵇ} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {↯ᴸᶠᵗᵇ} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {a} {εᴸᶠᵗᵇ}  rewrite ∙ᴸᶠᵗᵇ-ε {a} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {a} {b} {εᴸᶠᵗᵇ}  rewrite ∙ᴸᶠᵗᵇ-ε {a ∙ᴸᶠᵗᵇ b} | ∙ᴸᶠᵗᵇ-ε {b} =
+  ∙ᴸᶠᵗᵇ-assocʳ :  (a ∙ᴸᶠᵗᵇ b) ∙ᴸᶠᵗᵇ c  ≡  a ∙ᴸᶠᵗᵇ (b ∙ᴸᶠᵗᵇ c)
+  ∙ᴸᶠᵗᵇ-assocʳ {εᴸᶠᵗᵇ} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {↯ᴸᶠᵗᵇ} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {a} {εᴸᶠᵗᵇ}  rewrite ∙ᴸᶠᵗᵇ-ε {a} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {a} {b} {εᴸᶠᵗᵇ}  rewrite ∙ᴸᶠᵗᵇ-ε {a ∙ᴸᶠᵗᵇ b} | ∙ᴸᶠᵗᵇ-ε {b} =
     refl
-  ∙ᴸᶠᵗᵇ-assocˡ {a} {↯ᴸᶠᵗᵇ}  rewrite ∙ᴸᶠᵗᵇ-↯ {a} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {a} {b} {↯ᴸᶠᵗᵇ}
+  ∙ᴸᶠᵗᵇ-assocʳ {a} {↯ᴸᶠᵗᵇ}  rewrite ∙ᴸᶠᵗᵇ-↯ {a} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {a} {b} {↯ᴸᶠᵗᵇ}
     rewrite ∙ᴸᶠᵗᵇ-↯ {a ∙ᴸᶠᵗᵇ b} | ∙ᴸᶠᵗᵇ-↯ {b} | ∙ᴸᶠᵗᵇ-↯ {a} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {†ᴸᶠᵗᵇ} {†ᴸᶠᵗᵇ} {†ᴸᶠᵗᵇ} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {†ᴸᶠᵗᵇ} {†ᴸᶠᵗᵇ} {#ᴸᶠᵗᵇ _} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {†ᴸᶠᵗᵇ} {#ᴸᶠᵗᵇ _} {†ᴸᶠᵗᵇ} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {†ᴸᶠᵗᵇ} {#ᴸᶠᵗᵇ _} {#ᴸᶠᵗᵇ _} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {#ᴸᶠᵗᵇ _} {†ᴸᶠᵗᵇ} {†ᴸᶠᵗᵇ} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {#ᴸᶠᵗᵇ _} {†ᴸᶠᵗᵇ} {#ᴸᶠᵗᵇ _} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {#ᴸᶠᵗᵇ _} {#ᴸᶠᵗᵇ _} {†ᴸᶠᵗᵇ} =  refl
-  ∙ᴸᶠᵗᵇ-assocˡ {#ᴸᶠᵗᵇ p} {#ᴸᶠᵗᵇ q} {#ᴸᶠᵗᵇ _} =  cong #ᴸᶠᵗᵇ_ $ +ᴿ⁺-assocˡ {p} {q}
+  ∙ᴸᶠᵗᵇ-assocʳ {†ᴸᶠᵗᵇ} {†ᴸᶠᵗᵇ} {†ᴸᶠᵗᵇ} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {†ᴸᶠᵗᵇ} {†ᴸᶠᵗᵇ} {#ᴸᶠᵗᵇ _} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {†ᴸᶠᵗᵇ} {#ᴸᶠᵗᵇ _} {†ᴸᶠᵗᵇ} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {†ᴸᶠᵗᵇ} {#ᴸᶠᵗᵇ _} {#ᴸᶠᵗᵇ _} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {#ᴸᶠᵗᵇ _} {†ᴸᶠᵗᵇ} {†ᴸᶠᵗᵇ} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {#ᴸᶠᵗᵇ _} {†ᴸᶠᵗᵇ} {#ᴸᶠᵗᵇ _} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {#ᴸᶠᵗᵇ _} {#ᴸᶠᵗᵇ _} {†ᴸᶠᵗᵇ} =  refl
+  ∙ᴸᶠᵗᵇ-assocʳ {#ᴸᶠᵗᵇ p} {#ᴸᶠᵗᵇ q} {#ᴸᶠᵗᵇ _} =  cong #ᴸᶠᵗᵇ_ $ +ᴿ⁺-assocʳ {p} {q}
 
   -- ≈ᴸᶠᵗᵇ εᴸᶠᵗᵇ is preserved by removal w.r.t. ∙ᴸᶠᵗᵇ
 
@@ -248,7 +248,7 @@ Lftbᴱᴿᴬ ._◇˜_ a≈b b≈c =  ≈ᴸᶠᵗᵇ-trans a≈b b≈c
 Lftbᴱᴿᴬ .∙-congˡ =  ∙ᴸᶠᵗᵇ-congˡ
 Lftbᴱᴿᴬ .∙-unitˡ =  ≈ᴸᶠᵗᵇ-refl
 Lftbᴱᴿᴬ .∙-comm {a} =  ≡⇒≈ᴸᶠᵗᵇ $ ∙ᴸᶠᵗᵇ-comm {a}
-Lftbᴱᴿᴬ .∙-assocˡ {a} =  ≡⇒≈ᴸᶠᵗᵇ $ ∙ᴸᶠᵗᵇ-assocˡ {a}
+Lftbᴱᴿᴬ .∙-assocʳ {a} =  ≡⇒≈ᴸᶠᵗᵇ $ ∙ᴸᶠᵗᵇ-assocʳ {a}
 Lftbᴱᴿᴬ .⌞⌟-cong =  ⌞⌟ᴸᶠᵗᵇ-cong
 Lftbᴱᴿᴬ .⌞⌟-add {a}  with ⌞⌟ᴸᶠᵗᵇ-add {a}
 … | a' , ≡a'∙ =  a' , ≡⇒≈ᴸᶠᵗᵇ ≡a'∙

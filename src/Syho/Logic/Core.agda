@@ -20,7 +20,7 @@ open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-
 open import Syho.Logic.Judg public using (JudgRes; Pure; Judg; _⊢[_]*_;
   _⊢[<_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim;
   ∀-elim; ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro;
-  ∗-comm; ∗-assocˡ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ;
+  ∗-comm; ∗-assocʳ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ;
   ⤇-⌜⌝∧-out; □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 
 private variable
@@ -121,18 +121,18 @@ abstract
 
   -- ∧/∨ is associative
 
-  ∧-assocˡ :  (P ∧ Q) ∧ R ⊢[ ι ] P ∧ (Q ∧ R)
-  ∧-assocˡ =  ∧-intro (∧-elimˡ » ∧-elimˡ) $ ∧-intro (∧-elimˡ » ∧-elimʳ) ∧-elimʳ
+  ∧-assocʳ :  (P ∧ Q) ∧ R ⊢[ ι ] P ∧ (Q ∧ R)
+  ∧-assocʳ =  ∧-intro (∧-elimˡ » ∧-elimˡ) $ ∧-intro (∧-elimˡ » ∧-elimʳ) ∧-elimʳ
 
-  ∧-assocʳ :  P ∧ (Q ∧ R) ⊢[ ι ] (P ∧ Q) ∧ R
-  ∧-assocʳ =  ∧-intro (∧-intro ∧-elimˡ $ ∧-elimʳ » ∧-elimˡ) $ ∧-elimʳ » ∧-elimʳ
+  ∧-assocˡ :  P ∧ (Q ∧ R) ⊢[ ι ] (P ∧ Q) ∧ R
+  ∧-assocˡ =  ∧-intro (∧-intro ∧-elimˡ $ ∧-elimʳ » ∧-elimˡ) $ ∧-elimʳ » ∧-elimʳ
 
-  ∨-assocˡ :  (P ∨ Q) ∨ R ⊢[ ι ] P ∨ (Q ∨ R)
-  ∨-assocˡ =
+  ∨-assocʳ :  (P ∨ Q) ∨ R ⊢[ ι ] P ∨ (Q ∨ R)
+  ∨-assocʳ =
     ∨-elim (∨-elim ∨-introˡ $ ∨-introˡ » ∨-introʳ) $ ∨-introʳ » ∨-introʳ
 
-  ∨-assocʳ :  P ∨ (Q ∨ R) ⊢[ ι ] (P ∨ Q) ∨ R
-  ∨-assocʳ =
+  ∨-assocˡ :  P ∨ (Q ∨ R) ⊢[ ι ] (P ∨ Q) ∨ R
+  ∨-assocˡ =
     ∨-elim (∨-introˡ » ∨-introˡ) $ ∨-elim (∨-introʳ » ∨-introˡ) $ ∨-introʳ
 
   -- ∧/∨ is unital with the unit ⊤'/⊥'
@@ -301,18 +301,18 @@ abstract
 
   -- ∗ is associative
 
-  -->  ∗-assocˡ :  (P ∗ Q) ∗ R ⊢[ ι ] P ∗ (Q ∗ R)
+  -->  ∗-assocʳ :  (P ∗ Q) ∗ R ⊢[ ι ] P ∗ (Q ∗ R)
 
-  ∗-assocʳ :  P ∗ (Q ∗ R) ⊢[ ι ] (P ∗ Q) ∗ R
-  ∗-assocʳ =  ∗-comm » ∗-monoˡ ∗-comm » ∗-assocˡ » ∗-comm » ∗-monoˡ ∗-comm
+  ∗-assocˡ :  P ∗ (Q ∗ R) ⊢[ ι ] (P ∗ Q) ∗ R
+  ∗-assocˡ =  ∗-comm » ∗-monoˡ ∗-comm » ∗-assocʳ » ∗-comm » ∗-monoˡ ∗-comm
 
   -- - ∗ / ∗ - is commutative
 
   ?∗-comm :  P ∗ Q ∗ R ⊢[ ι ] Q ∗ P ∗ R
-  ?∗-comm =  ∗-assocʳ » ∗-monoˡ ∗-comm » ∗-assocˡ
+  ?∗-comm =  ∗-assocˡ » ∗-monoˡ ∗-comm » ∗-assocʳ
 
   ∗?-comm :  (P ∗ Q) ∗ R ⊢[ ι ] (P ∗ R) ∗ Q
-  ∗?-comm =  ∗-assocˡ » ∗-monoʳ ∗-comm » ∗-assocʳ
+  ∗?-comm =  ∗-assocʳ » ∗-monoʳ ∗-comm » ∗-assocˡ
 
   -- Turn ∗ into ∧
 
@@ -496,7 +496,7 @@ abstract
   -- Let -∗ eat a proposition
 
   -∗-eatʳ :  (P -∗ Q) ∗ R ⊢[ ι ] P -∗ Q ∗ R
-  -∗-eatʳ =  -∗-introˡ $ ∗-assocʳ » ∗-monoˡ -∗-applyˡ
+  -∗-eatʳ =  -∗-introˡ $ ∗-assocˡ » ∗-monoˡ -∗-applyˡ
 
   -∗-eatˡ :  R ∗ (P -∗ Q) ⊢[ ι ] P -∗ R ∗ Q
   -∗-eatˡ =  ∗-comm » -∗-eatʳ » -∗-monoʳ ∗-comm
@@ -686,7 +686,7 @@ abstract
   -- Duplicate a persistent separting conjunct
 
   dup-Pers-∗ :  {{Pers P}} →  P ∗ Q ⊢[ ι ] P ∗ P ∗ Q
-  dup-Pers-∗ =  ∗-monoˡ dup-Pers » ∗-assocˡ
+  dup-Pers-∗ =  ∗-monoˡ dup-Pers » ∗-assocʳ
 
   -- Turn -∗ into →' when the left-hand side is persistent
 
@@ -722,8 +722,8 @@ abstract
 
   [∗]-⧺-in :  [∗] Ps ∗ [∗] Qs ⊢[ ι ] [∗] (Ps ⧺ Qs)
   [∗]-⧺-in {[]} =  ∗-elimʳ
-  [∗]-⧺-in {_ ∷ Ps'} =  ∗-assocˡ » ∗-monoʳ $ [∗]-⧺-in {Ps'}
+  [∗]-⧺-in {_ ∷ Ps'} =  ∗-assocʳ » ∗-monoʳ $ [∗]-⧺-in {Ps'}
 
   [∗]-⧺-out :  [∗] (Ps ⧺ Qs) ⊢[ ι ] [∗] Ps ∗ [∗] Qs
   [∗]-⧺-out {[]} =  ⊤∗-intro
-  [∗]-⧺-out {_ ∷ Ps'} =  ∗-monoʳ ([∗]-⧺-out {Ps'}) » ∗-assocʳ
+  [∗]-⧺-out {_ ∷ Ps'} =  ∗-monoʳ ([∗]-⧺-out {Ps'}) » ∗-assocˡ

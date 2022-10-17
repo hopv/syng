@@ -77,7 +77,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     ∙-congˡ :  ∀{a b c} →  a ≈ b →  a ∙ c ≈ b ∙ c
     ∙-unitˡ :  ∀{a} →  ε ∙ a ≈ a
     ∙-comm :  ∀{a b} →  a ∙ b ≈ b ∙ a
-    ∙-assocˡ :  ∀{a b c} →  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
+    ∙-assocʳ :  ∀{a b c} →  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
 
     ----------------------------------------------------------------------------
     -- On ⌞⌟
@@ -157,10 +157,10 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
 
     -- ∙ is associative
 
-    -->  ∙-assocˡ :  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
+    -->  ∙-assocʳ :  (a ∙ b) ∙ c ≈ a ∙ (b ∙ c)
 
-    ∙-assocʳ :  a ∙ (b ∙ c) ≈ (a ∙ b) ∙ c
-    ∙-assocʳ =  ◠˜ ∙-assocˡ
+    ∙-assocˡ :  a ∙ (b ∙ c) ≈ (a ∙ b) ∙ c
+    ∙-assocˡ =  ◠˜ ∙-assocʳ
 
     ----------------------------------------------------------------------------
     -- On ✓
@@ -219,7 +219,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
 
     ⊑-trans :  a ⊑ b →  b ⊑ c →  a ⊑ c
     ⊑-trans (d , d∙a≈b) (e , e∙b≈c) =  d ∙ e ,
-      ∙-congˡ ∙-comm ◇˜ ∙-assocˡ ◇˜ ∙-congʳ d∙a≈b ◇˜ e∙b≈c
+      ∙-congˡ ∙-comm ◇˜ ∙-assocʳ ◇˜ ∙-congʳ d∙a≈b ◇˜ e∙b≈c
 
     -- ⊑ respects ≈
 
@@ -251,7 +251,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     ✓-mono (c , c∙a≈b) E✓b =  E✓b ▷ ✓-resp (◠˜ c∙a≈b) ▷ ✓-rem
 
     ∙-monoˡ :  a ⊑ b →  a ∙ c  ⊑  b ∙ c
-    ∙-monoˡ (d , d∙a≈b) =  d , ∙-assocʳ ◇˜ ∙-congˡ d∙a≈b
+    ∙-monoˡ (d , d∙a≈b) =  d , ∙-assocˡ ◇˜ ∙-congˡ d∙a≈b
 
     ∙-monoʳ :  a ⊑ b →  c ∙ a  ⊑  c ∙ b
     ∙-monoʳ a⊑b =  ⊑-resp ∙-comm ∙-comm $ ∙-monoˡ a⊑b
@@ -352,7 +352,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     … | y , Ffy✓bfy∙c =  f y , Ffy✓bfy∙c
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
+  ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
 
 private variable
   łᴿ łᴿ' ł≈ ł≈' łᴱ łᴱ' ł✓ ł✓' :  Level
@@ -374,7 +374,7 @@ private variable
 ⊤ᴱᴿᴬ .∙-congˡ =  _
 ⊤ᴱᴿᴬ .∙-unitˡ =  _
 ⊤ᴱᴿᴬ .∙-comm =  _
-⊤ᴱᴿᴬ .∙-assocˡ =  _
+⊤ᴱᴿᴬ .∙-assocʳ =  _
 ⊤ᴱᴿᴬ .⌞⌟-cong =  _
 ⊤ᴱᴿᴬ .⌞⌟-add =  _
 ⊤ᴱᴿᴬ .⌞⌟-unitˡ =  _
@@ -403,7 +403,7 @@ _×ᴱᴿᴬ_ :  ERA łᴿ ł≈ łᴱ ł✓ →  ERA łᴿ' ł≈' łᴱ' ł✓
   Era .∙-congˡ a≈b  ,  Era' .∙-congˡ a'≈b'
 (Era ×ᴱᴿᴬ Era') .∙-unitˡ =  Era .∙-unitˡ  ,  Era' .∙-unitˡ
 (Era ×ᴱᴿᴬ Era') .∙-comm =  Era .∙-comm  ,  Era' .∙-comm
-(Era ×ᴱᴿᴬ Era') .∙-assocˡ =  Era .∙-assocˡ  ,  Era' .∙-assocˡ
+(Era ×ᴱᴿᴬ Era') .∙-assocʳ =  Era .∙-assocʳ  ,  Era' .∙-assocʳ
 (Era ×ᴱᴿᴬ Era') .⌞⌟-cong (a≈b , a'≈b') =
   Era .⌞⌟-cong a≈b  ,  Era' .⌞⌟-cong a'≈b'
 (Era ×ᴱᴿᴬ Era') .⌞⌟-add .π₀ =  Era .⌞⌟-add .π₀  ,  Era' .⌞⌟-add .π₀
@@ -432,7 +432,7 @@ Envmᴱᴿᴬ Era _ _ ._◇˜_ =  Era ._◇˜_
 Envmᴱᴿᴬ Era _ _ .∙-congˡ =  Era .∙-congˡ
 Envmᴱᴿᴬ Era _ _ .∙-unitˡ =  Era .∙-unitˡ
 Envmᴱᴿᴬ Era _ _ .∙-comm =  Era .∙-comm
-Envmᴱᴿᴬ Era _ _ .∙-assocˡ =  Era .∙-assocˡ
+Envmᴱᴿᴬ Era _ _ .∙-assocʳ =  Era .∙-assocʳ
 Envmᴱᴿᴬ Era _ _ .⌞⌟-cong =  Era .⌞⌟-cong
 Envmᴱᴿᴬ Era _ _ .⌞⌟-add =  Era .⌞⌟-add
 Envmᴱᴿᴬ Era _ _ .⌞⌟-unitˡ =  Era .⌞⌟-unitˡ
@@ -458,7 +458,7 @@ Envvᴱᴿᴬ Era _ ._◇˜_ =  Era ._◇˜_
 Envvᴱᴿᴬ Era _ .∙-congˡ =  Era .∙-congˡ
 Envvᴱᴿᴬ Era _ .∙-unitˡ =  Era .∙-unitˡ
 Envvᴱᴿᴬ Era _ .∙-comm =  Era .∙-comm
-Envvᴱᴿᴬ Era _ .∙-assocˡ =  Era .∙-assocˡ
+Envvᴱᴿᴬ Era _ .∙-assocʳ =  Era .∙-assocʳ
 Envvᴱᴿᴬ Era _ .⌞⌟-cong =  Era .⌞⌟-cong
 Envvᴱᴿᴬ Era _ .⌞⌟-add =  Era .⌞⌟-add
 Envvᴱᴿᴬ Era _ .⌞⌟-unitˡ =  Era .⌞⌟-unitˡ
@@ -485,7 +485,7 @@ Valmᴱᴿᴬ Era _ _ _ ._◇˜_ =  Era ._◇˜_
 Valmᴱᴿᴬ Era _ _ _ .∙-congˡ =  Era .∙-congˡ
 Valmᴱᴿᴬ Era _ _ _ .∙-unitˡ =  Era .∙-unitˡ
 Valmᴱᴿᴬ Era _ _ _ .∙-comm =  Era .∙-comm
-Valmᴱᴿᴬ Era _ _ _ .∙-assocˡ =  Era .∙-assocˡ
+Valmᴱᴿᴬ Era _ _ _ .∙-assocʳ =  Era .∙-assocʳ
 Valmᴱᴿᴬ Era _ _ _ .⌞⌟-cong =  Era .⌞⌟-cong
 Valmᴱᴿᴬ Era _ _ _ .⌞⌟-add =  Era .⌞⌟-add
 Valmᴱᴿᴬ Era _ _ _ .⌞⌟-unitˡ =  Era .⌞⌟-unitˡ
@@ -512,7 +512,7 @@ Upᴱᴿᴬ Era ._◇˜_ (↑ a≈b) (↑ b≈c) .↓ =  Era ._◇˜_ a≈b b≈
 Upᴱᴿᴬ Era .∙-congˡ (↑ a≈b) .↓ =  Era .∙-congˡ a≈b
 Upᴱᴿᴬ Era .∙-unitˡ .↓ =  Era .∙-unitˡ
 Upᴱᴿᴬ Era .∙-comm .↓ =  Era .∙-comm
-Upᴱᴿᴬ Era .∙-assocˡ .↓ =  Era .∙-assocˡ
+Upᴱᴿᴬ Era .∙-assocʳ .↓ =  Era .∙-assocʳ
 Upᴱᴿᴬ Era .⌞⌟-cong (↑ a≈b) .↓ =  Era .⌞⌟-cong a≈b
 Upᴱᴿᴬ Era .⌞⌟-add .π₀ .↓ =  Era .⌞⌟-add .π₀
 Upᴱᴿᴬ Era .⌞⌟-add .π₁ .↓ =  Era .⌞⌟-add .π₁

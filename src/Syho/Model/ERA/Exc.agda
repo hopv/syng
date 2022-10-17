@@ -15,7 +15,7 @@ open import Base.Prod using (_,_)
 open import Syho.Model.ERA.Base using (ERA)
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
+  ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
 
 private variable
   ł :  Level
@@ -86,14 +86,14 @@ abstract
 
   -- ∙ˣ is associative
 
-  ∙ˣ-assocˡ :  (x ∙ˣ y) ∙ˣ z  ≡  x ∙ˣ (y ∙ˣ z)
-  ∙ˣ-assocˡ {x = εˣ} =  refl
-  ∙ˣ-assocˡ {x = ↯ˣ} =  refl
-  ∙ˣ-assocˡ {x = #ˣ _} {εˣ} =  refl
-  ∙ˣ-assocˡ {x = #ˣ _} {↯ˣ} =  refl
-  ∙ˣ-assocˡ {x = #ˣ _} {#ˣ _} {εˣ} =  refl
-  ∙ˣ-assocˡ {x = #ˣ _} {#ˣ _} {↯ˣ} =  refl
-  ∙ˣ-assocˡ {x = #ˣ _} {#ˣ _} {#ˣ _} =  refl
+  ∙ˣ-assocʳ :  (x ∙ˣ y) ∙ˣ z  ≡  x ∙ˣ (y ∙ˣ z)
+  ∙ˣ-assocʳ {x = εˣ} =  refl
+  ∙ˣ-assocʳ {x = ↯ˣ} =  refl
+  ∙ˣ-assocʳ {x = #ˣ _} {εˣ} =  refl
+  ∙ˣ-assocʳ {x = #ˣ _} {↯ˣ} =  refl
+  ∙ˣ-assocʳ {x = #ˣ _} {#ˣ _} {εˣ} =  refl
+  ∙ˣ-assocʳ {x = #ˣ _} {#ˣ _} {↯ˣ} =  refl
+  ∙ˣ-assocʳ {x = #ˣ _} {#ˣ _} {#ˣ _} =  refl
 
   -- ň ✓ˣ x entails x ≡ εˣ
 
@@ -143,7 +143,7 @@ Excᴱᴿᴬ _ ._◇˜_ =  _◇_
 Excᴱᴿᴬ _ .∙-congˡ refl =  refl
 Excᴱᴿᴬ _ .∙-unitˡ =  refl
 Excᴱᴿᴬ _ .∙-comm {a = x} =  ∙ˣ-comm {x = x}
-Excᴱᴿᴬ _ .∙-assocˡ {a = x} =  ∙ˣ-assocˡ {x = x}
+Excᴱᴿᴬ _ .∙-assocʳ {a = x} =  ∙ˣ-assocʳ {x = x}
 Excᴱᴿᴬ _ .⌞⌟-cong _ =  refl
 Excᴱᴿᴬ _ .⌞⌟-add =  εˣ , refl
 Excᴱᴿᴬ _ .⌞⌟-unitˡ =  refl

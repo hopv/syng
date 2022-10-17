@@ -130,17 +130,17 @@ abstract
 
   -- +ᶻ is associative
 
-  +ᶻ-assocˡ :  (l +ᶻ m) +ᶻ n ≡ l +ᶻ (m +ᶻ n)
-  +ᶻ-assocˡ {0ᶻ} =  refl
-  +ᶻ-assocˡ {∞ᶻ} =  refl
-  +ᶻ-assocˡ {1ᶻ} {0ᶻ} =  refl
-  +ᶻ-assocˡ {1ᶻ} {∞ᶻ} =  refl
-  +ᶻ-assocˡ {1ᶻ} {1ᶻ} {0ᶻ} =  refl
-  +ᶻ-assocˡ {1ᶻ} {1ᶻ} {∞ᶻ} =  refl
-  +ᶻ-assocˡ {1ᶻ} {1ᶻ} {1ᶻ} =  refl
+  +ᶻ-assocʳ :  (l +ᶻ m) +ᶻ n ≡ l +ᶻ (m +ᶻ n)
+  +ᶻ-assocʳ {0ᶻ} =  refl
+  +ᶻ-assocʳ {∞ᶻ} =  refl
+  +ᶻ-assocʳ {1ᶻ} {0ᶻ} =  refl
+  +ᶻ-assocʳ {1ᶻ} {∞ᶻ} =  refl
+  +ᶻ-assocʳ {1ᶻ} {1ᶻ} {0ᶻ} =  refl
+  +ᶻ-assocʳ {1ᶻ} {1ᶻ} {∞ᶻ} =  refl
+  +ᶻ-assocʳ {1ᶻ} {1ᶻ} {1ᶻ} =  refl
 
-  +ᶻ-assocʳ :  l +ᶻ (m +ᶻ n) ≡ (l +ᶻ m) +ᶻ n
-  +ᶻ-assocʳ {l} =  ◠ +ᶻ-assocˡ {l}
+  +ᶻ-assocˡ :  l +ᶻ (m +ᶻ n) ≡ (l +ᶻ m) +ᶻ n
+  +ᶻ-assocˡ {l} =  ◠ +ᶻ-assocʳ {l}
 
   -- ✓ᶻ is preserved by removal w.r.t. +ᶻ
 
@@ -250,11 +250,11 @@ abstract
 
   -- ⊎ᶻ is associative
 
-  ⊎ᶻ-assocˡ :  (Aᶻ ⊎ᶻ Bᶻ) ⊎ᶻ Cᶻ ≡˙ Aᶻ ⊎ᶻ (Bᶻ ⊎ᶻ Cᶻ)
-  ⊎ᶻ-assocˡ {Aᶻ = Aᶻ} a =  +ᶻ-assocˡ {Aᶻ a}
-
-  ⊎ᶻ-assocʳ :  Aᶻ ⊎ᶻ (Bᶻ ⊎ᶻ Cᶻ) ≡˙ (Aᶻ ⊎ᶻ Bᶻ) ⊎ᶻ Cᶻ
+  ⊎ᶻ-assocʳ :  (Aᶻ ⊎ᶻ Bᶻ) ⊎ᶻ Cᶻ ≡˙ Aᶻ ⊎ᶻ (Bᶻ ⊎ᶻ Cᶻ)
   ⊎ᶻ-assocʳ {Aᶻ = Aᶻ} a =  +ᶻ-assocʳ {Aᶻ a}
+
+  ⊎ᶻ-assocˡ :  Aᶻ ⊎ᶻ (Bᶻ ⊎ᶻ Cᶻ) ≡˙ (Aᶻ ⊎ᶻ Bᶻ) ⊎ᶻ Cᶻ
+  ⊎ᶻ-assocˡ {Aᶻ = Aᶻ} a =  +ᶻ-assocˡ {Aᶻ a}
 
   -- ^ᶻ a ⊎ᶻ ^ᶻ a is invalid
 

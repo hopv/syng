@@ -228,8 +228,8 @@ abstract
   -- Let ⇛ᴺᵒ eat a proposition under ∗ᵒ
 
   ⇛ᴺᵒ-eatʳ :  (⇛ᴺᵒ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⇛ᴺᵒ  Pᵒ ∗ᵒ Qᵒ
-  ⇛ᴺᵒ-eatʳ =  -∗ᵒ-introˡ λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ ⇛ᵒ-Mono) ✓∙ ›
-    ⇛ᵒ-eatʳ › ⇛ᵒ-mono ∗ᵒ-assocˡ
+  ⇛ᴺᵒ-eatʳ =  -∗ᵒ-introˡ λ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ ⇛ᵒ-Mono) ✓∙ ›
+    ⇛ᵒ-eatʳ › ⇛ᵒ-mono ∗ᵒ-assocʳ
 
   ⇛ᴺᵒ-eatˡ :  Pᵒ ∗ᵒ (⇛ᴺᵒ Qᵒ)  ⊨ ⇛ᴺᵒ  Pᵒ ∗ᵒ Qᵒ
   ⇛ᴺᵒ-eatˡ =  ∗ᵒ-comm › ⇛ᴺᵒ-eatʳ › ⇛ᴺᵒ-mono ∗ᵒ-comm

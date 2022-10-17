@@ -124,7 +124,7 @@ abstract
     ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (□ᵒIndᵖ-make › dup-□ᵒ Indᵖ-Mono) ›
       -- (□IndP∗□IndP)∗(□IndP-∗□P)∗Inv → □IndP∗(□IndP∗(□IndP-∗□P)∗Inv) → →
       -- □IndP∗(□P∗Inv) → → □IndP∗Inv
-      ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
+      ∗ᵒ-assocʳ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocˡ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
         Smry-add-š) ✓∙) › ⤇ᴱ-param
 

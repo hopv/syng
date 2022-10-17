@@ -12,16 +12,16 @@ open import Base.Few using (⊤; ⊥; absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; _,_; -,_; _,-)
-open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; ⧺-assocˡ; ∈ʰᵈ;
+open import Base.List using (List; _∷_; []; _⧺_; [_]; _≈ᴸ_; ⧺-assocʳ; ∈ʰᵈ;
   ∈ᵗˡ_; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym; ≈ᴸ-trans; ⧺-congˡ; ⧺-comm; ⧺-idem)
 open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _≤1ᴿ⁺; _+ᴿ⁺_; ≈ᴿ⁺-refl; ≡⇒≈ᴿ⁺;
-  ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocˡ;
+  ≈ᴿ⁺-sym; ≈ᴿ⁺-trans; ≤1ᴿ⁺-resp; ≤1ᴿ⁺-rem; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocʳ;
   1≤1ᴿ⁺; ¬1+?≤1ᴿ⁺)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Ag using (_✓ᴸ_; ✓ᴸ-resp; ✓ᴸ-rem; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
+  ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
 
 private variable
   ł :  Level
@@ -106,12 +106,12 @@ abstract
 
   -- ∙ᶠʳ is associative w.r.t. ≈ᶠʳ
 
-  ∙ᶠʳ-assocˡ :  (x ∙ᶠʳ y) ∙ᶠʳ z  ≈ᶠʳ  x ∙ᶠʳ (y ∙ᶠʳ z)
-  ∙ᶠʳ-assocˡ {x = š (p , as)} {š (q ,-)} {š (r ,-)} =
-    ≡⇒≈ᴿ⁺ $ +ᴿ⁺-assocˡ {p} {q} {r} , ≡⇒≈ᴸ $ ⧺-assocˡ {as = as}
-  ∙ᶠʳ-assocˡ {x = ň} =  ≈ᶠʳ-refl
-  ∙ᶠʳ-assocˡ {x = š _} {ň} =  ≈ᶠʳ-refl
-  ∙ᶠʳ-assocˡ {x = x@(š _)} {y@(š _)} {ň} =  ≈ᶠʳ-refl {x = x ∙ᶠʳ y}
+  ∙ᶠʳ-assocʳ :  (x ∙ᶠʳ y) ∙ᶠʳ z  ≈ᶠʳ  x ∙ᶠʳ (y ∙ᶠʳ z)
+  ∙ᶠʳ-assocʳ {x = š (p , as)} {š (q ,-)} {š (r ,-)} =
+    ≡⇒≈ᴿ⁺ $ +ᴿ⁺-assocʳ {p} {q} {r} , ≡⇒≈ᴸ $ ⧺-assocʳ {as = as}
+  ∙ᶠʳ-assocʳ {x = ň} =  ≈ᶠʳ-refl
+  ∙ᶠʳ-assocʳ {x = š _} {ň} =  ≈ᶠʳ-refl
+  ∙ᶠʳ-assocʳ {x = x@(š _)} {y@(š _)} {ň} =  ≈ᶠʳ-refl {x = x ∙ᶠʳ y}
 
   -- ∙ᶠʳ on š (- , [ - ])
 
@@ -184,7 +184,7 @@ FracAgᴱᴿᴬ _ ._◇˜_ =  ≈ᶠʳ-trans
 FracAgᴱᴿᴬ _ .∙-congˡ =  ∙ᶠʳ-congˡ
 FracAgᴱᴿᴬ _ .∙-unitˡ =  ≈ᶠʳ-refl
 FracAgᴱᴿᴬ _ .∙-comm {a = x} =  ∙ᶠʳ-comm {x = x}
-FracAgᴱᴿᴬ _ .∙-assocˡ {a = x} =  ∙ᶠʳ-assocˡ {x = x}
+FracAgᴱᴿᴬ _ .∙-assocʳ {a = x} =  ∙ᶠʳ-assocʳ {x = x}
 FracAgᴱᴿᴬ _ .⌞⌟-cong _ =  _
 FracAgᴱᴿᴬ _ .⌞⌟-add =  ň ,-
 FracAgᴱᴿᴬ _ .⌞⌟-unitˡ =  ≈ᶠʳ-refl

@@ -13,8 +13,8 @@ open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; _+_; _*_; ṡ≤ṡ; ṡ<ṡ; ≤-refl;
   ≤-trans; ≤-antisym; <-irrefl; <-trans; <-asym; <⇒≤; ≤-<-trans; <-≤-trans;
-  ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; _<≡>_; _≤>_; +-comm; +-assocˡ; +-injˡ; +-0;
-  +-incrˡ; +-monoˡ; +-smonoʳ; *-comm; *-assocˡ; *-injˡ; *-+-distrˡ; *-monoˡ;
+  ≤⇒¬>; ṡ≤ṡ⁻¹; ṡ<ṡ⁻¹; ṡ-sincr; _<≡>_; _≤>_; +-comm; +-assocʳ; +-injˡ; +-0;
+  +-incrˡ; +-monoˡ; +-smonoʳ; *-comm; *-assocʳ; *-injˡ; *-+-distrˡ; *-monoˡ;
   *-smonoˡ)
 
 --------------------------------------------------------------------------------
@@ -179,11 +179,11 @@ abstract
 
   -- +⁺ is associative
 
-  +⁺-assocˡ :  (l +⁺ m) +⁺ n ≡ l +⁺ (m +⁺ n)
-  +⁺-assocˡ {ṡ⁺ l⁰} =  ℕ⁺⇒ℕ-inj $ +-assocˡ {ṡ l⁰}
+  +⁺-assocʳ :  (l +⁺ m) +⁺ n ≡ l +⁺ (m +⁺ n)
+  +⁺-assocʳ {ṡ⁺ l⁰} =  ℕ⁺⇒ℕ-inj $ +-assocʳ {ṡ l⁰}
 
-  +⁺-assocʳ :  l +⁺ (m +⁺ n) ≡ (l +⁺ m) +⁺ n
-  +⁺-assocʳ =  ◠ +⁺-assocˡ
+  +⁺-assocˡ :  l +⁺ (m +⁺ n) ≡ (l +⁺ m) +⁺ n
+  +⁺-assocˡ =  ◠ +⁺-assocʳ
 
   -- +⁺ is injective
 
@@ -246,21 +246,21 @@ abstract
 
   -- *⁺ is associative
 
-  *⁺-assocˡ :  (l *⁺ m) *⁺ n ≡ l *⁺ (m *⁺ n)
-  *⁺-assocˡ {ṡ⁺ l⁰} {ṡ⁺ m⁰} =  ℕ⁺⇒ℕ-inj $ *-assocˡ {ṡ l⁰} {ṡ m⁰}
+  *⁺-assocʳ :  (l *⁺ m) *⁺ n ≡ l *⁺ (m *⁺ n)
+  *⁺-assocʳ {ṡ⁺ l⁰} {ṡ⁺ m⁰} =  ℕ⁺⇒ℕ-inj $ *-assocʳ {ṡ l⁰} {ṡ m⁰}
 
-  *⁺-assocʳ :  l *⁺ (m *⁺ n) ≡ (l *⁺ m) *⁺ n
-  *⁺-assocʳ {l} {m} =  ◠ *⁺-assocˡ {l} {m}
+  *⁺-assocˡ :  l *⁺ (m *⁺ n) ≡ (l *⁺ m) *⁺ n
+  *⁺-assocˡ {l} {m} =  ◠ *⁺-assocʳ {l} {m}
 
   -- Commutativity of *⁺ as an action
 
   ?*⁺-comm :  l *⁺ (m *⁺ n) ≡ m *⁺ (l *⁺ n)
-  ?*⁺-comm {l} {m} {n} =  *⁺-assocʳ {l} {m} {n} ◇
-      cong (_*⁺ n) (*⁺-comm {l} {m}) ◇ *⁺-assocˡ {m} {l} {n}
+  ?*⁺-comm {l} {m} {n} =  *⁺-assocˡ {l} {m} {n} ◇
+      cong (_*⁺ n) (*⁺-comm {l} {m}) ◇ *⁺-assocʳ {m} {l} {n}
 
   *⁺?-comm :  (l *⁺ m) *⁺ n ≡ (l *⁺ n) *⁺ m
-  *⁺?-comm {l} {m} {n} =  *⁺-assocˡ {l} {m} {n} ◇
-      cong (l *⁺_) (*⁺-comm {m} {n}) ◇ *⁺-assocʳ {l} {n} {m}
+  *⁺?-comm {l} {m} {n} =  *⁺-assocʳ {l} {m} {n} ◇
+      cong (l *⁺_) (*⁺-comm {m} {n}) ◇ *⁺-assocˡ {l} {n} {m}
 
   -- *⁺ is injective
 

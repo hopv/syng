@@ -107,7 +107,7 @@ abstract
   -- Frame for ⇛ᴺ
 
   ⇛ᴺ-frameˡ :  P ⊢[ ι ][ i ]⇛ᴺ Q →  P ∗ R ⊢[ ι ][ i ]⇛ᴺ Q ∗ R
-  ⇛ᴺ-frameˡ P⊢⇛Q =  ∗-assocʳ » ⇛-frameˡ P⊢⇛Q ᵘ» ∗-assocˡ
+  ⇛ᴺ-frameˡ P⊢⇛Q =  ∗-assocˡ » ⇛-frameˡ P⊢⇛Q ᵘ» ∗-assocʳ
 
   ⇛ᴺ-frameʳ :  P ⊢[ ι ][ i ]⇛ᴺ Q →  R ∗ P ⊢[ ι ][ i ]⇛ᴺ R ∗ Q
   ⇛ᴺ-frameʳ P⊢⇛Q =  ∗-comm »ᵘᴺ ⇛ᴺ-frameˡ P⊢⇛Q ᵘᴺ» ∗-comm

@@ -23,7 +23,7 @@ open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Resᴳ; R
 
 open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _∙_; ε; ⌞_⌟; _✓_; _↝_; ◠˜_; _◇˜_; ⊑-respˡ;
   ⊑-refl; ⊑-trans; ≈⇒⊑; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-unitʳ; ∙-comm;
-  ∙-assocˡ; ∙-assocʳ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem;
+  ∙-assocʳ; ∙-assocˡ; ∙-incrˡ; ∙-incrʳ; ε-min; ⌞⌟-mono; ⌞⌟-decr; ⌞⌟-idem;
   ⌞⌟-unitˡ; ⌞⌟-∙; ✓-resp; ✓-mono)
 
 private variable
@@ -293,22 +293,22 @@ abstract
 
   -- ∗ᵒ is associative
 
-  ∗ᵒ-assocˡ :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ)
-  ∗ᵒ-assocˡ (-, -, e∙d⊑a , (-, -, b∙c⊑e , Pb , Qc) , Rd) =
-    -, -, ⊑-respˡ ∙-assocˡ $ ⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a , Pb ,
+  ∗ᵒ-assocʳ :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ)
+  ∗ᵒ-assocʳ (-, -, e∙d⊑a , (-, -, b∙c⊑e , Pb , Qc) , Rd) =
+    -, -, ⊑-respˡ ∙-assocʳ $ ⊑-trans (∙-monoˡ b∙c⊑e) e∙d⊑a , Pb ,
     -, -, ⊑-refl , Qc , Rd
 
-  ∗ᵒ-assocʳ :  Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ
-  ∗ᵒ-assocʳ =
-    ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm
+  ∗ᵒ-assocˡ :  Pᵒ ∗ᵒ (Qᵒ ∗ᵒ Rᵒ) ⊨ (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ
+  ∗ᵒ-assocˡ =
+    ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-comm › ∗ᵒ-monoˡ ∗ᵒ-comm
 
   -- - ∗ᵒ / ∗ᵒ - is commutative
 
   ?∗ᵒ-comm :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ⊨ Qᵒ ∗ᵒ Pᵒ ∗ᵒ Rᵒ
-  ?∗ᵒ-comm =  ∗ᵒ-assocʳ › ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ
+  ?∗ᵒ-comm =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocʳ
 
   ∗ᵒ?-comm :  (Pᵒ ∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ (Pᵒ ∗ᵒ Rᵒ) ∗ᵒ Qᵒ
-  ∗ᵒ?-comm =  ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ
+  ∗ᵒ?-comm =  ∗ᵒ-assocʳ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocˡ
 
   -- Eliminate ∗ᵒ
 
@@ -483,7 +483,7 @@ abstract
   -- Let -∗ᵒ eat a proposition
 
   -∗ᵒ-eatʳ :  Monoᵒ Qᵒ →  (Pᵒ -∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ -∗ᵒ Qᵒ ∗ᵒ Rᵒ
-  -∗ᵒ-eatʳ MonoQ =  -∗ᵒ-introˡ λ ✓∙ → ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ MonoQ) ✓∙
+  -∗ᵒ-eatʳ MonoQ =  -∗ᵒ-introˡ λ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ MonoQ) ✓∙
 
   -∗ᵒ-eatˡ :  Monoᵒ Qᵒ →  Rᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨ Pᵒ -∗ᵒ Rᵒ ∗ᵒ Qᵒ
   -∗ᵒ-eatˡ {Qᵒ = Qᵒ} {Rᵒ = Rᵒ} MonoQ =  ∗ᵒ-comm › -∗ᵒ-eatʳ MonoQ ›
@@ -528,8 +528,8 @@ abstract
 
   ⤇ᵒ-eatʳ :  (⤇ᵒ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⤇ᵒ  Pᵒ ∗ᵒ Qᵒ
   ⤇ᵒ-eatʳ (-, -, b∙c⊑a , ⤇Pb , Qc) _ _ E✓a∙e
-    with ⤇Pb _ _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocˡ $ ∙-monoˡ b∙c⊑a
-  … | -, E✓d∙ce , Pd =  -, ✓-resp ∙-assocʳ E✓d∙ce , -, -, ⊑-refl , Pd , Qc
+    with ⤇Pb _ _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocʳ $ ∙-monoˡ b∙c⊑a
+  … | -, E✓d∙ce , Pd =  -, ✓-resp ∙-assocˡ E✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
   ⤇ᵒ-eatˡ :  Qᵒ ∗ᵒ (⤇ᵒ Pᵒ)  ⊨ ⤇ᵒ  Qᵒ ∗ᵒ Pᵒ
   ⤇ᵒ-eatˡ =  ∗ᵒ-comm › ⤇ᵒ-eatʳ › ⤇ᵒ-mono ∗ᵒ-comm
@@ -632,9 +632,9 @@ abstract
 
   ⤇ᴱ-eatʳ :  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ∗ᵒ  Qᵒ  ⊨ E ⤇ᴱ λ x → F˙ x ,  Pᵒ˙ x ∗ᵒ Qᵒ
   ⤇ᴱ-eatʳ (-, -, b∙c⊑a , E⤇FPb , Qc) _ E✓a∙e
-    with E⤇FPb _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocˡ $ ∙-monoˡ b∙c⊑a
+    with E⤇FPb _ $ flip ✓-mono E✓a∙e $ ⊑-respˡ ∙-assocʳ $ ∙-monoˡ b∙c⊑a
   … | -, -, F✓d∙ce , Pd =
-    -, -, ✓-resp ∙-assocʳ F✓d∙ce , -, -, ⊑-refl , Pd , Qc
+    -, -, ✓-resp ∙-assocˡ F✓d∙ce , -, -, ⊑-refl , Pd , Qc
 
   ⤇ᴱ-eatˡ :  Qᵒ  ∗ᵒ  (E ⤇ᴱ λ x → F˙ x , Pᵒ˙ x)  ⊨ E ⤇ᴱ λ x → F˙ x ,  Qᵒ ∗ᵒ Pᵒ˙ x
   ⤇ᴱ-eatˡ =  ∗ᵒ-comm › ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-comm

@@ -14,14 +14,14 @@ open import Base.Dec using (≟-refl)
 open import Base.Option using (¿_; ň; š_)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; _≤_; _⊓_; _⊓∞_; ≤-refl; ≤-trans; ≤⊓-elimʳ; ⊓-≤;
-  ⊓∞-comm; ⊓∞-assocˡ; ⊓∞-idem)
+  ⊓∞-comm; ⊓∞-assocʳ; ⊓∞-idem)
 open import Syho.Model.ERA.Base using (ERA; Upᴱᴿᴬ)
 open import Syho.Model.ERA.Exc using (Exc; εˣ; #ˣ_; ↯ˣ; _∙ˣ_; ∙ˣ-comm;
-  ∙ˣ-assocˡ)
+  ∙ˣ-assocʳ)
 import Syho.Model.ERA.Fin
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
-  ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
+  ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
 
 --------------------------------------------------------------------------------
 -- Ubb :  Upper-bound box
@@ -85,8 +85,8 @@ Ubbᴱᴿᴬ .∙-congˡ refl =  refl
 Ubbᴱᴿᴬ .∙-unitˡ =  refl
 Ubbᴱᴿᴬ .∙-comm {x , m∞} {y , n∞}
   rewrite ∙ˣ-comm {x = x} {y} | ⊓∞-comm {m∞} {n∞} =  refl
-Ubbᴱᴿᴬ .∙-assocˡ {x , l∞} {y , m∞} {z , n∞}
-  rewrite ∙ˣ-assocˡ {x = x} {y} {z} | ⊓∞-assocˡ {l∞} {m∞} {n∞} =  refl
+Ubbᴱᴿᴬ .∙-assocʳ {x , l∞} {y , m∞} {z , n∞}
+  rewrite ∙ˣ-assocʳ {x = x} {y} {z} | ⊓∞-assocʳ {l∞} {m∞} {n∞} =  refl
 Ubbᴱᴿᴬ .⌞⌟-cong refl =  refl
 Ubbᴱᴿᴬ .⌞⌟-add { -, n∞} =  (εˣ , n∞) , refl
 Ubbᴱᴿᴬ .⌞⌟-unitˡ { -, n∞}  rewrite ⊓∞-idem {n∞} =  refl

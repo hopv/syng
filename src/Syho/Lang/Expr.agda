@@ -15,7 +15,7 @@ open import Base.Size using (𝕊; ∞; Thunk; !)
 open import Base.Bool using (𝔹)
 open import Base.Prod using (∑-syntax; _×_; _,_; _,-)
 open import Base.Option using (¿_; ň; _$¿_; _»-¿_)
-open import Base.Nat using (ℕ; _+_; +-assocʳ; Cofin; ∀⇒Cofin; Cofin-upd˙;
+open import Base.Nat using (ℕ; _+_; +-assocˡ; Cofin; ∀⇒Cofin; Cofin-upd˙;
   Cofin-∑)
 open import Base.List using (List; _‼_; upd)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Syn; setʸ)
@@ -41,7 +41,7 @@ abstract
   -- Associativity of ₒ
 
   ₒ-assoc :  θ ₒ m ₒ n ≡ θ ₒ (n + m)
-  ₒ-assoc {o , _} {n = n} =  cong (o ,_) (+-assocʳ {n})
+  ₒ-assoc {o , _} {n = n} =  cong (o ,_) (+-assocˡ {n})
 
 --------------------------------------------------------------------------------
 -- Type :   Simple type for expressions

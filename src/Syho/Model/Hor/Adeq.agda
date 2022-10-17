@@ -88,10 +88,10 @@ abstract
     [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
-    rewrite e⇒kr =  ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-kr⁻¹ ›
+    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-kr⁻¹ ›
     -∗ᵒ-applyˡ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) › ⇛ᴹ-mono (λ (-, big) →
     big _ _ _ (-, e'eˇM'⇐) ▷ ⇛ᴹ-mono (∗ᵒ-monoʳ $ ∗ᵒ-monoˡ λ big → big .!)) ›
-    ⇛ᴹ-join) › ⇛ᴹ-eatʳ › ⇛ᴹ-mono $ ∗ᵒ-assocˡ › ∗ᵒ-monoʳ $ ∗ᵒ-assocˡ ›
+    ⇛ᴹ-join) › ⇛ᴹ-eatʳ › ⇛ᴹ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ ∗ᵒ-assocʳ ›
     ∗ᵒ-monoʳ $ go {eˇ}
    where
     go :  ⟨¿ eˇ' ⟩ᴾᵒ⊤˂ ∞ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞  ⊨  [∗ᵒ]⟨ ¿⇒ᴸ eˇ' ⧺ es ⟩ᴾᵒ⊤∞
@@ -191,10 +191,10 @@ abstract
       ∃ᵒ ι'⁺ , ∃ᵒ ιs' , ⌜ ι'⁺ ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
         [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩ᵀᵒ (sz⁻¹ ι'⁺) Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs'
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐))
-    rewrite e⇒kr =  ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
+    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
     -∗ᵒ-applyˡ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
     ⇛ᴹ-mono (λ (-, big) → big _ _ _ (-, e'eˇM'⇐)) › ⇛ᴹ-join) › ⇛ᴹ-eatʳ ›
-    ⇛ᴹ-mono $ ∗ᵒ-assocˡ › ∗ᵒ-monoʳ (∗ᵒ-assocˡ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
+    ⇛ᴹ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ (∗ᵒ-assocʳ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
     λ{ (-, -, b∙c⊑a , [⊤]b , -, -, ι'∷ιs'≺ι∷ιs , big) →
     -, -, ι'∷ιs'≺ι∷ιs , ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , [⊤]b , big) }
    where
@@ -207,7 +207,7 @@ abstract
     go {eˇ' = š _} =  Shrunkᵒ∗ᵒ-out › λ{ (§ big) → big ▷ ?∗ᵒ-comm ▷
       Shrunkᵒ∗ᵒ-out ▷ λ{ (§ big) → -, -,
       ≺ᴰᴹ-hd $ aug-∷ size< $ aug-∷ size< aug-refl , big ▷ ?∗ᵒ-comm }}
-  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (-, redᵀ-tl _) =  ∗ᵒ-assocʳ › ∗ᵒ⇒∗ᵒ' › λ ()
+  ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (-, redᵀ-tl _) =  ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ ()
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = _ ∷ _} (-, redᵀ-tl esM⇒) =  ?∗ᵒ-comm ›
     ∗ᵒ-monoʳ (∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ) › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, esM⇒)) ›
     ⇛ᴹ-eatˡ › ⇛ᴹ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
@@ -265,10 +265,10 @@ abstract
       ∃ᵒ ι'⁺ , ∃ᵒ ιs' , ⌜ ι'⁺ ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
         [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩∞ᵒ (sz⁻¹ ι'⁺) ι₀ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs'
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇM'⇐○))
-    rewrite e⇒kr =  ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
+    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
     -∗ᵒ-applyˡ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
     ⇛ᴹ-mono (λ (-, big) → big _ _ _ _ e'eˇM'⇐○) › ⇛ᴹ-join) › ⇛ᴹ-eatʳ ›
-    ⇛ᴹ-mono $ ∗ᵒ-assocˡ › ∗ᵒ-monoʳ (∗ᵒ-assocˡ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
+    ⇛ᴹ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ (∗ᵒ-assocʳ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
     λ{ (-, -, b∙c⊑a , [⊤]b , -, -, ι'∷ιs'≺ι∷ιs , big) →
     -, -, ι'∷ιs'≺ι∷ιs , ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , [⊤]b , big) }
    where
@@ -281,7 +281,7 @@ abstract
     go {eˇ' = š _} =  Shrunkᵒ∗ᵒ-out › λ{ (§ big) → big ▷ ?∗ᵒ-comm ▷
       Shrunkᵒ∗ᵒ-out ▷ λ{ (§ big) → -, -,
       ≺ᴰᴹ-hd $ aug-∷ size< $ aug-∷ size< aug-refl , big ▷ ?∗ᵒ-comm }}
-  ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ {ιs = []} (redᵀ-tl _) =  ∗ᵒ-assocʳ › ∗ᵒ⇒∗ᵒ' › λ ()
+  ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ {ιs = []} (redᵀ-tl _) =  ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ ()
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ {ιs = _ ∷ _} (redᵀ-tl esM⇒) =  ?∗ᵒ-comm ›
     ∗ᵒ-monoʳ (∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ) › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, esM⇒)) ›
     ⇛ᴹ-eatˡ › ⇛ᴹ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
@@ -296,10 +296,10 @@ abstract
     [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩
       Thunkᵒ (λ ι₀' → [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩∞ᵒ ∞ ι₀' ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs) ι₀
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● (redᵀ-hd (redᴱ e⇒kr (redᴷᴿ []⇒)))  rewrite e⇒kr =
-    ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
+    ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴹ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
     -∗ᵒ-applyˡ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) ›
     ⇛ᴹ-mono (λ (-, big) → big _ _ _ _ (redᴷᴿ []⇒)) › ⇛ᴹ-join) › ⇛ᴹ-eatʳ ›
-    ⇛ᴹ-mono $ ∗ᵒ-assocˡ › λ big → λ{ .! → big ▷ ∗ᵒ-monoʳ
+    ⇛ᴹ-mono $ ∗ᵒ-assocʳ › λ big → λ{ .! → big ▷ ∗ᵒ-monoʳ
     (∗ᵒ-monoˡ $ ∗ᵒ-monoˡ (λ big → big .!) › ∗ᵒ-elimˡ ⁺⟨⟩∞ᵒ-Mono) }
 
   -- ⊨ ⟨ e ⟩∞ᵒ ι ∞ ensures that any execution from (e , [] , M) triggers the

@@ -130,26 +130,26 @@ abstract
 
   &ub↦-new :  θ ↦ (-, n)  ⊢[ ι ][ i ]⇛  ∃ o ,  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o
   &ub↦-new =  ⊤∗-intro » ⇛-frameˡ (#ᵁᵇ-new » ⤇⇒⇛) ᵘ»ᵘ ∃∗-elim λ o →
-    ∗-assocˡ » ∗-monoʳ (∃-intro _) » ⇛-frameʳ &ⁱ-new ᵘ» ∃-intro o
+    ∗-assocʳ » ∗-monoʳ (∃-intro _) » ⇛-frameʳ &ⁱ-new ᵘ» ∃-intro o
 
   -- Atomic Hoare triple for fad under #ᵁᵇ and ↦, updating ≤ᵁᵇ
 
   ahor-fad-#ᵁᵇ-↦ :
     ≤ᵁᵇ⟨ o ⟩ n  ∗  #ᵁᵇ⟨ o ⟩ m' ∗ θ ↦ (-, m')  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
       ⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  #ᵁᵇ⟨ o ⟩ ṗ m  ∗ θ ↦ (-, ṗ m)
-  ahor-fad-#ᵁᵇ-↦ =  ∗-assocʳ » ∗-monoˡ (retain-⌜⌝ ≤ᵁᵇ-#ᵁᵇ) » ∃∗-elim λ m≤n →
+  ahor-fad-#ᵁᵇ-↦ =  ∗-assocˡ » ∗-monoˡ (retain-⌜⌝ ≤ᵁᵇ-#ᵁᵇ) » ∃∗-elim λ m≤n →
     ∗-monoˡ ∗-elimʳ » ahor-frameʳ ahor-fau ᵃʰ»ᵘ λ m → ∗∃-elim λ{ refl →
-    ⇛-frameˡ {i = 0} (#ᵁᵇ-upd ṗ-decr » ⤇⇒⇛) ᵘ» ∗-assocˡ » ∃-intro m≤n }
+    ⇛-frameˡ {i = 0} (#ᵁᵇ-upd ṗ-decr » ⤇⇒⇛) ᵘ» ∗-assocʳ » ∃-intro m≤n }
 
   -- Atomic Hoare triple for fad under &ub↦, updating ≤ᵁᵇ
 
   ahor-fad-&ub↦ :
     [^ ub ]ᴺ  ∗  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
       [^ ub ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  &ub↦ θ o)
-  ahor-fad-&ub↦ =  ∗-monoʳ² dup-Pers » ∗-pushʳ²ˡ » ∗-monoʳ ∗-assocʳ »
-    ⇛-frameʳˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ ∗-monoʳ ∗-assocˡ » ∗-assocʳ »
+  ahor-fad-&ub↦ =  ∗-monoʳ² dup-Pers » ∗-pushʳ²ˡ » ∗-monoʳ ∗-assocˡ »
+    ⇛-frameʳˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ ∗-monoʳ ∗-assocʳ » ∗-assocˡ »
     ahor-frameˡ (∗∃-elim λ _ → ahor-fad-#ᵁᵇ-↦) ᵃʰ»ᵘ λ m → ∃∗-elim λ m≤n →
-    ∗-assocˡ » ∗-monoʳ (∗-assocʳ » ∗-monoˡ $ ∗-monoˡ $ ∃-intro _) »
+    ∗-assocʳ » ∗-monoʳ (∗-assocˡ » ∗-monoˡ $ ∗-monoˡ $ ∃-intro _) »
     ⇛-frameʳˡ {i = 0} %ⁱ-close ᵘ» ?∗-comm » ∗-monoʳ $ ∃-intro m≤n
 
   -- Total Hoare triple for fadrep under ≤ᵁᵇ and &ub↦
@@ -324,7 +324,7 @@ abstract
   Slist∞-rep²ˢ-new :  θ ↦ⁱ (-, m , θ')  ∗  θ' ↦ⁱ (-, n , θ)  ⊢[ ι ][ i ]⇛
                         Slist∞ (rep²ˢ m n) θ  ∗  Slist∞ (rep²ˢ n m) θ'
   Slist∞-rep²ˢ-new =  -∗-introˡ (□-intro-Pers $ dup-Pers-∗ »
-    ∗-monoʳ ?∗-comm » ∗-assocʳ » ∗-mono
+    ∗-monoʳ ?∗-comm » ∗-assocˡ » ∗-mono
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimʳ }) » ∃-intro _)
     (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimˡ }) » ∃-intro _)) »
     □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use

@@ -77,9 +77,9 @@ abstract
   &ⁱᵒ-new-rec {P = P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ inv-invk-new) ›
     ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (&ⁱᵒ∗ᵒInvk-make › ∗ᵒ-monoˡ dup-&ⁱᵒ ›
       -- ((&∗&)∗Invk)∗(&-*P)*INV → → → &∗((&∗Invk)∗(&-*P))*INV
-      ∗ᵒ-assocˡ) › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocʳ ›
+      ∗ᵒ-assocʳ) › ∗ᵒ-assocʳ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocˡ ›
       -- ((&∗Invk)∗(&-*P))*INV → → (Invk∗(&∗(&-*P)))*INV → (Invk∗P)∗INV → → INV
-      ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
+      ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
       ∗ᵒ-mono✓ʳ (-∗ᵒ-applyˡ $ ⸨⸩-Mono {P}) ✓∙ › ĩ₀_) ✓∙ › Smry-add-š) ✓∙) ›
     ⤇ᴱ-param
 
@@ -94,7 +94,7 @@ abstract
   -- Store &ⁱ⟨ nm ⟩ᵒ P and [^ nm ]ᴺᵒ to get P and %ⁱ⟨ nm ⟩ᵒ P
 
   &ⁱᵒ-open :  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P
-  &ⁱᵒ-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
+  &ⁱᵒ-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
     (-, Q , -ᴵ, -, (Q∧R⊢P , Q∧P⊢R) , □Qb , invRb) , [nm]∗INVc) →
     (-, -, b∙c⊑a , □ᵒˡ-×ᵒ⇒∗ᵒ (⸨⸩ᴮ-Mono {Q}) (□Qb ,
       ↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → inv _ _ _} inv-agree invRb) ▷ ⤇ᴱ-eatˡ ▷
@@ -103,12 +103,12 @@ abstract
     -- (⤇ Q∗Q)∗[nm]∗INV → ⤇ (Q∗Q)∗[nm]∗INV
     ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-mono✓ʳ
     -- [nm]∗INV → [nm]∗LineP∗INV → → → (Invk∗R)∗LineP∗INV → (Invk∗R)∗INV
-    (λ ✓∙ → ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocʳ ›
-      ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ✓∙ ›
+    (λ ✓∙ → ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ ›
+      ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ✓∙ ›
     -- (Q∗Q)∗(Invk∗R)∗INV → ((Q∗Q)∗Invk∗R)∗INV
-    ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (λ ✓∙ →
+    ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (λ ✓∙ →
     -- (Q∗Q)∗Invk∗R → → → (Q∗R)∗Q∗Invk → P∗(Q∗Invk) → P∗%
-    ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-monoˡ ∗ᵒ?-comm › ∗ᵒ-assocˡ ›
+    ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-monoˡ ∗ᵒ?-comm › ∗ᵒ-assocʳ ›
     ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem (∗⇒∧ » Q∧R⊢P) ✓∙) ✓∙ ›
     ∗ᵒ-monoʳ (λ big → -, -, -ᴵ, -, ∗⇒∧ » Q∧P⊢R , big)) ✓∙) ▷ ⤇ᴱ-param }
 
@@ -117,7 +117,7 @@ abstract
   Invk-close :  (Invk i nm P  ∗ᵒ  ⸨ P ⸩)  ∗ᵒ  Lineᴵⁿᵛ i nm P  ⊨✓
                   [^ nm ]ᴺᵒ  ∗ᵒ  Lineᴵⁿᵛ i nm P
   Invk-close ✓∙ =  ∗ᵒ⨿ᵒ-out › λ{
-    (ĩ₀ Invk∗P²) →  Invk∗P² ▷ ∗ᵒ-assocʳ ▷
+    (ĩ₀ Invk∗P²) →  Invk∗P² ▷ ∗ᵒ-assocˡ ▷
       ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ?-comm › ∗ᵒ-mono✓ˡ Invk-no2 ✓∙ › ∗ᵒ⇒∗ᵒ') ✓∙ ▷
       ∗ᵒ⇒∗ᵒ' ▷ λ ();
     (ĩ₁ Invk∗P∗[nm]) →  Invk∗P∗[nm] ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₀_ }
@@ -125,14 +125,14 @@ abstract
   -- Store P and %ⁱ⟨ nm ⟩ᵒ P to get [^ nm ]ᴺᵒ
 
   %ⁱᵒ-close :  ⸨ P ⸩  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
-  %ⁱᵒ-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
+  %ⁱᵒ-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
     (-, Q , -ᴵ, -, Q∗P⊢R , Q∗Invkb) , P∗INVc) →
     (-, -, b∙c⊑a , Q∗Invkb ▷ ∗ᵒ-monoʳ
       (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → invk _ _ _} invk-agree) ▷ ⤇ᴱ-eatˡ , P∗INVc) ▷
     ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (i<n , ≡šR) ✓∙ →
     -- (Q∗Invk)∗P∗INV → ((Q∗Invk)∗P)∗INV → → (Invk∗Q∗P)∗INV → (Invk∗R)∗INV →
     -- (Invk∗R)∗INV → (Invk∗R)∗(Line∗INV) → → [nm]∗(Line∗INV) → [nm]∗INV
-    ∗ᵒ-assocʳ › ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
+    ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
     ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗P⊢R ✓∙) ✓∙) ✓∙ ›
-    ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocʳ ›
-    ∗ᵒ-mono✓ˡ Invk-close ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ▷ ⤇ᴱ-param }
+    ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ ›
+    ∗ᵒ-mono✓ˡ Invk-close ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ▷ ⤇ᴱ-param }

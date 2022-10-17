@@ -318,12 +318,12 @@ abstract
 
   -- + is associative
 
-  +-assocˡ :  (l + m) + n ≡ l + (m + n)
-  +-assocˡ {0} =  refl
-  +-assocˡ {ṡ l'} =  cong ṡ_ $ +-assocˡ {l'}
+  +-assocʳ :  (l + m) + n ≡ l + (m + n)
+  +-assocʳ {0} =  refl
+  +-assocʳ {ṡ l'} =  cong ṡ_ $ +-assocʳ {l'}
 
-  +-assocʳ :  l + (m + n) ≡ (l + m) + n
-  +-assocʳ {l} =  ◠ +-assocˡ {l}
+  +-assocˡ :  l + (m + n) ≡ (l + m) + n
+  +-assocˡ {l} =  ◠ +-assocʳ {l}
 
   -- + is increasing
 
@@ -389,7 +389,7 @@ abstract
   *-ṡ :  m * ṡ n ≡ m + m * n
   *-ṡ {0} =  refl
   *-ṡ {ṡ m'} {n} =  cong (ṡ n +_) (*-ṡ {m'}) ◇ cong ṡ_ $
-    +-assocʳ {n} ◇ cong (_+ m' * n) (+-comm {n}) ◇ +-assocˡ {m'}
+    +-assocˡ {n} ◇ cong (_+ m' * n) (+-comm {n}) ◇ +-assocʳ {m'}
 
   -- * is commutative
 
@@ -401,7 +401,7 @@ abstract
 
   *-+-distrˡ :  (l + m) * n ≡ l * n + m * n
   *-+-distrˡ {0} =  refl
-  *-+-distrˡ {ṡ l'} {_} {n} =  cong (n +_) (*-+-distrˡ {l'}) ◇ +-assocʳ {n}
+  *-+-distrˡ {ṡ l'} {_} {n} =  cong (n +_) (*-+-distrˡ {l'}) ◇ +-assocˡ {n}
 
   *-+-distrʳ :  l * (m + n) ≡ l * m + l * n
   *-+-distrʳ {l} {m} {n} =  *-comm {l} ◇ *-+-distrˡ {m} ◇
@@ -409,12 +409,12 @@ abstract
 
   -- * is associative
 
-  *-assocˡ :  (l * m) * n ≡ l * (m * n)
-  *-assocˡ {0} =  refl
-  *-assocˡ {ṡ l'} {m} {n} =  *-+-distrˡ {m} ◇ cong (m * n +_) $ *-assocˡ {l'}
+  *-assocʳ :  (l * m) * n ≡ l * (m * n)
+  *-assocʳ {0} =  refl
+  *-assocʳ {ṡ l'} {m} {n} =  *-+-distrˡ {m} ◇ cong (m * n +_) $ *-assocʳ {l'}
 
-  *-assocʳ :  l * (m * n) ≡ (l * m) * n
-  *-assocʳ {l} =  ◠ *-assocˡ {l}
+  *-assocˡ :  l * (m * n) ≡ (l * m) * n
+  *-assocˡ {l} =  ◠ *-assocʳ {l}
 
   -- * is unital with the unit 1
 
@@ -586,25 +586,25 @@ abstract
 
   -- ⊔ is associative
 
-  ⊔-assocˡ :  (l ⊔ m) ⊔ n ≡ l ⊔ (m ⊔ n)
-  ⊔-assocˡ {0} =  refl
-  ⊔-assocˡ {ṡ _} {0} =  refl
-  ⊔-assocˡ {ṡ _} {ṡ _} {0} =  refl
-  ⊔-assocˡ {ṡ l'} {ṡ _} {ṡ _} =  cong ṡ_ (⊔-assocˡ {l'})
+  ⊔-assocʳ :  (l ⊔ m) ⊔ n ≡ l ⊔ (m ⊔ n)
+  ⊔-assocʳ {0} =  refl
+  ⊔-assocʳ {ṡ _} {0} =  refl
+  ⊔-assocʳ {ṡ _} {ṡ _} {0} =  refl
+  ⊔-assocʳ {ṡ l'} {ṡ _} {ṡ _} =  cong ṡ_ (⊔-assocʳ {l'})
 
-  ⊔-assocʳ :  l ⊔ (m ⊔ n) ≡ (l ⊔ m) ⊔ n
-  ⊔-assocʳ {l} =  ◠ ⊔-assocˡ {l}
+  ⊔-assocˡ :  l ⊔ (m ⊔ n) ≡ (l ⊔ m) ⊔ n
+  ⊔-assocˡ {l} =  ◠ ⊔-assocʳ {l}
 
   -- ⊓ is associative
 
-  ⊓-assocˡ :  (l ⊓ m) ⊓ n ≡ l ⊓ (m ⊓ n)
-  ⊓-assocˡ {0} =  refl
-  ⊓-assocˡ {ṡ _} {0} =  refl
-  ⊓-assocˡ {ṡ _} {ṡ _} {0} =  refl
-  ⊓-assocˡ {ṡ _} {ṡ _} {ṡ _} =  cong ṡ_ ⊓-assocˡ
+  ⊓-assocʳ :  (l ⊓ m) ⊓ n ≡ l ⊓ (m ⊓ n)
+  ⊓-assocʳ {0} =  refl
+  ⊓-assocʳ {ṡ _} {0} =  refl
+  ⊓-assocʳ {ṡ _} {ṡ _} {0} =  refl
+  ⊓-assocʳ {ṡ _} {ṡ _} {ṡ _} =  cong ṡ_ ⊓-assocʳ
 
-  ⊓-assocʳ :  l ⊓ (m ⊓ n) ≡ (l ⊓ m) ⊓ n
-  ⊓-assocʳ =  ◠ ⊓-assocˡ
+  ⊓-assocˡ :  l ⊓ (m ⊓ n) ≡ (l ⊓ m) ⊓ n
+  ⊓-assocˡ =  ◠ ⊓-assocʳ
 
   -- ⊔ is idempotent
 
@@ -687,14 +687,14 @@ abstract
 
   -- ⊓∞ is associative
 
-  ⊓∞-assocˡ :  (l∞ ⊓∞ m∞) ⊓∞ n∞ ≡ l∞ ⊓∞ (m∞ ⊓∞ n∞)
-  ⊓∞-assocˡ {ň} =  refl
-  ⊓∞-assocˡ {š _} {ň} =  refl
-  ⊓∞-assocˡ {š _} {š _} {ň} =  refl
-  ⊓∞-assocˡ {š _} {š _} {š _} =  cong š_ ⊓-assocˡ
+  ⊓∞-assocʳ :  (l∞ ⊓∞ m∞) ⊓∞ n∞ ≡ l∞ ⊓∞ (m∞ ⊓∞ n∞)
+  ⊓∞-assocʳ {ň} =  refl
+  ⊓∞-assocʳ {š _} {ň} =  refl
+  ⊓∞-assocʳ {š _} {š _} {ň} =  refl
+  ⊓∞-assocʳ {š _} {š _} {š _} =  cong š_ ⊓-assocʳ
 
-  ⊓∞-assocʳ :  l∞ ⊓∞ (m∞ ⊓∞ n∞) ≡ (l∞ ⊓∞ m∞) ⊓∞ n∞
-  ⊓∞-assocʳ {l∞} =  ◠ ⊓∞-assocˡ {l∞}
+  ⊓∞-assocˡ :  l∞ ⊓∞ (m∞ ⊓∞ n∞) ≡ (l∞ ⊓∞ m∞) ⊓∞ n∞
+  ⊓∞-assocˡ {l∞} =  ◠ ⊓∞-assocʳ {l∞}
 
   -- ⊓∞ is idempotent
 

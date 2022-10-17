@@ -122,7 +122,7 @@ abstract
     P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , allocᴿ n) ⟩[ κ ]  Q˙
   hor-alloc θ↦∗Freeθ∗P⊢⟨Kθ⟩Q =  ahor-hor
     (⊤∗-intro » ahor-frameˡ $ ahor-alloc {i = 0}) λ θ →
-    hor<ᴾ-map (∗-assocˡ »_) $ θ↦∗Freeθ∗P⊢⟨Kθ⟩Q θ
+    hor<ᴾ-map (∗-assocʳ »_) $ θ↦∗Freeθ∗P⊢⟨Kθ⟩Q θ
 
   -- Memory freeing
 
@@ -131,6 +131,6 @@ abstract
 
   hor-free :  len ᵗvs ≡ n  →   P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ ∇ _ ⟩[ κ ]  Q˙  →
     θ ↦ᴸ ᵗvs  ∗  Free n θ  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , freeᴿ θ) ⟩[ κ ]  Q˙
-  hor-free lenvs≡n P⊢⟨K⟩Q =  ∗-assocʳ »
+  hor-free lenvs≡n P⊢⟨K⟩Q =  ∗-assocˡ »
     ahor-hor (ahor-frameˡ $ ahor-free {i = 0} lenvs≡n) λ _ →
     hor<ᴾ-map (∗-elimʳ »_) P⊢⟨K⟩Q

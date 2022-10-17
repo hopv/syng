@@ -208,10 +208,10 @@ abstract
       ⟨ M ⟩[ (λ Eᴵⁿ → (get Eᴵⁿ , get' Eᴵⁿ)) , (λ (x , y) → set x › set' y) ,
              (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᴳ⟨ M'' ⟩ Pᵒ
   ⇛ᴳ-join2 {Inv' = Inv'} g's≡g' =  ⇛ᴳ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᴳ⟨ _ ⟩ _} $
-      ∗ᵒ-assocʳ › ∗ᵒ-monoˡ ⇛ᴳ-apply › ⤇ᴱ-eatʳ ›
-      ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
+      ∗ᵒ-assocˡ › ∗ᵒ-monoˡ ⇛ᴳ-apply › ⤇ᴱ-eatʳ ›
+      ⤇ᴱ-mono (λ _ → ∗ᵒ-assocʳ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocˡ ›
         ∗ᵒ-monoˡ (∗ᵒ-monoʳ (substᵒ Inv' (◠ g's≡g')) › ⇛ᴳ-apply) ›
-        ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-join
+        ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-join
 
   ⇛ᵍ-join2 :  (∀{Eᴵⁿ x} → get' (set x Eᴵⁿ) ≡ get' Eᴵⁿ) →
     [ get , set , Inv ]⇛ᵍ [ get' , set' , Inv' ]⇛ᵍ Pᵒ  ⊨
@@ -222,8 +222,8 @@ abstract
   -- Let ⇛ᴳ/⇛ᵍ eat a proposition under ∗ᵒ
 
   ⇛ᴳ-eatˡ :  Qᵒ ∗ᵒ (⟨ M ⟩[ gsI ]⇛ᴳ⟨ M' ⟩ Pᵒ)  ⊨ ⟨ M ⟩[ gsI ]⇛ᴳ⟨ M' ⟩  Qᵒ ∗ᵒ Pᵒ
-  ⇛ᴳ-eatˡ =  ⇛ᴳ-make {Pᵒ = _ ∗ᵒ _} $ ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ⇛ᴳ-apply › ⤇ᴱ-eatˡ ›
-    ⤇ᴱ-mono λ _ → ∗ᵒ-assocʳ
+  ⇛ᴳ-eatˡ =  ⇛ᴳ-make {Pᵒ = _ ∗ᵒ _} $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ ⇛ᴳ-apply › ⤇ᴱ-eatˡ ›
+    ⤇ᴱ-mono λ _ → ∗ᵒ-assocˡ
 
   ⇛ᴳ-eatʳ :  (⟨ M ⟩[ gsI ]⇛ᴳ⟨ M' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⟨ M ⟩[ gsI ]⇛ᴳ⟨ M' ⟩  Pᵒ ∗ᵒ Qᵒ
   ⇛ᴳ-eatʳ =  ∗ᵒ-comm › ⇛ᴳ-eatˡ › ⇛ᴳ-mono ∗ᵒ-comm

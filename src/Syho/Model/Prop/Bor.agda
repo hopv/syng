@@ -12,8 +12,7 @@ open import Base.Few using (binary; absurd)
 open import Base.Size using (∞)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ)
-open import Base.Natp using (2⁺)
-open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/⁺_; ≈ᴿ⁺-sym; ≈ᴿ⁺-trans)
+open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ⁺-trans)
 open import Syho.Logic.Prop using (Lft; Prop∞; _∧_; ⊤'; _∗_; _-∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-monoˡ; ∧-monoʳ; ∧-comm;
   ∧-assocˡ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗?-comm; ∗-elimʳ;
@@ -81,7 +80,7 @@ infix 8 %ᵐ⟨_⟩ᵒ_
 %ᵐ⟨_⟩ᵒ_ :  Lft × ℚ⁺ →  Prop∞ →  Propᵒ 1ᴸ
 %ᵐ⟨ α , p ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ q , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ p ≈ᴿ⁺ q  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
-  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  [ α ]ᴸ⟨ q /⁺ 2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α q R
+  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  [ α ]ᴸ⟨ q /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α q R
 
 abstract
 

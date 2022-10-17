@@ -353,16 +353,19 @@ abstract
 --------------------------------------------------------------------------------
 -- /⁺ :  Divide ℚ⁺ with ℕ⁺
 
-infixl 7 _/⁺_
+infixl 7 _/⁺_ _/2⁺
 _/⁺_ :  ℚ⁺ → ℕ⁺ → ℚ⁺
 (a ⫽⁺ b) /⁺ c =  a ⫽⁺ c *⁺ b
+
+_/2⁺ :  ℚ⁺ → ℚ⁺
+p /2⁺ =  p /⁺ 2⁺
 
 abstract
 
   -- Cancel addition of two halved fractions
 
-  /⁺2-two :  p /⁺ 2⁺  +ᴿ⁺  p /⁺ 2⁺  ≈ᴿ⁺  p
-  /⁺2-two {p@(a ⫽⁺ b)} =  subst (_≈ᴿ⁺ p) (cong (_⫽⁺ 2b *⁺ 2b) eq) eqv
+  /2⁺-two :  p /2⁺  +ᴿ⁺  p /2⁺  ≈ᴿ⁺  p
+  /2⁺-two {p@(a ⫽⁺ b)} =  subst (_≈ᴿ⁺ p) (cong (_⫽⁺ 2b *⁺ 2b) eq) eqv
    where
     2a 2b :  ℕ⁺
     2a =  2⁺ *⁺ a

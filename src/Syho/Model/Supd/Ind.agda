@@ -81,7 +81,7 @@ abstract
 
   Indˣ-new :  ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈˣ  Indˣ P
   Indˣ-new =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-new) › ⤇ᴱ-eatʳ ›
-    (⤇ᴱ-mono λ _ → ∗ᵒ-mono Indˣ-make Smry-add-š) › ⤇ᴱ-param
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono Indˣ-make Smry-add-š) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get P
 

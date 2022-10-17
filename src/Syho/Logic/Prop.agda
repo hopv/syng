@@ -150,7 +150,7 @@ data  Prop' ι  where
 
   -- %ᵐ :  Open mutable borrow token
 
-  %ᵐ⟨_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
+  %ᵐ⟨_⟩_ :  Lft × ℚ⁺ →  Prop˂ ι →  Prop' ι
 
   -- Upper-boundee token
 

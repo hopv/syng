@@ -725,13 +725,18 @@ data  Judg ι  where
     R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
     □ R  ∧  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ]  &ᵐ⟨ α ⟩ Q˂
 
+  -- Modify the fraction of an open mutable borrow token
+
+  %ᵐ-respᴿ :  p ≈ᴿ⁺ q  →   %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , q ⟩ P˂
+
   -- Monotonicity of the open mutable borrow token
 
-  %ᵐ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ᵐ⟨ α ⟩ Q˂  ⊢[ ι ]  %ᵐ⟨ α ⟩ P˂
+  %ᵐ-monoᴾ :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ᵐ⟨ α , p ⟩ Q˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ P˂
 
   -- Let an open mutable borrow token eat a basic proposition
 
-  %ᵐ-eatˡ :  {{Basic Q}}  →   Q  ∗  %ᵐ⟨ α ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α ⟩ ¡ᴾ (Q -∗ P˂ .!)
+  %ᵐ-eatˡ :  {{Basic Q}}  →
+    Q  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   -- Retrieve the proposition from a lender token using a dead lifetime token
 
@@ -743,11 +748,11 @@ data  Judg ι  where
 
   -- Open a mutable borrow token
 
-  &ᵐ-open :  &ᵐ⟨ α ⟩ P˂  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α ⟩ P˂
+  &ᵐ-open :  &ᵐ⟨ α ⟩ P˂  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂
 
   -- Close an open mutable borrow token
 
-  %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
+  %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
 
   ------------------------------------------------------------------------------
   -- On upper bounds

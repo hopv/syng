@@ -519,7 +519,7 @@ data  Judg ι  where
 
   -- Make ↪⇛ out of ○
 
-  ○⇒↪⇛ :  P˂ .!  ∗  R˂ .! ⊢[< ι ][ i ]⇛  Q˂ .!  →   ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
+  ○⇒↪⇛ :  P˂ .!  ∗  R˂ .!  ⊢[< ι ][ i ]⇛  Q˂ .!  →   ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
 
   -- Use ↪⇛, with level increment
   -- Without that level increment, we could do any super update (⇛/↪⇛-use' in

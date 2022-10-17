@@ -102,8 +102,7 @@ abstract
   -- Monotonicity of ⇛ᴳ
 
   ⇛ᴳ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⟨ M ⟩[ gsI ]⇛ᴳ⟨ M' ⟩ Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᴳ⟨ M' ⟩ Qᵒ
-  ⇛ᴳ-mono✓ P⊨✓Q gsI⇛P Eᴵⁿ =
-    (-∗ᵒ-monoʳ $ ⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ˡ P⊨✓Q) $ gsI⇛P Eᴵⁿ
+  ⇛ᴳ-mono✓ P⊨✓Q =  -∗ᵒ-monoʳ (⤇ᴱ-mono✓ λ _ → ∗ᵒ-mono✓ˡ P⊨✓Q) ∘_
 
   ⇛ᴳ-mono :  Pᵒ ⊨ Qᵒ →  ⟨ M ⟩[ gsI ]⇛ᴳ⟨ M' ⟩ Pᵒ ⊨ ⟨ M ⟩[ gsI ]⇛ᴳ⟨ M' ⟩ Qᵒ
   ⇛ᴳ-mono =  ⊨⇒⊨✓ › ⇛ᴳ-mono✓
@@ -148,31 +147,30 @@ abstract
   ⇛ᴳ-all :  (∀{Eᴵⁿ x} → get (set x Eᴵⁿ) ≡ x)  →
             ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M' ⟩ Pᵒ  ⊨
               ⟨ M ⟩[ id , const , Inv ∘ get ]⇛ᴳ⟨ M' ⟩ Pᵒ
-  ⇛ᴳ-all {Inv = Inv} getset≡ =  ⇛ᴳ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᴳ⟨ _ ⟩ _} $
-    ⇛ᴳ-apply › ⤇ᴱ-mono (λ _ → ∗ᵒ-monoʳ $ substᵒ Inv $ ◠ getset≡) › ⤇ᴱ-param
+  ⇛ᴳ-all {Inv = Inv} gs≡ =  ⇛ᴳ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᴳ⟨ _ ⟩ _} $
+    ⇛ᴳ-apply › ⤇ᴱ-mono (λ _ → ∗ᵒ-monoʳ $ substᵒ Inv $ ◠ gs≡) › ⤇ᴱ-param
 
   ⇛ᵍ-all :  (∀{Eᴵⁿ x} → get (set x Eᴵⁿ) ≡ x)  →
               [ get , set , Inv ]⇛ᵍ Pᵒ  ⊨  [ id , const , Inv ∘ get ]⇛ᵍ Pᵒ
-  ⇛ᵍ-all getset≡ big _ =  big _ ▷ ⇛ᴳ-all getset≡
+  ⇛ᵍ-all gs≡ big _ =  big _ ▷ ⇛ᴳ-all gs≡
 
   -- Introduce ⇛ᴳ/⇛ᵍ/⇛ᵍ¹
 
   ⤇ᵒ⇒⇛ᴳ :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
            ⤇ᵒ Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M ⟩ Pᵒ
-  ⤇ᵒ⇒⇛ᴳ setget≡ =  ⇛ᴳ-make $ ⤇ᵒ-eatʳ › ⤇ᵒ⇒⤇ᴱ ›
-    ⤇ᴱ-respᴱˡ (envᴳ-cong setget≡) › ⤇ᴱ-param
+  ⤇ᵒ⇒⇛ᴳ sg≡ =  ⇛ᴳ-make $ ⤇ᵒ-eatʳ › ⤇ᵒ⇒⤇ᴱ › ⤇ᴱ-respᴱˡ (envᴳ-cong sg≡) › ⤇ᴱ-param
 
   ⇛ᴳ-intro :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
               Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M ⟩ Pᵒ
-  ⇛ᴳ-intro setget≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᴳ setget≡
+  ⇛ᴳ-intro sg≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᴳ sg≡
 
   ⤇ᵒ⇒⇛ᵍ :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
            ⤇ᵒ Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ
-  ⤇ᵒ⇒⇛ᵍ setget≡ ⤇Pa _ =  ⤇Pa ▷ ⤇ᵒ⇒⇛ᴳ setget≡
+  ⤇ᵒ⇒⇛ᵍ sg≡ ⤇Pa _ =  ⤇Pa ▷ ⤇ᵒ⇒⇛ᴳ sg≡
 
   ⇛ᵍ-intro :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
               Pᵒ ⊨ [ get , set , Inv ]⇛ᵍ Pᵒ
-  ⇛ᵍ-intro setget≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵍ setget≡
+  ⇛ᵍ-intro sg≡ =  ⤇ᵒ-intro › ⤇ᵒ⇒⇛ᵍ sg≡
 
   ⤇ᵒ⇒⇛ᵍ¹ :  ⤇ᵒ Pᵒ ⊨ [ j , Inv ]⇛ᵍ¹ Pᵒ
   ⤇ᵒ⇒⇛ᵍ¹ =  ⤇ᵒ⇒⇛ᵍ upd˙-self
@@ -184,7 +182,7 @@ abstract
 
   ⇛ᴳ-intro-✓ᴹ :  (∀{Eᴵⁿ} → set (get Eᴵⁿ) Eᴵⁿ ≡˙ Eᴵⁿ) →
                  Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M ⟩ ⌜ ✓ᴹ M ⌝ᵒ× Pᵒ
-  ⇛ᴳ-intro-✓ᴹ setget≡ =  ⇛ᴳ-make $ ⤇ᴱ-intro-✓ › ⤇ᴱ-respᴱˡ (envᴳ-cong setget≡) ›
+  ⇛ᴳ-intro-✓ᴹ sg≡ =  ⇛ᴳ-make $ ⤇ᴱ-intro-✓ › ⤇ᴱ-respᴱˡ (envᴳ-cong sg≡) ›
     ⤇ᴱ-mono (λ (-, E✓) → ∗ᵒ-monoˡ (E✓ iᴹᵉᵐ .↓ .π₀ ,_)) › ⤇ᴱ-param
 
   -- Join the same ⇛ᴳs / ⇛ᵍs
@@ -193,16 +191,15 @@ abstract
     (∀{Eᴵⁿ x y} → set y (set x Eᴵⁿ) ≡˙ set y Eᴵⁿ) →
     ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M' ⟩ ⟨ M' ⟩[ get , set , Inv ]⇛ᴳ⟨ M'' ⟩ Pᵒ  ⊨
       ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M'' ⟩ Pᵒ
-  ⇛ᴳ-join {Inv = Inv} getset≡ setset≡set =  ⇛ᴳ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᴳ⟨ _ ⟩ _} $
-    ⇛ᴳ-apply › ⤇ᴱ-mono (λ _ → ∗ᵒ-monoʳ (substᵒ Inv (◠ getset≡)) › ⇛ᴳ-apply) ›
-    ⤇ᴱ-join › ⤇ᴱ-respᴱʳ (envᴳ-cong setset≡set) › ⤇ᴱ-param
+  ⇛ᴳ-join {Inv = Inv} gs≡ ss≡s =  ⇛ᴳ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᴳ⟨ _ ⟩ _} $
+    ⇛ᴳ-apply › ⤇ᴱ-mono (λ _ → ∗ᵒ-monoʳ (substᵒ Inv (◠ gs≡)) › ⇛ᴳ-apply) ›
+    ⤇ᴱ-join › ⤇ᴱ-respᴱʳ (envᴳ-cong ss≡s) › ⤇ᴱ-param
 
   ⇛ᵍ-join :  (∀{Eᴵⁿ x} → get (set x Eᴵⁿ) ≡ x) →
              (∀{Eᴵⁿ x y} → set y (set x Eᴵⁿ) ≡˙ set y Eᴵⁿ) →
              [ get , set , Inv ]⇛ᵍ [ get , set , Inv ]⇛ᵍ Pᵒ  ⊨
                [ get , set , Inv ]⇛ᵍ Pᵒ
-  ⇛ᵍ-join getset≡ setset≡set big _ =
-    big _ ▷ ⇛ᴳ-mono (_$ _) ▷ ⇛ᴳ-join getset≡ setset≡set
+  ⇛ᵍ-join gs≡ ss≡s big _ =  big _ ▷ ⇛ᴳ-mono (_$ _) ▷ ⇛ᴳ-join gs≡ ss≡s
 
   -- Join two different ⇛ᴳs / ⇛ᵍs
 
@@ -210,17 +207,17 @@ abstract
     ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M' ⟩ ⟨ M' ⟩[ get' , set' , Inv' ]⇛ᴳ⟨ M'' ⟩ Pᵒ  ⊨
       ⟨ M ⟩[ (λ Eᴵⁿ → (get Eᴵⁿ , get' Eᴵⁿ)) , (λ (x , y) → set x › set' y) ,
              (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᴳ⟨ M'' ⟩ Pᵒ
-  ⇛ᴳ-join2 {Inv' = Inv'} get'set≡get' =  ⇛ᴳ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᴳ⟨ _ ⟩ _} $
-      ∗ᵒ-assocʳ › ∗ᵒ-monoˡ ⇛ᴳ-apply › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ ›
-      ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
-      ∗ᵒ-monoˡ (∗ᵒ-monoʳ (substᵒ Inv' (◠ get'set≡get')) › ⇛ᴳ-apply) ›
-      ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-join
+  ⇛ᴳ-join2 {Inv' = Inv'} g's≡g' =  ⇛ᴳ-make {Pᵒ = ⟨ _ ⟩[ _ ]⇛ᴳ⟨ _ ⟩ _} $
+      ∗ᵒ-assocʳ › ∗ᵒ-monoˡ ⇛ᴳ-apply › ⤇ᴱ-eatʳ ›
+      ⤇ᴱ-mono (λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
+        ∗ᵒ-monoˡ (∗ᵒ-monoʳ (substᵒ Inv' (◠ g's≡g')) › ⇛ᴳ-apply) ›
+        ⤇ᴱ-eatʳ › ⤇ᴱ-mono λ _ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ ∗ᵒ-comm) › ⤇ᴱ-join
 
   ⇛ᵍ-join2 :  (∀{Eᴵⁿ x} → get' (set x Eᴵⁿ) ≡ get' Eᴵⁿ) →
     [ get , set , Inv ]⇛ᵍ [ get' , set' , Inv' ]⇛ᵍ Pᵒ  ⊨
       [ (λ Eᴵⁿ → (get Eᴵⁿ , get' Eᴵⁿ)) , (λ (x , y) → set x › set' y) ,
         (λ (x , y) → Inv x ∗ᵒ Inv' y) ]⇛ᵍ Pᵒ
-  ⇛ᵍ-join2 get'set≡get' big _ =  big _ ▷ ⇛ᴳ-mono (_$ _) ▷ ⇛ᴳ-join2 get'set≡get'
+  ⇛ᵍ-join2 g's≡g' big _ =  big _ ▷ ⇛ᴳ-mono (_$ _) ▷ ⇛ᴳ-join2 g's≡g'
 
   -- Let ⇛ᴳ/⇛ᵍ eat a proposition under ∗ᵒ
 
@@ -243,6 +240,6 @@ abstract
 
   ⇛ᴳ-adeq :  ⊨ Inv (get empᴵⁿᴳ) →  ✓ᴹ M →
              [⊤]ᴺᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M' ⟩ ⌜ Y ⌝ᵒ →  Y
-  ⇛ᴳ-adeq ⊨Invgetemp ✓M [⊤]⊨M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓[⊤] ✓M) $
-    [⊤]⊨M⇛M'Y › ∗ᵒ?-intro ⊨Invgetemp › ⇛ᴳ-apply ›
+  ⇛ᴳ-adeq ⊨Invge ✓M [⊤]⊨M⇛M'Y =  ⤇ᴱ-adeq (empᴵⁿᴳ-✓[⊤] ✓M) $
+    [⊤]⊨M⇛M'Y › ∗ᵒ?-intro ⊨Invge › ⇛ᴳ-apply ›
     ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ {Qᵒ = ⌜ _ ⌝ᵒ× ⊤ᵒ₀} (_,-) › ∃ᵒ∗ᵒ-out › π₀

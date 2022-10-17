@@ -76,15 +76,15 @@ open ERA Borᴱᴿᴬ public using () renaming (Res to Resᴮᵒʳ; _∙_ to _�
   ε to εᴮᵒʳ; Env to Envᴮᵒʳ; _✓_ to _✓ᴮᵒʳ_; _↝_ to _↝ᴮᵒʳ_; ◠˜_ to ◠˜ᴮᵒʳ_;
   ε-min to εᴮᵒʳ-min; ↝-respʳ to ↝ᴮᵒʳ-respʳ; ↝-monoʳ to ↝ᴮᵒʳ-monoʳ)
 
--- Resource for the borrow token
+-- Resource for the mutable borrow token
 
-bor :  ℕ →  Lft →  Prop∞ →  Resᴮᵒʳ
-bor i α P =  inj˙ᴮᵒʳ i (#ˣ (ň , α , P) , εˣ)
+borᵐ :  ℕ →  Lft →  Prop∞ →  Resᴮᵒʳ
+borᵐ i α P =  inj˙ᴮᵒʳ i (#ˣ (ň , α , P) , εˣ)
 
--- Resource for the open borrow token
+-- Resource for the open mutable borrow token
 
-obor :  ℕ →  Lft →  ℚ⁺ →  Prop∞ →  Resᴮᵒʳ
-obor i α p P =  inj˙ᴮᵒʳ i (#ˣ (š p , α , P) , εˣ)
+oborᵐ :  ℕ →  Lft →  ℚ⁺ →  Prop∞ →  Resᴮᵒʳ
+oborᵐ i α p P =  inj˙ᴮᵒʳ i (#ˣ (š p , α , P) , εˣ)
 
 -- Resource for the lending token
 
@@ -108,26 +108,26 @@ abstract
   empᴮᵒʳ-✓ε :  empᴮᵒʳ ✓ᴮᵒʳ εᴮᵒʳ
   empᴮᵒʳ-✓ε =  (λ _ _ → refl) ,-
 
-  -- Create bor and lend at a fresh new index
+  -- Create borᵐ and lend at a fresh new index
 
-  bor-lend-new :  ((E˙ , n) , εᴮᵒʳ)  ↝ᴮᵒʳ λ (_ : ⊤₀) →
-    (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) , bor n α P ∙ᴮᵒʳ lend n α P
-  bor-lend-new =
+  borᵐ-lend-new :  ((E˙ , n) , εᴮᵒʳ)  ↝ᴮᵒʳ λ (_ : ⊤₀) →
+    (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) , borᵐ n α P ∙ᴮᵒʳ lend n α P
+  borᵐ-lend-new =
     ↝ᴮᵒʳ-respʳ {a = εᴮᵒʳ} (◠˜ᴮᵒʳ inj˙ᴮᵒʳ-∙) $ ↝ᴮᵒʳ-new (refl , refl)
 
-  -- Turn bor into obor to update ¿ ℚ⁺ from ň to š p
+  -- Turn borᵐ into oborᵐ to update ¿ ℚ⁺ from ň to š p
 
-  bor-open :  ((E˙ , n) , bor i α P)  ↝ᴮᵒʳ
+  borᵐ-open :  ((E˙ , n) , borᵐ i α P)  ↝ᴮᵒʳ
     λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (ň , b , α , P))) →
-    (upd˙ i (š (š p , b , α , P)) E˙ , n) , obor i α p P
-  bor-open =  inj˙-↝ᴮᵒʳ (λ ()) lenvᴮᵒʳᵇ-upd
+    (upd˙ i (š (š p , b , α , P)) E˙ , n) , oborᵐ i α p P
+  borᵐ-open =  inj˙-↝ᴮᵒʳ (λ ()) lenvᴮᵒʳᵇ-upd
 
-  -- Turn obor into bor to update ¿ ℚ⁺ from š p to ň
+  -- Turn oborᵐ into borᵐ to update ¿ ℚ⁺ from š p to ň
 
-  obor-close :  ((E˙ , n) , obor i α p P)  ↝ᴮᵒʳ
+  oborᵐ-close :  ((E˙ , n) , oborᵐ i α p P)  ↝ᴮᵒʳ
     λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (š p , b , α , P))) →
-    (upd˙ i (š (ň , b , α , P)) E˙ , n) , bor i α P
-  obor-close =  inj˙-↝ᴮᵒʳ (λ ()) lenvᴮᵒʳᵇ-upd
+    (upd˙ i (š (ň , b , α , P)) E˙ , n) , borᵐ i α P
+  oborᵐ-close =  inj˙-↝ᴮᵒʳ (λ ()) lenvᴮᵒʳᵇ-upd
 
   -- Consume lend to update 𝔹 from tt to ff
 

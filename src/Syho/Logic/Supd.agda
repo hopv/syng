@@ -24,7 +24,7 @@ open import Syho.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]�
 private variable
   ι :  𝕊
   i j :  ℕ
-  P Q R :  Prop∞
+  P Q R S :  Prop∞
   Nm :  Name → Zoi
 
 abstract
@@ -72,6 +72,9 @@ abstract
 
   ⇛-frameʳ :  P ⊢[ ι ][ i ]⇛ Q →  P ∗ R ⊢[ ι ][ i ]⇛ Q ∗ R
   ⇛-frameʳ P⊢⇛Q =  ∗-comm » ⇛-frameˡ P⊢⇛Q ᵘ» ∗-comm
+
+  ⇛-frameˡʳ :  P ⊢[ ι ][ i ]⇛ Q →  R ∗ P ∗ S ⊢[ ι ][ i ]⇛ R ∗ Q ∗ S
+  ⇛-frameˡʳ P⊢⇛Q =  ⇛-frameˡ $ ⇛-frameʳ P⊢⇛Q
 
   -- ⇛ into ⇛ᴺ
 

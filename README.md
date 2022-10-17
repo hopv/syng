@@ -168,22 +168,19 @@ following parts.
         * [`Base`](src/Syho/Model/Prop/Base.agda) for the core semantic logic
             connectives;
             [`Smry`](src/Syho/Model/Prop/Smry.agda) for the map summary;
-            [`Names`](src/Syho/Model/Prop/Names.agda) for interpreting the name
-            set token;
-            [`Mem`](src/Syho/Model/Prop/Mem.agda) for interpreting the
-            memory-related tokens;
-            [`Lft`](src/Syho/Model/Prop/Lft.agda) for interpreting the
-            lifetime-related tokens;
-            [`Ub`](src/Syho/Model/Prop/Ub.agda) for interpreting the
-            upper-bound-related tokens.
-        * [`Basic`](src/Syho/Model/Prop/Basic.agda) for interpreting basic
-            propositions;
-            [`Ind`](src/Syho/Model/Prop/Ind.agda) for interpreting the
-            indirection modality and precursors;
-            [`Inv`](src/Syho/Model/Prop/Inv.agda) for interpreting the
-            invariant-related tokens.
-        * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting all the
-            propositions;
+            [`Names`](src/Syho/Model/Prop/Names.agda) for the name set token;
+            [`Mem`](src/Syho/Model/Prop/Mem.agda) for the memory-related tokens;
+            [`Lft`](src/Syho/Model/Prop/Lft.agda) for the lifetime-related
+            tokens;
+            [`Ub`](src/Syho/Model/Prop/Ub.agda) for the upper-bound-related
+            tokens.
+        * [`Basic`](src/Syho/Model/Prop/Basic.agda) for basic propositions;
+            [`Ind`](src/Syho/Model/Prop/Ind.agda) for the indirection modality
+            and precursors;
+            [`Inv`](src/Syho/Model/Prop/Inv.agda) for the invariant-related
+            tokens.
+        * [`Interp`](src/Syho/Model/Prop/Interp.agda) for the semantics of all
+            the propositions;
             [`Sound`](src/Syho/Model/Prop/Sound.agda) for the semantic soundness
             of the logic's pure sequent.
     + [`Supd/`](src/Syho/Model/Supd/) ― **The semantic model and soundness proof

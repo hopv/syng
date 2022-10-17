@@ -316,19 +316,31 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
 
     -- Modify ↝ with ≈
 
+    ↝-mono :  a ⊑ a'  →   (∀{x} → b'˙ x ⊑ b˙ x)  →
+      (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a') ↝ λ x → F˙ x , b'˙ x
+    ↝-mono a⊑a' b'x⊑bx Ea↝Fxbx c˙ E✓a'∙c
+      with Ea↝Fxbx c˙ $ ✓-mono (∙-monoˡ a⊑a') E✓a'∙c
+    … | x , Fx✓bx∙c =  x , ✓-mono (∙-monoˡ b'x⊑bx) Fx✓bx∙c
+
     ↝-resp :  a ≈ a'  →   (∀{x} → b˙ x ≈ b'˙ x)  →
       (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a') ↝ λ x → F˙ x , b'˙ x
-    ↝-resp a≈a' bx≈b'x Ea↝Fxbx c˙ E✓a'∙c
-      with Ea↝Fxbx c˙ $ ✓-resp (◠˜ ∙-congˡ a≈a') E✓a'∙c
-    … | x , Fx✓bx∙c =  x , ✓-resp (∙-congˡ bx≈b'x) Fx✓bx∙c
+    ↝-resp a≈a' bx≈b'x =  ↝-mono (≈⇒⊑ a≈a') (≈⇒⊑ $ ◠˜ bx≈b'x)
 
-    ↝-respʳ :  (∀{x} → b˙ x ≈ b'˙ x)  →
-      (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a) ↝ λ x → F˙ x , b'˙ x
-    ↝-respʳ =  ↝-resp refl˜
+    ↝-monoˡ :  a ⊑ a'  →
+      (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a') ↝ λ x → F˙ x , b˙ x
+    ↝-monoˡ a⊑a' =  ↝-mono a⊑a' ⊑-refl
 
     ↝-respˡ :  a ≈ a'  →
       (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a') ↝ λ x → F˙ x , b˙ x
-    ↝-respˡ a≈a' =  ↝-resp a≈a' refl˜
+    ↝-respˡ a≈a' =  ↝-monoˡ $ ≈⇒⊑ a≈a'
+
+    ↝-monoʳ :  (∀{x} → b'˙ x ⊑ b˙ x)  →
+      (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a) ↝ λ x → F˙ x , b'˙ x
+    ↝-monoʳ =  ↝-mono ⊑-refl
+
+    ↝-respʳ :  (∀{x} → b˙ x ≈ b'˙ x)  →
+      (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a) ↝ λ x → F˙ x , b'˙ x
+    ↝-respʳ b≈b' =  ↝-monoʳ $ ≈⇒⊑ $ ◠˜ b≈b'
 
     -- Change parameterization of ↝
 

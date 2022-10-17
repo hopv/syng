@@ -13,8 +13,8 @@ open import Base.Eq using (_≡_; refl; ◠_; refl˙)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using ()
 open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ;
-  empᴵⁿᴳ-✓[⊤]; envᴳ-cong)
+open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ;
+  ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
   ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; substᵒ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ∗ᵒ?-intro;
@@ -26,9 +26,9 @@ open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᴳ'⟨_⟩_; ⟨_⟩[_]⇛
   ⊨✓⇒⊨-⇛ᴳ; ⊨✓⇒⊨-⇛ᵍ; ⇛ᴳ-all; ⇛ᵍ-all; ⤇ᵒ⇒⇛ᴳ; ⇛ᴳ-intro; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro;
   ⇛ᴳ-intro-✓ᴹ; ⇛ᴳ-join; ⇛ᵍ-join; ⇛ᵍ-join2; ⇛ᴳ-eatˡ; ⇛ᴳ-eatʳ; ⇛ᵍ-eatˡ;
   ⇛ᵍ-eatʳ; ⇛ᴳ-adeq)
-open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; Invᴵⁿᵈ; ⇛ᴵⁿᵈ_; Invᴵⁿᵈ-emp;
+open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; Invᴵⁿᵈ; ⇛ᴵⁿᵈ_; Invᴵⁿᵈ-∅;
   ⇛ᴵⁿᵈ-intro)
-open import Syho.Model.Supd.Inv using (Invᴵⁿᵛ; ⇛ᴵⁿᵛ_; Invᴵⁿᵛ-emp; ⇛ᴵⁿᵛ-intro)
+open import Syho.Model.Supd.Inv using (Invᴵⁿᵛ; ⇛ᴵⁿᵛ_; Invᴵⁿᵛ-∅; ⇛ᴵⁿᵛ-intro)
 
 private variable
   ł :  Level
@@ -72,10 +72,10 @@ abstract
 
 abstract
 
-  -- Get Invᴳ empᴵⁿᴳ for free
+  -- Get Invᴳ ∅ᴵⁿᴳ for free
 
-  Invᴳ-emp :  ⊨ Invᴳ empᴵⁿᴳ
-  Invᴳ-emp =  Invᴵⁿᵈ-emp ▷ ∗ᵒ?-intro Invᴵⁿᵛ-emp
+  Invᴳ-∅ :  ⊨ Invᴳ ∅ᴵⁿᴳ
+  Invᴳ-∅ =  Invᴵⁿᵈ-∅ ▷ ∗ᵒ?-intro Invᴵⁿᵛ-∅
 
   -- ⇛ᴹ equals ⇛ᴹ'
 
@@ -184,7 +184,7 @@ abstract
   -- If we have X under [⊤]ᴺᵒ and ⟨ M ⟩⇛ᴹ⟨ _ ⟩ for valid M, then X holds purely
 
   ⇛ᴹ-adeq :  ✓ᴹ M →  [⊤]ᴺᵒ ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
-  ⇛ᴹ-adeq =  ⇛ᴳ-adeq Invᴳ-emp
+  ⇛ᴹ-adeq =  ⇛ᴳ-adeq Invᴳ-∅
 
   -- Perform a step by ⇛ᴹ
 

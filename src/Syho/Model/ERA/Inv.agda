@@ -52,8 +52,8 @@ open ERA Invᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵛ; Res to Res�
 
 -- Empty environment of Invᴱᴿᴬ
 
-empᴵⁿᵛ :  Envᴵⁿᵛ
-empᴵⁿᵛ =  (λ _ → ň) , 0
+∅ᴵⁿᵛ :  Envᴵⁿᵛ
+∅ᴵⁿᵛ =  (λ _ → ň) , 0
 
 -- Persistently observe a proposition at an index
 
@@ -67,10 +67,10 @@ invk i nm P =  inj˙ᴵⁿᵛ i ([] , #ˣ (nm , P))
 
 abstract
 
-  -- empᴵⁿᵛ with εᴵⁿᵛ is valid
+  -- ∅ᴵⁿᵛ with εᴵⁿᵛ is valid
 
-  empᴵⁿᵛ-✓ε :  empᴵⁿᵛ ✓ᴵⁿᵛ εᴵⁿᵛ
-  empᴵⁿᵛ-✓ε =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _)
+  ∅ᴵⁿᵛ-✓ε :  ∅ᴵⁿᵛ ✓ᴵⁿᵛ εᴵⁿᵛ
+  ∅ᴵⁿᵛ-✓ε =  (λ _ _ → refl) , (λ _ → ✓ᴸ-[] , _)
 
   -- inv i nm P absorbs ⌞ ⌟
 

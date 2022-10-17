@@ -100,13 +100,13 @@ abstract
 
   -- Empty environment for Borᴱᴿᴬ
 
-  empᴮᵒʳ :  Envᴮᵒʳ
-  empᴮᵒʳ =  (λ _ → ň) , 0
+  ∅ᴮᵒʳ :  Envᴮᵒʳ
+  ∅ᴮᵒʳ =  (λ _ → ň) , 0
 
-  -- empᴮᵒʳ with εᴮᵒʳ is valid
+  -- ∅ᴮᵒʳ with εᴮᵒʳ is valid
 
-  empᴮᵒʳ-✓ε :  empᴮᵒʳ ✓ᴮᵒʳ εᴮᵒʳ
-  empᴮᵒʳ-✓ε =  (λ _ _ → refl) ,-
+  ∅ᴮᵒʳ-✓ε :  ∅ᴮᵒʳ ✓ᴮᵒʳ εᴮᵒʳ
+  ∅ᴮᵒʳ-✓ε =  (λ _ _ → refl) ,-
 
   -- Create borᵐ and lend at a fresh new index
 

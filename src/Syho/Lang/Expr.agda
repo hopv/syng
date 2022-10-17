@@ -247,8 +247,8 @@ M ‼ᴹ (o , i) =  M o »-¿ _‼ i
 
 -- Empty memory
 
-empᴹ :  Mem
-empᴹ _ =  ň
+∅ᴹ :  Mem
+∅ᴹ _ =  ň
 
 -- Memory update
 
@@ -263,10 +263,10 @@ infix 3 ✓ᴹ_
 
 abstract
 
-  -- ✓ᴹ holds for empᴹ
+  -- ✓ᴹ holds for ∅ᴹ
 
-  ✓ᴹ-emp :  ✓ᴹ empᴹ
-  ✓ᴹ-emp =  ∀⇒Cofin {F = λ _ → _≡ ň} λ _ → refl
+  ✓ᴹ-∅ :  ✓ᴹ ∅ᴹ
+  ✓ᴹ-∅ =  ∀⇒Cofin {F = λ _ → _≡ ň} λ _ → refl
 
   -- ✓ᴹ is preserved by upd˙ and updᴹ
 

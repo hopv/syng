@@ -17,11 +17,11 @@ open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Base using (ERA; ⊤ᴱᴿᴬ)
 open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
 open import Syho.Model.ERA.Names using (Namesᴱᴿᴬ; ✓ᴺᵃᵐᵉˢ[⊤]; [⊤]ᴺʳ)
-open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; empᴵⁿᵈˣ; empᴵⁿᵈᵖ;
-  empᴵⁿᵈˣ-✓ε; empᴵⁿᵈᵖ-✓ε)
-open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; empᴵⁿᵛ; empᴵⁿᵛ-✓ε)
+open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; ∅ᴵⁿᵈˣ; ∅ᴵⁿᵈᵖ; ∅ᴵⁿᵈˣ-✓ε;
+  ∅ᴵⁿᵈᵖ-✓ε)
+open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; ∅ᴵⁿᵛ; ∅ᴵⁿᵛ-✓ε)
 open import Syho.Model.ERA.Lft using (Lftᴱᴿᴬ; ✓ᴸᶠᵗε)
-open import Syho.Model.ERA.Bor using (Borᴱᴿᴬ; empᴮᵒʳ; empᴮᵒʳ-✓ε)
+open import Syho.Model.ERA.Bor using (Borᴱᴿᴬ; ∅ᴮᵒʳ; ∅ᴮᵒʳ-✓ε)
 open import Syho.Model.ERA.Ub using (Ubᴱᴿᴬ; ✓ᵁᵇε)
 
 open ERA using (Res; Env)
@@ -122,15 +122,15 @@ envᴵⁿᴳ E j =  E $ outᴳ j
 
 -- Empty inner environment
 
-empᴵⁿᴳ :  Envᴵⁿᴳ
-empᴵⁿᴳ jᴺᵃᵐᵉˢ =  _
-empᴵⁿᴳ jᴵⁿᵈˣ =  empᴵⁿᵈˣ
-empᴵⁿᴳ jᴵⁿᵈᵖ =  empᴵⁿᵈᵖ
-empᴵⁿᴳ jᴵⁿᵛ =  empᴵⁿᵛ
-empᴵⁿᴳ jᴸᶠᵗ =  _
-empᴵⁿᴳ jᴮᵒʳ =  empᴮᵒʳ
-empᴵⁿᴳ jᵁᵇ =  _
-empᴵⁿᴳ elseᴵⁿᴳ =  _
+∅ᴵⁿᴳ :  Envᴵⁿᴳ
+∅ᴵⁿᴳ jᴺᵃᵐᵉˢ =  _
+∅ᴵⁿᴳ jᴵⁿᵈˣ =  ∅ᴵⁿᵈˣ
+∅ᴵⁿᴳ jᴵⁿᵈᵖ =  ∅ᴵⁿᵈᵖ
+∅ᴵⁿᴳ jᴵⁿᵛ =  ∅ᴵⁿᵛ
+∅ᴵⁿᴳ jᴸᶠᵗ =  _
+∅ᴵⁿᴳ jᴮᵒʳ =  ∅ᴮᵒʳ
+∅ᴵⁿᴳ jᵁᵇ =  _
+∅ᴵⁿᴳ elseᴵⁿᴳ =  _
 
 private variable
   Eᴵⁿ Fᴵⁿ :  Envᴵⁿᴳ
@@ -141,18 +141,18 @@ private variable
 
 abstract
 
-  -- envᴳ M empᴵⁿᴳ with inj˙ iᴵⁿᵛ [⊤]ᴺʳ is valid for valid M
+  -- envᴳ M ∅ᴵⁿᴳ with inj˙ iᴵⁿᵛ [⊤]ᴺʳ is valid for valid M
 
-  empᴵⁿᴳ-✓[⊤] :  ✓ᴹ M →  envᴳ M empᴵⁿᴳ ✓ᴳ inj˙ iᴺᵃᵐᵉˢ [⊤]ᴺʳ
-  empᴵⁿᴳ-✓[⊤] ✓M iᴹᵉᵐ =  ✓ᴹ⇒✓ᴹᵉᵐ ✓M
-  empᴵⁿᴳ-✓[⊤] _ iᴺᵃᵐᵉˢ =  ✓ᴺᵃᵐᵉˢ[⊤]
-  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈˣ =  empᴵⁿᵈˣ-✓ε
-  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈᵖ =  empᴵⁿᵈᵖ-✓ε
-  empᴵⁿᴳ-✓[⊤] _ iᴵⁿᵛ =  empᴵⁿᵛ-✓ε
-  empᴵⁿᴳ-✓[⊤] _ iᴸᶠᵗ =  ✓ᴸᶠᵗε
-  empᴵⁿᴳ-✓[⊤] _ iᴮᵒʳ =  empᴮᵒʳ-✓ε
-  empᴵⁿᴳ-✓[⊤] _ iᵁᵇ =  ✓ᵁᵇε
-  empᴵⁿᴳ-✓[⊤] _ elseᴳ =  _
+  ∅ᴵⁿᴳ-✓[⊤] :  ✓ᴹ M →  envᴳ M ∅ᴵⁿᴳ ✓ᴳ inj˙ iᴺᵃᵐᵉˢ [⊤]ᴺʳ
+  ∅ᴵⁿᴳ-✓[⊤] ✓M iᴹᵉᵐ =  ✓ᴹ⇒✓ᴹᵉᵐ ✓M
+  ∅ᴵⁿᴳ-✓[⊤] _ iᴺᵃᵐᵉˢ =  ✓ᴺᵃᵐᵉˢ[⊤]
+  ∅ᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈˣ =  ∅ᴵⁿᵈˣ-✓ε
+  ∅ᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈᵖ =  ∅ᴵⁿᵈᵖ-✓ε
+  ∅ᴵⁿᴳ-✓[⊤] _ iᴵⁿᵛ =  ∅ᴵⁿᵛ-✓ε
+  ∅ᴵⁿᴳ-✓[⊤] _ iᴸᶠᵗ =  ✓ᴸᶠᵗε
+  ∅ᴵⁿᴳ-✓[⊤] _ iᴮᵒʳ =  ∅ᴮᵒʳ-✓ε
+  ∅ᴵⁿᴳ-✓[⊤] _ iᵁᵇ =  ✓ᵁᵇε
+  ∅ᴵⁿᴳ-✓[⊤] _ elseᴳ =  _
 
   -- ≡˙ is congruent w.r.t. envᴳ M
 

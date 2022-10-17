@@ -22,7 +22,7 @@ open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
 open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ;
   indˣ-new; indˣ-use; indᵖ-new; indᵖ-use)
-open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; empᴵⁿᴳ)
+open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; ∅ᴵⁿᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
   _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-mono✓ˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-assocˡ;
   ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
@@ -67,10 +67,10 @@ infix 3 ⇛ᴵⁿᵈˣ_
 
 abstract
 
-  -- Get Invᴵⁿᵈˣ (empᴵⁿᴳ jᴵⁿᵈˣ) for free
+  -- Get Invᴵⁿᵈˣ (∅ᴵⁿᴳ jᴵⁿᵈˣ) for free
 
-  Invᴵⁿᵈˣ-emp :  ⊨ Invᴵⁿᵈˣ (empᴵⁿᴳ jᴵⁿᵈˣ)
-  Invᴵⁿᵈˣ-emp =  Smry-0
+  Invᴵⁿᵈˣ-∅ :  ⊨ Invᴵⁿᵈˣ (∅ᴵⁿᴳ jᴵⁿᵈˣ)
+  Invᴵⁿᵈˣ-∅ =  Smry-0
 
   -- Introduce ⇛ᴵⁿᵈˣ
 
@@ -107,10 +107,10 @@ infix 3 ⇛ᴵⁿᵈᵖ_
 
 abstract
 
-  -- Get Invᴵⁿᵈᵖ (empᴵⁿᴳ jᴵⁿᵈᵖ) for free
+  -- Get Invᴵⁿᵈᵖ (∅ᴵⁿᴳ jᴵⁿᵈᵖ) for free
 
-  Invᴵⁿᵈᵖ-emp :  ⊨ Invᴵⁿᵈᵖ (empᴵⁿᴳ jᴵⁿᵈᵖ)
-  Invᴵⁿᵈᵖ-emp =  Smry-0
+  Invᴵⁿᵈᵖ-∅ :  ⊨ Invᴵⁿᵈᵖ (∅ᴵⁿᴳ jᴵⁿᵈᵖ)
+  Invᴵⁿᵈᵖ-∅ =  Smry-0
 
   -- Introduce ⇛ᴵⁿᵈᵖ
 
@@ -163,10 +163,10 @@ infix 3 ⇛ᴵⁿᵈ_
 
 abstract
 
-  -- Get Invᴵⁿᵈ (envᴵⁿᵈ empᴵⁿᴳ) for free
+  -- Get Invᴵⁿᵈ (envᴵⁿᵈ ∅ᴵⁿᴳ) for free
 
-  Invᴵⁿᵈ-emp :  ⊨ Invᴵⁿᵈ (envᴵⁿᵈ empᴵⁿᴳ)
-  Invᴵⁿᵈ-emp =  Invᴵⁿᵈˣ-emp ▷ ∗ᵒ?-intro Invᴵⁿᵈᵖ-emp
+  Invᴵⁿᵈ-∅ :  ⊨ Invᴵⁿᵈ (envᴵⁿᵈ ∅ᴵⁿᴳ)
+  Invᴵⁿᵈ-∅ =  Invᴵⁿᵈˣ-∅ ▷ ∗ᵒ?-intro Invᴵⁿᵈᵖ-∅
 
   -- ⇛ᴵⁿᵈˣ into ⇛ᴵⁿᵈ
 

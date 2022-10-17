@@ -40,8 +40,8 @@ open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to 
 
 -- Empty environment of Indˣᴱᴿᴬ
 
-empᴵⁿᵈˣ :  Envᴵⁿᵈˣ
-empᴵⁿᵈˣ =  (λ _ → ň) , 0
+∅ᴵⁿᵈˣ :  Envᴵⁿᵈˣ
+∅ᴵⁿᵈˣ =  (λ _ → ň) , 0
 
 -- Exclusively own a proposition at an index
 
@@ -50,10 +50,10 @@ indˣ i P =  inj˙ᴵⁿᵈˣ i (#ˣ P)
 
 abstract
 
-  -- empᴵⁿᵈˣ with εᴵⁿᵈˣ is valid
+  -- ∅ᴵⁿᵈˣ with εᴵⁿᵈˣ is valid
 
-  empᴵⁿᵈˣ-✓ε :  empᴵⁿᵈˣ ✓ᴵⁿᵈˣ εᴵⁿᵈˣ
-  empᴵⁿᵈˣ-✓ε =  (λ _ _ → refl) , _
+  ∅ᴵⁿᵈˣ-✓ε :  ∅ᴵⁿᵈˣ ✓ᴵⁿᵈˣ εᴵⁿᵈˣ
+  ∅ᴵⁿᵈˣ-✓ε =  (λ _ _ → refl) , _
 
   -- Add a new proposition and get indˣ
 
@@ -82,8 +82,8 @@ open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ; Res t
 
 -- Empty environment of Indᵖᴱᴿᴬ
 
-empᴵⁿᵈᵖ :  Envᴵⁿᵈᵖ
-empᴵⁿᵈᵖ =  (λ _ → ň) , 0
+∅ᴵⁿᵈᵖ :  Envᴵⁿᵈᵖ
+∅ᴵⁿᵈᵖ =  (λ _ → ň) , 0
 
 -- Persistently own a proposition at an index
 
@@ -92,10 +92,10 @@ indᵖ i P =  inj˙ᴵⁿᵈᵖ i [ P ]
 
 abstract
 
-  -- empᴵⁿᵈᵖ is valid
+  -- ∅ᴵⁿᵈᵖ is valid
 
-  empᴵⁿᵈᵖ-✓ε :  empᴵⁿᵈᵖ ✓ᴵⁿᵈᵖ εᴵⁿᵈᵖ
-  empᴵⁿᵈᵖ-✓ε =  (λ _ _ → refl) , λ _ → ✓ᴸ-[]
+  ∅ᴵⁿᵈᵖ-✓ε :  ∅ᴵⁿᵈᵖ ✓ᴵⁿᵈᵖ εᴵⁿᵈᵖ
+  ∅ᴵⁿᵈᵖ-✓ε =  (λ _ _ → refl) , λ _ → ✓ᴸ-[]
 
   -- Add a new proposition and get indᵖ
 

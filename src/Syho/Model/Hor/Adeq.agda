@@ -25,14 +25,14 @@ open import Syho.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-ĩ₀;
   val/ktxred-V⇒E)
 open import Syho.Lang.Reduce using ([]⇒; redᴷᴿ; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇒ᵀ○_; _⇒ᵀ●_;
   redᵀ-hd; redᵀ-tl; _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ; Infᵀ; infᵀ)
-open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; empᴵⁿᴳ-✓[⊤])
+open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ-✓[⊤])
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
   ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; ⊥ᵒ₀; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; Thunkᵒ; substᵒ;
   ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ;
   ?∗ᵒ-comm; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono; [∗ᵒ∈²]-Mono; -∗ᵒ-applyˡ;
   ◎-just; Shrunkᵒ∗ᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-emp; ⇛ᴹ-Mono;
+open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-∅; ⇛ᴹ-Mono;
   ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴹ-intro; ⇛ᴹ-join; ⇛ᴹ-eatˡ; ⇛ᴹ-eatʳ; ⇛ᴹ-adeq;
   ⇛ᴹ-step)
 open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᵀᵒ˂;
@@ -218,8 +218,8 @@ abstract
   -- for valid M
 
   ⟨⟩ᵀᵒ⇒SN :  ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ →  ✓ᴹ M →  SNᵀ (e , [] , M)
-  ⟨⟩ᵀᵒ⇒SN ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓[⊤] ✓M) $
-    ◎-just ▷ ∗ᵒ?-intro (∗ᵒ?-intro _ ⊨⟨e⟩P) ▷ ∗ᵒ?-intro Invᴳ-emp
+  ⟨⟩ᵀᵒ⇒SN ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓[⊤] ✓M) $
+    ◎-just ▷ ∗ᵒ?-intro (∗ᵒ?-intro _ ⊨⟨e⟩P) ▷ ∗ᵒ?-intro Invᴳ-∅
    where
     -- Well-founded induction by the metric sz ι ∷ ιs
     go :  Acc (Rᴰᴹ _<ˢ_) (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →
@@ -306,8 +306,8 @@ abstract
   -- event an infinite number of times
 
   ⟨⟩∞ᵒ⇒Inf :  ⊨ ⟨ e ⟩∞ᵒ ι ι' →  ✓ᴹ M →  Infᵀ ι' (e , [] , M)
-  ⟨⟩∞ᵒ⇒Inf ⊨⟨e⟩∞ ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (empᴵⁿᴳ-✓[⊤] ✓M) $
-    ◎-just ▷ ∗ᵒ?-intro (∗ᵒ?-intro _ ⊨⟨e⟩∞) ▷ ∗ᵒ?-intro Invᴳ-emp
+  ⟨⟩∞ᵒ⇒Inf ⊨⟨e⟩∞ ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓[⊤] ✓M) $
+    ◎-just ▷ ∗ᵒ?-intro (∗ᵒ?-intro _ ⊨⟨e⟩∞) ▷ ∗ᵒ?-intro Invᴳ-∅
    where
     -- Well-founded induction by the metric (ι' , sz ι ∷ ιs)
     go :  Acc (Rᴰᴹ _<ˢ_) (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →

@@ -16,7 +16,7 @@ open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Logic.Core using (_»_; ∗⇒∧)
 open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; invk; inv-invk-new;
   inv-agree; invk-agree)
-open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; empᴵⁿᴳ; upd˙-out-envᴳ)
+open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; ∅ᴵⁿᴳ; upd˙-out-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm;
   ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ∗ᵒ?-comm; ?∗ᵒ-intro; ∗ᵒ-elimˡ; ∗ᵒ⨿ᵒ-out; -∗ᵒ-applyˡ;
@@ -61,10 +61,10 @@ infix 3 ⇛ᴵⁿᵛ_
 
 abstract
 
-  -- Get Invᴵⁿᵛ (empᴵⁿᴳ jᴵⁿᵛ) for free
+  -- Get Invᴵⁿᵛ (∅ᴵⁿᴳ jᴵⁿᵛ) for free
 
-  Invᴵⁿᵛ-emp :  ⊨ Invᴵⁿᵛ (empᴵⁿᴳ jᴵⁿᵛ)
-  Invᴵⁿᵛ-emp =  Smry-0
+  Invᴵⁿᵛ-∅ :  ⊨ Invᴵⁿᵛ (∅ᴵⁿᴳ jᴵⁿᵛ)
+  Invᴵⁿᵛ-∅ =  Smry-0
 
   -- Introduce ⇛ᴵⁿᵛ
 

@@ -15,12 +15,12 @@ open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Name; Prop∞; _∧_; ⊤'; _∗_; _-∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-monoˡ; ∧-monoʳ; ∧-comm;
-  ∧-assocˡ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗?-comm; -∗-applyˡ)
+  ∧-assocˡ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗?-comm; -∗-applyˡ)
 open import Syho.Model.ERA.Inv using (_∙ᴵⁿᵛ_; inv; invk; inv-⌞⌟; invk-no2)
 open import Syho.Model.ERA.Glob using (iᴵⁿᵛ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono;
-  ∗ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocʳ; □ᵒ-Mono; □ᵒ-elim;
+  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocʳ; □ᵒ-Mono; □ᵒ-elim;
   □ᵒ-dup; dup-□ᵒ; ◎-Mono; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 

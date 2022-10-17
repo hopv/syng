@@ -108,7 +108,7 @@ abstract
   ∅ᴮᵒʳ-✓ε :  ∅ᴮᵒʳ ✓ᴮᵒʳ εᴮᵒʳ
   ∅ᴮᵒʳ-✓ε =  (λ _ _ → refl) ,-
 
-  -- Create borᵐ and lend at a fresh new index
+  -- Create borᵐ and lend at a fresh index
 
   borᵐ-lend-new :
     ((E˙ , n) , εᴮᵒʳ)  ↝ᴮᵒʳ λ (_ : ⊤₀) →

@@ -178,7 +178,8 @@ following parts.
             [`Ind`](src/Syho/Model/Prop/Ind.agda) for the indirection modality
             and precursors;
             [`Inv`](src/Syho/Model/Prop/Inv.agda) for the invariant-related
-            tokens.
+            tokens;
+            [`Bor`](src/Syho/Model/Prop/Bor.agda) for the borrow-related tokens.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for the semantics of all
             the propositions;
             [`Sound`](src/Syho/Model/Prop/Sound.agda) for the semantic soundness

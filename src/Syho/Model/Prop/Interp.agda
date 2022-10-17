@@ -9,9 +9,10 @@ module Syho.Model.Prop.Interp where
 open import Base.Level using (1ᴸ)
 open import Base.Func using (id)
 open import Base.Size using (!)
+open import Base.Prod using (_,_)
 open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
   _↦⟨_⟩_; Free; ○_; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪[_]⟨_⟩∞;
-  [_]ᴸ⟨_⟩; †ᴸ_; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic; ∀-Basic;
+  [_]ᴸ⟨_⟩; †ᴸ_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; ⟨†_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic; ∀-Basic;
   ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic;
   Free-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic; #ᵁᵇ-Basic; ≤ᵁᵇ-Basic)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
@@ -26,13 +27,12 @@ open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᴹ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
   _↪[_]⟨_⟩∞ᵒ; ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᵒ-Mono; ↪⟨⟩∞ᵒ-Mono)
 open import Syho.Model.Prop.Inv using (&ⁱ⟨_⟩ᵒ_; %ⁱ⟨_⟩ᵒ_; &ⁱᵒ-Mono; %ⁱᵒ-Mono)
+open import Syho.Model.Prop.Bor using (&ᵐ⟨_⟩ᵒ_; %ᵐ⟨_⟩ᵒ_; ⟨†_⟩ᵒ_; &ᵐᵒ-Mono;
+  %ᵐᵒ-Mono; ⟨†⟩ᵒ-Mono)
 open import Syho.Model.Prop.Ub using (#ᵁᵇ⟨_⟩ᵒ_; ≤ᵁᵇ⟨_⟩ᵒ_)
 
 private variable
   P :  Prop∞
-
-postulate
-  WIP :  ∀{ł} {A : Set ł} →  A  -- Just for now
 
 --------------------------------------------------------------------------------
 -- ⸨ ⸩ :  Interpret syntactic propositions
@@ -57,9 +57,9 @@ postulate
 ⸨ %ⁱ⟨ nm ⟩ P˂ ⸩ =  %ⁱ⟨ nm ⟩ᵒ P˂ .!
 ⸨ [ α ]ᴸ⟨ p ⟩ ⸩ =  [ α ]ᴸ⟨ p ⟩ᵒ
 ⸨ †ᴸ α ⸩ =  †ᴸᵒ α
-⸨ ⟨† α ⟩ P˂ ⸩ =  WIP
-⸨ &ᵐ⟨ α ⟩ P˂ ⸩ =  WIP
-⸨ %ᵐ⟨ α ⟩ P˂ ⸩ =  WIP
+⸨ &ᵐ⟨ α ⟩ P˂ ⸩ =  &ᵐ⟨ α ⟩ᵒ P˂ .!
+⸨ %ᵐ⟨ α , p ⟩ P˂ ⸩ =  %ᵐ⟨ α , p ⟩ᵒ P˂ .!
+⸨ ⟨† α ⟩ P˂ ⸩ =  ⟨† α ⟩ᵒ P˂ .!
 ⸨ #ᵁᵇ⟨ i ⟩ n ⸩ =  #ᵁᵇ⟨ i ⟩ᵒ n
 ⸨ ≤ᵁᵇ⟨ i ⟩ n ⸩ =  ≤ᵁᵇ⟨ i ⟩ᵒ n
 
@@ -87,9 +87,9 @@ abstract
   ⸨⸩-Mono {%ⁱ⟨ _ ⟩ _} =  %ⁱᵒ-Mono
   ⸨⸩-Mono {[ _ ]ᴸ⟨ _ ⟩} =  ◎-Mono
   ⸨⸩-Mono {†ᴸ _} =  ◎-Mono
-  ⸨⸩-Mono {⟨† _ ⟩ _} =  WIP
-  ⸨⸩-Mono {&ᵐ⟨ _ ⟩ _} =  WIP
-  ⸨⸩-Mono {%ᵐ⟨ _ ⟩ _} =  WIP
+  ⸨⸩-Mono {&ᵐ⟨ _ ⟩ _} =  &ᵐᵒ-Mono
+  ⸨⸩-Mono {%ᵐ⟨ _ , p ⟩ _} =  %ᵐᵒ-Mono {p = p}
+  ⸨⸩-Mono {⟨† _ ⟩ _} =  ⟨†⟩ᵒ-Mono
   ⸨⸩-Mono {#ᵁᵇ⟨ _ ⟩ _} =  ◎-Mono
   ⸨⸩-Mono {≤ᵁᵇ⟨ _ ⟩ _} =  ◎-Mono
 

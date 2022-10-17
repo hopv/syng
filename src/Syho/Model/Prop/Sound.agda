@@ -45,15 +45,14 @@ open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤;
   ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒↪⟨⟩∞ᵒ)
 open import Syho.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ×ᵒ; %ⁱᵒ-mono;
   %ⁱᵒ-eatˡ)
+open import Syho.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ×ᵒ; %ᵐᵒ-respᴿ; %ᵐᵒ-monoᴾ;
+  %ᵐᵒ-eatˡ; ⟨†⟩ᵒ-mono; ⟨†⟩ᵒ-eatˡ)
 open import Syho.Model.Prop.Ub using (≤ᵁᵇᵒ-mono; ≤ᵁᵇᵒ-⇒□ᵒ; ≤ᵁᵇᵒ-#ᵁᵇᵒ; #ᵁᵇᵒ-new;
   #ᵁᵇᵒ-upd)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
 
 private variable
   P Q R S T :  Prop∞
-
-postulate
-  WIP :  ∀{ł} {A : Set ł} →  A  -- Just for now
 
 --------------------------------------------------------------------------------
 -- ⊢-sem :  Semantic soundness of the pure sequent
@@ -384,29 +383,31 @@ abstract
   --   R  ∧  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ∞ ]  P˂ .!  →
   --   □ R  ∧  &ᵐ⟨ α ⟩ P˂  ⊢[ ∞ ]  &ᵐ⟨ α ⟩ Q˂
 
-  ⊢-sem (&ᵐ-resp-□∧ R∧P⊢Q R∧Q⊢P) =  WIP
+  ⊢-sem (&ᵐ-resp-□∧ {R} R∧P⊢Q R∧Q⊢P) ✓a =
+    (λ □R∧&Pa → ⸨⸩-⇒ᴮ {R} $ □R∧&Pa 0₂ , □R∧&Pa 1₂) ›
+    &ᵐᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!) ✓a
 
   -- %ᵐ-respᴿ :  p ≈ᴿ⁺ q  →   %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  %ᵐ⟨ α , q ⟩ P˂
 
-  ⊢-sem (%ᵐ-respᴿ p≈q) =  WIP
+  ⊢-sem (%ᵐ-respᴿ {p} {q} p≈q) _ =  %ᵐᵒ-respᴿ {p} {q} p≈q
 
   -- %ᵐ-monoᴾ :
   --   P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   %ᵐ⟨ α , p ⟩ Q˂  ⊢[ ∞ ]  %ᵐ⟨ α , p ⟩ P˂
 
-  ⊢-sem (%ᵐ-monoᴾ P⊢Q) =  WIP
+  ⊢-sem (%ᵐ-monoᴾ {p = p} P⊢Q) _ =  %ᵐᵒ-monoᴾ {p = p} $ P⊢Q .!
 
   -- %ᵐ-eatˡ :  {{Basic Q}}  →
   --   Q  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
-  ⊢-sem %ᵐ-eatˡ =  WIP
+  ⊢-sem (%ᵐ-eatˡ {Q} {p = p}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › %ᵐᵒ-eatˡ {p = p}
 
   -- ⟨†⟩-mono :  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ Q˂
 
-  ⊢-sem (⟨†⟩-mono P⊢Q) =  WIP
+  ⊢-sem (⟨†⟩-mono P⊢Q) _ =  ⟨†⟩ᵒ-mono $ P⊢Q .!
 
   -- ⟨†⟩-eatˡ :  {{Basic Q}}  →   Q  ∗  ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ ¡ᴾ (Q ∗ P˂ .!)
 
-  ⊢-sem ⟨†⟩-eatˡ =  WIP
+  ⊢-sem (⟨†⟩-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › ⟨†⟩ᵒ-eatˡ
 
   -- ≤ᵁᵇ-mono :  m ≤ n  →   ≤ᵁᵇ⟨ o ⟩ m  ⊢[ ∞ ]  ≤ᵁᵇ⟨ o ⟩ n
 

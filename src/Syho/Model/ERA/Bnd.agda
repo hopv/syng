@@ -34,11 +34,12 @@ open AllBnd public
 
 private variable
   ł :  Level
-  X Y :  Set ł
+  X :  Set ł
   i n :  ℕ
   a b :  Res
   bˣ :  X → Res
   E :  Env
+  Fˣ :  X → Env
   a˙ :  Res˙
   E˙ F˙ : Env˙
 
@@ -93,22 +94,21 @@ abstract
 
   -- Lift a resource update of the element ERA
 
-  inj˙-↝ᴮⁿᵈ :
-    ¬ a ≈ ε  →   (E˙ i ✓ a → Y)  →   (E˙ i , a)  ↝ (λ x →  E˙ i , bˣ x)  →
-    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ λ ((x ,-) : X × i < n × Y) →
-      (E˙ , n) , inj˙ i (bˣ x)
-  inj˙-↝ᴮⁿᵈ {E˙ = E˙} {i} {Y = Y} {X = X} {bˣ} {n}
-    ¬a≈ε Ei✓a⇒Y Eia↝Eibx c˙ ✓E✓ia∙c@(j≥n⇒Ej≡∅ , ✓ia∙c)  with ✓ia∙c i
-  … | ✓a∙ci  rewrite ≟-refl {a = i}  =  (x , i<n,y) , body
+  inj˙-↝ᴮⁿᵈ :  ¬ a ≈ ε  →   (E˙ i , a)  ↝ (λ x →  Fˣ x , bˣ x)  →
+    ((E˙ , n) , inj˙ i a)  ↝ᴮⁿᵈ
+      λ ((-, x) : i < n × X) →  (upd˙ i (Fˣ x) E˙ , n) , inj˙ i (bˣ x)
+  inj˙-↝ᴮⁿᵈ {E˙ = E˙} {i = i} {X = X} {Fˣ} {bˣ} {n}
+    ¬a≈ε Eia↝Fxbx c˙ ✓E✓ia∙c@(j≥n⇒Ej≡∅ , ✓ia∙c)  with ✓ia∙c i
+  … | ✓a∙ci  rewrite ≟-refl {a = i}  =  (i<n , x) , body
    where
-    i<n,y :  i < n  ×  Y
-    i<n,y =  ↝ᴮⁿᵈ-agree ¬a≈ε Ei✓a⇒Y c˙ ✓E✓ia∙c .π₀
+    i<n :  i < n
+    i<n =  ↝ᴮⁿᵈ-agree {X = ⊤₀} ¬a≈ε _ c˙ ✓E✓ia∙c .π₀ .π₀
     x :  X
-    x =  Eia↝Eibx (c˙ i) ✓a∙ci .π₀
-    body :  (E˙ , n) ✓ᴮⁿᵈ inj˙ i (bˣ x) ∙˙ c˙
+    x =  Eia↝Fxbx (c˙ i) ✓a∙ci .π₀
+    body :  (upd˙ i (Fˣ x) E˙ , n) ✓ᴮⁿᵈ inj˙ i (bˣ x) ∙˙ c˙
     body .π₀ j j≥n  with j ≟ i | j≥n⇒Ej≡∅ j j≥n
     … | no _ | Ej≡∅ =  Ej≡∅
-    … | yes refl | _ =  absurd $ <⇒¬≥ (i<n,y .π₀) j≥n
+    … | yes refl | _ =  absurd $ <⇒¬≥ i<n j≥n
     body .π₁ j  with j ≟ i | ✓ia∙c j
     … | no _ | ✓ε∙cj =  ✓ε∙cj
-    … | yes refl | _ =  Eia↝Eibx (c˙ i) ✓a∙ci .π₁
+    … | yes refl | _ =  Eia↝Fxbx (c˙ i) ✓a∙ci .π₁

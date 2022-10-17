@@ -86,7 +86,7 @@ bor i α P =  inj˙ᴮᵒʳ i (#ˣ (ň , α , P) , εˣ)
 obor :  ℕ →  Lft →  ℚ⁺ →  Prop∞ →  Resᴮᵒʳ
 obor i α p P =  inj˙ᴮᵒʳ i (#ˣ (š p , α , P) , εˣ)
 
--- Resource for the lender token
+-- Resource for the lending token
 
 lend :  ℕ →  Lft →  Prop∞ →  Resᴮᵒʳ
 lend i α P =  inj˙ᴮᵒʳ i (εˣ , #ˣ (tt , α , P))

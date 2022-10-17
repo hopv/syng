@@ -738,7 +738,7 @@ data  Judg ι  where
   %ᵐ-eatˡ :  {{Basic Q}}  →
     Q  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
-  -- Retrieve the proposition from a lender token using a dead lifetime token
+  -- Retrieve the proposition from a lending token using a dead lifetime token
 
   ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!
 

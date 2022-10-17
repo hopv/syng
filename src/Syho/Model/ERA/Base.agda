@@ -117,6 +117,7 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     b˙ b'˙ :  X → Res
     E E' F F' :  Env
     F˙ :  X → Env
+    Fb˙ :  X → Env × Res
 
   abstract
     ----------------------------------------------------------------------------
@@ -328,6 +329,12 @@ record  ERA łᴿ ł≈ łᴱ ł✓ : Set (ṡᴸ (łᴿ ⊔ᴸ ł≈ ⊔ᴸ ł�
     ↝-respˡ :  a ≈ a'  →
       (E , a) ↝ (λ x → F˙ x , b˙ x)  →   (E , a') ↝ λ x → F˙ x , b˙ x
     ↝-respˡ a≈a' =  ↝-resp a≈a' refl˜
+
+    -- Change parameterization of ↝
+
+    ↝-param :  (E , a) ↝ Fb˙ ∘ f →  (E , a) ↝ Fb˙
+    ↝-param {f = f} Ea↝Fbf c˙ E✓a∙c  with Ea↝Fbf c˙ E✓a∙c
+    … | y , Ffy✓bfy∙c =  f y , Ffy✓bfy∙c
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocˡ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)

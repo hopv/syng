@@ -18,7 +18,7 @@ open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.Ratp using (ℚ⁺)
 open import Syho.Logic.Prop using (Lft; Prop∞)
 open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; εˣ; #ˣ_; ň-✓ˣ; ✓ˣ-free)
+open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; εˣ; #ˣ_; ň-✓ˣ)
 import Syho.Model.ERA.Bnd
 
 --------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ open BndBor public using () renaming (
 
 open ERA Borbᴱᴿᴬ public using () renaming (Env to Envᴮᵒʳᵇ)
 open ERA Borᴱᴿᴬ public using () renaming (Res to Resᴮᵒʳ; _∙_ to _∙ᴮᵒʳ_;
-  ε to εᴮᵒʳ; Env to Envᴮᵒʳ; _✓_ to _✓ᴮᵒʳ_; _↝_ to _↝ᴮⁿᵈ_; ◠˜_ to ◠˜ᴮᵒʳ_;
+  ε to εᴮᵒʳ; Env to Envᴮᵒʳ; _✓_ to _✓ᴮᵒʳ_; _↝_ to _↝ᴮᵒʳ_; ◠˜_ to ◠˜ᴮᵒʳ_;
   ↝-respʳ to ↝ᴮᵒʳ-respʳ)
 
 -- Resource for the borrow token
@@ -60,11 +60,6 @@ obor i α p P =  inj˙ᴮᵒʳ i (#ˣ (š p , α , P) , εˣ)
 
 lend :  ℕ →  Lft →  Prop∞ →  Resᴮᵒʳ
 lend i α P =  inj˙ᴮᵒʳ i (εˣ , #ˣ (tt , α , P))
-
--- Resource for a finished lender
-
-flend :  ℕ →  Lft →  Prop∞ →  Resᴮᵒʳ
-flend i α P =  inj˙ᴮᵒʳ i (εˣ , #ˣ (ff , α , P))
 
 private variable
   E˙ :  ℕ → Envᴮᵒʳᵇ
@@ -86,7 +81,7 @@ abstract
 
   -- Create bor and lend at a fresh new index
 
-  bor-lend-new :  ((E˙ , n) , εᴮᵒʳ)  ↝ᴮⁿᵈ λ (_ : ⊤₀) →
+  bor-lend-new :  ((E˙ , n) , εᴮᵒʳ)  ↝ᴮᵒʳ λ (_ : ⊤₀) →
     (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) , bor n α P ∙ᴮᵒʳ lend n α P
   bor-lend-new =
     ↝ᴮᵒʳ-respʳ {a = εᴮᵒʳ} (◠˜ᴮᵒʳ inj˙ᴮᵒʳ-∙) $ ↝ᴮᵒʳ-new (refl , refl)

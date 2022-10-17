@@ -130,7 +130,7 @@ abstract
   -- Apply ⇛ᴳ
 
   ⇛ᴳ-apply :  (⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M' ⟩ Pᵒ)  ∗ᵒ  Inv (get Eᴵⁿ)  ⊨
-                 envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ ,  Pᵒ  ∗ᵒ  Inv x
+                envᴳ M Eᴵⁿ ⤇ᴱ λ x → envᴳ M' $ set x Eᴵⁿ ,  Pᵒ  ∗ᵒ  Inv x
   ⇛ᴳ-apply =  ⊨✓⇒⊨-⤇ᴱ λ ✓∙ → ∗ᵒ-monoˡ (_$ _) › -∗ᵒ-applyʳ ⤇ᴱ-Mono ✓∙
 
   -- ⊨✓ ⇛ᴳ/⇛ᵍ into ⊨ ⇛ᴳ/⇛ᵍ

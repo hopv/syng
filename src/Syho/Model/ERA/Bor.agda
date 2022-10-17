@@ -74,7 +74,7 @@ open BndBor public using () renaming (
 
 open ERA Borᴱᴿᴬ public using () renaming (Res to Resᴮᵒʳ; _∙_ to _∙ᴮᵒʳ_;
   ε to εᴮᵒʳ; Env to Envᴮᵒʳ; _✓_ to _✓ᴮᵒʳ_; _↝_ to _↝ᴮᵒʳ_; ◠˜_ to ◠˜ᴮᵒʳ_;
-  ε-min to εᴮᵒʳ-min; ↝-respʳ to ↝ᴮᵒʳ-respʳ; ↝-monoʳ to ↝ᴮᵒʳ-monoʳ)
+  ↝-respʳ to ↝ᴮᵒʳ-respʳ; ↝-ε to ↝ᴮᵒʳ-ε)
 
 -- Resource for the mutable borrow token
 
@@ -138,5 +138,5 @@ abstract
     ((E˙ , n) , lend i α P)  ↝ᴮᵒʳ
       λ ((-, (pˇ ,-)) :  i < n  ×  (∑ pˇ , E˙ i ≡ š (pˇ , tt , α , P))) →
         (upd˙ i (š (pˇ , ff , α , P)) E˙ , n) , εᴮᵒʳ
-  lend-back =  ↝ᴮᵒʳ-monoʳ {b˙ = λ _ → inj˙ᴮᵒʳ _ _} {a = lend _ _ _} εᴮᵒʳ-min $
+  lend-back =  ↝ᴮᵒʳ-ε {a = lend _ _ _} {b˙ = λ _ → inj˙ᴮᵒʳ _ _} $
     inj˙-↝ᴮᵒʳ {bˣ = λ _ → εˣ , #ˣ _} (λ ()) renvᴮᵒʳᵇ-upd

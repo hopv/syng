@@ -92,11 +92,11 @@ abstract
   Invk-no2 :  Invk i nm P  ∗ᵒ  Invk i nm P  ⊨✓  ⊥ᵒ₀
   Invk-no2 ✓a =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-✓ ✓a › λ (-, ✓invk²) →  invk-no2 ✓invk²
 
-  -- Make &ⁱᵒ ∗ᵒ Invk
+  -- Make &ⁱᵒ and Invk
 
-  &ⁱᵒ∗ᵒInvk-make :
+  &ⁱᵒ-Invk-make :
     ◎⟨ iᴵⁿᵛ ⟩ (inv i nm P ∙ᴵⁿᵛ invk i nm P)  ⊨  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  Invk i nm P
-  &ⁱᵒ∗ᵒInvk-make =  ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoˡ &ⁱᵒ-make
+  &ⁱᵒ-Invk-make =  ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoˡ &ⁱᵒ-make
 
 --------------------------------------------------------------------------------
 -- %ⁱᵒ :  Interpret the open invariant token

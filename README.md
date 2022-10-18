@@ -188,7 +188,9 @@ following parts.
         of the super update.**
         * [`Base`](src/Syho/Model/Supd/Base.agda) for the general super update;
             [`Ind`](src/Syho/Model/Supd/Ind.agda) for the super update on the
-            indirection modality and precursors.
+            indirection modality and precursors;
+            [`Inv`](src/Syho/Model/Supd/Inv.agda) for the super update on the
+            impredicative invariant.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting the super
             update;
           [`Sound`](src/Syho/Model/Supd/Sound.agda) for the semantic soundness

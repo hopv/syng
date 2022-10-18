@@ -11,12 +11,11 @@ open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Prod using (_,_; -,_; -ᴵ,_; uncurry)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Mem)
 open import Syho.Logic.Prop using (Name; Prop∞)
 open import Syho.Logic.Core using (_»_; ∗⇒∧)
 open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; invk; inv-invk-new;
   inv-agree; invk-agree)
-open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; ∅ᴵⁿᴳ; upd˙-out-envᴳ)
+open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; ∅ᴵⁿᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm;
   ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ∗ᵒ?-comm; ?∗ᵒ-intro; ∗ᵒ-elimˡ; ∗ᵒ⨿ᵒ-out; -∗ᵒ-applyˡ;
@@ -35,7 +34,6 @@ open import Syho.Model.Supd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ¹-make; ⇛ᵍ¹-in
 private variable
   ł :  Level
   i :  ℕ
-  M :  Mem
   nm :  Name
   P :  Prop∞
   Pᵒ :  Propᵒ ł
@@ -43,17 +41,17 @@ private variable
 --------------------------------------------------------------------------------
 -- Super update on Invᴱᴿᴬ
 
--- Line of a super update
+-- Lineᴵⁿᵛ :  Line for Invᴵⁿᵛ
 
 Lineᴵⁿᵛ :  ℕ →  Name →  Prop∞ →  Propᵒ 1ᴸ
 Lineᴵⁿᵛ i nm P =  Invk i nm P ∗ᵒ ⸨ P ⸩  ⨿ᵒ  [^ nm ]ᴺᵒ
 
--- Invariant for Invᴱᴿᴬ
+-- Invᴵⁿᵛ :  Invariant for Invᴱᴿᴬ
 
 Invᴵⁿᵛ :  Envᴵⁿᵛ →  Propᵒ 1ᴸ
 Invᴵⁿᵛ (ⁿPˇ˙ , n) =  Smry (uncurry ∘ Lineᴵⁿᵛ) ⁿPˇ˙ n
 
--- Super update on Invᴱᴿᴬ
+-- ⇛ᴵⁿᵛ :  Super update on Invᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵛ_
 ⇛ᴵⁿᵛ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)

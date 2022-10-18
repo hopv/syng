@@ -54,6 +54,14 @@ private variable
                    ∀ᵒ e , ∀ᵒ eˇ , ∀ᵒ M' , ⌜ (e , eˇ , M') ⇐ᴿ (red , M) ⌝ᵒ→
                      ∃ᵒ v , ⌜ e ≡ V⇒E v × eˇ ≡ ň ⌝ᵒ×  ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Pᵒ˙ v
 
+-- For the type of the data constructors ⁺⟨⟩ᴾᵒ-kr' etc., we use the connectives
+-- ⇛ᴹ', -∗ᵒ' and ∗ᵒ' (the concrete version, which exposes the definition
+-- publicly) instead of ⇛ᴹ, -∗ᵒ and ∗ᵒ (the abstract version, which hides the
+-- definition, commonly used for efficiency) to pass the strict positivity check
+-- of self reference
+-- We use lemmas ⁺⟨⟩ᴾᵒ-kr and ⁺⟨⟩ᴾᵒ-kr⁻¹ etc. to use the connectives of the
+-- abstract version
+
 --------------------------------------------------------------------------------
 -- ⁺⟨ ⟩ᴾᵒ etc. :  Semantic partial weakest precondition
 
@@ -117,9 +125,6 @@ data  Wpᴾ Pᵒ˙ ι  where
 
   -- For a context-redex pair, stating that the reduction is not stuck
   -- and for every next state the weakest precondition coinductively holds
-
-  -- We should use ⇛ᴹ' (the concrete version) instead of ⇛ᴹ (the abstract
-  -- version) here to pass the strict positivity check
 
   ⁺⟨⟩ᴾᵒ-kr' :  [⊤]ᴺᵒ -∗ᵒ' ∀ᵒ M , ⟨ M ⟩⇛ᴹ'⟨ M ⟩ ⌜ (kr , M) ⇒ᴷᴿ∑ ⌝ᵒ×
                  ∀ᵒ e , ∀ᵒ eˇ , ∀ᵒ M' , ⌜ (e , eˇ , M') ⇐ᴷᴿ (kr , M) ⌝ᵒ→

@@ -7,22 +7,21 @@
 module Syho.Model.Prop.Bor where
 
 open import Base.Level using (1ᴸ)
-open import Base.Func using (_$_; _›_)
-open import Base.Few using (binary; absurd)
+open import Base.Func using (_$_; _▷_; _›_)
+open import Base.Few using (absurd)
 open import Base.Size using (∞)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ⁺-trans)
-open import Syho.Logic.Prop using (Lft; Prop∞; _∧_; ⊤'; _∗_; _-∗_; Basic)
-open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-monoˡ; ∧-monoʳ; ∧-comm;
-  ∧-assocʳ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocʳ; ∗?-comm; ∗-elimʳ;
-  -∗-applyˡ)
+open import Syho.Logic.Prop using (Lft; Prop∞; ⊤'; _∗_; _-∗_; Basic)
+open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
+  ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
 open import Syho.Model.ERA.Bor using (_∙ᴮᵒʳ_; borᵐ; oborᵐ; lend; borᵐ-lend-new;
   borᵐ-open; oborᵐ-close; lend-back)
 open import Syho.Model.ERA.Glob using (iᴮᵒʳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
-  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono; □ᵒ-Mono;
-  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ◎-Mono; ◎⟨⟩-∙⇒∗ᵒ)
+  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ;
+  ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro; □ᵒ-∗ᵒ-in; ◎⟨⟩-∙⇒∗ᵒ)
 open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
@@ -41,34 +40,35 @@ Borᵐ i α P =  ◎⟨ iᴮᵒʳ ⟩ borᵐ i α P
 infix 8 &ᵐ⟨_⟩ᵒ_
 &ᵐ⟨_⟩ᵒ_ :  Lft →  Prop∞ →  Propᵒ 1ᴸ
 &ᵐ⟨ α ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
-  ⌜ Q ∧ R ⊢[ ∞ ] P  ×  Q ∧ P ⊢[ ∞ ] R ⌝ᵒ×
-  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ×ᵒ  Borᵐ i α R
+  ⌜ Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
+  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Borᵐ i α R
 
 abstract
 
   -- Monoᵒ for &ᵐᵒ
 
   &ᵐᵒ-Mono :  Monoᵒ $ &ᵐ⟨ α ⟩ᵒ P
-  &ᵐᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ Q → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ →
-    ∃ᵒ-Mono λ _ → ×ᵒ-Mono (□ᵒ-Mono $ ⸨⸩ᴮ-Mono {Q}) ◎-Mono
+  &ᵐᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
+    ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify &ᵐᵒ using a persistent basic proposition
 
-  &ᵐᵒ-resp-□ᵒ×ᵒ :  {{_ : Basic R}} →
-    R  ∧  P  ⊢[ ∞ ]  Q  →   R  ∧  Q  ⊢[ ∞ ]  P  →
-    □ᵒ ⸨ R ⸩ᴮ  ×ᵒ  &ᵐ⟨ α ⟩ᵒ P  ⊨  &ᵐ⟨ α ⟩ᵒ Q
-  &ᵐᵒ-resp-□ᵒ×ᵒ R∧P⊢Q R∧Q⊢P (□Ra , -, -, -ᴵ, -, (S∧T⊢P , S∧P⊢T) , □Sa , BorTa) =
+  &ᵐᵒ-resp-□ᵒ∗ᵒ :  {{_ : Basic R}} →
+    R  ∗  P  ⊢[ ∞ ]  Q  →   R  ∗  Q  ⊢[ ∞ ]  P  →
+    □ᵒ ⸨ R ⸩ᴮ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P  ⊨  &ᵐ⟨ α ⟩ᵒ Q
+  &ᵐᵒ-resp-□ᵒ∗ᵒ R∗P⊢Q R∗Q⊢P =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , □Rb ,
+    -, -, -ᴵ, -, (S∗T⊢P , S∗P⊢T) , □S*BorTc) →
     -, -, -ᴵ, -,
-    -- (R∧S)∧T ⊢ R∧(S∧T) ⊢ R∧P ⊢ Q
-    (∧-assocʳ » ∧-monoʳ S∧T⊢P » R∧P⊢Q ,
-    -- (R∧S)∧Q ⊢ (S∧R)∧Q ⊢ S∧(R∧Q) ⊢ S∧P ⊢ T
-    ∧-monoˡ ∧-comm » ∧-assocʳ » ∧-monoʳ R∧Q⊢P » S∧P⊢T) ,
-    binary □Ra □Sa , BorTa
+    -- (R∗S)∗T ⊢ R∗(S∗T) ⊢ R∗P ⊢ Q
+    (∗-assocʳ » ∗-monoʳ S∗T⊢P » R∗P⊢Q ,
+    -- (R∗S)∗Q ⊢ (S∗R)∗Q ⊢ S∗(R∗Q) ⊢ S∗P ⊢ T
+    ∗-monoˡ ∗-comm » ∗-assocʳ » ∗-monoʳ R∗Q⊢P » S∗P⊢T) ,
+    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , □Rb , □S*BorTc) ▷ ∗ᵒ-assocˡ ▷ ∗ᵒ-monoˡ □ᵒ-∗ᵒ-in }
 
   -- Make &ᵐᵒ out of Borᵐ
 
   &ᵐᵒ-make :  Borᵐ i α P  ⊨  &ᵐ⟨ α ⟩ᵒ P
-  &ᵐᵒ-make Bora =  -, ⊤' , -ᴵ, -, (∧-elimʳ , ∧-elimʳ) , absurd , Bora
+  &ᵐᵒ-make Bora =  -, ⊤' , -ᴵ, -, (∗-elimʳ , ∗-elimʳ) , ?∗ᵒ-intro absurd Bora
 
 --------------------------------------------------------------------------------
 -- %ᵐᵒ :  Interpret the open mutable borrow token
@@ -79,16 +79,16 @@ Oborᵐ i α p P =  ◎⟨ iᴮᵒʳ ⟩ oborᵐ i α p P
 infix 8 %ᵐ⟨_⟩ᵒ_
 %ᵐ⟨_⟩ᵒ_ :  Lft × ℚ⁺ →  Prop∞ →  Propᵒ 1ᴸ
 %ᵐ⟨ α , p ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ q , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
-  ⌜ p ≈ᴿ⁺ q  ×  Q ∧ R ⊢[ ∞ ] P  ×  Q ∧ P ⊢[ ∞ ] R ⌝ᵒ×
-  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ×ᵒ  [ α ]ᴸ⟨ q /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α q R
+  ⌜ p ≈ᴿ⁺ q  ×  Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
+  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  [ α ]ᴸ⟨ q /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α q R
 
 abstract
 
   -- Monoᵒ for %ᵐᵒ
 
   %ᵐᵒ-Mono :  Monoᵒ $ %ᵐ⟨ α , p ⟩ᵒ P
-  %ᵐᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ Q → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ →
-    ∃ᵒ-Mono λ _ → ×ᵒ-Mono (□ᵒ-Mono $ ⸨⸩ᴮ-Mono {Q}) ∗ᵒ-Mono
+  %ᵐᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
+    ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify the fraction of %ᵐᵒ
 
@@ -98,17 +98,17 @@ abstract
 
   -- Modify %ᵐᵒ using a persistent basic proposition
 
-  %ᵐᵒ-respᴾ-□ᵒ×ᵒ :  {{_ : Basic R}} →
-    R  ∧  P  ⊢[ ∞ ]  Q  →   R  ∧  Q  ⊢[ ∞ ]  P  →
-    □ᵒ ⸨ R ⸩ᴮ  ×ᵒ  %ᵐ⟨ α , p ⟩ᵒ P  ⊨  %ᵐ⟨ α , p ⟩ᵒ Q
-  %ᵐᵒ-respᴾ-□ᵒ×ᵒ R∧P⊢Q R∧Q⊢P
-    (□Ra , -, -, -, -ᴵ, -, (p≈q , S∧T⊢P , S∧P⊢T) , □Sa , QαObora) =
+  %ᵐᵒ-respᴾ-□ᵒ∗ᵒ :  {{_ : Basic R}} →
+    R  ∗  P  ⊢[ ∞ ]  Q  →   R  ∗  Q  ⊢[ ∞ ]  P  →
+    □ᵒ ⸨ R ⸩ᴮ  ∗ᵒ  %ᵐ⟨ α , p ⟩ᵒ P  ⊨  %ᵐ⟨ α , p ⟩ᵒ Q
+  %ᵐᵒ-respᴾ-□ᵒ∗ᵒ R∗P⊢Q R∗Q⊢P =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , □Rb ,
+    -, -, -, -ᴵ, -, (p≈q , S∗T⊢P , S∗P⊢T) , □S∗α∗OborTc) →
     -, -, -, -ᴵ, -, (p≈q ,
-    -- (R∧S)∧T ⊢ R∧(S∧T) ⊢ R∧P ⊢ Q
-    ∧-assocʳ » ∧-monoʳ S∧T⊢P » R∧P⊢Q ,
-    -- (R∧S)∧Q ⊢ (S∧R)∧Q ⊢ S∧(R∧Q) ⊢ S∧P ⊢ T
-    ∧-monoˡ ∧-comm » ∧-assocʳ » ∧-monoʳ R∧Q⊢P » S∧P⊢T) ,
-    binary □Ra □Sa , QαObora
+    -- (R∗S)∗T ⊢ R∗(S∗T) ⊢ R∗P ⊢ Q
+    ∗-assocʳ » ∗-monoʳ S∗T⊢P » R∗P⊢Q ,
+    -- (R∗S)∗Q ⊢ (S∗R)∗Q ⊢ S∗(R∗Q) ⊢ S∗P ⊢ T
+    ∗-monoˡ ∗-comm » ∗-assocʳ » ∗-monoʳ R∗Q⊢P » S∗P⊢T) ,
+    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , □Rb , □S∗α∗OborTc) ▷ ∗ᵒ-assocˡ ▷ ∗ᵒ-monoˡ □ᵒ-∗ᵒ-in }
 
 --------------------------------------------------------------------------------
 -- ⟨†⟩ᵒ :  Interpret the lending token

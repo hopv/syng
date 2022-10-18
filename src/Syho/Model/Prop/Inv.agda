@@ -8,20 +8,20 @@ module Syho.Model.Prop.Inv where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Few using (binary; absurd)
+open import Base.Few using (absurd)
 open import Base.Eq using (refl)
 open import Base.Size using (∞)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (Name; Prop∞; _∧_; ⊤'; _∗_; _-∗_; Basic)
-open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-monoˡ; ∧-monoʳ; ∧-comm;
-  ∧-assocʳ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗?-comm; -∗-applyˡ)
+open import Syho.Logic.Prop using (Name; Prop∞; ⊤'; _∗_; _-∗_; Basic)
+open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
+  ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
 open import Syho.Model.ERA.Inv using (_∙ᴵⁿᵛ_; inv; invk; inv-⌞⌟; invk-no2)
 open import Syho.Model.ERA.Glob using (iᴵⁿᵛ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono;
-  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; □ᵒ-Mono; □ᵒ-dup;
-  dup-⇒□ᵒ; ◎-Mono; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓)
+  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro; □ᵒ-dup;
+  dup-⇒□ᵒ; □ᵒ-∗ᵒ-in; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
 private variable
@@ -38,40 +38,41 @@ Inv i nm P =  ◎⟨ iᴵⁿᵛ ⟩ inv i nm P
 infix 8 &ⁱ⟨_⟩ᵒ_
 &ⁱ⟨_⟩ᵒ_ :  Name →  Prop∞ →  Propᵒ 1ᴸ
 &ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
-  ⌜ Q ∧ R ⊢[ ∞ ] P  ×  Q ∧ P ⊢[ ∞ ] R ⌝ᵒ×
-  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ×ᵒ  Inv i nm R
+  ⌜ Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
+  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Inv i nm R
 
 abstract
 
   -- Monoᵒ for &ⁱᵒ
 
   &ⁱᵒ-Mono :  Monoᵒ $ &ⁱ⟨ nm ⟩ᵒ P
-  &ⁱᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ Q → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ →
-    ∃ᵒ-Mono λ _ → ×ᵒ-Mono (□ᵒ-Mono $ ⸨⸩ᴮ-Mono {Q}) ◎-Mono
+  &ⁱᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
+    ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- &ⁱ⟨ nm ⟩ᵒ P is persistent
 
   &ⁱᵒ-⇒□ᵒ :  &ⁱ⟨ nm ⟩ᵒ P  ⊨  □ᵒ &ⁱ⟨ nm ⟩ᵒ P
-  &ⁱᵒ-⇒□ᵒ (-, Q , -ᴵ, -, Q∧|R⊣⊢P , □Qa , InvRa) =  -, -, -ᴵ, -, Q∧|R⊣⊢P ,
-    □ᵒ-dup (⸨⸩ᴮ-Mono {Q}) □Qa , ◎⟨⟩-⌞⌟≈-□ᵒ inv-⌞⌟ InvRa
+  &ⁱᵒ-⇒□ᵒ (-, Q , -ᴵ, -, Q|R⊣⊢P , □Q∗InvRa) =  -, -, -ᴵ, -, Q|R⊣⊢P ,
+    □Q∗InvRa ▷ ∗ᵒ-mono (□ᵒ-dup (⸨⸩ᴮ-Mono {Q})) (◎⟨⟩-⌞⌟≈-□ᵒ inv-⌞⌟) ▷ □ᵒ-∗ᵒ-in
 
   -- Modify &ⁱᵒ using a persistent basic proposition
 
-  &ⁱᵒ-resp-□ᵒ×ᵒ :  {{_ : Basic R}} →
-    R  ∧  P  ⊢[ ∞ ]  Q  →   R  ∧  Q  ⊢[ ∞ ]  P  →
-    □ᵒ ⸨ R ⸩ᴮ  ×ᵒ  &ⁱ⟨ nm ⟩ᵒ P  ⊨  &ⁱ⟨ nm ⟩ᵒ Q
-  &ⁱᵒ-resp-□ᵒ×ᵒ R∧P⊢Q R∧Q⊢P (□Ra , -, -, -ᴵ, -, (S∧T⊢P , S∧P⊢T) , □Sa , InvTa) =
+  &ⁱᵒ-resp-□ᵒ∗ᵒ :  {{_ : Basic R}} →
+    R  ∗  P  ⊢[ ∞ ]  Q  →   R  ∗  Q  ⊢[ ∞ ]  P  →
+    □ᵒ ⸨ R ⸩ᴮ  ∗ᵒ  &ⁱ⟨ nm ⟩ᵒ P  ⊨  &ⁱ⟨ nm ⟩ᵒ Q
+  &ⁱᵒ-resp-□ᵒ∗ᵒ R∗P⊢Q R∗Q⊢P =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , □Rb ,
+    -, -, -ᴵ, -, (S∗T⊢P , S∗P⊢T) , □S*InvTc) →
     -, -, -ᴵ, -,
-    -- (R∧S)∧T ⊢ R∧(S∧T) ⊢ R∧P ⊢ Q
-    (∧-assocʳ » ∧-monoʳ S∧T⊢P » R∧P⊢Q ,
-    -- (R∧S)∧Q ⊢ (S∧R)∧Q ⊢ S∧(R∧Q) ⊢ S∧P ⊢ T
-    ∧-monoˡ ∧-comm » ∧-assocʳ » ∧-monoʳ R∧Q⊢P » S∧P⊢T) ,
-    binary □Ra □Sa , InvTa
+    -- (R∗S)∗T ⊢ R∗(S∗T) ⊢ R∗P ⊢ Q
+    (∗-assocʳ » ∗-monoʳ S∗T⊢P » R∗P⊢Q ,
+    -- (R∗S)∗Q ⊢ (S∗R)∗Q ⊢ S∗(R∗Q) ⊢ S∗P ⊢ T
+    ∗-monoˡ ∗-comm » ∗-assocʳ » ∗-monoʳ R∗Q⊢P » S∗P⊢T) ,
+    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , □Rb , □S*InvTc) ▷ ∗ᵒ-assocˡ ▷ ∗ᵒ-monoˡ □ᵒ-∗ᵒ-in }
 
   -- Make &ⁱᵒ
 
   &ⁱᵒ-make :  Inv i nm P  ⊨  &ⁱ⟨ nm ⟩ᵒ P
-  &ⁱᵒ-make Inva =  -, ⊤' , -ᴵ, -, (∧-elimʳ , ∧-elimʳ) , absurd , Inva
+  &ⁱᵒ-make Inva =  -, ⊤' , -ᴵ, -, (∗-elimʳ , ∗-elimʳ) , ?∗ᵒ-intro absurd Inva
 
   -- Dubplicate &ⁱᵒ
 

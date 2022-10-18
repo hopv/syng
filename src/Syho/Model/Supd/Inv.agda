@@ -12,15 +12,14 @@ open import Base.Prod using (_,_; -,_; -ᴵ,_; uncurry)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Syho.Logic.Prop using (Name; Prop∞)
-open import Syho.Logic.Core using (_»_; ∗⇒∧)
 open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ; inv; invk; inv-invk-new;
   inv-agree; invk-agree)
 open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; ∅ᴵⁿᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm;
   ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ∗ᵒ?-comm; ?∗ᵒ-intro; ∗ᵒ-elimˡ; ∗ᵒ⨿ᵒ-out; -∗ᵒ-applyˡ;
-  ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; □ᵒˡ-×ᵒ⇒∗ᵒ;
-  dup-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
+  ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-param; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ;
+  ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Syho.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-back)
@@ -93,11 +92,12 @@ abstract
 
   &ⁱᵒ-open :  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P
   &ⁱᵒ-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a ,
-    (-, Q , -ᴵ, -, (Q∧R⊢P , Q∧P⊢R) , □Qb , invRb) , [nm]∗INVc) →
-    (-, -, b∙c⊑a , □ᵒˡ-×ᵒ⇒∗ᵒ (⸨⸩ᴮ-Mono {Q}) (□Qb ,
-      ↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → inv _ _ _} inv-agree invRb) ▷ ⤇ᴱ-eatˡ ▷
-      ⤇ᴱ-mono (λ _ → ∗ᵒ-elimˡ (□ᵒ-Mono $ ⸨⸩ᴮ-Mono {Q}) › dup-□ᵒ (⸨⸩ᴮ-Mono {Q}) ›
-      ∗ᵒ-mono (□ᵒ-elim $ ⸨⸩ᴮ-Mono {Q}) (□ᵒ-elim $ ⸨⸩ᴮ-Mono {Q})) , [nm]∗INVc) ▷
+    (-, Q , -ᴵ, -, (Q∗R⊢P , Q∗P⊢R) , □Q∗invRb) , [nm]∗INVc) →
+    let MonoQ = ⸨⸩ᴮ-Mono {Q} in (-, -, b∙c⊑a ,
+      □Q∗invRb ▷ ∗ᵒ-monoʳ (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → inv _ _ _} inv-agree) ▷
+      ⤇ᴱ-eatˡ ▷ ⤇ᴱ-mono (λ _ → ∗ᵒ-elimˡ (□ᵒ-Mono MonoQ) › dup-□ᵒ MonoQ ›
+      ∗ᵒ-mono (□ᵒ-elim MonoQ) (□ᵒ-elim MonoQ)) ,
+      [nm]∗INVc) ▷
     -- (⤇ Q∗Q)∗[nm]∗INV → ⤇ (Q∗Q)∗[nm]∗INV
     ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-mono✓ʳ
     -- [nm]∗INV → [nm]∗LineP∗INV → → → (Invk∗R)∗LineP∗INV → (Invk∗R)∗INV
@@ -107,8 +107,8 @@ abstract
     ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (λ ✓∙ →
     -- (Q∗Q)∗Invk∗R → → → (Q∗R)∗Q∗Invk → P∗(Q∗Invk) → P∗%
     ∗ᵒ-monoʳ ∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-monoˡ ∗ᵒ?-comm › ∗ᵒ-assocʳ ›
-    ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem (∗⇒∧ » Q∧R⊢P) ✓∙) ✓∙ ›
-    ∗ᵒ-monoʳ (λ big → -, -, -ᴵ, -, ∗⇒∧ » Q∧P⊢R , big)) ✓∙) ▷ ⤇ᴱ-param }
+    ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗R⊢P ✓∙) ✓∙ ›
+    ∗ᵒ-monoʳ (λ big → -, -, -ᴵ, -, Q∗P⊢R , big)) ✓∙) ▷ ⤇ᴱ-param }
 
   -- Store Invk i nm P and P to get [^ nm ]ᴺᵒ under Lineᴵⁿᵛ
 

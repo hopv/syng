@@ -14,18 +14,18 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Addr; Type; V⇒E; TyVal)
 open import Syho.Lang.Ktxred using (Redex; 🞰ᴿ_; Ktx; _ᴷ◁_)
-open import Syho.Logic.Prop using (WpKind; Name; Prop∞; Prop˂∞; ¡ᴾ_; _∧_; ⌜_⌝∧_;
-  _∗_; _-∗_; _↦_; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; static; _↦ⁱ_; Basic; ^ᶻᴺ-✔)
+open import Syho.Logic.Prop using (WpKind; Name; Prop∞; Prop˂∞; ¡ᴾ_; ⌜_⌝∧_; _∗_;
+  _-∗_; _↦_; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; static; _↦ⁱ_; Basic; ^ᶻᴺ-✔)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∃-elim;
-  ∃-intro; ∧-monoˡ; ∧-elimʳ; ⊤∧-intro; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ;
-  ?∗-comm; ∗?-comm; ∗⇒∧; ∃∗-elim; -∗-applyˡ; -∗-const; Persˡ-∧⇒∗)
+  ∃-intro; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm;
+  ⊤∗-intro; ∗-elimʳ; ∃∗-elim; -∗-applyˡ; -∗-const)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[<ᴾ_]⟨_⟩[_]_;
   _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameˡ; ahor✔-hor; hor<ᴾ-map)
 open import Syho.Logic.Mem using (ahor-🞰)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (&ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ;
+open import Syho.Logic.Judg public using (&ⁱ-⇒□; &ⁱ-resp-□∗; %ⁱ-mono; %ⁱ-eatˡ;
   &ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
 
 private variable
@@ -62,25 +62,19 @@ abstract
 
   -- Modify an invariant token
 
-  -->  &ⁱ-resp-□∧ :  {{Basic R}}  →
-  -->    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-  -->    □ R  ∧  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
-
-  &ⁱ-resp-∧ :  {{Pers R}}  →   {{Basic R}}  →
-    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    R  ∧  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
-  &ⁱ-resp-∧ R∧P⊢Q R∧Q⊢P =  ∧-monoˡ Pers-⇒□ » &ⁱ-resp-□∧ R∧P⊢Q R∧Q⊢P
+  -->  &ⁱ-resp-□∗ :  {{Basic R}}  →
+  -->    R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+  -->    □ R  ∗  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
 
   &ⁱ-resp-∗ :  {{Pers R}}  →   {{Basic R}}  →
     R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
     R  ∗  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
-  &ⁱ-resp-∗ R∗P⊢Q R∗Q⊢P =  ∗⇒∧ »
-    &ⁱ-resp-∧ ((Persˡ-∧⇒∗ »_) $ᵀʰ R∗P⊢Q) ((Persˡ-∧⇒∗ »_) $ᵀʰ R∗Q⊢P)
+  &ⁱ-resp-∗ R∗P⊢Q R∗Q⊢P =  ∗-monoˡ Pers-⇒□ » &ⁱ-resp-□∗ R∗P⊢Q R∗Q⊢P
 
   &ⁱ-resp :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   Q˂ .!  ⊢[< ι ]  P˂ .!  →
              &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
-  &ⁱ-resp P⊢Q Q⊢P =  ⊤∧-intro »
-    &ⁱ-resp-∧ ((∧-elimʳ »_) $ᵀʰ P⊢Q) ((∧-elimʳ »_) $ᵀʰ Q⊢P)
+  &ⁱ-resp P⊢Q Q⊢P =  ⊤∗-intro »
+    &ⁱ-resp-∗ ((∗-elimʳ »_) $ᵀʰ P⊢Q) ((∗-elimʳ »_) $ᵀʰ Q⊢P)
 
   -- Let an open invariant token eat a basic proposition
 

@@ -647,9 +647,9 @@ data  Judg ι  where
 
   -- Modify an invariant token using a persistent basic proposition
 
-  &ⁱ-resp-□∧ :  {{Basic R}}  →
-    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    □ R  ∧  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
+  &ⁱ-resp-□∗ :  {{Basic R}}  →
+    R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+    □ R  ∗  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  &ⁱ⟨ nm ⟩ Q˂
 
   -- Monotonicity of the open invariant token
 
@@ -713,9 +713,9 @@ data  Judg ι  where
 
   -- Modify a mutable borrow token using a basic persistent proposition
 
-  &ᵐ-resp-□∧ :  {{Basic R}}  →
-    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    □ R  ∧  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ]  &ᵐ⟨ α ⟩ Q˂
+  &ᵐ-resp-□∗ :  {{Basic R}}  →
+    R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+    □ R  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ]  &ᵐ⟨ α ⟩ Q˂
 
   -- Modify the fraction of an open mutable borrow token
 
@@ -723,9 +723,9 @@ data  Judg ι  where
 
   -- Modify an open mutable borrow token using a basic persistent proposition
 
-  %ᵐ-respᴾ-□∧ :  {{Basic R}}  →
-    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    □ R  ∧  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ Q˂
+  %ᵐ-respᴾ-□∗ :  {{Basic R}}  →
+    R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+    □ R  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ Q˂
 
   -- Monotonicity of the lending token
 

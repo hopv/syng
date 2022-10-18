@@ -76,6 +76,11 @@ open ERA Borᴱᴿᴬ public using () renaming (Res to Resᴮᵒʳ; _∙_ to _�
   ε to εᴮᵒʳ; Env to Envᴮᵒʳ; _✓_ to _✓ᴮᵒʳ_; _↝_ to _↝ᴮᵒʳ_; ◠˜_ to ◠˜ᴮᵒʳ_;
   ↝-respʳ to ↝ᴮᵒʳ-respʳ; ↝-ε to ↝ᴮᵒʳ-ε)
 
+-- Empty environment for Borᴱᴿᴬ
+
+∅ᴮᵒʳ :  Envᴮᵒʳ
+∅ᴮᵒʳ =  (λ _ → ň) , 0
+
 -- Resource for the mutable borrow token
 
 borᵐ :  ℕ →  Lft →  Prop∞ →  Resᴮᵒʳ
@@ -97,11 +102,6 @@ private variable
   p :  ℚ⁺
 
 abstract
-
-  -- Empty environment for Borᴱᴿᴬ
-
-  ∅ᴮᵒʳ :  Envᴮᵒʳ
-  ∅ᴮᵒʳ =  (λ _ → ň) , 0
 
   -- ∅ᴮᵒʳ with εᴮᵒʳ is valid
 

@@ -25,8 +25,8 @@ open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ�
 open import Syho.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∧; %ⁱ-mono; %ⁱ-eatˡ)
 open import Syho.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
-open import Syho.Logic.Bor using (&ᵐ-resp-□∧; %ᵐ-respᴿ; %ᵐ-monoᴾ; %ᵐ-eatˡ;
-  ⟨†⟩-mono; ⟨†⟩-eatˡ)
+open import Syho.Logic.Bor using (&ᵐ-resp-□∧; %ᵐ-respᴿ; %ᵐ-respᴾ-□∧; ⟨†⟩-mono;
+  ⟨†⟩-eatˡ)
 open import Syho.Logic.Ub using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocʳ; -∗ᵒ-introˡ; -∗ᵒ-elimˡ;
@@ -45,8 +45,8 @@ open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤;
   ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒↪⟨⟩∞ᵒ)
 open import Syho.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ×ᵒ; %ⁱᵒ-mono;
   %ⁱᵒ-eatˡ)
-open import Syho.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ×ᵒ; %ᵐᵒ-respᴿ; %ᵐᵒ-monoᴾ;
-  %ᵐᵒ-eatˡ; ⟨†⟩ᵒ-mono; ⟨†⟩ᵒ-eatˡ)
+open import Syho.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ×ᵒ; %ᵐᵒ-respᴿ; %ᵐᵒ-respᴾ-□ᵒ×ᵒ;
+  ⟨†⟩ᵒ-mono; ⟨†⟩ᵒ-eatˡ)
 open import Syho.Model.Prop.Ub using (≤ᵁᵇᵒ-mono; ≤ᵁᵇᵒ-⇒□ᵒ; ≤ᵁᵇᵒ-#ᵁᵇᵒ; #ᵁᵇᵒ-new;
   #ᵁᵇᵒ-upd)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
@@ -391,15 +391,13 @@ abstract
 
   ⊢-sem (%ᵐ-respᴿ {p} {q} p≈q) _ =  %ᵐᵒ-respᴿ {p} {q} p≈q
 
-  -- %ᵐ-monoᴾ :
-  --   P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   %ᵐ⟨ α , p ⟩ Q˂  ⊢[ ∞ ]  %ᵐ⟨ α , p ⟩ P˂
+  -- %ᵐ-resp-□∧ :  {{Basic R}}  →
+  --   R  ∧  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ∞ ]  P˂ .!  →
+  --   □ R  ∧  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  %ᵐ⟨ α , p ⟩ Q˂
 
-  ⊢-sem (%ᵐ-monoᴾ {p = p} P⊢Q) _ =  %ᵐᵒ-monoᴾ {p = p} $ P⊢Q .!
-
-  -- %ᵐ-eatˡ :  {{Basic Q}}  →
-  --   Q  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
-
-  ⊢-sem (%ᵐ-eatˡ {Q} {p = p}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › %ᵐᵒ-eatˡ {p = p}
+  ⊢-sem (%ᵐ-respᴾ-□∧ {R} {p = p} R∧P⊢Q R∧Q⊢P) _ =
+    (λ □R∧%Pa → ⸨⸩-⇒ᴮ {R} $ □R∧%Pa 0₂ , □R∧%Pa 1₂) ›
+    %ᵐᵒ-respᴾ-□ᵒ×ᵒ {p = p} (R∧P⊢Q .!) (R∧Q⊢P .!)
 
   -- ⟨†⟩-mono :  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ Q˂
 

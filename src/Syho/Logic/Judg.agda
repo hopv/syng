@@ -721,14 +721,11 @@ data  Judg ι  where
 
   %ᵐ-respᴿ :  p ≈ᴿ⁺ q  →   %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , q ⟩ P˂
 
-  -- Monotonicity of the open mutable borrow token
+  -- Modify an open mutable borrow token using a basic persistent proposition
 
-  %ᵐ-monoᴾ :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ᵐ⟨ α , p ⟩ Q˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ P˂
-
-  -- Let an open mutable borrow token eat a basic proposition
-
-  %ᵐ-eatˡ :  {{Basic Q}}  →
-    Q  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
+  %ᵐ-respᴾ-□∧ :  {{Basic R}}  →
+    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+    □ R  ∧  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ Q˂
 
   -- Monotonicity of the lending token
 

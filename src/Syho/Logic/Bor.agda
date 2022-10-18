@@ -16,15 +16,15 @@ open import Base.Ratp using (ℚ⁺)
 open import Syho.Lang.Expr using (Addr; Type; V⇒E)
 open import Syho.Lang.Ktxred using (Ktx; _ᴷ◁_)
 open import Syho.Logic.Prop using (Lft; WpKind; Prop∞; Prop˂∞; ¡ᴾ_; _∧_; ⌜_⌝∧_;
-  _∗_; _-∗_; _↦⟨_⟩_; [_]ᴸ⟨_⟩; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; Basic)
+  _∗_; _↦⟨_⟩_; [_]ᴸ⟨_⟩; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⇒<; _»_;
   ∧-monoˡ; ∧-elimʳ; ⊤∧-intro; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm; ∗⇒∧;
   Persˡ-∧⇒∗)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (&ᵐ-resp-□∧; %ᵐ-respᴿ; %ᵐ-monoᴾ;
-  %ᵐ-eatˡ; ⟨†⟩-mono; ⟨†⟩-eatˡ; &ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-back)
+open import Syho.Logic.Judg public using (&ᵐ-resp-□∧; %ᵐ-respᴿ; %ᵐ-respᴾ-□∧;
+  ⟨†⟩-mono; ⟨†⟩-eatˡ; &ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-back)
 
 private variable
   ι :  𝕊
@@ -46,9 +46,6 @@ abstract
   -- On the borrow
 
   -->  %ᵐ-respᴿ :  p ≈ᴿ⁺ q  →   %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , q ⟩ P˂
-
-  -->  %ᵐ-monoᴾ :
-  -->    P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ᵐ⟨ α , p ⟩ Q˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ P˂
 
   -->  ⟨†⟩-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ι ]  ⟨† α ⟩ Q˂
 
@@ -78,14 +75,27 @@ abstract
   &ᵐ-resp P⊢Q Q⊢P =  ⊤∧-intro »
     &ᵐ-resp-∧ ((∧-elimʳ »_) $ᵀʰ P⊢Q) ((∧-elimʳ »_) $ᵀʰ Q⊢P)
 
-  -- Let an open mutable borrow token eat a basic proposition
+  -- Modify an open mutable borrow token
 
-  -->  %ᵐ-eatˡ :  {{Basic Q}}  →
-  -->    Q  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
+  -->  %ᵐ-respᴾ-□∧ :  {{Basic R}}  →
+  -->    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+  -->    □ R  ∧  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ Q˂
 
-  %ᵐ-eatʳ :  {{Basic Q}}  →
-    %ᵐ⟨ α , p ⟩ P˂  ∗  Q  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
-  %ᵐ-eatʳ =  ∗-comm » %ᵐ-eatˡ
+  %ᵐ-respᴾ-∧ :  {{Pers R}}  →   {{Basic R}}  →
+    R  ∧  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+    R  ∧  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ Q˂
+  %ᵐ-respᴾ-∧ R∧P⊢Q R∧Q⊢P =  ∧-monoˡ Pers-⇒□ » %ᵐ-respᴾ-□∧ R∧P⊢Q R∧Q⊢P
+
+  %ᵐ-respᴾ-∗ :  {{Pers R}}  →   {{Basic R}}  →
+    R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
+    R  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ Q˂
+  %ᵐ-respᴾ-∗ R∗P⊢Q R∗Q⊢P =  ∗⇒∧ »
+    %ᵐ-respᴾ-∧ ((Persˡ-∧⇒∗ »_) $ᵀʰ R∗P⊢Q) ((Persˡ-∧⇒∗ »_) $ᵀʰ R∗Q⊢P)
+
+  %ᵐ-respᴾ :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   Q˂ .!  ⊢[< ι ]  P˂ .!  →
+              %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ Q˂
+  %ᵐ-respᴾ P⊢Q Q⊢P =  ⊤∧-intro »
+    %ᵐ-respᴾ-∧ ((∧-elimʳ »_) $ᵀʰ P⊢Q) ((∧-elimʳ »_) $ᵀʰ Q⊢P)
 
   -- Let a lending token eat a basic proposition
 

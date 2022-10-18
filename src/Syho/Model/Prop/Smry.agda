@@ -9,7 +9,7 @@ module Syho.Model.Prop.Smry where
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (absurd)
-open import Base.Eq using (_≡_; refl; ◠_; subst; _≡˙_; _◇˙_)
+open import Base.Eq using (_≡_; refl; subst; _≡˙_)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙; upd˙-self; upd˙-2)
 open import Base.Option using (¿_; š_; ň)
 open import Base.Sum using (ĩ₀_; ĩ₁_)

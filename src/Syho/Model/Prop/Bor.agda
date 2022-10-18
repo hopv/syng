@@ -17,12 +17,12 @@ open import Syho.Logic.Prop using (Lft; Prop∞; _∧_; ⊤'; _∗_; _-∗_; Bas
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∧-monoˡ; ∧-monoʳ; ∧-comm;
   ∧-assocʳ; ∧-elimʳ; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocʳ; ∗?-comm; ∗-elimʳ;
   -∗-applyˡ)
-open import Syho.Model.ERA.Bor using (borᵐ; oborᵐ; lend; borᵐ-lend-new;
+open import Syho.Model.ERA.Bor using (_∙ᴮᵒʳ_; borᵐ; oborᵐ; lend; borᵐ-lend-new;
   borᵐ-open; oborᵐ-close; lend-back)
 open import Syho.Model.ERA.Glob using (iᴮᵒʳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono; □ᵒ-Mono;
-  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ◎-Mono)
+  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ◎-Mono; ◎⟨⟩-∙⇒∗ᵒ)
 open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
@@ -149,3 +149,9 @@ abstract
 
   ⟨†⟩ᵒ-make :  Lend i α P  ⊨  ⟨† α ⟩ᵒ P
   ⟨†⟩ᵒ-make LendPa =  -, ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd LendPa
+
+  -- Make &ᵐᵒ and ⟨†⟩ᵒ
+
+  &ᵐᵒ-⟨†⟩ᵒ-make :
+    ◎⟨ iᴮᵒʳ ⟩ (borᵐ i α P ∙ᴮᵒʳ lend i α P)  ⊨  &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
+  &ᵐᵒ-⟨†⟩ᵒ-make =  ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-mono &ᵐᵒ-make ⟨†⟩ᵒ-make

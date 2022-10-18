@@ -13,11 +13,11 @@ open import Base.Eq using (_≡_; refl; ◠_; refl˙)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using ()
 open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ;
-  ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong)
+open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; jᴮᵒʳ; Envᴵⁿᴳ; envᴳ;
+  ∅ᴵⁿᴳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
   ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; substᵒ; ∗ᵒ-mono✓ˡ;
-  ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ∗ᵒ?-intro;
+  ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro;
   -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introˡ; -∗ᵒ-applyˡ; ⤇ᵒ-intro; ⤇ᴱ-param; ⤇ᴱ-eatʳ;
   ⤇ᴱ-step)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
@@ -29,6 +29,7 @@ open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᴳ'⟨_⟩_; ⟨_⟩[_]⇛
 open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; Invᴵⁿᵈ; ⇛ᴵⁿᵈ_; Invᴵⁿᵈ-∅;
   ⇛ᴵⁿᵈ-intro)
 open import Syho.Model.Supd.Inv using (Invᴵⁿᵛ; ⇛ᴵⁿᵛ_; Invᴵⁿᵛ-∅; ⇛ᴵⁿᵛ-intro)
+open import Syho.Model.Supd.Bor using (Invᴮᵒʳ; ⇛ᴮᵒʳ_; Invᴮᵒʳ-∅; ⇛ᴮᵒʳ-intro)
 
 private variable
   ł :  Level
@@ -46,7 +47,7 @@ infix 3 ⟨_⟩⇛ᴹ'⟨_⟩_ ⟨_⟩⇛ᴹ⟨_⟩_ ⇛ᵒ_ ⇛ᴺᵒ_
 -- Invᴳ :  Global invariant
 
 Invᴳ :  Envᴵⁿᴳ →  Propᵒ 1ᴸ
-Invᴳ Eᴵⁿ =  Invᴵⁿᵈ (envᴵⁿᵈ Eᴵⁿ)  ∗ᵒ  Invᴵⁿᵛ (Eᴵⁿ jᴵⁿᵛ)
+Invᴳ Eᴵⁿ =  Invᴵⁿᵈ (envᴵⁿᵈ Eᴵⁿ)  ∗ᵒ  Invᴵⁿᵛ (Eᴵⁿ jᴵⁿᵛ)  ∗ᵒ  Invᴮᵒʳ (Eᴵⁿ jᴮᵒʳ)
 
 -- ⇛ᴹ' :  Non-abstract version of ⇛ᴹ
 
@@ -75,7 +76,7 @@ abstract
   -- Get Invᴳ ∅ᴵⁿᴳ for free
 
   Invᴳ-∅ :  ⊨ Invᴳ ∅ᴵⁿᴳ
-  Invᴳ-∅ =  Invᴵⁿᵈ-∅ ▷ ∗ᵒ?-intro Invᴵⁿᵛ-∅
+  Invᴳ-∅ =  Invᴮᵒʳ-∅ ▷ ?∗ᵒ-intro Invᴵⁿᵛ-∅ ▷ ?∗ᵒ-intro Invᴵⁿᵈ-∅
 
   -- ⇛ᴹ equals ⇛ᴹ'
 
@@ -91,12 +92,20 @@ abstract
   -- ⇛ᴵⁿᵈ into ⇛ᵒ
 
   ⇛ᴵⁿᵈ⇒⇛ᵒ :  ⇛ᴵⁿᵈ Pᵒ  ⊨  ⇛ᵒ Pᵒ
-  ⇛ᴵⁿᵈ⇒⇛ᵒ =  ⇛ᵍ-mono ⇛ᴵⁿᵛ-intro › ⇛ᵍ-join2 refl › ⇛ᵍ-all refl
+  ⇛ᴵⁿᵈ⇒⇛ᵒ =  ⇛ᵍ-mono (⇛ᴮᵒʳ-intro › ⇛ᴵⁿᵛ-intro › ⇛ᵍ-join2 refl) ›
+    ⇛ᵍ-join2 refl › ⇛ᵍ-all refl
 
   -- ⇛ᴵⁿᵛ into ⇛ᵒ
 
   ⇛ᴵⁿᵛ⇒⇛ᵒ :  ⇛ᴵⁿᵛ Pᵒ  ⊨  ⇛ᵒ Pᵒ
-  ⇛ᴵⁿᵛ⇒⇛ᵒ =  ⇛ᴵⁿᵈ-intro › ⇛ᵍ-join2 refl › ⇛ᵍ-all refl
+  ⇛ᴵⁿᵛ⇒⇛ᵒ =  ⇛ᵍ-mono ⇛ᴮᵒʳ-intro ›
+    ⇛ᵍ-join2 refl › ⇛ᴵⁿᵈ-intro › ⇛ᵍ-join2 refl › ⇛ᵍ-all refl
+
+  -- ⇛ᴮᵒʳ into ⇛ᵒ
+
+  ⇛ᴮᵒʳ⇒⇛ᵒ :  ⇛ᴮᵒʳ Pᵒ  ⊨  ⇛ᵒ Pᵒ
+  ⇛ᴮᵒʳ⇒⇛ᵒ =  ⇛ᴵⁿᵛ-intro ›
+    ⇛ᵍ-join2 refl › ⇛ᴵⁿᵈ-intro › ⇛ᵍ-join2 refl › ⇛ᵍ-all refl
 
   -- ⤇ᴱ on the memory into ⇛ᴹ
 

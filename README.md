@@ -190,7 +190,9 @@ following parts.
             [`Ind`](src/Syho/Model/Supd/Ind.agda) for the super update on the
             indirection modality and precursors;
             [`Inv`](src/Syho/Model/Supd/Inv.agda) for the super update on the
-            impredicative invariant.
+            impredicative invariant;
+            [`Bor`](src/Syho/Model/Supd/Bor.agda) for the super update on the
+            borrow.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting the super
             update;
           [`Sound`](src/Syho/Model/Supd/Sound.agda) for the semantic soundness

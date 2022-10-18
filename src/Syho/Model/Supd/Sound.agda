@@ -23,16 +23,14 @@ open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
 open import Syho.Model.Supd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
-open import Syho.Model.Supd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᵒ-mono;
-  ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
+open import Syho.Model.Supd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; %ᵐᵒ-close; ⟨†⟩ᵒ-back)
+open import Syho.Model.Supd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᴮᵒʳ⇒⇛ᵒ;
+  ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 
 private variable
   P Q :  Prop∞
   i :  ℕ
   M :  Mem
-
-postulate
-  WIP :  ∀{ł} {A : Set ł} →  A  -- Just for now
 
 --------------------------------------------------------------------------------
 -- ⊢⇛-sem :  Semantic soundness of the super update
@@ -98,21 +96,21 @@ abstract
 
   -- &ᵐ-new :  P˂ .!  ⊢[ ∞ ][ i ]⇛  &ᵐ⟨ α ⟩ P˂  ∗  ⟨† α ⟩ P˂
 
-  ⊢⇛-sem &ᵐ-new =  WIP
+  ⊢⇛-sem &ᵐ-new =  &ᵐᵒ-new › ⇛ᴮᵒʳ⇒⇛ᵒ
 
   -- &ᵐ-open :
   --   [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂
 
-  ⊢⇛-sem &ᵐ-open =  WIP
+  ⊢⇛-sem &ᵐ-open =  &ᵐᵒ-open › ⇛ᴮᵒʳ⇒⇛ᵒ
 
   -- %ᵐ-close :
   --   P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
 
-  ⊢⇛-sem %ᵐ-close =  WIP
+  ⊢⇛-sem %ᵐ-close =  %ᵐᵒ-close › ⇛ᴮᵒʳ⇒⇛ᵒ
 
   -- ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ∞ ][ i ]⇛  P˂ .!
 
-  ⊢⇛-sem ⟨†⟩-back =  WIP
+  ⊢⇛-sem ⟨†⟩-back =  ⟨†⟩ᵒ-back › ⇛ᴮᵒʳ⇒⇛ᵒ
 
   -- Utility for ⇛ᴺ
 

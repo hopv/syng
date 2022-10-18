@@ -334,9 +334,9 @@ abstract
   --   R  ∧  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ∞ ]  P˂ .!  →
   --   □ R  ∧  &ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ]  &ⁱ⟨ nm ⟩ Q˂
 
-  ⊢-sem (&ⁱ-resp-□∧ {R} R∧P⊢Q R∧Q⊢P) ✓a =
+  ⊢-sem (&ⁱ-resp-□∧ {R} R∧P⊢Q R∧Q⊢P) _ =
     (λ □R∧&Pa → ⸨⸩-⇒ᴮ {R} $ □R∧&Pa 0₂ , □R∧&Pa 1₂) ›
-    &ⁱᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!) ✓a
+    &ⁱᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!)
 
   -- %ⁱ-mono :  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   %ⁱ⟨ nm ⟩ Q˂  ⊢[ ∞ ]  %ⁱ⟨ nm ⟩ P˂
 
@@ -383,9 +383,9 @@ abstract
   --   R  ∧  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   R  ∧  Q˂ .!  ⊢[< ∞ ]  P˂ .!  →
   --   □ R  ∧  &ᵐ⟨ α ⟩ P˂  ⊢[ ∞ ]  &ᵐ⟨ α ⟩ Q˂
 
-  ⊢-sem (&ᵐ-resp-□∧ {R} R∧P⊢Q R∧Q⊢P) ✓a =
+  ⊢-sem (&ᵐ-resp-□∧ {R} R∧P⊢Q R∧Q⊢P) _ =
     (λ □R∧&Pa → ⸨⸩-⇒ᴮ {R} $ □R∧&Pa 0₂ , □R∧&Pa 1₂) ›
-    &ᵐᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!) ✓a
+    &ᵐᵒ-resp-□ᵒ×ᵒ (R∧P⊢Q .!) (R∧Q⊢P .!)
 
   -- %ᵐ-respᴿ :  p ≈ᴿ⁺ q  →   %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  %ᵐ⟨ α , q ⟩ P˂
 

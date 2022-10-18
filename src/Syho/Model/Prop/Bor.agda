@@ -56,9 +56,9 @@ abstract
 
   &ᵐᵒ-resp-□ᵒ×ᵒ :  {{_ : Basic R}} →
     R  ∧  P  ⊢[ ∞ ]  Q  →   R  ∧  Q  ⊢[ ∞ ]  P  →
-    □ᵒ ⸨ R ⸩ᴮ  ×ᵒ  &ᵐ⟨ α ⟩ᵒ P  ⊨✓  &ᵐ⟨ α ⟩ᵒ Q
-  &ᵐᵒ-resp-□ᵒ×ᵒ {R = R} R∧P⊢Q R∧Q⊢P ✓a
-    (□Ra , -, -, -ᴵ, -, (S∧T⊢P , S∧P⊢T) , □Sa , BorTa) = -, -, -ᴵ, -,
+    □ᵒ ⸨ R ⸩ᴮ  ×ᵒ  &ᵐ⟨ α ⟩ᵒ P  ⊨  &ᵐ⟨ α ⟩ᵒ Q
+  &ᵐᵒ-resp-□ᵒ×ᵒ R∧P⊢Q R∧Q⊢P (□Ra , -, -, -ᴵ, -, (S∧T⊢P , S∧P⊢T) , □Sa , BorTa) =
+    -, -, -ᴵ, -,
     -- (R∧S)∧T ⊢ R∧(S∧T) ⊢ R∧P ⊢ Q
     (∧-assocʳ » ∧-monoʳ S∧T⊢P » R∧P⊢Q ,
     -- (R∧S)∧Q ⊢ (S∧R)∧Q ⊢ S∧(R∧Q) ⊢ S∧P ⊢ T

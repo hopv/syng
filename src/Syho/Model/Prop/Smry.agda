@@ -118,10 +118,13 @@ abstract
   … | ĩ₀ i<n =  Smry-ins-< i<n
   … | ĩ₁ i≥n =  ∗ᵒ-elimʳ (Smry-Mono {n = n}) › Smry-⇒upd-≥ i≥n
 
-  -- Update an element of Smry
-  -- It can be used in combination with Smry-rem-<
+  -- Update/retrieve an element of Smry
+  -- They can be used in combination with Smry-rem-<
 
-  Smry-upd :  yˇ˙ i ≡ š x  →
+  Smry-upd :  F i x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
+  Smry-upd {n = n} =  Smry-ins {n = n} › Smry-resp {n = n} upd˙-2
+
+  Smry-back :  yˇ˙ i ≡ š x  →
     F i x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n  ⊨  Smry F yˇ˙ n
-  Smry-upd {yˇ˙ = yˇ˙} {n = n} yˇi≡šx =  Smry-ins {n = n} › Smry-resp {n = n} $
-    upd˙-2 ◇˙ subst (λ xˇ → upd˙ _ xˇ yˇ˙ ≡˙ yˇ˙) yˇi≡šx upd˙-self
+  Smry-back {yˇ˙ = yˇ˙} {n = n} yˇi≡šx =  Smry-upd {n = n} › Smry-resp {n = n} $
+    subst (λ xˇ → upd˙ _ xˇ yˇ˙ ≡˙ yˇ˙) yˇi≡šx upd˙-self

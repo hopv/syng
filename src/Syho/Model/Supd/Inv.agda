@@ -23,7 +23,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_
   dup-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Syho.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
-  Smry-upd)
+  Smry-back)
 open import Syho.Model.Prop.Names using ([^_]ᴺᵒ; [^]ᴺᵒ-no2)
 open import Syho.Model.Prop.Inv using (&ⁱ⟨_⟩ᵒ_; Invk; %ⁱ⟨_⟩ᵒ_; dup-&ⁱᵒ;
   Invk-no2; &ⁱᵒ-Invk-make)
@@ -102,7 +102,7 @@ abstract
     ∗ᵒ'⇒∗ᵒ {Qᵒ = _ ∗ᵒ _} ▷ ⤇ᴱ-eatʳ ▷ ⤇ᴱ-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-mono✓ʳ
     -- [nm]∗INV → [nm]∗LineP∗INV → → → (Invk∗R)∗LineP∗INV → (Invk∗R)∗INV
     (λ ✓∙ → ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ ›
-      ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ✓∙ ›
+      ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-back ≡šR) ✓∙ ›
     -- (Q∗Q)∗(Invk∗R)∗INV → ((Q∗Q)∗Invk∗R)∗INV
     ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (λ ✓∙ →
     -- (Q∗Q)∗Invk∗R → → → (Q∗R)∗Q∗Invk → P∗(Q∗Invk) → P∗%
@@ -133,4 +133,4 @@ abstract
     ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocʳ ›
     ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗P⊢R ✓∙) ✓∙) ✓∙ ›
     ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ ›
-    ∗ᵒ-mono✓ˡ Invk-close ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-upd ≡šR) ▷ ⤇ᴱ-param }
+    ∗ᵒ-mono✓ˡ Invk-close ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-back ≡šR) ▷ ⤇ᴱ-param }

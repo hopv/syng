@@ -61,7 +61,7 @@ abstract
   Smry-0 :  ⊨ Smry F xˇ˙ 0
   Smry-0 =  _
 
-  -- Update an element for Smry out of the bound
+  -- Update a line for Smry out of the bound
 
   Smry-⇒upd-≥ :  i ≥ n  →   Smry F yˇ˙ n  ⊨  Smry F (upd˙ i xˇ yˇ˙) n
   Smry-⇒upd-≥ {_} {0} =  _
@@ -71,7 +71,7 @@ abstract
   …   | š _ =  ∗ᵒ-monoʳ $ Smry-⇒upd-≥ $ <⇒≤ i>n'
   …   | ň =  Smry-⇒upd-≥ $ <⇒≤ i>n'
 
-  -- Add a new element to Smry at the bound
+  -- Add a new line to Smry at the bound
 
   Smry-add-š :  F n x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ n (š x) yˇ˙) (ṡ n)
   Smry-add-š {n = n}  rewrite ≟-refl {a = n} =
@@ -80,7 +80,7 @@ abstract
   Smry-add-ň :  Smry F xˇ˙ n  ⊨  Smry F (upd˙ n ň xˇ˙) (ṡ n)
   Smry-add-ň {n = n}  rewrite ≟-refl {a = n} =  Smry-⇒upd-≥ $ ≤-refl {n}
 
-  -- Take out an element within the bound from Smry
+  -- Take out a line within the bound from Smry
 
   Smry-rem-<ᵈ :  i <ᵈ n  →   yˇ˙ i ≡ š x  →
     Smry F yˇ˙ n  ⊨  F i x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
@@ -96,7 +96,7 @@ abstract
     Smry F yˇ˙ n  ⊨  F i x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n
   Smry-rem-< =  ≤⇒≤ᵈ › Smry-rem-<ᵈ
 
-  -- Insert an element to Smry
+  -- Insert a line to Smry
 
   Smry-ins-<ᵈ :  i <ᵈ n  →
     F i x  ∗ᵒ  Smry F yˇ˙ n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n
@@ -118,7 +118,7 @@ abstract
   … | ĩ₀ i<n =  Smry-ins-< i<n
   … | ĩ₁ i≥n =  ∗ᵒ-elimʳ (Smry-Mono {n = n}) › Smry-⇒upd-≥ i≥n
 
-  -- Update/retrieve an element of Smry
+  -- Update/retrieve a line of Smry
   -- They can be used in combination with Smry-rem-<
 
   Smry-upd :  F i x  ∗ᵒ  Smry F (upd˙ i ň yˇ˙) n  ⊨  Smry F (upd˙ i (š x) yˇ˙) n

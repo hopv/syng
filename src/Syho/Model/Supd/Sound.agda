@@ -105,7 +105,8 @@ abstract
 
   ⊢⇛-sem &ᵐ-open =  WIP
 
-  -- %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
+  -- %ᵐ-close :
+  --   P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
 
   ⊢⇛-sem %ᵐ-close =  WIP
 

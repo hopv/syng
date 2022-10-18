@@ -743,9 +743,9 @@ data  Judg ι  where
 
   &ᵐ-open :  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂
 
-  -- Close an open mutable borrow token
+  -- Close an open mutable borrow token to retrieve a mutable borrow token
 
-  %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩
+  %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
 
   -- Retrieve the proposition from a lending token using a dead lifetime token
 

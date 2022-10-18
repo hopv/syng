@@ -741,7 +741,7 @@ data  Judg ι  where
 
   -- Open a mutable borrow token
 
-  &ᵐ-open :  &ᵐ⟨ α ⟩ P˂  ∗  [ α ]ᴸ⟨ p ⟩  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂
+  &ᵐ-open :  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂
 
   -- Close an open mutable borrow token
 

@@ -20,8 +20,8 @@ open import Syho.Model.ERA.Inv using (_∙ᴵⁿᵛ_; inv; invk; inv-⌞⌟; inv
 open import Syho.Model.ERA.Glob using (iᴵⁿᵛ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ×ᵒ-Mono;
-  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; □ᵒ-Mono; □ᵒ-elim;
-  □ᵒ-dup; dup-□ᵒ; ◎-Mono; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓)
+  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; □ᵒ-Mono; □ᵒ-dup;
+  dup-⇒□ᵒ; ◎-Mono; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
 private variable
@@ -76,8 +76,7 @@ abstract
   -- Dubplicate &ⁱᵒ
 
   dup-&ⁱᵒ :  &ⁱ⟨ nm ⟩ᵒ P  ⊨  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  &ⁱ⟨ nm ⟩ᵒ P
-  dup-&ⁱᵒ =  &ⁱᵒ-⇒□ᵒ › dup-□ᵒ &ⁱᵒ-Mono ›
-    ∗ᵒ-mono (□ᵒ-elim &ⁱᵒ-Mono) (□ᵒ-elim &ⁱᵒ-Mono)
+  dup-&ⁱᵒ =  dup-⇒□ᵒ &ⁱᵒ-Mono &ⁱᵒ-⇒□ᵒ
 
 --------------------------------------------------------------------------------
 -- Invk :  Invariant key

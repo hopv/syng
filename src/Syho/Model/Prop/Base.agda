@@ -745,6 +745,12 @@ abstract
   dup-□ᵒ :  Monoᵒ Pᵒ →  □ᵒ Pᵒ  ⊨  □ᵒ Pᵒ ∗ᵒ □ᵒ Pᵒ
   dup-□ᵒ MonoP =  (λ Pa → Pa , Pa) › □ᵒˡ-×ᵒ⇒∗ᵒ MonoP
 
+  -- Duplicate Pᵒ when Pᵒ ⊨ □ᵒ Pᵒ
+
+  dup-⇒□ᵒ :  Monoᵒ Pᵒ →  Pᵒ ⊨ □ᵒ Pᵒ →  Pᵒ ⊨ Pᵒ ∗ᵒ Pᵒ
+  dup-⇒□ᵒ MonoP P⊨□P =  P⊨□P ›
+    dup-□ᵒ MonoP › ∗ᵒ-mono (□ᵒ-elim MonoP) (□ᵒ-elim MonoP)
+
   -- □ᵒ commutes with ∗ᵒ
 
   □ᵒ-∗ᵒ-out :  Monoᵒ Pᵒ →  Monoᵒ Qᵒ →  □ᵒ (Pᵒ ∗ᵒ Qᵒ)  ⊨  □ᵒ Pᵒ ∗ᵒ □ᵒ Qᵒ

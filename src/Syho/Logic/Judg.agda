@@ -309,6 +309,12 @@ data  Judg ι  where
 
   -- ⊢⇛ is transitive
 
+  -- Notably, super updates of level i compose into a super update of level i
+  -- (also, the level can be freely increased thanks to ⇛-ṡ)
+
+  -- This is unlike Iris's fancy update with a later ≡▷≡>, for which the number
+  -- of laters just piles up (≡▷≡>ᵐ ≡▷≡>ⁿ is just ≡▷≡>ᵐ⁺ⁿ, not ≡▷≡>ᵐ ᵐᵃˣ ⁿ)
+
   _ᵘ»ᵘ_ :  P ⊢[ ι ][ i ]⇛ Q →  Q ⊢[ ι ][ i ]⇛ R →  P ⊢[ ι ][ i ]⇛ R
 
   -- Frame for ⊢⇛

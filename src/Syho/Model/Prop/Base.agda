@@ -42,7 +42,7 @@ Monoᵒ Pᵒ =  ∀{a b} →  a ⊑ b →  Pᵒ a →  Pᵒ b
 
 private variable
   X Y :  Set ł
-  Pᵒ Qᵒ Rᵒ Sᵒ :  Propᵒ ł
+  Pᵒ P'ᵒ Qᵒ Q'ᵒ Rᵒ R'ᵒ Sᵒ S'ᵒ Tᵒ T'ᵒ :  Propᵒ ł
   Pᵒ˙ Qᵒ˙ :  X →  Propᵒ ł
   Pᵒs :  List (Propᵒ ł)
   a b :  Resᴳ
@@ -347,6 +347,62 @@ abstract
   ∗ᵒ⨿ᵒ-out :  Pᵒ ∗ᵒ (Qᵒ ⨿ᵒ Rᵒ)  ⊨  (Pᵒ ∗ᵒ Qᵒ) ⨿ᵒ (Pᵒ ∗ᵒ Rᵒ)
   ∗ᵒ⨿ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₀ Qc) =  ĩ₀ (-, -, b∙c⊑a , Pb , Qc)
   ∗ᵒ⨿ᵒ-out (-, -, b∙c⊑a , Pb , ĩ₁ Rc) =  ĩ₁ (-, -, b∙c⊑a , Pb , Rc)
+
+  -- Enrich ∗ᵒ-mono
+
+  ∗ᵒ-monoʳˡ :  Qᵒ ⊨ Q'ᵒ →  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ  ⊨  Pᵒ ∗ᵒ Q'ᵒ ∗ᵒ Rᵒ
+  ∗ᵒ-monoʳˡ =  ∗ᵒ-monoʳ ∘ ∗ᵒ-monoˡ
+
+  ∗ᵒ-monoʳ² :  Rᵒ ⊨ R'ᵒ →  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ  ⊨  Pᵒ ∗ᵒ Qᵒ ∗ᵒ R'ᵒ
+  ∗ᵒ-monoʳ² =  ∗ᵒ-monoʳ ∘ ∗ᵒ-monoʳ
+
+  ∗ᵒ-monoʳ²ˡ :  Rᵒ ⊨ R'ᵒ →  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ  ⊨  Pᵒ ∗ᵒ Qᵒ ∗ᵒ R'ᵒ ∗ᵒ Sᵒ
+  ∗ᵒ-monoʳ²ˡ =  ∗ᵒ-monoʳ² ∘ ∗ᵒ-monoˡ
+
+  ∗ᵒ-monoʳ³ :  Sᵒ ⊨ S'ᵒ →  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ  ⊨  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ S'ᵒ
+  ∗ᵒ-monoʳ³ =  ∗ᵒ-monoʳ² ∘ ∗ᵒ-monoʳ
+
+  ∗ᵒ-monoʳ³ˡ :  Sᵒ ⊨ S'ᵒ →
+    Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Tᵒ  ⊨  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ S'ᵒ ∗ᵒ Tᵒ
+  ∗ᵒ-monoʳ³ˡ =  ∗ᵒ-monoʳ³ ∘ ∗ᵒ-monoˡ
+
+  ∗ᵒ-monoʳ⁴ :  Tᵒ ⊨ T'ᵒ →
+    Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Tᵒ  ⊨  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ T'ᵒ
+  ∗ᵒ-monoʳ⁴ =  ∗ᵒ-monoʳ³ ∘ ∗ᵒ-monoʳ
+
+  -- Move a separating conjunct to the head
+
+  ∗ᵒ-pullʳ² :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ  ⊨  Rᵒ ∗ᵒ Pᵒ ∗ᵒ Qᵒ
+  ∗ᵒ-pullʳ² =  ∗ᵒ-monoʳ ∗ᵒ-comm › ?∗ᵒ-comm
+
+  ∗ᵒ-pullʳ²ˡ :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ  ⊨  Rᵒ ∗ᵒ Pᵒ ∗ᵒ Qᵒ ∗ᵒ Sᵒ
+  ∗ᵒ-pullʳ²ˡ =  ∗ᵒ-monoʳ ?∗ᵒ-comm › ?∗ᵒ-comm
+
+  ∗ᵒ-pullʳ³ :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ  ⊨  Sᵒ ∗ᵒ Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ
+  ∗ᵒ-pullʳ³ =  ∗ᵒ-monoʳ ∗ᵒ-pullʳ² › ?∗ᵒ-comm
+
+  ∗ᵒ-pullʳ³ˡ :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Tᵒ  ⊨  Sᵒ ∗ᵒ Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Tᵒ
+  ∗ᵒ-pullʳ³ˡ =  ∗ᵒ-monoʳ ∗ᵒ-pullʳ²ˡ › ?∗ᵒ-comm
+
+  ∗ᵒ-pullʳ⁴ :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Tᵒ  ⊨  Tᵒ ∗ᵒ Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ
+  ∗ᵒ-pullʳ⁴ =  ∗ᵒ-monoʳ ∗ᵒ-pullʳ³ › ?∗ᵒ-comm
+
+  -- Move the head separating conjunct to somewhere deeper
+
+  ∗ᵒ-pushʳ² :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ  ⊨  Qᵒ ∗ᵒ Rᵒ ∗ᵒ Pᵒ
+  ∗ᵒ-pushʳ² =  ?∗ᵒ-comm › ∗ᵒ-monoʳ ∗ᵒ-comm
+
+  ∗ᵒ-pushʳ²ˡ :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ  ⊨  Qᵒ ∗ᵒ Rᵒ ∗ᵒ Pᵒ ∗ᵒ Sᵒ
+  ∗ᵒ-pushʳ²ˡ =  ?∗ᵒ-comm › ∗ᵒ-monoʳ ?∗ᵒ-comm
+
+  ∗ᵒ-pushʳ³ :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ  ⊨  Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Pᵒ
+  ∗ᵒ-pushʳ³ =  ?∗ᵒ-comm › ∗ᵒ-monoʳ ∗ᵒ-pushʳ²
+
+  ∗ᵒ-pushʳ³ˡ :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Tᵒ  ⊨  Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Pᵒ ∗ᵒ Tᵒ
+  ∗ᵒ-pushʳ³ˡ =  ?∗ᵒ-comm › ∗ᵒ-monoʳ ∗ᵒ-pushʳ²ˡ
+
+  ∗ᵒ-pushʳ⁴ :  Pᵒ ∗ᵒ Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Tᵒ  ⊨  Qᵒ ∗ᵒ Rᵒ ∗ᵒ Sᵒ ∗ᵒ Tᵒ ∗ᵒ Pᵒ
+  ∗ᵒ-pushʳ⁴ =  ?∗ᵒ-comm › ∗ᵒ-monoʳ ∗ᵒ-pushʳ³
 
 --------------------------------------------------------------------------------
 -- [∗ᵒ] :  Iterated semantic separating conjunction

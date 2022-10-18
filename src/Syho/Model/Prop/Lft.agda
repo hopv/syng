@@ -16,8 +16,8 @@ open import Syho.Model.ERA.Lft using ([_]ᴸ⟨_⟩ʳ; †ᴸʳ_; ◠˜ᴸᶠᵗ
   []ᴸ⟨⟩ʳ-∙; []ᴸ⟨⟩ʳ-≤1; †ᴸʳ-⌞⌟; []ᴸ⟨⟩ʳ-†ᴸʳ-no; []ᴸʳ-new; []ᴸʳ-kill)
 open import Syho.Model.ERA.Glob using (iᴸᶠᵗ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
-  ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓;
-  ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ; ↝-◎⟨⟩-⤇ᵒ)
+  ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; dup-⇒□ᵒ; ◎-Mono; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ;
+  ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓; ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ; ↝-◎⟨⟩-⤇ᵒ)
 
 private variable
   α :  Lft
@@ -70,6 +70,11 @@ abstract
 
   †ᴸᵒ-⇒□ᵒ :  †ᴸᵒ α  ⊨  □ᵒ †ᴸᵒ α
   †ᴸᵒ-⇒□ᵒ =  ◎⟨⟩-⌞⌟≈-□ᵒ †ᴸʳ-⌞⌟
+
+  -- Duplicate †ᴸᵒ
+
+  dup-†ᴸᵒ :  †ᴸᵒ α  ⊨  †ᴸᵒ α  ∗ᵒ  †ᴸᵒ α
+  dup-†ᴸᵒ =  dup-⇒□ᵒ ◎-Mono †ᴸᵒ-⇒□ᵒ
 
   -- The lifetime and dead lifetime tokens for a lifetime cannot coexist
 

@@ -111,8 +111,8 @@ abstract
   -- Monoᵒ for %ⁱᵒ
 
   %ⁱᵒ-Mono :  Monoᵒ $ %ⁱ⟨ nm ⟩ᵒ P
-  %ⁱᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ Q → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ →
-    ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+  %ⁱᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
+    ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Monotonicity of %ⁱᵒ
 
@@ -123,8 +123,7 @@ abstract
   -- Let %ⁱᵒ eat a basic proposition
 
   %ⁱᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P  ⊨  %ⁱ⟨ nm ⟩ᵒ (Q -∗ P)
-  %ⁱᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' ›
-    λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗InvkSc) →
+  %ⁱᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗InvkSc) →
     -, -, -ᴵ, -,
     -- (Q∗R)∗(Q-∗P) ⊢ (Q∗(Q-∗P))∗R ⊢ P∗R ⊢ R∗P ⊢ S
     ∗?-comm » ∗-monoˡ -∗-applyˡ » ∗-comm » R∗P⊢S ,

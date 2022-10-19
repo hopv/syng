@@ -8,20 +8,25 @@ module Syho.Model.Prop.Bor where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Few using (absurd)
+open import Base.Few using (⊤₀; absurd)
+open import Base.Eq using (_≡_)
+open import Base.Dec using (upd˙)
 open import Base.Size using (∞)
-open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
-open import Base.Nat using (ℕ)
+open import Base.Bool using (tt; ff)
+open import Base.Option using (š_; ň)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-; -ᴵ,_)
+open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ⁺-trans)
 open import Syho.Logic.Prop using (Lft; Prop∞; ⊤'; _∗_; _-∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
   ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
-open import Syho.Model.ERA.Bor using (_∙ᴮᵒʳ_; borᵐ; oborᵐ; lend; borᵐ-lend-new;
+open import Syho.Model.ERA.Bor using (εᴮᵒʳ; borᵐ; oborᵐ; lend; borᵐ-lend-new;
   borᵐ-open; oborᵐ-close; lend-back)
-open import Syho.Model.ERA.Glob using (iᴮᵒʳ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ∃ᵒ-syntax;
-  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ;
-  ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro; □ᵒ-∗ᵒ-in; ◎⟨⟩-∙⇒∗ᵒ)
+open import Syho.Model.ERA.Glob using (Envᴳ; iᴮᵒʳ)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
+  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_; □ᵒ_; _⤇ᴱ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ∗ᵒ⇒∗ᵒ';
+  ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro; □ᵒ-∗ᵒ-in; ⤇ᴱ-mono;
+  ◎⟨⟩-∙⇒∗ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
@@ -30,6 +35,7 @@ private variable
   α :  Lft
   p q :  ℚ⁺
   P Q R :  Prop∞
+  F :  Envᴳ
 
 --------------------------------------------------------------------------------
 -- &ᵐᵒ :  Interpret the mutable borrow token
@@ -110,6 +116,22 @@ abstract
     ∗-monoˡ ∗-comm » ∗-assocʳ » ∗-monoʳ R∗Q⊢P » S∗P⊢T) ,
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , □Rb , □S∗α∗OborTc) ▷ ∗ᵒ-assocˡ ▷ ∗ᵒ-monoˡ □ᵒ-∗ᵒ-in }
 
+  -- Open using Borᵐ
+
+  Borᵐ-open' :  let (E˙ , n) = F iᴮᵒʳ in
+    Borᵐ i α P  ⊨ F ⤇ᴱ
+      λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (ň , b , α , P))) →
+      upd˙ iᴮᵒʳ (upd˙ i (š (š p , b , α , P)) E˙ , n) F , Oborᵐ i α p P
+  Borᵐ-open' =  ↝-◎⟨⟩-⤇ᴱ borᵐ-open
+
+  -- Close using Oborᵐ
+
+  Oborᵐ-close' :  let (E˙ , n) = F iᴮᵒʳ in
+    Oborᵐ i α p P  ⊨ F ⤇ᴱ
+      λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (š p , b , α , P))) →
+      upd˙ iᴮᵒʳ (upd˙ i (š (ň , b , α , P)) E˙ , n) F , Borᵐ i α P
+  Oborᵐ-close' =  ↝-◎⟨⟩-⤇ᴱ oborᵐ-close
+
 --------------------------------------------------------------------------------
 -- ⟨†⟩ᵒ :  Interpret the lending token
 
@@ -147,8 +169,18 @@ abstract
   ⟨†⟩ᵒ-make :  Lend i α P  ⊨  ⟨† α ⟩ᵒ P
   ⟨†⟩ᵒ-make LendPa =  -, ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd LendPa
 
-  -- Make &ᵐᵒ and ⟨†⟩ᵒ
+  -- Create &ᵐᵒ and ⟨†⟩ᵒ
 
-  &ᵐᵒ-⟨†⟩ᵒ-make :
-    ◎⟨ iᴮᵒʳ ⟩ (borᵐ i α P ∙ᴮᵒʳ lend i α P)  ⊨  &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
-  &ᵐᵒ-⟨†⟩ᵒ-make =  ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-mono &ᵐᵒ-make ⟨†⟩ᵒ-make
+  &ᵐᵒ-new' :  let (E˙ , n) = F iᴮᵒʳ in
+    ⊨ F ⤇ᴱ λ (_ : ⊤₀) → upd˙ iᴮᵒʳ (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) F ,
+      &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
+  &ᵐᵒ-new' =  ε↝-◎⟨⟩-⤇ᴱ borᵐ-lend-new ▷
+    ⤇ᴱ-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-mono &ᵐᵒ-make ⟨†⟩ᵒ-make
+
+  -- Update the state using Lend
+
+  Lend-back' :  let (E˙ , n) = F iᴮᵒʳ in
+    Lend i α P  ⊨ F ⤇ᴱ
+      λ ((-, (pˇ ,-)) :  i < n  ×  (∑ pˇ , E˙ i ≡ š (pˇ , tt , α , P))) →
+      upd˙ iᴮᵒʳ (upd˙ i (š (pˇ , ff , α , P)) E˙ , n) F , ⊤ᵒ₀
+  Lend-back' =  ↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴮᵒʳ} lend-back › ⤇ᴱ-mono _

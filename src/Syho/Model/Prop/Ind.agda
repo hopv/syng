@@ -7,12 +7,14 @@
 module Syho.Model.Prop.Ind where
 
 open import Base.Level using (1ᴸ)
-open import Base.Func using (_$_; _›_)
-open import Base.Few using (absurd)
-open import Base.Eq using (refl)
+open import Base.Func using (_$_; _▷_; _›_)
+open import Base.Few using (⊤₀; absurd)
+open import Base.Eq using (_≡_; refl)
+open import Base.Dec using (upd˙)
 open import Base.Size using (∞)
-open import Base.Prod using (_,_; -,_; -ᴵ,_)
-open import Base.Nat using (ℕ; _≤_)
+open import Base.Option using (š_; ň)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-; -ᴵ,_; ∑-case)
+open import Base.Nat using (ℕ; ṡ_; _≤_; _<_)
 open import Syho.Lang.Expr using (Type; Expr∞; Val)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; Basic)
@@ -24,17 +26,20 @@ open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _�
   _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ahor-≤; horᵀ-≤; ihor-≤; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
   _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameʳ; hor-frameʳ)
 open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Ind using (indˣ; indᵖ)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∃ᵒ-syntax; ∃ᴵ-syntax;
-  ⌜_⌝ᵒ×_; _⨿ᵒ_; _∗ᵒ_; □ᵒ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ⨿ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ;
-  ∗ᵒ-Mono; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ)
+open import Syho.Model.ERA.Ind using (εᴵⁿᵈˣ; indˣ; indᵖ; indˣ-new; indˣ-use;
+  indᵖ-new; indᵖ-use)
+open import Syho.Model.ERA.Glob using (Envᴳ; iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
+open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
+  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _⨿ᵒ_; ⊤ᵒ₀; _∗ᵒ_; □ᵒ_; _⤇ᴱ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono;
+  ⨿ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ⤇ᴱ-mono; ⤇ᴱ-param;
+  ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
 
 private variable
   i j :  ℕ
   X :  Set₀
   T :  Type
+  E :  Envᴳ
   P P' Q Q' R :  Prop∞
   Q˙ Q'˙ :  X →  Prop∞
   κ :  WpKind
@@ -62,15 +67,32 @@ abstract
   Ind-Mono :  Monoᵒ $ Ind P
   Ind-Mono =  ⨿ᵒ-Mono Indˣ-Mono Indᵖ-Mono
 
-  -- Make Indˣ
+  -- Create Indˣ
 
-  Indˣ-make :  ◎⟨ iᴵⁿᵈˣ ⟩ indˣ i P  ⊨  Indˣ P
-  Indˣ-make =  -,_
+  Indˣ-new' :  let (Qˇ˙ , n) = E iᴵⁿᵈˣ in
+    ⊨ E ⤇ᴱ λ (_ : ⊤₀) → upd˙ iᴵⁿᵈˣ (upd˙ n (š P) Qˇ˙ , ṡ n) E ,  Indˣ P
+  Indˣ-new' =  ε↝-◎⟨⟩-⤇ᴱ indˣ-new ▷ ⤇ᴱ-mono λ _ → -,_
 
-  -- Make □ᵒ Indᵖ
+  -- Use Indˣ
 
-  □ᵒIndᵖ-make :  ◎⟨ iᴵⁿᵈᵖ ⟩ indᵖ i P  ⊨  □ᵒ Indᵖ P
-  □ᵒIndᵖ-make =  ◎⟨⟩-⌞⌟≡-□ᵒ refl › -,_
+  Indˣ-use' :  let (Qˇ˙ , n) = E iᴵⁿᵈˣ in
+    Indˣ P  ⊨ E ⤇ᴱ λ ((i ,-) :  ∑ i , i < n  ×  Qˇ˙ i ≡ š P) →
+      upd˙ iᴵⁿᵈˣ (upd˙ i ň Qˇ˙ , n) E ,  ⊤ᵒ₀
+  Indˣ-use' =  ∑-case λ i → ↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} indˣ-use ›
+    ⤇ᴱ-mono _ › ⤇ᴱ-param {f = i ,_}
+
+  -- Create □ᵒ Indᵖ
+
+  □ᵒIndᵖ-new' :  let (Qˇ˙ , n) = E iᴵⁿᵈᵖ in
+    ⊨ E ⤇ᴱ λ (_ : ⊤₀) → upd˙ iᴵⁿᵈᵖ (upd˙ n (š P) Qˇ˙ , ṡ n) E ,  □ᵒ Indᵖ P
+  □ᵒIndᵖ-new' =  ε↝-◎⟨⟩-⤇ᴱ indᵖ-new ▷ ⤇ᴱ-mono λ _ → ◎⟨⟩-⌞⌟≡-□ᵒ refl › -,_
+
+  -- Use Indᵖ
+
+  Indᵖ-use' :  let (Qˇ˙ , n) = E iᴵⁿᵈᵖ in
+    Indᵖ P  ⊨ E ⤇ᴱ λ (_ :  ∑ i , i < n  ×  Qˇ˙ i ≡ š P) →
+      upd˙ iᴵⁿᵈᵖ (Qˇ˙ , n) E ,  ⊤ᵒ₀
+  Indᵖ-use' =  ∑-case λ i → ↝-◎⟨⟩-⤇ᴱ indᵖ-use › ⤇ᴱ-mono _ › ⤇ᴱ-param {f = i ,_}
 
 --------------------------------------------------------------------------------
 -- ○ᵒ :  Interpret the indirection modality ○

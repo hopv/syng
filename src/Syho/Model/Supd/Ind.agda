@@ -20,19 +20,17 @@ open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
 open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
-open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; εᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ;
-  indˣ-new; indˣ-use; indᵖ-new; indᵖ-use)
+open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
 open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; ∅ᴵⁿᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
   _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ;
-  ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ-monoˡ;
-  -∗ᵒ-applyˡ; ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ;
-  □ᵒ-∗ᵒ-in; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
+  ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; -∗ᵒ-monoˡ; -∗ᵒ-applyˡ;
+  ⤇ᴱ-mono; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ; □ᵒ-∗ᵒ-in)
 open import Syho.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
   Smry-rem-<)
 open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᴹ_;
-  _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_; _↪[_]⟨_⟩∞ᵒ; Indᵖ-Mono; Indˣ-make; □ᵒIndᵖ-make;
-  Ind⇒○ᵒ)
+  _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_; _↪[_]⟨_⟩∞ᵒ; Indᵖ-Mono; Indˣ-new'; Indˣ-use';
+  □ᵒIndᵖ-new'; Indᵖ-use'; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
 open import Syho.Model.Supd.Base using ([_]⇛ᵍ_; [_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
@@ -78,16 +76,15 @@ abstract
 
   -- Get Indˣ P by storing ⸨ P ⸩
 
-  Indˣ-new :  ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈˣ  Indˣ P
-  Indˣ-new =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-new) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-mono Indˣ-make Smry-add-š) › ⤇ᴱ-param
+  Indˣ-new :  ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈˣ  Indˣ P
+  Indˣ-new =  ⇛ᵍ¹-make $ ?∗ᵒ-intro Indˣ-new' › ⤇ᴱ-eatʳ ›
+    ⤇ᴱ-mono (λ _ → ∗ᵒ-monoʳ Smry-add-š) › ⤇ᴱ-param
 
   -- Consume Indˣ P to get ⸨ P ⸩
 
   Indˣ-use :  Indˣ P  ⊨  ⇛ᴵⁿᵈˣ  ⸨ P ⸩
-  Indˣ-use =  ⇛ᵍ¹-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
-    ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴵⁿᵈˣ} indˣ-use) › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ{ (i<n , ≡šP) → ∗ᵒ-elimʳ Smry-Mono › Smry-rem-< i<n ≡šP }) ›
+  Indˣ-use =  ⇛ᵍ¹-make $ ∗ᵒ-monoˡ Indˣ-use' › ⤇ᴱ-eatʳ ›
+    ⤇ᴱ-mono (λ{ (-, i<n , ≡šP) → ∗ᵒ-elimʳ Smry-Mono › Smry-rem-< i<n ≡šP }) ›
     ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
@@ -119,22 +116,22 @@ abstract
   -- Get □ᵒ Indᵖ P by storing □ᵒ ⸨ P ⸩ minus □ᵒ Indᵖ P
 
   □ᵒIndᵖ-new-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈᵖ  □ᵒ Indᵖ P
-  □ᵒIndᵖ-new-rec {P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-new) ›
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (□ᵒIndᵖ-make › dup-□ᵒ Indᵖ-Mono) ›
-      -- (□IndP∗□IndP)∗(□IndP-∗□P)∗Inv → □IndP∗(□IndP∗(□IndP-∗□P)∗Inv) → →
-      -- □IndP∗(□P∗Inv) → → □IndP∗Inv
-      ∗ᵒ-assocʳ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocˡ ›
+  □ᵒIndᵖ-new-rec {P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro □ᵒIndᵖ-new' › ⤇ᴱ-eatʳ ›
+    -- □IndP∗(□IndP-∗□P)∗Inv → (□IndP∗□IndP)∗(□IndP-∗□P)∗Inv →
+    -- □IndP∗(□IndP∗(□IndP-∗□P)∗Inv) → → □IndP∗(□P∗Inv) → → □IndP∗Inv
+    ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (dup-□ᵒ Indᵖ-Mono) › ∗ᵒ-assocʳ ›
+      ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocˡ ›
         ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
         Smry-add-š) ✓∙) › ⤇ᴱ-param
 
   -- Use Indᵖ P to get ⸨ P ⸩
 
   Indᵖ-use :  Indᵖ P  ⊨ ⇛ᴵⁿᵈᵖ  ⸨ P ⸩
-  Indᵖ-use {P} =  ⇛ᵍ¹-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
-    ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ indᵖ-use) › ⤇ᴱ-eatʳ › ⤇ᴱ-mono (λ{ (i<n , ≡šP) →
-      ∗ᵒ-elimʳ (□ᵒ-Mono Smry-Mono) › dup-□ᵒ Smry-Mono › ∗ᵒ-monoˡ $
-      □ᵒ-elim Smry-Mono › Smry-rem-< i<n ≡šP › ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) ›
-    ⤇ᴱ-param
+  Indᵖ-use {P} =  ⇛ᵍ¹-make $ ∗ᵒ-monoˡ Indᵖ-use' › ⤇ᴱ-eatʳ ›
+    -- Ind∗Inv → Inv → Inv∗Inv → (P∗Inv)∗Inv → P∗Inv
+    ⤇ᴱ-mono (λ{ (-, i<n , ≡šP) → ∗ᵒ-elimʳ (□ᵒ-Mono Smry-Mono) ›
+      dup-□ᵒ Smry-Mono › ∗ᵒ-monoˡ $ □ᵒ-elim Smry-Mono › Smry-rem-< i<n ≡šP ›
+      ∗ᵒ-elimˡ (⸨⸩-Mono {P}) }) › ⤇ᴱ-param
 
 --------------------------------------------------------------------------------
 -- On Indˣᴱᴿᴬ and Indᵖᴱᴿᴬ

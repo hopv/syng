@@ -110,10 +110,10 @@ abstract
 
   -- Create borᵐ and lend at a fresh index
 
-  borᵐ-lend-new :
+  borᵐ-new :
     ((E˙ , n) , εᴮᵒʳ)  ↝ᴮᵒʳ λ (_ : ⊤₀) →
       (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) , borᵐ n α P ∙ᴮᵒʳ lend n α P
-  borᵐ-lend-new =
+  borᵐ-new =
     ↝ᴮᵒʳ-respʳ {a = εᴮᵒʳ} (◠˜ᴮᵒʳ inj˙ᴮᵒʳ-∙) $ ↝ᴮᵒʳ-new (refl , refl)
 
   -- Turn borᵐ into oborᵐ to update ¿ ℚ⁺ from ň to š p

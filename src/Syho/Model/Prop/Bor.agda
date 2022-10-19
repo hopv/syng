@@ -20,7 +20,7 @@ open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ�
 open import Syho.Logic.Prop using (Lft; Prop∞; ⊤'; _∗_; _-∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
   ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
-open import Syho.Model.ERA.Bor using (εᴮᵒʳ; borᵐ; oborᵐ; lend; borᵐ-lend-new;
+open import Syho.Model.ERA.Bor using (εᴮᵒʳ; borᵐ; oborᵐ; lend; borᵐ-new;
   borᵐ-open; oborᵐ-close; lend-back)
 open import Syho.Model.ERA.Glob using (Envᴳ; iᴮᵒʳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
@@ -174,7 +174,7 @@ abstract
   &ᵐᵒ-new' :  let (E˙ , n) = F iᴮᵒʳ in
     ⊨ F ⤇ᴱ λ (_ : ⊤₀) → upd˙ iᴮᵒʳ (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) F ,
       &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
-  &ᵐᵒ-new' =  ε↝-◎⟨⟩-⤇ᴱ borᵐ-lend-new ▷
+  &ᵐᵒ-new' =  ε↝-◎⟨⟩-⤇ᴱ borᵐ-new ▷
     ⤇ᴱ-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-mono &ᵐᵒ-make ⟨†⟩ᵒ-make
 
   -- Update the state using Lend

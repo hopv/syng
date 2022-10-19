@@ -32,7 +32,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-sy
   ?∗ᵒ-comm; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono; [∗ᵒ∈²]-Mono; -∗ᵒ-applyˡ;
   ◎-just; Shrunkᵒ∗ᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-∅; ⇛ᴹ-Mono;
+open import Syho.Model.Fupd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; Invᴳ; Invᴳ-∅; ⇛ᴹ-Mono;
   ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴹ-intro; ⇛ᴹ-join; ⇛ᴹ-eatˡ; ⇛ᴹ-eatʳ; ⇛ᴹ-adeq;
   ⇛ᴹ-step)
 open import Syho.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᵀᵒ˂;

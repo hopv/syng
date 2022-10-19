@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- General super update
+-- General fancy update
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Supd.Base where
+module Syho.Model.Fupd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↓)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
@@ -37,7 +37,7 @@ private variable
   f :  X → Y
 
 --------------------------------------------------------------------------------
--- ⇛ᴳ :  General super-update modality
+-- ⇛ᴳ :  General fancy-update modality
 
 infix 3 ⟨_⟩[_]⇛ᴳ'⟨_⟩_ ⟨_⟩[_]⇛ᴳ⟨_⟩_ [_]⇛ᵍ_ [_]⇛ᵍ¹_
 
@@ -51,7 +51,7 @@ infix 3 ⟨_⟩[_]⇛ᴳ'⟨_⟩_ ⟨_⟩[_]⇛ᴳ⟨_⟩_ [_]⇛ᵍ_ [_]⇛ᵍ�
 
 abstract
 
-  -- ⇛ᴳ :  General super-update modality
+  -- ⇛ᴳ :  General fancy-update modality
 
   -- Parametrized over the getter (get) and setter (set) on the environment and
   -- the invariant predicate (Inv)

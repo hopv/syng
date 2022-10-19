@@ -18,7 +18,7 @@ open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ¡ᴾ_; ⊤'; □_; _∗_
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞)
 open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-introˡ; ∗-elimˡ;
   ∗⊤-intro; □-mono; □-elim)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameʳ)
+open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
 open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
@@ -39,7 +39,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Utility
 
--- If we can turn ○ P into P, then we get P after a super update,
+-- If we can turn ○ P into P, then we get P after a fancy update,
 -- thanks to □○-new-rec
 
 ○-rec :  ○ ¡ᴾ P ⊢[ ι ] P →  ⊤' ⊢[ ι ][ i ]⇛ P
@@ -58,7 +58,7 @@ module _
   ○⇒-↪⇛/↪⇛-use' :  ○ ¡ᴾ (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
   ○⇒-↪⇛/↪⇛-use' =  ○⇒↪⇛ $ ⇒< ↪⇛-use'
 
-  -- Therefore, by ○-rec, we can do any super update --- a paradox!
+  -- Therefore, by ○-rec, we can do any fancy update --- a paradox!
 
   ⇛/↪⇛-use' :  P  ⊢[ ι ][ i ]⇛  Q
   ⇛/↪⇛-use' =  ∗⊤-intro »

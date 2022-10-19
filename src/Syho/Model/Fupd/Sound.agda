@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Prove the semantic soundness of the super update
+-- Prove the semantic soundness of the fancy update
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Supd.Sound where
+module Syho.Model.Fupd.Sound where
 
 open import Base.Func using (_›_)
 open import Base.Size using (∞; !)
@@ -13,7 +13,7 @@ open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Mem)
 open import Syho.Logic.Prop using (Prop∞)
 open import Syho.Logic.Core using (_»_; ∃-elim)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
+open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
   ⇛-frameʳ)
 open import Syho.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
 open import Syho.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
@@ -21,10 +21,10 @@ open import Syho.Logic.Bor using (&ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-bac
 open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Supd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
-open import Syho.Model.Supd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
-open import Syho.Model.Supd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; %ᵐᵒ-close; ⟨†⟩ᵒ-back)
-open import Syho.Model.Supd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᴮᵒʳ⇒⇛ᵒ;
+open import Syho.Model.Fupd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
+open import Syho.Model.Fupd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
+open import Syho.Model.Fupd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; %ᵐᵒ-close; ⟨†⟩ᵒ-back)
+open import Syho.Model.Fupd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᴮᵒʳ⇒⇛ᵒ;
   ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
 
 private variable
@@ -33,7 +33,7 @@ private variable
   M :  Mem
 
 --------------------------------------------------------------------------------
--- ⊢⇛-sem :  Semantic soundness of the super update
+-- ⊢⇛-sem :  Semantic soundness of the fancy update
 
 abstract
 

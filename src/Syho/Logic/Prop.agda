@@ -116,7 +116,7 @@ data  Prop' ι  where
   -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι
 
-  -- ↪[ ]⇛ :  Super-update precursor, with a level
+  -- ↪[ ]⇛ :  Fancy-update precursor, with a level
   _↪[_]⇛_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
 
   -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare-triple precursor, with a level

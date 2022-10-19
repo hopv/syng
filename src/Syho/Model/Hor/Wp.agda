@@ -26,7 +26,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_;
   -∗ᵒ-Mono; -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-applyˡ; -∗ᵒ-eatˡ; ◎-Mono; ∗ᵒThunkᵒ-out;
   ∗ᵒShrunkᵒ-out)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ'⟨_⟩_; ⟨_⟩⇛ᴹ⟨_⟩_; ⇛ᵒ_; ⇛ᴺᵒ_;
+open import Syho.Model.Fupd.Interp using (⟨_⟩⇛ᴹ'⟨_⟩_; ⟨_⟩⇛ᴹ⟨_⟩_; ⇛ᵒ_; ⇛ᴺᵒ_;
   ⇛ᴹ⇒⇛ᴹ'; ⇛ᴹ'⇒⇛ᴹ; ⇛ᴹ-Mono; ⇛ᵒ-Mono; ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono;
   ⇛ᴺᵒ-mono✓; ⇛ᴺᵒ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴺᵒ-intro; ⇛ᴹ-join; ⇛ᴺᵒ-join; ⇛ᴹ-eatˡ; ⇛ᴺᵒ-eatˡ;
   ⇛ᵒ⇒⇛ᴺᵒ)

@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Super update on the impredicative invariant
+-- Fancy update on the impredicative invariant
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Supd.Inv where
+module Syho.Model.Fupd.Inv where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
@@ -26,7 +26,7 @@ open import Syho.Model.Prop.Inv using (Inv; &ⁱ⟨_⟩ᵒ_; Invk; %ⁱ⟨_⟩�
   Invk-no2; &ⁱᵒ-Invk-new; Inv-agree; Invk-agree)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Supd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⊨✓⇒⊨-⇛ᵍ; ⇛ᵍ¹-make;
+open import Syho.Model.Fupd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⊨✓⇒⊨-⇛ᵍ; ⇛ᵍ¹-make;
   ⇛ᵍ¹-intro; ⇛ᵍ-eatˡ)
 
 private variable
@@ -37,7 +37,7 @@ private variable
   Pᵒ :  Propᵒ ł
 
 --------------------------------------------------------------------------------
--- Super update on Invᴱᴿᴬ
+-- Fancy update on Invᴱᴿᴬ
 
 -- Lineᴵⁿᵛ :  Line for Invᴵⁿᵛ
 
@@ -49,7 +49,7 @@ Lineᴵⁿᵛ i nm P =  Invk i nm P ∗ᵒ ⸨ P ⸩  ⨿ᵒ  [^ nm ]ᴺᵒ
 Invᴵⁿᵛ :  Envᴵⁿᵛ →  Propᵒ 1ᴸ
 Invᴵⁿᵛ (ⁿPˇ˙ , n) =  Smry (uncurry ∘ Lineᴵⁿᵛ) ⁿPˇ˙ n
 
--- ⇛ᴵⁿᵛ :  Super update on Invᴱᴿᴬ
+-- ⇛ᴵⁿᵛ :  Fancy update on Invᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵛ_
 ⇛ᴵⁿᵛ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)

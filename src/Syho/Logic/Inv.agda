@@ -19,7 +19,7 @@ open import Syho.Logic.Prop using (WpKind; Name; Prop∞; Prop˂∞; ¡ᴾ_; ⌜
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∃-elim;
   ∃-intro; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm;
   ⊤∗-intro; ∗-elimʳ; ∃∗-elim; -∗-applyˡ; -∗-const)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
+open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[<ᴾ_]⟨_⟩[_]_;
   _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameˡ; ahor✔-hor; hor<ᴾ-map)
 open import Syho.Logic.Mem using (ahor-🞰)

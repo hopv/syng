@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 -- Judgment in Syho
 --------------------------------------------------------------------------------
--- Its contents are re-exported across Syho.Logic.Core, Supd, Ind, and Hor
+-- Its contents are re-exported across Syho.Logic.Core, Fupd, Ind, and Hor
 
 {-# OPTIONS --without-K --sized-types #-}
 
@@ -43,7 +43,7 @@ infix 3 [_]⇛_ [_]ᵃ⟨_⟩_ ⁺⟨_⟩[_]_
 data  JudgRes :  Set₁  where
   -- Just a proposition
   Pure :  Prop∞ →  JudgRes
-  -- Under the super update, with a level
+  -- Under the fancy update, with a level
   [_]⇛_ :  ℕ →  Prop∞ →  JudgRes
   -- Atomic weakest precondition, with a level
   [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → Prop∞) →  JudgRes
@@ -78,13 +78,13 @@ _⊢[_]_ _⊢[<_]_ :  Prop∞ →  𝕊 →  Prop∞ →  Set₁
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
--- ⊢[ ][ ]⇛ etc. :  Super-update sequent
+-- ⊢[ ][ ]⇛ etc. :  Fancy-update sequent
 
 _⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop∞ →  𝕊 →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
 P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 
--- ⊢[ ][ ]⇛ᴺ etc. :  Super-update sequent with the universal name set token [⊤]ᴺ
+-- ⊢[ ][ ]⇛ᴺ etc. :  Fancy-update sequent with the universal name set token [⊤]ᴺ
 
 _⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_ :  Prop∞ →  𝕊 →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ᴺ Q =  [⊤]ᴺ ∗ P ⊢[ ι ][ i ]⇛ [⊤]ᴺ ∗ Q
@@ -309,7 +309,7 @@ data  Judg ι  where
 
   -- ⊢⇛ is transitive
 
-  -- Notably, super updates of level i compose into a super update of level i
+  -- Notably, fancy updates of level i compose into a fancy update of level i
   -- (also, the level can be freely increased thanks to ⇛-ṡ)
 
   -- This is unlike Iris's fancy update with a later ≡▷≡>, for which the number
@@ -340,7 +340,7 @@ data  Judg ι  where
 
   ihor-ṡ :  P  ⊢[< ι ][ i ]⁺⟨ vk ⟩∞  →   P  ⊢[ ι ][ ṡ i ]⁺⟨ vk ⟩∞
 
-  -- Compose with a super update
+  -- Compose with a fancy update
 
   _ᵘ»ᵃʰ_ :  P  ⊢[ ι ][ j ]⇛  Q  →   Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙  →
             P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  R˙
@@ -528,7 +528,7 @@ data  Judg ι  where
   ○⇒↪⇛ :  P˂ .!  ∗  R˂ .!  ⊢[< ι ][ i ]⇛  Q˂ .!  →   ○ R˂  ⊢[ ι ]  P˂ ↪[ i ]⇛ Q˂
 
   -- Use ↪⇛, with level increment
-  -- Without that level increment, we could do any super update (⇛/↪⇛-use' in
+  -- Without that level increment, we could do any fancy update (⇛/↪⇛-use' in
   -- Syho.Logic.Paradox)
 
   ↪⇛-use :  P˂ .!  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!

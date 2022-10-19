@@ -20,7 +20,7 @@ open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗-elimʳ)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-≤; _ᵘ»_; _ᵘ»ᵘ_;
+open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-≤; _ᵘ»_; _ᵘ»ᵘ_;
   ⇛-frameˡ; ⇛-frameʳ; ⇛ᴺ-frameˡ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_;
   _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ahor-≤; horᵀ-≤; ihor-≤; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
@@ -127,7 +127,7 @@ abstract
   Ind⇒○ᵒ IndPa =  ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
 
 --------------------------------------------------------------------------------
--- ↪⇛ᵒ :  Interpret the super-update precursor ↪⇛
+-- ↪⇛ᵒ :  Interpret the fancy-update precursor ↪⇛
 
 infixr 5 _↪[_]⇛ᴹ_
 _↪[_]⇛ᴹ_ :  Prop∞ →  ℕ →  Prop∞ →  Propᵒ 1ᴸ

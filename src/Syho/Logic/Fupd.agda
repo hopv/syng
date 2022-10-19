@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Proof rules on the super-update sequent
+-- Proof rules on the fancy-update sequent
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Supd where
+module Syho.Logic.Fupd where
 
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Eq using (refl)

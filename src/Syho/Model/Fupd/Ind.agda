@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Super update on the indirection modality and the precursors
+-- Fancy update on the indirection modality and the precursors
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Supd.Ind where
+module Syho.Model.Fupd.Ind where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Size using (∞)
@@ -18,7 +18,7 @@ open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Type; Expr∞)
 open import Syho.Lang.Ktxred using (Redex)
 open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_)
+open import Syho.Logic.Fupd using (_⊢[_][_]⇛_)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
 open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
 open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; ∅ᴵⁿᴳ)
@@ -33,7 +33,7 @@ open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛�
   □ᵒIndᵖ-new'; Indᵖ-use'; Ind⇒○ᵒ)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Supd.Base using ([_]⇛ᵍ_; [_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
+open import Syho.Model.Fupd.Base using ([_]⇛ᵍ_; [_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
   ⇛ᵍ¹-make; ⇛ᵍ¹-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ)
 
 private variable
@@ -56,7 +56,7 @@ private variable
 Invᴵⁿᵈˣ :  Envᴵⁿᵈˣ →  Propᵒ 1ᴸ
 Invᴵⁿᵈˣ (P˙ , n) =  Smry (λ _ → ⸨_⸩) P˙ n
 
--- ⇛ᴵⁿᵈˣ :  Super update on Indˣᴱᴿᴬ
+-- ⇛ᴵⁿᵈˣ :  Fancy update on Indˣᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵈˣ_
 ⇛ᴵⁿᵈˣ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
@@ -95,7 +95,7 @@ abstract
 Invᴵⁿᵈᵖ :  Envᴵⁿᵈᵖ →  Propᵒ 1ᴸ
 Invᴵⁿᵈᵖ (P˙ , n) =  □ᵒ Smry (λ _ → ⸨_⸩) P˙ n
 
--- ⇛ᴵⁿᵈᵖ :  Super update on Indᵖᴱᴿᴬ
+-- ⇛ᴵⁿᵈᵖ :  Fancy update on Indᵖᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵈᵖ_
 ⇛ᴵⁿᵈᵖ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
@@ -151,7 +151,7 @@ envᴵⁿᵈ E =  E jᴵⁿᵈˣ , E jᴵⁿᵈᵖ
 updᴱᴵⁿᵈ :  Envᴵⁿᵈ →  Envᴵⁿᴳ →  Envᴵⁿᴳ
 updᴱᴵⁿᵈ (Fᴵⁿᵈˣ , Fᴵⁿᵈᵖ) =  upd˙² jᴵⁿᵈˣ Fᴵⁿᵈˣ jᴵⁿᵈᵖ Fᴵⁿᵈᵖ
 
--- Super update for Indˣᴱᴿᴬ and Indᵖᴱᴿᴬ
+-- Fancy update for Indˣᴱᴿᴬ and Indᵖᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵈ_
 ⇛ᴵⁿᵈ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)

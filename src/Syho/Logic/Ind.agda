@@ -16,7 +16,7 @@ open import Syho.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ¡ᴾ_; ∀-synta
   Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⇒<; ⊢-refl; _»_;
   ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elimˡ; -∗-const)
-open import Syho.Logic.Supd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; _⊢[<_][_]⇛ᴺ_;
+open import Syho.Logic.Fupd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; _⊢[<_][_]⇛ᴺ_;
   ⇒⇛; _ᵘ»_; _»ᵘᴺ_; ⇛⇒⇛ᴺ)
 
 -- Import and re-export

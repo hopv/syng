@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Interpret the super update
+-- Interpret the fancy update
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Supd.Interp where
+module Syho.Model.Fupd.Interp where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
@@ -21,15 +21,15 @@ open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_;
   -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introˡ; -∗ᵒ-applyˡ; ⤇ᵒ-intro; ⤇ᴱ-param; ⤇ᴱ-eatʳ;
   ⤇ᴱ-step)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Syho.Model.Supd.Base using (⟨_⟩[_]⇛ᴳ'⟨_⟩_; ⟨_⟩[_]⇛ᴳ⟨_⟩_; ⇛ᴳ≡⇛ᴳ';
+open import Syho.Model.Fupd.Base using (⟨_⟩[_]⇛ᴳ'⟨_⟩_; ⟨_⟩[_]⇛ᴳ⟨_⟩_; ⇛ᴳ≡⇛ᴳ';
   ⇛ᴳ-Mono; ⇛ᵍ-Mono; ⇛ᴳ-mono✓; ⇛ᴳ-mono; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᴳ-make; ⇛ᴳ-apply;
   ⊨✓⇒⊨-⇛ᴳ; ⊨✓⇒⊨-⇛ᵍ; ⇛ᴳ-all; ⇛ᵍ-all; ⤇ᵒ⇒⇛ᴳ; ⇛ᴳ-intro; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro;
   ⇛ᴳ-intro-✓ᴹ; ⇛ᴳ-join; ⇛ᵍ-join; ⇛ᵍ-join2; ⇛ᴳ-eatˡ; ⇛ᴳ-eatʳ; ⇛ᵍ-eatˡ;
   ⇛ᵍ-eatʳ; ⇛ᴳ-adeq)
-open import Syho.Model.Supd.Ind using (envᴵⁿᵈ; Invᴵⁿᵈ; ⇛ᴵⁿᵈ_; Invᴵⁿᵈ-∅;
+open import Syho.Model.Fupd.Ind using (envᴵⁿᵈ; Invᴵⁿᵈ; ⇛ᴵⁿᵈ_; Invᴵⁿᵈ-∅;
   ⇛ᴵⁿᵈ-intro)
-open import Syho.Model.Supd.Inv using (Invᴵⁿᵛ; ⇛ᴵⁿᵛ_; Invᴵⁿᵛ-∅; ⇛ᴵⁿᵛ-intro)
-open import Syho.Model.Supd.Bor using (Invᴮᵒʳ; ⇛ᴮᵒʳ_; Invᴮᵒʳ-∅; ⇛ᴮᵒʳ-intro)
+open import Syho.Model.Fupd.Inv using (Invᴵⁿᵛ; ⇛ᴵⁿᵛ_; Invᴵⁿᵛ-∅; ⇛ᴵⁿᵛ-intro)
+open import Syho.Model.Fupd.Bor using (Invᴮᵒʳ; ⇛ᴮᵒʳ_; Invᴮᵒʳ-∅; ⇛ᴮᵒʳ-intro)
 
 private variable
   ł :  Level
@@ -40,7 +40,7 @@ private variable
   a :  Resᴳ
 
 --------------------------------------------------------------------------------
--- Interpret the super update
+-- Interpret the fancy update
 
 infix 3 ⟨_⟩⇛ᴹ'⟨_⟩_ ⟨_⟩⇛ᴹ⟨_⟩_ ⇛ᵒ_ ⇛ᴺᵒ_
 
@@ -56,12 +56,12 @@ Invᴳ Eᴵⁿ =  Invᴵⁿᵈ (envᴵⁿᵈ Eᴵⁿ)  ∗ᵒ  Invᴵⁿᵛ (E�
 
 abstract
 
-  -- ⇛ᴹ :  Semantic super update with a memory
+  -- ⇛ᴹ :  Semantic fancy update with a memory
 
   ⟨_⟩⇛ᴹ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
   ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ id , const , Invᴳ ]⇛ᴳ⟨ M' ⟩ Pᵒ
 
--- ⇛ᵒ :  Semantic super update, i.e., ⇛ᴹ with any fixed memory
+-- ⇛ᵒ :  Semantic fancy update, i.e., ⇛ᴹ with any fixed memory
 
 ⇛ᵒ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᵒ Pᵒ =  ∀ᵒ M , ⟨ M ⟩⇛ᴹ⟨ M ⟩ Pᵒ

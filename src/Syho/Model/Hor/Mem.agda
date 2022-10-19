@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Semantic super update and weakest precondition lemmas for the memory
+-- Semantic fancy update and weakest precondition lemmas for the memory
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -28,7 +28,7 @@ open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ⌜_⌝ᵒ×_; ⊤
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; _↦ᵒ_; Freeᵒ'; Freeᵒ; _↦ᴸᵒ_;
   _↦ᴸᵒ'_; ↦ᴸᵒ⇒↦ᴸᵒ'; ↦ᴸᵒ'⇒↦ᴸᵒ; ↦⟨⟩ᵒ-read'; ↦ᵒ-write'; ↦ᴸᵒ'-alloc'; Freeᵒ'-š';
   ↦ᴸᵒ'-free')
-open import Syho.Model.Supd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ; ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ;
+open import Syho.Model.Fupd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ; ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ;
   ⇛ᴹ-mono; ⇛ᴹ-intro; ⇛ᴹ-intro-✓ᴹ; ⇛ᴹ-eatˡ)
 open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ)
 
@@ -46,7 +46,7 @@ private variable
   f :  X → X
 
 --------------------------------------------------------------------------------
--- Semantic super update for the memory
+-- Semantic fancy update for the memory
 
 abstract
 

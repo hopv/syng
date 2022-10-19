@@ -30,9 +30,9 @@ open import Syho.Model.Prop.Base using (_⊨_; [∗ᵒ∈ⁱ⟨⟩]-syntax; ∗�
 open import Syho.Model.Prop.Mem using (_↦ᵒ_)
 open import Syho.Model.Prop.Interp using (⸨_⸩)
 open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Supd.Ind using (↪ᵃ⟨⟩ᵒ-use; ↪⟨⟩ᵒ-use; ↪⟨⟩∞ᵒ-use)
-open import Syho.Model.Supd.Interp using (⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-mono)
-open import Syho.Model.Supd.Sound using (⊢⇛-sem; ⊢⇛ᴺ-sem)
+open import Syho.Model.Fupd.Ind using (↪ᵃ⟨⟩ᵒ-use; ↪⟨⟩ᵒ-use; ↪⟨⟩∞ᵒ-use)
+open import Syho.Model.Fupd.Interp using (⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-mono)
+open import Syho.Model.Fupd.Sound using (⊢⇛-sem; ⊢⇛ᴺ-sem)
 open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⁺⟨_⟩∞ᵒ; ⁺⟨⟩ᴾᵒ-val;
   ⁺⟨⟩ᵀᵒ-val; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ᵃ⟨⟩ᵒ-mono; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᵀᵒ-mono;
   ⊨✓⇒⊨-ᵃ⟨⟩ᵒ; ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ; ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ; ⊨✓⇒⊨-⁺⟨⟩∞ᵒ; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ;

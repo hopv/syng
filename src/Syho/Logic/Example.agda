@@ -29,7 +29,7 @@ open import Syho.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; �
   ∗-monoʳ²; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²ˡ; ∗-pushʳ²ˡ; ∗-elimˡ;
   ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ;
   -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
+open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; ahor-frameˡ; ahor-frameʳ; ahor✔-hor;
@@ -295,7 +295,7 @@ abstract
     go {n} {m}  rewrite ⊔-comm {m} {n} =  Slist∞-rep²ˢ⇒Slist∞≤
 
   -- Turn Slist∞ nsˢ into Slist (takeˢ k nsˢ)
-  -- This is under the super update ⇛, which is transitive,
+  -- This is under the fancy update ⇛, which is transitive,
   -- unlike the later modality ▷ in Iris
 
   Slist∞⇒Slist :  Slist∞ nsˢ θ  ⊢[ ι ][ i ]⇛  Slist (takeˢ k nsˢ) θ

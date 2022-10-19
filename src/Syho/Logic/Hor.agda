@@ -25,7 +25,7 @@ open import Syho.Logic.Prop using (WpKind; par; tot; Name; Prop∞; _∗_; [_]�
   [⊤]ᴺ)
 open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-monoˡ; ∗-comm; ∗?-comm;
   -∗-applyˡ)
-open import Syho.Logic.Supd using (_⊢[_][_]⇛_; ⇒⇛; ⇛⇒⇛ᴺ)
+open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; ⇒⇛; ⇛⇒⇛ᴺ)
 open import Syho.Logic.Names using ([]ᴺ-⊆--∗)
 
 -- Import and re-export

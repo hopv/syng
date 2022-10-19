@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Super update on the bprrpw
+-- Fancy update on the bprrpw
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Supd.Bor where
+module Syho.Model.Fupd.Bor where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
@@ -32,7 +32,7 @@ open import Syho.Model.Prop.Bor using (Borᵐ; &ᵐ⟨_⟩ᵒ_; Oborᵐ; %ᵐ⟨
 open import Syho.Model.Prop.Basic using (⸨⸩ᴮ-Mono)
 open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-ᴮ⇒; ⸨⸩-Mono)
 open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Supd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⊨✓⇒⊨-⇛ᵍ;
+open import Syho.Model.Fupd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⊨✓⇒⊨-⇛ᵍ;
   ⇛ᵍ¹-make; ⇛ᵍ¹-intro; ⇛ᵍ-eatˡ)
 
 private variable
@@ -46,7 +46,7 @@ private variable
   Pᵒ :  Propᵒ ł
 
 --------------------------------------------------------------------------------
--- Super update on Borᴱᴿᴬ
+-- Fancy update on Borᴱᴿᴬ
 
 -- Lineᴮᵒʳ :  Line for Invᴮᵒʳ
 
@@ -60,7 +60,7 @@ Lineᴮᵒʳ (š p , tt , α , _) =  [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ
 Invᴮᵒʳ :  Envᴮᵒʳ →  Propᵒ 1ᴸ
 Invᴮᵒʳ (E˙ , n) =  Smry (λ _ → Lineᴮᵒʳ) E˙ n
 
--- Super update on InvᴱᴿᴬBorᴱᴿᴬ
+-- Fancy update on InvᴱᴿᴬBorᴱᴿᴬ
 
 infix 3 ⇛ᴮᵒʳ_
 ⇛ᴮᵒʳ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)

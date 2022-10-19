@@ -127,8 +127,8 @@ following parts.
         [`Judg`](src/Syho/Logic/Judg.agda) for judgments.
     + [`Core`](src/Syho/Logic/Core.agda) for core proof rules;
         [`Names`](src/Syho/Logic/Names.agda) for the name set token;
-        [`Supd`](src/Syho/Logic/Supd.agda) for the super update;
-        [`Hor`](src/Syho/Logic/Supd.agda) for the Hoare triple;
+        [`Fupd`](src/Syho/Logic/Fupd.agda) for the fancy update;
+        [`Hor`](src/Syho/Logic/Fupd.agda) for the Hoare triple;
         [`Mem`](src/Syho/Logic/Mem.agda) for the memory;
         [`Ind`](src/Syho/Logic/Ind.agda) for the indirection modality and the
         precursors;
@@ -184,26 +184,26 @@ following parts.
             the propositions;
             [`Sound`](src/Syho/Model/Prop/Sound.agda) for the semantic soundness
             of the logic's pure sequent.
-    + [`Supd/`](src/Syho/Model/Supd/) ― **The semantic model and soundness proof
-        of the super update.**
-        * [`Base`](src/Syho/Model/Supd/Base.agda) for the general super update;
-            [`Ind`](src/Syho/Model/Supd/Ind.agda) for the super update on the
+    + [`Fupd/`](src/Syho/Model/Fupd/) ― **The semantic model and soundness proof
+        of the fancy update.**
+        * [`Base`](src/Syho/Model/Fupd/Base.agda) for the general fancy update;
+            [`Ind`](src/Syho/Model/Fupd/Ind.agda) for the fancy update on the
             indirection modality and precursors;
-            [`Inv`](src/Syho/Model/Supd/Inv.agda) for the super update on the
+            [`Inv`](src/Syho/Model/Fupd/Inv.agda) for the fancy update on the
             impredicative invariant;
-            [`Bor`](src/Syho/Model/Supd/Bor.agda) for the super update on the
+            [`Bor`](src/Syho/Model/Fupd/Bor.agda) for the fancy update on the
             borrow.
-        * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting the super
+        * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting the fancy
             update;
-          [`Sound`](src/Syho/Model/Supd/Sound.agda) for the semantic soundness
-            of the logic's super-update sequent.
+          [`Sound`](src/Syho/Model/Fupd/Sound.agda) for the semantic soundness
+            of the logic's fancy-update sequent.
     + [`Hor/`](src/Syho/Model/Hor/) ― **The semantic model and soundness proof
         of the partial and total Hoare triples.**
         * [`Wp`](src/Syho/Model/Hor/Wp.agda) for the semantic partial and total
             weakest preconditions;
           [`Lang`](src/Syho/Model/Hor/Lang.agda) for language-specific lemmas on
             the weakest preconditions;
-          [`Mem`](src/Syho/Model/Hor/Mem.agda) for semantic super update and
+          [`Mem`](src/Syho/Model/Hor/Mem.agda) for semantic fancy update and
             weakest precondition lemmas for the memory.
         * [`Sound`](src/Syho/Model/Hor/Sound.agda) for the semantic soundness of
             the logic's Hoare triple.

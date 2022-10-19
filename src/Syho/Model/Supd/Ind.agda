@@ -76,13 +76,13 @@ abstract
   ⇛ᴵⁿᵈˣ-intro :  Pᵒ  ⊨ ⇛ᴵⁿᵈˣ  Pᵒ
   ⇛ᴵⁿᵈˣ-intro =  ⇛ᵍ¹-intro
 
-  -- Get Indˣ P by storing P
+  -- Get Indˣ P by storing ⸨ P ⸩
 
   Indˣ-new :  ⸨ P ⸩  ⊨  ⇛ᴵⁿᵈˣ  Indˣ P
   Indˣ-new =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indˣ-new) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono Indˣ-make Smry-add-š) › ⤇ᴱ-param
 
-  -- Consume Indˣ P to get P
+  -- Consume Indˣ P to get ⸨ P ⸩
 
   Indˣ-use :  Indˣ P  ⊨  ⇛ᴵⁿᵈˣ  ⸨ P ⸩
   Indˣ-use =  ⇛ᵍ¹-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
@@ -116,7 +116,7 @@ abstract
   ⇛ᴵⁿᵈᵖ-intro :  Pᵒ  ⊨ ⇛ᴵⁿᵈᵖ  Pᵒ
   ⇛ᴵⁿᵈᵖ-intro =  ⇛ᵍ¹-intro
 
-  -- Get □ᵒ Indᵖ P by storing □ P minus □ᵒ Indᵖ P
+  -- Get □ᵒ Indᵖ P by storing □ᵒ ⸨ P ⸩ minus □ᵒ Indᵖ P
 
   □ᵒIndᵖ-new-rec :  □ᵒ Indᵖ P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈᵖ  □ᵒ Indᵖ P
   □ᵒIndᵖ-new-rec {P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ indᵖ-new) ›
@@ -127,7 +127,7 @@ abstract
         ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ $ □ᵒ-Mono $ ⸨⸩-Mono {P}) ✓∙ › □ᵒ-∗ᵒ-in ›
         Smry-add-š) ✓∙) › ⤇ᴱ-param
 
-  -- Use Indᵖ P to get P
+  -- Use Indᵖ P to get ⸨ P ⸩
 
   Indᵖ-use :  Indᵖ P  ⊨ ⇛ᴵⁿᵈᵖ  ⸨ P ⸩
   Indᵖ-use {P} =  ⇛ᵍ¹-make $ ∃ᵒ∗ᵒ-out › ∑-case λ _ →
@@ -182,17 +182,17 @@ abstract
   ⇛ᴵⁿᵈ-intro :  Pᵒ  ⊨ ⇛ᴵⁿᵈ  Pᵒ
   ⇛ᴵⁿᵈ-intro =  ⇛ᴵⁿᵈˣ-intro › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ
 
-  -- Get Ind P by storing P
+  -- Get Ind ⸨ P ⸩ by storing ⸨ P ⸩
 
   Ind-new :  ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  Ind P
   Ind-new =  Indˣ-new › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ › ⇛ᵍ-mono ĩ₀_
 
-  -- Get □ᵒ Ind P by storing □ P minus □ᵒ Ind P
+  -- Get □ᵒ Ind P by storing □ᵒ ⸨ P ⸩ minus □ᵒ Ind P
 
   □ᵒInd-new-rec :  □ᵒ Ind P -∗ᵒ □ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵈ  □ᵒ Ind P
   □ᵒInd-new-rec =  -∗ᵒ-monoˡ ĩ₁_ › □ᵒIndᵖ-new-rec › ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ › ⇛ᵍ-mono ĩ₁_
 
-  -- Consume Ind P to get P
+  -- Consume Ind P to get ⸨ P ⸩
 
   Ind-use :  Ind P  ⊨ ⇛ᴵⁿᵈ  ⸨ P ⸩
   Ind-use =  ⨿-case (Indˣ-use › ⇛ᴵⁿᵈˣ⇒⇛ᴵⁿᵈ) (Indᵖ-use › ⇛ᴵⁿᵈᵖ⇒⇛ᴵⁿᵈ)

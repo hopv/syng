@@ -79,13 +79,13 @@ abstract
   ⇛ᴮᵒʳ-intro :  Pᵒ  ⊨ ⇛ᴮᵒʳ  Pᵒ
   ⇛ᴮᵒʳ-intro =  ⇛ᵍ¹-intro
 
-  -- Get &ᵐ⟨ α ⟩ᵒ P and ⟨† α ⟩ᵒ P by storing P
+  -- Get &ᵐ⟨ α ⟩ᵒ P and ⟨† α ⟩ᵒ P by storing ⸨ P ⸩
 
   &ᵐᵒ-new :  ⸨ P ⸩  ⊨ ⇛ᴮᵒʳ  &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
   &ᵐᵒ-new =  ⇛ᵍ¹-make $ ?∗ᵒ-intro (ε↝-◎⟨⟩-⤇ᴱ borᵐ-lend-new) › ⤇ᴱ-eatʳ ›
     ⤇ᴱ-mono (λ _ → ∗ᵒ-mono &ᵐᵒ-⟨†⟩ᵒ-make Smry-add-š) › ⤇ᴱ-param
 
-  -- Get ⸨ P ⸩ out of Lineᴮᵒʳ with ň using []ᴸ⟨⟩ᵒ
+  -- Get ⸨ P ⸩ out of Lineᴮᵒʳ with ň using [ α ]ᴸ⟨ p ⟩ᵒ
 
   []ᴸ⟨⟩ᵒ-open :  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  Lineᴮᵒʳ (ň , b , α , P)  ⊨✓
                    ⌜ b ≡ tt ⌝ᵒ×  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  ⸨ P ⸩
@@ -108,7 +108,8 @@ abstract
       ∗ᵒ-monoʳ (?∗ᵒ-comm › ∗ᵒ-monoʳ Smry-upd) › ∗ᵒ-assocˡ }) ✓∙ ›
       ∗ᵒ-assocˡ › ∗ᵒ-monoˡ $ ?∗ᵒ-comm › ∗ᵒ-pullʳ²) › ⤇ᴱ-param
 
-  -- Take ⸨ P ⸩ out using &ᵐ and []ᴸ⟨⟩ᵒ, getting %ᵐ in return
+  -- Take ⸨ P ⸩ out using &ᵐ⟨ α ⟩ᵒ P and [ α ]ᴸ⟨ p ⟩ᵒ,
+  -- getting %ᵐ⟨ α , p ⟩ᵒ P in return
 
   &ᵐᵒ-open :  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ  ⸨ P ⸩  ∗ᵒ  %ᵐ⟨ α , p ⟩ᵒ P
   &ᵐᵒ-open {p = p} =  ∗ᵒ⇒∗ᵒ' ›
@@ -129,7 +130,8 @@ abstract
   []ᴸ⟨/2⟩ᵒ-close {b = tt} _ big =  refl , []ᴸ⟨⟩ᵒ-merge-/2 big
   []ᴸ⟨/2⟩ᵒ-close {b = ff} ✓∙ =  []ᴸ⟨⟩ᵒ-†ᴸᵒ-no ✓∙ › λ ()
 
-  -- Retrieve [ α ]ᴸ⟨ p ⟩ᵒ and Borᵐ using ⸨ P ⸩, [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ and Oborᵐ
+  -- Retrieve [ α ]ᴸ⟨ p ⟩ᵒ and Borᵐ i α P
+  -- using ⸨ P ⸩, [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ and Oborᵐ i α p P
 
   Oborᵐ-close :  ⸨ P ⸩  ∗ᵒ  [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α p P  ⊨ ⇛ᴮᵒʳ
                    [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  Borᵐ i α P
@@ -143,7 +145,7 @@ abstract
       λ{ refl → ∗ᵒ-monoʳ Smry-upd }) ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoˡ ∗ᵒ-comm) ›
     ⤇ᴱ-param
 
-  -- Retrieve [ α ]ᴸ⟨ p ⟩ᵒ and &ᵐᵒ using ⸨ P ⸩ and %ᵐᵒ
+  -- Retrieve [ α ]ᴸ⟨ p ⟩ᵒ and &ᵐ⟨ α ⟩ᵒ P using ⸨ P ⸩ and %ᵐ⟨ α , p ⟩ᵒ P
 
   %ᵐᵒ-close :  ⸨ P ⸩  ∗ᵒ  %ᵐ⟨ α , p ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P
   %ᵐᵒ-close {p = p} =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , Pb ,
@@ -158,13 +160,13 @@ abstract
     ⇛ᵍ-mono $ ?∗ᵒ-comm › ∗ᵒ-mono ([]ᴸ⟨⟩ᵒ-resp $ ≈ᴿ⁺-sym {p} {q} p≈q)
       λ big → -, Q , -ᴵ, -, Q|R⊢⊣P , big }
 
-  -- Get ⸨ P ⸩ out of Lineᴮᵒʳ with tt using †ᴸᵒ
+  -- Get ⸨ P ⸩ out of Lineᴮᵒʳ with tt using †ᴸᵒ α
 
   †ᴸᵒ-back :  †ᴸᵒ α  ∗ᵒ  Lineᴮᵒʳ (pˇ , tt , α , P)  ⊨✓  ⸨ P ⸩
   †ᴸᵒ-back {pˇ = ň} {P} _ =  ∗ᵒ-elimʳ $ ⸨⸩-Mono {P = P}
   †ᴸᵒ-back {pˇ = š _} ✓∙ =  ∗ᵒ-comm › []ᴸ⟨⟩ᵒ-†ᴸᵒ-no ✓∙ › λ ()
 
-  -- Get ⸨ P ⸩ back from Lend using †ᴸᵒ
+  -- Get ⸨ P ⸩ back from Lend i α P using †ᴸᵒ α
 
   Lend-back :  †ᴸᵒ α  ∗ᵒ  Lend i α P  ⊨ ⇛ᴮᵒʳ  ⸨ P ⸩
   Lend-back =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ?∗ᵒ-comm ›
@@ -176,7 +178,7 @@ abstract
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (†ᴸᵒ-back {pˇ = pˇ}) ✓∙ › ∗ᵒ-monoʳ Smry-upd) ›
     ⤇ᴱ-param
 
-  -- Get ⸨ P ⸩ back from ⟨†⟩ᵒ using †ᴸᵒ
+  -- Get ⸨ P ⸩ back from ⟨† α ⟩ᵒ P using †ᴸᵒ α
 
   ⟨†⟩ᵒ-back :  †ᴸᵒ α  ∗ᵒ  ⟨† α ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ  ⸨ P ⸩
   ⟨†⟩ᵒ-back =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , †αb , -, Q , -ᴵ, -, Q∗R⊢P , Q∗LendRc) →

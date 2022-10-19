@@ -1,15 +1,15 @@
 # Syho
 
 **Syho** is a **concurrent separation logic** with **syntactically higher-order
-ghost states**.
+ghost state**.
 
-Syho supports **higher-order ghost states** (or **impredicative resources**),
+Syho supports **higher-order ghost state** (or **impredicative resources**),
 bringing powerful expressivity, just like an existing separation logic
 [**Iris**](https://iris-project.org/) (Jung et al., 2015).  
 Notably, Syho supports **impredicative invariants**.
 
 But in contrast to Iris's *fully semantic* approach, Syho models the
-higher-order ghost states simply using the logic's **syntax** (for propositions
+higher-order ghost state simply using the logic's **syntax** (for propositions
 and judgments).
 
 As a result, while Iris suffers from *step indexing* everywhere, Syho is **not
@@ -142,7 +142,7 @@ following parts.
 - [`Model/`](src/Syho/Model/) ― **The semantic model and soundness proof of
     Syho.**
     + [`ERA/`](src/Syho/Model/ERA/) ― **Environmental resource algebras (ERAs),
-        for modeling ghost states of Syho.**
+        for modeling the ghost state of Syho.**
         * [`Base`](src/Syho/Model/ERA/Base.agda) for the basics of the ERA;
             [`All`](src/Syho/Model/ERA/All.agda) for the dependent-map ERA;
             [`Bnd`](src/Syho/Model/ERA/Bnd.agda) for the bounded-map ERA;
@@ -322,7 +322,7 @@ optimizations of concurrent programs.
 Fair termination preservation is an applicable but tricky property, modeled by
 **coinduction over induction**.  
 For this reason, Simuliris is built on a **non-step-indexed** variant of Iris,
-which has given up any kinds of *higher-order ghost states*, including
+which has given up any kind of *higher-order ghost state*, including
 *impredicative invariants*.  
 We can build a logic for fair termination preservation *with* higher-order
-ghost states, simply by fusing Simuliris with our logic Syho.
+ghost state, simply by fusing Simuliris with our logic Syho.

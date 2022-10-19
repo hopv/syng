@@ -136,7 +136,8 @@ abstract
   Oborᵐ-close =  ∗ᵒ-assocˡ › ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ?∗ᵒ-comm ›
     ∗ᵒ-monoˡ (↝-◎⟨⟩-⤇ᴱ oborᵐ-close) › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ (i<n , b , Ei≡) ✓∙ →
     -- Bor∗(P∗[α]⟨p/2⟩)∗Inv → Bor∗(P∗[α]⟨p/2⟩)∗Line∗Inv → → →
-    -- Bor∗([α]⟨p/2⟩∗Line)∗P∗Inv → → Bor∗[α]⟨p⟩∗P∗Inv → Bor∗[α]⟨p⟩∗Inv
+    -- Bor∗([α]⟨p/2⟩∗Line)∗P∗Inv → → Bor∗[α]⟨p⟩∗P∗Inv → Bor∗[α]⟨p⟩∗Inv → →
+    -- ([α]⟨p⟩∗Bor)∗Inv
       ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoʳ (Smry-rem-< i<n Ei≡) › ∗ᵒ-assocʳ › ∗ᵒ-pushʳ²ˡ ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ ([]ᴸ⟨/2⟩ᵒ-close {b = b}) ✓∙ › ∃ᵒ∗ᵒ-out › ∑-case
       λ{ refl → ∗ᵒ-monoʳ Smry-upd }) ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoˡ ∗ᵒ-comm) ›
@@ -151,11 +152,11 @@ abstract
     -- P∗□Q∗[α]⟨q/2⟩∗Obor → □Q∗P∗[α]⟨q/2⟩∗Obor → → □Q∗□Q∗P∗[α]⟨q/2⟩∗Obor → → →
     -- Q∗P∗□Q∗[α]⟨q/2⟩∗Obor → → R∗□Q∗[α]⟨q/2⟩∗Obor → □Q∗R∗[α]⟨q/2⟩∗Obor →
     -- □Q∗[α]⟨q⟩∗Bor → [α]⟨q⟩∗□Q∗Bor → [α]⟨p⟩∗&
-    ?∗ᵒ-comm ▷ ∗ᵒ-monoˡ (dup-□ᵒ MonoQ) ▷ ∗ᵒ-assocʳ ▷
-    ∗ᵒ-monoˡ (□ᵒ-elim MonoQ › ⸨⸩-ᴮ⇒ {Q}) ▷ ∗ᵒ-monoʳ ?∗ᵒ-comm ▷ ∗ᵒ-assocˡ ▷
-    ⊨✓⇒⊨-⇛ᵍ λ ✓∙ → ∗ᵒ-mono✓ˡ (⊢-sem Q∗P⊢R) ✓∙ › ?∗ᵒ-comm ›
-    ∗ᵒ-monoʳ Oborᵐ-close › ⇛ᵍ-eatˡ › ⇛ᵍ-mono $ ?∗ᵒ-comm › ∗ᵒ-mono
-    ([]ᴸ⟨⟩ᵒ-resp $ ≈ᴿ⁺-sym {p} {q} p≈q) λ big → -, Q , -ᴵ, -, Q|R⊢⊣P , big }
+    ⊨✓⇒⊨-⇛ᵍ λ ✓∙ → ?∗ᵒ-comm › ∗ᵒ-monoˡ (dup-□ᵒ MonoQ) › ∗ᵒ-assocʳ ›
+    ∗ᵒ-monoˡ (□ᵒ-elim MonoQ › ⸨⸩-ᴮ⇒ {Q}) › ∗ᵒ-monoʳ ?∗ᵒ-comm › ∗ᵒ-assocˡ ›
+    ∗ᵒ-mono✓ˡ (⊢-sem Q∗P⊢R) ✓∙ › ?∗ᵒ-comm › ∗ᵒ-monoʳ Oborᵐ-close › ⇛ᵍ-eatˡ ›
+    ⇛ᵍ-mono $ ?∗ᵒ-comm › ∗ᵒ-mono ([]ᴸ⟨⟩ᵒ-resp $ ≈ᴿ⁺-sym {p} {q} p≈q)
+      λ big → -, Q , -ᴵ, -, Q|R⊢⊣P , big }
 
   -- Get ⸨ P ⸩ out of Lineᴮᵒʳ with tt using †ᴸᵒ
 

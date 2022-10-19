@@ -120,7 +120,7 @@ abstract
   --         When we have &ub↦ θ i, any threads can freely decrease the value at
   --         θ, but never increase it
 
-  ub : Name
+  ub :  Name
   ub =  strnm "ub"
 
   &ub↦ :  Addr →  ℕ →  Prop∞

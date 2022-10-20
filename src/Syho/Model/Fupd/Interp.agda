@@ -24,8 +24,8 @@ open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Fupd.Base using (⟨_⟩[_]⇛ᴳ'⟨_⟩_; ⟨_⟩[_]⇛ᴳ⟨_⟩_; ⇛ᴳ≡⇛ᴳ';
   ⇛ᴳ-Mono; ⇛ᵍ-Mono; ⇛ᴳ-mono✓; ⇛ᴳ-mono; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᴳ-make; ⇛ᴳ-apply;
   ⊨✓⇒⊨-⇛ᴳ; ⊨✓⇒⊨-⇛ᵍ; ⇛ᴳ-all; ⇛ᵍ-all; ⤇ᵒ⇒⇛ᴳ; ⇛ᴳ-intro; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro;
-  ⇛ᴳ-intro-✓ᴹ; ⇛ᴳ-join; ⇛ᵍ-join; ⇛ᵍ-join2; ⇛ᴳ-eatˡ; ⇛ᴳ-eatʳ; ⇛ᵍ-eatˡ;
-  ⇛ᵍ-eatʳ; ⇛ᴳ-adeq)
+  ⇛ᴳ-intro-✓ᴹ; ⇛ᴳ-join; ⇛ᵍ-join; ⇛ᵍ-join2; ⇛ᴳ-eatˡ; ⇛ᴳ-eatʳ; ⇛ᵍ-eatˡ; ⇛ᵍ-eatʳ;
+  ⇛ᴳ-adeq)
 open import Syho.Model.Fupd.Ind using (envᴵⁿᵈ; Invᴵⁿᵈ; ⇛ᴵⁿᵈ_; Invᴵⁿᵈ-∅;
   ⇛ᴵⁿᵈ-intro)
 open import Syho.Model.Fupd.Inv using (Invᴵⁿᵛ; ⇛ᴵⁿᵛ_; Invᴵⁿᵛ-∅; ⇛ᴵⁿᵛ-intro)

@@ -22,7 +22,6 @@ open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; Val; TyVal; ⊤-; Me
 open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ)
 open import Syho.Lang.Reduce using (🞰⇒; ←⇒; fau⇒; cas⇒-tt; cas⇒-ff; alloc⇒;
   free⇒)
-open import Syho.Model.ERA.Glob using (upd˙-mem-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_;
   ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ∃ᵒ-out)
 open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; _↦ᵒ_; Freeᵒ'; Freeᵒ; _↦ᴸᵒ_;

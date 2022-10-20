@@ -12,7 +12,7 @@ open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; refl˙)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using ()
-open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
+open import Syho.Lang.Expr using (Mem; ✓ᴹ_; ✓ᴹ-∅)
 open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; iᴹᵉᵐ; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ;
   jᴵⁿᵛ; jᴮᵒʳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-mem-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
@@ -195,6 +195,11 @@ abstract
 
   ⇛ᴹ-adeq :  ✓ᴹ M →  [⊤]ᴺᵒ ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩ ⌜ X ⌝ᵒ →  X
   ⇛ᴹ-adeq =  ⇛ᴳ-adeq Invᴳ-∅
+
+  -- Adequacy of ⇛ᵒ
+
+  ⇛ᵒ-adeq :  [⊤]ᴺᵒ ⊨ ⇛ᵒ ⌜ X ⌝ᵒ →  X
+  ⇛ᵒ-adeq [⊤]⊨X =  ⇛ᴹ-adeq ✓ᴹ-∅ $ [⊤]⊨X › _$ _
 
   -- Perform a step by ⇛ᴹ
 

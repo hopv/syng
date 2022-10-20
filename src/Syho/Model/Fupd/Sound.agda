@@ -1,17 +1,18 @@
 --------------------------------------------------------------------------------
--- Prove the semantic soundness of the fancy update
+-- Prove the semantic soundness and adequacy of the fancy update
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
 module Syho.Model.Fupd.Sound where
 
-open import Base.Func using (_›_)
+open import Base.Func using (_$_; _›_)
+open import Base.Few using (absurd)
 open import Base.Size using (∞; !)
-open import Base.Prod using (∑-case; _,_)
+open import Base.Prod using (∑-case; π₀; _,_)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Mem)
-open import Syho.Logic.Prop using (Prop∞)
+open import Syho.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
   ⇛-frameʳ)
@@ -25,12 +26,12 @@ open import Syho.Model.Fupd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-
 open import Syho.Model.Fupd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
 open import Syho.Model.Fupd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; %ᵐᵒ-close; ⟨†⟩ᵒ-back)
 open import Syho.Model.Fupd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᴮᵒʳ⇒⇛ᵒ;
-  ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ)
+  ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᵒ-adeq)
 
 private variable
   P Q :  Prop∞
   i :  ℕ
-  M :  Mem
+  X :  Set₀
 
 --------------------------------------------------------------------------------
 -- ⊢⇛-sem :  Semantic soundness of the fancy update
@@ -116,3 +117,11 @@ abstract
 
   ⊢⇛ᴺ-sem :  P ⊢[ ∞ ][ i ]⇛ᴺ Q →  ⸨ P ⸩ ⊨ ⇛ᴺᵒ ⸨ Q ⸩
   ⊢⇛ᴺ-sem P⊢⇛Q =  -∗ᵒ-introˡ λ _ → ⊢⇛-sem P⊢⇛Q
+
+--------------------------------------------------------------------------------
+-- ⊢⇛-adeq :  Simple adequacy of the fancy update, allowing [⊤]ᴺ as a premise
+
+abstract
+
+  ⊢⇛-adeq :  [⊤]ᴺ ⊢[ ∞ ][ i ]⇛ ⌜ X ⌝ →  X
+  ⊢⇛-adeq ⊢X =  ⇛ᵒ-adeq $ ⊢⇛-sem ⊢X › ⇛ᵒ-mono π₀

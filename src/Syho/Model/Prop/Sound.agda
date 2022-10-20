@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Prove the semantic soundness of the pure sequent
+-- Prove the semantic soundness and adequacy of the pure sequent
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -10,7 +10,8 @@ open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Size using (𝕊; ∞; !)
 open import Base.Prod using (_,_; π₀; π₁; ∑-case)
-open import Syho.Logic.Prop using (Prop∞)
+open import Syho.Lang.Expr using (✓ᴹ-∅)
+open import Syho.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
 open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
   ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
   ∗-assocʳ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
@@ -28,10 +29,11 @@ open import Syho.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨�
 open import Syho.Logic.Bor using (&ᵐ-resp-□∗; %ᵐ-respᴿ; %ᵐ-respᴾ-□∗; ⟨†⟩-mono;
   ⟨†⟩-eatˡ)
 open import Syho.Logic.Ub using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
+open import Syho.Model.ERA.Glob using (∅ᴵⁿᴳ-✓[⊤])
 open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocʳ; -∗ᵒ-introˡ; -∗ᵒ-elimˡ;
   ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-⌜⌝ᵒ×-out; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
-  □ᵒˡ-×ᵒ⇒∗ᵒ)
+  □ᵒˡ-×ᵒ⇒∗ᵒ; ◎-just)
 open import Syho.Model.Prop.Mem using (↦⟨⟩ᵒ-resp; ↦⟨⟩ᵒ-merge; ↦⟨⟩ᵒ-split;
   ↦⟨⟩ᵒ-≤1; ↦⟨⟩ᵒ-agree)
 open import Syho.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ-split;
@@ -53,6 +55,7 @@ open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
 
 private variable
   P Q R S T :  Prop∞
+  X :  Set₀
 
 --------------------------------------------------------------------------------
 -- ⊢-sem :  Semantic soundness of the pure sequent
@@ -423,3 +426,11 @@ abstract
   -- #ᵁᵇ-upd :  m ≤ n  →   #ᵁᵇ⟨ o ⟩ n  ⊢[ ∞ ] ⤇  ≤ᵁᵇ⟨ o ⟩ m  ∗  #ᵁᵇ⟨ o ⟩ m
 
   ⊢-sem (#ᵁᵇ-upd m≤n) _ =  #ᵁᵇᵒ-upd m≤n
+
+--------------------------------------------------------------------------------
+-- ⊢-adeq :  Simple adequacy of the pure sequent, allowing [⊤]ᴺ as a premise
+
+abstract
+
+  ⊢-adeq :  [⊤]ᴺ ⊢[ ∞ ] ⌜ X ⌝ →  X
+  ⊢-adeq ⊢X =  ⊢-sem ⊢X (∅ᴵⁿᴳ-✓[⊤] ✓ᴹ-∅) ◎-just .π₀

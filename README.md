@@ -183,7 +183,7 @@ following parts.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for the semantics of all
             the propositions;
             [`Sound`](src/Syho/Model/Prop/Sound.agda) for the semantic soundness
-            of the logic's pure sequent.
+            and adequacy of the logic's pure sequent.
     + [`Fupd/`](src/Syho/Model/Fupd/) ― **The semantic model and soundness proof
         of the fancy update.**
         * [`Base`](src/Syho/Model/Fupd/Base.agda) for the general fancy update;
@@ -196,7 +196,7 @@ following parts.
         * [`Interp`](src/Syho/Model/Prop/Interp.agda) for interpreting the fancy
             update;
           [`Sound`](src/Syho/Model/Fupd/Sound.agda) for the semantic soundness
-            of the logic's fancy-update sequent.
+            and adequacy of the logic's fancy-update sequent.
     + [`Hor/`](src/Syho/Model/Hor/) ― **The semantic model and soundness proof
         of the partial and total Hoare triples.**
         * [`Wp`](src/Syho/Model/Hor/Wp.agda) for the semantic partial and total

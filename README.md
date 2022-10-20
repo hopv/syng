@@ -207,7 +207,7 @@ following parts.
             weakest precondition lemmas for the memory.
         * [`Adeq`](src/Syho/Model/Hor/Adeq.agda) for the adequacy of the
             semantic partial and total weakest preconditions.
-        * [`Sound`](src/Syho/Model/Hor/Sound.agda) for the semantic soundness 
+        * [`Sound`](src/Syho/Model/Hor/Sound.agda) for the semantic soundness
             and adequacy of the logic's Hoare triple.
 
 We also have [`All`](src/Syho/All.agda) for just importing all the relevant

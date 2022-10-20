@@ -14,6 +14,6 @@ import Syho.Logic.Paradox
 
 import Syho.Logic.Example
 
--- Semantic soundness of the Hoare triples
+-- Semantic soundness and adequacy of the Hoare triples
 
 import Syho.Model.Hor.Sound

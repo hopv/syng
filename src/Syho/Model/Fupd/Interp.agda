@@ -6,20 +6,20 @@
 
 module Syho.Model.Fupd.Interp where
 
-open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
+open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↑_)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
 open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; refl˙)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using ()
 open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; jᴵⁿᵛ; jᴮᵒʳ; Envᴵⁿᴳ; envᴳ;
-  ∅ᴵⁿᴳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong)
+open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; iᴹᵉᵐ; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ;
+  jᴵⁿᵛ; jᴮᵒʳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-mem-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
-  ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; substᵒ; ∗ᵒ-mono✓ˡ;
+  ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⤇ᴱ⟨⟩; substᵒ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro;
-  -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introˡ; -∗ᵒ-applyˡ; ⤇ᵒ-intro; ⤇ᴱ-param; ⤇ᴱ-eatʳ;
-  ⤇ᴱ-step)
+  -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introˡ; -∗ᵒ-applyˡ; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ;
+  ⤇ᴱ-param; ⤇ᴱ-eatʳ; ⤇ᴱ-step)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Syho.Model.Fupd.Base using (⟨_⟩[_]⇛ᴳ'⟨_⟩_; ⟨_⟩[_]⇛ᴳ⟨_⟩_; ⇛ᴳ≡⇛ᴳ';
   ⇛ᴳ-Mono; ⇛ᵍ-Mono; ⇛ᴳ-mono✓; ⇛ᴳ-mono; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᴳ-make; ⇛ᴳ-apply;
@@ -107,16 +107,17 @@ abstract
   ⇛ᴮᵒʳ⇒⇛ᵒ =  ⇛ᴵⁿᵛ-intro ›
     ⇛ᵍ-join2 refl › ⇛ᴵⁿᵈ-intro › ⇛ᵍ-join2 refl › ⇛ᵍ-all refl
 
-  -- ⤇ᴱ on the memory into ⇛ᴹ
+  -- ⤇ᴱ⟨⟩ on iᴹᵉᵐ into ⇛ᴹ
 
-  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ :
-    (∀{Eᴵⁿ} →  Pᵒ ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ (_ : ⊤₀) → envᴳ M' Eᴵⁿ , Qᵒ)  →
-    Pᵒ  ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Qᵒ
-  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ P⊨ME⤇M'EQ =  ⇛ᴳ-make $ ∗ᵒ-monoˡ P⊨ME⤇M'EQ › ⤇ᴱ-eatʳ › ⤇ᴱ-param
+  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ :  Pᵒ  ⊨ ↑ M ⤇ᴱ⟨ iᴹᵉᵐ ⟩ (λ (_ : ⊤₀) → ↑ M' ,  Qᵒ)  →
+                  Pᵒ  ⊨ ⟨ M ⟩⇛ᴹ⟨ M' ⟩  Qᵒ
+  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ {M = M} P⊨M⤇M'Q =  ⇛ᴳ-make $ ∗ᵒ-monoˡ (P⊨M⤇M'Q › _$ _) ›
+    ⤇ᴱ-eatʳ › ⤇ᴱ-respᴱˡ (upd˙-mem-envᴳ {M = M}) › ⤇ᴱ-respᴱʳ upd˙-mem-envᴳ ›
+    ⤇ᴱ-param
 
-  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ :  (∀{Eᴵⁿ} →  ⊨ envᴳ M Eᴵⁿ ⤇ᴱ λ (_ : ⊤₀) → envᴳ M' Eᴵⁿ , Pᵒ)  →
+  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ :  ⊨ ↑ M ⤇ᴱ⟨ iᴹᵉᵐ ⟩ (λ (_ : ⊤₀) → ↑ M' ,  Pᵒ)  →
                 ⊨  ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ
-  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ ⊨ME⤇M'EP =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ {Pᵒ = ⊤ᵒ₀} (λ _ → ⊨ME⤇M'EP) _
+  ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ ⊨M⤇M'P =  ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ {Pᵒ = ⊤ᵒ₀} (λ _ → ⊨M⤇M'P) _
 
   -- Monoᵒ for ⇛ᴹ/⇛ᵒ
 

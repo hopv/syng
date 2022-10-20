@@ -20,22 +20,22 @@ open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ�
 open import Syho.Logic.Prop using (Lft; Prop∞; ⊤'; _∗_; _-∗_; Basic)
 open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
   ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
-open import Syho.Model.ERA.Bor using (εᴮᵒʳ; borᵐ; oborᵐ; lend; borᵐ-new;
-  borᵐ-open; oborᵐ-close; lend-back)
-open import Syho.Model.ERA.Glob using (Envᴳ; iᴮᵒʳ)
+open import Syho.Model.ERA.Bor using (Envᴮᵒʳᵇ; εᴮᵒʳ; borᵐ; oborᵐ; lend;
+  borᵐ-new; borᵐ-open; oborᵐ-close; lend-back)
+open import Syho.Model.ERA.Glob using (iᴮᵒʳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
-  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_; □ᵒ_; _⤇ᴱ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ∗ᵒ⇒∗ᵒ';
-  ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro; □ᵒ-∗ᵒ-in; ⤇ᴱ-mono;
-  ◎⟨⟩-∙⇒∗ᵒ; ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
+  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ∗ᵒ⇒∗ᵒ';
+  ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro; □ᵒ-∗ᵒ-in; ⤇ᴱ⟨⟩-mono;
+  ◎⟨⟩-∙⇒∗ᵒ; ↝-◎⟨⟩-⤇ᴱ⟨⟩; ε↝-◎⟨⟩-⤇ᴱ⟨⟩)
 open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
 private variable
-  i :  ℕ
+  i n :  ℕ
   α :  Lft
   p q :  ℚ⁺
   P Q R :  Prop∞
-  F :  Envᴳ
+  E˙ :  ℕ → Envᴮᵒʳᵇ
 
 --------------------------------------------------------------------------------
 -- &ᵐᵒ :  Interpret the mutable borrow token
@@ -118,19 +118,19 @@ abstract
 
   -- Open using Borᵐ
 
-  Borᵐ-open' :  let (E˙ , n) = F iᴮᵒʳ in
-    Borᵐ i α P  ⊨ F ⤇ᴱ
+  Borᵐ-open' :
+    Borᵐ i α P  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
       λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (ň , b , α , P))) →
-      upd˙ iᴮᵒʳ (upd˙ i (š (š p , b , α , P)) E˙ , n) F , Oborᵐ i α p P
-  Borᵐ-open' =  ↝-◎⟨⟩-⤇ᴱ borᵐ-open
+      (upd˙ i (š (š p , b , α , P)) E˙ , n) , Oborᵐ i α p P
+  Borᵐ-open' =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ borᵐ-open
 
   -- Close using Oborᵐ
 
-  Oborᵐ-close' :  let (E˙ , n) = F iᴮᵒʳ in
-    Oborᵐ i α p P  ⊨ F ⤇ᴱ
+  Oborᵐ-close' :
+    Oborᵐ i α p P  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
       λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (š p , b , α , P))) →
-      upd˙ iᴮᵒʳ (upd˙ i (š (ň , b , α , P)) E˙ , n) F , Borᵐ i α P
-  Oborᵐ-close' =  ↝-◎⟨⟩-⤇ᴱ oborᵐ-close
+      (upd˙ i (š (ň , b , α , P)) E˙ , n) , Borᵐ i α P
+  Oborᵐ-close' =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ oborᵐ-close
 
 --------------------------------------------------------------------------------
 -- ⟨†⟩ᵒ :  Interpret the lending token
@@ -171,16 +171,16 @@ abstract
 
   -- Create &ᵐᵒ and ⟨†⟩ᵒ
 
-  &ᵐᵒ-new' :  let (E˙ , n) = F iᴮᵒʳ in
-    ⊨ F ⤇ᴱ λ (_ : ⊤₀) → upd˙ iᴮᵒʳ (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) F ,
+  &ᵐᵒ-new' :
+    ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩ λ (_ : ⊤₀) → (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) ,
       &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
-  &ᵐᵒ-new' =  ε↝-◎⟨⟩-⤇ᴱ borᵐ-new ▷
-    ⤇ᴱ-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-mono &ᵐᵒ-make ⟨†⟩ᵒ-make
+  &ᵐᵒ-new' =  ε↝-◎⟨⟩-⤇ᴱ⟨⟩ borᵐ-new ▷
+    ⤇ᴱ⟨⟩-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-mono &ᵐᵒ-make ⟨†⟩ᵒ-make
 
   -- Update the state using Lend
 
-  Lend-back' :  let (E˙ , n) = F iᴮᵒʳ in
-    Lend i α P  ⊨ F ⤇ᴱ
+  Lend-back' :
+    Lend i α P  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
       λ ((-, (pˇ ,-)) :  i < n  ×  (∑ pˇ , E˙ i ≡ š (pˇ , tt , α , P))) →
-      upd˙ iᴮᵒʳ (upd˙ i (š (pˇ , ff , α , P)) E˙ , n) F , ⊤ᵒ₀
-  Lend-back' =  ↝-◎⟨⟩-⤇ᴱ {bⁱ˙ = λ _ → εᴮᵒʳ} lend-back › ⤇ᴱ-mono _
+      (upd˙ i (š (pˇ , ff , α , P)) E˙ , n) , ⊤ᵒ₀
+  Lend-back' =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ {bⁱ˙ = λ _ → εᴮᵒʳ} lend-back › ⤇ᴱ⟨⟩-mono _

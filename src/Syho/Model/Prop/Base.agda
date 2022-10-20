@@ -7,7 +7,7 @@
 module Syho.Model.Prop.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 1ᴸ)
-open import Base.Func using (_$_; _›_; _∘_; flip; id; const)
+open import Base.Func using (_$_; _▷_; _›_; _∘_; flip; id; const)
 open import Base.Few using (⊤; ⊤₀; ⊥)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; ◠˙_)
 open import Base.Dec using (yes; no; upd˙; upd˙-self)
@@ -19,7 +19,8 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Syho.Model.ERA.Base using (ERA)
 open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Resᴳ; Resᴳ˙; Envᴳ;
-  inj˙; ✓˙-respᴱ; inj˙-≈; inj˙-∙; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝; ✓-inj˙)
+  Envᴳ˙; inj˙; ✓˙-respᴱ; inj˙-≈; inj˙-∙; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝;
+  ✓-inj˙)
 
 open ERA Globᴱᴿᴬ using (_≈_; _⊑_; _∙_; ε; ⌞_⌟; _✓_; _↝_; ◠˜_; _◇˜_; ⊑-respˡ;
   ⊑-refl; ⊑-trans; ≈⇒⊑; ∙-mono; ∙-monoˡ; ∙-monoʳ; ∙-unitˡ; ∙-unitʳ; ∙-comm;
@@ -703,6 +704,49 @@ abstract
   … | -, -, Fx✓b∙ε , Pxb =  -, -, ✓-resp ∙-unitʳ Fx✓b∙ε , Pxb
 
 --------------------------------------------------------------------------------
+-- ⤇ᴱ⟨⟩ :  Environmental update modality on a component ERA
+--         We use syntax to swap arguments for dependent typing
+
+infix 3 ⤇ᴱ⟨⟩
+⤇ᴱ⟨⟩ :  ∀{X : Set ł'} →  ∀ i →
+  Envᴳ˙ i →  (X → Envᴳ˙ i × Propᵒ ł) →  Propᵒ (1ᴸ ⊔ᴸ ł ⊔ᴸ ł')
+⤇ᴱ⟨⟩ i Eⁱ FⁱPᵒ˙ =  ∀ᵒ G ,
+  upd˙ i Eⁱ G ⤇ᴱ λ x → upd˙ i (FⁱPᵒ˙ x .π₀) G , FⁱPᵒ˙ x .π₁
+syntax ⤇ᴱ⟨⟩ i Eⁱ FⁱPᵒ˙ =  Eⁱ ⤇ᴱ⟨ i ⟩ FⁱPᵒ˙
+
+module _ {i : ℕ} where
+
+  private variable
+    Eⁱ :  Envᴳ˙ i
+    FⁱPᵒ˙ :  X → Envᴳ˙ i × Propᵒ ł
+    Fⁱ˙ :  X → Envᴳ˙ i
+
+  -- Monotonicity of ⤇ᴱ⟨⟩
+
+  ⤇ᴱ⟨⟩-mono✓ :  (∀ x →  Pᵒ˙ x ⊨✓ Qᵒ˙ x)  →
+    Eⁱ ⤇ᴱ⟨ i ⟩ (λ x → Fⁱ˙ x , Pᵒ˙ x)  ⊨  Eⁱ ⤇ᴱ⟨ i ⟩ λ x → Fⁱ˙ x , Qᵒ˙ x
+  ⤇ᴱ⟨⟩-mono✓ Px⊨✓Qx big _ =  big _ ▷ ⤇ᴱ-mono✓ Px⊨✓Qx
+
+  ⤇ᴱ⟨⟩-mono :  (∀ x →  Pᵒ˙ x ⊨ Qᵒ˙ x)  →
+    Eⁱ ⤇ᴱ⟨ i ⟩ (λ x → Fⁱ˙ x , Pᵒ˙ x)  ⊨  Eⁱ ⤇ᴱ⟨ i ⟩ λ x → Fⁱ˙ x , Qᵒ˙ x
+  ⤇ᴱ⟨⟩-mono Px⊨Qx big _ =  big _ ▷ ⤇ᴱ-mono Px⊨Qx
+
+  -- Update parameterization of ⤇ᴱ⟨⟩
+
+  ⤇ᴱ⟨⟩-param :  Eⁱ ⤇ᴱ⟨ i ⟩ FⁱPᵒ˙ ∘ f  ⊨  Eⁱ ⤇ᴱ⟨ i ⟩ FⁱPᵒ˙
+  ⤇ᴱ⟨⟩-param big _ =  big _ ▷ ⤇ᴱ-param
+
+  -- Let ⤇ᴱ⟨⟩ eat a proposition under ∗ᵒ
+
+  ⤇ᴱ⟨⟩-eatˡ :  Qᵒ  ∗ᵒ  (Eⁱ ⤇ᴱ⟨ i ⟩ λ x → Fⁱ˙ x , Pᵒ˙ x)  ⊨ Eⁱ ⤇ᴱ⟨ i ⟩ λ x →
+                 Fⁱ˙ x ,  Qᵒ ∗ᵒ Pᵒ˙ x
+  ⤇ᴱ⟨⟩-eatˡ big _ =  big ▷ ∗ᵒ-monoʳ (_$ _) ▷ ⤇ᴱ-eatˡ
+
+  ⤇ᴱ⟨⟩-eatʳ :  (Eⁱ ⤇ᴱ⟨ i ⟩ λ x → Fⁱ˙ x , Pᵒ˙ x)  ∗ᵒ  Qᵒ  ⊨ Eⁱ ⤇ᴱ⟨ i ⟩ λ x →
+                 Fⁱ˙ x ,  Pᵒ˙ x ∗ᵒ Qᵒ
+  ⤇ᴱ⟨⟩-eatʳ big _ =  big ▷ ∗ᵒ-monoˡ (_$ _) ▷ ⤇ᴱ-eatʳ
+
+--------------------------------------------------------------------------------
 -- □ᵒ :  Semantic persistence modality
 
 infix 8 □ᵒ_
@@ -851,9 +895,10 @@ module _ {i : ℕ} where
     ≡⇒≈ to ≡⇒≈ⁱ)
 
   private variable
-    Fⁱ˙ :  X → Envⁱ
     aⁱ bⁱ :  Resⁱ
     aⁱ˙ bⁱ˙ :  X → Resⁱ
+    Eⁱ :  Envⁱ
+    Fⁱ˙ :  X → Envⁱ
 
   abstract
 
@@ -904,15 +949,15 @@ module _ {i : ℕ} where
                  ⊨  ⤇ᵒ ◎⟨ i ⟩ aⁱ
     ε↝-◎⟨⟩-⤇ᵒ Eε↝Ea =  ⤇ᵒ-mono π₁ $ ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ Eε↝Ea
 
-    -- ↝ⁱ into ⤇ᴱ on ◎⟨ i ⟩
+    -- ↝ⁱ into ⤇ᴱ⟨ i ⟩ on ◎⟨ i ⟩
 
-    ↝-◎⟨⟩-⤇ᴱ :  ((E i , aⁱ)  ↝ⁱ λ x →  Fⁱ˙ x , bⁱ˙ x)  →
-                ◎⟨ i ⟩ aⁱ  ⊨  E  ⤇ᴱ λ x →  upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ bⁱ˙ x
-    ↝-◎⟨⟩-⤇ᴱ Ea↝Fxbx =  ↝-◎-⤇ᴱ $ upd˙-inj˙-↝ Ea↝Fxbx
+    ↝-◎⟨⟩-⤇ᴱ⟨⟩ :  ((Eⁱ , aⁱ)  ↝ⁱ λ x →  Fⁱ˙ x , bⁱ˙ x)  →
+                  ◎⟨ i ⟩ aⁱ  ⊨  Eⁱ  ⤇ᴱ⟨ i ⟩ λ x →  Fⁱ˙ x , ◎⟨ i ⟩ bⁱ˙ x
+    ↝-◎⟨⟩-⤇ᴱ⟨⟩ Ea↝Fxbx big _ =  big ▷ ↝-◎-⤇ᴱ (upd˙-inj˙-↝ Ea↝Fxbx)
 
-    ε↝-◎⟨⟩-⤇ᴱ :  ((E i , εⁱ)  ↝ⁱ λ x →  Fⁱ˙ x , aⁱ˙ x)  →
-                 ⊨  E  ⤇ᴱ λ x →  upd˙ i (Fⁱ˙ x) E , ◎⟨ i ⟩ aⁱ˙ x
-    ε↝-◎⟨⟩-⤇ᴱ Eε↝Fax =  ↝-◎⟨⟩-⤇ᴱ Eε↝Fax ◎⟨⟩-ε
+    ε↝-◎⟨⟩-⤇ᴱ⟨⟩ :  ((Eⁱ , εⁱ)  ↝ⁱ λ x →  Fⁱ˙ x , aⁱ˙ x)  →
+                   ⊨  Eⁱ  ⤇ᴱ⟨ i ⟩ λ x →  Fⁱ˙ x , ◎⟨ i ⟩ aⁱ˙ x
+    ε↝-◎⟨⟩-⤇ᴱ⟨⟩ Eε↝Fax =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ Eε↝Fax ◎⟨⟩-ε
 
 --------------------------------------------------------------------------------
 -- Thunkᵒ, Shrunkᵒ :  Sized proposition under Thunk / Shrunk

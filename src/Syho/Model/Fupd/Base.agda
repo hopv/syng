@@ -9,18 +9,19 @@ module Syho.Model.Fupd.Base where
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↓)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
 open import Base.Dec using (upd˙; upd˙-self)
-open import Base.Eq using (_≡_; refl; ◠_; _≡˙_)
+open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; _◇˙_)
 open import Base.Prod using (∑-syntax; _×_; π₀; _,_; -,_; _,-)
 open import Base.Nat using (ℕ)
 open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
 open import Syho.Model.ERA.Glob using (iᴹᵉᵐ; outᴳ; Envᴵⁿᴳ; Envᴵⁿᴳ˙; envᴳ;
   ∅ᴵⁿᴳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-out-envᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
-  ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⊨⇒⊨✓;
-  substᵒ; ∗ᵒ≡∗ᵒ'; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ;
-  ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introʳ; -∗ᵒ-applyʳ;
-  ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ'; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ; ⤇ᴱ-param;
-  ⊨✓⇒⊨-⤇ᴱ; ⤇ᵒ⇒⤇ᴱ; ⤇ᴱ-intro-✓; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ; ⤇ᴱ-eatʳ; ⤇ᴱ-adeq)
+  ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⤇ᴱ⟨⟩;
+  ⊨⇒⊨✓; substᵒ; ∗ᵒ≡∗ᵒ'; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ;
+  ∗ᵒ-assocʳ; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introʳ;
+  -∗ᵒ-applyʳ; ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ'; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ;
+  ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⊨✓⇒⊨-⤇ᴱ; ⤇ᵒ⇒⤇ᴱ; ⤇ᴱ-intro-✓; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ;
+  ⤇ᴱ-eatʳ; ⤇ᴱ-adeq)
 open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
 
 private variable
@@ -122,10 +123,11 @@ abstract
              Pᵒ ⊨ ⟨ M ⟩[ get , set , Inv ]⇛ᴳ⟨ M' ⟩ Qᵒ
   ⇛ᴳ-make {Pᵒ = Pᵒ} P∗Inv⊨⤇Q∗Inv Pa _ =  Pa ▷ -∗ᵒ-introʳ λ _ → P∗Inv⊨⤇Q∗Inv
 
-  ⇛ᵍ¹-make :  (∀{E} →  Pᵒ  ∗ᵒ  Inv (E $ outᴳ j)  ⊨
-                E ⤇ᴱ λ Fʲ → upd˙ (outᴳ j) Fʲ E ,  Qᵒ  ∗ᵒ  Inv Fʲ)  →
+  ⇛ᵍ¹-make :  (∀{Eʲ} →  Pᵒ  ∗ᵒ  Inv Eʲ  ⊨ Eʲ ⤇ᴱ⟨ outᴳ j ⟩ λ Fʲ → Fʲ ,
+                          Qᵒ  ∗ᵒ  Inv Fʲ)  →
               Pᵒ  ⊨ [ j , Inv ]⇛ᵍ¹  Qᵒ
-  ⇛ᵍ¹-make big Pa _ =  ⇛ᴳ-make (big › ⤇ᴱ-respᴱʳ upd˙-out-envᴳ) Pa
+  ⇛ᵍ¹-make P∗Inv⊨⤇Q∗Inv Pa _ =  Pa ▷ ⇛ᴳ-make λ P∗Inva → P∗Inv⊨⤇Q∗Inv P∗Inva _ ▷
+    ⤇ᴱ-respᴱˡ (upd˙-out-envᴳ ◇˙ envᴳ-cong upd˙-self) ▷ ⤇ᴱ-respᴱʳ upd˙-out-envᴳ
 
   -- Apply ⇛ᴳ
 

@@ -17,7 +17,7 @@ open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; ∅ᴵⁿᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ;
   ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ∗ᵒ?-comm; ?∗ᵒ-intro; ∗ᵒ-elimʳ;
-  ∗ᵒ⨿ᵒ-out; -∗ᵒ-applyˡ; ⤇ᴱ-mono✓; ⤇ᴱ-param; ⤇ᴱ-eatʳ; □ᵒ-elim; dup-□ᵒ)
+  ∗ᵒ⨿ᵒ-out; -∗ᵒ-applyˡ; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ; □ᵒ-elim; dup-□ᵒ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Syho.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-back)
@@ -74,10 +74,10 @@ abstract
     -- (&∗Invk)∗(&-*P)*INV → → (&∗&∗Invk)∗(&-*P)*INV → →
     -- &∗((&∗Invk)∗(&-*P))*INV → → &∗(Invk∗&∗(&-*P))*INV → &∗(Invk∗P)∗INV → →
     -- &∗INV
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (∗ᵒ-monoˡ dup-&ⁱᵒ › ∗ᵒ-assocʳ) ›
+    ⤇ᴱ⟨⟩-eatʳ › ⤇ᴱ⟨⟩-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (∗ᵒ-monoˡ dup-&ⁱᵒ › ∗ᵒ-assocʳ) ›
       ∗ᵒ-assocʳ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (λ ✓∙ →
       ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-mono✓ʳ (-∗ᵒ-applyˡ $ ⸨⸩-Mono {P}) ✓∙ ›
-      ĩ₀_) ✓∙ › Smry-add-š) ✓∙) › ⤇ᴱ-param
+      ĩ₀_) ✓∙ › Smry-add-š) ✓∙) › ⤇ᴱ⟨⟩-param
 
   -- Store [^ nm ]ᴺᵒ to get Invk i nm P and ⸨ P ⸩ under Lineᴵⁿᵛ
 
@@ -90,12 +90,12 @@ abstract
   -- Store Inv i nm P and [^ nm ]ᴺᵒ to get ⸨ P ⸩ and Invk i nm P
 
   Inv-open :  Inv i nm P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  Invk i nm P
-  Inv-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Inv-agree › ⤇ᴱ-eatʳ ›
+  Inv-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Inv-agree › ⤇ᴱ⟨⟩-eatʳ ›
     -- Inv∗[nm]∗INV → [nm]∗INV → [nm]∗Line∗INV → ([nm]∗Line)∗INV →
     -- ((Invk∗P)∗Line)∗INV → (Invk∗P)∗Line∗INV → (P∗Invk)∗INV
-    ⤇ᴱ-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-elimʳ ∗ᵒ-Mono ›
+    ⤇ᴱ⟨⟩-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-elimʳ ∗ᵒ-Mono ›
       ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ ›
-      ∗ᵒ-assocʳ › ∗ᵒ-mono ∗ᵒ-comm (Smry-back ≡šR)) › ⤇ᴱ-param
+      ∗ᵒ-assocʳ › ∗ᵒ-mono ∗ᵒ-comm (Smry-back ≡šR)) › ⤇ᴱ⟨⟩-param
 
   -- Store &ⁱ⟨ nm ⟩ᵒ P and [^ nm ]ᴺᵒ to get ⸨ P ⸩ and %ⁱ⟨ nm ⟩ᵒ P
 
@@ -123,12 +123,13 @@ abstract
   -- Store ⸨ P ⸩ and Invk i nm P to get [^ nm ]ᴺᵒ
 
   Invk-close :  ⸨ P ⸩  ∗ᵒ  Invk i nm P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
-  Invk-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Invk-agree › ⤇ᴱ-eatʳ ›
-    -- Invk∗P∗INV → (Invk∗P)∗INV → (Invk∗P)∗Line∗INV → ((Invk∗P)∗Line)∗INV →
-    -- ([nm]∗Line)∗INV → [nm]∗Line∗INV → [nm]∗INV
-    ⤇ᴱ-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) ›
-      ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ Invk-close' ✓∙ › ∗ᵒ-assocʳ ›
-      ∗ᵒ-monoʳ $ Smry-back ≡šR) › ⤇ᴱ-param
+  Invk-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Invk-agree ›
+    ⤇ᴱ⟨⟩-eatʳ › ⤇ᴱ⟨⟩-mono✓ (λ (i<n , ≡šR) ✓∙ →
+      -- Invk∗P∗INV → (Invk∗P)∗INV → (Invk∗P)∗Line∗INV → ((Invk∗P)∗Line)∗INV →
+      -- ([nm]∗Line)∗INV → [nm]∗Line∗INV → [nm]∗INV
+      ∗ᵒ-assocˡ › ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ ›
+      ∗ᵒ-mono✓ˡ Invk-close' ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-back ≡šR) ›
+    ⤇ᴱ⟨⟩-param
 
   -- Store ⸨ P ⸩ and %ⁱ⟨ nm ⟩ᵒ P to get [^ nm ]ᴺᵒ
 

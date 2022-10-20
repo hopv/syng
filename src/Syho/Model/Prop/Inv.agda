@@ -12,7 +12,7 @@ open import Base.Few using (⊤₀; absurd)
 open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (upd˙)
 open import Base.Size using (∞)
-open import Base.Option using (š_)
+open import Base.Option using (¿_; š_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Syho.Logic.Prop using (Name; Prop∞; ⊤'; _∗_; _-∗_; Basic)
@@ -22,17 +22,17 @@ open import Syho.Model.ERA.Inv using (NameProp; _∙ᴵⁿᵛ_; inv; invk; inv-�
   invk-no2; inv-invk-new; inv-agree; invk-agree)
 open import Syho.Model.ERA.Glob using (Envᴳ; iᴵⁿᵛ)
 open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
-  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; _⤇ᴱ_; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono;
+  ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono;
   ×ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro;
-  □ᵒ-dup; dup-⇒□ᵒ; □ᵒ-∗ᵒ-in; ⤇ᴱ-mono; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓;
-  ↝-◎⟨⟩-⤇ᴱ; ε↝-◎⟨⟩-⤇ᴱ)
+  □ᵒ-dup; dup-⇒□ᵒ; □ᵒ-∗ᵒ-in; ⤇ᴱ⟨⟩-mono; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓;
+  ↝-◎⟨⟩-⤇ᴱ⟨⟩; ε↝-◎⟨⟩-⤇ᴱ⟨⟩)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
 private variable
   i n :  ℕ
   nm :  Name
   P Q R :  Prop∞
-  E :  Envᴳ
+  ⁿQˇ˙ :  ℕ → ¿ NameProp
 
 --------------------------------------------------------------------------------
 -- &ⁱᵒ :  Interpret the invariant token
@@ -86,10 +86,10 @@ abstract
 
   -- Agreement by Inv
 
-  Inv-agree :  let (ⁿQˇ˙ , n) = E iᴵⁿᵛ in
-    Inv i nm P  ⊨ E ⤇ᴱ λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →
-      upd˙ iᴵⁿᵛ (ⁿQˇ˙ , n) E , Inv i nm P
-  Inv-agree =  ↝-◎⟨⟩-⤇ᴱ inv-agree
+  Inv-agree :
+    Inv i nm P  ⊨ (ⁿQˇ˙ , n) ⤇ᴱ⟨ iᴵⁿᵛ ⟩ λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →
+      (ⁿQˇ˙ , n) ,  Inv i nm P
+  Inv-agree =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ inv-agree
 
 --------------------------------------------------------------------------------
 -- Invk :  Invariant key
@@ -106,18 +106,18 @@ abstract
 
   -- Create &ⁱᵒ and Invk
 
-  &ⁱᵒ-Invk-new :  let (ⁿQˇ˙ , n) =  E iᴵⁿᵛ in
-    ⊨ E ⤇ᴱ λ (_ : ⊤₀) → upd˙ iᴵⁿᵛ (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) E ,
+  &ⁱᵒ-Invk-new :
+    ⊨ (ⁿQˇ˙ , n) ⤇ᴱ⟨ iᴵⁿᵛ ⟩ λ (_ : ⊤₀) → (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) ,
       &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  Invk n nm P
-  &ⁱᵒ-Invk-new =  ε↝-◎⟨⟩-⤇ᴱ inv-invk-new ▷
-    ⤇ᴱ-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoˡ &ⁱᵒ-make
+  &ⁱᵒ-Invk-new =  ε↝-◎⟨⟩-⤇ᴱ⟨⟩ inv-invk-new ▷
+    ⤇ᴱ⟨⟩-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoˡ &ⁱᵒ-make
 
   -- Agreement by Invk
 
-  Invk-agree :  let (ⁿQˇ˙ , n) = E iᴵⁿᵛ in
-    Invk i nm P  ⊨ E ⤇ᴱ λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →
-      upd˙ iᴵⁿᵛ (ⁿQˇ˙ , n) E , Invk i nm P
-  Invk-agree =  ↝-◎⟨⟩-⤇ᴱ invk-agree
+  Invk-agree :
+    Invk i nm P  ⊨ (ⁿQˇ˙ , n) ⤇ᴱ⟨ iᴵⁿᵛ ⟩
+      λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) → (ⁿQˇ˙ , n) ,  Invk i nm P
+  Invk-agree =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ invk-agree
 
 --------------------------------------------------------------------------------
 -- %ⁱᵒ :  Interpret the open invariant token

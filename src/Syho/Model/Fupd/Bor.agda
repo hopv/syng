@@ -20,8 +20,8 @@ open import Syho.Model.ERA.Glob using (jᴮᵒʳ; ∅ᴵⁿᴳ)
 open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ⌜_⌝ᵒ×_; _∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ;
   ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ∗ᵒ-pullʳ²; ∗ᵒ-pushʳ²ˡ; ?∗ᵒ-intro;
-  ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ∃ᵒ∗ᵒ-out; □ᵒ-elim; dup-□ᵒ; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-param;
-  ⤇ᴱ-eatʳ)
+  ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ∃ᵒ∗ᵒ-out; □ᵒ-elim; dup-□ᵒ; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-mono;
+  ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ)
 open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Syho.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-upd)
@@ -81,8 +81,8 @@ abstract
   -- Get &ᵐ⟨ α ⟩ᵒ P and ⟨† α ⟩ᵒ P by storing ⸨ P ⸩
 
   &ᵐᵒ-new :  ⸨ P ⸩  ⊨ ⇛ᴮᵒʳ  &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
-  &ᵐᵒ-new =  ⇛ᵍ¹-make $ ?∗ᵒ-intro &ᵐᵒ-new' › ⤇ᴱ-eatʳ ›
-    ⤇ᴱ-mono (λ _ → ∗ᵒ-monoʳ Smry-add-š) › ⤇ᴱ-param
+  &ᵐᵒ-new =  ⇛ᵍ¹-make $ ?∗ᵒ-intro &ᵐᵒ-new' › ⤇ᴱ⟨⟩-eatʳ ›
+    ⤇ᴱ⟨⟩-mono (λ _ → ∗ᵒ-monoʳ Smry-add-š) › ⤇ᴱ⟨⟩-param
 
   -- Get ⸨ P ⸩ out of Lineᴮᵒʳ with ň using [ α ]ᴸ⟨ p ⟩ᵒ
 
@@ -100,12 +100,12 @@ abstract
     -- Obor∗[α]⟨p⟩∗Inv → Obor∗[α]⟨p⟩∗Line∗Inv → → → Obor∗[α]⟨p⟩∗P∗Inv → →
     -- Obor∗[α]⟨p/2⟩∗[α]⟨p/2⟩∗P∗Inv → Obor∗[α]⟨p/2⟩∗P∗[α]⟨p/2⟩∗Inv →
     -- Obor∗[α]⟨p/2⟩∗P∗Inv → → (Obor∗[α]⟨p/2⟩∗P)∗Inv → → (P∗[α]⟨p/2⟩∗Obor)∗Inv
-    ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ (i<n , b , Ei≡) ✓∙ → ∗ᵒ-mono✓ʳ (λ ✓∙ →
+    ⤇ᴱ⟨⟩-eatʳ › ⤇ᴱ⟨⟩-mono✓ (λ (i<n , b , Ei≡) ✓∙ → ∗ᵒ-mono✓ʳ (λ ✓∙ →
       ∗ᵒ-monoʳ (Smry-rem-< i<n Ei≡) › ∗ᵒ-assocˡ ›
       ∗ᵒ-mono✓ˡ ([]ᴸ⟨⟩ᵒ-open {b = b}) ✓∙ › ∃ᵒ∗ᵒ-out › ∑-case λ{ refl →
       ∗ᵒ-assocʳ › ∗ᵒ-monoˡ []ᴸ⟨⟩ᵒ-split-/2 › ∗ᵒ-assocʳ ›
       ∗ᵒ-monoʳ (?∗ᵒ-comm › ∗ᵒ-monoʳ Smry-upd) › ∗ᵒ-assocˡ }) ✓∙ ›
-      ∗ᵒ-assocˡ › ∗ᵒ-monoˡ $ ?∗ᵒ-comm › ∗ᵒ-pullʳ²) › ⤇ᴱ-param
+      ∗ᵒ-assocˡ › ∗ᵒ-monoˡ $ ?∗ᵒ-comm › ∗ᵒ-pullʳ²) › ⤇ᴱ⟨⟩-param
 
   -- Take ⸨ P ⸩ out using &ᵐ⟨ α ⟩ᵒ P and [ α ]ᴸ⟨ p ⟩ᵒ,
   -- getting %ᵐ⟨ α , p ⟩ᵒ P in return
@@ -135,14 +135,14 @@ abstract
   Oborᵐ-close :  ⸨ P ⸩  ∗ᵒ  [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α p P  ⊨ ⇛ᴮᵒʳ
                    [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  Borᵐ i α P
   Oborᵐ-close =  ∗ᵒ-assocˡ › ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ?∗ᵒ-comm ›
-    ∗ᵒ-monoˡ Oborᵐ-close' › ⤇ᴱ-eatʳ › ⤇ᴱ-mono✓ (λ (i<n , b , Ei≡) ✓∙ →
+    ∗ᵒ-monoˡ Oborᵐ-close' › ⤇ᴱ⟨⟩-eatʳ › ⤇ᴱ⟨⟩-mono✓ (λ (i<n , b , Ei≡) ✓∙ →
       -- Bor∗(P∗[α]⟨p/2⟩)∗Inv → Bor∗(P∗[α]⟨p/2⟩)∗Line∗Inv → → →
       -- Bor∗([α]⟨p/2⟩∗Line)∗P∗Inv → → Bor∗[α]⟨p⟩∗P∗Inv → Bor∗[α]⟨p⟩∗Inv → →
       -- ([α]⟨p⟩∗Bor)∗Inv
       ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-monoʳ (Smry-rem-< i<n Ei≡) › ∗ᵒ-assocʳ › ∗ᵒ-pushʳ²ˡ ›
       ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ ([]ᴸ⟨/2⟩ᵒ-close {b = b}) ✓∙ › ∃ᵒ∗ᵒ-out › ∑-case
       λ{ refl → ∗ᵒ-monoʳ Smry-upd }) ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoˡ ∗ᵒ-comm) ›
-    ⤇ᴱ-param
+    ⤇ᴱ⟨⟩-param
 
   -- Retrieve [ α ]ᴸ⟨ p ⟩ᵒ and &ᵐ⟨ α ⟩ᵒ P using ⸨ P ⸩ and %ᵐ⟨ α , p ⟩ᵒ P
 
@@ -168,13 +168,13 @@ abstract
   -- Get ⸨ P ⸩ back from Lend i α P using †ᴸᵒ α
 
   Lend-back :  †ᴸᵒ α  ∗ᵒ  Lend i α P  ⊨ ⇛ᴮᵒʳ  ⸨ P ⸩
-  Lend-back =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ?∗ᵒ-comm › ∗ᵒ-monoˡ Lend-back' › ⤇ᴱ-eatʳ ›
-    -- -∗†∗Inv → → †∗Inv → (†∗†)∗Line∗Inv → †∗†∗Line∗Inv → →
-    -- (†∗Line)∗†∗Inv → P∗†∗Inv → P∗†∗Inv → P∗Inv
-    ⤇ᴱ-mono✓ (λ (i<n , pˇ , Ei≡) ✓∙ → ∗ᵒ-elimʳ ∗ᵒ-Mono ›
-      ∗ᵒ-mono dup-†ᴸᵒ (Smry-rem-< i<n Ei≡) › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ ?∗ᵒ-comm ›
-      ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (†ᴸᵒ-back {pˇ = pˇ}) ✓∙ › ∗ᵒ-monoʳ Smry-upd) ›
-    ⤇ᴱ-param
+  Lend-back =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ?∗ᵒ-comm › ∗ᵒ-monoˡ Lend-back' ›
+    ⤇ᴱ⟨⟩-eatʳ › ⤇ᴱ⟨⟩-mono✓ (λ (i<n , pˇ , Ei≡) ✓∙ →
+      -- -∗†∗Inv → → †∗Inv → (†∗†)∗Line∗Inv → †∗†∗Line∗Inv → →
+      -- (†∗Line)∗†∗Inv → P∗†∗Inv → P∗†∗Inv → P∗Inv
+      ∗ᵒ-elimʳ ∗ᵒ-Mono › ∗ᵒ-mono dup-†ᴸᵒ (Smry-rem-< i<n Ei≡) › ∗ᵒ-assocʳ ›
+      ∗ᵒ-monoʳ ?∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (†ᴸᵒ-back {pˇ = pˇ}) ✓∙ ›
+      ∗ᵒ-monoʳ Smry-upd) › ⤇ᴱ⟨⟩-param
 
   -- Get ⸨ P ⸩ back from ⟨† α ⟩ᵒ P using †ᴸᵒ α
 

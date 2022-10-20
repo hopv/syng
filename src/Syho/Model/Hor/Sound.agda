@@ -20,7 +20,7 @@ open import Syho.Lang.Expr using (Addr; _ₒ_; Type; ◸_; Expr∞; Val; V⇒E; 
   Mem; ✓ᴹ_)
 open import Syho.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
 open import Syho.Lang.Reduce using (redᴾ; _⇒ᴷᴿ∑; _⇒ᵀ*_; SNᵀ; Infᵀ)
-open import Syho.Logic.Prop using (Prop∞; ⌜_⌝; ⊤'; _↦_; [∗∈ⁱ⟨⟩]-syntax)
+open import Syho.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; _↦_; [∗∈ⁱ⟨⟩]-syntax)
 open import Syho.Logic.Core using (_»_; ∃-elim)
 open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᴾ_;
   _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ;

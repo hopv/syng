@@ -20,7 +20,7 @@ open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr∞; Val; TyVal)
 open import Syho.Lang.Ktxred using (Redex)
 
 --------------------------------------------------------------------------------
--- WpKind :  Weakest precondion kind
+-- WpKind :  Weakest precondition kind
 
 data  WpKind :  Set₀  where
   -- Partial

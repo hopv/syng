@@ -52,7 +52,7 @@ private variable
 abstract
 
   -- Compose ᵃ⟨⟩ᵒ and ⟨⟩ᴾ/ᵀᵒ
-  -- The inner weakest precondion is under the thunk for ⟨⟩ᴾᵒ
+  -- The inner weakest precondition is under the thunk for ⟨⟩ᴾᵒ
 
   ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → [⊤]ᴺᵒ ∗ᵒ ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ˂ ι Pᵒ˙)  ⊨
                   ⁺⟨ ĩ₁ (-, K , red) ⟩ᴾᵒ ι Pᵒ˙

@@ -47,7 +47,7 @@ data  JudgRes :  Set₁  where
   [_]⇛_ :  ℕ →  Prop∞ →  JudgRes
   -- Atomic weakest precondition, with a level
   [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → Prop∞) →  JudgRes
-  -- Weakest precondion, over Val/Ktxred
+  -- Weakest precondition, over Val/Ktxred
   ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  JudgRes
   -- Infinite weakest precondition, with a level, over Val/Ktxred
   [_]⁺⟨_⟩∞ :  ℕ →  Val/Ktxred T →  JudgRes

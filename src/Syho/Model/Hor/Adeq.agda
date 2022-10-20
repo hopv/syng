@@ -112,9 +112,8 @@ abstract
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* (⇒ᵀ*-step M⇒ᵀM'' M''⇒ᵀ*M') =  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ M⇒ᵀM'' ›
     ⇛ᴹ-mono (⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* M''⇒ᵀ*M') › ⇛ᴹ-join
 
-  -- ⊨ ⟨ e ⟩ᴾᵒ ∞ λ u → ⌜ X˙ u ⌝ᵒ ensures that the X˙ v holds for the
-  -- result value v of any reduction sequence starting with (e , [] , M) for
-  -- valid M
+  -- Postcondition: ⊨ ⟨ e ⟩ᴾᵒ ∞ λ u → ⌜ X˙ u ⌝ᵒ ensures that the X˙ v holds for
+  -- the result value v of any execution of (e , [] , M) for valid M
 
   ⟨⟩ᴾᵒ-post :  ⊨ ⟨ e ⟩ᴾᵒ ∞ (λ u → ⌜ X˙ u ⌝ᵒ) →  ✓ᴹ M →
                (e , [] , M) ⇒ᵀ* (V⇒E {T} v , es , M') →  X˙ v
@@ -124,7 +123,7 @@ abstract
     substᵒ (λ kr → ⁺⟨ kr ⟩ᴾᵒ ∞ _) (val/ktxred-V⇒E) › ⁺⟨⟩ᴾᵒ-val⁻¹) ›
     -∗ᵒ-applyˡ ∀ᵒ⇛ᴹ-Mono ✓∙ › (_$ _) › ⇛ᴹ-mono $ ∗ᵒ-elimʳ ⌜⌝ᵒ-Mono) › ⇛ᴹ-join
 
-  -- If ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ is a tautology, then any reduction sequence starting with
+  -- Progress: If ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ is a tautology, then any execution of
   -- (e , [] , M) never gets stuck for valid M
 
   -- For the main thread
@@ -164,13 +163,13 @@ abstract
   [∗ᵒ]⟨⟩ᵀᵒ⊤-Mono :  Monoᵒ $ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs
   [∗ᵒ]⟨⟩ᵀᵒ⊤-Mono {es} =  [∗ᵒ∈²]-Mono {xs = es}
 
-  -- On the postcondition
+  -- Postcondition
 
   ⟨⟩ᵀᵒ-post :  ⊨ ⟨ e ⟩ᵀᵒ ∞ (λ u → ⌜ X˙ u ⌝ᵒ) →  ✓ᴹ M →
                (e , [] , M) ⇒ᵀ* (V⇒E v , es , M') →  X˙ v
   ⟨⟩ᵀᵒ-post ⊨⟨e⟩X =  ⟨⟩ᴾᵒ-post $ λ{a} → ⊨⟨e⟩X {a} ▷ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ
 
-  -- On the progress property
+  -- Progress
 
   ⟨⟩ᵀᵒ-progress-main :  ⊨ ⟨ e ⟩ᵀᵒ ∞ Pᵒ˙ →  ✓ᴹ M →
     (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
@@ -214,8 +213,8 @@ abstract
     -, -, ≺ᴰᴹ-tl ι'∷ιs'≺ ,
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , big ▷ ∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤)) ▷ ?∗ᵒ-comm
 
-  -- ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ensures that (e , [] , M) is strongly normalizing
-  -- for valid M
+  -- Termination: ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ensures that (e , [] , M) is strongly
+  -- normalizing, i.e., any execution of (e , [] , M) terminates, for valid M
 
   ⟨⟩ᵀᵒ⇒SN :  ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ →  ✓ᴹ M →  SNᵀ (e , [] , M)
   ⟨⟩ᵀᵒ⇒SN ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓[⊤] ✓M) $
@@ -236,7 +235,7 @@ abstract
 
 abstract
 
-  -- On the progress property
+  -- Progress
   -- The main thread never becomes a value
 
   ⟨⟩∞ᵒ-progress-main :
@@ -302,8 +301,8 @@ abstract
     ⇛ᴹ-mono $ ∗ᵒ-assocʳ › λ big → λ{ .! → big ▷ ∗ᵒ-monoʳ
     (∗ᵒ-monoˡ $ ∗ᵒ-monoˡ (λ big → big .!) › ∗ᵒ-elimˡ ⁺⟨⟩∞ᵒ-Mono) }
 
-  -- ⊨ ⟨ e ⟩∞ᵒ ι ∞ ensures that any execution from (e , [] , M) triggers the
-  -- event an infinite number of times
+  -- Infiniteness: ⊨ ⟨ e ⟩∞ᵒ ι ∞ ensures that any execution of (e , [] , M)
+  -- triggers the event an infinite number of times for valid M
 
   ⟨⟩∞ᵒ⇒Inf :  ⊨ ⟨ e ⟩∞ᵒ ι ι' →  ✓ᴹ M →  Infᵀ ι' (e , [] , M)
   ⟨⟩∞ᵒ⇒Inf ⊨⟨e⟩∞ ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓[⊤] ✓M) $

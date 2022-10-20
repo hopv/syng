@@ -1,5 +1,6 @@
 --------------------------------------------------------------------------------
--- Prove the semantic soundness of the atomic, partial and total Hoare triples
+-- Prove the semantic soundness and adequacy of the atomic, partial, total and
+-- infinite Hoare triples
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -7,21 +8,26 @@
 module Syho.Model.Hor.Sound where
 
 open import Base.Size using (𝕊; ∞; !)
-open import Base.Func using (_$_; _▷_; _›_)
-open import Base.Few using (absurd)
-open import Base.Prod using (_,_; -,_; ∑-case)
+open import Base.Func using (_$_; _▷_; _∘_; _›_)
+open import Base.Few using (⊤; absurd)
+open import Base.Eq using (_≡_)
+open import Base.Prod using (∑-syntax; _×_; π₀; _,_; -,_; ∑-case)
+open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Base.List using (List; []; _∷_; rep)
-open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Val; TyVal)
-open import Syho.Lang.Ktxred using (Redex; Val/Ktxred)
-open import Syho.Lang.Reduce using (redᴾ)
-open import Syho.Logic.Prop using (Prop∞; _↦_; [∗∈ⁱ⟨⟩]-syntax)
+open import Base.List using (List; []; _∷_; rep; _∈ᴸ_)
+open import Base.Sety using ()
+open import Syho.Lang.Expr using (Addr; _ₒ_; Type; ◸_; Expr∞; Val; V⇒E; TyVal;
+  Mem; ✓ᴹ_)
+open import Syho.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
+open import Syho.Lang.Reduce using (redᴾ; _⇒ᴷᴿ∑; _⇒ᵀ*_; SNᵀ; Infᵀ)
+open import Syho.Logic.Prop using (Prop∞; ⌜_⌝; ⊤'; _↦_; [∗∈ⁱ⟨⟩]-syntax)
 open import Syho.Logic.Core using (_»_; ∃-elim)
-open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
-  _⊢[_][_]⁺⟨_⟩∞; hor-ᵀ⇒ᴾ; ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
-  _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameʳ; hor-frameʳ; ahorᴺ-hor; ahorᴺ-ihor;
-  hor-bind; ihor-bind; hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○;
-  ihor-[]●; hor-fork; ihor-fork)
+open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᴾ_;
+  _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ;
+  ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_;
+  ahor-frameʳ; hor-frameʳ; ahorᴺ-hor; ahorᴺ-ihor; hor-bind; ihor-bind;
+  hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○; ihor-[]●; hor-fork;
+  ihor-fork)
 open import Syho.Logic.Mem using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
   ahor-cas-ff; ahor-alloc; ahor-free)
 open import Syho.Logic.Ind using (↪ᵃ⟨⟩-use; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use; ↪⟨⟩∞-use)
@@ -44,18 +50,26 @@ open import Syho.Model.Hor.Lang using (ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ; ᵃ⟨⟩�
   ⁺⟨⟩∞ᵒ-[]○; ⁺⟨⟩∞ᵒ-[]●; ⁺⟨⟩ᴾᵒ-fork; ⁺⟨⟩ᵀᵒ-fork; ⁺⟨⟩∞ᵒ-fork)
 open import Syho.Model.Hor.Mem using (ᵃ⟨⟩ᵒ-🞰; ᵃ⟨⟩ᵒ-←; ᵃ⟨⟩ᵒ-fau; ᵃ⟨⟩ᵒ-cas-tt;
   ᵃ⟨⟩ᵒ-cas-ff; ᵃ⟨⟩ᵒ-alloc; ᵃ⟨⟩ᵒ-free)
+open import Syho.Model.Hor.Adeq using (⟨⟩ᴾᵒ-post; ⟨⟩ᴾᵒ-progress-main;
+  ⟨⟩ᴾᵒ-progress-forked; ⟨⟩ᵀᵒ⇒SN; ⟨⟩∞ᵒ-progress-main; ⟨⟩∞ᵒ⇒Inf)
 
 private variable
   ι :  𝕊
   X :  Set₀
   T :  Type
   P :  Prop∞
-  Q˙ :  X →  Prop∞
+  P˙ Q˙ :  X →  Prop∞
   red :  Redex T
   vk :  Val/Ktxred T
   i k :  ℕ
   θ :  Addr
   ᵗvs :  List TyVal
+  v :  X
+  e e' e⁺ :  Expr∞ T
+  es :  List (Expr∞ (◸ ⊤))
+  kr :  Ktxred T
+  M M' :  Mem
+  X˙ :  X → Set₀
 
 --------------------------------------------------------------------------------
 -- Lemmas on ↦ᴸ
@@ -402,3 +416,78 @@ abstract
     ⁺⟨⟩ᴾᵒ-[] λ{ .! → big ▷ ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷
     (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
     λ (P∗R⊢⟨e⟩Q , P∗Ra) → ⊢⁺⟨⟩ᴾ-sem P∗R⊢⟨e⟩Q P∗Ra) ▷ ⇛ᵒ-⁺⟨⟩ᴾᵒ }
+
+--------------------------------------------------------------------------------
+-- Adequacy theorems for the partial Hoare triple
+
+abstract
+
+  -- Postcondition: ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] λ u → ⌜ X˙ u ⌝ ensures that the X˙ v
+  -- holds for the result value v of any execution of (e , [] , M) for valid M
+
+  ⟨⟩ᴾ-post :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ (λ u → ⌜ X˙ u ⌝) →  ✓ᴹ M →
+              (e , [] , M) ⇒ᵀ* (V⇒E {T} v , es , M') →  X˙ v
+  ⟨⟩ᴾ-post ⊢⟨e⟩Xu =  ⟨⟩ᴾᵒ-post $ ⁺⟨⟩ᴾᵒ-mono (λ _ → π₀) $ ⊢⁺⟨⟩ᴾ-sem ⊢⟨e⟩Xu absurd
+
+  -- Progress: If ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ is a tautology, then any reduction sequence
+  -- starting with (e , [] , M) never gets stuck for valid M
+
+  ⟨⟩ᴾ-progress-main :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ P˙ →  ✓ᴹ M →
+    (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩ᴾ-progress-main ⊢⟨e⟩P =  ⟨⟩ᴾᵒ-progress-main $ ⊢⁺⟨⟩ᴾ-sem ⊢⟨e⟩P absurd
+
+  ⟨⟩ᴾ-progress-forked :
+    ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ P˙ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →
+    val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩ᴾ-progress-forked ⊢⟨e⟩P =  ⟨⟩ᴾᵒ-progress-forked $ ⊢⁺⟨⟩ᴾ-sem ⊢⟨e⟩P absurd
+
+--------------------------------------------------------------------------------
+-- Adequacy theorems for the total Hoare triple
+
+abstract
+
+  -- Postcondition
+
+  ⟨⟩ᵀ-post :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] (λ u → ⌜ X˙ u ⌝) →  ✓ᴹ M →
+              (e , [] , M) ⇒ᵀ* (V⇒E {T} v , es , M') →  X˙ v
+  ⟨⟩ᵀ-post =  ⟨⟩ᴾ-post ∘ hor-ᵀ⇒ᴾ
+
+  -- Progress
+
+  ⟨⟩ᵀ-progress-main :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴹ M →
+    (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩ᵀ-progress-main =  ⟨⟩ᴾ-progress-main ∘ hor-ᵀ⇒ᴾ
+
+  ⟨⟩ᵀ-progress-forked :
+    ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →
+    e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩ᵀ-progress-forked =  ⟨⟩ᴾ-progress-forked ∘ hor-ᵀ⇒ᴾ
+
+  -- Termination: ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ ensures that (e , [] , M) is strongly
+  -- normalizing, i.e., any execution of (e , [] , M) terminates, for valid M
+
+  ⟨⟩ᵀ⇒SN :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴹ M →  SNᵀ (e , [] , M)
+  ⟨⟩ᵀ⇒SN ⊢⟨e⟩P =  ⟨⟩ᵀᵒ⇒SN $ ⊢⁺⟨⟩ᵀ-sem ⊢⟨e⟩P absurd
+
+--------------------------------------------------------------------------------
+-- Adequacy theorems for the infinite Hoare triple
+
+abstract
+
+  -- Progress
+
+  ⟨⟩∞-progress-main :
+    ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →
+    ∑ kr ,  val/ktxred e' ≡ ĩ₁ kr  ×  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩∞-progress-main ⊢⟨e⟩∞ =  ⟨⟩∞ᵒ-progress-main $ ⊢⁺⟨⟩∞-sem ⊢⟨e⟩∞ absurd
+
+  ⟨⟩∞-progress-forked :
+    ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →
+    e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩∞-progress-forked =  ⟨⟩ᴾ-progress-forked ∘ ihor⇒horᴾ {Q˙ = λ _ → ⊤'}
+
+  -- Infiniteness: ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ ensures that any execution of
+  -- (e , [] , M) triggers the event an infinite number of times for valid M
+
+  ⟨⟩∞⇒Inf :  ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴹ M →  Infᵀ ∞ (e , [] , M)
+  ⟨⟩∞⇒Inf ⊢⟨e⟩∞ =  ⟨⟩∞ᵒ⇒Inf $ ⊢⁺⟨⟩∞-sem ⊢⟨e⟩∞ absurd

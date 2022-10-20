@@ -17,7 +17,3 @@ import Syho.Logic.Example
 -- Semantic soundness of the Hoare triples
 
 import Syho.Model.Hor.Sound
-
--- Adequacy of the semantics for the Hoare triples
-
-import Syho.Model.Hor.Adeq

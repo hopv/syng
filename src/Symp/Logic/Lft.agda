@@ -4,16 +4,16 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Lft where
+module Symp.Logic.Lft where
 
 open import Base.Func using (_$_)
 open import Base.Size using (𝕊)
 open import Base.Ratp using (ℚ⁺; _/2⁺; /2⁺-merge; /2⁺-split)
-open import Syho.Logic.Prop using (Lft; _∗_; [_]ᴸ⟨_⟩; †ᴸ_)
-open import Syho.Logic.Core using (_⊢[_]_; Pers; _»_; Pers-⇒□)
+open import Symp.Logic.Prop using (Lft; _∗_; [_]ᴸ⟨_⟩; †ᴸ_)
+open import Symp.Logic.Core using (_⊢[_]_; Pers; _»_; Pers-⇒□)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
+open import Symp.Logic.Judg public using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
 
 private variable

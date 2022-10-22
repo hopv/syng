@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop.Bor where
+module Symp.Model.Prop.Bor where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
@@ -17,18 +17,18 @@ open import Base.Option using (š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-; -ᴵ,_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ⁺-trans)
-open import Syho.Logic.Prop using (Lft; Prop∞; ⊤'; _∗_; _-∗_; Basic)
-open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
+open import Symp.Logic.Prop using (Lft; Prop∞; ⊤'; _∗_; _-∗_; Basic)
+open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
   ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
-open import Syho.Model.ERA.Bor using (Envᴮᵒʳᵇ; εᴮᵒʳ; borᵐ; oborᵐ; lend;
+open import Symp.Model.ERA.Bor using (Envᴮᵒʳᵇ; εᴮᵒʳ; borᵐ; oborᵐ; lend;
   borᵐ-new; borᵐ-open; oborᵐ-close; lend-back)
-open import Syho.Model.ERA.Glob using (iᴮᵒʳ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
+open import Symp.Model.ERA.Glob using (iᴮᵒʳ)
+open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ∗ᵒ⇒∗ᵒ';
   ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro; □ᵒ-∗ᵒ-in; ⤇ᴱ⟨⟩-mono;
   ◎⟨⟩-∙⇒∗ᵒ; ↝-◎⟨⟩-⤇ᴱ⟨⟩; ε↝-◎⟨⟩-⤇ᴱ⟨⟩)
-open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ)
-open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
+open import Symp.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ)
+open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 
 private variable
   i n :  ℕ

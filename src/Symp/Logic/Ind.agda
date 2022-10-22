@@ -4,23 +4,23 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Ind where
+module Symp.Logic.Ind where
 
 open import Base.Func using (_$_; _∘_; id; const)
 open import Base.Size using (𝕊; Thunk; ¡_; !; _$ᵀʰ_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Type; Expr∞)
-open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ¡ᴾ_; ∀-syntax; _∗_;
+open import Symp.Lang.Expr using (Type; Expr∞)
+open import Symp.Lang.Ktxred using (Redex)
+open import Symp.Logic.Prop using (WpKind; Prop∞; Prop˂∞; ¡ᴾ_; ∀-syntax; _∗_;
   _-∗_; □_; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞;
   Basic)
-open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⇒<; ⊢-refl; _»_;
+open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⇒<; ⊢-refl; _»_;
   ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elimˡ; -∗-const)
-open import Syho.Logic.Fupd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; _⊢[<_][_]⇛ᴺ_;
+open import Symp.Logic.Fupd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; _⊢[<_][_]⇛ᴺ_;
   ⇒⇛; _ᵘ»_; _»ᵘᴺ_; ⇛⇒⇛ᴺ)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (○-mono; ○-eatˡ; ○-new; □○-new-rec;
+open import Symp.Logic.Judg public using (○-mono; ○-eatˡ; ○-new; □○-new-rec;
   ○-use; ↪⇛-≤; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-monoʳᵘ; ↪⇛-eatˡ⁻ʳ; ↪⇛-frameʳ; ○⇒↪⇛; ↪⇛-use;
   ↪ᵃ⟨⟩-≤; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ; ↪ᵃ⟨⟩-frameʳ; ○⇒↪ᵃ⟨⟩; ↪ᵃ⟨⟩-use;
   ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-≤; ↪⟨⟩-eatˡ⁻ˡᵘᴺ; ↪⟨⟩-monoʳᵘᴺ; ↪⟨⟩-eatˡ⁻ʳ; ↪⟨⟩-frameʳ; ○⇒↪⟨⟩;

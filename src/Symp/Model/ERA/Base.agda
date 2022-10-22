@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.ERA.Base where
+module Symp.Model.ERA.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; Up; ↑_; ↓)
 open import Base.Func using (_$_; id; _▷_; flip; _∘_)

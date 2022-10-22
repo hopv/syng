@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Hor.Mem where
+module Symp.Model.Hor.Mem where
 
 open import Base.Func using (_$_; _▷_; _›_)
 open import Base.Few using (absurd)
@@ -17,19 +17,19 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; len; rep)
 open import Base.Ratp using (ℚ⁺)
 open import Base.Sety using (Setʸ)
-open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; Val; TyVal; ⊤-; Mem;
+open import Symp.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; Val; TyVal; ⊤-; Mem;
   _‼ᴹ_; updᴹ; ✓ᴹ-∑ň)
-open import Syho.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ)
-open import Syho.Lang.Reduce using (🞰⇒; ←⇒; fau⇒; cas⇒-tt; cas⇒-ff; alloc⇒;
+open import Symp.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ)
+open import Symp.Lang.Reduce using (🞰⇒; ←⇒; fau⇒; cas⇒-tt; cas⇒-ff; alloc⇒;
   free⇒)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_;
+open import Symp.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_;
   ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ∃ᵒ-out)
-open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; _↦ᵒ_; Freeᵒ'; Freeᵒ; _↦ᴸᵒ_;
+open import Symp.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; _↦ᵒ_; Freeᵒ'; Freeᵒ; _↦ᴸᵒ_;
   _↦ᴸᵒ'_; ↦ᴸᵒ⇒↦ᴸᵒ'; ↦ᴸᵒ'⇒↦ᴸᵒ; ↦⟨⟩ᵒ-read'; ↦ᵒ-write'; ↦ᴸᵒ'-alloc'; Freeᵒ'-š';
   ↦ᴸᵒ'-free')
-open import Syho.Model.Fupd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ; ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ;
+open import Symp.Model.Fupd.Interp using (⟨_⟩⇛ᴹ⟨_⟩_; ?⊨⤇ᴱᴹᵉᵐ⇒?⊨⇛ᴹ; ⊨⤇ᴱᴹᵉᵐ⇒⊨⇛ᴹ;
   ⇛ᴹ-mono; ⇛ᴹ-intro; ⇛ᴹ-intro-✓ᴹ; ⇛ᴹ-eatˡ)
-open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ)
+open import Symp.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ)
 
 private variable
   X :  Set₀

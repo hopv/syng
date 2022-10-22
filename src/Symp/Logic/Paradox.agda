@@ -4,24 +4,24 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Paradox where
+module Symp.Logic.Paradox where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (refl)
 open import Base.Size using (𝕊; !)
 open import Base.Prod using (-,_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Type; Expr∞; Expr˂∞; loop; Val)
-open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Lang.Reduce using (_⇒ᴾ_; redᴾ)
-open import Syho.Logic.Prop using (Prop∞; Prop˂∞; ¡ᴾ_; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
+open import Symp.Lang.Expr using (Type; Expr∞; Expr˂∞; loop; Val)
+open import Symp.Lang.Ktxred using (Redex)
+open import Symp.Lang.Reduce using (_⇒ᴾ_; redᴾ)
+open import Symp.Logic.Prop using (Prop∞; Prop˂∞; ¡ᴾ_; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
   _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞)
-open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-introˡ; ∗-elimˡ;
+open import Symp.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-introˡ; ∗-elimˡ;
   ∗⊤-intro; □-mono; □-elim)
-open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameʳ)
-open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
+open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameʳ)
+open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
-open import Syho.Logic.Ind using (○-mono; □○-new-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
+open import Symp.Logic.Ind using (○-mono; □○-new-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
   ○⇒↪⟨⟩; ○⇒↪⟨⟩∞)
 
 private variable

@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Prop where
+module Symp.Logic.Prop where
 
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (binary; absurd)
@@ -16,8 +16,8 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; [_]; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
 open import Base.Str using (Str)
 open import Base.Ratp using (ℚ⁺; 1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; _ₒ_; Type; Expr∞; Val; TyVal)
-open import Syho.Lang.Ktxred using (Redex)
+open import Symp.Lang.Expr using (Addr; _ₒ_; Type; Expr∞; Val; TyVal)
+open import Symp.Lang.Ktxred using (Redex)
 
 --------------------------------------------------------------------------------
 -- WpKind :  Weakest precondition kind

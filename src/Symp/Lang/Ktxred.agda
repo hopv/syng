@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Lang.Ktxred where
+module Symp.Lang.Ktxred where
 
 open import Base.Func using (_$_)
 open import Base.Few using (⊤; ⊥)
@@ -15,7 +15,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr∞; Expr˂∞; ∇_;
+open import Symp.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr∞; Expr˂∞; ∇_;
   λ˙; nd; _◁_; _⁏_; ●_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
 
 private variable

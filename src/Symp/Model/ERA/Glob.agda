@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.ERA.Glob where
+module Symp.Model.ERA.Glob where
 
 open import Base.Level using (1ᴸ; ↑_; ↓)
 open import Base.Few using (⊤; ⊥; absurd)
@@ -13,16 +13,16 @@ open import Base.Eq using (refl; _≡˙_)
 open import Base.Dec using (yes; no; ≡Dec; _≟_; ≟-refl; upd˙)
 open import Base.Prod using (∑∈-syntax; π₀; _,-)
 open import Base.Nat using (ℕ; ṡ_)
-open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Base using (ERA; ⊤ᴱᴿᴬ)
-open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
-open import Syho.Model.ERA.Names using (Namesᴱᴿᴬ; ✓ᴺᵃᵐᵉˢ[⊤]; [⊤]ᴺʳ)
-open import Syho.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; ∅ᴵⁿᵈˣ; ∅ᴵⁿᵈᵖ; ∅ᴵⁿᵈˣ-✓ε;
+open import Symp.Lang.Expr using (Mem; ✓ᴹ_)
+open import Symp.Model.ERA.Base using (ERA; ⊤ᴱᴿᴬ)
+open import Symp.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
+open import Symp.Model.ERA.Names using (Namesᴱᴿᴬ; ✓ᴺᵃᵐᵉˢ[⊤]; [⊤]ᴺʳ)
+open import Symp.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; ∅ᴵⁿᵈˣ; ∅ᴵⁿᵈᵖ; ∅ᴵⁿᵈˣ-✓ε;
   ∅ᴵⁿᵈᵖ-✓ε)
-open import Syho.Model.ERA.Inv using (Invᴱᴿᴬ; ∅ᴵⁿᵛ; ∅ᴵⁿᵛ-✓ε)
-open import Syho.Model.ERA.Lft using (Lftᴱᴿᴬ; ✓ᴸᶠᵗε)
-open import Syho.Model.ERA.Bor using (Borᴱᴿᴬ; ∅ᴮᵒʳ; ∅ᴮᵒʳ-✓ε)
-open import Syho.Model.ERA.Ub using (Ubᴱᴿᴬ; ✓ᵁᵇε)
+open import Symp.Model.ERA.Inv using (Invᴱᴿᴬ; ∅ᴵⁿᵛ; ∅ᴵⁿᵛ-✓ε)
+open import Symp.Model.ERA.Lft using (Lftᴱᴿᴬ; ✓ᴸᶠᵗε)
+open import Symp.Model.ERA.Bor using (Borᴱᴿᴬ; ∅ᴮᵒʳ; ∅ᴮᵒʳ-✓ε)
+open import Symp.Model.ERA.Ub using (Ubᴱᴿᴬ; ✓ᵁᵇε)
 
 open ERA using (Res; Env)
 
@@ -56,8 +56,8 @@ Globᴱᴿᴬ˙ elseᴳ =  ⊤ᴱᴿᴬ
 
 -- Globᴱᴿᴬ :  Global ERA, defined as ∀ᴱᴿᴬ Globᴱᴿᴬ˙
 
-import Syho.Model.ERA.All
-module AllGlob =  Syho.Model.ERA.All ℕ Globᴱᴿᴬ˙
+import Symp.Model.ERA.All
+module AllGlob =  Symp.Model.ERA.All ℕ Globᴱᴿᴬ˙
 
 -- Re-export AllGlob
 open AllGlob public

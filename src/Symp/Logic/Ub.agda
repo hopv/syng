@@ -4,15 +4,15 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Ub where
+module Symp.Logic.Ub where
 
 open import Base.Func using (_$_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (≤ᵁᵇ⟨_⟩_)
-open import Syho.Logic.Core using (Pers; Pers-⇒□)
+open import Symp.Logic.Prop using (≤ᵁᵇ⟨_⟩_)
+open import Symp.Logic.Core using (Pers; Pers-⇒□)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new;
+open import Symp.Logic.Judg public using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new;
   #ᵁᵇ-upd)
 
 private variable

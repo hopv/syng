@@ -4,17 +4,17 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Names where
+module Symp.Logic.Names where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (◠˙_)
 open import Base.Size using (𝕊)
 open import Base.Zoi using (Zoi; _⊆ᶻ_; _∖ᶻ_; ⊆ᶻ⇒∖-⊎ˡ)
-open import Syho.Logic.Prop using (Name; _∗_; _-∗_; [_]ᴺ)
-open import Syho.Logic.Core using (_⊢[_]_; _»_; ∗-monoʳ; -∗-introˡ)
+open import Symp.Logic.Prop using (Name; _∗_; _-∗_; [_]ᴺ)
+open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-monoʳ; -∗-introˡ)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
+open import Symp.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
 
 private variable
   ι :  𝕊

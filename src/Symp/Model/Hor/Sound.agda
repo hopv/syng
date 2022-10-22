@@ -5,7 +5,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Hor.Sound where
+module Symp.Model.Hor.Sound where
 
 open import Base.Size using (𝕊; ∞; !)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
@@ -16,41 +16,41 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; rep; _∈ᴸ_)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Addr; _ₒ_; Type; ◸_; Expr∞; Val; V⇒E; TyVal;
+open import Symp.Lang.Expr using (Addr; _ₒ_; Type; ◸_; Expr∞; Val; V⇒E; TyVal;
   Mem; ✓ᴹ_)
-open import Syho.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
-open import Syho.Lang.Reduce using (redᴾ; _⇒ᴷᴿ∑; _⇒ᵀ*_; SNᵀ; Infᵀ)
-open import Syho.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; _↦_; [∗∈ⁱ⟨⟩]-syntax)
-open import Syho.Logic.Core using (_»_; ∃-elim)
-open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᴾ_;
+open import Symp.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
+open import Symp.Lang.Reduce using (redᴾ; _⇒ᴷᴿ∑; _⇒ᵀ*_; SNᵀ; Infᵀ)
+open import Symp.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; _↦_; [∗∈ⁱ⟨⟩]-syntax)
+open import Symp.Logic.Core using (_»_; ∃-elim)
+open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᴾ_;
   _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ;
   ihor⇒horᴾ; ahor-ṡ; horᵀ-ṡ; ihor-ṡ; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_;
   ahor-frameʳ; hor-frameʳ; ahorᴺ-hor; ahorᴺ-ihor; hor-bind; ihor-bind;
   hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○; ihor-[]●; hor-fork;
   ihor-fork)
-open import Syho.Logic.Mem using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
+open import Symp.Logic.Mem using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
   ahor-cas-ff; ahor-alloc; ahor-free)
-open import Syho.Logic.Ind using (↪ᵃ⟨⟩-use; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use; ↪⟨⟩∞-use)
-open import Syho.Model.Prop.Base using (_⊨_; [∗ᵒ∈ⁱ⟨⟩]-syntax; ∗ᵒ-mono; ∗ᵒ-monoˡ;
+open import Symp.Logic.Ind using (↪ᵃ⟨⟩-use; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use; ↪⟨⟩∞-use)
+open import Symp.Model.Prop.Base using (_⊨_; [∗ᵒ∈ⁱ⟨⟩]-syntax; ∗ᵒ-mono; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
-open import Syho.Model.Prop.Mem using (_↦ᵒ_)
-open import Syho.Model.Prop.Interp using (⸨_⸩)
-open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Fupd.Ind using (↪ᵃ⟨⟩ᵒ-use; ↪⟨⟩ᵒ-use; ↪⟨⟩∞ᵒ-use)
-open import Syho.Model.Fupd.Interp using (⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-mono)
-open import Syho.Model.Fupd.Sound using (⊢⇛-sem; ⊢⇛ᴺ-sem)
-open import Syho.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⁺⟨_⟩∞ᵒ; ⁺⟨⟩ᴾᵒ-val;
+open import Symp.Model.Prop.Mem using (_↦ᵒ_)
+open import Symp.Model.Prop.Interp using (⸨_⸩)
+open import Symp.Model.Prop.Sound using (⊢-sem)
+open import Symp.Model.Fupd.Ind using (↪ᵃ⟨⟩ᵒ-use; ↪⟨⟩ᵒ-use; ↪⟨⟩∞ᵒ-use)
+open import Symp.Model.Fupd.Interp using (⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-mono)
+open import Symp.Model.Fupd.Sound using (⊢⇛-sem; ⊢⇛ᴺ-sem)
+open import Symp.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⁺⟨_⟩∞ᵒ; ⁺⟨⟩ᴾᵒ-val;
   ⁺⟨⟩ᵀᵒ-val; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤; ᵃ⟨⟩ᵒ-mono; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᵀᵒ-mono;
   ⊨✓⇒⊨-ᵃ⟨⟩ᵒ; ⊨✓⇒⊨-⁺⟨⟩ᴾᵒ; ⊨✓⇒⊨-⁺⟨⟩ᵀᵒ; ⊨✓⇒⊨-⁺⟨⟩∞ᵒ; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ;
   ⇛ᵒ-ᵃ⟨⟩ᵒ; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᵒ-⁺⟨⟩ᴾᵒ; ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ; ⇛ᵒ-⁺⟨⟩ᵀᵒ; ⇛ᴺᵒ-⁺⟨⟩∞ᵒ; ⇛ᵒ-⁺⟨⟩∞ᵒ;
   ᵃ⟨⟩ᵒ-⇛ᵒ; ⁺⟨⟩ᴾᵒ-⇛ᴺᵒ; ⁺⟨⟩ᴾᵒ-⇛ᵒ; ⁺⟨⟩ᵀᵒ-⇛ᴺᵒ; ⁺⟨⟩ᵀᵒ-⇛ᵒ; ᵃ⟨⟩ᵒ-eatˡ; ⁺⟨⟩ᴾᵒ-eatˡ;
   ⁺⟨⟩ᵀᵒ-eatˡ)
-open import Syho.Model.Hor.Lang using (ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ; ᵃ⟨⟩ᴺᵒ-⟨⟩ᵀᵒ; ᵃ⟨⟩ᴺᵒ-⟨⟩∞ᵒ;
+open import Symp.Model.Hor.Lang using (ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ; ᵃ⟨⟩ᴺᵒ-⟨⟩ᵀᵒ; ᵃ⟨⟩ᴺᵒ-⟨⟩∞ᵒ;
   ⟨⟩ᴾᵒ-bind; ⟨⟩ᵀᵒ-bind; ⟨⟩∞ᵒ-bind; ⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind; ᵃ⟨⟩ᵒ-nd; ⁺⟨⟩ᴾᵒ-[]; ⁺⟨⟩ᵀᵒ-[];
   ⁺⟨⟩∞ᵒ-[]○; ⁺⟨⟩∞ᵒ-[]●; ⁺⟨⟩ᴾᵒ-fork; ⁺⟨⟩ᵀᵒ-fork; ⁺⟨⟩∞ᵒ-fork)
-open import Syho.Model.Hor.Mem using (ᵃ⟨⟩ᵒ-🞰; ᵃ⟨⟩ᵒ-←; ᵃ⟨⟩ᵒ-fau; ᵃ⟨⟩ᵒ-cas-tt;
+open import Symp.Model.Hor.Mem using (ᵃ⟨⟩ᵒ-🞰; ᵃ⟨⟩ᵒ-←; ᵃ⟨⟩ᵒ-fau; ᵃ⟨⟩ᵒ-cas-tt;
   ᵃ⟨⟩ᵒ-cas-ff; ᵃ⟨⟩ᵒ-alloc; ᵃ⟨⟩ᵒ-free)
-open import Syho.Model.Hor.Adeq using (⟨⟩ᴾᵒ-post; ⟨⟩ᴾᵒ-progress-main;
+open import Symp.Model.Hor.Adeq using (⟨⟩ᴾᵒ-post; ⟨⟩ᴾᵒ-progress-main;
   ⟨⟩ᴾᵒ-progress-forked; ⟨⟩ᵀᵒ⇒SN; ⟨⟩∞ᵒ-progress-main; ⟨⟩∞ᵒ⇒Inf)
 
 private variable

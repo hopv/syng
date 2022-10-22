@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop.Names where
+module Symp.Model.Prop.Names where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_; _›_)
@@ -15,10 +15,10 @@ open import Base.Sum using ()
 open import Base.Nat using ()
 open import Base.List using ()
 open import Base.Str using ()
-open import Syho.Logic.Prop using (Name)
-open import Syho.Model.ERA.Names using ([_]ᴺʳ; []ᴺʳ-cong; []ᴺʳ-✔)
-open import Syho.Model.ERA.Glob using (iᴺᵃᵐᵉˢ)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⌜_⌝ᵒ; ⊥ᵒ₀; _∗ᵒ_;
+open import Symp.Logic.Prop using (Name)
+open import Symp.Model.ERA.Names using ([_]ᴺʳ; []ᴺʳ-cong; []ᴺʳ-✔)
+open import Symp.Model.ERA.Glob using (iᴺᵃᵐᵉˢ)
+open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⌜_⌝ᵒ; ⊥ᵒ₀; _∗ᵒ_;
   ◎⟨_⟩_; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓)
 
 private variable

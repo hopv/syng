@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.ERA.Mem where
+module Symp.Model.ERA.Mem where
 
 open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
@@ -18,21 +18,21 @@ open import Base.Nat using (ℕ; ṡ_; _<_; _+_; ṡ-sincr; 0<ṡ; <-irrefl; ≡
 open import Base.List using (List; []; _∷_; [_]; len; _‼_; rep; ≈ᴸ-refl;
   ‼-len≡-ň; ‼-len≡-š; upd-len; upd-‼-out; upd-‼-in; rep-len)
 open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; TyVal; ⊤-; Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_;
+open import Symp.Lang.Expr using (Addr; TyVal; ⊤-; Mblo; Mem; _‼ᴹ_; updᴹ; ✓ᴹ_;
   ✓ᴹ-upd˙)
-open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ; Envvᴱᴿᴬ; Upᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; εˣ; ✓ˣ-agree; ✓ˣ-new;
+open import Symp.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ; Envvᴱᴿᴬ; Upᴱᴿᴬ)
+open import Symp.Model.ERA.Exc using (Excᴱᴿᴬ; #ˣ_; εˣ; ✓ˣ-agree; ✓ˣ-new;
   ✓ˣ-free)
-open import Syho.Model.ERA.FracAg using (FracAg; _≈ᶠʳ_; _∙ᶠʳ_; FracAgᴱᴿᴬ;
+open import Symp.Model.ERA.FracAg using (FracAg; _≈ᶠʳ_; _∙ᶠʳ_; FracAgᴱᴿᴬ;
   š[?]-∙ᶠʳ; ✓ᶠʳ-≤1; ✓ᶠʳ-agree; ✓ᶠʳ-agree2; ✓ᶠʳ-upd; ✓ᶠʳ-new; ✓ᶠʳ-free)
-import Syho.Model.ERA.All
+import Symp.Model.ERA.All
 
 --------------------------------------------------------------------------------
 -- Memᴱᴿᴬ :  Memory ERA
 
 -- Pntsᴱᴿᴬ :  Points-to token ERA
 
-module AllPnts =  Syho.Model.ERA.All ℕ (λ _ → FracAgᴱᴿᴬ TyVal)
+module AllPnts =  Symp.Model.ERA.All ℕ (λ _ → FracAgᴱᴿᴬ TyVal)
 open AllPnts public using () renaming (
   --  Pntsᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to Pntsᴱᴿᴬ;
@@ -48,7 +48,7 @@ Mbloᴱᴿᴬ =  Envmᴱᴿᴬ (Pntsᴱᴿᴬ ×ᴱᴿᴬ Excᴱᴿᴬ ℕ)
 
 -- Memᴱᴿᴬ :  Memory ERA
 
-module AllMem =  Syho.Model.ERA.All ℕ (λ _ → Mbloᴱᴿᴬ)
+module AllMem =  Symp.Model.ERA.All ℕ (λ _ → Mbloᴱᴿᴬ)
 open AllMem public using () renaming (
   --  ∀Memᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to ∀Memᴱᴿᴬ;

@@ -4,29 +4,29 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Fupd.Inv where
+module Symp.Model.Fupd.Inv where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Prod using (_,_; -,_; -ᴵ,_; uncurry)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Syho.Logic.Prop using (Name; Prop∞)
-open import Syho.Model.ERA.Inv using (Envᴵⁿᵛ)
-open import Syho.Model.ERA.Glob using (jᴵⁿᵛ; ∅ᴵⁿᴳ)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
+open import Symp.Logic.Prop using (Name; Prop∞)
+open import Symp.Model.ERA.Inv using (Envᴵⁿᵛ)
+open import Symp.Model.ERA.Glob using (jᴵⁿᵛ; ∅ᴵⁿᴳ)
+open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ;
   ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ∗ᵒ?-comm; ?∗ᵒ-intro; ∗ᵒ-elimʳ;
   ∗ᵒ⨿ᵒ-out; -∗ᵒ-applyˡ; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ; □ᵒ-elim; dup-□ᵒ)
-open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
-open import Syho.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
+open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
+open import Symp.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-back)
-open import Syho.Model.Prop.Names using ([^_]ᴺᵒ; [^]ᴺᵒ-no2)
-open import Syho.Model.Prop.Inv using (Inv; &ⁱ⟨_⟩ᵒ_; Invk; %ⁱ⟨_⟩ᵒ_; dup-&ⁱᵒ;
+open import Symp.Model.Prop.Names using ([^_]ᴺᵒ; [^]ᴺᵒ-no2)
+open import Symp.Model.Prop.Inv using (Inv; &ⁱ⟨_⟩ᵒ_; Invk; %ⁱ⟨_⟩ᵒ_; dup-&ⁱᵒ;
   Invk-no2; &ⁱᵒ-Invk-new; Inv-agree; Invk-agree)
-open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
-open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Fupd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⊨✓⇒⊨-⇛ᵍ; ⇛ᵍ¹-make;
+open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
+open import Symp.Model.Prop.Sound using (⊢-sem)
+open import Symp.Model.Fupd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⊨✓⇒⊨-⇛ᵍ; ⇛ᵍ¹-make;
   ⇛ᵍ¹-intro; ⇛ᵍ-eatˡ)
 
 private variable

@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.ERA.Ag where
+module Symp.Model.ERA.Ag where
 
 open import Base.Level using (Level)
 open import Base.Func using (_$_; _▷_; id)
@@ -14,7 +14,7 @@ open import Base.Prod using (_,_; -,_)
 open import Base.List using (List; []; _∷_; [_]; _⧺_; ∈ʰᵈ; _∈ᴸ_; _⊆ᴸ_; _≈ᴸ_;
   ⧺-congˡ; ⧺-comm; ⧺-assocʳ; ⧺-idem; ⧺-⊆ᴸ-introʳ; ≈ᴸ-refl; ≡⇒≈ᴸ; ≈ᴸ-sym;
   ≈ᴸ-trans)
-open import Syho.Model.ERA.Base using (ERA)
+open import Symp.Model.ERA.Base using (ERA)
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)

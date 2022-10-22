@@ -4,28 +4,28 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Fupd.Sound where
+module Symp.Model.Fupd.Sound where
 
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (absurd)
 open import Base.Size using (∞; !)
 open import Base.Prod using (∑-case; π₀; _,_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Mem)
-open import Syho.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
-open import Syho.Logic.Core using (_»_; ∃-elim)
-open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
+open import Symp.Lang.Expr using (Mem)
+open import Symp.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
+open import Symp.Logic.Core using (_»_; ∃-elim)
+open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
   ⇛-frameʳ)
-open import Syho.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
-open import Syho.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
-open import Syho.Logic.Bor using (&ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-back)
-open import Syho.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
-open import Syho.Model.Prop.Interp using (⸨_⸩)
-open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Fupd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
-open import Syho.Model.Fupd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
-open import Syho.Model.Fupd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; %ᵐᵒ-close; ⟨†⟩ᵒ-back)
-open import Syho.Model.Fupd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᴮᵒʳ⇒⇛ᵒ;
+open import Symp.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
+open import Symp.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
+open import Symp.Logic.Bor using (&ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-back)
+open import Symp.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
+open import Symp.Model.Prop.Interp using (⸨_⸩)
+open import Symp.Model.Prop.Sound using (⊢-sem)
+open import Symp.Model.Fupd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
+open import Symp.Model.Fupd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
+open import Symp.Model.Fupd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; %ᵐᵒ-close; ⟨†⟩ᵒ-back)
+open import Symp.Model.Fupd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᴮᵒʳ⇒⇛ᵒ;
   ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᵒ-adeq)
 
 private variable

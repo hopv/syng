@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Fupd.Base where
+module Symp.Model.Fupd.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↓)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
@@ -12,17 +12,17 @@ open import Base.Dec using (upd˙; upd˙-self)
 open import Base.Eq using (_≡_; refl; ◠_; _≡˙_; _◇˙_)
 open import Base.Prod using (∑-syntax; _×_; π₀; _,_; -,_; _,-)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Mem; ✓ᴹ_)
-open import Syho.Model.ERA.Glob using (iᴹᵉᵐ; outᴳ; Envᴵⁿᴳ; Envᴵⁿᴳ˙; envᴳ;
+open import Symp.Lang.Expr using (Mem; ✓ᴹ_)
+open import Symp.Model.ERA.Glob using (iᴹᵉᵐ; outᴳ; Envᴵⁿᴳ; Envᴵⁿᴳ˙; envᴳ;
   ∅ᴵⁿᴳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-out-envᴳ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
+open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
   ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⤇ᴱ⟨⟩;
   ⊨⇒⊨✓; substᵒ; ∗ᵒ≡∗ᵒ'; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ;
   ∗ᵒ-assocʳ; ∗ᵒ?-intro; ∃ᵒ∗ᵒ-out; -∗ᵒ≡-∗ᵒ'; -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introʳ;
   -∗ᵒ-applyʳ; ⤇ᵒ-intro; ⤇ᴱ≡⤇ᴱ'; ⤇ᴱ-Mono; ⤇ᴱ-mono✓; ⤇ᴱ-mono; ⤇ᴱ-respᴱˡ;
   ⤇ᴱ-respᴱʳ; ⤇ᴱ-param; ⊨✓⇒⊨-⤇ᴱ; ⤇ᵒ⇒⤇ᴱ; ⤇ᴱ-intro-✓; ⤇ᵒ-eatʳ; ⤇ᴱ-join; ⤇ᴱ-eatˡ;
   ⤇ᴱ-eatʳ; ⤇ᴱ-adeq)
-open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
+open import Symp.Model.Prop.Names using ([⊤]ᴺᵒ)
 
 private variable
   ł ł' ł'' :  Level

@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop.Base where
+module Symp.Model.Prop.Base where
 
 open import Base.Level using (Level; _⊔ᴸ_; ṡᴸ_; 0ᴸ; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _›_; _∘_; flip; id; const)
@@ -17,8 +17,8 @@ open import Base.Prod using (∑-syntax; ∑ᴵ-syntax; _×_; _,_; -,_; -ᴵ,_; 
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; _$ᴸ_; _$ⁱᴸ_; _$ⁱᴸ⟨_⟩_)
-open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Resᴳ; Resᴳ˙; Envᴳ;
+open import Symp.Model.ERA.Base using (ERA)
+open import Symp.Model.ERA.Glob using (Globᴱᴿᴬ; Globᴱᴿᴬ˙; Resᴳ; Resᴳ˙; Envᴳ;
   Envᴳ˙; inj˙; ✓˙-respᴱ; inj˙-≈; inj˙-∙; inj˙-ε; inj˙-⌞⌟; inj˙-↝; upd˙-inj˙-↝;
   ✓-inj˙)
 

@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Hor where
+module Symp.Logic.Hor where
 
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Eq using (refl)
@@ -16,20 +16,20 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ≤⇒<≡; ≤⇒≤ᵈ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇_; _⁏_; let˙;
+open import Symp.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇_; _⁏_; let˙;
   V⇒E)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
+open import Symp.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   _ᴷ◁_; Val/Ktxred)
-open import Syho.Lang.Reduce using (_⇒ᴾ_; _⇒ᴾ○_; _⇒ᴾ●_; redᴾ)
-open import Syho.Logic.Prop using (WpKind; par; tot; Name; Prop∞; _∗_; [_]ᴺ;
+open import Symp.Lang.Reduce using (_⇒ᴾ_; _⇒ᴾ○_; _⇒ᴾ●_; redᴾ)
+open import Symp.Logic.Prop using (WpKind; par; tot; Name; Prop∞; _∗_; [_]ᴺ;
   [⊤]ᴺ)
-open import Syho.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-monoˡ; ∗-comm; ∗?-comm;
+open import Symp.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-monoˡ; ∗-comm; ∗?-comm;
   -∗-applyˡ)
-open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; ⇒⇛; ⇛⇒⇛ᴺ)
-open import Syho.Logic.Names using ([]ᴺ-⊆--∗)
+open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⇒⇛; ⇛⇒⇛ᴺ)
+open import Symp.Logic.Names using ([]ᴺ-⊆--∗)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
+open import Symp.Logic.Judg public using ([_]ᵃ⟨_⟩_; ⁺⟨_⟩[_]_; _⊢[_][_]ᵃ⟨_⟩_;
   _⊢[<_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[_]⁺⟨_/_⟩[_]_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⁺⟨_⟩ᵀ[_]_;
   _⊢[<_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩[_]_; _⊢[<_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_; _⊢[<_]⟨_⟩ᴾ_;
   _⊢[_]⟨_⟩ᵀ[_]_; _⊢[<_]⟨_⟩ᵀ[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[<_][_]⁺⟨_⟩∞;

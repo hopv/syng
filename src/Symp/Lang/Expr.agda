@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Lang.Expr where
+module Symp.Lang.Expr where
 
 open import Base.Level using (Level; Up; ↑_)
 open import Base.Func using (_$_; _∘_; id)

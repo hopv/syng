@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.ERA.Zoi where
+module Symp.Model.ERA.Zoi where
 
 open import Base.Level using (0ᴸ)
 open import Base.Func using (id)
@@ -12,7 +12,7 @@ open import Base.Few using (⊤)
 open import Base.Eq using (_≡_; refl; ◠_; _◇_)
 open import Base.Zoi using (Zoi; ✓ᶻ_; 0ᶻ; _+ᶻ_; +ᶻ-comm; +ᶻ-assocʳ; ✓ᶻ-rem)
 open import Base.Prod using (_,_)
-open import Syho.Model.ERA.Base using (ERA)
+open import Symp.Model.ERA.Base using (ERA)
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)

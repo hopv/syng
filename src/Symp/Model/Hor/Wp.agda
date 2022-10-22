@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Hor.Wp where
+module Symp.Model.Hor.Wp where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id)
@@ -16,17 +16,17 @@ open import Base.Option using (¿_; ň; š_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E; Mem)
-open import Syho.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
-open import Syho.Lang.Reduce using (_⇐ᴿ_; _⇐ᴷᴿ⟨_⟩_; _⇐ᴷᴿ_; _⇒ᴿ∑; _⇒ᴷᴿ∑)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
+open import Symp.Lang.Expr using (Type; ◸_; Expr∞; Val; V⇒E; Mem)
+open import Symp.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
+open import Symp.Lang.Reduce using (_⇐ᴿ_; _⇐ᴷᴿ⟨_⟩_; _⇐ᴷᴿ_; _⇒ᴿ∑; _⇒ᴷᴿ∑)
+open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
   ∃ᵒ-syntax; ⊤ᵒ; ⊤ᵒ₀; ⊥ᵒ₀; ⌜_⌝ᵒ×_; ⌜_⌝ᵒ→_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; Thunkᵒ;
   Shrunkᵒ; ⊨⇒⊨✓; ∀ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ?∗ᵒ-comm; ?∗ᵒ-intro; ∗ᵒ∃ᵒ-out; -∗ᵒ⇒-∗ᵒ'; -∗ᵒ'⇒-∗ᵒ;
   -∗ᵒ-Mono; -∗ᵒ-monoʳ; ⊨✓⇒⊨--∗ᵒ; -∗ᵒ-applyˡ; -∗ᵒ-eatˡ; ◎-Mono; ∗ᵒThunkᵒ-out;
   ∗ᵒShrunkᵒ-out)
-open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Syho.Model.Fupd.Interp using (⟨_⟩⇛ᴹ'⟨_⟩_; ⟨_⟩⇛ᴹ⟨_⟩_; ⇛ᵒ_; ⇛ᴺᵒ_;
+open import Symp.Model.Prop.Names using ([⊤]ᴺᵒ)
+open import Symp.Model.Fupd.Interp using (⟨_⟩⇛ᴹ'⟨_⟩_; ⟨_⟩⇛ᴹ⟨_⟩_; ⇛ᵒ_; ⇛ᴺᵒ_;
   ⇛ᴹ⇒⇛ᴹ'; ⇛ᴹ'⇒⇛ᴹ; ⇛ᴹ-Mono; ⇛ᵒ-Mono; ⇛ᴹ-mono✓; ⇛ᴹ-mono; ⇛ᵒ-mono✓; ⇛ᵒ-mono;
   ⇛ᴺᵒ-mono✓; ⇛ᴺᵒ-mono; ⊨✓⇒⊨-⇛ᴹ; ⇛ᴺᵒ-intro; ⇛ᴹ-join; ⇛ᴺᵒ-join; ⇛ᴹ-eatˡ; ⇛ᴺᵒ-eatˡ;
   ⇛ᵒ⇒⇛ᴺᵒ)

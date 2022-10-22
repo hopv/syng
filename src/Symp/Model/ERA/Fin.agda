@@ -6,8 +6,8 @@
 
 open import Base.Level using (Level)
 open import Base.Nat using (ℕ)
-open import Syho.Model.ERA.Base using (ERA)
-module Syho.Model.ERA.Fin {łᴿ ł≈ łᴱ ł✓ : Level} (Era : ERA łᴿ ł≈ łᴱ ł✓)
+open import Symp.Model.ERA.Base using (ERA)
+module Symp.Model.ERA.Fin {łᴿ ł≈ łᴱ ł✓ : Level} (Era : ERA łᴿ ł≈ łᴱ ł✓)
   (≈ε-rem :  ∀{a b} →  Era .ERA._≈_ (Era .ERA._∙_ a b) (Era .ERA.ε) →
                        Era .ERA._≈_ b (Era .ERA.ε)) where
 
@@ -18,8 +18,8 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
 open import Base.Prod using (∑-syntax; π₀; π₁; _,_; -,_; _,-)
 open import Base.Nat using (ṡ_; Cofin; ≤-refl; <-irrefl; <⇒≤)
-open import Syho.Model.ERA.Base using (Valmᴱᴿᴬ)
-import Syho.Model.ERA.All
+open import Symp.Model.ERA.Base using (Valmᴱᴿᴬ)
+import Symp.Model.ERA.All
 
 open ERA Era using (Res; _≈_; ε; Env; _✓_; _↝_; refl˜; ◠˜_; _◇˜_; ∙-congʳ;
   ∙-unitˡ; ∙-unitʳ; ∙-comm; ✓-resp)
@@ -27,7 +27,7 @@ open ERA Era using (Res; _≈_; ε; Env; _✓_; _↝_; refl˜; ◠˜_; _◇˜_; 
 --------------------------------------------------------------------------------
 -- Finᴱᴿᴬ :  Finite-map ERA
 
-module AllFin =  Syho.Model.ERA.All ℕ (λ _ → Era)
+module AllFin =  Symp.Model.ERA.All ℕ (λ _ → Era)
 -- Re-export all
 open AllFin public
 

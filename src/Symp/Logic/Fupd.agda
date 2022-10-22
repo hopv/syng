@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Fupd where
+module Symp.Logic.Fupd where
 
 open import Base.Func using (_$_; _∘_; id)
 open import Base.Eq using (refl)
@@ -12,13 +12,13 @@ open import Base.Size using (𝕊)
 open import Base.Zoi using (Zoi; ✔ᶻ_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ≤⇒<≡; ≤⇒≤ᵈ)
-open import Syho.Logic.Prop using (Name; Prop∞; _∗_; ⤇_; [_]ᴺ)
-open import Syho.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∗-monoˡ; ∗-comm;
+open import Symp.Logic.Prop using (Name; Prop∞; _∗_; ⤇_; [_]ᴺ)
+open import Symp.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∗-monoˡ; ∗-comm;
   ∗-assocˡ; ∗-assocʳ; ∗?-comm; -∗-applyˡ; ⤇-intro)
-open import Syho.Logic.Names using ([]ᴺ-⊆--∗)
+open import Symp.Logic.Names using ([]ᴺ-⊆--∗)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_;
+open import Symp.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_;
   _⊢[_][_]⇛ᴺ_; _⊢[<_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_; ⇛-frameʳ)
 
 private variable

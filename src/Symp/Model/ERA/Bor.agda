@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.ERA.Bor where
+module Symp.Model.ERA.Bor where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_$_)
@@ -16,10 +16,10 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.Ratp using (ℚ⁺)
-open import Syho.Logic.Prop using (Lft; Prop∞)
-open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; εˣ; #ˣ_; ň-✓ˣ)
-import Syho.Model.ERA.Bnd
+open import Symp.Logic.Prop using (Lft; Prop∞)
+open import Symp.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
+open import Symp.Model.ERA.Exc using (Excᴱᴿᴬ; εˣ; #ˣ_; ň-✓ˣ)
+import Symp.Model.ERA.Bnd
 
 --------------------------------------------------------------------------------
 -- Borᴱᴿᴬ :  Borrow ERA
@@ -64,7 +64,7 @@ abstract
 
 -- Borᴱᴿᴬ :  Borrow ERA
 
-module BndBor =  Syho.Model.ERA.Bnd Borbᴱᴿᴬ ň
+module BndBor =  Symp.Model.ERA.Bnd Borbᴱᴿᴬ ň
   (λ (ň✓x , ň✓y) → ň-✓ˣ ň✓x , ň-✓ˣ ň✓y)
 open BndBor public using () renaming (
   --  Borᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ

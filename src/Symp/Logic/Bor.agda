@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Bor where
+module Symp.Logic.Bor where
 
 open import Base.Func using (_$_)
 open import Base.Size using (𝕊; !; ¡_; _$ᵀʰ_)
@@ -13,16 +13,16 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺)
-open import Syho.Lang.Expr using (Addr; Type; V⇒E)
-open import Syho.Lang.Ktxred using (Ktx; _ᴷ◁_)
-open import Syho.Logic.Prop using (Lft; WpKind; Prop∞; Prop˂∞; ¡ᴾ_; ⌜_⌝∧_; _∗_;
+open import Symp.Lang.Expr using (Addr; Type; V⇒E)
+open import Symp.Lang.Ktxred using (Ktx; _ᴷ◁_)
+open import Symp.Logic.Prop using (Lft; WpKind; Prop∞; Prop˂∞; ¡ᴾ_; ⌜_⌝∧_; _∗_;
   _↦⟨_⟩_; [_]ᴸ⟨_⟩; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; Basic)
-open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⇒<; _»_;
+open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⇒<; _»_;
   ∗-monoˡ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm; ⊤∗-intro; ∗-elimʳ)
-open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
+open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (&ᵐ-resp-□∗; %ᵐ-respᴿ; %ᵐ-respᴾ-□∗;
+open import Symp.Logic.Judg public using (&ᵐ-resp-□∗; %ᵐ-respᴿ; %ᵐ-respᴾ-□∗;
   ⟨†⟩-mono; ⟨†⟩-eatˡ; &ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-back)
 
 private variable

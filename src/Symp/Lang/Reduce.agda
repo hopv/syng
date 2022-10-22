@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Lang.Reduce where
+module Symp.Lang.Reduce where
 
 open import Base.Func using (_$_; flip)
 open import Base.Few using (⊤)
@@ -19,9 +19,9 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; _∷_; ¿⇒ᴸ; _⧺_; rep)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr∞; Expr˂∞; ∇_; V⇒E;
+open import Symp.Lang.Expr using (Type; ◸ʸ_; ◸_; Addr; Expr∞; Expr˂∞; ∇_; V⇒E;
   TyVal; ⊤-; Mem; _‼ᴹ_; updᴹ)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; forkᴿ; 🞰ᴿ_; _←ᴿ_; fauᴿ;
+open import Symp.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; forkᴿ; 🞰ᴿ_; _←ᴿ_; fauᴿ;
   casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Ktxred; val/ktxred)
 
 --------------------------------------------------------------------------------

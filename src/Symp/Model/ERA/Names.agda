@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.ERA.Names where
+module Symp.Model.ERA.Names where
 
 open import Base.Level using (1ᴸ; ↑_; ↓)
 open import Base.Eq using (_≡˙_)
@@ -13,10 +13,10 @@ open import Base.Sum using ()
 open import Base.Nat using ()
 open import Base.List using ()
 open import Base.Str using ()
-open import Syho.Logic.Prop using (Name)
-open import Syho.Model.ERA.Base using (ERA; Upᴱᴿᴬ)
-open import Syho.Model.ERA.Zoi using (Zoiᴱᴿᴬ)
-import Syho.Model.ERA.All
+open import Symp.Logic.Prop using (Name)
+open import Symp.Model.ERA.Base using (ERA; Upᴱᴿᴬ)
+open import Symp.Model.ERA.Zoi using (Zoiᴱᴿᴬ)
+import Symp.Model.ERA.All
 
 private variable
   Nm Nm' :  Name → Zoi
@@ -24,7 +24,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Namesᴱᴿᴬ :  Name set ERA
 
-module AllNames =  Syho.Model.ERA.All Name (λ _ → Zoiᴱᴿᴬ)
+module AllNames =  Symp.Model.ERA.All Name (λ _ → Zoiᴱᴿᴬ)
 open AllNames public using () renaming (
   --  Names'ᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   ∀ᴱᴿᴬ to Names'ᴱᴿᴬ)

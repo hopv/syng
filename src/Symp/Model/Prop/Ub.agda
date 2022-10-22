@@ -4,17 +4,17 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop.Ub where
+module Symp.Model.Prop.Ub where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (_▷_; _›_)
 open import Base.Eq using (◠_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Nat using (ℕ; _≤_; _⊓_; ⊓-≤)
-open import Syho.Model.ERA.Ub using (#ᵁᵇ⟨_⟩ʳ_; ≤ᵁᵇ⟨_⟩ʳ_; ◠˜ᵁᵇ_; ≤ᵁᵇʳ-∙; ≤ᵁᵇʳ-⌞⌟;
+open import Symp.Model.ERA.Ub using (#ᵁᵇ⟨_⟩ʳ_; ≤ᵁᵇ⟨_⟩ʳ_; ◠˜ᵁᵇ_; ≤ᵁᵇʳ-∙; ≤ᵁᵇʳ-⌞⌟;
   ≤ᵁᵇʳ-#ᵁᵇʳ; #ᵁᵇʳ-new; #ᵁᵇʳ-upd)
-open import Syho.Model.ERA.Glob using (iᵁᵇ)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
+open import Symp.Model.ERA.Glob using (iᵁᵇ)
+open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
   _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; ∗ᵒ-elimʳ; ⤇ᵒ-mono; ◎-Mono; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙;
   ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓; ◎⟨⟩-⌞⌟≈-□ᵒ; ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ; ↝-◎⟨⟩-⤇ᵒ)
 

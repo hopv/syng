@@ -1,19 +1,19 @@
 --------------------------------------------------------------------------------
--- Just import all the relevant parts of Syho
+-- Just import all the relevant parts of Symp
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.All where
+module Symp.All where
 
 -- Paradoxes for the logic
 
-import Syho.Logic.Paradox
+import Symp.Logic.Paradox
 
 -- Examples for the logic
 
-import Syho.Logic.Example
+import Symp.Logic.Example
 
 -- Semantic soundness and adequacy of the Hoare triples
 
-import Syho.Model.Hor.Sound
+import Symp.Model.Hor.Sound

@@ -4,54 +4,54 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop.Sound where
+module Symp.Model.Prop.Sound where
 
 open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Size using (𝕊; ∞; !)
 open import Base.Prod using (_,_; π₀; π₁; ∑-case)
-open import Syho.Lang.Expr using (✓ᴹ-∅)
-open import Syho.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
-open import Syho.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
+open import Symp.Lang.Expr using (✓ᴹ-∅)
+open import Symp.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
+open import Symp.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
   ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
   ∗-assocʳ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
-open import Syho.Logic.Names using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
-open import Syho.Logic.Mem using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
+open import Symp.Logic.Names using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
+open import Symp.Logic.Mem using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
   ↦⟨⟩-agree)
-open import Syho.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-monoʳᵘ;
+open import Symp.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-monoʳᵘ;
   ↪⇛-eatˡ⁻ʳ; ↪⇛-frameʳ; ○⇒↪⇛;  ↪ᵃ⟨⟩-≤; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ;
   ↪ᵃ⟨⟩-frameʳ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-≤; ↪⟨⟩-eatˡ⁻ˡᵘᴺ; ↪⟨⟩-monoʳᵘᴺ; ↪⟨⟩-eatˡ⁻ʳ;
   ↪⟨⟩-frameʳ; ○⇒↪⟨⟩; ↪⟨⟩∞-≤; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞)
-open import Syho.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∗; %ⁱ-mono; %ⁱ-eatˡ)
-open import Syho.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
+open import Symp.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∗; %ⁱ-mono; %ⁱ-eatˡ)
+open import Symp.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
-open import Syho.Logic.Bor using (&ᵐ-resp-□∗; %ᵐ-respᴿ; %ᵐ-respᴾ-□∗; ⟨†⟩-mono;
+open import Symp.Logic.Bor using (&ᵐ-resp-□∗; %ᵐ-respᴿ; %ᵐ-respᴾ-□∗; ⟨†⟩-mono;
   ⟨†⟩-eatˡ)
-open import Syho.Logic.Ub using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
-open import Syho.Model.ERA.Glob using (∅ᴵⁿᴳ-✓[⊤])
-open import Syho.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-mono✓ˡ;
+open import Symp.Logic.Ub using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
+open import Symp.Model.ERA.Glob using (∅ᴵⁿᴳ-✓[⊤])
+open import Symp.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocʳ; -∗ᵒ-introˡ; -∗ᵒ-elimˡ;
   ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-⌜⌝ᵒ×-out; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
   □ᵒˡ-×ᵒ⇒∗ᵒ; ◎-just)
-open import Syho.Model.Prop.Mem using (↦⟨⟩ᵒ-resp; ↦⟨⟩ᵒ-merge; ↦⟨⟩ᵒ-split;
+open import Symp.Model.Prop.Mem using (↦⟨⟩ᵒ-resp; ↦⟨⟩ᵒ-merge; ↦⟨⟩ᵒ-split;
   ↦⟨⟩ᵒ-≤1; ↦⟨⟩ᵒ-agree)
-open import Syho.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ-split;
+open import Symp.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ-split;
   []ᴺᵒ-✔)
-open import Syho.Model.Prop.Lft using ([]ᴸ⟨⟩ᵒ-resp; []ᴸ⟨⟩ᵒ-merge; []ᴸ⟨⟩ᵒ-split;
+open import Symp.Model.Prop.Lft using ([]ᴸ⟨⟩ᵒ-resp; []ᴸ⟨⟩ᵒ-merge; []ᴸ⟨⟩ᵒ-split;
   []ᴸ⟨⟩ᵒ-≤1; †ᴸᵒ-⇒□ᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no; []ᴸᵒ-new; []ᴸᵒ-kill)
-open import Syho.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤; ↪⇛ᵒ-eatˡ⁻ˡᵘ;
+open import Symp.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤; ↪⇛ᵒ-eatˡ⁻ˡᵘ;
   ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-frameʳ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-≤; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
   ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-frameʳ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-≤;
   ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ↪⟨⟩ᵒ-monoʳᵘᴺ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-frameʳ; ○ᵒ⇒↪⟨⟩ᵒ; ↪⟨⟩∞ᵒ-≤;
   ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒↪⟨⟩∞ᵒ)
-open import Syho.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ∗ᵒ; %ⁱᵒ-mono;
+open import Symp.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ∗ᵒ; %ⁱᵒ-mono;
   %ⁱᵒ-eatˡ)
-open import Syho.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ∗ᵒ; %ᵐᵒ-respᴿ; %ᵐᵒ-respᴾ-□ᵒ∗ᵒ;
+open import Symp.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ∗ᵒ; %ᵐᵒ-respᴿ; %ᵐᵒ-respᴾ-□ᵒ∗ᵒ;
   ⟨†⟩ᵒ-mono; ⟨†⟩ᵒ-eatˡ)
-open import Syho.Model.Prop.Ub using (≤ᵁᵇᵒ-mono; ≤ᵁᵇᵒ-⇒□ᵒ; ≤ᵁᵇᵒ-#ᵁᵇᵒ; #ᵁᵇᵒ-new;
+open import Symp.Model.Prop.Ub using (≤ᵁᵇᵒ-mono; ≤ᵁᵇᵒ-⇒□ᵒ; ≤ᵁᵇᵒ-#ᵁᵇᵒ; #ᵁᵇᵒ-new;
   #ᵁᵇᵒ-upd)
-open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
+open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
 
 private variable
   P Q R S T :  Prop∞

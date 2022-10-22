@@ -4,32 +4,32 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop.Interp where
+module Symp.Model.Prop.Interp where
 
 open import Base.Level using (1ᴸ)
 open import Base.Func using (id)
 open import Base.Size using (!)
 open import Base.Prod using (_,_)
-open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
+open import Symp.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
   _↦⟨_⟩_; Free; ○_; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪[_]⟨_⟩∞;
   [_]ᴸ⟨_⟩; †ᴸ_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; ⟨†_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic; ∀-Basic;
   ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic;
   Free-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic; #ᵁᵇ-Basic; ≤ᵁᵇ-Basic)
-open import Syho.Model.ERA.Glob using (Globᴱᴿᴬ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
+open import Symp.Model.ERA.Glob using (Globᴱᴿᴬ)
+open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono; ∃ᵒ-mono; →ᵒ-Mono;
   →ᵒ-mono; ∗ᵒ-Mono; ∗ᵒ-mono; -∗ᵒ-Mono; -∗ᵒ-mono; ⤇ᵒ-Mono; ⤇ᵒ-mono; □ᵒ-Mono;
   □ᵒ-mono; ◎-Mono)
-open import Syho.Model.Prop.Names using ([_]ᴺᵒ)
-open import Syho.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
-open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
-open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ)
-open import Syho.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᴹ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
+open import Symp.Model.Prop.Names using ([_]ᴺᵒ)
+open import Symp.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
+open import Symp.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
+open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ)
+open import Symp.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᴹ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
   _↪[_]⟨_⟩∞ᵒ; ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᵒ-Mono; ↪⟨⟩∞ᵒ-Mono)
-open import Syho.Model.Prop.Inv using (&ⁱ⟨_⟩ᵒ_; %ⁱ⟨_⟩ᵒ_; &ⁱᵒ-Mono; %ⁱᵒ-Mono)
-open import Syho.Model.Prop.Bor using (&ᵐ⟨_⟩ᵒ_; %ᵐ⟨_⟩ᵒ_; ⟨†_⟩ᵒ_; &ᵐᵒ-Mono;
+open import Symp.Model.Prop.Inv using (&ⁱ⟨_⟩ᵒ_; %ⁱ⟨_⟩ᵒ_; &ⁱᵒ-Mono; %ⁱᵒ-Mono)
+open import Symp.Model.Prop.Bor using (&ᵐ⟨_⟩ᵒ_; %ᵐ⟨_⟩ᵒ_; ⟨†_⟩ᵒ_; &ᵐᵒ-Mono;
   %ᵐᵒ-Mono; ⟨†⟩ᵒ-Mono)
-open import Syho.Model.Prop.Ub using (#ᵁᵇ⟨_⟩ᵒ_; ≤ᵁᵇ⟨_⟩ᵒ_)
+open import Symp.Model.Prop.Ub using (#ᵁᵇ⟨_⟩ᵒ_; ≤ᵁᵇ⟨_⟩ᵒ_)
 
 private variable
   P :  Prop∞

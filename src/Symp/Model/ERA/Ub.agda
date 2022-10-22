@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.ERA.Ub where
+module Symp.Model.ERA.Ub where
 
 open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; id)
@@ -15,10 +15,10 @@ open import Base.Option using (¿_; ň; š_)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; _≤_; _⊓_; _⊓∞_; ≤-refl; ≤-trans; ≤⊓-elimʳ; ⊓-≤;
   ⊓∞-comm; ⊓∞-assocʳ; ⊓∞-idem)
-open import Syho.Model.ERA.Base using (ERA; Upᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (Exc; εˣ; #ˣ_; ↯ˣ; _∙ˣ_; ∙ˣ-comm;
+open import Symp.Model.ERA.Base using (ERA; Upᴱᴿᴬ)
+open import Symp.Model.ERA.Exc using (Exc; εˣ; #ˣ_; ↯ˣ; _∙ˣ_; ∙ˣ-comm;
   ∙ˣ-assocʳ)
-import Syho.Model.ERA.Fin
+import Symp.Model.ERA.Fin
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
@@ -108,7 +108,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Ubᴱᴿᴬ :  Upper-bound ERA
 
-module FinUb =  Syho.Model.ERA.Fin Ubbᴱᴿᴬ (λ{u} → ≡εᵁᵇᵇ-rem {u})
+module FinUb =  Symp.Model.ERA.Fin Ubbᴱᴿᴬ (λ{u} → ≡εᵁᵇᵇ-rem {u})
 open FinUb public using () renaming (
   --  Ub'ᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   Finᴱᴿᴬ to Ub'ᴱᴿᴬ;

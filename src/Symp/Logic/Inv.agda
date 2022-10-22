@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Inv where
+module Symp.Logic.Inv where
 
 open import Base.Func using (_$_)
 open import Base.Eq using (_≡_; refl; ◠˙_)
@@ -12,20 +12,20 @@ open import Base.Size using (𝕊; !; ¡_; _$ᵀʰ_)
 open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Addr; Type; V⇒E; TyVal)
-open import Syho.Lang.Ktxred using (Redex; 🞰ᴿ_; Ktx; _ᴷ◁_)
-open import Syho.Logic.Prop using (WpKind; Name; Prop∞; Prop˂∞; ¡ᴾ_; ⌜_⌝∧_; _∗_;
+open import Symp.Lang.Expr using (Addr; Type; V⇒E; TyVal)
+open import Symp.Lang.Ktxred using (Redex; 🞰ᴿ_; Ktx; _ᴷ◁_)
+open import Symp.Logic.Prop using (WpKind; Name; Prop∞; Prop˂∞; ¡ᴾ_; ⌜_⌝∧_; _∗_;
   _-∗_; _↦_; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; static; _↦ⁱ_; Basic; ^ᶻᴺ-✔)
-open import Syho.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∃-elim;
+open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∃-elim;
   ∃-intro; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm;
   ⊤∗-intro; ∗-elimʳ; ∃∗-elim; -∗-applyˡ; -∗-const)
-open import Syho.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
-open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[<ᴾ_]⟨_⟩[_]_;
+open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
+open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[<ᴾ_]⟨_⟩[_]_;
   _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameˡ; ahor✔-hor; hor<ᴾ-map)
-open import Syho.Logic.Mem using (ahor-🞰)
+open import Symp.Logic.Mem using (ahor-🞰)
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (&ⁱ-⇒□; &ⁱ-resp-□∗; %ⁱ-mono; %ⁱ-eatˡ;
+open import Symp.Logic.Judg public using (&ⁱ-⇒□; &ⁱ-resp-□∗; %ⁱ-mono; %ⁱ-eatˡ;
   &ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
 
 private variable

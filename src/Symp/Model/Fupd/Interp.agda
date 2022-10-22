@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Fupd.Interp where
+module Symp.Model.Fupd.Interp where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ; ↑_)
 open import Base.Func using (_$_; _▷_; _∘_; _›_; id; const)
@@ -12,24 +12,24 @@ open import Base.Few using (⊤₀)
 open import Base.Eq using (_≡_; refl; ◠_; refl˙)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using ()
-open import Syho.Lang.Expr using (Mem; ✓ᴹ_; ✓ᴹ-∅)
-open import Syho.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; iᴹᵉᵐ; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ;
+open import Symp.Lang.Expr using (Mem; ✓ᴹ_; ✓ᴹ-∅)
+open import Symp.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; iᴹᵉᵐ; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ;
   jᴵⁿᵛ; jᴮᵒʳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-mem-envᴳ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
+open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
   ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⤇ᴱ⟨⟩; substᵒ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro;
   -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introˡ; -∗ᵒ-applyˡ; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ;
   ⤇ᴱ-param; ⤇ᴱ-eatʳ; ⤇ᴱ-step)
-open import Syho.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Syho.Model.Fupd.Base using (⟨_⟩[_]⇛ᴳ'⟨_⟩_; ⟨_⟩[_]⇛ᴳ⟨_⟩_; ⇛ᴳ≡⇛ᴳ';
+open import Symp.Model.Prop.Names using ([⊤]ᴺᵒ)
+open import Symp.Model.Fupd.Base using (⟨_⟩[_]⇛ᴳ'⟨_⟩_; ⟨_⟩[_]⇛ᴳ⟨_⟩_; ⇛ᴳ≡⇛ᴳ';
   ⇛ᴳ-Mono; ⇛ᵍ-Mono; ⇛ᴳ-mono✓; ⇛ᴳ-mono; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⇛ᴳ-make; ⇛ᴳ-apply;
   ⊨✓⇒⊨-⇛ᴳ; ⊨✓⇒⊨-⇛ᵍ; ⇛ᴳ-all; ⇛ᵍ-all; ⤇ᵒ⇒⇛ᴳ; ⇛ᴳ-intro; ⤇ᵒ⇒⇛ᵍ; ⇛ᵍ-intro;
   ⇛ᴳ-intro-✓ᴹ; ⇛ᴳ-join; ⇛ᵍ-join; ⇛ᵍ-join2; ⇛ᴳ-eatˡ; ⇛ᴳ-eatʳ; ⇛ᵍ-eatˡ; ⇛ᵍ-eatʳ;
   ⇛ᴳ-adeq)
-open import Syho.Model.Fupd.Ind using (envᴵⁿᵈ; Invᴵⁿᵈ; ⇛ᴵⁿᵈ_; Invᴵⁿᵈ-∅;
+open import Symp.Model.Fupd.Ind using (envᴵⁿᵈ; Invᴵⁿᵈ; ⇛ᴵⁿᵈ_; Invᴵⁿᵈ-∅;
   ⇛ᴵⁿᵈ-intro)
-open import Syho.Model.Fupd.Inv using (Invᴵⁿᵛ; ⇛ᴵⁿᵛ_; Invᴵⁿᵛ-∅; ⇛ᴵⁿᵛ-intro)
-open import Syho.Model.Fupd.Bor using (Invᴮᵒʳ; ⇛ᴮᵒʳ_; Invᴮᵒʳ-∅; ⇛ᴮᵒʳ-intro)
+open import Symp.Model.Fupd.Inv using (Invᴵⁿᵛ; ⇛ᴵⁿᵛ_; Invᴵⁿᵛ-∅; ⇛ᴵⁿᵛ-intro)
+open import Symp.Model.Fupd.Bor using (Invᴮᵒʳ; ⇛ᴮᵒʳ_; Invᴮᵒʳ-∅; ⇛ᴮᵒʳ-intro)
 
 private variable
   ł :  Level

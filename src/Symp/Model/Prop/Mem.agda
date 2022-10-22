@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Prop.Mem where
+module Symp.Model.Prop.Mem where
 
 open import Base.Level using (1ᴸ; ↑_)
 open import Base.Func using (_$_; _▷_; _›_)
@@ -16,13 +16,13 @@ open import Base.Prod using (∑-syntax; _,_; -,_)
 open import Base.Nat using (ℕ; +-0)
 open import Base.List using (List; []; _∷_; len; rep)
 open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
-open import Syho.Lang.Expr using (Addr; _ₒ_; TyVal; ⊤-; Mem; _‼ᴹ_; updᴹ)
-open import Syho.Model.ERA.Mem using (Memᴱᴿᴬ; εᴹᵉᵐ; [∙ᴹᵉᵐ∈ⁱ]-syntax;
+open import Symp.Lang.Expr using (Addr; _ₒ_; TyVal; ⊤-; Mem; _‼ᴹ_; updᴹ)
+open import Symp.Model.ERA.Mem using (Memᴱᴿᴬ; εᴹᵉᵐ; [∙ᴹᵉᵐ∈ⁱ]-syntax;
   [∙ᴹᵉᵐ∈ⁱ⟨⟩]-syntax; ◠˜ᴹᵉᵐ_; _↦⟨_⟩ʳ_; _↦ʳ_; freeʳ; _↦ᴸʳ_; ↦⟨⟩ʳ-cong; ↦⟨⟩ʳ-∙;
   ↦⟨⟩ʳ-≤1; ↦⟨⟩ʳ-agree; [∙∈ⁱ]↦≈↦ᴸʳ; ↦⟨⟩ʳ-read; ↦ʳ-write; ↦ᴸʳ-alloc; freeʳ-š;
   ↦ᴸʳ-free)
-open import Syho.Model.ERA.Glob using (iᴹᵉᵐ)
-open import Syho.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
+open import Symp.Model.ERA.Glob using (iᴹᵉᵐ)
+open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
   ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_; [∗ᵒ∈ⁱ]-syntax; [∗ᵒ∈ⁱ⟨⟩]-syntax; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono;
   ∗ᵒ-monoʳ; ⤇ᴱ⟨⟩-mono; ⤇ᴱ⟨⟩-param; ◎-Mono; ◎⟨⟩-resp; ◎⟨⟩-ε; ◎⟨⟩-∗ᵒ⇒∙;
   ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓; ↝-◎⟨⟩-⤇ᴱ⟨⟩; ε↝-◎⟨⟩-⤇ᴱ⟨⟩)

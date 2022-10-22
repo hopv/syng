@@ -1,11 +1,11 @@
 --------------------------------------------------------------------------------
--- Judgment in Syho
+-- Judgment in Symp
 --------------------------------------------------------------------------------
--- Its contents are re-exported across Syho.Logic.Core, Fupd, Ind, and Hor
+-- Its contents are re-exported across Symp.Logic.Core, Fupd, Ind, and Hor
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Judg where
+module Symp.Logic.Judg where
 
 open import Base.Func using (_∘_; _$_)
 open import Base.Eq using (_≡_; _≢_; _≡˙_)
@@ -20,12 +20,12 @@ open import Base.List using (List; len; rep)
 open import Base.Str using ()
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
-open import Syho.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; Val; V⇒E;
+open import Symp.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; Val; V⇒E;
   TyVal; ⊤-)
-open import Syho.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
+open import Symp.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
   🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
-open import Syho.Lang.Reduce using (_⇒ᴾ_)
-open import Syho.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂∞;
+open import Symp.Lang.Reduce using (_⇒ᴾ_)
+open import Symp.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂∞;
   ¡ᴾ_; ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_;
   _∗_; _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _↪[_]⇛_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_;
   _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_;
@@ -529,7 +529,7 @@ data  Judg ι  where
 
   -- Use ↪⇛, with level increment
   -- Without that level increment, we could do any fancy update (⇛/↪⇛-use' in
-  -- Syho.Logic.Paradox)
+  -- Symp.Logic.Paradox)
 
   ↪⇛-use :  P˂ .!  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ι ][ ṡ i ]⇛  Q˂ .!
 
@@ -560,7 +560,7 @@ data  Judg ι  where
 
   -- Use ↪ᵃ⟨⟩, with level increment
   -- Without that level increment, we could have any atomic Hoare triple
-  -- (ahor/↪ᵃ⟨⟩-use' in Syho.Logic.Paradox)
+  -- (ahor/↪ᵃ⟨⟩-use' in Symp.Logic.Paradox)
 
   ↪ᵃ⟨⟩-use :  P˂ .!  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)
                 ⊢[ ι ][ ṡ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!
@@ -593,7 +593,7 @@ data  Judg ι  where
 
   -- Use ↪⟨⟩ᴾ, with pure reduction
   -- Without pure reduction, we could have any partial Hoare triple
-  -- (horᴾ/↪⟨⟩ᴾ-use' in Syho.Logic.Paradox)
+  -- (horᴾ/↪⟨⟩ᴾ-use' in Symp.Logic.Paradox)
 
   ↪⟨⟩ᴾ-use :  e ⇒ᴾ e'  →
     P˂ .!  ∗  (P˂ ↪⟨ e' ⟩ᴾ Q˂˙)  ⊢[ ι ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!
@@ -601,10 +601,10 @@ data  Judg ι  where
   -- Use ↪⟨⟩ᵀ, with level increment
 
   -- Without that level increment, we could have any total Hoare triple
-  -- (horᵀ/↪⟨⟩ᵀ-use' in Syho.Logic.Paradox)
+  -- (horᵀ/↪⟨⟩ᵀ-use' in Symp.Logic.Paradox)
   -- If we use pure reduction (just like ↪⟨⟩ᴾ-use) instead of level increment
   -- for this rule, the total Hoare triple does not ensure termination
-  -- (horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ in Syho.Logic.Paradox)
+  -- (horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ in Symp.Logic.Paradox)
 
   ↪⟨⟩ᵀ-use :  P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
                 ⊢[ ι ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
@@ -626,7 +626,7 @@ data  Judg ι  where
 
   -- Use ↪⟨⟩∞, with level increment
   -- Without that level increment, we could have any infinite Hoare triple
-  -- (ihor/↪⟨⟩∞-use' in Syho.Logic.Paradox)
+  -- (ihor/↪⟨⟩∞-use' in Symp.Logic.Paradox)
 
   ↪⟨⟩∞-use :  P˂ .!  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ι ][ ṡ i ]⟨ e ⟩∞
 

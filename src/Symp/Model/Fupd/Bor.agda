@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Fupd.Bor where
+module Symp.Model.Fupd.Bor where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Func using (_$_; _▷_; _›_)
@@ -14,25 +14,25 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; _,_; -,_; _,-; -ᴵ,_; ∑-case)
 open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺; _/2⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym)
-open import Syho.Logic.Prop using (Lft; Prop∞)
-open import Syho.Model.ERA.Bor using (Envᴮᵒʳ)
-open import Syho.Model.ERA.Glob using (jᴮᵒʳ; ∅ᴵⁿᴳ)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ⌜_⌝ᵒ×_; _∗ᵒ_;
+open import Symp.Logic.Prop using (Lft; Prop∞)
+open import Symp.Model.ERA.Bor using (Envᴮᵒʳ)
+open import Symp.Model.ERA.Glob using (jᴮᵒʳ; ∅ᴵⁿᴳ)
+open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ⌜_⌝ᵒ×_; _∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ;
   ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ∗ᵒ-pullʳ²; ∗ᵒ-pushʳ²ˡ; ?∗ᵒ-intro;
   ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ∃ᵒ∗ᵒ-out; □ᵒ-elim; dup-□ᵒ; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-mono;
   ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ)
-open import Syho.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
-open import Syho.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
+open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
+open import Symp.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-upd)
-open import Syho.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_; []ᴸ⟨⟩ᵒ-resp;
+open import Symp.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_; []ᴸ⟨⟩ᵒ-resp;
   []ᴸ⟨⟩ᵒ-merge-/2; []ᴸ⟨⟩ᵒ-split-/2; dup-†ᴸᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no)
-open import Syho.Model.Prop.Bor using (Borᵐ; &ᵐ⟨_⟩ᵒ_; Oborᵐ; %ᵐ⟨_⟩ᵒ_; Lend;
+open import Symp.Model.Prop.Bor using (Borᵐ; &ᵐ⟨_⟩ᵒ_; Oborᵐ; %ᵐ⟨_⟩ᵒ_; Lend;
   ⟨†_⟩ᵒ_; &ᵐᵒ-new'; Borᵐ-open'; Oborᵐ-close'; Lend-back')
-open import Syho.Model.Prop.Basic using (⸨⸩ᴮ-Mono)
-open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-ᴮ⇒; ⸨⸩-Mono)
-open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Fupd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⊨✓⇒⊨-⇛ᵍ;
+open import Symp.Model.Prop.Basic using (⸨⸩ᴮ-Mono)
+open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-ᴮ⇒; ⸨⸩-Mono)
+open import Symp.Model.Prop.Sound using (⊢-sem)
+open import Symp.Model.Fupd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono; ⊨✓⇒⊨-⇛ᵍ;
   ⇛ᵍ¹-make; ⇛ᵍ¹-intro; ⇛ᵍ-eatˡ)
 
 private variable

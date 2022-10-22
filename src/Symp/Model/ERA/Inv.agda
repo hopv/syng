@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.ERA.Inv where
+module Symp.Model.ERA.Inv where
 
 open import Base.Func using (_$_; _›_)
 open import Base.Few using (⊤₀; ¬_; absurd)
@@ -14,12 +14,12 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.List using ([]; [_]; ≡⇒≈ᴸ; ≈ᴸ-[])
-open import Syho.Logic.Prop using (Name; Prop∞)
-open import Syho.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
-open import Syho.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ň-✓ˣ)
-open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ň-✓ᴸ; ✓ᴸ-[]; ✓ᴸ-š-[?]; ✓ᴸ-agree)
-import Syho.Model.ERA.All
-import Syho.Model.ERA.Bnd
+open import Symp.Logic.Prop using (Name; Prop∞)
+open import Symp.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
+open import Symp.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ň-✓ˣ)
+open import Symp.Model.ERA.Ag using (Agᴱᴿᴬ; ň-✓ᴸ; ✓ᴸ-[]; ✓ᴸ-š-[?]; ✓ᴸ-agree)
+import Symp.Model.ERA.All
+import Symp.Model.ERA.Bnd
 
 --------------------------------------------------------------------------------
 -- Invᴱᴿᴬ :  Invariant ERA
@@ -37,7 +37,7 @@ private variable
 
 -- Invᴱᴿᴬ :  Invariant ERA
 
-module BndInv =  Syho.Model.ERA.Bnd
+module BndInv =  Symp.Model.ERA.Bnd
   (Envmᴱᴿᴬ (Agᴱᴿᴬ NameProp ×ᴱᴿᴬ Excᴱᴿᴬ NameProp) _ λ ⁿPˇ → ⁿPˇ , ⁿPˇ)
   ň (λ (ň✓as , ň✓x) → ≡⇒≈ᴸ (ň-✓ᴸ ň✓as) , ň-✓ˣ ň✓x)
 open BndInv public using () renaming (

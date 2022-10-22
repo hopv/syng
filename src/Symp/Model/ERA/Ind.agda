@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.ERA.Ind where
+module Symp.Model.ERA.Ind where
 
 open import Base.Func using (_›_; id)
 open import Base.Few using (⊤₀)
@@ -14,11 +14,11 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; _,_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.List using ([_]; ≡⇒≈ᴸ; ≈ᴸ-[])
-open import Syho.Logic.Prop using (Prop∞)
-open import Syho.Model.ERA.Base using (ERA)
-open import Syho.Model.ERA.Exc using (Excᴱᴿᴬ; εˣ; #ˣ_; ň-✓ˣ; ✓ˣ-free)
-open import Syho.Model.ERA.Ag using (Agᴱᴿᴬ; ň-✓ᴸ; ✓ᴸ-[]; ✓ᴸ-š-[?]; ✓ᴸ-agree)
-import Syho.Model.ERA.Bnd
+open import Symp.Logic.Prop using (Prop∞)
+open import Symp.Model.ERA.Base using (ERA)
+open import Symp.Model.ERA.Exc using (Excᴱᴿᴬ; εˣ; #ˣ_; ň-✓ˣ; ✓ˣ-free)
+open import Symp.Model.ERA.Ag using (Agᴱᴿᴬ; ň-✓ᴸ; ✓ᴸ-[]; ✓ᴸ-š-[?]; ✓ᴸ-agree)
+import Symp.Model.ERA.Bnd
 
 private variable
   P :  Prop∞
@@ -28,7 +28,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Indˣᴱᴿᴬ :  Exclusive indirection ERA
 
-module BndIndˣ =  Syho.Model.ERA.Bnd (Excᴱᴿᴬ Prop∞) ň ň-✓ˣ
+module BndIndˣ =  Symp.Model.ERA.Bnd (Excᴱᴿᴬ Prop∞) ň ň-✓ˣ
 open BndIndˣ public using () renaming (
   --  Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Bndᴱᴿᴬ to Indˣᴱᴿᴬ;
@@ -70,7 +70,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Indᵖᴱᴿᴬ :  Persistent indirection ERA
 
-module BndIndᵖ =  Syho.Model.ERA.Bnd (Agᴱᴿᴬ Prop∞) ň (ň-✓ᴸ › ≡⇒≈ᴸ)
+module BndIndᵖ =  Symp.Model.ERA.Bnd (Agᴱᴿᴬ Prop∞) ň (ň-✓ᴸ › ≡⇒≈ᴸ)
 open BndIndᵖ public using () renaming (
   --  Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Bndᴱᴿᴬ to Indᵖᴱᴿᴬ;

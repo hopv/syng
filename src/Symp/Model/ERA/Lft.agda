@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --safe #-}
 
-module Syho.Model.ERA.Lft where
+module Symp.Model.ERA.Lft where
 
 open import Base.Level using (0ᴸ; 1ᴸ; ↑_; ↓)
 open import Base.Func using (_$_; id)
@@ -16,8 +16,8 @@ open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; 1ᴿ⁺; _+ᴿ⁺_; _≤1ᴿ⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym;
   ≈ᴿ⁺-trans; +ᴿ⁺-congˡ; +ᴿ⁺-comm; +ᴿ⁺-assocʳ; ≤1ᴿ⁺-resp; 1≤1ᴿ⁺; ≤1ᴿ⁺-rem;
   ¬1+?≤1ᴿ⁺)
-open import Syho.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
-import Syho.Model.ERA.Fin
+open import Symp.Model.ERA.Base using (ERA; Valmᴱᴿᴬ; Upᴱᴿᴬ)
+import Symp.Model.ERA.Fin
 
 open ERA using (Res; _≈_; _∙_; ε; ⌞_⌟; Env; _✓_; refl˜; ◠˜_; _◇˜_; ∙-congˡ;
   ∙-unitˡ; ∙-comm; ∙-assocʳ; ⌞⌟-cong; ⌞⌟-add; ⌞⌟-unitˡ; ⌞⌟-idem; ✓-resp; ✓-rem)
@@ -270,7 +270,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Lftᴱᴿᴬ :  Lifetime ERA
 
-module FinLft =  Syho.Model.ERA.Fin Lftbᴱᴿᴬ (λ{a} → ≈ᴸᶠᵗᵇε-rem {a})
+module FinLft =  Symp.Model.ERA.Fin Lftbᴱᴿᴬ (λ{a} → ≈ᴸᶠᵗᵇε-rem {a})
 open FinLft public using () renaming (
   --  Lft'ᴱᴿᴬ :  ERA 0ᴸ 0ᴸ 0ᴸ 0ᴸ
   Finᴱᴿᴬ to Lft'ᴱᴿᴬ;

@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Model.Fupd.Ind where
+module Symp.Model.Fupd.Ind where
 
 open import Base.Level using (Level; _⊔ᴸ_; 1ᴸ)
 open import Base.Size using (∞)
@@ -15,26 +15,26 @@ open import Base.Option using (¿_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_; ∑-case; ∑ᴵ-case)
 open import Base.Sum using (ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.Nat using (ℕ)
-open import Syho.Lang.Expr using (Type; Expr∞)
-open import Syho.Lang.Ktxred using (Redex)
-open import Syho.Logic.Prop using (WpKind; Prop∞; _∗_)
-open import Syho.Logic.Fupd using (_⊢[_][_]⇛_)
-open import Syho.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
-open import Syho.Model.ERA.Ind using (Envᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
-open import Syho.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; ∅ᴵⁿᴳ)
-open import Syho.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
+open import Symp.Lang.Expr using (Type; Expr∞)
+open import Symp.Lang.Ktxred using (Redex)
+open import Symp.Logic.Prop using (WpKind; Prop∞; _∗_)
+open import Symp.Logic.Fupd using (_⊢[_][_]⇛_)
+open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
+open import Symp.Model.ERA.Ind using (Envᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
+open import Symp.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; ∅ᴵⁿᴳ)
+open import Symp.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
   _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ;
   ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; -∗ᵒ-monoˡ; -∗ᵒ-applyˡ;
   ⤇ᴱ⟨⟩-mono; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ;
   □ᵒ-∗ᵒ-in)
-open import Syho.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
+open import Symp.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
   Smry-rem-<)
-open import Syho.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᴹ_;
+open import Symp.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᴹ_;
   _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_; _↪[_]⟨_⟩∞ᵒ; Indᵖ-Mono; Indˣ-new'; Indˣ-use';
   □ᵒIndᵖ-new'; Indᵖ-use'; Ind⇒○ᵒ)
-open import Syho.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
-open import Syho.Model.Prop.Sound using (⊢-sem)
-open import Syho.Model.Fupd.Base using ([_]⇛ᵍ_; [_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
+open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
+open import Symp.Model.Prop.Sound using (⊢-sem)
+open import Symp.Model.Fupd.Base using ([_]⇛ᵍ_; [_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⇛ᵍ-mono;
   ⇛ᵍ¹-make; ⇛ᵍ¹-intro; ⇛ᵍ-join2; ⇛ᵍ-eatˡ)
 
 private variable

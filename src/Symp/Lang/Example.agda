@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Lang.Example where
+module Symp.Lang.Example where
 
 open import Base.Func using (_$_; _▷_)
 open import Base.Few using (⊤; ¬_)
@@ -15,11 +15,11 @@ open import Base.Option using (¿_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; ṗ_; _+_)
 open import Base.Sety using ()
-open import Syho.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; Expr˂∞; ∇_;
+open import Symp.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; Expr˂∞; ∇_;
   λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; let¡-syntax; ●_; fork¡; 🞰_; _←_; fau;
   free; loop; Mem)
-open import Syho.Lang.Ktxred using (Redex; fauᴿ)
-open import Syho.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
+open import Symp.Lang.Ktxred using (Redex; fauᴿ)
+open import Symp.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
 
 private variable
   ι :  𝕊

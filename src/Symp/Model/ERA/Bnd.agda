@@ -6,8 +6,8 @@
 
 open import Base.Level using (Level)
 open import Base.Nat using (ℕ)
-open import Syho.Model.ERA.Base using (ERA)
-module Syho.Model.ERA.Bnd {łᴿ ł≈ łᴱ ł✓ : Level} (Era : ERA łᴿ ł≈ łᴱ ł✓)
+open import Symp.Model.ERA.Base using (ERA)
+module Symp.Model.ERA.Bnd {łᴿ ł≈ łᴱ ł✓ : Level} (Era : ERA łᴿ ł≈ łᴱ ł✓)
   (∅ : Era .ERA.Env)
   (∅✓⇒≈ε :  ∀{a} →  Era .ERA._✓_ ∅ a →  Era .ERA._≈_ a (Era .ERA.ε)) where
 
@@ -19,8 +19,8 @@ open import Base.Dec using (yes; no; _≟_; ≟-refl; upd˙)
 open import Base.Prod using (∑-syntax; _×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ṡ_; _<_; ∀≥; ≤-refl; <-irrefl; <⇒≤; <⇒¬≥; _<≥_)
-open import Syho.Model.ERA.Base using (Envmᴱᴿᴬ; Envvᴱᴿᴬ)
-import Syho.Model.ERA.All
+open import Symp.Model.ERA.Base using (Envmᴱᴿᴬ; Envvᴱᴿᴬ)
+import Symp.Model.ERA.All
 
 open ERA Era using (Res; _≈_; _∙_; ε; Env; _✓_; _↝_; ◠˜_; _◇˜_; ∙-congʳ;
   ∙-unitˡ; ∙-unitʳ; ∙-incrʳ; ✓-resp; ✓-mono)
@@ -28,7 +28,7 @@ open ERA Era using (Res; _≈_; _∙_; ε; Env; _✓_; _↝_; ◠˜_; _◇˜_; �
 --------------------------------------------------------------------------------
 -- Bndᴱᴿᴬ :  Bounded-map ERA
 
-module AllBnd =  Syho.Model.ERA.All ℕ (λ _ → Era)
+module AllBnd =  Symp.Model.ERA.All ℕ (λ _ → Era)
 -- Re-export all
 open AllBnd public
 

@@ -4,7 +4,7 @@
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Syho.Logic.Core where
+module Symp.Logic.Core where
 
 open import Base.Func using (_$_; _∘_; it)
 open import Base.Few using (𝟚; 0₂; 1₂; ⊤; ⊥; binary; absurd)
@@ -12,12 +12,12 @@ open import Base.Size using (𝕊; Thunk; !)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.List using (List; []; _∷_; _⧺_; All²; []ᴬ²; _∷ᴬ²_)
-open import Syho.Logic.Prop using (Prop∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
+open import Symp.Logic.Prop using (Prop∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
   ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝→_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
   □_; [∗])
 
 -- Import and re-export
-open import Syho.Logic.Judg public using (JudgRes; Pure; Judg; _⊢[_]*_;
+open import Symp.Logic.Judg public using (JudgRes; Pure; Judg; _⊢[_]*_;
   _⊢[<_]*_; _⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⊢-refl; _»_; ∀-intro; ∃-elim;
   ∀-elim; ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro;
   ∗-comm; ∗-assocʳ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ;

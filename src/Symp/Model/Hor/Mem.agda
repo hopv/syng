@@ -82,6 +82,9 @@ abstract
 
 abstract
 
+  -- For lemmas like ᵃ⟨⟩ᵒ-🞰, through ≡∑⇒π₁≡, we implicitly enjoy the property
+  -- that Type satisfies the UIP (which comes from Type's decidable equality)
+
   -- 🞰 by ᵃ⟨⟩ᵒ
 
   ᵃ⟨⟩ᵒ-🞰 :  θ ↦⟨ p ⟩ᵒ (T , v)  ⊨ ᵃ⟨ 🞰ᴿ_ {T} θ ⟩ᵒ λ u →

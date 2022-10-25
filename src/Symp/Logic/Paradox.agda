@@ -38,9 +38,6 @@ private variable
   Q˙ :  X →  Prop∞
   Q˂˙ :  X →  Prop˂∞
 
-prdx :  Name
-prdx =  strnm "paradox"
-
 --------------------------------------------------------------------------------
 -- If we have the fancy update as a modality ⇛ᵐ, then we have a paradox, because
 -- we can construct something like Landin's knot using our later-less
@@ -52,24 +49,24 @@ prdx =  strnm "paradox"
 -- depend on quantification over propositions, not supported by our logic
 -- This is much simpler than Iris's original construction
 
-module _ (⇛ᵐ :  Prop∞ → Prop∞)
+module _ {nm : Name} (⇛ᵐ : Prop∞ → Prop∞)
   (⇛ᵐ-intro :  ∀{P Q} →  P ⊢[ ∞ ][ 0 ]⇛ Q →  P ⊢[ ∞ ] ⇛ᵐ Q)
   (⇛ᵐ-elim :  ∀{P Q} →  P ⊢[ ∞ ] ⇛ᵐ Q →  P ⊢[ ∞ ][ 0 ]⇛ Q)
   where abstract
 
-  -- □⇛⊥ :  Persistent proposition for getting ⊥' after update with [^ prdx ]ᴺ
+  -- □⇛⊥ :  Persistent proposition for getting ⊥' after update with [^ nm ]ᴺ
 
   □⇛⊥/⇛ᵐ :  Prop∞
-  □⇛⊥/⇛ᵐ =  □ ([^ prdx ]ᴺ -∗ ⇛ᵐ ⊥')
+  □⇛⊥/⇛ᵐ =  □ ([^ nm ]ᴺ -∗ ⇛ᵐ ⊥')
 
   -- Evil :  The evil impredicative invariant
 
   Evil/⇛ᵐ :  Lft → Prop∞
-  Evil/⇛ᵐ α =  &ⁱ⟨ prdx ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
+  Evil/⇛ᵐ α =  &ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
 
-  -- We get contradiction consuming □⇛⊥ and %ⁱ⟨ prdx ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
+  -- We get contradiction consuming □⇛⊥ and %ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
 
-  □⇛⊥-%ⁱ-no/⇛ᵐ :  □⇛⊥/⇛ᵐ  ∗  %ⁱ⟨ prdx ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  □⇛⊥-%ⁱ-no/⇛ᵐ :  □⇛⊥/⇛ᵐ  ∗  %ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)  ⊢[ ∞ ][ 0 ]⇛  ⊥'
   □⇛⊥-%ⁱ-no/⇛ᵐ =  dup-Pers-∗ » ⇛-frameʳ (∗-monoˡ ∨-introʳ » %ⁱ-close) ᵘ»ᵘ
     ∗-monoˡ □-elim » -∗-applyʳ » ⇛ᵐ-elim ⊢-refl
 
@@ -78,10 +75,10 @@ module _ (⇛ᵐ :  Prop∞ → Prop∞)
   Evil-intro/⇛ᵐ :  ⊤'  ⊢[ ∞ ][ 0 ]⇛  ∃ α , Evil/⇛ᵐ α
   Evil-intro/⇛ᵐ =  []ᴸ-new » ⤇⇒⇛ ᵘ»ᵘ ∃-elim λ α → ∨-introˡ » &ⁱ-new ᵘ» ∃-intro α
 
-  -- We get contradiction out of †ᴸ α and Evil α with [^ prdx ]ᴺ,
+  -- We get contradiction out of †ᴸ α and Evil α with [^ nm ]ᴺ,
   -- because †ᴸ α eliminates the possibility of [ α ]ᴸ when we open Evil α
 
-  †ᴸ-Evil-no/⇛ᵐ :  †ᴸ α  ∗  Evil/⇛ᵐ α  ∗  [^ prdx ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  †ᴸ-Evil-no/⇛ᵐ :  †ᴸ α  ∗  Evil/⇛ᵐ α  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
   †ᴸ-Evil-no/⇛ᵐ =  ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ∗-assocˡ »
     ∗-monoˡ (∗∨-elim (∗-comm » []ᴸ⟨⟩-†ᴸ-no » ⊥-elim) ∗-elimʳ) » □⇛⊥-%ⁱ-no/⇛ᵐ
 
@@ -91,12 +88,12 @@ module _ (⇛ᵐ :  Prop∞ → Prop∞)
   †ᴸ-Evil-□⇛⊥/⇛ᵐ =  □-intro-Pers $
     -∗-introʳ $ ⇛ᵐ-intro $ ∗-assocʳ » †ᴸ-Evil-no/⇛ᵐ
 
-  -- We get contradiction out of Evil α with [^ prdx ]ᴺ
+  -- We get contradiction out of Evil α with [^ nm ]ᴺ
   -- When we open Evil α, in the case the content is [ α ]ᴸ, we can kill it to
   -- get †ᴸ α; this allows us to close the invariant (by †ᴸ-Evil-□⇛⊥/⇛ᵐ), and
   -- the retrieved name token allows us to get ⊥' (by †ᴸ-Evil-no/⇛ᵐ)
 
-  Evil-no/⇛ᵐ :  Evil/⇛ᵐ α  ∗  [^ prdx ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  Evil-no/⇛ᵐ :  Evil/⇛ᵐ α  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
   Evil-no/⇛ᵐ =  dup-Pers-∗ » ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ?∗-comm »
     flip ∨∗-elim (∗-monoʳ ∗-elimʳ » □⇛⊥-%ⁱ-no/⇛ᵐ) $
     ⇛-frameˡ ([]ᴸ-kill » ⤇⇒⇛) ᵘ»ᵘ ∗-assocˡ » dup-Pers-∗ »
@@ -104,10 +101,10 @@ module _ (⇛ᵐ :  Prop∞ → Prop∞)
     ∗-assocʳ » †ᴸ-Evil-no/⇛ᵐ
 
   -- Therefore, combining Evil-intro/⇛ᵐ and Evil-no/⇛ᵐ, we get contradiction out
-  -- of [^ prdx ]ᴺ, which is a paradox!
+  -- of [^ nm ]ᴺ, which is a paradox!
 
-  [^prdx]ᴺ-no/⇛ᵐ :  [^ prdx ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
-  [^prdx]ᴺ-no/⇛ᵐ =  ⊤∗-intro »
+  [^nm]ᴺ-no/⇛ᵐ :  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  [^nm]ᴺ-no/⇛ᵐ =  ⊤∗-intro »
     ⇛-frameˡ Evil-intro/⇛ᵐ ᵘ»ᵘ ∃∗-elim λ _ → Evil-no/⇛ᵐ
 
 --------------------------------------------------------------------------------
@@ -116,7 +113,7 @@ module _ (⇛ᵐ :  Prop∞ → Prop∞)
 -- then we have the paradox observed above,
 -- because then we can encode the fancy update modality ⇛ᵐ
 
-module _ (∃ᴾ˙ :  (Prop∞ → Prop∞) →  Prop∞)
+module _ {nm : Name} (∃ᴾ˙ :  (Prop∞ → Prop∞) →  Prop∞)
   (∃ᴾ-elim :  ∀{P˙ Q} →  (∀ R →  P˙ R ⊢[ ∞ ][ 0 ]⇛ Q) →  ∃ᴾ˙ P˙ ⊢[ ∞ ][ 0 ]⇛ Q)
   (∃ᴾ-intro :  ∀{P˙} R →  P˙ R ⊢[ ∞ ] ∃ᴾ˙ P˙)
   (⌜_⊢⇛_⌝∧_ :  Prop∞ →  Prop∞ →  Prop∞ →  Prop∞)
@@ -136,11 +133,11 @@ module _ (∃ᴾ˙ :  (Prop∞ → Prop∞) →  Prop∞)
   ⇛ᵐ-elim/∃ᴾ⊢⇛∧ :  P ⊢[ ∞ ] ⇛ᵐ/∃ᴾ⊢⇛∧ Q →  P ⊢[ ∞ ][ 0 ]⇛ Q
   ⇛ᵐ-elim/∃ᴾ⊢⇛∧ P⊢⇛ᵐQ =  P⊢⇛ᵐQ » ∃ᴾ-elim λ R → ⊢⇛∧-elim λ R⊢⇛Q → R⊢⇛Q
 
-  -- Therefore, by [^prdx]ᴺ-no/⇛ᵐ, we get contradiction out of [^ prdx ]ᴺ,
+  -- Therefore, by [^nm]ᴺ-no/⇛ᵐ, we get contradiction out of [^ nm ]ᴺ,
   -- which is a paradox!
 
-  [^prdx]ᴺ-no/∃ᴾ⊢⇛∧ :  [^ prdx ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
-  [^prdx]ᴺ-no/∃ᴾ⊢⇛∧ =  [^prdx]ᴺ-no/⇛ᵐ ⇛ᵐ/∃ᴾ⊢⇛∧ ⇛ᵐ-intro/∃ᴾ⊢⇛∧ ⇛ᵐ-elim/∃ᴾ⊢⇛∧
+  [^nm]ᴺ-no/∃ᴾ⊢⇛∧ :  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  [^nm]ᴺ-no/∃ᴾ⊢⇛∧ =  [^nm]ᴺ-no/⇛ᵐ ⇛ᵐ/∃ᴾ⊢⇛∧ ⇛ᵐ-intro/∃ᴾ⊢⇛∧ ⇛ᵐ-elim/∃ᴾ⊢⇛∧
 
 --------------------------------------------------------------------------------
 -- If we can turn ○ P into P, then we get P after a fancy update,

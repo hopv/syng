@@ -27,9 +27,9 @@ open import Symp.Model.Prop.Names using ([⊤]ᴺᵒ)
 open import Symp.Model.Fupd.Interp using (⇛ᴹ-mono; ⇛ᴺᵒ-mono; ⇛ᴹ-intro; ⇛ᴹ-join)
 open import Symp.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⁺⟨_⟩∞ᵒ; ⟨_⟩ᴾᵒ;
   ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᴾᵒ˂; ⟨_⟩∞ᵒ˂ʳ; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᴾᵒ⊤˂; ⟨_⟩ᵀᵒ⊤; ⁺⟨⟩ᴾᵒ-val⁻¹;
-  ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩∞ᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩∞ᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹; ⁺⟨⟩ᵀᵒ-kr⁻¹;
-  ⁺⟨⟩∞ᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤˂-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ; ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ;
-  ⇛ᴺᵒ-⁺⟨⟩∞ᵒ)
+  ⁺⟨⟩ᵀᵒ-val⁻¹; ⁺⟨⟩∞ᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr; ⁺⟨⟩ᵀᵒ-kr; ⁺⟨⟩∞ᵒ-kr; ⁺⟨⟩ᴾᵒ-kr⁻¹;
+  ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩∞ᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-mono; ⁺⟨⟩ᴾᵒ-size; ⟨¿⟩ᵀᵒ⊤˂-size; ⇛ᴺᵒ-⁺⟨⟩ᴾᵒ;
+  ⇛ᴺᵒ-⁺⟨⟩ᵀᵒ; ⇛ᴺᵒ-⁺⟨⟩∞ᵒ)
 
 private variable
   ł :  Level

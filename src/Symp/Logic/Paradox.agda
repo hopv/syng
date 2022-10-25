@@ -32,8 +32,6 @@ private variable
   Q˂˙ :  X →  Prop˂∞
 
 --------------------------------------------------------------------------------
--- Utility
-
 -- If we can turn ○ P into P, then we get P after a fancy update,
 -- thanks to □○-new-rec
 

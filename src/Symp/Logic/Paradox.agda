@@ -132,14 +132,14 @@ module _
 module _
   -- ↪⟨⟩ᵀ-use with pure reduction, not level increment
   (↪⟨⟩ᵀ-use⇒ᴾ :  ∀{T} {e e' : Expr∞ T} {P˂ Q˂˙ i ι} →  e ⇒ᴾ e' →
-    P˂ .!  ∗  (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
+    P˂ .!  ∗  (P˂ ↪⟨ e' ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]⟨ e ⟩ᵀ[ i ] λ v →  Q˂˙ v .!)
   where abstract
 
   -- We can strip ○ from ↪⟨ loop ⟩ᵀ, using ↪⟨⟩ᵀ-use
 
-  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ :
-    ○ ¡ᴾ (P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]  P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙
-  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ $ ⇒< $ ↪⟨⟩ᵀ-use⇒ᴾ (-, redᴾ refl)
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ :  ○ ¡ᴾ (P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙)  ⊢[ ι ]
+                              P˂ ↪⟨ loop {T = T} ⟩ᵀ[ i ] Q˂˙
+  ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ =  ○⇒↪⟨⟩ $ ⇒< $ ↪⟨⟩ᵀ-use⇒ᴾ {e = loop} (-, redᴾ refl)
 
   -- Therefore, by ○-rec, we have any total Hoare triple for the expression
   -- loop, which is a paradox: Although the total Hoare triple should ensure
@@ -148,7 +148,7 @@ module _
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ :  P  ⊢[ ι ]⟨ loop ⟩ᵀ[ i ]  Q˙
   horᵀ-loop/↪⟨⟩ᵀ-use⇒ᴾ =  ∗⊤-intro »
     ⇛-frameʳ (○-rec {i = 0} ○⇒-↪⟨loop⟩ᵀ/↪⟨⟩ᵀ-use⇒ᴾ) ᵘ»ʰ
-    ↪⟨⟩ᵀ-use⇒ᴾ {P˂ = ¡ᴾ _} {λ _ → ¡ᴾ _} (-, redᴾ refl)
+    ↪⟨⟩ᵀ-use⇒ᴾ {e = loop} {P˂ = ¡ᴾ _} {λ _ → ¡ᴾ _} (-, redᴾ refl)
 
 --------------------------------------------------------------------------------
 -- If we can use ↪⟨ ⟩∞ without level increment, then we get a paradox

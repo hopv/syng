@@ -6,30 +6,141 @@
 
 module Symp.Logic.Paradox where
 
-open import Base.Func using (_$_)
+open import Base.Func using (_$_; flip)
 open import Base.Eq using (refl)
 open import Base.Size using (∞; !)
 open import Base.Prod using (-,_)
 open import Symp.Lang.Expr using (Type; Expr∞; loop; Val)
 open import Symp.Lang.Ktxred using (Redex)
 open import Symp.Lang.Reduce using (_⇒ᴾ_; redᴾ)
-open import Symp.Logic.Prop using (Prop∞; Prop˂∞; ¡ᴾ_; ⊤'; □_; _∗_; ○_; _↪[_]⇛_;
-  _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞)
-open import Symp.Logic.Core using (_⊢[_]_; ⇒<; _»_; -∗-introˡ; ∗-elimˡ;
-  ∗⊤-intro; □-mono; □-elim)
-open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameʳ)
+open import Symp.Logic.Prop using (Name; strnm; Lft; Prop∞; Prop˂∞; ¡ᴾ_;
+  ∃-syntax; _∨_; ⊤'; ⊥'; □_; _∗_; _-∗_; [^_]ᴺ; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_;
+  _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; [_]ᴸ; †ᴸ_)
+open import Symp.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∃-elim; ∃-intro;
+  ∨-introˡ; ∨-introʳ; ⊥-elim; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ;
+  ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∨∗-elim; ∗∨-elim;
+  -∗-introˡ; -∗-introʳ; -∗-applyʳ; □-mono; □-elim; □-intro-Pers; dup-Pers-∗)
+open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
+  ⇛-frameʳ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
 open import Symp.Logic.Ind using (○-mono; □○-new-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
   ○⇒↪⟨⟩; ○⇒↪⟨⟩∞)
+open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; %ⁱ-close)
+open import Symp.Logic.Lft using ([]ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
 
 private variable
+  α :  Lft
   X :  Set₀
   T :  Type
   P Q :  Prop∞
   P˂ Q˂ :  Prop˂∞
   Q˙ :  X →  Prop∞
   Q˂˙ :  X →  Prop˂∞
+
+prdx :  Name
+prdx =  strnm "paradox"
+
+--------------------------------------------------------------------------------
+-- If we have the fancy update as a modality ⇛ᵐ, then we have a paradox, because
+-- we can construct something like Landin's knot using our later-less
+-- impredicative invariant and the two-state protocol (here we repurpose the
+-- lifetime and dead lifetime tokens)
+
+-- Our construction is based on Iris's paradox of the "naive impredicative
+-- invariant" (Jung et al. "Iris from the Ground Up" JFP 2018) but does not
+-- depend on quantification over propositions, not supported by our logic
+-- This is much simpler than Iris's original construction
+
+module _ (⇛ᵐ :  Prop∞ → Prop∞)
+  (⇛ᵐ-intro :  ∀{P Q} →  P ⊢[ ∞ ][ 0 ]⇛ Q →  P ⊢[ ∞ ] ⇛ᵐ Q)
+  (⇛ᵐ-elim :  ∀{P Q} →  P ⊢[ ∞ ] ⇛ᵐ Q →  P ⊢[ ∞ ][ 0 ]⇛ Q)
+  where abstract
+
+  -- □⇛⊥ :  Persistent proposition for getting ⊥' after update with [^ prdx ]ᴺ
+
+  □⇛⊥/⇛ᵐ :  Prop∞
+  □⇛⊥/⇛ᵐ =  □ ([^ prdx ]ᴺ -∗ ⇛ᵐ ⊥')
+
+  -- Evil :  The evil impredicative invariant
+
+  Evil/⇛ᵐ :  Lft → Prop∞
+  Evil/⇛ᵐ α =  &ⁱ⟨ prdx ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
+
+  -- We get contradiction consuming □⇛⊥ and %ⁱ⟨ prdx ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
+
+  □⇛⊥-%ⁱ-no/⇛ᵐ :  □⇛⊥/⇛ᵐ  ∗  %ⁱ⟨ prdx ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  □⇛⊥-%ⁱ-no/⇛ᵐ =  dup-Pers-∗ » ⇛-frameʳ (∗-monoˡ ∨-introʳ » %ⁱ-close) ᵘ»ᵘ
+    ∗-monoˡ □-elim » -∗-applyʳ » ⇛ᵐ-elim ⊢-refl
+
+  -- Create Evil
+
+  Evil-intro/⇛ᵐ :  ⊤'  ⊢[ ∞ ][ 0 ]⇛  ∃ α , Evil/⇛ᵐ α
+  Evil-intro/⇛ᵐ =  []ᴸ-new » ⤇⇒⇛ ᵘ»ᵘ ∃-elim λ α → ∨-introˡ » &ⁱ-new ᵘ» ∃-intro α
+
+  -- We get contradiction out of †ᴸ α and Evil α with [^ prdx ]ᴺ,
+  -- because †ᴸ α eliminates the possibility of [ α ]ᴸ when we open Evil α
+
+  †ᴸ-Evil-no/⇛ᵐ :  †ᴸ α  ∗  Evil/⇛ᵐ α  ∗  [^ prdx ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  †ᴸ-Evil-no/⇛ᵐ =  ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ∗-assocˡ »
+    ∗-monoˡ (∗∨-elim (∗-comm » []ᴸ⟨⟩-†ᴸ-no » ⊥-elim) ∗-elimʳ) » □⇛⊥-%ⁱ-no/⇛ᵐ
+
+  -- So †ᴸ α and Evil α turns into □⇛⊥/⇛ᵐ
+
+  †ᴸ-Evil-□⇛⊥/⇛ᵐ :  †ᴸ α  ∗  Evil/⇛ᵐ α  ⊢[ ∞ ]  □⇛⊥/⇛ᵐ
+  †ᴸ-Evil-□⇛⊥/⇛ᵐ =  □-intro-Pers $
+    -∗-introʳ $ ⇛ᵐ-intro $ ∗-assocʳ » †ᴸ-Evil-no/⇛ᵐ
+
+  -- We get contradiction out of Evil α with [^ prdx ]ᴺ
+  -- When we open Evil α, in the case the content is [ α ]ᴸ, we can kill it to
+  -- get †ᴸ α; this allows us to close the invariant (by †ᴸ-Evil-□⇛⊥/⇛ᵐ), and
+  -- the retrieved name token allows us to get ⊥' (by †ᴸ-Evil-no/⇛ᵐ)
+
+  Evil-no/⇛ᵐ :  Evil/⇛ᵐ α  ∗  [^ prdx ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  Evil-no/⇛ᵐ =  dup-Pers-∗ » ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ?∗-comm »
+    flip ∨∗-elim (∗-monoʳ ∗-elimʳ » □⇛⊥-%ⁱ-no/⇛ᵐ) $
+    ⇛-frameˡ ([]ᴸ-kill » ⤇⇒⇛) ᵘ»ᵘ ∗-assocˡ » dup-Pers-∗ »
+    ⇛-frameʳ (∗-monoˡ (†ᴸ-Evil-□⇛⊥/⇛ᵐ » ∨-introʳ) » %ⁱ-close) ᵘ»ᵘ
+    ∗-assocʳ » †ᴸ-Evil-no/⇛ᵐ
+
+  -- Therefore, combining Evil-intro/⇛ᵐ and Evil-no/⇛ᵐ, we get contradiction out
+  -- of [^ prdx ]ᴺ, which is a paradox!
+
+  [^prdx]ᴺ-no/⇛ᵐ :  [^ prdx ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  [^prdx]ᴺ-no/⇛ᵐ =  ⊤∗-intro »
+    ⇛-frameˡ Evil-intro/⇛ᵐ ᵘ»ᵘ ∃∗-elim λ _ → Evil-no/⇛ᵐ
+
+--------------------------------------------------------------------------------
+-- If we have existential quantification over Prop∞ and conjunction over the
+-- fancy update sequent (both are a form of impredicative quantification),
+-- then we have the paradox observed above,
+-- because then we can encode the fancy update modality ⇛ᵐ
+
+module _ (∃ᴾ˙ :  (Prop∞ → Prop∞) →  Prop∞)
+  (∃ᴾ-elim :  ∀{P˙ Q} →  (∀ R →  P˙ R ⊢[ ∞ ][ 0 ]⇛ Q) →  ∃ᴾ˙ P˙ ⊢[ ∞ ][ 0 ]⇛ Q)
+  (∃ᴾ-intro :  ∀{P˙} R →  P˙ R ⊢[ ∞ ] ∃ᴾ˙ P˙)
+  (⌜_⊢⇛_⌝∧_ :  Prop∞ →  Prop∞ →  Prop∞ →  Prop∞)
+  (⊢⇛∧-elim :  ∀{P Q R S} →  (P ⊢[ ∞ ][ 0 ]⇛ Q →  R ⊢[ ∞ ][ 0 ]⇛ S) →
+                             ⌜ P ⊢⇛ Q ⌝∧ R ⊢[ ∞ ][ 0 ]⇛ S)
+  (⊢⇛∧-intro :  ∀{P Q R} →  P ⊢[ ∞ ][ 0 ]⇛ Q →  R ⊢[ ∞ ] ⌜ P ⊢⇛ Q ⌝∧ R)
+  where abstract
+
+  -- We can encode the fancy update modality ⇛ᵐ
+
+  ⇛ᵐ/∃ᴾ⊢⇛∧ :  Prop∞ →  Prop∞
+  ⇛ᵐ/∃ᴾ⊢⇛∧ P =  ∃ᴾ˙ λ Q →  ⌜ Q ⊢⇛ P ⌝∧  Q
+
+  ⇛ᵐ-intro/∃ᴾ⊢⇛∧ :  P ⊢[ ∞ ][ 0 ]⇛ Q →  P ⊢[ ∞ ] ⇛ᵐ/∃ᴾ⊢⇛∧ Q
+  ⇛ᵐ-intro/∃ᴾ⊢⇛∧ P⊢⇛Q =  ⊢⇛∧-intro P⊢⇛Q » ∃ᴾ-intro _
+
+  ⇛ᵐ-elim/∃ᴾ⊢⇛∧ :  P ⊢[ ∞ ] ⇛ᵐ/∃ᴾ⊢⇛∧ Q →  P ⊢[ ∞ ][ 0 ]⇛ Q
+  ⇛ᵐ-elim/∃ᴾ⊢⇛∧ P⊢⇛ᵐQ =  P⊢⇛ᵐQ » ∃ᴾ-elim λ R → ⊢⇛∧-elim λ R⊢⇛Q → R⊢⇛Q
+
+  -- Therefore, by [^prdx]ᴺ-no/⇛ᵐ, we get contradiction out of [^ prdx ]ᴺ,
+  -- which is a paradox!
+
+  [^prdx]ᴺ-no/∃ᴾ⊢⇛∧ :  [^ prdx ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  [^prdx]ᴺ-no/∃ᴾ⊢⇛∧ =  [^prdx]ᴺ-no/⇛ᵐ ⇛ᵐ/∃ᴾ⊢⇛∧ ⇛ᵐ-intro/∃ᴾ⊢⇛∧ ⇛ᵐ-elim/∃ᴾ⊢⇛∧
 
 --------------------------------------------------------------------------------
 -- If we can turn ○ P into P, then we get P after a fancy update,

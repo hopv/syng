@@ -10,16 +10,16 @@ open import Base.Level using (1ᴸ)
 open import Base.Func using (id)
 open import Base.Size using (!)
 open import Base.Prod using (_,_)
-open import Symp.Logic.Prop using (Prop∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_; [_]ᴺ;
-  _↦⟨_⟩_; Free; ○_; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_; _↪[_]⟨_⟩∞;
-  [_]ᴸ⟨_⟩; †ᴸ_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; ⟨†_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic; ∀-Basic;
-  ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic; ↦⟨⟩-Basic;
-  Free-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic; #ᵁᵇ-Basic; ≤ᵁᵇ-Basic)
+open import Symp.Logic.Prop using (SProp∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_;
+  [_]ᴺ; _↦⟨_⟩_; Free; ○_; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_;
+  _↪[_]⟨_⟩∞; [_]ᴸ⟨_⟩; †ᴸ_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; ⟨†_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic;
+  ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic;
+  ↦⟨⟩-Basic; Free-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic; #ᵁᵇ-Basic; ≤ᵁᵇ-Basic)
 open import Symp.Model.ERA.Glob using (Globᴱᴿᴬ)
-open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax; ∃ᵒ-syntax;
-  _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono; ∃ᵒ-mono; →ᵒ-Mono;
-  →ᵒ-mono; ∗ᵒ-Mono; ∗ᵒ-mono; -∗ᵒ-Mono; -∗ᵒ-mono; ⤇ᵒ-Mono; ⤇ᵒ-mono; □ᵒ-Mono;
-  □ᵒ-mono; ◎-Mono)
+open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax;
+  ∃ᵒ-syntax; _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∀ᵒ-mono; ∃ᵒ-Mono; ∃ᵒ-mono;
+  →ᵒ-Mono; →ᵒ-mono; ∗ᵒ-Mono; ∗ᵒ-mono; -∗ᵒ-Mono; -∗ᵒ-mono; ⤇ᵒ-Mono; ⤇ᵒ-mono;
+  □ᵒ-Mono; □ᵒ-mono; ◎-Mono)
 open import Symp.Model.Prop.Names using ([_]ᴺᵒ)
 open import Symp.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Symp.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
@@ -32,12 +32,12 @@ open import Symp.Model.Prop.Bor using (&ᵐ⟨_⟩ᵒ_; %ᵐ⟨_⟩ᵒ_; ⟨†_
 open import Symp.Model.Prop.Ub using (#ᵁᵇ⟨_⟩ᵒ_; ≤ᵁᵇ⟨_⟩ᵒ_)
 
 private variable
-  P :  Prop∞
+  P :  SProp∞
 
 --------------------------------------------------------------------------------
 -- ⸨ ⸩ :  Interpret syntactic propositions
 
-⸨_⸩ :  Prop∞ →  Propᵒ 1ᴸ
+⸨_⸩ :  SProp∞ →  SPropᵒ 1ᴸ
 ⸨ ∀˙ P˙ ⸩ =  ∀ᵒ x , ⸨ P˙ x ⸩
 ⸨ ∃˙ P˙ ⸩ =  ∃ᵒ x , ⸨ P˙ x ⸩
 ⸨ P →' Q ⸩ =  ⸨ P ⸩ →ᵒ ⸨ Q ⸩

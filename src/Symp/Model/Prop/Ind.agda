@@ -17,7 +17,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-; -ᴵ,_; ∑-case)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _<_)
 open import Symp.Lang.Expr using (Type; Expr∞; Val)
 open import Symp.Lang.Ktxred using (Redex)
-open import Symp.Logic.Prop using (WpKind; par; tot; Prop∞; ⊤'; _∗_; Basic)
+open import Symp.Logic.Prop using (WpKind; par; tot; SProp∞; ⊤'; _∗_; Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗-elimʳ)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-≤; _ᵘ»_; _ᵘ»ᵘ_;
@@ -29,7 +29,7 @@ open import Symp.Model.ERA.Base using (ERA)
 open import Symp.Model.ERA.Ind using (εᴵⁿᵈˣ; indˣ; indᵖ; indˣ-new; indˣ-use;
   indᵖ-new; indᵖ-use)
 open import Symp.Model.ERA.Glob using (iᴵⁿᵈˣ; iᴵⁿᵈᵖ)
-open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
+open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _⨿ᵒ_; ⊤ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono;
   ⨿ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-assocˡ; ?∗ᵒ-intro; ⤇ᴱ⟨⟩-mono; ⤇ᴱ⟨⟩-param;
   ◎-Mono; ◎⟨⟩-⌞⌟≡-□ᵒ; ↝-◎⟨⟩-⤇ᴱ⟨⟩; ε↝-◎⟨⟩-⤇ᴱ⟨⟩)
@@ -39,9 +39,9 @@ private variable
   i j n :  ℕ
   X :  Set₀
   T :  Type
-  P P' Q Q' R :  Prop∞
-  Q˙ Q'˙ :  X →  Prop∞
-  Qˇ˙ :  ℕ →  ¿ Prop∞
+  P P' Q Q' R :  SProp∞
+  Q˙ Q'˙ :  X →  SProp∞
+  Qˇ˙ :  ℕ →  ¿ SProp∞
   κ :  WpKind
   red :  Redex T
   e :  Expr∞ T
@@ -49,7 +49,7 @@ private variable
 --------------------------------------------------------------------------------
 -- Indˣ, Indᵖ, Ind :  Indirection base
 
-Indˣ Indᵖ Ind :  Prop∞ →  Propᵒ 1ᴸ
+Indˣ Indᵖ Ind :  SProp∞ →  SPropᵒ 1ᴸ
 Indˣ P =  ∃ᵒ i , ◎⟨ iᴵⁿᵈˣ ⟩ indˣ i P
 Indᵖ P =  ∃ᵒ i , ◎⟨ iᴵⁿᵈᵖ ⟩ indᵖ i P
 Ind P =  Indˣ P ⨿ᵒ Indᵖ P
@@ -99,7 +99,7 @@ abstract
 -- ○ᵒ :  Interpret the indirection modality ○
 
 infix 8 ○ᵒ_
-○ᵒ_ :  Prop∞ →  Propᵒ 1ᴸ
+○ᵒ_ :  SProp∞ →  SPropᵒ 1ᴸ
 ○ᵒ P =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ R ⊢[ ∞ ] P ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
 
@@ -131,7 +131,7 @@ abstract
 -- ↪⇛ᵒ :  Interpret the fancy update precursor ↪⇛
 
 infixr 5 _↪[_]⇛ᴹ_
-_↪[_]⇛ᴹ_ :  Prop∞ →  ℕ →  Prop∞ →  Propᵒ 1ᴸ
+_↪[_]⇛ᴹ_ :  SProp∞ →  ℕ →  SProp∞ →  SPropᵒ 1ᴸ
 P ↪[ i ]⇛ᴹ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
@@ -182,7 +182,7 @@ abstract
 -- ↪ᵃ⟨ ⟩ᵒ :  Interpret the atomic Hoare triple precursor ↪ᵃ⟨ ⟩
 
 infixr 5 _↪[_]ᵃ⟨_⟩ᵒ_
-_↪[_]ᵃ⟨_⟩ᵒ_ :  Prop∞ →  ℕ →  Redex T →  (Val T → Prop∞) →  Propᵒ 1ᴸ
+_↪[_]ᵃ⟨_⟩ᵒ_ :  SProp∞ →  ℕ →  Redex T →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
 P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
@@ -235,14 +235,14 @@ abstract
 
 infixr 5 _↪⟨_⟩[_]ᵒ_ _↪⟨_⟩ᴾᵒ_ _↪⟨_⟩ᵀ[_]ᵒ_
 
-_↪⟨_⟩[_]ᵒ_ :  Prop∞ →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Propᵒ 1ᴸ
+_↪⟨_⟩[_]ᵒ_ :  SProp∞ →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
 P ↪⟨ e ⟩[ κ ]ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩[ κ ] Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
-_↪⟨_⟩ᴾᵒ_ :  Prop∞ →  Expr∞ T →  (Val T → Prop∞) →  Propᵒ 1ᴸ
+_↪⟨_⟩ᴾᵒ_ :  SProp∞ →  Expr∞ T →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
 P ↪⟨ e ⟩ᴾᵒ Q˙ =  P ↪⟨ e ⟩[ par ]ᵒ Q˙
 
-_↪⟨_⟩ᵀ[_]ᵒ_ :  Prop∞ →  Expr∞ T →  ℕ →  (Val T → Prop∞) →  Propᵒ 1ᴸ
+_↪⟨_⟩ᵀ[_]ᵒ_ :  SProp∞ →  Expr∞ T →  ℕ →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
 P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙ =  P ↪⟨ e ⟩[ tot i ]ᵒ Q˙
 
 abstract
@@ -298,7 +298,7 @@ abstract
 -- ↪⟨ ⟩∞ᵒ :  Interpret the infinite Hoare triple precursor ↪ᵃ⟨ ⟩
 
 infixr 5 _↪[_]⟨_⟩∞ᵒ
-_↪[_]⟨_⟩∞ᵒ :  Prop∞ →  ℕ →  Expr∞ T →  Propᵒ 1ᴸ
+_↪[_]⟨_⟩∞ᵒ :  SProp∞ →  ℕ →  Expr∞ T →  SPropᵒ 1ᴸ
 P ↪[ i ]⟨ e ⟩∞ᵒ =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ P ∗ Q ∗ R ⊢[ ∞ ][ i ]⟨ e ⟩∞ ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
 

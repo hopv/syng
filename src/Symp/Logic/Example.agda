@@ -21,7 +21,7 @@ open import Symp.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Typ
   loop)
 open import Symp.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
   ndecrep●∞; fadᴿ; fad; fadrep; fadrep'; forksfadrep; nforksfadrep; cntr←)
-open import Symp.Logic.Prop using (Name; strnm; Prop'; Prop∞; ¡ᴾ_; ∀-syntax;
+open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; ¡ᴾ_; ∀-syntax;
   ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; [^_]ᴺ; &ⁱ⟨_⟩_;
   static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Symp.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
@@ -46,8 +46,8 @@ private variable
   θ θ' θᶜ :  Addr
   ᵗv :  TyVal
   X :  Set₀
-  P :  Prop∞
-  Q˙ :  X → Prop∞
+  P :  SProp∞
+  Q˙ :  X → SProp∞
   T :  Type
   e˂˙ :  X → Expr˂∞ T
   ns : List ℕ
@@ -55,7 +55,7 @@ private variable
 
 -- □ ○ □ ○ □ ○ …
 
-□○∞ :  Prop' ι
+□○∞ :  SProp ι
 □○∞ =  □ ○ λ{ .! → □○∞ }
 
 abstract
@@ -123,7 +123,7 @@ abstract
   ub :  Name
   ub =  strnm "ub"
 
-  &ub↦ :  Addr →  ℕ →  Prop∞
+  &ub↦ :  Addr →  ℕ →  SProp∞
   &ub↦ θ o =  &ⁱ⟨ ub ⟩ ¡ᴾ (∃ n , #ᵁᵇ⟨ o ⟩ n ∗ θ ↦ (-, n))
 
   -- Create ≤ᵁᵇ⟨ o ⟩ n and &ub↦ θ o out of θ ↦ (-, n)
@@ -204,7 +204,7 @@ abstract
   -- Notably, this spec just states about the observable behaviors and abstracts
   -- the internal state of the function
 
-  Cntr :  (ℕ → Expr˂∞ (◸ ℕ)) →  ℕ →  Prop' ι
+  Cntr :  (ℕ → Expr˂∞ (◸ ℕ)) →  ℕ →  SProp ι
   Cntr e˂˙ n =  ∀' k ,
     ¡ᴾ ⊤' ↪⟨ e˂˙ k .! ⟩ᵀ[ 0 ] λ{ m .! → ⌜ m ≡ n ⌝∧ Cntr e˂˙ (k + n) }
 
@@ -229,7 +229,7 @@ abstract
 
   -- Static singly-linked list over a list
 
-  Slist :  List ℕ →  Addr →  Prop∞
+  Slist :  List ℕ →  Addr →  SProp∞
   Slist (n ∷ ns) θ =  ∃ θ' , θ ↦ⁱ (-, n , θ') ∗ Slist ns θ'
   Slist [] _ =  ⊤'
 
@@ -237,14 +237,14 @@ abstract
   -- We leverage here the coinductivity of the indirection modality ○,
   -- just like Iris's guarded recursion using the later modality ▷
 
-  Slist∞ :  Seq∞ ℕ →  Addr →  Prop' ι
+  Slist∞ :  Seq∞ ℕ →  Addr →  SProp ι
   Slist∞ (n ∷ˢ nsˢ˂) θ =
     ∃ θ' , θ ↦ⁱ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞ (nsˢ˂ .!) θ' }
 
   -- Static singly-linked infinite list with a bound
   -- Again, we leverage here the coinductivity of the indirection modality ○
 
-  Slist∞≤ :  ℕ →  Addr →  Prop' ι
+  Slist∞≤ :  ℕ →  Addr →  SProp ι
   Slist∞≤ k θ =  ∃ n , ∃ θ' , ⌜ n ≤ k ⌝∧
     θ ↦ⁱ (-, n , θ') ∗ □ ○ λ{ .! → Slist∞≤ k θ' }
 

@@ -15,7 +15,7 @@ open import Symp.Logic.Prop using (Lft)
 open import Symp.Model.ERA.Lft using ([_]ᴸ⟨_⟩ʳ; †ᴸʳ_; ◠˜ᴸᶠᵗ_; []ᴸ⟨⟩ʳ-cong;
   []ᴸ⟨⟩ʳ-∙; []ᴸ⟨⟩ʳ-≤1; †ᴸʳ-⌞⌟; []ᴸ⟨⟩ʳ-†ᴸʳ-no; []ᴸʳ-new; []ᴸʳ-kill)
 open import Symp.Model.ERA.Glob using (iᴸᶠᵗ)
-open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
+open import Symp.Model.Prop.Base using (SPropᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
   ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; dup-⇒□ᵒ; ◎-Mono; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ;
   ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓; ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ; ↝-◎⟨⟩-⤇ᵒ)
 
@@ -28,16 +28,16 @@ private variable
 
 -- [ ]ᴸ⟨ ⟩ᵒ :  Interpret the lifetime token
 
-[_]ᴸ⟨_⟩ᵒ :  Lft →  ℚ⁺ →  Propᵒ 1ᴸ
+[_]ᴸ⟨_⟩ᵒ :  Lft →  ℚ⁺ →  SPropᵒ 1ᴸ
 [ α ]ᴸ⟨ p ⟩ᵒ =  ◎⟨ iᴸᶠᵗ ⟩ [ α ]ᴸ⟨ p ⟩ʳ
 
-[_]ᴸᵒ :  Lft →  Propᵒ 1ᴸ
+[_]ᴸᵒ :  Lft →  SPropᵒ 1ᴸ
 [ α ]ᴸᵒ =  [ α ]ᴸ⟨ 1ᴿ⁺ ⟩ᵒ
 
 -- †ᴸᵒ :  Interpret the dead lifetime token
 
 infix 8 †ᴸᵒ_
-†ᴸᵒ_ :  Lft →  Propᵒ 1ᴸ
+†ᴸᵒ_ :  Lft →  SPropᵒ 1ᴸ
 †ᴸᵒ α =  ◎⟨ iᴸᶠᵗ ⟩ †ᴸʳ α
 
 abstract

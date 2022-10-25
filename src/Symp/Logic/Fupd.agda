@@ -12,7 +12,7 @@ open import Base.Size using (𝕊)
 open import Base.Zoi using (Zoi; ✔ᶻ_)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; _<ᵈ_; ≤ᵈ-refl; ≤ᵈṡ; _≤_; _<_; ≤⇒<≡; ≤⇒≤ᵈ)
-open import Symp.Logic.Prop using (Name; Prop∞; _∗_; ⤇_; [_]ᴺ)
+open import Symp.Logic.Prop using (Name; SProp∞; _∗_; ⤇_; [_]ᴺ)
 open import Symp.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∗-monoˡ; ∗-comm;
   ∗-assocˡ; ∗-assocʳ; ∗?-comm; -∗-applyˡ; ⤇-intro)
 open import Symp.Logic.Names using ([]ᴺ-⊆--∗)
@@ -24,7 +24,7 @@ open import Symp.Logic.Judg public using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]�
 private variable
   ι :  𝕊
   i j :  ℕ
-  P Q R S :  Prop∞
+  P Q R S :  SProp∞
   Nm :  Name → Zoi
 
 abstract

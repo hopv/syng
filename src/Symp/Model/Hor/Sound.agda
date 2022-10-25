@@ -20,7 +20,7 @@ open import Symp.Lang.Expr using (Addr; _ₒ_; Type; ◸_; Expr∞; Val; V⇒E; 
   Mem; ✓ᴹ_)
 open import Symp.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
 open import Symp.Lang.Reduce using (redᴾ; _⇒ᴷᴿ∑; _⇒ᵀ*_; SNᵀ; Infᵀ)
-open import Symp.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; _↦_; [∗∈ⁱ⟨⟩]-syntax)
+open import Symp.Logic.Prop using (SProp∞; ⊤'; ⌜_⌝; _↦_; [∗∈ⁱ⟨⟩]-syntax)
 open import Symp.Logic.Core using (_»_; ∃-elim)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᴾ_;
   _⊢[_]⁺⟨_⟩ᵀ[_]_; _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⁺⟨_⟩∞; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ;
@@ -57,8 +57,8 @@ private variable
   ι :  𝕊
   X :  Set₀
   T :  Type
-  P :  Prop∞
-  P˙ Q˙ :  X →  Prop∞
+  P :  SProp∞
+  P˙ Q˙ :  X →  SProp∞
   red :  Redex T
   vk :  Val/Ktxred T
   i k :  ℕ

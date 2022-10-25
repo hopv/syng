@@ -16,7 +16,7 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.Ratp using (ℚ⁺)
-open import Symp.Logic.Prop using (Lft; Prop∞)
+open import Symp.Logic.Prop using (Lft; SProp∞)
 open import Symp.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
 open import Symp.Model.ERA.Exc using (Excᴱᴿᴬ; εˣ; #ˣ_; ň-✓ˣ)
 import Symp.Model.ERA.Bnd
@@ -27,18 +27,18 @@ import Symp.Model.ERA.Bnd
 -- Borbᴱᴿᴬ :  Borrow box ERA
 
 Envᴮᵒʳᵇ :  Set₁
-Envᴮᵒʳᵇ =  ¿ (¿ ℚ⁺ × 𝔹 × Lft × Prop∞)
+Envᴮᵒʳᵇ =  ¿ (¿ ℚ⁺ × 𝔹 × Lft × SProp∞)
 
-lenvᴮᵒʳᵇ :  Envᴮᵒʳᵇ →  ¿ (¿ ℚ⁺ × Lft × Prop∞)
+lenvᴮᵒʳᵇ :  Envᴮᵒʳᵇ →  ¿ (¿ ℚ⁺ × Lft × SProp∞)
 lenvᴮᵒʳᵇ (š (pˇ , b , α , P)) =  š (pˇ , α , P)
 lenvᴮᵒʳᵇ ň =  ň
 
-renvᴮᵒʳᵇ :  Envᴮᵒʳᵇ →  ¿ (𝔹 × Lft × Prop∞)
+renvᴮᵒʳᵇ :  Envᴮᵒʳᵇ →  ¿ (𝔹 × Lft × SProp∞)
 renvᴮᵒʳᵇ (š (pˇ , b , α , P)) =  š (b , α , P)
 renvᴮᵒʳᵇ ň =  ň
 
 Borbᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-Borbᴱᴿᴬ =  Envmᴱᴿᴬ (Excᴱᴿᴬ (¿ ℚ⁺ × Lft × Prop∞) ×ᴱᴿᴬ Excᴱᴿᴬ (𝔹 × Lft × Prop∞))
+Borbᴱᴿᴬ =  Envmᴱᴿᴬ (Excᴱᴿᴬ (¿ ℚ⁺ × Lft × SProp∞) ×ᴱᴿᴬ Excᴱᴿᴬ (𝔹 × Lft × SProp∞))
   Envᴮᵒʳᵇ λ E → lenvᴮᵒʳᵇ E , renvᴮᵒʳᵇ E
 
 private variable
@@ -46,7 +46,7 @@ private variable
   pˇ qˇ :  ¿ ℚ⁺
   b c :  𝔹
   α :  Lft
-  P :  Prop∞
+  P :  SProp∞
 
 open ERA Borbᴱᴿᴬ public using () renaming (_↝_ to _↝ᴮᵒʳᵇ_)
 
@@ -83,17 +83,17 @@ open ERA Borᴱᴿᴬ public using () renaming (Res to Resᴮᵒʳ; _∙_ to _�
 
 -- Resource for the mutable borrow token
 
-borᵐ :  ℕ →  Lft →  Prop∞ →  Resᴮᵒʳ
+borᵐ :  ℕ →  Lft →  SProp∞ →  Resᴮᵒʳ
 borᵐ i α P =  inj˙ᴮᵒʳ i (#ˣ (ň , α , P) , εˣ)
 
 -- Resource for the open mutable borrow token
 
-oborᵐ :  ℕ →  Lft →  ℚ⁺ →  Prop∞ →  Resᴮᵒʳ
+oborᵐ :  ℕ →  Lft →  ℚ⁺ →  SProp∞ →  Resᴮᵒʳ
 oborᵐ i α p P =  inj˙ᴮᵒʳ i (#ˣ (š p , α , P) , εˣ)
 
 -- Resource for the lending token
 
-lend :  ℕ →  Lft →  Prop∞ →  Resᴮᵒʳ
+lend :  ℕ →  Lft →  SProp∞ →  Resᴮᵒʳ
 lend i α P =  inj˙ᴮᵒʳ i (εˣ , #ˣ (tt , α , P))
 
 private variable

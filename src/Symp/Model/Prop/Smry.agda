@@ -15,13 +15,13 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ; ṡ_; _≥_; _<_; _<ᵈ_; ≤-refl; <⇒≤; <-irrefl; _<≥_;
   ≤ᵈ-refl; ≤ᵈṡ; ≤ᵈ⇒≤; ≤⇒≤ᵈ)
-open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ⊤ᵒ; _∗ᵒ_;
+open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨_; ⊨_; ⊤ᵒ; _∗ᵒ_;
   ∗ᵒ-Mono; ∗ᵒ-monoʳ; ?∗ᵒ-comm; ∗ᵒ-elimʳ)
 
 private variable
   ł :  Level
   X Y :  Set ł
-  F :  ℕ → X → Propᵒ ł
+  F :  ℕ → X → SPropᵒ ł
   i n :  ℕ
   xˇ˙ yˇ˙ :  ℕ → ¿ X
   xˇ :  ¿ X
@@ -34,7 +34,7 @@ abstract
 
   -- Smry F xˇ˙ n :  xˇ˙ i interpreted with F, over all i < n
 
-  Smry :  (ℕ → X → Propᵒ ł) →  (ℕ → ¿ X) →  ℕ →  Propᵒ (1ᴸ ⊔ᴸ ł)
+  Smry :  (ℕ → X → SPropᵒ ł) →  (ℕ → ¿ X) →  ℕ →  SPropᵒ (1ᴸ ⊔ᴸ ł)
   Smry F xˇ˙ 0 =  ⊤ᵒ
   Smry F xˇ˙ (ṡ n)  with xˇ˙ n
   … | ň =  Smry F xˇ˙ n

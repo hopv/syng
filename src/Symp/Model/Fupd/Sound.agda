@@ -12,7 +12,7 @@ open import Base.Size using (∞; !)
 open import Base.Prod using (∑-case; π₀; _,_)
 open import Base.Nat using (ℕ)
 open import Symp.Lang.Expr using (Mem)
-open import Symp.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
+open import Symp.Logic.Prop using (SProp∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
 open import Symp.Logic.Core using (_»_; ∃-elim)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
   ⇛-frameʳ)
@@ -29,7 +29,7 @@ open import Symp.Model.Fupd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒�
   ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᵒ-adeq)
 
 private variable
-  P Q :  Prop∞
+  P Q :  SProp∞
   i :  ℕ
   X :  Set₀
 

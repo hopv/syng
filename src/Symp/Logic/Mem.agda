@@ -19,7 +19,7 @@ open import Base.Sety using (Setʸ)
 open import Symp.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; V⇒E; TyVal; ⊤-)
 open import Symp.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx;
   _ᴷ◁_)
-open import Symp.Logic.Prop using (WpKind; par; tot; Prop∞; _∗_; _↦⟨_⟩_; _↦_;
+open import Symp.Logic.Prop using (WpKind; par; tot; SProp∞; _∗_; _↦⟨_⟩_; _↦_;
   _↦ᴸ_; Free)
 open import Symp.Logic.Core using (_»_; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro; ∗-elimʳ;
   ∃∗-elim)
@@ -45,8 +45,8 @@ private variable
   f :  X → X
   ᵗu :  TyVal
   ᵗvs :  List TyVal
-  P :  Prop∞
-  Q˙ :  X → Prop∞
+  P :  SProp∞
+  Q˙ :  X → SProp∞
 
 abstract
 

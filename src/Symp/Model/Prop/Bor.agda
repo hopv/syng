@@ -17,13 +17,13 @@ open import Base.Option using (š_; ň)
 open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-; -ᴵ,_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ⁺-trans)
-open import Symp.Logic.Prop using (Lft; Prop∞; ⊤'; _∗_; _-∗_; Basic)
+open import Symp.Logic.Prop using (Lft; SProp∞; ⊤'; _∗_; _-∗_; Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
   ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
 open import Symp.Model.ERA.Bor using (Envᴮᵒʳᵇ; εᴮᵒʳ; borᵐ; oborᵐ; lend;
   borᵐ-new; borᵐ-open; oborᵐ-close; lend-back)
 open import Symp.Model.ERA.Glob using (iᴮᵒʳ)
-open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
+open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono; ∗ᵒ⇒∗ᵒ';
   ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro; □ᵒ-∗ᵒ-in; ⤇ᴱ⟨⟩-mono;
   ◎⟨⟩-∙⇒∗ᵒ; ↝-◎⟨⟩-⤇ᴱ⟨⟩; ε↝-◎⟨⟩-⤇ᴱ⟨⟩)
@@ -34,17 +34,17 @@ private variable
   i n :  ℕ
   α :  Lft
   p q :  ℚ⁺
-  P Q R :  Prop∞
+  P Q R :  SProp∞
   E˙ :  ℕ → Envᴮᵒʳᵇ
 
 --------------------------------------------------------------------------------
 -- &ᵐᵒ :  Interpret the mutable borrow token
 
-Borᵐ :  ℕ →  Lft →  Prop∞ →  Propᵒ 1ᴸ
+Borᵐ :  ℕ →  Lft →  SProp∞ →  SPropᵒ 1ᴸ
 Borᵐ i α P =  ◎⟨ iᴮᵒʳ ⟩ borᵐ i α P
 
 infix 8 &ᵐ⟨_⟩ᵒ_
-&ᵐ⟨_⟩ᵒ_ :  Lft →  Prop∞ →  Propᵒ 1ᴸ
+&ᵐ⟨_⟩ᵒ_ :  Lft →  SProp∞ →  SPropᵒ 1ᴸ
 &ᵐ⟨ α ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
   □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Borᵐ i α R
@@ -79,11 +79,11 @@ abstract
 --------------------------------------------------------------------------------
 -- %ᵐᵒ :  Interpret the open mutable borrow token
 
-Oborᵐ :  ℕ →  Lft →  ℚ⁺ →  Prop∞ →  Propᵒ 1ᴸ
+Oborᵐ :  ℕ →  Lft →  ℚ⁺ →  SProp∞ →  SPropᵒ 1ᴸ
 Oborᵐ i α p P =  ◎⟨ iᴮᵒʳ ⟩ oborᵐ i α p P
 
 infix 8 %ᵐ⟨_⟩ᵒ_
-%ᵐ⟨_⟩ᵒ_ :  Lft × ℚ⁺ →  Prop∞ →  Propᵒ 1ᴸ
+%ᵐ⟨_⟩ᵒ_ :  Lft × ℚ⁺ →  SProp∞ →  SPropᵒ 1ᴸ
 %ᵐ⟨ α , p ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ q , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ p ≈ᴿ⁺ q  ×  Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
   □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  [ α ]ᴸ⟨ q /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α q R
@@ -135,11 +135,11 @@ abstract
 --------------------------------------------------------------------------------
 -- ⟨†⟩ᵒ :  Interpret the lending token
 
-Lend :  ℕ →  Lft →  Prop∞ →  Propᵒ 1ᴸ
+Lend :  ℕ →  Lft →  SProp∞ →  SPropᵒ 1ᴸ
 Lend i α P =  ◎⟨ iᴮᵒʳ ⟩ lend i α P
 
 infix 8 ⟨†_⟩ᵒ_
-⟨†_⟩ᵒ_ :  Lft →  Prop∞ →  Propᵒ 1ᴸ
+⟨†_⟩ᵒ_ :  Lft →  SProp∞ →  SPropᵒ 1ᴸ
 ⟨† α ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ R ⊢[ ∞ ] P ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Lend i α R
 

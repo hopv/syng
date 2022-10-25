@@ -11,13 +11,14 @@ open import Base.Func using (_$_; _▷_; _∘_; _›_)
 open import Base.Prod using (_,_; -,_; -ᴵ,_; uncurry)
 open import Base.Sum using (ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
-open import Symp.Logic.Prop using (Name; Prop∞)
+open import Symp.Logic.Prop using (Name; SProp∞)
 open import Symp.Model.ERA.Inv using (Envᴵⁿᵛ)
 open import Symp.Model.ERA.Glob using (jᴵⁿᵛ; ∅ᴵⁿᴳ)
-open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_; _-∗ᵒ_;
-  ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ;
-  ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ∗ᵒ?-comm; ?∗ᵒ-intro; ∗ᵒ-elimʳ;
-  ∗ᵒ⨿ᵒ-out; -∗ᵒ-applyˡ; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ; □ᵒ-elim; dup-□ᵒ)
+open import Symp.Model.Prop.Base using (SPropᵒ; _⊨✓_; _⊨_; ⊨_; _⨿ᵒ_; _∗ᵒ_;
+  _-∗ᵒ_; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ;
+  ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ∗ᵒ?-comm; ?∗ᵒ-intro;
+  ∗ᵒ-elimʳ; ∗ᵒ⨿ᵒ-out; -∗ᵒ-applyˡ; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ; □ᵒ-elim;
+  dup-□ᵒ)
 open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Symp.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-back)
@@ -33,26 +34,26 @@ private variable
   ł :  Level
   i :  ℕ
   nm :  Name
-  P :  Prop∞
-  Pᵒ :  Propᵒ ł
+  P :  SProp∞
+  Pᵒ :  SPropᵒ ł
 
 --------------------------------------------------------------------------------
 -- Fancy update on Invᴱᴿᴬ
 
 -- Lineᴵⁿᵛ :  Line for Invᴵⁿᵛ
 
-Lineᴵⁿᵛ :  ℕ →  Name →  Prop∞ →  Propᵒ 1ᴸ
+Lineᴵⁿᵛ :  ℕ →  Name →  SProp∞ →  SPropᵒ 1ᴸ
 Lineᴵⁿᵛ i nm P =  Invk i nm P ∗ᵒ ⸨ P ⸩  ⨿ᵒ  [^ nm ]ᴺᵒ
 
 -- Invᴵⁿᵛ :  Invariant for Invᴱᴿᴬ
 
-Invᴵⁿᵛ :  Envᴵⁿᵛ →  Propᵒ 1ᴸ
+Invᴵⁿᵛ :  Envᴵⁿᵛ →  SPropᵒ 1ᴸ
 Invᴵⁿᵛ (ⁿPˇ˙ , n) =  Smry (uncurry ∘ Lineᴵⁿᵛ) ⁿPˇ˙ n
 
 -- ⇛ᴵⁿᵛ :  Fancy update on Invᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵛ_
-⇛ᴵⁿᵛ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᴵⁿᵛ_ :  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᴵⁿᵛ Pᵒ =  [ jᴵⁿᵛ , Invᴵⁿᵛ ]⇛ᵍ¹ Pᵒ
 
 abstract

@@ -18,7 +18,7 @@ open import Base.Str using ()
 open import Symp.Logic.Prop using (Name)
 open import Symp.Model.ERA.Names using ([_]ᴺʳ; []ᴺʳ-cong; []ᴺʳ-✔)
 open import Symp.Model.ERA.Glob using (iᴺᵃᵐᵉˢ)
-open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⌜_⌝ᵒ; ⊥ᵒ₀; _∗ᵒ_;
+open import Symp.Model.Prop.Base using (SPropᵒ; _⊨✓_; _⊨_; ⌜_⌝ᵒ; ⊥ᵒ₀; _∗ᵒ_;
   ◎⟨_⟩_; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓)
 
 private variable
@@ -28,17 +28,17 @@ private variable
 --------------------------------------------------------------------------------
 -- [ ]ᴺᵒ :  Interpret the name set token
 
-[_]ᴺᵒ :  (Name → Zoi) →  Propᵒ 1ᴸ
+[_]ᴺᵒ :  (Name → Zoi) →  SPropᵒ 1ᴸ
 [ Nm ]ᴺᵒ  =  ◎⟨ iᴺᵃᵐᵉˢ ⟩ [ Nm ]ᴺʳ
 
 -- [⊤]ᴺᵒ :  Interpret the universal name set token
 
-[⊤]ᴺᵒ :  Propᵒ 1ᴸ
+[⊤]ᴺᵒ :  SPropᵒ 1ᴸ
 [⊤]ᴺᵒ =  [ ⊤ᶻ ]ᴺᵒ
 
 -- [^ ]ᴺᵒ :  Interpret the name token
 
-[^_]ᴺᵒ :  Name →  Propᵒ 1ᴸ
+[^_]ᴺᵒ :  Name →  SPropᵒ 1ᴸ
 [^ Nm ]ᴺᵒ  =  [ ^ᶻ Nm ]ᴺᵒ
 
 abstract

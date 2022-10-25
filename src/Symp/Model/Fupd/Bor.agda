@@ -14,10 +14,10 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; _,_; -,_; _,-; -ᴵ,_; ∑-case)
 open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺; _/2⁺; ≈ᴿ⁺-refl; ≈ᴿ⁺-sym)
-open import Symp.Logic.Prop using (Lft; Prop∞)
+open import Symp.Logic.Prop using (Lft; SProp∞)
 open import Symp.Model.ERA.Bor using (Envᴮᵒʳ)
 open import Symp.Model.ERA.Glob using (jᴮᵒʳ; ∅ᴵⁿᴳ)
-open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ⌜_⌝ᵒ×_; _∗ᵒ_;
+open import Symp.Model.Prop.Base using (SPropᵒ; _⊨✓_; _⊨_; ⊨_; ⌜_⌝ᵒ×_; _∗ᵒ_;
   ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ;
   ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-comm; ∗ᵒ-pullʳ²; ∗ᵒ-pushʳ²ˡ; ?∗ᵒ-intro;
   ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ∃ᵒ∗ᵒ-out; □ᵒ-elim; dup-□ᵒ; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-mono;
@@ -42,28 +42,28 @@ private variable
   pˇ :  ¿ ℚ⁺
   b :  𝔹
   α :  Lft
-  P :  Prop∞
-  Pᵒ :  Propᵒ ł
+  P :  SProp∞
+  Pᵒ :  SPropᵒ ł
 
 --------------------------------------------------------------------------------
 -- Fancy update on Borᴱᴿᴬ
 
 -- Lineᴮᵒʳ :  Line for Invᴮᵒʳ
 
-Lineᴮᵒʳ :  ¿ ℚ⁺ × 𝔹 × Lft × Prop∞ →  Propᵒ 1ᴸ
+Lineᴮᵒʳ :  ¿ ℚ⁺ × 𝔹 × Lft × SProp∞ →  SPropᵒ 1ᴸ
 Lineᴮᵒʳ (-, ff , α , _) =  †ᴸᵒ α
 Lineᴮᵒʳ (ň , tt , -, P) =  ⸨ P ⸩
 Lineᴮᵒʳ (š p , tt , α , _) =  [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ
 
 -- Invᴮᵒʳ :  Invariant for Borᴱᴿᴬ
 
-Invᴮᵒʳ :  Envᴮᵒʳ →  Propᵒ 1ᴸ
+Invᴮᵒʳ :  Envᴮᵒʳ →  SPropᵒ 1ᴸ
 Invᴮᵒʳ (E˙ , n) =  Smry (λ _ → Lineᴮᵒʳ) E˙ n
 
 -- Fancy update on InvᴱᴿᴬBorᴱᴿᴬ
 
 infix 3 ⇛ᴮᵒʳ_
-⇛ᴮᵒʳ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᴮᵒʳ_ :  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᴮᵒʳ Pᵒ =  [ jᴮᵒʳ , Invᴮᵒʳ ]⇛ᵍ¹ Pᵒ
 
 abstract

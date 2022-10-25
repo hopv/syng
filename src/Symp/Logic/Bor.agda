@@ -15,8 +15,8 @@ open import Base.Nat using (ℕ)
 open import Base.Ratp using (ℚ⁺)
 open import Symp.Lang.Expr using (Addr; Type; V⇒E)
 open import Symp.Lang.Ktxred using (Ktx; _ᴷ◁_)
-open import Symp.Logic.Prop using (Lft; WpKind; Prop∞; Prop˂∞; ¡ᴾ_; ⌜_⌝∧_; _∗_;
-  _↦⟨_⟩_; [_]ᴸ⟨_⟩; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; Basic)
+open import Symp.Logic.Prop using (Lft; WpKind; SProp∞; SProp˂∞; ¡ᴾ_; ⌜_⌝∧_;
+  _∗_; _↦⟨_⟩_; [_]ᴸ⟨_⟩; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; ⇒<; _»_;
   ∗-monoˡ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm; ⊤∗-intro; ∗-elimʳ)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
@@ -30,8 +30,8 @@ private variable
   i :  ℕ
   α :  Lft
   X :  Set₀
-  P Q R :  Prop∞
-  P˂ Q˂ :  Prop˂∞
+  P Q R :  SProp∞
+  P˂ Q˂ :  SProp˂∞
   p :  ℚ⁺
   θ :  Addr
   T U :  Type

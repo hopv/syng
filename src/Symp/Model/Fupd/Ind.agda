@@ -17,16 +17,16 @@ open import Base.Sum using (ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.Nat using (ℕ)
 open import Symp.Lang.Expr using (Type; Expr∞)
 open import Symp.Lang.Ktxred using (Redex)
-open import Symp.Logic.Prop using (WpKind; Prop∞; _∗_)
+open import Symp.Logic.Prop using (WpKind; SProp∞; _∗_)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
 open import Symp.Model.ERA.Ind using (Envᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
 open import Symp.Model.ERA.Glob using (Envᴵⁿᴳ; jᴵⁿᵈˣ; jᴵⁿᵈᵖ; ∅ᴵⁿᴳ)
-open import Symp.Model.Prop.Base using (Propᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_; _∗ᵒ_;
-  _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ;
-  ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; -∗ᵒ-monoˡ; -∗ᵒ-applyˡ;
-  ⤇ᴱ⟨⟩-mono; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ; □ᵒ-Mono; □ᵒ-elim; dup-□ᵒ;
-  □ᵒ-∗ᵒ-in)
+open import Symp.Model.Prop.Base using (SPropᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ×_;
+  _∗ᵒ_; _-∗ᵒ_; □ᵒ_; ∗ᵒ-mono; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ;
+  ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; ?∗ᵒ-intro; ∗ᵒ?-intro; -∗ᵒ-monoˡ;
+  -∗ᵒ-applyˡ; ⤇ᴱ⟨⟩-mono; ⤇ᴱ⟨⟩-mono✓; ⤇ᴱ⟨⟩-param; ⤇ᴱ⟨⟩-eatʳ; □ᵒ-Mono; □ᵒ-elim;
+  dup-□ᵒ; □ᵒ-∗ᵒ-in)
 open import Symp.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
   Smry-rem-<)
 open import Symp.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _↪[_]⇛ᴹ_;
@@ -40,10 +40,10 @@ open import Symp.Model.Fupd.Base using ([_]⇛ᵍ_; [_]⇛ᵍ¹_; ⇛ᵍ-mono✓
 private variable
   ł :  Level
   i :  ℕ
-  P Q :  Prop∞
+  P Q :  SProp∞
   X :  Set₀
-  Q˙ :  X →  Prop∞
-  Pᵒ :  Propᵒ ł
+  Q˙ :  X →  SProp∞
+  Pᵒ :  SPropᵒ ł
   κ :  WpKind
   T :  Type
   red :  Redex T
@@ -54,13 +54,13 @@ private variable
 
 -- Invᴵⁿᵈˣ :  Invariant for Indˣᴱᴿᴬ
 
-Invᴵⁿᵈˣ :  Envᴵⁿᵈˣ →  Propᵒ 1ᴸ
+Invᴵⁿᵈˣ :  Envᴵⁿᵈˣ →  SPropᵒ 1ᴸ
 Invᴵⁿᵈˣ (P˙ , n) =  Smry (λ _ → ⸨_⸩) P˙ n
 
 -- ⇛ᴵⁿᵈˣ :  Fancy update on Indˣᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵈˣ_
-⇛ᴵⁿᵈˣ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᴵⁿᵈˣ_ :  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᴵⁿᵈˣ Pᵒ =  [ jᴵⁿᵈˣ , Invᴵⁿᵈˣ ]⇛ᵍ¹ Pᵒ
 
 abstract
@@ -93,13 +93,13 @@ abstract
 
 -- Invᴵⁿᵈᵖ :  Invariant for Indᵖᴱᴿᴬ
 
-Invᴵⁿᵈᵖ :  Envᴵⁿᵈᵖ →  Propᵒ 1ᴸ
+Invᴵⁿᵈᵖ :  Envᴵⁿᵈᵖ →  SPropᵒ 1ᴸ
 Invᴵⁿᵈᵖ (P˙ , n) =  □ᵒ Smry (λ _ → ⸨_⸩) P˙ n
 
 -- ⇛ᴵⁿᵈᵖ :  Fancy update on Indᵖᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵈᵖ_
-⇛ᴵⁿᵈᵖ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᴵⁿᵈᵖ_ :  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᴵⁿᵈᵖ Pᵒ =  [ jᴵⁿᵈᵖ , Invᴵⁿᵈᵖ ]⇛ᵍ¹ Pᵒ
 
 abstract
@@ -139,7 +139,7 @@ abstract
 
 -- Invariant for Indˣᴱᴿᴬ and Indᵖᴱᴿᴬ
 
-Invᴵⁿᵈ :  Envᴵⁿᵈ →  Propᵒ 1ᴸ
+Invᴵⁿᵈ :  Envᴵⁿᵈ →  SPropᵒ 1ᴸ
 Invᴵⁿᵈ (Eᴵⁿᵈˣ , Eᴵⁿᵈᵖ) =  Invᴵⁿᵈˣ Eᴵⁿᵈˣ ∗ᵒ Invᴵⁿᵈᵖ Eᴵⁿᵈᵖ
 
 -- Get Envᴵⁿᵈ out of Envᴵⁿᴳ
@@ -155,7 +155,7 @@ updᴱᴵⁿᵈ (Fᴵⁿᵈˣ , Fᴵⁿᵈᵖ) =  upd˙² jᴵⁿᵈˣ Fᴵⁿ�
 -- Fancy update for Indˣᴱᴿᴬ and Indᵖᴱᴿᴬ
 
 infix 3 ⇛ᴵⁿᵈ_
-⇛ᴵⁿᵈ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᴵⁿᵈ_ :  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᴵⁿᵈ Pᵒ =  [ envᴵⁿᵈ , updᴱᴵⁿᵈ , Invᴵⁿᵈ ]⇛ᵍ Pᵒ
 
 abstract

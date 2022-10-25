@@ -25,7 +25,7 @@ open import Symp.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; 
 open import Symp.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
   🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Symp.Lang.Reduce using (_⇒ᴾ_)
-open import Symp.Logic.Prop using (WpKind; Name; Lft; par; tot; Prop∞; Prop˂∞;
+open import Symp.Logic.Prop using (WpKind; Name; Lft; par; tot; SProp∞; SProp˂∞;
   ¡ᴾ_; ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_;
   _∗_; _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _↪[_]⇛_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_;
   _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_;
@@ -42,13 +42,13 @@ infix 3 [_]⇛_ [_]ᵃ⟨_⟩_ ⁺⟨_⟩[_]_
 
 data  JudgRes :  Set₁  where
   -- Just a proposition
-  Pure :  Prop∞ →  JudgRes
+  Pure :  SProp∞ →  JudgRes
   -- Under the fancy update, with a level
-  [_]⇛_ :  ℕ →  Prop∞ →  JudgRes
+  [_]⇛_ :  ℕ →  SProp∞ →  JudgRes
   -- Atomic weakest precondition, with a level
-  [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → Prop∞) →  JudgRes
+  [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → SProp∞) →  JudgRes
   -- Weakest precondition, over Val/Ktxred
-  ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  JudgRes
+  ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → SProp∞) →  JudgRes
   -- Infinite weakest precondition, with a level, over Val/Ktxred
   [_]⁺⟨_⟩∞ :  ℕ →  Val/Ktxred T →  JudgRes
 
@@ -63,76 +63,77 @@ infix 2 _⊢[_]*_ _⊢[<_]*_ _⊢[_]_ _⊢[<_]_ _⊢[_][_]⇛_ _⊢[<_][_]⇛_ _
 
 -- Judg ι P Jr :  P ⊢[ ι ]* Jr with the size argument coming first
 
-data  Judg (ι : 𝕊) :  Prop∞ →  JudgRes →  Set₁
+data  Judg (ι : 𝕊) :  SProp∞ →  JudgRes →  Set₁
 
 -- ⊢[ ]* :  General Judgment
 -- ⊢[< ]* :  ⊢[ ]* under thunk
 
-_⊢[_]*_ _⊢[<_]*_ :  Prop∞ →  𝕊 →  JudgRes →  Set₁
+_⊢[_]*_ _⊢[<_]*_ :  SProp∞ →  𝕊 →  JudgRes →  Set₁
 P ⊢[ ι ]* Jr =  Judg ι P Jr
 P ⊢[< ι ]* Jr =  Thunk (P ⊢[_]* Jr) ι
 
 -- ⊢[ ] etc. :  Pure sequent
 
-_⊢[_]_ _⊢[<_]_ :  Prop∞ →  𝕊 →  Prop∞ →  Set₁
+_⊢[_]_ _⊢[<_]_ :  SProp∞ →  𝕊 →  SProp∞ →  Set₁
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
 -- ⊢[ ][ ]⇛ etc. :  Fancy update sequent
 
-_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop∞ →  𝕊 →  ℕ →  Prop∞ →  Set₁
+_⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  SProp∞ →  𝕊 →  ℕ →  SProp∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
 P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 
 -- ⊢[ ][ ]⇛ᴺ etc. :  Fancy update sequent with the universal name set token [⊤]ᴺ
 
-_⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_ :  Prop∞ →  𝕊 →  ℕ →  Prop∞ →  Set₁
+_⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_ :  SProp∞ →  𝕊 →  ℕ →  SProp∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ᴺ Q =  [⊤]ᴺ ∗ P ⊢[ ι ][ i ]⇛ [⊤]ᴺ ∗ Q
 P ⊢[< ι ][ i ]⇛ᴺ Q =  Thunk (P ⊢[_][ i ]⇛ᴺ Q) ι
 
 -- ⊢[ ][ ]ᵃ⟨ ⟩ etc. :  Atomic Hoare triple
 
 _⊢[_][_]ᵃ⟨_⟩_ _⊢[<_][_]ᵃ⟨_⟩_ :
-  Prop∞ →  𝕊 →  ℕ →  Redex T →  (Val T → Prop∞) →  Set₁
+  SProp∞ →  𝕊 →  ℕ →  Redex T →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  P ⊢[ ι ]* [ i ]ᵃ⟨ red ⟩ Q˙
 P ⊢[< ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  Thunk (P ⊢[_][ i ]ᵃ⟨ red ⟩ Q˙) ι
 
 -- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Hoare triple over Val/Ktxred
 
-_⊢[_]⁺⟨_⟩[_]_ :  Prop∞ →  𝕊 →  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  Set₁
+_⊢[_]⁺⟨_⟩[_]_ :
+  SProp∞ →  𝕊 →  Val/Ktxred T →  WpKind →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩[ κ ] Q˙ =  P ⊢[ ι ]* ⁺⟨ vk ⟩[ κ ] Q˙
 
 _⊢[_]⁺⟨_/_⟩[_]_ :
-  Prop∞ →  𝕊 →  ∀ T →  Val/Ktxred T →  WpKind →  (Val T → Prop∞) →  Set₁
+  SProp∞ →  𝕊 →  ∀ T →  Val/Ktxred T →  WpKind →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⁺⟨ _ / vk ⟩[ κ ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ κ ] Q˙
 
-_⊢[_]⁺⟨_⟩ᴾ_ :  Prop∞ →  𝕊 →  Val/Ktxred T →  (Val T → Prop∞) →  Set₁
+_⊢[_]⁺⟨_⟩ᴾ_ :  SProp∞ →  𝕊 →  Val/Ktxred T →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᴾ Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ par ] Q˙
 
 _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[<_]⁺⟨_⟩ᵀ[_]_ :
-  Prop∞ →  𝕊 →  Val/Ktxred T →  ℕ →  (Val T → Prop∞) →  Set₁
+  SProp∞ →  𝕊 →  Val/Ktxred T →  ℕ →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot i ] Q˙
 P ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  Thunk (P ⊢[_]⁺⟨ vk ⟩ᵀ[ i ] Q˙) ι
 
 -- ⊢[ ]⟨ ⟩[ ] etc. :  Hoare triple over Expr
 
 _⊢[_]⟨_⟩[_]_ _⊢[<_]⟨_⟩[_]_ :
-  Prop∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Set₁
+  SProp∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩[ κ ] Q˙ =  P ⊢[ ι ]⁺⟨ val/ktxred e ⟩[ κ ] Q˙
 P ⊢[< ι ]⟨ e ⟩[ κ ] Q˙ =  Thunk (P ⊢[_]⟨ e ⟩[ κ ] Q˙) ι
 
-_⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ :  Prop∞ →  𝕊 →  Expr∞ T →  (Val T → Prop∞) →  Set₁
+_⊢[_]⟨_⟩ᴾ_ _⊢[<_]⟨_⟩ᴾ_ :  SProp∞ →  𝕊 →  Expr∞ T →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᴾ Q˙ =  P ⊢[ ι ]⟨ e ⟩[ par ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᴾ Q˙ =  P ⊢[< ι ]⟨ e ⟩[ par ] Q˙
 
 _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_ :
-  Prop∞ →  𝕊 →  Expr∞ T →  ℕ →  (Val T → Prop∞) →  Set₁
+  SProp∞ →  𝕊 →  Expr∞ T →  ℕ →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩[ tot i ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[< ι ]⟨ e ⟩[ tot i ] Q˙
 
 -- ⊢[<ᴾ ]⟨ ⟩[ ] :  Hoare triple over Expr, under thunk if partial
 
-_⊢[<ᴾ_]⟨_⟩[_]_ :  Prop∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → Prop∞) →  Set₁
+_⊢[<ᴾ_]⟨_⟩[_]_ :  SProp∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  Set₁
 P ⊢[<ᴾ ι ]⟨ e ⟩[ par ] Q˙ =  P ⊢[< ι ]⟨ e ⟩ᴾ Q˙
 P ⊢[<ᴾ ι ]⟨ e ⟩[ tot i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
 
@@ -141,17 +142,17 @@ P ⊢[<ᴾ ι ]⟨ e ⟩[ tot i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
 -- This means that the event ● should occur an infinite number of times
 -- in any execution of the program
 
-_⊢[_][_]⁺⟨_⟩∞ _⊢[<_][_]⁺⟨_⟩∞ :  Prop∞ →  𝕊 →  ℕ →  Val/Ktxred T →  Set₁
+_⊢[_][_]⁺⟨_⟩∞ _⊢[<_][_]⁺⟨_⟩∞ :  SProp∞ →  𝕊 →  ℕ →  Val/Ktxred T →  Set₁
 P ⊢[ ι ][ i ]⁺⟨ vk ⟩∞ =  P ⊢[ ι ]* [ i ]⁺⟨ vk ⟩∞
 P ⊢[< ι ][ i ]⁺⟨ vk ⟩∞ =  Thunk (P ⊢[_][ i ]⁺⟨ vk ⟩∞) ι
 
-_⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞ :  Prop∞ →  𝕊 →  ℕ →  Expr∞ T →  Set₁
+_⊢[_][_]⟨_⟩∞ _⊢[<_][_]⟨_⟩∞ :  SProp∞ →  𝕊 →  ℕ →  Expr∞ T →  Set₁
 P ⊢[ ι ][ i ]⟨ e ⟩∞ =  P ⊢[ ι ][ i ]⁺⟨ val/ktxred e ⟩∞
 P ⊢[< ι ][ i ]⟨ e ⟩∞ =  Thunk (P ⊢[_][ i ]⟨ e ⟩∞) ι
 
 -- Pers :  Persistence of a proposition
 
-record  Pers (P : Prop∞) :  Set₁  where
+record  Pers (P : SProp∞) :  Set₁  where
   inductive
   -- Pers-⇒□ :  P can turn into □ P
   field Pers-⇒□ :  P ⊢[ ι ] □ P
@@ -166,10 +167,10 @@ private variable
   f :  X → X
   Y˙ :  X → Set₀
   Jr :  JudgRes
-  P P' Q R :  Prop∞
-  P˙ Q˙ R˙ :  X → Prop∞
-  P˂ P'˂ Q˂ Q'˂ R˂ :  Prop˂∞
-  Q˂˙ Q'˂˙ :  X → Prop˂∞
+  P P' Q R :  SProp∞
+  P˙ Q˙ R˙ :  X → SProp∞
+  P˂ P'˂ Q˂ Q'˂ R˂ :  SProp˂∞
+  Q˂˙ Q'˂˙ :  X → SProp˂∞
   κ :  WpKind
   red :  Redex T
   vk :  Val/Ktxred T
@@ -217,7 +218,7 @@ data  Judg ι  where
 
   -- Choice, which is safe to have thanks to the logic's predicativity
 
-  choice :  ∀{P˙˙ : ∀(x : X) → Y˙ x → Prop∞} →
+  choice :  ∀{P˙˙ : ∀(x : X) → Y˙ x → SProp∞} →
     ∀' x , ∃ y , P˙˙ x y ⊢[ ι ] ∃ y˙ ∈ (∀ x → Y˙ x) , ∀' x , P˙˙ x (y˙ x)
 
   ------------------------------------------------------------------------------

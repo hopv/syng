@@ -14,7 +14,7 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; π₀; π₁; _,_; -,_; _,-)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.List using ([]; [_]; ≡⇒≈ᴸ; ≈ᴸ-[])
-open import Symp.Logic.Prop using (Name; Prop∞)
+open import Symp.Logic.Prop using (Name; SProp∞)
 open import Symp.Model.ERA.Base using (ERA; _×ᴱᴿᴬ_; Envmᴱᴿᴬ)
 open import Symp.Model.ERA.Exc using (εˣ; #ˣ_; Excᴱᴿᴬ; ň-✓ˣ)
 open import Symp.Model.ERA.Ag using (Agᴱᴿᴬ; ň-✓ᴸ; ✓ᴸ-[]; ✓ᴸ-š-[?]; ✓ᴸ-agree)
@@ -27,10 +27,10 @@ import Symp.Model.ERA.Bnd
 -- NameProp :  Pair of a name and a proposition
 
 NameProp :  Set₁
-NameProp =  Name × Prop∞
+NameProp =  Name × SProp∞
 
 private variable
-  P :  Prop∞
+  P :  SProp∞
   nm :  Name
   i n :  ℕ
   ⁿPˇ˙ ⁿQˇ˙ :  ℕ →  ¿ NameProp
@@ -57,12 +57,12 @@ open ERA Invᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵛ; Res to Res�
 
 -- Persistently observe a proposition at an index
 
-inv :  ℕ →  Name →  Prop∞ →  Resᴵⁿᵛ
+inv :  ℕ →  Name →  SProp∞ →  Resᴵⁿᵛ
 inv i nm P =  inj˙ᴵⁿᵛ i ([ nm , P ] , εˣ)
 
 -- Exclusively own a key of an index
 
-invk :  ℕ →  Name →  Prop∞ →  Resᴵⁿᵛ
+invk :  ℕ →  Name →  SProp∞ →  Resᴵⁿᵛ
 invk i nm P =  inj˙ᴵⁿᵛ i ([] , #ˣ (nm , P))
 
 abstract

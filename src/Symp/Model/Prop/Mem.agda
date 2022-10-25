@@ -22,7 +22,7 @@ open import Symp.Model.ERA.Mem using (Memᴱᴿᴬ; εᴹᵉᵐ; [∙ᴹᵉᵐ�
   ↦⟨⟩ʳ-≤1; ↦⟨⟩ʳ-agree; [∙∈ⁱ]↦≈↦ᴸʳ; ↦⟨⟩ʳ-read; ↦ʳ-write; ↦ᴸʳ-alloc; freeʳ-š;
   ↦ᴸʳ-free)
 open import Symp.Model.ERA.Glob using (iᴹᵉᵐ)
-open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
+open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
   ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; ⊤ᵒ₀; _∗ᵒ_; [∗ᵒ∈ⁱ]-syntax; [∗ᵒ∈ⁱ⟨⟩]-syntax; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono;
   ∗ᵒ-monoʳ; ⤇ᴱ⟨⟩-mono; ⤇ᴱ⟨⟩-param; ◎-Mono; ◎⟨⟩-resp; ◎⟨⟩-ε; ◎⟨⟩-∗ᵒ⇒∙;
   ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓; ↝-◎⟨⟩-⤇ᴱ⟨⟩; ε↝-◎⟨⟩-⤇ᴱ⟨⟩)
@@ -42,32 +42,32 @@ infix 9 _↦⟨_⟩ᵒ_ _↦ᵒ_
 
 -- ↦⟨ ⟩ᵒ : Interpret the points-to token
 
-_↦⟨_⟩ᵒ_ :  Addr →  ℚ⁺ →  TyVal →  Propᵒ 1ᴸ
+_↦⟨_⟩ᵒ_ :  Addr →  ℚ⁺ →  TyVal →  SPropᵒ 1ᴸ
 θ ↦⟨ p ⟩ᵒ ᵗv =  ◎⟨ iᴹᵉᵐ ⟩ θ ↦⟨ p ⟩ʳ ᵗv
 
 -- ↦ᵒ : ↦⟨ ⟩ᵒ with the fraction 1
 
-_↦ᵒ_ :  Addr →  TyVal →  Propᵒ 1ᴸ
+_↦ᵒ_ :  Addr →  TyVal →  SPropᵒ 1ᴸ
 θ ↦ᵒ ᵗv =  θ ↦⟨ 1ᴿ⁺ ⟩ᵒ ᵗv
 
 -- Freeᵒ' : The freeing token over a block id
 
-Freeᵒ' :  ℕ →  ℕ →  Propᵒ 1ᴸ
+Freeᵒ' :  ℕ →  ℕ →  SPropᵒ 1ᴸ
 Freeᵒ' n o =  ◎⟨ iᴹᵉᵐ ⟩ freeʳ n o
 
 -- Freeᵒ : Interpret the freeing token
 
-Freeᵒ :  ℕ →  Addr →  Propᵒ 1ᴸ
+Freeᵒ :  ℕ →  Addr →  SPropᵒ 1ᴸ
 Freeᵒ n θ =  ∃ᵒ o ,  ⌜ θ ≡ (o , 0) ⌝ᵒ×  Freeᵒ' n o
 
 -- ↦ᴸᵒ, ↦ᴸᵒ' :  Interpret the points-to token over a list of values
 
 infix 9 _↦ᴸᵒ_ _↦ᴸᵒ'_
 
-_↦ᴸᵒ_ :  Addr →  List TyVal →  Propᵒ 1ᴸ
+_↦ᴸᵒ_ :  Addr →  List TyVal →  SPropᵒ 1ᴸ
 θ ↦ᴸᵒ ᵗvs =  [∗ᵒ (i , ᵗv) ∈ⁱ ᵗvs ] θ ₒ i ↦ᵒ ᵗv
 
-_↦ᴸᵒ'_ :  ℕ →  List TyVal →  Propᵒ 1ᴸ
+_↦ᴸᵒ'_ :  ℕ →  List TyVal →  SPropᵒ 1ᴸ
 o ↦ᴸᵒ' ᵗvs =  ◎⟨ iᴹᵉᵐ ⟩ o ↦ᴸʳ ᵗvs
 
 abstract

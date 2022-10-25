@@ -13,7 +13,7 @@ open import Base.Prod using (-,_)
 open import Symp.Lang.Expr using (Type; Expr∞; loop; Val)
 open import Symp.Lang.Ktxred using (Redex)
 open import Symp.Lang.Reduce using (_⇒ᴾ_; redᴾ)
-open import Symp.Logic.Prop using (Name; strnm; Lft; Prop∞; Prop˂∞; ¡ᴾ_;
+open import Symp.Logic.Prop using (Name; strnm; Lft; SProp∞; SProp˂∞; ¡ᴾ_;
   ∃-syntax; _∨_; ⊤'; ⊥'; □_; _∗_; _-∗_; [^_]ᴺ; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_;
   _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; [_]ᴸ; †ᴸ_)
 open import Symp.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∃-elim; ∃-intro;
@@ -33,10 +33,10 @@ private variable
   α :  Lft
   X :  Set₀
   T :  Type
-  P Q :  Prop∞
-  P˂ Q˂ :  Prop˂∞
-  Q˙ :  X →  Prop∞
-  Q˂˙ :  X →  Prop˂∞
+  P Q :  SProp∞
+  P˂ Q˂ :  SProp˂∞
+  Q˙ :  X →  SProp∞
+  Q˂˙ :  X →  SProp˂∞
 
 --------------------------------------------------------------------------------
 -- If we have the fancy update as a modality ⇛ᵐ, then we have a paradox, because
@@ -49,19 +49,19 @@ private variable
 -- depend on quantification over propositions, not supported by our logic
 -- This is much simpler than Iris's original construction
 
-module _ {nm : Name} (⇛ᵐ : Prop∞ → Prop∞)
+module _ {nm : Name} (⇛ᵐ : SProp∞ → SProp∞)
   (⇛ᵐ-intro :  ∀{P Q} →  P ⊢[ ∞ ][ 0 ]⇛ Q →  P ⊢[ ∞ ] ⇛ᵐ Q)
   (⇛ᵐ-elim :  ∀{P Q} →  P ⊢[ ∞ ] ⇛ᵐ Q →  P ⊢[ ∞ ][ 0 ]⇛ Q)
   where abstract
 
   -- □⇛⊥ :  Persistent proposition for getting ⊥' after update with [^ nm ]ᴺ
 
-  □⇛⊥/⇛ᵐ :  Prop∞
+  □⇛⊥/⇛ᵐ :  SProp∞
   □⇛⊥/⇛ᵐ =  □ ([^ nm ]ᴺ -∗ ⇛ᵐ ⊥')
 
   -- Evil :  The evil impredicative invariant
 
-  Evil/⇛ᵐ :  Lft → Prop∞
+  Evil/⇛ᵐ :  Lft → SProp∞
   Evil/⇛ᵐ α =  &ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
 
   -- We get contradiction consuming □⇛⊥ and %ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
@@ -108,15 +108,15 @@ module _ {nm : Name} (⇛ᵐ : Prop∞ → Prop∞)
     ⇛-frameˡ Evil-intro/⇛ᵐ ᵘ»ᵘ ∃∗-elim λ _ → Evil-no/⇛ᵐ
 
 --------------------------------------------------------------------------------
--- If we have existential quantification over Prop∞ and conjunction over the
+-- If we have existential quantification over SProp∞ and conjunction over the
 -- fancy update sequent (both are a form of impredicative quantification),
 -- then we have the paradox observed above,
 -- because then we can encode the fancy update modality ⇛ᵐ
 
-module _ {nm : Name} (∃ᴾ˙ :  (Prop∞ → Prop∞) →  Prop∞)
+module _ {nm : Name} (∃ᴾ˙ :  (SProp∞ → SProp∞) →  SProp∞)
   (∃ᴾ-elim :  ∀{P˙ Q} →  (∀ R →  P˙ R ⊢[ ∞ ][ 0 ]⇛ Q) →  ∃ᴾ˙ P˙ ⊢[ ∞ ][ 0 ]⇛ Q)
   (∃ᴾ-intro :  ∀{P˙} R →  P˙ R ⊢[ ∞ ] ∃ᴾ˙ P˙)
-  (⌜_⊢⇛_⌝∧_ :  Prop∞ →  Prop∞ →  Prop∞ →  Prop∞)
+  (⌜_⊢⇛_⌝∧_ :  SProp∞ →  SProp∞ →  SProp∞ →  SProp∞)
   (⊢⇛∧-elim :  ∀{P Q R S} →  (P ⊢[ ∞ ][ 0 ]⇛ Q →  R ⊢[ ∞ ][ 0 ]⇛ S) →
                              ⌜ P ⊢⇛ Q ⌝∧ R ⊢[ ∞ ][ 0 ]⇛ S)
   (⊢⇛∧-intro :  ∀{P Q R} →  P ⊢[ ∞ ][ 0 ]⇛ Q →  R ⊢[ ∞ ] ⌜ P ⊢⇛ Q ⌝∧ R)
@@ -124,7 +124,7 @@ module _ {nm : Name} (∃ᴾ˙ :  (Prop∞ → Prop∞) →  Prop∞)
 
   -- We can encode the fancy update modality ⇛ᵐ
 
-  ⇛ᵐ/∃ᴾ⊢⇛∧ :  Prop∞ →  Prop∞
+  ⇛ᵐ/∃ᴾ⊢⇛∧ :  SProp∞ →  SProp∞
   ⇛ᵐ/∃ᴾ⊢⇛∧ P =  ∃ᴾ˙ λ Q →  ⌜ Q ⊢⇛ P ⌝∧  Q
 
   ⇛ᵐ-intro/∃ᴾ⊢⇛∧ :  P ⊢[ ∞ ][ 0 ]⇛ Q →  P ⊢[ ∞ ] ⇛ᵐ/∃ᴾ⊢⇛∧ Q

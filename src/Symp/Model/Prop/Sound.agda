@@ -11,7 +11,7 @@ open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Size using (𝕊; ∞; !)
 open import Base.Prod using (_,_; π₀; π₁; ∑-case)
 open import Symp.Lang.Expr using (✓ᴹ-∅)
-open import Symp.Logic.Prop using (Prop∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
+open import Symp.Logic.Prop using (SProp∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
 open import Symp.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
   ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
   ∗-assocʳ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
@@ -54,7 +54,7 @@ open import Symp.Model.Prop.Ub using (≤ᵁᵇᵒ-mono; ≤ᵁᵇᵒ-⇒□ᵒ;
 open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
 
 private variable
-  P Q R S T :  Prop∞
+  P Q R S T :  SProp∞
   X :  Set₀
 
 --------------------------------------------------------------------------------

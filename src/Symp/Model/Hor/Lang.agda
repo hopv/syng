@@ -20,7 +20,7 @@ open import Symp.Lang.Expr using (Type; Expr∞; Expr˂∞; ∇_; Val; V⇒E)
 open import Symp.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
   Ktx; _ᴷ◁_; _ᴷ∘ᴷ_; val/ktxred; ᴷ∘ᴷ-ᴷ◁; val/ktxred-ĩ₀; val/ktxred-ktx)
 open import Symp.Lang.Reduce using (nd⇒; []⇒; fork⇒; redᴷᴿ)
-open import Symp.Model.Prop.Base using (Propᵒ; substᵒ; _⊨_; ∀ᵒ∈-syntax; _∗ᵒ_;
+open import Symp.Model.Prop.Base using (SPropᵒ; substᵒ; _⊨_; ∀ᵒ∈-syntax; _∗ᵒ_;
   _-∗ᵒ_; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ?-intro; -∗ᵒ-monoʳ; -∗ᵒ-introˡ;
   -∗ᵒ-applyˡ; ∗ᵒThunkᵒ-out)
 open import Symp.Model.Prop.Names using ([⊤]ᴺᵒ)
@@ -39,8 +39,8 @@ private variable
   X :  Set₀
   v x :  X
   T U :  Type
-  Pᵒ :  Propᵒ ł
-  Pᵒ˙ :  X →  Propᵒ ł
+  Pᵒ :  SPropᵒ ł
+  Pᵒ˙ :  X →  SPropᵒ ł
   e :  Expr∞ T
   e˙ :  X →  Expr∞ T
   red :  Redex T

@@ -26,7 +26,7 @@ open import Symp.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-ĩ₀;
 open import Symp.Lang.Reduce using ([]⇒; redᴷᴿ; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇒ᵀ○_; _⇒ᵀ●_;
   redᵀ-hd; redᵀ-tl; _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ; Infᵀ; infᵀ)
 open import Symp.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ-✓[⊤])
-open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
+open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
   ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; ⊥ᵒ₀; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; Thunkᵒ; substᵒ;
   ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ;
   ?∗ᵒ-comm; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono; [∗ᵒ∈²]-Mono; -∗ᵒ-applyˡ;
@@ -53,7 +53,7 @@ private variable
   es es' :  List (Expr∞ (◸ ⊤))
   v :  X
   kr :  Ktxred T
-  Pᵒ˙ :  X → Propᵒ ł
+  Pᵒ˙ :  X → SPropᵒ ł
   X˙ :  X → Set ł
   Eᴵⁿ :  Envᴵⁿᴳ
   a :  Resᴳ
@@ -63,7 +63,7 @@ private variable
 
 -- Separating conjunction of ⟨ ⟩ᴾᵒ⊤ ∞ over expressions of type ◸ ⊤
 
-[∗ᵒ]⟨_⟩ᴾᵒ⊤∞ :  List (Expr∞ (◸ ⊤)) →  Propᵒ 1ᴸ
+[∗ᵒ]⟨_⟩ᴾᵒ⊤∞ :  List (Expr∞ (◸ ⊤)) →  SPropᵒ 1ᴸ
 [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞ =  [∗ᵒ e ∈ es ] ⟨ e ⟩ᴾᵒ⊤ ∞
 
 abstract
@@ -153,7 +153,7 @@ abstract
 
 -- Separating conjunction of ⟨ ⟩ᵀᵒ⊤ over expressions of type ◸ ⊤ and sizes
 
-[∗ᵒ]⟨_⟩ᵀᵒ⊤ :  List (Expr∞ (◸ ⊤)) →  List (𝕊' 3ᴸ) →  Propᵒ 1ᴸ
+[∗ᵒ]⟨_⟩ᵀᵒ⊤ :  List (Expr∞ (◸ ⊤)) →  List (𝕊' 3ᴸ) →  SPropᵒ 1ᴸ
 [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs =  [∗ᵒ (e , sz ι) ∈² es , ιs ] ⟨ e ⟩ᵀᵒ⊤ ι
 
 abstract

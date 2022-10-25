@@ -15,13 +15,13 @@ open import Base.Size using (∞)
 open import Base.Option using (¿_; š_)
 open import Base.Prod using (_×_; _,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
-open import Symp.Logic.Prop using (Name; Prop∞; ⊤'; _∗_; _-∗_; Basic)
+open import Symp.Logic.Prop using (Name; SProp∞; ⊤'; _∗_; _-∗_; Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
   ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
 open import Symp.Model.ERA.Inv using (NameProp; _∙ᴵⁿᵛ_; inv; invk; inv-⌞⌟;
   invk-no2; inv-invk-new; inv-agree; invk-agree)
 open import Symp.Model.ERA.Glob using (Envᴳ; iᴵⁿᵛ)
-open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
+open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono;
   ×ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-Mono; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-assocˡ; ?∗ᵒ-intro;
   □ᵒ-dup; dup-⇒□ᵒ; □ᵒ-∗ᵒ-in; ⤇ᴱ⟨⟩-mono; ◎⟨⟩-∗ᵒ⇒∙; ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-⌞⌟≈-□ᵒ; ◎⟨⟩-✓;
@@ -31,17 +31,17 @@ open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 private variable
   i n :  ℕ
   nm :  Name
-  P Q R :  Prop∞
+  P Q R :  SProp∞
   ⁿQˇ˙ :  ℕ → ¿ NameProp
 
 --------------------------------------------------------------------------------
 -- &ⁱᵒ :  Interpret the invariant token
 
-Inv :  ℕ →  Name →  Prop∞ →  Propᵒ 1ᴸ
+Inv :  ℕ →  Name →  SProp∞ →  SPropᵒ 1ᴸ
 Inv i nm P =  ◎⟨ iᴵⁿᵛ ⟩ inv i nm P
 
 infix 8 &ⁱ⟨_⟩ᵒ_
-&ⁱ⟨_⟩ᵒ_ :  Name →  Prop∞ →  Propᵒ 1ᴸ
+&ⁱ⟨_⟩ᵒ_ :  Name →  SProp∞ →  SPropᵒ 1ᴸ
 &ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
   □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Inv i nm R
@@ -94,7 +94,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Invk :  Invariant key
 
-Invk :  ℕ →  Name →  Prop∞ →  Propᵒ 1ᴸ
+Invk :  ℕ →  Name →  SProp∞ →  SPropᵒ 1ᴸ
 Invk i nm P =  ◎⟨ iᴵⁿᵛ ⟩ invk i nm P
 
 abstract
@@ -123,7 +123,7 @@ abstract
 -- %ⁱᵒ :  Interpret the open invariant token
 
 infix 8 %ⁱ⟨_⟩ᵒ_
-%ⁱ⟨_⟩ᵒ_ :  Name →  Prop∞ →  Propᵒ 1ᴸ
+%ⁱ⟨_⟩ᵒ_ :  Name →  SProp∞ →  SPropᵒ 1ᴸ
 %ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Invk i nm R
 

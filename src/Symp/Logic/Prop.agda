@@ -48,25 +48,25 @@ Lft :  Set₀
 Lft =  ℕ
 
 --------------------------------------------------------------------------------
--- Prop' :  Proposition
+-- SProp :  Separation-logic proposition
 
-data  Prop' (ι : 𝕊) :  Set₁
+data  SProp (ι : 𝕊) :  Set₁
 
--- Prop˂ :  Prop' under Thunk
-Prop˂ :  𝕊 →  Set₁
-Prop˂ ι =  Thunk Prop' ι
+-- SProp˂ :  SProp under Thunk
+SProp˂ :  𝕊 →  Set₁
+SProp˂ ι =  Thunk SProp ι
 
 -- Utility for ∞
 
-Prop∞ Prop˂∞ :  Set₁
-Prop∞ =  Prop' ∞
-Prop˂∞ =  Prop˂ ∞
+SProp∞ SProp˂∞ :  Set₁
+SProp∞ =  SProp ∞
+SProp˂∞ =  SProp˂ ∞
 
 private variable
   ι :  𝕊
   X :  Set₀
-  P˙ :  X → Prop∞
-  P Q :  Prop∞
+  P˙ :  X → SProp∞
+  P Q :  SProp∞
   n o :  ℕ
   θ :  Addr
   p :  ℚ⁺
@@ -83,93 +83,93 @@ infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ &ᵐ⟨_⟩_ %ᵐ⟨_⟩_ �
 infix 9 _↦⟨_⟩_
 
 
-data  Prop' ι  where
+data  SProp ι  where
 
   -- ∀˙, ∃˙ :  Universal/existential quantification over any type X in Set₀,
-  --           which does not include Prop' ι itself (predicativity)
-  ∀˙ ∃˙ :  (X → Prop' ι) →  Prop' ι
+  --           which does not include SProp ι itself (predicativity)
+  ∀˙ ∃˙ :  (X → SProp ι) →  SProp ι
 
   -- →' :  Implication
-  _→'_ :  Prop' ι →  Prop' ι →  Prop' ι
+  _→'_ :  SProp ι →  SProp ι →  SProp ι
 
   -- ∗ :  Separating conjunction
-  _∗_ :  Prop' ι →  Prop' ι →  Prop' ι
+  _∗_ :  SProp ι →  SProp ι →  SProp ι
 
   -- -∗ :  Magic wand
-  _-∗_ :  Prop' ι →  Prop' ι →  Prop' ι
+  _-∗_ :  SProp ι →  SProp ι →  SProp ι
 
   -- ⤇ :  Update modality
-  ⤇_ :  Prop' ι →  Prop' ι
+  ⤇_ :  SProp ι →  SProp ι
 
   -- □ :  Persistence modality
-  □_ :  Prop' ι →  Prop' ι
+  □_ :  SProp ι →  SProp ι
 
   -- [ ]ᴺ :  Name set token
-  [_]ᴺ :  (Name → Zoi) →  Prop' ι
+  [_]ᴺ :  (Name → Zoi) →  SProp ι
 
   -- ↦⟨ ⟩ :  Points-to token
-  _↦⟨_⟩_ :  Addr →  ℚ⁺ →  TyVal →  Prop' ι
+  _↦⟨_⟩_ :  Addr →  ℚ⁺ →  TyVal →  SProp ι
 
   -- Free :  Freeing token
-  Free :  ℕ →  Addr →  Prop' ι
+  Free :  ℕ →  Addr →  SProp ι
 
   -- ○ :  Indirection modality
-  ○_ :  Prop˂ ι →  Prop' ι
+  ○_ :  SProp˂ ι →  SProp ι
 
   -- ↪[ ]⇛ :  Fancy update precursor, with a level
-  _↪[_]⇛_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
+  _↪[_]⇛_ :  SProp˂ ι →  ℕ →  SProp˂ ι →  SProp ι
 
   -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare triple precursor, with a level
-  _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂ ι) →  Prop' ι
+  _↪[_]ᵃ⟨_⟩_ :  SProp˂ ι →  ℕ →  Redex T →  (Val T → SProp˂ ι) →  SProp ι
 
   -- ↪⟨ ⟩[ ] :  Hoare triple precursor
-  _↪⟨_⟩[_]_ :  Prop˂ ι →  Expr∞ T →  WpKind →  (Val T → Prop˂ ι) →  Prop' ι
+  _↪⟨_⟩[_]_ :  SProp˂ ι →  Expr∞ T →  WpKind →  (Val T → SProp˂ ι) →  SProp ι
 
   -- ↪[ ]⟨ ⟩∞ :  Infinite Hoare triple precursor, with a level
-  _↪[_]⟨_⟩∞ :  Prop˂ ι →  ℕ →  Expr∞ T →  Prop' ι
+  _↪[_]⟨_⟩∞ :  SProp˂ ι →  ℕ →  Expr∞ T →  SProp ι
 
   -- &ⁱ⟨ ⟩ :  Invariant token
-  &ⁱ⟨_⟩_ :  Name →  Prop˂ ι →  Prop' ι
+  &ⁱ⟨_⟩_ :  Name →  SProp˂ ι →  SProp ι
 
   -- %ⁱ⟨ ⟩ :  Open invariant token
-  %ⁱ⟨_⟩_ :  Name →  Prop˂ ι →  Prop' ι
+  %ⁱ⟨_⟩_ :  Name →  SProp˂ ι →  SProp ι
 
   -- [ ]ᴸ⟨ ⟩ :  Lifetime token
-  [_]ᴸ⟨_⟩ :  Lft →  ℚ⁺ →  Prop' ι
+  [_]ᴸ⟨_⟩ :  Lft →  ℚ⁺ →  SProp ι
 
   -- †ᴸ :  Dead lifetime token
-  †ᴸ_ :  Lft →  Prop' ι
+  †ᴸ_ :  Lft →  SProp ι
 
   -- &ᵐ :  Mutable borrow token
 
-  &ᵐ⟨_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
+  &ᵐ⟨_⟩_ :  Lft →  SProp˂ ι →  SProp ι
 
   -- %ᵐ :  Open mutable borrow token
 
-  %ᵐ⟨_⟩_ :  Lft × ℚ⁺ →  Prop˂ ι →  Prop' ι
+  %ᵐ⟨_⟩_ :  Lft × ℚ⁺ →  SProp˂ ι →  SProp ι
 
   -- ⟨† ⟩ :  Lender token
 
-  ⟨†_⟩_ :  Lft →  Prop˂ ι →  Prop' ι
+  ⟨†_⟩_ :  Lft →  SProp˂ ι →  SProp ι
 
   -- Upper-boundee token
 
-  #ᵁᵇ⟨_⟩_ :  ℕ →  ℕ →  Prop' ι
+  #ᵁᵇ⟨_⟩_ :  ℕ →  ℕ →  SProp ι
 
   -- Upper-bound token
 
-  ≤ᵁᵇ⟨_⟩_ :  ℕ →  ℕ →  Prop' ι
+  ≤ᵁᵇ⟨_⟩_ :  ℕ →  ℕ →  SProp ι
 
--- ¡ᴾ :  Prop' into Prop˂
+-- ¡ᴾ :  SProp into SProp˂
 
 infix 8 ¡ᴾ_
-¡ᴾ_ :  Prop' ι →  Prop˂ ι
+¡ᴾ_ :  SProp ι →  SProp˂ ι
 (¡ᴾ P) .! =  P
 
 --------------------------------------------------------------------------------
 -- Utility for ∀/∃
 
-∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  (X → Prop' ι) →  Prop' ι
+∀∈-syntax ∃∈-syntax ∀-syntax ∃-syntax :  (X → SProp ι) →  SProp ι
 ∀∈-syntax =  ∀˙
 ∃∈-syntax =  ∃˙
 ∀-syntax =  ∀˙
@@ -189,7 +189,7 @@ syntax ∃-syntax (λ x → P) =  ∃ x , P
 infixr 7 _∧_
 infixr 6 _∨_
 
-_∧_ _∨_ :  Prop' ι →  Prop' ι →  Prop' ι
+_∧_ _∨_ :  SProp ι →  SProp ι →  SProp ι
 P ∧ Q =  ∀˙ (binary P Q)
 P ∨ Q =  ∃˙ (binary P Q)
 
@@ -197,7 +197,7 @@ P ∨ Q =  ∃˙ (binary P Q)
 -- ⊤' :  Truth
 -- ⊥' :  Falsehood
 
-⊤' ⊥' :  Prop' ι
+⊤' ⊥' :  SProp ι
 ⊤' =  ∀˙ absurd
 ⊥' =  ∃˙ absurd
 
@@ -205,30 +205,30 @@ P ∨ Q =  ∃˙ (binary P Q)
 -- ⌜ ⌝∧, ⌜ ⌝→, ⌜ ⌝ :  Set embedding
 
 infix 3 ⌜_⌝∧_ ⌜_⌝→_
-⌜_⌝∧_ ⌜_⌝→_ :  Set₀ →  Prop' ι →  Prop' ι
+⌜_⌝∧_ ⌜_⌝→_ :  Set₀ →  SProp ι →  SProp ι
 ⌜ X ⌝∧ P =  ∃ _ ∈ X , P
 ⌜ X ⌝→ P =  ∀' _ ∈ X , P
 
-⌜_⌝ :  Set₀ →  Prop' ι
+⌜_⌝ :  Set₀ →  SProp ι
 ⌜ X ⌝ =  ⌜ X ⌝∧ ⊤'
 
 --------------------------------------------------------------------------------
 -- [∗] :  Iterated separating conjunction
 
-[∗] :  List (Prop' ι) →  Prop' ι
+[∗] :  List (SProp ι) →  SProp ι
 [∗] [] =  ⊤'
 [∗] (P ∷ Ps) =  P ∗ [∗] Ps
 
 -- Syntax for [∗] $ᴸ / $ⁱᴸ
 
 infix 8 [∗∈]-syntax [∗∈ⁱ]-syntax [∗∈ⁱ⟨⟩]-syntax
-[∗∈] [∗∈]-syntax :  (X → Prop' ι) →  List X →  Prop' ι
+[∗∈] [∗∈]-syntax :  (X → SProp ι) →  List X →  SProp ι
 [∗∈] P˙ xs =  [∗] $ P˙ $ᴸ xs
 [∗∈]-syntax =  [∗∈]
-[∗∈ⁱ] [∗∈ⁱ]-syntax :  (ℕ × X → Prop' ι) →  List X →  Prop' ι
+[∗∈ⁱ] [∗∈ⁱ]-syntax :  (ℕ × X → SProp ι) →  List X →  SProp ι
 [∗∈ⁱ] P˙ xs =  [∗] $ curry P˙ $ⁱᴸ xs
 [∗∈ⁱ]-syntax =  [∗∈ⁱ]
-[∗∈ⁱ⟨⟩] [∗∈ⁱ⟨⟩]-syntax :  (ℕ × X → Prop' ι) →  ℕ →  List X →  Prop' ι
+[∗∈ⁱ⟨⟩] [∗∈ⁱ⟨⟩]-syntax :  (ℕ × X → SProp ι) →  ℕ →  List X →  SProp ι
 [∗∈ⁱ⟨⟩] P˙ k xs =  [∗] $ curry P˙ $ⁱᴸ⟨ k ⟩ xs
 [∗∈ⁱ⟨⟩]-syntax =  [∗∈ⁱ⟨⟩]
 syntax [∗∈]-syntax (λ x → P) xs =  [∗ x ∈ xs ] P
@@ -240,12 +240,12 @@ syntax [∗∈ⁱ⟨⟩]-syntax (λ ix → P) k xs =  [∗ ix ∈ⁱ⟨ k ⟩ xs
 
 -- [⊤]ᴺ :  Universal name set token
 
-[⊤]ᴺ :  Prop' ι
+[⊤]ᴺ :  SProp ι
 [⊤]ᴺ =  [ ⊤ᶻ ]ᴺ
 
 -- [^ ]ᴺ :  Name token
 
-[^_]ᴺ :  Name →  Prop' ι
+[^_]ᴺ :  Name →  SProp ι
 [^ nm ]ᴺ =  [ ^ᶻ nm ]ᴺ
 
 abstract
@@ -261,13 +261,13 @@ abstract
 infix 9 _↦_ _↦ᴸ⟨_⟩_ _↦ᴸ_
 
 -- Full points-to token
-_↦_ :  Addr →  TyVal →  Prop' ι
+_↦_ :  Addr →  TyVal →  SProp ι
 θ ↦ ᵗv =  θ ↦⟨ 1ᴿ⁺ ⟩ ᵗv
 
 -- Iterated points-to token
-_↦ᴸ⟨_⟩_ :  Addr →  ℚ⁺ →  List TyVal →  Prop' ι
+_↦ᴸ⟨_⟩_ :  Addr →  ℚ⁺ →  List TyVal →  SProp ι
 θ ↦ᴸ⟨ p ⟩ ᵗvs =  [∗ (i , ᵗv) ∈ⁱ ᵗvs ] θ ₒ i ↦⟨ p ⟩ ᵗv
-_↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
+_↦ᴸ_ :  Addr →  List TyVal →  SProp ι
 θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
 
 --------------------------------------------------------------------------------
@@ -275,10 +275,10 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 
 infixr 5 _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
 
-_↪⟨_⟩ᴾ_ :  Prop˂ ι →  Expr∞ T →  (Val T → Prop˂ ι) →  Prop' ι
+_↪⟨_⟩ᴾ_ :  SProp˂ ι →  Expr∞ T →  (Val T → SProp˂ ι) →  SProp ι
 P ↪⟨ e ⟩ᴾ Q˙ =  P ↪⟨ e ⟩[ par ] Q˙
 
-_↪⟨_⟩ᵀ[_]_ :  Prop˂ ι →  Expr∞ T →  ℕ →  (Val T → Prop˂ ι) →  Prop' ι
+_↪⟨_⟩ᵀ[_]_ :  SProp˂ ι →  Expr∞ T →  ℕ →  (Val T → SProp˂ ι) →  SProp ι
 P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
 
 --------------------------------------------------------------------------------
@@ -290,19 +290,19 @@ static =  strnm "static"
 -- ↦ⁱ :  Points-to token under an invariant
 
 infix 9 _↦ⁱ_
-_↦ⁱ_ :  Addr →  TyVal →  Prop' ι
+_↦ⁱ_ :  Addr →  TyVal →  SProp ι
 θ ↦ⁱ ᵗv =  &ⁱ⟨ static ⟩ ¡ᴾ θ ↦ ᵗv
 
 --------------------------------------------------------------------------------
 -- [ ]ᴸ :  Full lifetime token
 
-[_]ᴸ :  Lft →  Prop' ι
+[_]ᴸ :  Lft →  SProp ι
 [ α ]ᴸ =  [ α ]ᴸ⟨ 1ᴿ⁺ ⟩
 
 --------------------------------------------------------------------------------
 -- Basic P :  P is basic, i.e., P doesn't contain impredicative connectives
 
-data  Basic :  Prop∞ →  Set₁  where
+data  Basic :  SProp∞ →  Set₁  where
 
   -- They are not instances, because unfortunately Agda can't search a
   -- universally quantified instance (∀ x → …)

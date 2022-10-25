@@ -15,7 +15,7 @@ open import Base.Nat using ()
 open import Symp.Lang.Expr using (Mem; ✓ᴹ_; ✓ᴹ-∅)
 open import Symp.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; iᴹᵉᵐ; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ;
   jᴵⁿᵛ; jᴮᵒʳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-mem-envᴳ)
-open import Symp.Model.Prop.Base using (Propᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
+open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
   ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⤇ᴱ⟨⟩; substᵒ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro;
   -∗ᵒ-Mono; -∗ᵒ-monoʳ; -∗ᵒ-introˡ; -∗ᵒ-applyˡ; ⤇ᵒ-intro; ⤇ᴱ-respᴱˡ; ⤇ᴱ-respᴱʳ;
@@ -34,7 +34,7 @@ open import Symp.Model.Fupd.Bor using (Invᴮᵒʳ; ⇛ᴮᵒʳ_; Invᴮᵒʳ-�
 private variable
   ł :  Level
   M M' M'' :  Mem
-  Pᵒ Qᵒ :  Propᵒ ł
+  Pᵒ Qᵒ :  SPropᵒ ł
   X :  Set ł
   Eᴵⁿ :  Envᴵⁿᴳ
   a :  Resᴳ
@@ -46,29 +46,29 @@ infix 3 ⟨_⟩⇛ᴹ'⟨_⟩_ ⟨_⟩⇛ᴹ⟨_⟩_ ⇛ᵒ_ ⇛ᴺᵒ_
 
 -- Invᴳ :  Global invariant
 
-Invᴳ :  Envᴵⁿᴳ →  Propᵒ 1ᴸ
+Invᴳ :  Envᴵⁿᴳ →  SPropᵒ 1ᴸ
 Invᴳ Eᴵⁿ =  Invᴵⁿᵈ (envᴵⁿᵈ Eᴵⁿ)  ∗ᵒ  Invᴵⁿᵛ (Eᴵⁿ jᴵⁿᵛ)  ∗ᵒ  Invᴮᵒʳ (Eᴵⁿ jᴮᵒʳ)
 
 -- ⇛ᴹ' :  Non-abstract version of ⇛ᴹ
 
-⟨_⟩⇛ᴹ'⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⟨_⟩⇛ᴹ'⟨_⟩_ :  Mem →  Mem →  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
 ⟨ M ⟩⇛ᴹ'⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ id , const , Invᴳ ]⇛ᴳ'⟨ M' ⟩ Pᵒ
 
 abstract
 
   -- ⇛ᴹ :  Semantic fancy update with a memory
 
-  ⟨_⟩⇛ᴹ⟨_⟩_ :  Mem →  Mem →  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+  ⟨_⟩⇛ᴹ⟨_⟩_ :  Mem →  Mem →  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
   ⟨ M ⟩⇛ᴹ⟨ M' ⟩ Pᵒ =  ⟨ M ⟩[ id , const , Invᴳ ]⇛ᴳ⟨ M' ⟩ Pᵒ
 
 -- ⇛ᵒ :  Semantic fancy update, i.e., ⇛ᴹ with any fixed memory
 
-⇛ᵒ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᵒ_ :  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᵒ Pᵒ =  ∀ᵒ M , ⟨ M ⟩⇛ᴹ⟨ M ⟩ Pᵒ
 
 -- ⇛ᴺᵒ :  ⇛ᵒ with [⊤]ᴺᵒ
 
-⇛ᴺᵒ_ :  Propᵒ ł →  Propᵒ (1ᴸ ⊔ᴸ ł)
+⇛ᴺᵒ_ :  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
 ⇛ᴺᵒ Pᵒ =  [⊤]ᴺᵒ -∗ᵒ ⇛ᵒ [⊤]ᴺᵒ ∗ᵒ Pᵒ
 
 abstract

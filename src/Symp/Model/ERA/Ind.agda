@@ -14,21 +14,21 @@ open import Base.Option using (¿_; š_; ň)
 open import Base.Prod using (_×_; _,_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.List using ([_]; ≡⇒≈ᴸ; ≈ᴸ-[])
-open import Symp.Logic.Prop using (Prop∞)
+open import Symp.Logic.Prop using (SProp∞)
 open import Symp.Model.ERA.Base using (ERA)
 open import Symp.Model.ERA.Exc using (Excᴱᴿᴬ; εˣ; #ˣ_; ň-✓ˣ; ✓ˣ-free)
 open import Symp.Model.ERA.Ag using (Agᴱᴿᴬ; ň-✓ᴸ; ✓ᴸ-[]; ✓ᴸ-š-[?]; ✓ᴸ-agree)
 import Symp.Model.ERA.Bnd
 
 private variable
-  P :  Prop∞
-  Qˇ˙ :  ℕ → ¿ Prop∞
+  P :  SProp∞
+  Qˇ˙ :  ℕ → ¿ SProp∞
   i n :  ℕ
 
 --------------------------------------------------------------------------------
 -- Indˣᴱᴿᴬ :  Exclusive indirection ERA
 
-module BndIndˣ =  Symp.Model.ERA.Bnd (Excᴱᴿᴬ Prop∞) ň ň-✓ˣ
+module BndIndˣ =  Symp.Model.ERA.Bnd (Excᴱᴿᴬ SProp∞) ň ň-✓ˣ
 open BndIndˣ public using () renaming (
   --  Indˣᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Bndᴱᴿᴬ to Indˣᴱᴿᴬ;
@@ -45,7 +45,7 @@ open ERA Indˣᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈˣ; Res to 
 
 -- Exclusively own a proposition at an index
 
-indˣ :  ℕ →  Prop∞ →  Resᴵⁿᵈˣ
+indˣ :  ℕ →  SProp∞ →  Resᴵⁿᵈˣ
 indˣ i P =  inj˙ᴵⁿᵈˣ i (#ˣ P)
 
 abstract
@@ -70,7 +70,7 @@ abstract
 --------------------------------------------------------------------------------
 -- Indᵖᴱᴿᴬ :  Persistent indirection ERA
 
-module BndIndᵖ =  Symp.Model.ERA.Bnd (Agᴱᴿᴬ Prop∞) ň (ň-✓ᴸ › ≡⇒≈ᴸ)
+module BndIndᵖ =  Symp.Model.ERA.Bnd (Agᴱᴿᴬ SProp∞) ň (ň-✓ᴸ › ≡⇒≈ᴸ)
 open BndIndᵖ public using () renaming (
   --  Indᵖᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
   Bndᴱᴿᴬ to Indᵖᴱᴿᴬ;
@@ -87,7 +87,7 @@ open ERA Indᵖᴱᴿᴬ public using () renaming (Env to Envᴵⁿᵈᵖ; Res t
 
 -- Persistently own a proposition at an index
 
-indᵖ :  ℕ →  Prop∞ →  Resᴵⁿᵈᵖ
+indᵖ :  ℕ →  SProp∞ →  Resᴵⁿᵈᵖ
 indᵖ i P =  inj˙ᴵⁿᵈᵖ i [ P ]
 
 abstract

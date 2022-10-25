@@ -14,7 +14,7 @@ open import Base.Nat using (ℕ; _≤_; _⊓_; ⊓-≤)
 open import Symp.Model.ERA.Ub using (#ᵁᵇ⟨_⟩ʳ_; ≤ᵁᵇ⟨_⟩ʳ_; ◠˜ᵁᵇ_; ≤ᵁᵇʳ-∙; ≤ᵁᵇʳ-⌞⌟;
   ≤ᵁᵇʳ-#ᵁᵇʳ; #ᵁᵇʳ-new; #ᵁᵇʳ-upd)
 open import Symp.Model.ERA.Glob using (iᵁᵇ)
-open import Symp.Model.Prop.Base using (Propᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
+open import Symp.Model.Prop.Base using (SPropᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax; ⌜_⌝ᵒ;
   _∗ᵒ_; □ᵒ_; ⤇ᵒ_; ◎⟨_⟩_; ∗ᵒ-elimʳ; ⤇ᵒ-mono; ◎-Mono; ◎⟨⟩-resp; ◎⟨⟩-∗ᵒ⇒∙;
   ◎⟨⟩-∙⇒∗ᵒ; ◎⟨⟩-✓; ◎⟨⟩-⌞⌟≈-□ᵒ; ε↝-◎⟨⟩-⤇ᵒ-∃ᵒ; ↝-◎⟨⟩-⤇ᵒ)
 
@@ -27,13 +27,13 @@ private variable
 -- #ᵁᵇ⟨ ⟩ᵒ :  Interpret the upper-boundee token
 
 infix 8 #ᵁᵇ⟨_⟩ᵒ_
-#ᵁᵇ⟨_⟩ᵒ_ :  ℕ →  ℕ →  Propᵒ 1ᴸ
+#ᵁᵇ⟨_⟩ᵒ_ :  ℕ →  ℕ →  SPropᵒ 1ᴸ
 #ᵁᵇ⟨ o ⟩ᵒ n =  ◎⟨ iᵁᵇ ⟩ #ᵁᵇ⟨ o ⟩ʳ n
 
 -- ≤ᵁᵇ⟨ ⟩ᵒ :  Interpret the upper-bound token
 
 infix 8 ≤ᵁᵇ⟨_⟩ᵒ_
-≤ᵁᵇ⟨_⟩ᵒ_ :  ℕ →  ℕ →  Propᵒ 1ᴸ
+≤ᵁᵇ⟨_⟩ᵒ_ :  ℕ →  ℕ →  SPropᵒ 1ᴸ
 ≤ᵁᵇ⟨ o ⟩ᵒ n =  ◎⟨ iᵁᵇ ⟩ ≤ᵁᵇ⟨ o ⟩ʳ n
 
 abstract

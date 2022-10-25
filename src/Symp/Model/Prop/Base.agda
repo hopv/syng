@@ -540,7 +540,8 @@ abstract
   -- Let -∗ᵒ eat a proposition
 
   -∗ᵒ-eatʳ :  Monoᵒ Qᵒ →  (Pᵒ -∗ᵒ Qᵒ) ∗ᵒ Rᵒ ⊨ Pᵒ -∗ᵒ Qᵒ ∗ᵒ Rᵒ
-  -∗ᵒ-eatʳ MonoQ =  -∗ᵒ-introˡ λ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ MonoQ) ✓∙
+  -∗ᵒ-eatʳ MonoQ =
+    -∗ᵒ-introˡ λ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (-∗ᵒ-applyˡ MonoQ) ✓∙
 
   -∗ᵒ-eatˡ :  Monoᵒ Qᵒ →  Rᵒ ∗ᵒ (Pᵒ -∗ᵒ Qᵒ) ⊨ Pᵒ -∗ᵒ Rᵒ ∗ᵒ Qᵒ
   -∗ᵒ-eatˡ {Qᵒ = Qᵒ} {Rᵒ = Rᵒ} MonoQ =  ∗ᵒ-comm › -∗ᵒ-eatʳ MonoQ ›

@@ -116,16 +116,16 @@ data  Prop' ι  where
   -- ○ :  Indirection modality
   ○_ :  Prop˂ ι →  Prop' ι
 
-  -- ↪[ ]⇛ :  Fancy-update precursor, with a level
+  -- ↪[ ]⇛ :  Fancy update precursor, with a level
   _↪[_]⇛_ :  Prop˂ ι →  ℕ →  Prop˂ ι →  Prop' ι
 
-  -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare-triple precursor, with a level
+  -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare triple precursor, with a level
   _↪[_]ᵃ⟨_⟩_ :  Prop˂ ι →  ℕ →  Redex T →  (Val T → Prop˂ ι) →  Prop' ι
 
-  -- ↪⟨ ⟩[ ] :  Hoare-triple precursor
+  -- ↪⟨ ⟩[ ] :  Hoare triple precursor
   _↪⟨_⟩[_]_ :  Prop˂ ι →  Expr∞ T →  WpKind →  (Val T → Prop˂ ι) →  Prop' ι
 
-  -- ↪[ ]⟨ ⟩∞ :  Infinite Hoare-triple precursor, with a level
+  -- ↪[ ]⟨ ⟩∞ :  Infinite Hoare triple precursor, with a level
   _↪[_]⟨_⟩∞ :  Prop˂ ι →  ℕ →  Expr∞ T →  Prop' ι
 
   -- &ⁱ⟨ ⟩ :  Invariant token
@@ -271,7 +271,7 @@ _↦ᴸ_ :  Addr →  List TyVal →  Prop' ι
 θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
 
 --------------------------------------------------------------------------------
--- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare-triple precursor
+-- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare triple precursor
 
 infixr 5 _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
 

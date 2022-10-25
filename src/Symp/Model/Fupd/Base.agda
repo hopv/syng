@@ -38,7 +38,7 @@ private variable
   f :  X → Y
 
 --------------------------------------------------------------------------------
--- ⇛ᴳ :  General fancy-update modality
+-- ⇛ᴳ :  General fancy update modality
 
 infix 3 ⟨_⟩[_]⇛ᴳ'⟨_⟩_ ⟨_⟩[_]⇛ᴳ⟨_⟩_ [_]⇛ᵍ_ [_]⇛ᵍ¹_
 
@@ -52,7 +52,7 @@ infix 3 ⟨_⟩[_]⇛ᴳ'⟨_⟩_ ⟨_⟩[_]⇛ᴳ⟨_⟩_ [_]⇛ᵍ_ [_]⇛ᵍ�
 
 abstract
 
-  -- ⇛ᴳ :  General fancy-update modality
+  -- ⇛ᴳ :  General fancy update modality
 
   -- Parametrized over the getter (get) and setter (set) on the environment and
   -- the invariant predicate (Inv)

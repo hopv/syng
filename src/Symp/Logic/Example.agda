@@ -192,11 +192,11 @@ abstract
     hor-nd λ _ → hor-[] horᵀ-forksfadrep
 
   ------------------------------------------------------------------------------
-  -- Counter: Example for the total Hoare-triple precursor
+  -- Counter: Example for the total Hoare triple precursor
 
   -- Specification for a counter e˂˙
 
-  -- Thanks to the coinductivity of the total Hoare-triple precursor ↪⟨ ⟩ᵀ, we
+  -- Thanks to the coinductivity of the total Hoare triple precursor ↪⟨ ⟩ᵀ, we
   -- can construct the infinite proposition Cntr, which returns Cntr itself with
   -- an updated parameter k + n after executing the counter
 

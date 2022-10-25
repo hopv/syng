@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Proof rules on the fancy-update sequent
+-- Proof rules on the fancy update sequent
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

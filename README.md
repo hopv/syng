@@ -196,7 +196,7 @@ following parts.
         * [`Interp`](src/Symp/Model/Prop/Interp.agda) for interpreting the fancy
             update;
           [`Sound`](src/Symp/Model/Fupd/Sound.agda) for the semantic soundness
-            and adequacy of the logic's fancy-update sequent.
+            and adequacy of the logic's fancy update sequent.
     + [`Hor/`](src/Symp/Model/Hor/) ― **The semantic model and soundness proof
         of the partial and total Hoare triples.**
         * [`Wp`](src/Symp/Model/Hor/Wp.agda) for the semantic partial and total

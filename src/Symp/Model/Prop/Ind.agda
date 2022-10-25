@@ -128,7 +128,7 @@ abstract
   Ind⇒○ᵒ IndPa =  ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
 
 --------------------------------------------------------------------------------
--- ↪⇛ᵒ :  Interpret the fancy-update precursor ↪⇛
+-- ↪⇛ᵒ :  Interpret the fancy update precursor ↪⇛
 
 infixr 5 _↪[_]⇛ᴹ_
 _↪[_]⇛ᴹ_ :  Prop∞ →  ℕ →  Prop∞ →  Propᵒ 1ᴸ
@@ -179,7 +179,7 @@ abstract
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⇛Q , S∗IndTa
 
 --------------------------------------------------------------------------------
--- ↪ᵃ⟨ ⟩ᵒ :  Interpret the atomic Hoare-triple precursor ↪ᵃ⟨ ⟩
+-- ↪ᵃ⟨ ⟩ᵒ :  Interpret the atomic Hoare triple precursor ↪ᵃ⟨ ⟩
 
 infixr 5 _↪[_]ᵃ⟨_⟩ᵒ_
 _↪[_]ᵃ⟨_⟩ᵒ_ :  Prop∞ →  ℕ →  Redex T →  (Val T → Prop∞) →  Propᵒ 1ᴸ
@@ -231,7 +231,7 @@ abstract
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨red⟩Q , S∗IndTa
 
 --------------------------------------------------------------------------------
--- ↪⟨ ⟩[ ]ᵒ :  Interpret the Hoare-triple precursor ↪⟨ ⟩
+-- ↪⟨ ⟩[ ]ᵒ :  Interpret the Hoare triple precursor ↪⟨ ⟩
 
 infixr 5 _↪⟨_⟩[_]ᵒ_ _↪⟨_⟩ᴾᵒ_ _↪⟨_⟩ᵀ[_]ᵒ_
 
@@ -295,7 +295,7 @@ abstract
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q , S∗IndTa
 
 --------------------------------------------------------------------------------
--- ↪⟨ ⟩∞ᵒ :  Interpret the infinite Hoare-triple precursor ↪ᵃ⟨ ⟩
+-- ↪⟨ ⟩∞ᵒ :  Interpret the infinite Hoare triple precursor ↪ᵃ⟨ ⟩
 
 infixr 5 _↪[_]⟨_⟩∞ᵒ
 _↪[_]⟨_⟩∞ᵒ :  Prop∞ →  ℕ →  Expr∞ T →  Propᵒ 1ᴸ

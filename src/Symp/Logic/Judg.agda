@@ -78,13 +78,13 @@ _⊢[_]_ _⊢[<_]_ :  Prop∞ →  𝕊 →  Prop∞ →  Set₁
 P ⊢[ ι ] Q =  P ⊢[ ι ]* Pure Q
 P ⊢[< ι ] Q =  Thunk (P ⊢[_] Q) ι
 
--- ⊢[ ][ ]⇛ etc. :  Fancy-update sequent
+-- ⊢[ ][ ]⇛ etc. :  Fancy update sequent
 
 _⊢[_][_]⇛_ _⊢[<_][_]⇛_ :  Prop∞ →  𝕊 →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ Q =  P ⊢[ ι ]* [ i ]⇛ Q
 P ⊢[< ι ][ i ]⇛ Q =  Thunk (P ⊢[_][ i ]⇛ Q) ι
 
--- ⊢[ ][ ]⇛ᴺ etc. :  Fancy-update sequent with the universal name set token [⊤]ᴺ
+-- ⊢[ ][ ]⇛ᴺ etc. :  Fancy update sequent with the universal name set token [⊤]ᴺ
 
 _⊢[_][_]⇛ᴺ_ _⊢[<_][_]⇛ᴺ_ :  Prop∞ →  𝕊 →  ℕ →  Prop∞ →  Set₁
 P ⊢[ ι ][ i ]⇛ᴺ Q =  [⊤]ᴺ ∗ P ⊢[ ι ][ i ]⇛ [⊤]ᴺ ∗ Q

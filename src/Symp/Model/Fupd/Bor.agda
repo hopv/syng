@@ -27,7 +27,7 @@ open import Symp.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-upd)
 open import Symp.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_; []ᴸ⟨⟩ᵒ-resp;
   []ᴸ⟨⟩ᵒ-merge-/2; []ᴸ⟨⟩ᵒ-split-/2; dup-†ᴸᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no)
-open import Symp.Model.Prop.Bor using (Borᵐ; &ᵐ⟨_⟩ᵒ_; Oborᵐ; %ᵐ⟨_⟩ᵒ_; Lend;
+open import Symp.Model.Prop.Bor using (Borᵐ; &ᵐ⟨_⟩ᵒ_; Oborᵐ; ⅋ᵐ⟨_⟩ᵒ_; Lend;
   ⟨†_⟩ᵒ_; &ᵐᵒ-new'; Borᵐ-open'; Oborᵐ-close'; Lend-back')
 open import Symp.Model.Prop.Basic using (⸨⸩ᴮ-Mono)
 open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-ᴮ⇒; ⸨⸩-Mono)
@@ -108,15 +108,15 @@ abstract
       ∗ᵒ-assocˡ › ∗ᵒ-monoˡ $ ?∗ᵒ-comm › ∗ᵒ-pullʳ²) › ⤇ᴱ⟨⟩-param
 
   -- Take ⸨ P ⸩ out using &ᵐ⟨ α ⟩ᵒ P and [ α ]ᴸ⟨ p ⟩ᵒ,
-  -- getting %ᵐ⟨ α , p ⟩ᵒ P in return
+  -- getting ⅋ᵐ⟨ α , p ⟩ᵒ P in return
 
-  &ᵐᵒ-open :  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ  ⸨ P ⸩  ∗ᵒ  %ᵐ⟨ α , p ⟩ᵒ P
+  &ᵐᵒ-open :  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ  ⸨ P ⸩  ∗ᵒ  ⅋ᵐ⟨ α , p ⟩ᵒ P
   &ᵐᵒ-open {p = p} =  ∗ᵒ⇒∗ᵒ' ›
     λ{ (-, -, ∙⊑ , [α]b , -, Q , -ᴵ, -, Q|R⊢⊣P@(Q∗R⊢P ,-) , □Q∗BorRc) →
     let MonoQ = ⸨⸩ᴮ-Mono {Q} in ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , [α]b , □Q∗BorRc) ▷
     -- [α]⟨p⟩∗□Q∗Bor → □Q∗[α]⟨p⟩∗Bor → □Q∗R∗[α]⟨p/2⟩∗Obor → →
     -- □Q∗□Q∗R∗[α]⟨p/2⟩∗Obor → → Q∗□Q∗R∗[α]⟨p/2⟩∗Obor → Q∗R∗□Q∗[α]⟨p/2⟩∗Obor →
-    -- (Q∗R)∗□Q∗[α]⟨p/2⟩∗Obor → P∗□Q∗[α]⟨p/2⟩∗Obor → P∗%
+    -- (Q∗R)∗□Q∗[α]⟨p/2⟩∗Obor → P∗□Q∗[α]⟨p/2⟩∗Obor → P∗⅋
     ?∗ᵒ-comm ▷ ∗ᵒ-monoʳ Borᵐ-open ▷ ⇛ᵍ-eatˡ ▷ ⇛ᵍ-mono✓ (λ ✓∙ →
     ∗ᵒ-monoˡ (dup-□ᵒ MonoQ) › ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (□ᵒ-elim MonoQ › ⸨⸩-ᴮ⇒ {Q}) ›
     ∗ᵒ-monoʳ ?∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (⊢-sem Q∗R⊢P) ✓∙ ›
@@ -144,10 +144,10 @@ abstract
       λ{ refl → ∗ᵒ-monoʳ Smry-upd }) ✓∙ › ∗ᵒ-assocˡ › ∗ᵒ-monoˡ ∗ᵒ-comm) ›
     ⤇ᴱ⟨⟩-param
 
-  -- Retrieve [ α ]ᴸ⟨ p ⟩ᵒ and &ᵐ⟨ α ⟩ᵒ P using ⸨ P ⸩ and %ᵐ⟨ α , p ⟩ᵒ P
+  -- Retrieve [ α ]ᴸ⟨ p ⟩ᵒ and &ᵐ⟨ α ⟩ᵒ P using ⸨ P ⸩ and ⅋ᵐ⟨ α , p ⟩ᵒ P
 
-  %ᵐᵒ-close :  ⸨ P ⸩  ∗ᵒ  %ᵐ⟨ α , p ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P
-  %ᵐᵒ-close {p = p} =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , Pb ,
+  ⅋ᵐᵒ-close :  ⸨ P ⸩  ∗ᵒ  ⅋ᵐ⟨ α , p ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P
+  ⅋ᵐᵒ-close {p = p} =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , Pb ,
     -, q , Q , -ᴵ, -, (p≈q , Q|R⊢⊣P@(-, Q∗P⊢R)) , □Q∗[α]∗OborRc) →
     let MonoQ = ⸨⸩ᴮ-Mono {Q} in ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , Pb , □Q∗[α]∗OborRc) ▷
     -- P∗□Q∗[α]⟨q/2⟩∗Obor → □Q∗P∗[α]⟨q/2⟩∗Obor → → □Q∗□Q∗P∗[α]⟨q/2⟩∗Obor → → →

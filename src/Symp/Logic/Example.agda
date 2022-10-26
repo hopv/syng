@@ -37,7 +37,7 @@ open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _�
 open import Symp.Logic.Mem using (ahor-fau; hor-🞰; hor-←)
 open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒↪⟨⟩;
   ↪⟨⟩ᵀ-use)
-open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; %ⁱ-close; hor-↦ⁱ-🞰)
+open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close; hor-↦ⁱ-🞰)
 open import Symp.Logic.Ub using (≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 
 private variable
@@ -150,7 +150,7 @@ abstract
     ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ ∗-assocʳ » ∗-pullʳ²ˡ » ∗-assocˡ »
     ahor-frameˡ (∗∃-elim λ _ → ahor-fad-#ᵁᵇ-↦) ᵃʰ»ᵘ λ m → ∃∗-elim λ m≤n →
     ∗-assocʳ » ∗-pushʳ²ˡ » ∗-monoˡ (∃-intro _) » ∗-assocˡ »
-    ⇛-frameˡ {i = 0} %ⁱ-close ᵘ» ∗-monoʳ $ ∃-intro m≤n
+    ⇛-frameˡ {i = 0} ⅋ⁱ-close ᵘ» ∗-monoʳ $ ∃-intro m≤n
 
   -- Total Hoare triple for fadrep under ≤ᵁᵇ and &ub↦
   -- The proof goes by well-founded induction over the upper bound n

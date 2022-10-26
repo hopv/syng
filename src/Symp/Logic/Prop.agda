@@ -79,7 +79,7 @@ private variable
 infix 3 ⤇_ _→'_ _-∗_
 infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
 infixr 7 _∗_
-infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ %ⁱ⟨_⟩_ &ᵐ⟨_⟩_ %ᵐ⟨_⟩_ ⟨†_⟩_ #ᵁᵇ⟨_⟩_ ≤ᵁᵇ⟨_⟩_
+infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ ⅋ⁱ⟨_⟩_ &ᵐ⟨_⟩_ ⅋ᵐ⟨_⟩_ ⟨†_⟩_ #ᵁᵇ⟨_⟩_ ≤ᵁᵇ⟨_⟩_
 infix 9 _↦⟨_⟩_
 
 
@@ -131,8 +131,8 @@ data  SProp ι  where
   -- &ⁱ⟨ ⟩ :  Invariant token
   &ⁱ⟨_⟩_ :  Name →  SProp˂ ι →  SProp ι
 
-  -- %ⁱ⟨ ⟩ :  Open invariant token
-  %ⁱ⟨_⟩_ :  Name →  SProp˂ ι →  SProp ι
+  -- ⅋ⁱ⟨ ⟩ :  Open invariant token
+  ⅋ⁱ⟨_⟩_ :  Name →  SProp˂ ι →  SProp ι
 
   -- [ ]ᴸ⟨ ⟩ :  Lifetime token
   [_]ᴸ⟨_⟩ :  Lft →  ℚ⁺ →  SProp ι
@@ -144,9 +144,9 @@ data  SProp ι  where
 
   &ᵐ⟨_⟩_ :  Lft →  SProp˂ ι →  SProp ι
 
-  -- %ᵐ :  Open mutable borrow token
+  -- ⅋ᵐ :  Open mutable borrow token
 
-  %ᵐ⟨_⟩_ :  Lft × ℚ⁺ →  SProp˂ ι →  SProp ι
+  ⅋ᵐ⟨_⟩_ :  Lft × ℚ⁺ →  SProp˂ ι →  SProp ι
 
   -- ⟨† ⟩ :  Lender token
 

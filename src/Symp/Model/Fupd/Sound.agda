@@ -17,14 +17,14 @@ open import Symp.Logic.Core using (_»_; ∃-elim)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
   ⇛-frameʳ)
 open import Symp.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
-open import Symp.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
-open import Symp.Logic.Bor using (&ᵐ-new; &ᵐ-open; %ᵐ-close; ⟨†⟩-back)
+open import Symp.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; ⅋ⁱ-close)
+open import Symp.Logic.Bor using (&ᵐ-new; &ᵐ-open; ⅋ᵐ-close; ⟨†⟩-back)
 open import Symp.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
 open import Symp.Model.Prop.Interp using (⸨_⸩)
 open import Symp.Model.Prop.Sound using (⊢-sem)
 open import Symp.Model.Fupd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
-open import Symp.Model.Fupd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; %ⁱᵒ-close)
-open import Symp.Model.Fupd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; %ᵐᵒ-close; ⟨†⟩ᵒ-back)
+open import Symp.Model.Fupd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; ⅋ⁱᵒ-close)
+open import Symp.Model.Fupd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; ⅋ᵐᵒ-close; ⟨†⟩ᵒ-back)
 open import Symp.Model.Fupd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᴮᵒʳ⇒⇛ᵒ;
   ⇛ᵒ-mono; ⊨✓⇒⊨-⇛ᵒ; ⤇ᵒ⇒⇛ᵒ; ⇛ᵒ-join; ⇛ᵒ-eatˡ; ⇛ᵒ-adeq)
 
@@ -87,27 +87,27 @@ abstract
 
   ⊢⇛-sem &ⁱ-new-rec =  &ⁱᵒ-new-rec › ⇛ᴵⁿᵛ⇒⇛ᵒ
 
-  -- &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂
+  -- &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂
 
   ⊢⇛-sem &ⁱ-open =  &ⁱᵒ-open › ⇛ᴵⁿᵛ⇒⇛ᵒ
 
-  -- %ⁱ-close :  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [^ nm ]ᴺ
+  -- ⅋ⁱ-close :  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [^ nm ]ᴺ
 
-  ⊢⇛-sem %ⁱ-close =  %ⁱᵒ-close › ⇛ᴵⁿᵛ⇒⇛ᵒ
+  ⊢⇛-sem ⅋ⁱ-close =  ⅋ⁱᵒ-close › ⇛ᴵⁿᵛ⇒⇛ᵒ
 
   -- &ᵐ-new :  P˂ .!  ⊢[ ∞ ][ i ]⇛  &ᵐ⟨ α ⟩ P˂  ∗  ⟨† α ⟩ P˂
 
   ⊢⇛-sem &ᵐ-new =  &ᵐᵒ-new › ⇛ᴮᵒʳ⇒⇛ᵒ
 
   -- &ᵐ-open :
-  --   [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂
+  --   [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂
 
   ⊢⇛-sem &ᵐ-open =  &ᵐᵒ-open › ⇛ᴮᵒʳ⇒⇛ᵒ
 
-  -- %ᵐ-close :
-  --   P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
+  -- ⅋ᵐ-close :
+  --   P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
 
-  ⊢⇛-sem %ᵐ-close =  %ᵐᵒ-close › ⇛ᴮᵒʳ⇒⇛ᵒ
+  ⊢⇛-sem ⅋ᵐ-close =  ⅋ᵐᵒ-close › ⇛ᴮᵒʳ⇒⇛ᵒ
 
   -- ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ∞ ][ i ]⇛  P˂ .!
 

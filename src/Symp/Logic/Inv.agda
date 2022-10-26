@@ -15,7 +15,7 @@ open import Base.Nat using (ℕ)
 open import Symp.Lang.Expr using (Addr; Type; V⇒E; TyVal)
 open import Symp.Lang.Ktxred using (Redex; 🞰ᴿ_; Ktx; _ᴷ◁_)
 open import Symp.Logic.Prop using (WpKind; Name; SProp∞; SProp˂∞; ¡ᴾ_; ⌜_⌝∧_;
-  _∗_; _-∗_; _↦_; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; static; _↦ⁱ_; Basic; ^ᶻᴺ-✔)
+  _∗_; _-∗_; _↦_; [^_]ᴺ; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_; static; _↦ⁱ_; Basic; ^ᶻᴺ-✔)
 open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∃-elim;
   ∃-intro; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm;
   ⊤∗-intro; ∗-elimʳ; ∃∗-elim; -∗-applyˡ; -∗-const)
@@ -25,8 +25,8 @@ open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; 
 open import Symp.Logic.Mem using (ahor-🞰)
 
 -- Import and re-export
-open import Symp.Logic.Judg public using (&ⁱ-⇒□; &ⁱ-resp-□∗; %ⁱ-mono; %ⁱ-eatˡ;
-  &ⁱ-new-rec; &ⁱ-open; %ⁱ-close)
+open import Symp.Logic.Judg public using (&ⁱ-⇒□; &ⁱ-resp-□∗; ⅋ⁱ-mono; ⅋ⁱ-eatˡ;
+  &ⁱ-new-rec; &ⁱ-open; ⅋ⁱ-close)
 
 private variable
   ι :  𝕊
@@ -49,7 +49,7 @@ abstract
   ------------------------------------------------------------------------------
   -- On the invariant and open invariant tokens
 
-  -->  %ⁱ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ⁱ⟨ nm ⟩ Q˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ P˂
+  -->  ⅋ⁱ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⅋ⁱ⟨ nm ⟩ Q˂  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ P˂
 
   instance
 
@@ -78,11 +78,11 @@ abstract
 
   -- Let an open invariant token eat a basic proposition
 
-  -->  %ⁱ-eatˡ :  {{Basic Q}}  →
-  -->    Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
+  -->  ⅋ⁱ-eatˡ :  {{Basic Q}}  →
+  -->    Q  ∗  ⅋ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
-  %ⁱ-eatʳ :  {{Basic Q}} →  %ⁱ⟨ nm ⟩ P˂  ∗  Q  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
-  %ⁱ-eatʳ =  ∗-comm » %ⁱ-eatˡ
+  ⅋ⁱ-eatʳ :  {{Basic Q}} →  ⅋ⁱ⟨ nm ⟩ P˂  ∗  Q  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
+  ⅋ⁱ-eatʳ =  ∗-comm » ⅋ⁱ-eatˡ
 
   -- Create &ⁱ⟨ nm ⟩ P˂ by storing P˂
 
@@ -93,20 +93,20 @@ abstract
 
   -- Use an invariant token
 
-  -->  &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂
+  -->  &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂
 
-  -->  %ⁱ-close :  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
+  -->  ⅋ⁱ-close :  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
 
   &ⁱ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  R  →
             &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ∗  Q  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ  ∗  R
   &ⁱ-use P∗Q⊢⇛P∗R =  ∗-assocˡ » ⇛-frameˡ &ⁱ-open ᵘ»ᵘ ∗?-comm »
-    ⇛-frameˡ P∗Q⊢⇛P∗R ᵘ»ᵘ ∗-assocʳ » ?∗-comm » ⇛-frameʳ %ⁱ-close ᵘ» ∗-comm
+    ⇛-frameˡ P∗Q⊢⇛P∗R ᵘ»ᵘ ∗-assocʳ » ?∗-comm » ⇛-frameʳ ⅋ⁱ-close ᵘ» ∗-comm
 
   ahor-&ⁱ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  P˂ .!  ∗  R˙ v)  →
     &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  [^ nm ]ᴺ  ∗  R˙ v
   ahor-&ⁱ-use P∗Q⊢⟨red⟩P∗Rv =  ∗-assocˡ » ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ
     ∗?-comm » ahor-frameˡ P∗Q⊢⟨red⟩P∗Rv ᵃʰ»ᵘ λ _ → ∗-assocʳ » ?∗-comm »
-    ⇛-frameʳ {i = 0} %ⁱ-close ᵘ» ∗-comm
+    ⇛-frameʳ {i = 0} ⅋ⁱ-close ᵘ» ∗-comm
 
   ------------------------------------------------------------------------------
   -- On the static reference
@@ -121,7 +121,7 @@ abstract
   ahor-↦ⁱ-🞰 :  θ ↦ⁱ (T , v)  ∗  [^ static ]ᴺ  ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ_ {T} θ ⟩ λ u →
                  ⌜ u ≡ v ⌝∧  [^ static ]ᴺ
   ahor-↦ⁱ-🞰 =  &ⁱ-open {i = 0} ᵘ»ᵃʰ ahor-frameˡ ahor-🞰 ᵃʰ»ᵘ λ _ →
-    ∃∗-elim λ u≡v → %ⁱ-close {P˂ = ¡ᴾ _} {i = 0} ᵘ» ∃-intro u≡v
+    ∃∗-elim λ u≡v → ⅋ⁱ-close {P˂ = ¡ᴾ _} {i = 0} ᵘ» ∃-intro u≡v
 
   hor-↦ⁱ-🞰 :  P  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  Q˙  →
               θ ↦ⁱ (T , v)  ∗  P  ⊢[ ι ]⁺⟨ ĩ₁ (-, K , 🞰ᴿ_ {T} θ) ⟩[ κ ]  Q˙

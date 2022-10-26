@@ -120,31 +120,31 @@ abstract
   Invk-agree =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ invk-agree
 
 --------------------------------------------------------------------------------
--- %ⁱᵒ :  Interpret the open invariant token
+-- ⅋ⁱᵒ :  Interpret the open invariant token
 
-infix 8 %ⁱ⟨_⟩ᵒ_
-%ⁱ⟨_⟩ᵒ_ :  Name →  SProp∞ →  SPropᵒ 1ᴸ
-%ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
+infix 8 ⅋ⁱ⟨_⟩ᵒ_
+⅋ⁱ⟨_⟩ᵒ_ :  Name →  SProp∞ →  SPropᵒ 1ᴸ
+⅋ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Invk i nm R
 
 abstract
 
-  -- Monoᵒ for %ⁱᵒ
+  -- Monoᵒ for ⅋ⁱᵒ
 
-  %ⁱᵒ-Mono :  Monoᵒ $ %ⁱ⟨ nm ⟩ᵒ P
-  %ⁱᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
+  ⅋ⁱᵒ-Mono :  Monoᵒ $ ⅋ⁱ⟨ nm ⟩ᵒ P
+  ⅋ⁱᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
     ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
-  -- Monotonicity of %ⁱᵒ
+  -- Monotonicity of ⅋ⁱᵒ
 
-  %ⁱᵒ-mono :  P  ⊢[ ∞ ]  Q  →   %ⁱ⟨ nm ⟩ᵒ Q  ⊨  %ⁱ⟨ nm ⟩ᵒ P
-  %ⁱᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗InvkSa) =  -, -, -ᴵ, -,
+  ⅋ⁱᵒ-mono :  P  ⊢[ ∞ ]  Q  →   ⅋ⁱ⟨ nm ⟩ᵒ Q  ⊨  ⅋ⁱ⟨ nm ⟩ᵒ P
+  ⅋ⁱᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗InvkSa) =  -, -, -ᴵ, -,
     ∗-monoʳ P⊢Q » R∗Q⊢S , R∗InvkSa
 
-  -- Let %ⁱᵒ eat a basic proposition
+  -- Let ⅋ⁱᵒ eat a basic proposition
 
-  %ⁱᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P  ⊨  %ⁱ⟨ nm ⟩ᵒ (Q -∗ P)
-  %ⁱᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗InvkSc) →
+  ⅋ⁱᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ  ∗ᵒ  ⅋ⁱ⟨ nm ⟩ᵒ P  ⊨  ⅋ⁱ⟨ nm ⟩ᵒ (Q -∗ P)
+  ⅋ⁱᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗InvkSc) →
     -, -, -ᴵ, -,
     -- (Q∗R)∗(Q-∗P) ⊢ (Q∗(Q-∗P))∗R ⊢ P∗R ⊢ R∗P ⊢ S
     ∗?-comm » ∗-monoˡ -∗-applyˡ » ∗-comm » R∗P⊢S ,

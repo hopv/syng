@@ -77,37 +77,37 @@ abstract
   &ᵐᵒ-make Bora =  -, ⊤' , -ᴵ, -, (∗-elimʳ , ∗-elimʳ) , ?∗ᵒ-intro absurd Bora
 
 --------------------------------------------------------------------------------
--- %ᵐᵒ :  Interpret the open mutable borrow token
+-- ⅋ᵐᵒ :  Interpret the open mutable borrow token
 
 Oborᵐ :  ℕ →  Lft →  ℚ⁺ →  SProp∞ →  SPropᵒ 1ᴸ
 Oborᵐ i α p P =  ◎⟨ iᴮᵒʳ ⟩ oborᵐ i α p P
 
-infix 8 %ᵐ⟨_⟩ᵒ_
-%ᵐ⟨_⟩ᵒ_ :  Lft × ℚ⁺ →  SProp∞ →  SPropᵒ 1ᴸ
-%ᵐ⟨ α , p ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ q , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
+infix 8 ⅋ᵐ⟨_⟩ᵒ_
+⅋ᵐ⟨_⟩ᵒ_ :  Lft × ℚ⁺ →  SProp∞ →  SPropᵒ 1ᴸ
+⅋ᵐ⟨ α , p ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ q , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ p ≈ᴿ⁺ q  ×  Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
   □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  [ α ]ᴸ⟨ q /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α q R
 
 abstract
 
-  -- Monoᵒ for %ᵐᵒ
+  -- Monoᵒ for ⅋ᵐᵒ
 
-  %ᵐᵒ-Mono :  Monoᵒ $ %ᵐ⟨ α , p ⟩ᵒ P
-  %ᵐᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
+  ⅋ᵐᵒ-Mono :  Monoᵒ $ ⅋ᵐ⟨ α , p ⟩ᵒ P
+  ⅋ᵐᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
     ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
-  -- Modify the fraction of %ᵐᵒ
+  -- Modify the fraction of ⅋ᵐᵒ
 
-  %ᵐᵒ-respᴿ :  p ≈ᴿ⁺ q  →   %ᵐ⟨ α , p ⟩ᵒ P  ⊨  %ᵐ⟨ α , q ⟩ᵒ P
-  %ᵐᵒ-respᴿ {p} {q} p≈q (-, r , -, -ᴵ, -, (p≈r , Q|R⊢⊣P) , QαObor) =  -, -, -,
+  ⅋ᵐᵒ-respᴿ :  p ≈ᴿ⁺ q  →   ⅋ᵐ⟨ α , p ⟩ᵒ P  ⊨  ⅋ᵐ⟨ α , q ⟩ᵒ P
+  ⅋ᵐᵒ-respᴿ {p} {q} p≈q (-, r , -, -ᴵ, -, (p≈r , Q|R⊢⊣P) , QαObor) =  -, -, -,
     -ᴵ, -, (≈ᴿ⁺-trans {q} {p} {r} (≈ᴿ⁺-sym {p} {q} p≈q) p≈r , Q|R⊢⊣P) , QαObor
 
-  -- Modify %ᵐᵒ using a persistent basic proposition
+  -- Modify ⅋ᵐᵒ using a persistent basic proposition
 
-  %ᵐᵒ-respᴾ-□ᵒ∗ᵒ :  {{_ : Basic R}} →
+  ⅋ᵐᵒ-respᴾ-□ᵒ∗ᵒ :  {{_ : Basic R}} →
     R  ∗  P  ⊢[ ∞ ]  Q  →   R  ∗  Q  ⊢[ ∞ ]  P  →
-    □ᵒ ⸨ R ⸩ᴮ  ∗ᵒ  %ᵐ⟨ α , p ⟩ᵒ P  ⊨  %ᵐ⟨ α , p ⟩ᵒ Q
-  %ᵐᵒ-respᴾ-□ᵒ∗ᵒ R∗P⊢Q R∗Q⊢P =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , □Rb ,
+    □ᵒ ⸨ R ⸩ᴮ  ∗ᵒ  ⅋ᵐ⟨ α , p ⟩ᵒ P  ⊨  ⅋ᵐ⟨ α , p ⟩ᵒ Q
+  ⅋ᵐᵒ-respᴾ-□ᵒ∗ᵒ R∗P⊢Q R∗Q⊢P =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , □Rb ,
     -, -, -, -ᴵ, -, (p≈q , S∗T⊢P , S∗P⊢T) , □S∗α∗OborTc) →
     -, -, -, -ᴵ, -, (p≈q ,
     -- (R∗S)∗T ⊢ R∗(S∗T) ⊢ R∗P ⊢ Q

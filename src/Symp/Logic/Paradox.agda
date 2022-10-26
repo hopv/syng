@@ -15,7 +15,7 @@ open import Symp.Lang.Ktxred using (Redex)
 open import Symp.Lang.Reduce using (_⇒ᴾ_; redᴾ)
 open import Symp.Logic.Prop using (Name; strnm; Lft; SProp∞; SProp˂∞; ¡ᴾ_;
   ∃-syntax; _∨_; ⊤'; ⊥'; □_; _∗_; _-∗_; [^_]ᴺ; ○_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩ᴾ_;
-  _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_; [_]ᴸ; †ᴸ_)
+  _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_; [_]ᴸ; †ᴸ_)
 open import Symp.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∃-elim; ∃-intro;
   ∨-introˡ; ∨-introʳ; ⊥-elim; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ;
   ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∨∗-elim; ∗∨-elim;
@@ -26,7 +26,7 @@ open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _�
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵘ»ⁱʰ_)
 open import Symp.Logic.Ind using (○-mono; □○-new-rec; ○-use; ○⇒↪⇛; ○⇒↪ᵃ⟨⟩;
   ○⇒↪⟨⟩; ○⇒↪⟨⟩∞)
-open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; %ⁱ-close)
+open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close)
 open import Symp.Logic.Lft using ([]ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
 
 private variable
@@ -64,10 +64,10 @@ module _ {nm : Name} (⇛ᵐ : SProp∞ → SProp∞)
   Evil/⇛ᵐ :  Lft → SProp∞
   Evil/⇛ᵐ α =  &ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
 
-  -- We get contradiction consuming □⇛⊥ and %ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
+  -- We get contradiction consuming □⇛⊥ and ⅋ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)
 
-  □⇛⊥-%ⁱ-no/⇛ᵐ :  □⇛⊥/⇛ᵐ  ∗  %ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)  ⊢[ ∞ ][ 0 ]⇛  ⊥'
-  □⇛⊥-%ⁱ-no/⇛ᵐ =  dup-Pers-∗ » ⇛-frameʳ (∗-monoˡ ∨-introʳ » %ⁱ-close) ᵘ»ᵘ
+  □⇛⊥-⅋ⁱ-no/⇛ᵐ :  □⇛⊥/⇛ᵐ  ∗  ⅋ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  □⇛⊥-⅋ⁱ-no/⇛ᵐ =  dup-Pers-∗ » ⇛-frameʳ (∗-monoˡ ∨-introʳ » ⅋ⁱ-close) ᵘ»ᵘ
     ∗-monoˡ □-elim » -∗-applyʳ » ⇛ᵐ-elim ⊢-refl
 
   -- Create Evil
@@ -80,7 +80,7 @@ module _ {nm : Name} (⇛ᵐ : SProp∞ → SProp∞)
 
   †ᴸ-Evil-no/⇛ᵐ :  †ᴸ α  ∗  Evil/⇛ᵐ α  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
   †ᴸ-Evil-no/⇛ᵐ =  ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ∗-assocˡ »
-    ∗-monoˡ (∗∨-elim (∗-comm » []ᴸ⟨⟩-†ᴸ-no » ⊥-elim) ∗-elimʳ) » □⇛⊥-%ⁱ-no/⇛ᵐ
+    ∗-monoˡ (∗∨-elim (∗-comm » []ᴸ⟨⟩-†ᴸ-no » ⊥-elim) ∗-elimʳ) » □⇛⊥-⅋ⁱ-no/⇛ᵐ
 
   -- So †ᴸ α and Evil α turns into □⇛⊥/⇛ᵐ
 
@@ -95,9 +95,9 @@ module _ {nm : Name} (⇛ᵐ : SProp∞ → SProp∞)
 
   Evil-no/⇛ᵐ :  Evil/⇛ᵐ α  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
   Evil-no/⇛ᵐ =  dup-Pers-∗ » ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ?∗-comm »
-    flip ∨∗-elim (∗-monoʳ ∗-elimʳ » □⇛⊥-%ⁱ-no/⇛ᵐ) $
+    flip ∨∗-elim (∗-monoʳ ∗-elimʳ » □⇛⊥-⅋ⁱ-no/⇛ᵐ) $
     ⇛-frameˡ ([]ᴸ-kill » ⤇⇒⇛) ᵘ»ᵘ ∗-assocˡ » dup-Pers-∗ »
-    ⇛-frameʳ (∗-monoˡ (†ᴸ-Evil-□⇛⊥/⇛ᵐ » ∨-introʳ) » %ⁱ-close) ᵘ»ᵘ
+    ⇛-frameʳ (∗-monoˡ (†ᴸ-Evil-□⇛⊥/⇛ᵐ » ∨-introʳ) » ⅋ⁱ-close) ᵘ»ᵘ
     ∗-assocʳ » †ᴸ-Evil-no/⇛ᵐ
 
   -- Therefore, combining Evil-intro/⇛ᵐ and Evil-no/⇛ᵐ, we get contradiction out

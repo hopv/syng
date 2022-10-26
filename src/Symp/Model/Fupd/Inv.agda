@@ -23,7 +23,7 @@ open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Symp.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-back)
 open import Symp.Model.Prop.Names using ([^_]ᴺᵒ; [^]ᴺᵒ-no2)
-open import Symp.Model.Prop.Inv using (Inv; &ⁱ⟨_⟩ᵒ_; Invk; %ⁱ⟨_⟩ᵒ_; dup-&ⁱᵒ;
+open import Symp.Model.Prop.Inv using (Inv; &ⁱ⟨_⟩ᵒ_; Invk; ⅋ⁱ⟨_⟩ᵒ_; dup-&ⁱᵒ;
   Invk-no2; &ⁱᵒ-Invk-new; Inv-agree; Invk-agree)
 open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Symp.Model.Prop.Sound using (⊢-sem)
@@ -98,13 +98,13 @@ abstract
       ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ ›
       ∗ᵒ-assocʳ › ∗ᵒ-mono ∗ᵒ-comm (Smry-back ≡šR)) › ⤇ᴱ⟨⟩-param
 
-  -- Store &ⁱ⟨ nm ⟩ᵒ P and [^ nm ]ᴺᵒ to get ⸨ P ⸩ and %ⁱ⟨ nm ⟩ᵒ P
+  -- Store &ⁱ⟨ nm ⟩ᵒ P and [^ nm ]ᴺᵒ to get ⸨ P ⸩ and ⅋ⁱ⟨ nm ⟩ᵒ P
 
-  &ⁱᵒ-open :  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-open :  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  ⅋ⁱ⟨ nm ⟩ᵒ P
   &ⁱᵒ-open =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , (-, Q , -ᴵ, -, (Q∗R⊢P , Q∗P⊢R) ,
     □Q∗InvRb) , [nm]c) → let MonoQ = ⸨⸩ᴮ-Mono {Q} in
     -- (□Q∗Inv)∗[nm] → □Q∗Inv∗[nm] → → □Q∗R∗Invk → → (Q∗Q)∗R∗Invk → → →
-    -- (Q∗R)∗Q∗Invk → P∗Q∗Invk → P∗%
+    -- (Q∗R)∗Q∗Invk → P∗Q∗Invk → P∗⅋
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , □Q∗InvRb , [nm]c) ▷ ∗ᵒ-assocʳ ▷ ∗ᵒ-monoʳ Inv-open ▷
     ⇛ᵍ-eatˡ ▷ ⇛ᵍ-mono✓ λ ✓∙ → ∗ᵒ-monoˡ (dup-□ᵒ MonoQ ›
     ∗ᵒ-mono (□ᵒ-elim MonoQ › ⸨⸩-ᴮ⇒ {Q}) (□ᵒ-elim MonoQ)) › ∗ᵒ-assocʳ ›
@@ -132,10 +132,10 @@ abstract
       ∗ᵒ-mono✓ˡ Invk-close' ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-back ≡šR) ›
     ⤇ᴱ⟨⟩-param
 
-  -- Store ⸨ P ⸩ and %ⁱ⟨ nm ⟩ᵒ P to get [^ nm ]ᴺᵒ
+  -- Store ⸨ P ⸩ and ⅋ⁱ⟨ nm ⟩ᵒ P to get [^ nm ]ᴺᵒ
 
-  %ⁱᵒ-close :  ⸨ P ⸩  ∗ᵒ  %ⁱ⟨ nm ⟩ᵒ P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
-  %ⁱᵒ-close =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , Pb , -, Q , -ᴵ, -, Q∗P⊢R , Q∗Invkc) →
+  ⅋ⁱᵒ-close :  ⸨ P ⸩  ∗ᵒ  ⅋ⁱ⟨ nm ⟩ᵒ P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
+  ⅋ⁱᵒ-close =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , Pb , -, Q , -ᴵ, -, Q∗P⊢R , Q∗Invkc) →
     -- P∗Q∗Invk → Q∗P∗Invk → (Q∗P)∗Invk → → R∗Invk
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , Pb , Q∗Invkc) ▷ ⊨✓⇒⊨-⇛ᵍ λ ✓∙ → ?∗ᵒ-comm › ∗ᵒ-assocˡ ›
     ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗P⊢R ✓∙) ✓∙ › Invk-close }

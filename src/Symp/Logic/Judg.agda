@@ -28,8 +28,8 @@ open import Symp.Lang.Reduce using (_⇒ᴾ_)
 open import Symp.Logic.Prop using (WpKind; Name; Lft; par; tot; SProp∞; SProp˂∞;
   ¡ᴾ_; ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_;
   _∗_; _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _↪[_]⇛_; _↦⟨_⟩_; _↪[_]ᵃ⟨_⟩_;
-  _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; %ⁱ⟨_⟩_;
-  [_]ᴸ⟨_⟩; [_]ᴸ; †ᴸ_; ⟨†_⟩_; &ᵐ⟨_⟩_; %ᵐ⟨_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic)
+  _↪⟨_⟩[_]_; _↪⟨_⟩ᴾ_; _↪⟨_⟩ᵀ[_]_; _↪[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_;
+  [_]ᴸ⟨_⟩; [_]ᴸ; †ᴸ_; ⟨†_⟩_; &ᵐ⟨_⟩_; ⅋ᵐ⟨_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic)
 
 --------------------------------------------------------------------------------
 -- JudgRes :  Result of a judgment
@@ -660,12 +660,12 @@ data  Judg ι  where
 
   -- Monotonicity of the open invariant token
 
-  %ⁱ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   %ⁱ⟨ nm ⟩ Q˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ P˂
+  ⅋ⁱ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⅋ⁱ⟨ nm ⟩ Q˂  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ P˂
 
   -- Let an open invariant token eat a basic proposition
 
-  %ⁱ-eatˡ :  {{Basic Q}}  →
-    Q  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  %ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
+  ⅋ⁱ-eatˡ :  {{Basic Q}}  →
+    Q  ∗  ⅋ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ ¡ᴾ (Q -∗ P˂ .!)
 
   -- Create &ⁱ⟨ nm ⟩ P˂ by storing P˂ minus &ⁱ⟨ nm ⟩ P˂
 
@@ -676,11 +676,11 @@ data  Judg ι  where
   -- Notably, the proposition P˂ .! is directly obtained, without any guard like
   -- the later modality as in Iris
 
-  &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂
+  &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂
 
   -- Retrieve a name token out of an open invariant token and its proposition
 
-  %ⁱ-close :  P˂ .!  ∗  %ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
+  ⅋ⁱ-close :  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛  [^ nm ]ᴺ
 
   ------------------------------------------------------------------------------
   -- On lifetimes
@@ -726,13 +726,13 @@ data  Judg ι  where
 
   -- Modify the fraction of an open mutable borrow token
 
-  %ᵐ-respᴿ :  p ≈ᴿ⁺ q  →   %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , q ⟩ P˂
+  ⅋ᵐ-respᴿ :  p ≈ᴿ⁺ q  →   ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  ⅋ᵐ⟨ α , q ⟩ P˂
 
   -- Modify an open mutable borrow token using a basic persistent proposition
 
-  %ᵐ-respᴾ-□∗ :  {{Basic R}}  →
+  ⅋ᵐ-respᴾ-□∗ :  {{Basic R}}  →
     R  ∗  P˂ .!  ⊢[< ι ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ι ]  P˂ .!  →
-    □ R  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  %ᵐ⟨ α , p ⟩ Q˂
+    □ R  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  ⅋ᵐ⟨ α , p ⟩ Q˂
 
   -- Monotonicity of the lending token
 
@@ -748,11 +748,11 @@ data  Judg ι  where
 
   -- Open a mutable borrow token
 
-  &ᵐ-open :  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂
+  &ᵐ-open :  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂
 
   -- Close an open mutable borrow token to retrieve a mutable borrow token
 
-  %ᵐ-close :  P˂ .!  ∗  %ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
+  ⅋ᵐ-close :  P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
 
   -- Retrieve the proposition from a lending token using a dead lifetime token
 

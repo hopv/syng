@@ -98,7 +98,7 @@ data  SProp ι  where
   -- -∗ :  Magic wand
   _-∗_ :  SProp ι →  SProp ι →  SProp ι
 
-  -- ⤇ :  Update modality
+  -- ⤇ :  Basic update modality
   ⤇_ :  SProp ι →  SProp ι
 
   -- □ :  Persistence modality

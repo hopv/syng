@@ -549,7 +549,7 @@ abstract
     -∗ᵒ-monoʳ λ{a} → ∗ᵒ-comm {Pᵒ = Qᵒ} {Qᵒ = Rᵒ} {a}
 
 --------------------------------------------------------------------------------
--- ⤇ᵒ :  Semantic update modality
+-- ⤇ᵒ :  Semantic basic update modality
 
 abstract
 

@@ -16,13 +16,13 @@ open import Symp.Logic.Prop using (SProp∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
 open import Symp.Logic.Core using (_»_; ∃-elim)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
   ⇛-frameʳ)
-open import Symp.Logic.Ind using (○-new; □○-new-rec; ○-use; ↪⇛-use)
+open import Symp.Logic.Ind using (○-new; □○-new-rec; ○-use; ⊸⇛-use)
 open import Symp.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; ⅋ⁱ-close)
 open import Symp.Logic.Bor using (&ᵐ-new; &ᵐ-open; ⅋ᵐ-close; ⟨†⟩-back)
 open import Symp.Model.Prop.Base using (_⊨_; ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
 open import Symp.Model.Prop.Interp using (⸨_⸩)
 open import Symp.Model.Prop.Sound using (⊢-sem)
-open import Symp.Model.Fupd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ↪⇛ᵒ-use)
+open import Symp.Model.Fupd.Ind using (○ᵒ-new; □ᵒ○ᵒ-new-rec; ○ᵒ-use; ⊸⇛ᵒ-use)
 open import Symp.Model.Fupd.Inv using (&ⁱᵒ-new-rec; &ⁱᵒ-open; ⅋ⁱᵒ-close)
 open import Symp.Model.Fupd.Bor using (&ᵐᵒ-new; &ᵐᵒ-open; ⅋ᵐᵒ-close; ⟨†⟩ᵒ-back)
 open import Symp.Model.Fupd.Interp using (⇛ᵒ_; ⇛ᴺᵒ_; ⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᴵⁿᵛ⇒⇛ᵒ; ⇛ᴮᵒʳ⇒⇛ᵒ;
@@ -76,10 +76,10 @@ abstract
 
   ⊢⇛-sem ○-use =  ○ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ
 
-  -- ↪⇛-use :  P˂ .!  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ][ ṡ i ]⇛  Q˂ .!
+  -- ⊸⇛-use :  P˂ .!  ∗  (P˂ ⊸[ i ]⇛ Q˂)  ⊢[ ∞ ][ ṡ i ]⇛  Q˂ .!
   -- The level increment ṡ i makes the recursive call of ⊢⇛-sem inductive
 
-  ⊢⇛-sem ↪⇛-use =  ∗ᵒ-monoʳ (↪⇛ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
+  ⊢⇛-sem ⊸⇛-use =  ∗ᵒ-monoʳ (⊸⇛ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
     ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › ∑-case λ _ →
       ∗ᵒ∃ᵒ-out › ∑-case λ P∗R⊢⇛Q → ⊢⇛-sem P∗R⊢⇛Q) › ⇛ᵒ-join
 

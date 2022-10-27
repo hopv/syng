@@ -77,7 +77,7 @@ private variable
   α :  Lft
 
 infix 3 ⤇_ _→'_ _-∗_
-infixr 5 _↪[_]⇛_ _↪[_]ᵃ⟨_⟩_ _↪⟨_⟩[_]_ _↪[_]⟨_⟩∞
+infixr 5 _⊸[_]⇛_ _⊸[_]ᵃ⟨_⟩_ _⊸⟨_⟩[_]_ _⊸[_]⟨_⟩∞
 infixr 7 _∗_
 infix 8 □_ ○_ †ᴸ_ &ⁱ⟨_⟩_ ⅋ⁱ⟨_⟩_ &ᵐ⟨_⟩_ ⅋ᵐ⟨_⟩_ ⟨†_⟩_ #ᵁᵇ⟨_⟩_ ≤ᵁᵇ⟨_⟩_
 infix 9 _↦⟨_⟩_
@@ -116,17 +116,17 @@ data  SProp ι  where
   -- ○ :  Indirection modality
   ○_ :  SProp˂ ι →  SProp ι
 
-  -- ↪[ ]⇛ :  Fancy update precursor, with a level
-  _↪[_]⇛_ :  SProp˂ ι →  ℕ →  SProp˂ ι →  SProp ι
+  -- ⊸[ ]⇛ :  Fancy update precursor, with a level
+  _⊸[_]⇛_ :  SProp˂ ι →  ℕ →  SProp˂ ι →  SProp ι
 
-  -- ↪[ ]ᵃ⟨ ⟩ :  Atomic Hoare triple precursor, with a level
-  _↪[_]ᵃ⟨_⟩_ :  SProp˂ ι →  ℕ →  Redex T →  (Val T → SProp˂ ι) →  SProp ι
+  -- ⊸[ ]ᵃ⟨ ⟩ :  Atomic Hoare triple precursor, with a level
+  _⊸[_]ᵃ⟨_⟩_ :  SProp˂ ι →  ℕ →  Redex T →  (Val T → SProp˂ ι) →  SProp ι
 
-  -- ↪⟨ ⟩[ ] :  Hoare triple precursor
-  _↪⟨_⟩[_]_ :  SProp˂ ι →  Expr∞ T →  WpKind →  (Val T → SProp˂ ι) →  SProp ι
+  -- ⊸⟨ ⟩[ ] :  Hoare triple precursor
+  _⊸⟨_⟩[_]_ :  SProp˂ ι →  Expr∞ T →  WpKind →  (Val T → SProp˂ ι) →  SProp ι
 
-  -- ↪[ ]⟨ ⟩∞ :  Infinite Hoare triple precursor, with a level
-  _↪[_]⟨_⟩∞ :  SProp˂ ι →  ℕ →  Expr∞ T →  SProp ι
+  -- ⊸[ ]⟨ ⟩∞ :  Infinite Hoare triple precursor, with a level
+  _⊸[_]⟨_⟩∞ :  SProp˂ ι →  ℕ →  Expr∞ T →  SProp ι
 
   -- &ⁱ⟨ ⟩ :  Invariant token
   &ⁱ⟨_⟩_ :  Name →  SProp˂ ι →  SProp ι
@@ -271,15 +271,15 @@ _↦ᴸ_ :  Addr →  List TyVal →  SProp ι
 θ ↦ᴸ ᵗvs =  θ ↦ᴸ⟨ 1ᴿ⁺ ⟩ ᵗvs
 
 --------------------------------------------------------------------------------
--- ↪⟨ ⟩ᴾ, ↪⟨ ⟩ᵀ[ ] :  Partial/total Hoare triple precursor
+-- ⊸⟨ ⟩ᴾ, ⊸⟨ ⟩ᵀ[ ] :  Partial/total Hoare triple precursor
 
-infixr 5 _↪⟨_⟩ᴾ_ _↪⟨_⟩ᵀ[_]_
+infixr 5 _⊸⟨_⟩ᴾ_ _⊸⟨_⟩ᵀ[_]_
 
-_↪⟨_⟩ᴾ_ :  SProp˂ ι →  Expr∞ T →  (Val T → SProp˂ ι) →  SProp ι
-P ↪⟨ e ⟩ᴾ Q˙ =  P ↪⟨ e ⟩[ par ] Q˙
+_⊸⟨_⟩ᴾ_ :  SProp˂ ι →  Expr∞ T →  (Val T → SProp˂ ι) →  SProp ι
+P ⊸⟨ e ⟩ᴾ Q˙ =  P ⊸⟨ e ⟩[ par ] Q˙
 
-_↪⟨_⟩ᵀ[_]_ :  SProp˂ ι →  Expr∞ T →  ℕ →  (Val T → SProp˂ ι) →  SProp ι
-P ↪⟨ e ⟩ᵀ[ i ] Q˙ =  P ↪⟨ e ⟩[ tot i ] Q˙
+_⊸⟨_⟩ᵀ[_]_ :  SProp˂ ι →  Expr∞ T →  ℕ →  (Val T → SProp˂ ι) →  SProp ι
+P ⊸⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊸⟨ e ⟩[ tot i ] Q˙
 
 --------------------------------------------------------------------------------
 -- Static reference

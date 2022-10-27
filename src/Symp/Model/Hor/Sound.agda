@@ -30,13 +30,13 @@ open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; 
   ihor-fork)
 open import Symp.Logic.Mem using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
   ahor-cas-ff; ahor-alloc; ahor-free)
-open import Symp.Logic.Ind using (↪ᵃ⟨⟩-use; ↪⟨⟩ᴾ-use; ↪⟨⟩ᵀ-use; ↪⟨⟩∞-use)
+open import Symp.Logic.Ind using (⊸ᵃ⟨⟩-use; ⊸⟨⟩ᴾ-use; ⊸⟨⟩ᵀ-use; ⊸⟨⟩∞-use)
 open import Symp.Model.Prop.Base using (_⊨_; [∗ᵒ∈ⁱ⟨⟩]-syntax; ∗ᵒ-mono; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
 open import Symp.Model.Prop.Mem using (_↦ᵒ_)
 open import Symp.Model.Prop.Interp using (⸨_⸩)
 open import Symp.Model.Prop.Sound using (⊢-sem)
-open import Symp.Model.Fupd.Ind using (↪ᵃ⟨⟩ᵒ-use; ↪⟨⟩ᵒ-use; ↪⟨⟩∞ᵒ-use)
+open import Symp.Model.Fupd.Ind using (⊸ᵃ⟨⟩ᵒ-use; ⊸⟨⟩ᵒ-use; ⊸⟨⟩∞ᵒ-use)
 open import Symp.Model.Fupd.Interp using (⇛ᴵⁿᵈ⇒⇛ᵒ; ⇛ᵒ-mono; ⇛ᵒ-eatˡ; ⇛ᴺᵒ-mono)
 open import Symp.Model.Fupd.Sound using (⊢⇛-sem; ⊢⇛ᴺ-sem)
 open import Symp.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩ᵀᵒ; ⁺⟨_⟩∞ᵒ; ⁺⟨⟩ᴾᵒ-val;
@@ -168,11 +168,11 @@ abstract
   ⊢ᵃ⟨⟩-sem (ahor-free {ᵗvs} lenvs≡n) =  ∗ᵒ-monoˡ (↦ᴸ⇒↦ᴸᵒ {ᵗvs = ᵗvs}) ›
     ᵃ⟨⟩ᵒ-free lenvs≡n › ᵃ⟨⟩ᵒ-mono λ _ _ → absurd
 
-  -- ↪ᵃ⟨⟩-use :  P˂ .!  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)
+  -- ⊸ᵃ⟨⟩-use :  P˂ .!  ∗  (P˂ ⊸[ i ]ᵃ⟨ red ⟩ Q˂˙)
   --               ⊢[ ∞ ][ ṡ i ]ᵃ⟨ red ⟩ λ v →  Q˂˙ v .!
   -- The level increment ṡ i makes the recursive call of ⊢ᵃ⟨⟩-sem inductive
 
-  ⊢ᵃ⟨⟩-sem ↪ᵃ⟨⟩-use =  ∗ᵒ-monoʳ (↪ᵃ⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
+  ⊢ᵃ⟨⟩-sem ⊸ᵃ⟨⟩-use =  ∗ᵒ-monoʳ (⊸ᵃ⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
     ⇛ᵒ-mono (∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
     λ (P∗R⊢⟨red⟩Q , P∗Ra) → ⊢ᵃ⟨⟩-sem P∗R⊢⟨red⟩Q P∗Ra) › ⇛ᵒ-ᵃ⟨⟩ᵒ
 
@@ -247,11 +247,11 @@ abstract
   ⊢⁺⟨⟩ᵀ-sem (hor-fork P⊢⟨e⟩ Q⊢⟨K⟩R) =
     ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) (⊢⁺⟨⟩ᵀ-sem Q⊢⟨K⟩R) › ⁺⟨⟩ᵀᵒ-fork
 
-  -- ↪⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙)
+  -- ⊸⟨⟩ᵀ-use :  P˂ .! ∗ (P˂ ⊸⟨ e ⟩ᵀ[ i ] Q˂˙)
   --               ⊢[ ∞ ]⟨ e ⟩ᵀ[ ṡ i ] λ v →  Q˂˙ v .!
   -- The level increment ṡ i makes the recursive call of ⊢⁺⟨⟩ᵀ-sem inductive
 
-  ⊢⁺⟨⟩ᵀ-sem ↪⟨⟩ᵀ-use =  ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
+  ⊢⁺⟨⟩ᵀ-sem ⊸⟨⟩ᵀ-use =  ∗ᵒ-monoʳ (⊸⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
     (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
     λ (P∗R⊢⟨e⟩Q , P∗Ra) → ⊢⁺⟨⟩ᵀ-sem P∗R⊢⟨e⟩Q P∗Ra) › ⇛ᵒ-⁺⟨⟩ᵀᵒ
 
@@ -323,11 +323,11 @@ abstract
   ⊢⁺⟨⟩∞-sem (ihor-fork P⊢⟨e⟩ Q⊢⟨K⟩∞) =
     ∗ᵒ-mono (⊢⁺⟨⟩ᵀ-sem P⊢⟨e⟩ › ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤) (⊢⁺⟨⟩∞-sem Q⊢⟨K⟩∞) › ⁺⟨⟩∞ᵒ-fork
 
-  -- ↪⟨⟩∞-use :  P˂ .!  ∗  (P˂ ↪[ i ]⟨ e ⟩∞)  ⊢[ ∞ ][ ṡ i ]⟨ e ⟩∞
+  -- ⊸⟨⟩∞-use :  P˂ .!  ∗  (P˂ ⊸[ i ]⟨ e ⟩∞)  ⊢[ ∞ ][ ṡ i ]⟨ e ⟩∞
   -- The level increment ṡ i makes the recursive call of ⊢⁺⟨⟩∞-sem inductive
-  -- (just like ↪⟨⟩ᵀ-use)
+  -- (just like ⊸⟨⟩ᵀ-use)
 
-  ⊢⁺⟨⟩∞-sem ↪⟨⟩∞-use =  ∗ᵒ-monoʳ (↪⟨⟩∞ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
+  ⊢⁺⟨⟩∞-sem ⊸⟨⟩∞-use =  ∗ᵒ-monoʳ (⊸⟨⟩∞ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) › ⇛ᵒ-eatˡ ›
     (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
     λ (P∗R⊢⟨e⟩Q , P∗Ra) → ⊢⁺⟨⟩∞-sem P∗R⊢⟨e⟩Q P∗Ra) › ⇛ᵒ-⁺⟨⟩∞ᵒ
 
@@ -340,7 +340,7 @@ abstract
 
   -- The metric of termination is the pair of the size ι and the structure of
   -- the proof ⊢[ ]⁺⟨ ⟩ᴾ
-  -- For rules like ↪⟨⟩ᴾ-use and horᴾ-[], the proof structure does not decrease
+  -- For rules like ⊸⟨⟩ᴾ-use and horᴾ-[], the proof structure does not decrease
   -- but the size ι does, which is the key trick
 
   -- _»_ :  P ⊢[ ∞ ] Q →  Q ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ R˙ →  P ⊢[ ∞ ]⁺⟨ vk ⟩ᴾ R˙
@@ -409,11 +409,11 @@ abstract
     (λ Pb → λ{ .! → Pb ▷ ⊢⁺⟨⟩ᴾ-sem (P⊢⟨e⟩ .!) ▷ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤ })
     (λ Qc → λ{ .! → Qc ▷ ⊢⁺⟨⟩ᴾ-sem (Q⊢⟨K⟩R .!) }) › ⁺⟨⟩ᴾᵒ-fork
 
-  -- ↪⟨⟩ᴾ-use :  e ⇒ᴾ e'  →
-  --   P˂ .!  ∗  (P˂ ↪⟨ e' ⟩ᴾ Q˂˙)  ⊢[ ∞ ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!
+  -- ⊸⟨⟩ᴾ-use :  e ⇒ᴾ e'  →
+  --   P˂ .!  ∗  (P˂ ⊸⟨ e' ⟩ᴾ Q˂˙)  ⊢[ ∞ ]⟨ e ⟩ᴾ λ v →  Q˂˙ v .!
 
-  ⊢⁺⟨⟩ᴾ-sem (↪⟨⟩ᴾ-use (-, redᴾ e⇒K[e₀])) big  rewrite e⇒K[e₀] =
-    ⁺⟨⟩ᴾᵒ-[] λ{ .! → big ▷ ∗ᵒ-monoʳ (↪⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷
+  ⊢⁺⟨⟩ᴾ-sem (⊸⟨⟩ᴾ-use (-, redᴾ e⇒K[e₀])) big  rewrite e⇒K[e₀] =
+    ⁺⟨⟩ᴾᵒ-[] λ{ .! → big ▷ ∗ᵒ-monoʳ (⊸⟨⟩ᵒ-use › ⇛ᴵⁿᵈ⇒⇛ᵒ) ▷ ⇛ᵒ-eatˡ ▷
     (⇛ᵒ-mono $ ∗ᵒ∃ᵒ-out › λ (-, big) → ∗ᵒ∃ᵒ-out big ▷
     λ (P∗R⊢⟨e⟩Q , P∗Ra) → ⊢⁺⟨⟩ᴾ-sem P∗R⊢⟨e⟩Q P∗Ra) ▷ ⇛ᵒ-⁺⟨⟩ᴾᵒ }
 

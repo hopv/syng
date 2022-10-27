@@ -11,8 +11,8 @@ open import Base.Func using (id)
 open import Base.Size using (!)
 open import Base.Prod using (_,_)
 open import Symp.Logic.Prop using (SProp∞; ∀˙; ∃˙; _→'_; _∗_; _-∗_; ⤇_; □_;
-  [_]ᴺ; _↦⟨_⟩_; Free; ○_; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_; _↪[_]⇛_; _↪[_]ᵃ⟨_⟩_; _↪⟨_⟩[_]_;
-  _↪[_]⟨_⟩∞; [_]ᴸ⟨_⟩; †ᴸ_; &ᵐ⟨_⟩_; ⅋ᵐ⟨_⟩_; ⟨†_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic;
+  [_]ᴺ; _↦⟨_⟩_; Free; ○_; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_; _⊸[_]⇛_; _⊸[_]ᵃ⟨_⟩_; _⊸⟨_⟩[_]_;
+  _⊸[_]⟨_⟩∞; [_]ᴸ⟨_⟩; †ᴸ_; &ᵐ⟨_⟩_; ⅋ᵐ⟨_⟩_; ⟨†_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic;
   ∀-Basic; ∃-Basic; →-Basic; ∗-Basic; -∗-Basic; ⤇-Basic; □-Basic; []ᴺ-Basic;
   ↦⟨⟩-Basic; Free-Basic; []ᴸ⟨⟩-Basic; †ᴸ-Basic; #ᵁᵇ-Basic; ≤ᵁᵇ-Basic)
 open import Symp.Model.ERA.Glob using (Globᴱᴿᴬ)
@@ -24,8 +24,8 @@ open import Symp.Model.Prop.Names using ([_]ᴺᵒ)
 open import Symp.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Symp.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
 open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ)
-open import Symp.Model.Prop.Ind using (○ᵒ_; _↪[_]⇛ᴹ_; _↪[_]ᵃ⟨_⟩ᵒ_; _↪⟨_⟩[_]ᵒ_;
-  _↪[_]⟨_⟩∞ᵒ; ○ᵒ-Mono; ↪⇛ᵒ-Mono; ↪ᵃ⟨⟩ᵒ-Mono; ↪⟨⟩ᵒ-Mono; ↪⟨⟩∞ᵒ-Mono)
+open import Symp.Model.Prop.Ind using (○ᵒ_; _⊸[_]⇛ᴹ_; _⊸[_]ᵃ⟨_⟩ᵒ_; _⊸⟨_⟩[_]ᵒ_;
+  _⊸[_]⟨_⟩∞ᵒ; ○ᵒ-Mono; ⊸⇛ᵒ-Mono; ⊸ᵃ⟨⟩ᵒ-Mono; ⊸⟨⟩ᵒ-Mono; ⊸⟨⟩∞ᵒ-Mono)
 open import Symp.Model.Prop.Inv using (&ⁱ⟨_⟩ᵒ_; ⅋ⁱ⟨_⟩ᵒ_; &ⁱᵒ-Mono; ⅋ⁱᵒ-Mono)
 open import Symp.Model.Prop.Bor using (&ᵐ⟨_⟩ᵒ_; ⅋ᵐ⟨_⟩ᵒ_; ⟨†_⟩ᵒ_; &ᵐᵒ-Mono;
   ⅋ᵐᵒ-Mono; ⟨†⟩ᵒ-Mono)
@@ -49,10 +49,10 @@ private variable
 ⸨ θ ↦⟨ p ⟩ ᵗv ⸩ =  θ ↦⟨ p ⟩ᵒ ᵗv
 ⸨ Free n θ ⸩ =  Freeᵒ n θ
 ⸨ ○ P˂ ⸩ =  ○ᵒ P˂ .!
-⸨ P˂ ↪[ i ]⇛ Q˂ ⸩ =  P˂ .! ↪[ i ]⇛ᴹ Q˂ .!
-⸨ P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙ ⸩ =  P˂ .! ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → Q˂˙ v .!
-⸨ P˂ ↪⟨ e ⟩[ κ ] Q˂˙ ⸩ =  P˂ .! ↪⟨ e ⟩[ κ ]ᵒ λ v → Q˂˙ v .!
-⸨ P˂ ↪[ i ]⟨ e ⟩∞ ⸩ =  P˂ .! ↪[ i ]⟨ e ⟩∞ᵒ
+⸨ P˂ ⊸[ i ]⇛ Q˂ ⸩ =  P˂ .! ⊸[ i ]⇛ᴹ Q˂ .!
+⸨ P˂ ⊸[ i ]ᵃ⟨ red ⟩ Q˂˙ ⸩ =  P˂ .! ⊸[ i ]ᵃ⟨ red ⟩ᵒ λ v → Q˂˙ v .!
+⸨ P˂ ⊸⟨ e ⟩[ κ ] Q˂˙ ⸩ =  P˂ .! ⊸⟨ e ⟩[ κ ]ᵒ λ v → Q˂˙ v .!
+⸨ P˂ ⊸[ i ]⟨ e ⟩∞ ⸩ =  P˂ .! ⊸[ i ]⟨ e ⟩∞ᵒ
 ⸨ &ⁱ⟨ nm ⟩ P˂ ⸩ =  &ⁱ⟨ nm ⟩ᵒ P˂ .!
 ⸨ ⅋ⁱ⟨ nm ⟩ P˂ ⸩ =  ⅋ⁱ⟨ nm ⟩ᵒ P˂ .!
 ⸨ [ α ]ᴸ⟨ p ⟩ ⸩ =  [ α ]ᴸ⟨ p ⟩ᵒ
@@ -79,10 +79,10 @@ abstract
   ⸨⸩-Mono {_ ↦⟨ _ ⟩ _} =  ◎-Mono
   ⸨⸩-Mono {Free _ _} =  Freeᵒ-Mono
   ⸨⸩-Mono {○ _} =  ○ᵒ-Mono
-  ⸨⸩-Mono {_ ↪[ _ ]⇛ _} =  ↪⇛ᵒ-Mono
-  ⸨⸩-Mono {_ ↪[ _ ]ᵃ⟨ _ ⟩ _} =  ↪ᵃ⟨⟩ᵒ-Mono
-  ⸨⸩-Mono {_ ↪⟨ _ ⟩[ _ ] _} =  ↪⟨⟩ᵒ-Mono
-  ⸨⸩-Mono {_ ↪[ _ ]⟨ _ ⟩∞} =  ↪⟨⟩∞ᵒ-Mono
+  ⸨⸩-Mono {_ ⊸[ _ ]⇛ _} =  ⊸⇛ᵒ-Mono
+  ⸨⸩-Mono {_ ⊸[ _ ]ᵃ⟨ _ ⟩ _} =  ⊸ᵃ⟨⟩ᵒ-Mono
+  ⸨⸩-Mono {_ ⊸⟨ _ ⟩[ _ ] _} =  ⊸⟨⟩ᵒ-Mono
+  ⸨⸩-Mono {_ ⊸[ _ ]⟨ _ ⟩∞} =  ⊸⟨⟩∞ᵒ-Mono
   ⸨⸩-Mono {&ⁱ⟨ _ ⟩ _} =  &ⁱᵒ-Mono
   ⸨⸩-Mono {⅋ⁱ⟨ _ ⟩ _} =  ⅋ⁱᵒ-Mono
   ⸨⸩-Mono {[ _ ]ᴸ⟨ _ ⟩} =  ◎-Mono

@@ -19,10 +19,10 @@ open import Symp.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim
 open import Symp.Logic.Names using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
 open import Symp.Logic.Mem using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
   ↦⟨⟩-agree)
-open import Symp.Logic.Ind using (○-mono; ○-eatˡ; ↪⇛-≤; ↪⇛-eatˡ⁻ˡᵘ; ↪⇛-monoʳᵘ;
-  ↪⇛-eatˡ⁻ʳ; ↪⇛-frameʳ; ○⇒↪⇛;  ↪ᵃ⟨⟩-≤; ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ; ↪ᵃ⟨⟩-monoʳᵘ; ↪ᵃ⟨⟩-eatˡ⁻ʳ;
-  ↪ᵃ⟨⟩-frameʳ; ○⇒↪ᵃ⟨⟩; ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ; ↪⟨⟩ᵀ-≤; ↪⟨⟩-eatˡ⁻ˡᵘᴺ; ↪⟨⟩-monoʳᵘᴺ; ↪⟨⟩-eatˡ⁻ʳ;
-  ↪⟨⟩-frameʳ; ○⇒↪⟨⟩; ↪⟨⟩∞-≤; ↪⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒↪⟨⟩∞)
+open import Symp.Logic.Ind using (○-mono; ○-eatˡ; ⊸⇛-≤; ⊸⇛-eatˡ⁻ˡᵘ; ⊸⇛-monoʳᵘ;
+  ⊸⇛-eatˡ⁻ʳ; ⊸⇛-frameʳ; ○⇒⊸⇛;  ⊸ᵃ⟨⟩-≤; ⊸ᵃ⟨⟩-eatˡ⁻ˡᵘ; ⊸ᵃ⟨⟩-monoʳᵘ; ⊸ᵃ⟨⟩-eatˡ⁻ʳ;
+  ⊸ᵃ⟨⟩-frameʳ; ○⇒⊸ᵃ⟨⟩; ⊸⟨⟩ᵀ⇒⊸⟨⟩ᴾ; ⊸⟨⟩ᵀ-≤; ⊸⟨⟩-eatˡ⁻ˡᵘᴺ; ⊸⟨⟩-monoʳᵘᴺ; ⊸⟨⟩-eatˡ⁻ʳ;
+  ⊸⟨⟩-frameʳ; ○⇒⊸⟨⟩; ⊸⟨⟩∞-≤; ⊸⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒⊸⟨⟩∞)
 open import Symp.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∗; ⅋ⁱ-mono; ⅋ⁱ-eatˡ)
 open import Symp.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
@@ -40,11 +40,11 @@ open import Symp.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ
   []ᴺᵒ-✔)
 open import Symp.Model.Prop.Lft using ([]ᴸ⟨⟩ᵒ-resp; []ᴸ⟨⟩ᵒ-merge; []ᴸ⟨⟩ᵒ-split;
   []ᴸ⟨⟩ᵒ-≤1; †ᴸᵒ-⇒□ᵒ; []ᴸ⟨⟩ᵒ-†ᴸᵒ-no; []ᴸᵒ-new; []ᴸᵒ-kill)
-open import Symp.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ↪⇛ᵒ-≤; ↪⇛ᵒ-eatˡ⁻ˡᵘ;
-  ↪⇛ᵒ-monoʳᵘ; ↪⇛ᵒ-eatˡ⁻ʳ; ↪⇛ᵒ-frameʳ; ○ᵒ⇒↪⇛ᵒ; ↪ᵃ⟨⟩ᵒ-≤; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
-  ↪ᵃ⟨⟩ᵒ-monoʳᵘ; ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ↪ᵃ⟨⟩ᵒ-frameʳ; ○ᵒ⇒↪ᵃ⟨⟩ᵒ; ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ; ↪⟨⟩ᵀᵒ-≤;
-  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ↪⟨⟩ᵒ-monoʳᵘᴺ; ↪⟨⟩ᵒ-eatˡ⁻ʳ; ↪⟨⟩ᵒ-frameʳ; ○ᵒ⇒↪⟨⟩ᵒ; ↪⟨⟩∞ᵒ-≤;
-  ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒↪⟨⟩∞ᵒ)
+open import Symp.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ⊸⇛ᵒ-≤; ⊸⇛ᵒ-eatˡ⁻ˡᵘ;
+  ⊸⇛ᵒ-monoʳᵘ; ⊸⇛ᵒ-eatˡ⁻ʳ; ⊸⇛ᵒ-frameʳ; ○ᵒ⇒⊸⇛ᵒ; ⊸ᵃ⟨⟩ᵒ-≤; ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
+  ⊸ᵃ⟨⟩ᵒ-monoʳᵘ; ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ⊸ᵃ⟨⟩ᵒ-frameʳ; ○ᵒ⇒⊸ᵃ⟨⟩ᵒ; ⊸⟨⟩ᵀᵒ⇒⊸⟨⟩ᴾᵒ; ⊸⟨⟩ᵀᵒ-≤;
+  ⊸⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ⊸⟨⟩ᵒ-monoʳᵘᴺ; ⊸⟨⟩ᵒ-eatˡ⁻ʳ; ⊸⟨⟩ᵒ-frameʳ; ○ᵒ⇒⊸⟨⟩ᵒ; ⊸⟨⟩∞ᵒ-≤;
+  ⊸⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒⊸⟨⟩∞ᵒ)
 open import Symp.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ∗ᵒ; ⅋ⁱᵒ-mono;
   ⅋ⁱᵒ-eatˡ)
 open import Symp.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ∗ᵒ; ⅋ᵐᵒ-respᴿ; ⅋ᵐᵒ-respᴾ-□ᵒ∗ᵒ;
@@ -220,114 +220,114 @@ abstract
 
   ⊢-sem (○-eatˡ {Q}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › ○ᵒ-eatˡ
 
-  -- ↪⇛-≤ :  i ≤ j  →   P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  P˂ ↪[ j ]⇛ Q˂
+  -- ⊸⇛-≤ :  i ≤ j  →   P˂ ⊸[ i ]⇛ Q˂  ⊢[ ∞ ]  P˂ ⊸[ j ]⇛ Q˂
 
-  ⊢-sem (↪⇛-≤ i≤j) _ =  ↪⇛ᵒ-≤ i≤j
+  ⊢-sem (⊸⇛-≤ i≤j) _ =  ⊸⇛ᵒ-≤ i≤j
 
-  -- ↪⇛-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ i ]⇛  P˂ .! →
-  --               R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P'˂ ↪[ i ]⇛ Q˂
+  -- ⊸⇛-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ i ]⇛  P˂ .! →
+  --               R  ∗  (P˂ ⊸[ i ]⇛ Q˂)  ⊢[ ∞ ]  P'˂ ⊸[ i ]⇛ Q˂
 
-  ⊢-sem (↪⇛-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
-    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
+  ⊢-sem (⊸⇛-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ⊸⇛ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
-  -- ↪⇛-monoʳᵘ :  Q˂ .!  ⊢[< ∞ ][ i ]⇛  Q'˂ .! →
-  --              P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ Q'˂
+  -- ⊸⇛-monoʳᵘ :  Q˂ .!  ⊢[< ∞ ][ i ]⇛  Q'˂ .! →
+  --              P˂ ⊸[ i ]⇛ Q˂  ⊢[ ∞ ]  P˂ ⊸[ i ]⇛ Q'˂
 
-  ⊢-sem (↪⇛-monoʳᵘ Q⊢⇛Q') _ =  ↪⇛ᵒ-monoʳᵘ $ Q⊢⇛Q' .!
+  ⊢-sem (⊸⇛-monoʳᵘ Q⊢⇛Q') _ =  ⊸⇛ᵒ-monoʳᵘ $ Q⊢⇛Q' .!
 
-  -- ↪⇛-eatˡ⁻ʳ :  {{Basic R}}  →
-  --   R  ∗  (P˂ ↪[ i ]⇛ Q˂)  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
+  -- ⊸⇛-eatˡ⁻ʳ :  {{Basic R}}  →
+  --   R  ∗  (P˂ ⊸[ i ]⇛ Q˂)  ⊢[ ∞ ]  P˂ ⊸[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
-  ⊢-sem (↪⇛-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⇛ᵒ-eatˡ⁻ʳ
+  ⊢-sem (⊸⇛-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ⊸⇛ᵒ-eatˡ⁻ʳ
 
-  -- ↪⇛-frameʳ :  P˂ ↪[ i ]⇛ Q˂  ⊢[ ∞ ]  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
+  -- ⊸⇛-frameʳ :  P˂ ⊸[ i ]⇛ Q˂  ⊢[ ∞ ]  ¡ᴾ (R ∗ P˂ .!) ⊸[ i ]⇛ ¡ᴾ (R ∗ Q˂ .!)
 
-  ⊢-sem ↪⇛-frameʳ _ =  ↪⇛ᵒ-frameʳ
+  ⊢-sem ⊸⇛-frameʳ _ =  ⊸⇛ᵒ-frameʳ
 
-  -- ○⇒↪⇛ :  P˂ .!  ∗  R˂ .!  ⊢[< ∞ ][ i ]⇛  Q˂ .!  →
-  --         ○ R˂  ⊢[ ∞ ]  P˂ ↪[ i ]⇛ Q˂
+  -- ○⇒⊸⇛ :  P˂ .!  ∗  R˂ .!  ⊢[< ∞ ][ i ]⇛  Q˂ .!  →
+  --         ○ R˂  ⊢[ ∞ ]  P˂ ⊸[ i ]⇛ Q˂
 
-  ⊢-sem (○⇒↪⇛ P∗R⊢⇛Q) _ =  ○ᵒ⇒↪⇛ᵒ $ P∗R⊢⇛Q .!
+  ⊢-sem (○⇒⊸⇛ P∗R⊢⇛Q) _ =  ○ᵒ⇒⊸⇛ᵒ $ P∗R⊢⇛Q .!
 
-  -- ↪ᵃ⟨⟩-≤ :  i ≤ j  →   P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]  P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙
+  -- ⊸ᵃ⟨⟩-≤ :  i ≤ j  →   P˂ ⊸[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]  P˂ ⊸[ j ]ᵃ⟨ red ⟩ Q˂˙
 
-  ⊢-sem (↪ᵃ⟨⟩-≤ i≤j) _ =  ↪ᵃ⟨⟩ᵒ-≤ i≤j
+  ⊢-sem (⊸ᵃ⟨⟩-≤ i≤j) _ =  ⊸ᵃ⟨⟩ᵒ-≤ i≤j
 
-  -- ↪ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ i ]⇛  P˂ .!  →
-  --                 R ∗ (P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ∞ ]  P'˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙
+  -- ⊸ᵃ⟨⟩-eatˡ⁻ˡᵘ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ i ]⇛  P˂ .!  →
+  --                 R ∗ (P˂ ⊸[ j ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ∞ ]  P'˂ ⊸[ j ]ᵃ⟨ red ⟩ Q˂˙
 
-  ⊢-sem (↪ᵃ⟨⟩-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
-    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
+  ⊢-sem (⊸ᵃ⟨⟩-eatˡ⁻ˡᵘ {R} R∗P'⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ $ R∗P'⊢⇛P .!
 
-  -- ↪ᵃ⟨⟩-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ∞ ][ i ]⇛  Q'˂˙ v .!)  →
-  --                P˂ ↪[ j ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]  P˂ ↪[ j ]ᵃ⟨ red ⟩ Q'˂˙
+  -- ⊸ᵃ⟨⟩-monoʳᵘ :  (∀ v →  Q˂˙ v .!  ⊢[< ∞ ][ i ]⇛  Q'˂˙ v .!)  →
+  --                P˂ ⊸[ j ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]  P˂ ⊸[ j ]ᵃ⟨ red ⟩ Q'˂˙
 
-  ⊢-sem (↪ᵃ⟨⟩-monoʳᵘ ∀vQ⊢⇛Q') _ =  ↪ᵃ⟨⟩ᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
+  ⊢-sem (⊸ᵃ⟨⟩-monoʳᵘ ∀vQ⊢⇛Q') _ =  ⊸ᵃ⟨⟩ᵒ-monoʳᵘ λ v → ∀vQ⊢⇛Q' v .!
 
-  -- ↪ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
-  --   R  ∗  (P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ∞ ]
-  --     P˂ ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
+  -- ⊸ᵃ⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →
+  --   R  ∗  (P˂ ⊸[ i ]ᵃ⟨ red ⟩ Q˂˙)  ⊢[ ∞ ]
+  --     P˂ ⊸[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
-  ⊢-sem (↪ᵃ⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ
+  ⊢-sem (⊸ᵃ⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ʳ
 
-  -- ↪ᵃ⟨⟩-frameʳ :  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]
-  --                  ¡ᴾ (R ∗ P˂ .!) ↪[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
+  -- ⊸ᵃ⟨⟩-frameʳ :  P˂ ⊸[ i ]ᵃ⟨ red ⟩ Q˂˙  ⊢[ ∞ ]
+  --                  ¡ᴾ (R ∗ P˂ .!) ⊸[ i ]ᵃ⟨ red ⟩ λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
-  ⊢-sem ↪ᵃ⟨⟩-frameʳ _ =  ↪ᵃ⟨⟩ᵒ-frameʳ
+  ⊢-sem ⊸ᵃ⟨⟩-frameʳ _ =  ⊸ᵃ⟨⟩ᵒ-frameʳ
 
-  -- ○⇒↪ᵃ⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˂˙ v .!)  →
-  --           ○ R˂  ⊢[ ∞ ]  P˂ ↪[ i ]ᵃ⟨ red ⟩ Q˂˙
+  -- ○⇒⊸ᵃ⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ∞ ][ i ]ᵃ⟨ red ⟩ (λ v →  Q˂˙ v .!)  →
+  --           ○ R˂  ⊢[ ∞ ]  P˂ ⊸[ i ]ᵃ⟨ red ⟩ Q˂˙
 
-  ⊢-sem (○⇒↪ᵃ⟨⟩ P∗R⊢⟨red⟩Q) _ =  ○ᵒ⇒↪ᵃ⟨⟩ᵒ $ P∗R⊢⟨red⟩Q .!
+  ⊢-sem (○⇒⊸ᵃ⟨⟩ P∗R⊢⟨red⟩Q) _ =  ○ᵒ⇒⊸ᵃ⟨⟩ᵒ $ P∗R⊢⟨red⟩Q .!
 
-  -- ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ :  P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᴾ Q˂˙
+  -- ⊸⟨⟩ᵀ⇒⊸⟨⟩ᴾ :  P˂ ⊸⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]  P˂ ⊸⟨ e ⟩ᴾ Q˂˙
 
-  ⊢-sem ↪⟨⟩ᵀ⇒↪⟨⟩ᴾ _ =  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ
+  ⊢-sem ⊸⟨⟩ᵀ⇒⊸⟨⟩ᴾ _ =  ⊸⟨⟩ᵀᵒ⇒⊸⟨⟩ᴾᵒ
 
-  -- ↪⟨⟩ᵀ-≤ :  i ≤ j  →   P˂ ↪⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩ᵀ[ j ] Q˂˙
+  -- ⊸⟨⟩ᵀ-≤ :  i ≤ j  →   P˂ ⊸⟨ e ⟩ᵀ[ i ] Q˂˙  ⊢[ ∞ ]  P˂ ⊸⟨ e ⟩ᵀ[ j ] Q˂˙
 
-  ⊢-sem (↪⟨⟩ᵀ-≤ i≤j) _ =  ↪⟨⟩ᵀᵒ-≤ i≤j
+  ⊢-sem (⊸⟨⟩ᵀ-≤ i≤j) _ =  ⊸⟨⟩ᵀᵒ-≤ i≤j
 
-  -- ↪⟨⟩-eatˡ⁻ˡᵘᴺ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ i ]⇛ᴺ  P˂ .!  →
-  --                 R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]  P'˂ ↪⟨ e ⟩[ κ ] Q˂˙
+  -- ⊸⟨⟩-eatˡ⁻ˡᵘᴺ :  {{Basic R}}  →   R  ∗  P'˂ .!  ⊢[< ∞ ][ i ]⇛ᴺ  P˂ .!  →
+  --                 R  ∗  (P˂ ⊸⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]  P'˂ ⊸⟨ e ⟩[ κ ] Q˂˙
 
-  ⊢-sem (↪⟨⟩-eatˡ⁻ˡᵘᴺ {R} R∗P'⊢⇛P) _ =
-    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ $ R∗P'⊢⇛P .!
+  ⊢-sem (⊸⟨⟩-eatˡ⁻ˡᵘᴺ {R} R∗P'⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ⊸⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ $ R∗P'⊢⇛P .!
 
-  -- ↪⟨⟩-monoʳᵘᴺ :  (∀ v →  Q˂˙ v .!  ⊢[< ∞ ][ i ]⇛ᴺ  Q'˂˙ v .!)  →
-  --                P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] Q'˂˙
+  -- ⊸⟨⟩-monoʳᵘᴺ :  (∀ v →  Q˂˙ v .!  ⊢[< ∞ ][ i ]⇛ᴺ  Q'˂˙ v .!)  →
+  --                P˂ ⊸⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]  P˂ ⊸⟨ e ⟩[ κ ] Q'˂˙
 
-  ⊢-sem (↪⟨⟩-monoʳᵘᴺ ∀vQ⊢⇛Q') _ =  ↪⟨⟩ᵒ-monoʳᵘᴺ λ v → ∀vQ⊢⇛Q' v .!
+  ⊢-sem (⊸⟨⟩-monoʳᵘᴺ ∀vQ⊢⇛Q') _ =  ⊸⟨⟩ᵒ-monoʳᵘᴺ λ v → ∀vQ⊢⇛Q' v .!
 
-  -- ↪⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →   R  ∗  (P˂ ↪⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]
-  --                                  P˂ ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
+  -- ⊸⟨⟩-eatˡ⁻ʳ :  {{Basic R}}  →   R  ∗  (P˂ ⊸⟨ e ⟩[ κ ] Q˂˙)  ⊢[ ∞ ]
+  --                                  P˂ ⊸⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
-  ⊢-sem (↪⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩ᵒ-eatˡ⁻ʳ
+  ⊢-sem (⊸⟨⟩-eatˡ⁻ʳ {R}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ⊸⟨⟩ᵒ-eatˡ⁻ʳ
 
-  -- ↪⟨⟩-frameʳ :  P˂ ↪⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]
-  --                 ¡ᴾ (R ∗ P˂ .!) ↪⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
+  -- ⊸⟨⟩-frameʳ :  P˂ ⊸⟨ e ⟩[ κ ] Q˂˙  ⊢[ ∞ ]
+  --                 ¡ᴾ (R ∗ P˂ .!) ⊸⟨ e ⟩[ κ ] λ v → ¡ᴾ (R ∗ Q˂˙ v .!)
 
-  ⊢-sem ↪⟨⟩-frameʳ _ =  ↪⟨⟩ᵒ-frameʳ
+  ⊢-sem ⊸⟨⟩-frameʳ _ =  ⊸⟨⟩ᵒ-frameʳ
 
-  -- ○⇒↪⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ∞ ]⟨ e ⟩[ κ ] (λ v →  Q˂˙ v .!)  →
-  --          ○ R˂  ⊢[ ∞ ]  P˂ ↪⟨ e ⟩[ κ ] Q˂˙
+  -- ○⇒⊸⟨⟩ :  P˂ .!  ∗  R˂ .!  ⊢[< ∞ ]⟨ e ⟩[ κ ] (λ v →  Q˂˙ v .!)  →
+  --          ○ R˂  ⊢[ ∞ ]  P˂ ⊸⟨ e ⟩[ κ ] Q˂˙
 
-  ⊢-sem (○⇒↪⟨⟩ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒↪⟨⟩ᵒ $ P∗R⊢⟨e⟩Q .!
+  ⊢-sem (○⇒⊸⟨⟩ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒⊸⟨⟩ᵒ $ P∗R⊢⟨e⟩Q .!
 
-  -- ↪⟨⟩∞-≤ :  i ≤ j  →   P˂ ↪[ i ]⟨ e ⟩∞  ⊢[ ∞ ]  P˂ ↪[ j ]⟨ e ⟩∞
+  -- ⊸⟨⟩∞-≤ :  i ≤ j  →   P˂ ⊸[ i ]⟨ e ⟩∞  ⊢[ ∞ ]  P˂ ⊸[ j ]⟨ e ⟩∞
 
-  ⊢-sem (↪⟨⟩∞-≤ i≤j) _ =  ↪⟨⟩∞ᵒ-≤ i≤j
+  ⊢-sem (⊸⟨⟩∞-≤ i≤j) _ =  ⊸⟨⟩∞ᵒ-≤ i≤j
 
-  -- ↪⟨⟩∞-eatˡ⁻ᵘᴺ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ∞ ][ i ]⇛ᴺ  P˂ .!  →
-  --                 R  ∗  (P˂ ↪[ j ]⟨ e ⟩∞)  ⊢[ ∞ ]  Q˂ ↪[ j ]⟨ e ⟩∞
+  -- ⊸⟨⟩∞-eatˡ⁻ᵘᴺ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ∞ ][ i ]⇛ᴺ  P˂ .!  →
+  --                 R  ∗  (P˂ ⊸[ j ]⟨ e ⟩∞)  ⊢[ ∞ ]  Q˂ ⊸[ j ]⟨ e ⟩∞
 
-  ⊢-sem (↪⟨⟩∞-eatˡ⁻ᵘᴺ {R} R∗Q⊢⇛P) _ =
-    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ $ R∗Q⊢⇛P .!
+  ⊢-sem (⊸⟨⟩∞-eatˡ⁻ᵘᴺ {R} R∗Q⊢⇛P) _ =
+    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ⊸⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ $ R∗Q⊢⇛P .!
 
-  -- ○⇒↪⟨⟩∞ :  P˂ .!  ∗  Q˂ .!  ⊢[< ∞ ][ i ]⟨ e ⟩∞   →
-  --           ○ Q˂  ⊢[ ∞ ]  P˂ ↪[ i ]⟨ e ⟩∞
+  -- ○⇒⊸⟨⟩∞ :  P˂ .!  ∗  Q˂ .!  ⊢[< ∞ ][ i ]⟨ e ⟩∞   →
+  --           ○ Q˂  ⊢[ ∞ ]  P˂ ⊸[ i ]⟨ e ⟩∞
 
-  ⊢-sem (○⇒↪⟨⟩∞ P∗Q⊢⟨e⟩∞) _ =  ○ᵒ⇒↪⟨⟩∞ᵒ $ P∗Q⊢⟨e⟩∞ .!
+  ⊢-sem (○⇒⊸⟨⟩∞ P∗Q⊢⟨e⟩∞) _ =  ○ᵒ⇒⊸⟨⟩∞ᵒ $ P∗Q⊢⟨e⟩∞ .!
 
   -- &ⁱ-⇒□ :  &ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ]  □ &ⁱ⟨ nm ⟩ P˂
 

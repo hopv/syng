@@ -128,203 +128,203 @@ abstract
   Ind⇒○ᵒ IndPa =  ⊤' , -ᴵ, -, ∗-elimʳ , ?∗ᵒ-intro absurd IndPa
 
 --------------------------------------------------------------------------------
--- ↪⇛ᵒ :  Interpret the fancy update precursor ↪⇛
+-- ⊸⇛ᵒ :  Interpret the fancy update precursor ⊸⇛
 
-infixr 5 _↪[_]⇛ᴹ_
-_↪[_]⇛ᴹ_ :  SProp∞ →  ℕ →  SProp∞ →  SPropᵒ 1ᴸ
-P ↪[ i ]⇛ᴹ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
+infixr 5 _⊸[_]⇛ᴹ_
+_⊸[_]⇛ᴹ_ :  SProp∞ →  ℕ →  SProp∞ →  SPropᵒ 1ᴸ
+P ⊸[ i ]⇛ᴹ Q =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ][ i ]⇛ Q ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
 abstract
 
-  -- Monoᵒ for ↪⇛ᵒ
+  -- Monoᵒ for ⊸⇛ᵒ
 
-  ↪⇛ᵒ-Mono :  Monoᵒ $ P ↪[ i ]⇛ᴹ Q
-  ↪⇛ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+  ⊸⇛ᵒ-Mono :  Monoᵒ $ P ⊸[ i ]⇛ᴹ Q
+  ⊸⇛ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify ⇛ proof
 
-  ↪⇛ᵒ-≤ :  i ≤ j  →   P ↪[ i ]⇛ᴹ Q  ⊨  P ↪[ j ]⇛ᴹ Q
-  ↪⇛ᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
+  ⊸⇛ᵒ-≤ :  i ≤ j  →   P ⊸[ i ]⇛ᴹ Q  ⊨  P ⊸[ j ]⇛ᴹ Q
+  ⊸⇛ᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
     -, -ᴵ, -, ⇛-≤ i≤j P∗R∗S⊢⇛Q , R∗IndSa
 
-  ↪⇛ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
-    R ∗ P' ⊢[ ∞ ][ i ]⇛ P →  ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᴹ Q)  ⊨  P' ↪[ i ]⇛ᴹ Q
-  ↪⇛ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+  ⊸⇛ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →
+    R ∗ P' ⊢[ ∞ ][ i ]⇛ P →  ⸨ R ⸩ᴮ ∗ᵒ (P ⊸[ i ]⇛ᴹ Q)  ⊨  P' ⊸[ i ]⇛ᴹ Q
+  ⊸⇛ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢⇛ Q
     ∗-monoʳ ∗-assocʳ » ?∗-comm » ∗-assocˡ » ⇛-frameˡ R∗P'⊢⇛P ᵘ»ᵘ P∗S∗T⊢⇛Q ,
     ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⇛ᵒ-monoʳᵘ :  Q ⊢[ ∞ ][ i ]⇛ Q' →  P ↪[ i ]⇛ᴹ Q  ⊨  P ↪[ i ]⇛ᴹ Q'
-  ↪⇛ᵒ-monoʳᵘ Q⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
+  ⊸⇛ᵒ-monoʳᵘ :  Q ⊢[ ∞ ][ i ]⇛ Q' →  P ⊸[ i ]⇛ᴹ Q  ⊨  P ⊸[ i ]⇛ᴹ Q'
+  ⊸⇛ᵒ-monoʳᵘ Q⊢⇛Q' (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⇛Q ᵘ»ᵘ Q⊢⇛Q' , R∗IndSa
 
-  ↪⇛ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
-    ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]⇛ᴹ Q)  ⊨  P ↪[ i ]⇛ᴹ R ∗ Q
-  ↪⇛ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) →
+  ⊸⇛ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
+    ⸨ R ⸩ᴮ ∗ᵒ (P ⊸[ i ]⇛ᴹ Q)  ⊨  P ⊸[ i ]⇛ᴹ R ∗ Q
+  ⊸⇛ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⇛Q , S∗IndTc) →
     -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢⇛ R∗P∗S∗T ⊢⇛ R∗Q
     ∗-monoʳ ∗-assocʳ » ?∗-comm » ⇛-frameʳ P∗S∗T⊢⇛Q ,
     ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⇛ᵒ-frameʳ :  P ↪[ i ]⇛ᴹ Q  ⊨  R ∗ P ↪[ i ]⇛ᴹ R ∗ Q
-  ↪⇛ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
+  ⊸⇛ᵒ-frameʳ :  P ⊸[ i ]⇛ᴹ Q  ⊨  R ∗ P ⊸[ i ]⇛ᴹ R ∗ Q
+  ⊸⇛ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⇛Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocʳ » ⇛-frameʳ P∗R∗S⊢⇛Q , R∗IndSa
 
-  -- Make ↪⇛ᵒ out of ○ᵒ
+  -- Make ⊸⇛ᵒ out of ○ᵒ
 
-  ○ᵒ⇒↪⇛ᵒ :  P ∗ R ⊢[ ∞ ][ i ]⇛ Q →  ○ᵒ R  ⊨  P ↪[ i ]⇛ᴹ Q
-  ○ᵒ⇒↪⇛ᵒ P∗R⊢⇛Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
+  ○ᵒ⇒⊸⇛ᵒ :  P ∗ R ⊢[ ∞ ][ i ]⇛ Q →  ○ᵒ R  ⊨  P ⊸[ i ]⇛ᴹ Q
+  ○ᵒ⇒⊸⇛ᵒ P∗R⊢⇛Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⇛Q , S∗IndTa
 
 --------------------------------------------------------------------------------
--- ↪ᵃ⟨ ⟩ᵒ :  Interpret the atomic Hoare triple precursor ↪ᵃ⟨ ⟩
+-- ⊸ᵃ⟨ ⟩ᵒ :  Interpret the atomic Hoare triple precursor ⊸ᵃ⟨ ⟩
 
-infixr 5 _↪[_]ᵃ⟨_⟩ᵒ_
-_↪[_]ᵃ⟨_⟩ᵒ_ :  SProp∞ →  ℕ →  Redex T →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
-P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
+infixr 5 _⊸[_]ᵃ⟨_⟩ᵒ_
+_⊸[_]ᵃ⟨_⟩ᵒ_ :  SProp∞ →  ℕ →  Redex T →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
+P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
 abstract
 
-  -- Monoᵒ for ↪ᵃ⟨ ⟩ᵒ
+  -- Monoᵒ for ⊸ᵃ⟨ ⟩ᵒ
 
-  ↪ᵃ⟨⟩ᵒ-Mono :  Monoᵒ $ P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
-  ↪ᵃ⟨⟩ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+  ⊸ᵃ⟨⟩ᵒ-Mono :  Monoᵒ $ P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙
+  ⊸ᵃ⟨⟩ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify ᵃ⟨ ⟩ proof
 
-  ↪ᵃ⟨⟩ᵒ-≤ :  i ≤ j  →   P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ j ]ᵃ⟨ red ⟩ᵒ Q˙
-  ↪ᵃ⟨⟩ᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+  ⊸ᵃ⟨⟩ᵒ-≤ :  i ≤ j  →   P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ⊸[ j ]ᵃ⟨ red ⟩ᵒ Q˙
+  ⊸ᵃ⟨⟩ᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
     -, -ᴵ, -, ahor-≤ i≤j P∗R∗S⊢⟨red⟩Q , R∗IndSa
 
-  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P' ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
-  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+  ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ j ]⇛ P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P' ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙
+  ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ R∗P'⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨red⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ P∗S∗T ⊢ᵃ⟨red⟩ Q˙
     ∗-monoʳ ∗-assocʳ » ?∗-comm » ∗-assocˡ » ⇛-frameˡ R∗P'⊢⇛P ᵘ»ᵃʰ P∗S∗T⊢⟨red⟩Q ,
     ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪ᵃ⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
-                  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q'˙
-  ↪ᵃ⟨⟩ᵒ-monoʳᵘ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+  ⊸ᵃ⟨⟩ᵒ-monoʳᵘ :  (∀ v →  Q˙ v ⊢[ ∞ ][ j ]⇛ Q'˙ v) →
+                  P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q'˙
+  ⊸ᵃ⟨⟩ᵒ-monoʳᵘ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨red⟩Q ᵃʰ»ᵘ Qv⊢⇛Q'v , R∗IndSa
 
-  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
-    ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
-  ↪ᵃ⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
+  ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
+    ⸨ R ⸩ᴮ ∗ᵒ (P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙)  ⊨  P ⊸[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
+  ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨red⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢ᵃ⟨red⟩ R∗Q
     ∗-monoʳ ∗-assocʳ » ?∗-comm » ahor-frameʳ P∗S∗T⊢⟨red⟩Q ,
     ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪ᵃ⟨⟩ᵒ-frameʳ :  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  R ∗ P ↪[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
-  ↪ᵃ⟨⟩ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
+  ⊸ᵃ⟨⟩ᵒ-frameʳ :  P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙  ⊨  R ∗ P ⊸[ i ]ᵃ⟨ red ⟩ᵒ λ v → R ∗ Q˙ v
+  ⊸ᵃ⟨⟩ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⟨red⟩Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocʳ » ahor-frameʳ P∗R∗S⊢⟨red⟩Q , R∗IndSa
 
-  -- Make ↪ᵃ⟨ ⟩ᵒ out of ○ᵒ
+  -- Make ⊸ᵃ⟨ ⟩ᵒ out of ○ᵒ
 
-  ○ᵒ⇒↪ᵃ⟨⟩ᵒ :  P ∗ R ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ →  ○ᵒ R  ⊨  P ↪[ i ]ᵃ⟨ red ⟩ᵒ Q˙
-  ○ᵒ⇒↪ᵃ⟨⟩ᵒ P∗R⊢⟨red⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
+  ○ᵒ⇒⊸ᵃ⟨⟩ᵒ :  P ∗ R ⊢[ ∞ ][ i ]ᵃ⟨ red ⟩ Q˙ →  ○ᵒ R  ⊨  P ⊸[ i ]ᵃ⟨ red ⟩ᵒ Q˙
+  ○ᵒ⇒⊸ᵃ⟨⟩ᵒ P∗R⊢⟨red⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨red⟩Q , S∗IndTa
 
 --------------------------------------------------------------------------------
--- ↪⟨ ⟩[ ]ᵒ :  Interpret the Hoare triple precursor ↪⟨ ⟩
+-- ⊸⟨ ⟩[ ]ᵒ :  Interpret the Hoare triple precursor ⊸⟨ ⟩
 
-infixr 5 _↪⟨_⟩[_]ᵒ_ _↪⟨_⟩ᴾᵒ_ _↪⟨_⟩ᵀ[_]ᵒ_
+infixr 5 _⊸⟨_⟩[_]ᵒ_ _⊸⟨_⟩ᴾᵒ_ _⊸⟨_⟩ᵀ[_]ᵒ_
 
-_↪⟨_⟩[_]ᵒ_ :  SProp∞ →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
-P ↪⟨ e ⟩[ κ ]ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
+_⊸⟨_⟩[_]ᵒ_ :  SProp∞ →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
+P ⊸⟨ e ⟩[ κ ]ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩[ κ ] Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 
-_↪⟨_⟩ᴾᵒ_ :  SProp∞ →  Expr∞ T →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
-P ↪⟨ e ⟩ᴾᵒ Q˙ =  P ↪⟨ e ⟩[ par ]ᵒ Q˙
+_⊸⟨_⟩ᴾᵒ_ :  SProp∞ →  Expr∞ T →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
+P ⊸⟨ e ⟩ᴾᵒ Q˙ =  P ⊸⟨ e ⟩[ par ]ᵒ Q˙
 
-_↪⟨_⟩ᵀ[_]ᵒ_ :  SProp∞ →  Expr∞ T →  ℕ →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
-P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙ =  P ↪⟨ e ⟩[ tot i ]ᵒ Q˙
+_⊸⟨_⟩ᵀ[_]ᵒ_ :  SProp∞ →  Expr∞ T →  ℕ →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
+P ⊸⟨ e ⟩ᵀ[ i ]ᵒ Q˙ =  P ⊸⟨ e ⟩[ tot i ]ᵒ Q˙
 
 abstract
 
-  -- Monoᵒ for ↪⟨ ⟩ᵒ
+  -- Monoᵒ for ⊸⟨ ⟩ᵒ
 
-  ↪⟨⟩ᵒ-Mono :  Monoᵒ $ P ↪⟨ e ⟩[ κ ]ᵒ Q˙
-  ↪⟨⟩ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+  ⊸⟨⟩ᵒ-Mono :  Monoᵒ $ P ⊸⟨ e ⟩[ κ ]ᵒ Q˙
+  ⊸⟨⟩ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify ⟨ ⟩ proof
 
-  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ :  P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᴾᵒ Q˙
-  ↪⟨⟩ᵀᵒ⇒↪⟨⟩ᴾᵒ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+  ⊸⟨⟩ᵀᵒ⇒⊸⟨⟩ᴾᵒ :  P ⊸⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ⊸⟨ e ⟩ᴾᵒ Q˙
+  ⊸⟨⟩ᵀᵒ⇒⊸⟨⟩ᴾᵒ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, hor-ᵀ⇒ᴾ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  ↪⟨⟩ᵀᵒ-≤ :  i ≤ j  →   P ↪⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩ᵀ[ j ]ᵒ Q˙
-  ↪⟨⟩ᵀᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+  ⊸⟨⟩ᵀᵒ-≤ :  i ≤ j  →   P ⊸⟨ e ⟩ᵀ[ i ]ᵒ Q˙  ⊨  P ⊸⟨ e ⟩ᵀ[ j ]ᵒ Q˙
+  ⊸⟨⟩ᵀᵒ-≤ i≤j (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, horᵀ-≤ i≤j P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ᴺ P →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P' ↪⟨ e ⟩[ κ ]ᵒ Q˙
-  ↪⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
+  ⊸⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ :  {{_ : Basic R}} →  R ∗ P' ⊢[ ∞ ][ i ]⇛ᴺ P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ⊸⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P' ⊸⟨ e ⟩[ κ ]ᵒ Q˙
+  ⊸⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ R∗P'⊢⇛[⊤]P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P'∗(R∗S)∗T ⊢ P'∗R∗S∗T ⊢ R∗P'∗S∗T ⊢ (R∗P')∗S∗T ⊢⇛ᴺ P∗S∗T ⊢⟨e⟩ Q˙
     ∗-monoʳ ∗-assocʳ » ?∗-comm » ∗-assocˡ »
       ⇛ᴺ-frameˡ R∗P'⊢⇛[⊤]P ᵘᴺ»ʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᵒ-monoʳᵘᴺ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ᴺ Q'˙ v) →
-                  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q'˙
-  ↪⟨⟩ᵒ-monoʳᵘᴺ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+  ⊸⟨⟩ᵒ-monoʳᵘᴺ :  (∀ v →  Q˙ v ⊢[ ∞ ][ i ]⇛ᴺ Q'˙ v) →
+                  P ⊸⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  P ⊸⟨ e ⟩[ κ ]ᵒ Q'˙
+  ⊸⟨⟩ᵒ-monoʳᵘᴺ Qv⊢⇛Q'v (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, P∗R∗S⊢⟨e⟩Q ʰ»ᵘᴺ Qv⊢⇛Q'v , R∗IndSa
 
-  ↪⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
-    ⸨ R ⸩ᴮ ∗ᵒ (P ↪⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
-  ↪⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
+  ⊸⟨⟩ᵒ-eatˡ⁻ʳ :  {{_ : Basic R}} →
+    ⸨ R ⸩ᴮ ∗ᵒ (P ⊸⟨ e ⟩[ κ ]ᵒ Q˙)  ⊨  P ⊸⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
+  ⊸⟨⟩ᵒ-eatˡ⁻ʳ =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- P∗(R∗S)∗T ⊢ P∗R∗S∗T ⊢ R∗P∗S∗T ⊢⟨e⟩ R∗Q
     ∗-monoʳ ∗-assocʳ » ?∗-comm » hor-frameʳ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  ↪⟨⟩ᵒ-frameʳ :  P ↪⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  R ∗ P ↪⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
-  ↪⟨⟩ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
+  ⊸⟨⟩ᵒ-frameʳ :  P ⊸⟨ e ⟩[ κ ]ᵒ Q˙  ⊨  R ∗ P ⊸⟨ e ⟩[ κ ]ᵒ λ v → R ∗ Q˙ v
+  ⊸⟨⟩ᵒ-frameʳ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩Q , R∗IndSa) =
     -, -ᴵ, -, ∗-assocʳ » hor-frameʳ P∗R∗S⊢⟨e⟩Q , R∗IndSa
 
-  -- Make ↪⟨ ⟩ᵒ out of ○ᵒ
+  -- Make ⊸⟨ ⟩ᵒ out of ○ᵒ
 
-  ○ᵒ⇒↪⟨⟩ᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩[ κ ] Q˙ →  ○ᵒ R  ⊨  P ↪⟨ e ⟩[ κ ]ᵒ Q˙
-  ○ᵒ⇒↪⟨⟩ᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
+  ○ᵒ⇒⊸⟨⟩ᵒ :  P ∗ R ⊢[ ∞ ]⟨ e ⟩[ κ ] Q˙ →  ○ᵒ R  ⊨  P ⊸⟨ e ⟩[ κ ]ᵒ Q˙
+  ○ᵒ⇒⊸⟨⟩ᵒ P∗R⊢⟨e⟩Q (-, -ᴵ, -, S∗T⊢R , S∗IndTa) =
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨e⟩Q , S∗IndTa
 
 --------------------------------------------------------------------------------
--- ↪⟨ ⟩∞ᵒ :  Interpret the infinite Hoare triple precursor ↪ᵃ⟨ ⟩
+-- ⊸⟨ ⟩∞ᵒ :  Interpret the infinite Hoare triple precursor ⊸ᵃ⟨ ⟩
 
-infixr 5 _↪[_]⟨_⟩∞ᵒ
-_↪[_]⟨_⟩∞ᵒ :  SProp∞ →  ℕ →  Expr∞ T →  SPropᵒ 1ᴸ
-P ↪[ i ]⟨ e ⟩∞ᵒ =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
+infixr 5 _⊸[_]⟨_⟩∞ᵒ
+_⊸[_]⟨_⟩∞ᵒ :  SProp∞ →  ℕ →  Expr∞ T →  SPropᵒ 1ᴸ
+P ⊸[ i ]⟨ e ⟩∞ᵒ =  ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ P ∗ Q ∗ R ⊢[ ∞ ][ i ]⟨ e ⟩∞ ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Ind R
 
 abstract
 
-  -- Monoᵒ for ↪⟨ ⟩∞ᵒ
+  -- Monoᵒ for ⊸⟨ ⟩∞ᵒ
 
-  ↪⟨⟩∞ᵒ-Mono :  Monoᵒ $ P ↪[ i ]⟨ e ⟩∞ᵒ
-  ↪⟨⟩∞ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+  ⊸⟨⟩∞ᵒ-Mono :  Monoᵒ $ P ⊸[ i ]⟨ e ⟩∞ᵒ
+  ⊸⟨⟩∞ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify ⟨ ⟩∞ proof
 
-  ↪⟨⟩∞ᵒ-≤ :  i ≤ j  →   P ↪[ i ]⟨ e ⟩∞ᵒ  ⊨  P ↪[ j ]⟨ e ⟩∞ᵒ
-  ↪⟨⟩∞ᵒ-≤ i≤j (-, -ᴵ, -, P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa) =
+  ⊸⟨⟩∞ᵒ-≤ :  i ≤ j  →   P ⊸[ i ]⟨ e ⟩∞ᵒ  ⊨  P ⊸[ j ]⟨ e ⟩∞ᵒ
+  ⊸⟨⟩∞ᵒ-≤ i≤j (-, -ᴵ, -, P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa) =
     -, -ᴵ, -, ihor-≤ i≤j P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa
 
-  ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ :  {{_ : Basic R}} →  R ∗ Q ⊢[ ∞ ][ i ]⇛ᴺ P →
-                   ⸨ R ⸩ᴮ ∗ᵒ (P ↪[ j ]⟨ e ⟩∞ᵒ)  ⊨  Q ↪[ j ]⟨ e ⟩∞ᵒ
-  ↪⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ R∗Q⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
+  ⊸⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ :  {{_ : Basic R}} →  R ∗ Q ⊢[ ∞ ][ i ]⇛ᴺ P →
+                   ⸨ R ⸩ᴮ ∗ᵒ (P ⊸[ j ]⟨ e ⟩∞ᵒ)  ⊨  Q ⊸[ j ]⟨ e ⟩∞ᵒ
+  ⊸⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ R∗Q⊢⇛P =  ∗ᵒ⇒∗ᵒ' › λ{
     (-, -, b∙c⊑a , Rb , -, -ᴵ, -, P∗S∗T⊢⟨e⟩Q , S∗IndTc) →  -, -ᴵ, -,
     -- Q∗(R∗S)∗T ⊢ Q∗R∗S∗T ⊢ R∗Q∗S∗T ⊢ (R∗Q)∗S∗T ⊢⇛ P∗S∗T ⊢⟨e⟩∞
     ∗-monoʳ ∗-assocʳ » ?∗-comm » ∗-assocˡ » ⇛ᴺ-frameˡ R∗Q⊢⇛P ᵘᴺ»ⁱʰ P∗S∗T⊢⟨e⟩Q ,
     ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Rb , S∗IndTc) }
 
-  -- Make ↪⟨ ⟩∞ᵒ out of ○ᵒ
+  -- Make ⊸⟨ ⟩∞ᵒ out of ○ᵒ
 
-  ○ᵒ⇒↪⟨⟩∞ᵒ :  P ∗ Q ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ○ᵒ Q  ⊨  P ↪[ i ]⟨ e ⟩∞ᵒ
-  ○ᵒ⇒↪⟨⟩∞ᵒ P∗Q⊢⟨e⟩∞ (-, -ᴵ, -, R∗S⊢Q , R∗IndSa) =
+  ○ᵒ⇒⊸⟨⟩∞ᵒ :  P ∗ Q ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ○ᵒ Q  ⊨  P ⊸[ i ]⟨ e ⟩∞ᵒ
+  ○ᵒ⇒⊸⟨⟩∞ᵒ P∗Q⊢⟨e⟩∞ (-, -ᴵ, -, R∗S⊢Q , R∗IndSa) =
     -, -ᴵ, -, ∗-monoʳ R∗S⊢Q » P∗Q⊢⟨e⟩∞ , R∗IndSa

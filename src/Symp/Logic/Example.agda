@@ -22,7 +22,7 @@ open import Symp.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Typ
 open import Symp.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
   ndecrep●∞; fadᴿ; fad; fadrep; fadrep'; forksfadrep; nforksfadrep; cntr←)
 open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; ¡ᴾ_; ∀-syntax;
-  ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↪⟨_⟩ᵀ[_]_; [^_]ᴺ; &ⁱ⟨_⟩_;
+  ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _⊸⟨_⟩ᵀ[_]_; [^_]ᴺ; &ⁱ⟨_⟩_;
   static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Symp.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
   ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ;
@@ -35,8 +35,8 @@ open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _�
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; ahor-frameˡ; ahor-frameʳ; ahor✔-hor;
   hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind; hor-fork)
 open import Symp.Logic.Mem using (ahor-fau; hor-🞰; hor-←)
-open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒↪⟨⟩;
-  ↪⟨⟩ᵀ-use)
+open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒⊸⟨⟩;
+  ⊸⟨⟩ᵀ-use)
 open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close; hor-↦ⁱ-🞰)
 open import Symp.Logic.Ub using (≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 
@@ -196,7 +196,7 @@ abstract
 
   -- Specification for a counter e˂˙
 
-  -- Thanks to the coinductivity of the total Hoare triple precursor ↪⟨ ⟩ᵀ, we
+  -- Thanks to the coinductivity of the total Hoare triple precursor ⊸⟨ ⟩ᵀ, we
   -- can construct the infinite proposition Cntr, which returns Cntr itself with
   -- an updated parameter k + n after executing the counter
 
@@ -206,21 +206,21 @@ abstract
 
   Cntr :  (ℕ → Expr˂∞ (◸ ℕ)) →  ℕ →  SProp ι
   Cntr e˂˙ n =  ∀' k ,
-    ¡ᴾ ⊤' ↪⟨ e˂˙ k .! ⟩ᵀ[ 0 ] λ{ m .! → ⌜ m ≡ n ⌝∧ Cntr e˂˙ (k + n) }
+    ¡ᴾ ⊤' ⊸⟨ e˂˙ k .! ⟩ᵀ[ 0 ] λ{ m .! → ⌜ m ≡ n ⌝∧ Cntr e˂˙ (k + n) }
 
   -- Use Cntr e˂˙ to get a total Hoare triple for e˂˙
   -- The level of the total Hoare triple is 1, not 0
 
   Cntr-use :  Cntr e˂˙ n  ⊢[ ι ]⟨ e˂˙ k .! ⟩ᵀ[ 1 ] λ m →
                 ⌜ m ≡ n ⌝∧ Cntr e˂˙ (k + n)
-  Cntr-use =  ∀-elim _ » ⊤∗-intro » ↪⟨⟩ᵀ-use
+  Cntr-use =  ∀-elim _ » ⊤∗-intro » ⊸⟨⟩ᵀ-use
 
   -- Get Cntr (cntr← θ) n from a full points-to token θ ↦ (-, n)
-  -- Thanks to the coinductivity of ○⇒↪⟨⟩, we can successfully perform the
+  -- Thanks to the coinductivity of ○⇒⊸⟨⟩, we can successfully perform the
   -- infinite construction of Cntr
 
   cntr←-Cntr :  θ ↦ (-, n)  ⊢[ ι ][ i ]⇛  Cntr (cntr← θ) n
-  cntr←-Cntr =  ○-new {P˂ = ¡ᴾ _} ᵘ» ∀-intro λ _ → ○⇒↪⟨⟩ λ{ .! →
+  cntr←-Cntr =  ○-new {P˂ = ¡ᴾ _} ᵘ» ∀-intro λ _ → ○⇒⊸⟨⟩ λ{ .! →
     ∗-comm » hor-🞰 $ hor-[] $ hor-← $ hor-[] $ hor-valᵘ {i = 0} $
     ∗-elimˡ » cntr←-Cntr ᵘ» ∃-intro refl }
 

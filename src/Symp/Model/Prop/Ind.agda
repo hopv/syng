@@ -231,7 +231,7 @@ abstract
     -, -ᴵ, -, ∗-monoʳ S∗T⊢R » P∗R⊢⟨red⟩Q , S∗IndTa
 
 --------------------------------------------------------------------------------
--- ⊸⟨ ⟩[ ]ᵒ :  Interpret the Hoare triple precursor ⊸⟨ ⟩
+-- ⊸⟨ ⟩[ ]ᵒ :  Interpret the common Hoare triple precursor ⊸⟨ ⟩
 
 infixr 5 _⊸⟨_⟩[_]ᵒ_ _⊸⟨_⟩ᴾᵒ_ _⊸⟨_⟩ᵀ[_]ᵒ_
 

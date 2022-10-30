@@ -190,7 +190,7 @@ abstract
   ahor-✔⇒ᴺ ✔Nm P⊢⟨red⟩[Nm]Q =  ∗-monoˡ ([]ᴺ-⊆--∗ ✔Nm) » ∗?-comm »
     ahor-frameˡ P⊢⟨red⟩[Nm]Q ᵃʰ» λ _ → ∗?-comm » ∗-monoˡ -∗-applyˡ
 
-  -- Compose an atomic Hoare triple and a Hoare triple for the context
+  -- Compose an atomic Hoare triple and a common Hoare triple for the context
 
   -->  ahorᴺ-hor :  [⊤]ᴺ ∗ P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  [⊤]ᴺ ∗ Q˙ v)  →
   -->               (∀ v →  Q˙ v  ⊢[<ᴾ ι ]⟨ K ᴷ◁ V⇒E v ⟩[ κ ]  R˙)  →

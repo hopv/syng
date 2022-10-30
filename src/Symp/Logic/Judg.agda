@@ -97,7 +97,7 @@ _⊢[_][_]ᵃ⟨_⟩_ _⊢[<_][_]ᵃ⟨_⟩_ :
 P ⊢[ ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  P ⊢[ ι ]* [ i ]ᵃ⟨ red ⟩ Q˙
 P ⊢[< ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  Thunk (P ⊢[_][ i ]ᵃ⟨ red ⟩ Q˙) ι
 
--- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Hoare triple over Val/Ktxred
+-- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Common Hoare triple over Val/Ktxred
 
 _⊢[_]⁺⟨_⟩[_]_ :
   SProp∞ →  𝕊 →  Val/Ktxred T →  WpKind →  (Val T → SProp∞) →  Set₁
@@ -115,7 +115,7 @@ _⊢[_]⁺⟨_⟩ᵀ[_]_ _⊢[<_]⁺⟨_⟩ᵀ[_]_ :
 P ⊢[ ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ tot i ] Q˙
 P ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  Thunk (P ⊢[_]⁺⟨ vk ⟩ᵀ[ i ] Q˙) ι
 
--- ⊢[ ]⟨ ⟩[ ] etc. :  Hoare triple over Expr
+-- ⊢[ ]⟨ ⟩[ ] etc. :  Common Hoare triple over Expr
 
 _⊢[_]⟨_⟩[_]_ _⊢[<_]⟨_⟩[_]_ :
   SProp∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  Set₁
@@ -131,7 +131,7 @@ _⊢[_]⟨_⟩ᵀ[_]_ _⊢[<_]⟨_⟩ᵀ[_]_ :
 P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩[ tot i ] Q˙
 P ⊢[< ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[< ι ]⟨ e ⟩[ tot i ] Q˙
 
--- ⊢[<ᴾ ]⟨ ⟩[ ] :  Hoare triple over Expr, under thunk if partial
+-- ⊢[<ᴾ ]⟨ ⟩[ ] :  Common Hoare triple over Expr, under thunk if partial
 
 _⊢[<ᴾ_]⟨_⟩[_]_ :  SProp∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  Set₁
 P ⊢[<ᴾ ι ]⟨ e ⟩[ par ] Q˙ =  P ⊢[< ι ]⟨ e ⟩ᴾ Q˙
@@ -366,7 +366,8 @@ data  Judg ι  where
   hor-frameʳ :  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
                 R  ∗  P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ] λ v →  R  ∗  Q˙ v
 
-  -- Compose an atomic Hoare triple with [⊤]ᴺ and a Hoare triple for the context
+  -- Compose an atomic Hoare triple with [⊤]ᴺ and a common or infinite Hoare
+  -- triple for the context
 
   -- The premise on the context can be used coinductively for the partial Hoare
   -- triple, and only inductively for the total and infinite Hoare triples

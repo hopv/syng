@@ -122,7 +122,7 @@ data  SProp ι  where
   -- ⊸[ ]ᵃ⟨ ⟩ :  Atomic Hoare triple precursor, with a level
   _⊸[_]ᵃ⟨_⟩_ :  SProp˂ ι →  ℕ →  Redex T →  (Val T → SProp˂ ι) →  SProp ι
 
-  -- ⊸⟨ ⟩[ ] :  Hoare triple precursor
+  -- ⊸⟨ ⟩[ ] :  Common Hoare triple precursor
   _⊸⟨_⟩[_]_ :  SProp˂ ι →  Expr∞ T →  WpKind →  (Val T → SProp˂ ι) →  SProp ι
 
   -- ⊸[ ]⟨ ⟩∞ :  Infinite Hoare triple precursor, with a level

@@ -220,7 +220,7 @@ abstract
   ⟨⟩ᵀᵒ⇒SN ⊨⟨e⟩P ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓[⊤] ✓M) $
     ◎-just ▷ ∗ᵒ?-intro (∗ᵒ?-intro _ ⊨⟨e⟩P) ▷ ∗ᵒ?-intro Invᴳ-∅
    where
-    -- Well-founded induction by the metric sz ι ∷ ιs
+    -- Well-founded induction on sz ι ∷ ιs
     go :  Acc (Rᴰᴹ _<ˢ_) (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →
       (([⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs) ∗ᵒ Invᴳ Eᴵⁿ) a  →
       SNᵀ (e , es , M)
@@ -308,7 +308,7 @@ abstract
   ⟨⟩∞ᵒ⇒Inf ⊨⟨e⟩∞ ✓M =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓[⊤] ✓M) $
     ◎-just ▷ ∗ᵒ?-intro (∗ᵒ?-intro _ ⊨⟨e⟩∞) ▷ ∗ᵒ?-intro Invᴳ-∅
    where
-    -- Well-founded induction by the metric (ι' , sz ι ∷ ιs)
+    -- Well-founded induction on (ι' , sz ι ∷ ιs)
     go :  Acc (Rᴰᴹ _<ˢ_) (sz ι ∷ ιs) →  envᴳ M Eᴵⁿ ✓ᴳ a →
       (([⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩∞ᵒ ι ι' ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs) ∗ᵒ Invᴳ Eᴵⁿ) a  →
       Infᵀ ι' (e , es , M)

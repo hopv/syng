@@ -84,7 +84,7 @@ abstract
 
   -- Total Hoare triple for decrep
 
-  -- The proof guarantees termination by induction over n
+  -- The proof guarantees termination by induction on n
   -- Notably, we take advantage of Agda's termination checker here
 
   horᵀ-decrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ decrep θ ⟩ᵀ[ i ] λ _ →  θ ↦ (-, 0)
@@ -153,7 +153,7 @@ abstract
     ⇛-frameˡ {i = 0} ⅋ⁱ-close ᵘ» ∗-monoʳ $ ∃-intro m≤n
 
   -- Total Hoare triple for fadrep under ≤ᵁᵇ and &ub↦
-  -- The proof goes by well-founded induction over the upper bound n
+  -- The proof goes by well-founded induction on the upper bound n
 
   horᵀ-fadrep-&ub↦-Acc :  Acc _<_ n  →
     ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'

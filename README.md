@@ -310,7 +310,7 @@ point.
 For the infinite Hoare triple, usually the hypothesis can be used only
 *inductively*, but when the event is triggered, the hypothesis can be used
 *coinductively*.  
-In this way, this judgment is defined by **coinduction over induction**, which
+In this way, this judgment is defined **coinductively-inductively**, which
 naturally ensures an infinite number of occurrences of the event.
 
 As a future extension, Symp can be combined with the approach of
@@ -319,8 +319,8 @@ al., 2022).
 Symp is a logic for verifying **fair termination preservation** (i.e.,
 preservation of termination under any fair thread scheduling) of various
 optimizations of concurrent programs.  
-Fair termination preservation is an applicable but tricky property, modeled by
-**coinduction over induction**.  
+Fair termination preservation is an applicable but tricky property, modeled 
+**coinductively-inductively**.
 For this reason, Simuliris is built on a **non-step-indexed** variant of Iris,
 which has given up any kind of *impredicative ghost state*, including
 *impredicative invariants*.  

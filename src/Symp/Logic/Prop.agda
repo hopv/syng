@@ -87,6 +87,10 @@ data  SProp ι  where
 
   -- ∀˙, ∃˙ :  Universal/existential quantification over any type X in Set₀,
   --           which does not include SProp ι itself (predicativity)
+
+  -- If we add impredicative quantification (as well as lifting of a judgment),
+  -- a paradox arises ([^nm]ᴺ-no/∃ᴾ in Symp.Logic.Paradox)
+
   ∀˙ ∃˙ :  (X → SProp ι) →  SProp ι
 
   -- →' :  Implication

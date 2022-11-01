@@ -16,7 +16,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; ṗ_; _+_)
 open import Base.Sety using ()
 open import Symp.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; Expr˂∞; ∇_;
-  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; let¡-syntax; ●_; fork¡; 🞰_; _←_; fau;
+  λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; let¡-syntax; ev; fork¡; 🞰_; _←_; fau;
   free; loop; Mem)
 open import Symp.Lang.Ktxred using (Redex; fauᴿ)
 open import Symp.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
@@ -70,10 +70,10 @@ decrep' θ (ṡ n) =  ∇ θ ← ∇ n ⁏¡ decrep θ
 ndecrep :  Addr →  Expr∞ $ ◸ ⊤
 ndecrep θ =  ∇ θ ← ndnat ⁏¡ decrep θ
 
--- ndecrep●∞ :  Loop ndecrep with an event
+-- ndecrepev∞ :  Loop ndecrep with an event
 
-ndecrep●∞ :  Addr →  Expr ι $ ◸ ⊤
-ndecrep●∞ θ =  ndecrep θ ⁏¡ ● λ{ .! → ndecrep●∞ θ }
+ndecrepev∞ :  Addr →  Expr ι $ ◸ ⊤
+ndecrepev∞ θ =  ndecrep θ ⁏¡ ev λ{ .! → ndecrepev∞ θ }
 
 -- fad :  Fetch and decrement, i.e., atomic decrement of the natural number at
 --        the address, returning the original value
@@ -130,10 +130,10 @@ abstract
   ndnat⇒ :  (ndnat , M) ⇒ᴱ⟨ ff ⟩ (∇ n , ň , M)
   ndnat⇒ =  redᴱ refl $ redᴷᴿ $ nd⇒ _
 
-  -- Reduce ●
+  -- Reduce ev
 
-  ●⇒ :  (● e˂ , M) ⇒ᴱ⟨ tt ⟩ (e˂ .! , ň , M)
-  ●⇒ =  redᴱ refl $ redᴷᴿ []⇒
+  ev⇒ :  (ev e˂ , M) ⇒ᴱ⟨ tt ⟩ (e˂ .! , ň , M)
+  ev⇒ =  redᴱ refl $ redᴷᴿ []⇒
 
 --------------------------------------------------------------------------------
 -- Destruct reduction
@@ -163,8 +163,8 @@ abstract
                 ∑ n , (b , e , eˇ , M') ≡ (ff , ∇ n , ň , M)
   ndnat⇒-inv (redᴱ refl (redᴷᴿ (nd⇒ _))) =  -, refl
 
-  -- Invert reduction on ●
+  -- Invert reduction on ev
 
-  ●⇒-inv :  (●_ {T = T} e˂ , M) ⇒ᴱ⟨ b ⟩ (e' , eˇ , M') →
-            (b , e' , eˇ , M') ≡ (tt , e˂ .! , ň , M)
-  ●⇒-inv (redᴱ refl (redᴷᴿ []⇒)) =  refl
+  ev⇒-inv :  (ev {T = T} e˂ , M) ⇒ᴱ⟨ b ⟩ (e' , eˇ , M') →
+             (b , e' , eˇ , M') ≡ (tt , e˂ .! , ň , M)
+  ev⇒-inv (redᴱ refl (redᴷᴿ []⇒)) =  refl

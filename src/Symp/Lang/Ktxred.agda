@@ -16,7 +16,7 @@ open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ)
 open import Symp.Lang.Expr using (Type; ◸ʸ_; ◸_; _ʸ↷_; Addr; Expr∞; Expr˂∞; ∇_;
-  λ˙; nd; _◁_; _⁏_; ●_; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
+  λ˙; nd; _◁_; _⁏_; ev; fork; 🞰_; _←_; fau; cas; alloc; free; Val; V⇒E)
 
 private variable
   Xʸ :  Setʸ
@@ -188,7 +188,7 @@ val/ktxred (e ⁏ e'˂) =  ĩ₁ body
   body  with val/ktxred e
   … | ĩ₀ _ =  -, •ᴷ , [ e'˂ .! ]ᴿ○
   … | ĩ₁ (-, K , red) =  -, K ⁏ᴷ e'˂ , red
-val/ktxred (● e˂) =  ĩ₁ (-, •ᴷ , [ e˂ .! ]ᴿ●)
+val/ktxred (ev e˂) =  ĩ₁ (-, •ᴷ , [ e˂ .! ]ᴿ●)
 val/ktxred (fork e) =  ĩ₁ (-, •ᴷ , forkᴿ $ e .!)
 val/ktxred (🞰 e) =  ĩ₁ body
  where

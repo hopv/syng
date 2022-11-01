@@ -123,7 +123,7 @@ data  Expr ι  where
   _⁏_ :  Expr ι T →  Expr˂ ι U →  Expr ι U
 
   -- Observable event
-  ●_ :  Expr˂ ι T →  Expr ι T
+  ev :  Expr˂ ι T →  Expr ι T
 
   -- Fork a new thread
   fork :  Expr˂ ι (◸ ⊤) →  Expr ι (◸ ⊤)

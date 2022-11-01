@@ -108,10 +108,12 @@ module _ {nm : Name} (⇛ᵐ : SProp∞ → SProp∞)
     ⇛-frameˡ Evil-intro/⇛ᵐ ᵘ»ᵘ ∃∗-elim λ _ → Evil-no/⇛ᵐ
 
 --------------------------------------------------------------------------------
--- If we have existential quantification over SProp∞ and conjunction over the
--- fancy update sequent (both are a form of impredicative quantification),
--- then we have the paradox observed above,
+-- If we have existential quantification over SProp∞ as well as lifting of
+-- the fancy update sequent, then we have the paradox observed above,
 -- because then we can encode the fancy update modality ⇛ᵐ
+
+-- Lifting of the fancy update sequent would be readily available if we worked
+-- on a meta-logic that has the impredicative universe Prop (like Coq)
 
 module _ {nm : Name} (∃ᴾ˙ :  (SProp∞ → SProp∞) →  SProp∞)
   (∃ᴾ-elim :  ∀{P˙ Q} →  (∀ R →  P˙ R ⊢[ ∞ ][ 0 ]⇛ Q) →  ∃ᴾ˙ P˙ ⊢[ ∞ ][ 0 ]⇛ Q)
@@ -124,20 +126,20 @@ module _ {nm : Name} (∃ᴾ˙ :  (SProp∞ → SProp∞) →  SProp∞)
 
   -- We can encode the fancy update modality ⇛ᵐ
 
-  ⇛ᵐ/∃ᴾ⊢⇛∧ :  SProp∞ →  SProp∞
-  ⇛ᵐ/∃ᴾ⊢⇛∧ P =  ∃ᴾ˙ λ Q →  ⌜ Q ⊢⇛ P ⌝∧  Q
+  ⇛ᵐ/∃ᴾ :  SProp∞ →  SProp∞
+  ⇛ᵐ/∃ᴾ P =  ∃ᴾ˙ λ Q →  ⌜ Q ⊢⇛ P ⌝∧  Q
 
-  ⇛ᵐ-intro/∃ᴾ⊢⇛∧ :  P ⊢[ ∞ ][ 0 ]⇛ Q →  P ⊢[ ∞ ] ⇛ᵐ/∃ᴾ⊢⇛∧ Q
-  ⇛ᵐ-intro/∃ᴾ⊢⇛∧ P⊢⇛Q =  ⊢⇛∧-intro P⊢⇛Q » ∃ᴾ-intro _
+  ⇛ᵐ-intro/∃ᴾ :  P ⊢[ ∞ ][ 0 ]⇛ Q →  P ⊢[ ∞ ] ⇛ᵐ/∃ᴾ Q
+  ⇛ᵐ-intro/∃ᴾ P⊢⇛Q =  ⊢⇛∧-intro P⊢⇛Q » ∃ᴾ-intro _
 
-  ⇛ᵐ-elim/∃ᴾ⊢⇛∧ :  P ⊢[ ∞ ] ⇛ᵐ/∃ᴾ⊢⇛∧ Q →  P ⊢[ ∞ ][ 0 ]⇛ Q
-  ⇛ᵐ-elim/∃ᴾ⊢⇛∧ P⊢⇛ᵐQ =  P⊢⇛ᵐQ » ∃ᴾ-elim λ R → ⊢⇛∧-elim λ R⊢⇛Q → R⊢⇛Q
+  ⇛ᵐ-elim/∃ᴾ :  P ⊢[ ∞ ] ⇛ᵐ/∃ᴾ Q →  P ⊢[ ∞ ][ 0 ]⇛ Q
+  ⇛ᵐ-elim/∃ᴾ P⊢⇛ᵐQ =  P⊢⇛ᵐQ » ∃ᴾ-elim λ R → ⊢⇛∧-elim λ R⊢⇛Q → R⊢⇛Q
 
   -- Therefore, by [^nm]ᴺ-no/⇛ᵐ, we get contradiction out of [^ nm ]ᴺ,
   -- which is a paradox!
 
-  [^nm]ᴺ-no/∃ᴾ⊢⇛∧ :  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
-  [^nm]ᴺ-no/∃ᴾ⊢⇛∧ =  [^nm]ᴺ-no/⇛ᵐ ⇛ᵐ/∃ᴾ⊢⇛∧ ⇛ᵐ-intro/∃ᴾ⊢⇛∧ ⇛ᵐ-elim/∃ᴾ⊢⇛∧
+  [^nm]ᴺ-no/∃ᴾ :  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  [^nm]ᴺ-no/∃ᴾ =  [^nm]ᴺ-no/⇛ᵐ ⇛ᵐ/∃ᴾ ⇛ᵐ-intro/∃ᴾ ⇛ᵐ-elim/∃ᴾ
 
 --------------------------------------------------------------------------------
 -- If we can turn ○ P into P, then we get P after a fancy update,

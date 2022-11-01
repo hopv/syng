@@ -22,7 +22,7 @@ open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_;
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ; ⇛-frameʳ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩[_]_; _⊢[<ᴾ_]⟨_⟩[_]_;
   _ᵘ»ᵃʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameˡ; ahor✔-hor; hor<ᴾ-map)
-open import Symp.Logic.Mem using (ahor-🞰)
+open import Symp.Logic.Heap using (ahor-🞰)
 
 -- Import and re-export
 open import Symp.Logic.Judg public using (&ⁱ-⇒□; &ⁱ-resp-□∗; ⅋ⁱ-mono; ⅋ⁱ-eatˡ;

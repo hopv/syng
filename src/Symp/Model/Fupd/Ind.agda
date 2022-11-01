@@ -29,7 +29,7 @@ open import Symp.Model.Prop.Base using (SPropᵒ; _⊨_; ⊨_; ∃ᵒ-syntax; �
   dup-□ᵒ; □ᵒ-∗ᵒ-in)
 open import Symp.Model.Prop.Smry using (Smry; Smry-Mono; Smry-0; Smry-add-š;
   Smry-rem-<)
-open import Symp.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _⊸[_]⇛ᴹ_;
+open import Symp.Model.Prop.Ind using (Indˣ; Indᵖ; Ind; ○ᵒ_; _⊸[_]⇛ᴴ_;
   _⊸[_]ᵃ⟨_⟩ᵒ_; _⊸⟨_⟩[_]ᵒ_; _⊸[_]⟨_⟩∞ᵒ; Indᵖ-Mono; Indˣ-new'; Indˣ-use';
   □ᵒIndᵖ-new'; Indᵖ-use'; Ind⇒○ᵒ)
 open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
@@ -214,7 +214,7 @@ abstract
 --------------------------------------------------------------------------------
 -- On ⊸⇛ᵒ, ⊸ᵃ⟨ ⟩ᵒ, ⊸⟨ ⟩ᵒ and ⊸⟨ ⟩∞ᵒ
 
-  ⊸⇛ᵒ-use :  P ⊸[ i ]⇛ᴹ Q  ⊨ ⇛ᴵⁿᵈ  ∃ᵒ R ,  ⌜ P ∗ R ⊢[ ∞ ][ i ]⇛ Q ⌝ᵒ×  ⸨ R ⸩
+  ⊸⇛ᵒ-use :  P ⊸[ i ]⇛ᴴ Q  ⊨ ⇛ᴵⁿᵈ  ∃ᵒ R ,  ⌜ P ∗ R ⊢[ ∞ ][ i ]⇛ Q ⌝ᵒ×  ⸨ R ⸩
   ⊸⇛ᵒ-use =  ∑-case λ S → ∑ᴵ-case $ ∑-case λ _ → ∑-case λ P∗S∗T⊢⇛Q →
     ∗ᵒ-monoʳ Ind-use › ⇛ᵍ-eatˡ › ⇛ᵍ-mono $
     ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {S}) › (P∗S∗T⊢⇛Q ,_) › -,_

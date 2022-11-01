@@ -13,9 +13,9 @@ open import Base.Eq using (refl; _≡˙_)
 open import Base.Dec using (yes; no; ≡Dec; _≟_; ≟-refl; upd˙)
 open import Base.Prod using (∑∈-syntax; π₀; _,-)
 open import Base.Nat using (ℕ; ṡ_)
-open import Symp.Lang.Expr using (Mem; ✓ᴹ_)
+open import Symp.Lang.Expr using (Heap; ✓ᴴ_)
 open import Symp.Model.ERA.Base using (ERA; ⊤ᴱᴿᴬ)
-open import Symp.Model.ERA.Mem using (Memᴱᴿᴬ; ✓ᴹ⇒✓ᴹᵉᵐ)
+open import Symp.Model.ERA.Heap using (Heapᴱᴿᴬ; ✓ᴴ⇒✓ᴴᵉᵃᵖ)
 open import Symp.Model.ERA.Names using (Namesᴱᴿᴬ; ✓ᴺᵃᵐᵉˢ[⊤]; [⊤]ᴺʳ)
 open import Symp.Model.ERA.Ind using (Indˣᴱᴿᴬ; Indᵖᴱᴿᴬ; ∅ᴵⁿᵈˣ; ∅ᴵⁿᵈᵖ; ∅ᴵⁿᵈˣ-✓ε;
   ∅ᴵⁿᵈᵖ-✓ε)
@@ -31,7 +31,7 @@ open ERA using (Res; Env)
 
 -- Ids of ERAs
 
-pattern iᴹᵉᵐ =  0
+pattern iᴴᵉᵃᵖ =  0
 pattern iᴺᵃᵐᵉˢ =  1
 pattern iᴵⁿᵈˣ =  2
 pattern iᴵⁿᵈᵖ =  3
@@ -44,7 +44,7 @@ pattern elseᴳ =  ṡ ṡ ṡ ṡ ṡ ṡ ṡ ṡ _
 -- Map of ERAs
 
 Globᴱᴿᴬ˙ :  ℕ →  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ
-Globᴱᴿᴬ˙ iᴹᵉᵐ =  Memᴱᴿᴬ
+Globᴱᴿᴬ˙ iᴴᵉᵃᵖ =  Heapᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴺᵃᵐᵉˢ =  Namesᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈˣ =  Indˣᴱᴿᴬ
 Globᴱᴿᴬ˙ iᴵⁿᵈᵖ =  Indᵖᴱᴿᴬ
@@ -108,14 +108,14 @@ Envᴵⁿᴳ˙ =  Envᴳ˙ ∘ outᴳ
 Envᴵⁿᴳ :  Set₁
 Envᴵⁿᴳ =  ∀ j →  Envᴵⁿᴳ˙ j
 
--- Conversion between Envᴳ and a pair of Mem and Envᴵⁿᴳ
+-- Conversion between Envᴳ and a pair of Heap and Envᴵⁿᴳ
 
-envᴳ :  Mem →  Envᴵⁿᴳ →  Envᴳ
-envᴳ M _ iᴹᵉᵐ =  ↑ M
+envᴳ :  Heap →  Envᴵⁿᴳ →  Envᴳ
+envᴳ H _ iᴴᵉᵃᵖ =  ↑ H
 envᴳ _ Eᴵⁿ (outᴳ j) =  Eᴵⁿ j
 
-memᴳ :  Envᴳ →  Mem
-memᴳ E =  E iᴹᵉᵐ .↓
+memᴳ :  Envᴳ →  Heap
+memᴳ E =  E iᴴᵉᵃᵖ .↓
 
 envᴵⁿᴳ :  Envᴳ →  Envᴵⁿᴳ
 envᴵⁿᴳ E j =  E $ outᴳ j
@@ -134,17 +134,17 @@ envᴵⁿᴳ E j =  E $ outᴳ j
 
 private variable
   Eᴵⁿ Fᴵⁿ :  Envᴵⁿᴳ
-  M M' :  Mem
+  H H' :  Heap
   j :  ℕ
   X :  Set₁
   Fʲ :  X
 
 abstract
 
-  -- envᴳ M ∅ᴵⁿᴳ with inj˙ iᴵⁿᵛ [⊤]ᴺʳ is valid for valid M
+  -- envᴳ H ∅ᴵⁿᴳ with inj˙ iᴵⁿᵛ [⊤]ᴺʳ is valid for valid H
 
-  ∅ᴵⁿᴳ-✓[⊤] :  ✓ᴹ M →  envᴳ M ∅ᴵⁿᴳ ✓ᴳ inj˙ iᴺᵃᵐᵉˢ [⊤]ᴺʳ
-  ∅ᴵⁿᴳ-✓[⊤] ✓M iᴹᵉᵐ =  ✓ᴹ⇒✓ᴹᵉᵐ ✓M
+  ∅ᴵⁿᴳ-✓[⊤] :  ✓ᴴ H →  envᴳ H ∅ᴵⁿᴳ ✓ᴳ inj˙ iᴺᵃᵐᵉˢ [⊤]ᴺʳ
+  ∅ᴵⁿᴳ-✓[⊤] ✓H iᴴᵉᵃᵖ =  ✓ᴴ⇒✓ᴴᵉᵃᵖ ✓H
   ∅ᴵⁿᴳ-✓[⊤] _ iᴺᵃᵐᵉˢ =  ✓ᴺᵃᵐᵉˢ[⊤]
   ∅ᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈˣ =  ∅ᴵⁿᵈˣ-✓ε
   ∅ᴵⁿᴳ-✓[⊤] _ iᴵⁿᵈᵖ =  ∅ᴵⁿᵈᵖ-✓ε
@@ -154,22 +154,22 @@ abstract
   ∅ᴵⁿᴳ-✓[⊤] _ iᵁᵇ =  ✓ᵁᵇε
   ∅ᴵⁿᴳ-✓[⊤] _ elseᴳ =  _
 
-  -- ≡˙ is congruent w.r.t. envᴳ M
+  -- ≡˙ is congruent w.r.t. envᴳ H
 
-  envᴳ-cong :  Eᴵⁿ ≡˙ Fᴵⁿ →  envᴳ M Eᴵⁿ ≡˙ envᴳ M Fᴵⁿ
-  envᴳ-cong _ iᴹᵉᵐ =  refl
+  envᴳ-cong :  Eᴵⁿ ≡˙ Fᴵⁿ →  envᴳ H Eᴵⁿ ≡˙ envᴳ H Fᴵⁿ
+  envᴳ-cong _ iᴴᵉᵃᵖ =  refl
   envᴳ-cong E≡F (outᴳ j) =  E≡F j
 
-  -- upd˙ iᴹᵉᵐ on envᴳ is the same as just updating the memory
+  -- upd˙ iᴴᵉᵃᵖ on envᴳ is the same as just updating the heap
 
-  upd˙-mem-envᴳ :  upd˙ iᴹᵉᵐ (↑ M') (envᴳ M Eᴵⁿ) ≡˙ envᴳ M' Eᴵⁿ
-  upd˙-mem-envᴳ iᴹᵉᵐ =  refl
+  upd˙-mem-envᴳ :  upd˙ iᴴᵉᵃᵖ (↑ H') (envᴳ H Eᴵⁿ) ≡˙ envᴳ H' Eᴵⁿ
+  upd˙-mem-envᴳ iᴴᵉᵃᵖ =  refl
   upd˙-mem-envᴳ (outᴳ _) =  refl
 
   -- upd˙ (outᴳ j) on envᴳ is the same as upd˙ j on the inner environment
 
-  upd˙-out-envᴳ :  upd˙ (outᴳ j) Fʲ (envᴳ M Eᴵⁿ)  ≡˙  envᴳ M (upd˙ j Fʲ Eᴵⁿ)
-  upd˙-out-envᴳ iᴹᵉᵐ =  refl
+  upd˙-out-envᴳ :  upd˙ (outᴳ j) Fʲ (envᴳ H Eᴵⁿ)  ≡˙  envᴳ H (upd˙ j Fʲ Eᴵⁿ)
+  upd˙-out-envᴳ iᴴᵉᵃᵖ =  refl
   upd˙-out-envᴳ {j} (outᴳ k)  with k ≟ j
   … | yes refl =  refl
   … | no _ = refl

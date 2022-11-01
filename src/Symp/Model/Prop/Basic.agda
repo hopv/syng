@@ -16,7 +16,7 @@ open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; ∀ᵒ-syntax; ∃ᵒ
   _→ᵒ_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; □ᵒ_; ∀ᵒ-Mono; ∃ᵒ-Mono; →ᵒ-Mono; ∗ᵒ-Mono; -∗ᵒ-Mono;
   ⤇ᵒ-Mono; □ᵒ-Mono; ◎-Mono)
 open import Symp.Model.Prop.Names using ([_]ᴺᵒ)
-open import Symp.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
+open import Symp.Model.Prop.Heap using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Symp.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
 open import Symp.Model.Prop.Ub using (#ᵁᵇ⟨_⟩ᵒ_; ≤ᵁᵇ⟨_⟩ᵒ_)
 

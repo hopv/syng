@@ -119,8 +119,7 @@ following parts.
     + [`Expr`](src/Symp/Lang/Expr.agda) for addresses, types and expressions;
         [`Ktxred`](src/Symp/Lang/Ktxred.agda) for evaluation contexts and
         redexes;
-        [`Reduce`](src/Symp/Lang/Reduce.agda) for the memory model and
-        reduction of expressions.
+        [`Reduce`](src/Symp/Lang/Reduce.agda) for reduction of expressions.
     + [`Example`](src/Symp/Lang/Example.agda) for examples.
 - [`Logic/`](src/Symp/Logic/) ― **The syntax of the separation logic Symp.**
     + [`Prop`](src/Symp/Logic/Prop.agda) for propositions;
@@ -129,7 +128,7 @@ following parts.
         [`Names`](src/Symp/Logic/Names.agda) for the name set token;
         [`Fupd`](src/Symp/Logic/Fupd.agda) for the fancy update;
         [`Hor`](src/Symp/Logic/Fupd.agda) for the Hoare triple;
-        [`Mem`](src/Symp/Logic/Mem.agda) for the memory;
+        [`Heap`](src/Symp/Logic/Heap.agda) for the heap;
         [`Ind`](src/Symp/Logic/Ind.agda) for the indirection modality and the
         precursors;
         [`Inv`](src/Symp/Logic/Inv.agda) for the impredicative invariant;
@@ -154,7 +153,7 @@ following parts.
             [`FracAg`](src/Symp/Model/ERA/FracAg.agda) for the fractional
             agreement ERA.
         * Tailored ERAs ―
-            [`Mem`](src/Symp/Model/ERA/Mem.agda) for the memory ERA;
+            [`Heap`](src/Symp/Model/ERA/Heap.agda) for the heap ERA;
             [`Names`](src/Symp/Model/ERA/Names.agda) for the name set ERA;
             [`Ind`](src/Symp/Model/ERA/Ind.agda) for the indirection ERAs;
             [`Inv`](src/Symp/Model/ERA/Inv.agda) for the invariant ERA;
@@ -169,7 +168,7 @@ following parts.
             connectives;
             [`Smry`](src/Symp/Model/Prop/Smry.agda) for the map summary;
             [`Names`](src/Symp/Model/Prop/Names.agda) for the name set token;
-            [`Mem`](src/Symp/Model/Prop/Mem.agda) for the memory-related tokens;
+            [`Heap`](src/Symp/Model/Prop/Heap.agda) for the heap-related tokens;
             [`Lft`](src/Symp/Model/Prop/Lft.agda) for the lifetime-related
             tokens;
             [`Ub`](src/Symp/Model/Prop/Ub.agda) for the upper-bound-related
@@ -203,8 +202,8 @@ following parts.
             weakest preconditions;
           [`Lang`](src/Symp/Model/Hor/Lang.agda) for language-specific lemmas on
             the weakest preconditions;
-          [`Mem`](src/Symp/Model/Hor/Mem.agda) for semantic fancy update and
-            weakest precondition lemmas for the memory.
+          [`Heap`](src/Symp/Model/Hor/Heap.agda) for semantic fancy update and
+            weakest precondition lemmas for the heap.
         * [`Adeq`](src/Symp/Model/Hor/Adeq.agda) for the adequacy of the
             semantic partial and total weakest preconditions.
         * [`Sound`](src/Symp/Model/Hor/Sound.agda) for the semantic soundness

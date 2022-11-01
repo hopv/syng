@@ -17,7 +17,7 @@ open import Base.Nat using (ℕ)
 open import Base.List using (List; []; _∷_; rep; _∈ᴸ_)
 open import Base.Sety using ()
 open import Symp.Lang.Expr using (Addr; _ₒ_; Type; ◸_; Expr∞; Val; V⇒E; TyVal;
-  Mem; ✓ᴹ_)
+  Heap; ✓ᴴ_)
 open import Symp.Lang.Ktxred using (Redex; Ktxred; Val/Ktxred; val/ktxred)
 open import Symp.Lang.Reduce using (redᴾ; _⇒ᴷᴿ∑; _⇒ᵀ*_; SNᵀ; Infᵀ)
 open import Symp.Logic.Prop using (SProp∞; ⊤'; ⌜_⌝; _↦_; [∗∈ⁱ⟨⟩]-syntax)
@@ -28,12 +28,12 @@ open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⁺⟨_⟩ᴾ_; 
   ahor-frameʳ; hor-frameʳ; ahorᴺ-hor; ahorᴺ-ihor; hor-bind; ihor-bind;
   hor-ihor-bind; hor-valᵘᴺ; ahor-nd; hor-[]; ihor-[]○; ihor-[]●; hor-fork;
   ihor-fork)
-open import Symp.Logic.Mem using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
+open import Symp.Logic.Heap using (ahor-🞰; ahor-←; ahor-fau; ahor-cas-tt;
   ahor-cas-ff; ahor-alloc; ahor-free)
 open import Symp.Logic.Ind using (⊸ᵃ⟨⟩-use; ⊸⟨⟩ᴾ-use; ⊸⟨⟩ᵀ-use; ⊸⟨⟩∞-use)
 open import Symp.Model.Prop.Base using (_⊨_; [∗ᵒ∈ⁱ⟨⟩]-syntax; ∗ᵒ-mono; ∗ᵒ-monoˡ;
   ∗ᵒ-monoʳ; ∗ᵒ∃ᵒ-out; -∗ᵒ-introˡ)
-open import Symp.Model.Prop.Mem using (_↦ᵒ_)
+open import Symp.Model.Prop.Heap using (_↦ᵒ_)
 open import Symp.Model.Prop.Interp using (⸨_⸩)
 open import Symp.Model.Prop.Sound using (⊢-sem)
 open import Symp.Model.Fupd.Ind using (⊸ᵃ⟨⟩ᵒ-use; ⊸⟨⟩ᵒ-use; ⊸⟨⟩∞ᵒ-use)
@@ -48,7 +48,7 @@ open import Symp.Model.Hor.Wp using (ᵃ⟨_⟩ᵒ; ⁺⟨_⟩ᴾᵒ; ⁺⟨_⟩
 open import Symp.Model.Hor.Lang using (ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ; ᵃ⟨⟩ᴺᵒ-⟨⟩ᵀᵒ; ᵃ⟨⟩ᴺᵒ-⟨⟩∞ᵒ;
   ⟨⟩ᴾᵒ-bind; ⟨⟩ᵀᵒ-bind; ⟨⟩∞ᵒ-bind; ⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind; ᵃ⟨⟩ᵒ-nd; ⁺⟨⟩ᴾᵒ-[]; ⁺⟨⟩ᵀᵒ-[];
   ⁺⟨⟩∞ᵒ-[]○; ⁺⟨⟩∞ᵒ-[]●; ⁺⟨⟩ᴾᵒ-fork; ⁺⟨⟩ᵀᵒ-fork; ⁺⟨⟩∞ᵒ-fork)
-open import Symp.Model.Hor.Mem using (ᵃ⟨⟩ᵒ-🞰; ᵃ⟨⟩ᵒ-←; ᵃ⟨⟩ᵒ-fau; ᵃ⟨⟩ᵒ-cas-tt;
+open import Symp.Model.Hor.Heap using (ᵃ⟨⟩ᵒ-🞰; ᵃ⟨⟩ᵒ-←; ᵃ⟨⟩ᵒ-fau; ᵃ⟨⟩ᵒ-cas-tt;
   ᵃ⟨⟩ᵒ-cas-ff; ᵃ⟨⟩ᵒ-alloc; ᵃ⟨⟩ᵒ-free)
 open import Symp.Model.Hor.Adeq using (⟨⟩ᴾᵒ-post; ⟨⟩ᴾᵒ-progress-main;
   ⟨⟩ᴾᵒ-progress-forked; ⟨⟩ᵀᵒ⇒SN; ⟨⟩∞ᵒ-progress-main; ⟨⟩∞ᵒ⇒Inf)
@@ -68,7 +68,7 @@ private variable
   e e' e⁺ :  Expr∞ T
   es :  List (Expr∞ (◸ ⊤))
   kr :  Ktxred T
-  M M' :  Mem
+  H H' :  Heap
   X˙ :  X → Set₀
 
 --------------------------------------------------------------------------------
@@ -423,22 +423,22 @@ abstract
 abstract
 
   -- Postcondition: ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] λ u → ⌜ X˙ u ⌝ ensures that the X˙ v
-  -- holds for the result value v of any execution of (e , [] , M) for valid M
+  -- holds for the result value v of any execution of (e , [] , H) for valid H
 
-  ⟨⟩ᴾ-post :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ (λ u → ⌜ X˙ u ⌝) →  ✓ᴹ M →
-              (e , [] , M) ⇒ᵀ* (V⇒E {T} v , es , M') →  X˙ v
+  ⟨⟩ᴾ-post :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ (λ u → ⌜ X˙ u ⌝) →  ✓ᴴ H →
+              (e , [] , H) ⇒ᵀ* (V⇒E {T} v , es , H') →  X˙ v
   ⟨⟩ᴾ-post ⊢⟨e⟩Xu =  ⟨⟩ᴾᵒ-post $ ⁺⟨⟩ᴾᵒ-mono (λ _ → π₀) $ ⊢⁺⟨⟩ᴾ-sem ⊢⟨e⟩Xu absurd
 
   -- Progress: If ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ is a tautology, then any reduction sequence
-  -- starting with (e , [] , M) never gets stuck for valid M
+  -- starting with (e , [] , H) never gets stuck for valid H
 
-  ⟨⟩ᴾ-progress-main :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ P˙ →  ✓ᴹ M →
-    (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩ᴾ-progress-main :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ P˙ →  ✓ᴴ H →
+    (e , [] , H) ⇒ᵀ* (e' , es , H') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , H') ⇒ᴷᴿ∑
   ⟨⟩ᴾ-progress-main ⊢⟨e⟩P =  ⟨⟩ᴾᵒ-progress-main $ ⊢⁺⟨⟩ᴾ-sem ⊢⟨e⟩P absurd
 
   ⟨⟩ᴾ-progress-forked :
-    ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ P˙ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →  e⁺ ∈ᴸ es →
-    val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+    ⊤' ⊢[ ∞ ]⟨ e ⟩ᴾ P˙ →  ✓ᴴ H →  (e , [] , H) ⇒ᵀ* (e' , es , H') →  e⁺ ∈ᴸ es →
+    val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , H') ⇒ᴷᴿ∑
   ⟨⟩ᴾ-progress-forked ⊢⟨e⟩P =  ⟨⟩ᴾᵒ-progress-forked $ ⊢⁺⟨⟩ᴾ-sem ⊢⟨e⟩P absurd
 
 --------------------------------------------------------------------------------
@@ -448,25 +448,25 @@ abstract
 
   -- Postcondition
 
-  ⟨⟩ᵀ-post :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] (λ u → ⌜ X˙ u ⌝) →  ✓ᴹ M →
-              (e , [] , M) ⇒ᵀ* (V⇒E {T} v , es , M') →  X˙ v
+  ⟨⟩ᵀ-post :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] (λ u → ⌜ X˙ u ⌝) →  ✓ᴴ H →
+              (e , [] , H) ⇒ᵀ* (V⇒E {T} v , es , H') →  X˙ v
   ⟨⟩ᵀ-post =  ⟨⟩ᴾ-post ∘ hor-ᵀ⇒ᴾ
 
   -- Progress
 
-  ⟨⟩ᵀ-progress-main :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴹ M →
-    (e , [] , M) ⇒ᵀ* (e' , es , M') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+  ⟨⟩ᵀ-progress-main :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴴ H →
+    (e , [] , H) ⇒ᵀ* (e' , es , H') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , H') ⇒ᴷᴿ∑
   ⟨⟩ᵀ-progress-main =  ⟨⟩ᴾ-progress-main ∘ hor-ᵀ⇒ᴾ
 
   ⟨⟩ᵀ-progress-forked :
-    ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →
-    e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+    ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴴ H →  (e , [] , H) ⇒ᵀ* (e' , es , H') →
+    e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , H') ⇒ᴷᴿ∑
   ⟨⟩ᵀ-progress-forked =  ⟨⟩ᴾ-progress-forked ∘ hor-ᵀ⇒ᴾ
 
-  -- Termination: ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ ensures that (e , [] , M) is strongly
-  -- normalizing, i.e., any execution of (e , [] , M) terminates, for valid M
+  -- Termination: ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ ensures that (e , [] , H) is strongly
+  -- normalizing, i.e., any execution of (e , [] , H) terminates, for valid H
 
-  ⟨⟩ᵀ⇒SN :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴹ M →  SNᵀ (e , [] , M)
+  ⟨⟩ᵀ⇒SN :  ⊤' ⊢[ ∞ ]⟨ e ⟩ᵀ[ i ] P˙ →  ✓ᴴ H →  SNᵀ (e , [] , H)
   ⟨⟩ᵀ⇒SN ⊢⟨e⟩P =  ⟨⟩ᵀᵒ⇒SN $ ⊢⁺⟨⟩ᵀ-sem ⊢⟨e⟩P absurd
 
 --------------------------------------------------------------------------------
@@ -477,17 +477,17 @@ abstract
   -- Progress
 
   ⟨⟩∞-progress-main :
-    ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →
-    ∑ kr ,  val/ktxred e' ≡ ĩ₁ kr  ×  (kr , M') ⇒ᴷᴿ∑
+    ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴴ H →  (e , [] , H) ⇒ᵀ* (e' , es , H') →
+    ∑ kr ,  val/ktxred e' ≡ ĩ₁ kr  ×  (kr , H') ⇒ᴷᴿ∑
   ⟨⟩∞-progress-main ⊢⟨e⟩∞ =  ⟨⟩∞ᵒ-progress-main $ ⊢⁺⟨⟩∞-sem ⊢⟨e⟩∞ absurd
 
   ⟨⟩∞-progress-forked :
-    ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴹ M →  (e , [] , M) ⇒ᵀ* (e' , es , M') →
-    e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , M') ⇒ᴷᴿ∑
+    ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴴ H →  (e , [] , H) ⇒ᵀ* (e' , es , H') →
+    e⁺ ∈ᴸ es →  val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , H') ⇒ᴷᴿ∑
   ⟨⟩∞-progress-forked =  ⟨⟩ᴾ-progress-forked ∘ ihor⇒horᴾ {Q˙ = λ _ → ⊤'}
 
   -- Infiniteness: ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ ensures that any execution of
-  -- (e , [] , M) triggers the event an infinite number of times for valid M
+  -- (e , [] , H) triggers the event an infinite number of times for valid H
 
-  ⟨⟩∞⇒Inf :  ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴹ M →  Infᵀ ∞ (e , [] , M)
+  ⟨⟩∞⇒Inf :  ⊤' ⊢[ ∞ ][ i ]⟨ e ⟩∞ →  ✓ᴴ H →  Infᵀ ∞ (e , [] , H)
   ⟨⟩∞⇒Inf ⊢⟨e⟩∞ =  ⟨⟩∞ᵒ⇒Inf $ ⊢⁺⟨⟩∞-sem ⊢⟨e⟩∞ absurd

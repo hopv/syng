@@ -21,10 +21,10 @@ open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨_; ∀ᵒ-syntax;
   →ᵒ-Mono; →ᵒ-mono; ∗ᵒ-Mono; ∗ᵒ-mono; -∗ᵒ-Mono; -∗ᵒ-mono; ⤇ᵒ-Mono; ⤇ᵒ-mono;
   □ᵒ-Mono; □ᵒ-mono; ◎-Mono)
 open import Symp.Model.Prop.Names using ([_]ᴺᵒ)
-open import Symp.Model.Prop.Mem using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
+open import Symp.Model.Prop.Heap using (_↦⟨_⟩ᵒ_; Freeᵒ; Freeᵒ-Mono)
 open import Symp.Model.Prop.Lft using ([_]ᴸ⟨_⟩ᵒ; †ᴸᵒ_)
 open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ)
-open import Symp.Model.Prop.Ind using (○ᵒ_; _⊸[_]⇛ᴹ_; _⊸[_]ᵃ⟨_⟩ᵒ_; _⊸⟨_⟩[_]ᵒ_;
+open import Symp.Model.Prop.Ind using (○ᵒ_; _⊸[_]⇛ᴴ_; _⊸[_]ᵃ⟨_⟩ᵒ_; _⊸⟨_⟩[_]ᵒ_;
   _⊸[_]⟨_⟩∞ᵒ; ○ᵒ-Mono; ⊸⇛ᵒ-Mono; ⊸ᵃ⟨⟩ᵒ-Mono; ⊸⟨⟩ᵒ-Mono; ⊸⟨⟩∞ᵒ-Mono)
 open import Symp.Model.Prop.Inv using (&ⁱ⟨_⟩ᵒ_; ⅋ⁱ⟨_⟩ᵒ_; &ⁱᵒ-Mono; ⅋ⁱᵒ-Mono)
 open import Symp.Model.Prop.Bor using (&ᵐ⟨_⟩ᵒ_; ⅋ᵐ⟨_⟩ᵒ_; ⟨†_⟩ᵒ_; &ᵐᵒ-Mono;
@@ -49,7 +49,7 @@ private variable
 ⸨ θ ↦⟨ p ⟩ ᵗv ⸩ =  θ ↦⟨ p ⟩ᵒ ᵗv
 ⸨ Free n θ ⸩ =  Freeᵒ n θ
 ⸨ ○ P˂ ⸩ =  ○ᵒ P˂ .!
-⸨ P˂ ⊸[ i ]⇛ Q˂ ⸩ =  P˂ .! ⊸[ i ]⇛ᴹ Q˂ .!
+⸨ P˂ ⊸[ i ]⇛ Q˂ ⸩ =  P˂ .! ⊸[ i ]⇛ᴴ Q˂ .!
 ⸨ P˂ ⊸[ i ]ᵃ⟨ red ⟩ Q˂˙ ⸩ =  P˂ .! ⊸[ i ]ᵃ⟨ red ⟩ᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ⊸⟨ e ⟩[ κ ] Q˂˙ ⸩ =  P˂ .! ⊸⟨ e ⟩[ κ ]ᵒ λ v → Q˂˙ v .!
 ⸨ P˂ ⊸[ i ]⟨ e ⟩∞ ⸩ =  P˂ .! ⊸[ i ]⟨ e ⟩∞ᵒ

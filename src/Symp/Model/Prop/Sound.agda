@@ -10,14 +10,14 @@ open import Base.Func using (_$_; _›_; id)
 open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Size using (𝕊; ∞; !)
 open import Base.Prod using (_,_; π₀; π₁; ∑-case)
-open import Symp.Lang.Expr using (✓ᴹ-∅)
+open import Symp.Lang.Expr using (✓ᴴ-∅)
 open import Symp.Logic.Prop using (SProp∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
 open import Symp.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
   ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
   ∗-assocʳ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
   □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
 open import Symp.Logic.Names using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
-open import Symp.Logic.Mem using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
+open import Symp.Logic.Heap using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
   ↦⟨⟩-agree)
 open import Symp.Logic.Ind using (○-mono; ○-eatˡ; ⊸⇛-≤; ⊸⇛-eatˡ⁻ˡᵘ; ⊸⇛-monoʳᵘ;
   ⊸⇛-eatˡ⁻ʳ; ⊸⇛-frameʳ; ○⇒⊸⇛;  ⊸ᵃ⟨⟩-≤; ⊸ᵃ⟨⟩-eatˡ⁻ˡᵘ; ⊸ᵃ⟨⟩-monoʳᵘ; ⊸ᵃ⟨⟩-eatˡ⁻ʳ;
@@ -34,7 +34,7 @@ open import Symp.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ;
   ∗ᵒ-monoˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocʳ; -∗ᵒ-introˡ; -∗ᵒ-elimˡ;
   ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-⌜⌝ᵒ×-out; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
   □ᵒˡ-×ᵒ⇒∗ᵒ; ◎-just)
-open import Symp.Model.Prop.Mem using (↦⟨⟩ᵒ-resp; ↦⟨⟩ᵒ-merge; ↦⟨⟩ᵒ-split;
+open import Symp.Model.Prop.Heap using (↦⟨⟩ᵒ-resp; ↦⟨⟩ᵒ-merge; ↦⟨⟩ᵒ-split;
   ↦⟨⟩ᵒ-≤1; ↦⟨⟩ᵒ-agree)
 open import Symp.Model.Prop.Names using ([]ᴺᵒ-resp; []ᴺᵒ-merge; []ᴺᵒ-split;
   []ᴺᵒ-✔)
@@ -433,4 +433,4 @@ abstract
 abstract
 
   ⊢-adeq :  [⊤]ᴺ ⊢[ ∞ ] ⌜ X ⌝ →  X
-  ⊢-adeq ⊢X =  ⊢-sem ⊢X (∅ᴵⁿᴳ-✓[⊤] ✓ᴹ-∅) ◎-just .π₀
+  ⊢-adeq ⊢X =  ⊢-sem ⊢X (∅ᴵⁿᴳ-✓[⊤] ✓ᴴ-∅) ◎-just .π₀

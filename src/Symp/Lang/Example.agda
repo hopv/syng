@@ -17,7 +17,7 @@ open import Base.Nat using (ℕ; ṡ_; ṗ_; _+_)
 open import Base.Sety using ()
 open import Symp.Lang.Expr using (Addr; Type; ◸_; _↷_; Expr; Expr∞; Expr˂∞; ∇_;
   λ¡-syntax; nd; _◁_; _⁏¡_; let-syntax; let¡-syntax; ev; fork¡; 🞰_; _←_; fau;
-  free; loop; Mem)
+  free; loop; Heap)
 open import Symp.Lang.Ktxred using (Redex; fauᴿ)
 open import Symp.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; redᴱ)
 
@@ -28,7 +28,7 @@ private variable
   e e' :  Expr∞ T
   eˇ :  ¿ Expr∞ T
   e˂ :  Expr˂∞ T
-  M M' :  Mem
+  H H' :  Heap
   n :  ℕ
 
 --------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ forksfadrep θ (ṡ k') =  fork¡ (fadrep θ) ⁏¡ forksfadrep θ k'
 nforksfadrep :  Addr →  Expr∞ $ ◸ ⊤
 nforksfadrep θ =  ∇ θ ← ndnat ⁏¡ let' k := ndnat in¡ forksfadrep θ k
 
--- cntr← :  Counter using memory, which increments the natural number at the
+-- cntr← :  Counter using the heap, which increments the natural number at the
 --          address θ and returns the original value n
 
 cntr← :  Addr →  ℕ →  Expr˂∞ $ ◸ ℕ
@@ -117,22 +117,22 @@ abstract
 
   -- Reduce loop
 
-  loop⇒ :  (loop {T = T} , M) ⇒ᴱ⟨ ff ⟩ (loop , ň , M)
+  loop⇒ :  (loop {T = T} , H) ⇒ᴱ⟨ ff ⟩ (loop , ň , H)
   loop⇒ =  redᴱ refl $ redᴷᴿ []⇒
 
   -- Reduce plus◁3,4
 
-  plus◁3,4⇒ :  (plus◁3,4 , M) ⇒ᴱ⟨ ff ⟩ (∇ 7 , ň , M)
+  plus◁3,4⇒ :  (plus◁3,4 , H) ⇒ᴱ⟨ ff ⟩ (∇ 7 , ň , H)
   plus◁3,4⇒ =  redᴱ refl $ redᴷᴿ []⇒
 
   -- Reduce ndnat
 
-  ndnat⇒ :  (ndnat , M) ⇒ᴱ⟨ ff ⟩ (∇ n , ň , M)
+  ndnat⇒ :  (ndnat , H) ⇒ᴱ⟨ ff ⟩ (∇ n , ň , H)
   ndnat⇒ =  redᴱ refl $ redᴷᴿ $ nd⇒ _
 
   -- Reduce ev
 
-  ev⇒ :  (ev e˂ , M) ⇒ᴱ⟨ tt ⟩ (e˂ .! , ň , M)
+  ev⇒ :  (ev e˂ , H) ⇒ᴱ⟨ tt ⟩ (e˂ .! , ň , H)
   ev⇒ =  redᴱ refl $ redᴷᴿ []⇒
 
 --------------------------------------------------------------------------------
@@ -142,29 +142,29 @@ abstract
 
   -- Invert reduction on loop
 
-  loop⇒-inv :  (loop {T = T} , M) ⇒ᴱ⟨ b ⟩ (e , eˇ , M') →
-               (b , e , eˇ , M') ≡ (ff , loop , ň , M)
+  loop⇒-inv :  (loop {T = T} , H) ⇒ᴱ⟨ b ⟩ (e , eˇ , H') →
+               (b , e , eˇ , H') ≡ (ff , loop , ň , H)
   loop⇒-inv (redᴱ refl (redᴷᴿ []⇒)) =  refl
 
   -- stuck can't be reduced (it's stuck!)
 
-  stuck-no⇒ :  ¬ (stuck , M) ⇒ᴱ⟨ b ⟩ (e , eˇ , M')
+  stuck-no⇒ :  ¬ (stuck , H) ⇒ᴱ⟨ b ⟩ (e , eˇ , H')
   stuck-no⇒ (redᴱ refl (redᴷᴿ r⇒)) =  r⇒ ▷ λ ()
 
   -- Invert reduction on plus◁3,4
 
-  plus◁3,4⇒-inv :  (plus◁3,4 , M) ⇒ᴱ⟨ b ⟩ (e , eˇ , M') →
-                   (b , e , eˇ , M') ≡ (ff , ∇ 7 , ň , M)
+  plus◁3,4⇒-inv :  (plus◁3,4 , H) ⇒ᴱ⟨ b ⟩ (e , eˇ , H') →
+                   (b , e , eˇ , H') ≡ (ff , ∇ 7 , ň , H)
   plus◁3,4⇒-inv (redᴱ refl (redᴷᴿ []⇒)) =  refl
 
   -- Invert reduction on ndnat
 
-  ndnat⇒-inv :  (ndnat , M) ⇒ᴱ⟨ b ⟩ (e , eˇ , M') →
-                ∑ n , (b , e , eˇ , M') ≡ (ff , ∇ n , ň , M)
+  ndnat⇒-inv :  (ndnat , H) ⇒ᴱ⟨ b ⟩ (e , eˇ , H') →
+                ∑ n , (b , e , eˇ , H') ≡ (ff , ∇ n , ň , H)
   ndnat⇒-inv (redᴱ refl (redᴷᴿ (nd⇒ _))) =  -, refl
 
   -- Invert reduction on ev
 
-  ev⇒-inv :  (ev {T = T} e˂ , M) ⇒ᴱ⟨ b ⟩ (e' , eˇ , M') →
-             (b , e' , eˇ , M') ≡ (tt , e˂ .! , ň , M)
+  ev⇒-inv :  (ev {T = T} e˂ , H) ⇒ᴱ⟨ b ⟩ (e' , eˇ , H') →
+             (b , e' , eˇ , H') ≡ (tt , e˂ .! , ň , H)
   ev⇒-inv (redᴱ refl (redᴷᴿ []⇒)) =  refl

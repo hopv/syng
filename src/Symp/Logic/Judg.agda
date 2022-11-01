@@ -429,7 +429,7 @@ data  Judg ι  where
                P  ∗  Q  ⊢[ ι ][ i ]⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩∞
 
   ------------------------------------------------------------------------------
-  -- On the memory
+  -- On the heap
 
   -- Modify the fraction of the points-to token
 
@@ -449,12 +449,12 @@ data  Judg ι  where
 
   ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝
 
-  -- Memory read
+  -- Heap read
 
   ahor-🞰 :  θ ↦⟨ p ⟩ (T , v)  ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ_ {T} θ ⟩ λ u →
               ⌜ u ≡ v ⌝∧  θ ↦⟨ p ⟩ (T , v)
 
-  -- Memory write
+  -- Heap write
 
   ahor-← :  θ ↦ ᵗu  ⊢[ ι ][ i ]ᵃ⟨ _←ᴿ_ {T} θ v ⟩ λ _ →  θ ↦ (T , v)
 
@@ -472,12 +472,12 @@ data  Judg ι  where
     θ ↦⟨ p ⟩ (◸ʸ Xʸ , z)  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ x y ⟩ λ b →
       ⌜ b ≡ ff ⌝∧  θ ↦⟨ p ⟩ (-, z)
 
-  -- Memory allocation
+  -- Heap allocation
 
   ahor-alloc :  ⊤'  ⊢[ ι ][ i ]ᵃ⟨ allocᴿ n ⟩ λ θ →
                   θ ↦ᴸ rep n ⊤-  ∗  Free n θ
 
-  -- Memory freeing
+  -- Heap freeing
 
   ahor-free :  len ᵗvs ≡ n  →
     θ ↦ᴸ ᵗvs  ∗  Free n θ  ⊢[ ι ][ i ]ᵃ⟨ freeᴿ θ ⟩ λ _ →  ⊤'

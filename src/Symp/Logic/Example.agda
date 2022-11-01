@@ -34,7 +34,7 @@ open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; ahor-frameˡ; ahor-frameʳ; ahor✔-hor;
   hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind; hor-fork)
-open import Symp.Logic.Mem using (ahor-fau; hor-🞰; hor-←)
+open import Symp.Logic.Heap using (ahor-fau; hor-🞰; hor-←)
 open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒⊸⟨⟩;
   ⊸⟨⟩ᵀ-use)
 open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close; hor-↦ⁱ-🞰)

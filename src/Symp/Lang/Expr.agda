@@ -21,7 +21,7 @@ open import Base.List using (List; _‼_; upd)
 open import Base.Sety using (Setʸ; ⸨_⸩ʸ; Syn; setʸ)
 
 --------------------------------------------------------------------------------
--- Addr :  Address, pointing at a memory cell
+-- Addr :  Address, pointing at a heap cell
 
 Addr :  Set₀
 Addr =  ℕ × ℕ
@@ -128,10 +128,10 @@ data  Expr ι  where
   -- Fork a new thread
   fork :  Expr˂ ι (◸ ⊤) →  Expr ι (◸ ⊤)
 
-  -- Read from the memory
+  -- Read from the heap
   🞰_ :  Expr ι (◸ Addr) →  Expr ι T
 
-  -- Write to the memory
+  -- Write to the heap
   _←_ :  Expr ι (◸ Addr) →  Expr ι T →  Expr ι (◸ ⊤)
 
   -- Fetch and update
@@ -140,10 +140,10 @@ data  Expr ι  where
   -- Compare and swap
   cas :  Expr ι (◸ Addr) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ʸ Xʸ) →  Expr ι (◸ 𝔹)
 
-  -- Allocating a new memory block
+  -- Allocating a new heap block
   alloc :  Expr ι (◸ ℕ) →  Expr ι (◸ Addr)
 
-  -- Freeing a memory block
+  -- Freeing a heap block
   free :  Expr ι (◸ Addr) →  Expr ι (◸ ⊤)
 
 -- Sequential execution
@@ -225,55 +225,58 @@ TyVal =  ∑ T , Val T
 ⊤- =  ◸ ⊤ ,-
 
 --------------------------------------------------------------------------------
--- Memory
+-- Heap
 
--- Mblo :  Memory block state
--- Mem :  Memory state
+-- Hblo :  Heap block
 
-Mblo Mem :  Set₀
-Mblo =  ¿ List TyVal
-Mem =  ℕ →  Mblo
+Hblo :  Set₀
+Hblo =  ¿ List TyVal
+
+-- Heap :  Heap
+
+Heap :  Set₀
+Heap =  ℕ →  Hblo
 
 private variable
-  M M' M'' :  Mem
-  Mb :  Mblo
+  H H' H'' :  Heap
+  Hb :  Hblo
   ᵗv :  TyVal
 
--- Memory read
+-- Heap read
 
-infix 5 _‼ᴹ_
-_‼ᴹ_ :  Mem →  Addr →  ¿ TyVal
-M ‼ᴹ (o , i) =  M o »-¿ _‼ i
+infix 5 _‼ᴴ_
+_‼ᴴ_ :  Heap →  Addr →  ¿ TyVal
+H ‼ᴴ (o , i) =  H o »-¿ _‼ i
 
--- Empty memory
+-- Empty heap
 
-∅ᴹ :  Mem
-∅ᴹ _ =  ň
+∅ᴴ :  Heap
+∅ᴴ _ =  ň
 
--- Memory update
+-- Heap update
 
-updᴹ :  Addr →  TyVal →  Mem →  Mem
-updᴹ (o , i) ᵗv M =  upd˙ o (upd i ᵗv $¿ M o) M
+updᴴ :  Addr →  TyVal →  Heap →  Heap
+updᴴ (o , i) ᵗv H =  upd˙ o (upd i ᵗv $¿ H o) H
 
--- Memory validity, saying that the domain of the memory is a finite set
+-- Heap validity, saying that the domain of the heap is a finite set
 
-infix 3 ✓ᴹ_
-✓ᴹ_ :  Mem →  Set₀
-✓ᴹ M =  Cofin (λ _ → _≡ ň) M
+infix 3 ✓ᴴ_
+✓ᴴ_ :  Heap →  Set₀
+✓ᴴ H =  Cofin (λ _ → _≡ ň) H
 
 abstract
 
-  -- ✓ᴹ holds for ∅ᴹ
+  -- ✓ᴴ holds for ∅ᴴ
 
-  ✓ᴹ-∅ :  ✓ᴹ ∅ᴹ
-  ✓ᴹ-∅ =  ∀⇒Cofin {F = λ _ → _≡ ň} λ _ → refl
+  ✓ᴴ-∅ :  ✓ᴴ ∅ᴴ
+  ✓ᴴ-∅ =  ∀⇒Cofin {F = λ _ → _≡ ň} λ _ → refl
 
-  -- ✓ᴹ is preserved by upd˙ and updᴹ
+  -- ✓ᴴ is preserved by upd˙ and updᴴ
 
-  ✓ᴹ-upd˙ :  ✓ᴹ M →  ✓ᴹ (upd˙ o Mb M)
-  ✓ᴹ-upd˙ =  Cofin-upd˙ {F = λ _ → _≡ ň}
+  ✓ᴴ-upd˙ :  ✓ᴴ H →  ✓ᴴ (upd˙ o Hb H)
+  ✓ᴴ-upd˙ =  Cofin-upd˙ {F = λ _ → _≡ ň}
 
-  -- If ✓ᴹ M holds, then M o ≡ ň for some o
+  -- If ✓ᴴ H holds, then H o ≡ ň for some o
 
-  ✓ᴹ-∑ň :  ✓ᴹ M →  ∑ o , M o ≡ ň
-  ✓ᴹ-∑ň =  Cofin-∑ {F = λ _ → _≡ ň}
+  ✓ᴴ-∑ň :  ✓ᴴ H →  ∑ o , H o ≡ ň
+  ✓ᴴ-∑ň =  Cofin-∑ {F = λ _ → _≡ ň}

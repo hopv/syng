@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
--- Proof rules on the memory
+-- Proof rules on the heap
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
 
-module Symp.Logic.Mem where
+module Symp.Logic.Heap where
 
 open import Base.Func using (_$_; _▷_)
 open import Base.Eq using (_≡_; _≢_; refl)
@@ -51,7 +51,7 @@ private variable
 abstract
 
   ------------------------------------------------------------------------------
-  -- On the memory
+  -- On the heap
 
   -->  ↦⟨⟩-resp :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ q ⟩ ᵗv
 
@@ -63,7 +63,7 @@ abstract
 
   -->  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝
 
-  -- Memory read
+  -- Heap read
 
   -->  ahor-🞰 :  θ ↦⟨ p ⟩ (T , v)  ⊢[ ι ][ i ]ᵃ⟨ 🞰ᴿ_ {T} θ ⟩ λ u →
   -->              ⌜ u ≡ v ⌝∧  θ ↦⟨ p ⟩ (T , v)
@@ -73,7 +73,7 @@ abstract
   hor-🞰 θ↦v∗P⊢⟨Kv⟩Q =  ahor-hor (ahor-frameˡ $ ahor-🞰 {i = 0}) λ _ →
     hor<ᴾ-map (λ big → ∃∗-elim λ{ refl → big }) θ↦v∗P⊢⟨Kv⟩Q
 
-  -- Memory write
+  -- Heap write
 
   -->  ahor-← :  θ ↦ ᵗu  ⊢[ ι ][ i ]ᵃ⟨ _←ᴿ_ {T} θ v ⟩ λ _ →  θ ↦ (T , v)
 
@@ -112,7 +112,7 @@ abstract
     (ahor-frameˡ $ ahor-cas-ff {i = 0} z≢x) λ _ →
     hor<ᴾ-map (λ big → ∃∗-elim λ{ refl → big }) θ↦z∗P⊢⟨Kff⟩Q
 
-  -- Memory allocation
+  -- Heap allocation
 
   -->  ahor-alloc :  ⊤'  ⊢[ ι ][ i ]ᵃ⟨ allocᴿ n ⟩ λᵛ θ ,
   -->                  θ ↦ᴸ rep n ⊤-  ∗  Free n θ
@@ -124,7 +124,7 @@ abstract
     (⊤∗-intro » ahor-frameˡ $ ahor-alloc {i = 0}) λ θ →
     hor<ᴾ-map (∗-assocʳ »_) $ θ↦∗Freeθ∗P⊢⟨Kθ⟩Q θ
 
-  -- Memory freeing
+  -- Heap freeing
 
   -->  ahor-free :  len ᵗvs ≡ n  →
   -->    θ ↦ᴸ ᵗvs  ∗  Free n θ  ⊢[ ι ][ i ]ᵃ⟨ freeᴿ θ ⟩ λ _ →  ⊤'

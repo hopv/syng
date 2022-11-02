@@ -8,18 +8,19 @@ module Symp.Logic.Paradox where
 
 open import Base.Func using (_$_; flip)
 open import Base.Eq using (refl)
-open import Base.Size using (∞; !)
+open import Base.Size using (𝕊; ∞; !)
 open import Base.Prod using (-,_)
 open import Symp.Lang.Expr using (Type; Expr∞; loop; Val)
 open import Symp.Lang.Ktxred using (Redex)
 open import Symp.Lang.Reduce using (_⇒ᴾ_; redᴾ)
-open import Symp.Logic.Prop using (Name; strnm; Lft; SProp∞; SProp˂∞; ¡ᴾ_;
-  ∃-syntax; _∨_; ⊤'; ⊥'; □_; _∗_; _-∗_; [^_]ᴺ; ○_; _⊸[_]⇛_; _⊸[_]ᵃ⟨_⟩_; _⊸⟨_⟩ᴾ_;
-  _⊸⟨_⟩ᵀ[_]_; _⊸[_]⟨_⟩∞; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_; [_]ᴸ; †ᴸ_)
+open import Symp.Logic.Prop using (Name; strnm; Lft; SProp; SProp˂; SProp∞;
+  SProp˂∞; ¡ᴾ_; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; □_; _∗_; _-∗_; [^_]ᴺ; ○_; _⊸[_]⇛_;
+  _⊸[_]ᵃ⟨_⟩_; _⊸⟨_⟩ᴾ_; _⊸⟨_⟩ᵀ[_]_; _⊸[_]⟨_⟩∞; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_; [_]ᴸ; †ᴸ_)
 open import Symp.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∃-elim; ∃-intro;
-  ∨-introˡ; ∨-introʳ; ⊥-elim; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ;
-  ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∨∗-elim; ∗∨-elim;
-  -∗-introˡ; -∗-introʳ; -∗-applyʳ; □-mono; □-elim; □-intro-Pers; dup-Pers-∗)
+  ∧-intro; ∧-elimʳ; ∨-introˡ; ∨-introʳ; ⊥-elim; ∗-monoˡ; ∗-monoʳ; ∗-comm;
+  ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim;
+  ∨∗-elim; ∗∨-elim; -∗-introˡ; -∗-introʳ; -∗-applyʳ; □-mono; □-elim;
+  □-intro-Pers; dup-Pers-∗)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
@@ -30,6 +31,7 @@ open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close)
 open import Symp.Logic.Lft using ([]ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
 
 private variable
+  ι :  𝕊
   α :  Lft
   X :  Set₀
   T :  Type
@@ -37,6 +39,34 @@ private variable
   P˂ Q˂ :  SProp˂∞
   Q˙ :  X →  SProp∞
   Q˂˙ :  X →  SProp˂∞
+
+--------------------------------------------------------------------------------
+-- If we have a negation connective ¬ᶜ that is coinductive, then we can
+-- construct the liar proposition and prove contradiction---the liar paradox
+
+module _ (¬ᶜ_ : ∀{ι} → SProp˂ ι → SProp ι)
+  (¬ᶜ-introʳ : ∀{P Q˂ ι} →  P ∧ Q˂ .! ⊢[ ι ] ⊥' →  P ⊢[ ι ] ¬ᶜ Q˂)
+  (¬ᶜ-elimʳ : ∀{P Q˂ ι} →  P ⊢[ ι ] ¬ᶜ Q˂ →  P ∧ Q˂ .! ⊢[ ι ] ⊥') where
+
+  -- The liar proposition
+
+  Liar/¬ᶜ :  SProp ι
+  Liar/¬ᶜ =  ¬ᶜ λ{ .! → Liar/¬ᶜ }
+
+  -- Liar yields ⊥
+
+  Liar⇒⊥/¬ᶜ :  Liar/¬ᶜ ⊢[ ι ] ⊥'
+  Liar⇒⊥/¬ᶜ =  ∧-intro ⊢-refl ⊢-refl » ¬ᶜ-elimʳ ⊢-refl
+
+  -- Get Liar
+
+  ⇒Liar/¬ᶜ :  ⊤' ⊢[ ι ] Liar/¬ᶜ
+  ⇒Liar/¬ᶜ =  ¬ᶜ-introʳ $ ∧-elimʳ » Liar⇒⊥/¬ᶜ
+
+  -- Get ⊥
+
+  ⇒⊥/¬ᶜ :  ⊤' ⊢[ ι ] ⊥'
+  ⇒⊥/¬ᶜ =  ⇒Liar/¬ᶜ » Liar⇒⊥/¬ᶜ
 
 --------------------------------------------------------------------------------
 -- If we have the fancy update as a modality ⇛ᵐ, then we have a paradox, because

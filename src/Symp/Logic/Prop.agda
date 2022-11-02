@@ -85,6 +85,10 @@ infix 9 _↦⟨_⟩_
 
 data  SProp ι  where
 
+  -- It is important that basic connectives are inductive
+  -- If we relax it (in some way), we get the liar paradox (⇒⊥/¬ᶜ in
+  -- Symp.Logic.Paradox)
+
   -- ∀˙, ∃˙ :  Universal/existential quantification over any type X in Set₀,
   --           which does not include SProp ι itself (predicativity)
 
@@ -204,6 +208,12 @@ P ∨ Q =  ∃˙ (binary P Q)
 ⊤' ⊥' :  SProp ι
 ⊤' =  ∀˙ absurd
 ⊥' =  ∃˙ absurd
+
+-- ¬' :  Negation
+
+infix 3 ¬'_
+¬'_ :  SProp ι →  SProp ι
+¬' P =  P →' ⊥'
 
 --------------------------------------------------------------------------------
 -- ⌜ ⌝∧, ⌜ ⌝→, ⌜ ⌝ :  Set embedding

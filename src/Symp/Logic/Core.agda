@@ -13,8 +13,8 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Sum using (_⨿_; ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.List using (List; []; _∷_; _⧺_; All²; []ᴬ²; _∷ᴬ²_)
 open import Symp.Logic.Prop using (SProp∞; ∀˙; ∃˙; ∀∈-syntax; ∃∈-syntax;
-  ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝→_; ⌜_⌝; _→'_; _∗_; _-∗_; ⤇_;
-  □_; [∗])
+  ∀-syntax; ∃-syntax; _∧_; _∨_; ⊤'; ⊥'; ¬'_; ⌜_⌝∧_; ⌜_⌝→_; ⌜_⌝; _→'_; _∗_; _-∗_;
+  ⤇_; □_; [∗])
 
 -- Import and re-export
 open import Symp.Logic.Judg public using (JudgRes; Pure; Judg; _⊢[_]*_;
@@ -190,6 +190,18 @@ abstract
 
   →-monoʳ :  P ⊢[ ι ] Q →  R →' P ⊢[ ι ] R →' Q
   →-monoʳ P⊢Q =  →-mono ⊢-refl P⊢Q
+
+  ------------------------------------------------------------------------------
+  -- On ¬'
+
+  ¬'-introʳ :  P ∧ Q ⊢[ ι ] ⊥' →  P ⊢[ ι ] ¬' Q
+  ¬'-introʳ =  →-introʳ
+
+  ¬'-elimʳ :  P ⊢[ ι ] ¬' Q →  P ∧ Q ⊢[ ι ] R
+  ¬'-elimʳ P⊢¬Q =  →-elimʳ P⊢¬Q » ⊥-elim
+
+  ¬'-applyˡ :  P ∧ (¬' P) ⊢[ ι ] Q
+  ¬'-applyˡ =  →-applyˡ » ⊥-elim
 
   ------------------------------------------------------------------------------
   -- On ⌜⌝

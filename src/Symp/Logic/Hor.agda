@@ -7,7 +7,7 @@
 module Symp.Logic.Hor where
 
 open import Base.Func using (_$_; _∘_; id)
-open import Base.Eq using (refl)
+open import Base.Eq using (_≡_; refl)
 open import Base.Dec using (Inh)
 open import Base.Size using (𝕊; !; _$ᵀʰ_)
 open import Base.Bool using (𝔹; tt; ff)
@@ -21,11 +21,11 @@ open import Symp.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇
 open import Symp.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   _ᴷ◁_; Val/Ktxred)
 open import Symp.Lang.Reduce using (_⇒ᴾ_; _⇒ᴾ○_; _⇒ᴾ●_; redᴾ)
-open import Symp.Logic.Prop using (HorKind; par; tot; Name; SProp∞; _∗_; [_]ᴺ;
-  [⊤]ᴺ)
-open import Symp.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-monoˡ; ∗-comm; ∗?-comm;
-  -∗-applyˡ)
-open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⇒⇛; ⇛⇒⇛ᴺ)
+open import Symp.Logic.Prop using (HorKind; par; tot; Name; SProp∞; ⌜_⌝; _∗_;
+  [_]ᴺ; [⊤]ᴺ)
+open import Symp.Logic.Core using (_⊢[_]_; ⇒<; _»_; ⌜⌝-intro; ∗-monoˡ; ∗-comm;
+  ∗?-comm; -∗-applyˡ)
+open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇒⇛; ⇛⇒⇛ᴺ)
 open import Symp.Logic.Names using ([]ᴺ-⊆--∗)
 
 -- Import and re-export
@@ -165,6 +165,10 @@ abstract
           P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  R˙
   P⊢⟨vk⟩Q ʰ» ∀vQ⊢R =  P⊢⟨vk⟩Q ʰ»ᵘ λ _ → ⇒⇛ {i = 0} $ ∀vQ⊢R _
 
+  hor-⇛ᴺ :  P'  ⊢[ ι ][ i ]⇛ᴺ  P  →   P  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q˙  →
+            (∀ v →  Q˙ v  ⊢[ ι ][ j ]⇛ᴺ  Q'˙ v)  →   P'  ⊢[ ι ]⁺⟨ vk ⟩[ κ ]  Q'˙
+  hor-⇛ᴺ P'⊢⇛P P⊢⟨vk⟩Q Qv⊢⇛Q'v =  P'⊢⇛P ᵘᴺ»ʰ P⊢⟨vk⟩Q ʰ»ᵘᴺ Qv⊢⇛Q'v
+
   -- Frame
 
   -->  ahor-frameʳ :  P  ⊢[ ι ][ i ]ᵃ⟨ red ⟩  Q˙  →
@@ -231,6 +235,9 @@ abstract
 
   hor-val :  P  ⊢[ ι ]  Q˙ v  →   P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ]  Q˙
   hor-val P⊢Q =  hor-valᵘ $ ⇒⇛ {i = 0} P⊢Q
+
+  hor-val≡ :  P  ⊢[ ι ]⁺⟨ T / ĩ₀ v ⟩[ κ ] λ u →  ⌜ u ≡ v ⌝
+  hor-val≡ =  hor-val $ ⌜⌝-intro refl
 
   -- Non-deterministic value
 

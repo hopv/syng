@@ -25,15 +25,16 @@ open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; ¡ᴾ_; ∀-syn
   ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _⊸⟨_⟩ᵀ[_]_; [^_]ᴺ; &ⁱ⟨_⟩_;
   static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Symp.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
-  ∀-elim; ∃-intro; ⊤-intro; ⌜⌝-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ;
-  ∗-monoʳ²; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²ˡ; ∗-pushʳ²ˡ; ∗-elimˡ;
-  ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ;
-  -∗-introʳ; □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
+  ∀-elim; ∃-intro; ⊤-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ; ∗-monoʳ²;
+  ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²ˡ; ∗-pushʳ²ˡ; ∗-elimˡ; ∗-elimʳ;
+  ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ; -∗-introʳ;
+  □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
   _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; ahor-frameˡ; ahor-frameʳ; ahor✔-hor;
-  hor-valᵘ; hor-val; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind; hor-fork)
+  hor-valᵘ; hor-val; hor-val≡; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind;
+  hor-fork)
 open import Symp.Logic.Heap using (ahor-fau; hor-🞰; hor-←)
 open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒⊸⟨⟩;
   ⊸⟨⟩ᵀ-use)
@@ -77,7 +78,7 @@ abstract
   -- Total Hoare triple for plus ◁ ∇ (3 , 4)
 
   horᵀ-plus◁3,4 :  ⊤'  ⊢[ ι ]⟨ plus◁3,4 ⟩ᵀ[ i ] λ n →  ⌜ n ≡ 7 ⌝
-  horᵀ-plus◁3,4 =  hor-[] $ hor-val $ ⌜⌝-intro refl
+  horᵀ-plus◁3,4 =  hor-[] hor-val≡
 
   ------------------------------------------------------------------------------
   -- Sequential decrement loop: Example for the total Hoare triple

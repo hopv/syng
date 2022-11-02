@@ -11,7 +11,7 @@ open import Base.Size using (𝕊; Thunk; ¡_; !; _$ᵀʰ_)
 open import Base.Nat using (ℕ)
 open import Symp.Lang.Expr using (Type; Expr∞)
 open import Symp.Lang.Ktxred using (Redex)
-open import Symp.Logic.Prop using (WpKind; SProp∞; SProp˂∞; ¡ᴾ_; ∀-syntax; _∗_;
+open import Symp.Logic.Prop using (HorKind; SProp∞; SProp˂∞; ¡ᴾ_; ∀-syntax; _∗_;
   _-∗_; □_; ○_; _⊸[_]⇛_; _⊸[_]ᵃ⟨_⟩_; _⊸⟨_⟩[_]_; _⊸⟨_⟩ᴾ_; _⊸⟨_⟩ᵀ[_]_; _⊸[_]⟨_⟩∞;
   Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⇒<; ⊢-refl; _»_;
@@ -37,7 +37,7 @@ private variable
   Q˙ :  X → SProp∞
   P˂˙ Q˂˙ Q'˂˙ :  X → SProp˂∞
   Q˂˙˙ :  X → Y → SProp˂∞
-  κ :  WpKind
+  κ :  HorKind
   red :  Redex T
   e :  Expr∞ T
 

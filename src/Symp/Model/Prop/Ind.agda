@@ -17,7 +17,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-; -ᴵ,_; ∑-case)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _<_)
 open import Symp.Lang.Expr using (Type; Expr∞; Val)
 open import Symp.Lang.Ktxred using (Redex)
-open import Symp.Logic.Prop using (WpKind; par; tot; SProp∞; ⊤'; _∗_; Basic)
+open import Symp.Logic.Prop using (HorKind; par; tot; SProp∞; ⊤'; _∗_; Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗-monoˡ;
   ∗-monoʳ; ?∗-comm; ∗-elimʳ)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-≤; _ᵘ»_; _ᵘ»ᵘ_;
@@ -42,7 +42,7 @@ private variable
   P P' Q Q' R :  SProp∞
   Q˙ Q'˙ :  X →  SProp∞
   Qˇ˙ :  ℕ →  ¿ SProp∞
-  κ :  WpKind
+  κ :  HorKind
   red :  Redex T
   e :  Expr∞ T
 
@@ -235,7 +235,7 @@ abstract
 
 infixr 5 _⊸⟨_⟩[_]ᵒ_ _⊸⟨_⟩ᴾᵒ_ _⊸⟨_⟩ᵀ[_]ᵒ_
 
-_⊸⟨_⟩[_]ᵒ_ :  SProp∞ →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
+_⊸⟨_⟩[_]ᵒ_ :  SProp∞ →  Expr∞ T →  HorKind →  (Val T → SProp∞) →  SPropᵒ 1ᴸ
 P ⊸⟨ e ⟩[ κ ]ᵒ Q˙ =  ∃ᵒ R , ∃ᴵ BasicR , ∃ᵒ S ,
   ⌜ P ∗ R ∗ S ⊢[ ∞ ]⟨ e ⟩[ κ ] Q˙ ⌝ᵒ×  ⸨ R ⸩ᴮ {{BasicR}}  ∗ᵒ  Ind S
 

@@ -25,9 +25,9 @@ open import Symp.Lang.Expr using (Addr; Type; ◸ʸ_; Expr∞; Expr˂∞; ∇_; 
 open import Symp.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; [_]ᴿ○; [_]ᴿ●; forkᴿ;
   🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx; _ᴷ◁_; Val/Ktxred; val/ktxred)
 open import Symp.Lang.Reduce using (_⇒ᴾ_)
-open import Symp.Logic.Prop using (WpKind; Name; Lft; par; tot; SProp∞; SProp˂∞;
-  ¡ᴾ_; ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _→'_;
-  _∗_; _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _⊸[_]⇛_; _↦⟨_⟩_; _⊸[_]ᵃ⟨_⟩_;
+open import Symp.Logic.Prop using (HorKind; Name; Lft; par; tot; SProp∞;
+  SProp˂∞; ¡ᴾ_; ∀˙; ∃˙; ∀-syntax; ∃-syntax; ∃∈-syntax; _∧_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝;
+  _→'_; _∗_; _-∗_; ⤇_; □_; _↦_; _↦ᴸ_; Free; ○_; _⊸[_]⇛_; _↦⟨_⟩_; _⊸[_]ᵃ⟨_⟩_;
   _⊸⟨_⟩[_]_; _⊸⟨_⟩ᴾ_; _⊸⟨_⟩ᵀ[_]_; _⊸[_]⟨_⟩∞; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_;
   [_]ᴸ⟨_⟩; [_]ᴸ; †ᴸ_; ⟨†_⟩_; &ᵐ⟨_⟩_; ⅋ᵐ⟨_⟩_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; Basic)
 
@@ -48,7 +48,7 @@ data  JudgRes :  Set₁  where
   -- Atomic weakest precondition, with a level
   [_]ᵃ⟨_⟩_ :  ℕ →  Redex T →  (Val T → SProp∞) →  JudgRes
   -- Weakest precondition, over Val/Ktxred
-  ⁺⟨_⟩[_]_ :  Val/Ktxred T →  WpKind →  (Val T → SProp∞) →  JudgRes
+  ⁺⟨_⟩[_]_ :  Val/Ktxred T →  HorKind →  (Val T → SProp∞) →  JudgRes
   -- Infinite weakest precondition, with a level, over Val/Ktxred
   [_]⁺⟨_⟩∞ :  ℕ →  Val/Ktxred T →  JudgRes
 
@@ -100,11 +100,11 @@ P ⊢[< ι ][ i ]ᵃ⟨ red ⟩ Q˙ =  Thunk (P ⊢[_][ i ]ᵃ⟨ red ⟩ Q˙) �
 -- ⊢[ ]⁺⟨ ⟩[ ] etc. :  Common Hoare triple over Val/Ktxred
 
 _⊢[_]⁺⟨_⟩[_]_ :
-  SProp∞ →  𝕊 →  Val/Ktxred T →  WpKind →  (Val T → SProp∞) →  Set₁
+  SProp∞ →  𝕊 →  Val/Ktxred T →  HorKind →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⁺⟨ vk ⟩[ κ ] Q˙ =  P ⊢[ ι ]* ⁺⟨ vk ⟩[ κ ] Q˙
 
 _⊢[_]⁺⟨_/_⟩[_]_ :
-  SProp∞ →  𝕊 →  ∀ T →  Val/Ktxred T →  WpKind →  (Val T → SProp∞) →  Set₁
+  SProp∞ →  𝕊 →  ∀ T →  Val/Ktxred T →  HorKind →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⁺⟨ _ / vk ⟩[ κ ] Q˙ =  P ⊢[ ι ]⁺⟨ vk ⟩[ κ ] Q˙
 
 _⊢[_]⁺⟨_⟩ᴾ_ :  SProp∞ →  𝕊 →  Val/Ktxred T →  (Val T → SProp∞) →  Set₁
@@ -118,7 +118,7 @@ P ⊢[< ι ]⁺⟨ vk ⟩ᵀ[ i ] Q˙ =  Thunk (P ⊢[_]⁺⟨ vk ⟩ᵀ[ i ] Q�
 -- ⊢[ ]⟨ ⟩[ ] etc. :  Common Hoare triple over Expr
 
 _⊢[_]⟨_⟩[_]_ _⊢[<_]⟨_⟩[_]_ :
-  SProp∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  Set₁
+  SProp∞ →  𝕊 →  Expr∞ T →  HorKind →  (Val T → SProp∞) →  Set₁
 P ⊢[ ι ]⟨ e ⟩[ κ ] Q˙ =  P ⊢[ ι ]⁺⟨ val/ktxred e ⟩[ κ ] Q˙
 P ⊢[< ι ]⟨ e ⟩[ κ ] Q˙ =  Thunk (P ⊢[_]⟨ e ⟩[ κ ] Q˙) ι
 
@@ -133,7 +133,7 @@ P ⊢[< ι ]⟨ e ⟩ᵀ[ i ] Q˙ =  P ⊢[< ι ]⟨ e ⟩[ tot i ] Q˙
 
 -- ⊢[<ᴾ ]⟨ ⟩[ ] :  Common Hoare triple over Expr, under thunk if partial
 
-_⊢[<ᴾ_]⟨_⟩[_]_ :  SProp∞ →  𝕊 →  Expr∞ T →  WpKind →  (Val T → SProp∞) →  Set₁
+_⊢[<ᴾ_]⟨_⟩[_]_ :  SProp∞ →  𝕊 →  Expr∞ T →  HorKind →  (Val T → SProp∞) →  Set₁
 P ⊢[<ᴾ ι ]⟨ e ⟩[ par ] Q˙ =  P ⊢[< ι ]⟨ e ⟩ᴾ Q˙
 P ⊢[<ᴾ ι ]⟨ e ⟩[ tot i ] Q˙ =  P ⊢[ ι ]⟨ e ⟩ᵀ[ i ] Q˙
 
@@ -171,7 +171,7 @@ private variable
   P˙ Q˙ R˙ :  X → SProp∞
   P˂ P'˂ Q˂ Q'˂ R˂ :  SProp˂∞
   Q˂˙ Q'˂˙ :  X → SProp˂∞
-  κ :  WpKind
+  κ :  HorKind
   red :  Redex T
   vk :  Val/Ktxred T
   e e' :  Expr∞ T

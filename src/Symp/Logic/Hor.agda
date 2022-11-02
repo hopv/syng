@@ -21,7 +21,7 @@ open import Symp.Lang.Expr using (Type; ◸ʸ_; _ʸ↷_; Expr∞; Expr˂∞; ∇
 open import Symp.Lang.Ktxred using (Redex; ndᴿ; [_]ᴿ⟨_⟩; Ktx; •ᴷ; _◁ᴷʳ_; _⁏ᴷ_;
   _ᴷ◁_; Val/Ktxred)
 open import Symp.Lang.Reduce using (_⇒ᴾ_; _⇒ᴾ○_; _⇒ᴾ●_; redᴾ)
-open import Symp.Logic.Prop using (WpKind; par; tot; Name; SProp∞; _∗_; [_]ᴺ;
+open import Symp.Logic.Prop using (HorKind; par; tot; Name; SProp∞; _∗_; [_]ᴺ;
   [⊤]ᴺ)
 open import Symp.Logic.Core using (_⊢[_]_; ⇒<; _»_; ∗-monoˡ; ∗-comm; ∗?-comm;
   -∗-applyˡ)
@@ -45,7 +45,7 @@ private variable
   X :  Set₀
   Xʸ :  Setʸ
   T U :  Type
-  κ :  WpKind
+  κ :  HorKind
   Nm :  Name → Zoi
   P P' Q R :  SProp∞
   Q˙ Q'˙ R˙ :  X → SProp∞

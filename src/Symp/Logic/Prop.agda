@@ -20,13 +20,13 @@ open import Symp.Lang.Expr using (Addr; _ₒ_; Type; Expr∞; Val; TyVal)
 open import Symp.Lang.Ktxred using (Redex)
 
 --------------------------------------------------------------------------------
--- WpKind :  Weakest precondition kind
+-- HorKind :  Hoare kind
 
-data  WpKind :  Set₀  where
+data  HorKind :  Set₀  where
   -- Partial
-  par :  WpKind
+  par :  HorKind
   -- Total, with a level
-  tot :  ℕ →  WpKind
+  tot :  ℕ →  HorKind
 
 --------------------------------------------------------------------------------
 -- Name :  Name of invariants
@@ -131,7 +131,7 @@ data  SProp ι  where
   _⊸[_]ᵃ⟨_⟩_ :  SProp˂ ι →  ℕ →  Redex T →  (Val T → SProp˂ ι) →  SProp ι
 
   -- ⊸⟨ ⟩[ ] :  Common Hoare triple precursor
-  _⊸⟨_⟩[_]_ :  SProp˂ ι →  Expr∞ T →  WpKind →  (Val T → SProp˂ ι) →  SProp ι
+  _⊸⟨_⟩[_]_ :  SProp˂ ι →  Expr∞ T →  HorKind →  (Val T → SProp˂ ι) →  SProp ι
 
   -- ⊸[ ]⟨ ⟩∞ :  Infinite Hoare triple precursor, with a level
   _⊸[_]⟨_⟩∞ :  SProp˂ ι →  ℕ →  Expr∞ T →  SProp ι

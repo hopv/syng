@@ -14,7 +14,7 @@ open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Symp.Lang.Expr using (Addr; Type; V⇒E; TyVal)
 open import Symp.Lang.Ktxred using (Redex; 🞰ᴿ_; Ktx; _ᴷ◁_)
-open import Symp.Logic.Prop using (WpKind; Name; SProp∞; SProp˂∞; ¡ᴾ_; ⌜_⌝∧_;
+open import Symp.Logic.Prop using (HorKind; Name; SProp∞; SProp˂∞; ¡ᴾ_; ⌜_⌝∧_;
   _∗_; _-∗_; _↦_; [^_]ᴺ; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_; static; _↦ⁱ_; Basic; ^ᶻᴺ-✔)
 open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; Pers-⇒□; _»_; ∃-elim;
   ∃-intro; ∗-monoˡ; ∗-monoʳ; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗?-comm;
@@ -41,7 +41,7 @@ private variable
   θ :  Addr
   v :  X
   ᵗv :  TyVal
-  κ :  WpKind
+  κ :  HorKind
   K :  Ktx T U
 
 abstract

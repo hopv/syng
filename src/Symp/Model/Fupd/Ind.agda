@@ -17,7 +17,7 @@ open import Base.Sum using (ĩ₀_; ĩ₁_; ⨿-case)
 open import Base.Nat using (ℕ)
 open import Symp.Lang.Expr using (Type; Expr∞)
 open import Symp.Lang.Ktxred using (Redex)
-open import Symp.Logic.Prop using (WpKind; SProp∞; _∗_)
+open import Symp.Logic.Prop using (HorKind; SProp∞; _∗_)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_][_]⟨_⟩∞)
 open import Symp.Model.ERA.Ind using (Envᴵⁿᵈˣ; Envᴵⁿᵈᵖ; Envᴵⁿᵈ)
@@ -44,7 +44,7 @@ private variable
   X :  Set₀
   Q˙ :  X →  SProp∞
   Pᵒ :  SPropᵒ ł
-  κ :  WpKind
+  κ :  HorKind
   T :  Type
   red :  Redex T
   e :  Expr∞ T

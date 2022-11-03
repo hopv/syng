@@ -15,7 +15,7 @@ open import Symp.Logic.Prop using (HorKind; SProp∞; SProp˂∞; ¡ᴾ_; ∀-sy
   _-∗_; □_; ○_; _⊸[_]⇛_; _⊸[_]ᵃ⟨_⟩_; _⊸⟨_⟩[_]_; _⊸⟨_⟩ᴾ_; _⊸⟨_⟩ᵀ[_]_; _⊸[_]⟨_⟩∞;
   Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _⊢[<_]_; Pers; ⇒<; ⊢-refl; _»_;
-  ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-elimˡ; -∗-const)
+  ∗-comm; ∗-elimʳ; ⊤∗-intro; -∗-monoʳ; -∗-elimˡ; -∗-const; Pers-⇒□)
 open import Symp.Logic.Fupd using ([_]⇛_; _⊢[_][_]⇛_; _⊢[<_][_]⇛_; _⊢[<_][_]⇛ᴺ_;
   ⇒⇛; _ᵘ»_; _»ᵘᴺ_; ⇛⇒⇛ᴺ)
 
@@ -63,8 +63,14 @@ abstract
 
   -->  □○-new-rec :  □ ○ P˂ -∗ □ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
 
+  □○-new-rec-Pers :  {{Pers (P˂ .!)}} →  □ ○ P˂ -∗ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
+  □○-new-rec-Pers =  -∗-monoʳ Pers-⇒□ » □○-new-rec
+
   □○-new :  □ P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
   □○-new =  -∗-const » □○-new-rec
+
+  □○-new-Pers :  {{Pers (P˂ .!)}} →  P˂ .! ⊢[ ι ][ i ]⇛ □ ○ P˂
+  □○-new-Pers =  Pers-⇒□ » □○-new
 
   ------------------------------------------------------------------------------
   -- On ⊸⇛

@@ -28,7 +28,7 @@ open import Symp.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; �
   ∀-elim; ∃-intro; ⊤-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ; ∗-monoʳ²;
   ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²ˡ; ∗-pushʳ²ˡ; ∗-elimˡ; ∗-elimʳ;
   ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ; -∗-introʳ;
-  □-mono; □-dup; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
+  □-mono; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
@@ -36,7 +36,7 @@ open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _�
   hor-valᵘ; hor-val; hor-val≡; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind;
   hor-fork)
 open import Symp.Logic.Heap using (ahor-fau; hor-🞰; hor-←)
-open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-rec; ○-use; ○⇒⊸⟨⟩;
+open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-rec-Pers; ○-use; ○⇒⊸⟨⟩;
   ⊸⟨⟩ᵀ-use)
 open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close; hor-↦ⁱ-🞰)
 open import Symp.Logic.Ub using (≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
@@ -65,7 +65,7 @@ abstract
   -- Get □○∞ for free
 
   □○∞-new :  ⊤' ⊢[ ι ][ i ]⇛ □○∞
-  □○∞-new =  -∗-introˡ (∗-elimˡ » □-dup) » □○-new-rec
+  □○∞-new =  -∗-introˡ ∗-elimˡ » □○-new-rec-Pers
 
   ------------------------------------------------------------------------------
   -- Get any partial Hoare triple for loop
@@ -315,17 +315,16 @@ abstract
   -- The key to this seemingly infinite construction is □○-new-rec
 
   Slist∞-repˢ-new :  θ ↦ⁱ (-, n , θ)  ⊢[ ι ][ i ]⇛  Slist∞ (repˢ n) θ
-  Slist∞-repˢ-new =  -∗-introʳ (□-intro-Pers $
-    ∗-monoʳ (□-mono $ ○-mono λ{ .! → ⊢-refl }) » ∃-intro _) »
-    □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
+  Slist∞-repˢ-new =
+    -∗-introʳ (∗-monoʳ (□-mono $ ○-mono λ{ .! → ⊢-refl }) » ∃-intro _) »
+    □○-new-rec-Pers {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
 
   -- Turn two mutually pointing pointers into Slist∞ (rep²ˢ - -) for both sides
   -- using □○-new-rec
 
   Slist∞-rep²ˢ-new :  θ ↦ⁱ (-, m , θ')  ∗  θ' ↦ⁱ (-, n , θ)  ⊢[ ι ][ i ]⇛
                         Slist∞ (rep²ˢ m n) θ  ∗  Slist∞ (rep²ˢ n m) θ'
-  Slist∞-rep²ˢ-new =  -∗-introˡ (□-intro-Pers $ dup-Pers-∗ »
-    ∗-monoʳ ?∗-comm » ∗-assocˡ » ∗-mono
-    (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimʳ }) » ∃-intro _)
-    (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimˡ }) » ∃-intro _)) »
-    □○-new-rec {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use
+  Slist∞-rep²ˢ-new =  -∗-introˡ (dup-Pers-∗ » ∗-monoʳ ?∗-comm » ∗-assocˡ »
+    ∗-mono (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimʳ }) » ∃-intro _)
+           (∗-comm » ∗-monoʳ (□-mono $ ○-mono λ{ .! → ∗-elimˡ }) » ∃-intro _)) »
+    □○-new-rec-Pers {P˂ = ¡ᴾ _} ᵘ»ᵘ □-elim » ○-use

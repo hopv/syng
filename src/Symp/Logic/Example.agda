@@ -21,9 +21,9 @@ open import Symp.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Typ
   loop)
 open import Symp.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
   ndecrepev∞; fadᴿ; fad; fadrep; fadrep'; forksfadrep; nforksfadrep; cntr←)
-open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; ¡ᴾ_; ∀-syntax;
-  ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _⊸⟨_⟩ᵀ[_]_; [^_]ᴺ; &ⁱ⟨_⟩_;
-  static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
+open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; SProp˂∞; ¡ᴾ_;
+  ∀-syntax; ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _⊸[_]⇛_; _⊸⟨_⟩ᵀ[_]_;
+  [^_]ᴺ; &ⁱ⟨_⟩_; static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Symp.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
   ∀-elim; ∃-intro; ⊤-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ; ∗-monoʳ²;
   ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²ˡ; ∗-pushʳ²ˡ; ∗-elimˡ; ∗-elimʳ;
@@ -36,18 +36,20 @@ open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _�
   hor-valᵘ; hor-val; hor-val≡; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind;
   hor-fork)
 open import Symp.Logic.Heap using (ahor-fau; hor-🞰; hor-←)
-open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-rec-Pers; ○-use; ○⇒⊸⟨⟩;
-  ⊸⟨⟩ᵀ-use)
+open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-Pers; □○-new-rec-Pers;
+  ○-use; ○⇒⊸⇛; ⊸⇛-use; ○⇒⊸⟨⟩; ⊸⟨⟩ᵀ-use)
 open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close; hor-↦ⁱ-🞰)
 open import Symp.Logic.Ub using (≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 
 private variable
   ι :  𝕊
   i j k l m m' n o :  ℕ
+  nm :  Name
   θ θ' θᶜ :  Addr
   ᵗv :  TyVal
   X :  Set₀
   P :  SProp∞
+  P˂ :  SProp˂∞
   Q˙ :  X → SProp∞
   T :  Type
   e˂˙ :  X → Expr˂∞ T
@@ -66,6 +68,14 @@ abstract
 
   □○∞-new :  ⊤' ⊢[ ι ][ i ]⇛ □○∞
   □○∞-new =  -∗-introˡ ∗-elimˡ » □○-new-rec-Pers
+
+  ------------------------------------------------------------------------------
+  -- Abstract &ⁱ by ⊸⇛
+
+  &ⁱ-⊸⇛ :  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛
+             □ (¡ᴾ [^ nm ]ᴺ  ⊸[ 0 ]⇛  ¡ᴾ (P˂ .!  ∗  (P˂ ⊸[ 0 ]⇛ ¡ᴾ [^ nm ]ᴺ)))
+  &ⁱ-⊸⇛ =  □○-new-Pers {P˂ = ¡ᴾ _} ᵘ» □-mono $ ○⇒⊸⇛ λ{ .! → ∗-comm »
+    &ⁱ-open ᵘ»ᵘ ⇛-frameʳ $ ○-new {P˂ = ¡ᴾ _} ᵘ» ○⇒⊸⇛ λ{ .! → ⅋ⁱ-close } }
 
   ------------------------------------------------------------------------------
   -- Get any partial Hoare triple for loop

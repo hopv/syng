@@ -126,21 +126,21 @@ abstract
   -- Concurrent decrement loop: Example for the total Hoare triple, the
   --                            impredicative invariant, and the upper bound
 
-  -- &ub↦ :  Invariant that contains a full points-to token θ ↦ (-, n) for some
-  --         number n under an upper-boundee token #ᵁᵇ⟨ i ⟩ n
-  --         When we have &ub↦ θ i, any threads can freely decrease the value at
-  --         θ, but never increase it
+  -- Dec :  Invariant that contains a full points-to token θ ↦ (-, n) for some
+  --        number n under an upper-boundee token #ᵁᵇ⟨ i ⟩ n
+  --        When we have Dec θ i, any threads can freely decrease the value at
+  --        θ, but never increase it
 
-  ub :  Name
-  ub =  strnm "ub"
+  dec :  Name
+  dec =  strnm "dec"
 
-  &ub↦ :  Addr →  ℕ →  SProp∞
-  &ub↦ θ o =  &ⁱ⟨ ub ⟩ ¡ᴾ (∃ n , #ᵁᵇ⟨ o ⟩ n ∗ θ ↦ (-, n))
+  Dec :  Addr →  ℕ →  SProp∞
+  Dec θ o =  &ⁱ⟨ dec ⟩ ¡ᴾ (∃ n , #ᵁᵇ⟨ o ⟩ n ∗ θ ↦ (-, n))
 
-  -- Create ≤ᵁᵇ⟨ o ⟩ n and &ub↦ θ o out of θ ↦ (-, n)
+  -- Create ≤ᵁᵇ⟨ o ⟩ n and Dec θ o out of θ ↦ (-, n)
 
-  &ub↦-new :  θ ↦ (-, n)  ⊢[ ι ][ i ]⇛  ∃ o ,  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o
-  &ub↦-new =  ⊤∗-intro » ⇛-frameˡ (#ᵁᵇ-new » ⤇⇒⇛) ᵘ»ᵘ ∃∗-elim λ o →
+  Dec-new :  θ ↦ (-, n)  ⊢[ ι ][ i ]⇛  ∃ o ,  ≤ᵁᵇ⟨ o ⟩ n  ∗  Dec θ o
+  Dec-new =  ⊤∗-intro » ⇛-frameˡ (#ᵁᵇ-new » ⤇⇒⇛) ᵘ»ᵘ ∃∗-elim λ o →
     ∗-assocʳ » ∗-monoʳ (∃-intro _) » ⇛-frameʳ &ⁱ-new ᵘ» ∃-intro o
 
   -- Atomic Hoare triple for fad under #ᵁᵇ and ↦, updating ≤ᵁᵇ
@@ -152,46 +152,46 @@ abstract
     ∗-monoˡ ∗-elimʳ » ahor-frameʳ ahor-fau ᵃʰ»ᵘ λ m → ∗∃-elim λ{ refl →
     ⇛-frameˡ {i = 0} (#ᵁᵇ-upd ṗ-decr » ⤇⇒⇛) ᵘ» ∗-assocʳ » ∃-intro m≤n }
 
-  -- Atomic Hoare triple for fad under &ub↦, updating ≤ᵁᵇ
+  -- Atomic Hoare triple for fad under Dec, updating ≤ᵁᵇ
 
-  ahor-fad-&ub↦ :
-    [^ ub ]ᴺ  ∗  ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
-      [^ ub ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  &ub↦ θ o)
-  ahor-fad-&ub↦ =  ∗-monoʳ² dup-Pers » ∗-pushʳ²ˡ » ∗-pushʳ²ˡ » ∗-assocˡ »
+  ahor-fad-Dec :
+    [^ dec ]ᴺ  ∗  ≤ᵁᵇ⟨ o ⟩ n  ∗  Dec θ o  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
+      [^ dec ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  Dec θ o)
+  ahor-fad-Dec =  ∗-monoʳ² dup-Pers » ∗-pushʳ²ˡ » ∗-pushʳ²ˡ » ∗-assocˡ »
     ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ ∗-assocʳ » ∗-pullʳ²ˡ » ∗-assocˡ »
     ahor-frameˡ (∗∃-elim λ _ → ahor-fad-#ᵁᵇ-↦) ᵃʰ»ᵘ λ m → ∃∗-elim λ m≤n →
     ∗-assocʳ » ∗-pushʳ²ˡ » ∗-monoˡ (∃-intro _) » ∗-assocˡ »
     ⇛-frameˡ {i = 0} ⅋ⁱ-close ᵘ» ∗-monoʳ $ ∃-intro m≤n
 
-  -- Total Hoare triple for fadrep under ≤ᵁᵇ and &ub↦
+  -- Total Hoare triple for fadrep under ≤ᵁᵇ and Dec
   -- The proof goes by well-founded induction on the upper bound n
 
-  horᵀ-fadrep-&ub↦-Acc :  Acc _<_ n  →
-    ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
-  horᵀ-fadrep'-&ub↦-Acc :  Acc _<_ n  →   m ≤ n  →
-    ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  &ub↦ θ o  ⊢[ ι ]⟨ fadrep' θ m ⟩ᵀ[ i ] λ _ →  ⊤'
+  horᵀ-fadrep-Dec-Acc :  Acc _<_ n  →
+    ≤ᵁᵇ⟨ o ⟩ n  ∗  Dec θ o  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
+  horᵀ-fadrep'-Dec-Acc :  Acc _<_ n  →   m ≤ n  →
+    ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  Dec θ o  ⊢[ ι ]⟨ fadrep' θ m ⟩ᵀ[ i ] λ _ →  ⊤'
 
-  horᵀ-fadrep-&ub↦-Acc Accn =  ahor✔-hor {i = 0} ^ᶻᴺ-✔ ahor-fad-&ub↦ λ m →
-    ∃-elim λ m≤n → hor-[] $ horᵀ-fadrep'-&ub↦-Acc Accn m≤n
-  horᵀ-fadrep'-&ub↦-Acc {m = 0} _ _ =  hor-val ⊤-intro
-  horᵀ-fadrep'-&ub↦-Acc {m = ṡ _} (acc <n⇒acc) m'<n =
-    horᵀ-fadrep-&ub↦-Acc (<n⇒acc m'<n)
+  horᵀ-fadrep-Dec-Acc Accn =  ahor✔-hor {i = 0} ^ᶻᴺ-✔ ahor-fad-Dec λ m →
+    ∃-elim λ m≤n → hor-[] $ horᵀ-fadrep'-Dec-Acc Accn m≤n
+  horᵀ-fadrep'-Dec-Acc {m = 0} _ _ =  hor-val ⊤-intro
+  horᵀ-fadrep'-Dec-Acc {m = ṡ _} (acc <n⇒acc) m'<n =
+    horᵀ-fadrep-Dec-Acc (<n⇒acc m'<n)
 
-  horᵀ-fadrep-&ub↦ :
-    ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
-  horᵀ-fadrep-&ub↦ =  horᵀ-fadrep-&ub↦-Acc <-wf
+  horᵀ-fadrep-Dec :
+    ≤ᵁᵇ⟨ o ⟩ n  ∗  Dec θ o  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
+  horᵀ-fadrep-Dec =  horᵀ-fadrep-Dec-Acc <-wf
 
   -- Total Hoare triple for xfadrep θ k, which forks k threads that perform
   -- fadrep θ
 
-  horᵀ-xfadrep-&ub↦ :
-    ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ xfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
-  horᵀ-xfadrep-&ub↦ {k = 0} =  hor-val ⊤-intro
-  horᵀ-xfadrep-&ub↦ {k = ṡ _} =  dup-Pers »
-    hor-fork horᵀ-fadrep-&ub↦ $ hor-[] horᵀ-xfadrep-&ub↦
+  horᵀ-xfadrep-Dec :
+    ≤ᵁᵇ⟨ o ⟩ n  ∗  Dec θ o  ⊢[ ι ]⟨ xfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
+  horᵀ-xfadrep-Dec {k = 0} =  hor-val ⊤-intro
+  horᵀ-xfadrep-Dec {k = ṡ _} =  dup-Pers »
+    hor-fork horᵀ-fadrep-Dec $ hor-[] horᵀ-xfadrep-Dec
 
   horᵀ-xfadrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ xfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
-  horᵀ-xfadrep =  &ub↦-new {i = 0} ᵘ»ʰ ∃-elim λ _ → horᵀ-xfadrep-&ub↦
+  horᵀ-xfadrep =  Dec-new {i = 0} ᵘ»ʰ ∃-elim λ _ → horᵀ-xfadrep-Dec
 
   -- Total Hoare triple for nxfadrep
 

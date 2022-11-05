@@ -17,10 +17,10 @@ open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; ṗ_; _+_; _⊔_; ≤-refl; �
 open import Base.List using (List; []; _∷_)
 open import Base.Seq using (Seq∞; _∷ˢ_; hdˢ; tlˢ; repˢ; rep²ˢ; takeˢ)
 open import Base.Sety using ()
-open import Symp.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Type; TyVal;
-  loop)
-open import Symp.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
-  ndecrepev∞; fadᴿ; fad; fadrep; fadrep'; xfadrep; nxfadrep; cntr←)
+open import Symp.Lang.Expr using (Addr; ◸_; _↷_; Expr∞; Expr˂∞; ∇_; 🞰_; Type;
+  TyVal; loop)
+open import Symp.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep; evrep;
+  fadᴿ; fad; fadrep; fadrep'; xfadrep; nxfadrep; cntr←)
 open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; SProp˂∞; ¡ᴾ_;
   ∀-syntax; ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _⊸[_]⇛_; _⊸⟨_⟩ᵀ[_]_;
   [^_]ᴺ; &ⁱ⟨_⟩_; static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
@@ -51,7 +51,8 @@ private variable
   P :  SProp∞
   P˂ :  SProp˂∞
   Q˙ :  X → SProp∞
-  T :  Type
+  T U :  Type
+  e :  Expr∞ T
   e˂˙ :  X → Expr˂∞ T
   ns : List ℕ
   nsˢ :  Seq∞ ℕ
@@ -116,11 +117,15 @@ abstract
   horᵀ-ndecrep =  hor-nd λ _ → ∗⊤-intro » hor-← $ ∗-elimˡ » hor-[] horᵀ-decrep
 
   ------------------------------------------------------------------------------
-  -- Infinite Hoare triple, for ndecrepev∞
+  -- Infinite Hoare triple for evrep
 
-  ihor-ndecrepev∞ :  θ ↦ ᵗv  ⊢[ ι ][ i ]⟨ ndecrepev∞ θ ⟩∞
-  ihor-ndecrepev∞ =  hor-ihor-⁏-bind {e = ndecrep _} {i = 0}
-    horᵀ-ndecrep λ _ → ihor-[]● λ{ .! → ihor-ndecrepev∞ }
+  ihor-evrep :  P  ⊢[ ι ]⟨ e ⟩ᵀ[ j ] (λ _ →  P)  →
+                P  ⊢[ ι ][ i ]⟨ evrep {U = U} e ⟩∞
+  ihor-evrep P⊢⟨e⟩P =  hor-ihor-⁏-bind P⊢⟨e⟩P
+    λ _ → ihor-[]● λ{ .! → ihor-evrep P⊢⟨e⟩P }
+
+  ihor-evrep-ndecrep :  θ ↦ (-, 0)  ⊢[ ι ][ i ]⟨ evrep {U = U} (ndecrep θ) ⟩∞
+  ihor-evrep-ndecrep =  ihor-evrep {e = ndecrep _} {0} horᵀ-ndecrep
 
   ------------------------------------------------------------------------------
   -- Concurrent decrement loop: Example for the total Hoare triple, the

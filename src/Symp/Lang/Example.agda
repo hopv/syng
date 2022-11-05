@@ -24,7 +24,7 @@ open import Symp.Lang.Reduce using (nd⇒; []⇒; redᴷᴿ; _⇒ᴱ⟨_⟩_; re
 private variable
   ι :  𝕊
   b :  𝔹
-  T :  Type
+  T U :  Type
   e e' :  Expr∞ T
   eˇ :  ¿ Expr∞ T
   e˂ :  Expr˂∞ T
@@ -70,10 +70,10 @@ decrep' θ (ṡ n) =  ∇ θ ← ∇ n ⁏¡ decrep θ
 ndecrep :  Addr →  Expr∞ $ ◸ ⊤
 ndecrep θ =  ∇ θ ← ndnat ⁏¡ decrep θ
 
--- ndecrepev∞ :  Loop ndecrep with an event
+-- ev∞ :  Loop an expression with an event
 
-ndecrepev∞ :  Addr →  Expr ι $ ◸ ⊤
-ndecrepev∞ θ =  ndecrep θ ⁏¡ ev λ{ .! → ndecrepev∞ θ }
+evrep :  Expr ι T →  Expr ι U
+evrep e =  e ⁏¡ ev λ{ .! → evrep e }
 
 -- fad :  Fetch and decrement, i.e., atomic decrement of the natural number at
 --        the address, returning the original value

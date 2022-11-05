@@ -93,16 +93,16 @@ fadrep θ =  let' n := fad (∇ θ) in' λ{ .! → fadrep' θ n }
 fadrep' _ 0 =  ∇ _
 fadrep' θ (ṡ _) =  fadrep θ
 
--- forksfadrep θ k :  Fork threads that perform fadrep θ
+-- xfadrep θ k :  Fork threads that perform fadrep θ
 
-forksfadrep :  Addr →  ℕ →  Expr ι $ ◸ ⊤
-forksfadrep _ 0 =  ∇ _
-forksfadrep θ (ṡ k') =  fork¡ (fadrep θ) ⁏¡ forksfadrep θ k'
+xfadrep :  Addr →  ℕ →  Expr ι $ ◸ ⊤
+xfadrep _ 0 =  ∇ _
+xfadrep θ (ṡ k') =  fork¡ (fadrep θ) ⁏¡ xfadrep θ k'
 
--- nforksfadrep :  forksfadrep with non-deterministic natural numbers
+-- nxfadrep :  xfadrep with non-deterministic natural numbers
 
-nforksfadrep :  Addr →  Expr∞ $ ◸ ⊤
-nforksfadrep θ =  ∇ θ ← ndnat ⁏¡ let' k := ndnat in¡ forksfadrep θ k
+nxfadrep :  Addr →  Expr∞ $ ◸ ⊤
+nxfadrep θ =  ∇ θ ← ndnat ⁏¡ let' k := ndnat in¡ xfadrep θ k
 
 -- cntr← :  Counter using the heap, which increments the natural number at the
 --          address θ and returns the original value n

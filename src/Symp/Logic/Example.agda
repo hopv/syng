@@ -20,7 +20,7 @@ open import Base.Sety using ()
 open import Symp.Lang.Expr using (Addr; ◸_; _↷_; Expr˂∞; ∇_; 🞰_; Type; TyVal;
   loop)
 open import Symp.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep;
-  ndecrepev∞; fadᴿ; fad; fadrep; fadrep'; forksfadrep; nforksfadrep; cntr←)
+  ndecrepev∞; fadᴿ; fad; fadrep; fadrep'; xfadrep; nxfadrep; cntr←)
 open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; SProp˂∞; ¡ᴾ_;
   ∀-syntax; ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _⊸[_]⇛_; _⊸⟨_⟩ᵀ[_]_;
   [^_]ᴺ; &ⁱ⟨_⟩_; static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
@@ -181,26 +181,26 @@ abstract
     ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ fadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
   horᵀ-fadrep-&ub↦ =  horᵀ-fadrep-&ub↦-Acc <-wf
 
-  -- Total Hoare triple for forksfadrep θ k, which forks k threads that perform
+  -- Total Hoare triple for xfadrep θ k, which forks k threads that perform
   -- fadrep θ
 
-  horᵀ-forksfadrep-&ub↦ :
-    ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
-  horᵀ-forksfadrep-&ub↦ {k = 0} =  hor-val ⊤-intro
-  horᵀ-forksfadrep-&ub↦ {k = ṡ _} =  dup-Pers »
-    hor-fork horᵀ-fadrep-&ub↦ $ hor-[] horᵀ-forksfadrep-&ub↦
+  horᵀ-xfadrep-&ub↦ :
+    ≤ᵁᵇ⟨ o ⟩ n  ∗  &ub↦ θ o  ⊢[ ι ]⟨ xfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
+  horᵀ-xfadrep-&ub↦ {k = 0} =  hor-val ⊤-intro
+  horᵀ-xfadrep-&ub↦ {k = ṡ _} =  dup-Pers »
+    hor-fork horᵀ-fadrep-&ub↦ $ hor-[] horᵀ-xfadrep-&ub↦
 
-  horᵀ-forksfadrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ forksfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
-  horᵀ-forksfadrep =  &ub↦-new {i = 0} ᵘ»ʰ ∃-elim λ _ → horᵀ-forksfadrep-&ub↦
+  horᵀ-xfadrep :  θ ↦ (-, n)  ⊢[ ι ]⟨ xfadrep θ k ⟩ᵀ[ i ] λ _ →  ⊤'
+  horᵀ-xfadrep =  &ub↦-new {i = 0} ᵘ»ʰ ∃-elim λ _ → horᵀ-xfadrep-&ub↦
 
-  -- Total Hoare triple for nforksfadrep
+  -- Total Hoare triple for nxfadrep
 
   -- Notably, the number of threads and the number of iterations of each thread
   -- are dynamically determined; still the proof here is totally natural
 
-  horᵀ-nforksfadrep :  θ ↦ ᵗv  ⊢[ ι ]⟨ nforksfadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
-  horᵀ-nforksfadrep =  hor-nd λ _ → ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ »
-    hor-nd λ _ → hor-[] horᵀ-forksfadrep
+  horᵀ-nxfadrep :  θ ↦ ᵗv  ⊢[ ι ]⟨ nxfadrep θ ⟩ᵀ[ i ] λ _ →  ⊤'
+  horᵀ-nxfadrep =  hor-nd λ _ → ∗⊤-intro » hor-← $ hor-[] $ ∗-elimˡ »
+    hor-nd λ _ → hor-[] horᵀ-xfadrep
 
   ------------------------------------------------------------------------------
   -- Counter: Example for the total Hoare triple precursor

@@ -159,7 +159,7 @@ following parts.
             [`Inv`](src/Symp/Model/ERA/Inv.agda) for the invariant ERA;
             [`Lft`](src/Symp/Model/ERA/Lft.agda) for the lifetime ERA;
             [`Bor`](src/Symp/Model/ERA/Bor.agda) for the borrow ERA;
-            [`Ub`](src/Symp/Model/ERA/Ub.agda) for the upper-bound ERA.
+            [`Ub`](src/Symp/Model/ERA/Ub.agda) for the upper bound ERA.
         * Global ERA ―
             [`Glob`](src/Symp/Model/ERA/Glob.agda) for the global ERA.
     + [`Prop/`](src/Symp/Model/Prop/) ― **The semantic model of the propositions
@@ -171,7 +171,7 @@ following parts.
             [`Heap`](src/Symp/Model/Prop/Heap.agda) for the heap-related tokens;
             [`Lft`](src/Symp/Model/Prop/Lft.agda) for the lifetime-related
             tokens;
-            [`Ub`](src/Symp/Model/Prop/Ub.agda) for the upper-bound-related
+            [`Ub`](src/Symp/Model/Prop/Ub.agda) for the upper bound-related
             tokens.
         * [`Basic`](src/Symp/Model/Prop/Basic.agda) for basic propositions;
             [`Ind`](src/Symp/Model/Prop/Ind.agda) for the indirection modality

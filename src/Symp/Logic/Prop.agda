@@ -160,11 +160,11 @@ data  SProp ι  where
 
   ⟨†_⟩_ :  Lft →  SProp˂ ι →  SProp ι
 
-  -- Upper-boundee token
+  -- Upper boundee token
 
   #ᵁᵇ⟨_⟩_ :  ℕ →  ℕ →  SProp ι
 
-  -- Upper-bound token
+  -- Upper bound token
 
   ≤ᵁᵇ⟨_⟩_ :  ℕ →  ℕ →  SProp ι
 

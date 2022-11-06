@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Interpret the upper-boundee and upper-bound tokens
+-- Interpret the upper boundee and bound tokens
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}
@@ -22,15 +22,15 @@ private variable
   m n o :  ℕ
 
 --------------------------------------------------------------------------------
--- Interpret the upper-boundee and upper-bound tokens
+-- Interpret the upper boundee and bound tokens
 
--- #ᵁᵇ⟨ ⟩ᵒ :  Interpret the upper-boundee token
+-- #ᵁᵇ⟨ ⟩ᵒ :  Interpret the upper boundee token
 
 infix 8 #ᵁᵇ⟨_⟩ᵒ_
 #ᵁᵇ⟨_⟩ᵒ_ :  ℕ →  ℕ →  SPropᵒ 1ᴸ
 #ᵁᵇ⟨ o ⟩ᵒ n =  ◎⟨ iᵁᵇ ⟩ #ᵁᵇ⟨ o ⟩ʳ n
 
--- ≤ᵁᵇ⟨ ⟩ᵒ :  Interpret the upper-bound token
+-- ≤ᵁᵇ⟨ ⟩ᵒ :  Interpret the upper bound token
 
 infix 8 ≤ᵁᵇ⟨_⟩ᵒ_
 ≤ᵁᵇ⟨_⟩ᵒ_ :  ℕ →  ℕ →  SPropᵒ 1ᴸ
@@ -44,12 +44,12 @@ abstract
   ≤ᵁᵇᵒ-mono m≤n  rewrite ◠ ⊓-≤ m≤n =
     ◎⟨⟩-resp (◠˜ᵁᵇ ≤ᵁᵇʳ-∙) › ◎⟨⟩-∙⇒∗ᵒ {aⁱ = ≤ᵁᵇ⟨ _ ⟩ʳ _} › ∗ᵒ-elimʳ ◎-Mono
 
-  -- The upper-bound token is persistent
+  -- The upper bound token is persistent
 
   ≤ᵁᵇᵒ-⇒□ᵒ :  ≤ᵁᵇ⟨ o ⟩ᵒ n  ⊨  □ᵒ ≤ᵁᵇ⟨ o ⟩ᵒ n
   ≤ᵁᵇᵒ-⇒□ᵒ =  ◎⟨⟩-⌞⌟≈-□ᵒ ≤ᵁᵇʳ-⌞⌟
 
-  -- Upper bound #ᵁᵇᵒ with ≤ᵁᵇᵒ
+  -- Upper-bound #ᵁᵇᵒ with ≤ᵁᵇᵒ
 
   ≤ᵁᵇᵒ-#ᵁᵇᵒ :  ≤ᵁᵇ⟨ o ⟩ᵒ m  ∗ᵒ  #ᵁᵇ⟨ o ⟩ᵒ n  ⊨✓  ⌜ n ≤ m ⌝ᵒ
   ≤ᵁᵇᵒ-#ᵁᵇᵒ ✓∙ =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-✓ ✓∙ › λ (-, ✓≤m∙#n) → ≤ᵁᵇʳ-#ᵁᵇʳ ✓≤m∙#n

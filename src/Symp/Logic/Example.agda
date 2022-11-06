@@ -132,7 +132,7 @@ abstract
   --                            impredicative invariant, and the upper bound
 
   -- Dec :  Invariant that contains a full points-to token θ ↦ (-, n) for some
-  --        number n under an upper-boundee token #ᵁᵇ⟨ i ⟩ n
+  --        number n under an upper boundee token #ᵁᵇ⟨ i ⟩ n
   --        When we have Dec θ i, any threads can freely decrease the value at
   --        θ, but never increase it
 

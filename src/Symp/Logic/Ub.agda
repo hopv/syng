@@ -30,7 +30,7 @@ abstract
 
   instance
 
-    -- The upper-bound token is persistent
+    -- The upper bound token is persistent
 
     -->  ≤ᵁᵇ-⇒□ :  ≤ᵁᵇ⟨ o ⟩ n  ⊢[ ι ]  □ ≤ᵁᵇ⟨ o ⟩ n
 

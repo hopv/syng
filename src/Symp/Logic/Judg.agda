@@ -766,11 +766,11 @@ data  Judg ι  where
 
   ≤ᵁᵇ-mono :  m ≤ n  →   ≤ᵁᵇ⟨ o ⟩ m  ⊢[ ι ]  ≤ᵁᵇ⟨ o ⟩ n
 
-  -- The upper-bound token is persistent
+  -- The upper bound token is persistent
 
   ≤ᵁᵇ-⇒□ :  ≤ᵁᵇ⟨ o ⟩ n  ⊢[ ι ]  □ ≤ᵁᵇ⟨ o ⟩ n
 
-  -- Upper bound #ᵁᵇ with ≤ᵁᵇ
+  -- Upper-bound #ᵁᵇ with ≤ᵁᵇ
 
   ≤ᵁᵇ-#ᵁᵇ :  ≤ᵁᵇ⟨ o ⟩ m  ∗  #ᵁᵇ⟨ o ⟩ n  ⊢[ ι ]  ⌜ n ≤ m ⌝
 

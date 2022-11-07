@@ -10,8 +10,8 @@ open import Base.Func using (_$_)
 open import Base.Eq using (◠˙_)
 open import Base.Size using (𝕊)
 open import Base.Zoi using (Zoi; _⊆ᶻ_; _∖ᶻ_; ⊆ᶻ⇒∖-⊎ˡ)
-open import Symp.Logic.Prop using (Name; _∗_; _-∗_; [_]ᴺ)
-open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-monoʳ; -∗-introˡ)
+open import Symp.Logic.Prop using (Name; _∗_; _-∗_; [_]ᴺ; [⊤]ᴺ; [^_]ᴺ; ^ᶻᴺ-✔)
+open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-monoʳ; ∗-elimˡ; -∗-introˡ)
 
 -- Import and re-export
 open import Symp.Logic.Judg public using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
@@ -45,3 +45,8 @@ abstract
   []ᴺ-⊆--∗ :  Nm' ⊆ᶻ Nm  →   [ Nm ]ᴺ  ⊢[ ι ]  [ Nm' ]ᴺ  ∗  ([ Nm' ]ᴺ -∗ [ Nm ]ᴺ)
   []ᴺ-⊆--∗ Nm'⊆Nm =
     []ᴺ-⊆-split Nm'⊆Nm » ∗-monoʳ $ -∗-introˡ $ []ᴺ-⊆-merge Nm'⊆Nm
+
+  -- Just get [^ nm ]ᴺ out of [ ⊤ ]ᴺ
+
+  ᴺ⇒[^] :  [⊤]ᴺ  ⊢[ ι ]  [^ nm ]ᴺ
+  ᴺ⇒[^] =  []ᴺ-⊆-split ^ᶻᴺ-✔ » ∗-elimˡ

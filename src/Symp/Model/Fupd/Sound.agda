@@ -12,10 +12,11 @@ open import Base.Size using (∞; !)
 open import Base.Prod using (∑-case; π₀; _,_)
 open import Base.Nat using (ℕ)
 open import Symp.Lang.Expr using (Heap)
-open import Symp.Logic.Prop using (SProp∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
-open import Symp.Logic.Core using (_»_; ∃-elim)
+open import Symp.Logic.Prop using (Name; SProp∞; ⊤'; ⌜_⌝; [⊤]ᴺ; [^_]ᴺ)
+open import Symp.Logic.Core using (_»_; ∃-elim; ⊤-intro)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-ṡ; ⤇⇒⇛; _ᵘ»ᵘ_;
   ⇛-frameʳ)
+open import Symp.Logic.Names using (ᴺ⇒[^])
 open import Symp.Logic.Ind using (○-new; □○-new-rec; ○-use; ⊸⇛-use)
 open import Symp.Logic.Inv using (&ⁱ-new-rec; &ⁱ-open; ⅋ⁱ-close)
 open import Symp.Logic.Bor using (&ᵐ-new; &ᵐ-open; ⅋ᵐ-close; ⟨†⟩-back)
@@ -32,6 +33,7 @@ private variable
   P Q :  SProp∞
   i :  ℕ
   X :  Set₀
+  nm :  Name
 
 --------------------------------------------------------------------------------
 -- ⊢⇛-sem :  Semantic soundness of the fancy update
@@ -119,9 +121,21 @@ abstract
   ⊢⇛ᴺ-sem P⊢⇛Q =  -∗ᵒ-introˡ λ _ → ⊢⇛-sem P⊢⇛Q
 
 --------------------------------------------------------------------------------
--- ⊢⇛-adeq :  Simple adequacy of the fancy update, allowing [⊤]ᴺ as a premise
+-- Aadequacy of the fancy update
 
 abstract
 
-  ⊢⇛-adeq :  [⊤]ᴺ ⊢[ ∞ ][ i ]⇛ ⌜ X ⌝ →  X
-  ⊢⇛-adeq ⊢X =  ⇛ᵒ-adeq $ ⊢⇛-sem ⊢X › ⇛ᵒ-mono π₀
+  -- Under the premise [⊤]ᴺ
+
+  ⊢⇛-adeqᴺ :  [⊤]ᴺ ⊢[ ∞ ][ i ]⇛ ⌜ X ⌝ →  X
+  ⊢⇛-adeqᴺ ᴺ⊢⇛X =  ⇛ᵒ-adeq $ ⊢⇛-sem ᴺ⊢⇛X › ⇛ᵒ-mono π₀
+
+  -- Under the premise [^ nm ]ᴺ
+
+  ⊢⇛-adeq-[^]ᴺ :  [^ nm ]ᴺ ⊢[ ∞ ][ i ]⇛ ⌜ X ⌝ →  X
+  ⊢⇛-adeq-[^]ᴺ [nm]⊢⇛X =  ⊢⇛-adeqᴺ $ ᴺ⇒[^] » [nm]⊢⇛X
+
+  -- Under the trivial premise
+
+  ⊢⇛-adeq :  ⊤' ⊢[ ∞ ][ i ]⇛ ⌜ X ⌝ →  X
+  ⊢⇛-adeq ⊢⇛X =  ⊢⇛-adeqᴺ $ ⊤-intro » ⊢⇛X

@@ -11,12 +11,13 @@ open import Base.Few using (0₂; 1₂; binary; absurd)
 open import Base.Size using (𝕊; ∞; !)
 open import Base.Prod using (_,_; π₀; π₁; ∑-case)
 open import Symp.Lang.Expr using (✓ᴴ-∅)
-open import Symp.Logic.Prop using (SProp∞; ⊤'; ⌜_⌝; [⊤]ᴺ)
+open import Symp.Logic.Prop using (Name; SProp∞; ⊤'; ⌜_⌝; [⊤]ᴺ; [^_]ᴺ)
 open import Symp.Logic.Core using (_⊢[_]_; ⊢-refl; _»_; ∀-intro; ∃-elim; ∀-elim;
-  ∃-intro; choice; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro; ∗-comm;
-  ∗-assocʳ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ; ⤇-⌜⌝∧-out;
-  □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
-open import Symp.Logic.Names using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔)
+  ∃-intro; choice; ⊤-intro; →-introˡ; →-elimˡ; ∗-monoˡ; ⊤∗-elim; ⊤∗-intro;
+  ∗-comm; ∗-assocʳ; -∗-introˡ; -∗-elimˡ; ⤇-mono; ⤇-intro; ⤇-join; ⤇-eatˡ;
+  ⤇-⌜⌝∧-out; □-mono; □-elim; □-dup; □ˡ-∧⇒∗; □-∀-in; □-∃-out)
+open import Symp.Logic.Names using ([]ᴺ-resp; []ᴺ-merge; []ᴺ-split; []ᴺ-✔;
+  ᴺ⇒[^])
 open import Symp.Logic.Heap using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-split; ↦⟨⟩-≤1;
   ↦⟨⟩-agree)
 open import Symp.Logic.Ind using (○-mono; ○-eatˡ; ⊸⇛-≤; ⊸⇛-eatˡ⁻ˡᵘ; ⊸⇛-monoʳᵘ;
@@ -56,6 +57,7 @@ open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
 private variable
   P Q R S T :  SProp∞
   X :  Set₀
+  nm :  Name
 
 --------------------------------------------------------------------------------
 -- ⊢-sem :  Semantic soundness of the pure sequent
@@ -428,9 +430,21 @@ abstract
   ⊢-sem (#ᵁᵇ-upd m≤n) _ =  #ᵁᵇᵒ-upd m≤n
 
 --------------------------------------------------------------------------------
--- ⊢-adeq :  Simple adequacy of the pure sequent, allowing [⊤]ᴺ as a premise
+-- Adequacy of the pure sequent
 
 abstract
 
-  ⊢-adeq :  [⊤]ᴺ ⊢[ ∞ ] ⌜ X ⌝ →  X
-  ⊢-adeq ⊢X =  ⊢-sem ⊢X (∅ᴵⁿᴳ-✓[⊤] ✓ᴴ-∅) ◎-just .π₀
+  -- Under the premise [⊤]ᴺ
+
+  ⊢-adeqᴺ :  [⊤]ᴺ ⊢[ ∞ ] ⌜ X ⌝ →  X
+  ⊢-adeqᴺ ᴺ⊢X =  ⊢-sem ᴺ⊢X (∅ᴵⁿᴳ-✓[⊤] ✓ᴴ-∅) ◎-just .π₀
+
+  -- Under the premise [^ nm ]ᴺ
+
+  ⊢-adeq-[^]ᴺ :  [^ nm ]ᴺ ⊢[ ∞ ] ⌜ X ⌝ →  X
+  ⊢-adeq-[^]ᴺ [nm]⊢X =  ⊢-adeqᴺ $ ᴺ⇒[^] » [nm]⊢X
+
+  -- Under the trivial premise
+
+  ⊢-adeq :  ⊤' ⊢[ ∞ ] ⌜ X ⌝ →  X
+  ⊢-adeq ⊢X =  ⊢-adeqᴺ $ ⊤-intro » ⊢X

@@ -24,21 +24,21 @@ import Symp.Model.ERA.Bnd
 --------------------------------------------------------------------------------
 -- Invᴱᴿᴬ :  Invariant ERA
 
--- NameProp :  Pair of a name and a proposition
+-- NameSProp :  Pair of a name and a proposition
 
-NameProp :  Set₁
-NameProp =  Name × SProp∞
+NameSProp :  Set₁
+NameSProp =  Name × SProp∞
 
 private variable
   P :  SProp∞
   nm :  Name
   i n :  ℕ
-  ⁿPˇ˙ ⁿQˇ˙ :  ℕ →  ¿ NameProp
+  ⁿPˇ˙ ⁿQˇ˙ :  ℕ →  ¿ NameSProp
 
 -- Invᴱᴿᴬ :  Invariant ERA
 
 module BndInv =  Symp.Model.ERA.Bnd
-  (Envmᴱᴿᴬ (Agᴱᴿᴬ NameProp ×ᴱᴿᴬ Excᴱᴿᴬ NameProp) _ λ ⁿPˇ → ⁿPˇ , ⁿPˇ)
+  (Envmᴱᴿᴬ (Agᴱᴿᴬ NameSProp ×ᴱᴿᴬ Excᴱᴿᴬ NameSProp) _ λ ⁿPˇ → ⁿPˇ , ⁿPˇ)
   ň (λ (ň✓as , ň✓x) → ≡⇒≈ᴸ (ň-✓ᴸ ň✓as) , ň-✓ˣ ň✓x)
 open BndInv public using () renaming (
   --  Invᴱᴿᴬ :  ERA 1ᴸ 1ᴸ 1ᴸ 1ᴸ

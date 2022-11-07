@@ -18,7 +18,7 @@ open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Symp.Logic.Prop using (Name; SProp∞; ⊤'; _∗_; _-∗_; Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
   ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
-open import Symp.Model.ERA.Inv using (NameProp; _∙ᴵⁿᵛ_; inv; invk; inv-⌞⌟;
+open import Symp.Model.ERA.Inv using (NameSProp; _∙ᴵⁿᵛ_; inv; invk; inv-⌞⌟;
   invk-no2; inv-invk-new; inv-agree; invk-agree)
 open import Symp.Model.ERA.Glob using (Envᴳ; iᴵⁿᵛ)
 open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
@@ -32,7 +32,7 @@ private variable
   i n :  ℕ
   nm :  Name
   P Q R :  SProp∞
-  ⁿQˇ˙ :  ℕ → ¿ NameProp
+  ⁿQˇ˙ :  ℕ → ¿ NameSProp
 
 --------------------------------------------------------------------------------
 -- &ⁱᵒ :  Interpret the invariant token

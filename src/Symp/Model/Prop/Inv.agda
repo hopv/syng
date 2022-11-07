@@ -18,8 +18,8 @@ open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Symp.Logic.Prop using (Name; SProp∞; ⊤'; _∗_; _-∗_; Basic)
 open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-monoˡ; ∗-monoʳ; ∗-comm;
   ∗-assocʳ; ∗?-comm; ∗-elimʳ; -∗-applyˡ)
-open import Symp.Model.ERA.Inv using (NameSProp; _∙ᴵⁿᵛ_; inv; invk; inv-⌞⌟;
-  invk-no2; inv-invk-new; inv-agree; invk-agree)
+open import Symp.Model.ERA.Inv using (NameSProp; _∙ᴵⁿᵛ_; inv; kinv; inv-⌞⌟;
+  kinv-no2; inv-kinv-new; inv-agree; kinv-agree)
 open import Symp.Model.ERA.Glob using (Envᴳ; iᴵⁿᵛ)
 open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∃ᵒ-syntax;
   ∃ᴵ-syntax; ⌜_⌝ᵒ×_; _×ᵒ_; ⊥ᵒ₀; _∗ᵒ_; □ᵒ_; ⤇ᴱ⟨⟩; ◎⟨_⟩_; ∃ᵒ-Mono; ∃ᴵ-Mono;
@@ -92,32 +92,32 @@ abstract
   Binv-agree =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ inv-agree
 
 --------------------------------------------------------------------------------
--- Invk :  Invariant key
+-- Kinv :  Invariant key
 
-Invk :  ℕ →  Name →  SProp∞ →  SPropᵒ 1ᴸ
-Invk i nm P =  ◎⟨ iᴵⁿᵛ ⟩ invk i nm P
+Kinv :  ℕ →  Name →  SProp∞ →  SPropᵒ 1ᴸ
+Kinv i nm P =  ◎⟨ iᴵⁿᵛ ⟩ kinv i nm P
 
 abstract
 
-  -- Invk cannot overlap
+  -- Kinv cannot overlap
 
-  Invk-no2 :  Invk i nm P  ∗ᵒ  Invk i nm P  ⊨✓  ⊥ᵒ₀
-  Invk-no2 ✓a =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-✓ ✓a › λ (-, ✓invk²) →  invk-no2 ✓invk²
+  Kinv-no2 :  Kinv i nm P  ∗ᵒ  Kinv i nm P  ⊨✓  ⊥ᵒ₀
+  Kinv-no2 ✓a =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-✓ ✓a › λ (-, ✓kinv²) →  kinv-no2 ✓kinv²
 
-  -- Create &ⁱᵒ and Invk
+  -- Create &ⁱᵒ and Kinv
 
-  &ⁱᵒ-Invk-new :
+  &ⁱᵒ-Kinv-new :
     ⊨ (ⁿQˇ˙ , n) ⤇ᴱ⟨ iᴵⁿᵛ ⟩ λ (_ : ⊤₀) → (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) ,
-      &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  Invk n nm P
-  &ⁱᵒ-Invk-new =  ε↝-◎⟨⟩-⤇ᴱ⟨⟩ inv-invk-new ▷
+      &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  Kinv n nm P
+  &ⁱᵒ-Kinv-new =  ε↝-◎⟨⟩-⤇ᴱ⟨⟩ inv-kinv-new ▷
     ⤇ᴱ⟨⟩-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-monoˡ &ⁱᵒ-make
 
-  -- Agreement by Invk
+  -- Agreement by Kinv
 
-  Invk-agree :
-    Invk i nm P  ⊨ (ⁿQˇ˙ , n) ⤇ᴱ⟨ iᴵⁿᵛ ⟩
-      λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) → (ⁿQˇ˙ , n) ,  Invk i nm P
-  Invk-agree =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ invk-agree
+  Kinv-agree :
+    Kinv i nm P  ⊨ (ⁿQˇ˙ , n) ⤇ᴱ⟨ iᴵⁿᵛ ⟩
+      λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) → (ⁿQˇ˙ , n) ,  Kinv i nm P
+  Kinv-agree =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ kinv-agree
 
 --------------------------------------------------------------------------------
 -- ⅋ⁱᵒ :  Interpret the open invariant token
@@ -125,7 +125,7 @@ abstract
 infix 8 ⅋ⁱ⟨_⟩ᵒ_
 ⅋ⁱ⟨_⟩ᵒ_ :  Name →  SProp∞ →  SPropᵒ 1ᴸ
 ⅋ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
-  ⌜ Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Invk i nm R
+  ⌜ Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Kinv i nm R
 
 abstract
 
@@ -138,14 +138,14 @@ abstract
   -- Monotonicity of ⅋ⁱᵒ
 
   ⅋ⁱᵒ-mono :  P  ⊢[ ∞ ]  Q  →   ⅋ⁱ⟨ nm ⟩ᵒ Q  ⊨  ⅋ⁱ⟨ nm ⟩ᵒ P
-  ⅋ⁱᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗InvkSa) =  -, -, -ᴵ, -,
-    ∗-monoʳ P⊢Q » R∗Q⊢S , R∗InvkSa
+  ⅋ⁱᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗KinvSa) =  -, -, -ᴵ, -,
+    ∗-monoʳ P⊢Q » R∗Q⊢S , R∗KinvSa
 
   -- Let ⅋ⁱᵒ eat a basic proposition
 
   ⅋ⁱᵒ-eatˡ :  {{_ : Basic Q}} →  ⸨ Q ⸩ᴮ  ∗ᵒ  ⅋ⁱ⟨ nm ⟩ᵒ P  ⊨  ⅋ⁱ⟨ nm ⟩ᵒ (Q -∗ P)
-  ⅋ⁱᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗InvkSc) →
+  ⅋ⁱᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Qb , -, -, -ᴵ, -, R∗P⊢S , R∗KinvSc) →
     -, -, -ᴵ, -,
     -- (Q∗R)∗(Q-∗P) ⊢ (Q∗(Q-∗P))∗R ⊢ P∗R ⊢ R∗P ⊢ S
     ∗?-comm » ∗-monoˡ -∗-applyˡ » ∗-comm » R∗P⊢S ,
-    ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗InvkSc) }
+    ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , R∗KinvSc) }

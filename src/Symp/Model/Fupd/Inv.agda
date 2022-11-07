@@ -23,8 +23,8 @@ open import Symp.Model.Prop.Basic using (⸨_⸩ᴮ; ⸨⸩ᴮ-Mono)
 open import Symp.Model.Prop.Smry using (Smry; Smry-0; Smry-add-š; Smry-rem-<;
   Smry-back)
 open import Symp.Model.Prop.Names using ([^_]ᴺᵒ; [^]ᴺᵒ-no2)
-open import Symp.Model.Prop.Inv using (Binv; &ⁱ⟨_⟩ᵒ_; Invk; ⅋ⁱ⟨_⟩ᵒ_; dup-&ⁱᵒ;
-  Invk-no2; &ⁱᵒ-Invk-new; Binv-agree; Invk-agree)
+open import Symp.Model.Prop.Inv using (Binv; &ⁱ⟨_⟩ᵒ_; Kinv; ⅋ⁱ⟨_⟩ᵒ_; dup-&ⁱᵒ;
+  Kinv-no2; &ⁱᵒ-Kinv-new; Binv-agree; Kinv-agree)
 open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-ᴮ⇒)
 open import Symp.Model.Prop.Sound using (⊢-sem)
 open import Symp.Model.Fupd.Base using ([_]⇛ᵍ¹_; ⇛ᵍ-mono✓; ⊨✓⇒⊨-⇛ᵍ; ⇛ᵍ¹-make;
@@ -43,7 +43,7 @@ private variable
 -- Lineᴵⁿᵛ :  Line for Invᴵⁿᵛ
 
 Lineᴵⁿᵛ :  ℕ →  Name →  SProp∞ →  SPropᵒ 1ᴸ
-Lineᴵⁿᵛ i nm P =  Invk i nm P ∗ᵒ ⸨ P ⸩  ⨿ᵒ  [^ nm ]ᴺᵒ
+Lineᴵⁿᵛ i nm P =  Kinv i nm P ∗ᵒ ⸨ P ⸩  ⨿ᵒ  [^ nm ]ᴺᵒ
 
 -- Invᴵⁿᵛ :  Invariant for Invᴱᴿᴬ
 
@@ -71,29 +71,29 @@ abstract
   -- Get &ⁱ⟨ nm ⟩ᵒ P by storing ⸨ P ⸩ minus &ⁱ⟨ nm ⟩ᵒ ⸨ P ⸩
 
   &ⁱᵒ-new-rec :  &ⁱ⟨ nm ⟩ᵒ P -∗ᵒ ⸨ P ⸩  ⊨ ⇛ᴵⁿᵛ  &ⁱ⟨ nm ⟩ᵒ P
-  &ⁱᵒ-new-rec {P = P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro &ⁱᵒ-Invk-new ›
-    -- (&∗Invk)∗(&-*P)*Inv → → (&∗&∗Invk)∗(&-*P)*Inv → →
-    -- &∗((&∗Invk)∗(&-*P))*Inv → → &∗(Invk∗&∗(&-*P))*Inv → &∗(Invk∗P)∗Inv → →
+  &ⁱᵒ-new-rec {P = P} =  ⇛ᵍ¹-make $ ?∗ᵒ-intro &ⁱᵒ-Kinv-new ›
+    -- (&∗Kinv)∗(&-*P)*Inv → → (&∗&∗Kinv)∗(&-*P)*Inv → →
+    -- &∗((&∗Kinv)∗(&-*P))*Inv → → &∗(Kinv∗&∗(&-*P))*Inv → &∗(Kinv∗P)∗Inv → →
     -- &∗Inv
     ⤇ᴱ⟨⟩-eatʳ › ⤇ᴱ⟨⟩-mono✓ (λ _ ✓∙ → ∗ᵒ-monoˡ (∗ᵒ-monoˡ dup-&ⁱᵒ › ∗ᵒ-assocʳ) ›
       ∗ᵒ-assocʳ › ∗ᵒ-mono✓ʳ (λ ✓∙ → ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (λ ✓∙ →
       ∗ᵒ-monoˡ ∗ᵒ-comm › ∗ᵒ-assocʳ › ∗ᵒ-mono✓ʳ (-∗ᵒ-applyˡ $ ⸨⸩-Mono {P}) ✓∙ ›
       ĩ₀_) ✓∙ › Smry-add-š) ✓∙) › ⤇ᴱ⟨⟩-param
 
-  -- Store [^ nm ]ᴺᵒ to get Invk i nm P and ⸨ P ⸩ under Lineᴵⁿᵛ
+  -- Store [^ nm ]ᴺᵒ to get Kinv i nm P and ⸨ P ⸩ under Lineᴵⁿᵛ
 
   [^]ᴺᵒ-open :  [^ nm ]ᴺᵒ  ∗ᵒ  Lineᴵⁿᵛ i nm P  ⊨✓
-                  (Invk i nm P  ∗ᵒ  ⸨ P ⸩)  ∗ᵒ  Lineᴵⁿᵛ i nm P
+                  (Kinv i nm P  ∗ᵒ  ⸨ P ⸩)  ∗ᵒ  Lineᴵⁿᵛ i nm P
   [^]ᴺᵒ-open ✓∙ =  ∗ᵒ⨿ᵒ-out › λ{
-    (ĩ₀ [nm]∗Invk∗P) →  [nm]∗Invk∗P ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₁_;
+    (ĩ₀ [nm]∗Kinv∗P) →  [nm]∗Kinv∗P ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₁_;
     (ĩ₁ [nm]∗[nm]) →  [nm]∗[nm] ▷ [^]ᴺᵒ-no2 ✓∙ ▷ λ () }
 
-  -- Store Binv i nm P and [^ nm ]ᴺᵒ to get ⸨ P ⸩ and Invk i nm P
+  -- Store Binv i nm P and [^ nm ]ᴺᵒ to get ⸨ P ⸩ and Kinv i nm P
 
-  Binv-open :  Binv i nm P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  Invk i nm P
+  Binv-open :  Binv i nm P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  Kinv i nm P
   Binv-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Binv-agree › ⤇ᴱ⟨⟩-eatʳ ›
     -- Binv∗[nm]∗Inv → [nm]∗Inv → [nm]∗Line∗Inv → ([nm]∗Line)∗Inv →
-    -- ((Invk∗P)∗Line)∗Inv → (Invk∗P)∗Line∗Inv → (P∗Invk)∗Inv
+    -- ((Kinv∗P)∗Line)∗Inv → (Kinv∗P)∗Line∗Inv → (P∗Kinv)∗Inv
     ⤇ᴱ⟨⟩-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-elimʳ ∗ᵒ-Mono ›
       ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ ›
       ∗ᵒ-assocʳ › ∗ᵒ-mono ∗ᵒ-comm (Smry-back ≡šR)) › ⤇ᴱ⟨⟩-param
@@ -103,39 +103,39 @@ abstract
   &ⁱᵒ-open :  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  ⅋ⁱ⟨ nm ⟩ᵒ P
   &ⁱᵒ-open =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , (-, Q , -ᴵ, -, (Q∗R⊢P , Q∗P⊢R) ,
     □Q∗InvRb) , [nm]c) → let MonoQ = ⸨⸩ᴮ-Mono {Q} in
-    -- (□Q∗Binv)∗[nm] → □Q∗Binv∗[nm] → → □Q∗R∗Invk → → (Q∗Q)∗R∗Invk → → →
-    -- (Q∗R)∗Q∗Invk → P∗Q∗Invk → P∗⅋
+    -- (□Q∗Binv)∗[nm] → □Q∗Binv∗[nm] → → □Q∗R∗Kinv → → (Q∗Q)∗R∗Kinv → → →
+    -- (Q∗R)∗Q∗Kinv → P∗Q∗Kinv → P∗⅋
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , □Q∗InvRb , [nm]c) ▷ ∗ᵒ-assocʳ ▷ ∗ᵒ-monoʳ Binv-open ▷
     ⇛ᵍ-eatˡ ▷ ⇛ᵍ-mono✓ λ ✓∙ → ∗ᵒ-monoˡ (dup-□ᵒ MonoQ ›
     ∗ᵒ-mono (□ᵒ-elim MonoQ › ⸨⸩-ᴮ⇒ {Q}) (□ᵒ-elim MonoQ)) › ∗ᵒ-assocʳ ›
     ∗ᵒ-monoʳ ?∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (⊢-sem Q∗R⊢P) ✓∙ › ∗ᵒ-monoʳ
     λ big → -, Q , -ᴵ, -, Q∗P⊢R , big }
 
-  -- Store Invk i nm P and ⸨ P ⸩ to get [^ nm ]ᴺᵒ under Lineᴵⁿᵛ
+  -- Store Kinv i nm P and ⸨ P ⸩ to get [^ nm ]ᴺᵒ under Lineᴵⁿᵛ
 
-  Invk-close' :  (Invk i nm P  ∗ᵒ  ⸨ P ⸩)  ∗ᵒ  Lineᴵⁿᵛ i nm P  ⊨✓
+  Kinv-close' :  (Kinv i nm P  ∗ᵒ  ⸨ P ⸩)  ∗ᵒ  Lineᴵⁿᵛ i nm P  ⊨✓
                    [^ nm ]ᴺᵒ  ∗ᵒ  Lineᴵⁿᵛ i nm P
-  Invk-close' ✓∙ =  ∗ᵒ⨿ᵒ-out › λ{
-    (ĩ₀ Invk∗P²) →  Invk∗P² ▷ ∗ᵒ-assocˡ ▷
-      ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ?-comm › ∗ᵒ-mono✓ˡ Invk-no2 ✓∙ › ∗ᵒ⇒∗ᵒ') ✓∙ ▷
+  Kinv-close' ✓∙ =  ∗ᵒ⨿ᵒ-out › λ{
+    (ĩ₀ Kinv∗P²) →  Kinv∗P² ▷ ∗ᵒ-assocˡ ▷
+      ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ?-comm › ∗ᵒ-mono✓ˡ Kinv-no2 ✓∙ › ∗ᵒ⇒∗ᵒ') ✓∙ ▷
       ∗ᵒ⇒∗ᵒ' ▷ λ ();
-    (ĩ₁ Invk∗P∗[nm]) →  Invk∗P∗[nm] ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₀_ }
+    (ĩ₁ Kinv∗P∗[nm]) →  Kinv∗P∗[nm] ▷ ∗ᵒ-comm ▷ ∗ᵒ-monoʳ ĩ₀_ }
 
-  -- Store ⸨ P ⸩ and Invk i nm P to get [^ nm ]ᴺᵒ
+  -- Store ⸨ P ⸩ and Kinv i nm P to get [^ nm ]ᴺᵒ
 
-  Invk-close :  ⸨ P ⸩  ∗ᵒ  Invk i nm P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
-  Invk-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Invk-agree ›
+  Kinv-close :  ⸨ P ⸩  ∗ᵒ  Kinv i nm P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
+  Kinv-close =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Kinv-agree ›
     ⤇ᴱ⟨⟩-eatʳ › ⤇ᴱ⟨⟩-mono✓ (λ (i<n , ≡šR) ✓∙ →
-      -- Invk∗P∗Inv → (Invk∗P)∗Inv → (Invk∗P)∗Line∗Inv → ((Invk∗P)∗Line)∗Inv →
+      -- Kinv∗P∗Inv → (Kinv∗P)∗Inv → (Kinv∗P)∗Line∗Inv → ((Kinv∗P)∗Line)∗Inv →
       -- ([nm]∗Line)∗Inv → [nm]∗Line∗Inv → [nm]∗Inv
       ∗ᵒ-assocˡ › ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ ›
-      ∗ᵒ-mono✓ˡ Invk-close' ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-back ≡šR) ›
+      ∗ᵒ-mono✓ˡ Kinv-close' ✓∙ › ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ Smry-back ≡šR) ›
     ⤇ᴱ⟨⟩-param
 
   -- Store ⸨ P ⸩ and ⅋ⁱ⟨ nm ⟩ᵒ P to get [^ nm ]ᴺᵒ
 
   ⅋ⁱᵒ-close :  ⸨ P ⸩  ∗ᵒ  ⅋ⁱ⟨ nm ⟩ᵒ P  ⊨ ⇛ᴵⁿᵛ  [^ nm ]ᴺᵒ
-  ⅋ⁱᵒ-close =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , Pb , -, Q , -ᴵ, -, Q∗P⊢R , Q∗Invkc) →
-    -- P∗Q∗Invk → Q∗P∗Invk → (Q∗P)∗Invk → → R∗Invk
-    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , Pb , Q∗Invkc) ▷ ⊨✓⇒⊨-⇛ᵍ λ ✓∙ → ?∗ᵒ-comm › ∗ᵒ-assocˡ ›
-    ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗P⊢R ✓∙) ✓∙ › Invk-close }
+  ⅋ⁱᵒ-close =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , Pb , -, Q , -ᴵ, -, Q∗P⊢R , Q∗Kinvc) →
+    -- P∗Q∗Kinv → Q∗P∗Kinv → (Q∗P)∗Kinv → → R∗Kinv
+    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , Pb , Q∗Kinvc) ▷ ⊨✓⇒⊨-⇛ᵍ λ ✓∙ → ?∗ᵒ-comm › ∗ᵒ-assocˡ ›
+    ∗ᵒ-mono✓ˡ (λ ✓∙ → ∗ᵒ-monoˡ (⸨⸩-ᴮ⇒ {Q}) › ⊢-sem Q∗P⊢R ✓∙) ✓∙ › Kinv-close }

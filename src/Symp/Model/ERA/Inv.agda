@@ -62,8 +62,8 @@ inv i nm P =  inj˙ᴵⁿᵛ i ([ nm , P ] , εˣ)
 
 -- Exclusively own a key of an index
 
-invk :  ℕ →  Name →  SProp∞ →  Resᴵⁿᵛ
-invk i nm P =  inj˙ᴵⁿᵛ i ([] , #ˣ (nm , P))
+kinv :  ℕ →  Name →  SProp∞ →  Resᴵⁿᵛ
+kinv i nm P =  inj˙ᴵⁿᵛ i ([] , #ˣ (nm , P))
 
 abstract
 
@@ -77,17 +77,17 @@ abstract
   inv-⌞⌟ :  ⌞ inv i nm P ⌟ᴵⁿᵛ ≈ᴵⁿᵛ inv i nm P
   inv-⌞⌟ =  inj˙ᴵⁿᵛ-⌞⌟
 
-  -- invk i nm P cannot overlap
+  -- kinv i nm P cannot overlap
 
-  invk-no2 :  ¬ (ⁿQˇ˙ , n) ✓ᴵⁿᵛ invk i nm P ∙ᴵⁿᵛ invk i nm P
-  invk-no2 {i = i} (-, ✓inmP2)  with ✓inmP2 i
+  kinv-no2 :  ¬ (ⁿQˇ˙ , n) ✓ᴵⁿᵛ kinv i nm P ∙ᴵⁿᵛ kinv i nm P
+  kinv-no2 {i = i} (-, ✓inmP2)  with ✓inmP2 i
   … | -, ✓↯  rewrite ≟-refl {a = i} =  absurd ✓↯
 
-  -- Get inv and invk
+  -- Get inv and kinv
 
-  inv-invk-new :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
-    (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) , inv n nm P ∙ᴵⁿᵛ invk n nm P
-  inv-invk-new =
+  inv-kinv-new :  ((ⁿQˇ˙ , n) , εᴵⁿᵛ)  ↝ᴵⁿᵛ λ (_ : ⊤₀) →
+    (upd˙ n (š (nm , P)) ⁿQˇ˙ , ṡ n) , inv n nm P ∙ᴵⁿᵛ kinv n nm P
+  inv-kinv-new =
     ↝ᴵⁿᵛ-respʳ {a = εᴵⁿᵛ} (◠˜ᴵⁿᵛ inj˙ᴵⁿᵛ-∙) $ ↝ᴵⁿᵛ-new (✓ᴸ-š-[?] , refl)
 
   -- Get agreement from inv
@@ -96,8 +96,8 @@ abstract
     λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →  (ⁿQˇ˙ , n) , inv i nm P
   inv-agree =  ↝ᴵⁿᵛ-agree (π₀ › ≈ᴸ-[] › λ ()) (π₀ › ✓ᴸ-agree)
 
-  -- Get agreement from invk
+  -- Get agreement from kinv
 
-  invk-agree :  ((ⁿQˇ˙ , n) , invk i nm P)  ↝ᴵⁿᵛ
-    λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →  (ⁿQˇ˙ , n) , invk i nm P
-  invk-agree =  ↝ᴵⁿᵛ-agree (λ ()) π₁
+  kinv-agree :  ((ⁿQˇ˙ , n) , kinv i nm P)  ↝ᴵⁿᵛ
+    λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →  (ⁿQˇ˙ , n) , kinv i nm P
+  kinv-agree =  ↝ᴵⁿᵛ-agree (λ ()) π₁

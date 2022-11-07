@@ -37,14 +37,15 @@ private variable
 --------------------------------------------------------------------------------
 -- &ⁱᵒ :  Interpret the invariant token
 
-Inv :  ℕ →  Name →  SProp∞ →  SPropᵒ 1ᴸ
-Inv i nm P =  ◎⟨ iᴵⁿᵛ ⟩ inv i nm P
+-- Basic invariant token
+Binv :  ℕ →  Name →  SProp∞ →  SPropᵒ 1ᴸ
+Binv i nm P =  ◎⟨ iᴵⁿᵛ ⟩ inv i nm P
 
 infix 8 &ⁱ⟨_⟩ᵒ_
 &ⁱ⟨_⟩ᵒ_ :  Name →  SProp∞ →  SPropᵒ 1ᴸ
 &ⁱ⟨ nm ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
   ⌜ Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
-  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Inv i nm R
+  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  Binv i nm R
 
 abstract
 
@@ -76,7 +77,7 @@ abstract
 
   -- Make &ⁱᵒ
 
-  &ⁱᵒ-make :  Inv i nm P  ⊨  &ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-make :  Binv i nm P  ⊨  &ⁱ⟨ nm ⟩ᵒ P
   &ⁱᵒ-make Inva =  -, ⊤' , -ᴵ, -, (∗-elimʳ , ∗-elimʳ) , ?∗ᵒ-intro absurd Inva
 
   -- Dubplicate &ⁱᵒ
@@ -84,12 +85,11 @@ abstract
   dup-&ⁱᵒ :  &ⁱ⟨ nm ⟩ᵒ P  ⊨  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  &ⁱ⟨ nm ⟩ᵒ P
   dup-&ⁱᵒ =  dup-⇒□ᵒ &ⁱᵒ-Mono &ⁱᵒ-⇒□ᵒ
 
-  -- Agreement by Inv
+  -- Agreement by Binv
 
-  Inv-agree :
-    Inv i nm P  ⊨ (ⁿQˇ˙ , n) ⤇ᴱ⟨ iᴵⁿᵛ ⟩ λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →
-      (ⁿQˇ˙ , n) ,  Inv i nm P
-  Inv-agree =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ inv-agree
+  Binv-agree :  Binv i nm P  ⊨ (ⁿQˇ˙ , n) ⤇ᴱ⟨ iᴵⁿᵛ ⟩
+    λ (_ :  i < n  ×  ⁿQˇ˙ i ≡ š (nm , P)) →  (ⁿQˇ˙ , n) ,  Binv i nm P
+  Binv-agree =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ inv-agree
 
 --------------------------------------------------------------------------------
 -- Invk :  Invariant key

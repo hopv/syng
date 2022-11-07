@@ -14,7 +14,7 @@ open import Base.Prod using (∑-syntax; _×_; _,_; -,_)
 open import Base.Nat using ()
 open import Symp.Lang.Expr using (Heap; ✓ᴴ_; ✓ᴴ-∅)
 open import Symp.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; iᴴᵉᵃᵖ; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ;
-  jᴵⁿᵛ; jᴮᵒʳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-mem-envᴳ)
+  jᴵⁿᵛ; jᴮᵒʳ; ∅ᴵⁿᴳ-✓ᴺ; envᴳ-cong; upd˙-mem-envᴳ)
 open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ⊨⇒⊨✓;
   ∀ᵒ-syntax; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ_; ⤇ᴱ⟨⟩; substᵒ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ∗ᵒ-mono✓ʳ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ; ?∗ᵒ-intro;

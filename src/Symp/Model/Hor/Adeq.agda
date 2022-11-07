@@ -25,7 +25,7 @@ open import Symp.Lang.Ktxred using (Ktxred; val/ktxred; val/ktxred-ĩ₀;
   val/ktxred-V⇒E)
 open import Symp.Lang.Reduce using ([]⇒; redᴷᴿ; _⇒ᴷᴿ∑; redᴱ; _⇒ᵀ_; _⇒ᵀ○_; _⇒ᵀ●_;
   redᵀ-hd; redᵀ-tl; _⇒ᵀ*_; ⇒ᵀ*-refl; ⇒ᵀ*-step; SNᵀ; Infᵀ; infᵀ)
-open import Symp.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ-✓[⊤])
+open import Symp.Model.ERA.Glob using (Resᴳ; _✓ᴳ_; Envᴵⁿᴳ; envᴳ; ∅ᴵⁿᴳ-✓ᴺ)
 open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-syntax;
   ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; ⊥ᵒ₀; _∗ᵒ_; [∗ᵒ∈]-syntax; [∗ᵒ∈²]-syntax; Thunkᵒ; substᵒ;
   ⌜⌝ᵒ-Mono; ∗ᵒ⇒∗ᵒ'; ∗ᵒ'⇒∗ᵒ; ∗ᵒ-mono; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-assocˡ; ∗ᵒ-assocʳ;
@@ -217,7 +217,7 @@ abstract
   -- normalizing, i.e., any execution of (e , [] , H) terminates, for valid H
 
   ⟨⟩ᵀᵒ⇒SN :  ⊨ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ →  ✓ᴴ H →  SNᵀ (e , [] , H)
-  ⟨⟩ᵀᵒ⇒SN ⊨⟨e⟩P ✓H =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓[⊤] ✓H) $
+  ⟨⟩ᵀᵒ⇒SN ⊨⟨e⟩P ✓H =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓ᴺ ✓H) $
     ◎-just ▷ ∗ᵒ?-intro (∗ᵒ?-intro _ ⊨⟨e⟩P) ▷ ∗ᵒ?-intro Invᴳ-∅
    where
     -- Well-founded induction on sz ι ∷ ιs
@@ -305,7 +305,7 @@ abstract
   -- triggers the event an infinite number of times for valid H
 
   ⟨⟩∞ᵒ⇒Inf :  ⊨ ⟨ e ⟩∞ᵒ ι ι' →  ✓ᴴ H →  Infᵀ ι' (e , [] , H)
-  ⟨⟩∞ᵒ⇒Inf ⊨⟨e⟩∞ ✓H =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓[⊤] ✓H) $
+  ⟨⟩∞ᵒ⇒Inf ⊨⟨e⟩∞ ✓H =  go {ιs = []} (≺ᴰᴹ-wf <ˢ-wf) (∅ᴵⁿᴳ-✓ᴺ ✓H) $
     ◎-just ▷ ∗ᵒ?-intro (∗ᵒ?-intro _ ⊨⟨e⟩∞) ▷ ∗ᵒ?-intro Invᴳ-∅
    where
     -- Well-founded induction on (ι' , sz ι ∷ ιs)

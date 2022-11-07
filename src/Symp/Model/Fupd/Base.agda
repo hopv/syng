@@ -14,7 +14,7 @@ open import Base.Prod using (∑-syntax; _×_; π₀; _,_; -,_; _,-)
 open import Base.Nat using (ℕ)
 open import Symp.Lang.Expr using (Heap; ✓ᴴ_)
 open import Symp.Model.ERA.Glob using (iᴴᵉᵃᵖ; outᴳ; Envᴵⁿᴳ; Envᴵⁿᴳ˙; envᴳ;
-  ∅ᴵⁿᴳ; ∅ᴵⁿᴳ-✓[⊤]; envᴳ-cong; upd˙-out-envᴳ)
+  ∅ᴵⁿᴳ; ∅ᴵⁿᴳ-✓ᴺ; envᴳ-cong; upd˙-out-envᴳ)
 open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨✓_; _⊨_; ⊨_; ∀ᵒ-syntax;
   ⊤ᵒ; ⊤ᵒ₀; ⌜_⌝ᵒ; ⌜_⌝ᵒ×_; _∗ᵒ'_; _∗ᵒ_; _-∗ᵒ'_; _-∗ᵒ_; ⤇ᵒ_; _⤇ᴱ'_; _⤇ᴱ_; ⤇ᴱ⟨⟩;
   ⊨⇒⊨✓; substᵒ; ∗ᵒ≡∗ᵒ'; ∗ᵒ-mono✓ˡ; ∗ᵒ-monoˡ; ∗ᵒ-monoʳ; ∗ᵒ-comm; ∗ᵒ-assocˡ;
@@ -242,6 +242,6 @@ abstract
 
   ⇛ᴳ-adeq :  ⊨ Inv (get ∅ᴵⁿᴳ) →  ✓ᴴ H →
              [⊤]ᴺᵒ ⊨ ⟨ H ⟩[ get , set , Inv ]⇛ᴳ⟨ H' ⟩ ⌜ Y ⌝ᵒ →  Y
-  ⇛ᴳ-adeq ⊨Invg∅ ✓H [⊤]⊨H⇛H'Y =  ⤇ᴱ-adeq (∅ᴵⁿᴳ-✓[⊤] ✓H) $
+  ⇛ᴳ-adeq ⊨Invg∅ ✓H [⊤]⊨H⇛H'Y =  ⤇ᴱ-adeq (∅ᴵⁿᴳ-✓ᴺ ✓H) $
     [⊤]⊨H⇛H'Y › ∗ᵒ?-intro ⊨Invg∅ › ⇛ᴳ-apply ›
     ⤇ᴱ-mono λ _ → ∗ᵒ-monoˡ {Qᵒ = ⌜ _ ⌝ᵒ× ⊤ᵒ₀} (_,-) › ∃ᵒ∗ᵒ-out › π₀

@@ -30,7 +30,7 @@ open import Symp.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨�
 open import Symp.Logic.Bor using (&ᵐ-resp-□∗; ⅋ᵐ-respᴿ; ⅋ᵐ-respᴾ-□∗; ⟨†⟩-mono;
   ⟨†⟩-eatˡ)
 open import Symp.Logic.Ub using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
-open import Symp.Model.ERA.Glob using (∅ᴵⁿᴳ-✓[⊤])
+open import Symp.Model.ERA.Glob using (∅ᴵⁿᴳ-✓ᴺ)
 open import Symp.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-mono✓ˡ;
   ∗ᵒ-monoˡ; ?∗ᵒ-intro; ∗ᵒ-elimʳ; ∗ᵒ-comm; ∗ᵒ-assocʳ; -∗ᵒ-introˡ; -∗ᵒ-elimˡ;
   ⤇ᵒ-mono✓; ⤇ᵒ-intro; ⤇ᵒ-join; ⤇ᵒ-eatˡ; ⤇ᵒ-⌜⌝ᵒ×-out; □ᵒ-mono✓; □ᵒ-elim; □ᵒ-dup;
@@ -437,7 +437,7 @@ abstract
   -- Under the premise [⊤]ᴺ
 
   ⊢-adeqᴺ :  [⊤]ᴺ ⊢[ ∞ ] ⌜ X ⌝ →  X
-  ⊢-adeqᴺ ᴺ⊢X =  ⊢-sem ᴺ⊢X (∅ᴵⁿᴳ-✓[⊤] ✓ᴴ-∅) ◎-just .π₀
+  ⊢-adeqᴺ ᴺ⊢X =  ⊢-sem ᴺ⊢X (∅ᴵⁿᴳ-✓ᴺ ✓ᴴ-∅) ◎-just .π₀
 
   -- Under the premise [^ nm ]ᴺ
 

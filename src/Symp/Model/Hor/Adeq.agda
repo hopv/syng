@@ -90,7 +90,7 @@ abstract
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇH'⇐))
     rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴴ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-kr⁻¹ ›
     -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) › ⇛ᴴ-mono (λ (-, big) →
-    big _ _ _ (-, e'eˇH'⇐) ▷ ⇛ᴴ-mono (∗ᵒ-monoʳ $ ∗ᵒ-monoˡ λ big → big .!)) ›
+    big _ _ _ _ e'eˇH'⇐ ▷ ⇛ᴴ-mono (∗ᵒ-monoʳ $ ∗ᵒ-monoˡ λ big → big .!)) ›
     ⇛ᴴ-join) › ⇛ᴴ-eatʳ › ⇛ᴴ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ ∗ᵒ-assocʳ ›
     ∗ᵒ-monoʳ $ go {eˇ}
    where
@@ -192,7 +192,7 @@ abstract
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇH'⇐))
     rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴴ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
     -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) ›
-    ⇛ᴴ-mono (λ (-, big) → big _ _ _ (-, e'eˇH'⇐)) › ⇛ᴴ-join) › ⇛ᴴ-eatʳ ›
+    ⇛ᴴ-mono (λ (-, big) → big _ _ _ _ e'eˇH'⇐) › ⇛ᴴ-join) › ⇛ᴴ-eatʳ ›
     ⇛ᴴ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ (∗ᵒ-assocʳ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
     λ{ (-, -, b∙c⊑a , [⊤]b , -, -, ι'∷ιs'≺ι∷ιs , big) →
     -, -, ι'∷ιs'≺ι∷ιs , ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , [⊤]b , big) }

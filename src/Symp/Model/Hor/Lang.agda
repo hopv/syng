@@ -57,16 +57,16 @@ abstract
   ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → [⊤]ᴺᵒ ∗ᵒ ⟨ K ᴷ◁ V⇒E v ⟩ᴾᵒ˂ ι Pᵒ˙)  ⊨
                   ⁺⟨ ĩ₁ (-, K , red) ⟩ᴾᵒ ι Pᵒ˙
   ᵃ⟨⟩ᴺᵒ-⟨⟩ᴾᵒ =  -∗ᵒ-monoʳ (λ big H → big H ▷ ⇛ᴴ-mono λ ((-, -, redH⇒) , big) →
-    (-, -, redᴷᴿ redH⇒) , λ{ _ eˇ H' (-, redᴷᴿ eeˇH'⇐) → big _ eˇ H' (-, eeˇH'⇐)
-    ▷ λ{ (-, (refl , refl) , big) → big ▷ ⇛ᴴ-mono (∗ᵒ-monoʳ $ ∗ᵒ?-intro _) }}) ›
-    ⁺⟨⟩ᴾᵒ-kr
+    (-, -, redᴷᴿ redH⇒) , λ{ _ eˇ H' b (redᴷᴿ eeˇH'⇐b) → big _ eˇ H'
+    (-, eeˇH'⇐b) ▷ λ{ (-, (refl , refl) , big) →
+    big ▷ ⇛ᴴ-mono (∗ᵒ-monoʳ $ ∗ᵒ?-intro _) }}) › ⁺⟨⟩ᴾᵒ-kr
 
   ᵃ⟨⟩ᴺᵒ-⟨⟩ᵀᵒ :  [⊤]ᴺᵒ -∗ᵒ ᵃ⟨ red ⟩ᵒ (λ v → [⊤]ᴺᵒ ∗ᵒ ⟨ K ᴷ◁ V⇒E v ⟩ᵀᵒ ∞ Pᵒ˙)  ⊨
                   ⁺⟨ ĩ₁ (-, K , red) ⟩ᵀᵒ ∞ Pᵒ˙
   ᵃ⟨⟩ᴺᵒ-⟨⟩ᵀᵒ =  -∗ᵒ-monoʳ (λ big H → big H ▷ ⇛ᴴ-mono λ ((-, -, redH⇒) , big) →
-    (-, -, redᴷᴿ redH⇒) , λ{ _ eˇ H' (-, redᴷᴿ eeˇH'⇐) → big _ eˇ H' (-, eeˇH'⇐)
-    ▷ λ{ (-, (refl , refl) , big) → big ▷
-    ⇛ᴴ-mono (∗ᵒ-monoʳ $ §_ › ∗ᵒ?-intro _) }}) › ⁺⟨⟩ᵀᵒ-kr
+    (-, -, redᴷᴿ redH⇒) , λ{ _ eˇ H' b (redᴷᴿ eeˇH'⇐b) →
+    big _ eˇ H' (-, eeˇH'⇐b) ▷ λ{ (-, (refl , refl) , big) →
+    big ▷ ⇛ᴴ-mono (∗ᵒ-monoʳ $ §_ › ∗ᵒ?-intro _) }}) › ⁺⟨⟩ᵀᵒ-kr
 
   -- Compose ᵃ⟨⟩ᵒ and ⟨⟩∞ᵒ
 
@@ -90,7 +90,7 @@ abstract
   … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
     ⁺⟨⟩ᴾᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big H → big H ▷ ⇛ᴴ-mono
     λ{ ((-, -, redᴷᴿ redH⇒) , big) → (-, -, redᴷᴿ redH⇒) ,
-    λ{ _ eˇ H' (-, redᴷᴿ e'eˇH'⇐) → big _ eˇ H' (-, redᴷᴿ e'eˇH'⇐) ▷ ⇛ᴴ-mono
+    λ{ _ eˇ H' b (redᴷᴿ e'eˇH'⇐b) → big _ eˇ H' b (redᴷᴿ e'eˇH'⇐b) ▷ ⇛ᴴ-mono
     (∗ᵒ-monoʳ $ ∗ᵒ-monoˡ λ big → λ{ .! {ι'} → big .! ▷
     ⁺⟨⟩ᴾᵒ-mono (λ _ → ⁺⟨⟩ᴾᵒ-size) ▷ ⟨⟩ᴾᵒ-bind ▷
     substᵒ (λ e⁺ → ⟨ e⁺ ⟩ᴾᵒ ι' _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }) }}) › ⁺⟨⟩ᴾᵒ-kr
@@ -102,7 +102,7 @@ abstract
   … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
     ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big H → big H ▷ ⇛ᴴ-mono λ{
     ((-, -, redᴷᴿ redH⇒) , big) → (-, -, redᴷᴿ redH⇒) ,
-    λ{ _ eˇ H' (-, redᴷᴿ e'eˇH'⇐) → big _ eˇ H' (-, redᴷᴿ e'eˇH'⇐) ▷ ⇛ᴴ-mono
+    λ{ _ eˇ H' b (redᴷᴿ e'eˇH'⇐b) → big _ eˇ H' b (redᴷᴿ e'eˇH'⇐b) ▷ ⇛ᴴ-mono
     (∗ᵒ-monoʳ $ ∗ᵒ-monoʳ (⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
     ∗ᵒ-monoˡ λ{ (§ big) → § (⟨⟩ᵀᵒ-bind big ▷
     substᵒ (λ e⁺ → ⟨ e⁺ ⟩ᵀᵒ ∞ _) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K})) }) }}) › ⁺⟨⟩ᵀᵒ-kr
@@ -132,11 +132,11 @@ abstract
   … | ĩ₁ (-, K' , _) | _ | ⇒Ke≡KK'red  rewrite ⇒Ke≡KK'red {K = K} refl =
     ⁺⟨⟩ᵀᵒ-kr⁻¹ › -∗ᵒ-monoʳ (λ big H → big H ▷ ⇛ᴴ-mono λ{
     ((-, -, redᴷᴿ redH⇒) , big) → (-, -, redᴷᴿ redH⇒) , λ _ eˇ H' → λ{
-    ff (redᴷᴿ e'eˇH'⇐○) → big _ eˇ H' (-, redᴷᴿ e'eˇH'⇐○) ▷ ⇛ᴴ-mono
+    ff (redᴷᴿ e'eˇH'⇐○) → big _ eˇ H' _ (redᴷᴿ e'eˇH'⇐○) ▷ ⇛ᴴ-mono
       (∗ᵒ-monoʳ $ ∗ᵒ-monoʳ (⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
       ∗ᵒ-monoˡ λ{ (§ big) → § (⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind big ▷
       substᵒ (λ e⁺ → ⟨ e⁺ ⟩∞ᵒ ∞ ι') (◠ ᴷ∘ᴷ-ᴷ◁ {K = K})) });
-    tt (redᴷᴿ e'eˇH'⇐●) → big _ eˇ H' (-, redᴷᴿ e'eˇH'⇐●) ▷ ⇛ᴴ-mono
+    tt (redᴷᴿ e'eˇH'⇐●) → big _ eˇ H' _ (redᴷᴿ e'eˇH'⇐●) ▷ ⇛ᴴ-mono
       (∗ᵒ-monoʳ $ ∗ᵒ-monoʳ (⟨¿⟩ᵀᵒ⊤˂-size {ι = ∞} {eˇ = eˇ}) ›
       ∗ᵒ-monoˡ λ{ (§ big) → λ{ .! {ι'⁻} → big ▷ ⟨⟩ᵀᵒ-⟨⟩∞ᵒ-bind {K = K} ▷
       substᵒ (λ e⁺ → ⟨ e⁺ ⟩∞ᵒ ∞ ι'⁻) (◠ ᴷ∘ᴷ-ᴷ◁ {K = K}) }}) }}) › ⁺⟨⟩∞ᵒ-kr
@@ -152,12 +152,12 @@ abstract
 
   ⁺⟨⟩ᴾᵒ-[] :  ⟨ K ᴷ◁ e ⟩ᴾᵒ˂ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , [ e ]ᴿ⟨ b ⟩) ⟩ᴾᵒ ι Pᵒ˙
   ⁺⟨⟩ᴾᵒ-[] =  -∗ᵒ-introˡ (λ _ big _ → ⇛ᴴ-intro ((-, -, redᴷᴿ []⇒) ,
-    λ{ _ _ _ (-, redᴷᴿ []⇒) → ⇛ᴴ-intro $ big ▷ ∗ᵒ-monoʳ (∗ᵒ?-intro _) })) ›
+    λ{ _ _ _ _ (redᴷᴿ []⇒) → ⇛ᴴ-intro $ big ▷ ∗ᵒ-monoʳ (∗ᵒ?-intro _) })) ›
     ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-[] :  ⟨ K ᴷ◁ e ⟩ᵀᵒ ι Pᵒ˙  ⊨  ⁺⟨ ĩ₁ (-, K , [ e ]ᴿ⟨ b ⟩) ⟩ᵀᵒ ∞ Pᵒ˙
   ⁺⟨⟩ᵀᵒ-[] =  -∗ᵒ-introˡ (λ _ big _ → ⇛ᴴ-intro ((-, -, redᴷᴿ []⇒) ,
-    λ{ _ _ _ (-, redᴷᴿ []⇒) → ⇛ᴴ-intro $ big ▷ ∗ᵒ-monoʳ (§_ › ∗ᵒ?-intro _) })) ›
+    λ{ _ _ _ _ (redᴷᴿ []⇒) → ⇛ᴴ-intro $ big ▷ ∗ᵒ-monoʳ (§_ › ∗ᵒ?-intro _) })) ›
     ⁺⟨⟩ᵀᵒ-kr
 
   -- Pure reduction by ⁺⟨⟩∞ᵒ
@@ -179,12 +179,12 @@ abstract
   ⁺⟨⟩ᴾᵒ-fork :  ⟨ e ⟩ᴾᵒ⊤˂ ι  ∗ᵒ  ⟨ K ᴷ◁ ∇ _ ⟩ᴾᵒ˂ ι Pᵒ˙  ⊨
                   ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᴾᵒ ι Pᵒ˙
   ⁺⟨⟩ᴾᵒ-fork =  -∗ᵒ-introˡ (λ _ big _ → ⇛ᴴ-intro ((-, -, redᴷᴿ fork⇒) ,
-    λ{ _ _ _ (-, redᴷᴿ fork⇒) → ⇛ᴴ-intro $ big ▷ ∗ᵒ-monoʳ ∗ᵒ-comm })) › ⁺⟨⟩ᴾᵒ-kr
+    λ{ _ _ _ _ (redᴷᴿ fork⇒) → ⇛ᴴ-intro $ big ▷ ∗ᵒ-monoʳ ∗ᵒ-comm })) › ⁺⟨⟩ᴾᵒ-kr
 
   ⁺⟨⟩ᵀᵒ-fork :  ⟨ e ⟩ᵀᵒ⊤ ι'  ∗ᵒ  ⟨ K ᴷ◁ ∇ _ ⟩ᵀᵒ ι Pᵒ˙  ⊨
                   ⁺⟨ ĩ₁ (-, K , forkᴿ e) ⟩ᵀᵒ ∞ Pᵒ˙
   ⁺⟨⟩ᵀᵒ-fork =  -∗ᵒ-introˡ (λ _ big _ → ⇛ᴴ-intro ((-, -, redᴷᴿ fork⇒) ,
-    λ{ _ _ _ (-, redᴷᴿ fork⇒) → ⇛ᴴ-intro $ big ▷
+    λ{ _ _ _ _ (redᴷᴿ fork⇒) → ⇛ᴴ-intro $ big ▷
     ∗ᵒ-monoʳ (∗ᵒ-comm › ∗ᵒ-mono §_ $ §_ {ι = ∞}) })) › ⁺⟨⟩ᵀᵒ-kr
 
   ⁺⟨⟩∞ᵒ-fork :  ⟨ e ⟩ᵀᵒ⊤ ι  ∗ᵒ  ⟨ K ᴷ◁ ∇ _ ⟩∞ᵒ ι ι'  ⊨

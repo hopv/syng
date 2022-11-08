@@ -119,7 +119,7 @@ data  Wpᴾ⊤ ι  where
 
 data  Wpᴾ Pᵒ˙ ι  where
 
-  -- For a value, having the postcondition under ⇛ᴴ
+  -- For a value, having the postcondition under ⇛ᴺᵒ
 
   ⁺⟨⟩ᴾᵒ-val :  ⇛ᴺᵒ Pᵒ˙ v  ⊨  ⁺⟨ ĩ₀ v ⟩ᴾᵒ ι Pᵒ˙
 
@@ -191,7 +191,7 @@ data  Wpᵀ⊤ ι  where
 
 data  Wpᵀ Pᵒ˙ ι  where
 
-  -- For a value, having the postcondition under ⇛ᴴ
+  -- For a value, having the postcondition under ⇛ᴺᵒ
 
   ⁺⟨⟩ᵀᵒ-val :  ⇛ᴺᵒ Pᵒ˙ v  ⊨  ⁺⟨ ĩ₀ v ⟩ᵀᵒ ι Pᵒ˙
 
@@ -235,7 +235,7 @@ data  Wp∞ {T} (ι ι' : 𝕊) :  Val/Ktxred T →  SPropᵒ 1ᴸ
 
 data  Wp∞ ι ι'  where
 
-  -- For a value, having ⊥ᵒ₀ under ⇛ᴴ
+  -- For a value, having ⊥ᵒ₀ under ⇛ᴺᵒ
 
   ⁺⟨⟩∞ᵒ-val :  ⇛ᴺᵒ ⊥ᵒ₀  ⊨  ⁺⟨ ĩ₀ v ⟩∞ᵒ ι ι'
 

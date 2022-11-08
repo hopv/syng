@@ -42,29 +42,29 @@ private variable
 --------------------------------------------------------------------------------
 -- Interpret the fancy update
 
-infix 3 ⟨_⟩⇛ᴴ'⟨_⟩_ ⟨_⟩⇛ᴴ⟨_⟩_ ⇛ᵒ_ ⇛ᴺᵒ_
+infix 3 ⟨_⟩⇛ˢ'⟨_⟩_ ⟨_⟩⇛ˢ⟨_⟩_ ⇛ᵒ_ ⇛ᴺᵒ_
 
 -- Invᴳ :  Global invariant
 
 Invᴳ :  Envᴵⁿᴳ →  SPropᵒ 1ᴸ
 Invᴳ Eᴵⁿ =  Invᴵⁿᵈ (envᴵⁿᵈ Eᴵⁿ)  ∗ᵒ  Invᴵⁿᵛ (Eᴵⁿ jᴵⁿᵛ)  ∗ᵒ  Invᴮᵒʳ (Eᴵⁿ jᴮᵒʳ)
 
--- ⇛ᴴ' :  Non-abstract version of ⇛ᴴ
+-- ⇛ˢ' :  Non-abstract version of ⇛ˢ
 
-⟨_⟩⇛ᴴ'⟨_⟩_ :  Heap →  Heap →  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
-⟨ H ⟩⇛ᴴ'⟨ H' ⟩ Pᵒ =  ⟨ H ⟩[ id , const , Invᴳ ]⇛ᴳ'⟨ H' ⟩ Pᵒ
+⟨_⟩⇛ˢ'⟨_⟩_ :  Heap →  Heap →  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
+⟨ H ⟩⇛ˢ'⟨ H' ⟩ Pᵒ =  ⟨ H ⟩[ id , const , Invᴳ ]⇛ᴳ'⟨ H' ⟩ Pᵒ
 
 abstract
 
-  -- ⇛ᴴ :  Semantic fancy update with a heap
+  -- ⇛ˢ :  Stateful fancy update
 
-  ⟨_⟩⇛ᴴ⟨_⟩_ :  Heap →  Heap →  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
-  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ =  ⟨ H ⟩[ id , const , Invᴳ ]⇛ᴳ⟨ H' ⟩ Pᵒ
+  ⟨_⟩⇛ˢ⟨_⟩_ :  Heap →  Heap →  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
+  ⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ =  ⟨ H ⟩[ id , const , Invᴳ ]⇛ᴳ⟨ H' ⟩ Pᵒ
 
--- ⇛ᵒ :  Semantic fancy update, i.e., ⇛ᴴ with any fixed heap
+-- ⇛ᵒ :  Semantic fancy update, i.e., ⇛ˢ with any fixed heap
 
 ⇛ᵒ_ :  SPropᵒ ł →  SPropᵒ (1ᴸ ⊔ᴸ ł)
-⇛ᵒ Pᵒ =  ∀ᵒ H , ⟨ H ⟩⇛ᴴ⟨ H ⟩ Pᵒ
+⇛ᵒ Pᵒ =  ∀ᵒ H , ⟨ H ⟩⇛ˢ⟨ H ⟩ Pᵒ
 
 -- ⇛ᴺᵒ :  ⇛ᵒ with [⊤]ᴺᵒ
 
@@ -78,16 +78,16 @@ abstract
   Invᴳ-∅ :  ⊨ Invᴳ ∅ᴵⁿᴳ
   Invᴳ-∅ =  Invᴮᵒʳ-∅ ▷ ?∗ᵒ-intro Invᴵⁿᵛ-∅ ▷ ?∗ᵒ-intro Invᴵⁿᵈ-∅
 
-  -- ⇛ᴴ equals ⇛ᴴ'
+  -- ⇛ˢ equals ⇛ˢ'
 
-  ⇛ᴴ≡⇛ᴴ' :  (⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ)  ≡  (⟨ H ⟩⇛ᴴ'⟨ H' ⟩ Pᵒ)
-  ⇛ᴴ≡⇛ᴴ' =  ⇛ᴳ≡⇛ᴳ'
+  ⇛ˢ≡⇛ˢ' :  (⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ)  ≡  (⟨ H ⟩⇛ˢ'⟨ H' ⟩ Pᵒ)
+  ⇛ˢ≡⇛ˢ' =  ⇛ᴳ≡⇛ᴳ'
 
-  ⇛ᴴ⇒⇛ᴴ' :  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ  ⊨  ⟨ H ⟩⇛ᴴ'⟨ H' ⟩ Pᵒ
-  ⇛ᴴ⇒⇛ᴴ' =  substᵒ id ⇛ᴴ≡⇛ᴴ'
+  ⇛ˢ⇒⇛ˢ' :  ⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ  ⊨  ⟨ H ⟩⇛ˢ'⟨ H' ⟩ Pᵒ
+  ⇛ˢ⇒⇛ˢ' =  substᵒ id ⇛ˢ≡⇛ˢ'
 
-  ⇛ᴴ'⇒⇛ᴴ :  ⟨ H ⟩⇛ᴴ'⟨ H' ⟩ Pᵒ  ⊨  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ
-  ⇛ᴴ'⇒⇛ᴴ =  substᵒ id $ ◠ ⇛ᴴ≡⇛ᴴ'
+  ⇛ˢ'⇒⇛ˢ :  ⟨ H ⟩⇛ˢ'⟨ H' ⟩ Pᵒ  ⊨  ⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ
+  ⇛ˢ'⇒⇛ˢ =  substᵒ id $ ◠ ⇛ˢ≡⇛ˢ'
 
   -- ⇛ᴵⁿᵈ into ⇛ᵒ
 
@@ -107,33 +107,33 @@ abstract
   ⇛ᴮᵒʳ⇒⇛ᵒ =  ⇛ᴵⁿᵛ-intro ›
     ⇛ᵍ-join2 refl › ⇛ᴵⁿᵈ-intro › ⇛ᵍ-join2 refl › ⇛ᵍ-all refl
 
-  -- ⤇ᴱ⟨⟩ on iᴴᵉᵃᵖ into ⇛ᴴ
+  -- ⤇ᴱ⟨⟩ on iᴴᵉᵃᵖ into ⇛ˢ
 
-  ?⊨⤇ᴱᴴᵉᵃᵖ⇒?⊨⇛ᴴ :  Pᵒ  ⊨ ↑ H ⤇ᴱ⟨ iᴴᵉᵃᵖ ⟩ (λ (_ : ⊤₀) → ↑ H' ,  Qᵒ)  →
-                  Pᵒ  ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩  Qᵒ
-  ?⊨⤇ᴱᴴᵉᵃᵖ⇒?⊨⇛ᴴ {H = H} P⊨H⤇H'Q =  ⇛ᴳ-make $ ∗ᵒ-monoˡ (P⊨H⤇H'Q › _$ _) ›
+  ?⊨⤇ᴱᴴᵉᵃᵖ⇒?⊨⇛ˢ :  Pᵒ  ⊨ ↑ H ⤇ᴱ⟨ iᴴᵉᵃᵖ ⟩ (λ (_ : ⊤₀) → ↑ H' ,  Qᵒ)  →
+                  Pᵒ  ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩  Qᵒ
+  ?⊨⤇ᴱᴴᵉᵃᵖ⇒?⊨⇛ˢ {H = H} P⊨H⤇H'Q =  ⇛ᴳ-make $ ∗ᵒ-monoˡ (P⊨H⤇H'Q › _$ _) ›
     ⤇ᴱ-eatʳ › ⤇ᴱ-respᴱˡ (upd˙-mem-envᴳ {H = H}) › ⤇ᴱ-respᴱʳ upd˙-mem-envᴳ ›
     ⤇ᴱ-param
 
-  ⊨⤇ᴱᴴᵉᵃᵖ⇒⊨⇛ᴴ :  ⊨ ↑ H ⤇ᴱ⟨ iᴴᵉᵃᵖ ⟩ (λ (_ : ⊤₀) → ↑ H' ,  Pᵒ)  →
-                ⊨  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ
-  ⊨⤇ᴱᴴᵉᵃᵖ⇒⊨⇛ᴴ ⊨H⤇H'P =  ?⊨⤇ᴱᴴᵉᵃᵖ⇒?⊨⇛ᴴ {Pᵒ = ⊤ᵒ₀} (λ _ → ⊨H⤇H'P) _
+  ⊨⤇ᴱᴴᵉᵃᵖ⇒⊨⇛ˢ :  ⊨ ↑ H ⤇ᴱ⟨ iᴴᵉᵃᵖ ⟩ (λ (_ : ⊤₀) → ↑ H' ,  Pᵒ)  →
+                ⊨  ⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ
+  ⊨⤇ᴱᴴᵉᵃᵖ⇒⊨⇛ˢ ⊨H⤇H'P =  ?⊨⤇ᴱᴴᵉᵃᵖ⇒?⊨⇛ˢ {Pᵒ = ⊤ᵒ₀} (λ _ → ⊨H⤇H'P) _
 
-  -- Monoᵒ for ⇛ᴴ/⇛ᵒ
+  -- Monoᵒ for ⇛ˢ/⇛ᵒ
 
-  ⇛ᴴ-Mono :  Monoᵒ $ ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ
-  ⇛ᴴ-Mono =  ⇛ᴳ-Mono
+  ⇛ˢ-Mono :  Monoᵒ $ ⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ
+  ⇛ˢ-Mono =  ⇛ᴳ-Mono
 
   ⇛ᵒ-Mono :  Monoᵒ $ ⇛ᵒ Pᵒ
   ⇛ᵒ-Mono =  ⇛ᵍ-Mono
 
-  -- Monotonicity of ⇛ᴴ/⇛ᵒ
+  -- Monotonicity of ⇛ˢ/⇛ᵒ
 
-  ⇛ᴴ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ  ⊨  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Qᵒ
-  ⇛ᴴ-mono✓ =  ⇛ᴳ-mono✓
+  ⇛ˢ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ  ⊨  ⟨ H ⟩⇛ˢ⟨ H' ⟩ Qᵒ
+  ⇛ˢ-mono✓ =  ⇛ᴳ-mono✓
 
-  ⇛ᴴ-mono :  Pᵒ ⊨ Qᵒ →  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ  ⊨  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Qᵒ
-  ⇛ᴴ-mono =  ⇛ᴳ-mono
+  ⇛ˢ-mono :  Pᵒ ⊨ Qᵒ →  ⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ  ⊨  ⟨ H ⟩⇛ˢ⟨ H' ⟩ Qᵒ
+  ⇛ˢ-mono =  ⇛ᴳ-mono
 
   ⇛ᵒ-mono✓ :  Pᵒ ⊨✓ Qᵒ →  ⇛ᵒ Pᵒ ⊨ ⇛ᵒ Qᵒ
   ⇛ᵒ-mono✓ =  ⇛ᵍ-mono✓
@@ -141,21 +141,21 @@ abstract
   ⇛ᵒ-mono :  Pᵒ ⊨ Qᵒ →  ⇛ᵒ Pᵒ ⊨ ⇛ᵒ Qᵒ
   ⇛ᵒ-mono =  ⇛ᵍ-mono
 
-  -- ⊨✓ ⇛ᴴ/⇛ᵒ into ⊨ ⇛ᴴ/⇛ᵒ
+  -- ⊨✓ ⇛ˢ/⇛ᵒ into ⊨ ⇛ˢ/⇛ᵒ
 
-  ⊨✓⇒⊨-⇛ᴴ :  Pᵒ ⊨✓ ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩ Qᵒ
-  ⊨✓⇒⊨-⇛ᴴ =  ⊨✓⇒⊨-⇛ᴳ
+  ⊨✓⇒⊨-⇛ˢ :  Pᵒ ⊨✓ ⟨ H ⟩⇛ˢ⟨ H' ⟩ Qᵒ →  Pᵒ ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩ Qᵒ
+  ⊨✓⇒⊨-⇛ˢ =  ⊨✓⇒⊨-⇛ᴳ
 
   ⊨✓⇒⊨-⇛ᵒ :  Pᵒ ⊨✓ ⇛ᵒ Qᵒ →  Pᵒ ⊨ ⇛ᵒ Qᵒ
   ⊨✓⇒⊨-⇛ᵒ =  ⊨✓⇒⊨-⇛ᵍ
 
-  -- Introduce ⇛ᴴ/⇛ᵒ
+  -- Introduce ⇛ˢ/⇛ᵒ
 
-  ⤇ᵒ⇒⇛ᴴ :  ⤇ᵒ Pᵒ  ⊨ ⟨ H ⟩⇛ᴴ⟨ H ⟩  Pᵒ
-  ⤇ᵒ⇒⇛ᴴ =  ⤇ᵒ⇒⇛ᴳ refl˙
+  ⤇ᵒ⇒⇛ˢ :  ⤇ᵒ Pᵒ  ⊨ ⟨ H ⟩⇛ˢ⟨ H ⟩  Pᵒ
+  ⤇ᵒ⇒⇛ˢ =  ⤇ᵒ⇒⇛ᴳ refl˙
 
-  ⇛ᴴ-intro :  Pᵒ  ⊨ ⟨ H ⟩⇛ᴴ⟨ H ⟩  Pᵒ
-  ⇛ᴴ-intro =  ⇛ᴳ-intro refl˙
+  ⇛ˢ-intro :  Pᵒ  ⊨ ⟨ H ⟩⇛ˢ⟨ H ⟩  Pᵒ
+  ⇛ˢ-intro =  ⇛ᴳ-intro refl˙
 
   ⤇ᵒ⇒⇛ᵒ :  ⤇ᵒ Pᵒ  ⊨ ⇛ᵒ  Pᵒ
   ⤇ᵒ⇒⇛ᵒ =  ⤇ᵒ⇒⇛ᵍ refl˙
@@ -163,26 +163,26 @@ abstract
   ⇛ᵒ-intro :  Pᵒ  ⊨ ⇛ᵒ  Pᵒ
   ⇛ᵒ-intro =  ⇛ᵍ-intro refl˙
 
-  -- Introduce ⇛ᴴ with ✓ᴴ
+  -- Introduce ⇛ˢ with ✓ᴴ
 
-  ⇛ᴴ-intro-✓ᴴ :  Pᵒ  ⊨ ⟨ H ⟩⇛ᴴ⟨ H ⟩  ⌜ ✓ᴴ H ⌝ᵒ×  Pᵒ
-  ⇛ᴴ-intro-✓ᴴ =  ⇛ᴳ-intro-✓ᴴ refl˙
+  ⇛ˢ-intro-✓ᴴ :  Pᵒ  ⊨ ⟨ H ⟩⇛ˢ⟨ H ⟩  ⌜ ✓ᴴ H ⌝ᵒ×  Pᵒ
+  ⇛ˢ-intro-✓ᴴ =  ⇛ᴳ-intro-✓ᴴ refl˙
 
-  -- Join ⇛ᴴ/⇛ᵒ
+  -- Join ⇛ˢ/⇛ᵒ
 
-  ⇛ᴴ-join :  ⟨ H ⟩⇛ᴴ⟨ H' ⟩ ⟨ H' ⟩⇛ᴴ⟨ H'' ⟩ Pᵒ  ⊨ ⟨ H ⟩⇛ᴴ⟨ H'' ⟩  Pᵒ
-  ⇛ᴴ-join =  ⇛ᴳ-join refl refl˙
+  ⇛ˢ-join :  ⟨ H ⟩⇛ˢ⟨ H' ⟩ ⟨ H' ⟩⇛ˢ⟨ H'' ⟩ Pᵒ  ⊨ ⟨ H ⟩⇛ˢ⟨ H'' ⟩  Pᵒ
+  ⇛ˢ-join =  ⇛ᴳ-join refl refl˙
 
   ⇛ᵒ-join :  ⇛ᵒ ⇛ᵒ Pᵒ  ⊨  ⇛ᵒ Pᵒ
   ⇛ᵒ-join =  ⇛ᵍ-join refl refl˙
 
-  -- Let ⇛ᴴ/⇛ᵒ eat a proposition under ∗ᵒ
+  -- Let ⇛ˢ/⇛ᵒ eat a proposition under ∗ᵒ
 
-  ⇛ᴴ-eatˡ :  Qᵒ ∗ᵒ (⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ)  ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩  Qᵒ ∗ᵒ Pᵒ
-  ⇛ᴴ-eatˡ =  ⇛ᴳ-eatˡ
+  ⇛ˢ-eatˡ :  Qᵒ ∗ᵒ (⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ)  ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩  Qᵒ ∗ᵒ Pᵒ
+  ⇛ˢ-eatˡ =  ⇛ᴳ-eatˡ
 
-  ⇛ᴴ-eatʳ :  (⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩  Pᵒ ∗ᵒ Qᵒ
-  ⇛ᴴ-eatʳ =  ⇛ᴳ-eatʳ
+  ⇛ˢ-eatʳ :  (⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩  Pᵒ ∗ᵒ Qᵒ
+  ⇛ˢ-eatʳ =  ⇛ᴳ-eatʳ
 
   ⇛ᵒ-eatˡ :  Qᵒ ∗ᵒ (⇛ᵒ Pᵒ)  ⊨ ⇛ᵒ  Qᵒ ∗ᵒ Pᵒ
   ⇛ᵒ-eatˡ =  ⇛ᵍ-eatˡ
@@ -190,22 +190,22 @@ abstract
   ⇛ᵒ-eatʳ :  (⇛ᵒ Pᵒ) ∗ᵒ Qᵒ  ⊨ ⇛ᵒ  Pᵒ ∗ᵒ Qᵒ
   ⇛ᵒ-eatʳ =  ⇛ᵍ-eatʳ
 
-  -- Adequacy of ⇛ᴴ
-  -- If we have X under [⊤]ᴺᵒ and ⟨ H ⟩⇛ᴴ⟨ _ ⟩ for valid H, then X holds purely
+  -- Adequacy of ⇛ˢ
+  -- If we have X under [⊤]ᴺᵒ and ⟨ H ⟩⇛ˢ⟨ _ ⟩ for valid H, then X holds purely
 
-  ⇛ᴴ-adeq :  ✓ᴴ H →  [⊤]ᴺᵒ ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩ ⌜ X ⌝ᵒ →  X
-  ⇛ᴴ-adeq =  ⇛ᴳ-adeq Invᴳ-∅
+  ⇛ˢ-adeq :  ✓ᴴ H →  [⊤]ᴺᵒ ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩ ⌜ X ⌝ᵒ →  X
+  ⇛ˢ-adeq =  ⇛ᴳ-adeq Invᴳ-∅
 
   -- Adequacy of ⇛ᵒ
 
   ⇛ᵒ-adeq :  [⊤]ᴺᵒ ⊨ ⇛ᵒ ⌜ X ⌝ᵒ →  X
-  ⇛ᵒ-adeq [⊤]⊨X =  ⇛ᴴ-adeq ✓ᴴ-∅ $ [⊤]⊨X › _$ _
+  ⇛ᵒ-adeq [⊤]⊨X =  ⇛ˢ-adeq ✓ᴴ-∅ $ [⊤]⊨X › _$ _
 
-  -- Perform a step by ⇛ᴴ
+  -- Perform a step by ⇛ˢ
 
-  ⇛ᴴ-step :  envᴳ H Eᴵⁿ ✓ᴳ a  →  ((⟨ H ⟩⇛ᴴ⟨ H' ⟩ Pᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
+  ⇛ˢ-step :  envᴳ H Eᴵⁿ ✓ᴳ a  →  ((⟨ H ⟩⇛ˢ⟨ H' ⟩ Pᵒ) ∗ᵒ Invᴳ Eᴵⁿ) a  →
              ∑ Fᴵⁿ , ∑ b ,  envᴳ H' Fᴵⁿ ✓ᴳ b  ×  (Pᵒ ∗ᵒ Invᴳ Fᴵⁿ) b
-  ⇛ᴴ-step HE✓a ⇛P∗InvEa  with ⤇ᴱ-step HE✓a (⇛ᴳ-apply ⇛P∗InvEa)
+  ⇛ˢ-step HE✓a ⇛P∗InvEa  with ⤇ᴱ-step HE✓a (⇛ᴳ-apply ⇛P∗InvEa)
   … | -, -, H'F✓b , P∗InvFb =  -, -, H'F✓b , P∗InvFb
 
   -- ⇛ᵒ into ⇛ᴺᵒ

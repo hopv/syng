@@ -32,13 +32,13 @@ open import Symp.Model.Prop.Base using (SPropᵒ; Monoᵒ; _⊨_; ⊨_; ∃ᵒ-s
   ?∗ᵒ-comm; ∗ᵒ?-intro; ∗ᵒ-elimˡ; ∗ᵒ-elimʳ; [∗ᵒ]-Mono; [∗ᵒ∈²]-Mono; -∗ᵒ-applyˡ;
   ◎-just; Shrunkᵒ∗ᵒ-out)
 open import Symp.Model.Prop.Names using ([⊤]ᴺᵒ)
-open import Symp.Model.Fupd.Interp using (⟨_⟩⇛ᴴ⟨_⟩_; Invᴳ; Invᴳ-∅; ⇛ᴴ-Mono;
-  ⇛ᴴ-mono✓; ⇛ᴴ-mono; ⊨✓⇒⊨-⇛ᴴ; ⇛ᴴ-intro; ⇛ᴴ-join; ⇛ᴴ-eatˡ; ⇛ᴴ-eatʳ; ⇛ᴴ-adeq;
-  ⇛ᴴ-step)
+open import Symp.Model.Fupd.Interp using (⟨_⟩⇛ˢ⟨_⟩_; Invᴳ; Invᴳ-∅; ⇛ˢ-Mono;
+  ⇛ˢ-mono✓; ⇛ˢ-mono; ⊨✓⇒⊨-⇛ˢ; ⇛ˢ-intro; ⇛ˢ-join; ⇛ˢ-eatˡ; ⇛ˢ-eatʳ; ⇛ˢ-adeq;
+  ⇛ˢ-step)
 open import Symp.Model.Hor.Wp using (⁺⟨_⟩ᴾᵒ; ⟨_⟩ᴾᵒ; ⟨_⟩ᵀᵒ; ⟨_⟩∞ᵒ; ⟨_⟩ᵀᵒ˂;
   ⟨_⟩∞ᵒ˂ˡ; ⟨_⟩∞ᵒ˂ʳ; ⟨_⟩ᴾᵒ⊤; ⟨_⟩ᵀᵒ⊤; ⟨¿_⟩ᴾᵒ⊤˂; ⟨¿_⟩ᵀᵒ⊤˂; ⁺⟨⟩ᴾᵒ-val⁻¹; ⁺⟨⟩ᴾᵒ-kr⁻¹;
   ⁺⟨⟩ᵀᵒ-kr⁻¹; ⁺⟨⟩∞ᵒ-kr⁻¹; ⁺⟨⟩ᴾᵒ-Mono; ⁺⟨⟩ᴾᵒ⊤-Mono; ⁺⟨⟩ᵀᵒ-Mono; ⁺⟨⟩∞ᵒ-Mono;
-  ∀ᵒ⇛ᴴ-Mono; ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤;
+  ∀ᵒ⇛ˢ-Mono; ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ; ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤; ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤;
   ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᴾᵒ; ⁺⟨⟩∞ᵒ⇒⁺⟨⟩ᴾᵒ)
 
 private variable
@@ -82,16 +82,16 @@ abstract
 
   -- Lemma: If (e , es , H) ⇒ᵀ (e' , es' , H'),
   -- then ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞ entails
-  -- ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞ under ⟨ H ⟩⇛ᴴ⟨ H' ⟩ with [⊤]ᴺᵒ
+  -- ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞ under ⟨ H ⟩⇛ˢ⟨ H' ⟩ with [⊤]ᴺᵒ
 
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ :  (e , es , H) ⇒ᵀ (e' , es' , H') →
-    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞  ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩
+    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞  ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩
       [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇH'⇐))
-    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴴ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-kr⁻¹ ›
-    -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) › ⇛ᴴ-mono (λ (-, big) →
-    big _ _ _ _ e'eˇH'⇐ ▷ ⇛ᴴ-mono (∗ᵒ-monoʳ $ ∗ᵒ-monoˡ λ big → big .!)) ›
-    ⇛ᴴ-join) › ⇛ᴴ-eatʳ › ⇛ᴴ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ ∗ᵒ-assocʳ ›
+    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ˢ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᴾᵒ-kr⁻¹ ›
+    -∗ᵒ-applyˡ ∀ᵒ⇛ˢ-Mono ✓∙ › (_$ _) › ⇛ˢ-mono (λ (-, big) →
+    big _ _ _ _ e'eˇH'⇐ ▷ ⇛ˢ-mono (∗ᵒ-monoʳ $ ∗ᵒ-monoˡ λ big → big .!)) ›
+    ⇛ˢ-join) › ⇛ˢ-eatʳ › ⇛ˢ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ $ ∗ᵒ-assocʳ ›
     ∗ᵒ-monoʳ $ go {eˇ}
    where
     go :  ⟨¿ eˇ' ⟩ᴾᵒ⊤˂ ∞ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞  ⊨  [∗ᵒ]⟨ ¿⇒ᴸ eˇ' ⧺ es ⟩ᴾᵒ⊤∞
@@ -99,29 +99,29 @@ abstract
     go {š _} =  ∗ᵒ-monoˡ λ big → big .!
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (-, redᵀ-tl es'H'⇐esH) =  ?∗ᵒ-comm › ∗ᵒ-monoʳ
     (∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ) › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ (-, es'H'⇐esH)) ›
-    ⇛ᴴ-eatˡ › ⇛ᴴ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ $ ∗ᵒ-monoʳ $ ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤
+    ⇛ˢ-eatˡ › ⇛ˢ-mono $ ?∗ᵒ-comm › ∗ᵒ-monoʳ $ ∗ᵒ-monoʳ $ ∗ᵒ-monoˡ ⁺⟨⟩ᴾᵒ⇒⁺⟨⟩ᴾᵒ⊤
 
   -- Lemma: If (e , es , H) ⇒ᵀ* (e' , es' , H'),
   -- then ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞ entails
-  -- ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞ under ⟨ H ⟩⇛ᴴ⟨ H' ⟩ with [⊤]ᴺᵒ
+  -- ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞ under ⟨ H ⟩⇛ˢ⟨ H' ⟩ with [⊤]ᴺᵒ
 
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* :  (e , es , H) ⇒ᵀ* (e' , es' , H') →
-    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞  ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩
+    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᴾᵒ⊤∞  ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩
       [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩ᴾᵒ ∞ Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᴾᵒ⊤∞
-  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* ⇒ᵀ*-refl =  ⇛ᴴ-intro
+  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* ⇒ᵀ*-refl =  ⇛ˢ-intro
   ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* (⇒ᵀ*-step H⇒ᵀM'' H''⇒ᵀ*H') =  ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ H⇒ᵀM'' ›
-    ⇛ᴴ-mono (⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* H''⇒ᵀ*H') › ⇛ᴴ-join
+    ⇛ˢ-mono (⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* H''⇒ᵀ*H') › ⇛ˢ-join
 
   -- Postcondition: ⊨ ⟨ e ⟩ᴾᵒ ∞ λ u → ⌜ X˙ u ⌝ᵒ ensures that the X˙ v holds for
   -- the result value v of any execution of (e , [] , H) for valid H
 
   ⟨⟩ᴾᵒ-post :  ⊨ ⟨ e ⟩ᴾᵒ ∞ (λ u → ⌜ X˙ u ⌝ᵒ) →  ✓ᴴ H →
                (e , [] , H) ⇒ᵀ* (V⇒E {T} v , es , H') →  X˙ v
-  ⟨⟩ᴾᵒ-post ⊨⟨e⟩X ✓H eH⇒*vesH' =  ⇛ᴴ-adeq ✓H $ ∗ᵒ?-intro (⊨⟨e⟩X ▷ ∗ᵒ?-intro _) ›
-    ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eH⇒*vesH' › ⇛ᴴ-mono✓ (λ ✓∙ →
+  ⟨⟩ᴾᵒ-post ⊨⟨e⟩X ✓H eH⇒*vesH' =  ⇛ˢ-adeq ✓H $ ∗ᵒ?-intro (⊨⟨e⟩X ▷ ∗ᵒ?-intro _) ›
+    ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eH⇒*vesH' › ⇛ˢ-mono✓ (λ ✓∙ →
     ∗ᵒ-monoʳ (∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono ›
     substᵒ (λ kr → ⁺⟨ kr ⟩ᴾᵒ ∞ _) (val/ktxred-V⇒E) › ⁺⟨⟩ᴾᵒ-val⁻¹) ›
-    -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) › ⇛ᴴ-mono $ ∗ᵒ-elimʳ ⌜⌝ᵒ-Mono) › ⇛ᴴ-join
+    -∗ᵒ-applyˡ ∀ᵒ⇛ˢ-Mono ✓∙ › (_$ _) › ⇛ˢ-mono $ ∗ᵒ-elimʳ ⌜⌝ᵒ-Mono) › ⇛ˢ-join
 
   -- Progress: If ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ is a tautology, then any execution of
   -- (e , [] , H) never gets stuck for valid H
@@ -130,23 +130,23 @@ abstract
 
   ⟨⟩ᴾᵒ-progress-main :  ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴴ H →
     (e , [] , H) ⇒ᵀ* (e' , es , H') →  val/ktxred e' ≡ ĩ₁ kr →  (kr , H') ⇒ᴷᴿ∑
-  ⟨⟩ᴾᵒ-progress-main ⊨⟨e⟩P ✓H eH⇒*e'esH' e'≡kr =  ⇛ᴴ-adeq ✓H $
+  ⟨⟩ᴾᵒ-progress-main ⊨⟨e⟩P ✓H eH⇒*e'esH' e'≡kr =  ⇛ˢ-adeq ✓H $
     ∗ᵒ?-intro (⊨⟨e⟩P ▷ ∗ᵒ?-intro _) › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eH⇒*e'esH' ›
-    ⇛ᴴ-mono✓ (λ ✓∙ → ∗ᵒ-monoʳ (∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono ›
+    ⇛ˢ-mono✓ (λ ✓∙ → ∗ᵒ-monoʳ (∗ᵒ-elimˡ ⁺⟨⟩ᴾᵒ-Mono ›
     substᵒ (λ kr → ⁺⟨ kr ⟩ᴾᵒ ∞ _) e'≡kr › ⁺⟨⟩ᴾᵒ-kr⁻¹) ›
-    -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) › ⇛ᴴ-mono π₀) › ⇛ᴴ-join
+    -∗ᵒ-applyˡ ∀ᵒ⇛ˢ-Mono ✓∙ › (_$ _) › ⇛ˢ-mono π₀) › ⇛ˢ-join
 
   -- For forked threads
 
   ⟨⟩ᴾᵒ-progress-forked :
     ⊨ ⟨ e ⟩ᴾᵒ ∞ Pᵒ˙ →  ✓ᴴ H →  (e , [] , H) ⇒ᵀ* (e' , es , H') →  e⁺ ∈ᴸ es →
     val/ktxred e⁺ ≡ ĩ₁ kr →  (kr , H') ⇒ᴷᴿ∑
-  ⟨⟩ᴾᵒ-progress-forked {es = es} ⊨⟨e⟩P ✓H eH⇒*e'esH' e⁺∈es e⁺≡kr =  ⇛ᴴ-adeq ✓H $
+  ⟨⟩ᴾᵒ-progress-forked {es = es} ⊨⟨e⟩P ✓H eH⇒*e'esH' e⁺∈es e⁺≡kr =  ⇛ˢ-adeq ✓H $
     ∗ᵒ?-intro (⊨⟨e⟩P ▷ ∗ᵒ?-intro _) › ⟨⟩ᴾᵒ-[∗ᵒ]⟨⟩ᴾᵒ⊤∞-⇒ᵀ* eH⇒*e'esH' ›
-    ⇛ᴴ-mono✓ (λ ✓∙ → ∗ᵒ-monoʳ (∗ᵒ-elimʳ ([∗ᵒ]⟨⟩ᴾᵒ⊤∞-Mono {es = es}) ›
+    ⇛ˢ-mono✓ (λ ✓∙ → ∗ᵒ-monoʳ (∗ᵒ-elimʳ ([∗ᵒ]⟨⟩ᴾᵒ⊤∞-Mono {es = es}) ›
     [∗ᵒ]⟨⟩ᴾᵒ⊤∞-elim e⁺∈es › ⁺⟨⟩ᴾᵒ⊤⇒⁺⟨⟩ᴾᵒ ›
     substᵒ (λ kr → ⁺⟨ kr ⟩ᴾᵒ ∞ _) e⁺≡kr › ⁺⟨⟩ᴾᵒ-kr⁻¹) ›
-    -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) › ⇛ᴴ-mono π₀) › ⇛ᴴ-join
+    -∗ᵒ-applyˡ ∀ᵒ⇛ˢ-Mono ✓∙ › (_$ _) › ⇛ˢ-mono π₀) › ⇛ˢ-join
 
 --------------------------------------------------------------------------------
 -- Adequacy of the semantic total weakest precondition
@@ -182,18 +182,18 @@ abstract
 
   -- Lemma: If (e , es , H) ⇒ᵀ (e' , es' , H'),
   -- then ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs entails
-  -- ⟨ e' ⟩ᵀᵒ ι' Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' under ⟨ H ⟩⇛ᴴ⟨ H' ⟩ with [⊤]ᴺᵒ
+  -- ⟨ e' ⟩ᵀᵒ ι' Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' under ⟨ H ⟩⇛ˢ⟨ H' ⟩ with [⊤]ᴺᵒ
   -- for some ι', ιs' satisfying sz ι' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs
 
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ :  (e , es , H) ⇒ᵀ (e' , es' , H') →
-    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs  ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩
+    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs  ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩
       ∃ᵒ ι'⁺ , ∃ᵒ ιs' , ⌜ ι'⁺ ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
         [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩ᵀᵒ (sz⁻¹ ι'⁺) Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs'
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇH'⇐))
-    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴴ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
-    -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) ›
-    ⇛ᴴ-mono (λ (-, big) → big _ _ _ _ e'eˇH'⇐) › ⇛ᴴ-join) › ⇛ᴴ-eatʳ ›
-    ⇛ᴴ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ (∗ᵒ-assocʳ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
+    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ˢ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩ᵀᵒ-kr⁻¹ ›
+    -∗ᵒ-applyˡ ∀ᵒ⇛ˢ-Mono ✓∙ › (_$ _) ›
+    ⇛ˢ-mono (λ (-, big) → big _ _ _ _ e'eˇH'⇐) › ⇛ˢ-join) › ⇛ˢ-eatʳ ›
+    ⇛ˢ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ (∗ᵒ-assocʳ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
     λ{ (-, -, b∙c⊑a , [⊤]b , -, -, ι'∷ιs'≺ι∷ιs , big) →
     -, -, ι'∷ιs'≺ι∷ιs , ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , [⊤]b , big) }
    where
@@ -209,7 +209,7 @@ abstract
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = []} (-, redᵀ-tl _) =  ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ ()
   ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ {ιs = _ ∷ _} (-, redᵀ-tl esH⇒) =  ?∗ᵒ-comm ›
     ∗ᵒ-monoʳ (∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ) › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, esH⇒)) ›
-    ⇛ᴴ-eatˡ › ⇛ᴴ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
+    ⇛ˢ-eatˡ › ⇛ˢ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
     -, -, ≺ᴰᴹ-tl ι'∷ιs'≺ ,
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , big ▷ ∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤)) ▷ ?∗ᵒ-comm
 
@@ -225,7 +225,7 @@ abstract
       (([⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩ᵀᵒ ι Pᵒ˙ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs) ∗ᵒ Invᴳ Eᴵⁿ) a  →
       SNᵀ (e , es , H)
     go (acc ≺ι∷ιs⇒acc) HE✓a big =  acc λ eesH⇒ → big ▷
-      ∗ᵒ-monoˡ (⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ eesH⇒) ▷ ⇛ᴴ-step HE✓a ▷
+      ∗ᵒ-monoˡ (⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ eesH⇒) ▷ ⇛ˢ-step HE✓a ▷
       λ (-, -, H'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
       λ (-, -, ∙⊑ , (-, -, ≺ι∷ιs , big) , InvE') →
       go (≺ι∷ιs⇒acc ≺ι∷ιs) H'E'✓b $ ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , big , InvE')
@@ -256,18 +256,18 @@ abstract
 
   -- Lemma: If (e , es , H) ⇒ᵀ○ (e' , es' , H'),
   -- then ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs entails
-  -- ⟨ e' ⟩∞ᵒ ι' ι₀ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' under ⟨ H ⟩⇛ᴴ⟨ H' ⟩ with [⊤]ᴺᵒ
+  -- ⟨ e' ⟩∞ᵒ ι' ι₀ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs' under ⟨ H ⟩⇛ˢ⟨ H' ⟩ with [⊤]ᴺᵒ
   -- for some ι', ιs' satisfying sz ι' ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs
 
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ :  (e , es , H) ⇒ᵀ○ (e' , es' , H') →
-    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs  ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩
+    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs  ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩
       ∃ᵒ ι'⁺ , ∃ᵒ ιs' , ⌜ ι'⁺ ∷ ιs' ≺ᴰᴹ⟨ _<ˢ_ ⟩ sz ι ∷ ιs ⌝ᵒ×
         [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩∞ᵒ (sz⁻¹ ι'⁺) ι₀ ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs'
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ (redᵀ-hd {es = es} (redᴱ {eˇ = eˇ} e⇒kr e'eˇH'⇐○))
-    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴴ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
-    -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) ›
-    ⇛ᴴ-mono (λ (-, big) → big _ _ _ _ e'eˇH'⇐○) › ⇛ᴴ-join) › ⇛ᴴ-eatʳ ›
-    ⇛ᴴ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ (∗ᵒ-assocʳ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
+    rewrite e⇒kr =  ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ˢ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
+    -∗ᵒ-applyˡ ∀ᵒ⇛ˢ-Mono ✓∙ › (_$ _) ›
+    ⇛ˢ-mono (λ (-, big) → big _ _ _ _ e'eˇH'⇐○) › ⇛ˢ-join) › ⇛ˢ-eatʳ ›
+    ⇛ˢ-mono $ ∗ᵒ-assocʳ › ∗ᵒ-monoʳ (∗ᵒ-assocʳ › go {eˇ' = eˇ}) › ∗ᵒ⇒∗ᵒ' ›
     λ{ (-, -, b∙c⊑a , [⊤]b , -, -, ι'∷ιs'≺ι∷ιs , big) →
     -, -, ι'∷ιs'≺ι∷ιs , ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , [⊤]b , big) }
    where
@@ -283,22 +283,22 @@ abstract
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ {ιs = []} (redᵀ-tl _) =  ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ ()
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ {ιs = _ ∷ _} (redᵀ-tl esH⇒) =  ?∗ᵒ-comm ›
     ∗ᵒ-monoʳ (∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⊤⇒⁺⟨⟩ᵀᵒ) › ⟨⟩ᵀᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ (-, esH⇒)) ›
-    ⇛ᴴ-eatˡ › ⇛ᴴ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
+    ⇛ˢ-eatˡ › ⇛ˢ-mono $ ∗ᵒ⇒∗ᵒ' › λ (-, -, ∙⊑ , ⟨e⟩P , -, -, ι'∷ιs'≺ , big) →
     -, -, ≺ᴰᴹ-tl ι'∷ιs'≺ ,
     ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , ⟨e⟩P , big ▷ ∗ᵒ-monoʳ (∗ᵒ-monoˡ ⁺⟨⟩ᵀᵒ⇒⁺⟨⟩ᵀᵒ⊤)) ▷ ?∗ᵒ-comm
 
   -- Lemma: If (e , es , H) ⇒ᵀ● (e' , es' , H'),
   -- then ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs entails
-  -- ⟨ e' ⟩∞ᵒ ∞ - ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs under ⟨ H ⟩⇛ᴴ⟨ H' ⟩ with [⊤]ᴺᵒ and Thunkᵒ
+  -- ⟨ e' ⟩∞ᵒ ∞ - ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs under ⟨ H ⟩⇛ˢ⟨ H' ⟩ with [⊤]ᴺᵒ and Thunkᵒ
 
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● :  (e , es , H) ⇒ᵀ● (e' , es' , H') →
-    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs  ⊨ ⟨ H ⟩⇛ᴴ⟨ H' ⟩
+    [⊤]ᴺᵒ ∗ᵒ ⟨ e ⟩∞ᵒ ι ι₀ ∗ᵒ [∗ᵒ]⟨ es ⟩ᵀᵒ⊤ ιs  ⊨ ⟨ H ⟩⇛ˢ⟨ H' ⟩
       Thunkᵒ (λ ι₀' → [⊤]ᴺᵒ ∗ᵒ ⟨ e' ⟩∞ᵒ ∞ ι₀' ∗ᵒ [∗ᵒ]⟨ es' ⟩ᵀᵒ⊤ ιs) ι₀
   ⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● (redᵀ-hd (redᴱ e⇒kr (redᴷᴿ []⇒)))  rewrite e⇒kr =
-    ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ᴴ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
-    -∗ᵒ-applyˡ ∀ᵒ⇛ᴴ-Mono ✓∙ › (_$ _) ›
-    ⇛ᴴ-mono (λ (-, big) → big _ _ _ _ (redᴷᴿ []⇒)) › ⇛ᴴ-join) › ⇛ᴴ-eatʳ ›
-    ⇛ᴴ-mono $ ∗ᵒ-assocʳ › λ big → λ{ .! → big ▷ ∗ᵒ-monoʳ
+    ∗ᵒ-assocˡ › ∗ᵒ-monoˡ (⊨✓⇒⊨-⇛ˢ λ ✓∙ → ∗ᵒ-monoʳ ⁺⟨⟩∞ᵒ-kr⁻¹ ›
+    -∗ᵒ-applyˡ ∀ᵒ⇛ˢ-Mono ✓∙ › (_$ _) ›
+    ⇛ˢ-mono (λ (-, big) → big _ _ _ _ (redᴷᴿ []⇒)) › ⇛ˢ-join) › ⇛ˢ-eatʳ ›
+    ⇛ˢ-mono $ ∗ᵒ-assocʳ › λ big → λ{ .! → big ▷ ∗ᵒ-monoʳ
     (∗ᵒ-monoˡ $ ∗ᵒ-monoˡ (λ big → big .!) › ∗ᵒ-elimˡ ⁺⟨⟩∞ᵒ-Mono) }
 
   -- Infiniteness: ⊨ ⟨ e ⟩∞ᵒ ι ∞ ensures that any execution of (e , [] , H)
@@ -314,9 +314,9 @@ abstract
       Infᵀ ι' (e , es , H)
     go (acc ≺ι∷ιs⇒acc) HE✓a big =  infᵀ λ{
       {b = ff} eesH⇒○ → big ▷ ∗ᵒ-monoˡ (⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ○ eesH⇒○) ▷
-        ⇛ᴴ-step HE✓a ▷ λ (-, -, H'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
+        ⇛ˢ-step HE✓a ▷ λ (-, -, H'E'✓b , big) → ∗ᵒ⇒∗ᵒ' big ▷
         λ (-, -, ∙⊑ , (-, -, ≺ι∷ιs , big) , InvE') →
         go (≺ι∷ιs⇒acc ≺ι∷ιs) H'E'✓b $ ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , big , InvE');
       {b = tt} eesH⇒● .! → big ▷ ∗ᵒ-monoˡ (⟨⟩∞ᵒ-[∗ᵒ]⟨⟩ᵀᵒ⊤-⇒ᵀ● eesH⇒●) ▷
-        ⇛ᴴ-step HE✓a ▷ λ (-, -, H'E'✓b , big) →
+        ⇛ˢ-step HE✓a ▷ λ (-, -, H'E'✓b , big) →
         go (≺ᴰᴹ-wf <ˢ-wf) H'E'✓b $ big ▷ ∗ᵒ-monoˡ λ big → big .! }

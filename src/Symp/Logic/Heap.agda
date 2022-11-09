@@ -14,15 +14,15 @@ open import Base.Prod using (_,_; -,_)
 open import Base.Sum using (ĩ₁_)
 open import Base.Nat using (ℕ)
 open import Base.List using (List; len; rep)
-open import Base.Ratp using (ℚ⁺)
+open import Base.Ratp using (ℚ⁺; _/2⁺; /2⁺-merge; /2⁺-split)
 open import Base.Sety using (Setʸ)
 open import Symp.Lang.Expr using (Addr; Type; ◸ʸ_; ∇_; V⇒E; TyVal; ⊤-)
 open import Symp.Lang.Ktxred using (🞰ᴿ_; _←ᴿ_; fauᴿ; casᴿ; allocᴿ; freeᴿ; Ktx;
   _ᴷ◁_)
 open import Symp.Logic.Prop using (HorKind; par; tot; SProp∞; _∗_; _↦⟨_⟩_; _↦_;
   _↦ᴸ_; Free)
-open import Symp.Logic.Core using (_»_; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro; ∗-elimʳ;
-  ∃∗-elim)
+open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ⊤∗-intro;
+  ∗-elimʳ; ∃∗-elim)
 open import Symp.Logic.Hor using (_⊢[_]⁺⟨_⟩[_]_; _⊢[<ᴾ_]⟨_⟩[_]_; ahor-frameˡ;
   ahor-hor; hor<ᴾ-map)
 
@@ -43,7 +43,7 @@ private variable
   θ :  Addr
   v x y z :  X
   f :  X → X
-  ᵗu :  TyVal
+  ᵗu ᵗv :  TyVal
   ᵗvs :  List TyVal
   P :  SProp∞
   Q˙ :  X → SProp∞
@@ -53,6 +53,10 @@ abstract
   ------------------------------------------------------------------------------
   -- On the heap
 
+  -->  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝
+
+  -- On the fraction
+
   -->  ↦⟨⟩-resp :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ q ⟩ ᵗv
 
   -->  ↦⟨⟩-merge :  θ ↦⟨ p ⟩ ᵗv  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ p +ᴿ⁺ q ⟩ ᵗv
@@ -61,7 +65,11 @@ abstract
 
   -->  ↦⟨⟩-≤1 :  θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  ⌜ p ≤1ᴿ⁺ ⌝
 
-  -->  ↦⟨⟩-agree :  θ ↦⟨ p ⟩ ᵗu  ∗  θ ↦⟨ q ⟩ ᵗv  ⊢[ ι ]  ⌜ ᵗu ≡ ᵗv ⌝
+  ↦⟨⟩-merge-/2 :  θ ↦⟨ p /2⁺ ⟩ ᵗv  ∗  θ ↦⟨ p /2⁺ ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ p ⟩ ᵗv
+  ↦⟨⟩-merge-/2 {p = p} =  ↦⟨⟩-merge » ↦⟨⟩-resp $ /2⁺-merge {p}
+
+  ↦⟨⟩-split-/2 :  θ ↦⟨ p ⟩ ᵗv  ⊢[ ι ]  θ ↦⟨ p /2⁺ ⟩ ᵗv  ∗  θ ↦⟨ p /2⁺ ⟩ ᵗv
+  ↦⟨⟩-split-/2 {p = p} =  ↦⟨⟩-resp (/2⁺-split {p}) » ↦⟨⟩-split
 
   -- Heap read
 

@@ -15,7 +15,8 @@ open import Base.Option using (š_; ň)
 open import Base.Prod using (∑-syntax; _,_; -,_)
 open import Base.Nat using (ℕ; +-0)
 open import Base.List using (List; []; _∷_; len; rep)
-open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺)
+open import Base.Ratp using (ℚ⁺; 1ᴿ⁺; _≈ᴿ⁺_; _+ᴿ⁺_; _≤1ᴿ⁺; _/2⁺; /2⁺-merge;
+  /2⁺-split)
 open import Symp.Lang.Expr using (Addr; _ₒ_; TyVal; ⊤-; Heap; _‼ᴴ_; updᴴ)
 open import Symp.Model.ERA.Heap using (Heapᴱᴿᴬ; εᴴᵉᵃᵖ; [∙ᴴᵉᵃᵖ∈ⁱ]-syntax;
   [∙ᴴᵉᵃᵖ∈ⁱ⟨⟩]-syntax; ◠˜ᴴᵉᵃᵖ_; _↦⟨_⟩ʳ_; _↦ʳ_; freeʳ; _↦ᴸʳ_; ↦⟨⟩ʳ-cong; ↦⟨⟩ʳ-∙;
@@ -82,13 +83,19 @@ abstract
   ↦⟨⟩ᵒ-resp :  p ≈ᴿ⁺ q  →   θ ↦⟨ p ⟩ᵒ ᵗv  ⊨  θ ↦⟨ q ⟩ᵒ ᵗv
   ↦⟨⟩ᵒ-resp p≈q =  ◎⟨⟩-resp $ ↦⟨⟩ʳ-cong p≈q
 
-  -- Merge and split ↦⟨ ⟩ᵒ with ∗ᵒ
+  -- Merge and split ↦⟨ ⟩ᵒ w.r.t. +ᴿ⁺
 
   ↦⟨⟩ᵒ-merge :  θ ↦⟨ p ⟩ᵒ ᵗv  ∗ᵒ  θ ↦⟨ q ⟩ᵒ ᵗv  ⊨  θ ↦⟨ p +ᴿ⁺ q ⟩ᵒ ᵗv
   ↦⟨⟩ᵒ-merge =  ◎⟨⟩-∗ᵒ⇒∙ › ◎⟨⟩-resp ↦⟨⟩ʳ-∙
 
   ↦⟨⟩ᵒ-split :  θ ↦⟨ p +ᴿ⁺ q ⟩ᵒ ᵗv  ⊨  θ ↦⟨ p ⟩ᵒ ᵗv  ∗ᵒ  θ ↦⟨ q ⟩ᵒ ᵗv
   ↦⟨⟩ᵒ-split =  ◎⟨⟩-resp (◠˜ᴴᵉᵃᵖ ↦⟨⟩ʳ-∙) › ◎⟨⟩-∙⇒∗ᵒ
+
+  ↦⟨⟩ᵒ-merge-/2 :  θ ↦⟨ p /2⁺ ⟩ᵒ ᵗv  ∗ᵒ  θ ↦⟨ p /2⁺ ⟩ᵒ ᵗv  ⊨  θ ↦⟨ p ⟩ᵒ ᵗv
+  ↦⟨⟩ᵒ-merge-/2 {p = p} =  ↦⟨⟩ᵒ-merge › ↦⟨⟩ᵒ-resp $ /2⁺-merge {p}
+
+  ↦⟨⟩ᵒ-split-/2 :  θ ↦⟨ p ⟩ᵒ ᵗv  ⊨  θ ↦⟨ p /2⁺ ⟩ᵒ ᵗv  ∗ᵒ  θ ↦⟨ p /2⁺ ⟩ᵒ ᵗv
+  ↦⟨⟩ᵒ-split-/2 {p = p} =  ↦⟨⟩ᵒ-resp (/2⁺-split {p}) › ↦⟨⟩ᵒ-split
 
   -- The fraction of ↦⟨ ⟩ᵒ is no more than 1
 

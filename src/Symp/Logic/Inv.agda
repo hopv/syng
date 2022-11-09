@@ -103,9 +103,9 @@ abstract
     ⇛-frameˡ P∗Q⊢⇛P∗R ᵘ»ᵘ ∗-assocʳ » ?∗-comm » ⇛-frameʳ ⅋ⁱ-close ᵘ» ∗-comm
 
   ahor-&ⁱ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ (λ v →  P˂ .!  ∗  R˙ v)  →
-    &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  [^ nm ]ᴺ  ∗  R˙ v
-  ahor-&ⁱ-use P∗Q⊢⟨red⟩P∗Rv =  ∗-assocˡ » ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ
-    ∗?-comm » ahor-frameˡ P∗Q⊢⟨red⟩P∗Rv ᵃʰ»ᵘ λ _ → ∗-assocʳ » ?∗-comm »
+    [^ nm ]ᴺ  ∗  &ⁱ⟨ nm ⟩ P˂  ∗  Q  ⊢[ ι ][ i ]ᵃ⟨ red ⟩ λ v →  [^ nm ]ᴺ  ∗  R˙ v
+  ahor-&ⁱ-use P∗Q⊢⟨red⟩P∗Rv =  ∗-assocˡ » ⇛-frameˡ {i = 0} (∗-comm » &ⁱ-open)
+    ᵘ»ᵃʰ ∗?-comm » ahor-frameˡ P∗Q⊢⟨red⟩P∗Rv ᵃʰ»ᵘ λ _ → ∗-assocʳ » ?∗-comm »
     ⇛-frameʳ {i = 0} ⅋ⁱ-close ᵘ» ∗-comm
 
   ------------------------------------------------------------------------------

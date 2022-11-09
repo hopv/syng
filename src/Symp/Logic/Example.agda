@@ -26,19 +26,19 @@ open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; SProp˂∞; ¡�
   [^_]ᴺ; &ⁱ⟨_⟩_; static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Symp.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
   ∀-elim; ∃-intro; ⊤-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ; ∗-monoʳ²;
-  ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²ˡ; ∗-pushʳ²ˡ; ∗-elimˡ; ∗-elimʳ;
+  ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²; ∗-pushʳ²; ∗-elimˡ; ∗-elimʳ;
   ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ; -∗-introʳ;
   □-mono; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
-  _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; ahor-frameˡ; ahor-frameʳ; ahor✔-hor;
-  hor-valᵘ; hor-val; hor-val≡; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind;
-  hor-fork)
+  _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameʳ; ahor✔-hor; hor-valᵘ;
+  hor-val; hor-val≡; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind; hor-fork)
 open import Symp.Logic.Heap using (ahor-fau; hor-🞰; hor-←)
 open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-Pers; □○-new-rec-Pers;
   ○-use; ○⇒⊸⇛; ⊸⇛-use; ○⇒⊸⟨⟩; ⊸⟨⟩ᵀ-use)
-open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close; hor-↦ⁱ-🞰)
+open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close; ahor-&ⁱ-use;
+  hor-↦ⁱ-🞰)
 open import Symp.Logic.Ub using (≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 
 private variable
@@ -162,11 +162,9 @@ abstract
   ahor-fad-Dec :
     [^ dec ]ᴺ  ∗  ≤ᵁᵇ⟨ o ⟩ n  ∗  Dec θ o  ⊢[ ι ][ i ]ᵃ⟨ fadᴿ θ ⟩ λ m →
       [^ dec ]ᴺ  ∗  (⌜ m ≤ n ⌝∧  ≤ᵁᵇ⟨ o ⟩ ṗ m  ∗  Dec θ o)
-  ahor-fad-Dec =  ∗-monoʳ² dup-Pers » ∗-pushʳ²ˡ » ∗-pushʳ²ˡ » ∗-assocˡ »
-    ⇛-frameˡ {i = 0} &ⁱ-open ᵘ»ᵃʰ ∗-assocʳ » ∗-pullʳ²ˡ » ∗-assocˡ »
-    ahor-frameˡ (∗∃-elim λ _ → ahor-fad-#ᵁᵇ-↦) ᵃʰ»ᵘ λ m → ∃∗-elim λ m≤n →
-    ∗-assocʳ » ∗-pushʳ²ˡ » ∗-monoˡ (∃-intro _) » ∗-assocˡ »
-    ⇛-frameˡ {i = 0} ⅋ⁱ-close ᵘ» ∗-monoʳ $ ∃-intro m≤n
+  ahor-fad-Dec =  ∗-monoʳ (∗-comm » dup-Pers-∗) » ahor-&ⁱ-use $ ∃∗-elim λ _ →
+    ∗-pushʳ² » ahor-frameʳ ahor-fad-#ᵁᵇ-↦ ᵃʰ» λ _ → ∗∃-elim λ m≤n → ∗-pullʳ² »
+    ∗-mono (∃-intro _) $ ∗-comm » ∃-intro m≤n
 
   -- Total Hoare triple for fadrep under ≤ᵁᵇ and Dec
   -- The proof goes by well-founded induction on the upper bound n

@@ -11,30 +11,36 @@ open import Base.Eq using (_≡_; refl)
 open import Base.Dec using ()
 open import Base.Acc using (Acc; acc)
 open import Base.Size using (𝕊; !)
+open import Base.Bool using (ff; tt; if_then_else_)
 open import Base.Prod using (_×_; _,_; -,_)
 open import Base.Nat using (ℕ; ṡ_; _≤_; _<_; ṗ_; _+_; _⊔_; ≤-refl; ≤-trans;
   <-wf; ṗ-decr; ⊔-introˡ; ⊔-comm)
+open import Base.Ratp using (1ᴿ⁺; ½⁺)
 open import Base.List using (List; []; _∷_)
 open import Base.Seq using (Seq∞; _∷ˢ_; hdˢ; tlˢ; repˢ; rep²ˢ; takeˢ)
 open import Base.Sety using ()
 open import Symp.Lang.Expr using (Addr; ◸_; _↷_; Expr∞; Expr˂∞; ∇_; 🞰_; Type;
-  TyVal; loop)
+  TyVal; _←_; cas; loop)
+open import Symp.Lang.Ktxred using (_←ᴿ_; casᴿ)
 open import Symp.Lang.Example using (plus◁3,4; decrep; decrep'; ndecrep; evrep;
   fadᴿ; fad; fadrep; fadrep'; xfadrep; nxfadrep; cntr←)
-open import Symp.Logic.Prop using (Name; strnm; SProp; SProp∞; SProp˂∞; ¡ᴾ_;
-  ∀-syntax; ∃-syntax; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _⊸[_]⇛_; _⊸⟨_⟩ᵀ[_]_;
-  [^_]ᴺ; &ⁱ⟨_⟩_; static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
+open import Symp.Logic.Prop using (Name; strnm; SProp; SProp˂; SProp∞; SProp˂∞;
+  ¡ᴾ_; ∀-syntax; ∃-syntax; _∨_; ⊤'; ⊥'; ⌜_⌝∧_; ⌜_⌝; _∗_; □_; ○_; _↦_; _↦⟨_⟩_;
+  _⊸[_]⇛_; _⊸⟨_⟩ᵀ[_]_; [^_]ᴺ; &ⁱ⟨_⟩_; static; _↦ⁱ_; #ᵁᵇ⟨_⟩_; ≤ᵁᵇ⟨_⟩_; ^ᶻᴺ-✔)
 open import Symp.Logic.Core using (_⊢[_]_; Pers; ⊢-refl; _»_; ∀-intro; ∃-elim;
-  ∀-elim; ∃-intro; ⊤-intro; retain-⌜⌝; ∗-mono; ∗-monoˡ; ∗-monoʳ; ∗-monoʳ²;
-  ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²; ∗-pushʳ²; ∗-elimˡ; ∗-elimʳ;
-  ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim; dup-Pers-∗; -∗-introˡ; -∗-introʳ;
-  □-mono; ∃-Pers; □-elim; □-intro-Pers; dup-Pers)
+  ∀-elim; ∃-intro; ∨-introˡ; ∨-introʳ; ⊤-intro; retain-⌜⌝; ⌜⌝∗⇒⌜⌝∧; ∗-mono;
+  ∗-monoˡ; ∗-monoʳ; ∗-monoʳ²; ∗-comm; ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-pullʳ²;
+  ∗-pullʳ²ˡ; ∗-pushʳ²; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim; ∗∃-elim;
+  ∨∗-elim; -∗-introˡ; -∗-introʳ; □-mono; ∃-Pers; □-elim; □-intro-Pers; dup-Pers;
+  dup-Pers-∗)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; ⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
-  _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameʳ; ahor✔-hor; hor-valᵘ;
-  hor-val; hor-val≡; hor-nd; hor-[]; ihor-[]●; hor-ihor-⁏-bind; hor-fork)
-open import Symp.Logic.Heap using (ahor-fau; hor-🞰; hor-←)
+  _⊢[_][_]⟨_⟩∞; _ᵘ»ᵃʰ_; _ᵘ»ʰ_; _ᵃʰ»ᵘ_; _ᵃʰ»_; ahor-frameˡ; ahor-frameʳ;
+  ahor✔-hor; hor-valᵘ; hor-val; hor-val≡; hor-nd; hor-[]; ihor-[]●;
+  hor-ihor-⁏-bind; hor-fork)
+open import Symp.Logic.Heap using (↦⟨⟩-merge-/2; ↦⟨⟩-split-/2; ↦⟨⟩-agree;
+  ahor-←; ahor-cas-tt; ahor-cas-ff; ahor-fau; hor-🞰; hor-←)
 open import Symp.Logic.Ind using (○-mono; ○-new; □○-new-Pers; □○-new-rec-Pers;
   ○-use; ○⇒⊸⇛; ⊸⇛-use; ○⇒⊸⟨⟩; ⊸⟨⟩ᵀ-use)
 open import Symp.Logic.Inv using (&ⁱ-new; &ⁱ-open; ⅋ⁱ-close; ahor-&ⁱ-use;
@@ -90,6 +96,54 @@ abstract
 
   horᵀ-plus◁3,4 :  ⊤'  ⊢[ ι ]⟨ plus◁3,4 ⟩ᵀ[ i ] λ n →  ⌜ n ≡ 7 ⌝
   horᵀ-plus◁3,4 =  hor-[] hor-val≡
+
+  ------------------------------------------------------------------------------
+  -- Impredicative mutex: Example for the impredicative invariant
+
+  mutex :  Name
+  mutex =  strnm "mutex"
+
+  -- The impredicative mutex proposition
+
+  Mutex :  Addr →  SProp˂ ι →  SProp ι
+  Mutex θ P˂ =  &ⁱ⟨ mutex ⟩ λ{ .! → (θ ↦ (-, ff) ∗ P˂ .!) ∨ θ ↦⟨ ½⁺ ⟩ (-, tt) }
+
+  -- Get Mutex θ P˂ out of θ ↦ (-, ff) and P˂
+
+  Mutex-new :  θ ↦ (-, ff)  ∗  P˂ .!  ⊢[ ι ][ i ]⇛  Mutex θ P˂
+  Mutex-new =  ∨-introˡ » &ⁱ-new
+
+  -- Try to lock the mutex using cas
+
+  ahor-Mutex-lock :
+    [^ mutex ]ᴺ  ∗  Mutex θ P˂  ⊢[ ι ][ i ]ᵃ⟨ casᴿ θ ff tt ⟩ λ b →
+      [^ mutex ]ᴺ  ∗  (if b then  Mutex θ P˂  ∗  θ ↦⟨ ½⁺ ⟩ (-, tt)  ∗  P˂ .!
+                            else  Mutex θ P˂)
+  ahor-Mutex-lock =  ∗-monoʳ dup-Pers » ahor-&ⁱ-use $ ∨∗-elim
+    (∗-assocʳ » ahor-frameˡ ahor-cas-tt ᵃʰ» λ _ → ∃∗-elim λ{ refl →
+      ∗-monoˡ ↦⟨⟩-split-/2 » ∗-assocʳ » ∗-mono ∨-introʳ ∗-pullʳ²})
+    (ahor-frameˡ (ahor-cas-ff λ ()) ᵃʰ» λ _ →
+      ∃∗-elim λ{ refl → ∗-monoˡ ∨-introʳ })
+
+  hor-Mutex-lock :  Mutex θ P˂  ⊢[ ι ]⟨ cas (∇ θ) (∇ ff) (∇ tt) ⟩ᵀ[ i ] λ b →
+    if b then  Mutex θ P˂  ∗  θ ↦⟨ ½⁺ ⟩ (-, tt)  ∗  P˂ .!  else  Mutex θ P˂
+  hor-Mutex-lock =  ahor✔-hor {i = 0} ^ᶻᴺ-✔ ahor-Mutex-lock λ _ → hor-val ⊢-refl
+
+  -- Unlock the mutex
+
+  ahor-Mutex-unlock :
+    [^ mutex ]ᴺ  ∗  Mutex θ P˂  ∗  θ ↦⟨ ½⁺ ⟩ (-, tt)  ∗  P˂ .!
+      ⊢[ ι ][ i ]ᵃ⟨ θ ←ᴿ ff ⟩ λ _ →  [^ mutex ]ᴺ  ∗  Mutex θ P˂
+  ahor-Mutex-unlock =  ∗-monoʳ dup-Pers-∗ » ahor-&ⁱ-use $ ∗-pullʳ²ˡ » ?∗-comm »
+    ∨∗-elim (∗-assocʳ »
+      ∗-pullʳ²ˡ » ∗-assocˡ » ∗-monoˡ ↦⟨⟩-agree » ⌜⌝∗⇒⌜⌝∧ » ∃-elim λ ()) $
+    ∗-assocˡ » ∗-monoˡ (↦⟨⟩-merge-/2 {p = 1ᴿ⁺}) » ahor-frameˡ ahor-← ᵃʰ» λ _ →
+    ∗-monoʳ ∗-comm » ∗-assocˡ » ∗-monoˡ ∨-introˡ
+
+  hor-Mutex-unlock :  Mutex θ P˂  ∗  θ ↦⟨ ½⁺ ⟩ (-, tt)  ∗  P˂ .!
+                        ⊢[ ι ]⟨ ∇ θ ← ∇ ff ⟩ᵀ[ i ] λ _ →  Mutex θ P˂
+  hor-Mutex-unlock =
+    ahor✔-hor {i = 0} ^ᶻᴺ-✔ ahor-Mutex-unlock λ _ → hor-val ⊢-refl
 
   ------------------------------------------------------------------------------
   -- Sequential decrement loop: Example for the total Hoare triple

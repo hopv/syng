@@ -6,8 +6,13 @@
 
 module Base.Bool where
 
+open import Base.Level using (Level)
 open import Base.Eq using (refl)
 open import Base.Dec using (Dec; yes; no; ≡Dec; _≟_)
+
+private variable
+  ł :  Level
+  A :  Set ł
 
 --------------------------------------------------------------------------------
 -- 𝔹 :  Boolean
@@ -29,6 +34,13 @@ instance
   𝔹-≡Dec ._≟_ ff ff =  yes refl
   𝔹-≡Dec ._≟_ tt ff =  no λ ()
   𝔹-≡Dec ._≟_ ff tt =  no λ ()
+
+-- Branching
+
+infix 3 if_then_else_
+if_then_else_ :  𝔹 → A → A → A
+if tt then a else _ =  a
+if ff then _ else a =  a
 
 -- And
 

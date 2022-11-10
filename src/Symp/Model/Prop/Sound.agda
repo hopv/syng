@@ -27,8 +27,8 @@ open import Symp.Logic.Ind using (○-mono; ○-eatˡ; ⊸⇛-≤; ⊸⇛-eatˡ�
 open import Symp.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∗; ⅋ⁱ-mono; ⅋ⁱ-eatˡ)
 open import Symp.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
-open import Symp.Logic.Bor using (&ᵐ-resp-□∗; ⅋ᵐ-respᴿ; ⅋ᵐ-respᴾ-□∗; ⟨†⟩-mono;
-  ⟨†⟩-eatˡ)
+open import Symp.Logic.Bor using (&ᵐ-resp-□∗; ⅋ᵐ-respᴿ; ⅋ᵐ-monoᴾ; ⅋ᵐ-eatˡ;
+  ⟨†⟩-mono; ⟨†⟩-eatˡ)
 open import Symp.Logic.Ub using (≤ᵁᵇ-mono; ≤ᵁᵇ-⇒□; ≤ᵁᵇ-#ᵁᵇ; #ᵁᵇ-new; #ᵁᵇ-upd)
 open import Symp.Model.ERA.Glob using (∅ᴵⁿᴳ-✓ᴺ)
 open import Symp.Model.Prop.Base using (_⊨✓_; →ᵒ-introˡ; →ᵒ-elimˡ; ∗ᵒ-mono✓ˡ;
@@ -48,8 +48,8 @@ open import Symp.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ⊸⇛ᵒ-≤;
   ⊸⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒⊸⟨⟩∞ᵒ)
 open import Symp.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ∗ᵒ; ⅋ⁱᵒ-mono;
   ⅋ⁱᵒ-eatˡ)
-open import Symp.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ∗ᵒ; ⅋ᵐᵒ-respᴿ; ⅋ᵐᵒ-respᴾ-□ᵒ∗ᵒ;
-  ⟨†⟩ᵒ-mono; ⟨†⟩ᵒ-eatˡ)
+open import Symp.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ∗ᵒ; ⅋ᵐᵒ-respᴿ; ⅋ᵐᵒ-monoᴾ;
+  ⅋ᵐᵒ-eatˡ; ⟨†⟩ᵒ-mono; ⟨†⟩ᵒ-eatˡ)
 open import Symp.Model.Prop.Ub using (≤ᵁᵇᵒ-mono; ≤ᵁᵇᵒ-⇒□ᵒ; ≤ᵁᵇᵒ-#ᵁᵇᵒ; #ᵁᵇᵒ-new;
   #ᵁᵇᵒ-upd)
 open import Symp.Model.Prop.Interp using (⸨_⸩; ⸨⸩-Mono; ⸨⸩-⇒ᴮ)
@@ -394,12 +394,15 @@ abstract
 
   ⊢-sem (⅋ᵐ-respᴿ {p} {q} p≈q) _ =  ⅋ᵐᵒ-respᴿ {p} {q} p≈q
 
-  -- ⅋ᵐ-respᴾ-□∗ :  {{Basic R}}  →
-  --   R  ∗  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   R  ∗  Q˂ .!  ⊢[< ∞ ]  P˂ .!  →
-  --   □ R  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ]  ⅋ᵐ⟨ α , p ⟩ Q˂
+  -- ⅋ᵐ-monoᴾ :
+  --   Q˂ .!  ⊢[< ι ]  P˂ .!  →  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  ⅋ᵐ⟨ α , p ⟩ Q˂
 
-  ⊢-sem (⅋ᵐ-respᴾ-□∗ {R} {p = p} R∗P⊢Q R∗Q⊢P) _ =
-    ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › ⅋ᵐᵒ-respᴾ-□ᵒ∗ᵒ {p = p} (R∗P⊢Q .!) (R∗Q⊢P .!)
+  ⊢-sem (⅋ᵐ-monoᴾ {p = p} Q⊢P) _ =  ⅋ᵐᵒ-monoᴾ {p = p} $ Q⊢P .!
+
+  -- ⅋ᵐ-eatˡ :  {{Basic Q}}  →
+  --   Q  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ]  ⅋ᵐ⟨ α , p ⟩ ¡ᴾ (Q -∗ P˂ .!)
+
+  ⊢-sem (⅋ᵐ-eatˡ {Q} {p = p}) _ =  ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {Q}) › ⅋ᵐᵒ-eatˡ {p = p}
 
   -- ⟨†⟩-mono :  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   ⟨† α ⟩ P˂  ⊢[ ∞ ]  ⟨† α ⟩ Q˂
 

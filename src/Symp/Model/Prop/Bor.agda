@@ -85,8 +85,8 @@ Oborᵐ i α p P =  ◎⟨ iᴮᵒʳ ⟩ oborᵐ i α p P
 infix 8 ⅋ᵐ⟨_⟩ᵒ_
 ⅋ᵐ⟨_⟩ᵒ_ :  Lft × ℚ⁺ →  SProp∞ →  SPropᵒ 1ᴸ
 ⅋ᵐ⟨ α , p ⟩ᵒ P =  ∃ᵒ i , ∃ᵒ q , ∃ᵒ Q , ∃ᴵ BasicQ , ∃ᵒ R ,
-  ⌜ p ≈ᴿ⁺ q  ×  Q ∗ R ⊢[ ∞ ] P  ×  Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
-  □ᵒ ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  [ α ]ᴸ⟨ q /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α q R
+  ⌜ p ≈ᴿ⁺ q  ⌝ᵒ×  ⌜ Q ∗ P ⊢[ ∞ ] R ⌝ᵒ×
+  ⸨ Q ⸩ᴮ {{BasicQ}}  ∗ᵒ  [ α ]ᴸ⟨ q /2⁺ ⟩ᵒ  ∗ᵒ  Oborᵐ i α q R
 
 abstract
 
@@ -94,27 +94,29 @@ abstract
 
   ⅋ᵐᵒ-Mono :  Monoᵒ $ ⅋ᵐ⟨ α , p ⟩ᵒ P
   ⅋ᵐᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ →
-    ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
+    ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify the fraction of ⅋ᵐᵒ
 
   ⅋ᵐᵒ-respᴿ :  p ≈ᴿ⁺ q  →   ⅋ᵐ⟨ α , p ⟩ᵒ P  ⊨  ⅋ᵐ⟨ α , q ⟩ᵒ P
-  ⅋ᵐᵒ-respᴿ {p} {q} p≈q (-, r , -, -ᴵ, -, (p≈r , Q|R⊢⊣P) , QαObor) =  -, -, -,
-    -ᴵ, -, (≈ᴿ⁺-trans {q} {p} {r} (≈ᴿ⁺-sym {p} {q} p≈q) p≈r , Q|R⊢⊣P) , QαObor
+  ⅋ᵐᵒ-respᴿ {p} {q} p≈q (-, r , -, -ᴵ, -, p≈r , Q∗P⊢R , QαObora) =  -, -, -,
+    -ᴵ, -, ≈ᴿ⁺-trans {q} {p} {r} (≈ᴿ⁺-sym {p} {q} p≈q) p≈r , Q∗P⊢R , QαObora
 
-  -- Modify ⅋ᵐᵒ using a persistent basic proposition
+  -- Monotonicity of ⅋ᵐᵒ
 
-  ⅋ᵐᵒ-respᴾ-□ᵒ∗ᵒ :  {{_ : Basic R}} →
-    R  ∗  P  ⊢[ ∞ ]  Q  →   R  ∗  Q  ⊢[ ∞ ]  P  →
-    □ᵒ ⸨ R ⸩ᴮ  ∗ᵒ  ⅋ᵐ⟨ α , p ⟩ᵒ P  ⊨  ⅋ᵐ⟨ α , p ⟩ᵒ Q
-  ⅋ᵐᵒ-respᴾ-□ᵒ∗ᵒ R∗P⊢Q R∗Q⊢P =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , □Rb ,
-    -, -, -, -ᴵ, -, (p≈q , S∗T⊢P , S∗P⊢T) , □S∗α∗OborTc) →
-    -, -, -, -ᴵ, -, (p≈q ,
-    -- (R∗S)∗T ⊢ R∗(S∗T) ⊢ R∗P ⊢ Q
-    ∗-assocʳ » ∗-monoʳ S∗T⊢P » R∗P⊢Q ,
-    -- (R∗S)∗Q ⊢ (S∗R)∗Q ⊢ S∗(R∗Q) ⊢ S∗P ⊢ T
-    ∗-monoˡ ∗-comm » ∗-assocʳ » ∗-monoʳ R∗Q⊢P » S∗P⊢T) ,
-    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , □Rb , □S∗α∗OborTc) ▷ ∗ᵒ-assocˡ ▷ ∗ᵒ-monoˡ □ᵒ-∗ᵒ-in }
+  ⅋ᵐᵒ-monoᴾ :  P  ⊢[ ∞ ]  Q  →   ⅋ᵐ⟨ α , p ⟩ᵒ Q  ⊨  ⅋ᵐ⟨ α , p ⟩ᵒ P
+  ⅋ᵐᵒ-monoᴾ P⊢Q (-, -, -, -ᴵ, -, p≈q , R∗Q⊢S , RαObora) =  -, -, -, -ᴵ, -,
+    p≈q , ∗-monoʳ P⊢Q » R∗Q⊢S , RαObora
+
+  -- Let ⅋ⁱᵒ eat a basic proposition
+
+  ⅋ᵐᵒ-eatˡ :  {{_ : Basic Q}} →
+    ⸨ Q ⸩ᴮ  ∗ᵒ  ⅋ᵐ⟨ α , p ⟩ᵒ P  ⊨  ⅋ᵐ⟨ α , p ⟩ᵒ (Q -∗ P)
+  ⅋ᵐᵒ-eatˡ =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, b∙c⊑a , Qb ,
+    -, -, -, -ᴵ, -, p≈q , R∗P⊢S , RαOborc) → -, -, -, -ᴵ, -, p≈q ,
+    -- (Q∗R)∗(Q-∗P) ⊢ (Q∗(Q-∗P))∗R ⊢ P∗R ⊢ R∗P ⊢ S
+    ∗?-comm » ∗-monoˡ -∗-applyˡ » ∗-comm » R∗P⊢S ,
+    ∗ᵒ-assocˡ $ ∗ᵒ'⇒∗ᵒ (-, -, b∙c⊑a , Qb , RαOborc) }
 
   -- Open using Borᵐ
 

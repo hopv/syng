@@ -114,15 +114,15 @@ abstract
 
   &ᵐᵒ-open :  [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ  ⸨ P ⸩  ∗ᵒ  ⅋ᵐ⟨ α , p ⟩ᵒ P
   &ᵐᵒ-open {p = p} =  ∗ᵒ⇒∗ᵒ' ›
-    λ{ (-, -, ∙⊑ , [α]b , -, Q , -ᴵ, -, Q|R⊢⊣P@(Q∗R⊢P ,-) , □Q∗BorRc) →
+    λ{ (-, -, ∙⊑ , [α]b , -, Q , -ᴵ, -, (Q∗R⊢P , Q∗P⊢R) , □Q∗BorRc) →
     let MonoQ = ⸨⸩ᴮ-Mono {Q} in ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , [α]b , □Q∗BorRc) ▷
-    -- [α]p∗□Q∗Bor → □Q∗[α]p∗Bor → □Q∗R∗[α]p/2∗Obor → → □Q∗□Q∗R∗[α]p/2∗Obor → →
-    -- Q∗□Q∗R∗[α]p/2∗Obor → Q∗R∗□Q∗[α]p/2∗Obor → (Q∗R)∗□Q∗[α]p/2∗Obor →
-    -- P∗□Q∗[α]p/2∗Obor → P∗⅋
+    -- [α]p∗□Q∗Bor → □Q∗[α]p∗Bor → → □Q∗R∗[α]p/2∗Obor → → → → →
+    -- Q∗Q∗R∗[α]p/2∗Obor → → → P∗Q∗[α]p/2∗Obor → P∗⅋
     ?∗ᵒ-comm ▷ ∗ᵒ-monoʳ Borᵐ-open ▷ ⇛ᵍ-eatˡ ▷ ⇛ᵍ-mono✓ (λ ✓∙ →
-    ∗ᵒ-monoˡ (dup-□ᵒ MonoQ) › ∗ᵒ-assocʳ › ∗ᵒ-monoˡ (□ᵒ-elim MonoQ › ⸨⸩-ᴮ⇒ {Q}) ›
+    ∗ᵒ-monoˡ (dup-□ᵒ MonoQ ›
+      ∗ᵒ-mono (□ᵒ-elim MonoQ › ⸨⸩-ᴮ⇒ {Q}) (□ᵒ-elim MonoQ)) › ∗ᵒ-assocʳ ›
     ∗ᵒ-monoʳ ?∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (⊢-sem Q∗R⊢P) ✓∙ ›
-    ∗ᵒ-monoʳ λ big → -, p , Q , -ᴵ, -, (≈ᴿ⁺-refl {p} , Q|R⊢⊣P) , big) }
+    ∗ᵒ-monoʳ λ big → -, p , Q , -ᴵ, -, ≈ᴿ⁺-refl {p} , Q∗P⊢R , big) }
 
   -- Get [ α ]ᴸ⟨ p ⟩ᵒ out of Lineᴮᵒʳ with š p using [ α ]ᴸ⟨ p /2⁺ ⟩ᵒ
 
@@ -158,13 +158,13 @@ abstract
   ⅋ᵐᵒ-close-sub :  ⸨ P' ⸩  ∗ᵒ  (⸨ P' ⸩ -∗ᵒ ⸨ P ⸩)  ∗ᵒ  ⅋ᵐ⟨ α , p ⟩ᵒ P  ⊨ ⇛ᴮᵒʳ
                      [ α ]ᴸ⟨ p ⟩ᵒ  ∗ᵒ  &ᵐ⟨ α ⟩ᵒ P'
   ⅋ᵐᵒ-close-sub {P = P} {p = p} =  ∗ᵒ-assocˡ › ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , PPb ,
-    -, q , Q , -ᴵ, -, (p≈q , (-, Q∗P⊢R)) , □Q∗[α]∗OborRc) →
-    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , PPb , □Q∗[α]∗OborRc) ▷ -- Let PP be P'∗(P'-∗P)
-    -- PP∗□Q∗[α]q/2∗Obor → → PP∗Q∗[α]q/2∗Obor → → →
+    -, q , Q , -ᴵ, -, p≈q , Q∗P⊢R , Q∗[α]∗OborRc) →
+    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , PPb , Q∗[α]∗OborRc) ▷ -- Let PP be P'∗(P'-∗P)
+    -- PP∗Q∗[α]q/2∗Obor → → → →
     -- P'∗(Q∗(P'-∗P))∗[α]q/2∗Obor → → → P'∗(P'-∗R)∗[α]q/2∗Obor → → [α]q∗&
-    ⊨✓⇒⊨-⇛ᵍ λ ✓∙ → ∗ᵒ-monoʳ (∗ᵒ-monoˡ $ □ᵒ-elim (⸨⸩ᴮ-Mono {Q}) › ⸨⸩-ᴮ⇒ {Q}) ›
-    ∗ᵒ-assocʳ › ∗ᵒ-monoʳ (∗ᵒ-assocˡ › ∗ᵒ-monoˡ $ ∗ᵒ-comm › -∗ᵒ-introʳ λ ✓∙ →
-    ∗ᵒ-assocʳ › ∗ᵒ-mono✓ʳ (-∗ᵒ-applyʳ $ ⸨⸩-Mono {P}) ✓∙ › ⊢-sem Q∗P⊢R ✓∙) ›
+    ⊨✓⇒⊨-⇛ᵍ λ ✓∙ → ∗ᵒ-monoʳ (∗ᵒ-monoˡ $ ⸨⸩-ᴮ⇒ {Q}) › ∗ᵒ-assocʳ ›
+    ∗ᵒ-monoʳ (∗ᵒ-assocˡ › ∗ᵒ-monoˡ $ ∗ᵒ-comm › -∗ᵒ-introʳ λ ✓∙ → ∗ᵒ-assocʳ ›
+      ∗ᵒ-mono✓ʳ (-∗ᵒ-applyʳ $ ⸨⸩-Mono {P}) ✓∙ › ⊢-sem Q∗P⊢R ✓∙) ›
     Oborᵐ-close-sub › ⇛ᵍ-mono $
       ∗ᵒ-mono ([]ᴸ⟨⟩ᵒ-resp $ ≈ᴿ⁺-sym {p} {q} p≈q) &ᵐᵒ-make }
 

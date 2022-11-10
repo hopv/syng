@@ -751,9 +751,11 @@ data  Judg ι  where
 
   &ᵐ-open :  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂
 
-  -- Close an open mutable borrow token to retrieve a mutable borrow token
+  -- Close an open mutable borrow token to retrieve a mutable borrow token,
+  -- updating the proposition to a smaller one Q using a magic wand Q -∗ P
 
-  ⅋ᵐ-close :  P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
+  ⅋ᵐ-close-sub :  Q˂ .!  ∗  (Q˂ .! -∗ P˂ .!)  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛
+                    [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ Q˂
 
   -- Retrieve the proposition from a lending token using a dead lifetime token
 

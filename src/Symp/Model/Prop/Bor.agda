@@ -14,7 +14,7 @@ open import Base.Dec using (upd˙)
 open import Base.Size using (∞)
 open import Base.Bool using (tt; ff)
 open import Base.Option using (š_; ň)
-open import Base.Prod using (∑-syntax; _×_; _,_; -,_; _,-; -ᴵ,_)
+open import Base.Prod using (∑-syntax; _×_; _,_; -,_; -ᴵ,_)
 open import Base.Nat using (ℕ; ṡ_; _<_)
 open import Base.Ratp using (ℚ⁺; _≈ᴿ⁺_; _/2⁺; ≈ᴿ⁺-sym; ≈ᴿ⁺-trans)
 open import Symp.Logic.Prop using (Lft; SProp∞; ⊤'; _∗_; _-∗_; Basic)
@@ -34,7 +34,7 @@ private variable
   i n :  ℕ
   α :  Lft
   p q :  ℚ⁺
-  P Q R :  SProp∞
+  P P' Q R :  SProp∞
   E˙ :  ℕ → Envᴮᵒʳᵇ
 
 --------------------------------------------------------------------------------
@@ -118,18 +118,17 @@ abstract
 
   -- Open using Borᵐ
 
-  Borᵐ-open' :
-    Borᵐ i α P  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
-      λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (ň , b , α , P))) →
-      (upd˙ i (š (š p , b , α , P)) E˙ , n) , Oborᵐ i α p P
+  Borᵐ-open' :  Borᵐ i α P  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
+    λ ((-, b , Q , _) :  i < n  ×  (∑ b , ∑ Q , E˙ i ≡ š (ň , b , α , P , Q))) →
+    (upd˙ i (š (š p , b , α , P , Q)) E˙ , n) , Oborᵐ i α p P
   Borᵐ-open' =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ borᵐ-open
 
   -- Close using Oborᵐ
 
-  Oborᵐ-close' :
-    Oborᵐ i α p P  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
-      λ ((-, (b ,-)) :  i < n  ×  (∑ b , E˙ i ≡ š (š p , b , α , P))) →
-      (upd˙ i (š (ň , b , α , P)) E˙ , n) , Borᵐ i α P
+  Oborᵐ-close' :  Oborᵐ i α p P  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
+    λ ((-, b , Q , _) :
+      i < n  ×  (∑ b , ∑ Q , E˙ i ≡ š (š p , b , α , P , Q))) →
+    (upd˙ i (š (ň , b , α , P' , Q)) E˙ , n) , Borᵐ i α P'
   Oborᵐ-close' =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ oborᵐ-close
 
 --------------------------------------------------------------------------------
@@ -171,16 +170,15 @@ abstract
 
   -- Create &ᵐᵒ and ⟨†⟩ᵒ
 
-  &ᵐᵒ-new' :
-    ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩ λ (_ : ⊤₀) → (upd˙ n (š (ň , tt , α , P)) E˙ , ṡ n) ,
-      &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
+  &ᵐᵒ-new' :  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩ λ (_ : ⊤₀) →
+    (upd˙ n (š (ň , tt , α , P , P)) E˙ , ṡ n) , &ᵐ⟨ α ⟩ᵒ P  ∗ᵒ  ⟨† α ⟩ᵒ P
   &ᵐᵒ-new' =  ε↝-◎⟨⟩-⤇ᴱ⟨⟩ borᵐ-new ▷
     ⤇ᴱ⟨⟩-mono λ _ → ◎⟨⟩-∙⇒∗ᵒ › ∗ᵒ-mono &ᵐᵒ-make ⟨†⟩ᵒ-make
 
   -- Update the state using Lend
 
-  Lend-back' :
-    Lend i α P  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
-      λ ((-, (pˇ ,-)) :  i < n  ×  (∑ pˇ , E˙ i ≡ š (pˇ , tt , α , P))) →
-      (upd˙ i (š (pˇ , ff , α , P)) E˙ , n) , ⊤ᵒ₀
+  Lend-back' :  Lend i α Q  ⊨ (E˙ , n) ⤇ᴱ⟨ iᴮᵒʳ ⟩
+    λ ((-, pˇ , P , _) :
+      i < n  ×  (∑ pˇ , ∑ P , E˙ i ≡ š (pˇ , tt , α , P , Q))) →
+    (upd˙ i (š (pˇ , ff , α , P , Q)) E˙ , n) , ⊤ᵒ₀
   Lend-back' =  ↝-◎⟨⟩-⤇ᴱ⟨⟩ {bⁱ˙ = λ _ → εᴮᵒʳ} lend-back › ⤇ᴱ⟨⟩-mono _

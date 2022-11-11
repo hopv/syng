@@ -49,7 +49,7 @@ abstract
   ------------------------------------------------------------------------------
   -- On the invariant and open invariant tokens
 
-  -->  ⅋ⁱ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⅋ⁱ⟨ nm ⟩ Q˂  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ P˂
+  -->  ⅋ⁱ-mono :  Q˂ .!  ⊢[< ι ]  P˂ .!  →   ⅋ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ Q˂
 
   instance
 

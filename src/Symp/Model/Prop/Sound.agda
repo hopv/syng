@@ -342,7 +342,7 @@ abstract
   ⊢-sem (&ⁱ-resp-□∗ {R} R∗P⊢Q R∗Q⊢P) _ =
     ∗ᵒ-monoˡ (⸨⸩-⇒ᴮ {R}) › &ⁱᵒ-resp-□ᵒ∗ᵒ (R∗P⊢Q .!) (R∗Q⊢P .!)
 
-  -- ⅋ⁱ-mono :  P˂ .!  ⊢[< ∞ ]  Q˂ .!  →   ⅋ⁱ⟨ nm ⟩ Q˂  ⊢[ ∞ ]  ⅋ⁱ⟨ nm ⟩ P˂
+  -- ⅋ⁱ-mono :  Q˂ .!  ⊢[< ∞ ]  P˂ .!  →   ⅋ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ]  ⅋ⁱ⟨ nm ⟩ Q˂
 
   ⊢-sem (⅋ⁱ-mono P⊢Q) _ =  ⅋ⁱᵒ-mono $ P⊢Q .!
 

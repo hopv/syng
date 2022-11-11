@@ -661,7 +661,7 @@ data  Judg ι  where
 
   -- Monotonicity of the open invariant token
 
-  ⅋ⁱ-mono :  P˂ .!  ⊢[< ι ]  Q˂ .!  →   ⅋ⁱ⟨ nm ⟩ Q˂  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ P˂
+  ⅋ⁱ-mono :  Q˂ .!  ⊢[< ι ]  P˂ .!  →   ⅋ⁱ⟨ nm ⟩ P˂  ⊢[ ι ]  ⅋ⁱ⟨ nm ⟩ Q˂
 
   -- Let an open invariant token eat a basic proposition
 

@@ -137,9 +137,9 @@ abstract
 
   -- Monotonicity of ⅋ⁱᵒ
 
-  ⅋ⁱᵒ-mono :  P  ⊢[ ∞ ]  Q  →   ⅋ⁱ⟨ nm ⟩ᵒ Q  ⊨  ⅋ⁱ⟨ nm ⟩ᵒ P
-  ⅋ⁱᵒ-mono P⊢Q (-, -, -ᴵ, -, R∗Q⊢S , R∗KinvSa) =  -, -, -ᴵ, -,
-    ∗-monoʳ P⊢Q » R∗Q⊢S , R∗KinvSa
+  ⅋ⁱᵒ-mono :  Q  ⊢[ ∞ ]  P  →   ⅋ⁱ⟨ nm ⟩ᵒ P  ⊨  ⅋ⁱ⟨ nm ⟩ᵒ Q
+  ⅋ⁱᵒ-mono Q⊢P (-, -, -ᴵ, -, R∗P⊢S , R∗KinvSa) =  -, -, -ᴵ, -,
+    ∗-monoʳ Q⊢P » R∗P⊢S , R∗KinvSa
 
   -- Let ⅋ⁱᵒ eat a basic proposition
 

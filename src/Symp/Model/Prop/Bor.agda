@@ -104,9 +104,9 @@ abstract
 
   -- Monotonicity of ⅋ᵐᵒ
 
-  ⅋ᵐᵒ-monoᴾ :  P  ⊢[ ∞ ]  Q  →   ⅋ᵐ⟨ α , p ⟩ᵒ Q  ⊨  ⅋ᵐ⟨ α , p ⟩ᵒ P
-  ⅋ᵐᵒ-monoᴾ P⊢Q (-, -, -, -ᴵ, -, p≈q , R∗Q⊢S , RαObora) =  -, -, -, -ᴵ, -,
-    p≈q , ∗-monoʳ P⊢Q » R∗Q⊢S , RαObora
+  ⅋ᵐᵒ-monoᴾ :  Q  ⊢[ ∞ ]  P  →   ⅋ᵐ⟨ α , p ⟩ᵒ P  ⊨  ⅋ᵐ⟨ α , p ⟩ᵒ Q
+  ⅋ᵐᵒ-monoᴾ Q⊢P (-, -, -, -ᴵ, -, p≈q , R∗P⊢S , RαObora) =  -, -, -, -ᴵ, -,
+    p≈q , ∗-monoʳ Q⊢P » R∗P⊢S , RαObora
 
   -- Let ⅋ⁱᵒ eat a basic proposition
 

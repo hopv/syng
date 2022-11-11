@@ -107,7 +107,7 @@ abstract
 
   ⊢⇛-sem &ᵐ-open =  &ᵐᵒ-open › ⇛ᴮᵒʳ⇒⇛ᵒ
 
-  -- ⅋ᵐ-close-sub :  Q˂ .!  ∗  (Q˂ .! -∗ P˂ .!)  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛
+  -- ⅋ᵐ-close-sub :  Q˂ .!  ∗  (Q˂ .! -∗ P˂ .!)  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ∞ ][ i ]⇛
   --                   [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ Q˂
 
   ⊢⇛-sem ⅋ᵐ-close-sub =  ⅋ᵐᵒ-close-sub › ⇛ᴮᵒʳ⇒⇛ᵒ

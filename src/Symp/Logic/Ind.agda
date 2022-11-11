@@ -24,7 +24,7 @@ open import Symp.Logic.Judg public using (○-mono; ○-eatˡ; ○-new; □○-n
   ○-use; ⊸⇛-≤; ⊸⇛-eatˡ⁻ˡᵘ; ⊸⇛-monoʳᵘ; ⊸⇛-eatˡ⁻ʳ; ⊸⇛-frameʳ; ○⇒⊸⇛; ⊸⇛-use;
   ⊸ᵃ⟨⟩-≤; ⊸ᵃ⟨⟩-eatˡ⁻ˡᵘ; ⊸ᵃ⟨⟩-monoʳᵘ; ⊸ᵃ⟨⟩-eatˡ⁻ʳ; ⊸ᵃ⟨⟩-frameʳ; ○⇒⊸ᵃ⟨⟩; ⊸ᵃ⟨⟩-use;
   ⊸⟨⟩ᵀ⇒⊸⟨⟩ᴾ; ⊸⟨⟩ᵀ-≤; ⊸⟨⟩-eatˡ⁻ˡᵘᴺ; ⊸⟨⟩-monoʳᵘᴺ; ⊸⟨⟩-eatˡ⁻ʳ; ⊸⟨⟩-frameʳ; ○⇒⊸⟨⟩;
-  ⊸⟨⟩ᴾ-use; ⊸⟨⟩ᵀ-use; ⊸⟨⟩∞-≤; ⊸⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒⊸⟨⟩∞; ⊸⟨⟩∞-use)
+  ⊸⟨⟩ᴾ-use; ⊸⟨⟩ᵀ-use; ⊸⟨⟩∞⇒⊸⟨⟩ᴾ; ⊸⟨⟩∞-≤; ⊸⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒⊸⟨⟩∞; ⊸⟨⟩∞-use)
 
 private variable
   ι :  𝕊
@@ -229,6 +229,8 @@ abstract
   -- On ⊸⟨ ⟩∞
 
   -- Modify ⟨ ⟩ proof
+
+  -->  ⊸⟨⟩∞⇒⊸⟨⟩ᴾ :  P˂ ⊸[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ⊸⟨ e ⟩ᴾ Q˂˙
 
   -->  ⊸⟨⟩∞-≤ :  i ≤ j  →   P˂ ⊸[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ⊸[ j ]⟨ e ⟩∞
 

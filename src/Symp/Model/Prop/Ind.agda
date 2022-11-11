@@ -23,8 +23,8 @@ open import Symp.Logic.Core using (_⊢[_]_; _»_; ∗-assocˡ; ∗-assocʳ; ∗
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; _⊢[_][_]⇛ᴺ_; ⇛-≤; _ᵘ»_; _ᵘ»ᵘ_;
   ⇛-frameˡ; ⇛-frameʳ; ⇛ᴺ-frameˡ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩[_]_; _⊢[_]⟨_⟩ᴾ_;
-  _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ahor-≤; horᵀ-≤; ihor-≤; _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_;
-  _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameʳ; hor-frameʳ)
+  _⊢[_]⟨_⟩ᵀ[_]_; _⊢[_][_]⟨_⟩∞; hor-ᵀ⇒ᴾ; ihor⇒horᴾ; ahor-≤; horᵀ-≤; ihor-≤;
+  _ᵘ»ᵃʰ_; _ᵘᴺ»ʰ_; _ᵘᴺ»ⁱʰ_; _ᵃʰ»ᵘ_; _ʰ»ᵘᴺ_; ahor-frameʳ; hor-frameʳ)
 open import Symp.Model.ERA.Base using (ERA)
 open import Symp.Model.ERA.Ind using (εᴵⁿᵈˣ; indˣ; indᵖ; indˣ-new; indˣ-use;
   indᵖ-new; indᵖ-use)
@@ -310,6 +310,10 @@ abstract
   ⊸⟨⟩∞ᵒ-Mono =  ∃ᵒ-Mono λ _ → ∃ᴵ-Mono $ ∃ᵒ-Mono λ _ → ∃ᵒ-Mono λ _ → ∗ᵒ-Mono
 
   -- Modify ⟨ ⟩∞ proof
+
+  ⊸⟨⟩∞ᵒ⇒⊸⟨⟩ᴾᵒ :  P ⊸[ i ]⟨ e ⟩∞ᵒ  ⊨  P ⊸⟨ e ⟩ᴾᵒ Q˙
+  ⊸⟨⟩∞ᵒ⇒⊸⟨⟩ᴾᵒ (-, -ᴵ, -, P∗R∗S⊢⟨e⟩∞ , R∗IndSa) =
+    -, -ᴵ, -, ihor⇒horᴾ P∗R∗S⊢⟨e⟩∞ , R∗IndSa
 
   ⊸⟨⟩∞ᵒ-≤ :  i ≤ j  →   P ⊸[ i ]⟨ e ⟩∞ᵒ  ⊨  P ⊸[ j ]⟨ e ⟩∞ᵒ
   ⊸⟨⟩∞ᵒ-≤ i≤j (-, -ᴵ, -, P∗Q∗R⊢⟨e⟩∞ , Q∗IndRa) =

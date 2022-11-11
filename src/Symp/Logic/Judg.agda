@@ -616,6 +616,8 @@ data  Judg ι  where
 
   -- Modify ⟨ ⟩∞ proof
 
+  ⊸⟨⟩∞⇒⊸⟨⟩ᴾ :  P˂ ⊸[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ⊸⟨ e ⟩ᴾ Q˂˙
+
   ⊸⟨⟩∞-≤ :  i ≤ j  →   P˂ ⊸[ i ]⟨ e ⟩∞  ⊢[ ι ]  P˂ ⊸[ j ]⟨ e ⟩∞
 
   ⊸⟨⟩∞-eatˡ⁻ᵘᴺ :  {{Basic R}}  →   R  ∗  Q˂ .!  ⊢[< ι ][ i ]⇛ᴺ  P˂ .!  →

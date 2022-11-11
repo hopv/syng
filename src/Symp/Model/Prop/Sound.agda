@@ -23,7 +23,7 @@ open import Symp.Logic.Heap using (↦⟨⟩-resp; ↦⟨⟩-merge; ↦⟨⟩-sp
 open import Symp.Logic.Ind using (○-mono; ○-eatˡ; ⊸⇛-≤; ⊸⇛-eatˡ⁻ˡᵘ; ⊸⇛-monoʳᵘ;
   ⊸⇛-eatˡ⁻ʳ; ⊸⇛-frameʳ; ○⇒⊸⇛;  ⊸ᵃ⟨⟩-≤; ⊸ᵃ⟨⟩-eatˡ⁻ˡᵘ; ⊸ᵃ⟨⟩-monoʳᵘ; ⊸ᵃ⟨⟩-eatˡ⁻ʳ;
   ⊸ᵃ⟨⟩-frameʳ; ○⇒⊸ᵃ⟨⟩; ⊸⟨⟩ᵀ⇒⊸⟨⟩ᴾ; ⊸⟨⟩ᵀ-≤; ⊸⟨⟩-eatˡ⁻ˡᵘᴺ; ⊸⟨⟩-monoʳᵘᴺ; ⊸⟨⟩-eatˡ⁻ʳ;
-  ⊸⟨⟩-frameʳ; ○⇒⊸⟨⟩; ⊸⟨⟩∞-≤; ⊸⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒⊸⟨⟩∞)
+  ⊸⟨⟩-frameʳ; ○⇒⊸⟨⟩; ⊸⟨⟩∞⇒⊸⟨⟩ᴾ; ⊸⟨⟩∞-≤; ⊸⟨⟩∞-eatˡ⁻ᵘᴺ; ○⇒⊸⟨⟩∞)
 open import Symp.Logic.Inv using (&ⁱ-⇒□; &ⁱ-resp-□∗; ⅋ⁱ-mono; ⅋ⁱ-eatˡ)
 open import Symp.Logic.Lft using ([]ᴸ⟨⟩-resp; []ᴸ⟨⟩-merge; []ᴸ⟨⟩-split;
   []ᴸ⟨⟩-≤1; †ᴸ-⇒□; []ᴸ⟨⟩-†ᴸ-no; []ᴸ-new; []ᴸ-kill)
@@ -44,8 +44,8 @@ open import Symp.Model.Prop.Lft using ([]ᴸ⟨⟩ᵒ-resp; []ᴸ⟨⟩ᵒ-merge
 open import Symp.Model.Prop.Ind using (○ᵒ-mono; ○ᵒ-eatˡ; ⊸⇛ᵒ-≤; ⊸⇛ᵒ-eatˡ⁻ˡᵘ;
   ⊸⇛ᵒ-monoʳᵘ; ⊸⇛ᵒ-eatˡ⁻ʳ; ⊸⇛ᵒ-frameʳ; ○ᵒ⇒⊸⇛ᵒ; ⊸ᵃ⟨⟩ᵒ-≤; ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ˡᵘ;
   ⊸ᵃ⟨⟩ᵒ-monoʳᵘ; ⊸ᵃ⟨⟩ᵒ-eatˡ⁻ʳ; ⊸ᵃ⟨⟩ᵒ-frameʳ; ○ᵒ⇒⊸ᵃ⟨⟩ᵒ; ⊸⟨⟩ᵀᵒ⇒⊸⟨⟩ᴾᵒ; ⊸⟨⟩ᵀᵒ-≤;
-  ⊸⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ⊸⟨⟩ᵒ-monoʳᵘᴺ; ⊸⟨⟩ᵒ-eatˡ⁻ʳ; ⊸⟨⟩ᵒ-frameʳ; ○ᵒ⇒⊸⟨⟩ᵒ; ⊸⟨⟩∞ᵒ-≤;
-  ⊸⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒⊸⟨⟩∞ᵒ)
+  ⊸⟨⟩ᵒ-eatˡ⁻ˡᵘᴺ; ⊸⟨⟩ᵒ-monoʳᵘᴺ; ⊸⟨⟩ᵒ-eatˡ⁻ʳ; ⊸⟨⟩ᵒ-frameʳ; ○ᵒ⇒⊸⟨⟩ᵒ; ⊸⟨⟩∞ᵒ⇒⊸⟨⟩ᴾᵒ;
+  ⊸⟨⟩∞ᵒ-≤; ⊸⟨⟩∞ᵒ-eatˡ⁻ᵘᴺ; ○ᵒ⇒⊸⟨⟩∞ᵒ)
 open import Symp.Model.Prop.Inv using (&ⁱᵒ-⇒□ᵒ; &ⁱᵒ-resp-□ᵒ∗ᵒ; ⅋ⁱᵒ-mono;
   ⅋ⁱᵒ-eatˡ)
 open import Symp.Model.Prop.Bor using (&ᵐᵒ-resp-□ᵒ∗ᵒ; ⅋ᵐᵒ-respᴿ; ⅋ᵐᵒ-monoᴾ;
@@ -315,6 +315,10 @@ abstract
   --          ○ R˂  ⊢[ ∞ ]  P˂ ⊸⟨ e ⟩[ κ ] Q˂˙
 
   ⊢-sem (○⇒⊸⟨⟩ P∗R⊢⟨e⟩Q) _ =  ○ᵒ⇒⊸⟨⟩ᵒ $ P∗R⊢⟨e⟩Q .!
+
+  -- ⊸⟨⟩∞⇒⊸⟨⟩ᴾ :  P˂ ⊸[ i ]⟨ e ⟩∞  ⊢[ ∞ ]  P˂ ⊸⟨ e ⟩ᴾ Q˂˙
+
+  ⊢-sem ⊸⟨⟩∞⇒⊸⟨⟩ᴾ _ =  ⊸⟨⟩∞ᵒ⇒⊸⟨⟩ᴾᵒ
 
   -- ⊸⟨⟩∞-≤ :  i ≤ j  →   P˂ ⊸[ i ]⟨ e ⟩∞  ⊢[ ∞ ]  P˂ ⊸[ j ]⟨ e ⟩∞
 

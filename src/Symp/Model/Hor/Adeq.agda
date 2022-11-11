@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Adequacy of the semantic partial and total weakest preconditions
+-- Adequacy of the semantic weakest preconditions
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

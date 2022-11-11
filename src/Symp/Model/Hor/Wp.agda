@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Semantic atomic, partial and total weakest preconditions
+-- Semantic weakest preconditions
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

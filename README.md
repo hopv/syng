@@ -197,15 +197,15 @@ following parts.
           [`Sound`](src/Symp/Model/Fupd/Sound.agda) for the semantic soundness
             and adequacy of the logic's fancy update sequent.
     + [`Hor/`](src/Symp/Model/Hor/) ― **The semantic model and soundness proof
-        of the partial and total Hoare triples.**
-        * [`Wp`](src/Symp/Model/Hor/Wp.agda) for the semantic partial and total
-            weakest preconditions;
+        of the Hoare triples.**
+        * [`Wp`](src/Symp/Model/Hor/Wp.agda) for the semantic weakest
+            preconditions;
           [`Lang`](src/Symp/Model/Hor/Lang.agda) for language-specific lemmas on
             the weakest preconditions;
           [`Heap`](src/Symp/Model/Hor/Heap.agda) for semantic fancy update and
             weakest precondition lemmas for the heap.
         * [`Adeq`](src/Symp/Model/Hor/Adeq.agda) for the adequacy of the
-            semantic partial and total weakest preconditions.
+            semantic weakest preconditions.
         * [`Sound`](src/Symp/Model/Hor/Sound.agda) for the semantic soundness
             and adequacy of the logic's Hoare triple.
 

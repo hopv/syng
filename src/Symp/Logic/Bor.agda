@@ -59,6 +59,9 @@ abstract
 
   -->  ⟨†⟩-back :  †ᴸ α  ∗  ⟨† α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!
 
+  -->  &ᵐ-open :
+  -->    [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂
+
   -- Modify a mutable borrow token
 
   -->  &ᵐ-resp-□∗ :  {{Basic R}}  →
@@ -83,19 +86,16 @@ abstract
   ⟨†⟩-eatʳ :  {{Basic Q}}  →   ⟨† α ⟩ P˂  ∗  Q  ⊢[ ι ]  ⟨† α ⟩ ¡ᴾ (P˂ .! ∗ Q)
   ⟨†⟩-eatʳ =  ∗-comm » ⟨†⟩-eatˡ » ⟨†⟩-mono $ ⇒< ∗-comm
 
-  -- Use a mutable borrow token
-
-  -->  &ᵐ-open :
-  -->    [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂
+  -- Close an open mutable borrow token to retrieve a mutable borrow token
 
   -->  ⅋ᵐ-close-sub :
   -->    Q˂ .!  ∗  (Q˂ .! -∗ P˂ .!)  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛
   -->      [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ Q˂
 
-  -- Close an open mutable borrow token to retrieve a mutable borrow token
-
   ⅋ᵐ-close :  P˂ .!  ∗  ⅋ᵐ⟨ α , p ⟩ P˂  ⊢[ ι ][ i ]⇛  [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂
   ⅋ᵐ-close =  ∗-monoʳ (⊤∗-intro » ∗-monoˡ $ -∗-introˡ ∗-elimˡ) » ⅋ᵐ-close-sub
+
+  -- Use a mutable borrow token
 
   &ᵐ-use :  P˂ .!  ∗  Q  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  R  →
     [ α ]ᴸ⟨ p ⟩  ∗  &ᵐ⟨ α ⟩ P˂  ∗  Q  ⊢[ ι ][ i ]⇛

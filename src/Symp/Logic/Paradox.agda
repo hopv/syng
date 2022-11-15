@@ -18,9 +18,9 @@ open import Symp.Logic.Prop using (Name; strnm; Lft; SProp; SProp˂; SProp∞;
   _⊸[_]ᵃ⟨_⟩_; _⊸⟨_⟩ᴾ_; _⊸⟨_⟩ᵀ[_]_; _⊸[_]⟨_⟩∞; &ⁱ⟨_⟩_; ⅋ⁱ⟨_⟩_; [_]ᴸ; †ᴸ_)
 open import Symp.Logic.Core using (_⊢[_]_; ⇒<; ⊢-refl; _»_; ∃-elim; ∃-intro;
   ∧-intro; ∧-elimʳ; ∨-introˡ; ∨-introʳ; ⊥-elim; ∗-monoˡ; ∗-monoʳ; ∗-comm;
-  ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-elimˡ; ∗-elimʳ; ⊤∗-intro; ∗⊤-intro; ∃∗-elim;
-  ∨∗-elim; ∗∨-elim; -∗-introˡ; -∗-introʳ; -∗-applyʳ; □-mono; □-elim;
-  □-intro-Pers; dup-Pers-∗)
+  ∗-assocˡ; ∗-assocʳ; ?∗-comm; ∗-elimˡ; ∗-elimʳ; ∗⊤-intro; ∗∃-elim; ∨∗-elim;
+  ∗∨-elim; -∗-introˡ; -∗-applyʳ; □-mono; □-elim; □-intro-Pers; dup-Pers;
+  dup-Pers-∗)
 open import Symp.Logic.Fupd using (_⊢[_][_]⇛_; ⤇⇒⇛; _ᵘ»ᵘ_; _ᵘ»_; ⇛-frameˡ;
   ⇛-frameʳ)
 open import Symp.Logic.Hor using (_⊢[_][_]ᵃ⟨_⟩_; _⊢[_]⟨_⟩ᴾ_; _⊢[_]⟨_⟩ᵀ[_]_;
@@ -108,34 +108,34 @@ module _ {nm : Name} (⇛ᵐ : SProp∞ → SProp∞)
   -- We get contradiction out of †ᴸ α and Evil α with [^ nm ]ᴺ,
   -- because †ᴸ α eliminates the possibility of [ α ]ᴸ when we open Evil α
 
-  †ᴸ-Evil-no/⇛ᵐ :  †ᴸ α  ∗  Evil/⇛ᵐ α  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
-  †ᴸ-Evil-no/⇛ᵐ =  ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ∗-assocˡ »
+  †ᴸ-Evil-no/⇛ᵐ :  [^ nm ]ᴺ  ∗  †ᴸ α  ∗  Evil/⇛ᵐ α  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  †ᴸ-Evil-no/⇛ᵐ =  ?∗-comm » ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ∗-assocˡ »
     ∗-monoˡ (∗∨-elim (∗-comm » []ᴸ⟨⟩-†ᴸ-no » ⊥-elim) ∗-elimʳ) » □⇛⊥-⅋ⁱ-no/⇛ᵐ
 
   -- So †ᴸ α and Evil α turns into □⇛⊥/⇛ᵐ
 
   †ᴸ-Evil-□⇛⊥/⇛ᵐ :  †ᴸ α  ∗  Evil/⇛ᵐ α  ⊢[ ∞ ]  □⇛⊥/⇛ᵐ
   †ᴸ-Evil-□⇛⊥/⇛ᵐ =  □-intro-Pers $
-    -∗-introʳ $ ⇛ᵐ-intro $ ∗-assocʳ » †ᴸ-Evil-no/⇛ᵐ
+    -∗-introˡ $ ⇛ᵐ-intro $ †ᴸ-Evil-no/⇛ᵐ
 
   -- We get contradiction out of Evil α with [^ nm ]ᴺ
   -- When we open Evil α, in the case the content is [ α ]ᴸ, we can kill it to
   -- get †ᴸ α; this allows us to close the invariant (by †ᴸ-Evil-□⇛⊥/⇛ᵐ), and
   -- the retrieved name token allows us to get ⊥' (by †ᴸ-Evil-no/⇛ᵐ)
 
-  Evil-no/⇛ᵐ :  Evil/⇛ᵐ α  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
-  Evil-no/⇛ᵐ =  dup-Pers-∗ » ⇛-frameʳ &ⁱ-open ᵘ»ᵘ ?∗-comm »
-    flip ∨∗-elim (∗-monoʳ ∗-elimʳ » □⇛⊥-⅋ⁱ-no/⇛ᵐ) $
-    ⇛-frameˡ ([]ᴸ-kill » ⤇⇒⇛) ᵘ»ᵘ ∗-assocˡ » dup-Pers-∗ »
-    ⇛-frameʳ (∗-monoˡ (†ᴸ-Evil-□⇛⊥/⇛ᵐ » ∨-introʳ) » ⅋ⁱ-close) ᵘ»ᵘ
-    ∗-assocʳ » †ᴸ-Evil-no/⇛ᵐ
+  Evil-no/⇛ᵐ :  [^ nm ]ᴺ  ∗  Evil/⇛ᵐ α  ⊢[ ∞ ][ 0 ]⇛  ⊥'
+  Evil-no/⇛ᵐ =  ∗-monoʳ dup-Pers » ∗-assocˡ » ⇛-frameˡ &ⁱ-open ᵘ»ᵘ ∗-assocʳ »
+    flip ∨∗-elim (∗-monoʳ ∗-elimˡ » □⇛⊥-⅋ⁱ-no/⇛ᵐ) $
+    ⇛-frameˡ ([]ᴸ-kill » ⤇⇒⇛) ᵘ»ᵘ ∗-monoʳ ∗-comm » ∗-assocˡ » dup-Pers-∗ »
+    ⇛-frameʳ (∗-monoˡ (†ᴸ-Evil-□⇛⊥/⇛ᵐ » ∨-introʳ) » ⅋ⁱ-close) ᵘ»ᵘ ∗-comm »
+    †ᴸ-Evil-no/⇛ᵐ
 
   -- Therefore, combining Evil-intro/⇛ᵐ and Evil-no/⇛ᵐ, we get contradiction out
   -- of [^ nm ]ᴺ, which is a paradox!
 
   [^nm]ᴺ-no/⇛ᵐ :  [^ nm ]ᴺ  ⊢[ ∞ ][ 0 ]⇛  ⊥'
-  [^nm]ᴺ-no/⇛ᵐ =  ⊤∗-intro »
-    ⇛-frameˡ Evil-intro/⇛ᵐ ᵘ»ᵘ ∃∗-elim λ _ → Evil-no/⇛ᵐ
+  [^nm]ᴺ-no/⇛ᵐ =  ∗⊤-intro »
+    ⇛-frameʳ Evil-intro/⇛ᵐ ᵘ»ᵘ ∗∃-elim λ _ → Evil-no/⇛ᵐ
 
 --------------------------------------------------------------------------------
 -- If we have existential quantification over SProp∞ as well as lifting of

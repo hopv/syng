@@ -90,22 +90,22 @@ abstract
 
   -- Store Binv i nm P and [^ nm ]ᴺᵒ to get ⸨ P ⸩ and Kinv i nm P
 
-  Binv-open :  Binv i nm P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  Kinv i nm P
-  Binv-open =  ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Binv-agree › ⤇ᴱ⟨⟩-eatʳ ›
+  Binv-open :  [^ nm ]ᴺᵒ  ∗ᵒ  Binv i nm P  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  Kinv i nm P
+  Binv-open =  ∗ᵒ-comm › ⇛ᵍ¹-make $ ∗ᵒ-assocʳ › ∗ᵒ-monoˡ Binv-agree › ⤇ᴱ⟨⟩-eatʳ
     -- Binv∗[nm]∗Inv → [nm]∗Inv → [nm]∗Line∗Inv → ([nm]∗Line)∗Inv →
     -- ((Kinv∗P)∗Line)∗Inv → (Kinv∗P)∗Line∗Inv → (P∗Kinv)∗Inv
-    ⤇ᴱ⟨⟩-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-elimʳ ∗ᵒ-Mono ›
+    › ⤇ᴱ⟨⟩-mono✓ (λ (i<n , ≡šR) ✓∙ → ∗ᵒ-elimʳ ∗ᵒ-Mono ›
       ∗ᵒ-monoʳ (Smry-rem-< i<n ≡šR) › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ [^]ᴺᵒ-open ✓∙ ›
       ∗ᵒ-assocʳ › ∗ᵒ-mono ∗ᵒ-comm (Smry-back ≡šR)) › ⤇ᴱ⟨⟩-param
 
   -- Store &ⁱ⟨ nm ⟩ᵒ P and [^ nm ]ᴺᵒ to get ⸨ P ⸩ and ⅋ⁱ⟨ nm ⟩ᵒ P
 
-  &ⁱᵒ-open :  &ⁱ⟨ nm ⟩ᵒ P  ∗ᵒ  [^ nm ]ᴺᵒ  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  ⅋ⁱ⟨ nm ⟩ᵒ P
-  &ⁱᵒ-open =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , (-, Q , -ᴵ, -, (Q∗R⊢P , Q∗P⊢R) ,
-    □Q∗InvRb) , [nm]c) → let MonoQ = ⸨⸩ᴮ-Mono {Q} in
-    -- (□Q∗Binv)∗[nm] → □Q∗Binv∗[nm] → → □Q∗R∗Kinv → → (Q∗Q)∗R∗Kinv → → →
+  &ⁱᵒ-open :  [^ nm ]ᴺᵒ  ∗ᵒ  &ⁱ⟨ nm ⟩ᵒ P  ⊨ ⇛ᴵⁿᵛ  ⸨ P ⸩  ∗ᵒ  ⅋ⁱ⟨ nm ⟩ᵒ P
+  &ⁱᵒ-open =  ∗ᵒ⇒∗ᵒ' › λ{ (-, -, ∙⊑ , [nm]b , -, Q , -ᴵ, -, (Q∗R⊢P , Q∗P⊢R) ,
+    □Q∗InvRc) → let MonoQ = ⸨⸩ᴮ-Mono {Q} in
+    -- [nm]∗□Q∗Binv → → → □Q∗R∗Kinv → → → → (Q∗Q)∗R∗Kinv → → →
     -- (Q∗R)∗Q∗Kinv → P∗Q∗Kinv → P∗⅋
-    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , □Q∗InvRb , [nm]c) ▷ ∗ᵒ-assocʳ ▷ ∗ᵒ-monoʳ Binv-open ▷
+    ∗ᵒ'⇒∗ᵒ (-, -, ∙⊑ , [nm]b , □Q∗InvRc) ▷ ?∗ᵒ-comm ▷ ∗ᵒ-monoʳ Binv-open ▷
     ⇛ᵍ-eatˡ ▷ ⇛ᵍ-mono✓ λ ✓∙ → ∗ᵒ-monoˡ (dup-□ᵒ MonoQ ›
     ∗ᵒ-mono (□ᵒ-elim MonoQ › ⸨⸩-ᴮ⇒ {Q}) (□ᵒ-elim MonoQ)) › ∗ᵒ-assocʳ ›
     ∗ᵒ-monoʳ ?∗ᵒ-comm › ∗ᵒ-assocˡ › ∗ᵒ-mono✓ˡ (⊢-sem Q∗R⊢P) ✓∙ › ∗ᵒ-monoʳ

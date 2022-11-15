@@ -90,7 +90,7 @@ abstract
 
   ⊢⇛-sem &ⁱ-new-rec =  &ⁱᵒ-new-rec › ⇛ᴵⁿᵛ⇒⇛ᵒ
 
-  -- &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂
+  -- &ⁱ-open :  [^ nm ]ᴺ  ∗  &ⁱ⟨ nm ⟩ P˂  ⊢[ ∞ ][ i ]⇛  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂
 
   ⊢⇛-sem &ⁱ-open =  &ⁱᵒ-open › ⇛ᴵⁿᵛ⇒⇛ᵒ
 

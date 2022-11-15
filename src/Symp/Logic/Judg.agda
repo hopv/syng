@@ -679,7 +679,7 @@ data  Judg ι  where
   -- Notably, the proposition P˂ .! is directly obtained, without any guard like
   -- the later modality as in Iris
 
-  &ⁱ-open :  &ⁱ⟨ nm ⟩ P˂  ∗  [^ nm ]ᴺ  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂
+  &ⁱ-open :  [^ nm ]ᴺ  ∗  &ⁱ⟨ nm ⟩ P˂  ⊢[ ι ][ i ]⇛  P˂ .!  ∗  ⅋ⁱ⟨ nm ⟩ P˂
 
   -- Retrieve a name token out of an open invariant token and its proposition
 

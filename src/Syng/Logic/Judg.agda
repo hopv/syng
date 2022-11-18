@@ -635,7 +635,7 @@ data  Judg ι  where
   ⊸⟨⟩∞-use :  P˂ .!  ∗  (P˂ ⊸[ i ]⟨ e ⟩∞)  ⊢[ ι ][ ṡ i ]⟨ e ⟩∞
 
   ------------------------------------------------------------------------------
-  -- On the impredicative invariant
+  -- On the propositional invariant
 
   -- Update the set part of an name set token
 

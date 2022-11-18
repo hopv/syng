@@ -98,12 +98,12 @@ abstract
   horᵀ-plus◁3,4 =  hor-[] hor-val≡
 
   ------------------------------------------------------------------------------
-  -- Impredicative mutex: Example for the impredicative invariant
+  -- Propositional mutex: Example for the propositional invariant
 
   mutex :  Name
   mutex =  strnm "mutex"
 
-  -- The impredicative mutex proposition
+  -- The propositional mutex proposition
 
   Mutex :  Addr →  SProp˂ ι →  SProp ι
   Mutex θ P˂ =  &ⁱ⟨ mutex ⟩ λ{ .! → (θ ↦ (-, ff) ∗ P˂ .!) ∨ θ ↦⟨ ½⁺ ⟩ (-, tt) }
@@ -183,7 +183,7 @@ abstract
 
   ------------------------------------------------------------------------------
   -- Concurrent decrement loop: Example for the total Hoare triple, the
-  --                            impredicative invariant, and the upper bound
+  --                            propositional invariant, and the upper bound
 
   -- Dec :  Invariant that contains a full points-to token θ ↦ (-, n) for some
   --        number n under an upper boundee token #ᵁᵇ⟨ i ⟩ n

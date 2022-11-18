@@ -71,10 +71,10 @@ module _ (¬ᶜ_ : ∀{ι} → SProp˂ ι → SProp ι)
 --------------------------------------------------------------------------------
 -- If we have the fancy update as a modality ⇛ᵐ, then we have a paradox, because
 -- we can construct something like Landin's knot using our later-less
--- impredicative invariant and the two-state protocol (here we repurpose the
+-- propositional invariant and the two-state protocol (here we repurpose the
 -- lifetime and dead lifetime tokens)
 
--- Our construction is based on Iris's paradox of the "naive impredicative
+-- Our construction is based on Iris's paradox of the "naive propositional
 -- invariant" (Jung et al. "Iris from the Ground Up" JFP 2018) but does not
 -- depend on quantification over propositions, not supported by our logic
 -- This is much simpler than Iris's original construction
@@ -89,7 +89,7 @@ module _ {nm : Name} (⇛ᵐ : SProp∞ → SProp∞)
   □⇛⊥/⇛ᵐ :  SProp∞
   □⇛⊥/⇛ᵐ =  □ ([^ nm ]ᴺ -∗ ⇛ᵐ ⊥')
 
-  -- Evil :  The evil impredicative invariant
+  -- Evil :  The evil propositional invariant
 
   Evil/⇛ᵐ :  Lft → SProp∞
   Evil/⇛ᵐ α =  &ⁱ⟨ nm ⟩ ¡ᴾ ([ α ]ᴸ ∨ □⇛⊥/⇛ᵐ)

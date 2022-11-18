@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Proof rules on the impredicative invariant
+-- Proof rules on the propositional invariant
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

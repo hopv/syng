@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Fancy update on the impredicative invariant
+-- Fancy update on the propositional invariant
 --------------------------------------------------------------------------------
 
 {-# OPTIONS --without-K --sized-types #-}

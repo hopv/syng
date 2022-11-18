@@ -314,7 +314,7 @@ _↦ⁱ_ :  Addr →  TyVal →  SProp ι
 [ α ]ᴸ =  [ α ]ᴸ⟨ 1ᴿ⁺ ⟩
 
 --------------------------------------------------------------------------------
--- Basic P :  P is basic, i.e., P doesn't contain impredicative connectives
+-- Basic P :  P is basic, i.e., P doesn't contain propositional connectives
 
 data  Basic :  SProp∞ →  Set₁  where
 

@@ -1,15 +1,16 @@
 # Syng
 
-**Syng** is **concurrent separation logic** with **impredicative ghost state**,
+**Syng** is **concurrent separation logic** with **propositional ghost state**,
 **fully mechanized** in Agda.
 
-Syng supports **impredicative ghost state**, which brings powerful expressivity,
+Syng supports **propositional ghost state**, which brings powerful expressivity,
 just like an existing separation logic [**Iris**](https://iris-project.org/)
 (Jung et al., 2015).  
-Notably, Syng supports **impredicative invariants**.
+Notably, Syng supports **propositional invariants** (a.k.a. impredicative
+invariants).
 
 But in contrast to Iris's *fully semantic* approach, Syng models the
-impredicative ghost state simply using the logic's **syntax** (for propositions
+propositional ghost state simply using the logic's **syntax** (for propositions
 and judgments).
 
 As a result, while Iris suffers from *step indexing* everywhere, Syng is **not
@@ -131,7 +132,7 @@ following parts.
         [`Heap`](src/Syng/Logic/Heap.agda) for the heap;
         [`Ind`](src/Syng/Logic/Ind.agda) for the indirection modality and the
         precursors;
-        [`Inv`](src/Syng/Logic/Inv.agda) for the impredicative invariant;
+        [`Inv`](src/Syng/Logic/Inv.agda) for the propositional invariant;
         [`Lft`](src/Syng/Logic/Lft.agda) for the lifetime;
         [`Bor`](src/Syng/Logic/Bor.agda) for the borrow;
         [`Ub`](src/Syng/Logic/Ub.agda) for the upper bound.
@@ -189,7 +190,7 @@ following parts.
             [`Ind`](src/Syng/Model/Fupd/Ind.agda) for the fancy update on the
             indirection modality and precursors;
             [`Inv`](src/Syng/Model/Fupd/Inv.agda) for the fancy update on the
-            impredicative invariant;
+            propositional invariant;
             [`Bor`](src/Syng/Model/Fupd/Bor.agda) for the fancy update on the
             borrow.
         * [`Interp`](src/Syng/Model/Prop/Interp.agda) for interpreting the fancy
@@ -321,7 +322,7 @@ optimizations of concurrent programs.
 Fair termination preservation is an applicable but tricky property, modeled 
 **coinductively-inductively**.
 For this reason, Simuliris is built on a **non-step-indexed** variant of Iris,
-which has given up any kind of *impredicative ghost state*, including
-*impredicative invariants*.  
-We can build a logic for fair termination preservation *with* impredicative
+which has given up any kind of *propositional ghost state*, including
+*propositional invariants*.  
+We can build a logic for fair termination preservation *with* propositional
 ghost state, simply by fusing Simuliris with our logic Syng.
